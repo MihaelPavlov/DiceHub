@@ -1,0 +1,311 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #20232a;
+  color: #ffffff;
+  height: 100%;
+}
+
+nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 4rem;
+  background-color: #31313b;
+}
+
+a {
+  color: #0060B6;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #00A0C6;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+a,
+a:hover,
+a:focus,
+a:active {
+  text-decoration: none;
+  color: inherit;
+}
+
+.wrapper_nav {
+  display: flex;
+  justify-content: center;
+}
+.wrapper_nav .option {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  width: 20%;
+  position: relative;
+  top: 0.5rem;
+}
+.wrapper_nav .option:hover span {
+  color: #75a0ff;
+  transition: color 0.5s ease;
+}
+.wrapper_nav .interactive-option {
+  --size: 75px;
+  position: relative;
+  display: flex;
+  bottom: 1.5rem;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+}
+.wrapper_nav .interactive-option .icon {
+  height: var(--icon-size);
+  width: var(--icon-size);
+  cursor: pointer;
+}
+.wrapper_nav .interactive-option .icon svg {
+  height: var(--icon-size);
+  width: var(--icon-size);
+  fill: white;
+}
+.wrapper_nav .interactive-option span {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50px;
+  background: #75a0ff;
+  box-shadow: 0 0 0 12px var(--background-color);
+  transition: height 200ms ease, margin 200ms ease;
+  overflow: hidden;
+}
+.wrapper_nav .interactive-option .icon {
+  --icon-size: 24px;
+  cursor: pointer;
+  transition: transform 320ms ease, opacity 200ms ease;
+}
+.wrapper_nav .interactive-option .icon__resize {
+  position: relative;
+  top: 1rem;
+  text-align: center;
+}
+.wrapper_nav .interactive-option .icons-container {
+  width: 100%;
+  height: calc(2 * var(--size));
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.wrapper_nav .interactive-option .icons-container .icon {
+  background: rgba(204, 220, 255, 0.25);
+  width: calc(1.8 * var(--icon-size));
+  height: calc(1.8 * var(--icon-size));
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  left: 50%;
+  top: calc(-25% + var(--index) * 40%);
+  transform: translate(-50%, 100%) rotate(-45deg);
+  transition: transform 300ms cubic-bezier(0.65, -0.55, 0.25, 1.25);
+  transition-delay: calc(var(--index) * 55ms);
+}
+.wrapper_nav .interactive-option .icons-container .icon:hover {
+  background: rgba(204, 220, 255, 0.45);
+}
+.wrapper_nav .interactive-option.active {
+  border: none;
+  outline: none;
+}
+.wrapper_nav .interactive-option.active span {
+  height: calc(2.6 * var(--size));
+  margin-top: calc(-1.6 * var(--size));
+}
+.wrapper_nav .interactive-option.active .icons-container .icon {
+  transform: translate(-50%, -50%) rotate(0);
+}
+
+.wrapper_header {
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  align-items: center;
+  margin: 0 1.5rem;
+  margin-top: 1rem;
+  margin-bottom: 0.2rem;
+}
+.wrapper_header__title {
+  font-size: x-large;
+}
+.wrapper_header .wrapper_search {
+  background: #75a0ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+}
+
+.wrapper-top-navbar {
+  width: 90%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: start;
+  background-color: none;
+  border-bottom: 0.2rem solid #2b2e35;
+  position: relative;
+}
+.wrapper-top-navbar a {
+  margin: 10px;
+  color: #ffffff;
+  position: relative;
+}
+.wrapper-top-navbar a.active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 1.75rem;
+  width: 100%;
+  height: 0.2rem;
+  background-color: #75a0ff;
+}
+
+.form__group {
+  position: relative;
+  margin: 0 auto;
+  width: 90%;
+  padding: 15px 0 0;
+}
+.form__group .form__field {
+  width: 100%;
+  border: 0;
+  border-bottom: 2px solid #75a0ff;
+  outline: 0;
+  font-size: small;
+  color: #ffffff;
+  padding: 0.6rem 0;
+  background: transparent;
+  transition: border-color 0.2s;
+}
+.form__group .form__field::placeholder {
+  color: transparent;
+}
+.form__group .form__field:placeholder-shown ~ .form__label {
+  font-size: 1.3rem;
+  cursor: text;
+  top: 20px;
+}
+.form__group .form__label {
+  position: absolute;
+  top: 0;
+  display: block;
+  transition: 0.2s;
+  font-size: 1rem;
+  color: #75a0ff;
+}
+.form__group .form__label .search-icon {
+  position: relative;
+  top: 0.2rem;
+  font-size: 1.2rem;
+  padding-right: 0.2rem;
+  margin-top: 0.2rem;
+}
+.form__group .form__field:focus {
+  padding-bottom: 0.6rem;
+  font-weight: 700;
+  border-width: 3px;
+  border-bottom: 2px solid #75a0ff;
+}
+.form__group .form__field:focus ~ .form__label {
+  position: absolute;
+  top: 0;
+  display: block;
+  transition: 0.2s;
+  font-size: 1rem;
+  color: #75a0ff;
+  font-weight: 700;
+}
+
+.wrapper_library {
+  display: flex;
+  flex-direction: column;
+  width: 85%;
+  padding-bottom: 5rem;
+  margin: 0 auto;
+  padding-top: 1.5rem;
+  overflow-y: visible;
+}
+.wrapper_library__item {
+  display: flex;
+  padding-bottom: 0.3rem;
+  padding-top: 0.5rem;
+  border-bottom: 0.2rem solid #2b2e35;
+}
+.wrapper_library__item .wrapper_info {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.wrapper_library__item .wrapper_info .wrapper_title {
+  padding-left: 1rem;
+  font-size: large;
+  padding-top: 0.2rem;
+  align-self: baseline;
+}
+.wrapper_library__item .wrapper_info .wrapper_title .wrapper_description {
+  padding-top: 0.5rem;
+  width: 100%;
+  font-size: 0.6rem;
+  color: #9b9b9b;
+}
+@media (min-width: 568px) {
+  .wrapper_library__item .wrapper_info .wrapper_title .wrapper_description {
+    width: 85%;
+  }
+}
+.wrapper_library__item .wrapper_info .wrapper_likes {
+  position: absolute;
+  right: 0;
+  bottom: 3.75rem;
+  font-size: small;
+  color: #bf3c65;
+}
+.wrapper_library__item .wrapper_info .wrapper_likes .like-icon {
+  font-size: large;
+  position: relative;
+  right: 0.2rem;
+  top: 0.3rem;
+}
+.wrapper_library__item .wrapper_image img {
+  width: 5rem;
+  height: 5rem;
+  object-fit: cover;
+  border-radius: 20px;
+  border: 0.1rem solid black;
+}
+
+#navbar {
+  position: sticky; /* Keep it fixed on the top */
+  top: 0;
+  left: 0;
+  width: 100%; /* Make it full width */
+  transition: top 0.5s ease-in; /* Smooth transition effect */
+  background-color: #20232a;
+  z-index: 10; /* Ensure it stays on top of content */
+}
+
+#navbar.hidden { /* Add a class for hidden state */
+  top: -100px; /* Move it off-screen */
+}
+
+/*# sourceMappingURL=style.css.map */

@@ -1,0 +1,3 @@
+<section class="wrapper-top-navbar">
+    <a *ngFor="let item of columns" [class.active]="item.isActive" (click)="toggleActive(item)">{{item.name}}</a>
+</section>

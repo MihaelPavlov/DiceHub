@@ -1,0 +1,71 @@
+@use "../../../shared/assets/styles/palette";
+
+.wrapper_library {
+    display: flex;
+    flex-direction: column;
+    width: 85%;
+    padding-bottom: 5rem;
+    margin: 0 auto;
+    padding-top: 1.5rem;
+    overflow-y: visible;
+
+    &__item {
+        display: flex;
+        padding-bottom: 0.3rem;
+        padding-top: 0.5rem;
+
+        border-bottom: 0.2rem solid palette.$main-gray-color;
+
+        .wrapper_info {
+            position: relative;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+
+            .wrapper_title {
+                padding-left: 1rem;
+                font-size: large;
+                padding-top: 0.2rem;
+                align-self: baseline;
+
+                .wrapper_description {
+                    padding-top: 0.5rem;
+                    width: 100%;
+                    font-size: 0.6rem;
+                    color: palette.$main-font-gray-color
+                }
+
+                @media (min-width: 568px) {
+                    .wrapper_description {
+                        width: 85%;
+                    }
+                }
+
+            }
+
+            .wrapper_likes {
+                position: absolute;
+                right: 0;
+                bottom: 3.75rem;
+                font-size: small;
+                color: #bf3c65;
+
+                .like-icon {
+                    font-size: large;
+                    position: relative;
+                    right: 0.2rem;
+                    top: 0.3rem;
+                }
+            }
+        }
+
+
+        .wrapper_image img {
+            width: 5rem;
+            height: 5rem;
+            object-fit: cover;
+            border-radius: 20px;
+            border: 0.1rem solid black
+        }
+    }
+}

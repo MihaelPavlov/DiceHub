@@ -1,0 +1,29 @@
+@use "../../../shared/assets/styles/palette";
+
+.wrapper-top-navbar {
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: start;
+    background-color: none;
+    border-bottom: 0.2rem solid palette.$main-gray-color;
+    position: relative;
+
+
+    a {
+        margin: 10px;
+        color: palette.$main-font-color;
+        position: relative;
+
+    }
+
+    a.active::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 1.75rem;
+        width: 100%;
+        height: 0.2rem;
+        background-color: palette.$main-blue-color;
+    }
+}
