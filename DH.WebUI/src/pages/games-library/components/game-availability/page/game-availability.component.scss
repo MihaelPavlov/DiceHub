@@ -1,0 +1,85 @@
+@use "../../../../../shared/assets/styles/palette";
+
+.header {
+    color: palette.$main-font-gray-color;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    &__information {
+        display: flex;
+        align-items: center;
+
+    }
+
+    .material-symbols-outlined {
+        font-size: 2rem;
+    }
+}
+
+.info {
+    margin-top: 1rem;
+    margin-bottom: 0.85rem;
+    text-align: center;
+
+    &__status {
+        font-size: 1.25rem;
+    }
+
+    &__available {
+
+        color: palette.$main-green-color;
+    }
+
+    &__unavailable {
+        color: palette.$main-red-color
+    }
+
+}
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .circle {
+        display: inline-block;
+        width: 5rem;
+        height: 5rem;
+        margin: 0.5rem;
+
+        position: relative;
+        border: 0.2rem solid palette.$main-icon-color;
+        border-radius: 100%;
+
+        .timer {
+            position: absolute;
+            font-size: 2.5rem;
+            top: 0.8rem;
+            right: 1.05rem;
+        }
+    }
+
+    .material-symbols-outlined {
+        font-size: 2.5rem;
+    }
+
+    .left {
+        font-size: 2.5rem;
+        transform: rotate(180deg);
+    }
+}
+
+.wrapper_btn {
+    text-align: center;
+    margin-top: 1.5rem;
+
+    a {
+        color: palette.$main-green-color;
+        background-color: palette.$main-nav-color;
+        border: 0.1rem solid palette.$main-green-color;
+        padding: 1rem;
+        border-radius: 1.25rem;
+    }
+}

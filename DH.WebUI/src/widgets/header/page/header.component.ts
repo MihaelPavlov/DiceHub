@@ -1,9 +1,7 @@
 import {
-  AfterViewChecked,
   AfterViewInit,
   Component,
   Input,
-  OnInit,
 } from '@angular/core';
 
 @Component({
@@ -36,8 +34,6 @@ export class HeaderComponent implements AfterViewInit {
 
     // Hide the search form initially
     const searchForm = document.getElementById('searchForm') as HTMLElement;
-    console.log('tes');
-    console.log(searchForm);
 
     if (searchForm) {
       searchForm.style.display = 'none';

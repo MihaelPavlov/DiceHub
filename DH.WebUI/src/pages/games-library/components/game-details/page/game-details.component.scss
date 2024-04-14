@@ -1,0 +1,51 @@
+@use "../../../../../shared/assets/styles/palette";
+
+.wrapper_info {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 1rem;
+    align-items: center;
+    color: palette.$main-font-gray-color;
+
+    &__likes {
+        display: flex;
+        align-items: center;
+        color: palette.$main-red-color;
+
+        span {
+            margin-left: 0.5rem;
+        }
+    }
+}
+
+.wrapper_stats {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    color: palette.$main-font-gray-color;
+    font-size: 0.75rem;
+    margin: 1rem 0;
+
+    .material-symbols-outlined {
+        font-size: 1rem;
+        margin-right: 0.4rem;
+    }
+
+    div {
+        display: flex;
+        align-items: center;
+    }
+}
+
+.wrapper_description {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    margin: 1rem 1rem;
+    color: palette.$main-font-gray-color;
+
+    &__text {
+        margin-top: 0.4rem;
+        font-size: 0.75rem;
+    }
+}

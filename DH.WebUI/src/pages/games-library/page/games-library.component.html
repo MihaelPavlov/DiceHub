@@ -3,7 +3,7 @@
         [columns]="[{name:'Popular',link:'/popular', isActive: true},{name:'Categories',link:'', isActive: false},{name:'News',link:'', isActive: false }]"></app-nav-bar>
 </app-header>
 <section class="wrapper_library">
-    <div class="wrapper_library__item">
+    <div class="wrapper_library__item" (click)="navigateToGameDetails()">
         <div class="wrapper_image">
             <img src="https://cf.geekdo-images.com/fvhkcw4s6Q4-nMwwok1J6A__opengraph/img/bbHffM-AIBac7jMM8sgOM1sC0zk=/0x274:1314x964/fit-in/1200x630/filters:strip_icc()/pic6569894.png"
                 alt="">
