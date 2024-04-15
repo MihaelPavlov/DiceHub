@@ -1,7 +1,7 @@
 <ng-container>
     <div id="navbar">
 
-        <div class="wrapper_header">
+        <div class="wrapper_header" [ngStyle]="this.withSearch ?  {'padding' : '0px;'}:  {'padding' : '15px 0 0'} ">
             <span class="wrapper_header__title">
                 {{this.header}}
             </span>

@@ -1,9 +1,9 @@
 import { RouterModule, Routes } from '@angular/router';
 import { GamesLibraryComponent } from './page/games-library.component';
-import { GameDetailsComponent } from './components/game-details/page/game-details.component';
-import { GameAvailabilityComponent } from './components/game-availability/page/game-availability.component';
-import { GameReviewsComponent } from './components/game-reviews/page/game-reviews.component';
 import { NgModule } from '@angular/core';
+import { GameDetailsComponent } from '../../features/game-library/components/game-details/page/game-details.component';
+import { GameAvailabilityComponent } from '../../features/game-library/components/game-availability/page/game-availability.component';
+import { GameReviewsComponent } from '../../features/game-library/components/game-reviews/page/game-reviews.component';
 
 const routes: Routes = [
   {

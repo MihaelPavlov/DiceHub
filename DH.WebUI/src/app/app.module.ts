@@ -6,10 +6,9 @@ import { MenuModule } from '../widgets/menu/menu.module';
 import { RouterOutlet } from '@angular/router';
 import { AppRoutingModule } from './app-routes/app-routes.module';
 import { HeaderModule } from '../widgets/header/header.module';
-import { HomeComponent } from './app-routes/app.routes';
 
 @NgModule({
-  declarations: [AppComponent,HomeComponent],
+  declarations: [AppComponent],
   exports: [BrowserModule],
   providers: [],
   bootstrap: [AppComponent],
