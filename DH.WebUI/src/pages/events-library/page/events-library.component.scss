@@ -1,0 +1,68 @@
+@use "../../../shared/assets/styles/palette";
+
+app-header {
+    z-index: -1;
+}
+
+.wrapper_events:last-child {
+    padding-bottom: 5rem;
+
+}
+
+.wrapper_events {
+    display: flex;
+    flex-direction: column;
+    width: 85%;
+    margin: 0 auto;
+    padding-top: 1.5rem;
+    overflow-y: visible;
+
+    .wrapper_event {
+        border-radius: 1rem;
+        background-color: palette.$main-nav-color;
+        position: relative;
+        margin-bottom: 1.5rem;
+
+        &__chips {
+            position: absolute;
+            top: 0.5rem;
+            margin-left: 0.5rem;
+
+            >* {
+                margin: 0 0.35rem;
+            }
+        }
+
+        &__chips-date-info {
+            position: absolute;
+            bottom: 0.5rem;
+            margin-left: 0.5rem;
+
+            >* {
+                margin: 0 0.35rem;
+            }
+        }
+
+
+        &__header {
+            position: absolute;
+            bottom: 2.15rem;
+            font-size: 1.25rem;
+            margin: 0 1rem;
+
+        }
+
+        &__image {
+            display: flex;
+            justify-content: end;
+
+            img {
+                width: 7.5rem;
+                height: 7.5rem;
+                object-fit: cover;
+                border-radius: 20px;
+            }
+        }
+    }
+
+}

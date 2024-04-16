@@ -1,33 +1,44 @@
 <ng-container>
-    <div id="navbar">
+  <div [ngClass]="this.withSearch ? 'nav' : ''">
+    <div
+      class="wrapper_header"
+      [ngStyle]="
+        this.withSearch ? { padding: '0px;' } : { padding: '15px 0 0' }
+      "
+      [ngClass]="this.withBottomLine ? 'wrapper_header__line' : ''"
+    >
+      <span
+        class="wrapper_header__title"
+        [ngClass]="this.withBottomLine ? 'wrapper_header__title-mb' : ''"
+      >
+        {{ this.header }}
+      </span>
 
-        <div class="wrapper_header" [ngStyle]="this.withSearch ?  {'padding' : '0px;'}:  {'padding' : '15px 0 0'} ">
-            <span class="wrapper_header__title">
-                {{this.header}}
-            </span>
-
-            <ng-container *ngIf="!withSearch else searchBtn" />
-
-        </div>
-
-        <ng-content></ng-content>
-
-        <ng-container *ngIf="this.withSearch">
-            <div class="form__group" id="searchForm">
-                <input type="input" class="form__field" placeholder="search" name="search" id='search' />
-                <label for="search" class="form__label">
-                    <span class="material-symbols-outlined search-icon">
-                        search
-                    </span>Search</label>
-            </div>
-        </ng-container>
+      <ng-container *ngIf="!withSearch; else searchBtn" />
     </div>
+
+    <ng-content></ng-content>
+
+    <ng-container *ngIf="this.withSearch">
+      <div class="form__group" id="searchForm">
+        <input
+          type="input"
+          class="form__field"
+          placeholder="search"
+          name="search"
+          id="search"
+        />
+        <label for="search" class="form__label">
+          <span class="material-symbols-outlined search-icon"> search </span
+          >Search</label
+        >
+      </div>
+    </ng-container>
+  </div>
 </ng-container>
 
 <ng-template #searchBtn>
-    <a class="wrapper_search">
-        <span id="search-btn" class="material-symbols-outlined">
-            search
-        </span>
-    </a>
+  <a class="wrapper_search">
+    <span id="search-btn" class="material-symbols-outlined"> search </span>
+  </a>
 </ng-template>

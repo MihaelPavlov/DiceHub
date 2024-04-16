@@ -1,0 +1,19 @@
+@use "../../../shared/assets/styles/palette";
+
+
+.chip {
+    display: inline-block;
+    padding: 0.125rem 0.5rem;
+    border-radius: 10rem;
+    color: palette.$main-font-color;
+    font-weight: 600;
+}
+.small {
+    font-size: 12px;
+    padding: 0.3em 0.6em;
+}
+
+.big {
+    font-size: 16px;
+    padding: 0.7em 1.2em;
+}

@@ -1,8 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  Input,
-} from '@angular/core';
+import { AfterViewInit, Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -12,7 +8,8 @@ import {
 export class HeaderComponent implements AfterViewInit {
   @Input() header!: string;
   @Input() withSearch: boolean = false;
-
+  @Input() withBottomLine: boolean = false;
+  
   ngAfterViewInit(): void {
     this.initSearchListenersJS();
   }

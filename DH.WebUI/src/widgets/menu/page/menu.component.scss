@@ -12,6 +12,7 @@ nav {
 .wrapper_nav {
   display: flex;
   justify-content: center;
+  z-index: 100;
 
   .option {
       display: flex;

@@ -12,6 +12,14 @@
         font-size: x-large;
     }
 
+    &__title-mb{
+        margin-bottom: 0.5rem ;
+    }
+
+    &__line{
+        border-bottom: 0.2rem solid palette.$main-gray-color;
+    }
+    
     .wrapper_search {
         background: palette.$main-blue-color;
         display: flex;

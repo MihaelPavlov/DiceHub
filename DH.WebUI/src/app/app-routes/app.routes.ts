@@ -16,8 +16,15 @@ export const ROUTES: Routes = [
       {
         path: 'events',
         loadChildren: () =>
-          import('../../pages/event-library/events-library.module').then(
+          import('../../pages/events-library/events-library.module').then(
             (m) => m.EventsLibraryModule
+          ),
+      },
+      {
+        path: 'meeples',
+        loadChildren: () =>
+          import('../../pages/find-meeple-management/find-meeple-management.module').then(
+            (m) => m.FindMeepleMamagementModule
           ),
       },
     ],

@@ -7,11 +7,9 @@ import { Router } from '@angular/router';
   styleUrl: 'events-library.component.scss',
 })
 export class EventsLibraryComponent {
-  constructor(private readonly router: Router){
-    console.log('events lib');
-    
-  }
-  public navigateToGameDetails():void{
-    // this.router.navigateByUrl("games/1/details");
+  constructor(private readonly router: Router) {}
+
+  public navigateToEventDetails(): void {
+    this.router.navigateByUrl("events/1/details");
   }
 }
