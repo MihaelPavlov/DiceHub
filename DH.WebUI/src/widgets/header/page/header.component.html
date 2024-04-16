@@ -1,5 +1,5 @@
 <ng-container>
-  <div [ngClass]="this.withSearch ? 'nav' : ''">
+  <div [id]="this.withSearch ? 'navbar' : ''">
     <div
       class="wrapper_header"
       [ngStyle]="
@@ -14,7 +14,13 @@
         {{ this.header }}
       </span>
 
-      <ng-container *ngIf="!withSearch; else searchBtn" />
+      <div class="wrapper_items">
+        <ng-container *ngIf="!withSearch; else searchBtn" />
+
+        <ng-container *ngIf="!withAdd; else addBtn" />
+      </div>
+
+
     </div>
 
     <ng-content></ng-content>
@@ -34,6 +40,7 @@
         >
       </div>
     </ng-container>
+
   </div>
 </ng-container>
 
@@ -42,3 +49,10 @@
     <span id="search-btn" class="material-symbols-outlined"> search </span>
   </a>
 </ng-template>
+
+<ng-template #addBtn>
+  <a class="wrapper_add" (click)="onAddButtonClick()">
+    <span id="search-btn" class="material-symbols-outlined"> add </span>
+  </a>
+</ng-template>
+

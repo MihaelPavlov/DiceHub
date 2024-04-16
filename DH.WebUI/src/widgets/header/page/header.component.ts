@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, Input } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -8,10 +14,16 @@ import { AfterViewInit, Component, Input } from '@angular/core';
 export class HeaderComponent implements AfterViewInit {
   @Input() header!: string;
   @Input() withSearch: boolean = false;
+  @Input() withAdd: boolean = false;
   @Input() withBottomLine: boolean = false;
-  
-  ngAfterViewInit(): void {
+  @Output() addClicked: EventEmitter<void> = new EventEmitter<void>();
+
+  public ngAfterViewInit(): void {
     this.initSearchListenersJS();
+  }
+
+  public onAddButtonClick(): void {
+    this.addClicked.emit();
   }
 
   private initSearchListenersJS(): void {
