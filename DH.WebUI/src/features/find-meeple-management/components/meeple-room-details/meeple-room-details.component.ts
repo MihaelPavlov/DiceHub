@@ -1,3 +1,4 @@
+import { ViewportScroller } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -6,6 +7,4 @@ import { Router } from '@angular/router';
   templateUrl: 'meeple-room-details.component.html',
   styleUrl: 'meeple-room-details.component.scss',
 })
-export class MeepleRoomDetailsComponent {
-  constructor(private readonly router: Router) {}
-}
+export class MeepleRoomDetailsComponent {}

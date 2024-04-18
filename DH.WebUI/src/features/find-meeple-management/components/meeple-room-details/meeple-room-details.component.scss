@@ -52,13 +52,79 @@
         overflow: auto;
         margin-bottom: 5rem;
         width: 90%;
+        height: 100%;
+
+
+        .form__group {
+            position: relative;
+            display: flex;
+            margin: 0 auto;
+            width: 90%;
+            padding: 10px 0 0;
+            align-items: center;
+
+            .form__field {
+                background-color: palette.$main-nav-color;
+                width: 100%;
+                border: 0;
+                outline: 0;
+                font-size: small;
+                color: palette.$main-font-color;
+                padding: 0.7rem 1rem;
+                border-radius: 3rem;
+                transition: border-color 0.2s;
+
+
+                &::placeholder {
+                    color: transparent;
+                }
+
+                &:placeholder-shown~.form__label {
+                    font-size: 1rem;
+                    cursor: text;
+                    top: 20px;
+                }
+            }
+
+            .form__label {
+                position: absolute;
+                top: 0;
+                display: block;
+                transition: 0.2s;
+                font-size: 1rem;
+                color: palette.$main-font-gray-color;
+                padding-left: 1rem;
+
+            }
+
+            .form__field:focus {
+                ~.form__label {
+                    position: absolute;
+                    top: 0;
+                    display: block;
+                    transition: 0.2s;
+                    font-size: 0.8rem;
+                    color: palette.$main-font-gray-color;
+                    font-weight: 700;
+                }
+
+                padding-bottom: 0.6rem;
+                font-weight: 700;
+                border-width: 3px;
+            }
+        }
+
+
         &__header {
             font-size: 1.25rem;
         }
 
         &__left-chat {
             margin: 1rem 0;
+
             .item {
+                margin: 1rem 0;
+
                 display: flex;
                 align-items: start;
 
@@ -87,9 +153,9 @@
 
         &__right-chat {
             margin: 1rem 0;
-            display: flex ;
-            justify-content: end ;
+
             .item {
+                margin: 1rem 0;
                 display: flex;
                 justify-content: end;
 
