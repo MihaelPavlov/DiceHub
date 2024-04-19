@@ -1,6 +1,4 @@
-import { ViewportScroller } from '@angular/common';
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-meeple-room-details',

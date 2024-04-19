@@ -1,0 +1,7 @@
+@use "../../../shared/assets/styles/palette";
+.wrapper_image img {
+    width: 5rem;
+    height: 5rem;
+    object-fit: cover;
+    border-radius: 20px;
+}

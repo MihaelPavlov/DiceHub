@@ -176,7 +176,128 @@ a:active {
   top: 1.75rem;
   width: 100%;
   height: 0.2rem;
-  background-color: #75a0ff;
+  background-color: blue;
+}
+
+.wrapper_stats {
+  display: flex;
+  position: relative;
+}
+.wrapper_stats .wrapper_image {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.wrapper_stats .wrapper_image img {
+  width: 8rem;
+  height: 8rem;
+  object-fit: cover;
+  border-radius: 5rem;
+}
+.wrapper_stats__chips-left {
+  margin-top: 2rem;
+}
+.wrapper_stats__chips-left .chip {
+  margin: 1.5rem 0;
+  background-color: #31313b;
+  padding: 0.5rem 1rem;
+  display: flex;
+  border-top-right-radius: 2rem;
+  border-bottom-right-radius: 2rem;
+  align-items: center;
+}
+.wrapper_stats__chips-left .chip :last-child {
+  padding-left: 1rem;
+}
+.wrapper_stats__chips-right {
+  position: absolute;
+  right: 0;
+  margin-top: 2rem;
+}
+.wrapper_stats__chips-right .chip {
+  margin: 1.5rem 0;
+  background-color: #31313b;
+  padding: 0.5rem 1rem;
+  display: flex;
+  border-top-left-radius: 2rem;
+  border-bottom-left-radius: 2rem;
+  align-items: center;
+}
+.wrapper_stats__chips-right .chip :last-child {
+  padding-left: 1rem;
+}
+.wrapper_stats__chips-right .chip .available {
+  color: green;
+}
+.wrapper_stats__chips-right .chip .unavailable {
+  color: red;
+}
+
+.wrapper_title {
+  margin: 1rem 0;
+  text-align: center;
+  font-size: 1.4rem;
+}
+
+.wrapper_inputs {
+  display: flex;
+  justify-content: space-between;
+}
+.wrapper_inputs__input {
+  width: 50%;
+}
+.wrapper_inputs__input input {
+  border: none;
+  min-width: 80%;
+  border-radius: 5px;
+  background-color: #31313b;
+  padding: 0.4rem 0.8rem;
+  color: #9b9b9b;
+  border-top-right-radius: 2rem;
+  border-bottom-right-radius: 2rem;
+}
+.wrapper_inputs__time {
+  text-align: end;
+  width: 50%;
+}
+.wrapper_inputs__time input {
+  border: none;
+  min-width: 80%;
+  border-radius: 5px;
+  background-color: #31313b;
+  padding: 0.3rem 0.6rem;
+  color: #9b9b9b;
+  border-top-left-radius: 2rem;
+  border-bottom-left-radius: 2rem;
+}
+.wrapper_inputs label {
+  font-size: 1.1rem;
+  color: #9b9b9b;
+  margin: 0 1.5rem;
+  display: flex;
+  justify-content: center;
+}
+.wrapper_inputs input:focus {
+  outline-style: solid;
+  outline-color: #98989d;
+  outline-width: 0.05rem;
+  box-shadow: 0 0 3px #ddd;
+}
+
+.wrapper_btn {
+  font-size: 1.4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 4rem;
+  margin-bottom: 10rem;
+  background-color: #31313b;
+  padding: 1rem;
+}
+.wrapper_btn .material-symbols-outlined {
+  font-size: 2rem;
+  color: red;
 }
 
 .form__group {

@@ -23,9 +23,16 @@ export const ROUTES: Routes = [
       {
         path: 'meeples',
         loadChildren: () =>
-          import('../../pages/find-meeple-management/find-meeple-management.module').then(
-            (m) => m.FindMeepleMamagementModule
-          ),
+          import(
+            '../../pages/find-meeple-management/find-meeple-management.module'
+          ).then((m) => m.FindMeepleMamagementModule),
+      },
+      {
+        path: 'challenges',
+        loadChildren: () =>
+          import(
+            '../../pages/challenges-management/challenges-management.module'
+          ).then((m) => m.ChallengesManagementModule),
       },
     ],
   },

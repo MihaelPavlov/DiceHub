@@ -1,0 +1,209 @@
+@use "../../../../shared/assets/styles/palette";
+
+.wrapper_stats {
+    display: flex;
+    position: relative;
+
+    .wrapper_image {
+        position: absolute;
+        top: 55%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        img {
+            width: 8rem;
+            height: 8rem;
+            object-fit: cover;
+            border-radius: 5rem;
+        }
+    }
+
+    &__chips-left {
+        margin-top: 2rem;
+
+        .chip {
+            margin: 1.5rem 0;
+            background-color: palette.$main-nav-color;
+            padding: 0.5rem 1rem;
+            display: flex;
+            border-top-right-radius: 2rem;
+            border-bottom-right-radius: 2rem;
+            align-items: center;
+
+            :last-child {
+                padding-left: 1rem;
+            }
+        }
+    }
+
+    &__chips-right {
+        position: absolute;
+        right: 0;
+        margin-top: 2rem;
+
+        .chip {
+            margin: 1.5rem 0;
+            background-color: palette.$main-nav-color;
+            padding: 0.5rem 1rem;
+            display: flex;
+            border-top-left-radius: 2rem;
+            border-bottom-left-radius: 2rem;
+            align-items: center;
+
+            :last-child {
+                padding-left: 1rem;
+            }
+
+            .available {
+                color: palette.$main-green-color;
+            }
+
+            .unavailable {
+                color: palette.$main-red-color;
+            }
+        }
+    }
+}
+
+.wrapper_title {
+    margin: 1rem 0;
+    text-align: center;
+    font-size: 1.4rem;
+}
+
+.wrapper_inputs {
+    display: flex;
+    justify-content: space-between;
+
+    &__input {
+        width: 50%;
+
+        input {
+            border: none;
+            min-width: 80%;
+            border-radius: 5px;
+            background-color: palette.$main-nav-color ;
+            padding: 0.4rem 0.8rem;
+            color: palette.$main-font-gray-color;
+            border-top-right-radius: 2rem;
+            border-bottom-right-radius: 2rem;
+        }
+    }
+
+    &__time {
+        text-align: end;
+        width: 50%;
+
+        input {
+            border: none;
+            min-width: 80%;
+            border-radius: 5px;
+            background-color: palette.$main-nav-color;
+            padding: 0.3rem 0.6rem;
+            color: palette.$main-font-gray-color;
+            border-top-left-radius: 2rem;
+            border-bottom-left-radius: 2rem;
+        }
+    }
+
+    label {
+        font-size: 1.1rem;
+        color: palette.$main-font-gray-color;
+        margin: 0 1.5rem;
+        display: flex;
+        justify-content: center;
+    }
+
+    input:focus {
+        outline-style: solid;
+        outline-color: palette.$main-icon-color;
+        outline-width: 0.05rem;
+    }
+}
+
+.wrapper_btn {
+    font-size: 1.4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 4rem;
+    margin-bottom: 10rem;
+    background-color: palette.$main-nav-color;
+    padding: 1rem;
+
+    .material-symbols-outlined {
+        font-size: 2rem;
+        color: palette.$main-red-color;
+    }
+}
+
+.ng-select.custom .ng-select-container {
+    background-color: palette.$main-nav-color;
+    color: palette.$main-font-color;
+    border-color: palette.$main-nav-color;
+}
+
+.ng-select.custom {
+    color: palette.$main-font-color;
+    margin: 1rem 4rem;
+    border-radius: 1rem;
+
+    background: palette.$main-nav-color;
+
+    .ng-dropdown-panel {
+        background-color: palette.$main-nav-color;
+        border: 0;
+        border-color: palette.$main-nav-color;
+
+        .ng-option {
+            color: palette.$main-font-color;
+            background: palette.$main-nav-color;
+
+            .ng-option-selected .ng-option-marked {
+                color: palette.$main-font-color;
+                background: palette.$main-gray-color;
+
+            }
+
+            &:hover {
+                background: palette.$main-gray-color;
+                color: palette.$main-font-color;
+            }
+        }
+    }
+
+    .ng-select.ng-invalid.ng-touched .ng-select-container {
+        border-color: palette.$main-font-color;
+    }
+
+    &.ng-select-focused:not(.ng-select-opened)>.ng-select-container {
+        background: palette.$main-gray-color;
+        border-color: palette.$main-blue-color;
+    }
+
+    .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected,
+    .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected.ng-option-marked {
+        background-color: mix(palette.$main-font-gray-color, black, 40%);
+        color: palette.$main-font-color;
+    }
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 0.3rem;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: palette.$main-font-gray-color;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: palette.$main-font-color;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: palette.$main-font-color;
+}

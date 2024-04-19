@@ -10,6 +10,6 @@ export class FindMeepleManagementComponent {
   constructor(private readonly router: Router) {}
 
   public navigateToCreateMeepleRoom(): void {
-    this.router.navigateByUrl('meeples/1/details');
+    this.router.navigateByUrl('meeples/create');
   }
 }

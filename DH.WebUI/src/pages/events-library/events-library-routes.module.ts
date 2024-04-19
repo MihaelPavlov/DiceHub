@@ -11,15 +11,7 @@ const routes: Routes = [
     {
       path: ':id/details',
       component: EventDetailsComponent,
-    },
-    // {
-    //   path: ':id/availability',
-    //   component: GameAvailabilityComponent,
-    // },
-    // {
-    //   path: ':id/reviews',
-    //   component: GameReviewsComponent,
-    // },
+    }
   ];
   
   @NgModule({

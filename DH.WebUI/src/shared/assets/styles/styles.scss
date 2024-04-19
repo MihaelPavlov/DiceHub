@@ -1,5 +1,8 @@
 @use "./palette";
 @import "./palette";
+@import "../../../../node_modules/@ng-select/ng-select/themes/default.theme.css";
+
+
 * {
   box-sizing: border-box;
   margin: 0;

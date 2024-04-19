@@ -3,7 +3,6 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-
     "DH.WebUI": {
       "projectType": "application",
       "schematics": {
