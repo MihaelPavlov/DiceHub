@@ -1,0 +1,75 @@
+@use "../../../../shared/assets/styles/palette";
+
+
+.wrapper_challenges {
+    display: flex;
+    flex-direction: column;
+    margin-top: 0.5rem;
+    margin-bottom: 10rem;
+    align-items: center;
+    width: 100%;
+
+    .completed {
+        opacity: 0.5;
+    }
+
+    &__item {
+        display: flex;
+        margin: 0.5rem 1rem;
+        border-radius: 1rem;
+        background-color: palette.$main-nav-color;
+        width: 90%;
+
+        .info {
+            width: 70%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin: 0.5rem 0;
+
+            .header {
+                margin: 0.1rem 0;
+            }
+        }
+
+
+        .btn {
+            width: 20%;
+            display: flex;
+            justify-content: end;
+            align-items: center;
+            margin: 0 0.5rem;
+            // display: flex;
+            // justify-content: start;
+            // text-align: center;
+            // align-items: center;
+            // margin: 0.5rem 1.2rem;
+            // position: relative;
+
+            // img {
+            //     width: 2rem;
+            //     height: 2rem;
+            //     object-fit: cover;
+            //     border-radius: 5rem;
+            // }
+        }
+
+        .image {
+            display: flex;
+            justify-content: start;
+            margin: 0.5rem 0;
+            margin-left: 1rem;
+            margin-right: 0.75rem;
+            text-align: center;
+            align-items: center;
+
+            img {
+                width: 3rem;
+                height: 3rem;
+                object-fit: cover;
+                border-radius: 5rem;
+            }
+        }
+
+    }
+}

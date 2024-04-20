@@ -6,7 +6,7 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrl: 'chip.component.scss',
 })
 export class ChipComponent implements OnInit {
-  @Input() size: 'small' | 'middle' | 'big' = 'middle';
+  @Input() size: 'extraSmall' | 'small' | 'middle' | 'big' = 'middle';
   @Input({ required: true }) color!: 'red' | 'blue' | 'orange' | 'yellow';
   @Input({ required: true }) text!: string;
 

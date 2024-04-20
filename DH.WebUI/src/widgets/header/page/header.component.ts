@@ -15,6 +15,7 @@ export class HeaderComponent implements AfterViewInit {
   @Input() header!: string;
   @Input() withSearch: boolean = false;
   @Input() withAdd: boolean = false;
+  @Input() withQRcode: boolean = false;
   @Input() withBottomLine: boolean = false;
   @Output() addClicked: EventEmitter<void> = new EventEmitter<void>();
 

@@ -34,6 +34,13 @@ export const ROUTES: Routes = [
             '../../pages/challenges-management/challenges-management.module'
           ).then((m) => m.ChallengesManagementModule),
       },
+      {
+        path: 'space',
+        loadChildren: () =>
+          import(
+            '../../pages/club-space-management/club-space-management.module'
+          ).then((m) => m.ClubSpaceManagementModule),
+      },
     ],
   },
 ];

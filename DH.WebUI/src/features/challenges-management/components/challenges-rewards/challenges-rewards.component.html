@@ -1,0 +1,51 @@
+<app-header header="Challenges" [withQRcode]="true">
+  <app-nav-bar
+    [columns]="[
+      { name: 'Daily Task', link: 'challenges/home', isActive: false },
+      { name: 'Weekly', link: '', isActive: false },
+      { name: 'Rewards', link: 'challenges/rewards', isActive: true }
+    ]"
+  ></app-nav-bar
+></app-header>
+
+<div class="wrapper_challenges">
+  <div class="wrapper_challenges__item">
+    <div class="image">
+      <img
+        src="https://static.vecteezy.com/system/resources/previews/018/931/018/original/cartoon-beer-icon-png.png"
+        alt=""
+      />
+    </div>
+    <div class="info">
+      <span class="header">Beer</span>
+      <span class="header"
+        >Available more:
+        <app-chip [size]="'small'" text="5 DAYS" [color]="'blue'"></app-chip
+      ></span>
+    </div>
+    <div class="btn">
+      <app-btn text="Use" [size]="'small'"></app-btn>
+    </div>
+  </div>
+  <div class="wrapper_challenges__item">
+    <div class="image">
+      <img
+        src="https://pemix.com.mt/wp-content/uploads/2023/08/7DAYS-COCOA.png"
+        alt=""
+      />
+    </div>
+    <div class="info">
+      <span
+        >7 DAYS croason Lorem ipsum dolor sit amet consectetur adipisicing elit.
+        Sint, eveniet?</span
+      >
+      <span class="header"
+        >Available more:
+        <app-chip [size]="'small'" text="5 DAYS" [color]="'blue'"></app-chip
+      ></span>
+    </div>
+    <div class="btn">
+      <app-btn text="Use" [size]="'small'"></app-btn>
+    </div>
+  </div>
+</div>

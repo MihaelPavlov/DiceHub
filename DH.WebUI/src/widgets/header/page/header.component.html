@@ -18,9 +18,9 @@
         <ng-container *ngIf="!withSearch; else searchBtn" />
 
         <ng-container *ngIf="!withAdd; else addBtn" />
+
+        <ng-container *ngIf="!withQRcode; else qrCode" />
       </div>
-
-
     </div>
 
     <ng-content></ng-content>
@@ -40,7 +40,6 @@
         >
       </div>
     </ng-container>
-
   </div>
 </ng-container>
 
@@ -52,7 +51,12 @@
 
 <ng-template #addBtn>
   <a class="wrapper_add" (click)="onAddButtonClick()">
-    <span id="search-btn" class="material-symbols-outlined"> add </span>
+    <span class="material-symbols-outlined"> add </span>
   </a>
 </ng-template>
 
+<ng-template #qrCode>
+  <a class="wrapper_qrCode" (click)="onAddButtonClick()">
+    <img src="../../../shared/assets/images/qr-code.png" alt="" />
+  </a>
+</ng-template>

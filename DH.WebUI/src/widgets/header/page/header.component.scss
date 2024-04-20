@@ -8,22 +8,23 @@
     margin: 0 1.5rem;
     margin-top: 1rem;
     margin-bottom: 0.2rem;
+
     &__title {
         font-size: x-large;
     }
 
-    &__title-mb{
-        margin-bottom: 0.5rem ;
+    &__title-mb {
+        margin-bottom: 0.5rem;
     }
 
-    &__line{
+    &__line {
         border-bottom: 0.2rem solid palette.$main-gray-color;
     }
-    
-    .wrapper_items{
+
+    .wrapper_items {
         display: flex;
         justify-content: end;
-        
+
         .wrapper_search {
             background: palette.$main-blue-color;
             display: flex;
@@ -34,8 +35,8 @@
             border-radius: 50%;
             margin: 0 0.2rem;
         }
-    
-        .wrapper_add{
+
+        .wrapper_add {
             background: palette.$main-red-color;
             display: flex;
             align-items: center;
@@ -46,8 +47,20 @@
             margin: 0 0.2rem;
 
         }
+
+        .wrapper_qrCode {
+            position: absolute;
+            top: 1rem;
+
+            img {
+                width: 4rem;
+                height: 4rem;
+                object-fit: cover;
+            }
+        }
     }
 }
+
 
 .form__group {
     position: relative;
@@ -114,15 +127,21 @@
 }
 
 #navbar {
-    position: sticky; /* Keep it fixed on the top */
+    position: sticky;
+    /* Keep it fixed on the top */
     top: 0;
     left: 0;
-    width: 100%; /* Make it full width */
-    transition: top 0.5s ease-in; /* Smooth transition effect */
+    width: 100%;
+    /* Make it full width */
+    transition: top 0.5s ease-in;
+    /* Smooth transition effect */
     background-color: palette.$main-background-color;
-    z-index: 10; /* Ensure it stays on top of content */
-  }
-  
-  #navbar.hidden { /* Add a class for hidden state */
-    top: -100px; /* Move it off-screen */
-  }
+    z-index: 10;
+    /* Ensure it stays on top of content */
+}
+
+#navbar.hidden {
+    /* Add a class for hidden state */
+    top: -100px;
+    /* Move it off-screen */
+}

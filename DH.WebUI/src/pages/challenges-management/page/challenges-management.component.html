@@ -1,12 +1,134 @@
-<app-header header="Challenges">
+<app-header header="Challenges" [withQRcode]="true">
   <app-nav-bar
     [columns]="[
-      { name: 'Daily Task', link: '/daily-task', isActive: true },
+      { name: 'Daily Task', link: 'challenges/home', isActive: true },
       { name: 'Weekly', link: '', isActive: false },
-      { name: 'Rewards', link: '', isActive: false }
+      { name: 'Rewards', link: 'challenges/rewards', isActive: false }
     ]"
   ></app-nav-bar
 ></app-header>
-<div class="wrapper_image">
-  <img src="../../../shared/assets/images/qr-code.png" alt="" />
+
+<div class="wrapper_stats">
+  <div class="wrapper_stats__items">
+    <div class="item">
+      <img
+        src="https://static.vecteezy.com/system/resources/previews/018/931/018/original/cartoon-beer-icon-png.png"
+        alt=""
+      />
+    </div>
+    <div class="item">
+      <img
+        src="https://pemix.com.mt/wp-content/uploads/2023/08/7DAYS-COCOA.png"
+        alt=""
+      />
+    </div>
+    <div class="item">
+      <img
+        src="https://purepng.com/public/uploads/large/purepng.com-lays-potato-chipsfood-potato-tasty-pack-lays-chips-taste-product-snaks-9415246340529nj3f.png"
+        alt=""
+      />
+    </div>
+    <div class="item">
+      <img
+        src="https://static.vecteezy.com/system/resources/previews/026/774/690/original/burritos-with-ai-generated-free-png.png"
+        alt=""
+      />
+    </div>
+    <div class="item">
+      <img
+        src="https://png.pngtree.com/png-vector/20230227/ourmid/pngtree-golden-ticket-png-image_6621563.png"
+        alt=""
+      />
+    </div>
+  </div>
+
+  <div class="wrapper_stats__bar">
+    <span class="wrapper_stats__bar-score">Score: 101</span>
+
+    <div class="progress-container">
+      <div class="progress" id="progress"></div>
+      <div class="circle active">
+        <img
+          src="https://static.vecteezy.com/system/resources/thumbnails/017/350/123/small/green-check-mark-icon-in-round-shape-design-png.png"
+          alt=""
+        />
+      </div>
+      <div class="circle">25</div>
+      <div class="circle">35</div>
+      <div class="circle">50</div>
+      <div class="circle">70</div>
+    </div>
+  </div>
+</div>
+
+<div class="wrapper_challenges">
+  <div class="wrapper_challenges__item">
+    <div class="image">
+      <img
+        src="https://cf.geekdo-images.com/fvhkcw4s6Q4-nMwwok1J6A__opengraph/img/bbHffM-AIBac7jMM8sgOM1sC0zk=/0x274:1314x964/fit-in/1200x630/filters:strip_icc()/pic6569894.png"
+        alt=""
+      />
+    </div>
+    <div class="info">
+      <span class="header"
+        >Play <strong>Dungeon</strong> 2 Times dsad kokodq wk odwq</span
+      >
+      <div class="bar-2">
+        <span class="bar-2-span">1 / 2</span>
+        <div class="bar-2-value"></div>
+        <span class="points">10</span>
+      </div>
+    </div>
+    <div class="status-image">
+      <img
+        src="https://static.vecteezy.com/system/resources/previews/016/774/561/non_2x/loading-icon-loading-progress-icon-on-transparent-background-free-png.png"
+        alt=""
+      />
+    </div>
+  </div>
+  <div class="wrapper_challenges__item completed">
+    <div class="image">
+      <img
+        src="https://cf.geekdo-images.com/fvhkcw4s6Q4-nMwwok1J6A__opengraph/img/bbHffM-AIBac7jMM8sgOM1sC0zk=/0x274:1314x964/fit-in/1200x630/filters:strip_icc()/pic6569894.png"
+        alt=""
+      />
+    </div>
+    <div class="info">
+      <span class="header"
+        >Play <strong>Dungeon</strong> 2 Times Lorem ipsum dolor sit amet
+        consectetur adipisicing elit. Molestiae, architecto!</span
+      >
+      <div class="bar-2">
+        <span class="bar-2-span">1 / 2</span>
+        <div class="bar-2-value"></div>
+        <span class="points">10</span>
+      </div>
+    </div>
+    <div class="status-image">
+      <img src="../../../shared/assets/images/challenge-complete.png" alt="" />
+    </div>
+  </div>
+
+  <div class="wrapper_challenges__item locked">
+    <div class="image">
+      <img
+        src="https://cf.geekdo-images.com/fvhkcw4s6Q4-nMwwok1J6A__opengraph/img/bbHffM-AIBac7jMM8sgOM1sC0zk=/0x274:1314x964/fit-in/1200x630/filters:strip_icc()/pic6569894.png"
+        alt=""
+      />
+    </div>
+    <div class="info">
+      <span class="header"
+        >Play <strong>Dungeon</strong> 2 Times Lorem ipsum dolor sit amet
+        consectetur adipisicing elit. Molestiae, architecto!</span
+      >
+      <div class="bar-2">
+        <span class="bar-2-span">1 / 2</span>
+        <div class="bar-2-value"></div>
+        <span class="points">10</span>
+      </div>
+    </div>
+    <div class="status-image">
+      <img src="../../../shared/assets/images/locked.png" alt="" />
+    </div>
+  </div>
 </div>
