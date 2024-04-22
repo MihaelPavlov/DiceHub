@@ -1,0 +1,74 @@
+<app-header header="Create Game Table" [withBottomLine]="true"> </app-header>
+
+<div class="wrapper">
+  <div class="wrapper_inputs">
+    <div class="form__group">
+      <input
+        type="input"
+        class="form__field"
+        placeholder="search"
+        name="search"
+        id="search"
+        disabled
+      />
+      <label for="search" class="form__label"> Scan game</label>
+      <a class="wrapper_qrCode">
+        <img src="../../../../shared/assets/images/qr-code.png" alt="" />
+      </a>
+    </div>
+  </div>
+
+  <div class="wrapper_image">
+    <img
+      src="https://cf.geekdo-images.com/fvhkcw4s6Q4-nMwwok1J6A__opengraph/img/bbHffM-AIBac7jMM8sgOM1sC0zk=/0x274:1314x964/fit-in/1200x630/filters:strip_icc()/pic6569894.png"
+      alt=""
+    />
+  </div>
+  <div class="wrapper_inputs">
+    <div class="form__group">
+      <input
+        type="input"
+        class="form__field"
+        placeholder="name"
+        name="name"
+        id="name"
+      />
+      <label for="name" class="form__label"> Table Name</label>
+    </div>
+  </div>
+
+  <div class="wrapper_small_inputs">
+    <div class="form_group_small">
+      <input
+        type="number"
+        class="form__field"
+        placeholder="max_people"
+        name="max_people"
+        id="max_people"
+      />
+      <label for="max_people" class="form__label">Max People</label>
+    </div>
+  </div>
+
+  <div class="wrapper_inputs">
+    <div class="form__group">
+      <input
+        type="input"
+        class="form__field"
+        placeholder="password"
+        name="password"
+        id="password"
+      />
+      <label for="password" class="form__label">Password</label>
+    </div>
+  </div>
+
+  <div class="wrapper_btn">
+    <app-btn
+      text="Create Table"
+      [color]="'gray'"
+      [fontColor]="'blue'"
+      [borderColor]="'blue'"
+    ></app-btn>
+  </div>
+</div>

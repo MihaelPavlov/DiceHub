@@ -1,0 +1,58 @@
+@use "../../../shared/assets/styles/palette";
+
+.wrapper_in_room {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    margin: 1rem;
+
+    &__header {
+        color: palette.$chip-orange-color
+    }
+
+    app-btn {
+        margin: 0.5rem;
+    }
+}
+
+.wrapper_btns {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 1rem;
+}
+
+.wrapper_tabs {
+    display: flex;
+    justify-content: space-evenly;
+
+    &__tab {
+        display: flex;
+        flex-direction: column;
+        width: 8rem;
+        height: 8rem;
+        border-radius: 0.5rem;
+        background-color: palette.$main-nav-color;
+        color: palette.$main-font-gray-color;
+
+        &-header {
+            margin: 0.75rem;
+            font-weight: 600;
+        }
+
+        .info {
+            display: flex;
+
+            .material-symbols-outlined {
+                font-size: 3.5rem;
+                margin: 0.7rem
+            }
+
+            &__count {
+                font-size: 2.5rem;
+                margin-top: 1rem;
+                margin-right: 1rem;
+            }
+        }
+    }
+
+}

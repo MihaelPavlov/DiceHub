@@ -1,1 +1,47 @@
-<span>test</span>
+<app-header header="Club Space" [withBottomLine]="true"> </app-header>
+
+<!-- <div class="wrapper_in_room">
+  <span class="wrapper_in_room__header">You are in: Tyson Room</span>
+  <app-btn
+    text="Leave Table"
+    [size]="'small'"
+    [color]="'gray'"
+    [fontColor]="'orange'"
+    [borderColor]="'orange'"
+  ></app-btn>
+</div> -->
+
+<div class="wrapper_btns">
+  <app-btn
+    text="Create Table"
+    [size]="'small'"
+    [color]="'gray'"
+    [fontColor]="'green'"
+    [borderColor]="'green'"
+  ></app-btn>
+
+  <app-btn
+    text="Join Table"
+    [size]="'small'"
+    [color]="'gray'"
+    [fontColor]="'yellow'"
+    [borderColor]="'yellow'"
+  ></app-btn>
+</div>
+
+<div class="wrapper_tabs">
+  <div class="wrapper_tabs__tab">
+    <span class="wrapper_tabs__tab-header">People In Club</span>
+    <div class="info">
+      <span class="material-symbols-outlined"> group </span>
+      <span class="info__count">23</span>
+    </div>
+  </div>
+  <div class="wrapper_tabs__tab">
+    <span class="wrapper_tabs__tab-header">Online tables</span>
+    <div class="info">
+      <span class="material-symbols-outlined"> workspaces </span>
+      <span class="info__count">23</span>
+    </div>
+  </div>
+</div>
