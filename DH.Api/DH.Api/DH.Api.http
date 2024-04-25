@@ -1,6 +1,0 @@
-@DH.Api_HostAddress = http://localhost:5064
-
-GET {{DH.Api_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

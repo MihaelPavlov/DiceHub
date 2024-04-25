@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DH.Adapter.Authentication\DH.Adapter.Authentication.csproj" />
+    <ProjectReference Include="..\DH.Adapter.Data\DH.Adapter.Data.csproj" />
+    <ProjectReference Include="..\DH.Application\DH.Application.csproj" />
+    <ProjectReference Include="..\DH.Domain\DH.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
