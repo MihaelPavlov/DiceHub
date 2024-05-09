@@ -5,4 +5,9 @@ import { Component } from '@angular/core';
   templateUrl: 'club-space-list.component.html',
   styleUrl: 'club-space-list.component.scss',
 })
-export class ClubSpaceListComponent {}
+export class ClubSpaceListComponent {
+  constructor(){
+    console.log("test");
+    
+  }
+}
