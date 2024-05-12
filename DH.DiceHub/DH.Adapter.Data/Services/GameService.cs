@@ -6,8 +6,9 @@ namespace DH.Adapter.Data.Services;
 
 public class GameService : IGameService
 {
-    private readonly IDbContextFactory<MyDbContext> _contextFactory;
-    public GameService(IDbContextFactory<MyDbContext> _contextFactory)
+    readonly IDbContextFactory<TenantDbContext> _contextFactory;
+
+    public GameService(IDbContextFactory<TenantDbContext> _contextFactory)
     {
         this._contextFactory = _contextFactory;
     }

@@ -10,9 +10,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DH.Adapter.Data.Migrations
 {
-    [DbContext(typeof(MyDbContext))]
-    [Migration("20240424213102_InitialCreat21e")]
-    partial class InitialCreat21e
+    [DbContext(typeof(TenantDbContext))]
+    [Migration("20240511183157_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

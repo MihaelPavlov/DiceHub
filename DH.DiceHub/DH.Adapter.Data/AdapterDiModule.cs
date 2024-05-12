@@ -27,22 +27,22 @@ public class AdapterDataDIModule : Module
               .AsImplementedInterfaces()
              .InstancePerLifetimeScope();
 
-        builder.RegisterType<MyDbContext>().As<IDBContext>().InstancePerLifetimeScope();
+        builder.RegisterType<TenantDbContext>().As<ITenantDbContext>().InstancePerLifetimeScope();
     }
 }
-public static class AdapterService
+public static class DataDIModule
 {
     public static IServiceCollection LoadDatabase(
         this IServiceCollection services,
         IConfiguration configuration)
         => services
-            .AddDbContext<MyDbContext>(options => options
+            .AddDbContext<TenantDbContext>(options => options
                 .UseSqlServer(
                     configuration.GetConnectionString("DefaultConnection"),
                     sqlServer => sqlServer
-                        .MigrationsAssembly(typeof(MyDbContext).Assembly.FullName))
+                        .MigrationsAssembly(typeof(TenantDbContext).Assembly.FullName))
             .EnableDetailedErrors(true)) // TODO:Don't do this on production. Don't hardcode this
-            .AddScoped<IDBContext>(provider => provider.GetService<MyDbContext>()
+            .AddScoped<ITenantDbContext>(provider => provider.GetService<TenantDbContext>()
                 ?? throw new ArgumentNullException("IDBContext was not found"));
 
 }

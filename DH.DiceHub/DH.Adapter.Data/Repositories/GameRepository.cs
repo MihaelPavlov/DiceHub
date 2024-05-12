@@ -5,8 +5,8 @@ namespace DH.Adapter.Data.Repositories;
 
 public class GameRepository : IGameRepository
 {
-    readonly MyDbContext dBContext;
-    public GameRepository(MyDbContext dBContext)
+    readonly TenantDbContext dBContext;
+    public GameRepository(TenantDbContext dBContext)
     {
         this.dBContext = dBContext;
     }

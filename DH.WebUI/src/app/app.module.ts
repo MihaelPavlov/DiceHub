@@ -6,10 +6,11 @@ import { MenuModule } from '../widgets/menu/menu.module';
 import { RouterOutlet } from '@angular/router';
 import { AppRoutingModule } from './app-routes/app-routes.module';
 import { HeaderModule } from '../widgets/header/header.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [AppComponent],
-  exports: [BrowserModule],
+  exports: [BrowserModule,BrowserAnimationsModule],
   providers: [],
   bootstrap: [AppComponent],
   imports: [HttpClientModule,AppRoutingModule, BrowserModule, MenuModule,HeaderModule, RouterOutlet],

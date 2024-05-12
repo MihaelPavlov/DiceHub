@@ -1,5 +1,4 @@
 using Autofac;
-using Autofac.Core;
 using Autofac.Extensions.DependencyInjection;
 using DH.Adapter.Authentication;
 using DH.Adapter.Data;
@@ -12,19 +11,21 @@ using System.Text.Json.Serialization;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers().AddJsonOptions(x =>
-   x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddCors();
 builder.Services.AddHttpContextAccessor();
 builder.Services.LoadDatabase(builder.Configuration);
-builder.Services
-                .AddAuthentication("cookie")
-                .AddCookie("cookie");
-builder.Services
-.AddAuthorization();
-builder.Services.AuthenticationAdapter();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("EnableCORS", builder =>
+    {
+        builder.AllowAnyOrigin()
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+    });
+});
+builder.Services.AuthenticationAdapter(builder.Configuration);
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
 
@@ -32,10 +33,11 @@ builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory()).Conf
 {
     // Add modules for each class library in solution
     builder.RegisterAssemblyModules(typeof(DomainDIModule).Assembly);
+    builder.RegisterType<ContainerService>().As<IContainerService>();
     builder.RegisterAssemblyModules(typeof(ApplicationDIModule).Assembly);
     builder.RegisterAssemblyModules(typeof(AdapterDataDIModule).Assembly);
+    builder.RegisterAssemblyModules(typeof(AdapterAuthenticationDIModule).Assembly);
 
-    builder.RegisterType<ContainerService>().As<IContainerService>();
 });
 
 var app = builder.Build();
@@ -53,7 +55,7 @@ app.UseHttpsRedirection();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+app.UseCors("EnableCORS");
 
 app.MapControllers();
 app.Run();

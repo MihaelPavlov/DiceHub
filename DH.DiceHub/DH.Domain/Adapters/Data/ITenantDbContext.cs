@@ -1,6 +1,6 @@
 ﻿namespace DH.Domain.Adapters.Data;
 
-public interface IDBContext
+public interface ITenantDbContext
 {
     T AcquireRepository<T>();
 }

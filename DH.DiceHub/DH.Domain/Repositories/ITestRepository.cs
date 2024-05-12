@@ -2,6 +2,6 @@
 
 namespace DH.Domain.Repositories;
 
-public interface IGameRepository : IRepository<Game>
+public interface ITestRepository : IRepository<Test>
 {
 }

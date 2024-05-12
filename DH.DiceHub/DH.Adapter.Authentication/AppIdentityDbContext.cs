@@ -1,24 +1,29 @@
-﻿using DH.Domain.Adapters.Data;
+﻿using DH.Domain;
+using DH.Domain.Adapters.Authentication;
 using DH.Domain.Entities;
-using System.Reflection;
-using DH.Domain;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
-namespace DH.Adapter.Data;
+namespace DH.Adapter.Authentication;
 
-public class MyDbContext : DbContext, IDBContext 
+public class AppIdentityDbContext : IdentityDbContext<IdentityUser>, IIdentityDbContext
 {
     readonly IContainerService _containerService;
 
-    public MyDbContext()
+    public AppIdentityDbContext()
     {
+
     }
-    public MyDbContext(
-        DbContextOptions<MyDbContext> options,  IContainerService _containerService)
+
+    public AppIdentityDbContext(DbContextOptions<AppIdentityDbContext> options, IContainerService _containerService)
         : base(options)
     {
         this._containerService = _containerService;
     }
+
+    public DbSet<Test> Tests { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -30,9 +35,6 @@ public class MyDbContext : DbContext, IDBContext
 #endif
     }
 
-
-    public DbSet<Game> Games { get; set; } = default!;
-
     public T AcquireRepository<T>()
     {
         return _containerService.Resolve<T>();
@@ -41,10 +43,6 @@ public class MyDbContext : DbContext, IDBContext
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-
-        ////TODO: Check if we ened to configure the mapping manually or the 24 line is working 
-        //CommonMapping.Configure(builder);
-
         base.OnModelCreating(builder);
     }
 }

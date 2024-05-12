@@ -1,6 +1,8 @@
 ﻿using DH.Adapter.Authentication.Services;
+using DH.Domain.Adapters.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace DH.Api.Controllers;
 
@@ -9,25 +11,31 @@ namespace DH.Api.Controllers;
 public class UserController : ControllerBase
 {
     readonly IUserService userService;
-    public UserController(IUserService userService)
+    readonly IUserContext context;
+    public UserController(IUserService userService, IUserContext context)
     {
         this.userService = userService;
+        this.context = context;
     }
 
     [HttpPost]
-    public IActionResult Login([FromBody] LoginForm form)
+    public async Task<IActionResult> Login([FromBody] LoginForm form)
     {
-       var res= userService.Login(form);
-
-        return Ok(res);
+        var result = await userService.Login(form);
+        return this.Ok(result);
     }
 
-    [Authorize]
-    [HttpGet]
-    public async Task<IActionResult> Logout()
+    [HttpPost("register")]
+    public async Task<IActionResult> Register([FromBody] RegisterForm form)
     {
-        userService.Logout();
+        await userService.Register(form);
+        return this.Ok();
+    }
 
-        return Ok();
+    [HttpPost("info")]
+    [Authorize]
+    public IActionResult UserInfo()
+    {
+        return this.Ok(new { IsAuthenticated = this.User.Identity.IsAuthenticated, this.User.Claims.First(x => x.Type == ClaimTypes.Sid).Value });
     }
 }

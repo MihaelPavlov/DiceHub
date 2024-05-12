@@ -8,6 +8,7 @@ import { GameDetailsComponent } from '../../features/games-library/components/ga
 import { GameAvailabilityComponent } from '../../features/games-library/components/game-availability/page/game-availability.component';
 import { GameLayoutComponent } from '../../features/games-library/components/game-layout/page/game-layout.component';
 import { GameReviewsComponent } from '../../features/games-library/components/game-reviews/page/game-reviews.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { GameReviewsComponent } from '../../features/games-library/components/ga
   providers: [],
   imports: [
     SharedModule,
+    HttpClientModule,
     HeaderModule,
     NavBarModule,
     GamesLibraryRoutingModule,

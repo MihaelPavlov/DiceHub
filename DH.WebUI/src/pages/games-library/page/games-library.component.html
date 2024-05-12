@@ -1,3 +1,10 @@
+ <button (click)="login()">Login</button> 
+ <button (click)="register()">Regsiter</button> 
+ <button (click)="logout()">logout</button> 
+ <button (click)="userInfo()">user</button> 
+ <button (click)="game()">game</button> 
+
+
 <app-header header="Recomended" [withSearch]="true">
     <app-nav-bar
         [columns]="[{name:'Popular',link:'/popular', isActive: true},{name:'Categories',link:'', isActive: false},{name:'News',link:'', isActive: false }]"></app-nav-bar>
