@@ -37,11 +37,13 @@ export class AuthService {
       .post<any>('https://localhost:7024/game', loginForm, httpsOptions)
       .subscribe((response) => {});
   }
+
   register(registerForm: any) {
     return this.httpClient
       .post<any>('https://localhost:7024/user/register', registerForm)
       .subscribe((_) => {});
   }
+
   userinfo() {
     const token = localStorage.getItem('jwt');
 
@@ -57,8 +59,14 @@ export class AuthService {
         console.log(user);
       });
   }
+
   logout() {
     localStorage.removeItem('jwt');
-    localStorage.removeItem("refreshToken");
+    localStorage.removeItem('refreshToken');
   }
+}
+
+export interface AuthenticatedResponse {
+  accessToken: string;
+  refreshToken: string;
 }

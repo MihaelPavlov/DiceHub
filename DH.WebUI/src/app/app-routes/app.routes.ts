@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
 import { AppComponent } from '../app-component/app.component';
+import { LoginComponent } from '../../pages/login/page/login.component';
+import { AuthGuard } from '../../pages/games-library/auth.guard';
 
 export const ROUTES: Routes = [
   {
@@ -12,6 +14,7 @@ export const ROUTES: Routes = [
           import('../../pages/games-library/games-library.module').then(
             (m) => m.GamesLibraryModule
           ),
+        canActivate: [AuthGuard],
       },
       {
         path: 'events',
@@ -42,5 +45,9 @@ export const ROUTES: Routes = [
           ).then((m) => m.ClubSpaceManagementModule),
       },
     ],
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
   },
 ];

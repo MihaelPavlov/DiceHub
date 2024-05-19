@@ -9,8 +9,6 @@ import { GameAvailabilityComponent } from '../../features/games-library/componen
 import { GameLayoutComponent } from '../../features/games-library/components/game-layout/page/game-layout.component';
 import { GameReviewsComponent } from '../../features/games-library/components/game-reviews/page/game-reviews.component';
 import { HttpClientModule } from '@angular/common/http';
-import { JWT_OPTIONS, JwtHelperService, JwtModule } from '@auth0/angular-jwt';
-import { AuthGuard } from './auth.guard';
 
 @NgModule({
   declarations: [
@@ -21,16 +19,13 @@ import { AuthGuard } from './auth.guard';
     GameReviewsComponent,
   ],
   exports: [GamesLibraryComponent],
-  providers: [    AuthGuard,
-    { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
-    JwtHelperService],
+  providers: [],
   imports: [
     SharedModule,
     HttpClientModule,
     HeaderModule,
     NavBarModule,
     GamesLibraryRoutingModule,
-    JwtModule,
   ],
 })
 export class GamesLibraryModule {}
