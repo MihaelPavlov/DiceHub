@@ -17,9 +17,10 @@ export class AuthService {
     return this.httpClient
       .post<any>('https://localhost:7024/user', loginForm, httpsOptions)
       .subscribe((response) => {
-        const token = response.token;
-        localStorage.setItem('jwt', token);
-        this.userinfo();
+        const accessToken = response.accessToken;
+        const refreshToken = response.refreshToken;
+        localStorage.setItem('jwt', accessToken);
+        localStorage.setItem('refreshToken', refreshToken);
       });
   }
 
@@ -34,9 +35,7 @@ export class AuthService {
     };
     return this.httpClient
       .post<any>('https://localhost:7024/game', loginForm, httpsOptions)
-      .subscribe((response) => {
-        
-      });
+      .subscribe((response) => {});
   }
   register(registerForm: any) {
     return this.httpClient
@@ -60,5 +59,6 @@ export class AuthService {
   }
   logout() {
     localStorage.removeItem('jwt');
+    localStorage.removeItem("refreshToken");
   }
 }

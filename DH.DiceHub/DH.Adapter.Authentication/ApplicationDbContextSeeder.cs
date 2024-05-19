@@ -1,4 +1,5 @@
-﻿using DH.Adapter.Authentication.Services;
+﻿using DH.Adapter.Authentication.Entities;
+using DH.Domain.Adapters.Authentication.Models.Enums;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -15,7 +16,7 @@ public static class ApplicationDbContextSeeder
     /// <param name="serviceProvider">The service provider to resolve dependencies.</param>
     public static async Task SeedUsers(IServiceProvider serviceProvider)
     {
-        var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
+        var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
         var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
         #region Seed Roles
@@ -32,7 +33,7 @@ public static class ApplicationDbContextSeeder
 
         #region Seed Users
 
-        var superAdminUser = new IdentityUser
+        var superAdminUser = new ApplicationUser
         {
             UserName = "sa@dicehub.com",
             Email = "sa@dicehub.com",
@@ -50,7 +51,7 @@ public static class ApplicationDbContextSeeder
             await roleManager.CreateAsync(new IdentityRole(role.Key) { Id = role.Value.ToString() });
     }
 
-    private static async Task EnsureUserAsync(UserManager<IdentityUser> userManager, IdentityUser user, string password, string role)
+    private static async Task EnsureUserAsync(UserManager<ApplicationUser> userManager, ApplicationUser user, string password, string role)
     {
         var existingUser = await userManager.FindByEmailAsync(user.Email ?? string.Empty);
         if (existingUser == null)

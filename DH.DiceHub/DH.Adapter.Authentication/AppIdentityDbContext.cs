@@ -1,14 +1,14 @@
-﻿using DH.Domain;
+﻿using DH.Adapter.Authentication.Entities;
+using DH.Domain;
 using DH.Domain.Adapters.Authentication;
 using DH.Domain.Entities;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
 namespace DH.Adapter.Authentication;
 
-public class AppIdentityDbContext : IdentityDbContext<IdentityUser>, IIdentityDbContext
+public class AppIdentityDbContext : IdentityDbContext<ApplicationUser>, IIdentityDbContext
 {
     readonly IContainerService _containerService;
 

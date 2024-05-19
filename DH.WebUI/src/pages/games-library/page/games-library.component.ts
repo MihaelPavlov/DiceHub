@@ -32,3 +32,8 @@ export class GamesLibraryComponent {
 
   }
 }
+
+export interface AuthenticatedResponse{
+  accessToken: string;
+  refreshToken: string;
+}

@@ -14,6 +14,8 @@ using DH.Domain.Adapters.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Builder;
 using Module = Autofac.Module;
+using DH.Adapter.Authentication.Entities;
+using DH.Domain.Adapters.Authentication.Services;
 
 namespace DH.Adapter.Authentication;
 
@@ -69,7 +71,7 @@ public static class AuthenticationDIModule
             )
         );
 
-        services.AddIdentity<IdentityUser, IdentityRole>()
+        services.AddIdentity<ApplicationUser, IdentityRole>()
             .AddEntityFrameworkStores<AppIdentityDbContext>()
             .AddDefaultTokenProviders();
 
@@ -101,6 +103,7 @@ public static class AuthenticationDIModule
 
         services
            .AddScoped<IUserService, UserService>()
+           .AddScoped<IJwtService, JwtService>()
            .AddScoped<IUserContextFactory, UserContextFactory>()
            .AddScoped<IUserContext>(services => services.GetRequiredService<IUserContextFactory>().CreateUserContext());
 

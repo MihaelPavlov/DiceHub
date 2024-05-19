@@ -1,4 +1,6 @@
-﻿namespace DH.Adapter.Authentication.Services;
+﻿using DH.Domain.Adapters.Authentication.Models;
+
+namespace DH.Domain.Adapters.Authentication.Services;
 
 /// <summary>
 /// Interface for user-related services, including authentication, registration,
@@ -11,12 +13,12 @@ public interface IUserService
     /// </summary>
     /// <param name="form">LoginForm containing user related information.</param>
     /// <returns> <see cref="AuthenticatedResponse"/> containing JWT token if login is successful.</returns>
-    Task<AuthenticatedResponse> Login(LoginForm form);
+    Task<TokenResponseModel> Login(LoginRequest form);
 
     /// <summary>
     /// Registers a new user
     /// </summary>
     /// <param name="form">RegisterForm containing new user infromation.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    Task Register(RegisterForm form);
+    Task Register(RegistrationRequest form);
 }

@@ -11,6 +11,7 @@ public class AppIdentityDbContextFactory : IDbContextFactory<AppIdentityDbContex
     {
         this.containerService = containerService;
     }
+
     public AppIdentityDbContext CreateDbContext()
     {
         var optionsBuilder = new DbContextOptionsBuilder<AppIdentityDbContext>();
