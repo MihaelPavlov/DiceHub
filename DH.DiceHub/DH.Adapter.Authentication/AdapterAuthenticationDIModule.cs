@@ -6,12 +6,14 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Module = Autofac.Module;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using DH.Adapter.Authentication.Helper;
 using DH.Domain.Adapters.Authentication;
+using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Builder;
+using Module = Autofac.Module;
 
 namespace DH.Adapter.Authentication;
 
@@ -40,6 +42,23 @@ public class AdapterAuthenticationDIModule : Module
 
 public static class AuthenticationDIModule
 {
+    public static void SeedUsersAsync(this WebApplication app)
+    {
+        using (var scope = app.Services.CreateScope())
+        {
+            try
+            {
+                ApplicationDbContextSeeder.SeedUsers(scope.ServiceProvider).Wait();
+            }
+            catch (Exception ex)
+            {
+                var logger = scope.ServiceProvider.GetRequiredService<ILogger<WebApplication>>();
+                logger.LogError(ex, "An error occurred seeding the database.");
+            }
+        }
+
+    }
+
     public static IServiceCollection AuthenticationAdapter(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<AppIdentityDbContext>(x =>

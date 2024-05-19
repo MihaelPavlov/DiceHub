@@ -15,13 +15,13 @@ export class GamesLibraryComponent {
   }
 
   login(){
-    this.authService.login({email:"rap4obg@abv.bg", password: "123456789Mm!"});
+    this.authService.login({email:"sa@dicehub.com", password: "1qaz!QAZ"});
   }
   game(){
     this.authService.game({name:"test123"});
   }
   register(){
-    this.authService.register({username: "rap4obg",email:"rap4obg@abv.bg", password: "123456789Mm!"});
+    this.authService.register({username: "rap4obg21",email:"rap4obg2@abv.bg", password: "123456789Mm!"});
   }
   userInfo(){
     this.authService.userinfo();

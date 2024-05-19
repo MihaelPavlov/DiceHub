@@ -6,7 +6,6 @@ using DH.Api;
 using DH.Application;
 using DH.Domain;
 using System.Reflection;
-using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,10 +36,12 @@ builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory()).Conf
     builder.RegisterAssemblyModules(typeof(ApplicationDIModule).Assembly);
     builder.RegisterAssemblyModules(typeof(AdapterDataDIModule).Assembly);
     builder.RegisterAssemblyModules(typeof(AdapterAuthenticationDIModule).Assembly);
-
 });
 
 var app = builder.Build();
+
+app.SeedUsersAsync();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

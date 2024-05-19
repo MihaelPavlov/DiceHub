@@ -36,6 +36,6 @@ public class UserController : ControllerBase
     [Authorize]
     public IActionResult UserInfo()
     {
-        return this.Ok(new { IsAuthenticated = this.User.Identity.IsAuthenticated, this.User.Claims.First(x => x.Type == ClaimTypes.Sid).Value });
+        return this.Ok(new { IsAuthenticated = this.User.Identity.IsAuthenticated, Id = this.User.Claims.First(x => x.Type == ClaimTypes.Sid).Value, Role = this.User.Claims.First(x => x.Type == ClaimTypes.Role).Value });
     }
 }
