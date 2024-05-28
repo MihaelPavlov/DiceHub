@@ -1,4 +1,6 @@
-﻿namespace DH.Domain.Adapters.Authentication;
+﻿using DH.Domain.Repositories;
+
+namespace DH.Domain.Adapters.Authentication;
 
 /// <summary>
 /// Provides a method to acquire a repository instance.

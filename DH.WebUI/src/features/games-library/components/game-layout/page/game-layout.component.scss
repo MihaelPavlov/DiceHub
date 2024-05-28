@@ -11,10 +11,18 @@
         padding-top: 1rem;
         align-items: center;
 
+        .header_name {
+            font-size: 1.5rem;
+            padding-top: 1rem;
+            padding-bottom: 0.5rem;
+            word-wrap: break-word;
+            width:70%;
+            text-align: center;
+        }
+
         .arrow {
             width: 3rem;
             height: 3rem;
-            margin: 0.5rem;
             display: inline-block;
             position: relative;
             border: 0.1rem solid palette.$main-icon-color;
@@ -41,6 +49,8 @@
         }
 
         .heart {
+            width: 3rem;
+            height: 3rem;
             color: palette.$main-red-color;
             font-size: 3rem;
         }

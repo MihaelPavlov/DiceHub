@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { AppComponent } from '../app-component/app.component';
 import { LoginComponent } from '../../pages/login/page/login.component';
-import { AuthGuard } from '../../pages/games-library/auth.guard';
+import { AuthGuard } from '../../shared/guards/auth.guard';
 
 export const ROUTES: Routes = [
   {

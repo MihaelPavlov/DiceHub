@@ -26,6 +26,8 @@ export class AuthGuard implements CanActivate {
       return true;
     }
     const isRefreshSuccess = await this.tryRefreshingTokens(token);
+    console.log('refresh',isRefreshSuccess);
+
     if (!isRefreshSuccess) {
       this.router.navigate(['login']);
     }
@@ -44,32 +46,40 @@ export class AuthGuard implements CanActivate {
     });
     console.log('refresh');
 
-    let isRefreshSuccess: boolean;
-    const refreshRes = await new Promise<AuthenticatedResponse>(
-      (resolve, reject) => {
-        this.http
-          .post<AuthenticatedResponse>(
-            'https://localhost:7024/user/refresh',
-            credentials,
-            {
-              headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-              }),
-            }
-          )
-          .subscribe({
-            next: (res: AuthenticatedResponse) => resolve(res),
-            error: (_) => {
-              reject;
-              isRefreshSuccess = false;
-            },
-          });
-      }
-    );
-    localStorage.setItem('jwt', refreshRes.accessToken);
-    localStorage.setItem('refreshToken', refreshRes.refreshToken);
-    isRefreshSuccess = true;
+    let isRefreshSuccess: boolean = true;
+    try{
+      const refreshRes = await new Promise<AuthenticatedResponse>(
+        (resolve, reject) => {
+          this.http
+            .post<AuthenticatedResponse>(
+              'https://localhost:7024/user/refresh',
+              credentials,
+              {
+                headers: new HttpHeaders({
+                  'Content-Type': 'application/json',
+                }),
+              }
+            )
+            .subscribe({
+              next: (res: AuthenticatedResponse) => resolve(res),
+              error: (_) => {
+               reject();
+              },
+            });
+        }
+      );    
+
+        localStorage.setItem('jwt', refreshRes.accessToken);
+        localStorage.setItem('refreshToken', refreshRes.refreshToken);
+      
+        isRefreshSuccess = true;
+      
+    }
+    catch{
+      isRefreshSuccess=false;
+    }
     
+
     return isRefreshSuccess;
   }
 }

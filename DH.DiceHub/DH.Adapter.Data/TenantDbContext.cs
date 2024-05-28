@@ -32,6 +32,7 @@ public class TenantDbContext : DbContext, ITenantDbContext
     }
 
     public DbSet<Game> Games { get; set; } = default!;
+    public DbSet<Event> Events { get; set; } = default!;
 
     public T AcquireRepository<T>()
     {

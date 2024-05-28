@@ -29,6 +29,5 @@ import { Router } from "@angular/router";
     }
     logout(){
       this.authService.logout();
-  
     }
   }

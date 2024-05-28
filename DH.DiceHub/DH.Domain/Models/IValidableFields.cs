@@ -2,6 +2,5 @@
 
 internal interface IValidableFields
 {
-    bool FieldsAreValied();
-    dynamic ValidateFields();
+    bool FieldsAreValid(out IReadOnlyCollection<string> validationErrors);
 }

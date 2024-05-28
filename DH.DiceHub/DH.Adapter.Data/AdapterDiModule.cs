@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using DH.Adapter.Data.Repositories;
 using DH.Domain.Adapters.Data;
 using DH.Domain.Repositories;
 using DH.Domain.Services;
@@ -12,11 +13,6 @@ public class AdapterDataDIModule : Module
 {
     protected override void Load(ContainerBuilder builder)
     {
-        builder.RegisterAssemblyTypes(this.ThisAssembly)
-            .AsClosedTypesOf(typeof(IRepository<>))
-            .AsImplementedInterfaces()
-            .InstancePerLifetimeScope();
-
         builder.RegisterAssemblyTypes(this.ThisAssembly)
          .AsClosedTypesOf(typeof(IDomainService<>))
          .AsImplementedInterfaces()
@@ -43,7 +39,8 @@ public static class DataDIModule
                         .MigrationsAssembly(typeof(TenantDbContext).Assembly.FullName))
             .EnableDetailedErrors(true)) // TODO:Don't do this on production. Don't hardcode this
             .AddScoped<ITenantDbContext>(provider => provider.GetService<TenantDbContext>()
-                ?? throw new ArgumentNullException("IDBContext was not found"));
+                ?? throw new ArgumentNullException("IDBContext was not found"))
+            .AddScoped(typeof(IRepository<>), typeof(DataRepository<>));
 
 }
 

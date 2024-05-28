@@ -26,6 +26,10 @@ public class UserContext : IUserContext
         {
             if (_userId != null)
                 return _userId;
+            else //REMOVE LATER
+            {
+                return "9b30e745-3667-477c-8e9e-b4c437d580ed";
+            }
 
             throw new Exception("Can not find current user.");
         }

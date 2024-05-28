@@ -1,22 +1,19 @@
 <div class="wrapper_layout">
-    <div class="wrapper_icons">
-        <span class="arrow left"></span>
+  <div class="wrapper_icons">
+    <span class="arrow left"></span>
+    <span class="header_name">{{ game.name }}</span>
+    <span class="material-symbols-outlined heart"> favorite </span>
+  </div>
 
-        <span class="material-symbols-outlined heart">
-            favorite
-        </span>
-    </div>
+  <div class="wrapper_image">
+    <img [src]="game.imageUrl" alt="" />
+  </div>
 
-    <div class="wrapper_image">
-        <img src="https://cf.geekdo-images.com/fvhkcw4s6Q4-nMwwok1J6A__opengraph/img/bbHffM-AIBac7jMM8sgOM1sC0zk=/0x274:1314x964/fit-in/1200x630/filters:strip_icc()/pic6569894.png"
-            alt="">
-    </div>
+  <div class="wrapper_navigation">
+    <span class="active">Statistics</span>
+    <span>Availability</span>
+    <span>Reviews</span>
+  </div>
 
-    <div class="wrapper_navigation">
-        <span class="active">Statistics</span>
-        <span>Availability</span>
-        <span>Reviews</span>
-    </div>
-
-    <ng-content></ng-content>
+  <ng-content></ng-content>
 </div>

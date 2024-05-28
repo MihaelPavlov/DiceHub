@@ -12,7 +12,7 @@ public class TenantDbContextFactory : IDbContextFactory<TenantDbContext>
         this.containerService = containerService;
     }
 
-    public TenantDbContext CreateDbContext()
+    TenantDbContext IDbContextFactory<TenantDbContext>.CreateDbContext()
     {
         var optionsBuilder = new DbContextOptionsBuilder<TenantDbContext>();
         optionsBuilder.UseSqlServer("Server=(local);Database=DH.DiceHub;Trusted_Connection=True;Encrypt=False");

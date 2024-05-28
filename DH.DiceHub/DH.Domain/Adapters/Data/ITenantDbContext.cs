@@ -1,9 +1,11 @@
-﻿namespace DH.Domain.Adapters.Data;
+﻿using DH.Domain.Repositories;
+
+namespace DH.Domain.Adapters.Data;
 
 /// <summary>
 /// Provides a method to acquire a repository instance specific to tenant-related data operations.
 /// </summary>
-public interface ITenantDbContext
+public interface ITenantDbContext : IDisposable
 {
     /// <summary>
     /// Retrieves an instance of a repository of the specified type.

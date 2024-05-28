@@ -1,30 +1,29 @@
-<app-game-layout>
+<app-game-layout *ngIf="game$ | async as game" [game]="game">
   <div class="wrapper_info">
     <span>About the game</span>
 
     <div class="wrapper_info__likes">
-      <span> 1432 </span>
+      <span> {{game.likes}} </span>
       <span class="material-symbols-outlined"> favorite </span>
     </div>
   </div>
 
   <div class="wrapper_stats">
-    <span>Age +12 Years</span>
+    <span>Age +{{game.minAge}} Years</span>
     <div>
       <span class="material-symbols-outlined"> group </span>
-      5 Players
+      {{game.minPlayers}}-{{game.maxPlayers}} Players
     </div>
     <div>
       <span class="material-symbols-outlined"> schedule </span>
-      0.5 hour/s
+      {{game.averagePlaytime}} hour/s
     </div>
   </div>
 
   <div class="wrapper_description">
     <span>Description</span>
     <span class="wrapper_description__text"
-      >Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ad id error
-      iusto vero pariatur voluptatum dolores exercitationem odit! Ea, hic.</span
+      >{{game.description}}</span
     >
   </div>
 </app-game-layout>

@@ -8,11 +8,17 @@ import { AppRoutingModule } from './app-routes/app-routes.module';
 import { HeaderModule } from '../widgets/header/header.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginModule } from '../pages/login/login.module';
+import { AuthGuard } from '../shared/guards/auth.guard';
+import { JWT_OPTIONS, JwtHelperService, JwtModule } from '@auth0/angular-jwt';
 
 @NgModule({
   declarations: [AppComponent],
   exports: [BrowserModule, BrowserAnimationsModule],
-  providers: [],
+  providers: [
+    AuthGuard,
+    { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
+    JwtHelperService,
+  ],
   bootstrap: [AppComponent],
   imports: [
     HttpClientModule,
@@ -22,6 +28,7 @@ import { LoginModule } from '../pages/login/login.module';
     LoginModule,
     HeaderModule,
     RouterOutlet,
+    JwtModule,
   ],
 })
 export class AppModule {}

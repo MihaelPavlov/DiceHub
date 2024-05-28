@@ -1,4 +1,6 @@
-﻿namespace DH.Domain;
+﻿using DH.Domain.Repositories;
+
+namespace DH.Domain;
 
 /// <summary>
 /// Provides a method to resolve service instances from a dependency injection container.
