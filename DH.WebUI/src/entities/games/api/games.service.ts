@@ -11,8 +11,12 @@ import { IGameByIdResult } from '../models/game-by-id.model';
 export class GamesService {
   constructor(private readonly api: RestApiService) {}
 
-  public getList(): Observable<IGameListResult[]> {
-    return this.api.get<IGameListResult[]>(`/${PATH.GAMES.CORE}`);
+  public getList(
+    searchExpression: string = ''
+  ): Observable<IGameListResult[] | null> {
+    return this.api.post<IGameListResult[]>(`/${PATH.GAMES.LIST}`, {
+      searchExpression,
+    });
   }
 
   public getById(id: number): Observable<IGameByIdResult> {

@@ -3,21 +3,43 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnInit,
   Output,
 } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
   selector: 'app-header',
   templateUrl: 'header.component.html',
   styleUrl: 'header.component.scss',
 })
-export class HeaderComponent implements AfterViewInit {
+export class HeaderComponent implements OnInit, AfterViewInit {
   @Input() header!: string;
   @Input() withSearch: boolean = false;
   @Input() withAdd: boolean = false;
   @Input() withQRcode: boolean = false;
   @Input() withBottomLine: boolean = false;
   @Output() addClicked: EventEmitter<void> = new EventEmitter<void>();
+  @Output() searchExpressionResult: EventEmitter<string> =
+    new EventEmitter<string>();
+
+  public searchForm!: FormGroup;
+
+  constructor(private readonly fb: FormBuilder) {}
+
+  public ngOnInit(): void {
+    this.searchForm = this.fb.group({
+      search: [''],
+    });
+
+    this.searchForm
+      .get('search')!
+      .valueChanges.pipe(debounceTime(1000), distinctUntilChanged())
+      .subscribe((searchExpression: string) => {
+        this.onSearchSubmit(searchExpression);
+      });
+  }
 
   public ngAfterViewInit(): void {
     this.initSearchListenersJS();
@@ -27,12 +49,16 @@ export class HeaderComponent implements AfterViewInit {
     this.addClicked.emit();
   }
 
+  private onSearchSubmit(searchExpression: string) {
+    this.searchExpressionResult.emit(searchExpression);
+  }
+
   private initSearchListenersJS(): void {
     const navbar = document.getElementById('navbar');
-    let prevScrollPos = window.pageYOffset;
+    let prevScrollPos = window.scrollY;
     if (navbar) {
       window.onscroll = function () {
-        const currentScrollPos = window.pageYOffset;
+        const currentScrollPos = window.scrollY;
         if (prevScrollPos > currentScrollPos) {
           navbar.classList.remove('hidden');
         } else {

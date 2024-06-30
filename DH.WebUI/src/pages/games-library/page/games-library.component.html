@@ -1,26 +1,36 @@
-<app-header header="Recomended" [withSearch]="true">
-    <app-nav-bar
-        [columns]="[{name:'Popular',link:'/popular', isActive: true},{name:'Categories',link:'', isActive: false},{name:'News',link:'', isActive: false }]"></app-nav-bar>
+<app-header
+  header="Recomended"
+  [withSearch]="true"
+  (searchExpressionResult)="handleSeachExpression($event)"
+>
+  <app-nav-bar
+    [columns]="[
+      { name: 'Popular', link: '/popular', isActive: true },
+      { name: 'Categories', link: '', isActive: false },
+      { name: 'News', link: '', isActive: false }
+    ]"
+  ></app-nav-bar>
 </app-header>
 <section class="wrapper_library">
-    <div *ngFor="let game of games$ | async" class="wrapper_library__item" (click)="navigateToGameDetails(game.id)">
-        <div class="wrapper_image">
-            <img [src]="game.imageUrl">
-        </div>
-        <div class="wrapper_info">
-            <div class="wrapper_title">
-                {{game.name}}
-                <div class="wrapper_description">
-                    {{game.description}}
-                </div>
-            </div>
-            <div class="wrapper_likes">
-                <span class="material-symbols-outlined like-icon">
-                    favorite
-                </span> {{game.likes}}
-
-            </div>
-        </div>
+  <div
+    *ngFor="let game of games"
+    class="wrapper_library__item"
+    (click)="navigateToGameDetails(game.id)"
+  >
+    <div class="wrapper_image">
+      <img [src]="game.imageUrl" />
     </div>
-   
+    <div class="wrapper_info">
+      <div class="wrapper_title">
+        {{ game.name }}
+        <div class="wrapper_description">
+          {{ game.description }}
+        </div>
+      </div>
+      <div class="wrapper_likes">
+        <span class="material-symbols-outlined like-icon"> favorite </span>
+        {{ game.likes }}
+      </div>
+    </div>
+  </div>
 </section>

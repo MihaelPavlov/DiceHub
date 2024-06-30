@@ -26,19 +26,24 @@
     <ng-content></ng-content>
 
     <ng-container *ngIf="this.withSearch">
-      <div class="form__group" id="searchForm">
+      <form
+        [formGroup]="searchForm"
+        class="form__group"
+        id="searchForm"
+      >
         <input
           type="input"
           class="form__field"
           placeholder="search"
           name="search"
+          formControlName="search"
           id="search"
         />
         <label for="search" class="form__label">
           <span class="material-symbols-outlined search-icon"> search </span
           >Search</label
         >
-      </div>
+      </form>
     </ng-container>
   </div>
 </ng-container>

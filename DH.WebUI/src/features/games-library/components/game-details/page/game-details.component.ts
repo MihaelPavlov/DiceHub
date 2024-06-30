@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { GamesService } from '../../../../../entities/games/api/games.service';
 import { Observable } from 'rxjs';
 import { IGameByIdResult } from '../../../../../entities/games/models/game-by-id.model';
@@ -10,17 +10,22 @@ import { IGameByIdResult } from '../../../../../entities/games/models/game-by-id
   styleUrl: 'game-details.component.scss',
 })
 export class GameDetailsComponent implements OnInit {
-  game$!: Observable<IGameByIdResult>;
+  public game$!: Observable<IGameByIdResult>;
 
   constructor(
     private readonly gameService: GamesService,
-    private readonly route: ActivatedRoute
+    private readonly activeRoute: ActivatedRoute,
+    private readonly router: Router
   ) {}
 
-  ngOnInit(): void {
-    this.route.params.subscribe((params: Params) => {
+  public ngOnInit(): void {
+    this.activeRoute.params.subscribe((params: Params) => {
       const gameId = params['id'];
       this.game$ = this.gameService.getById(gameId);
     });
+  }
+  
+  public navigateBackToGameList(): void {
+    this.router.navigate(['games/library']);
   }
 }

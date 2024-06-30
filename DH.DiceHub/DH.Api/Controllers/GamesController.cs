@@ -18,27 +18,27 @@ public class GamesController : ControllerBase
         this.mediator = mediator;
     }
 
-    [HttpGet]
+    [HttpPost("list")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetGameListQueryModel>))]
-    public async Task<IActionResult> GetGameList()
+    public async Task<IActionResult> GetGameList(GetGameListQuery query, CancellationToken cancellationToken)
     {
-        var result = await this.mediator.Send(new GetGameListQuery());
+        var result = await this.mediator.Send(query, cancellationToken);
         return Ok(result);
     }
 
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetGameByIdQueryModel))]
-    public async Task<IActionResult> GetGameList(int id)
+    public async Task<IActionResult> GetGameList(int id, CancellationToken cancellationToken)
     {
-        var result = await this.mediator.Send(new GetGameByIdQuery(id));
+        var result = await this.mediator.Send(new GetGameByIdQuery(id), cancellationToken);
         return Ok(result);
     }
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
-    public async Task<IActionResult> CreateProduct([FromBody] CreateGameDto game)
+    public async Task<IActionResult> CreateProduct([FromBody] CreateGameDto game, CancellationToken cancellationToken)
     {
-        var result = await this.mediator.Send(new CreateGameCommand(game));
+        var result = await this.mediator.Send(new CreateGameCommand(game), cancellationToken);
 
         return Ok(result);
     }

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { GamesService } from '../../../entities/games/api/games.service';
-import { Observable } from 'rxjs';
 import { IGameListResult } from '../../../entities/games/models/game-list.model';
 
 @Component({
@@ -10,18 +9,28 @@ import { IGameListResult } from '../../../entities/games/models/game-list.model'
   styleUrl: 'games-library.component.scss',
 })
 export class GamesLibraryComponent implements OnInit {
-  readonly games$: Observable<IGameListResult[]> = this.gameService.getList();
+  public games: IGameListResult[] = [];
 
   constructor(
     private readonly router: Router,
     private readonly gameService: GamesService
   ) {}
 
-  ngOnInit(): void {
-
+  public ngOnInit(): void {
+    this.fetchGameList();
   }
 
-  public navigateToGameDetails(id:number): void {
+  public navigateToGameDetails(id: number): void {
     this.router.navigateByUrl(`games/${id}/details`);
+  }
+
+  public handleSeachExpression(searchExpression: string) {
+    this.fetchGameList(searchExpression);
+  }
+
+  private fetchGameList(searchExpression: string = '') {
+    this.gameService
+      .getList(searchExpression)
+      .subscribe((gameList) => (this.games = gameList ? gameList : []));
   }
 }

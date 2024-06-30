@@ -34,7 +34,7 @@ export class AuthService {
       }),
     };
     return this.httpClient
-      .post<any>('https://localhost:7024/game', loginForm, httpsOptions)
+      .post<any>('https://localhost:7024/games', loginForm, httpsOptions)
       .subscribe((response) => {});
   }
 

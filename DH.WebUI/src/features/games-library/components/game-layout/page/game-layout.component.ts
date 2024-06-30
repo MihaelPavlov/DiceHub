@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, input } from '@angular/core';
 import { IGameByIdResult } from '../../../../../entities/games/models/game-by-id.model';
 
 @Component({
@@ -8,4 +8,5 @@ import { IGameByIdResult } from '../../../../../entities/games/models/game-by-id
 })
 export class GameLayoutComponent {
   @Input() game!: IGameByIdResult;
+  @Input() backNavigateBtn: () => void = () => {};
 }
