@@ -1,4 +1,4 @@
-<app-game-layout>
+<app-game-layout *ngIf="game$ | async as game" [game]="game" [backNavigateBtn]="navigateBackToGameList.bind(this)">
   <div class="header">
     <p>Secure Your Sport for Epic Gameplay !</p>
     <span class="header__information"

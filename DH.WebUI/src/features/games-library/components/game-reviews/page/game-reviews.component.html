@@ -1,4 +1,4 @@
-<app-game-layout class="wrapper">
+<app-game-layout class="wrapper" *ngIf="game$ | async as game" [game]="game" [backNavigateBtn]="navigateBackToGameList.bind(this)">
   <div class="wrapper_info">
     <span>13 reviews</span>
 

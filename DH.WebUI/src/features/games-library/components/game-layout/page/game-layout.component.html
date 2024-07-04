@@ -10,9 +10,12 @@
   </div>
 
   <div class="wrapper_navigation">
-    <span class="active">Statistics</span>
-    <span>Availability</span>
-    <span>Reviews</span>
+    <span
+      *ngFor="let item of menuItems"
+      [routerLink]="item.route"
+      class="{{ item.class }} {{ item.enabled ? '' : 'disabled' }}"
+      >{{ item.label }}</span
+    >
   </div>
 
   <ng-content></ng-content>
