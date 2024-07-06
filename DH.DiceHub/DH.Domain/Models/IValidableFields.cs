@@ -1,6 +1,8 @@
-﻿namespace DH.Domain.Models;
+﻿using static DH.Domain.Exceptions.ValidationErrorsException;
+
+namespace DH.Domain.Models;
 
 internal interface IValidableFields
 {
-    bool FieldsAreValid(out IReadOnlyCollection<string> validationErrors);
+    bool FieldsAreValid(out List<ValidationError> validationErrors);
 }

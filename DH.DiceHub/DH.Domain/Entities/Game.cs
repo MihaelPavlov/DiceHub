@@ -11,4 +11,6 @@ public class Game
     public int AveragePlaytime { get; set; }
     public int Likes { get; set; }
     public string ImageUrl { get; set; } = string.Empty;
+
+    public virtual ICollection<GameReview> Reviews { get; set; } = [];
 }

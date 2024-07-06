@@ -5,7 +5,7 @@ using DH.Domain.Exceptions;
 using DH.Domain.Models.GameModels.Queries;
 using DH.Domain.Repositories;
 
-namespace DH.Application.Games.Queries;
+namespace DH.Application.Games.Queries.Games;
 
 public record GetGameByIdQuery(int Id) : ICommand<GetGameByIdQueryModel>;
 
@@ -19,7 +19,7 @@ internal class GetGameByIdQueryHandler : AbstractCommandHandler<GetGameByIdQuery
     }
     protected override async Task<GetGameByIdQueryModel> HandleAsync(GetGameByIdQuery request, CancellationToken cancellationToken)
     {
-        var game = await this.repository.GetByAsync(x => x.Id == request.Id, cancellationToken)
+        var game = await repository.GetByAsync(x => x.Id == request.Id, cancellationToken)
             ?? throw new NotFoundException(nameof(Game), request.Id);
 
         return new GetGameByIdQueryModel

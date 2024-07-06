@@ -13,6 +13,14 @@
     &__write-review {
         display: flex;
         align-items: center;
+        span{
+            display: flex;
+            align-items: center;
+        }
+        .material-symbols-outlined {
+
+            padding-left: 0.5rem;
+        }
     }
 
 }
@@ -72,19 +80,31 @@
     margin: 0 auto;
     width: 90%;
     padding: 15px 0 0;
-margin-top: 0.8rem ;
+    margin-top: 0.8rem;
+
+    .ng-invalid {
+        border: 0.1rem solid palette.$main-red-color;
+    }
+
+    .ng-valid {
+        border: 0.1rem solid palette.$main-green-color;
+    }
+
     .form__field {
         background-color: palette.$main-gray-color;
         resize: none;
         width: 100%;
-        border: 0;
-        // border: 2px solid palette.$main-blue-color;
+
         border-radius: 1rem;
         outline: 0;
         font-size: small;
         color: palette.$main-font-color;
         padding: 0.6rem 1rem;
         transition: border-color 0.2s;
+
+        &__errors {
+            color: palette.$main-red-color;
+        }
 
         &::placeholder {
             color: transparent;
@@ -104,7 +124,6 @@ margin-top: 0.8rem ;
         display: block;
         transition: 0.2s;
         font-size: 0.7rem;
-     
     }
 
     .form__field:focus {
@@ -119,7 +138,7 @@ margin-top: 0.8rem ;
 
         padding-bottom: 0.6rem;
         font-weight: 700;
-        border-width: 3px;
-        // border-bottom: 2px solid palette.$main-blue-color;
+        border-width: 0.1rem;
     }
+
 }

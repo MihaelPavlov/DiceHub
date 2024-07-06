@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { IGameByIdResult } from '../../../../../entities/games/models/game-by-id.model';
+import { StringFormatPipe } from '../../../../../shared/pipe/string-format.pipe';
+import { ROUTES } from '../../../../../shared/configs/routes.config';
 
 export interface MenuItemInterface {
   label: string;
@@ -20,9 +22,10 @@ export class GameLayoutComponent implements OnInit {
   @Input() backNavigateBtn: () => void = () => {};
   public menuItems: MenuItemInterface[] = [];
 
+  constructor(private readonly stringFormat: StringFormatPipe) {}
+
   public ngOnInit(): void {
     let page: string = location.pathname;
-
     this.updateMenuItemsWihtPage(page);
   }
 
@@ -30,24 +33,48 @@ export class GameLayoutComponent implements OnInit {
     this.menuItems = [
       {
         label: 'Statistics',
-        class: page == `/games/${this.game.id}/details` ? 'active' : '',
+        class:
+          page ==
+          this.stringFormat.transform(ROUTES.GAMES.DETAILS, {
+            id: this.game.id,
+          })
+            ? 'active'
+            : '',
         enabled: true,
         visible: true,
-        route: `/games/${this.game.id}/details`,
+        route: this.stringFormat.transform(ROUTES.GAMES.DETAILS, {
+          id: this.game.id,
+        }),
       },
       {
         label: 'Availability',
-        class: page == `/games/${this.game.id}/availability` ? 'active' : '',
+        class:
+          page ==
+          this.stringFormat.transform(ROUTES.GAMES.DETAILS_AVAILABILITY, {
+            id: this.game.id,
+          })
+            ? 'active'
+            : '',
         enabled: true,
         visible: true,
-        route: `/games/${this.game.id}/availability`,
+        route: this.stringFormat.transform(ROUTES.GAMES.DETAILS_AVAILABILITY, {
+          id: this.game.id,
+        }),
       },
       {
         label: 'Reviews',
-        class: page == `/games/${this.game.id}/reviews` ? 'active' : '',
+        class:
+          page ==
+          this.stringFormat.transform(ROUTES.GAMES.DETAILS_REVIEWS, {
+            id: this.game.id,
+          })
+            ? 'active'
+            : '',
         enabled: true,
         visible: true,
-        route: `/games/${this.game.id}/reviews`,
+        route: this.stringFormat.transform(ROUTES.GAMES.DETAILS_REVIEWS, {
+          id: this.game.id,
+        }),
       },
     ];
   }

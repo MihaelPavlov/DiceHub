@@ -3,6 +3,7 @@ using DH.Domain.Adapters.Authentication.Models;
 using DH.Domain.Adapters.Authentication.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace DH.Adapter.Authentication.Services;
@@ -53,7 +54,7 @@ public class UserService : IUserService
             user.RefreshToken = refreshToken;
             user.RefreshTokenExpiryTime = DateTime.Now.AddDays(7);
 
-            await userManager.UpdateAsync(user);
+            await this.userManager.UpdateAsync(user);
 
             return new TokenResponseModel { AccessToken = tokenString, RefreshToken = refreshToken };
         }
@@ -71,6 +72,19 @@ public class UserService : IUserService
         }
 
         //TODO: Update the logic 
-        await userManager.AddToRoleAsync(user, "User");
+        await this.userManager.AddToRoleAsync(user, "User");
+    }
+
+    public async Task<List<UserModel>> GetUserListByIds(string[] ids, CancellationToken cancellationToken)
+    {
+        return await this.userManager.Users
+            .Where(x => ids.Contains(x.Id))
+            .Select(x => new UserModel
+            {
+                Id = x.Id,
+                UserName = x.UserName ?? "username_placeholder",
+                ImageUrl = string.Empty
+            })
+            .ToListAsync(cancellationToken);
     }
 }

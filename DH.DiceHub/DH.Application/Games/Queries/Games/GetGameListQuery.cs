@@ -3,7 +3,7 @@ using DH.Domain.Cqrs;
 using DH.Domain.Models.GameModels.Queries;
 using DH.Domain.Services;
 
-namespace DH.Application.Games.Queries;
+namespace DH.Application.Games.Queries.Games;
 
 public record GetGameListQuery(string searchExpression) : ICommand<List<GetGameListQueryModel>>;
 
@@ -18,6 +18,6 @@ internal class GetGameListQueryHandler : AbstractCommandHandler<GetGameListQuery
 
     protected override async Task<List<GetGameListQueryModel>> HandleAsync(GetGameListQuery request, CancellationToken cancellationToken)
     {
-        return await this.gameService.GetGameListBySearchExpressionAsync(request.searchExpression, cancellationToken);
+        return await gameService.GetGameListBySearchExpressionAsync(request.searchExpression, cancellationToken);
     }
 }

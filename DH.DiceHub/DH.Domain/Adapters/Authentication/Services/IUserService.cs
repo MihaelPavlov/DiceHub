@@ -21,4 +21,11 @@ public interface IUserService
     /// <param name="form">RegisterForm containing new user infromation.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
     Task Register(RegistrationRequest form);
+
+    /// <summary>
+    /// Get user list only if the id is presented in the ids array.
+    /// </summary>
+    /// <param name="ids">Ids of user that we want.</param>
+    /// <returns>A <see cref="UserModel"/> collection.</returns>
+    Task<List<UserModel>> GetUserListByIds(string[] ids, CancellationToken cancellationToken);
 }

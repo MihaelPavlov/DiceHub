@@ -24,12 +24,24 @@ public class DataRepository<TEntity> : IRepository<TEntity>
 
     /// <inheritdoc/>
     public async Task<List<TResult>> GetWithPropertiesAsync<TResult>(
-     Expression<Func<TEntity, TResult>> selector,
-     CancellationToken cancellationToken)
+        Expression<Func<TEntity, TResult>> selector,
+        CancellationToken cancellationToken)
     {
         return await this.tenantDbContext.Set<TEntity>()
             .Select(selector)
-            .ToListAsync();
+            .ToListAsync(cancellationToken);
+    }
+
+    /// <inheritdoc/>
+    public async Task<List<TResult>> GetWithPropertiesAsync<TResult>(
+        Expression<Func<TEntity, bool>> wherePredicate,
+        Expression<Func<TEntity, TResult>> selector,
+        CancellationToken cancellationToken)
+    {
+        return await this.tenantDbContext.Set<TEntity>()
+            .Where(wherePredicate)
+            .Select(selector)
+            .ToListAsync(cancellationToken);
     }
 
     /// <inheritdoc/>

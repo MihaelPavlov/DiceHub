@@ -1,5 +1,5 @@
 using DH.Application.Games.Commands;
-using DH.Application.Games.Queries;
+using DH.Application.Games.Queries.Games;
 using DH.Domain.Models.GameModels.Commands;
 using DH.Domain.Models.GameModels.Queries;
 using MediatR;
@@ -20,9 +20,9 @@ public class GamesController : ControllerBase
 
     [HttpPost("list")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetGameListQueryModel>))]
-    public async Task<IActionResult> GetGameList(GetGameListQuery query, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetGameList(GetGameListQuery request, CancellationToken cancellationToken)
     {
-        var result = await this.mediator.Send(query, cancellationToken);
+        var result = await this.mediator.Send(request, cancellationToken);
         return Ok(result);
     }
 
@@ -36,9 +36,9 @@ public class GamesController : ControllerBase
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
-    public async Task<IActionResult> CreateProduct([FromBody] CreateGameDto game, CancellationToken cancellationToken)
+    public async Task<IActionResult> CreateProduct([FromBody] CreateGameDto request, CancellationToken cancellationToken)
     {
-        var result = await this.mediator.Send(new CreateGameCommand(game), cancellationToken);
+        var result = await this.mediator.Send(new CreateGameCommand(request), cancellationToken);
 
         return Ok(result);
     }
