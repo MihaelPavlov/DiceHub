@@ -14,4 +14,9 @@ public interface IUserContext
     /// Gets a value indicating whether the current user is authenticated.
     /// </summary>
     bool IsAuthenticated { get; }
+
+    /// <summary>
+    /// Gets a value indicating user role key.
+    /// </summary>
+	int RoleKey { get; }
 }

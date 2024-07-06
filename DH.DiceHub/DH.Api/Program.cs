@@ -1,4 +1,5 @@
 using Autofac;
+using Autofac.Core;
 using Autofac.Extensions.DependencyInjection;
 using DH.Adapter.Authentication;
 using DH.Adapter.Data;
@@ -6,6 +7,7 @@ using DH.Api;
 using DH.Api.Filters;
 using DH.Application;
 using DH.Domain;
+using Microsoft.Extensions.Caching.Memory;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,7 +16,9 @@ builder.Services.AddControllers(options =>
 {
     options.Filters.Add<ApiExceptionFilterAttribute>();
     options.Filters.Add<ValidationFilterAttribute>();
-}); 
+});
+builder.Services.AddSingleton<IMemoryCache>(service => new MemoryCache(new MemoryCacheOptions { ExpirationScanFrequency = TimeSpan.FromMinutes(1.0) }));
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpContextAccessor();

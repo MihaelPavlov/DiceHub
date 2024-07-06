@@ -1,10 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-export interface IUserInfo {
-  id: string;
-  role: string;
-}
+import { IUserInfo } from './models/user-info.model';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -31,39 +29,38 @@ export class AuthService {
       });
   }
 
-  game(loginForm: any) {
-    const token = localStorage.getItem('jwt');
-
-    const httpsOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      }),
-    };
+  // For tests
+  game(gameForm: any) {
     return this.httpClient
-      .post<any>('https://localhost:7024/games', loginForm, httpsOptions)
-      .subscribe((response) => {});
+      .post<any>('https://localhost:7024/games', gameForm)
+      .subscribe((response) => {
+        console.log(response);
+      });
   }
 
   register(registerForm: any) {
     return this.httpClient
       .post<any>('https://localhost:7024/user/register', registerForm)
-      .subscribe((_) => {});
+      .subscribe((_) => {
+        console.log(_);
+      });
   }
 
   userinfo() {
-    const token = localStorage.getItem('jwt');
-
-    const httpsOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      }),
-    };
+    const sidClaim: string =
+      'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid';
+    const roleClaim: string =
+      'http://schemas.microsoft.com/ws/2008/06/identity/claims/role';
     return this.httpClient
-      .post('https://localhost:7024/user/info', {}, httpsOptions)
+      .get('https://localhost:7024/user/info')
       .subscribe((user: any) => {
-        if (user) this.userInfoSubject$.next({ id: user.id, role: user.role });
+        if (user)
+          this.userInfoSubject$.next({
+            id: user[sidClaim],
+            role: user[roleClaim],
+          });
+
+        console.log(this.userInfoSubject$.value);
       });
   }
 

@@ -1,5 +1,6 @@
 ﻿using DH.Adapter.Authentication.Entities;
 using DH.Domain.Adapters.Authentication.Models;
+using DH.Domain.Adapters.Authentication.Models.Enums;
 using DH.Domain.Adapters.Authentication.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -45,7 +46,7 @@ public class UserService : IUserService
             {
                 new Claim(ClaimTypes.Sid,user.Id),
                 new Claim(ClaimTypes.Name, user.UserName),
-                new Claim(ClaimTypes.Role, roles.First())
+                new Claim(ClaimTypes.Role, RoleHelper.GetRoleKeyByName(roles.First()).ToString())
             };
 
             var tokenString = this.jwtService.GenerateAccessToken(claims);

@@ -22,8 +22,8 @@ public static class ApplicationDbContextSeeder
         #region Seed Roles
 
         var roles = Enum
-            .GetValues(typeof(UserRole))
-            .Cast<UserRole>()
+            .GetValues(typeof(Role))
+            .Cast<Role>()
             .ToDictionary(role => role.ToString(), role => (int)role);
 
         foreach (var role in roles)
@@ -40,7 +40,7 @@ public static class ApplicationDbContextSeeder
             EmailConfirmed = true
         };
 
-        await EnsureUserAsync(userManager, superAdminUser, "1qaz!QAZ", UserRole.SuperAdmin.ToString());
+        await EnsureUserAsync(userManager, superAdminUser, "1qaz!QAZ", Role.SuperAdmin.ToString());
 
         #endregion Seed Users
     }

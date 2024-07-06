@@ -3,6 +3,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using DH.Domain.Adapters.Authentication.Models;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.VisualBasic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
+using Microsoft.Extensions.Configuration;
 
 namespace DH.Api.Controllers;
 
@@ -10,11 +15,13 @@ namespace DH.Api.Controllers;
 [Route("[controller]")]
 public class UserController : ControllerBase
 {
+    readonly IConfiguration configuration;
     readonly IUserService userService;
     readonly IJwtService jwtService;
 
-    public UserController(IJwtService jwtService, IUserService userService)
+    public UserController(IConfiguration configuration, IJwtService jwtService, IUserService userService)
     {
+        this.configuration = configuration;
         this.userService = userService;
         this.jwtService = jwtService;
     }
@@ -33,12 +40,12 @@ public class UserController : ControllerBase
         return this.Ok();
     }
 
-    [HttpPost("info")]
-    [Authorize]
-    public IActionResult UserInfo()
-    {
-        return this.Ok(new { IsAuthenticated = this.User.Identity.IsAuthenticated, Id = this.User.Claims.First(x => x.Type == ClaimTypes.Sid).Value, Role = this.User.Claims.First(x => x.Type == ClaimTypes.Role).Value });
-    }
+    //[HttpPost("info")]
+    //[Authorize]
+    //public IActionResult UserInfo()
+    //{
+    //    return this.Ok(new { IsAuthenticated = this.User.Identity.IsAuthenticated, Id = this.User.Claims.First(x => x.Type == ClaimTypes.Sid).Value, Role = this.User.Claims.First(x => x.Type == ClaimTypes.Role).Value });
+    //}
 
     [HttpPost]
     [Route("refresh")]
@@ -46,5 +53,46 @@ public class UserController : ControllerBase
     {
         var result = await this.jwtService.RefreshAccessTokenAsync(tokenApiModel);
         return this.Ok(result);
+    }
+
+    [AllowAnonymous]
+    [HttpGet("info")]
+    public IActionResult UserInfo()
+    {
+        if (HttpContext.Request.Headers.TryGetValue("Authorization", out var authHeader))
+        {
+            var accessToken = authHeader.ToString().Split(' ').Last();
+            try
+            {
+                var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetValue<string>("JWT_SecrectKey") ?? throw new ArgumentException("JWT_SecretKey was not specified")));
+                var fe_url = configuration.GetValue<string>("Front_End_Application_URL")
+             ?? throw new ArgumentException("Front_End_Application_URL was not specified");
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var tokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = fe_url,
+                    ValidAudience = fe_url,
+                    IssuerSigningKey = secretKey
+                };
+
+                tokenHandler.ValidateToken(accessToken, tokenValidationParameters, out SecurityToken validatedToken);
+                var jwtToken = (JwtSecurityToken)validatedToken;
+                var claims = jwtToken.Claims.ToDictionary(claim => claim.Type, claim => claim.Value);
+
+                // The token is valid
+                return Ok(claims);
+            }
+            catch (SecurityTokenException)
+            {
+                // Token validation failed
+                return Unauthorized(new { message = "Token validation failed" });
+            }
+        }
+
+        return BadRequest();
     }
 }

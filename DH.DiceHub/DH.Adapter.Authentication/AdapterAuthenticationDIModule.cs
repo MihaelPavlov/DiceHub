@@ -16,6 +16,8 @@ using Microsoft.AspNetCore.Builder;
 using Module = Autofac.Module;
 using DH.Adapter.Authentication.Entities;
 using DH.Domain.Adapters.Authentication.Services;
+using DH.Domain.Adapters.Authentication.Interfaces;
+using DH.Domain.Adapters.Authentication.Enums;
 
 namespace DH.Adapter.Authentication;
 
@@ -101,10 +103,15 @@ public static class AuthenticationDIModule
 
         services.AddAuthorization();
 
+        services.AddHttpClient().AddHttpContextAccessor();
         services
            .AddScoped<IUserService, UserService>()
            .AddScoped<IJwtService, JwtService>()
+           .AddScoped<IUserActionService, UserActionService>()
+           .AddScoped<IPermissionStringBuilder, PermissionStringBuilder>()
            .AddScoped<IUserContextFactory, UserContextFactory>()
+           .AddScoped<IMapPermissions, MapPermissions>()
+           .AddScoped<IActionPermissions<UserAction>, MapPermissions>()
            .AddScoped<IUserContext>(services => services.GetRequiredService<IUserContextFactory>().CreateUserContext());
 
         return services;

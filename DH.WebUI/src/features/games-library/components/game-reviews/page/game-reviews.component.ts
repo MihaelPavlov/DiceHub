@@ -6,7 +6,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { GameReviewsService } from '../../../../../entities/games/api/game-reviews.service';
 import { IGameReviewListResult } from '../../../../../entities/games/models/game-review-list.model';
-import { AuthService } from '../../../../../entities/auth-service';
+import { AuthService } from '../../../../../entities/auth/auth.service';
 
 @Component({
   selector: 'app-game-reviews',

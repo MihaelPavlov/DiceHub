@@ -1,5 +1,7 @@
-﻿using DH.Application.Games.Commands;
+﻿using DH.Adapter.Authentication.Filters;
+using DH.Application.Games.Commands;
 using DH.Application.Games.Queries.Games;
+using DH.Domain.Adapters.Authentication.Enums;
 using DH.Domain.Models.GameModels.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -18,6 +20,7 @@ public class GameReviewsController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [ActionAuthorize(UserAction.GameReviewsCRUD)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetGameByIdQueryModel))]
     public async Task<IActionResult> GetGameReviewList(int id, CancellationToken cancellationToken)
     {
@@ -26,8 +29,9 @@ public class GameReviewsController : ControllerBase
     }
 
     [HttpPost]
+    [ActionAuthorize(UserAction.GameReviewsCRUD)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
-    public async Task<IActionResult> CreateProduct([FromBody] CreateGameReviewCommand request, CancellationToken cancellationToken)
+    public async Task<IActionResult> CreateGameReview([FromBody] CreateGameReviewCommand request, CancellationToken cancellationToken)
     {
         var result = await this.mediator.Send(request, cancellationToken);
 

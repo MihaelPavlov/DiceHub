@@ -13,10 +13,12 @@
     &__write-review {
         display: flex;
         align-items: center;
-        span{
+
+        span {
             display: flex;
             align-items: center;
         }
+
         .material-symbols-outlined {
 
             padding-left: 0.5rem;
@@ -140,5 +142,4 @@
         font-weight: 700;
         border-width: 0.1rem;
     }
-
 }

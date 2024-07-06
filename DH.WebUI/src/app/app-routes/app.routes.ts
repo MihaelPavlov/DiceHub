@@ -44,6 +44,13 @@ export const ROUTES: Routes = [
             '../../pages/club-space-management/club-space-management.module'
           ).then((m) => m.ClubSpaceManagementModule),
       },
+      {
+        path: 'admin-space',
+        loadChildren: () =>
+          import(
+            '../../pages/admin-space/admin-space.module'
+          ).then((m) => m.AdminSpaceModule),
+      },
     ],
   },
   {

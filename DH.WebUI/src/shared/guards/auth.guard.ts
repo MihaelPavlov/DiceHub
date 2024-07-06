@@ -7,7 +7,7 @@ import {
 } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Injectable } from '@angular/core';
-import { AuthenticatedResponse } from '../../entities/auth-service';
+import { AuthenticatedResponse } from '../../entities/auth/auth.service';
 
 @Injectable({
   providedIn: 'root',
