@@ -6,7 +6,7 @@ public class GameReview
     public string UserId { get; set; } = string.Empty;
     public int GameId { get; set; }
     public virtual Game Game { get; set; } = null!;
-    public string Comment { get; set; } = string.Empty;
+    public string Review { get; set; } = string.Empty;
     public DateTime CreatedDate { get; set; }
     public DateTime UpdatedDate { get; set; }
 }

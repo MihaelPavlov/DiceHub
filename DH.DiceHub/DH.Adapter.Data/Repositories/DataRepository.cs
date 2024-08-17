@@ -1,6 +1,7 @@
 ﻿using DH.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using System.Threading;
 
 namespace DH.Adapter.Data.Repositories;
 
@@ -66,21 +67,21 @@ public class DataRepository<TEntity> : IRepository<TEntity>
     }
 
     /// <inheritdoc/>
-    public async void Remove(TEntity entity, CancellationToken cancellationToken)
+    public async Task Remove(TEntity entity, CancellationToken cancellationToken)
     {
         this.tenantDbContext.Remove(entity);
         await this.SaveChangesAsync(cancellationToken);
     }
 
     /// <inheritdoc/>
-    public async void RemoveRange(IEnumerable<TEntity> entities, CancellationToken cancellationToken)
+    public async Task RemoveRange(IEnumerable<TEntity> entities, CancellationToken cancellationToken)
     {
         this.tenantDbContext.RemoveRange(entities);
         await this.SaveChangesAsync(cancellationToken);
     }
 
     /// <inheritdoc/>
-    public async void Update(TEntity entity, CancellationToken cancellationToken)
+    public async Task Update(TEntity entity, CancellationToken cancellationToken)
     {
         this.tenantDbContext.Update(entity);
         await this.SaveChangesAsync(cancellationToken);

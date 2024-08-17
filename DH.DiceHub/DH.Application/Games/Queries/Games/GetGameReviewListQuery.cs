@@ -26,9 +26,11 @@ internal class GetGameReviewListQueryHandler : AbstractCommandHandler<GetGameRev
             x => x.GameId == request.Id,
             x => new()
             {
+                Id = x.Id,
                 GameId = x.GameId,
-                Review = x.Comment,
-                UserId = x.UserId
+                Review = x.Review,
+                UserId = x.UserId,
+                UpdatedDate = x.UpdatedDate
             }, cancellationToken);
 
         var userIds = gameReviews.DistinctBy(x => x.UserId).Select(x => x.UserId).ToArray();
@@ -46,6 +48,6 @@ internal class GetGameReviewListQueryHandler : AbstractCommandHandler<GetGameRev
             }
         }
 
-        return gameReviews;
+        return gameReviews.OrderByDescending(x => x.UpdatedDate).ToList();
     }
 }

@@ -53,7 +53,10 @@ export class AuthGuard implements CanActivate {
           this.http
             .post<AuthenticatedResponse>(
               'https://localhost:7024/user/refresh',
-              credentials,
+              {
+                accessToken: token,
+                refreshToken: refreshToken,
+              },
               {
                 headers: new HttpHeaders({
                   'Content-Type': 'application/json',
@@ -63,6 +66,8 @@ export class AuthGuard implements CanActivate {
             .subscribe({
               next: (res: AuthenticatedResponse) => resolve(res),
               error: (_) => {
+                console.log(_);
+                
                reject();
               },
             });

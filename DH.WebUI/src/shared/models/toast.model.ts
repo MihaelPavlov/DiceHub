@@ -10,9 +10,9 @@ export interface IToast {
 export const TOAST_DEFAULT_OPTIONS = {
   provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
   useValue: {
-    horizontalPosition: 'right',
-    verticalPosition: 'top',
-    duration: 4000,
+    horizontalPosition: 'center',
+    verticalPosition: 'bottom',
+    duration: 2000,
   },
 };
 

@@ -10,6 +10,15 @@ import { GameLayoutComponent } from '../../features/games-library/components/gam
 import { GameReviewsComponent } from '../../features/games-library/components/game-reviews/page/game-reviews.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import {
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogModule,
+  MatDialogTitle,
+} from '@angular/material/dialog';
+import { GameReviewConfirmDeleteDialog } from '../../features/games-library/components/game-reviews/components/game-review-confirm-delete/game-review-confirm-delete.component';
+import { ButtonModule } from '../../widgets/button/button.module';
 
 @NgModule({
   declarations: [
@@ -18,6 +27,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     GameAvailabilityComponent,
     GameLayoutComponent,
     GameReviewsComponent,
+    GameReviewConfirmDeleteDialog,
   ],
   exports: [GamesLibraryComponent],
   providers: [],
@@ -27,7 +37,13 @@ import { ReactiveFormsModule } from '@angular/forms';
     HeaderModule,
     NavBarModule,
     GamesLibraryRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatDialogTitle,
+    MatDialogContent,
+    MatDialogActions,
+    MatDialogClose,
+    ButtonModule,
+    MatDialogModule
   ],
 })
 export class GamesLibraryModule {}

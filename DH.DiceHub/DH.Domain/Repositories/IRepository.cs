@@ -60,20 +60,17 @@ public interface IRepository<TEntity>
     /// Updates an existing entity in the repository.
     /// </summary>
     /// <param name="entity">The entity to update.</param>
-    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
-    void Update(TEntity entity, CancellationToken cancellationToken);
+    Task Update(TEntity entity, CancellationToken cancellationToken);
 
     /// <summary>
     /// Removes an entity from the repository.
     /// </summary>
     /// <param name="entity">The entity to remove.</param>
-    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
-    void Remove(TEntity entity, CancellationToken cancellationToken);
+    Task Remove(TEntity entity, CancellationToken cancellationToken);
 
     /// <summary>
     /// Removes a range of entities from the repository.
     /// </summary>
     /// <param name="entities">The entities to remove.</param>
-    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
-    void RemoveRange(IEnumerable<TEntity> entities, CancellationToken cancellationToken);
+    Task RemoveRange(IEnumerable<TEntity> entities, CancellationToken cancellationToken);
 }

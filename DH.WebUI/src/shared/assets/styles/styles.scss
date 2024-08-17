@@ -2,6 +2,8 @@
 @import "./palette";
 @import "../../../../node_modules/@ng-select/ng-select/themes/default.theme.css";
 
+$color-success-20-percent: #CDE9D5;
+$color-danger-10-percent: #F6E8EB;
 
 * {
   box-sizing: border-box;
@@ -32,4 +34,70 @@ a:focus,
 a:active {
   text-decoration: none;
   color: inherit;
+}
+
+.cdk-overlay-pane {
+  position: fixed !important;
+  bottom: 11vh;
+  left: 50%;
+  transform: translateX(-52.5%);
+  width: 60%;
+  /* This ensures it spans the full width to maintain centering */
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  /* Ensures clicks pass through the empty space */
+}
+
+.mdc-snackbar {
+  border-radius: 0.2rem;
+}
+
+.cdk-overlay-pane .mat-mdc-snack-bar-container {
+  margin-right: 0;
+  /* Removes the right margin */
+  pointer-events: auto;
+  /* Allows clicks on the snackbar itself */
+}
+
+.toast-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: black;
+  max-height: 4.25rem;
+  max-width: 25rem;
+  font-size: 0.875rem;
+  line-height: 1.375rem;
+}
+
+.toast-icon {
+  margin-right: 0.625rem;
+  margin-bottom: 0.25rem;
+}
+
+.spacer {
+  flex-grow: 1;
+}
+
+.toast-success {
+  background: $color-success-20-percent;
+  --mdc-snackbar-container-color: $color-success-20-percent;
+}
+
+.toast-error {
+  background: $color-danger-10-percent;
+  --mdc-snackbar-container-color: $color-danger-10-percent;
+}
+
+#toast-progress-bar {
+  display: list-item;
+  left: 0px;
+  top: 3.05rem;
+  position: absolute;
+}
+
+.mdc-linear-progress__bar-inner {
+  color: gray;
+  height: 20px !important;
 }

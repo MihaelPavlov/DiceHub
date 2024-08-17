@@ -5,7 +5,7 @@
   [backNavigateBtn]="navigateBackToGameList.bind(this)"
 >
   <div class="wrapper_info">
-    <span>13 reviews</span>
+    <span *ngIf="gameReviews">{{ gameReviews.length }} reviews</span>
 
     <span
       (click)="toggleReviewTextarea(true)"
@@ -17,7 +17,9 @@
 
     <div *ngIf="showCommentInput | async" class="wrapper_info__write-review">
       <span (click)="toggleReviewTextarea(false, true)">
-        save
+        {{
+          this.currentReviewState === ReviewState.update ? "update" : "create"
+        }}
         <span class="material-symbols-outlined"> add_comment </span>
       </span>
       <span
@@ -78,16 +80,25 @@
           <span>Keney West</span>
           <div>
             <span>
-              <span *ngIf="gameReview.userId === currentUserId" class="material-symbols-outlined my-review"> edit </span>Oct
-              20, 2024
+              {{ gameReview.updatedDate }}
+              <span
+                *ngIf="this.userInfo?.id === gameReview.userId"
+                (click)="startUpdatingComment(gameReview.id, gameReview.review)"
+                class="material-symbols-outlined my-review"
+              >
+                edit
+              </span>
+              <span
+                *ngIf="canDeleteReview(gameReview.userId)"
+                (click)="openDeleteDialog(gameReview.id)"
+                class="material-symbols-outlined my-review"
+              >
+                cancel
+              </span>
             </span>
           </div>
         </div>
-        <span class="review"
-          >Lorem, ipsum dolor sit amet consectetur adipisicing elit. Esse sed
-          necessitatibus itaque recusandae enim aliquam, suscipit culpa a harum
-          libero.</span
-        >
+        <span class="review">{{ gameReview.review }}</span>
       </div>
     </div>
   </div>

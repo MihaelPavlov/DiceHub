@@ -1,4 +1,5 @@
 ﻿using DH.Adapter.Authentication.Entities;
+using DH.Domain.Adapters.Authentication;
 using DH.Domain.Adapters.Authentication.Models;
 using DH.Domain.Adapters.Authentication.Models.Enums;
 using DH.Domain.Adapters.Authentication.Services;
@@ -17,6 +18,7 @@ public class UserService : IUserService
     readonly SignInManager<ApplicationUser> signInManager;
     readonly UserManager<ApplicationUser> userManager;
     readonly IJwtService jwtService;
+    readonly IHttpContextAccessor _httpContextAccessor;
 
     /// <summary>
     /// Constructor for UserService to initialize dependencies.
@@ -24,8 +26,9 @@ public class UserService : IUserService
     /// <param name="signInManager"><see cref="SignInManager<T>"/> for managing user sign-in operations.</param>
     /// <param name="userManager"><see cref="UserManager<T>"/> for managing user-related operations.</param>
     /// <param name="jwtService"><see cref="IJwtService"/> for accessing application jwt authentication logic.</param>
-    public UserService(SignInManager<ApplicationUser> signInManager, IJwtService jwtService, UserManager<ApplicationUser> userManager)
+    public UserService(IHttpContextAccessor httpContextAccessor, IHttpClientFactory httpClientFactory,SignInManager<ApplicationUser> signInManager, IJwtService jwtService, UserManager<ApplicationUser> userManager)
     {
+        _httpContextAccessor = httpContextAccessor;
         this.signInManager = signInManager;
         this.jwtService = jwtService;
         this.userManager = userManager;
@@ -57,6 +60,7 @@ public class UserService : IUserService
 
             await this.userManager.UpdateAsync(user);
 
+            _httpContextAccessor.HttpContext.User = new ClaimsPrincipal(new ClaimsIdentity(claims));
             return new TokenResponseModel { AccessToken = tokenString, RefreshToken = refreshToken };
         }
         return new TokenResponseModel { AccessToken = null, RefreshToken = null };
@@ -74,6 +78,8 @@ public class UserService : IUserService
 
         //TODO: Update the logic 
         await this.userManager.AddToRoleAsync(user, "User");
+
+        //TODO: _httpContextAccessor.HttpContext.User = new ClaimsPrincipal(new ClaimsIdentity(claims));
     }
 
     public async Task<List<UserModel>> GetUserListByIds(string[] ids, CancellationToken cancellationToken)

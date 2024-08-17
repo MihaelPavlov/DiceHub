@@ -87,7 +87,7 @@ namespace DH.Adapter.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Comment")
+                    b.Property<string>("Review")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

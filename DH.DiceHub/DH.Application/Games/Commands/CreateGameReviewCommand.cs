@@ -31,8 +31,10 @@ internal class CreateGameReviewCommandHandler : AbstractCommandHandler<CreateGam
         var gameReviewRepository = dbContext.AcquireRepository<IRepository<GameReview>>();
         var createModel = request.GameReview.Adapt<GameReview>();
         createModel.UserId = userContext.UserId;
+        createModel.CreatedDate = DateTime.UtcNow;
+        createModel.UpdatedDate = DateTime.UtcNow;
 
-        var gameReview = await gameReviewRepository.AddAsync(request.GameReview.Adapt<GameReview>(), cancellationToken);
+        var gameReview = await gameReviewRepository.AddAsync(createModel, cancellationToken);
 
         return gameReview.Id;
     }

@@ -1,13 +1,15 @@
 <div class="toast-container">
-    <img
-      class="toast-icon"
-      [src]="getIconPathByType(toastData.type)"
-      alt="toast icon"
-    />
-    <div class="toast-message">{{ toastData.message }}</div>
-    <div class="spacer"></div>
-    <div class="btn" (click)="snackBarRef.dismiss()">
-      <img src="/src/shared/assets/images/close_black.svg" alt="close icon" />
-    </div>
+  <img
+  class="toast-icon"
+  [src]="getIconPathByType(toastData.type)"
+  alt="toast icon"
+  />
+  <div class="toast-message">{{ toastData.message }}</div>
+  <div class="spacer"></div>
+  <div class="btn" (click)="close()">
+    <img src="../../../shared/assets/images/close_black.svg" alt="close icon" />
+  </div>
+  
+  <mat-progress-bar id="toast-progress-bar" mode="determinate" [value]="progress"></mat-progress-bar>
   </div>
   

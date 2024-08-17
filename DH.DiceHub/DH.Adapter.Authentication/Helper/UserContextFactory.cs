@@ -23,29 +23,29 @@ public class UserContextFactory : IUserContextFactory
         if (_httpContextAccessor.HttpContext == null)
             return _defaultUserContext;
 
-        if (_httpContextAccessor.HttpContext.Request.Headers.TryGetValue("Authorization", out var authHeader))
-        {
-            var accessToken = authHeader.ToString().Split(' ').Last();
-            client.DefaultRequestHeaders.Add("Authorization", authHeader.ToString());
+        //if (_httpContextAccessor.HttpContext.Request.Headers.TryGetValue("Authorization", out var authHeader))
+        //{
+        //    var accessToken = authHeader.ToString().Split(' ').Last();
+        //    client.DefaultRequestHeaders.Add("Authorization", authHeader.ToString());
 
-            var response = client
-                .GetAsync($"https://localhost:7024/user/info").Result;
+        //    var response = client
+        //        .GetAsync($"https://localhost:7024/user/info").Result;
 
-            if (response.StatusCode != System.Net.HttpStatusCode.OK)
-            {
-                return new UserContext(null, null);
-            }
+        //    if (response.StatusCode != System.Net.HttpStatusCode.OK)
+        //    {
+        //        return new UserContext(null, null);
+        //    }
 
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                var content = response.Content.ReadAsStringAsync().Result;
-                var claims = JsonSerializer.Deserialize<IDictionary<string, string>>(content);
-                var claimsIdentity = new ClaimsIdentity(claims.Select(c => new Claim(c.Key, c.Value)));
-                var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+        //    if (response.StatusCode == System.Net.HttpStatusCode.OK)
+        //    {
+        //        var content = response.Content.ReadAsStringAsync().Result;
+        //        var claims = JsonSerializer.Deserialize<IDictionary<string, string>>(content);
+        //        var claimsIdentity = new ClaimsIdentity(claims.Select(c => new Claim(c.Key, c.Value)));
+        //        var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
 
-                _httpContextAccessor.HttpContext.User = claimsPrincipal;
-            }
-        }
+        //        _httpContextAccessor.HttpContext.User = claimsPrincipal;
+        //    }
+        //}
 
         var user = _httpContextAccessor.HttpContext.User;
 

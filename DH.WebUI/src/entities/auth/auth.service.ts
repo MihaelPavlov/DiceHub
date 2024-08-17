@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, map } from 'rxjs';
 import { IUserInfo } from './models/user-info.model';
 
 @Injectable({
@@ -11,8 +11,12 @@ export class AuthService {
     new BehaviorSubject<IUserInfo | null>(null);
 
   public userInfo$ = this.userInfoSubject$.asObservable();
+
   constructor(readonly httpClient: HttpClient) {
-    this.userinfo();
+  }
+
+  public get getUser(): IUserInfo | null {
+    return this.userInfoSubject$.value;
   }
 
   login(loginForm: any) {
@@ -26,6 +30,7 @@ export class AuthService {
         const refreshToken = response.refreshToken;
         localStorage.setItem('jwt', accessToken);
         localStorage.setItem('refreshToken', refreshToken);
+        this.userinfo();
       });
   }
 
@@ -46,12 +51,13 @@ export class AuthService {
       });
   }
 
-  userinfo() {
+  //TODO: Change it to private in future
+  public userinfo(): void {
     const sidClaim: string =
       'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid';
     const roleClaim: string =
       'http://schemas.microsoft.com/ws/2008/06/identity/claims/role';
-    return this.httpClient
+    this.httpClient
       .get('https://localhost:7024/user/info')
       .subscribe((user: any) => {
         if (user)
@@ -62,6 +68,14 @@ export class AuthService {
 
         console.log(this.userInfoSubject$.value);
       });
+  }
+
+  public isAuthenticated(): Observable<boolean> {
+    return this.userInfo$.pipe(
+      map((user) => {
+        return user ? true : false;
+      })
+    );
   }
 
   logout() {

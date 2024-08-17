@@ -34,7 +34,25 @@ public class GameReviewsController : ControllerBase
     public async Task<IActionResult> CreateGameReview([FromBody] CreateGameReviewCommand request, CancellationToken cancellationToken)
     {
         var result = await this.mediator.Send(request, cancellationToken);
-
         return Ok(result);
+    }
+
+
+    [HttpPut]
+    [ActionAuthorize(UserAction.GameReviewsCRUD)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> UpdateGameReview([FromBody] UpdateGameReviewCommand request, CancellationToken cancellationToken)
+    {
+        await this.mediator.Send(request, cancellationToken);
+        return Ok();
+    }
+
+    [HttpDelete("{id}")]
+    [ActionAuthorize(UserAction.GameReviewsCRUD)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> DeleteGameReview(int id, CancellationToken cancellationToken)
+    {
+        await this.mediator.Send(new DeleteGameReviewByIdCommand(id), cancellationToken);
+        return Ok();
     }
 }
