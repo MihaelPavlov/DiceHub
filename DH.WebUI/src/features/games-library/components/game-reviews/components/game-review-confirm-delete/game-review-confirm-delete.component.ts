@@ -7,7 +7,7 @@ import { ToastType } from '../../../../../../shared/models/toast.model';
 @Component({
   selector: 'app-game-review-confirm-delete-dialog',
   templateUrl: 'game-review-confirm-delete.component.html',
-  // styleUrl: 'game-review-confirm-delete.component.scss',
+  styleUrl: 'game-review-confirm-delete.component.scss',
 })
 export class GameReviewConfirmDeleteDialog {
   constructor(

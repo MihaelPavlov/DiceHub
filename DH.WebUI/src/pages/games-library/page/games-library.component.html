@@ -28,7 +28,12 @@
         </div>
       </div>
       <div class="wrapper_likes">
-        <span class="material-symbols-outlined like-icon"> favorite </span>
+        <span
+          class="material-symbols-outlined like-icon"
+          [ngClass]="{ 'heart-full': game.isLiked }"
+        >
+          favorite
+        </span>
         {{ game.likes }}
       </div>
     </div>

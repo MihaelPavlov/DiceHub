@@ -14,4 +14,10 @@ public interface ITenantDbContext : IDisposable
     /// <typeparam name="T">The type of the repository to acquire.</typeparam>
     /// <returns>An instance of the repository of type <typeparamref name="T"/>.</returns>
     T AcquireRepository<T>();
+
+    /// <summary>
+    /// Asynchronously saves all changes made in this context to the underlying database.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous save operation.</returns>
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

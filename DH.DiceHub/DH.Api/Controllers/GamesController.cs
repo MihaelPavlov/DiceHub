@@ -44,7 +44,24 @@ public class GamesController : ControllerBase
     public async Task<IActionResult> CreateGame([FromBody] CreateGameDto request, CancellationToken cancellationToken)
     {
         var result = await this.mediator.Send(new CreateGameCommand(request), cancellationToken);
-
         return Ok(result);
+    }
+
+    [HttpPut("{id}/like")]
+    [ActionAuthorize(UserAction.GamesCUD)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> LikeGame(int id, CancellationToken cancellationToken)
+    {
+        await this.mediator.Send(new LikeGameCommand(id), cancellationToken);
+        return Ok();
+    }
+
+    [HttpPut("{id}/dislike")]
+    [ActionAuthorize(UserAction.GamesCUD)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> DislikeGame(int id, CancellationToken cancellationToken)
+    {
+        await this.mediator.Send(new DislikeGameCommand(id), cancellationToken);
+        return Ok();
     }
 }

@@ -2,7 +2,13 @@
   <div class="wrapper_icons">
     <span (click)="backNavigateBtn()" class="arrow left"></span>
     <span class="header_name">{{ game.name }}</span>
-    <span class="material-symbols-outlined heart"> favorite </span>
+    <span
+      class="material-symbols-outlined heart"
+      (click)="toggleGameLikeStatus()"
+      [ngClass]="{ 'heart-full': game.isLiked }"
+    >
+      favorite
+    </span>
   </div>
 
   <div class="wrapper_image">

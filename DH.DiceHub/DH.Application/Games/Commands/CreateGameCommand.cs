@@ -1,18 +1,17 @@
-﻿using DH.Application.Cqrs;
-using DH.Domain.Adapters.Authentication;
+﻿using DH.Domain.Adapters.Authentication;
 using DH.Domain.Adapters.Data;
-using DH.Domain.Cqrs;
 using DH.Domain.Entities;
 using DH.Domain.Exceptions;
 using DH.Domain.Models.GameModels.Commands;
 using DH.Domain.Repositories;
 using Mapster;
+using MediatR;
 
 namespace DH.Application.Games.Commands;
 
-public record CreateGameCommand(CreateGameDto Game) : ICommand<int>;
+public record CreateGameCommand(CreateGameDto Game) : IRequest<int>;
 
-internal class CreateGameCommandHandler : AbstractCommandHandler<CreateGameCommand, int>
+internal class CreateGameCommandHandler : IRequestHandler<CreateGameCommand, int>
 {
     readonly ITenantDbContext dbContext;
     readonly IUserContext userContext;
@@ -23,7 +22,7 @@ internal class CreateGameCommandHandler : AbstractCommandHandler<CreateGameComma
         this.userContext = userContext;
     }
 
-    protected async override Task<int> HandleAsync(CreateGameCommand request, CancellationToken cancellationToken)
+    public async Task<int> Handle(CreateGameCommand request, CancellationToken cancellationToken)
     {
         request.Game.UserId = userContext.UserId;
 

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DH.Adapter.Data;
 
-public class TenantDbContext : DbContext, ITenantDbContext 
+public class TenantDbContext : DbContext, ITenantDbContext
 {
     readonly IContainerService containerService;
 
@@ -15,7 +15,7 @@ public class TenantDbContext : DbContext, ITenantDbContext
     }
 
     public TenantDbContext(
-        DbContextOptions<TenantDbContext> options,  IContainerService containerService)
+        DbContextOptions<TenantDbContext> options, IContainerService containerService)
         : base(options)
     {
         this.containerService = containerService;
@@ -33,6 +33,7 @@ public class TenantDbContext : DbContext, ITenantDbContext
 
     public DbSet<Game> Games { get; set; } = default!;
     public DbSet<GameReview> GameReviews { get; set; } = default!;
+    public DbSet<GameLike> GameLikes { get; set; } = default!;
     public DbSet<Event> Events { get; set; } = default!;
 
     public T AcquireRepository<T>()

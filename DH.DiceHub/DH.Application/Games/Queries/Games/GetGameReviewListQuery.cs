@@ -1,15 +1,14 @@
-﻿using DH.Application.Cqrs;
-using DH.Domain.Adapters.Authentication.Services;
-using DH.Domain.Cqrs;
+﻿using DH.Domain.Adapters.Authentication.Services;
 using DH.Domain.Entities;
 using DH.Domain.Models.GameModels.Queries;
 using DH.Domain.Repositories;
+using MediatR;
 
 namespace DH.Application.Games.Queries.Games;
 
-public record GetGameReviewListQuery(int Id) : ICommand<List<GetGameReviewListQueryModel>>;
+public record GetGameReviewListQuery(int Id) : IRequest<List<GetGameReviewListQueryModel>>;
 
-internal class GetGameReviewListQueryHandler : AbstractCommandHandler<GetGameReviewListQuery, List<GetGameReviewListQueryModel>>
+internal class GetGameReviewListQueryHandler : IRequestHandler<GetGameReviewListQuery, List<GetGameReviewListQueryModel>>
 {
     readonly IRepository<GameReview> repository;
     readonly IUserService userService;
@@ -20,7 +19,7 @@ internal class GetGameReviewListQueryHandler : AbstractCommandHandler<GetGameRev
         this.userService = userService;
     }
 
-    protected override async Task<List<GetGameReviewListQueryModel>> HandleAsync(GetGameReviewListQuery request, CancellationToken cancellationToken)
+    public async Task<List<GetGameReviewListQueryModel>> Handle(GetGameReviewListQuery request, CancellationToken cancellationToken)
     {
         var gameReviews = await this.repository.GetWithPropertiesAsync<GetGameReviewListQueryModel>(
             x => x.GameId == request.Id,

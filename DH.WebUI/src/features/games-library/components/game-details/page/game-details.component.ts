@@ -11,7 +11,7 @@ import { IGameByIdResult } from '../../../../../entities/games/models/game-by-id
 })
 export class GameDetailsComponent implements OnInit {
   public game$!: Observable<IGameByIdResult>;
-
+  private gameId!: number;
   constructor(
     private readonly gameService: GamesService,
     private readonly activeRoute: ActivatedRoute,
@@ -20,12 +20,16 @@ export class GameDetailsComponent implements OnInit {
 
   public ngOnInit(): void {
     this.activeRoute.params.subscribe((params: Params) => {
-      const gameId = params['id'];
-      this.game$ = this.gameService.getById(gameId);
+      this.gameId = params['id'];
+      this.fetchGame();
     });
   }
-  
+
   public navigateBackToGameList(): void {
     this.router.navigate(['games/library']);
+  }
+
+  public fetchGame(): void {
+    this.game$ = this.gameService.getById(this.gameId);
   }
 }

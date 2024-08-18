@@ -1,38 +1,28 @@
-﻿using DH.Application.Cqrs;
-using DH.Domain.Cqrs;
+﻿using DH.Domain.Adapters.Authentication;
 using DH.Domain.Entities;
 using DH.Domain.Exceptions;
 using DH.Domain.Models.GameModels.Queries;
-using DH.Domain.Repositories;
+using DH.Domain.Services;
+using MediatR;
 
 namespace DH.Application.Games.Queries.Games;
 
-public record GetGameByIdQuery(int Id) : ICommand<GetGameByIdQueryModel>;
+public record GetGameByIdQuery(int Id) : IRequest<GetGameByIdQueryModel>;
 
-internal class GetGameByIdQueryHandler : AbstractCommandHandler<GetGameByIdQuery, GetGameByIdQueryModel>
+internal class GetGameByIdQueryHandler : IRequestHandler<GetGameByIdQuery, GetGameByIdQueryModel>
 {
-    readonly IRepository<Game> repository;
+    readonly IGameService gameService;
+    readonly IUserContext userContext;
 
-    public GetGameByIdQueryHandler(IRepository<Game> repository)
+    public GetGameByIdQueryHandler(IGameService gameService, IUserContext userContext)
     {
-        this.repository = repository;
+        this.gameService = gameService;
+        this.userContext = userContext;
     }
-    protected override async Task<GetGameByIdQueryModel> HandleAsync(GetGameByIdQuery request, CancellationToken cancellationToken)
-    {
-        var game = await repository.GetByAsync(x => x.Id == request.Id, cancellationToken)
-            ?? throw new NotFoundException(nameof(Game), request.Id);
 
-        return new GetGameByIdQueryModel
-        {
-            Id = game.Id,
-            Name = game.Name,
-            Description = game.Description,
-            AveragePlaytime = game.AveragePlaytime,
-            ImageUrl = game.ImageUrl,
-            Likes = game.Likes,
-            MinAge = game.MinAge,
-            MaxPlayers = game.MaxPlayers,
-            MinPlayers = game.MinPlayers,
-        };
+    public async Task<GetGameByIdQueryModel> Handle(GetGameByIdQuery request, CancellationToken cancellationToken)
+    {
+        return await this.gameService.GetGameByIdAsync(request.Id, userContext.UserId, cancellationToken)
+            ?? throw new NotFoundException(nameof(Game), request.Id);
     }
 }

@@ -16,7 +16,7 @@
             padding-top: 1rem;
             padding-bottom: 0.5rem;
             word-wrap: break-word;
-            width:70%;
+            width: 70%;
             text-align: center;
         }
 
@@ -82,5 +82,30 @@
             padding: 0.5rem 0.75rem;
             border-radius: 2.5rem;
         }
+    }
+}
+
+.HeartAnimation {
+    background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/66955/web_heart_animation.png');
+    background-repeat: no-repeat;
+    background-size: 2900%;
+    background-position: left;
+    width: 3rem;
+    height: 3rem;
+    color: palette.$main-red-color;
+    cursor: pointer;
+}
+
+.animate {
+    animation: heart-burst .8s steps(28) forwards;
+}
+
+@keyframes heart-burst {
+    0% {
+        background-position: left
+    }
+
+    100% {
+        background-position: right
     }
 }

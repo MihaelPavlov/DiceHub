@@ -52,6 +52,12 @@ public class DataRepository<TEntity> : IRepository<TEntity>
     }
 
     /// <inheritdoc/>
+    public async Task<TEntity?> GetByAsyncWithTracking(Expression<Func<TEntity, bool>> selector, CancellationToken cancellationToken)
+    {
+        return await this.tenantDbContext.Set<TEntity>().AsTracking().FirstOrDefaultAsync(selector, cancellationToken);
+    }
+
+    /// <inheritdoc/>
     public async Task<TEntity> AddAsync(TEntity entity, CancellationToken cancellationToken)
     {
         var result = await this.tenantDbContext.AddAsync(entity, cancellationToken);

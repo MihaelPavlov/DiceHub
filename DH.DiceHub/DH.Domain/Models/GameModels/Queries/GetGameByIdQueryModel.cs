@@ -10,5 +10,6 @@ public class GetGameByIdQueryModel
     public int MaxPlayers { get; set; }
     public int AveragePlaytime { get; set; }
     public int Likes { get; set; }
+    public bool IsLiked { get; set; }
     public string ImageUrl { get; set; } = string.Empty;
 }

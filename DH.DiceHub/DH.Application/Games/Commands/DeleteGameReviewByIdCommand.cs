@@ -1,15 +1,14 @@
-﻿using DH.Application.Cqrs;
-using DH.Domain.Adapters.Data;
-using DH.Domain.Cqrs;
+﻿using DH.Domain.Adapters.Data;
 using DH.Domain.Entities;
 using DH.Domain.Exceptions;
 using DH.Domain.Repositories;
+using MediatR;
 
 namespace DH.Application.Games.Commands;
 
-public record DeleteGameReviewByIdCommand(int Id) : ICommand<bool>;
+public record DeleteGameReviewByIdCommand(int Id) : IRequest;
 
-internal class DeleteGameReviewByIdCommandHandler : AbstractCommandHandler<DeleteGameReviewByIdCommand, bool>
+internal class DeleteGameReviewByIdCommandHandler : IRequestHandler<DeleteGameReviewByIdCommand>
 {
     readonly ITenantDbContext dbContext;
 
@@ -18,7 +17,7 @@ internal class DeleteGameReviewByIdCommandHandler : AbstractCommandHandler<Delet
         this.dbContext = dbContext;
     }
 
-    protected override async Task<bool> HandleAsync(DeleteGameReviewByIdCommand request, CancellationToken cancellationToken)
+    public async Task Handle(DeleteGameReviewByIdCommand request, CancellationToken cancellationToken)
     {
         var gameReviewRepository = dbContext.AcquireRepository<IRepository<GameReview>>();
         var gameReview = await gameReviewRepository.GetByAsync(x => x.Id == request.Id, cancellationToken);
@@ -27,7 +26,5 @@ internal class DeleteGameReviewByIdCommandHandler : AbstractCommandHandler<Delet
             throw new NotFoundException($"{nameof(GameReview)} with id {request.Id} was not found");
 
         await gameReviewRepository.Remove(gameReview, cancellationToken);
-
-        return true;
     }
 }

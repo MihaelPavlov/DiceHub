@@ -80,7 +80,7 @@
           <span>Keney West</span>
           <div>
             <span>
-              {{ gameReview.updatedDate }}
+              {{ gameReview.updatedDate | date: 'dd/MM/yyyy' }}
               <span
                 *ngIf="this.userInfo?.id === gameReview.userId"
                 (click)="startUpdatingComment(gameReview.id, gameReview.review)"

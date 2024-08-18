@@ -1,7 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { IGameByIdResult } from '../../../../../entities/games/models/game-by-id.model';
 import { StringFormatPipe } from '../../../../../shared/pipe/string-format.pipe';
 import { ROUTES } from '../../../../../shared/configs/routes.config';
+import { GamesService } from '../../../../../entities/games/api/games.service';
 
 export interface MenuItemInterface {
   label: string;
@@ -20,9 +21,14 @@ export interface MenuItemInterface {
 export class GameLayoutComponent implements OnInit {
   @Input() game!: IGameByIdResult;
   @Input() backNavigateBtn: () => void = () => {};
+  @Output() refresh = new EventEmitter<void>();
+
   public menuItems: MenuItemInterface[] = [];
 
-  constructor(private readonly stringFormat: StringFormatPipe) {}
+  constructor(
+    private readonly stringFormat: StringFormatPipe,
+    private readonly gameService: GamesService
+  ) {}
 
   public ngOnInit(): void {
     let page: string = location.pathname;
@@ -77,5 +83,24 @@ export class GameLayoutComponent implements OnInit {
         }),
       },
     ];
+  }
+
+  public toggleGameLikeStatus(): void {
+    const gameId = this.game.id;
+    if (this.game.isLiked) {
+      this.gameService.dislikeGame(gameId).subscribe((_) =>
+        this.gameService.getById(gameId).subscribe((game) => {
+          this.game = game;
+          this.refresh.emit();
+        })
+      );
+    } else {
+      this.gameService.likeGame(gameId).subscribe((_) =>
+        this.gameService.getById(gameId).subscribe((game) => {
+          this.game = game;
+          this.refresh.emit();
+        })
+      );
+    }
   }
 }

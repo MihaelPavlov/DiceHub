@@ -1,7 +1,15 @@
-<h2 mat-dialog-title>Dialog with elements</h2>
-<mat-dialog-content>This dialog showcases the title, close, content and actions elements.</mat-dialog-content>
-<mat-dialog-actions>
-    <app-btn text="Close" mat-dialog-close></app-btn>
+<div class="dialog-container">
+  <h3 class="dialog-container__header m-4">Delete Review?</h3>
+  <mat-dialog-actions>
+    <app-btn text="Cancel" size="small" mat-dialog-close></app-btn>
 
-  <app-btn text="Delete" color="red" (click)='deleteComment()'>Delete</app-btn>
-</mat-dialog-actions>
+    <app-btn
+      text="Delete"
+      size="small"
+      color="red"
+      borderColor="red"
+      (click)="deleteComment()"
+      >Delete</app-btn
+    >
+  </mat-dialog-actions>
+</div>

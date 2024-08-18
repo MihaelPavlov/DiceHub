@@ -53,19 +53,18 @@ export class GameReviewsComponent implements OnInit {
     private readonly toastService: ToastService,
     private readonly gameReviewService: GameReviewsService,
     private readonly activeRoute: ActivatedRoute,
-    private readonly router: Router,
+    private readonly router: Router
   ) {}
   public openDeleteDialog(id: number): void {
-   const dialogRef= this.dialog.open(GameReviewConfirmDeleteDialog, {
-      width: '300px',
-      position: { top: '50%', left: '10%' },
+    const dialogRef = this.dialog.open(GameReviewConfirmDeleteDialog, {
+      width: '17rem',
+      position: { bottom: '80%', left: '2%' },
       data: { id: id },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        // Check if dialog closed with a success signal
-        this.fetchGameReviews(); // Call fetchGameReviews on successful delete
+        this.fetchGameReviews();
       }
     });
   }

@@ -1,18 +1,17 @@
-﻿using DH.Application.Cqrs;
-using DH.Domain.Adapters.Authentication;
+﻿using DH.Domain.Adapters.Authentication;
 using DH.Domain.Adapters.Data;
-using DH.Domain.Cqrs;
 using DH.Domain.Entities;
 using DH.Domain.Exceptions;
 using DH.Domain.Models.GameModels.Commands;
 using DH.Domain.Repositories;
 using Mapster;
+using MediatR;
 
 namespace DH.Application.Games.Commands;
 
-public record CreateGameReviewCommand(CreateGameReviewDto GameReview) : ICommand<int>;
+public record CreateGameReviewCommand(CreateGameReviewDto GameReview) : IRequest<int>;
 
-internal class CreateGameReviewCommandHandler : AbstractCommandHandler<CreateGameReviewCommand, int>
+internal class CreateGameReviewCommandHandler : IRequestHandler<CreateGameReviewCommand, int>
 {
     readonly ITenantDbContext dbContext;
     readonly IUserContext userContext;
@@ -23,7 +22,7 @@ internal class CreateGameReviewCommandHandler : AbstractCommandHandler<CreateGam
         this.userContext = userContext;
     }
 
-    protected override async Task<int> HandleAsync(CreateGameReviewCommand request, CancellationToken cancellationToken)
+    public async Task<int> Handle(CreateGameReviewCommand request, CancellationToken cancellationToken)
     {
         if (!request.GameReview.FieldsAreValid(out var validationErrors))
             throw new ValidationErrorsException(validationErrors);

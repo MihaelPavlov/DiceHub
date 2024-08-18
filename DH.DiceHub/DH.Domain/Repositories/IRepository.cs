@@ -41,6 +41,14 @@ public interface IRepository<TEntity>
     Task<TEntity?> GetByAsync(Expression<Func<TEntity, bool>> selector, CancellationToken cancellationToken);
 
     /// <summary>
+    /// Retrieves a single entity that matches the specified criteria.
+    /// </summary>
+    /// <param name="selector">A function to define the criteria for selecting the entity.</param>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains the entity that matches the specified criteria, or null if no entity matches.</returns>
+    Task<TEntity?> GetByAsyncWithTracking(Expression<Func<TEntity, bool>> selector, CancellationToken cancellationToken);
+
+    /// <summary>
     /// Asynchronously creates a new entity in the repository.
     /// </summary>
     /// <param name="entity">The entity to create.</param>

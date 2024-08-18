@@ -30,22 +30,46 @@ public class GameService : IGameService
         }
     }
 
-    public async Task<List<GetGameListQueryModel>> GetGameListBySearchExpressionAsync(string searchExpression, CancellationToken cancellationToken)
+    public async Task<GetGameByIdQueryModel?> GetGameByIdAsync(int gameId, string userId, CancellationToken cancellationToken)
     {
         using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
         {
-            var games = await (from g in context.Games
-                               where g.Name.ToLower().Contains(searchExpression.ToLower())
-                               select new GetGameListQueryModel
-                               {
-                                   Id = g.Id,
-                                   Name = g.Name,
-                                   Description = g.Description,
-                                   ImageUrl = g.ImageUrl,
-                                   Likes = g.Likes,
-                               }).ToListAsync(cancellationToken);
+            return await context.Games
+                .Include(x => x.Likes)
+                .Where(x => x.Id == gameId)
+                .Select(game => new GetGameByIdQueryModel
+                {
+                    Id = game.Id,
+                    Name = game.Name,
+                    Description = game.Description,
+                    AveragePlaytime = game.AveragePlaytime,
+                    ImageUrl = game.ImageUrl,
+                    Likes = game.Likes.Count(),
+                    IsLiked = game.Likes.Any(x => x.UserId == userId),
+                    MinAge = game.MinAge,
+                    MaxPlayers = game.MaxPlayers,
+                    MinPlayers = game.MinPlayers,
+                })
+                .FirstOrDefaultAsync();
+        }
+    }
 
-            return games;
+    public async Task<List<GetGameListQueryModel>> GetGameListBySearchExpressionAsync(string searchExpression, string userId, CancellationToken cancellationToken)
+    {
+        using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
+        {
+            return await (from g in context.Games
+                          where g.Name.ToLower().Contains(searchExpression.ToLower())
+                          let likes = context.GameLikes.Where(x => x.GameId == g.Id).ToList()
+                          select new GetGameListQueryModel
+                          {
+                              Id = g.Id,
+                              Name = g.Name,
+                              Description = g.Description,
+                              ImageUrl = g.ImageUrl,
+                              Likes = likes.Count(),
+                              IsLiked = likes.Any(x => x.UserId == userId)
+                          }).ToListAsync(cancellationToken);
         }
     }
 }

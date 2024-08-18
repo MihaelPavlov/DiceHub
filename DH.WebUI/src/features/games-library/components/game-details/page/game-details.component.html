@@ -1,29 +1,32 @@
-<app-game-layout *ngIf="game$ | async as game" [game]="game" [backNavigateBtn]="navigateBackToGameList.bind(this)">
+<app-game-layout
+  *ngIf="game$ | async as game"
+  [game]="game"
+  [backNavigateBtn]="navigateBackToGameList.bind(this)"
+  (refresh)="fetchGame()"
+>
   <div class="wrapper_info">
     <span>About the game</span>
 
     <div class="wrapper_info__likes">
-      <span> {{game.likes}} </span>
-      <span class="material-symbols-outlined"> favorite </span>
+      <span> {{ game.likes }} </span>
+      <span class="material-symbols-outlined heart-full"> favorite </span>
     </div>
   </div>
 
   <div class="wrapper_stats">
-    <span>Age +{{game.minAge}} Years</span>
+    <span>Age +{{ game.minAge }} Years</span>
     <div>
       <span class="material-symbols-outlined"> group </span>
-      {{game.minPlayers}}-{{game.maxPlayers}} Players
+      {{ game.minPlayers }}-{{ game.maxPlayers }} Players
     </div>
     <div>
       <span class="material-symbols-outlined"> schedule </span>
-      {{game.averagePlaytime}} hour/s
+      {{ game.averagePlaytime }} hour/s
     </div>
   </div>
 
   <div class="wrapper_description">
     <span>Description</span>
-    <span class="wrapper_description__text"
-      >{{game.description}}</span
-    >
+    <span class="wrapper_description__text">{{ game.description }}</span>
   </div>
 </app-game-layout>

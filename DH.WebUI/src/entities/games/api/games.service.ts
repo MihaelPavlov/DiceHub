@@ -22,4 +22,12 @@ export class GamesService {
   public getById(id: number): Observable<IGameByIdResult> {
     return this.api.get<IGameByIdResult>(`/${PATH.GAMES.CORE}/${id}`);
   }
+
+  public likeGame(id: number): Observable<null> {
+    return this.api.put(`/${PATH.GAMES.CORE}/${id}/${PATH.GAMES.LIKE}`, {});
+  }
+
+  public dislikeGame(id: number): Observable<null> {
+    return this.api.put(`/${PATH.GAMES.CORE}/${id}/${PATH.GAMES.DISLIKE}`, {});
+  }
 }

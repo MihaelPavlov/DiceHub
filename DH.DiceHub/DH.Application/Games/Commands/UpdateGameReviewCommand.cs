@@ -1,16 +1,15 @@
-﻿using DH.Application.Cqrs;
-using DH.Domain.Adapters.Data;
-using DH.Domain.Cqrs;
+﻿using DH.Domain.Adapters.Data;
 using DH.Domain.Entities;
 using DH.Domain.Exceptions;
 using DH.Domain.Models.GameModels.Commands;
 using DH.Domain.Repositories;
+using MediatR;
 
 namespace DH.Application.Games.Commands;
 
-public record UpdateGameReviewCommand(UpdateGameReviewDto UpdateGameReviewDto) : ICommand<bool>;
+public record UpdateGameReviewCommand(UpdateGameReviewDto UpdateGameReviewDto) : IRequest;
 
-internal class UpdateGameReviewCommandHandler : AbstractCommandHandler<UpdateGameReviewCommand, bool>
+internal class UpdateGameReviewCommandHandler : IRequestHandler<UpdateGameReviewCommand>
 {
     readonly ITenantDbContext dbContext;
 
@@ -19,7 +18,7 @@ internal class UpdateGameReviewCommandHandler : AbstractCommandHandler<UpdateGam
         this.dbContext = dbContext;
     }
 
-    protected override async Task<bool> HandleAsync(UpdateGameReviewCommand request, CancellationToken cancellationToken)
+    public async Task Handle(UpdateGameReviewCommand request, CancellationToken cancellationToken)
     {
         if (!request.UpdateGameReviewDto.FieldsAreValid(out var validationErrors))
             throw new ValidationErrorsException(validationErrors);
@@ -34,7 +33,6 @@ internal class UpdateGameReviewCommandHandler : AbstractCommandHandler<UpdateGam
         gameReview.UpdatedDate = DateTime.UtcNow;
 
         await gameReviewRepository.Update(gameReview, cancellationToken);
-
-        return true;
     }
+
 }

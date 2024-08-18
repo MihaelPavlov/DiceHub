@@ -9,8 +9,8 @@ public class Game
     public int MinPlayers { get; set; }
     public int MaxPlayers { get; set; }
     public int AveragePlaytime { get; set; }
-    public int Likes { get; set; }
     public string ImageUrl { get; set; } = string.Empty;
 
     public virtual ICollection<GameReview> Reviews { get; set; } = [];
+    public virtual ICollection<GameLike> Likes { get; set; } = [];
 }

@@ -3,5 +3,6 @@ export interface IGameListResult {
   name: string;
   description: string;
   likes: number;
+  isLiked: boolean;
   imageUrl: string;
 }
