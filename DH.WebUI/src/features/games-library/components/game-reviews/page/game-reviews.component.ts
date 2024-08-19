@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { IGameByIdResult } from '../../../../../entities/games/models/game-by-id.model';
 import { BehaviorSubject } from 'rxjs';
 import { GamesService } from '../../../../../entities/games/api/games.service';
@@ -13,6 +13,8 @@ import { ToastService } from '../../../../../shared/services/toast.service';
 import { ToastType } from '../../../../../shared/models/toast.model';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { GameReviewConfirmDeleteDialog } from '../components/game-review-confirm-delete/game-review-confirm-delete.component';
+import { MenuTabsService } from '../../../../../shared/services/menu-tabs.service';
+import { MENU_ITEM_LABELS } from '../../../../../shared/models/menu-items-labels.const';
 
 enum ReviewState {
   create,
@@ -24,7 +26,7 @@ enum ReviewState {
   templateUrl: 'game-reviews.component.html',
   styleUrl: 'game-reviews.component.scss',
 })
-export class GameReviewsComponent implements OnInit {
+export class GameReviewsComponent implements OnInit, OnDestroy {
   public game!: IGameByIdResult;
   public isAbleToDeleteEveryReview: boolean = false;
   public gameReviews!: IGameReviewListResult[];
@@ -53,8 +55,16 @@ export class GameReviewsComponent implements OnInit {
     private readonly toastService: ToastService,
     private readonly gameReviewService: GameReviewsService,
     private readonly activeRoute: ActivatedRoute,
+    private readonly menuTabsService: MenuTabsService,
     private readonly router: Router
-  ) {}
+  ) {
+    this.menuTabsService.setActive(MENU_ITEM_LABELS.GAMES);
+  }
+
+  public ngOnDestroy(): void {
+    this.menuTabsService.resetData;
+  }
+
   public openDeleteDialog(id: number): void {
     const dialogRef = this.dialog.open(GameReviewConfirmDeleteDialog, {
       width: '17rem',

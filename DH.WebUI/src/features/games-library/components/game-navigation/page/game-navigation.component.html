@@ -1,0 +1,22 @@
+<app-header
+  header="Recomended"
+  [withSearch]="true"
+  (searchExpressionResult)="handleSeachExpression($event)"
+>
+  <app-nav-bar
+    [columns]="[
+      {
+        name: 'Popular',
+        link: 'games/library',
+        isActive: isActiveLink('/games/library')
+      },
+      {
+        name: 'Categories',
+        link: 'games/categories',
+        isActive: isActiveLink('/games/categories')
+      },
+      { name: 'New', link: '', isActive: isActiveLink('/new') }
+    ]"
+  ></app-nav-bar>
+</app-header>
+<router-outlet (activate)="onActivate($event)"></router-outlet>

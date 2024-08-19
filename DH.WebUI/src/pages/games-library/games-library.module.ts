@@ -19,6 +19,8 @@ import {
 } from '@angular/material/dialog';
 import { GameReviewConfirmDeleteDialog } from '../../features/games-library/components/game-reviews/components/game-review-confirm-delete/game-review-confirm-delete.component';
 import { ButtonModule } from '../../widgets/button/button.module';
+import { GameCategoriesComponent } from '../../features/games-library/components/game-categories/page/game-categories.component';
+import { GameNavigationComponent } from '../../features/games-library/components/game-navigation/page/game-navigation.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +30,8 @@ import { ButtonModule } from '../../widgets/button/button.module';
     GameLayoutComponent,
     GameReviewsComponent,
     GameReviewConfirmDeleteDialog,
+    GameCategoriesComponent,
+    GameNavigationComponent
   ],
   exports: [GamesLibraryComponent],
   providers: [],

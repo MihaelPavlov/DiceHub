@@ -1,16 +1,16 @@
-<app-header
+<!-- <app-header
   header="Recomended"
   [withSearch]="true"
   (searchExpressionResult)="handleSeachExpression($event)"
 >
   <app-nav-bar
     [columns]="[
-      { name: 'Popular', link: '/popular', isActive: true },
-      { name: 'Categories', link: '', isActive: false },
+      { name: 'Popular', link: 'games/library', isActive: true },
+      { name: 'Categories', link: 'games/categories', isActive: false },
       { name: 'News', link: '', isActive: false }
     ]"
   ></app-nav-bar>
-</app-header>
+</app-header> -->
 <section class="wrapper_library">
   <div
     *ngFor="let game of games"
