@@ -7,7 +7,7 @@ using DH.Domain.Repositories;
 using Mapster;
 using MediatR;
 
-namespace DH.Application.Games.Commands;
+namespace DH.Application.Games.Commands.Games;
 
 public record CreateGameReviewCommand(CreateGameReviewDto GameReview) : IRequest<int>;
 

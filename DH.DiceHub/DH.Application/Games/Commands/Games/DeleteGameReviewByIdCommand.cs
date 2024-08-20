@@ -4,7 +4,7 @@ using DH.Domain.Exceptions;
 using DH.Domain.Repositories;
 using MediatR;
 
-namespace DH.Application.Games.Commands;
+namespace DH.Application.Games.Commands.Games;
 
 public record DeleteGameReviewByIdCommand(int Id) : IRequest;
 

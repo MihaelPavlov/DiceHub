@@ -1,5 +1,5 @@
 ﻿using DH.Adapter.Authentication.Filters;
-using DH.Application.Games.Commands;
+using DH.Application.Games.Commands.Games;
 using DH.Application.Games.Queries.Games;
 using DH.Domain.Adapters.Authentication.Enums;
 using DH.Domain.Models.GameModels.Queries;
@@ -36,7 +36,6 @@ public class GameReviewsController : ControllerBase
         var result = await this.mediator.Send(request, cancellationToken);
         return Ok(result);
     }
-
 
     [HttpPut]
     [ActionAuthorize(UserAction.GameReviewsCRUD)]

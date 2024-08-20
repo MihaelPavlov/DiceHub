@@ -5,7 +5,7 @@ using DH.Domain.Models.GameModels.Commands;
 using DH.Domain.Repositories;
 using MediatR;
 
-namespace DH.Application.Games.Commands;
+namespace DH.Application.Games.Commands.Games;
 
 public record UpdateGameReviewCommand(UpdateGameReviewDto UpdateGameReviewDto) : IRequest;
 

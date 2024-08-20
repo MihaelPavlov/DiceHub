@@ -10,6 +10,8 @@ public class Game
     public int MaxPlayers { get; set; }
     public int AveragePlaytime { get; set; }
     public string ImageUrl { get; set; } = string.Empty;
+    public int CategoryId { get; set; }
+    public virtual GameCategory Category { get; set; } = null!;
 
     public virtual ICollection<GameReview> Reviews { get; set; } = [];
     public virtual ICollection<GameLike> Likes { get; set; } = [];

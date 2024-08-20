@@ -5,7 +5,7 @@ using DH.Domain.Exceptions;
 using DH.Domain.Repositories;
 using MediatR;
 
-namespace DH.Application.Games.Commands;
+namespace DH.Application.Games.Commands.Games;
 
 public record LikeGameCommand(int Id) : IRequest;
 
@@ -22,8 +22,8 @@ internal class LikeGameCommandHanlder : IRequestHandler<LikeGameCommand>
 
     public async Task Handle(LikeGameCommand request, CancellationToken cancellationToken)
     {
-        var gameRepository = this.dbContext.AcquireRepository<IRepository<Game>>();
-        var gameLikesRepository = this.dbContext.AcquireRepository<IRepository<GameLike>>();
+        var gameRepository = dbContext.AcquireRepository<IRepository<Game>>();
+        var gameLikesRepository = dbContext.AcquireRepository<IRepository<GameLike>>();
 
         var game = await gameRepository.GetByAsyncWithTracking(x => x.Id == request.Id, cancellationToken)
              ?? throw new NotFoundException(nameof(Game), request.Id);
@@ -31,7 +31,7 @@ internal class LikeGameCommandHanlder : IRequestHandler<LikeGameCommand>
         await gameLikesRepository.AddAsync(new GameLike
         {
             GameId = request.Id,
-            UserId = this.userContext.UserId
+            UserId = userContext.UserId
         }, cancellationToken);
     }
 }

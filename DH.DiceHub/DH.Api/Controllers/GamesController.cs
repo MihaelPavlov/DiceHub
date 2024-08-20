@@ -1,5 +1,5 @@
 using DH.Adapter.Authentication.Filters;
-using DH.Application.Games.Commands;
+using DH.Application.Games.Commands.Games;
 using DH.Application.Games.Queries.Games;
 using DH.Domain.Adapters.Authentication.Enums;
 using DH.Domain.Models.GameModels.Commands;
@@ -26,6 +26,15 @@ public class GamesController : ControllerBase
     public async Task<IActionResult> GetGameList(GetGameListQuery request, CancellationToken cancellationToken)
     {
         var result = await this.mediator.Send(request, cancellationToken);
+        return Ok(result);
+    }
+
+    [HttpPost("get-games-by-category")]
+    [ActionAuthorize(UserAction.GamesRead)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetGameListQueryModel>))]
+    public async Task<IActionResult> GetGameListByCategoryId(GetGameListByCategoryIdQuery query, CancellationToken cancellationToken)
+    {
+        var result = await this.mediator.Send(query, cancellationToken);
         return Ok(result);
     }
 

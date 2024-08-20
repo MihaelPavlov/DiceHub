@@ -1,8 +1,16 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { IGameByIdResult } from '../../../../../entities/games/models/game-by-id.model';
 import { StringFormatPipe } from '../../../../../shared/pipe/string-format.pipe';
 import { ROUTES } from '../../../../../shared/configs/routes.config';
 import { GamesService } from '../../../../../entities/games/api/games.service';
+import { MenuTabsService } from '../../../../../shared/services/menu-tabs.service';
 
 export interface MenuItemInterface {
   label: string;
@@ -18,7 +26,7 @@ export interface MenuItemInterface {
   templateUrl: 'game-layout.component.html',
   styleUrl: 'game-layout.component.scss',
 })
-export class GameLayoutComponent implements OnInit {
+export class GameLayoutComponent implements OnInit, OnDestroy {
   @Input() game!: IGameByIdResult;
   @Input() backNavigateBtn: () => void = () => {};
   @Output() refresh = new EventEmitter<void>();
@@ -27,8 +35,13 @@ export class GameLayoutComponent implements OnInit {
 
   constructor(
     private readonly stringFormat: StringFormatPipe,
-    private readonly gameService: GamesService
+    private readonly gameService: GamesService,
+    private readonly menuTabsService: MenuTabsService
   ) {}
+
+  public ngOnDestroy(): void {
+    this.menuTabsService.resetData();
+  }
 
   public ngOnInit(): void {
     let page: string = location.pathname;

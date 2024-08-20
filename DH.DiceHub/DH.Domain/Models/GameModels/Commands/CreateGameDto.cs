@@ -6,6 +6,7 @@ public class CreateGameDto : IValidableFields
 {
     private const int MinNameLength = 3;
 
+    public int CategoryId { get; set; }
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public string MinAge { get; set; } = string.Empty;

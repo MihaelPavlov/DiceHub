@@ -58,18 +58,41 @@ public class GameService : IGameService
     {
         using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
         {
-            return await (from g in context.Games
-                          where g.Name.ToLower().Contains(searchExpression.ToLower())
-                          let likes = context.GameLikes.Where(x => x.GameId == g.Id).ToList()
-                          select new GetGameListQueryModel
-                          {
-                              Id = g.Id,
-                              Name = g.Name,
-                              Description = g.Description,
-                              ImageUrl = g.ImageUrl,
-                              Likes = likes.Count(),
-                              IsLiked = likes.Any(x => x.UserId == userId)
-                          }).ToListAsync(cancellationToken);
+            return await
+                (from g in context.Games
+                 where g.Name.ToLower().Contains(searchExpression.ToLower())
+                 let likes = context.GameLikes.Where(x => x.GameId == g.Id).ToList()
+                 select new GetGameListQueryModel
+                 {
+                     Id = g.Id,
+                     CategoryId = g.CategoryId,
+                     Name = g.Name,
+                     Description = g.Description,
+                     ImageUrl = g.ImageUrl,
+                     Likes = likes.Count(),
+                     IsLiked = likes.Any(x => x.UserId == userId)
+                 }).ToListAsync(cancellationToken);
+        }
+    }
+
+    public async Task<List<GetGameListQueryModel>> GetGameListBySearchExpressionAsync(int categoryId, string searchExpression, string userId, CancellationToken cancellationToken)
+    {
+        using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
+        {
+            return await
+                (from g in context.Games
+                 where g.Name.ToLower().Contains(searchExpression.ToLower()) && g.CategoryId == categoryId
+                 let likes = context.GameLikes.Where(x => x.GameId == g.Id).ToList()
+                 select new GetGameListQueryModel
+                 {
+                     Id = g.Id,
+                     CategoryId = g.CategoryId,
+                     Name = g.Name,
+                     Description = g.Description,
+                     ImageUrl = g.ImageUrl,
+                     Likes = likes.Count(),
+                     IsLiked = likes.Any(x => x.UserId == userId)
+                 }).ToListAsync(cancellationToken);
         }
     }
 }
