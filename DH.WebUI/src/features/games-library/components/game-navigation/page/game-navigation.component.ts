@@ -29,16 +29,16 @@ export class GameNavigationComponent implements OnInit {
 
   public ngOnInit(): void {
     this.menuItems = [
-      { key: 'add-user', label: 'Add User' },
-      { key: 'add-existing-user', label: 'Add Existing User' },
+      { key: 'add-game', label: 'Add Game' },
+      { key: 'add-existing-game', label: 'Add Existing Game' },
       { key: 'reserved-games', label: 'Reserved Games' },
     ];
   }
 
   public handleMenuItemClick(key: string): void {
-    if (key === 'add-user') {
+    if (key === 'add-game') {
       //navigate to add user
-    } else if (key === 'add-existing-user') {
+    } else if (key === 'add-existing-game') {
       //navigate to
     } else if (key === 'reserved-games') {
       //navigate to
