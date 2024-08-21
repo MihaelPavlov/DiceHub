@@ -11,15 +11,7 @@ import { StringFormatPipe } from '../../../../../shared/pipe/string-format.pipe'
 import { ROUTES } from '../../../../../shared/configs/routes.config';
 import { GamesService } from '../../../../../entities/games/api/games.service';
 import { MenuTabsService } from '../../../../../shared/services/menu-tabs.service';
-
-export interface MenuItemInterface {
-  label: string;
-  class: string;
-  enabled: boolean;
-  visible: boolean;
-  route: string;
-  translatable?: boolean;
-}
+import { NavItemInterface } from '../../../../../shared/models/nav-item.mode';
 
 @Component({
   selector: 'app-game-layout',
@@ -31,7 +23,7 @@ export class GameLayoutComponent implements OnInit, OnDestroy {
   @Input() backNavigateBtn: () => void = () => {};
   @Output() refresh = new EventEmitter<void>();
 
-  public menuItems: MenuItemInterface[] = [];
+  public menuItems: NavItemInterface[] = [];
 
   constructor(
     private readonly stringFormat: StringFormatPipe,

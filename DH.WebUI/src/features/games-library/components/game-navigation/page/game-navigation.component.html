@@ -1,6 +1,9 @@
 <app-header
   header="Recomended"
   [withSearch]="true"
+  [withAdd]="isAdmin"
+  [menuItems]="menuItems"
+  [menuItemClickFunction]="handleMenuItemClick"
   (searchExpressionResult)="handleSeachExpression($event)"
 >
   <app-nav-bar

@@ -12,8 +12,7 @@ export class AuthService {
 
   public userInfo$ = this.userInfoSubject$.asObservable();
 
-  constructor(readonly httpClient: HttpClient) {
-  }
+  constructor(readonly httpClient: HttpClient) {}
 
   public get getUser(): IUserInfo | null {
     return this.userInfoSubject$.value;
@@ -57,6 +56,7 @@ export class AuthService {
       'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid';
     const roleClaim: string =
       'http://schemas.microsoft.com/ws/2008/06/identity/claims/role';
+
     this.httpClient
       .get('https://localhost:7024/user/info')
       .subscribe((user: any) => {
@@ -64,6 +64,7 @@ export class AuthService {
           this.userInfoSubject$.next({
             id: user[sidClaim],
             role: user[roleClaim],
+            permissionString: user['permissions'],
           });
 
         console.log(this.userInfoSubject$.value);

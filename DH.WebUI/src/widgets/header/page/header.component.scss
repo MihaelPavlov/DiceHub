@@ -24,6 +24,7 @@
     .wrapper_items {
         display: flex;
         justify-content: end;
+        position: relative;
 
         .wrapper_search {
             background: palette.$main-blue-color;
@@ -145,3 +146,26 @@
     top: -100px;
     /* Move it off-screen */
 }
+.menu {
+    position: fixed;
+    right: 2rem; 
+    top: 4rem; 
+    background-color: palette.$main-nav-color;
+    padding: 1rem;
+    z-index: 1000;
+  }
+  
+  .menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .menu ul li {
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+  
+  .menu ul li:hover {
+    background-color: #f0f0f0;
+  }

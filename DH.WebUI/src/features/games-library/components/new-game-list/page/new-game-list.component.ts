@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { IGameListResult } from '../../../../../entities/games/models/game-list.model';
-import { MENU_ITEM_LABELS } from '../../../../../shared/models/menu-items-labels.const';
+import { NAV_ITEM_LABELS } from '../../../../../shared/models/nav-items-labels.const';
 import { SearchService } from '../../../../../shared/services/search.service';
 import { MenuTabsService } from '../../../../../shared/services/menu-tabs.service';
 import { GamesService } from '../../../../../entities/games/api/games.service';
@@ -20,7 +20,7 @@ export class NewGameListComponent implements OnInit, OnDestroy {
     private readonly menuTabsService: MenuTabsService,
     private readonly searchService: SearchService
   ) {
-    this.menuTabsService.setActive(MENU_ITEM_LABELS.GAMES);
+    this.menuTabsService.setActive(NAV_ITEM_LABELS.GAMES);
   }
 
   public ngOnDestroy(): void {

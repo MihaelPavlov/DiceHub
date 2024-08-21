@@ -1,5 +1,4 @@
 ﻿using DH.Adapter.Authentication.Entities;
-using DH.Domain.Adapters.Authentication;
 using DH.Domain.Adapters.Authentication.Models;
 using DH.Domain.Adapters.Authentication.Models.Enums;
 using DH.Domain.Adapters.Authentication.Services;
@@ -19,6 +18,7 @@ public class UserService : IUserService
     readonly UserManager<ApplicationUser> userManager;
     readonly IJwtService jwtService;
     readonly IHttpContextAccessor _httpContextAccessor;
+    readonly IPermissionStringBuilder _permissionStringBuilder;
 
     /// <summary>
     /// Constructor for UserService to initialize dependencies.
@@ -26,12 +26,15 @@ public class UserService : IUserService
     /// <param name="signInManager"><see cref="SignInManager<T>"/> for managing user sign-in operations.</param>
     /// <param name="userManager"><see cref="UserManager<T>"/> for managing user-related operations.</param>
     /// <param name="jwtService"><see cref="IJwtService"/> for accessing application jwt authentication logic.</param>
-    public UserService(IHttpContextAccessor httpContextAccessor, IHttpClientFactory httpClientFactory,SignInManager<ApplicationUser> signInManager, IJwtService jwtService, UserManager<ApplicationUser> userManager)
+    public UserService(IHttpContextAccessor httpContextAccessor, IHttpClientFactory httpClientFactory,
+        SignInManager<ApplicationUser> signInManager, IJwtService jwtService,
+        UserManager<ApplicationUser> userManager, IPermissionStringBuilder permissionStringBuilder)
     {
         _httpContextAccessor = httpContextAccessor;
         this.signInManager = signInManager;
         this.jwtService = jwtService;
         this.userManager = userManager;
+        this._permissionStringBuilder = permissionStringBuilder;
     }
 
     /// <inheritdoc />
@@ -49,9 +52,10 @@ public class UserService : IUserService
             {
                 new Claim(ClaimTypes.Sid,user.Id),
                 new Claim(ClaimTypes.Name, user.UserName),
-                new Claim(ClaimTypes.Role, RoleHelper.GetRoleKeyByName(roles.First()).ToString())
-            };
+                new Claim(ClaimTypes.Role, RoleHelper.GetRoleKeyByName(roles.First()).ToString()),
+                new Claim("permissions",_permissionStringBuilder.GetFromCacheOrBuildPermissionsString( RoleHelper.GetRoleKeyByName(roles.First())))
 
+            };
             var tokenString = this.jwtService.GenerateAccessToken(claims);
             var refreshToken = this.jwtService.GenerateRefreshToken();
 

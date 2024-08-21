@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   Component,
   EventEmitter,
+  HostListener,
   Input,
   OnInit,
   Output,
@@ -9,6 +10,7 @@ import {
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { SearchService } from '../../../shared/services/search.service';
+import { IMenuItem } from '../../../shared/models/menu-item.model';
 
 @Component({
   selector: 'app-header',
@@ -21,11 +23,14 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   @Input() withAdd: boolean = false;
   @Input() withQRcode: boolean = false;
   @Input() withBottomLine: boolean = false;
+  @Input() menuItems: IMenuItem[] = [];
+  @Input() menuItemClickFunction!: (option: string) => void;
   @Output() addClicked: EventEmitter<void> = new EventEmitter<void>();
   @Output() searchExpressionResult: EventEmitter<string> =
     new EventEmitter<string>();
 
   public searchForm!: FormGroup;
+  public isMenuVisible: boolean = false;
 
   constructor(
     private readonly fb: FormBuilder,
@@ -36,6 +41,13 @@ export class HeaderComponent implements OnInit, AfterViewInit {
         this.closeSearch(true);
       }
     });
+  }
+
+  public onMenuItemClick(key: string) {
+    if (this.menuItemClickFunction) {
+      this.menuItemClickFunction(key);
+    }
+    this.isMenuVisible = false;
   }
 
   public ngOnInit(): void {
@@ -55,8 +67,8 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     this.initSearchListenersJS();
   }
 
-  public onAddButtonClick(): void {
-    this.addClicked.emit();
+  public showMenu(): void {
+    this.isMenuVisible = !this.isMenuVisible;
   }
 
   private onSearchSubmit(searchExpression: string) {
@@ -116,6 +128,13 @@ export class HeaderComponent implements OnInit, AfterViewInit {
           closeFunction();
         }
       });
+    }
+  }
+
+  @HostListener('window:scroll', [])
+  private onWindowScroll(): void {
+    if (this.isMenuVisible) {
+      this.isMenuVisible = false;
     }
   }
 }

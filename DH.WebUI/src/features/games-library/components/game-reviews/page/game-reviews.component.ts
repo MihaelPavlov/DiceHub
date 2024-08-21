@@ -14,7 +14,7 @@ import { ToastType } from '../../../../../shared/models/toast.model';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { GameReviewConfirmDeleteDialog } from '../components/game-review-confirm-delete/game-review-confirm-delete.component';
 import { MenuTabsService } from '../../../../../shared/services/menu-tabs.service';
-import { MENU_ITEM_LABELS } from '../../../../../shared/models/menu-items-labels.const';
+import { NAV_ITEM_LABELS } from '../../../../../shared/models/nav-items-labels.const';
 
 enum ReviewState {
   create,
@@ -58,7 +58,7 @@ export class GameReviewsComponent implements OnInit, OnDestroy {
     private readonly menuTabsService: MenuTabsService,
     private readonly router: Router
   ) {
-    this.menuTabsService.setActive(MENU_ITEM_LABELS.GAMES);
+    this.menuTabsService.setActive(NAV_ITEM_LABELS.GAMES);
   }
 
   public ngOnDestroy(): void {

@@ -4,7 +4,7 @@ import { GamesService } from '../../../../../entities/games/api/games.service';
 import { Observable } from 'rxjs';
 import { IGameByIdResult } from '../../../../../entities/games/models/game-by-id.model';
 import { MenuTabsService } from '../../../../../shared/services/menu-tabs.service';
-import { MENU_ITEM_LABELS } from '../../../../../shared/models/menu-items-labels.const';
+import { NAV_ITEM_LABELS } from '../../../../../shared/models/nav-items-labels.const';
 
 @Component({
   selector: 'app-game-availability',
@@ -20,7 +20,7 @@ export class GameAvailabilityComponent implements OnInit, OnDestroy {
     private readonly router: Router,
     private readonly menuTabsService: MenuTabsService
   ) {
-    this.menuTabsService.setActive(MENU_ITEM_LABELS.GAMES);
+    this.menuTabsService.setActive(NAV_ITEM_LABELS.GAMES);
   }
 
   public ngOnInit(): void {

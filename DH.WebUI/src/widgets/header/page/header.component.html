@@ -26,11 +26,7 @@
     <ng-content></ng-content>
 
     <ng-container *ngIf="this.withSearch">
-      <form
-        [formGroup]="searchForm"
-        class="form__group"
-        id="searchForm"
-      >
+      <form [formGroup]="searchForm" class="form__group" id="searchForm">
         <input
           type="input"
           class="form__field"
@@ -55,13 +51,20 @@
 </ng-template>
 
 <ng-template #addBtn>
-  <a class="wrapper_add" (click)="onAddButtonClick()">
+  <a class="wrapper_add" (click)="showMenu()">
     <span class="material-symbols-outlined"> add </span>
   </a>
+  <div *ngIf="isMenuVisible" class="menu">
+    <ul>
+      <li *ngFor="let item of menuItems" (click)="onMenuItemClick(item.key)">
+        {{ item.label }}
+      </li>
+    </ul>
+  </div>
 </ng-template>
 
 <ng-template #qrCode>
-  <a class="wrapper_qrCode" (click)="onAddButtonClick()">
+  <a class="wrapper_qrCode">
     <img src="../../../shared/assets/images/qr-code.png" alt="" />
   </a>
 </ng-template>

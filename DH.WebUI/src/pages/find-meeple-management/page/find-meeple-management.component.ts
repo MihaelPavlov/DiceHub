@@ -1,7 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuTabsService } from '../../../shared/services/menu-tabs.service';
-import { MENU_ITEM_LABELS } from '../../../shared/models/menu-items-labels.const';
+import { NAV_ITEM_LABELS } from '../../../shared/models/nav-items-labels.const';
 
 @Component({
   selector: 'app-find-meeple-manager',
@@ -13,7 +13,7 @@ export class FindMeepleManagementComponent implements OnDestroy {
     private readonly router: Router,
     private readonly menuTabsService: MenuTabsService
   ) {
-    this.menuTabsService.setActive(MENU_ITEM_LABELS.MEEPLE);
+    this.menuTabsService.setActive(NAV_ITEM_LABELS.MEEPLE);
   }
 
   public ngOnDestroy(): void {

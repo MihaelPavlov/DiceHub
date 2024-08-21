@@ -3,7 +3,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { GamesService } from '../../../entities/games/api/games.service';
 import { IGameListResult } from '../../../entities/games/models/game-list.model';
 import { MenuTabsService } from '../../../shared/services/menu-tabs.service';
-import { MENU_ITEM_LABELS } from '../../../shared/models/menu-items-labels.const';
+import { NAV_ITEM_LABELS } from '../../../shared/models/nav-items-labels.const';
 import { SearchService } from '../../../shared/services/search.service';
 
 @Component({
@@ -22,7 +22,7 @@ export class GamesLibraryComponent implements OnInit, OnDestroy {
     private readonly menuTabsService: MenuTabsService,
     private readonly searchService: SearchService
   ) {
-    this.menuTabsService.setActive(MENU_ITEM_LABELS.GAMES);
+    this.menuTabsService.setActive(NAV_ITEM_LABELS.GAMES);
   }
   
   public ngOnDestroy(): void {

@@ -8,7 +8,7 @@ import {
 import { IMenuItemInterface } from '../models/menu-item.interface';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter, Subject, takeUntil } from 'rxjs';
-import { MENU_ITEM_LABELS } from '../../../shared/models/menu-items-labels.const';
+import { NAV_ITEM_LABELS } from '../../../shared/models/nav-items-labels.const';
 import { MenuTabsService } from '../../../shared/services/menu-tabs.service';
 
 @Component({
@@ -22,7 +22,7 @@ export class MenuComponent implements OnInit, AfterViewInit {
   public rightMenuItems: IMenuItemInterface[] = [];
   public menuItemWithForceActiveExists: boolean = false;
   private destroy$: Subject<boolean> = new Subject<boolean>();
-  public activeLink = MENU_ITEM_LABELS.GAMES;
+  public activeLink = NAV_ITEM_LABELS.GAMES;
 
   constructor(
     private readonly router: Router,
@@ -77,7 +77,7 @@ export class MenuComponent implements OnInit, AfterViewInit {
   public updateMenuItemsWihtPage(page: string) {
     this.leftMenuItems = [
       {
-        label: MENU_ITEM_LABELS.GAMES,
+        label: NAV_ITEM_LABELS.GAMES,
         class: page === '/games/library' ? 'active' : '',
         enabled: true,
         visible: true,
@@ -85,7 +85,7 @@ export class MenuComponent implements OnInit, AfterViewInit {
         route: '/games/library',
       },
       {
-        label: MENU_ITEM_LABELS.MEEPLE,
+        label: NAV_ITEM_LABELS.MEEPLE,
         class: page === '/meeples/find' ? 'active' : '',
         enabled: true,
         visible: true,
@@ -96,7 +96,7 @@ export class MenuComponent implements OnInit, AfterViewInit {
 
     this.rightMenuItems = [
       {
-        label: MENU_ITEM_LABELS.EVENTS,
+        label: NAV_ITEM_LABELS.EVENTS,
         class: page === '/events/library' ? 'active' : '',
         enabled: true,
         visible: true,
@@ -104,7 +104,7 @@ export class MenuComponent implements OnInit, AfterViewInit {
         route: '/events/library',
       },
       {
-        label: MENU_ITEM_LABELS.PROFILE,
+        label: NAV_ITEM_LABELS.PROFILE,
         class: page === '/meeple' ? 'active' : '',
         enabled: true,
         visible: true,
