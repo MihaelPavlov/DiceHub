@@ -18,9 +18,8 @@ public class GameCategoryService : IGameCategoryService
         using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
         {
             return await
-                (from g in context.Games
+                (from g in context.GameCategories
                  where g.Name.ToLower().Contains(searchExpression.ToLower())
-                 let likes = context.GameLikes.Where(x => x.GameId == g.Id).ToList()
                  select new GetGameCategoryListQueryModel
                  {
                      Id = g.Id,

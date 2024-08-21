@@ -4,7 +4,7 @@ using MediatR;
 
 namespace DH.Application.Games.Queries.Games;
 
-public record GetGameCategoryListQuery(string searchExpression) : IRequest<List<GetGameCategoryListQueryModel>>;
+public record GetGameCategoryListQuery(string? SearchExpression) : IRequest<List<GetGameCategoryListQueryModel>>;
 
 internal class GetGameCategoryListQueryHandler : IRequestHandler<GetGameCategoryListQuery, List<GetGameCategoryListQueryModel>>
 {
@@ -17,6 +17,6 @@ internal class GetGameCategoryListQueryHandler : IRequestHandler<GetGameCategory
 
     public async Task<List<GetGameCategoryListQueryModel>> Handle(GetGameCategoryListQuery request, CancellationToken cancellationToken)
     {
-        return await gameCategoryService.GetListBySearchExpressionAsync(request.searchExpression, cancellationToken);
+        return await gameCategoryService.GetListBySearchExpressionAsync(request.SearchExpression ?? string.Empty, cancellationToken);
     }
 }

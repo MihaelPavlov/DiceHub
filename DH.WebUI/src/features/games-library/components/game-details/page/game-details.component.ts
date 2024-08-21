@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { IGameByIdResult } from '../../../../../entities/games/models/game-by-id.model';
 import { MenuTabsService } from '../../../../../shared/services/menu-tabs.service';
 import { MENU_ITEM_LABELS } from '../../../../../shared/models/menu-items-labels.const';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-game-details',
@@ -18,7 +19,7 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
     private readonly gameService: GamesService,
     private readonly activeRoute: ActivatedRoute,
     private readonly menuTabsService: MenuTabsService,
-    private readonly router: Router
+    private location: Location
   ) {
     this.menuTabsService.setActive(MENU_ITEM_LABELS.GAMES);
   }
@@ -35,7 +36,7 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
   }
 
   public navigateBackToGameList(): void {
-    this.router.navigate(['games/library']);
+    this.location.back();
   }
 
   public fetchGame(): void {

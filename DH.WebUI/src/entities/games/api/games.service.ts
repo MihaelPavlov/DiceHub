@@ -19,6 +19,16 @@ export class GamesService {
     });
   }
 
+  public getListByCategoryId(
+    id: number,
+    searchExpression: string = ''
+  ): Observable<IGameListResult[] | null> {
+    return this.api.post<IGameListResult[]>(`/${PATH.GAMES.CORE}/${PATH.GAMES.GET_BY_CATEGORY_ID}`, {
+      id,
+      searchExpression,
+    });
+  }
+
   public getById(id: number): Observable<IGameByIdResult> {
     return this.api.get<IGameByIdResult>(`/${PATH.GAMES.CORE}/${id}`);
   }

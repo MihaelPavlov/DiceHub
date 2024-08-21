@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { GamesLibraryComponent } from '../../../../../pages/games-library/page/games-library.component';
 import { GameCategoriesComponent } from '../../game-categories/page/game-categories.component';
@@ -29,6 +29,6 @@ export class GameNavigationComponent {
   }
 
   public isActiveLink(link: string): boolean {
-    return this.router.url === link;
+    return this.router.url.includes(link);
   }
 }

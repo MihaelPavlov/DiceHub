@@ -5,7 +5,7 @@ using MediatR;
 
 namespace DH.Application.Games.Queries.Games;
 
-public record GetGameListQuery(string SearchExpression) : IRequest<List<GetGameListQueryModel>>;
+public record GetGameListQuery(string? SearchExpression) : IRequest<List<GetGameListQueryModel>>;
 
 internal class GetGameListQueryHandler : IRequestHandler<GetGameListQuery, List<GetGameListQueryModel>>
 {
@@ -20,6 +20,6 @@ internal class GetGameListQueryHandler : IRequestHandler<GetGameListQuery, List<
 
     public async Task<List<GetGameListQueryModel>> Handle(GetGameListQuery request, CancellationToken cancellationToken)
     {
-        return await gameService.GetGameListBySearchExpressionAsync(request.SearchExpression, this.userContext.UserId, cancellationToken);
+        return await gameService.GetGameListBySearchExpressionAsync(request.SearchExpression ?? string.Empty, this.userContext.UserId, cancellationToken);
     }
 }

@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { SearchService } from '../../../shared/services/search.service';
 
 @Component({
   selector: 'app-header',
@@ -26,7 +27,16 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   public searchForm!: FormGroup;
 
-  constructor(private readonly fb: FormBuilder) {}
+  constructor(
+    private readonly fb: FormBuilder,
+    private readonly searchService: SearchService
+  ) {
+    this.searchService.searchFormVisible$.subscribe((x) => {
+      if (x === false) {
+        this.closeSearch(true);
+      }
+    });
+  }
 
   public ngOnInit(): void {
     this.searchForm = this.fb.group({
@@ -53,6 +63,21 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     this.searchExpressionResult.emit(searchExpression);
   }
 
+  private closeSearch(withClean: boolean = false): void {
+    const searchForm = document.getElementById('searchForm') as HTMLElement;
+    if (searchForm) {
+      searchForm.style.display = 'none';
+      const searchIcon = document.querySelector<HTMLElement>('#search-btn');
+      if (searchIcon) {
+        searchIcon.innerHTML = `<span class="material-symbols-outlined">search</span>`;
+      }
+
+      if (withClean) {
+        this.searchForm.get('search')?.reset();
+      }
+    }
+  }
+
   private initSearchListenersJS(): void {
     const navbar = document.getElementById('navbar');
     let prevScrollPos = window.scrollY;
@@ -70,7 +95,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
     // Hide the search form initially
     const searchForm = document.getElementById('searchForm') as HTMLElement;
-
+    const closeFunction = this.closeSearch;
     if (searchForm) {
       searchForm.style.display = 'none';
     }
@@ -88,11 +113,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
             searchIcon.innerHTML = `<span class="material-symbols-outlined">close</span>`;
           }
         } else {
-          searchForm.style.display = 'none';
-          const searchIcon = document.querySelector<HTMLElement>('#search-btn');
-          if (searchIcon) {
-            searchIcon.innerHTML = `<span class="material-symbols-outlined">search</span>`;
-          }
+          closeFunction();
         }
       });
     }

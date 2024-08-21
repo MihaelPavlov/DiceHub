@@ -1,66 +1,14 @@
-<!-- <div class="wrapper">
-  <div class="wrapper_category active">
+<div class="wrapper">
+  <div
+    *ngFor="let item of categories"
+    (click)="navigateToGameLibrary(item.id)"
+    class="wrapper_category"
+  >
     <div class="wrapper_category-img">
       <span class="material-symbols-outlined"> home </span>
     </div>
     <div class="wrapper_category-text">
-        <span>Home</span>
+      <span>{{ item.name }}</span>
     </div>
   </div>
-  <div class="wrapper_category">
-    <div class="wrapper_category-img">
-      <span class="material-symbols-outlined"> people </span>
-    </div>
-    <div class="wrapper_category-text">
-        <span>More ++</span>
-    </div>
-  </div>
-
-</div> -->
-
-
-<div class="wrapper">
-    <div class="wrapper_category active">
-      <div class="wrapper_category-img">
-        <span class="material-symbols-outlined"> home </span>
-      </div>
-      <div class="wrapper_category-text">
-          <span>Homed wqdkw qmdkwmqdkqwmkd</span>
-      </div>
-    </div>
-    <div class="wrapper_category">
-      <div class="wrapper_category-img">
-        <span class="material-symbols-outlined"> people </span>
-      </div>
-      <div class="wrapper_category-text">
-          <span>Expansion for Base-game</span>
-      </div>
-    </div>
-    <div class="wrapper_category">
-        <div class="wrapper_category-img">
-          <span class="material-symbols-outlined"> people </span>
-        </div>
-        <div class="wrapper_category-text">
-            <span>Moreewqewqeqwewqewqes dmwqkd </span>
-        </div>
-      </div>
-      <div class="wrapper_category">
-        <div class="wrapper_category-img">
-          <span class="material-symbols-outlined"> people </span>
-        </div>
-        <div class="wrapper_category-text">
-            <span>More ++</span>
-        </div>
-      </div>
-      <div class="wrapper_category">
-        <div class="wrapper_category-img">
-          <span class="material-symbols-outlined"> people </span>
-        </div>
-        <div class="wrapper_category-text">
-            <span>More ++</span>
-        </div>
-      </div>
-
-
-  </div>
-  
+</div>

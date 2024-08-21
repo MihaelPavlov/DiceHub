@@ -17,6 +17,10 @@ const routes: Routes = [
         component: GamesLibraryComponent,
       },
       {
+        path: 'library/:id',
+        component: GamesLibraryComponent,
+      },
+      {
         path: 'categories',
         component: GameCategoriesComponent,
       },
