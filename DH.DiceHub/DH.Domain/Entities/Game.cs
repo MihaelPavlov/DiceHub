@@ -10,6 +10,8 @@ public class Game
     public int MaxPlayers { get; set; }
     public int AveragePlaytime { get; set; }
     public string ImageUrl { get; set; } = string.Empty;
+    public DateTime CreatedDate { get; set; }
+    public DateTime UpdatedDate { get; set; }
     public int CategoryId { get; set; }
     public virtual GameCategory Category { get; set; } = null!;
 

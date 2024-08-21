@@ -1,10 +1,11 @@
 export const PATH = {
   GAMES: {
     CORE: 'games',
-    LIST: 'games/list',
+    LIST: 'list',
     LIKE: 'like',
     DISLIKE: 'dislike',
-    GET_BY_CATEGORY_ID: 'get-games-by-category'
+    GET_BY_CATEGORY_ID: 'get-games-by-category',
+    GET_NEW_GAMES: 'get-new-games',
   },
   GAME_REVIEWS: {
     CORE: 'gameReviews',

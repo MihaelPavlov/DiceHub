@@ -14,7 +14,15 @@ export class GamesService {
   public getList(
     searchExpression: string = ''
   ): Observable<IGameListResult[] | null> {
-    return this.api.post<IGameListResult[]>(`/${PATH.GAMES.LIST}`, {
+    return this.api.post<IGameListResult[]>(`/${PATH.GAMES.CORE}/${PATH.GAMES.LIST}`, {
+      searchExpression,
+    });
+  }
+
+  public getNewGameList(
+    searchExpression: string = ''
+  ): Observable<IGameListResult[] | null> {
+    return this.api.post<IGameListResult[]>(`/${PATH.GAMES.CORE}/${PATH.GAMES.GET_NEW_GAMES}`, {
       searchExpression,
     });
   }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { GamesLibraryComponent } from '../../../../../pages/games-library/page/games-library.component';
 import { GameCategoriesComponent } from '../../game-categories/page/game-categories.component';
+import { NewGameListComponent } from '../../new-game-list/page/new-game-list.component';
 
 @Component({
   selector: 'app-game-navigation',
@@ -11,7 +12,8 @@ import { GameCategoriesComponent } from '../../game-categories/page/game-categor
 export class GameNavigationComponent {
   private activeChildComponent!:
     | GamesLibraryComponent
-    | GameCategoriesComponent;
+    | GameCategoriesComponent
+    | NewGameListComponent;
 
   constructor(private router: Router) {}
 

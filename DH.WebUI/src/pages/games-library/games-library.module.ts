@@ -21,6 +21,7 @@ import { GameReviewConfirmDeleteDialog } from '../../features/games-library/comp
 import { ButtonModule } from '../../widgets/button/button.module';
 import { GameCategoriesComponent } from '../../features/games-library/components/game-categories/page/game-categories.component';
 import { GameNavigationComponent } from '../../features/games-library/components/game-navigation/page/game-navigation.component';
+import { NewGameListComponent } from '../../features/games-library/components/new-game-list/page/new-game-list.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { GameNavigationComponent } from '../../features/games-library/components
     GameReviewsComponent,
     GameReviewConfirmDeleteDialog,
     GameCategoriesComponent,
-    GameNavigationComponent
+    GameNavigationComponent,
+    NewGameListComponent,
   ],
   exports: [GamesLibraryComponent],
   providers: [],
@@ -47,7 +49,7 @@ import { GameNavigationComponent } from '../../features/games-library/components
     MatDialogActions,
     MatDialogClose,
     ButtonModule,
-    MatDialogModule
+    MatDialogModule,
   ],
 })
 export class GamesLibraryModule {}

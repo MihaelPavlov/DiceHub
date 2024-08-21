@@ -15,6 +15,7 @@ import { Location } from '@angular/common';
 export class GameDetailsComponent implements OnInit, OnDestroy {
   public game$!: Observable<IGameByIdResult>;
   private gameId!: number;
+  
   constructor(
     private readonly gameService: GamesService,
     private readonly activeRoute: ActivatedRoute,

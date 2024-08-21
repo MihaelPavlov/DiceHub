@@ -95,4 +95,25 @@ public class GameService : IGameService
                  }).ToListAsync(cancellationToken);
         }
     }
+
+    public async Task<List<GetGameListQueryModel>> GetNewGameListBySearchExpressionAsync(string searchExpression, string userId, CancellationToken cancellationToken)
+    {
+        using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
+        {
+            return await
+                (from g in context.Games
+                 where g.Name.ToLower().Contains(searchExpression.ToLower()) && g.CreatedDate >= DateTime.UtcNow.AddDays(-7)
+                 let likes = context.GameLikes.Where(x => x.GameId == g.Id).ToList()
+                 select new GetGameListQueryModel
+                 {
+                     Id = g.Id,
+                     CategoryId = g.CategoryId,
+                     Name = g.Name,
+                     Description = g.Description,
+                     ImageUrl = g.ImageUrl,
+                     Likes = likes.Count(),
+                     IsLiked = likes.Any(x => x.UserId == userId)
+                 }).ToListAsync(cancellationToken);
+        }
+    }
 }
