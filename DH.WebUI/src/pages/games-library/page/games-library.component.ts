@@ -1,10 +1,13 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { GamesService } from '../../../entities/games/api/games.service';
 import { IGameListResult } from '../../../entities/games/models/game-list.model';
 import { MenuTabsService } from '../../../shared/services/menu-tabs.service';
 import { NAV_ITEM_LABELS } from '../../../shared/models/nav-items-labels.const';
 import { SearchService } from '../../../shared/services/search.service';
+import { IMenuItem } from '../../../shared/models/menu-item.model';
+import { PermissionService } from '../../../shared/services/permission.service';
+import { UserAction } from '../../../shared/constants/user-action';
 
 @Component({
   selector: 'app-games-library',
@@ -13,24 +16,43 @@ import { SearchService } from '../../../shared/services/search.service';
 })
 export class GamesLibraryComponent implements OnInit, OnDestroy {
   public games: IGameListResult[] = [];
+  public menuItems: IMenuItem[] = [];
   private categoryId: number | null = null;
+  public visibleMenuId: number | null = null;
+  public isAdmin: boolean = this.permissionService.hasUserAction(
+    UserAction.GamesCUD
+  );
 
   constructor(
     private readonly router: Router,
     private readonly activeRoute: ActivatedRoute,
     private readonly gameService: GamesService,
     private readonly menuTabsService: MenuTabsService,
-    private readonly searchService: SearchService
+    private readonly searchService: SearchService,
+    private readonly permissionService: PermissionService
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.GAMES);
   }
-  
+
   public ngOnDestroy(): void {
     this.menuTabsService.resetData();
     this.searchService.hideSearchForm();
   }
 
+  public showMenu(gameId: number, event: MouseEvent): void {
+    event.stopPropagation();
+    console.log('test',gameId);
+
+    this.visibleMenuId = this.visibleMenuId === gameId ? null : gameId;
+  }
+
   public ngOnInit(): void {
+    this.menuItems = [
+      { key: 'qr-code', label: 'QR Code' },
+      { key: 'update', label: 'Update' },
+      { key: 'delete', label: 'Delete' },
+    ];
+
     this.activeRoute.params.subscribe((params: Params) => {
       this.categoryId = params['id'];
 
@@ -56,6 +78,12 @@ export class GamesLibraryComponent implements OnInit, OnDestroy {
     }
   }
 
+  public onMenuOption(key: string, event: MouseEvent): void {
+    event.stopPropagation();
+    console.log(key);
+    this.visibleMenuId = null;
+  }
+
   private fetchGameListByCategoryId(id: number, searchExpression: string = '') {
     this.gameService
       .getListByCategoryId(id, searchExpression)
@@ -66,5 +94,22 @@ export class GamesLibraryComponent implements OnInit, OnDestroy {
     this.gameService
       .getList(searchExpression)
       .subscribe((gameList) => (this.games = gameList ?? []));
+  }
+
+  @HostListener('window:scroll', [])
+  private onWindowScroll(): void {
+    if (this.visibleMenuId !== null) {
+      this.visibleMenuId = null;
+    }
+  }
+
+  @HostListener('document:click', ['$event'])
+  private onClickOutside(event: Event): void {
+    const targetElement = event.target as HTMLElement;
+
+    // Check if the clicked element is within the menu or the button that toggles the menu
+    if (this.visibleMenuId !== null && !targetElement.closest('.wrapper_library__item')) {
+      this.visibleMenuId = null;
+    }
   }
 }

@@ -66,7 +66,7 @@ public class GamesController : ControllerBase
     }
 
     [HttpPut("{id}/like")]
-    [ActionAuthorize(UserAction.GamesCUD)]
+    [ActionAuthorize(UserAction.GamesRead)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> LikeGame(int id, CancellationToken cancellationToken)
     {
@@ -75,7 +75,7 @@ public class GamesController : ControllerBase
     }
 
     [HttpPut("{id}/dislike")]
-    [ActionAuthorize(UserAction.GamesCUD)]
+    [ActionAuthorize(UserAction.GamesRead)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> DislikeGame(int id, CancellationToken cancellationToken)
     {

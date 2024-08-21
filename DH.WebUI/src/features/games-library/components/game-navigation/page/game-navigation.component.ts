@@ -19,7 +19,9 @@ export class GameNavigationComponent implements OnInit {
     | NewGameListComponent;
 
   public menuItems: IMenuItem[] = [];
-  public isAdmin = this.permissionService.hasUserAction(UserAction.GamesCUD)
+  public isAdmin: boolean = this.permissionService.hasUserAction(
+    UserAction.GamesCUD
+  );
   constructor(
     private readonly router: Router,
     private readonly permissionService: PermissionService

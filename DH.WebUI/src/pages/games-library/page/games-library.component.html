@@ -14,15 +14,40 @@
           {{ game.description }}
         </div>
       </div>
-      <div class="wrapper_likes">
-        <span
-          class="material-symbols-outlined like-icon"
-          [ngClass]="{ 'heart-full': game.isLiked }"
+      <div class="wrapper_right">
+        <div class="wrapper_likes">
+          <span
+            class="material-symbols-outlined like-icon"
+            [ngClass]="{ 'heart-full': game.isLiked }"
+          >
+            favorite
+          </span>
+          {{ game.likes }}
+        </div>
+        <span *ngIf="isAdmin"
+          class="material-symbols-outlined menu-container"
+          (click)="showMenu(game.id, $event)"
         >
-          favorite
+          lists
         </span>
-        {{ game.likes }}
+        <div
+          *ngIf="visibleMenuId === game.id"
+          [ngTemplateOutlet]="menuTemplate"
+        ></div>
       </div>
     </div>
   </div>
 </section>
+
+<ng-template #menuTemplate>
+  <div class="menu">
+    <ul>
+      <li
+        *ngFor="let item of menuItems"
+        (click)="onMenuOption(item.key, $event)"
+      >
+        {{ item.label }}
+      </li>
+    </ul>
+  </div>
+</ng-template>
