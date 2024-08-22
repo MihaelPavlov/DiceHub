@@ -8,13 +8,14 @@
     }
 }
 
-.control_menu{
+.control_menu {
     display: flex;
     justify-content: space-between;
     align-items: start;
     flex-wrap: wrap;
     margin: 1rem;
-    app-btn{
+
+    button {
         margin-bottom: 1rem;
     }
 }

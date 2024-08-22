@@ -1,0 +1,91 @@
+@use "../styles/palette";
+
+.btn {
+    appearance: none;
+    border: none;
+    border-radius: 2rem;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 0.65rem 2rem;
+  
+    &__small {
+      padding: 0.5rem 1.5rem;
+      font-size: 0.8rem;
+    }
+  
+    &__medium {
+      padding: 0.65rem 2rem;
+      font-size: 1rem;
+    }
+  
+    &__large {
+      padding: 0.8rem 3rem;
+      font-size: 1.2rem;
+    }
+  
+    &-blue {
+      background-color: palette.$main-blue-color;
+    }
+  
+    &-green {
+      background-color: palette.$main-green-color;
+    }
+  
+    &-red {
+      background-color: palette.$main-red-color;
+    }
+  
+    &-yellow {
+      background-color: palette.$chip-yellow-color;
+    }
+  
+    &-orange {
+      background-color: palette.$chip-orange-color;
+    }
+  
+    &-gray {
+      background-color: palette.$main-nav-color;
+    }
+  
+    &-font-blue {
+      color: palette.$main-blue-color;
+    }
+  
+    &-font-green {
+      color: palette.$main-green-color;
+    }
+  
+    &-font-red {
+      color: palette.$chip-red-color;
+    }
+  
+    &-font-yellow {
+      color: palette.$chip-yellow-color;
+    }
+  
+    &-font-orange {
+      color: palette.$chip-orange-color;
+    }
+  
+    &-border-blue {
+      border: 0.2rem solid palette.$main-blue-color;
+    }
+  
+    &-border-green {
+      border: 0.2rem solid palette.$main-green-color;
+    }
+  
+    &-border-red {
+      border: 0.2rem solid palette.$main-red-color
+    }
+  
+    &-border-yellow {
+      border: 0.2rem solid palette.$chip-yellow-color;
+    }
+  
+    &-border-orange {
+      border: 0.2rem solid palette.$chip-orange-color;
+    }
+  }

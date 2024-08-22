@@ -1,15 +1,12 @@
 <div class="dialog-container">
   <h3 class="dialog-container__header m-4">Delete Review?</h3>
   <mat-dialog-actions>
-    <app-btn text="Cancel" size="small" mat-dialog-close></app-btn>
-
-    <app-btn
-      text="Delete"
-      size="small"
-      color="red"
-      borderColor="red"
+    <button class="btn btn__small btn-blue" mat-dialog-close>Cancel</button>
+    <button
+      class="btn btn__small btn-red btn-border-red"
       (click)="deleteComment()"
-      >Delete</app-btn
     >
+      Delete
+    </button>
   </mat-dialog-actions>
 </div>

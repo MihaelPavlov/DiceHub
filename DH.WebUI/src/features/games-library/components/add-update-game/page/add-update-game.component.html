@@ -1,0 +1,64 @@
+<div class="wrapper_icons">
+  <span (click)="backNavigateBtn()" class="arrow left"></span>
+</div>
+
+<form class="container">
+  <div class="upload-section">
+    <div class="upload-icon">
+      <input
+        type="file"
+        id="file-upload"
+        accept="image/*"
+        (change)="onFileSelected($event)"
+      />
+      <label for="file-upload">
+        <div class="image-preview">
+          <img
+            [src]="
+              imagePreview ||
+              '../../../../../shared/assets/images/upload_img.svg'
+            "
+            alt="Selected Image"
+          />
+        </div>
+      </label>
+    </div>
+
+    <!-- <input type="file" id="file-upload" accept="image/*" (change)="onFileSelected($event)" />
+    <label for="file-upload">
+      <img src="upload-icon.png" alt="Upload Icon" />
+    </label>
+    <div *ngIf="imagePreview" class="image-preview">
+      <img [src]="imagePreview" alt="Selected Image" />
+    </div> -->
+
+    <div class="statistics">
+      <button class="stats-button">Statistics</button>
+    </div>
+    <div class="input-group">
+      <div class="input-field">
+        <label for="min-age">Min age</label>
+        <input type="number" id="min-age" value="12" />
+      </div>
+      <div class="input-field">
+        <label for="max-players">Max Players</label>
+        <input type="number" id="max-players" value="5" />
+      </div>
+      <div class="input-field">
+        <label for="approx-time">Approp Time</label>
+        <input type="text" id="approx-time" value="30:00" />
+      </div>
+    </div>
+    <div class="input-field">
+      <label for="name">Name</label>
+      <input type="text" id="name" />
+    </div>
+    <div class="input-field">
+      <label for="description">Description</label>
+      <textarea id="description"></textarea>
+    </div>
+    <div class="create-button">
+      <button>Create</button>
+    </div>
+  </div>
+</form>

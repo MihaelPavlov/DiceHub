@@ -7,6 +7,7 @@ import { GameReviewsComponent } from '../../features/games-library/components/ga
 import { GameCategoriesComponent } from '../../features/games-library/components/game-categories/page/game-categories.component';
 import { GameNavigationComponent } from '../../features/games-library/components/game-navigation/page/game-navigation.component';
 import { NewGameListComponent } from '../../features/games-library/components/new-game-list/page/new-game-list.component';
+import { AddUpdateGameComponent } from '../../features/games-library/components/add-update-game/page/add-update-game.component';
 
 const routes: Routes = [
   {
@@ -30,6 +31,10 @@ const routes: Routes = [
         component: NewGameListComponent,
       },
     ],
+  },
+  {
+    path: 'add',
+    component: AddUpdateGameComponent,
   },
   {
     path: ':id/details',

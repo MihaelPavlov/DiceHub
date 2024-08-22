@@ -1,5 +1,7 @@
 @use "./palette";
 @import "./palette";
+@import "./input";
+@import "./button";
 @import "../../../../node_modules/@ng-select/ng-select/themes/default.theme.css";
 
 $color-success-20-percent: #CDE9D5;

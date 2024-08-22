@@ -25,7 +25,9 @@ export class GameNavigationComponent implements OnInit {
   constructor(
     private readonly router: Router,
     private readonly permissionService: PermissionService
-  ) {}
+  ) {
+    this.handleMenuItemClick = this.handleMenuItemClick.bind(this);
+  }
 
   public ngOnInit(): void {
     this.menuItems = [
@@ -37,7 +39,7 @@ export class GameNavigationComponent implements OnInit {
 
   public handleMenuItemClick(key: string): void {
     if (key === 'add-game') {
-      //navigate to add user
+      this.router.navigateByUrl('/games/add')
     } else if (key === 'add-existing-game') {
       //navigate to
     } else if (key === 'reserved-games') {

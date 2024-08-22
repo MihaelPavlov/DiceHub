@@ -18,10 +18,10 @@ import {
   MatDialogTitle,
 } from '@angular/material/dialog';
 import { GameReviewConfirmDeleteDialog } from '../../features/games-library/components/game-reviews/components/game-review-confirm-delete/game-review-confirm-delete.component';
-import { ButtonModule } from '../../widgets/button/button.module';
 import { GameCategoriesComponent } from '../../features/games-library/components/game-categories/page/game-categories.component';
 import { GameNavigationComponent } from '../../features/games-library/components/game-navigation/page/game-navigation.component';
 import { NewGameListComponent } from '../../features/games-library/components/new-game-list/page/new-game-list.component';
+import { AddUpdateGameComponent } from '../../features/games-library/components/add-update-game/page/add-update-game.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +34,7 @@ import { NewGameListComponent } from '../../features/games-library/components/ne
     GameCategoriesComponent,
     GameNavigationComponent,
     NewGameListComponent,
+    AddUpdateGameComponent
   ],
   exports: [GamesLibraryComponent],
   providers: [],
@@ -48,7 +49,6 @@ import { NewGameListComponent } from '../../features/games-library/components/ne
     MatDialogContent,
     MatDialogActions,
     MatDialogClose,
-    ButtonModule,
     MatDialogModule,
   ],
 })

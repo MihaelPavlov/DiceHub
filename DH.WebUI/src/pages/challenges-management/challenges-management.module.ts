@@ -6,7 +6,6 @@ import { ChallengesManagementComponent } from './page/challenges-management.comp
 import { NavBarModule } from '../../widgets/nav-bar/nav-bar.module';
 import { ChallengesRewardsComponent } from '../../features/challenges-management/components/challenges-rewards/challenges-rewards.component';
 import { ChipModule } from "../../widgets/chip/chip.module";
-import { ButtonModule } from "../../widgets/button/button.module";
 
 @NgModule({
     declarations: [ChallengesManagementComponent, ChallengesRewardsComponent],
@@ -18,7 +17,6 @@ import { ButtonModule } from "../../widgets/button/button.module";
         ChallengesManagementRoutingModule,
         NavBarModule,
         ChipModule,
-        ButtonModule
     ]
 })
 export class ChallengesManagementModule {}

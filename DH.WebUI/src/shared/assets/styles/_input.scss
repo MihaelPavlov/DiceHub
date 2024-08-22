@@ -1,0 +1,55 @@
+.input-group {
+    display: flex;
+    justify-content: space-between;
+
+    .input-field {
+        flex: 1;
+        text-align: left;
+
+        label {
+            display: block;
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        input {
+            background-color: palette.$main-nav-color;
+            color: palette.$main-font-color;
+            border: none;
+            border-radius: 0.4rem;
+            padding: 0.5rem;
+            width: 100%;
+        }
+
+        &:not(:last-child) {
+            margin-right: 0.7rem;
+        }
+    }
+}
+
+.input-field {
+    text-align: left;
+    margin-bottom: 1rem;
+
+    label {
+        display: block;
+        font-size: 1rem;
+        margin-bottom: 0.3rem;
+
+    }
+
+    input,
+    textarea {
+        background-color: palette.$main-nav-color;
+        border: none;
+        border-radius: 0.4rem;
+        padding: 0.5rem;
+        width: 100%;
+        color: palette.$main-font-color
+    }
+
+    textarea {
+        height: 5rem;
+        resize: none;
+    }
+}
