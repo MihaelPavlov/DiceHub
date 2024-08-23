@@ -3,9 +3,12 @@ using static DH.Domain.Exceptions.ValidationErrorsException;
 
 namespace DH.Domain.Models.GameModels.Commands;
 
-public class CreateGameDto : IValidableFields
+public class UpdateGameDto : IValidableFields
 {
     private const int MinNameLength = 3;
+
+    [JsonPropertyName("id")]
+    public int Id { get; set; }
 
     [JsonPropertyName("categoryId")]
     public int CategoryId { get; set; }
@@ -26,6 +29,9 @@ public class CreateGameDto : IValidableFields
 
     [JsonPropertyName("averagePlaytime")]
     public int AveragePlaytime { get; set; }
+
+    [JsonPropertyName("imageId")]
+    public int? ImageId { get; set; }
 
     [JsonPropertyName("userId")]
     public string UserId { get; set; } = string.Empty;

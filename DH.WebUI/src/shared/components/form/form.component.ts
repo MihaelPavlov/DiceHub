@@ -12,20 +12,50 @@ interface IValidationError {
 @Component({
   template: '',
 })
-export class Form {
+export abstract class Form {
   public form!: UntypedFormGroup;
-  public getFirstErrorMessage: string | null = null;
-
-  constructor(public toastService: ToastService) {}
+  public getServerErrorMessage: string | null = null;
+  // public getFormErrorMessage: string | null = null;
+  constructor(public toastService: ToastService) {
+  }
 
   public getFieldByName = memoizeOne(this.getFieldByNameUnmemoized);
-  public handleErrors = memoizeOne(this.handleErrorsUnmemoized);
+  // public handleServerErrors = memoizeOne(this.handleServerErrorsUnmemoized);
+
+  public getFirstErrorMessage(): string | null {
+    const controls = this.form.controls;
+    for (const controlName in controls) {
+      if (controls.hasOwnProperty(controlName)) {
+        const errorMessage = this.handleFormErrors(controlName);
+        
+        if (errorMessage) {
+          return errorMessage;
+        }
+      }
+    }
+
+    if (this.getServerErrorMessage) return this.getServerErrorMessage;
+
+    // Check for additional errors if no form control errors are found
+    const additionalError = this.handleAddtionalErrors();
+    if (additionalError) {
+      return additionalError;
+    }
+
+    return null;
+  }
+
+  protected abstract getControlDisplayName(controlName: string): string;
+
+  protected handleAddtionalErrors(): string | null {
+    return null; // Can be overridden by subclasses to provide additional error handling
+  }
 
   private getFieldByNameUnmemoized(name: string): AbstractControl | null {
     return this.form.get(name);
   }
 
-  private handleErrorsUnmemoized(error: HttpErrorResponse): boolean {
+  public handleServerErrors(error: HttpErrorResponse): boolean {
     if (error.status === HttpStatusCode.UnprocessableEntity) {
       return this.setValidationError(error.error.errors as IValidationError);
     } else if (error.status === HttpStatusCode.InternalServerError) {
@@ -37,8 +67,38 @@ export class Form {
     return false;
   }
 
+  private handleFormErrors(controlName: string): string {
+    const control = this.form.get(controlName);
+    
+    if (control && control.errors && (control.touched || control.dirty)) {
+      if (control.errors['required']) {
+        return `${this.getControlDisplayName(controlName)} is required.`;
+      } else if (control.errors['minlength']) {
+        const requiredLength = control.errors['minlength'].requiredLength;
+        return `${this.getControlDisplayName(
+          controlName
+        )} must be at least ${requiredLength} characters long.`;
+      } else if (control.errors['maxlength']) {
+        const requiredLength = control.errors['maxlength'].requiredLength;
+        return `${this.getControlDisplayName(
+          controlName
+        )} cannot exceed ${requiredLength} characters.`;
+      } else if (control.errors['min']) {
+        return `${this.getControlDisplayName(controlName)} must be at least ${
+          control.errors['min'].min
+        }.`;
+      }
+
+      // if (this.getFormErrorMessage) {
+      //   return this.getFormErrorMessage;
+      // }
+    }
+
+    return '';
+  }
+
   private setValidationError(errors: IValidationError): boolean {
-    this.getFirstErrorMessage = null; 
+    this.getServerErrorMessage = null;
 
     if (errors) {
       const errorKeys = Object.keys(errors);
@@ -47,8 +107,8 @@ export class Form {
         for (const controlName of controlNames) {
           if (errorKey.toLowerCase() === controlName.toLowerCase()) {
             const controlErrors = errors[errorKey];
-            if (!this.getFirstErrorMessage && controlErrors.length > 0) {
-              this.getFirstErrorMessage = controlErrors[0];
+            if (!this.getServerErrorMessage && controlErrors.length > 0) {
+              this.getServerErrorMessage = controlErrors[0];
             }
 
             // How to use it in the template

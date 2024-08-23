@@ -1,8 +1,5 @@
-﻿using Azure.Core;
-using DH.Domain.Entities;
-using DH.Domain.Exceptions;
+﻿using DH.Domain.Entities;
 using DH.Domain.Models.GameModels;
-using DH.Domain.Models.GameModels.Commands;
 using DH.Domain.Models.GameModels.Queries;
 
 using DH.Domain.Services;
@@ -41,6 +38,43 @@ public class GameService : IGameService
         }
     }
 
+    public async Task UpdateGame(Game game, string fileName, string contentType, MemoryStream imageStream, CancellationToken cancellationToken)
+    {
+        using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
+        {
+            var dbGame = await context.Games
+                .AsTracking()
+                .Include(g => g.Image)
+                .FirstOrDefaultAsync(x => x.Id == game.Id, cancellationToken)
+                    ?? throw new Exception("Not Found");
+
+            var oldImage = dbGame.Image;
+
+            dbGame.Name = game.Name;
+            dbGame.Description = game.Description;
+            dbGame.MinAge = game.MinAge;
+            dbGame.MinPlayers = game.MinPlayers;
+            dbGame.MaxPlayers = game.MaxPlayers;
+            dbGame.AveragePlaytime = game.AveragePlaytime;
+            dbGame.CreatedDate = DateTime.UtcNow;
+            dbGame.UpdatedDate = DateTime.UtcNow;
+            dbGame.CategoryId = game.CategoryId;
+
+            var newGameImage = new GameImage
+            {
+                FileName = fileName,
+                ContentType = contentType,
+                Data = imageStream.ToArray(),
+            };
+
+            dbGame.Image = newGameImage;
+
+            context.GameImages.Remove(oldImage);
+
+            await context.SaveChangesAsync(cancellationToken);
+        }
+    }
+
     public async Task<List<GameComplexDataQuery>> GetCompexDataAsync(CancellationToken cancellationToken)
     {
         using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
@@ -67,6 +101,7 @@ public class GameService : IGameService
                 .Select(game => new GetGameByIdQueryModel
                 {
                     Id = game.Id,
+                    CategoryId = game.CategoryId,
                     Name = game.Name,
                     Description = game.Description,
                     AveragePlaytime = game.AveragePlaytime,

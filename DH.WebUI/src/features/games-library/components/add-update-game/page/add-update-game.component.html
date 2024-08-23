@@ -1,7 +1,7 @@
 <div class="wrapper_icons">
   <span (click)="backNavigateBtn()" class="arrow left"></span>
 
-  <div class="games-select" *ngIf="isEdit">
+  <div class="games-select" *ngIf="false">
     <ng-select
       [items]="games"
       bindLabel="name"
@@ -12,7 +12,7 @@
     </ng-select>
   </div>
 
-  <div *ngIf="isEdit" class="info-container">
+  <div *ngIf="false" class="info-container">
     <span class="material-symbols-outlined info" (click)="showMenu()">
       info
     </span>
@@ -20,9 +20,9 @@
       <span> New QR Code Will be Created </span>
     </div>
   </div>
-  <!-- <a class="wrapper_qrCode">
+  <a *ngIf="editGameId" class="wrapper_qrCode">
     <img src="../../../../../shared/assets/images/qr-code.png" alt="" />
-  </a> -->
+  </a>
 </div>
 
 <form [formGroup]="form" (ngSubmit)="onSubmit()" class="container">
@@ -33,7 +33,6 @@
         id="file-upload"
         accept="image/*"
         (change)="onFileSelected($event)"
-        formControlName="image"
       />
       <label for="file-upload">
         <div class="image-preview">
@@ -123,12 +122,12 @@
       ></textarea>
     </div>
 
-    <!-- Display only the first error message -->
-    <div *ngIf="firstErrorMessage() || this.imageError || this.getFirstErrorMessage" class="errors">
-      {{ firstErrorMessage() }}
+    <div *ngIf="getFirstErrorMessage()" class="errors">
+      {{ getFirstErrorMessage() }}
     </div>
 
     <button
+      *ngIf="!this.editGameId"
       [disabled]="this.form.invalid"
       type="submit"
       class="btn btn-gray"
@@ -140,6 +139,21 @@
       }"
     >
       Create
+    </button>
+
+    <button
+      *ngIf="this.editGameId"
+      [disabled]="this.form.invalid"
+      type="submit"
+      class="btn btn-gray"
+      [ngClass]="{
+        'btn-border-yellow': this.form.valid,
+        'btn-font-yellow': this.form.valid,
+        'btn-border-red': this.form.invalid,
+        'btn-font-red': this.form.invalid
+      }"
+    >
+      Update
     </button>
   </div>
 </form>

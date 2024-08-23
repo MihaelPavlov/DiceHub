@@ -1,13 +1,11 @@
-export interface IGameByIdResult {
+export interface IUpdateGameDto {
   id: number;
   categoryId: number;
   name: string;
   description: string;
-  likes: number;
-  isLiked: boolean;
-  imageId: number;
   minAge: number;
   minPlayers: number;
   maxPlayers: number;
   averagePlaytime: number;
+  imageId?: number | null;
 }

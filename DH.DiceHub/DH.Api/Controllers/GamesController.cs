@@ -64,17 +64,32 @@ public class GamesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
     public async Task<IActionResult> CreateGame([FromForm] string game, [FromForm] IFormFile imageFile, CancellationToken cancellationToken)
     {
-        var options = new JsonSerializerOptions
-        {
-            PropertyNameCaseInsensitive = false,
-        };
-        var gameDto = JsonSerializer.Deserialize<CreateGameDto>(game, options);
+        var gameDto = JsonSerializer.Deserialize<CreateGameDto>(game)
+            ?? throw new JsonException();
 
         using var memoryStream = new MemoryStream();
         await imageFile.CopyToAsync(memoryStream, cancellationToken);
 
         var result = await this.mediator.Send(new CreateGameCommand(gameDto, imageFile.FileName, imageFile.ContentType, memoryStream), cancellationToken);
         return Ok(result);
+    }
+
+    [HttpPut]
+    [ActionAuthorize(UserAction.GamesCUD)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+    public async Task<IActionResult> UpdateGame([FromForm] string game, [FromForm] IFormFile? imageFile, CancellationToken cancellationToken)
+    {
+        var gameDto = JsonSerializer.Deserialize<UpdateGameDto>(game)
+            ?? throw new JsonException();
+
+        using var memoryStream = new MemoryStream();
+        if (imageFile != null)
+        {
+            await imageFile.CopyToAsync(memoryStream, cancellationToken);
+        }
+
+        await this.mediator.Send(new UpdateGameCommand(gameDto, imageFile?.FileName, imageFile?.ContentType, memoryStream), cancellationToken);
+        return Ok();
     }
 
     [HttpPut("{id}/like")]

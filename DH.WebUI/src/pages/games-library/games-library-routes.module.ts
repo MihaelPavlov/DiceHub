@@ -37,6 +37,10 @@ const routes: Routes = [
     component: AddUpdateGameComponent,
   },
   {
+    path: ':id/update',
+    component: AddUpdateGameComponent,
+  },
+  {
     path: ':id/details',
     component: GameDetailsComponent,
   },

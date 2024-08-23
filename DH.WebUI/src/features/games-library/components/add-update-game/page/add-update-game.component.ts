@@ -1,23 +1,14 @@
+import { Component, OnInit } from '@angular/core';
 import {
-  ChangeDetectorRef,
-  Component,
-  OnDestroy,
-  OnInit,
-  Pipe,
-  PipeTransform,
-} from '@angular/core';
-import {
-  AbstractControl,
   FormBuilder,
   FormControl,
   FormGroup,
-  UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 import { GamesService } from '../../../../../entities/games/api/games.service';
 import { ToastService } from '../../../../../shared/services/toast.service';
 import { MenuTabsService } from '../../../../../shared/services/menu-tabs.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NAV_ITEM_LABELS } from '../../../../../shared/models/nav-items-labels.const';
 import { GameCategoriesService } from '../../../../../entities/games/api/game-categories.service';
 import { IGameCategory } from '../../../../../entities/games/models/game-category.model';
@@ -48,9 +39,8 @@ export class AddUpdateGameComponent extends Form implements OnInit {
   override form: Formify<ICreateForm>;
   public categories!: Observable<IGameCategory[] | null>;
   public imagePreview: string | ArrayBuffer | null = null;
-  public isEdit: boolean = false;
   public showQRCode = false;
-
+  public editGameId: number | null = null;
   public games;
   selectedGame: any;
 
@@ -64,50 +54,53 @@ export class AddUpdateGameComponent extends Form implements OnInit {
     public override readonly toastService: ToastService,
     private readonly menuTabsService: MenuTabsService,
     private readonly router: Router,
-    private readonly cd: ChangeDetectorRef
+    private readonly activatedRoute: ActivatedRoute
   ) {
     super(toastService);
-    this.form = this.initFormGroup()
+    this.form = this.initFormGroup();
+    this.form.valueChanges.subscribe(() => {
+      if (this.getServerErrorMessage) {
+        this.clearServerErrorMessage();
+      }
+    });
     this.menuTabsService.setActive(NAV_ITEM_LABELS.GAMES);
   }
-  private initFormGroup(): FormGroup {
-    return this.fb.group({
-      categoryId: new FormControl<null | number>(null, [Validators.required]),
-      name: new FormControl<string>('', [
-        Validators.required,
-        Validators.minLength(3),
-      ]),
-      description: new FormControl<string | null>('', Validators.required),
-      minAge: new FormControl<number>(12, [Validators.required]),
-      minPlayers: new FormControl<number | null>(null, [
-        Validators.required,
-        Validators.min(1),
-      ]),
-      maxPlayers: new FormControl<number | null>(null, [
-        Validators.required,
-        Validators.min(1),
-      ]),
-      averagePlaytime: new FormControl<number>(0, [Validators.required]),
-      image: new FormControl<string | null>(null, [Validators.required]),
-    });
+  private clearServerErrorMessage() {
+    this.getServerErrorMessage = null;
   }
   public showMenu(): void {
     this.isMenuVisible = !this.isMenuVisible;
   }
 
   public ngOnInit(): void {
-    // this.form = this.fb.nonNullable.group({
-    //   categoryId: ['', Validators.required],
-    //   name: ['', [Validators.required, Validators.minLength(3)]],
-    //   description: ['', Validators.required],
-    //   minAge: [12, Validators.required],
-    //   minPlayers: [null, [Validators.required, Validators.min(1)]],
-    //   maxPlayers: [null, [Validators.required, Validators.min(1)]],
-    //   averagePlaytime: [0, Validators.required],
-    //   image: [null, Validators.required],
-    // });
-
     this.categories = this.gameCategoriesService.getList();
+
+    this.activatedRoute.paramMap.subscribe((params) => {
+      const id = params.get('id');
+      if (id) {
+        this.editGameId = +id;
+        this.loadGameToEdit(this.editGameId);
+      }
+    });
+  }
+
+  private loadGameToEdit(id: number): void {
+    this.gameService.getById(id).subscribe((game) => {
+      if (game) {
+        this.form.patchValue({
+          categoryId: game.categoryId,
+          name: game.name,
+          description: game.description,
+          minAge: game.minAge,
+          minPlayers: game.minPlayers,
+          maxPlayers: game.maxPlayers,
+          averagePlaytime: game.averagePlaytime,
+          image: game.imageId.toString(),
+        });
+        this.imagePreview = `https://localhost:7024/games/get-image/${game.imageId}`;
+        this.fileToUpload = null;
+      }
+    });
   }
 
   public backNavigateBtn() {
@@ -115,72 +108,33 @@ export class AddUpdateGameComponent extends Form implements OnInit {
   }
 
   public onFileSelected(event: Event): void {
-    const file = (event.target as HTMLInputElement).files?.[0];
-    console.log((event.target as HTMLInputElement).files);
+    const input = event.target as HTMLInputElement;
+    console.log(input.files);
+
+    const file = input.files?.[0];
 
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
         this.imagePreview = reader.result as string;
+        this.form.controls.image.patchValue(file.name);
         this.fileToUpload = file;
         this.imageError = null;
-        this.form.controls['image'].patchValue(file.name);
+        console.log(this.form.controls);
       };
       reader.readAsDataURL(file);
     } else {
       this.imageError = 'Image is required.';
       this.fileToUpload = null;
       this.imagePreview = null;
-      this.form.controls['image'].reset();
+      this.form.controls.image.reset();
     }
   }
-
-  public firstErrorMessage(): string | null {
-    const controls = this.form.controls;
-    for (const controlName in controls) {
-      if (controls.hasOwnProperty(controlName)) {
-        const errorMessage = this.getErrorMessage(controlName);
-        if (errorMessage) {
-          return errorMessage;
-        }
-      }
-    }
-
+  protected override handleAddtionalErrors(): string | null {
     return this.imageError ? this.imageError : null;
   }
 
-  //TODO: move it in form component
-  public getErrorMessage(controlName: string): string {
-    const control = this.form.get(controlName);
-
-    if (control && control.errors && (control.touched || control.dirty)) {
-      if (control.errors['required']) {
-        return `${this.getControlDisplayName(controlName)} is required.`;
-      } else if (control.errors['minlength']) {
-        const requiredLength = control.errors['minlength'].requiredLength;
-        return `${this.getControlDisplayName(
-          controlName
-        )} must be at least ${requiredLength} characters long.`;
-      } else if (control.errors['maxlength']) {
-        const requiredLength = control.errors['maxlength'].requiredLength;
-        return `${this.getControlDisplayName(
-          controlName
-        )} cannot exceed ${requiredLength} characters.`;
-      } else if (control.errors['min']) {
-        return `${this.getControlDisplayName(controlName)} must be at least ${
-          control.errors['min'].min
-        }.`;
-      }
-
-      if (this.getFirstErrorMessage) {
-        return this.getFirstErrorMessage;
-      }
-    }
-
-    return '';
-  }
-
-  public getControlDisplayName(controlName: string): string {
+  protected override getControlDisplayName(controlName: string): string {
     switch (controlName) {
       case 'categoryId':
         return 'Category';
@@ -204,21 +158,58 @@ export class AddUpdateGameComponent extends Form implements OnInit {
   }
 
   public onSubmit(): void {
+    if (this.editGameId) {
+      this.gameService
+        .update(
+          {
+            id: this.editGameId,
+            categoryId: parseInt(this.form.controls.categoryId.value as any),
+            name: this.form.controls.name.value,
+            description: this.form.controls.description.value,
+            minAge: this.form.controls.minAge.value,
+            minPlayers: this.form.controls.minPlayers.value,
+            maxPlayers: this.form.controls.maxPlayers.value,
+            averagePlaytime: this.form.controls.averagePlaytime.value,
+            imageId: !this.fileToUpload
+              ? +this.form.controls.image.value
+              : null,
+          },
+          this.fileToUpload
+        )
+        .subscribe({
+          next: (_) => {
+            this.toastService.success({
+              message: 'Game Successfully Updated',
+              type: ToastType.Success,
+            });
+
+            this.router.navigateByUrl(`/games/${this.editGameId}/details`);
+          },
+          error: (error) => {
+            this.handleServerErrors(error);
+            this.toastService.error({
+              message:
+                'An error occurred while updating the game. Please try again.',
+              type: ToastType.Error,
+            });
+          },
+        });
+
+      return;
+    }
+
     if (!this.fileToUpload) {
       this.imageError = 'Image is required.';
 
       return;
     }
-
     if (this.form.valid && this.fileToUpload) {
       this.gameService
         .add(
           {
-            categoryId:
-              parseInt(this.form.controls.categoryId.value as any)
-            ,
+            categoryId: parseInt(this.form.controls.categoryId.value as any),
             name: this.form.controls.name.value,
-            description: this.form.controls.name.value,
+            description: this.form.controls.description.value,
             minAge: this.form.controls.minAge.value,
             minPlayers: this.form.controls.minPlayers.value,
             maxPlayers: this.form.controls.maxPlayers.value,
@@ -237,16 +228,36 @@ export class AddUpdateGameComponent extends Form implements OnInit {
             this.router.navigateByUrl('/games/library');
           },
           error: (error) => {
-            this.handleErrors(error);
-            // this.toastService.error({
-            //   message:
-            //     'An error occurred while creating the game. Please try again.',
-            //   type: ToastType.Error,
-            // });
-            // Optionally, log the error or perform other actions here
-            console.error('Error creating game:', error);
+            this.handleServerErrors(error);
+            this.toastService.error({
+              message:
+                'An error occurred while creating the game. Please try again.',
+              type: ToastType.Error,
+            });
           },
         });
     }
+  }
+
+  private initFormGroup(): FormGroup {
+    return this.fb.group({
+      categoryId: new FormControl<number | null>(null, [Validators.required]),
+      name: new FormControl<string>('', [
+        Validators.required,
+        Validators.minLength(3),
+      ]),
+      description: new FormControl<string | null>('', Validators.required),
+      minAge: new FormControl<number>(12, [Validators.required]),
+      minPlayers: new FormControl<number | null>(null, [
+        Validators.required,
+        Validators.min(1),
+      ]),
+      maxPlayers: new FormControl<number | null>(null, [
+        Validators.required,
+        Validators.min(1),
+      ]),
+      averagePlaytime: new FormControl<number>(0, [Validators.required]),
+      image: new FormControl<string | null>('', [Validators.required]),
+    });
   }
 }

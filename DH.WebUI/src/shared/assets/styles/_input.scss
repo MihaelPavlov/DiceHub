@@ -8,13 +8,13 @@
         flex: 1;
         text-align: left;
 
-        .ng-invalid {
+        .ng-touched.ng-invalid {
             border: 0.1rem solid palette.$main-red-color;
         }
 
-        .ng-valid {
-            border: 0.1rem solid palette.$main-green-color;
-        }
+        // .ng-valid {
+        //     border: 0.1rem solid palette.$main-green-color;
+        // }
 
         label {
             display: block;
@@ -42,13 +42,13 @@
     text-align: left;
     margin-bottom: 1rem;
 
-    .ng-invalid {
+    .ng-touched.ng-invalid {
         border: 0.1rem solid palette.$main-red-color;
     }
 
-    .ng-valid {
-        border: 0.1rem solid palette.$main-green-color;
-    }
+    // .ng-valid {
+    //     border: 0.1rem solid palette.$main-green-color;
+    // }
 
     label {
         display: block;

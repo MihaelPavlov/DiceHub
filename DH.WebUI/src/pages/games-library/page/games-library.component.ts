@@ -82,6 +82,9 @@ export class GamesLibraryComponent implements OnInit, OnDestroy {
   public onMenuOption(key: string, event: MouseEvent): void {
     event.stopPropagation();
     console.log(key);
+    if(key === 'update'){
+      this.router.navigateByUrl(`games/${this.visibleMenuId}/update`)
+    }
     this.visibleMenuId = null;
   }
 

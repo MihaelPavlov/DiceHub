@@ -5,6 +5,7 @@ import { PATH } from '../../../shared/configs/path.config';
 import { IGameListResult } from '../models/game-list.model';
 import { IGameByIdResult } from '../models/game-by-id.model';
 import { ICreateGameDto } from '../models/create-game.model';
+import { IUpdateGameDto } from '../models/update-game.model';
 
 @Injectable({
   providedIn: 'root',
@@ -47,18 +48,20 @@ export class GamesService {
     );
   }
 
-  public add(
-    game: ICreateGameDto,
-    imageFile: File
-  ): Observable<number | null> {
+  public add(game: ICreateGameDto, imageFile: File): Observable<number | null> {
     const formData = new FormData();
+    formData.append('game', JSON.stringify(game));
+    formData.append('imageFile', imageFile);
 
-  // Append the game data as a JSON string
-  formData.append('game', JSON.stringify(game));
-
-  // Append the image file
-  formData.append('imageFile', imageFile);
     return this.api.post<number>(`/${PATH.GAMES.CORE}`, formData);
+  }
+
+  public update(game: IUpdateGameDto, imageFile: File | null): Observable<null> {
+    const formData = new FormData();
+    formData.append('game', JSON.stringify(game));
+    if (imageFile) formData.append('imageFile', imageFile);
+
+    return this.api.put(`/${PATH.GAMES.CORE}`, formData);
   }
 
   public getById(id: number): Observable<IGameByIdResult> {

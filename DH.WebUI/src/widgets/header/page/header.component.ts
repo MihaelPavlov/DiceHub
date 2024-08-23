@@ -39,6 +39,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     this.searchService.searchFormVisible$.subscribe((x) => {
       if (x === false) {
         this.closeSearch(true);
+        this.setDisabledScrollEvent(false);
       }
     });
   }
@@ -89,12 +90,21 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       }
     }
   }
+  private disabledScrollEvent = false;
+  private setDisabledScrollEvent(value: boolean) {
+    this.disabledScrollEvent = value;
+  }
 
+  private getDisabledScrollEvent(): boolean {
+    return this.disabledScrollEvent;
+  }
   private initSearchListenersJS(): void {
     const navbar = document.getElementById('navbar');
     let prevScrollPos = window.scrollY;
     if (navbar) {
-      window.onscroll = function () {
+      window.onscroll = () => {
+        if (this.getDisabledScrollEvent()) return;
+
         const currentScrollPos = window.scrollY;
         if (prevScrollPos > currentScrollPos) {
           navbar.classList.remove('hidden');
@@ -105,27 +115,28 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       };
     }
 
-    // Hide the search form initially
     const searchForm = document.getElementById('searchForm') as HTMLElement;
     const closeFunction = this.closeSearch;
     if (searchForm) {
       searchForm.style.display = 'none';
+      this.setDisabledScrollEvent(false);
     }
 
-    // Add click event listener to the wrapper_search link
     const wrapperSearch =
       document.querySelector<HTMLElement>('.wrapper_search');
     if (wrapperSearch) {
-      wrapperSearch.addEventListener('click', function () {
-        // Toggle visibility of the search form
+      wrapperSearch.addEventListener('click', () => {
         if (searchForm.style.display === 'none') {
+          this.setDisabledScrollEvent(true);
           searchForm.style.display = 'block';
+
           const searchIcon = document.querySelector<HTMLElement>('#search-btn');
           if (searchIcon) {
             searchIcon.innerHTML = `<span class="material-symbols-outlined">close</span>`;
           }
         } else {
-          closeFunction();
+          closeFunction(false);
+          this.setDisabledScrollEvent(false);
         }
       });
     }

@@ -6,7 +6,6 @@
     text-align: center;
     align-items: center;
     margin: 0 1.5rem;
-    margin-top: 1rem;
     margin-bottom: 0.2rem;
 
     &__title {
@@ -132,45 +131,45 @@
     }
 }
 
+#searchForm {
+    position: sticky;
+}
+
 #navbar {
     position: sticky;
-    /* Keep it fixed on the top */
     top: 0;
     left: 0;
     width: 100%;
-    /* Make it full width */
     transition: top 0.5s ease-in;
-    /* Smooth transition effect */
     background-color: palette.$main-background-color;
     z-index: 10;
-    /* Ensure it stays on top of content */
+    padding-top: 1rem;
 }
 
 #navbar.hidden {
-    /* Add a class for hidden state */
-    top: -100px;
-    /* Move it off-screen */
+    top: -10rem;
 }
+
 .menu {
     position: fixed;
-    right: 2rem; 
-    top: 4rem; 
+    right: 2rem;
+    top: 4rem;
     background-color: palette.$main-nav-color;
     padding: 1rem;
     z-index: 1000;
-  }
-  
-  .menu ul {
+}
+
+.menu ul {
     list-style: none;
     margin: 0;
     padding: 0;
-  }
-  
-  .menu ul li {
+}
+
+.menu ul li {
     padding: 8px 12px;
     cursor: pointer;
-  }
-  
-  .menu ul li:hover {
+}
+
+.menu ul li:hover {
     background-color: #f0f0f0;
-  }
+}
