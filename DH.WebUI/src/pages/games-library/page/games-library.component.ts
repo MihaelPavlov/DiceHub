@@ -94,7 +94,8 @@ export class GamesLibraryComponent implements OnInit, OnDestroy {
   private fetchGameList(searchExpression: string = '') {
     this.gameService
       .getList(searchExpression)
-      .subscribe((gameList) => (this.games = gameList ?? []));
+      .subscribe({next:(gameList) => (this.games = gameList ?? []),error:(error)=>{console.log(error);
+      }});
   }
 
   @HostListener('window:scroll', [])

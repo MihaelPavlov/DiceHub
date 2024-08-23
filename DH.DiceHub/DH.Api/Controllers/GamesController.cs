@@ -1,3 +1,4 @@
+using Azure.Core;
 using DH.Adapter.Authentication.Filters;
 using DH.Application.Games.Commands.Games;
 using DH.Application.Games.Queries.Games;
@@ -6,6 +7,8 @@ using DH.Domain.Models.GameModels.Commands;
 using DH.Domain.Models.GameModels.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 
 namespace DH.Api.Controllers;
 
@@ -59,9 +62,18 @@ public class GamesController : ControllerBase
     [HttpPost]
     [ActionAuthorize(UserAction.GamesCUD)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
-    public async Task<IActionResult> CreateGame([FromBody] CreateGameDto request, CancellationToken cancellationToken)
+    public async Task<IActionResult> CreateGame([FromForm] string game, [FromForm] IFormFile imageFile, CancellationToken cancellationToken)
     {
-        var result = await this.mediator.Send(new CreateGameCommand(request), cancellationToken);
+        var options = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = false,
+        };
+        var gameDto = JsonSerializer.Deserialize<CreateGameDto>(game, options);
+
+        using var memoryStream = new MemoryStream();
+        await imageFile.CopyToAsync(memoryStream, cancellationToken);
+
+        var result = await this.mediator.Send(new CreateGameCommand(gameDto, imageFile.FileName, imageFile.ContentType, memoryStream), cancellationToken);
         return Ok(result);
     }
 
@@ -81,5 +93,17 @@ public class GamesController : ControllerBase
     {
         await this.mediator.Send(new DislikeGameCommand(id), cancellationToken);
         return Ok();
+    }
+
+    [HttpGet("get-image/{id}")]
+    public async Task<IActionResult> GetGameImage(int id, CancellationToken cancellationToken)
+    {
+        var gameFile = await this.mediator.Send(new GetGameImageByIdQuery(id), cancellationToken);
+        if (gameFile == null)
+        {
+            return NotFound();
+        }
+
+        return File(gameFile.Data, gameFile.ContentType, gameFile.FileName);
     }
 }

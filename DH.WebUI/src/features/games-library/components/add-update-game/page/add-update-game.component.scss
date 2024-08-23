@@ -9,7 +9,8 @@
 }
 
 .upload-section {
-    padding: 20px;
+    padding: 1.3rem;
+    padding-top: 0;
     border-radius: 10px;
     text-align: center;
 
@@ -48,9 +49,9 @@
     }
 
     .statistics {
-        margin-bottom: 20px;
+        margin: 1.5rem;
 
-        .stats-button {
+        span {
             background-color: palette.$main-nav-color;
             color: palette.$main-green-color;
             border: none;
@@ -58,18 +59,6 @@
             padding: 0.5rem 1rem;
             font-size: 1rem;
             cursor: pointer;
-        }
-    }
-
-    .create-button {
-        button {
-            background-color: #24a19c;
-            color: #ffffff;
-            border: none;
-            border-radius: 20px;
-            padding: 10px 20px;
-            cursor: pointer;
-            width: 100%;
         }
     }
 }
@@ -105,7 +94,54 @@
 .wrapper_icons {
     display: flex;
     justify-content: space-between;
-    padding: 0 1rem;
-    padding-top: 1rem;
+    margin: 1rem;
     align-items: center;
+
+    .games-select {
+        margin-top: 1rem;
+    }
+
+    .info-container {
+        position: relative;
+
+        .info {
+            font-variation-settings: 'FILL' 1;
+            font-size: 3rem;
+            color: palette.$main-red-color;
+        }
+
+        .qr-code-info {
+            position: absolute;
+            right: 0.5rem;
+            top: 2.25rem;
+            background-color: palette.$main-gray-color;
+            padding: 0.5rem;
+            z-index: 1000;
+            width: 10rem;
+            text-align: center;
+        }
+
+        .qr-code-info span {
+            width: 9rem;
+            text-align: center;
+            line-height: 2rem;
+            font-size: 1.2rem;
+        }
+    }
+
+    .wrapper_qrCode {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 3rem;
+        height: 0.5rem;
+        border-radius: 50%;
+        margin: 0 0.2rem;
+
+        img {
+            width: 4rem;
+            height: 4rem;
+            object-fit: cover;
+        }
+    }
 }

@@ -4,34 +4,36 @@ using DH.Domain.Entities;
 using DH.Domain.Exceptions;
 using DH.Domain.Models.GameModels.Commands;
 using DH.Domain.Repositories;
+using DH.Domain.Services;
 using Mapster;
 using MediatR;
 
 namespace DH.Application.Games.Commands.Games;
 
-public record CreateGameCommand(CreateGameDto Game) : IRequest<int>;
+public record CreateGameCommand(CreateGameDto Game, string FileName, string ContentType, MemoryStream ImageStream) : IRequest<int>;
 
 internal class CreateGameCommandHandler : IRequestHandler<CreateGameCommand, int>
 {
-    readonly ITenantDbContext dbContext;
-    readonly IUserContext userContext;
+    readonly IGameService gameService;
 
-    public CreateGameCommandHandler(ITenantDbContext dbContext, IUserContext userContext)
+    public CreateGameCommandHandler(IGameService gameService)
     {
-        this.dbContext = dbContext;
-        this.userContext = userContext;
+        this.gameService = gameService;
     }
 
     public async Task<int> Handle(CreateGameCommand request, CancellationToken cancellationToken)
     {
-        request.Game.UserId = userContext.UserId;
-
         if (!request.Game.FieldsAreValid(out var validationErrors))
             throw new ValidationErrorsException(validationErrors);
 
-        var gameRepository = dbContext.AcquireRepository<IRepository<Game>>();
-        var game = await gameRepository.AddAsync(request.Game.Adapt<Game>(), cancellationToken);
+        var gameId = await this.gameService.CreateGame(
+            request.Game.Adapt<Game>(),
+            request.FileName,
+            request.ContentType,
+            request.ImageStream,
+            cancellationToken
+        );
 
-        return game.Id;
+        return gameId;
     }
 }

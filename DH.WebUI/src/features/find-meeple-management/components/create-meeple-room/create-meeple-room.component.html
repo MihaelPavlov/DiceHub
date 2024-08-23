@@ -3,14 +3,16 @@
   [withBottomLine]="true"
 ></app-header>
 
-<ng-select
-  [items]="cities"
-  bindLabel="name"
-  placeholder="Select city"
-  [(ngModel)]="selectedCity"
-  class="custom"
->
-</ng-select>
+<div class="select-container">
+  <ng-select
+    [items]="cities"
+    bindLabel="name"
+    placeholder="Select city"
+    [(ngModel)]="selectedCity"
+    class="app-select"
+  >
+  </ng-select>
+</div>
 <div class="wrapper_stats">
   <div class="wrapper_stats__chips-left">
     <div class="chip">

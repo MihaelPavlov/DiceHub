@@ -123,7 +123,7 @@ export class GameReviewsComponent implements OnInit, OnDestroy {
         })
         .subscribe((x) => {
           this.toastService.success({
-            message: 'Succesefully deleted',
+            message: 'Succesefully updated',
             type: ToastType.Success,
           });
           this.fetchGameReviews();

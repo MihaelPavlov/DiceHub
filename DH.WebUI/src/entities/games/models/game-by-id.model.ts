@@ -4,7 +4,7 @@ export interface IGameByIdResult {
   description: string;
   likes: number;
   isLiked: boolean;
-  imageUrl: string;
+  imageId: number;
   minAge: number;
   minPlayers: number;
   maxPlayers: number;

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DH.Adapter.Data.Migrations
 {
     [DbContext(typeof(TenantDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    partial class TenantDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -49,6 +49,9 @@ namespace DH.Adapter.Data.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
+                    b.Property<int>("CopyCount")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -56,16 +59,14 @@ namespace DH.Adapter.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ImageId")
+                        .HasColumnType("int");
 
                     b.Property<int>("MaxPlayers")
                         .HasColumnType("int");
 
-                    b.Property<string>("MinAge")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("MinAge")
+                        .HasColumnType("int");
 
                     b.Property<int>("MinPlayers")
                         .HasColumnType("int");
@@ -80,6 +81,9 @@ namespace DH.Adapter.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("ImageId")
+                        .IsUnique();
 
                     b.ToTable("Games");
                 });
@@ -99,6 +103,31 @@ namespace DH.Adapter.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("GameCategories");
+                });
+
+            modelBuilder.Entity("DH.Domain.Entities.GameImage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("Data")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("GameImages");
                 });
 
             modelBuilder.Entity("DH.Domain.Entities.GameLike", b =>
@@ -163,7 +192,15 @@ namespace DH.Adapter.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("DH.Domain.Entities.GameImage", "Image")
+                        .WithOne("Game")
+                        .HasForeignKey("DH.Domain.Entities.Game", "ImageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Category");
+
+                    b.Navigation("Image");
                 });
 
             modelBuilder.Entity("DH.Domain.Entities.GameLike", b =>
@@ -198,6 +235,12 @@ namespace DH.Adapter.Data.Migrations
             modelBuilder.Entity("DH.Domain.Entities.GameCategory", b =>
                 {
                     b.Navigation("Games");
+                });
+
+            modelBuilder.Entity("DH.Domain.Entities.GameImage", b =>
+                {
+                    b.Navigation("Game")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

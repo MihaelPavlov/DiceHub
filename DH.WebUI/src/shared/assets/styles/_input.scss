@@ -1,3 +1,5 @@
+@use "../styles/palette";
+
 .input-group {
     display: flex;
     justify-content: space-between;
@@ -5,6 +7,14 @@
     .input-field {
         flex: 1;
         text-align: left;
+
+        .ng-invalid {
+            border: 0.1rem solid palette.$main-red-color;
+        }
+
+        .ng-valid {
+            border: 0.1rem solid palette.$main-green-color;
+        }
 
         label {
             display: block;
@@ -17,8 +27,9 @@
             color: palette.$main-font-color;
             border: none;
             border-radius: 0.4rem;
-            padding: 0.5rem;
+            padding: 0.7rem;
             width: 100%;
+            font-size: 1rem;
         }
 
         &:not(:last-child) {
@@ -31,25 +42,47 @@
     text-align: left;
     margin-bottom: 1rem;
 
+    .ng-invalid {
+        border: 0.1rem solid palette.$main-red-color;
+    }
+
+    .ng-valid {
+        border: 0.1rem solid palette.$main-green-color;
+    }
+
     label {
         display: block;
         font-size: 1rem;
         margin-bottom: 0.3rem;
-
     }
 
     input,
-    textarea {
+    textarea,
+    select {
         background-color: palette.$main-nav-color;
         border: none;
         border-radius: 0.4rem;
-        padding: 0.5rem;
+        padding: 0.7rem;
         width: 100%;
-        color: palette.$main-font-color
+        font-size: 1rem;
+        color: palette.$main-font-color;
     }
 
     textarea {
         height: 5rem;
         resize: none;
     }
+
+}
+
+.errors {
+    color: palette.$main-red-color;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+.required:after {
+    content: '*';
+    display: inline;
+    color: red;
 }

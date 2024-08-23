@@ -1,4 +1,5 @@
-﻿using static DH.Domain.Exceptions.ValidationErrorsException;
+﻿using System.Text.Json.Serialization;
+using static DH.Domain.Exceptions.ValidationErrorsException;
 
 namespace DH.Domain.Models.GameModels.Commands;
 
@@ -6,16 +7,28 @@ public class CreateGameDto : IValidableFields
 {
     private const int MinNameLength = 3;
 
+    [JsonPropertyName("categoryId")]
     public int CategoryId { get; set; }
+
+    [JsonPropertyName("name")]
     public string Name { get; set; } = string.Empty;
-    public string Description { get; set; } = string.Empty;
-    public string MinAge { get; set; } = string.Empty;
+    [JsonPropertyName("description")]
+    public string Description { get; set; }
+
+    [JsonPropertyName("minAge")]
+    public int MinAge { get; set; }
+
+    [JsonPropertyName("minPlayers")]
     public int MinPlayers { get; set; }
+
+    [JsonPropertyName("maxPlayers")]
     public int MaxPlayers { get; set; }
+
+    [JsonPropertyName("averagePlaytime")]
     public int AveragePlaytime { get; set; }
-    public int Likes { get; set; }
-    public string ImageUrl { get; set; } = string.Empty;
-    public string UserId { get; set; } = string.Empty;
+
+    [JsonPropertyName("userId")]
+    public string UserId { get; set; }
 
     public bool FieldsAreValid(out List<ValidationError> validationErrors)
     {

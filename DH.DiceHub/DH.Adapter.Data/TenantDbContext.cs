@@ -3,6 +3,7 @@ using DH.Domain.Entities;
 using System.Reflection;
 using DH.Domain;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 
 namespace DH.Adapter.Data;
 
@@ -35,6 +36,7 @@ public class TenantDbContext : DbContext, ITenantDbContext
     public DbSet<GameReview> GameReviews { get; set; } = default!;
     public DbSet<GameLike> GameLikes { get; set; } = default!;
     public DbSet<GameCategory> GameCategories { get; set; } = default!;
+    public DbSet<GameImage> GameImages { get; set; } = default!;
     public DbSet<Event> Events { get; set; } = default!;
 
     public T AcquireRepository<T>()
@@ -48,6 +50,11 @@ public class TenantDbContext : DbContext, ITenantDbContext
 
         ////TODO: Check if we ened to configure the mapping manually or the 24 line is working 
         //CommonMapping.Configure(builder);
+
+        builder.Entity<GameImage>()
+            .HasOne(g => g.Game)
+            .WithOne(i => i.Image)
+            .HasForeignKey<Game>(i => i.ImageId);
 
         base.OnModelCreating(builder);
     }

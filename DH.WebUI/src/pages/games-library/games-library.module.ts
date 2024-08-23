@@ -9,7 +9,7 @@ import { GameAvailabilityComponent } from '../../features/games-library/componen
 import { GameLayoutComponent } from '../../features/games-library/components/game-layout/page/game-layout.component';
 import { GameReviewsComponent } from '../../features/games-library/components/game-reviews/page/game-reviews.component';
 import { HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatDialogActions,
   MatDialogClose,
@@ -22,6 +22,7 @@ import { GameCategoriesComponent } from '../../features/games-library/components
 import { GameNavigationComponent } from '../../features/games-library/components/game-navigation/page/game-navigation.component';
 import { NewGameListComponent } from '../../features/games-library/components/new-game-list/page/new-game-list.component';
 import { AddUpdateGameComponent } from '../../features/games-library/components/add-update-game/page/add-update-game.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,7 @@ import { AddUpdateGameComponent } from '../../features/games-library/components/
     GameCategoriesComponent,
     GameNavigationComponent,
     NewGameListComponent,
-    AddUpdateGameComponent
+    AddUpdateGameComponent,
   ],
   exports: [GamesLibraryComponent],
   providers: [],
@@ -50,6 +51,8 @@ import { AddUpdateGameComponent } from '../../features/games-library/components/
     MatDialogActions,
     MatDialogClose,
     MatDialogModule,
+    FormsModule,
+    NgSelectModule,
   ],
 })
 export class GamesLibraryModule {}

@@ -1,5 +1,10 @@
-﻿using DH.Domain.Models.GameModels;
+﻿using Azure.Core;
+using DH.Domain.Entities;
+using DH.Domain.Exceptions;
+using DH.Domain.Models.GameModels;
+using DH.Domain.Models.GameModels.Commands;
 using DH.Domain.Models.GameModels.Queries;
+
 using DH.Domain.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +17,28 @@ public class GameService : IGameService
     public GameService(IDbContextFactory<TenantDbContext> _contextFactory)
     {
         this._contextFactory = _contextFactory;
+    }
+
+    public async Task<int> CreateGame(Game game, string fileName, string contentType, MemoryStream imageStream, CancellationToken cancellationToken)
+    {
+        using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
+        {
+            var gameImage = new GameImage
+            {
+                FileName = fileName,
+                ContentType = contentType,
+                Data = imageStream.ToArray(),
+            };
+
+            await context.GameImages.AddAsync(gameImage, cancellationToken);
+
+            game.Image = gameImage;
+
+            await context.Games.AddAsync(game, cancellationToken);
+            await context.SaveChangesAsync(cancellationToken);
+
+            return game.Id;
+        }
     }
 
     public async Task<List<GameComplexDataQuery>> GetCompexDataAsync(CancellationToken cancellationToken)
@@ -43,7 +70,7 @@ public class GameService : IGameService
                     Name = game.Name,
                     Description = game.Description,
                     AveragePlaytime = game.AveragePlaytime,
-                    ImageUrl = game.ImageUrl,
+                    ImageId = game.ImageId,
                     Likes = game.Likes.Count(),
                     IsLiked = game.Likes.Any(x => x.UserId == userId),
                     MinAge = game.MinAge,
@@ -68,7 +95,7 @@ public class GameService : IGameService
                      CategoryId = g.CategoryId,
                      Name = g.Name,
                      Description = g.Description,
-                     ImageUrl = g.ImageUrl,
+                     ImageId = g.ImageId,
                      Likes = likes.Count(),
                      IsLiked = likes.Any(x => x.UserId == userId)
                  }).ToListAsync(cancellationToken);
@@ -89,7 +116,7 @@ public class GameService : IGameService
                      CategoryId = g.CategoryId,
                      Name = g.Name,
                      Description = g.Description,
-                     ImageUrl = g.ImageUrl,
+                     ImageId = g.ImageId,
                      Likes = likes.Count(),
                      IsLiked = likes.Any(x => x.UserId == userId)
                  }).ToListAsync(cancellationToken);
@@ -110,7 +137,7 @@ public class GameService : IGameService
                      CategoryId = g.CategoryId,
                      Name = g.Name,
                      Description = g.Description,
-                     ImageUrl = g.ImageUrl,
+                     ImageId = g.ImageId,
                      Likes = likes.Count(),
                      IsLiked = likes.Any(x => x.UserId == userId)
                  }).ToListAsync(cancellationToken);
