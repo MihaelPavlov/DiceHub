@@ -1,0 +1,12 @@
+<div class="error-wrapper">
+    <img class="error-code-icon" [src]="imgPath" />
+    <div class="container">
+      <div class="error-header">Unauthorized</div>
+      <div class="content">
+        <span *ngFor="let item of details; trackByIndex">{{ item }}</span>
+      </div>
+    </div>
+    <button class="mt-5" (click)="redirectTo()"
+      >Navigate to Games Library</button
+    >
+  </div>

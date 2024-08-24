@@ -12,7 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NAV_ITEM_LABELS } from '../../../../../shared/models/nav-items-labels.const';
 import { GameCategoriesService } from '../../../../../entities/games/api/game-categories.service';
 import { IGameCategory } from '../../../../../entities/games/models/game-category.model';
-import { Observable, takeUntil } from 'rxjs';
+import { catchError, Observable, takeUntil, throwError } from 'rxjs';
 import { ToastType } from '../../../../../shared/models/toast.model';
 import { Form } from '../../../../../shared/components/form/form.component';
 import { IGameDropdownResult } from '../../../../../entities/games/models/game-dropdown.model';
@@ -276,9 +276,11 @@ export class AddUpdateGameComponent extends Form implements OnInit {
     this.gameService.getDropdownList().subscribe({
       next: (gameList) => {
         this.gameList = gameList ?? [];
-        if(this.selectedGame){
-          const selectGame = this.gameList.find(x=>x.id == this.selectedGame?.id);
-          if(selectGame) this.selectedGame = selectGame;
+        if (this.selectedGame) {
+          const selectGame = this.gameList.find(
+            (x) => x.id == this.selectedGame?.id
+          );
+          if (selectGame) this.selectedGame = selectGame;
         }
       },
       error: (error) => {
@@ -288,21 +290,26 @@ export class AddUpdateGameComponent extends Form implements OnInit {
   }
 
   private fetchGameById(id: number): void {
-    this.gameService.getById(id).subscribe((game) => {
-      if (game) {
-        this.form.patchValue({
-          categoryId: game.categoryId,
-          name: game.name,
-          description: game.description,
-          minAge: game.minAge,
-          minPlayers: game.minPlayers,
-          maxPlayers: game.maxPlayers,
-          averagePlaytime: game.averagePlaytime,
-          image: game.imageId.toString(),
-        });
-        this.imagePreview = `https://localhost:7024/games/get-image/${game.imageId}`;
-        this.fileToUpload = null;
-      }
+    this.gameService.getById(id).subscribe({
+      next: (game) => {
+        if (game) {
+          this.form.patchValue({
+            categoryId: game.categoryId,
+            name: game.name,
+            description: game.description,
+            minAge: game.minAge,
+            minPlayers: game.minPlayers,
+            maxPlayers: game.maxPlayers,
+            averagePlaytime: game.averagePlaytime,
+            image: game.imageId.toString(),
+          });
+          this.imagePreview = `https://localhost:7024/games/get-image/${game.imageId}`;
+          this.fileToUpload = null;
+        }
+      },
+      error: (error) => {
+        throwError(() => error);
+      },
     });
   }
 

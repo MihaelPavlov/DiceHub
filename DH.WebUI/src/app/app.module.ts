@@ -11,6 +11,7 @@ import { LoginModule } from '../pages/login/login.module';
 import { AuthGuard } from '../shared/guards/auth.guard';
 import { JWT_OPTIONS, JwtHelperService, JwtModule } from '@auth0/angular-jwt';
 import { HttpRequestInterceptor } from '../entities/auth/auth.interceptor';
+import { ErrorInterceptor } from '../shared/interceptors/http-error.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -18,6 +19,7 @@ import { HttpRequestInterceptor } from '../entities/auth/auth.interceptor';
   providers: [
     AuthGuard,
     { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpRequestInterceptor,
@@ -34,7 +36,7 @@ import { HttpRequestInterceptor } from '../entities/auth/auth.interceptor';
     LoginModule,
     HeaderModule,
     RouterOutlet,
-    JwtModule,
+    JwtModule,    
   ],
 })
 export class AppModule {}

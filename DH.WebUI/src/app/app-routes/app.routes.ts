@@ -57,4 +57,25 @@ export const ROUTES: Routes = [
     path: 'login',
     component: LoginComponent,
   },
+  {
+    path:'unauthorized',
+    loadChildren: () =>
+      import(
+        '../../shared/exceptions/unauthorized/unathorized.module'
+      ).then((m) => m.UnauthorizedModule),
+  },
+  {
+    path:'forbidden',
+    loadChildren: () =>
+      import(
+        '../../shared/exceptions/forbidden/forbidden.module'
+      ).then((m) => m.ForbiddenModule),
+  },
+  {
+    path:'not-found',
+    loadChildren: () =>
+      import(
+        '../../shared/exceptions/not-found/not-found.module'
+      ).then((m) => m.NotFoundModule),
+  }
 ];
