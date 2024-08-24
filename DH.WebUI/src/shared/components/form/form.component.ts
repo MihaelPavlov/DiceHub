@@ -4,6 +4,7 @@ import { UntypedFormGroup, AbstractControl } from '@angular/forms';
 import memoizeOne from 'memoize-one';
 import { ToastType } from '../../models/toast.model';
 import { ToastService } from '../../services/toast.service';
+import { AppToastMessage } from '../toast/constants/app-toast-messages.constant';
 
 interface IValidationError {
   [key: string]: any;
@@ -15,12 +16,10 @@ interface IValidationError {
 export abstract class Form {
   public form!: UntypedFormGroup;
   public getServerErrorMessage: string | null = null;
-  // public getFormErrorMessage: string | null = null;
   constructor(public toastService: ToastService) {
   }
 
   public getFieldByName = memoizeOne(this.getFieldByNameUnmemoized);
-  // public handleServerErrors = memoizeOne(this.handleServerErrorsUnmemoized);
 
   public getFirstErrorMessage(): string | null {
     const controls = this.form.controls;
@@ -37,7 +36,7 @@ export abstract class Form {
     if (this.getServerErrorMessage) return this.getServerErrorMessage;
 
     // Check for additional errors if no form control errors are found
-    const additionalError = this.handleAddtionalErrors();
+    const additionalError = this.handleAdditionalErrors();
     if (additionalError) {
       return additionalError;
     }
@@ -47,7 +46,7 @@ export abstract class Form {
 
   protected abstract getControlDisplayName(controlName: string): string;
 
-  protected handleAddtionalErrors(): string | null {
+  protected handleAdditionalErrors(): string | null {
     return null; // Can be overridden by subclasses to provide additional error handling
   }
 
@@ -60,7 +59,7 @@ export abstract class Form {
       return this.setValidationError(error.error.errors as IValidationError);
     } else if (error.status === HttpStatusCode.InternalServerError) {
       this.toastService.error({
-        message: 'Something wrong!',
+        message: AppToastMessage.SomethingWrong,
         type: ToastType.Error,
       });
     }
@@ -88,10 +87,6 @@ export abstract class Form {
           control.errors['min'].min
         }.`;
       }
-
-      // if (this.getFormErrorMessage) {
-      //   return this.getFormErrorMessage;
-      // }
     }
 
     return '';

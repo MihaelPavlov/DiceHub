@@ -12,9 +12,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NAV_ITEM_LABELS } from '../../../../../shared/models/nav-items-labels.const';
 import { GameCategoriesService } from '../../../../../entities/games/api/game-categories.service';
 import { IGameCategory } from '../../../../../entities/games/models/game-category.model';
-import { Observable } from 'rxjs';
+import { Observable, takeUntil } from 'rxjs';
 import { ToastType } from '../../../../../shared/models/toast.model';
 import { Form } from '../../../../../shared/components/form/form.component';
+import { IGameListResult } from '../../../../../entities/games/models/game-list.model';
+import { IGameDropdownResult } from '../../../../../entities/games/models/game-dropdown.model';
+import { AppToastMessage } from '../../../../../shared/components/toast/constants/app-toast-messages.constant';
 
 interface ICreateForm {
   categoryId: number;
@@ -41,9 +44,9 @@ export class AddUpdateGameComponent extends Form implements OnInit {
   public imagePreview: string | ArrayBuffer | null = null;
   public showQRCode = false;
   public editGameId: number | null = null;
-  public games;
-  selectedGame: any;
-
+  public gameList: IGameDropdownResult[] = [];
+  public selectedGame: IGameDropdownResult | null = null;
+  public addExistingGame: boolean = false;
   public isMenuVisible: boolean = false;
   public imageError: string | null = null;
   public fileToUpload: File | null = null;
@@ -74,33 +77,44 @@ export class AddUpdateGameComponent extends Form implements OnInit {
 
   public ngOnInit(): void {
     this.categories = this.gameCategoriesService.getList();
-
+    if (
+      this.activatedRoute.snapshot.routeConfig?.path?.includes(
+        'add-existing-game'
+      )
+    ) {
+      this.preparationForAddExistingGame();
+    } else {
+      this.activatedRoute.paramMap.subscribe((params) => {
+        const id = params.get('id');
+        if (id) {
+          this.editGameId = +id;
+          this.fetchGameById(this.editGameId);
+        }
+      });
+    }
+  }
+  public preparationForAddExistingGame() {
+    this.addExistingGame = true;
+    this.fetchGameList();
     this.activatedRoute.paramMap.subscribe((params) => {
       const id = params.get('id');
       if (id) {
-        this.editGameId = +id;
-        this.loadGameToEdit(this.editGameId);
+        this.selectedGame = { id: +id, name: '' };
+        this.handleAddExistingGame();
       }
     });
+    this.form.controls.categoryId.disable();
+    this.form.controls.name.disable();
+    this.form.controls.description.disable();
+    this.form.controls.averagePlaytime.disable();
+    this.form.controls.minAge.disable();
+    this.form.controls.maxPlayers.disable();
+    this.form.controls.minPlayers.disable();
   }
-
-  private loadGameToEdit(id: number): void {
-    this.gameService.getById(id).subscribe((game) => {
-      if (game) {
-        this.form.patchValue({
-          categoryId: game.categoryId,
-          name: game.name,
-          description: game.description,
-          minAge: game.minAge,
-          minPlayers: game.minPlayers,
-          maxPlayers: game.maxPlayers,
-          averagePlaytime: game.averagePlaytime,
-          image: game.imageId.toString(),
-        });
-        this.imagePreview = `https://localhost:7024/games/get-image/${game.imageId}`;
-        this.fileToUpload = null;
-      }
-    });
+  public handleAddExistingGame(): void {
+    if (this.selectedGame?.id) {
+      this.fetchGameById(this.selectedGame.id);
+    }
   }
 
   public backNavigateBtn() {
@@ -130,7 +144,109 @@ export class AddUpdateGameComponent extends Form implements OnInit {
       this.form.controls.image.reset();
     }
   }
-  protected override handleAddtionalErrors(): string | null {
+
+  public onAdd(): void {
+    if (!this.fileToUpload) {
+      this.imageError = 'Image is required.';
+      return;
+    }
+    if (this.form.valid && this.fileToUpload) {
+      this.gameService
+        .add(
+          {
+            categoryId: parseInt(this.form.controls.categoryId.value as any),
+            name: this.form.controls.name.value,
+            description: this.form.controls.description.value,
+            minAge: this.form.controls.minAge.value,
+            minPlayers: this.form.controls.minPlayers.value,
+            maxPlayers: this.form.controls.maxPlayers.value,
+            averagePlaytime: this.form.controls.averagePlaytime.value,
+          },
+          this.fileToUpload
+        )
+        .subscribe({
+          next: (_) => {
+            this.toastService.success({
+              message: AppToastMessage.ChangesSaved,
+              type: ToastType.Success,
+            });
+
+            //TODO: Just an idea maybe show qr after redirect from creating ?
+            this.router.navigateByUrl('/games/library');
+          },
+          error: (error) => {
+            this.handleServerErrors(error);
+            this.toastService.error({
+              message: AppToastMessage.FailedToSaveChanges,
+              type: ToastType.Error,
+            });
+          },
+        });
+    }
+  }
+
+  public onUpdate(): void {
+    if (this.editGameId) {
+      this.gameService
+        .update(
+          {
+            id: this.editGameId,
+            categoryId: parseInt(this.form.controls.categoryId.value as any),
+            name: this.form.controls.name.value,
+            description: this.form.controls.description.value,
+            minAge: this.form.controls.minAge.value,
+            minPlayers: this.form.controls.minPlayers.value,
+            maxPlayers: this.form.controls.maxPlayers.value,
+            averagePlaytime: this.form.controls.averagePlaytime.value,
+            imageId: !this.fileToUpload
+              ? +this.form.controls.image.value
+              : null,
+          },
+          this.fileToUpload
+        )
+        .subscribe({
+          next: (_) => {
+            this.toastService.success({
+              message: AppToastMessage.ChangesApplied,
+              type: ToastType.Success,
+            });
+
+            this.router.navigateByUrl(`/games/${this.editGameId}/details`);
+          },
+          error: (error) => {
+            this.handleServerErrors(error);
+            this.toastService.error({
+              message: AppToastMessage.FailedToSaveChanges,
+              type: ToastType.Error,
+            });
+          },
+        });
+    }
+  }
+
+  public onCopy(): void {
+    if (this.addExistingGame && this.selectedGame) {
+      this.gameService.addCopy(this.selectedGame.id).subscribe({
+        next: (_) => {
+          this.toastService.success({
+            message: AppToastMessage.ChangesSaved,
+            type: ToastType.Success,
+          });
+          this.router.navigateByUrl(`/games/library`);
+        },
+        error: (error) => {
+          this.handleServerErrors(error);
+          this.toastService.error({
+            message: AppToastMessage.FailedToSaveChanges,
+            type: ToastType.Error,
+          });
+        },
+      });
+      return;
+    }
+  }
+
+  protected override handleAdditionalErrors(): string | null {
     return this.imageError ? this.imageError : null;
   }
 
@@ -157,86 +273,38 @@ export class AddUpdateGameComponent extends Form implements OnInit {
     }
   }
 
-  public onSubmit(): void {
-    if (this.editGameId) {
-      this.gameService
-        .update(
-          {
-            id: this.editGameId,
-            categoryId: parseInt(this.form.controls.categoryId.value as any),
-            name: this.form.controls.name.value,
-            description: this.form.controls.description.value,
-            minAge: this.form.controls.minAge.value,
-            minPlayers: this.form.controls.minPlayers.value,
-            maxPlayers: this.form.controls.maxPlayers.value,
-            averagePlaytime: this.form.controls.averagePlaytime.value,
-            imageId: !this.fileToUpload
-              ? +this.form.controls.image.value
-              : null,
-          },
-          this.fileToUpload
-        )
-        .subscribe({
-          next: (_) => {
-            this.toastService.success({
-              message: 'Game Successfully Updated',
-              type: ToastType.Success,
-            });
+  private fetchGameList(): void {
+    this.gameService.getDropdownList().subscribe({
+      next: (gameList) => {
+        this.gameList = gameList ?? [];
+        if(this.selectedGame){
+          const selectGame = this.gameList.find(x=>x.id == this.selectedGame?.id);
+          if(selectGame) this.selectedGame = selectGame;
+        }
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+  }
 
-            this.router.navigateByUrl(`/games/${this.editGameId}/details`);
-          },
-          error: (error) => {
-            this.handleServerErrors(error);
-            this.toastService.error({
-              message:
-                'An error occurred while updating the game. Please try again.',
-              type: ToastType.Error,
-            });
-          },
+  private fetchGameById(id: number): void {
+    this.gameService.getById(id).subscribe((game) => {
+      if (game) {
+        this.form.patchValue({
+          categoryId: game.categoryId,
+          name: game.name,
+          description: game.description,
+          minAge: game.minAge,
+          minPlayers: game.minPlayers,
+          maxPlayers: game.maxPlayers,
+          averagePlaytime: game.averagePlaytime,
+          image: game.imageId.toString(),
         });
-
-      return;
-    }
-
-    if (!this.fileToUpload) {
-      this.imageError = 'Image is required.';
-
-      return;
-    }
-    if (this.form.valid && this.fileToUpload) {
-      this.gameService
-        .add(
-          {
-            categoryId: parseInt(this.form.controls.categoryId.value as any),
-            name: this.form.controls.name.value,
-            description: this.form.controls.description.value,
-            minAge: this.form.controls.minAge.value,
-            minPlayers: this.form.controls.minPlayers.value,
-            maxPlayers: this.form.controls.maxPlayers.value,
-            averagePlaytime: this.form.controls.averagePlaytime.value,
-          },
-          this.fileToUpload
-        )
-        .subscribe({
-          next: (_) => {
-            this.toastService.success({
-              message: 'Game Successfully Created',
-              type: ToastType.Success,
-            });
-
-            //TODO: Just an idea maybe show qr after redirect from creating ?
-            this.router.navigateByUrl('/games/library');
-          },
-          error: (error) => {
-            this.handleServerErrors(error);
-            this.toastService.error({
-              message:
-                'An error occurred while creating the game. Please try again.',
-              type: ToastType.Error,
-            });
-          },
-        });
-    }
+        this.imagePreview = `https://localhost:7024/games/get-image/${game.imageId}`;
+        this.fileToUpload = null;
+      }
+    });
   }
 
   private initFormGroup(): FormGroup {

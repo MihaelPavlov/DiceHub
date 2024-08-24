@@ -35,14 +35,14 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            width: 100%;
-            height: 100%;
+            width: 18rem;
+            height:18rem;
             cursor: pointer;
 
             img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
+                width: 18rem;
+                height: 18rem;
+                object-fit: contain;
                 border-radius: 0.7rem;
             }
         }
@@ -145,3 +145,8 @@
         }
     }
 }
+
+input[disabled], textarea[disabled], select[disabled] {
+    opacity: 0.6; /* Adjust opacity to your liking */
+    cursor: not-allowed; /* Change cursor to indicate non-interaction */
+  }

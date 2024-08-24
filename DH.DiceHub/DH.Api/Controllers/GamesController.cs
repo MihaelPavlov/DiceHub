@@ -32,9 +32,18 @@ public class GamesController : ControllerBase
         return Ok(result);
     }
 
-    [HttpPost("get-new-games")]
+    [HttpGet("get-dropdown-list")]
     [ActionAuthorize(UserAction.GamesRead)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetGameListQueryModel>))]
+    public async Task<IActionResult> GetDropdownList(CancellationToken cancellationToken)
+    {
+        var result = await this.mediator.Send(new GetGameDropdownListQuery(), cancellationToken);
+        return Ok(result);
+    }
+
+    [HttpPost("get-new-games")]
+    [ActionAuthorize(UserAction.GamesRead)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetGameDropdownListQueryModel>))]
     public async Task<IActionResult> GetNewGameList(GetNewGameListQuery request, CancellationToken cancellationToken)
     {
         var result = await this.mediator.Send(request, cancellationToken);
@@ -74,9 +83,18 @@ public class GamesController : ControllerBase
         return Ok(result);
     }
 
+    [HttpPost("copy")]
+    [ActionAuthorize(UserAction.GamesCUD)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> CreateGameCopy([FromBody] CreateGameCopyCommand command, CancellationToken cancellationToken)
+    {
+        await this.mediator.Send(command, cancellationToken);
+        return Ok();
+    }
+
     [HttpPut]
     [ActionAuthorize(UserAction.GamesCUD)]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> UpdateGame([FromForm] string game, [FromForm] IFormFile? imageFile, CancellationToken cancellationToken)
     {
         var gameDto = JsonSerializer.Deserialize<UpdateGameDto>(game)

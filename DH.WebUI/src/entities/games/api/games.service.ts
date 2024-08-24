@@ -6,6 +6,7 @@ import { IGameListResult } from '../models/game-list.model';
 import { IGameByIdResult } from '../models/game-by-id.model';
 import { ICreateGameDto } from '../models/create-game.model';
 import { IUpdateGameDto } from '../models/update-game.model';
+import { IGameDropdownResult } from '../models/game-dropdown.model';
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +22,12 @@ export class GamesService {
       {
         searchExpression,
       }
+    );
+  }
+
+  public getDropdownList(): Observable<IGameDropdownResult[]> {
+    return this.api.get<IGameDropdownResult[]>(
+      `/${PATH.GAMES.CORE}/${PATH.GAMES.GET_DROPDOWN_LIST}`
     );
   }
 
@@ -56,7 +63,14 @@ export class GamesService {
     return this.api.post<number>(`/${PATH.GAMES.CORE}`, formData);
   }
 
-  public update(game: IUpdateGameDto, imageFile: File | null): Observable<null> {
+  public addCopy(id: number): Observable<null> {
+    return this.api.post(`/${PATH.GAMES.CORE}/${PATH.GAMES.COPY}`, { id });
+  }
+
+  public update(
+    game: IUpdateGameDto,
+    imageFile: File | null
+  ): Observable<null> {
     const formData = new FormData();
     formData.append('game', JSON.stringify(game));
     if (imageFile) formData.append('imageFile', imageFile);

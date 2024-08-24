@@ -41,7 +41,7 @@ export class GameNavigationComponent implements OnInit {
     if (key === 'add-game') {
       this.router.navigateByUrl('/games/add')
     } else if (key === 'add-existing-game') {
-      //navigate to
+      this.router.navigateByUrl('/games/add-existing-game')
     } else if (key === 'reserved-games') {
       //navigate to
     }

@@ -51,6 +51,7 @@ export class GamesLibraryComponent implements OnInit, OnDestroy {
       { key: 'qr-code', label: 'QR Code' },
       { key: 'history-log', label: 'Last Activities' },
       { key: 'update', label: 'Update' },
+      { key: 'copy', label: 'Add Copy' },
       { key: 'delete', label: 'Delete' },
     ];
 
@@ -84,6 +85,9 @@ export class GamesLibraryComponent implements OnInit, OnDestroy {
     console.log(key);
     if(key === 'update'){
       this.router.navigateByUrl(`games/${this.visibleMenuId}/update`)
+    }
+    else if( key=== 'copy'){
+      this.router.navigateByUrl(`games/${this.visibleMenuId}/add-existing-game`)
     }
     this.visibleMenuId = null;
   }

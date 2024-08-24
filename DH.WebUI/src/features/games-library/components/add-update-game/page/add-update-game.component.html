@@ -1,18 +1,20 @@
 <div class="wrapper_icons">
   <span (click)="backNavigateBtn()" class="arrow left"></span>
 
-  <div class="games-select" *ngIf="false">
+  <div class="games-select" *ngIf="addExistingGame">
     <ng-select
-      [items]="games"
+      [items]="gameList"
       bindLabel="name"
       placeholder="Select Game"
+      [searchable]="true"
       [(ngModel)]="selectedGame"
+      (change)="handleAddExistingGame()"
       class="app-select"
     >
     </ng-select>
   </div>
 
-  <div *ngIf="false" class="info-container">
+  <div *ngIf="addExistingGame" class="info-container">
     <span class="material-symbols-outlined info" (click)="showMenu()">
       info
     </span>
@@ -25,7 +27,7 @@
   </a>
 </div>
 
-<form [formGroup]="form" (ngSubmit)="onSubmit()" class="container">
+<form [formGroup]="form" class="container">
   <div class="upload-section">
     <div class="upload-icon">
       <input
@@ -33,6 +35,7 @@
         id="file-upload"
         accept="image/*"
         (change)="onFileSelected($event)"
+        [disabled]="addExistingGame"
       />
       <label for="file-upload">
         <div class="image-preview">
@@ -110,6 +113,7 @@
         type="text"
         id="name"
         formControlName="name"
+        [readonly]="addExistingGame"
       />
     </div>
 
@@ -120,6 +124,7 @@
         id="description"
         formControlName="description"
       ></textarea>
+  
     </div>
 
     <div *ngIf="getFirstErrorMessage()" class="errors">
@@ -127,9 +132,10 @@
     </div>
 
     <button
-      *ngIf="!this.editGameId"
+      *ngIf="!this.editGameId && !this.addExistingGame"
       [disabled]="this.form.invalid"
-      type="submit"
+      type="button"
+      (click)="this.onAdd()"
       class="btn btn-gray"
       [ngClass]="{
         'btn-border-green': this.form.valid,
@@ -144,7 +150,8 @@
     <button
       *ngIf="this.editGameId"
       [disabled]="this.form.invalid"
-      type="submit"
+      type="button"
+      (click)="this.onUpdate()"
       class="btn btn-gray"
       [ngClass]="{
         'btn-border-yellow': this.form.valid,
@@ -155,5 +162,21 @@
     >
       Update
     </button>
+
+    <button
+    *ngIf="this.addExistingGame"
+    [disabled]="this.form.invalid"
+    type="button"
+    (click)="this.onCopy()"
+    class="btn btn-gray"
+    [ngClass]="{
+      'btn-border-green': this.form.valid,
+      'btn-font-green': this.form.valid,
+      'btn-border-red': this.form.invalid,
+      'btn-font-red': this.form.invalid
+    }"
+  >
+    Add Copy
+  </button>
   </div>
 </form>

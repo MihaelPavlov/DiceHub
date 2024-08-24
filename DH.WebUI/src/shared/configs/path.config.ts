@@ -2,10 +2,12 @@ export const PATH = {
   GAMES: {
     CORE: 'games',
     LIST: 'list',
-    LIKE: 'like',
-    DISLIKE: 'dislike',
+    GET_DROPDOWN_LIST: 'get-dropdown-list',
     GET_BY_CATEGORY_ID: 'get-games-by-category',
     GET_NEW_GAMES: 'get-new-games',
+    COPY: 'copy',
+    LIKE: 'like',
+    DISLIKE: 'dislike',
   },
   GAME_REVIEWS: {
     CORE: 'gameReviews',
