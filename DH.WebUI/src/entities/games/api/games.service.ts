@@ -67,6 +67,10 @@ export class GamesService {
     return this.api.post(`/${PATH.GAMES.CORE}/${PATH.GAMES.COPY}`, { id });
   }
 
+  public delete(id: number): Observable<null> {
+    return this.api.delete(`/${PATH.GAMES.CORE}/${id}`);
+  }
+
   public update(
     game: IUpdateGameDto,
     imageFile: File | null

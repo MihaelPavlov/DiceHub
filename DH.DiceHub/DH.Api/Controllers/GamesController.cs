@@ -139,4 +139,13 @@ public class GamesController : ControllerBase
 
         return File(gameFile.Data, gameFile.ContentType, gameFile.FileName);
     }
+
+    [HttpDelete("{id}")]
+    [ActionAuthorize(UserAction.GamesCUD)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> DeleteGame(int id, CancellationToken cancellationToken)
+    {
+        await this.mediator.Send(new DeleteGameCommand(id), cancellationToken);
+        return Ok();
+    }
 }

@@ -97,7 +97,7 @@ public class GameService : IGameService
         {
             return await context.Games
                 .Include(x => x.Likes)
-                .Where(x => x.Id == gameId)
+                .Where(x => x.Id == gameId && !x.IsDeleted)
                 .Select(game => new GetGameByIdQueryModel
                 {
                     Id = game.Id,
@@ -122,7 +122,7 @@ public class GameService : IGameService
         {
             return await
                 (from g in context.Games
-                 where g.Name.ToLower().Contains(searchExpression.ToLower())
+                 where !g.IsDeleted && g.Name.ToLower().Contains(searchExpression.ToLower())
                  let likes = context.GameLikes.Where(x => x.GameId == g.Id).ToList()
                  select new GetGameListQueryModel
                  {
@@ -143,7 +143,7 @@ public class GameService : IGameService
         {
             return await
                 (from g in context.Games
-                 where g.Name.ToLower().Contains(searchExpression.ToLower()) && g.CategoryId == categoryId
+                 where !g.IsDeleted && g.Name.ToLower().Contains(searchExpression.ToLower()) && g.CategoryId == categoryId
                  let likes = context.GameLikes.Where(x => x.GameId == g.Id).ToList()
                  select new GetGameListQueryModel
                  {
@@ -164,7 +164,7 @@ public class GameService : IGameService
         {
             return await
                 (from g in context.Games
-                 where g.Name.ToLower().Contains(searchExpression.ToLower()) && g.CreatedDate >= DateTime.UtcNow.AddDays(-7)
+                 where !g.IsDeleted && g.Name.ToLower().Contains(searchExpression.ToLower()) && g.CreatedDate >= DateTime.UtcNow.AddDays(-7)
                  let likes = context.GameLikes.Where(x => x.GameId == g.Id).ToList()
                  select new GetGameListQueryModel
                  {

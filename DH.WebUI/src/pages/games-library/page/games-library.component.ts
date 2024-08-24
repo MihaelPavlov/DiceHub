@@ -8,6 +8,8 @@ import { SearchService } from '../../../shared/services/search.service';
 import { IMenuItem } from '../../../shared/models/menu-item.model';
 import { PermissionService } from '../../../shared/services/permission.service';
 import { UserAction } from '../../../shared/constants/user-action';
+import { GameConfirmDeleteDialog } from '../../../features/games-library/dialogs/game-confirm-delete-dialog/game-confirm-delete.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-games-library',
@@ -29,7 +31,8 @@ export class GamesLibraryComponent implements OnInit, OnDestroy {
     private readonly gameService: GamesService,
     private readonly menuTabsService: MenuTabsService,
     private readonly searchService: SearchService,
-    private readonly permissionService: PermissionService
+    private readonly permissionService: PermissionService,
+    private readonly dialog: MatDialog
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.GAMES);
   }
@@ -41,7 +44,7 @@ export class GamesLibraryComponent implements OnInit, OnDestroy {
 
   public showMenu(gameId: number, event: MouseEvent): void {
     event.stopPropagation();
-    console.log('test',gameId);
+    console.log('test', gameId);
 
     this.visibleMenuId = this.visibleMenuId === gameId ? null : gameId;
   }
@@ -83,11 +86,14 @@ export class GamesLibraryComponent implements OnInit, OnDestroy {
   public onMenuOption(key: string, event: MouseEvent): void {
     event.stopPropagation();
     console.log(key);
-    if(key === 'update'){
-      this.router.navigateByUrl(`games/${this.visibleMenuId}/update`)
-    }
-    else if( key=== 'copy'){
-      this.router.navigateByUrl(`games/${this.visibleMenuId}/add-existing-game`)
+    if (key === 'update') {
+      this.router.navigateByUrl(`games/${this.visibleMenuId}/update`);
+    } else if (key === 'copy') {
+      this.router.navigateByUrl(
+        `games/${this.visibleMenuId}/add-existing-game`
+      );
+    } else if (key === 'delete' && this.visibleMenuId) {
+      this.openDeleteDialog(this.visibleMenuId);
     }
     this.visibleMenuId = null;
   }
@@ -99,10 +105,26 @@ export class GamesLibraryComponent implements OnInit, OnDestroy {
   }
 
   private fetchGameList(searchExpression: string = '') {
-    this.gameService
-      .getList(searchExpression)
-      .subscribe({next:(gameList) => (this.games = gameList ?? []),error:(error)=>{console.log(error);
-      }});
+    this.gameService.getList(searchExpression).subscribe({
+      next: (gameList) => (this.games = gameList ?? []),
+      error: (error) => {
+        console.log(error);
+      },
+    });
+  }
+
+  private openDeleteDialog(id: number): void {
+    const dialogRef = this.dialog.open(GameConfirmDeleteDialog, {
+      width: '17rem',
+      position: { bottom: '80%', left: '2%' },
+      data: { id: id },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.fetchGameList();
+      }
+    });
   }
 
   @HostListener('window:scroll', [])
@@ -117,7 +139,10 @@ export class GamesLibraryComponent implements OnInit, OnDestroy {
     const targetElement = event.target as HTMLElement;
 
     // Check if the clicked element is within the menu or the button that toggles the menu
-    if (this.visibleMenuId !== null && !targetElement.closest('.wrapper_library__item')) {
+    if (
+      this.visibleMenuId !== null &&
+      !targetElement.closest('.wrapper_library__item')
+    ) {
       this.visibleMenuId = null;
     }
   }

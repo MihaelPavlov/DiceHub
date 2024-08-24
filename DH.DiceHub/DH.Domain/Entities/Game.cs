@@ -4,6 +4,7 @@ public class Game
 {
     public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
+    public bool IsDeleted { get; set; } = false;
     public string Description { get; set; } = string.Empty;
     public int MinAge { get; set; }
     public int MinPlayers { get; set; }

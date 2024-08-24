@@ -78,6 +78,7 @@ export class GameReviewsComponent implements OnInit, OnDestroy {
       }
     });
   }
+
   public canDeleteReview(reviewUserId: string): boolean {
     if ((this.userInfo?.role as string) === UserRole.SuperAdmin) return true;
 

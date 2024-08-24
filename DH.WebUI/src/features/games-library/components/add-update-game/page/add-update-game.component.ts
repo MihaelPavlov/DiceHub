@@ -15,7 +15,6 @@ import { IGameCategory } from '../../../../../entities/games/models/game-categor
 import { Observable, takeUntil } from 'rxjs';
 import { ToastType } from '../../../../../shared/models/toast.model';
 import { Form } from '../../../../../shared/components/form/form.component';
-import { IGameListResult } from '../../../../../entities/games/models/game-list.model';
 import { IGameDropdownResult } from '../../../../../entities/games/models/game-dropdown.model';
 import { AppToastMessage } from '../../../../../shared/components/toast/constants/app-toast-messages.constant';
 
