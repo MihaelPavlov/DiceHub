@@ -27,7 +27,7 @@ internal class UpdateGameReviewCommandHandler : IRequestHandler<UpdateGameReview
         var gameReview = await gameReviewRepository.GetByAsync(x => x.Id == request.UpdateGameReviewDto.Id, cancellationToken);
 
         if (gameReview is null)
-            throw new NotFoundException($"{nameof(GameReview)} with id {request.UpdateGameReviewDto.Id} was not found");
+            throw new NotFoundException(nameof(GameReview), request.UpdateGameReviewDto.Id);
 
         gameReview.Review = request.UpdateGameReviewDto.Review;
         gameReview.UpdatedDate = DateTime.UtcNow;

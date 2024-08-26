@@ -1,6 +1,7 @@
 export const PATH = {
   GAMES: {
     CORE: 'games',
+    INVENTORY: 'inventory',
     LIST: 'list',
     GET_DROPDOWN_LIST: 'get-dropdown-list',
     GET_BY_CATEGORY_ID: 'get-games-by-category',
@@ -8,6 +9,7 @@ export const PATH = {
     COPY: 'copy',
     LIKE: 'like',
     DISLIKE: 'dislike',
+    RESERVATION: 'reservation',
   },
   GAME_REVIEWS: {
     CORE: 'gameReviews',

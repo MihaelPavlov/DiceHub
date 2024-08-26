@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DH.Adapter.Data.Migrations
 {
     [DbContext(typeof(TenantDbContext))]
-    [Migration("20240824121856_AddGameSoftDelete")]
-    partial class AddGameSoftDelete
+    [Migration("20240824161916_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -52,18 +52,12 @@ namespace DH.Adapter.Data.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CopyCount")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ImageId")
-                        .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -87,9 +81,6 @@ namespace DH.Adapter.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
-
-                    b.HasIndex("ImageId")
-                        .IsUnique();
 
                     b.ToTable("Games");
                 });
@@ -131,9 +122,40 @@ namespace DH.Adapter.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("GameId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("GameId")
+                        .IsUnique();
+
                     b.ToTable("GameImages");
+                });
+
+            modelBuilder.Entity("DH.Domain.Entities.GameInventory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AvailableCopies")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GameId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TotalCopies")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GameId")
+                        .IsUnique();
+
+                    b.ToTable("GameInventories");
                 });
 
             modelBuilder.Entity("DH.Domain.Entities.GameLike", b =>
@@ -156,6 +178,37 @@ namespace DH.Adapter.Data.Migrations
                     b.HasIndex("GameId");
 
                     b.ToTable("GameLikes");
+                });
+
+            modelBuilder.Entity("DH.Domain.Entities.GameReservation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("GameId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsPaymentSuccessful")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("ReservationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ReservedDurationMinutes")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GameId");
+
+                    b.ToTable("GameReservations");
                 });
 
             modelBuilder.Entity("DH.Domain.Entities.GameReview", b =>
@@ -198,21 +251,46 @@ namespace DH.Adapter.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DH.Domain.Entities.GameImage", "Image")
-                        .WithOne("Game")
-                        .HasForeignKey("DH.Domain.Entities.Game", "ImageId")
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("DH.Domain.Entities.GameImage", b =>
+                {
+                    b.HasOne("DH.Domain.Entities.Game", "Game")
+                        .WithOne("Image")
+                        .HasForeignKey("DH.Domain.Entities.GameImage", "GameId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Category");
+                    b.Navigation("Game");
+                });
 
-                    b.Navigation("Image");
+            modelBuilder.Entity("DH.Domain.Entities.GameInventory", b =>
+                {
+                    b.HasOne("DH.Domain.Entities.Game", "Game")
+                        .WithOne("Inventory")
+                        .HasForeignKey("DH.Domain.Entities.GameInventory", "GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Game");
                 });
 
             modelBuilder.Entity("DH.Domain.Entities.GameLike", b =>
                 {
                     b.HasOne("DH.Domain.Entities.Game", "Game")
                         .WithMany("Likes")
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Game");
+                });
+
+            modelBuilder.Entity("DH.Domain.Entities.GameReservation", b =>
+                {
+                    b.HasOne("DH.Domain.Entities.Game", "Game")
+                        .WithMany("Reservations")
                         .HasForeignKey("GameId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -233,7 +311,15 @@ namespace DH.Adapter.Data.Migrations
 
             modelBuilder.Entity("DH.Domain.Entities.Game", b =>
                 {
+                    b.Navigation("Image")
+                        .IsRequired();
+
+                    b.Navigation("Inventory")
+                        .IsRequired();
+
                     b.Navigation("Likes");
+
+                    b.Navigation("Reservations");
 
                     b.Navigation("Reviews");
                 });
@@ -241,12 +327,6 @@ namespace DH.Adapter.Data.Migrations
             modelBuilder.Entity("DH.Domain.Entities.GameCategory", b =>
                 {
                     b.Navigation("Games");
-                });
-
-            modelBuilder.Entity("DH.Domain.Entities.GameImage", b =>
-                {
-                    b.Navigation("Game")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

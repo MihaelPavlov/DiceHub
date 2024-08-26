@@ -3,6 +3,7 @@ using Autofac.Core;
 using Autofac.Extensions.DependencyInjection;
 using DH.Adapter.Authentication;
 using DH.Adapter.Data;
+using DH.Adapter.Scheduling;
 using DH.Api;
 using DH.Api.Filters;
 using DH.Application;
@@ -33,6 +34,8 @@ builder.Services.AddCors(options =>
     });
 });
 builder.Services.AuthenticationAdapter(builder.Configuration);
+builder.Services.AddSchedulingConfiguration(builder.Configuration);
+
 builder.Services.AddAutofac();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
 

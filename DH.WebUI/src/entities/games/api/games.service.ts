@@ -7,6 +7,8 @@ import { IGameByIdResult } from '../models/game-by-id.model';
 import { ICreateGameDto } from '../models/create-game.model';
 import { IUpdateGameDto } from '../models/update-game.model';
 import { IGameDropdownResult } from '../models/game-dropdown.model';
+import { IGameInventory } from '../models/game-inventory.mode';
+import { ICreateGameReservation } from '../models/create-game-reservation.model';
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +24,12 @@ export class GamesService {
       {
         searchExpression,
       }
+    );
+  }
+
+  public getInventory(id: number): Observable<IGameInventory> {
+    return this.api.get<IGameInventory>(
+      `/${PATH.GAMES.CORE}/${id}/${PATH.GAMES.INVENTORY}`
     );
   }
 
@@ -92,5 +100,9 @@ export class GamesService {
 
   public dislikeGame(id: number): Observable<null> {
     return this.api.put(`/${PATH.GAMES.CORE}/${id}/${PATH.GAMES.DISLIKE}`, {});
+  }
+
+  public reservation(reservation: ICreateGameReservation): Observable<null> {
+    return this.api.post(`/${PATH.GAMES.CORE}/${PATH.GAMES.RESERVATION}`, {reservation});
   }
 }

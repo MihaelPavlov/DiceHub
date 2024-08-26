@@ -23,7 +23,7 @@ internal class DeleteGameReviewByIdCommandHandler : IRequestHandler<DeleteGameRe
         var gameReview = await gameReviewRepository.GetByAsync(x => x.Id == request.Id, cancellationToken);
 
         if (gameReview is null)
-            throw new NotFoundException($"{nameof(GameReview)} with id {request.Id} was not found");
+             throw new NotFoundException(nameof(gameReview), request.Id);
 
         await gameReviewRepository.Remove(gameReview, cancellationToken);
     }

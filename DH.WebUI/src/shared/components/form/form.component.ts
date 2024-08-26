@@ -122,6 +122,7 @@ export abstract class Form {
               invalid: controlErrors[0].includes('invalid'),
               message: controlErrors[0],
             });
+            this.form.get(controlName)?.markAsTouched()
           }
         }
       }

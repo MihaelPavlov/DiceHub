@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DH.Application", "DH.Applic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DH.Adapter.Data", "DH.Adapter.Data\DH.Adapter.Data.csproj", "{2667DB21-7218-49AA-87B2-5ECD87EE1889}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DH.Adapter.Authentication", "DH.Adapter.Authentication\DH.Adapter.Authentication.csproj", "{265C91AB-5603-48E2-93E9-01288E15AA02}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DH.Adapter.Authentication", "DH.Adapter.Authentication\DH.Adapter.Authentication.csproj", "{265C91AB-5603-48E2-93E9-01288E15AA02}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DH.Adapter.Scheduling", "DH.Adapter.Scheduling\DH.Adapter.Scheduling.csproj", "{C7C9EF9E-B2AE-43BE-8CF0-CC25057F722D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{265C91AB-5603-48E2-93E9-01288E15AA02}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{265C91AB-5603-48E2-93E9-01288E15AA02}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{265C91AB-5603-48E2-93E9-01288E15AA02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7C9EF9E-B2AE-43BE-8CF0-CC25057F722D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7C9EF9E-B2AE-43BE-8CF0-CC25057F722D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7C9EF9E-B2AE-43BE-8CF0-CC25057F722D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7C9EF9E-B2AE-43BE-8CF0-CC25057F722D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,8 @@
-<app-game-layout *ngIf="game$ | async as game" [game]="game" [backNavigateBtn]="navigateBackToGameList.bind(this)">
+<app-game-layout
+  *ngIf="game$ | async as game"
+  [game]="game"
+  [backNavigateBtn]="navigateBackToGameList.bind(this)"
+>
   <div class="header">
     <p>Secure Your Sport for Epic Gameplay !</p>
     <span class="header__information"
@@ -8,21 +12,48 @@
   </div>
 
   <!-- class info__unavailable for UNAVAILABLE-->
-  <div class="info info__available"> 
-    <p class="info__status">AVAILABLE</p>
-    <!-- <p class="info__status">UNAVAILABLE</p> -->
-    <p>units 1 / 3</p>
+  <div
+    class="info"
+    [ngClass]="{
+      info__unavailable: inventory.availableCopies === 0,
+      info__available: inventory.availableCopies !== 0
+    }"
+    *ngIf="this.gameInventory$ | async as inventory"
+  >
+    <p *ngIf="inventory.availableCopies !== 0" class="info__status">
+      AVAILABLE
+    </p>
+    <p *ngIf="inventory.availableCopies === 0" class="info__status">
+      UNAVAILABLE
+    </p>
+    <p>units {{ inventory.availableCopies }} / {{ inventory.totalCopies }}</p>
   </div>
 
   <div class="wrapper">
-    <span class="material-symbols-outlined left"> play_arrow </span>
+    <span class="material-symbols-outlined left" (click)="decreaseTimer()"
+      >play_arrow</span
+    >
+
     <p class="circle">
-      <span class="timer">15</span>
+      <span class="timer">{{ currentTimer }}</span>
     </p>
-    <span class="material-symbols-outlined"> play_arrow </span>
+
+    <span class="material-symbols-outlined" (click)="increaseTimer()"
+      >play_arrow</span
+    >
   </div>
 
-  <div class="wrapper_btn">
-    <a href="#">Save game for <strong>15</strong> mins</a>
+  <div class="wrapper_btn" *ngIf="this.gameInventory$ | async as inventory">
+    <button
+      (click)="onReservation(game.id)"
+      class="btn btn-gray btn-border-green btn-font-green"
+      [disabled]="inventory.availableCopies === 0"
+      [ngClass]="{
+        'btn-border-red btn-font-red': inventory.availableCopies === 0,
+        'btn-border-green btn-font-green': inventory.availableCopies !== 0
+      }"
+    >
+      Save game for <strong>{{ currentTimer }}</strong> mins
+    </button>
   </div>
 </app-game-layout>

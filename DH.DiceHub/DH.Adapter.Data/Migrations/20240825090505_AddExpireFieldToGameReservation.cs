@@ -5,14 +5,14 @@
 namespace DH.Adapter.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class AddGameSoftDelete : Migration
+    public partial class AddExpireFieldToGameReservation : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<bool>(
-                name: "IsDeleted",
-                table: "Games",
+                name: "IsExpired",
+                table: "GameReservations",
                 type: "bit",
                 nullable: false,
                 defaultValue: false);
@@ -22,8 +22,8 @@ namespace DH.Adapter.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "IsDeleted",
-                table: "Games");
+                name: "IsExpired",
+                table: "GameReservations");
         }
     }
 }

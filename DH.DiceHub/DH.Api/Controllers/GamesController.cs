@@ -1,5 +1,6 @@
 using Azure.Core;
 using DH.Adapter.Authentication.Filters;
+using DH.Application.Games.Commands;
 using DH.Application.Games.Commands.Games;
 using DH.Application.Games.Queries.Games;
 using DH.Domain.Adapters.Authentication.Enums;
@@ -29,6 +30,15 @@ public class GamesController : ControllerBase
     public async Task<IActionResult> GetGameList(GetGameListQuery request, CancellationToken cancellationToken)
     {
         var result = await this.mediator.Send(request, cancellationToken);
+        return Ok(result);
+    }
+
+    [HttpGet("{id}/inventory")]
+    [ActionAuthorize(UserAction.GamesRead)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetGameListQueryModel>))]
+    public async Task<IActionResult> GetGameInventory(int id, CancellationToken cancellationToken)
+    {
+        var result = await this.mediator.Send(new GetGameInventoryQuery(id), cancellationToken);
         return Ok(result);
     }
 
@@ -146,6 +156,15 @@ public class GamesController : ControllerBase
     public async Task<IActionResult> DeleteGame(int id, CancellationToken cancellationToken)
     {
         await this.mediator.Send(new DeleteGameCommand(id), cancellationToken);
+        return Ok();
+    }
+
+    [HttpPost("reservation")]
+    [ActionAuthorize(UserAction.GamesCUD)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetGameListQueryModel>))]
+    public async Task<IActionResult> CreateGameReservation([FromBody] CreateGameReservationCommand command, CancellationToken cancellationToken)
+    {
+        await this.mediator.Send(command, cancellationToken);
         return Ok();
     }
 }

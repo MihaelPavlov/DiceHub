@@ -1,4 +1,5 @@
 ﻿using DH.Domain.Entities;
+using DH.Domain.Exceptions;
 using DH.Domain.Repositories;
 using MediatR;
 
@@ -18,7 +19,7 @@ internal class DeleteGameCommandHandler : IRequestHandler<DeleteGameCommand>
     public async Task Handle(DeleteGameCommand request, CancellationToken cancellationToken)
     {
         var game = await this.repository.GetByAsyncWithTracking(x => x.Id == request.Id, cancellationToken)
-            ?? throw new Exception("Not Found");
+            ?? throw new NotFoundException(nameof(Game), request.Id);
 
         game.IsDeleted = true;
 

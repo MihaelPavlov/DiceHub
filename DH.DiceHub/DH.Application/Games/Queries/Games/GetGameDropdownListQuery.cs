@@ -18,6 +18,6 @@ internal class GetGameDropdownListQueryHandler : IRequestHandler<GetGameDropdown
 
     public async Task<List<GetGameDropdownListQueryModel>> Handle(GetGameDropdownListQuery request, CancellationToken cancellationToken)
     {
-        return await this.repository.GetWithPropertiesAsync<GetGameDropdownListQueryModel>(x => new(x.Id, x.Name), cancellationToken);
+        return await this.repository.GetWithPropertiesAsync<GetGameDropdownListQueryModel>(x => !x.IsDeleted, x => new(x.Id, x.Name), cancellationToken);
     }
 }

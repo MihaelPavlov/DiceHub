@@ -13,4 +13,5 @@ public interface IGameService : IDomainService<Game>
     Task<GetGameByIdQueryModel?> GetGameByIdAsync(int gameId, string userId, CancellationToken cancellationToken);
     Task<int> CreateGame(Game game, string fileName, string contentType, MemoryStream imageStream, CancellationToken cancellationToken);
     Task UpdateGame(Game game, string fileName, string contentType, MemoryStream imageStream, CancellationToken cancellationToken);
+    Task CreateReservation(GameReservation reservation, CancellationToken cancellationToken);
 }

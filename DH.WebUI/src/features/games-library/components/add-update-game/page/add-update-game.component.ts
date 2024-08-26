@@ -12,7 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NAV_ITEM_LABELS } from '../../../../../shared/models/nav-items-labels.const';
 import { GameCategoriesService } from '../../../../../entities/games/api/game-categories.service';
 import { IGameCategory } from '../../../../../entities/games/models/game-category.model';
-import { catchError, Observable, takeUntil, throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { ToastType } from '../../../../../shared/models/toast.model';
 import { Form } from '../../../../../shared/components/form/form.component';
 import { IGameDropdownResult } from '../../../../../entities/games/models/game-dropdown.model';
@@ -213,6 +213,7 @@ export class AddUpdateGameComponent extends Form implements OnInit {
             this.router.navigateByUrl(`/games/${this.editGameId}/details`);
           },
           error: (error) => {
+            console.log('errors--->', error);
             this.handleServerErrors(error);
             this.toastService.error({
               message: AppToastMessage.FailedToSaveChanges,

@@ -37,6 +37,9 @@ public class TenantDbContext : DbContext, ITenantDbContext
     public DbSet<GameLike> GameLikes { get; set; } = default!;
     public DbSet<GameCategory> GameCategories { get; set; } = default!;
     public DbSet<GameImage> GameImages { get; set; } = default!;
+    public DbSet<GameReservation> GameReservations { get; set; } = default!;
+    public DbSet<GameInventory> GameInventories { get; set; } = default!;
+    public DbSet<FailedJob> FailedJobs { get; set; } = default!;
     public DbSet<Event> Events { get; set; } = default!;
 
     public T AcquireRepository<T>()
@@ -44,18 +47,13 @@ public class TenantDbContext : DbContext, ITenantDbContext
         return containerService.Resolve<T>();
     }
 
-    protected override void OnModelCreating(ModelBuilder builder)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
         ////TODO: Check if we ened to configure the mapping manually or the 24 line is working 
         //CommonMapping.Configure(builder);
 
-        builder.Entity<GameImage>()
-            .HasOne(g => g.Game)
-            .WithOne(i => i.Image)
-            .HasForeignKey<Game>(i => i.ImageId);
-
-        base.OnModelCreating(builder);
+        base.OnModelCreating(modelBuilder);
     }
 }

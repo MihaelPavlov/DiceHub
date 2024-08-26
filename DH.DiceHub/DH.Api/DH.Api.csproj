@@ -13,6 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DH.Adapter.Authentication\DH.Adapter.Authentication.csproj" />
     <ProjectReference Include="..\DH.Adapter.Data\DH.Adapter.Data.csproj" />
+    <ProjectReference Include="..\DH.Adapter.Scheduling\DH.Adapter.Scheduling.csproj" />
     <ProjectReference Include="..\DH.Application\DH.Application.csproj" />
     <ProjectReference Include="..\DH.Domain\DH.Domain.csproj" />
   </ItemGroup>
