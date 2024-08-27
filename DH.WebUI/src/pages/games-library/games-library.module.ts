@@ -24,6 +24,7 @@ import { NewGameListComponent } from '../../features/games-library/components/ne
 import { AddUpdateGameComponent } from '../../features/games-library/components/add-update-game/page/add-update-game.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { GameConfirmDeleteDialog } from '../../features/games-library/dialogs/game-confirm-delete-dialog/game-confirm-delete.component';
+import { ReservationListComponent } from '../../features/games-library/components/reservation-list/page/reservation-list.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { GameConfirmDeleteDialog } from '../../features/games-library/dialogs/ga
     AddUpdateGameComponent,
     GameReviewConfirmDeleteDialog,
     GameConfirmDeleteDialog,
+    ReservationListComponent
   ],
   exports: [GamesLibraryComponent],
   providers: [],

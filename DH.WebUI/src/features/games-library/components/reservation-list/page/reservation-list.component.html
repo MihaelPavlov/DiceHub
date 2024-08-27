@@ -1,0 +1,34 @@
+<div class="wrapper_icons">
+  <span (click)="backNavigateBtn()" class="arrow left"></span>
+  <span class="header_name">Reserved Games</span>
+</div>
+
+<section class="wrapper_library">
+  <div
+    *ngFor="let game of reservedGames$ | async"
+    class="wrapper_library__item"
+  >
+    <div class="wrapper_image">
+      <img
+        src="https://localhost:7024/games/get-image/{{ game.gameImageId }}"
+        alt="Game Image"
+      />
+    </div>
+    <div class="wrapper_info">
+      <div class="wrapper_title">
+        {{ game.gameName }}
+        <div class="wrapper_description">
+          <p>{{ game.reservationDate }}</p>
+          <p>From: {{ game.userName }}</p>
+          <p>
+            Payment:
+            <span *ngIf="game.isExpired" class="success">Successfully</span>
+            <span *ngIf="!game.isExpired" class="unsuccess"
+              >Unsuccessfully</span
+            >
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

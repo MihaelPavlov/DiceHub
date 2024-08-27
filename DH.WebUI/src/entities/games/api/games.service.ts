@@ -9,6 +9,7 @@ import { IUpdateGameDto } from '../models/update-game.model';
 import { IGameDropdownResult } from '../models/game-dropdown.model';
 import { IGameInventory } from '../models/game-inventory.mode';
 import { ICreateGameReservation } from '../models/create-game-reservation.model';
+import { IReservedGame } from '../models/reserved-game.model';
 
 @Injectable({
   providedIn: 'root',
@@ -30,6 +31,12 @@ export class GamesService {
   public getInventory(id: number): Observable<IGameInventory> {
     return this.api.get<IGameInventory>(
       `/${PATH.GAMES.CORE}/${id}/${PATH.GAMES.INVENTORY}`
+    );
+  }
+
+  public getReservations(): Observable<IReservedGame[]> {
+    return this.api.get<IReservedGame[]>(
+      `/${PATH.GAMES.CORE}/${PATH.GAMES.GET_RESERVED_GAMES}`
     );
   }
 
@@ -103,6 +110,8 @@ export class GamesService {
   }
 
   public reservation(reservation: ICreateGameReservation): Observable<null> {
-    return this.api.post(`/${PATH.GAMES.CORE}/${PATH.GAMES.RESERVATION}`, {reservation});
+    return this.api.post(`/${PATH.GAMES.CORE}/${PATH.GAMES.RESERVATION}`, {
+      reservation,
+    });
   }
 }

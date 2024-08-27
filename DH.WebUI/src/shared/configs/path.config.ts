@@ -6,6 +6,7 @@ export const PATH = {
     GET_DROPDOWN_LIST: 'get-dropdown-list',
     GET_BY_CATEGORY_ID: 'get-games-by-category',
     GET_NEW_GAMES: 'get-new-games',
+    GET_RESERVED_GAMES: 'get-reserved-games',
     COPY: 'copy',
     LIKE: 'like',
     DISLIKE: 'dislike',

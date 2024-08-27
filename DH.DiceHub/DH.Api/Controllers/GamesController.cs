@@ -1,4 +1,3 @@
-using Azure.Core;
 using DH.Adapter.Authentication.Filters;
 using DH.Application.Games.Commands;
 using DH.Application.Games.Commands.Games;
@@ -8,7 +7,6 @@ using DH.Domain.Models.GameModels.Commands;
 using DH.Domain.Models.GameModels.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
 
 namespace DH.Api.Controllers;
@@ -35,10 +33,19 @@ public class GamesController : ControllerBase
 
     [HttpGet("{id}/inventory")]
     [ActionAuthorize(UserAction.GamesRead)]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetGameListQueryModel>))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetGameInvetoryQueryModel))]
     public async Task<IActionResult> GetGameInventory(int id, CancellationToken cancellationToken)
     {
         var result = await this.mediator.Send(new GetGameInventoryQuery(id), cancellationToken);
+        return Ok(result);
+    }
+
+    [HttpGet("get-reserved-games")]
+    [ActionAuthorize(UserAction.GameReservedCRUD)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetGameReservationListQueryModel>))]
+    public async Task<IActionResult> GetGameReservationList(CancellationToken cancellationToken)
+    {
+        var result = await this.mediator.Send(new GetGameReservedListQuery(), cancellationToken);
         return Ok(result);
     }
 

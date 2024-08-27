@@ -8,6 +8,7 @@ import { GameCategoriesComponent } from '../../features/games-library/components
 import { GameNavigationComponent } from '../../features/games-library/components/game-navigation/page/game-navigation.component';
 import { NewGameListComponent } from '../../features/games-library/components/new-game-list/page/new-game-list.component';
 import { AddUpdateGameComponent } from '../../features/games-library/components/add-update-game/page/add-update-game.component';
+import { ReservationListComponent } from '../../features/games-library/components/reservation-list/page/reservation-list.component';
 
 const routes: Routes = [
   {
@@ -43,6 +44,10 @@ const routes: Routes = [
   {
     path: 'add-existing-game',
     component: AddUpdateGameComponent,
+  },
+  {
+    path: 'reservations',
+    component: ReservationListComponent,
   },
   {
     path: ':id/add-existing-game',

@@ -43,9 +43,8 @@ export class GameNavigationComponent implements OnInit {
     } else if (key === 'add-existing-game') {
       this.router.navigateByUrl('/games/add-existing-game')
     } else if (key === 'reserved-games') {
-      //navigate to
+      this.router.navigateByUrl('/games/reservations')
     }
-    console.log(`Selected: ${key}`);
   }
 
   public onActivate(componentRef: any) {
