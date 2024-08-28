@@ -1,0 +1,67 @@
+<app-header
+  header="Event Management"
+  [withBottomLine]="true"
+  [withSearch]="true"
+  [withAdd]="true"
+  [menuItems]="headerMenuItems"
+  [menuItemClickFunction]="handleHeaderMenuItemClick"
+  (searchExpressionResult)="handleSeachExpression($event)"
+>
+</app-header>
+
+<section class="wrapper_library">
+  <div class="wrapper_library__item">
+    <div class="wrapper_image">
+      <img
+        src="https://localhost:7024/games/get-image/{{ 4 }}"
+        alt="Game Image"
+      />
+    </div>
+    <div class="wrapper_info">
+      <div class="wrapper_title">
+        Dungeon
+        <div class="wrapper_chips">
+          <app-chip
+            [color]="'orange'"
+            text="3 joined"
+            [size]="'small'"
+          ></app-chip>
+          <app-chip [color]="'red'" text="5 max" [size]="'small'"></app-chip>
+        </div>
+        <div class="wrapper_chips">
+          <app-chip
+            [color]="'blue'"
+            text="24/06/24 h:17:00"
+            [size]="'small'"
+          ></app-chip>
+          <app-chip [color]="'yellow'" text="7d" [size]="'small'"></app-chip>
+        </div>
+      </div>
+      <div class="wrapper_right">
+        <span
+          class="material-symbols-outlined menu-container"
+          (click)="showEventMenu(1, $event)"
+        >
+          lists
+        </span>
+        <div
+          *ngIf="visibleMenuId === 1"
+          [ngTemplateOutlet]="menuTemplate"
+        ></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<ng-template #menuTemplate>
+  <div class="menu">
+    <ul>
+      <li
+        *ngFor="let item of eventMenuItems"
+        (click)="handleEventMenuItemClick(item.key, $event)"
+      >
+        {{ item.label }}
+      </li>
+    </ul>
+  </div>
+</ng-template>

@@ -2,6 +2,8 @@ import { Routes } from '@angular/router';
 import { AppComponent } from '../app-component/app.component';
 import { LoginComponent } from '../../pages/login/page/login.component';
 import { AuthGuard } from '../../shared/guards/auth.guard';
+import { EventUserAccessGuard } from '../../shared/guards/event-user.guard';
+import { EventAdminAccessGuard } from '../../shared/guards/event-admin-access.guard';
 
 export const ROUTES: Routes = [
   {
@@ -22,6 +24,15 @@ export const ROUTES: Routes = [
           import('../../pages/events-library/events-library.module').then(
             (m) => m.EventsLibraryModule
           ),
+        canActivate: [EventUserAccessGuard],
+      },
+      {
+        path: 'admin-events',
+        loadChildren: () =>
+          import(
+            '../../pages/admin-event-management/admin-event-management.module'
+          ).then((m) => m.AdminEventManagementModule),
+        canActivate: [EventAdminAccessGuard],
       },
       {
         path: 'meeples',
@@ -47,9 +58,9 @@ export const ROUTES: Routes = [
       {
         path: 'admin-space',
         loadChildren: () =>
-          import(
-            '../../pages/admin-space/admin-space.module'
-          ).then((m) => m.AdminSpaceModule),
+          import('../../pages/admin-space/admin-space.module').then(
+            (m) => m.AdminSpaceModule
+          ),
       },
     ],
   },
@@ -58,24 +69,24 @@ export const ROUTES: Routes = [
     component: LoginComponent,
   },
   {
-    path:'unauthorized',
+    path: 'unauthorized',
     loadChildren: () =>
-      import(
-        '../../shared/exceptions/unauthorized/unathorized.module'
-      ).then((m) => m.UnauthorizedModule),
+      import('../../shared/exceptions/unauthorized/unathorized.module').then(
+        (m) => m.UnauthorizedModule
+      ),
   },
   {
-    path:'forbidden',
+    path: 'forbidden',
     loadChildren: () =>
-      import(
-        '../../shared/exceptions/forbidden/forbidden.module'
-      ).then((m) => m.ForbiddenModule),
+      import('../../shared/exceptions/forbidden/forbidden.module').then(
+        (m) => m.ForbiddenModule
+      ),
   },
   {
-    path:'not-found',
+    path: 'not-found',
     loadChildren: () =>
-      import(
-        '../../shared/exceptions/not-found/not-found.module'
-      ).then((m) => m.NotFoundModule),
-  }
+      import('../../shared/exceptions/not-found/not-found.module').then(
+        (m) => m.NotFoundModule
+      ),
+  },
 ];

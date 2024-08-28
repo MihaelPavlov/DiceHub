@@ -148,4 +148,17 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       this.isMenuVisible = false;
     }
   }
+
+  @HostListener('document:click', ['$event'])
+  private onClickOutside(event: Event): void {
+    const targetElement = event.target as HTMLElement;
+
+    // Check if the clicked element is within the menu or the button that toggles the menu
+    if (
+      this.isMenuVisible === true &&
+      !targetElement.closest('.wrapper_items')
+    ) {
+      this.isMenuVisible = false;
+    }
+  }
 }

@@ -5,21 +5,21 @@ import { ClubSpaceManagementRoutingModule } from './club-space-management-routes
 import { ClubSpaceManagementComponent } from './page/club-space-management.component';
 import { AddUpdateClubSpaceComponent } from '../../features/club-space-management/components/add-update-club-space/add-update-club-space.component';
 import { ClubSpaceListComponent } from '../../features/club-space-management/components/club-space-list/club-space-list.component';
-import { ChipModule } from "../../widgets/chip/chip.module";
+import { ChipModule } from '../../widgets/chip/chip.module';
 
 @NgModule({
-    declarations: [
-        ClubSpaceManagementComponent,
-        AddUpdateClubSpaceComponent,
-        ClubSpaceListComponent,
-    ],
-    exports: [ClubSpaceManagementComponent],
-    providers: [],
-    imports: [
-        SharedModule,
-        HeaderModule,
-        ClubSpaceManagementRoutingModule,
-        ChipModule
-    ]
+  declarations: [
+    ClubSpaceManagementComponent,
+    AddUpdateClubSpaceComponent,
+    ClubSpaceListComponent,
+  ],
+  exports: [ClubSpaceManagementComponent],
+  providers: [],
+  imports: [
+    SharedModule,
+    HeaderModule,
+    ClubSpaceManagementRoutingModule,
+    ChipModule,
+  ],
 })
 export class ClubSpaceManagementModule {}

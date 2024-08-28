@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -37,7 +37,7 @@ export type Formify<T> = FormGroup<{
   templateUrl: 'add-update-game.component.html',
   styleUrl: 'add-update-game.component.scss',
 })
-export class AddUpdateGameComponent extends Form implements OnInit {
+export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
   override form: Formify<ICreateForm>;
   public categories!: Observable<IGameCategory[] | null>;
   public imagePreview: string | ArrayBuffer | null = null;
@@ -66,6 +66,9 @@ export class AddUpdateGameComponent extends Form implements OnInit {
       }
     });
     this.menuTabsService.setActive(NAV_ITEM_LABELS.GAMES);
+  }
+  ngOnDestroy(): void {
+    this.menuTabsService.resetData();
   }
   private clearServerErrorMessage() {
     this.getServerErrorMessage = null;
