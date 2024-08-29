@@ -17,8 +17,9 @@ import { ToastType } from '../../../../../shared/models/toast.model';
 import { Form } from '../../../../../shared/components/form/form.component';
 import { IGameDropdownResult } from '../../../../../entities/games/models/game-dropdown.model';
 import { AppToastMessage } from '../../../../../shared/components/toast/constants/app-toast-messages.constant';
+import { Formify } from '../../../../../shared/models/form.model';
 
-interface ICreateForm {
+interface ICreateGameForm {
   categoryId: number;
   name: string;
   description: string;
@@ -28,9 +29,6 @@ interface ICreateForm {
   averagePlaytime: number;
   image: string;
 }
-export type Formify<T> = FormGroup<{
-  [K in keyof T]: FormControl<T[K]>;
-}>;
 
 @Component({
   selector: 'app-add-update-game',
@@ -38,7 +36,7 @@ export type Formify<T> = FormGroup<{
   styleUrl: 'add-update-game.component.scss',
 })
 export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
-  override form: Formify<ICreateForm>;
+  override form: Formify<ICreateGameForm>;
   public categories!: Observable<IGameCategory[] | null>;
   public imagePreview: string | ArrayBuffer | null = null;
   public showQRCode = false;

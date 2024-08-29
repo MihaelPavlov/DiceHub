@@ -6,6 +6,7 @@ import { AdminEventManagementComponent } from './page/admin-event-management.com
 import { NgModule } from '@angular/core';
 import { ChipModule } from '../../widgets/chip/chip.module';
 import { AddUpdateEventComponent } from '../../features/events-library/components/add-update-event/page/add-update-event.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [AdminEventManagementComponent,AddUpdateEventComponent],
@@ -17,6 +18,7 @@ import { AddUpdateEventComponent } from '../../features/events-library/component
     FormsModule,
     ReactiveFormsModule,
     ChipModule,
+    NgSelectModule,
     AdminEventManagementRoutingModule,
   ],
 })

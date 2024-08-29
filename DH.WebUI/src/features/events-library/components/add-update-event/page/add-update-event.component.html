@@ -1,1 +1,163 @@
-<span>add event</span>
+<div class="wrapper_icons">
+  <span (click)="backNavigateBtn()" class="arrow left"></span>
+
+  <!-- <div class="games-select">
+    <ng-select
+      [items]="gameList"
+      bindLabel="name"
+      placeholder="Select Game"
+      [searchable]="true"
+      [(ngModel)]="selectedGame"
+      (change)="handleAddExistingGame()"
+      class="app-select"
+    >
+    </ng-select>
+  </div>
+
+  <div class="info-container">
+    <span class="material-symbols-outlined info" (click)="showMenu()"> info </span>
+    <div class="qr-code-info"  *ngIf="isMenuVisible">
+      <span> New QR Code Will be Created </span>
+    </div>
+  </div> -->
+</div>
+
+<form [formGroup]="form" class="container">
+  <div class="upload-section">
+    <div class="upload-icon">
+      <input
+        type="file"
+        id="file-upload"
+        accept="image/*"
+        (change)="onFileSelected($event)"
+      />
+      <label for="file-upload">
+        <div class="image-preview">
+          <img
+            [src]="
+              imagePreview ||
+              '../../../../../shared/assets/images/upload_img.svg'
+            "
+            alt="Selected Image"
+          />
+        </div>
+      </label>
+    </div>
+
+    <div class="input-field">
+      <label for="is-custom-image">Use Custom Image</label>
+      <input
+        type="checkbox"
+        id="is-custom-image"
+        formControlName="isCustomImage"
+      />
+    </div>
+
+    <div class="input-field">
+      <label for="game" class="required">Game</label>
+      <select id="game" formControlName="gameId">
+        <option [value]="null" disabled selected>Choose game</option>
+        <option *ngFor="let item of gameList" [value]="item.id">
+          {{ item.name }}
+        </option>
+      </select>
+    </div>
+
+    <div class="input-group">
+      <div class="input-field">
+        <label for="max-people" class="required">Max People</label>
+        <input
+          placeholder="max people"
+          type="number"
+          id="max-people"
+          formControlName="maxPeople"
+        />
+      </div>
+      <div class="input-field">
+        <label for="start-date" class="required">Start Date</label>
+        <input
+          placeholder="start date"
+          type="date"
+          id="start-date"
+          formControlName="startDate"
+        />
+      </div>
+    </div>
+
+    <!-- <div class="input-group">
+      <div class="input-field">
+        <label for="min-age" class="required">Min age</label>
+        <input
+          placeholder="kids or adults"
+          type="number"
+          id="min-age"
+          formControlName="minAge"
+        />
+      </div>
+      <div class="input-field">
+        <label for="approx-time" class="required">Approx Time</label>
+        <input
+          placeholder="average play time"
+          type="number"
+          id="approx-time"
+          formControlName="averagePlaytime"
+        />
+      </div>
+    </div> -->
+
+    <div class="input-field">
+      <label for="name" class="required">Name</label>
+      <input
+        placeholder="name of the game ?"
+        type="text"
+        id="name"
+        formControlName="name"
+      />
+    </div>
+
+    <div class="input-field">
+      <label for="description" class="required">Description</label>
+      <textarea
+        placeholder="what happend in this game"
+        id="description"
+        formControlName="description"
+      ></textarea>
+    </div>
+
+    <div *ngIf="getFirstErrorMessage()" class="errors">
+      {{ getFirstErrorMessage() }}
+    </div>
+
+    <button
+      *ngIf="!this.editEventId"
+      [disabled]="this.form.invalid"
+      type="button"
+      (click)="this.onAdd()"
+      class="btn btn-gray"
+      [ngClass]="{
+        'btn-border-green': this.form.valid,
+        'btn-font-green': this.form.valid,
+        'btn-border-red': this.form.invalid,
+        'btn-font-red': this.form.invalid
+      }"
+    >
+      Create
+    </button>
+
+    <button
+      *ngIf="this.editEventId"
+      [disabled]="this.form.invalid"
+      type="button"
+      (click)="this.onUpdate()"
+      class="btn btn-gray"
+      [ngClass]="{
+        'btn-border-yellow': this.form.valid,
+        'btn-font-yellow': this.form.valid,
+        'btn-border-red': this.form.invalid,
+        'btn-font-red': this.form.invalid
+      }"
+    >
+      Update
+    </button>
+  </div>
+</form>
