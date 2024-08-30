@@ -2,7 +2,6 @@
 using DH.Application.Games.Commands.Games;
 using DH.Domain.Adapters.Authentication.Enums;
 using DH.Domain.Models.EventModels.Command;
-using DH.Domain.Models.GameModels.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
@@ -20,7 +19,7 @@ public class EventsController : ControllerBase
     }
 
     [HttpPost]
-    [ActionAuthorize(UserAction.EventsCRUD)]
+    [ActionAuthorize(UserAction.EventsCUD)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
     public async Task<IActionResult> CreateGame([FromForm] string eventModel, [FromForm] IFormFile imageFile, CancellationToken cancellationToken)
     {
@@ -30,7 +29,7 @@ public class EventsController : ControllerBase
         using var memoryStream = new MemoryStream();
         await imageFile.CopyToAsync(memoryStream, cancellationToken);
 
-        var result = await this.mediator.Send(new CreateGameCommand(eventDto, imageFile.FileName, imageFile.ContentType, memoryStream), cancellationToken);
+        var result = await this.mediator.Send(new CreateEventCommand(eventDto, imageFile.FileName, imageFile.ContentType, memoryStream), cancellationToken);
         return Ok(result);
     }
 
