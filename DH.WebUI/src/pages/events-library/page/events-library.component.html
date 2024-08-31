@@ -1,4 +1,4 @@
-<ng-container>
+<ng-container *ngIf="todayEvents.length !== 0">
   <app-header
     header="Todays Events"
     [withSearch]="false"
@@ -7,38 +7,49 @@
   </app-header>
 
   <div class="wrapper_events">
-    <div class="wrapper_event" (click)="navigateToEventDetails()">
+    <div
+      *ngFor="let event of todayEvents"
+      class="wrapper_event"
+      (click)="navigateToDetails(event.id)"
+    >
       <div class="wrapper_event__chips">
         <app-chip
           [color]="'orange'"
-          text="3 joined"
+          text="{{ event.peopleJoined }} joined"
           [size]="'small'"
         ></app-chip>
-        <app-chip [color]="'red'" text="5 max" [size]="'small'"></app-chip>
+        <app-chip
+          [color]="'red'"
+          text="{{ event.maxPeople }} max"
+          [size]="'small'"
+        ></app-chip>
       </div>
 
       <div class="wrapper_event__image">
-        <img
-          src="https://cf.geekdo-images.com/fvhkcw4s6Q4-nMwwok1J6A__opengraph/img/bbHffM-AIBac7jMM8sgOM1sC0zk=/0x274:1314x964/fit-in/1200x630/filters:strip_icc()/pic6569894.png"
-          alt=""
-        />
+        <img [src]="getImage(event)" alt="" />
       </div>
 
       <div class="wrapper_event__header">
-        <span> Dungeon </span>
+        <span> {{ event.name }} </span>
       </div>
 
       <div class="wrapper_event__chips-date-info">
         <app-chip
           [color]="'blue'"
-          text="24/06/24 h:17:00"
+          [text]="(event.startDate | date : 'dd/MM/yyyy')?.toString() ?? ''"
           [size]="'small'"
         ></app-chip>
-        <app-chip [color]="'yellow'" text="7d" [size]="'small'"></app-chip>
+        <app-chip
+          [color]="'yellow'"
+          [text]="event.startDate | calculateRemainingDays"
+          [size]="'small'"
+        ></app-chip>
       </div>
     </div>
   </div>
+</ng-container>
 
+<ng-container *ngIf="upcomingEvents.length !== 0">
   <app-header
     header="Upcoming Events"
     [withSearch]="false"
@@ -47,94 +58,43 @@
   </app-header>
 
   <div class="wrapper_events">
-    <div class="wrapper_event">
+    <div
+      *ngFor="let event of upcomingEvents"
+      class="wrapper_event"
+      (click)="navigateToDetails(event.id)"
+    >
       <div class="wrapper_event__chips">
         <app-chip
           [color]="'orange'"
-          text="3 joined"
+          text="{{ event.peopleJoined }} joined"
           [size]="'small'"
         ></app-chip>
-        <app-chip [color]="'red'" text="5 max" [size]="'small'"></app-chip>
+        <app-chip
+          [color]="'red'"
+          text="{{ event.maxPeople }} max"
+          [size]="'small'"
+        ></app-chip>
       </div>
 
       <div class="wrapper_event__image">
-        <img
-          src="https://cf.geekdo-images.com/fvhkcw4s6Q4-nMwwok1J6A__opengraph/img/bbHffM-AIBac7jMM8sgOM1sC0zk=/0x274:1314x964/fit-in/1200x630/filters:strip_icc()/pic6569894.png"
-          alt=""
-        />
+        <img [src]="getImage(event)" alt="" />
       </div>
 
       <div class="wrapper_event__header">
-        <span> Dungeon </span>
+        <span> {{ event.name }} </span>
       </div>
 
       <div class="wrapper_event__chips-date-info">
         <app-chip
           [color]="'blue'"
-          text="24/06/24 h:17:00"
+          [text]="(event.startDate | date : 'dd/MM/yyyy')?.toString() ?? ''"
           [size]="'small'"
         ></app-chip>
-        <app-chip [color]="'yellow'" text="7d" [size]="'small'"></app-chip>
-      </div>
-    </div>
-    <div class="wrapper_event">
-      <div class="wrapper_event__chips">
         <app-chip
-          [color]="'orange'"
-          text="3 joined"
+          [color]="'yellow'"
+          [text]="event.startDate | calculateRemainingDays"
           [size]="'small'"
         ></app-chip>
-        <app-chip [color]="'red'" text="5 max" [size]="'small'"></app-chip>
-      </div>
-
-      <div class="wrapper_event__image">
-        <img
-          src="https://cf.geekdo-images.com/fvhkcw4s6Q4-nMwwok1J6A__opengraph/img/bbHffM-AIBac7jMM8sgOM1sC0zk=/0x274:1314x964/fit-in/1200x630/filters:strip_icc()/pic6569894.png"
-          alt=""
-        />
-      </div>
-
-      <div class="wrapper_event__header">
-        <span> Dungeon </span>
-      </div>
-
-      <div class="wrapper_event__chips-date-info">
-        <app-chip
-          [color]="'blue'"
-          text="24/06/24 h:17:00"
-          [size]="'small'"
-        ></app-chip>
-        <app-chip [color]="'yellow'" text="7d" [size]="'small'"></app-chip>
-      </div>
-    </div>
-    <div class="wrapper_event">
-      <div class="wrapper_event__chips">
-        <app-chip
-          [color]="'orange'"
-          text="3 joined"
-          [size]="'small'"
-        ></app-chip>
-        <app-chip [color]="'red'" text="5 max" [size]="'small'"></app-chip>
-      </div>
-
-      <div class="wrapper_event__image">
-        <img
-          src="https://cf.geekdo-images.com/fvhkcw4s6Q4-nMwwok1J6A__opengraph/img/bbHffM-AIBac7jMM8sgOM1sC0zk=/0x274:1314x964/fit-in/1200x630/filters:strip_icc()/pic6569894.png"
-          alt=""
-        />
-      </div>
-
-      <div class="wrapper_event__header">
-        <span> Dungeon </span>
-      </div>
-
-      <div class="wrapper_event__chips-date-info">
-        <app-chip
-          [color]="'blue'"
-          text="24/06/24 h:17:00"
-          [size]="'small'"
-        ></app-chip>
-        <app-chip [color]="'yellow'" text="7d" [size]="'small'"></app-chip>
       </div>
     </div>
   </div>

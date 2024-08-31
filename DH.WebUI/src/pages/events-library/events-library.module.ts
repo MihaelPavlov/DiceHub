@@ -7,14 +7,12 @@ import { ChipModule } from '../../widgets/chip/chip.module';
 import { EventDetailsComponent } from '../../features/events-library/components/event-details/page/event-details.component';
 
 @NgModule({
-  declarations: [EventsLibraryComponent, EventDetailsComponent],
+  declarations: [
+    EventsLibraryComponent,
+    EventDetailsComponent,
+  ],
   exports: [EventsLibraryComponent],
   providers: [],
-  imports: [
-    SharedModule,
-    HeaderModule,
-    EventsLibraryRoutingModule,
-    ChipModule,
-  ],
+  imports: [SharedModule, HeaderModule, EventsLibraryRoutingModule, ChipModule],
 })
 export class EventsLibraryModule {}

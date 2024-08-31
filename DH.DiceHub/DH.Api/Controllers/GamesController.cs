@@ -167,7 +167,7 @@ public class GamesController : ControllerBase
     }
 
     [HttpPost("reservation")]
-    [ActionAuthorize(UserAction.GamesCUD)]
+    [ActionAuthorize(UserAction.GamesRead)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetGameListQueryModel>))]
     public async Task<IActionResult> CreateGameReservation([FromBody] CreateGameReservationCommand command, CancellationToken cancellationToken)
     {

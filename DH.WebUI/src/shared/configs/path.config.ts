@@ -21,7 +21,10 @@ export const PATH = {
   },
   EVENTS: {
     CORE: 'events',
-    LIST: 'list'
+    LIST: 'list',
+    PARTICIPATE: 'participate',
+    REMOVE_PARTICIPANT: 'remove-participant',
+    CHECK_USER_PARTICIPANTION: 'check-user-participation'
   }
   // AUTH: {
   //   LOGIN: 'auth/user/login',

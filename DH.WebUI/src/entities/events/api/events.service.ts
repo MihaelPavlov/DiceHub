@@ -28,11 +28,31 @@ export class EventsService {
     return this.api.get<IEventByIdResult>(`/${PATH.EVENTS.CORE}/${id}`);
   }
 
+  public participate(id: number): Observable<boolean | null> {
+    return this.api.post<boolean>(
+      `/${PATH.EVENTS.CORE}/${PATH.EVENTS.PARTICIPATE}`,
+      { id }
+    );
+  }
+
+  public removeParticipant(id: number): Observable<boolean | null> {
+    return this.api.post<boolean>(
+      `/${PATH.EVENTS.CORE}/${PATH.EVENTS.REMOVE_PARTICIPANT}`,
+      { id }
+    );
+  }
+
+  public checkUserParticipation(id: number): Observable<boolean | null> {
+    return this.api.post<boolean>(
+      `/${PATH.EVENTS.CORE}/${PATH.EVENTS.CHECK_USER_PARTICIPANTION}`,
+      { id }
+    );
+  }
+
   public add(
     eventDto: ICreateEventDto,
     customImageFile: File | null
   ): Observable<number | null> {
-
     const formData = new FormData();
     formData.append('eventModel', JSON.stringify(eventDto));
     if (customImageFile && eventDto.isCustomImage)
@@ -45,7 +65,6 @@ export class EventsService {
     eventDto: IUpdateEventDto,
     customImageFile: File | null
   ): Observable<number | null> {
-
     const formData = new FormData();
     formData.append('eventModel', JSON.stringify(eventDto));
     if (customImageFile && eventDto.isCustomImage)

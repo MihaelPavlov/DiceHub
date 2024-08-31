@@ -23,7 +23,7 @@ public class EventsController : ControllerBase
     }
 
     [HttpPost("list")]
-    [ActionAuthorize(UserAction.GamesRead)]
+    [ActionAuthorize(UserAction.EventsRead)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetEventListQueryModel>))]
     public async Task<IActionResult> GetEventList([FromBody] GetEventListQuery request, CancellationToken cancellationToken)
     {
@@ -32,7 +32,7 @@ public class EventsController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    [ActionAuthorize(UserAction.GamesRead)]
+    [ActionAuthorize(UserAction.EventsRead)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetEventByIdQueryModel))]
     public async Task<IActionResult> GetEventById(int id, CancellationToken cancellationToken)
     {
@@ -74,7 +74,35 @@ public class EventsController : ControllerBase
         return Ok();
     }
 
+    [HttpPost("participate")]
+    [ActionAuthorize(UserAction.EventsRead)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
+    public async Task<IActionResult> ParticipateInEvent([FromBody] ParticipateInEventCommand command, CancellationToken cancellationToken)
+    {
+        var result = await this.mediator.Send(command, cancellationToken);
+        return Ok(result);
+    }
+
+    [HttpPost("remove-participant")]
+    [ActionAuthorize(UserAction.EventsRead)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
+    public async Task<IActionResult> RemoveParticipantFromEvent([FromBody] RemoveParticipantFromEventCommand command, CancellationToken cancellationToken)
+    {
+        var result = await this.mediator.Send(command, cancellationToken);
+        return Ok(result);
+    }
+
+    [HttpPost("check-user-participation")]
+    [ActionAuthorize(UserAction.EventsRead)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
+    public async Task<IActionResult> CheckUserParticipation([FromBody] CheckUserParticipationQuery query, CancellationToken cancellationToken)
+    {
+        var result = await this.mediator.Send(query, cancellationToken);
+        return Ok(result);
+    }
+
     [HttpGet("get-image/{id}")]
+    [ActionAuthorize(UserAction.EventsRead)]
     public async Task<IActionResult> GetEventImage(int id, CancellationToken cancellationToken)
     {
         var gameFile = await this.mediator.Send(new GetEventImageByIdQuery(id), cancellationToken);

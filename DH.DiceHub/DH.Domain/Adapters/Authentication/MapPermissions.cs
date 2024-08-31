@@ -14,7 +14,7 @@ public class MapPermissions : IMapPermissions, IActionPermissions<UserAction>
         { UserAction.GameCategoriesCRUD, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff, Role.User} },
         { UserAction.GameReservedCRUD, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff} },
         { UserAction.EventsCUD, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff} },
-        { UserAction.EventsR, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff, Role.User} },
+        { UserAction.EventsRead, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff, Role.User} },
     };
 
     public IDictionary<int, List<Role>> GetActionsMapping()

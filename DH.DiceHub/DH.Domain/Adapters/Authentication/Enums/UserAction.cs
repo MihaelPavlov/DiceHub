@@ -8,5 +8,5 @@ public enum UserAction
     GameCategoriesCRUD = 3,
     GameReservedCRUD = 4,
     EventsCUD = 5,
-    EventsR = 6
+    EventsRead = 6
 }

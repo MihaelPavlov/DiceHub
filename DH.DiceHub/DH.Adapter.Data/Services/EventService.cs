@@ -63,7 +63,7 @@ internal class EventService : IEventService
                     StartDate = e.StartDate,
                     IsCustomImage = e.IsCustomImage,
                     MaxPeople = e.MaxPeople,
-                    PeopleJoined = e.PeopleJoined,
+                    PeopleJoined = e.Participants.Count,
                     ImageId = e.IsCustomImage ? ei.Id : g.Image.Id,
                     GameId = g.Id,
                     GameName = g.Name,
@@ -94,7 +94,7 @@ internal class EventService : IEventService
                     StartDate = e.StartDate,
                     IsCustomImage = e.IsCustomImage,
                     MaxPeople = e.MaxPeople,
-                    PeopleJoined = e.PeopleJoined,
+                    PeopleJoined = e.Participants.Count,
                     ImageId = e.IsCustomImage ? ei.Id : g.Image.Id,
                 }).ToListAsync(cancellationToken);
         }
@@ -114,7 +114,6 @@ internal class EventService : IEventService
             eventDb.Description = eventModel.Description;
             eventDb.StartDate = eventModel.StartDate;
             eventDb.MaxPeople = eventModel.MaxPeople;
-            eventDb.PeopleJoined = eventModel.PeopleJoined;
             eventDb.GameId = eventModel.GameId;
 
             context.Events.Update(eventDb);

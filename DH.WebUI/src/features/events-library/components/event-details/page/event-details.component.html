@@ -1,65 +1,68 @@
 <div class="wrapper_event" *ngIf="this.event$ | async as event">
   <div class="wrapper_event__image" (click)="navigateBackToEventList()">
     <span class="arrow left"></span>
-    <img
-      src="https://cf.geekdo-images.com/VqU_iPFSE04TL5Dytgh6GQ__opengraph/img/SRASMe6Ya1s3G0Y2s3tqLTnkiZc=/0x0:2000x1050/fit-in/1200x630/filters:strip_icc()/pic4275250.jpg"
-      alt=""
-    />
+    <img [src]="getImage(event)" alt="" />
   </div>
 
   <div class="wrapper_event__header">
-    <p><strong>EVENT </strong>{{event.name}}</p>
+    <p><strong>EVENT </strong>{{ event.name }}</p>
   </div>
   <div class="wrapper_event__chips">
-    <app-chip [color]="'blue'" text="2022 02 02" [size]="'small'" />
-    <app-chip [color]="'yellow'" [text]="'7d'" [size]="'small'" />
-    <app-chip [color]="'orange'" [text]="'3 joined'" [size]="'small'" />
-    <app-chip [color]="'red'" [text]="'5 max'" [size]="'small'" />
-  </div>
-
-  <div class="wrapper_info">
-    <span>About the game</span>
-  </div>
-
-  <div class="wrapper_stats">
-    <span>Age +12 Years</span>
-    <div>
-      <span class="material-symbols-outlined"> group </span>
-      5 Players
-    </div>
-    <div>
-      <span class="material-symbols-outlined"> schedule </span>
-      0.5 hour/s
-    </div>
-  </div>
-
-  <div class="wrapper_description">
-    <span class="wrapper_description__text"
-      >Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ad id error
-      iusto vero pariatur voluptatum dolores exercitationem odit! Ea, hic.</span
-    >
+    <app-chip
+      [color]="'blue'"
+      [text]="(event.startDate | date : 'dd/MM/yyyy')?.toString() ?? ''"
+      [size]="'small'"
+    />
+    <app-chip
+      [color]="'yellow'"
+      [text]="event.startDate | calculateRemainingDays"
+      [size]="'small'"
+    />
+    <app-chip
+      [color]="'orange'"
+      text="{{ event.peopleJoined }} joined"
+      [size]="'small'"
+    />
+    <app-chip
+      [color]="'red'"
+      text="{{ event.maxPeople }} max"
+      [size]="'small'"
+    />
   </div>
 
   <div class="wrapper_description">
     <span class="wrapper_description__event">Description for event</span>
-    <span class="wrapper_description__text wrapper_description__event"
-      >Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ad id error
-      iusto vero pariatur voluptatum dolores exercitationem odit! Ea, hic. Lorem
-      ipsum dolor sit amet consectetur adipisicing elit. Eligendi cupiditate
-      explicabo quam odio fugit provident adipisci aperiam, eaque earum.
-      Aspernatur dicta ducimus excepturi dolorum sapiente maxime, neque quis
-      fugit? Aliquam nisi tenetur enim rem, consectetur numquam maiores fugiat
-      voluptas inventore eos sequi perferendis repellendus dolore consequuntur
-      impedit voluptatum quas eum nulla accusamus laboriosam omnis quos vero
-      corporis voluptates. Amet quas nobis laudantium minus alias earum
-      dignissimos explicabo itaque velit odit atque dolorum quisquam non,
-      voluptate excepturi dolores sapiente laboriosam corporis. Recusandae,
-      esse. Dicta veniam at optio quibusdam corporis expedita nulla assumenda
-      molestiae minima delectus, cumque odio, sint laborum vel saepe.</span
-    >
+    <span class="wrapper_description__text wrapper_description__event">{{
+      event.description
+    }}</span>
+  </div>
+
+  <div class="wrapper_info">
+    <span>About the game - {{ event.gameName }}</span>
+  </div>
+
+  <div class="wrapper_stats">
+    <span>Age +{{ event.gameMinAge }} Years</span>
+    <div>
+      <span class="material-symbols-outlined"> group </span>
+      {{ event.gameMinPlayers }} - {{ event.gameMaxPlayers }} Players
+    </div>
+    <div>
+      <span class="material-symbols-outlined"> schedule </span>
+      {{ event.gameAveragePlaytime }} hour/s
+    </div>
+  </div>
+
+  <div class="wrapper_description">
+    <span class="wrapper_description__text">{{ event.gameDescription }}</span>
   </div>
 
   <div class="wrapper_buttons">
-    <button class="btn btn-blue">Join the Event</button>
+    <button *ngIf="!isUserParticipateInEvent" (click)="onParticipate(event.id)" class="btn btn-blue">
+      Join the Event
+    </button>
+    <button *ngIf="isUserParticipateInEvent" (click)="onRemoveParticipant(event.id)" class="btn btn-red">
+      Leave the Event
+    </button>
   </div>
 </div>
