@@ -51,10 +51,17 @@ export class EventDetailsComponent {
         this.router.navigateByUrl('/events/library');
       },
       error: (error) => {
-        this.toastService.error({
-          message: AppToastMessage.SomethingWrong,
-          type: ToastType.Error,
-        });
+        const errorMessage = error.error.errors['maxPeople'][0];
+        if (errorMessage)
+          this.toastService.error({
+            message: errorMessage,
+            type: ToastType.Error,
+          });
+        else
+          this.toastService.error({
+            message: AppToastMessage.SomethingWrong,
+            type: ToastType.Error,
+          });
       },
     });
   }

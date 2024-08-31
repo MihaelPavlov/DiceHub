@@ -32,6 +32,9 @@ internal class ParticipateInEventCommandHandler : IRequestHandler<ParticipateInE
         var currentUserParticipant = await this.eventParticipantRepository
             .GetByAsync(x => x.EventId == request.Id && x.UserId == this.userContext.UserId, cancellationToken);
 
+        if (eventDb.MaxPeople == eventDb.Participants.Count)
+            throw new ValidationErrorsException("maxPeople", "This event has reached its maximum capacity for online sign-ins");
+
         if (currentUserParticipant is null)
         {
             await this.eventParticipantRepository.AddAsync(new EventParticipant

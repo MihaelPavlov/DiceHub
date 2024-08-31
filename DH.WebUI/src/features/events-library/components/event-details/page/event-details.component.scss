@@ -103,4 +103,11 @@
 .wrapper_buttons {
     text-align: center;
     margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+
+    .message {
+        width: 70%;
+        color: palette.$main-blue-color
+    }
 }
