@@ -41,7 +41,7 @@ export class AdminEventManagementComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.eventMenuItems = [
-      { key: 'edit', label: 'Edit' },
+      { key: 'update', label: 'Update' },
       { key: 'delete', label: 'Delete' },
       { key: 'send-notification', label: 'Send Notificaion' },
     ];
@@ -58,8 +58,8 @@ export class AdminEventManagementComponent implements OnInit, OnDestroy {
 
   public handleEventMenuItemClick(key: string, event: MouseEvent): void {
     event.stopPropagation();
-    if (key === 'edit') {
-      this.router.navigateByUrl('/admin-events/add');
+    if (key === 'update') {
+      this.router.navigateByUrl(`/admin-events/${this.visibleMenuId}/update`);
     } else if (key === 'delete') {
       this.router.navigateByUrl('/games/add-existing-game');
     } else if (key === 'send-notification') {
@@ -80,9 +80,10 @@ export class AdminEventManagementComponent implements OnInit, OnDestroy {
 
   public calculateRemainingDays(startDate: Date): string {
     const currentDate = new Date();
-    const startDateSubject = new Date(startDate.toString())
+    const startDateSubject = new Date(startDate.toString());
     const remainingDays = Math.ceil(
-      (startDateSubject.getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24)
+      (startDateSubject.getTime() - currentDate.getTime()) /
+        (1000 * 60 * 60 * 24)
     );
     return `${Math.abs(remainingDays)}d`;
   }
@@ -92,6 +93,10 @@ export class AdminEventManagementComponent implements OnInit, OnDestroy {
       return `https://localhost:7024/events/get-image/${event.imageId}`;
     }
     return `https://localhost:7024/games/get-image/${event.imageId}`;
+  }
+
+  public navigateToDetails(eventId: number): void {
+    this.router.navigateByUrl(`admin-events/${eventId}/details`);
   }
 
   private fetchEventList(searchExpression: string = '') {

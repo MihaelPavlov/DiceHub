@@ -49,12 +49,29 @@ public class EventsController : ControllerBase
             ?? throw new JsonException();
 
         using var memoryStream = new MemoryStream();
+
         if (eventDto.IsCustomImage && imageFile != null)
-        {
             await imageFile.CopyToAsync(memoryStream, cancellationToken);
-        }
+
         var result = await this.mediator.Send(new CreateEventCommand(eventDto, imageFile?.FileName, imageFile?.ContentType, memoryStream), cancellationToken);
         return Ok(result);
+    }
+
+    [HttpPut]
+    [ActionAuthorize(UserAction.EventsCUD)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> UpdateEvent([FromForm] string eventModel, [FromForm] IFormFile? imageFile, CancellationToken cancellationToken)
+    {
+        var eventDto = JsonSerializer.Deserialize<UpdateEventModel>(eventModel)
+            ?? throw new JsonException();
+
+        using var memoryStream = new MemoryStream();
+
+        if (eventDto.IsCustomImage && imageFile != null)
+            await imageFile.CopyToAsync(memoryStream, cancellationToken);
+
+        await this.mediator.Send(new UpdateEventCommand(eventDto, imageFile?.FileName, imageFile?.ContentType, memoryStream), cancellationToken);
+        return Ok();
     }
 
     [HttpGet("get-image/{id}")]

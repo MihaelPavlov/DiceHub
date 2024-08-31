@@ -14,6 +14,7 @@ internal class UpdateGameCommandHandler : IRequestHandler<UpdateGameCommand>
 {
     readonly IGameService gameService;
     readonly IRepository<Game> repository;
+
     public UpdateGameCommandHandler(IGameService gameService, IRepository<Game> repository)
     {
         this.gameService = gameService;

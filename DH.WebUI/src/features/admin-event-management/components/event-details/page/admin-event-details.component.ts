@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { IEventByIdResult } from '../../../../../entities/events/models/event-by-id.mode';
 import { Observable } from 'rxjs';
 import { EventsService } from '../../../../../entities/events/api/events.service';
@@ -7,14 +7,14 @@ import { NAV_ITEM_LABELS } from '../../../../../shared/models/nav-items-labels.c
 import { MenuTabsService } from '../../../../../shared/services/menu-tabs.service';
 
 @Component({
-  selector: 'app-event-details',
-  templateUrl: 'event-details.component.html',
-  styleUrl: 'event-details.component.scss',
+  selector: 'app-admin-event-details',
+  templateUrl: 'admin-event-details.component.html',
+  styleUrl: 'admin-event-details.component.scss',
 })
-export class EventDetailsComponent {
+export class AdminEventDetailsComponent implements OnInit, OnDestroy {
   public event$!: Observable<IEventByIdResult>;
   private eventId!: number;
-  
+
   constructor(
     private readonly eventService: EventsService,
     private readonly activeRoute: ActivatedRoute,
@@ -23,7 +23,7 @@ export class EventDetailsComponent {
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.EVENTS);
   }
-  
+
   public ngOnDestroy(): void {
     this.menuTabsService.resetData;
   }
@@ -31,6 +31,8 @@ export class EventDetailsComponent {
   public ngOnInit(): void {
     this.activeRoute.params.subscribe((params: Params) => {
       this.eventId = params['id'];
+      console.log(this.eventId);
+
       this.fetchEvent();
     });
   }
@@ -39,7 +41,18 @@ export class EventDetailsComponent {
     this.router.navigateByUrl('/admin-events');
   }
 
-  public fetchEvent(): void {
+  public navigateToUpdate(id: number): void {
+    this.router.navigateByUrl(`/admin-events/${id}/update`);
+  }
+
+  public getImage(event: IEventByIdResult): string {
+    if (event.isCustomImage) {
+      return `https://localhost:7024/events/get-image/${event.imageId}`;
+    }
+    return `https://localhost:7024/games/get-image/${event.imageId}`;
+  }
+
+  private fetchEvent(): void {
     this.event$ = this.eventService.getById(this.eventId);
   }
 }

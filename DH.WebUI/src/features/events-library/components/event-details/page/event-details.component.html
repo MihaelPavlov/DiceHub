@@ -1,5 +1,5 @@
-<div class="wrapper_event">
-  <div class="wrapper_event__image">
+<div class="wrapper_event" *ngIf="this.event$ | async as event">
+  <div class="wrapper_event__image" (click)="navigateBackToEventList()">
     <span class="arrow left"></span>
     <img
       src="https://cf.geekdo-images.com/VqU_iPFSE04TL5Dytgh6GQ__opengraph/img/SRASMe6Ya1s3G0Y2s3tqLTnkiZc=/0x0:2000x1050/fit-in/1200x630/filters:strip_icc()/pic4275250.jpg"
@@ -8,10 +8,10 @@
   </div>
 
   <div class="wrapper_event__header">
-    <p><strong>EVENT </strong>Discover Lands Unknown</p>
+    <p><strong>EVENT </strong>{{event.name}}</p>
   </div>
   <div class="wrapper_event__chips">
-    <app-chip [color]="'blue'" [text]="'24/06/24 h: 17:00'" [size]="'small'" />
+    <app-chip [color]="'blue'" text="2022 02 02" [size]="'small'" />
     <app-chip [color]="'yellow'" [text]="'7d'" [size]="'small'" />
     <app-chip [color]="'orange'" [text]="'3 joined'" [size]="'small'" />
     <app-chip [color]="'red'" [text]="'5 max'" [size]="'small'" />

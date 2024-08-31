@@ -10,9 +10,13 @@
 </app-header>
 
 <section class="wrapper_library">
-  <div class="wrapper_library__item" *ngFor="let event of events">
+  <div
+    class="wrapper_library__item"
+    *ngFor="let event of events"
+    (click)="navigateToDetails(event.id)"
+  >
     <div class="wrapper_image">
-      <img [src]="getImage(event)" alt="Game Image" />
+      <img [src]="getImage(event)" alt="event Image" />
     </div>
     <div class="wrapper_info">
       <div class="wrapper_title">
@@ -32,12 +36,12 @@
         <div class="wrapper_chips">
           <app-chip
             [color]="'blue'"
-            text="{{ event.startDate }} "
+            [text]="(event.startDate | date : 'dd/MM/yyyy')?.toString() ?? ''"
             [size]="'small'"
           ></app-chip>
           <app-chip
             [color]="'yellow'"
-            [text]="calculateRemainingDays(event.startDate)"
+            [text]="event.startDate | calculateRemainingDays"
             [size]="'small'"
           ></app-chip>
         </div>
@@ -50,7 +54,7 @@
           lists
         </span>
         <div
-          *ngIf="visibleMenuId === 1"
+          *ngIf="visibleMenuId === event.id"
           [ngTemplateOutlet]="menuTemplate"
         ></div>
       </div>

@@ -8,9 +8,10 @@ public class GetEventByIdQueryModel
     public DateTime StartDate { get; set; }
     public int PeopleJoined { get; set; }
     public int MaxPeople { get; set; }
-    public bool IsCustomImage { get; set; } = false;
+    public bool IsCustomImage { get; set; }
     public int ImageId { get; set; }
 
+    public int GameId { get; set; }
     public string GameName { get; set; } = string.Empty;
     public string GameDescription { get; set; } = string.Empty;
     public int GameMinAge { get; set; }

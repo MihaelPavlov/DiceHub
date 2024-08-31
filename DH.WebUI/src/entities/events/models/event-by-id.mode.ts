@@ -8,6 +8,7 @@ export interface IEventByIdResult {
   isCustomImage: boolean;
   imageId: number;
 
+  gameId: number;
   gameName: string;
   gameDescription: string;
   gameMinAge: number;

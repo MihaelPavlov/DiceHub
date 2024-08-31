@@ -5,11 +5,18 @@ import { AdminEventManagementRoutingModule } from './admin-event-management-rout
 import { AdminEventManagementComponent } from './page/admin-event-management.component';
 import { NgModule } from '@angular/core';
 import { ChipModule } from '../../widgets/chip/chip.module';
-import { AddUpdateEventComponent } from '../../features/events-library/components/add-update-event/page/add-update-event.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { CalculateRemainingDaysPipe } from '../../features/admin-event-management/pipes/calculate-remaining-days.pipe';
+import { AddUpdateEventComponent } from '../../features/admin-event-management/components/add-update-event/page/add-update-event.component';
+import { AdminEventDetailsComponent } from '../../features/admin-event-management/components/event-details/page/admin-event-details.component';
 
 @NgModule({
-  declarations: [AdminEventManagementComponent,AddUpdateEventComponent],
+  declarations: [
+    AdminEventManagementComponent,
+    AddUpdateEventComponent,
+    CalculateRemainingDaysPipe,
+    AdminEventDetailsComponent
+  ],
   exports: [],
   providers: [],
   imports: [

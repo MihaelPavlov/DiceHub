@@ -9,7 +9,7 @@ import {
 } from '@angular/forms';
 import { MenuTabsService } from '../../../../../shared/services/menu-tabs.service';
 import { ToastService } from '../../../../../shared/services/toast.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NAV_ITEM_LABELS } from '../../../../../shared/models/nav-items-labels.const';
 import { IGameDropdownResult } from '../../../../../entities/games/models/game-dropdown.model';
 import { GamesService } from '../../../../../entities/games/api/games.service';
@@ -17,6 +17,8 @@ import { throwError } from 'rxjs';
 import { EventsService } from '../../../../../entities/events/api/events.service';
 import { AppToastMessage } from '../../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { ToastType } from '../../../../../shared/models/toast.model';
+import { IEventByIdResult } from '../../../../../entities/events/models/event-by-id.mode';
+import { Location } from '@angular/common';
 
 interface ICreateEventForm {
   name: string;
@@ -45,8 +47,10 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
     private readonly fb: FormBuilder,
     private readonly menuTabsService: MenuTabsService,
     private readonly router: Router,
+    private readonly activatedRoute: ActivatedRoute,
     private readonly gameService: GamesService,
     private readonly eventService: EventsService,
+    private readonly location: Location,
     public override readonly toastService: ToastService
   ) {
     super(toastService);
@@ -56,34 +60,31 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
         this.clearServerErrorMessage();
       }
     });
-    this.form.controls.gameId.valueChanges.subscribe((x) => {
-      this.fetchGameById(x);
-    });
-
-    this.form.controls.isCustomImage.valueChanges.subscribe((x) => {
-      if (x) {
-        this.form.patchValue({
-          image: '',
-        });
-        this.imagePreview = null;
-        this.fileToUpload = null;
-      } else if (!x && this.form.controls.gameId.value) {
-        this.fetchGameById(this.form.controls.gameId.value);
+    this.activatedRoute.paramMap.subscribe((params) => {
+      const id = params.get('id');
+      if (id) {
+        this.editEventId = +id;
       }
     });
     this.menuTabsService.setActive(NAV_ITEM_LABELS.EVENTS);
   }
-  public showMenu(): void {
-    this.isMenuVisible = !this.isMenuVisible;
-  }
+
   public ngOnInit(): void {
     this.fetchGameList();
+
+    if (this.editEventId) {
+      this.fetchEventById(this.editEventId);
+    } else {
+      this.initFormValueChanges();
+    }
   }
 
-  public ngOnDestroy(): void {}
+  public ngOnDestroy(): void {
+    this.menuTabsService.resetData();
+  }
 
-  private clearServerErrorMessage() {
-    this.getServerErrorMessage = null;
+  public showMenu(): void {
+    this.isMenuVisible = !this.isMenuVisible;
   }
 
   public onAdd(): void {
@@ -120,7 +121,40 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
     }
   }
 
-  public onUpdate(): void {}
+  public onUpdate(): void {
+    if (this.form.valid && this.editEventId) {
+      this.eventService
+        .update(
+          {
+            id: this.editEventId,
+            name: this.form.controls.name.value,
+            description: this.form.controls.description.value,
+            gameId: parseInt(this.form.controls.gameId.value as any),
+            startDate: this.form.controls.startDate.value,
+            maxPeople: this.form.controls.maxPeople.value,
+            isCustomImage: this.form.controls.isCustomImage.value,
+          },
+          this.fileToUpload
+        )
+        .subscribe({
+          next: (_) => {
+            this.toastService.success({
+              message: AppToastMessage.ChangesSaved,
+              type: ToastType.Success,
+            });
+
+            this.router.navigateByUrl('/admin-events');
+          },
+          error: (error) => {
+            this.handleServerErrors(error);
+            this.toastService.error({
+              message: AppToastMessage.FailedToSaveChanges,
+              type: ToastType.Error,
+            });
+          },
+        });
+    }
+  }
 
   public onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -144,7 +178,7 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
   }
 
   public backNavigateBtn() {
-    this.router.navigateByUrl('admin-events');
+    this.location.back();
   }
 
   protected override getControlDisplayName(controlName: string): string {
@@ -164,6 +198,46 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
       default:
         return controlName;
     }
+  }
+
+  private fetchEventById(id: number): void {
+    this.eventService.getById(id).subscribe({
+      next: (event) => {
+        if (event) {
+          this.form.patchValue({
+            name: event.name,
+            description: event.description,
+            gameId: event.gameId,
+            startDate: this.formatDate(event.startDate) as any,
+            maxPeople: event.maxPeople,
+            image: event.imageId.toString(),
+            isCustomImage: event.isCustomImage,
+          });
+          this.imagePreview = this.getImage(event);
+          this.fileToUpload = null;
+
+          this.initFormValueChanges();
+        }
+      },
+      error: (error) => {
+        throwError(() => error);
+      },
+    });
+  }
+
+  private formatDate(date: string | Date): string {
+    const d = new Date(date);
+    const month = ('0' + (d.getMonth() + 1)).slice(-2);
+    const day = ('0' + d.getDate()).slice(-2);
+    const year = d.getFullYear();
+    return `${year}-${month}-${day}`;
+  }
+
+  private getImage(event: IEventByIdResult): string {
+    if (event.isCustomImage) {
+      return `https://localhost:7024/events/get-image/${event.imageId}`;
+    }
+    return `https://localhost:7024/games/get-image/${event.imageId}`;
   }
 
   private fetchGameList(): void {
@@ -203,6 +277,28 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
       error: (error) => {
         throwError(() => error);
       },
+    });
+  }
+
+  private clearServerErrorMessage() {
+    this.getServerErrorMessage = null;
+  }
+
+  private initFormValueChanges(): void {
+    this.form.controls.gameId.valueChanges.subscribe((x) => {
+      this.fetchGameById(x);
+    });
+
+    this.form.controls.isCustomImage.valueChanges.subscribe((x) => {
+      if (x) {
+        this.form.patchValue({
+          image: '',
+        });
+        this.imagePreview = null;
+        this.fileToUpload = null;
+      } else if (!x && this.form.controls.gameId.value) {
+        this.fetchGameById(this.form.controls.gameId.value);
+      }
     });
   }
 

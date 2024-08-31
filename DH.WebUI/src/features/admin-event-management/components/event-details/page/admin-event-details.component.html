@@ -1,0 +1,68 @@
+<div class="wrapper_event" *ngIf="this.event$ | async as event">
+  <div class="wrapper_event__image">
+    <span (click)="navigateBackToEventList()" class="arrow left"></span>
+    <img [src]="getImage(event)" alt="" />
+  </div>
+
+  <div class="wrapper_event__header">
+    <p><strong>EVENT </strong>{{ event.name }}</p>
+  </div>
+  <div class="wrapper_event__chips">
+    <app-chip
+      [color]="'blue'"
+      [text]="(event.startDate | date : 'dd/MM/yyyy')?.toString() ?? ''"
+      [size]="'small'"
+    />
+    <app-chip
+      [color]="'yellow'"
+      [text]="event.startDate | calculateRemainingDays"
+      [size]="'small'"
+    />
+    <app-chip
+      [color]="'orange'"
+      text="{{ event.peopleJoined.toString() }} joined"
+      [size]="'small'"
+    />
+    <app-chip
+      [color]="'red'"
+      text="{{ event.maxPeople.toString() }} max"
+      [size]="'small'"
+    />
+  </div>
+
+  <div class="wrapper_description">
+    <span class="wrapper_description__event">Description for event</span>
+    <span class="wrapper_description__text wrapper_description__event">{{
+      event.description
+    }}</span>
+  </div>
+
+  <div class="wrapper_info">
+    <span>About the game - {{ event.gameName }}</span>
+  </div>
+
+  <div class="wrapper_stats">
+    <span>Age +{{ event.gameMinAge }} Years</span>
+    <div>
+      <span class="material-symbols-outlined"> group </span>
+      {{ event.gameMinPlayers }} - {{ event.gameMaxPlayers }} Players
+    </div>
+    <div>
+      <span class="material-symbols-outlined"> schedule </span>
+      {{ event.gameAveragePlaytime }} hour/s
+    </div>
+  </div>
+
+  <div class="wrapper_description">
+    <span class="wrapper_description__text">{{ event.gameDescription }}</span>
+  </div>
+
+  <div class="wrapper_buttons">
+    <button
+      (click)="navigateToUpdate(event.id)"
+      class="btn btn-gray btn-font-yellow btn-border-yellow"
+    >
+      Update
+    </button>
+  </div>
+</div>

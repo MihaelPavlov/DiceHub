@@ -5,6 +5,7 @@ import { PATH } from '../../../shared/configs/path.config';
 import { Injectable } from '@angular/core';
 import { IEventByIdResult } from '../models/event-by-id.mode';
 import { ICreateEventDto } from '../models/create-event.mode';
+import { IUpdateEventDto } from '../models/update-event.model';
 
 @Injectable({
   providedIn: 'root',
@@ -38,5 +39,18 @@ export class EventsService {
       formData.append('imageFile', customImageFile);
 
     return this.api.post<number>(`/${PATH.EVENTS.CORE}`, formData);
+  }
+
+  public update(
+    eventDto: IUpdateEventDto,
+    customImageFile: File | null
+  ): Observable<number | null> {
+
+    const formData = new FormData();
+    formData.append('eventModel', JSON.stringify(eventDto));
+    if (customImageFile && eventDto.isCustomImage)
+      formData.append('imageFile', customImageFile);
+
+    return this.api.put<number>(`/${PATH.EVENTS.CORE}`, formData);
   }
 }

@@ -54,6 +54,7 @@ internal class EventService : IEventService
                 join g in context.Games on e.GameId equals g.Id
                 join ei in context.EventImages on e.Id equals ei.EventId into eventImages
                 from ei in eventImages.DefaultIfEmpty()
+                where e.Id == eventId
                 select new GetEventByIdQueryModel
                 {
                     Id = e.Id,
@@ -64,6 +65,7 @@ internal class EventService : IEventService
                     MaxPeople = e.MaxPeople,
                     PeopleJoined = e.PeopleJoined,
                     ImageId = e.IsCustomImage ? ei.Id : g.Image.Id,
+                    GameId = g.Id,
                     GameName = g.Name,
                     GameDescription = g.Description,
                     GameAveragePlaytime = g.AveragePlaytime,
@@ -95,6 +97,54 @@ internal class EventService : IEventService
                     PeopleJoined = e.PeopleJoined,
                     ImageId = e.IsCustomImage ? ei.Id : g.Image.Id,
                 }).ToListAsync(cancellationToken);
+        }
+    }
+
+    public async Task UpdateEvent(Event eventModel, string? fileName, string? contentType, MemoryStream? imageStream, CancellationToken cancellationToken)
+    {
+        using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
+        {
+            var eventDb = await context.Events.AsTracking().FirstOrDefaultAsync(x => x.Id == eventModel.Id)
+                ?? throw new NotFoundException(nameof(Event), eventModel.Id);
+
+            var game = await context.Games.FirstOrDefaultAsync(x => x.Id == eventModel.GameId)
+                ?? throw new NotFoundException(nameof(Game), eventModel.GameId);
+
+            eventDb.Name = eventModel.Name;
+            eventDb.Description = eventModel.Description;
+            eventDb.StartDate = eventModel.StartDate;
+            eventDb.MaxPeople = eventModel.MaxPeople;
+            eventDb.PeopleJoined = eventModel.PeopleJoined;
+            eventDb.GameId = eventModel.GameId;
+
+            context.Events.Update(eventDb);
+
+            if (eventDb.IsCustomImage != eventModel.IsCustomImage)
+            {
+                if (!eventDb.IsCustomImage &&
+                    eventModel.IsCustomImage &&
+                    fileName != null &&
+                    contentType != null &&
+                    imageStream != null)
+                {
+                    await context.EventImages
+                    .AddAsync(new EventImage
+                    {
+                        Event = eventDb,
+                        FileName = fileName,
+                        ContentType = contentType,
+                        Data = imageStream.ToArray(),
+                    }, cancellationToken);
+                }
+                else if (eventDb.IsCustomImage && !eventModel.IsCustomImage)
+                {
+                    await context.EventImages.Where(x => x.EventId == eventDb.Id).ExecuteDeleteAsync(cancellationToken);
+                }
+            }
+
+            eventDb.IsCustomImage = eventModel.IsCustomImage;
+
+            await context.SaveChangesAsync(cancellationToken);
         }
     }
 }
