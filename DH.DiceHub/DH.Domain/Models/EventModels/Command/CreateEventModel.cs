@@ -21,7 +21,7 @@ public class CreateEventModel : IValidableFields
     [JsonPropertyName("maxPeople")]
     public int MaxPeople { get; set; }
 
-    [JsonPropertyName("IsCustomImage")]
+    [JsonPropertyName("isCustomImage")]
     public bool IsCustomImage { get; set; }
 
     public bool FieldsAreValid(out List<ValidationErrorsException.ValidationError> validationErrors)

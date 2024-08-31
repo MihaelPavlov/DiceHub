@@ -10,37 +10,42 @@
 </app-header>
 
 <section class="wrapper_library">
-  <div class="wrapper_library__item">
+  <div class="wrapper_library__item" *ngFor="let event of events">
     <div class="wrapper_image">
-      <img
-        src="https://localhost:7024/games/get-image/{{ 4 }}"
-        alt="Game Image"
-      />
+      <img [src]="getImage(event)" alt="Game Image" />
     </div>
     <div class="wrapper_info">
       <div class="wrapper_title">
-        Dungeon
+        {{ event.name }}
         <div class="wrapper_chips">
           <app-chip
             [color]="'orange'"
-            text="3 joined"
+            text="{{ event.peopleJoined }} joined"
             [size]="'small'"
           ></app-chip>
-          <app-chip [color]="'red'" text="5 max" [size]="'small'"></app-chip>
+          <app-chip
+            [color]="'red'"
+            text="{{ event.maxPeople }}  max"
+            [size]="'small'"
+          ></app-chip>
         </div>
         <div class="wrapper_chips">
           <app-chip
             [color]="'blue'"
-            text="24/06/24 h:17:00"
+            text="{{ event.startDate }} "
             [size]="'small'"
           ></app-chip>
-          <app-chip [color]="'yellow'" text="7d" [size]="'small'"></app-chip>
+          <app-chip
+            [color]="'yellow'"
+            [text]="calculateRemainingDays(event.startDate)"
+            [size]="'small'"
+          ></app-chip>
         </div>
       </div>
       <div class="wrapper_right">
         <span
           class="material-symbols-outlined menu-container"
-          (click)="showEventMenu(1, $event)"
+          (click)="showEventMenu(event.id, $event)"
         >
           lists
         </span>

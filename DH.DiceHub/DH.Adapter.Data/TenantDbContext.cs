@@ -41,6 +41,7 @@ public class TenantDbContext : DbContext, ITenantDbContext
     public DbSet<GameInventory> GameInventories { get; set; } = default!;
     public DbSet<FailedJob> FailedJobs { get; set; } = default!;
     public DbSet<Event> Events { get; set; } = default!;
+    public DbSet<EventImage> EventImages { get; set; } = default!;
 
     public T AcquireRepository<T>()
     {

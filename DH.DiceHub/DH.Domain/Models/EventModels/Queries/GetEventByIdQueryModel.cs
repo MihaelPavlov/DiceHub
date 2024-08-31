@@ -1,0 +1,20 @@
+﻿namespace DH.Domain.Models.EventModels.Queries;
+
+public class GetEventByIdQueryModel
+{
+    public int Id { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+    public DateTime StartDate { get; set; }
+    public int PeopleJoined { get; set; }
+    public int MaxPeople { get; set; }
+    public bool IsCustomImage { get; set; } = false;
+    public int ImageId { get; set; }
+
+    public string GameName { get; set; } = string.Empty;
+    public string GameDescription { get; set; } = string.Empty;
+    public int GameMinAge { get; set; }
+    public int GameMinPlayers { get; set; }
+    public int GameMaxPlayers { get; set; }
+    public int GameAveragePlaytime { get; set; }
+}

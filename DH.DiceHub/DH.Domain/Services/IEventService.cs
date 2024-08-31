@@ -1,8 +1,11 @@
 ﻿using DH.Domain.Entities;
+using DH.Domain.Models.EventModels.Queries;
 
 namespace DH.Domain.Services;
 
 public interface IEventService : IDomainService<Event>
 {
     Task<int> CreateEvent(Event eventModel, string? fileName, string? contentType, MemoryStream? imageStream, CancellationToken cancellationToken);
+    Task<List<GetEventListQueryModel>> GetListBySearchExpressionAsync(string searchExpression, CancellationToken cancellationToken);
+    Task<GetEventByIdQueryModel?> GetById(int eventId, CancellationToken cancellationToken);
 }

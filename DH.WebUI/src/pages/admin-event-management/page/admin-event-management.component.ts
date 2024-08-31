@@ -4,6 +4,8 @@ import { MenuTabsService } from '../../../shared/services/menu-tabs.service';
 import { NAV_ITEM_LABELS } from '../../../shared/models/nav-items-labels.const';
 import { SearchService } from '../../../shared/services/search.service';
 import { Router } from '@angular/router';
+import { EventsService } from '../../../entities/events/api/events.service';
+import { IEventListResult } from '../../../entities/events/models/event-list.model';
 
 @Component({
   selector: 'app-admin-event-management',
@@ -14,10 +16,12 @@ export class AdminEventManagementComponent implements OnInit, OnDestroy {
   public headerMenuItems: IMenuItem[] = [];
   public eventMenuItems: IMenuItem[] = [];
   public visibleMenuId: number | null = null;
+  public events: IEventListResult[] = [];
 
   constructor(
     private readonly menuTabsService: MenuTabsService,
     private readonly searchService: SearchService,
+    private readonly eventService: EventsService,
     private readonly router: Router
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.EVENTS);
@@ -28,11 +32,11 @@ export class AdminEventManagementComponent implements OnInit, OnDestroy {
     console.log('test', gameId);
   }
 
-  public showEventMenu(gameId: number, event: MouseEvent): void {
+  public showEventMenu(eventId: number, event: MouseEvent): void {
     event.stopPropagation();
-    console.log('test', gameId);
+    console.log('test', eventId);
 
-    this.visibleMenuId = this.visibleMenuId === gameId ? null : gameId;
+    this.visibleMenuId = this.visibleMenuId === eventId ? null : eventId;
   }
 
   public ngOnInit(): void {
@@ -43,6 +47,8 @@ export class AdminEventManagementComponent implements OnInit, OnDestroy {
     ];
 
     this.headerMenuItems = [{ key: 'add', label: 'Add Event' }];
+
+    this.fetchEventList();
   }
 
   public ngOnDestroy(): void {
@@ -68,7 +74,34 @@ export class AdminEventManagementComponent implements OnInit, OnDestroy {
     }
   }
 
-  public handleSeachExpression(searchExpression: string) {}
+  public handleSeachExpression(searchExpression: string) {
+    this.fetchEventList(searchExpression);
+  }
+
+  public calculateRemainingDays(startDate: Date): string {
+    const currentDate = new Date();
+    const startDateSubject = new Date(startDate.toString())
+    const remainingDays = Math.ceil(
+      (startDateSubject.getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24)
+    );
+    return `${Math.abs(remainingDays)}d`;
+  }
+
+  public getImage(event: IEventListResult): string {
+    if (event.isCustomImage) {
+      return `https://localhost:7024/events/get-image/${event.imageId}`;
+    }
+    return `https://localhost:7024/games/get-image/${event.imageId}`;
+  }
+
+  private fetchEventList(searchExpression: string = '') {
+    this.eventService.getList(searchExpression).subscribe({
+      next: (gameList) => (this.events = gameList ?? []),
+      error: (error) => {
+        console.log(error);
+      },
+    });
+  }
 
   @HostListener('window:scroll', [])
   private onWindowScroll(): void {

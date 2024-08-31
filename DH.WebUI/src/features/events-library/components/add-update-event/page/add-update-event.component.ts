@@ -14,6 +14,9 @@ import { NAV_ITEM_LABELS } from '../../../../../shared/models/nav-items-labels.c
 import { IGameDropdownResult } from '../../../../../entities/games/models/game-dropdown.model';
 import { GamesService } from '../../../../../entities/games/api/games.service';
 import { throwError } from 'rxjs';
+import { EventsService } from '../../../../../entities/events/api/events.service';
+import { AppToastMessage } from '../../../../../shared/components/toast/constants/app-toast-messages.constant';
+import { ToastType } from '../../../../../shared/models/toast.model';
 
 interface ICreateEventForm {
   name: string;
@@ -34,7 +37,6 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
   override form: Formify<ICreateEventForm>;
   public editEventId!: number;
   public gameList: IGameDropdownResult[] = [];
-  public imageError: string | null = null;
   public fileToUpload: File | null = null;
   public imagePreview: string | ArrayBuffer | null = null;
   public isMenuVisible: boolean = false;
@@ -44,6 +46,7 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
     private readonly menuTabsService: MenuTabsService,
     private readonly router: Router,
     private readonly gameService: GamesService,
+    private readonly eventService: EventsService,
     public override readonly toastService: ToastService
   ) {
     super(toastService);
@@ -83,7 +86,39 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
     this.getServerErrorMessage = null;
   }
 
-  public onAdd(): void {}
+  public onAdd(): void {
+    if (this.form.valid) {
+      this.eventService
+        .add(
+          {
+            name: this.form.controls.name.value,
+            description: this.form.controls.description.value,
+            gameId: parseInt(this.form.controls.gameId.value as any),
+            startDate: this.form.controls.startDate.value,
+            maxPeople: this.form.controls.maxPeople.value,
+            isCustomImage: this.form.controls.isCustomImage.value,
+          },
+          this.fileToUpload
+        )
+        .subscribe({
+          next: (_) => {
+            this.toastService.success({
+              message: AppToastMessage.ChangesSaved,
+              type: ToastType.Success,
+            });
+
+            this.router.navigateByUrl('/admin-events');
+          },
+          error: (error) => {
+            this.handleServerErrors(error);
+            this.toastService.error({
+              message: AppToastMessage.FailedToSaveChanges,
+              type: ToastType.Error,
+            });
+          },
+        });
+    }
+  }
 
   public onUpdate(): void {}
 
@@ -99,12 +134,9 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
         this.imagePreview = reader.result as string;
         this.form.controls.image.patchValue(file.name);
         this.fileToUpload = file;
-        this.imageError = null;
-        console.log(this.form.controls);
       };
       reader.readAsDataURL(file);
     } else {
-      this.imageError = 'Image is required.';
       this.fileToUpload = null;
       this.imagePreview = null;
       this.form.controls.image.reset();

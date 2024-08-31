@@ -19,6 +19,10 @@ export const PATH = {
     CORE: 'gameCategories',
     LIST: 'gameCategories/list',
   },
+  EVENTS: {
+    CORE: 'events',
+    LIST: 'list'
+  }
   // AUTH: {
   //   LOGIN: 'auth/user/login',
   // },
