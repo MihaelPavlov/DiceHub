@@ -135,7 +135,7 @@
     position: sticky;
 }
 
-#navbar {
+#sticky_navbar {
     position: sticky;
     top: 0;
     left: 0;
@@ -146,8 +146,12 @@
     padding-top: 1rem;
 }
 
-#navbar.hidden {
+#sticky_navbar.hidden {
     top: -10rem;
+}
+
+#navbar{
+    padding-top: 1rem;
 }
 
 .menu {
