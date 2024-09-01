@@ -47,8 +47,8 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 5rem;
-        height: 5rem;
+        width: 7rem;
+        height: 7rem;
         margin: 0.5rem;
         border: 0.2rem solid palette.$main-icon-color;
         border-radius: 100%;
@@ -59,11 +59,11 @@
     }
 
     .material-symbols-outlined {
-        font-size: 2.5rem;
+        font-size: 4rem;
     }
 
     .left {
-        font-size: 2.5rem;
+        font-size: 4rem;
         transform: rotate(180deg);
     }
 }

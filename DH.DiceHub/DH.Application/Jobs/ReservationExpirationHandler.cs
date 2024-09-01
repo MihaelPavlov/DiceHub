@@ -31,7 +31,7 @@ public class ReservationExpirationHandler : IReservationExpirationHandler
         {
             var actualExpirationTime = reservation.ReservationDate.AddMinutes(reservation.ReservedDurationMinutes);
 
-            if (DateTime.UtcNow >= actualExpirationTime)
+            if (DateTime.Now >= actualExpirationTime)
             {
                 var inventory = await this.inventoryRepository.GetByAsyncWithTracking(x => x.GameId == reservation.GameId, cancellationToken)
                     ?? throw new NotFoundException(nameof(GameInventory));

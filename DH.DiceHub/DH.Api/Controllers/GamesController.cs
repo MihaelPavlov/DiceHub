@@ -174,4 +174,13 @@ public class GamesController : ControllerBase
         await this.mediator.Send(command, cancellationToken);
         return Ok();
     }
+
+    [HttpPost("reservation-status")]
+    [ActionAuthorize(UserAction.GamesRead)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetGameReservationStatusQueryModel))]
+    public async Task<IActionResult> GetGameReservationStatus([FromBody] GetGameReservationStatusQuery request, CancellationToken cancellationToken)
+    {
+        var result = await this.mediator.Send(request, cancellationToken);
+        return Ok(result);
+    }
 }

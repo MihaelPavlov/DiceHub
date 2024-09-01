@@ -11,6 +11,8 @@ export const PATH = {
     LIKE: 'like',
     DISLIKE: 'dislike',
     RESERVATION: 'reservation',
+    RESERVATION_STATUS: 'reservation-status',
+
   },
   GAME_REVIEWS: {
     CORE: 'gameReviews',

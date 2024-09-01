@@ -11,49 +11,69 @@
     </span>
   </div>
 
-  <!-- class info__unavailable for UNAVAILABLE-->
-  <div
-    class="info"
-    [ngClass]="{
-      info__unavailable: inventory.availableCopies === 0,
-      info__available: inventory.availableCopies !== 0
-    }"
-    *ngIf="this.gameInventory$ | async as inventory"
-  >
-    <p *ngIf="inventory.availableCopies !== 0" class="info__status">
-      AVAILABLE
-    </p>
-    <p *ngIf="inventory.availableCopies === 0" class="info__status">
-      UNAVAILABLE
-    </p>
-    <p>units {{ inventory.availableCopies }} / {{ inventory.totalCopies }}</p>
-  </div>
-
-  <div class="wrapper">
-    <span class="material-symbols-outlined left" (click)="decreaseTimer()"
-      >play_arrow</span
-    >
-
-    <p class="circle">
-      <span class="timer">{{ currentTimer }}</span>
-    </p>
-
-    <span class="material-symbols-outlined" (click)="increaseTimer()"
-      >play_arrow</span
-    >
-  </div>
-
-  <div class="wrapper_btn" *ngIf="this.gameInventory$ | async as inventory">
-    <button
-      (click)="onReservation(game.id)"
-      class="btn btn-gray btn-border-green btn-font-green"
-      [disabled]="inventory.availableCopies === 0"
+  <ng-container *ngIf="!gameReservationStatus">
+    <div
+      class="info"
       [ngClass]="{
-        'btn-border-red btn-font-red': inventory.availableCopies === 0,
-        'btn-border-green btn-font-green': inventory.availableCopies !== 0
+        info__unavailable: inventory.availableCopies === 0,
+        info__available: inventory.availableCopies !== 0
       }"
+      *ngIf="this.gameInventory$ | async as inventory"
     >
-      Save game for <strong>{{ currentTimer }}</strong> mins
-    </button>
-  </div>
+      <p *ngIf="inventory.availableCopies !== 0" class="info__status">
+        AVAILABLE
+      </p>
+      <p *ngIf="inventory.availableCopies === 0" class="info__status">
+        UNAVAILABLE
+      </p>
+      <p>units {{ inventory.availableCopies }} / {{ inventory.totalCopies }}</p>
+    </div>
+
+    <div class="wrapper">
+      <span class="material-symbols-outlined left" (click)="decreaseTimer()"
+        >play_arrow</span
+      >
+      <p class="circle">
+        <span  class="timer">{{
+          currentTimer
+        }}</span>
+      </p>
+
+      <!-- <p class="circle">
+      <span class="timer">{{ currentTimer }}</span>
+    </p>    
+     -->
+      <span class="material-symbols-outlined" (click)="increaseTimer()"
+        >play_arrow</span
+      >
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="gameReservationStatus">
+    <div class="info">
+      <p>Your current reservation</p>
+    </div>
+
+    <div class="wrapper">
+      <p class="circle">
+        <span  class="timer">{{ display }}</span>
+      </p>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="!gameReservationStatus">
+    <div class="wrapper_btn" *ngIf="this.gameInventory$ | async as inventory">
+      <button
+        (click)="onReservation(game.id)"
+        class="btn btn-gray btn-border-green btn-font-green"
+        [disabled]="inventory.availableCopies === 0"
+        [ngClass]="{
+          'btn-border-red btn-font-red': inventory.availableCopies === 0,
+          'btn-border-green btn-font-green': inventory.availableCopies !== 0
+        }"
+      >
+        Save game for <strong>{{ currentTimer }}</strong> mins
+      </button>
+    </div>
+  </ng-container>
 </app-game-layout>
