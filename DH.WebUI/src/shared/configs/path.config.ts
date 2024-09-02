@@ -12,7 +12,6 @@ export const PATH = {
     DISLIKE: 'dislike',
     RESERVATION: 'reservation',
     RESERVATION_STATUS: 'reservation-status',
-
   },
   GAME_REVIEWS: {
     CORE: 'gameReviews',
@@ -26,8 +25,12 @@ export const PATH = {
     LIST: 'list',
     PARTICIPATE: 'participate',
     REMOVE_PARTICIPANT: 'remove-participant',
-    CHECK_USER_PARTICIPANTION: 'check-user-participation'
-  }
+    CHECK_USER_PARTICIPANTION: 'check-user-participation',
+  },
+  ROOMS: {
+    CORE: 'rooms',
+    LIST: 'list',
+  },
   // AUTH: {
   //   LOGIN: 'auth/user/login',
   // },

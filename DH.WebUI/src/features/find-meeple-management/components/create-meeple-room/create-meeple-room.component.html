@@ -1,67 +1,91 @@
-<app-header
-  header="Create Game Camp"
-  [withBottomLine]="true"
-></app-header>
-
+<app-header header="Create Game Camp" [withBottomLine]="true"></app-header>
 <div class="select-container">
   <ng-select
-    [items]="cities"
+    [items]="gameList"
     bindLabel="name"
-    placeholder="Select city"
-    [(ngModel)]="selectedCity"
+    placeholder="Select Game"
+    [(ngModel)]="selectedGame"
+    (change)="handleAddExistingGame()"
     class="app-select"
   >
   </ng-select>
 </div>
-<div class="wrapper_stats">
-  <div class="wrapper_stats__chips-left">
-    <div class="chip">
-      <span>30 +</span>
-      <span class="material-symbols-outlined"> schedule </span>
+
+<form [formGroup]="form">
+  <div class="wrapper_stats">
+    <div class="wrapper_stats__chips-left">
+      <div class="chip">
+        <span
+          >{{ getGame("averagePlaytime") }} {{ this.game ? "m" : "" }}
+        </span>
+        <span class="material-symbols-outlined"> schedule </span>
+      </div>
+      <div class="chip">
+        <span
+          >{{ getGame("minPlayers") }} {{ this.game ? "-" : "" }}
+          {{ getGame("maxPlayers") }}</span
+        >
+        <span class="material-symbols-outlined"> groups </span>
+      </div>
     </div>
-    <div class="chip">
-      <span> 2 - 4</span>
-      <span class="material-symbols-outlined"> groups </span>
+
+    <div class="wrapper_image">
+      <img
+        src="https://cf.geekdo-images.com/fvhkcw4s6Q4-nMwwok1J6A__opengraph/img/bbHffM-AIBac7jMM8sgOM1sC0zk=/0x274:1314x964/fit-in/1200x630/filters:strip_icc()/pic6569894.png"
+        alt=""
+      />
+    </div>
+
+    <div class="wrapper_stats__chips-right">
+      <div class="chip">
+        <span class="material-symbols-outlined"> cake </span>
+        <span>{{ getGame("minAge") }} {{ this.game ? "+" : "" }} </span>
+      </div>
+      <div class="chip">
+        <span class="material-symbols-outlined available"> verified </span>
+        <!-- <span class="material-symbols-outlined unavailable"> cancel </span> -->
+        <span>1 / 3</span>
+      </div>
     </div>
   </div>
 
-  <div class="wrapper_image">
-    <img
-      src="https://cf.geekdo-images.com/fvhkcw4s6Q4-nMwwok1J6A__opengraph/img/bbHffM-AIBac7jMM8sgOM1sC0zk=/0x274:1314x964/fit-in/1200x630/filters:strip_icc()/pic6569894.png"
-      alt=""
-    />
+  <div class="wrapper_title">
+    <span>Dungeon & Dragons</span>
   </div>
 
-  <div class="wrapper_stats__chips-right">
-    <div class="chip">
-      <span class="material-symbols-outlined"> cake </span>
-      <span>+ 18</span>
+  <div class="wrapper_inputs">
+    <div class="wrapper_inputs__input">
+      <label class="required" for="startDate">Choose Date</label>
+      <input formControlName="startDate" type="date" name="startDate" />
     </div>
-    <div class="chip">
-      <span class="material-symbols-outlined available"> verified </span>
-      <!-- <span class="material-symbols-outlined unavailable"> cancel </span> -->
-      <span>1 - 3</span>
+    <div class="wrapper_inputs__time">
+      <label class="required" for="startTime">Choose Time</label>
+      <input type="time" name="startTime" id="startTime" />
     </div>
   </div>
-</div>
-
-<div class="wrapper_title">
-  <span>Dungeon & Dragons</span>
-</div>
-
-<div class="wrapper_inputs">
-  <div class="wrapper_inputs__input">
-    <label for="dateofbirth">choose date</label>
-    <input type="date" name="dateofbirth" id="dateofbirth" />
+<br>
+  <div class="wrapper_inputs">
+    <div class="wrapper_inputs__input">
+      <label class="required" for="name">Name</label>
+      <input formControlName="name" type="text" name="name" />
+    </div>
+    <div class="wrapper_inputs__time">
+      <label class="required" for="maxParticipants">Max people</label>
+      <input type="number" name="maxParticipants" id="maxParticipants" />
+    </div>
   </div>
-  <div class="wrapper_inputs__time">
-    <label for="dateofbirth">choose time</label>
-    <input type="time" name="dateofbirth" id="dateofbirth" />
-  </div>
-</div>
+  <!-- <div class="wrapper_inputs">
+    <div class="wrapper_inputs__input-full">
+      <label class="required" for="name">Name of the Room</label>
+      <input formControlName="name" type="text" name="name" />
+    </div>
+  </div> -->
 
-<div class="wrapper_btn">
-  <span class="material-symbols-outlined"> local_fire_department </span>
-  <span>Fire the Camp</span>
-  <span class="material-symbols-outlined"> local_fire_department </span>
-</div>
+  <div class="btn-container">
+    <div class="wrapper_btn" (click)="onSubmit()">
+      <span class="material-symbols-outlined"> local_fire_department </span>
+      <span>Fire the Camp</span>
+      <span class="material-symbols-outlined"> local_fire_department </span>
+    </div>
+  </div>
+</form>

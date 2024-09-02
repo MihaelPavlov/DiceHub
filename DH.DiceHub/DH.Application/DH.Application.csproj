@@ -15,4 +15,8 @@
     <ProjectReference Include="..\DH.Domain\DH.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Rooms\Queries\" />
+  </ItemGroup>
+
 </Project>

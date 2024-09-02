@@ -47,6 +47,7 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
   public isMenuVisible: boolean = false;
   public imageError: string | null = null;
   public fileToUpload: File | null = null;
+
   constructor(
     private readonly fb: FormBuilder,
     private readonly gameService: GamesService,
@@ -65,7 +66,7 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
     });
     this.menuTabsService.setActive(NAV_ITEM_LABELS.GAMES);
   }
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.menuTabsService.resetData();
   }
   private clearServerErrorMessage() {
