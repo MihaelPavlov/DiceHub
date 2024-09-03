@@ -11,6 +11,6 @@ export class RoomsService {
   constructor(private readonly api: RestApiService) {}
 
   public add(room: ICreateRoomDto): Observable<number | null> {
-    return this.api.post<number>(`/${PATH.ROOMS.CORE}`, room);
+    return this.api.post<number>(`/${PATH.ROOMS.CORE}`, { room });
   }
 }

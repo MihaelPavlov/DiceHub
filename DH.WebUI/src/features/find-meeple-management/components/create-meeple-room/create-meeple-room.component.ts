@@ -16,6 +16,9 @@ import { NAV_ITEM_LABELS } from '../../../../shared/models/nav-items-labels.cons
 import { IGameDropdownResult } from '../../../../entities/games/models/game-dropdown.model';
 import { throwError } from 'rxjs';
 import { IGameByIdResult } from '../../../../entities/games/models/game-by-id.model';
+import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
+import { ToastType } from '../../../../shared/models/toast.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-meeple-room',
@@ -36,7 +39,8 @@ export class CreateMeepleRoomComponent
     private readonly gameService: GamesService,
     private readonly roomService: RoomsService,
     private readonly menuTabsService: MenuTabsService,
-    private readonly fb: FormBuilder
+    private readonly fb: FormBuilder,
+    private readonly router: Router
   ) {
     super(toastService);
     this.form = this.initFormGroup();
@@ -69,7 +73,37 @@ export class CreateMeepleRoomComponent
   }
 
   public onSubmit(): void {
-    console.log(this.form.controls);
+    console.log('valid form', this.form.valid);
+    const startDate = this.form.get('startDate')?.value;
+    const startTime = this.form.get('startTime')?.value;
+    if (this.form.valid && startDate && startTime) {
+      const combinedDateTime = this.combineDateAndTime(startDate, startTime);
+
+      this.roomService
+        .add({
+          gameId: parseInt(this.form.controls.gameId.value as any),
+          name: this.form.controls.name.value,
+          startDate: combinedDateTime,
+          maxParticipants: this.form.controls.maxParticipants.value,
+        })
+        .subscribe({
+          next: (_) => {
+            this.toastService.success({
+              message: AppToastMessage.ChangesSaved,
+              type: ToastType.Success,
+            });
+
+            this.router.navigateByUrl('/meeples/find');
+          },
+          error: (error) => {
+            this.handleServerErrors(error);
+            this.toastService.error({
+              message: AppToastMessage.FailedToSaveChanges,
+              type: ToastType.Error,
+            });
+          },
+        });
+    }
   }
 
   private fetchGameList(): void {
@@ -94,16 +128,9 @@ export class CreateMeepleRoomComponent
       next: (game) => {
         if (game) {
           this.game = game;
-          // this.form.patchValue({
-          //   categoryId: game.categoryId,
-          //   name: game.name,
-          //   description: game.description,
-          //   minAge: game.minAge,
-          //   minPlayers: game.minPlayers,
-          //   maxPlayers: game.maxPlayers,
-          //   averagePlaytime: game.averagePlaytime,
-          //   image: game.imageId.toString(),
-          // });
+          this.form.patchValue({
+            gameId: game.id,
+          });
           // this.imagePreview = `https://localhost:7024/games/get-image/${game.imageId}`;
           // this.fileToUpload = null;
         }
@@ -122,13 +149,35 @@ export class CreateMeepleRoomComponent
         return 'Start date';
       case 'startTime':
         return 'Start time';
-      case 'maxParticipants':
+      case 'NPM ':
         return 'Max participants';
       case 'gameId':
         return 'Game';
       default:
         return controlName;
     }
+  }
+
+  // private combineDateAndTime(): Date {
+  //   const date = this.form.get('startDate')?.value;
+  //   const time = this.form.get('startTime')?.value;
+
+  //   if (date && time) {
+  //     const dateObj = new Date(date);
+  //     const timeObj = (time as string).split(':');
+  //     console.log(timeObj);
+
+  //     dateObj.setHours(parseInt(timeObj[0]), parseInt(timeObj[1]));
+  //     return dateObj;
+  //   }
+
+  //   return new Date();
+  // }
+
+  private combineDateAndTime(date: string, time: string): string {
+    const parsedDate: string = new Date(`${date}T${time}:00`).toISOString();
+    console.log(parsedDate);
+    return parsedDate;
   }
 
   private initFormGroup(): FormGroup {

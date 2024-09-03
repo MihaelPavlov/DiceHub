@@ -1,7 +1,6 @@
 ﻿using DH.Adapter.Authentication.Filters;
 using DH.Application.Events.Commands;
 using DH.Application.Events.Queries;
-using DH.Application.Games.Queries.Games;
 using DH.Domain.Adapters.Authentication.Enums;
 using DH.Domain.Models.EventModels.Command;
 using DH.Domain.Models.EventModels.Queries;

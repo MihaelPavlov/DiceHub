@@ -28,8 +28,12 @@ internal class CreateRoomCommandHanler : IRequestHandler<CreateRoomCommand, int>
         var game = await gameRepository.GetByAsync(x => x.Id == request.Room.GameId, cancellationToken)
             ?? throw new NotFoundException(nameof(Game), request.Room.GameId);
 
-        var room = await roomRepository.AddAsync(request.Room.Adapt<Room>(), cancellationToken);
+        var roomDto = request.Room.Adapt<Room>();
 
+        roomDto.StartDate = roomDto.StartDate.AddHours(3);
+        roomDto.CreatedDate = DateTime.Now;
+
+        var room = await roomRepository.AddAsync(roomDto, cancellationToken);
         return room.Id;
     }
 }

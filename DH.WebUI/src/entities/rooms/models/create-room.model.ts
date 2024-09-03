@@ -1,6 +1,6 @@
 export interface ICreateRoomDto {
   name: string;
-  startDate: Date;
+  startDate: string;
   maxParticipants: number;
   gameId: number;
 }

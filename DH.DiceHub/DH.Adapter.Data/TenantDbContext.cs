@@ -43,6 +43,7 @@ public class TenantDbContext : DbContext, ITenantDbContext
     public DbSet<Event> Events { get; set; } = default!;
     public DbSet<EventImage> EventImages { get; set; } = default!;
     public DbSet<EventParticipant> EventParticipants { get; set; } = default!;
+    public DbSet<Room> Rooms { get; set; } = default!;
 
     public T AcquireRepository<T>()
     {
