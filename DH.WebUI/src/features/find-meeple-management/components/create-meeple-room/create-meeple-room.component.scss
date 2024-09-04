@@ -7,15 +7,85 @@
     margin-top: 1rem;
 }
 
-.input-field {
-    max-width: 75%;
-    margin: 0 auto;
-    margin-top: 1rem;
+.wrapper_icons {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1rem;
+    padding-top: 1rem;
+    align-items: center;
+
+    .header_name {
+        font-size: 1.5rem;
+        padding-top: 1rem;
+        padding-bottom: 0.5rem;
+        word-wrap: break-word;
+        width: 70%;
+        text-align: center;
+    }
+
+    .arrow {
+        width: 3rem;
+        height: 3rem;
+        display: inline-block;
+        position: relative;
+        border: 0.1rem solid palette.$main-icon-color;
+        border-radius: 2.5rem;
+
+        &::before {
+            content: '';
+            display: block;
+            width: 0.75rem;
+            height: 0.75rem;
+            top: 65%;
+            left: 63%;
+            border-style: solid;
+            border-color: palette.$main-icon-color;
+            border-width: 0.2rem 0.2rem 0 0;
+            position: absolute;
+            transform-origin: 50% 50%;
+        }
+
+        &.left::before {
+            transform: rotate(-135deg);
+            margin: -0.9rem 0 0 -0.6rem;
+
+        }
+    }
 }
 
-.input-field label {
+.info-container {
+    position: relative;
+
+    .info {
+        font-variation-settings: 'FILL' 1;
+        font-size: 3rem;
+        color: palette.$main-blue-color;
+
+        &__text {
+            position: absolute;
+            right: 0.5rem;
+            top: 2.25rem;
+            background-color: palette.$main-gray-color;
+            padding: 0.5rem;
+            z-index: 1000;
+            width: 10rem;
+            text-align: center;
+        }
+
+        &__text span {
+            width: 9rem;
+            text-align: center;
+            line-height: 2rem;
+            font-size: 1.2rem;
+        }
+    }
+}
+
+.container-errors {
     display: flex;
     justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
 }
 
 .wrapper_stats {
@@ -33,6 +103,14 @@
             height: 8rem;
             object-fit: cover;
             border-radius: 5rem;
+        }
+
+        .red {
+            border: solid palette.$main-red-color 1px;
+        }
+
+        .green {
+            border: solid palette.$main-green-color 1px;
         }
     }
 
@@ -92,6 +170,10 @@
     display: flex;
     justify-content: space-between;
 
+    .ng-touched.ng-invalid {
+        border: 0.1rem solid palette.$main-red-color;
+    }
+
     &__input {
         width: 50%;
 
@@ -107,30 +189,6 @@
             border-bottom-right-radius: 2rem;
         }
     }
-
-    // &__input-full {
-    //     min-width: 100%;
-    //     margin-top: 1rem;
-    //     display: flex;
-    //     flex-direction: column;
-    //     align-items: center;
-
-    //     label {
-    //         display: flex;
-    //         justify-content: center;
-    //     }
-
-    //     input {
-    //         border: none;
-    //         width: 90%;
-    //         border-radius: 5px;
-    //         background-color: palette.$main-nav-color ;
-    //         padding: 0.4rem 0.8rem;
-    //         color: palette.$main-font-gray-color;
-    //         text-align: center;
-    //         font-size: 0.9rem;
-    //     }
-    // }
 
     &__time {
         text-align: end;
@@ -175,14 +233,79 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        margin-top: 4rem;
+        margin-top: 2rem;
         margin-bottom: 10rem;
         background-color: palette.$main-nav-color;
         padding: 1rem;
 
         .material-symbols-outlined {
             font-size: 2rem;
+        }
+
+        .gray-flames {
+            color: palette.$main-font-gray-color;
+        }
+
+        @keyframes realisticFlames {
+            0% {
+                transform: scale(1) rotate(0deg) translateY(0);
+                opacity: 1;
+            }
+
+            10% {
+                transform: scale(1.1) rotate(1deg) translateY(-2px);
+                opacity: 0.95;
+            }
+
+            20% {
+                transform: scale(1.15) rotate(-2deg) translateY(-4px);
+                opacity: 0.9;
+            }
+
+            30% {
+                transform: scale(1.1) rotate(1deg) translateY(-3px);
+                opacity: 0.93;
+            }
+
+            40% {
+                transform: scale(1.2) rotate(-1deg) translateY(-5px);
+                opacity: 0.88;
+            }
+
+            50% {
+                transform: scale(1.1) rotate(0deg) translateY(-2px);
+                opacity: 0.92;
+            }
+
+            60% {
+                transform: scale(1.15) rotate(-2deg) translateY(-6px);
+                opacity: 0.85;
+            }
+
+            70% {
+                transform: scale(1.2) rotate(1deg) translateY(-4px);
+                opacity: 0.9;
+            }
+
+            80% {
+                transform: scale(1.1) rotate(-1deg) translateY(-3px);
+                opacity: 0.95;
+            }
+
+            90% {
+                transform: scale(1.15) rotate(2deg) translateY(-5px);
+                opacity: 0.9;
+            }
+
+            100% {
+                transform: scale(1) rotate(0deg) translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .red-flames {
             color: palette.$main-red-color;
+            animation: realisticFlames 3s infinite;
         }
     }
 }

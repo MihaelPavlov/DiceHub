@@ -51,7 +51,19 @@
 </ng-template>
 
 <ng-template #addBtn>
-  <a class="wrapper_add" (click)="showMenu()">
+  <a
+    class="wrapper_add"
+    *ngIf="this.menuItems.length !== 0"
+    (click)="showMenu()"
+  >
+    <span class="material-symbols-outlined"> add </span>
+  </a>
+
+  <a
+    class="wrapper_add"
+    *ngIf="this.menuItems.length === 0"
+    (click)="onAddClick()"
+  >
     <span class="material-symbols-outlined"> add </span>
   </a>
   <div *ngIf="isMenuVisible" class="menu">

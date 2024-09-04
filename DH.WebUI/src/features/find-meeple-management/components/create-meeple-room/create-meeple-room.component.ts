@@ -14,11 +14,20 @@ import {
 } from '@angular/forms';
 import { NAV_ITEM_LABELS } from '../../../../shared/models/nav-items-labels.const';
 import { IGameDropdownResult } from '../../../../entities/games/models/game-dropdown.model';
-import { throwError } from 'rxjs';
+import { combineLatest, throwError } from 'rxjs';
 import { IGameByIdResult } from '../../../../entities/games/models/game-by-id.model';
 import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { ToastType } from '../../../../shared/models/toast.model';
 import { Router } from '@angular/router';
+import { IGameInventory } from '../../../../entities/games/models/game-inventory.mode';
+
+export interface ICreateRoomForm {
+  name: string;
+  startDate: string;
+  startTime: string;
+  maxParticipants: number;
+  gameId: number;
+}
 
 @Component({
   selector: 'app-create-meeple-room',
@@ -30,10 +39,14 @@ export class CreateMeepleRoomComponent
   extends Form
   implements OnInit, OnDestroy
 {
-  override form: Formify<ICreateRoomDto>;
+  override form: Formify<ICreateRoomForm>;
   public gameList: IGameDropdownResult[] = [];
   public selectedGame: IGameDropdownResult | null = null;
   public game: IGameByIdResult | null = null;
+  public gameInventory!: IGameInventory;
+  public imagePreview: string | ArrayBuffer | null = null;
+  public isMenuVisible: boolean = false;
+
   constructor(
     public override readonly toastService: ToastService,
     private readonly gameService: GamesService,
@@ -71,11 +84,16 @@ export class CreateMeepleRoomComponent
       this.fetchGameById(this.selectedGame.id);
     }
   }
+  public showMenu(): void {
+    this.isMenuVisible = !this.isMenuVisible;
+  }
+  public backNavigateBtn() {
+    this.router.navigateByUrl('meeples/find');
+  }
 
   public onSubmit(): void {
-    console.log('valid form', this.form.valid);
-    const startDate = this.form.get('startDate')?.value;
-    const startTime = this.form.get('startTime')?.value;
+    const startDate = this.form.controls.startDate.value;
+    const startTime = this.form.controls.startTime.value;
     if (this.form.valid && startDate && startTime) {
       const combinedDateTime = this.combineDateAndTime(startDate, startTime);
 
@@ -118,24 +136,36 @@ export class CreateMeepleRoomComponent
         }
       },
       error: (error) => {
-        console.log(error);
+        this.toastService.error({
+          message: AppToastMessage.SomethingWrong,
+          type: ToastType.Error,
+        });
+        throwError(() => error);
       },
     });
   }
 
   private fetchGameById(id: number): void {
-    this.gameService.getById(id).subscribe({
-      next: (game) => {
-        if (game) {
+    combineLatest([
+      this.gameService.getById(id),
+      this.gameService.getInventory(id),
+    ]).subscribe({
+      next: ([game, inventory]) => {
+        if (game && inventory) {
           this.game = game;
           this.form.patchValue({
             gameId: game.id,
           });
-          // this.imagePreview = `https://localhost:7024/games/get-image/${game.imageId}`;
-          // this.fileToUpload = null;
+          this.imagePreview = `https://localhost:7024/games/get-image/${game.imageId}`;
+
+          this.gameInventory = inventory;
         }
       },
       error: (error) => {
+        this.toastService.error({
+          message: AppToastMessage.SomethingWrong,
+          type: ToastType.Error,
+        });
         throwError(() => error);
       },
     });
@@ -149,7 +179,7 @@ export class CreateMeepleRoomComponent
         return 'Start date';
       case 'startTime':
         return 'Start time';
-      case 'NPM ':
+      case 'maxParticipants':
         return 'Max participants';
       case 'gameId':
         return 'Game';
@@ -158,25 +188,8 @@ export class CreateMeepleRoomComponent
     }
   }
 
-  // private combineDateAndTime(): Date {
-  //   const date = this.form.get('startDate')?.value;
-  //   const time = this.form.get('startTime')?.value;
-
-  //   if (date && time) {
-  //     const dateObj = new Date(date);
-  //     const timeObj = (time as string).split(':');
-  //     console.log(timeObj);
-
-  //     dateObj.setHours(parseInt(timeObj[0]), parseInt(timeObj[1]));
-  //     return dateObj;
-  //   }
-
-  //   return new Date();
-  // }
-
   private combineDateAndTime(date: string, time: string): string {
     const parsedDate: string = new Date(`${date}T${time}:00`).toISOString();
-    console.log(parsedDate);
     return parsedDate;
   }
 

@@ -72,6 +72,10 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     this.isMenuVisible = !this.isMenuVisible;
   }
 
+  public onAddClick(): void {
+    this.addClicked.emit();
+  }
+
   private onSearchSubmit(searchExpression: string) {
     this.searchExpressionResult.emit(searchExpression);
   }
