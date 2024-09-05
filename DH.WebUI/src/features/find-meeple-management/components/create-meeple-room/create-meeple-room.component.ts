@@ -20,6 +20,7 @@ import { AppToastMessage } from '../../../../shared/components/toast/constants/a
 import { ToastType } from '../../../../shared/models/toast.model';
 import { Router } from '@angular/router';
 import { IGameInventory } from '../../../../entities/games/models/game-inventory.mode';
+import { GameImagePipe } from '../../../../shared/pipe/game-image.pipe';
 
 export interface ICreateRoomForm {
   name: string;
@@ -53,6 +54,7 @@ export class CreateMeepleRoomComponent
     private readonly roomService: RoomsService,
     private readonly menuTabsService: MenuTabsService,
     private readonly fb: FormBuilder,
+    private readonly gameImagePipe: GameImagePipe,
     private readonly router: Router
   ) {
     super(toastService);
@@ -156,7 +158,7 @@ export class CreateMeepleRoomComponent
           this.form.patchValue({
             gameId: game.id,
           });
-          this.imagePreview = `https://localhost:7024/games/get-image/${game.imageId}`;
+          this.imagePreview = this.gameImagePipe.transform(game.imageId);
 
           this.gameInventory = inventory;
         }

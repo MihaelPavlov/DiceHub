@@ -5,7 +5,7 @@
       (click)="navigateToGameDetails(game.id)"
     >
       <div class="wrapper_image">
-        <img src="https://localhost:7024/games/get-image/{{game.imageId}}" alt="Game Image">
+        <img [src]="game.imageId | gameImage" alt="Game Image">
       </div>
       <div class="wrapper_info">
         <div class="wrapper_title">

@@ -6,6 +6,8 @@ import { SearchService } from '../../../shared/services/search.service';
 import { Router } from '@angular/router';
 import { EventsService } from '../../../entities/events/api/events.service';
 import { IEventListResult } from '../../../entities/events/models/event-list.model';
+import { GameImagePipe } from '../../../shared/pipe/game-image.pipe';
+import { EventImagePipe } from '../../../shared/pipe/event-image.pipe';
 
 @Component({
   selector: 'app-admin-event-management',
@@ -22,7 +24,9 @@ export class AdminEventManagementComponent implements OnInit, OnDestroy {
     private readonly menuTabsService: MenuTabsService,
     private readonly searchService: SearchService,
     private readonly eventService: EventsService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly gameImagePipe: GameImagePipe,
+    private readonly eventImagePipe: EventImagePipe
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.EVENTS);
     this.handleHeaderMenuItemClick = this.handleHeaderMenuItemClick.bind(this);
@@ -90,9 +94,9 @@ export class AdminEventManagementComponent implements OnInit, OnDestroy {
 
   public getImage(event: IEventListResult): string {
     if (event.isCustomImage) {
-      return `https://localhost:7024/events/get-image/${event.imageId}`;
+      return this.eventImagePipe.transform(event.imageId);
     }
-    return `https://localhost:7024/games/get-image/${event.imageId}`;
+    return this.gameImagePipe.transform(event.imageId);
   }
 
   public navigateToDetails(eventId: number): void {

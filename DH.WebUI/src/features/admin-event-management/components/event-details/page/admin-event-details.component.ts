@@ -5,6 +5,8 @@ import { EventsService } from '../../../../../entities/events/api/events.service
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { NAV_ITEM_LABELS } from '../../../../../shared/models/nav-items-labels.const';
 import { MenuTabsService } from '../../../../../shared/services/menu-tabs.service';
+import { GameImagePipe } from '../../../../../shared/pipe/game-image.pipe';
+import { EventImagePipe } from '../../../../../shared/pipe/event-image.pipe';
 
 @Component({
   selector: 'app-admin-event-details',
@@ -19,6 +21,8 @@ export class AdminEventDetailsComponent implements OnInit, OnDestroy {
     private readonly eventService: EventsService,
     private readonly activeRoute: ActivatedRoute,
     private readonly menuTabsService: MenuTabsService,
+    private readonly gameImagePipe: GameImagePipe,
+    private readonly eventImagePipe: EventImagePipe,
     private readonly router: Router
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.EVENTS);
@@ -47,9 +51,9 @@ export class AdminEventDetailsComponent implements OnInit, OnDestroy {
 
   public getImage(event: IEventByIdResult): string {
     if (event.isCustomImage) {
-      return `https://localhost:7024/events/get-image/${event.imageId}`;
+      return this.eventImagePipe.transform(event.imageId);
     }
-    return `https://localhost:7024/games/get-image/${event.imageId}`;
+    return this.gameImagePipe.transform(event.imageId);
   }
 
   private fetchEvent(): void {

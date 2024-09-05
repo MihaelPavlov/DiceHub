@@ -4,6 +4,8 @@ import { MenuTabsService } from '../../../shared/services/menu-tabs.service';
 import { NAV_ITEM_LABELS } from '../../../shared/models/nav-items-labels.const';
 import { EventsService } from '../../../entities/events/api/events.service';
 import { IEventListResult } from '../../../entities/events/models/event-list.model';
+import { GameImagePipe } from '../../../shared/pipe/game-image.pipe';
+import { EventImagePipe } from '../../../shared/pipe/event-image.pipe';
 
 @Component({
   selector: 'app-events-library',
@@ -17,7 +19,9 @@ export class EventsLibraryComponent implements OnInit, OnDestroy {
   constructor(
     private readonly router: Router,
     private readonly menuTabsService: MenuTabsService,
-    private readonly eventService: EventsService
+    private readonly eventService: EventsService,
+    private readonly eventImagePipe: EventImagePipe,
+    private readonly gameImagePipe: GameImagePipe,
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.EVENTS);
   }
@@ -36,9 +40,9 @@ export class EventsLibraryComponent implements OnInit, OnDestroy {
 
   public getImage(event: IEventListResult): string {
     if (event.isCustomImage) {
-      return `https://localhost:7024/events/get-image/${event.imageId}`;
+      return this.eventImagePipe.transform(event.imageId);
     }
-    return `https://localhost:7024/games/get-image/${event.imageId}`;
+    return this.gameImagePipe.transform(event.imageId);
   }
 
   private fetchEventList() {

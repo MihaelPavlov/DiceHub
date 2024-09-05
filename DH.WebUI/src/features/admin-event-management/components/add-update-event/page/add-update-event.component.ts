@@ -19,6 +19,8 @@ import { AppToastMessage } from '../../../../../shared/components/toast/constant
 import { ToastType } from '../../../../../shared/models/toast.model';
 import { IEventByIdResult } from '../../../../../entities/events/models/event-by-id.mode';
 import { Location } from '@angular/common';
+import { GameImagePipe } from '../../../../../shared/pipe/game-image.pipe';
+import { EventImagePipe } from '../../../../../shared/pipe/event-image.pipe';
 
 interface ICreateEventForm {
   name: string;
@@ -51,6 +53,8 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
     private readonly gameService: GamesService,
     private readonly eventService: EventsService,
     private readonly location: Location,
+    private readonly gameImagePipe: GameImagePipe,
+    private readonly eventImagePipe: EventImagePipe,
     public override readonly toastService: ToastService
   ) {
     super(toastService);
@@ -235,9 +239,9 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
 
   private getImage(event: IEventByIdResult): string {
     if (event.isCustomImage) {
-      return `https://localhost:7024/events/get-image/${event.imageId}`;
+      return this.eventImagePipe.transform(event.imageId);
     }
-    return `https://localhost:7024/games/get-image/${event.imageId}`;
+    return this.gameImagePipe.transform(event.imageId);
   }
 
   private fetchGameList(): void {
@@ -270,7 +274,7 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
           this.form.patchValue({
             image: game.imageId.toString(),
           });
-          this.imagePreview = `https://localhost:7024/games/get-image/${game.imageId}`;
+          this.imagePreview = this.gameImagePipe.transform(game.imageId);
           this.fileToUpload = null;
         }
       },

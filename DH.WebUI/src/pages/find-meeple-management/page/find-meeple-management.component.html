@@ -4,9 +4,10 @@
   header="Find Meeple"
   [withBottomLine]="true"
   (addClicked)="navigateToCreateMeepleRoom()"
+  (searchExpressionResult)="handleSeachExpression($event)"
 ></app-header>
 
-<div class="wrapper_groups">
+<div class="wrapper_groups" *ngFor="let room of roomList$ | async">
   <div class="wrapper_group" (click)="navigateToCreateMeepleRoom()">
     <div class="wrapper_group__header">
       <span> Dungeon & Dragons</span>

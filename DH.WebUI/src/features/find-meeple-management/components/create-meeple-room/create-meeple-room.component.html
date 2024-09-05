@@ -6,7 +6,7 @@
       info
     </span>
     <div class="info__text" *ngIf="isMenuVisible">
-      <p>Gather your friends at the time you agreed and have fun</p>
+      <p>The room will be avaiable till the choosen date.</p>
     </div>
   </div>
 </div>
@@ -43,7 +43,10 @@
     <div class="wrapper_image">
       <img
         [ngClass]="this.imagePreview ? 'green' : 'red'"
-        [src]="this.imagePreview"
+        [src]="
+          this.imagePreview ||
+          '../../../../../shared/assets/images/default-no-image.jpg'
+        "
       />
     </div>
 
@@ -120,7 +123,7 @@
       >
         local_fire_department
       </span>
-      <span>Fire the Camp</span>
+      <span> Fire the Camp </span>
       <span
         class="material-symbols-outlined"
         [ngClass]="this.form.valid ? 'red-flames' : 'gray-flames'"

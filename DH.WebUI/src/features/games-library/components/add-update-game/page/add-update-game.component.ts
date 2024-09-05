@@ -18,6 +18,7 @@ import { Form } from '../../../../../shared/components/form/form.component';
 import { IGameDropdownResult } from '../../../../../entities/games/models/game-dropdown.model';
 import { AppToastMessage } from '../../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { Formify } from '../../../../../shared/models/form.model';
+import { GameImagePipe } from '../../../../../shared/pipe/game-image.pipe';
 
 interface ICreateGameForm {
   categoryId: number;
@@ -55,7 +56,8 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
     public override readonly toastService: ToastService,
     private readonly menuTabsService: MenuTabsService,
     private readonly router: Router,
-    private readonly activatedRoute: ActivatedRoute
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly gameImagePipe: GameImagePipe
   ) {
     super(toastService);
     this.form = this.initFormGroup();
@@ -306,7 +308,7 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
             averagePlaytime: game.averagePlaytime,
             image: game.imageId.toString(),
           });
-          this.imagePreview = `https://localhost:7024/games/get-image/${game.imageId}`;
+          this.imagePreview = this.gameImagePipe.transform(game.imageId);
           this.fileToUpload = null;
         }
       },

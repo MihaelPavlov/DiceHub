@@ -8,6 +8,8 @@ import { MenuTabsService } from '../../../../../shared/services/menu-tabs.servic
 import { ToastService } from '../../../../../shared/services/toast.service';
 import { AppToastMessage } from '../../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { ToastType } from '../../../../../shared/models/toast.model';
+import { GameImagePipe } from '../../../../../shared/pipe/game-image.pipe';
+import { EventImagePipe } from '../../../../../shared/pipe/event-image.pipe';
 
 @Component({
   selector: 'app-event-details',
@@ -24,6 +26,8 @@ export class EventDetailsComponent {
     private readonly activeRoute: ActivatedRoute,
     private readonly menuTabsService: MenuTabsService,
     private readonly toastService: ToastService,
+    private readonly gameImagePipe: GameImagePipe,
+    private readonly eventImagePipe: EventImagePipe,
     private readonly router: Router
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.EVENTS);
@@ -97,9 +101,9 @@ export class EventDetailsComponent {
 
   public getImage(event: IEventByIdResult): string {
     if (event.isCustomImage) {
-      return `https://localhost:7024/events/get-image/${event.imageId}`;
+      return this.eventImagePipe.transform(event.imageId);
     }
-    return `https://localhost:7024/games/get-image/${event.imageId}`;
+    return this.gameImagePipe.transform(event.imageId);
   }
 
   private fetchEvent(): void {

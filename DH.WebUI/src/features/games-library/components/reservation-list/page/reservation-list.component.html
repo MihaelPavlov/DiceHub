@@ -10,7 +10,7 @@
   >
     <div class="wrapper_image">
       <img
-        src="https://localhost:7024/games/get-image/{{ game.gameImageId }}"
+        [src]="game.gameImageId | gameImage"
         alt="Game Image"
       />
     </div>
