@@ -150,9 +150,19 @@
     top: -10rem;
 }
 
-#navbar{
+#navbar {
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    transition: top 0.5s ease-in;
     padding-top: 1rem;
 }
+
+#navbar.hidden {
+    top: -10rem;
+}
+
 
 .menu {
     position: fixed;

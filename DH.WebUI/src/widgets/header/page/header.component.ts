@@ -103,7 +103,10 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     return this.disabledScrollEvent;
   }
   private initSearchListenersJS(): void {
-    const navbar = document.getElementById('navbar');
+    let navbar = document.getElementById('navbar');
+    if(!navbar){
+      navbar = document.getElementById('sticky_navbar');
+    }
     let prevScrollPos = window.scrollY;
     if (navbar) {
       window.onscroll = () => {
@@ -111,9 +114,9 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
         const currentScrollPos = window.scrollY;
         if (prevScrollPos > currentScrollPos) {
-          navbar.classList.remove('hidden');
+          navbar?.classList.remove('hidden');
         } else {
-          navbar.classList.add('hidden');
+          navbar?.classList.add('hidden');
         }
         prevScrollPos = currentScrollPos;
       };
