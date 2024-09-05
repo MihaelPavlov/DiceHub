@@ -18,7 +18,7 @@ export class LoginComponent {
   }
 
   login() {
-    this.authService.login({ email: 'rap4obg2@abv.bg', password: '123456789Mm!' });
+    this.authService.login({ email: 'sa@dicehub.com', password: '1qaz!QAZ' });
   }
   game() {
     this.authService.game({ name: 'test123' });

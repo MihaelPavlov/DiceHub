@@ -1,5 +1,4 @@
 ﻿using DH.Domain.Adapters.Authentication;
-using DH.Domain.Adapters.Data;
 using DH.Domain.Adapters.Scheduling;
 using DH.Domain.Entities;
 using DH.Domain.Exceptions;
@@ -7,7 +6,6 @@ using DH.Domain.Models.GameModels.Commands;
 using DH.Domain.Repositories;
 using DH.Domain.Services;
 using MediatR;
-using System.Runtime.InteropServices;
 
 namespace DH.Application.Games.Commands;
 

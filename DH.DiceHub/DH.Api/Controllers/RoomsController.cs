@@ -1,6 +1,8 @@
 ﻿using DH.Adapter.Authentication.Filters;
 using DH.Application.Rooms.Commands;
+using DH.Application.Rooms.Queries;
 using DH.Domain.Adapters.Authentication.Enums;
+using DH.Domain.Models.RoomModels.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,6 +17,15 @@ public class RoomsController : ControllerBase
     public RoomsController(IMediator mediator)
     {
         this.mediator = mediator;
+    }
+
+    [HttpPost("list")]
+    [ActionAuthorize(UserAction.RoomsCRUD)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetRoomListQueryModel>))]
+    public async Task<IActionResult> CreateRoom(GetRoomListQuery request, CancellationToken cancellationToken)
+    {
+        var result = await this.mediator.Send(request, cancellationToken);
+        return Ok(result);
     }
 
     [HttpPost]

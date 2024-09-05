@@ -1,4 +1,5 @@
-﻿using DH.Domain.Entities;
+﻿using DH.Domain.Adapters.Authentication;
+using DH.Domain.Entities;
 using DH.Domain.Exceptions;
 using DH.Domain.Models.RoomModels.Commands;
 using DH.Domain.Repositories;
@@ -13,11 +14,13 @@ internal class CreateRoomCommandHanler : IRequestHandler<CreateRoomCommand, int>
 {
     readonly IRepository<Room> roomRepository;
     readonly IRepository<Game> gameRepository;
+    readonly IUserContext userContext;
 
-    public CreateRoomCommandHanler(IRepository<Room> roomRepository, IRepository<Game> gameRepository)
+    public CreateRoomCommandHanler(IRepository<Room> roomRepository, IRepository<Game> gameRepository, IUserContext userContext)
     {
         this.roomRepository = roomRepository;
         this.gameRepository = gameRepository;
+        this.userContext = userContext;
     }
 
     public async Task<int> Handle(CreateRoomCommand request, CancellationToken cancellationToken)
@@ -32,6 +35,7 @@ internal class CreateRoomCommandHanler : IRequestHandler<CreateRoomCommand, int>
 
         roomDto.StartDate = roomDto.StartDate.AddHours(3);
         roomDto.CreatedDate = DateTime.Now;
+        roomDto.UserId = userContext.UserId;
 
         var room = await roomRepository.AddAsync(roomDto, cancellationToken);
         return room.Id;

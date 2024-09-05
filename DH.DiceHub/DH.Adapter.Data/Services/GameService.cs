@@ -23,7 +23,7 @@ public class GameService : IGameService
         {
             await context.Games.AddAsync(game, cancellationToken);
 
-            await context.GameImages
+            await context.GameImages    
                 .AddAsync(new GameImage
                 {
                     Game = game,

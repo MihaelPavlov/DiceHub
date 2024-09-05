@@ -24,5 +24,4 @@ internal class ExpireReservationJob : IJob
         if (!isJobSuccessfully)
             throw new InfrastructureException("Failed Job");
     }
-
 }

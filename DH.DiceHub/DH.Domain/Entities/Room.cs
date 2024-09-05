@@ -8,6 +8,8 @@ public class Room
     public DateTime StartDate { get; set; }
     public int MaxParticipants { get; set; }
     public int GameId { get; set; }
+    public string UserId { get; set; } = string.Empty;
 
     public virtual Game Game { get; set; } = null!;
+    public virtual ICollection<RoomParticipant> Participants { get; set; } = [];
 }

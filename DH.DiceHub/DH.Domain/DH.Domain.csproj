@@ -11,8 +11,4 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.0-preview.3.24172.9" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\RoomModels\Queries\" />
-  </ItemGroup>
-
 </Project>
