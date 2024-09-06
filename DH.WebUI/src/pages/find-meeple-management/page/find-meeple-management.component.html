@@ -8,7 +8,7 @@
 ></app-header>
 
 <div class="wrapper_groups">
-  <div class="wrapper_group" *ngFor="let room of roomList$ | async" (click)="navigateToCreateMeepleRoom()">
+  <div class="wrapper_group" *ngFor="let room of roomList$ | async" (click)="navigateToDetails(room.id)">
     <div class="wrapper_group__header">
       <span> {{ room.name }}</span>
     </div>

@@ -1,37 +1,69 @@
-<div class="wrapper_container">
-  <app-header
-    header="Join Game"
-    [withBottomLine]="true"
-    [withSearch]="false"
-  ></app-header>
-
-  <div class="wrapper_image">
-    <img
-      src="https://cf.geekdo-images.com/fvhkcw4s6Q4-nMwwok1J6A__opengraph/img/bbHffM-AIBac7jMM8sgOM1sC0zk=/0x274:1314x964/fit-in/1200x630/filters:strip_icc()/pic6569894.png"
-      alt=""
-    />
+<div class="wrapper_container" *ngIf="room$ | async as room">
+  <div class="wrapper_icons">
+    <span (click)="backNavigateBtn()" class="arrow left"></span>
+    <span class="header_name">{{ room.name }}</span>
+    <span class="material-symbols-outlined exit"> exit_to_app </span>
   </div>
 
-  <div class="wrapper_header">Dungeon & Dragons</div>
+  <div class="wrapper_image">
+    <img [src]="room.gameImageId | gameImage" alt="" />
+  </div>
+
+  <div class="wrapper_header">from: {{ room.username }}</div>
 
   <div class="wrapper_chips">
     <div class="wrapper_chips__detail">
       <span>joined</span>
-      <app-chip size="small" color="orange" text="3"></app-chip>
+      <app-chip
+        size="small"
+        color="orange"
+        [text]="room.joinedParticipants.toString()"
+      ></app-chip>
     </div>
     <div class="wrapper_chips__detail">
-      <app-chip size="small" color="blue" text="24/06/26"></app-chip>
+      <app-chip
+        size="small"
+        color="blue"
+        text="{{ room.startDate | date : 'dd/MM/yyyy' }}"
+      ></app-chip>
       <span>date</span>
     </div>
     <div class="wrapper_chips__detail">
       <span>max</span>
-      <app-chip size="small" color="red" text="5"></app-chip>
+      <app-chip
+        size="small"
+        color="red"
+        [text]="room.maxParticipants.toString()"
+      ></app-chip>
     </div>
     <div class="wrapper_chips__detail">
-      <app-chip size="small" color="yellow" text="H 14:30"></app-chip>
+      <app-chip
+        size="small"
+        color="yellow"
+        text="{{ room.startDate | date : 'H:mm' }}"
+      ></app-chip>
       <span>time</span>
     </div>
   </div>
+
+  <div class="wrapper_tabs">
+    <div class="wrapper_tabs__tab">
+      <div class="info">
+        <span class="material-symbols-outlined"> chat </span>
+      </div>
+      <span class="wrapper_tabs__tab-header">Open Chat</span>
+    </div>
+    <div class="wrapper_tabs__tab" (click)="navigateToGameDetails(room.gameId)">
+      <div class="info">
+        <span class="material-symbols-outlined"> info </span>
+      </div>
+      <span class="wrapper_tabs__tab-header">See Game Details</span>
+    </div>
+  </div>
+</div>
+
+<!-- 
+<div class="wrapper_container">
 
   <div class="wrapper_lobby">
     <span class="wrapper_lobby__header">Lobby</span>
@@ -166,4 +198,4 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->

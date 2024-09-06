@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { GamesService } from '../../../../../entities/games/api/games.service';
 import { Observable } from 'rxjs';
 import { IGameByIdResult } from '../../../../../entities/games/models/game-by-id.model';
@@ -15,18 +15,18 @@ import { Location } from '@angular/common';
 export class GameDetailsComponent implements OnInit, OnDestroy {
   public game$!: Observable<IGameByIdResult>;
   private gameId!: number;
-  
+
   constructor(
     private readonly gameService: GamesService,
     private readonly activeRoute: ActivatedRoute,
     private readonly menuTabsService: MenuTabsService,
-    private location: Location
+    private readonly location: Location
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.GAMES);
   }
-  
+
   public ngOnDestroy(): void {
-    this.menuTabsService.resetData;
+    this.menuTabsService.resetData();
   }
 
   public ngOnInit(): void {
@@ -36,7 +36,7 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
-  public navigateBackToGameList(): void {
+  public navigateBack(): void {
     this.location.back();
   }
 

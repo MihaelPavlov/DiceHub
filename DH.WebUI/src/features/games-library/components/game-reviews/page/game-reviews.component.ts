@@ -62,7 +62,7 @@ export class GameReviewsComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.menuTabsService.resetData;
+    this.menuTabsService.resetData();
   }
 
   public openDeleteDialog(id: number): void {

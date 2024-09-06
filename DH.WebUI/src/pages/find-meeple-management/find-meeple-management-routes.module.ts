@@ -10,7 +10,7 @@ const routes: Routes = [
     component: FindMeepleManagementComponent,
   },
   {
-    path: '1/details',
+    path: ':id/details',
     component: MeepleRoomDetailsComponent,
   },
   {

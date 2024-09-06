@@ -28,6 +28,15 @@ public class RoomsController : ControllerBase
         return Ok(result);
     }
 
+    [HttpGet("{id}")]
+    [ActionAuthorize(UserAction.RoomsCRUD)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetRoomByIdQueryModel))]
+    public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
+    {
+        var result = await this.mediator.Send(new GetRoomByIdQuery(id), cancellationToken);
+        return Ok(result);
+    }
+
     [HttpPost]
     [ActionAuthorize(UserAction.RoomsCRUD)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]

@@ -13,6 +13,28 @@ public class RoomService : IRoomService
         this._contextFactory = _contextFactory;
     }
 
+    public async Task<GetRoomByIdQueryModel?> GetById(int id, CancellationToken cancellationToken)
+    {
+        using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
+        {
+            return await (
+                from r in context.Rooms
+                join g in context.Games on r.GameId equals g.Id
+                join gi in context.GameImages on g.Id equals gi.GameId
+                select new GetRoomByIdQueryModel
+                {
+                    Id = r.Id,
+                    UserId = r.UserId,
+                    Name = r.Name,
+                    StartDate = r.StartDate,
+                    MaxParticipants = r.MaxParticipants,
+                    GameId = r.GameId,
+                    GameImageId = gi.Id,
+                    JoinedParticipants = r.Participants.Count,
+                }).FirstOrDefaultAsync(cancellationToken);
+        }
+    }
+
     public async Task<List<GetRoomListQueryModel>> GetListBySearchExpressionAsync(string searchExpression, CancellationToken cancellationToken)
     {
         using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))

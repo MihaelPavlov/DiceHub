@@ -33,7 +33,11 @@ export class FindMeepleManagementComponent implements OnInit, OnDestroy {
     this.roomList$ = this.roomService.getList(searchExpression);
   }
 
+  public navigateToDetails(id: number): void {
+    this.router.navigateByUrl(`meeples/${id}/details`);
+  }
+
   public navigateToCreateMeepleRoom(): void {
-    this.router.navigateByUrl('meeples/create');
+    this.router.navigateByUrl(`meeples/create`);
   }
 }

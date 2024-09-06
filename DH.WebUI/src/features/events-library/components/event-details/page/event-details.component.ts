@@ -41,7 +41,7 @@ export class EventDetailsComponent {
   }
 
   public ngOnDestroy(): void {
-    this.menuTabsService.resetData;
+    this.menuTabsService.resetData();
   }
 
   public onParticipate(id: number) {

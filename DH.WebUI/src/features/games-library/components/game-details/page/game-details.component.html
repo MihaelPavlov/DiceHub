@@ -1,7 +1,7 @@
 <app-game-layout
   *ngIf="game$ | async as game"
   [game]="game"
-  [backNavigateBtn]="navigateBackToGameList.bind(this)"
+  [backNavigateBtn]="navigateBack.bind(this)"
   (refresh)="fetchGame()"
 >
   <div class="wrapper_info">

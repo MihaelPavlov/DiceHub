@@ -29,7 +29,7 @@ export class AdminEventDetailsComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.menuTabsService.resetData;
+    this.menuTabsService.resetData();
   }
 
   public ngOnInit(): void {
