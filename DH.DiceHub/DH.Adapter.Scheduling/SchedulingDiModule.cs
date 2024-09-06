@@ -10,6 +10,7 @@ public static class SchedulingDiModule
     public static IServiceCollection AddSchedulingConfiguration(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<IJobManager, JobManager>();
+        services.AddScoped<IReservationExpirationHandler, ReservationExpirationHandler>();
 
         services.AddQuartz(q =>
         {

@@ -8,12 +8,14 @@ import { MeepleRoomDetailsComponent } from '../../features/find-meeple-managemen
 import { CreateMeepleRoomComponent } from '../../features/find-meeple-management/components/create-meeple-room/create-meeple-room.component';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { RoomChatComponent } from '../../features/find-meeple-management/components/room-chat/room-chat.component';
 
 @NgModule({
   declarations: [
     FindMeepleManagementComponent,
     MeepleRoomDetailsComponent,
     CreateMeepleRoomComponent,
+    RoomChatComponent,
   ],
   exports: [FindMeepleManagementComponent],
   providers: [],

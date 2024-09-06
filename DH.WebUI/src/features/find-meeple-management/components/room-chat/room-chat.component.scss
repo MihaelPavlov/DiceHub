@@ -1,0 +1,213 @@
+@use "../../../../shared/assets/styles/palette";
+
+.wrapper_container {
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 85dvh;
+
+    .wrapper_header_container {
+
+        .wrapper_header {
+            text-align: center;
+            font-size: 1.5rem;
+            max-width: 100%;
+            margin: 1rem;
+        }
+
+        .wrapper_icons {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 1rem;
+            padding-top: 1rem;
+            align-items: center;
+
+            .exit {
+                width: 3rem;
+                height: 3rem;
+                color: palette.$main-red-color;
+                font-size: 3rem;
+            }
+
+            .header_name {
+                font-size: 1.5rem;
+                padding-top: 1rem;
+                padding-bottom: 0.5rem;
+                word-wrap: break-word;
+                width: 70%;
+                text-align: center;
+            }
+
+            .arrow {
+                width: 3rem;
+                height: 3rem;
+                display: inline-block;
+                position: relative;
+                border: 0.1rem solid palette.$main-icon-color;
+                border-radius: 2.5rem;
+
+                &::before {
+                    content: '';
+                    display: block;
+                    width: 0.75rem;
+                    height: 0.75rem;
+                    top: 65%;
+                    left: 63%;
+                    border-style: solid;
+                    border-color: palette.$main-icon-color;
+                    border-width: 0.2rem 0.2rem 0 0;
+                    position: absolute;
+                    transform-origin: 50% 50%;
+                }
+
+                &.left::before {
+                    transform: rotate(-135deg);
+                    margin: -0.9rem 0 0 -0.6rem;
+                }
+            }
+
+        }
+
+        .header {
+            display: flex;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+    }
+
+    .wrapper_lobby {
+        text-align: center;
+        margin: 1rem;
+        overflow: auto;
+        width: 90%;
+
+        &__chat {}
+
+
+        &__left-chat {
+            margin: 1rem 0;
+
+            .item {
+                margin: 1rem 0;
+
+                display: flex;
+                align-items: start;
+
+                span {
+                    border-radius: 0.5rem;
+                    padding: 0.5rem 0.4rem;
+                    display: inline;
+                    background-color: palette.$main-nav-color;
+                    max-width: 70%;
+                    text-align: start;
+                    word-wrap: break-word;
+                }
+
+                &__image {
+                    text-align: center;
+                    margin: 0.2rem;
+
+                    img {
+                        width: 1.5rem;
+                        height: 1.5rem;
+                        object-fit: cover;
+                        border-radius: 5rem;
+                    }
+                }
+            }
+        }
+
+        &__right-chat {
+            margin: 1rem 0;
+
+            .item {
+                margin: 1rem 0;
+                display: flex;
+                justify-content: end;
+
+                span {
+                    border-radius: 0.5rem;
+                    padding: 0.5rem 0.4rem;
+                    display: inline;
+                    background-color: palette.$main-nav-color;
+                    max-width: 70%;
+                    text-align: end;
+                    word-wrap: break-word;
+                    direction: rtl;
+                }
+
+                &__image {
+                    text-align: center;
+                    margin: 0.2rem;
+
+                    img {
+                        width: 1.5rem;
+                        height: 1.5rem;
+                        object-fit: cover;
+                        border-radius: 5rem;
+                    }
+                }
+            }
+        }
+    }
+
+    .form__group {
+        position: relative;
+        display: flex;
+        margin: 0 auto;
+        width: 90%;
+        padding: 10px 0 0;
+        align-items: center;
+
+        .form__field {
+            background-color: palette.$main-nav-color;
+            width: 100%;
+            border: 0;
+            outline: 0;
+            font-size: small;
+            color: palette.$main-font-color;
+            padding: 0.7rem 1rem;
+            border-radius: 3rem;
+            transition: border-color 0.2s;
+
+
+            &::placeholder {
+                color: transparent;
+            }
+
+            &:placeholder-shown~.form__label {
+                font-size: 1rem;
+                cursor: text;
+                top: 20px;
+            }
+        }
+
+        .form__label {
+            position: absolute;
+            top: 0;
+            display: block;
+            transition: 0.2s;
+            font-size: 1rem;
+            color: palette.$main-font-gray-color;
+            padding-left: 1rem;
+
+        }
+
+        .form__field:focus {
+            ~.form__label {
+                position: absolute;
+                top: 0;
+                display: block;
+                transition: 0.2s;
+                font-size: 0.8rem;
+                color: palette.$main-font-gray-color;
+                font-weight: 700;
+            }
+
+            padding-bottom: 0.6rem;
+            font-weight: 700;
+            border-width: 3px;
+        }
+    }
+}

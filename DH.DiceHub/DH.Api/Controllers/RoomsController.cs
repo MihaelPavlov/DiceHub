@@ -28,12 +28,30 @@ public class RoomsController : ControllerBase
         return Ok(result);
     }
 
+    [HttpGet("{id}/messages")]
+    [ActionAuthorize(UserAction.RoomsCRUD)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetRoomMessageListQueryModel>))]
+    public async Task<IActionResult> GetMessageList(int id, CancellationToken cancellationToken)
+    {
+        var result = await this.mediator.Send(new GetRoomMessageListQuery(id), cancellationToken);
+        return Ok(result);
+    }
+
     [HttpGet("{id}")]
     [ActionAuthorize(UserAction.RoomsCRUD)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetRoomByIdQueryModel))]
     public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
     {
         var result = await this.mediator.Send(new GetRoomByIdQuery(id), cancellationToken);
+        return Ok(result);
+    }
+
+    [HttpGet("{id}/check-user-participation")]
+    [ActionAuthorize(UserAction.RoomsCRUD)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
+    public async Task<IActionResult> CheckRoomParticipation(int id, CancellationToken cancellationToken)
+    {
+        var result = await this.mediator.Send(new GetUserRoomParticipationStatusQuery(id), cancellationToken);
         return Ok(result);
     }
 
@@ -44,5 +62,14 @@ public class RoomsController : ControllerBase
     {
         var result = await this.mediator.Send(command, cancellationToken);
         return Ok(result);
+    }
+
+    [HttpPost("join")]
+    [ActionAuthorize(UserAction.RoomsCRUD)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+    public async Task<IActionResult> JoinRoom([FromBody] JoinRoomCommand command, CancellationToken cancellationToken)
+    {
+        await this.mediator.Send(command, cancellationToken);
+        return Ok();
     }
 }

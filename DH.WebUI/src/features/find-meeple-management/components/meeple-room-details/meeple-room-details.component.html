@@ -1,8 +1,34 @@
-<div class="wrapper_container" *ngIf="room$ | async as room">
+<div class="wrapper_container" *ngIf="room">
   <div class="wrapper_icons">
     <span (click)="backNavigateBtn()" class="arrow left"></span>
     <span class="header_name">{{ room.name }}</span>
-    <span class="material-symbols-outlined exit"> exit_to_app </span>
+    <!-- TOOD: Add menu based on the isCurrentUserParticipateInRoom and room.CreatedBy 
+     different option will be visible on the menu
+
+     for owner of the group: Group Members, Delete Group
+     for participant of the group: Group Members Leave Group
+      -->
+    <span
+      *ngIf="isCurrentUserParticipateInRoom && room.createdBy !== currentUserId()"
+      class="material-symbols-outlined exit"
+      (click)="onLeaveRoom()"
+    >
+      exit_to_app
+    </span>
+    <span
+      *ngIf="!isCurrentUserParticipateInRoom"
+      class="material-symbols-outlined details"
+      (click)="navigateToGameDetails(room.gameId)"
+    >
+      info
+    </span>
+    <span
+      *ngIf="room.createdBy === currentUserId() && isCurrentUserParticipateInRoom"
+      class="material-symbols-outlined details"
+      (click)="onDeleteRoom()"
+    >
+      delete_forever
+    </span>
   </div>
 
   <div class="wrapper_image">
@@ -46,156 +72,28 @@
     </div>
   </div>
 
-  <div class="wrapper_tabs">
-    <div class="wrapper_tabs__tab">
-      <div class="info">
-        <span class="material-symbols-outlined"> chat </span>
+  <ng-container *ngIf="isCurrentUserParticipateInRoom">
+    <div class="wrapper_tabs">
+      <div class="wrapper_tabs__tab" (click)="navigateToChat(room.id)">
+        <div class="info">
+          <span class="material-symbols-outlined"> chat </span>
+        </div>
+        <span class="wrapper_tabs__tab-header">Open Chat</span>
       </div>
-      <span class="wrapper_tabs__tab-header">Open Chat</span>
-    </div>
-    <div class="wrapper_tabs__tab" (click)="navigateToGameDetails(room.gameId)">
-      <div class="info">
-        <span class="material-symbols-outlined"> info </span>
-      </div>
-      <span class="wrapper_tabs__tab-header">See Game Details</span>
-    </div>
-  </div>
-</div>
-
-<!-- 
-<div class="wrapper_container">
-
-  <div class="wrapper_lobby">
-    <span class="wrapper_lobby__header">Lobby</span>
-
-    <div class="form__group">
-      <input
-        type="input"
-        class="form__field"
-        placeholder="search"
-        name="search"
-        id="search"
-      />
-      <label for="search" class="form__label">
-        Write your message here</label
+      <div
+        class="wrapper_tabs__tab"
+        (click)="navigateToGameDetails(room.gameId)"
       >
-      <span class="material-symbols-outlined">
-        arrow_forward_ios
-      </span>
-    </div>
-
-    <div class="wrapper_lobby__left-chat">
-      <div class="item">
-        <div class="item__image">
-          <img
-            src="https://cf.geekdo-images.com/fvhkcw4s6Q4-nMwwok1J6A__opengraph/img/bbHffM-AIBac7jMM8sgOM1sC0zk=/0x274:1314x964/fit-in/1200x630/filters:strip_icc()/pic6569894.png"
-            alt=""
-          />
+        <div class="info">
+          <span class="material-symbols-outlined"> info </span>
         </div>
-        <span
-          >Happy to see you guys Lorem ipsum, dolor sit amet consectetur
-          adipisicing elit. Eos, ducimus.</span
-        >
-      </div>
-      <div class="item">
-        <div class="item__image">
-          <img
-            src="https://cf.geekdo-images.com/fvhkcw4s6Q4-nMwwok1J6A__opengraph/img/bbHffM-AIBac7jMM8sgOM1sC0zk=/0x274:1314x964/fit-in/1200x630/filters:strip_icc()/pic6569894.png"
-            alt=""
-          />
-        </div>
-        <span
-          >Happy to see you guys Lorem ipsum, dolor sit amet consectetur
-          adipisicing elit. Eos, ducimus.</span
-        >
-      </div>
-      <div class="item">
-        <div class="item__image">
-          <img
-            src="https://cf.geekdo-images.com/fvhkcw4s6Q4-nMwwok1J6A__opengraph/img/bbHffM-AIBac7jMM8sgOM1sC0zk=/0x274:1314x964/fit-in/1200x630/filters:strip_icc()/pic6569894.png"
-            alt=""
-          />
-        </div>
-        <span
-          >Happy to see you guys Lorem ipsum, dolor sit amet consectetur
-          adipisicing elit. Eos, ducimus.</span
-        >
-      </div>
-      <div class="item">
-        <div class="item__image">
-          <img
-            src="https://cf.geekdo-images.com/fvhkcw4s6Q4-nMwwok1J6A__opengraph/img/bbHffM-AIBac7jMM8sgOM1sC0zk=/0x274:1314x964/fit-in/1200x630/filters:strip_icc()/pic6569894.png"
-            alt=""
-          />
-        </div>
-        <span
-          >Happy to see you guys Lorem ipsum, dolor sit amet consectetur
-          adipisicing elit. Eos, ducimus.</span
-        >
-      </div>
-      <div class="item">
-        <div class="item__image">
-          <img
-            src="https://cf.geekdo-images.com/fvhkcw4s6Q4-nMwwok1J6A__opengraph/img/bbHffM-AIBac7jMM8sgOM1sC0zk=/0x274:1314x964/fit-in/1200x630/filters:strip_icc()/pic6569894.png"
-            alt=""
-          />
-        </div>
-        <span
-          >Happy to see you guys Lorem ipsum, dolor sit amet consectetur
-          adipisicing elit. Eos, ducimus.</span
-        >
-      </div>
-      <div class="item">
-        <div class="item__image">
-          <img
-            src="https://cf.geekdo-images.com/fvhkcw4s6Q4-nMwwok1J6A__opengraph/img/bbHffM-AIBac7jMM8sgOM1sC0zk=/0x274:1314x964/fit-in/1200x630/filters:strip_icc()/pic6569894.png"
-            alt=""
-          />
-        </div>
-        <span
-          >Happy to see you guys Lorem ipsum, dolor sit amet consectetur
-          adipisicing elit. Eos, ducimus.</span
-        >
+        <span class="wrapper_tabs__tab-header">See Game Details</span>
       </div>
     </div>
-    <div class="wrapper_lobby__right-chat">
-      <div class="item">
-        <span
-          >Happy to see you guys Lorem ipsum, dolor sit amet consectetur
-          adipisicing elit. Eos, ducimus.</span
-        >
-        <div class="item__image">
-          <img
-            src="https://cf.geekdo-images.com/fvhkcw4s6Q4-nMwwok1J6A__opengraph/img/bbHffM-AIBac7jMM8sgOM1sC0zk=/0x274:1314x964/fit-in/1200x630/filters:strip_icc()/pic6569894.png"
-            alt=""
-          />
-        </div>
-      </div>
-
-      <div class="item">
-        <span
-          >Happy to see you guys Lorem ipsum, dolor sit amet consectetur
-          adipisicing elit. Eos, ducimus.</span
-        >
-        <div class="item__image">
-          <img
-            src="https://cf.geekdo-images.com/fvhkcw4s6Q4-nMwwok1J6A__opengraph/img/bbHffM-AIBac7jMM8sgOM1sC0zk=/0x274:1314x964/fit-in/1200x630/filters:strip_icc()/pic6569894.png"
-            alt=""
-          />
-        </div>
-      </div>
-      <div class="item">
-        <span
-          >Happy to see you guys Lorem ipsum, dolor sit amet consectetur
-          adipisicing elit. Eos, ducimus.</span
-        >
-        <div class="item__image">
-          <img
-            src="https://cf.geekdo-images.com/fvhkcw4s6Q4-nMwwok1J6A__opengraph/img/bbHffM-AIBac7jMM8sgOM1sC0zk=/0x274:1314x964/fit-in/1200x630/filters:strip_icc()/pic6569894.png"
-            alt=""
-          />
-        </div>
-      </div>
+  </ng-container>
+  <ng-container *ngIf="!isCurrentUserParticipateInRoom">
+    <div class="wrapper_btn">
+      <button class="btn btn-green" (click)="onJoinRoom()">Join the Room</button>
     </div>
-  </div>
-</div> -->
+  </ng-container>
+</div>

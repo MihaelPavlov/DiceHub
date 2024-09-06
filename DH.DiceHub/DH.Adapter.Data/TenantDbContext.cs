@@ -3,7 +3,6 @@ using DH.Domain.Entities;
 using System.Reflection;
 using DH.Domain;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection.Emit;
 
 namespace DH.Adapter.Data;
 
@@ -45,6 +44,7 @@ public class TenantDbContext : DbContext, ITenantDbContext
     public DbSet<EventParticipant> EventParticipants { get; set; } = default!;
     public DbSet<Room> Rooms { get; set; } = default!;
     public DbSet<RoomParticipant> RoomParticipants { get; set; } = default!;
+    public DbSet<RoomMessages> RoomMessages { get; set; } = default!;
 
     public T AcquireRepository<T>()
     {

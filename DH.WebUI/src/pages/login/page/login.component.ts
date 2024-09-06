@@ -17,7 +17,21 @@ export class LoginComponent {
     this.router.navigateByUrl('games/1/details');
   }
 
-  login() {
+  loginUser() {
+    this.authService.login({
+      email: 'rap4obg2@abv.bg',
+      password: '123456789Mm!',
+    });
+  }
+
+  loginUser2() {
+    this.authService.login({
+      email: 'rap4obg3@abv.bg',
+      password: '123456789Mm!',
+    });
+  }
+
+  loginAdmin() {
     this.authService.login({ email: 'sa@dicehub.com', password: '1qaz!QAZ' });
   }
   game() {
@@ -25,8 +39,8 @@ export class LoginComponent {
   }
   register() {
     this.authService.register({
-      username: 'rap4obg21',
-      email: 'rap4obg2@abv.bg',
+      username: 'rap4obg3',
+      email: 'rap4obg3@abv.bg',
       password: '123456789Mm!',
     });
   }

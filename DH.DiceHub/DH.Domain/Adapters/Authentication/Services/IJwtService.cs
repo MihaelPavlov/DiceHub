@@ -27,4 +27,5 @@ public interface IJwtService
     /// </summary>
     /// <returns>A refresh token as a string.</returns>
     string GenerateRefreshToken();
+    ClaimsPrincipal ValidateToken(string accessToken);
 }

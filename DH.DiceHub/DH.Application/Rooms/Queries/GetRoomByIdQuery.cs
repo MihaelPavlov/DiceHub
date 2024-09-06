@@ -25,10 +25,9 @@ internal class GetRoomByIdQueryHandler : IRequestHandler<GetRoomByIdQuery, GetRo
         var room = await this.roomService.GetById(request.Id, cancellationToken)
             ?? throw new NotFoundException(nameof(Room), request.Id);
 
-        var users = await this.userService.GetUserListByIds([room.UserId], cancellationToken);
+        var users = await this.userService.GetUserListByIds([room.CreatedBy], cancellationToken);
 
-
-        var user = users.FirstOrDefault(x => x.Id == room.UserId);
+        var user = users.FirstOrDefault(x => x.Id == room.CreatedBy);
         if (user != null)
             room.Username = user.UserName;
 

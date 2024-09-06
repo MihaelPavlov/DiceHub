@@ -1,6 +1,4 @@
-﻿using DH.Domain.Entities;
-
-namespace DH.Domain.Adapters.Scheduling;
+﻿namespace DH.Domain.Adapters.Scheduling;
 
 public interface IReservationExpirationHandler
 {

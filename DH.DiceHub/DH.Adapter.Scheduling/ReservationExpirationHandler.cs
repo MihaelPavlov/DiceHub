@@ -1,9 +1,9 @@
-﻿using DH.Domain.Adapters.Scheduling;
+using DH.Domain.Adapters.Scheduling;
 using DH.Domain.Entities;
 using DH.Domain.Exceptions;
 using DH.Domain.Repositories;
 
-namespace DH.Application.Jobs;
+namespace DH.Adapter.Scheduling;
 
 public class ReservationExpirationHandler : IReservationExpirationHandler
 {
@@ -20,12 +20,12 @@ public class ReservationExpirationHandler : IReservationExpirationHandler
 
     public async Task ProcessFailedReservationExpirationAsync(string data, string errorMessage, CancellationToken cancellationToken)
     {
-        await this.failedJobsRepository.AddAsync(new FailedJob { Data = data, Type = 0, FailedAt = DateTime.UtcNow, ErrorMessage = errorMessage }, cancellationToken);
+        await failedJobsRepository.AddAsync(new FailedJob { Data = data, Type = 0, FailedAt = DateTime.UtcNow, ErrorMessage = errorMessage }, cancellationToken);
     }
 
     public async Task<bool> ProcessReservationExpirationAsync(int reservationId, CancellationToken cancellationToken)
     {
-        var reservation = await this.repository.GetByAsyncWithTracking(x => x.Id == reservationId, cancellationToken);
+        var reservation = await repository.GetByAsyncWithTracking(x => x.Id == reservationId, cancellationToken);
 
         if (reservation != null && !reservation.IsExpired)
         {
@@ -33,7 +33,7 @@ public class ReservationExpirationHandler : IReservationExpirationHandler
 
             if (DateTime.Now >= actualExpirationTime)
             {
-                var inventory = await this.inventoryRepository.GetByAsyncWithTracking(x => x.GameId == reservation.GameId, cancellationToken)
+                var inventory = await inventoryRepository.GetByAsyncWithTracking(x => x.GameId == reservation.GameId, cancellationToken)
                     ?? throw new NotFoundException(nameof(GameInventory));
 
                 if (inventory.AvailableCopies < inventory.TotalCopies)
@@ -41,8 +41,8 @@ public class ReservationExpirationHandler : IReservationExpirationHandler
 
                 reservation.IsExpired = true;
 
-                await this.repository.Update(reservation, cancellationToken);
-                await this.inventoryRepository.Update(inventory, cancellationToken);
+                await repository.Update(reservation, cancellationToken);
+                await inventoryRepository.Update(inventory, cancellationToken);
 
                 return true;
             }

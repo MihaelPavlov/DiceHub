@@ -1,6 +1,6 @@
 export interface IRoomByIdResult {
   id: number;
-  userId: string;
+  createdBy: string;
   name: string;
   joinedParticipants: number;
   startDate: Date;

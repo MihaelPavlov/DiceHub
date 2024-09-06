@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DH.Adapter.Data", "DH.Adapt
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DH.Adapter.Authentication", "DH.Adapter.Authentication\DH.Adapter.Authentication.csproj", "{265C91AB-5603-48E2-93E9-01288E15AA02}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DH.Adapter.Scheduling", "DH.Adapter.Scheduling\DH.Adapter.Scheduling.csproj", "{C7C9EF9E-B2AE-43BE-8CF0-CC25057F722D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DH.Adapter.Scheduling", "DH.Adapter.Scheduling\DH.Adapter.Scheduling.csproj", "{C7C9EF9E-B2AE-43BE-8CF0-CC25057F722D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DH.Adapter.ChatHub", "DH.Adapter.ChatHub\DH.Adapter.ChatHub.csproj", "{86D7ECEE-5509-4314-BB79-F451F6125CAA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{C7C9EF9E-B2AE-43BE-8CF0-CC25057F722D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7C9EF9E-B2AE-43BE-8CF0-CC25057F722D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7C9EF9E-B2AE-43BE-8CF0-CC25057F722D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86D7ECEE-5509-4314-BB79-F451F6125CAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86D7ECEE-5509-4314-BB79-F451F6125CAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86D7ECEE-5509-4314-BB79-F451F6125CAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86D7ECEE-5509-4314-BB79-F451F6125CAA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

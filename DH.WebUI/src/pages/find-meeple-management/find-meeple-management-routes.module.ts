@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { FindMeepleManagementComponent } from './page/find-meeple-management.component';
 import { MeepleRoomDetailsComponent } from '../../features/find-meeple-management/components/meeple-room-details/meeple-room-details.component';
 import { CreateMeepleRoomComponent } from '../../features/find-meeple-management/components/create-meeple-room/create-meeple-room.component';
+import { RoomChatComponent } from '../../features/find-meeple-management/components/room-chat/room-chat.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,10 @@ const routes: Routes = [
   {
     path: 'create',
     component: CreateMeepleRoomComponent,
+  },
+  {
+    path: ':id/chat',
+    component: RoomChatComponent,
   },
 ];
 

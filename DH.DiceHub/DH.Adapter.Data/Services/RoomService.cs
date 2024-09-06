@@ -21,10 +21,11 @@ public class RoomService : IRoomService
                 from r in context.Rooms
                 join g in context.Games on r.GameId equals g.Id
                 join gi in context.GameImages on g.Id equals gi.GameId
+                where r.Id == id
                 select new GetRoomByIdQueryModel
                 {
                     Id = r.Id,
-                    UserId = r.UserId,
+                    CreatedBy = r.UserId,
                     Name = r.Name,
                     StartDate = r.StartDate,
                     MaxParticipants = r.MaxParticipants,

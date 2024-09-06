@@ -47,145 +47,6 @@
         text-align: center;
     }
 
-    .wrapper_lobby {
-        text-align: center;
-        margin: 1rem;
-        overflow: auto;
-        margin-bottom: 5rem;
-        width: 90%;
-        height: 100%;
-
-
-        .form__group {
-            position: relative;
-            display: flex;
-            margin: 0 auto;
-            width: 90%;
-            padding: 10px 0 0;
-            align-items: center;
-
-            .form__field {
-                background-color: palette.$main-nav-color;
-                width: 100%;
-                border: 0;
-                outline: 0;
-                font-size: small;
-                color: palette.$main-font-color;
-                padding: 0.7rem 1rem;
-                border-radius: 3rem;
-                transition: border-color 0.2s;
-
-
-                &::placeholder {
-                    color: transparent;
-                }
-
-                &:placeholder-shown~.form__label {
-                    font-size: 1rem;
-                    cursor: text;
-                    top: 20px;
-                }
-            }
-
-            .form__label {
-                position: absolute;
-                top: 0;
-                display: block;
-                transition: 0.2s;
-                font-size: 1rem;
-                color: palette.$main-font-gray-color;
-                padding-left: 1rem;
-
-            }
-
-            .form__field:focus {
-                ~.form__label {
-                    position: absolute;
-                    top: 0;
-                    display: block;
-                    transition: 0.2s;
-                    font-size: 0.8rem;
-                    color: palette.$main-font-gray-color;
-                    font-weight: 700;
-                }
-
-                padding-bottom: 0.6rem;
-                font-weight: 700;
-                border-width: 3px;
-            }
-        }
-
-
-        &__header {
-            font-size: 1.25rem;
-        }
-
-        &__left-chat {
-            margin: 1rem 0;
-
-            .item {
-                margin: 1rem 0;
-
-                display: flex;
-                align-items: start;
-
-                span {
-                    border-radius: 0.5rem;
-                    padding: 0.5rem 0.4rem;
-                    display: inline;
-                    background-color: palette.$main-nav-color;
-                    max-width: 70%;
-                    text-align: start;
-                }
-
-                &__image {
-                    text-align: center;
-                    margin: 0.2rem;
-
-                    img {
-                        width: 1.5rem;
-                        height: 1.5rem;
-                        object-fit: cover;
-                        border-radius: 5rem;
-                    }
-                }
-            }
-        }
-
-        &__right-chat {
-            margin: 1rem 0;
-
-            .item {
-                margin: 1rem 0;
-                display: flex;
-                justify-content: end;
-
-                span {
-                    border-radius: 0.5rem;
-                    padding: 0.5rem 0.4rem;
-                    display: inline;
-                    background-color: palette.$main-nav-color;
-                    max-width: 70%;
-                    text-align: end;
-
-                    direction: rtl;
-                }
-
-                &__image {
-                    text-align: center;
-                    margin: 0.2rem;
-
-                    img {
-                        width: 1.5rem;
-                        height: 1.5rem;
-                        object-fit: cover;
-                        border-radius: 5rem;
-                    }
-                }
-            }
-        }
-    }
-
     .wrapper_tabs {
         display: flex;
         justify-content: space-evenly;
@@ -233,6 +94,13 @@
             font-size: 3rem;
         }
 
+        .details{
+            width: 3rem;
+            height: 3rem;
+            color: palette.$main-blue-color;
+            font-size: 3rem;  
+        }
+
         .header_name {
             font-size: 1.5rem;
             padding-top: 1rem;
@@ -272,4 +140,9 @@
 
     }
 
+    .wrapper_btn{
+        display: flex;
+        justify-content: center;
+        margin-top: 3rem;
+    }
 }

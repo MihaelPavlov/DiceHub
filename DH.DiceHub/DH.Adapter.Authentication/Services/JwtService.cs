@@ -86,6 +86,11 @@ public class JwtService : IJwtService
         };
     }
 
+    public ClaimsPrincipal ValidateToken(string accessToken)
+    {
+        return this.GetPrincipalFromExpiredToken(accessToken);
+    }
+
     /// <summary>
     /// Retrieves the principal from an expired token.
     /// </summary>

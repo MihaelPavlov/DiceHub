@@ -1,0 +1,66 @@
+<div class="wrapper_container">
+  <div class="wrapper_header_container">
+    <ng-container *ngIf="this.room">
+      <div class="wrapper_icons">
+        <span (click)="backNavigateBtn()" class="arrow left"></span>
+        <span class="header_name">{{ room.name }}</span>
+        <span class="material-symbols-outlined exit"> exit_to_app </span>
+      </div>
+      <div class="wrapper_header">from: {{ room.username }}</div>
+    </ng-container>
+    <span class="header">Lobby</span>
+  </div>
+
+  <div #chat class="wrapper_lobby">
+
+    <div class="wrapper_lobby__chat">
+      <ng-container
+        *ngFor="let group of currentChatMessagesSubject$.asObservable() | async"
+      >
+        <div
+          class="wrapper_lobby__left-chat"
+          *ngIf="group.senderId !== getActiveUserIdFromChat()"
+        >
+          <div class="item" *ngFor="let message of group.messages">
+            <div class="item__image">
+              <img
+                src="https://cf.geekdo-images.com/fvhkcw4s6Q4-nMwwok1J6A__opengraph/img/bbHffM-AIBac7jMM8sgOM1sC0zk=/0x274:1314x964/fit-in/1200x630/filters:strip_icc()/pic6569894.png"
+                alt=""
+              />
+            </div>
+            <span>{{ message }}</span>
+          </div>
+        </div>
+        <div
+          class="wrapper_lobby__right-chat"
+          *ngIf="group.senderId === getActiveUserIdFromChat()"
+        >
+          <div class="item" *ngFor="let message of group.messages">
+            <span>{{ message }}</span>
+            <div class="item__image">
+              <img
+                src="https://cf.geekdo-images.com/fvhkcw4s6Q4-nMwwok1J6A__opengraph/img/bbHffM-AIBac7jMM8sgOM1sC0zk=/0x274:1314x964/fit-in/1200x630/filters:strip_icc()/pic6569894.png"
+                alt=""
+              />
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  <div class="form__group">
+    <input
+      [(ngModel)]="message"
+      type="text"
+      class="form__field"
+      placeholder="search"
+      name="search"
+      id="search"
+      
+    />
+    <label for="search" class="form__label"> Write your message here</label>
+    <span class="material-symbols-outlined" (click)="addMessage()">
+      arrow_forward_ios
+    </span>
+  </div>
+</div>

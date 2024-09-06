@@ -29,7 +29,10 @@ export const PATH = {
   },
   ROOMS: {
     CORE: 'rooms',
+    JOIN: 'join',
     LIST: 'list',
+    MESSAGE_LIST: 'messages',
+    CHECK_USER_PARTICIPATION: 'check-user-participation'
   },
   // AUTH: {
   //   LOGIN: 'auth/user/login',
