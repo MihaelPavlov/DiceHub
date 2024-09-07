@@ -72,4 +72,22 @@ public class RoomsController : ControllerBase
         await this.mediator.Send(command, cancellationToken);
         return Ok();
     }
+
+    [HttpPost("leave")]
+    [ActionAuthorize(UserAction.RoomsCRUD)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+    public async Task<IActionResult> LeaveRoom([FromBody] LeaveRoomCommand command, CancellationToken cancellationToken)
+    {
+        await this.mediator.Send(command, cancellationToken);
+        return Ok();
+    }
+
+    [HttpDelete("{id}")]
+    [ActionAuthorize(UserAction.RoomsCRUD)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+    public async Task<IActionResult> LeaveRoom(int id, CancellationToken cancellationToken)
+    {
+        await this.mediator.Send(new DeleteRoomCommand(id), cancellationToken);
+        return Ok();
+    }
 }

@@ -47,4 +47,12 @@ export class RoomsService {
   public join(id: number): Observable<null> {
     return this.api.post(`/${PATH.ROOMS.CORE}/${PATH.ROOMS.JOIN}`, { id });
   }
+
+  public leave(id: number): Observable<null> {
+    return this.api.post(`/${PATH.ROOMS.CORE}/${PATH.ROOMS.LEAVE}`, { id });
+  }
+
+  public delete(id: number): Observable<null> {
+    return this.api.delete(`/${PATH.ROOMS.CORE}/${id}`);
+  }
 }

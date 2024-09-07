@@ -87,20 +87,6 @@
         padding-top: 1rem;
         align-items: center;
 
-        .exit {
-            width: 3rem;
-            height: 3rem;
-            color: palette.$main-red-color;
-            font-size: 3rem;
-        }
-
-        .details{
-            width: 3rem;
-            height: 3rem;
-            color: palette.$main-blue-color;
-            font-size: 3rem;  
-        }
-
         .header_name {
             font-size: 1.5rem;
             padding-top: 1rem;
@@ -140,9 +126,13 @@
 
     }
 
-    .wrapper_btn{
+    .wrapper_btn {
         display: flex;
         justify-content: center;
         margin-top: 3rem;
+
+        .full_room_message{
+            font-size: 1.5rem;
+        }
     }
 }

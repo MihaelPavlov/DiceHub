@@ -1,11 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { RoomsService } from '../../../../entities/rooms/api/rooms.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { MenuTabsService } from '../../../../shared/services/menu-tabs.service';
 import { NAV_ITEM_LABELS } from '../../../../shared/models/nav-items-labels.const';
 import { IRoomByIdResult } from '../../../../entities/rooms/models/room-by-id.model';
-import { combineLatest } from 'rxjs';
+import { combineLatest, Observable, of } from 'rxjs';
 import { AuthService } from '../../../../entities/auth/auth.service';
+import { MeepleRoomMenuComponent } from '../meeple-room-menu/meeple-room-menu.component';
 
 @Component({
   selector: 'app-meeple-room-details',
@@ -13,10 +14,11 @@ import { AuthService } from '../../../../entities/auth/auth.service';
   styleUrl: 'meeple-room-details.component.scss',
 })
 export class MeepleRoomDetailsComponent implements OnInit, OnDestroy {
+  @ViewChild(MeepleRoomMenuComponent) menu!: MeepleRoomMenuComponent;
   public room!: IRoomByIdResult;
   public isCurrentUserParticipateInRoom: boolean = false;
-  private roomId!: number;
-
+  public roomId!: number;
+  public errorMessage: string | null = null;
   constructor(
     private readonly roomService: RoomsService,
     private readonly activeRoute: ActivatedRoute,
@@ -50,16 +52,17 @@ export class MeepleRoomDetailsComponent implements OnInit, OnDestroy {
     this.router.navigateByUrl(`meeples/${id}/chat`);
   }
 
-  public onDeleteRoom(): void {}
-
-  public onLeaveRoom(): void {
-    // this.roomService.leaveRoom(this.roomId).subscribe(() => {
-    //   this.router.navigateByUrl('meeples/find');
-    // });
+  public onJoinRoom(): void {
+    this.roomService.join(this.roomId).subscribe({
+      next: () => this.fetchData(),
+      error: (error) => {
+        if (error.error.detail) this.errorMessage = error.error.detail;
+      },
+    });
   }
 
-  public onJoinRoom(): void {
-    this.roomService.join(this.roomId).subscribe((_) => this.fetchData());
+  public onLeaveCompleted(): void {
+    this.fetchData();
   }
 
   public currentUserId(): string {
@@ -70,13 +73,20 @@ export class MeepleRoomDetailsComponent implements OnInit, OnDestroy {
     combineLatest([
       this.roomService.getById(this.roomId),
       this.roomService.checkUserParticipateInRoom(this.roomId),
-    ]).subscribe(([room, isParticipate]) => {
-      this.room = room;
-      console.log('isUserParticipate', isParticipate);
+    ]).subscribe({
+      next: ([room, isParticipate]) => {
+        this.room = room;
 
-      this.isCurrentUserParticipateInRoom =
-        room.createdBy === this.authService.getUser?.id || isParticipate;
-      console.log(this.isCurrentUserParticipateInRoom);
+        this.isCurrentUserParticipateInRoom =
+          room.createdBy === this.authService.getUser?.id || isParticipate;
+
+        if (this.menu) {
+          this.menu.room = this.room;
+          this.menu.isCurrentUserParticipateInRoom =
+            this.isCurrentUserParticipateInRoom;
+          this.menu.updateMenuItems();
+        }
+      },
     });
   }
 }

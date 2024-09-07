@@ -26,6 +26,10 @@ internal class JoinRoomCommandHandler : IRequestHandler<JoinRoomCommand>
         var room = await this.roomsRepository.GetByAsync(g => g.Id == request.Id, cancellationToken)
             ?? throw new NotFoundException(nameof(Room), request.Id);
 
+        var roomParticipantList = await this.roomParticipantsRepository.GetWithPropertiesAsync(x => x.RoomId == room.Id, x=> new {Id = x.Id }, cancellationToken);
+        if (room.MaxParticipants == roomParticipantList.Count)
+            throw new BadRequestException("Maximum number of participants reached.");
+
         var roomParticipant = new RoomParticipant { UserId = this.userContext.UserId, Room = room };
         await this.roomParticipantsRepository.AddAsync(roomParticipant, cancellationToken);
     }

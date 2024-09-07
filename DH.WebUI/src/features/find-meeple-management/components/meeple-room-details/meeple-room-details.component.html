@@ -2,33 +2,12 @@
   <div class="wrapper_icons">
     <span (click)="backNavigateBtn()" class="arrow left"></span>
     <span class="header_name">{{ room.name }}</span>
-    <!-- TOOD: Add menu based on the isCurrentUserParticipateInRoom and room.CreatedBy 
-     different option will be visible on the menu
-
-     for owner of the group: Group Members, Delete Group
-     for participant of the group: Group Members Leave Group
-      -->
-    <span
-      *ngIf="isCurrentUserParticipateInRoom && room.createdBy !== currentUserId()"
-      class="material-symbols-outlined exit"
-      (click)="onLeaveRoom()"
-    >
-      exit_to_app
-    </span>
-    <span
-      *ngIf="!isCurrentUserParticipateInRoom"
-      class="material-symbols-outlined details"
-      (click)="navigateToGameDetails(room.gameId)"
-    >
-      info
-    </span>
-    <span
-      *ngIf="room.createdBy === currentUserId() && isCurrentUserParticipateInRoom"
-      class="material-symbols-outlined details"
-      (click)="onDeleteRoom()"
-    >
-      delete_forever
-    </span>
+    <app-meeple-room-menu
+      *ngIf="this.room"
+      [room]="this.room"
+      [isCurrentUserParticipateInRoom]="this.isCurrentUserParticipateInRoom"
+      (fetchData)="onLeaveCompleted()"
+    ></app-meeple-room-menu>
   </div>
 
   <div class="wrapper_image">
@@ -93,7 +72,24 @@
   </ng-container>
   <ng-container *ngIf="!isCurrentUserParticipateInRoom">
     <div class="wrapper_btn">
-      <button class="btn btn-green" (click)="onJoinRoom()">Join the Room</button>
+      <button
+        *ngIf="!errorMessage && room.joinedParticipants < room.maxParticipants"
+        class="btn btn-green"
+        (click)="onJoinRoom()"
+      >
+        Join the Room
+      </button>
+      <span
+        class="full_room_message"
+        *ngIf="
+          !errorMessage && room.joinedParticipants === room.maxParticipants
+        "
+      >
+        Sorry, the room is full!
+      </span>
+      <span class="errors" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </span>
     </div>
   </ng-container>
 </div>

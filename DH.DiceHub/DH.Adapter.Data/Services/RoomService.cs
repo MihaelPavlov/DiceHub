@@ -1,4 +1,7 @@
-﻿using DH.Domain.Models.RoomModels.Queries;
+﻿using DH.Domain.Adapters.Authentication;
+using DH.Domain.Entities;
+using DH.Domain.Exceptions;
+using DH.Domain.Models.RoomModels.Queries;
 using DH.Domain.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,10 +10,50 @@ namespace DH.Adapter.Data.Services;
 public class RoomService : IRoomService
 {
     readonly IDbContextFactory<TenantDbContext> _contextFactory;
+    readonly IUserContext userContext;
 
-    public RoomService(IDbContextFactory<TenantDbContext> _contextFactory)
+    public RoomService(IDbContextFactory<TenantDbContext> _contextFactory, IUserContext userContext)
     {
         this._contextFactory = _contextFactory;
+        this.userContext = userContext;
+    }
+
+    public async Task Delete(int id, CancellationToken cancellationToken)
+    {
+        using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
+        {
+            using (var transaction = await context.Database.BeginTransactionAsync(cancellationToken))
+            {
+                try
+                {
+                    var room = await context.Rooms.FirstOrDefaultAsync(g => g.Id == id, cancellationToken)
+                        ?? throw new NotFoundException(nameof(Room), id);
+
+                    if (room.UserId != this.userContext.UserId)
+                        throw new BadRequestException("Cannot delete room if you are not the creator of it");
+
+                    var roomParticipants = await context.RoomParticipants
+                        .Where(x => x.RoomId == id)
+                        .ToListAsync(cancellationToken);
+
+                    var roomMessages = await context.RoomMessages
+                        .Where(x => x.RoomId == id)
+                        .ToListAsync(cancellationToken);
+
+                    context.RoomParticipants.RemoveRange(roomParticipants);
+                    context.RoomMessages.RemoveRange(roomMessages);
+                    context.Rooms.Remove(room);
+
+                    await context.SaveChangesAsync(cancellationToken);
+                    await transaction.CommitAsync(cancellationToken);
+                }
+                catch (Exception)
+                {
+                    await transaction.RollbackAsync(cancellationToken);
+                    throw;
+                }
+            }
+        }
     }
 
     public async Task<GetRoomByIdQueryModel?> GetById(int id, CancellationToken cancellationToken)

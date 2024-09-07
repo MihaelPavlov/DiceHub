@@ -22,6 +22,7 @@ import { ToastService } from '../../../../shared/services/toast.service';
 import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { ToastType } from '../../../../shared/models/toast.model';
 import { IRoomMessageResult } from '../../../../entities/rooms/models/room-message.model';
+import { MeepleRoomMenuComponent } from '../meeple-room-menu/meeple-room-menu.component';
 
 export interface GroupedChatMessage {
   senderId: string;
@@ -36,11 +37,13 @@ export interface GroupedChatMessage {
 })
 export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   @ViewChild('chat') private chatContainer!: ElementRef;
+  @ViewChild(MeepleRoomMenuComponent) menu!: MeepleRoomMenuComponent;
 
   public room!: IRoomByIdResult;
   public roomMessages: IRoomMessageResult[] = [];
   public message!: string;
   public roomId!: number;
+  public isCurrentUserParticipateInRoom: boolean = false;
   private shouldScrollToBottom = false;
   public currentChatMessagesSubject$: BehaviorSubject<GroupedChatMessage[]> =
     new BehaviorSubject<GroupedChatMessage[]>([]);
@@ -93,17 +96,31 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.router.navigateByUrl(`meeples/${this.roomId}/details`);
   }
 
+  public onLeaveCompleted(): void {
+    this.backNavigateBtn();
+  }
+
   private fetchData(): void {
     combineLatest([
       this.roomService.getById(this.roomId),
       this.roomService.getMessageList(this.roomId),
+      this.roomService.checkUserParticipateInRoom(this.roomId),
     ]).subscribe({
-      next: ([room, messages]) => {
+      next: ([room, messages,isParticipate]) => {
         if (room && messages) {
           this.room = room;
           this.roomMessages = messages;
+          this.isCurrentUserParticipateInRoom =
+          room.createdBy === this.authService.getUser?.id || isParticipate;
 
-          this.updateRoomMessages()
+          this.updateRoomMessages();
+
+          if (this.menu) {
+            this.menu.room = this.room;
+            this.menu.isCurrentUserParticipateInRoom =
+              this.isCurrentUserParticipateInRoom;
+            this.menu.updateMenuItems();
+          }
         }
       },
       error: (error) => {
@@ -186,7 +203,6 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   public updateRoomMessages() {
-
     let currentGroup: GroupedChatMessage | null = null;
     const groups: GroupedChatMessage[] = [];
     for (const message of this.roomMessages) {

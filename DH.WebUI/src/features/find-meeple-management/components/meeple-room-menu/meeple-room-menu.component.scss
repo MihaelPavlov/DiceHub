@@ -1,0 +1,36 @@
+@use "../../../../shared/assets/styles/palette";
+
+.menu {
+    position: fixed;
+    right: 2rem;
+    top: 4rem;
+    background-color: palette.$main-nav-color;
+    padding: 1rem;
+    z-index: 1000;
+
+    .red-text {
+        color: palette.$main-red-color;
+    }
+}
+
+.menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.menu ul li {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.menu ul li:hover {
+    background-color: #f0f0f0;
+}
+
+.icon {
+    width: 3rem;
+    height: 3rem;
+    color: palette.$main-blue-color;
+    font-size: 3rem;
+}

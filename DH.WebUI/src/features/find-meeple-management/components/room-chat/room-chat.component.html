@@ -4,7 +4,12 @@
       <div class="wrapper_icons">
         <span (click)="backNavigateBtn()" class="arrow left"></span>
         <span class="header_name">{{ room.name }}</span>
-        <span class="material-symbols-outlined exit"> exit_to_app </span>
+        <app-meeple-room-menu
+          *ngIf="this.room"
+          [room]="this.room"
+          [isCurrentUserParticipateInRoom]="this.isCurrentUserParticipateInRoom"
+          (fetchData)="onLeaveCompleted()"
+        ></app-meeple-room-menu>
       </div>
       <div class="wrapper_header">from: {{ room.username }}</div>
     </ng-container>
@@ -12,7 +17,6 @@
   </div>
 
   <div #chat class="wrapper_lobby">
-
     <div class="wrapper_lobby__chat">
       <ng-container
         *ngFor="let group of currentChatMessagesSubject$.asObservable() | async"
@@ -21,29 +25,42 @@
           class="wrapper_lobby__left-chat"
           *ngIf="group.senderId !== getActiveUserIdFromChat()"
         >
-          <div class="item" *ngFor="let message of group.messages">
-            <div class="item__image">
-              <img
-                src="https://cf.geekdo-images.com/fvhkcw4s6Q4-nMwwok1J6A__opengraph/img/bbHffM-AIBac7jMM8sgOM1sC0zk=/0x274:1314x964/fit-in/1200x630/filters:strip_icc()/pic6569894.png"
-                alt=""
-              />
+          <!-- TODO: ADD NAME OF THE USER OVER THE ITEM IMAGE make it small and gray see messenger group for reference -->
+          <ng-container
+            *ngFor="let message of group.messages; let isFirst = first"
+          >
+            <!-- TODO: Change with real username -->
+            <span class="username" *ngIf="isFirst">Mihael Pavlov</span>
+            <div class="item">
+              <div class="item__image">
+                <img
+                  src="https://cf.geekdo-images.com/fvhkcw4s6Q4-nMwwok1J6A__opengraph/img/bbHffM-AIBac7jMM8sgOM1sC0zk=/0x274:1314x964/fit-in/1200x630/filters:strip_icc()/pic6569894.png"
+                  alt=""
+                />
+              </div>
+              <span>{{ message }}</span>
             </div>
-            <span>{{ message }}</span>
-          </div>
+          </ng-container>
         </div>
         <div
           class="wrapper_lobby__right-chat"
           *ngIf="group.senderId === getActiveUserIdFromChat()"
         >
-          <div class="item" *ngFor="let message of group.messages">
-            <span>{{ message }}</span>
-            <div class="item__image">
-              <img
-                src="https://cf.geekdo-images.com/fvhkcw4s6Q4-nMwwok1J6A__opengraph/img/bbHffM-AIBac7jMM8sgOM1sC0zk=/0x274:1314x964/fit-in/1200x630/filters:strip_icc()/pic6569894.png"
-                alt=""
-              />
+          <ng-container
+            *ngFor="let message of group.messages; let isFirst = first"
+          >
+            <!-- TODO: Change with real username -->
+            <span class="username" *ngIf="isFirst">User 2</span>
+            <div class="item">
+              <span>{{ message }}</span>
+              <div class="item__image">
+                <img
+                  src="https://cf.geekdo-images.com/fvhkcw4s6Q4-nMwwok1J6A__opengraph/img/bbHffM-AIBac7jMM8sgOM1sC0zk=/0x274:1314x964/fit-in/1200x630/filters:strip_icc()/pic6569894.png"
+                  alt=""
+                />
+              </div>
             </div>
-          </div>
+          </ng-container>
         </div>
       </ng-container>
     </div>
@@ -56,7 +73,6 @@
       placeholder="search"
       name="search"
       id="search"
-      
     />
     <label for="search" class="form__label"> Write your message here</label>
     <span class="material-symbols-outlined" (click)="addMessage()">
