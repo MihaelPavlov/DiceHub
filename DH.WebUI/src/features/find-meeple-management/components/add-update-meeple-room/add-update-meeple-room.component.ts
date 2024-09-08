@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Form } from '../../../../shared/components/form/form.component';
-import { ICreateRoomDto } from '../../../../entities/rooms/models/create-room.model';
 import { Formify } from '../../../../shared/models/form.model';
 import { ToastService } from '../../../../shared/services/toast.service';
 import { GamesService } from '../../../../entities/games/api/games.service';
@@ -18,11 +17,11 @@ import { combineLatest, throwError } from 'rxjs';
 import { IGameByIdResult } from '../../../../entities/games/models/game-by-id.model';
 import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { ToastType } from '../../../../shared/models/toast.model';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IGameInventory } from '../../../../entities/games/models/game-inventory.mode';
 import { GameImagePipe } from '../../../../shared/pipe/game-image.pipe';
 
-export interface ICreateRoomForm {
+export interface IAddUpdateRoomForm {
   name: string;
   startDate: string;
   startTime: string;
@@ -31,22 +30,23 @@ export interface ICreateRoomForm {
 }
 
 @Component({
-  selector: 'app-create-meeple-room',
-  templateUrl: 'create-meeple-room.component.html',
-  styleUrl: 'create-meeple-room.component.scss',
+  selector: 'app-add-update-meeple-room',
+  templateUrl: 'add-update-meeple-room.component.html',
+  styleUrl: 'add-update-meeple-room.component.scss',
   encapsulation: ViewEncapsulation.None,
 })
-export class CreateMeepleRoomComponent
+export class AddUpdateMeepleRoomComponent
   extends Form
   implements OnInit, OnDestroy
 {
-  override form: Formify<ICreateRoomForm>;
+  override form: Formify<IAddUpdateRoomForm>;
   public gameList: IGameDropdownResult[] = [];
   public selectedGame: IGameDropdownResult | null = null;
   public game: IGameByIdResult | null = null;
   public gameInventory!: IGameInventory;
   public imagePreview: string | ArrayBuffer | null = null;
   public isMenuVisible: boolean = false;
+  public editRoomId: number | null = null;
 
   constructor(
     public override readonly toastService: ToastService,
@@ -55,7 +55,8 @@ export class CreateMeepleRoomComponent
     private readonly menuTabsService: MenuTabsService,
     private readonly fb: FormBuilder,
     private readonly gameImagePipe: GameImagePipe,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly activatedRoute: ActivatedRoute
   ) {
     super(toastService);
     this.form = this.initFormGroup();
@@ -79,9 +80,17 @@ export class CreateMeepleRoomComponent
   }
   public ngOnInit(): void {
     this.fetchGameList();
+
+    this.activatedRoute.paramMap.subscribe((params) => {
+      const id = params.get('id');
+      if (id) {
+        this.editRoomId = +id;
+        this.fetchRoom(this.editRoomId);
+      }
+    });
   }
 
-  public handleAddExistingGame(): void {
+  public handleSelectGame(): void {
     if (this.selectedGame?.id) {
       this.fetchGameById(this.selectedGame.id);
     }
@@ -90,7 +99,9 @@ export class CreateMeepleRoomComponent
     this.isMenuVisible = !this.isMenuVisible;
   }
   public backNavigateBtn() {
-    this.router.navigateByUrl('meeples/find');
+    if (this.editRoomId)
+      this.router.navigateByUrl(`meeples/${this.editRoomId}/details`);
+    else this.router.navigateByUrl('meeples/find');
   }
 
   public onSubmit(): void {
@@ -99,31 +110,84 @@ export class CreateMeepleRoomComponent
     if (this.form.valid && startDate && startTime) {
       const combinedDateTime = this.combineDateAndTime(startDate, startTime);
 
-      this.roomService
-        .add({
-          gameId: parseInt(this.form.controls.gameId.value as any),
-          name: this.form.controls.name.value,
-          startDate: combinedDateTime,
-          maxParticipants: this.form.controls.maxParticipants.value,
-        })
-        .subscribe({
-          next: (_) => {
-            this.toastService.success({
-              message: AppToastMessage.ChangesSaved,
-              type: ToastType.Success,
-            });
+      if (this.editRoomId) {
+        this.roomService
+          .update({
+            id: this.editRoomId,
+            gameId: parseInt(this.form.controls.gameId.value as any),
+            name: this.form.controls.name.value,
+            startDate: combinedDateTime,
+            maxParticipants: this.form.controls.maxParticipants.value,
+          })
+          .subscribe({
+            next: (_) => {
+              this.toastService.success({
+                message: AppToastMessage.ChangesSaved,
+                type: ToastType.Success,
+              });
 
-            this.router.navigateByUrl('/meeples/find');
-          },
-          error: (error) => {
-            this.handleServerErrors(error);
-            this.toastService.error({
-              message: AppToastMessage.FailedToSaveChanges,
-              type: ToastType.Error,
-            });
-          },
-        });
+              this.router.navigateByUrl(`/meeples/${this.editRoomId}/details`);
+            },
+            error: (error) => {
+              this.handleServerErrors(error);
+              this.toastService.error({
+                message: AppToastMessage.FailedToSaveChanges,
+                type: ToastType.Error,
+              });
+            },
+          });
+      } else {
+        this.roomService
+          .add({
+            gameId: parseInt(this.form.controls.gameId.value as any),
+            name: this.form.controls.name.value,
+            startDate: combinedDateTime,
+            maxParticipants: this.form.controls.maxParticipants.value,
+          })
+          .subscribe({
+            next: (_) => {
+              this.toastService.success({
+                message: AppToastMessage.ChangesSaved,
+                type: ToastType.Success,
+              });
+
+              this.router.navigateByUrl('/meeples/find');
+            },
+            error: (error) => {
+              this.handleServerErrors(error);
+              this.toastService.error({
+                message: AppToastMessage.FailedToSaveChanges,
+                type: ToastType.Error,
+              });
+            },
+          });
+      }
     }
+  }
+
+  private fetchRoom(id: number): void {
+    this.roomService.getById(id).subscribe({
+      next: (room) => {
+        console.log(room);
+
+        const startDate = new Date(room.startDate);
+        startDate.setHours(startDate.getHours() + 3);
+
+        this.form.patchValue({
+          gameId: parseInt(room.gameId as any),
+          name: room.name,
+          startDate: startDate.toISOString().split('T')[0],
+          startTime: startDate.toISOString().split('T')[1].substring(0, 5),
+          maxParticipants: room.maxParticipants,
+        });
+
+        const selectGame = this.gameList.find((x) => x.id == room.gameId);
+        if (selectGame) {
+          this.selectedGame = selectGame;
+          this.handleSelectGame();
+        }
+      },
+    });
   }
 
   private fetchGameList(): void {

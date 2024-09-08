@@ -22,7 +22,7 @@ public class RoomsController : ControllerBase
     [HttpPost("list")]
     [ActionAuthorize(UserAction.RoomsCRUD)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetRoomListQueryModel>))]
-    public async Task<IActionResult> CreateRoom(GetRoomListQuery request, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetRoomList(GetRoomListQuery request, CancellationToken cancellationToken)
     {
         var result = await this.mediator.Send(request, cancellationToken);
         return Ok(result);
@@ -80,6 +80,15 @@ public class RoomsController : ControllerBase
     {
         var result = await this.mediator.Send(command, cancellationToken);
         return Ok(result);
+    }
+
+    [HttpPut]
+    [ActionAuthorize(UserAction.RoomsCRUD)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> UpdateRoom([FromBody] UpdateRoomCommand command, CancellationToken cancellationToken)
+    {
+        await this.mediator.Send(command, cancellationToken);
+        return Ok();
     }
 
     [HttpPost("join")]

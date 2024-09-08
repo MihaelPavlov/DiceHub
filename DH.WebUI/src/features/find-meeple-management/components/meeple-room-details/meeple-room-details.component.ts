@@ -4,7 +4,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { MenuTabsService } from '../../../../shared/services/menu-tabs.service';
 import { NAV_ITEM_LABELS } from '../../../../shared/models/nav-items-labels.const';
 import { IRoomByIdResult } from '../../../../entities/rooms/models/room-by-id.model';
-import { combineLatest, Observable, of } from 'rxjs';
+import { combineLatest } from 'rxjs';
 import { AuthService } from '../../../../entities/auth/auth.service';
 import { MeepleRoomMenuComponent } from '../meeple-room-menu/meeple-room-menu.component';
 

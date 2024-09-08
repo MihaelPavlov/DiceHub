@@ -1,12 +1,14 @@
 <div class="wrapper_icons">
   <span (click)="backNavigateBtn()" class="arrow left"></span>
-  <span class="header_name">Create Game Camp</span>
+  <span class="header_name">{{
+    this.editRoomId ? "Update Game Camp" : "Create Game Camp"
+  }}</span>
   <div class="info-container">
     <span class="material-symbols-outlined info" (click)="showMenu()">
       info
     </span>
     <div class="info__text" *ngIf="isMenuVisible">
-      <p>The room will be avaiable till the choosen date.</p>
+      <p>The room will be available until the selected date.</p>
     </div>
   </div>
 </div>
@@ -16,7 +18,7 @@
     bindLabel="name"
     placeholder="Select Game"
     [(ngModel)]="this.selectedGame"
-    (change)="handleAddExistingGame()"
+    (change)="handleSelectGame()"
     class="app-select"
   >
   </ng-select>
@@ -123,7 +125,7 @@
       >
         local_fire_department
       </span>
-      <span> Fire the Camp </span>
+      <span> {{ this.editRoomId ? "Update the Camp" : "Fire the Camp" }} </span>
       <span
         class="material-symbols-outlined"
         [ngClass]="this.form.valid ? 'red-flames' : 'gray-flames'"

@@ -1,4 +1,5 @@
-export interface ICreateRoomDto {
+export interface IAddUpdateRoomDto {
+  id?: number;
   name: string;
   startDate: string;
   maxParticipants: number;

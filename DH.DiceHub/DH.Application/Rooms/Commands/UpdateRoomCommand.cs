@@ -8,22 +8,22 @@ using MediatR;
 
 namespace DH.Application.Rooms.Commands;
 
-public record CreateRoomCommand(CreateRoomCommandDto Room) : IRequest<int>;
+public record UpdateRoomCommand(UpdateRoomCommandDto Room) : IRequest;
 
-internal class CreateRoomCommandHanler : IRequestHandler<CreateRoomCommand, int>
+internal class UpdateRoomCommandHanler : IRequestHandler<UpdateRoomCommand>
 {
     readonly IRepository<Room> roomRepository;
     readonly IRepository<Game> gameRepository;
     readonly IUserContext userContext;
 
-    public CreateRoomCommandHanler(IRepository<Room> roomRepository, IRepository<Game> gameRepository, IUserContext userContext)
+    public UpdateRoomCommandHanler(IRepository<Room> roomRepository, IRepository<Game> gameRepository, IUserContext userContext)
     {
         this.roomRepository = roomRepository;
         this.gameRepository = gameRepository;
         this.userContext = userContext;
     }
 
-    public async Task<int> Handle(CreateRoomCommand request, CancellationToken cancellationToken)
+    public async Task Handle(UpdateRoomCommand request, CancellationToken cancellationToken)
     {
         if (!request.Room.FieldsAreValid(out var validationErrors))
             throw new ValidationErrorsException(validationErrors);
@@ -31,13 +31,14 @@ internal class CreateRoomCommandHanler : IRequestHandler<CreateRoomCommand, int>
         var game = await this.gameRepository.GetByAsync(x => x.Id == request.Room.GameId, cancellationToken)
             ?? throw new NotFoundException(nameof(Game), request.Room.GameId);
 
-        var roomDto = request.Room.Adapt<Room>();
+        var room = await this.roomRepository.GetByAsync(x => x.Id == request.Room.Id, cancellationToken)
+           ?? throw new NotFoundException(nameof(Room), request.Room.Id);
 
-        roomDto.StartDate = roomDto.StartDate.AddHours(3);
-        roomDto.CreatedDate = DateTime.Now;
-        roomDto.UserId = this.userContext.UserId;
+        room.StartDate = request.Room.StartDate.AddHours(3);
+        room.GameId = request.Room.GameId;
+        room.Name = request.Room.Name;
+        room.MaxParticipants = request.Room.MaxParticipants;
 
-        var room = await this.roomRepository.AddAsync(roomDto, cancellationToken);
-        return room.Id;
+        await this.roomRepository.Update(room, cancellationToken);
     }
 }

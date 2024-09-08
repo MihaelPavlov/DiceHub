@@ -5,7 +5,6 @@ import { FindMeepleManagementRoutingModule } from './find-meeple-management-rout
 import { FindMeepleManagementComponent } from './page/find-meeple-management.component';
 import { ChipModule } from '../../widgets/chip/chip.module';
 import { MeepleRoomDetailsComponent } from '../../features/find-meeple-management/components/meeple-room-details/meeple-room-details.component';
-import { CreateMeepleRoomComponent } from '../../features/find-meeple-management/components/create-meeple-room/create-meeple-room.component';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { RoomChatComponent } from '../../features/find-meeple-management/components/room-chat/room-chat.component';
@@ -18,12 +17,13 @@ import {
 import { RoomConfirmLeaveDialog } from '../../features/find-meeple-management/dialogs/room-confirm-leave/room-confirm-leave.component';
 import { MeepleRoomMenuComponent } from '../../features/find-meeple-management/components/meeple-room-menu/meeple-room-menu.component';
 import { RoomMembersComponent } from '../../features/find-meeple-management/components/room-members/room-members.component';
+import { AddUpdateMeepleRoomComponent } from '../../features/find-meeple-management/components/add-update-meeple-room/add-update-meeple-room.component';
 
 @NgModule({
   declarations: [
     FindMeepleManagementComponent,
     MeepleRoomDetailsComponent,
-    CreateMeepleRoomComponent,
+    AddUpdateMeepleRoomComponent,
     RoomChatComponent,
     MeepleRoomMenuComponent,
     RoomMembersComponent,

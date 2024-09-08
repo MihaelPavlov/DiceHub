@@ -36,8 +36,10 @@ internal class GetRoomMessageListQueryHandler : IRequestHandler<GetRoomMessageLi
                 g => g.UserId == this.userContext.UserId &&
                 g.RoomId == room.Id &&
                 !g.IsDeleted,
-                CancellationToken.None)
-            ?? throw new ForbiddenAccessException("Current user doesn't participate in the room");
+                CancellationToken.None);
+
+        if (roomParticipant == null && this.userContext.UserId != room.UserId)
+            throw new ForbiddenAccessException("Current user doesn't participate in the room");
 
         var messages = await this.roomMessagesRepository
             .GetWithPropertiesAsync(x => x.RoomId == room.Id,

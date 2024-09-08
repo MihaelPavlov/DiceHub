@@ -1,5 +1,5 @@
 <app-header
-Recommended="Room Members"
+  Recommended="Room Members"
   [withSearch]="true"
   [withBackBtn]="true"
   [withBottomLine]="true"
@@ -18,7 +18,7 @@ Recommended="Room Members"
             >
               <span
                 (click)="onDelete(member.userId)"
-                class="material-symbols-outlined"
+                class="material-symbols-outlined remove"
               >
                 close
               </span>
@@ -27,7 +27,8 @@ Recommended="Room Members"
           <img src="http://placehold.it/50x50" alt="" />
           <div class="user-info">
             <span class="name">
-              {{ member.username }}
+              <span class="owner" *ngIf="this.room.createdBy === member.userId">Owner - </span
+              >{{ member.username }}
               <span class="age">age - {{ member.age }}</span>
             </span>
             <br />

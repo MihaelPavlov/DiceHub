@@ -1,4 +1,11 @@
-import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { IMenuItem } from '../../../../shared/models/menu-item.model';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -36,6 +43,14 @@ export class MeepleRoomMenuComponent implements OnInit {
 
   public updateMenuItems(): void {
     this.menuItems = [
+      {
+        key: 'update',
+        label: 'Update',
+        isVisible:
+          this.room &&
+          this.room.createdBy === this.currentUserId() &&
+          this.isCurrentUserParticipateInRoom,
+      },
       { key: 'group-members', label: 'Group Members', isVisible: true },
       {
         key: 'leave-room',
@@ -63,6 +78,8 @@ export class MeepleRoomMenuComponent implements OnInit {
   public handleMenuItemClick(key: string): void {
     if (key === 'group-members') {
       this.router.navigateByUrl(`/meeples/${this.room.id}/chat/members`);
+    } else if (key === 'update') {
+      this.router.navigateByUrl(`/meeples/${this.room.id}/update`);
     } else if (key === 'leave-room') {
       this.openLeaveRoomDialog();
     } else if (key === 'delete-room') {

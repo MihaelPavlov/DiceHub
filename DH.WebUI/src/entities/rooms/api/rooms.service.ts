@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { RestApiService } from '../../../shared/services/rest-api.service';
-import { ICreateRoomDto } from '../models/create-room.model';
+import { IAddUpdateRoomDto } from '../models/add-update-room.model';
 import { Observable } from 'rxjs';
 import { PATH } from '../../../shared/configs/path.config';
 import { IRoomListResult } from '../models/room-list.model';
@@ -61,8 +61,12 @@ export class RoomsService {
     return this.api.get<IRoomByIdResult>(`/${PATH.ROOMS.CORE}/${id}`);
   }
 
-  public add(room: ICreateRoomDto): Observable<number | null> {
+  public add(room: IAddUpdateRoomDto): Observable<number | null> {
     return this.api.post<number>(`/${PATH.ROOMS.CORE}`, { room });
+  }
+
+  public update(room: IAddUpdateRoomDto): Observable<null> {
+    return this.api.put(`/${PATH.ROOMS.CORE}`, { room });
   }
 
   public join(id: number): Observable<null> {
