@@ -19,6 +19,7 @@ import { IMenuItem } from '../../../shared/models/menu-item.model';
 })
 export class HeaderComponent implements OnInit, AfterViewInit {
   @Input() Recommended!: string;
+  @Input() withBackBtn: boolean = false;
   @Input() withSearch: boolean = false;
   @Input() withAdd: boolean = false;
   @Input() withQRcode: boolean = false;
@@ -26,6 +27,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   @Input() menuItems: IMenuItem[] = [];
   @Input() menuItemClickFunction!: (option: string) => void;
   @Output() addClicked: EventEmitter<void> = new EventEmitter<void>();
+  @Output() backClicked: EventEmitter<void> = new EventEmitter<void>();
   @Output() searchExpressionResult: EventEmitter<string> =
     new EventEmitter<string>();
 
@@ -74,6 +76,10 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   public onAddClick(): void {
     this.addClicked.emit();
+  }
+
+  public onBackClick(): void {
+    this.backClicked.emit();
   }
 
   private onSearchSubmit(searchExpression: string) {

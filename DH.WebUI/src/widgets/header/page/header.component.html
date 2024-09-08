@@ -8,6 +8,12 @@
       [ngClass]="this.withBottomLine ? 'wrapper_header__line' : ''"
     >
       <span
+        *ngIf="this.withBackBtn"
+        (click)="onBackClick()"
+        class="arrow left"
+      ></span>
+
+      <span
         class="wrapper_header__title"
         [ngClass]="this.withBottomLine ? 'wrapper_header__title-mb' : ''"
       >

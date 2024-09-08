@@ -11,6 +11,7 @@ import { ToastType } from '../../../../shared/models/toast.model';
 import { combineLatest } from 'rxjs';
 import { IRoomByIdResult } from '../../../../entities/rooms/models/room-by-id.model';
 import { AuthService } from '../../../../entities/auth/auth.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-room-members',
@@ -29,6 +30,7 @@ export class RoomMembersComponent implements OnInit, OnDestroy {
     private readonly activeRoute: ActivatedRoute,
     private readonly toastService: ToastService,
     private readonly authService: AuthService,
+    private readonly location: Location
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.MEEPLE);
   }
@@ -50,6 +52,10 @@ export class RoomMembersComponent implements OnInit, OnDestroy {
 
   public handleSearchExpression(searchExpression: string) {
     this.fetchMembers(searchExpression);
+  }
+
+  public onBack():void{
+    this.location.back();
   }
 
   public onDelete(userId: string): void {

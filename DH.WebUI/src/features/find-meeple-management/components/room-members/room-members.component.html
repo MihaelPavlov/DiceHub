@@ -1,8 +1,10 @@
 <app-header
+Recommended="Room Members"
   [withSearch]="true"
-  Recommended="Room Members"
+  [withBackBtn]="true"
   [withBottomLine]="true"
   (searchExpressionResult)="handleSearchExpression($event)"
+  (backClicked)="onBack()"
 ></app-header>
 <div class="wrapper">
   <div class="guestlist">
