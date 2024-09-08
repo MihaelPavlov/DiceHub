@@ -12,6 +12,8 @@ import { combineLatest } from 'rxjs';
 import { IRoomByIdResult } from '../../../../entities/rooms/models/room-by-id.model';
 import { AuthService } from '../../../../entities/auth/auth.service';
 import { Location } from '@angular/common';
+import { MatDialog } from '@angular/material/dialog';
+import { RoomMemberConfirmDeleteDialog } from '../../dialogs/room-member-confirm-delete/room-member-confirm-delete.component';
 
 @Component({
   selector: 'app-room-members',
@@ -30,7 +32,8 @@ export class RoomMembersComponent implements OnInit, OnDestroy {
     private readonly activeRoute: ActivatedRoute,
     private readonly toastService: ToastService,
     private readonly authService: AuthService,
-    private readonly location: Location
+    private readonly location: Location,
+    private readonly dialog: MatDialog
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.MEEPLE);
   }
@@ -54,25 +57,21 @@ export class RoomMembersComponent implements OnInit, OnDestroy {
     this.fetchMembers(searchExpression);
   }
 
-  public onBack():void{
+  public onBack(): void {
     this.location.back();
   }
 
   public onDelete(userId: string): void {
-    this.roomService.removeMember(this.roomId, userId).subscribe({
-      next: () => {
-        this.toastService.success({
-          message: 'Member removed successfully',
-          type: ToastType.Success,
-        });
+    const dialogRef = this.dialog.open(RoomMemberConfirmDeleteDialog, {
+      width: '17rem',
+      position: { bottom: '80%', left: '2%' },
+      data: { roomId: this.roomId, userId },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
         this.fetchMembers();
-      },
-      error: () => {
-        this.toastService.error({
-          message: AppToastMessage.SomethingWrong,
-          type: ToastType.Error,
-        });
-      },
+      }
     });
   }
 

@@ -18,6 +18,7 @@ import { RoomConfirmLeaveDialog } from '../../features/find-meeple-management/di
 import { MeepleRoomMenuComponent } from '../../features/find-meeple-management/components/meeple-room-menu/meeple-room-menu.component';
 import { RoomMembersComponent } from '../../features/find-meeple-management/components/room-members/room-members.component';
 import { AddUpdateMeepleRoomComponent } from '../../features/find-meeple-management/components/add-update-meeple-room/add-update-meeple-room.component';
+import { RoomMemberConfirmDeleteDialog } from '../../features/find-meeple-management/dialogs/room-member-confirm-delete/room-member-confirm-delete.component';
 
 @NgModule({
   declarations: [
@@ -29,10 +30,10 @@ import { AddUpdateMeepleRoomComponent } from '../../features/find-meeple-managem
     RoomMembersComponent,
     RoomConfirmDeleteDialog,
     RoomConfirmLeaveDialog,
+    RoomMemberConfirmDeleteDialog,
   ],
   exports: [FindMeepleManagementComponent],
-  providers: [
-  ],
+  providers: [],
   imports: [
     SharedModule,
     HeaderModule,
@@ -42,7 +43,7 @@ import { AddUpdateMeepleRoomComponent } from '../../features/find-meeple-managem
     NgSelectModule,
     MatDialogActions,
     MatDialogClose,
-    MatDialogModule
+    MatDialogModule,
   ],
 })
 export class FindMeepleManagementModule {}
