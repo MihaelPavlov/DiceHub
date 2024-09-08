@@ -6,6 +6,7 @@ import { PATH } from '../../../shared/configs/path.config';
 import { IRoomListResult } from '../models/room-list.model';
 import { IRoomByIdResult } from '../models/room-by-id.model';
 import { IRoomMessageResult } from '../models/room-message.model';
+import { IRoomMemberResult } from '../models/room-member.model';
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +23,26 @@ export class RoomsService {
         searchExpression,
       }
     );
+  }
+
+  public getMembers(
+    id: number,
+    searchExpression: string = ''
+  ): Observable<IRoomMemberResult[] | null> {
+    return this.api.post<IRoomMemberResult[]>(
+      `/${PATH.ROOMS.CORE}/${PATH.ROOMS.MEMBER_LIST}`,
+      {
+        id,
+        searchExpression,
+      }
+    );
+  }
+
+  public removeMember(id: number, userId: string): Observable<null> {
+    return this.api.post(`/${PATH.ROOMS.CORE}/${PATH.ROOMS.REMOVE_MEMBER}`, {
+      id,
+      userId,
+    });
   }
 
   public getMessageList(roomId: number): Observable<IRoomMessageResult[]> {

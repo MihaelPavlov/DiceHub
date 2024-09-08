@@ -29,6 +29,7 @@ internal class LeaveRoomCommandHandler : IRequestHandler<LeaveRoomCommand>
         var roomParticipant = await this.roomParticipantsRepository.GetByAsync(g => g.RoomId == request.Id && g.UserId == this.userContext.UserId, cancellationToken)
           ?? throw new NotFoundException(nameof(RoomParticipant));
 
-        await this.roomParticipantsRepository.Remove(roomParticipant, cancellationToken);
+        roomParticipant.IsDeleted = true;
+        await this.roomParticipantsRepository.Update(roomParticipant, cancellationToken);
     }
 }

@@ -18,7 +18,7 @@ import { IMenuItem } from '../../../shared/models/menu-item.model';
   styleUrl: 'header.component.scss',
 })
 export class HeaderComponent implements OnInit, AfterViewInit {
-  @Input() header!: string;
+  @Input() Recommended!: string;
   @Input() withSearch: boolean = false;
   @Input() withAdd: boolean = false;
   @Input() withQRcode: boolean = false;

@@ -25,14 +25,15 @@
           class="wrapper_lobby__left-chat"
           *ngIf="group.senderId !== getActiveUserIdFromChat()"
         >
-          <!-- TODO: ADD NAME OF THE USER OVER THE ITEM IMAGE make it small and gray see messenger group for reference -->
           <ng-container
             *ngFor="let message of group.messages; let isFirst = first"
           >
-            <!-- TODO: Change with real username -->
-            <span class="username" *ngIf="isFirst">Mihael Pavlov</span>
+            <span class="username" *ngIf="isFirst">{{
+              group.senderUsername
+            }}</span>
             <div class="item">
               <div class="item__image">
+                <!-- TODO: Add user IMAGE -->
                 <img
                   src="https://cf.geekdo-images.com/fvhkcw4s6Q4-nMwwok1J6A__opengraph/img/bbHffM-AIBac7jMM8sgOM1sC0zk=/0x274:1314x964/fit-in/1200x630/filters:strip_icc()/pic6569894.png"
                   alt=""
@@ -50,10 +51,13 @@
             *ngFor="let message of group.messages; let isFirst = first"
           >
             <!-- TODO: Change with real username -->
-            <span class="username" *ngIf="isFirst">User 2</span>
+            <span class="username" *ngIf="isFirst">{{
+              group.senderUsername
+            }}</span>
             <div class="item">
               <span>{{ message }}</span>
               <div class="item__image">
+                <!-- TODO: Add user IMAGE -->
                 <img
                   src="https://cf.geekdo-images.com/fvhkcw4s6Q4-nMwwok1J6A__opengraph/img/bbHffM-AIBac7jMM8sgOM1sC0zk=/0x274:1314x964/fit-in/1200x630/filters:strip_icc()/pic6569894.png"
                   alt=""

@@ -4,6 +4,7 @@ import { FindMeepleManagementComponent } from './page/find-meeple-management.com
 import { MeepleRoomDetailsComponent } from '../../features/find-meeple-management/components/meeple-room-details/meeple-room-details.component';
 import { CreateMeepleRoomComponent } from '../../features/find-meeple-management/components/create-meeple-room/create-meeple-room.component';
 import { RoomChatComponent } from '../../features/find-meeple-management/components/room-chat/room-chat.component';
+import { RoomMembersComponent } from '../../features/find-meeple-management/components/room-members/room-members.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,10 @@ const routes: Routes = [
   {
     path: ':id/chat',
     component: RoomChatComponent,
+  },
+  {
+    path: ':id/chat/members',
+    component: RoomMembersComponent,
   },
 ];
 

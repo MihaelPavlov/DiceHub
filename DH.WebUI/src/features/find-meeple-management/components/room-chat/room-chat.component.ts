@@ -1,11 +1,8 @@
 import {
-  AfterContentChecked,
   AfterViewChecked,
-  AfterViewInit,
   ChangeDetectorRef,
   Component,
   ElementRef,
-  Input,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -23,12 +20,7 @@ import { AppToastMessage } from '../../../../shared/components/toast/constants/a
 import { ToastType } from '../../../../shared/models/toast.model';
 import { IRoomMessageResult } from '../../../../entities/rooms/models/room-message.model';
 import { MeepleRoomMenuComponent } from '../meeple-room-menu/meeple-room-menu.component';
-
-export interface GroupedChatMessage {
-  senderId: string;
-  messages: string[];
-  dateCreated: Date;
-}
+import { GroupedChatMessage } from './models/grouped-chat-messages.model';
 
 @Component({
   selector: 'app-room-chat',
@@ -56,7 +48,7 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     private readonly cdRef: ChangeDetectorRef,
     private readonly router: Router,
     private readonly activeRoute: ActivatedRoute,
-    private readonly toastService: ToastService
+    private readonly toastService: ToastService,
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.MEEPLE);
   }
@@ -106,12 +98,12 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.roomService.getMessageList(this.roomId),
       this.roomService.checkUserParticipateInRoom(this.roomId),
     ]).subscribe({
-      next: ([room, messages,isParticipate]) => {
+      next: ([room, messages, isParticipate]) => {
         if (room && messages) {
           this.room = room;
           this.roomMessages = messages;
           this.isCurrentUserParticipateInRoom =
-          room.createdBy === this.authService.getUser?.id || isParticipate;
+            room.createdBy === this.authService.getUser?.id || isParticipate;
 
           this.updateRoomMessages();
 
@@ -156,16 +148,9 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
           .invoke('ConnectToGroup', this.roomId)
           .catch((err) => console.error(err));
 
-        // this.hubConnection
-        //   .invoke('FetchPreviousMessages', this.roomId)
-        //   .then((x) => this.updateRoomMessages(x))
-        //   .catch((err) => console.error(err));
-
-        // this.hubConnection.off('ReceiveMessage');
-
         this.hubConnection.on(
           'ReceiveMessage',
-          (sender, message, timestamp) => {
+          (sender, senderUsername, message, timestamp) => {
             console.log(
               `Received message from ${sender}: ${message} at ${timestamp}`
             );
@@ -184,6 +169,7 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
               }
               newGroup = {
                 senderId: sender,
+                senderUsername: senderUsername,
                 messages: [message],
                 dateCreated: timestamp,
               };
@@ -214,6 +200,7 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         }
         currentGroup = {
           senderId: message.senderId,
+          senderUsername: message.senderUsername,
           messages: [message.message],
           dateCreated: message.createdDate,
         };
@@ -227,5 +214,6 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.currentChatMessagesSubject$.next(groups);
     this.shouldScrollToBottom = true;
     this.cdRef.detectChanges();
+    console.log(groups);
   }
 }

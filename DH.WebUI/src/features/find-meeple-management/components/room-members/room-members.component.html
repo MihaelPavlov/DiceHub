@@ -1,0 +1,40 @@
+<app-header
+  [withSearch]="true"
+  Recommended="Room Members"
+  [withBottomLine]="true"
+  (searchExpressionResult)="handleSearchExpression($event)"
+></app-header>
+<div class="wrapper">
+  <div class="guestlist">
+    <ul class="attendes">
+      <li *ngFor="let member of members">
+        <div class="item">
+          <ng-container *ngIf="this.room.createdBy === this.getCurrentUserId()">
+            <div
+              class="user-actions"
+              *ngIf="this.room.createdBy !== member.userId"
+            >
+              <span
+                (click)="onDelete(member.userId)"
+                class="material-symbols-outlined"
+              >
+                close
+              </span>
+            </div>
+          </ng-container>
+          <img src="http://placehold.it/50x50" alt="" />
+          <div class="user-info">
+            <span class="name">
+              {{ member.username }}
+              <span class="age">age - {{ member.age }}</span>
+            </span>
+            <br />
+            <small
+              >Joined at {{ member.joinedAt | date : "MMMM d, yyyy" }}</small
+            >
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

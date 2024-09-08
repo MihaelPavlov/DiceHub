@@ -62,7 +62,7 @@ export class MeepleRoomMenuComponent implements OnInit {
 
   public handleMenuItemClick(key: string): void {
     if (key === 'group-members') {
-      this.router.navigateByUrl(`/meeples/${this.room.id}/members`);
+      this.router.navigateByUrl(`/meeples/${this.room.id}/chat/members`);
     } else if (key === 'leave-room') {
       this.openLeaveRoomDialog();
     } else if (key === 'delete-room') {

@@ -44,7 +44,7 @@ export class EventsService {
 
   public checkUserParticipation(id: number): Observable<boolean | null> {
     return this.api.post<boolean>(
-      `/${PATH.EVENTS.CORE}/${PATH.EVENTS.CHECK_USER_PARTICIPANTION}`,
+      `/${PATH.EVENTS.CORE}/${PATH.EVENTS.CHECK_USER_PARTICIPATION}`,
       { id }
     );
   }

@@ -29,7 +29,8 @@ internal class GetUserRoomParticipationStatusQueryHandler : IRequestHandler<GetU
         var roomParticipant = await this.roomParticipantsRepository
             .GetByAsync(
                 g => g.UserId == this.userContext.UserId &&
-                g.RoomId == room.Id,
+                g.RoomId == room.Id && 
+                !g.IsDeleted,
                 CancellationToken.None);
 
         if (roomParticipant is null)

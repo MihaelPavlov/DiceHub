@@ -39,7 +39,7 @@ export const ROUTES: Routes = [
         loadChildren: () =>
           import(
             '../../pages/find-meeple-management/find-meeple-management.module'
-          ).then((m) => m.FindMeepleMamagementModule),
+          ).then((m) => m.FindMeepleManagementModule),
       },
       {
         path: 'challenges',
@@ -71,7 +71,7 @@ export const ROUTES: Routes = [
   {
     path: 'unauthorized',
     loadChildren: () =>
-      import('../../shared/exceptions/unauthorized/unathorized.module').then(
+      import('../../shared/exceptions/unauthorized/unauthorized.module').then(
         (m) => m.UnauthorizedModule
       ),
   },

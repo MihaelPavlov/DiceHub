@@ -25,13 +25,15 @@ export const PATH = {
     LIST: 'list',
     PARTICIPATE: 'participate',
     REMOVE_PARTICIPANT: 'remove-participant',
-    CHECK_USER_PARTICIPANTION: 'check-user-participation',
+    CHECK_USER_PARTICIPATION: 'check-user-participation',
   },
   ROOMS: {
     CORE: 'rooms',
     JOIN: 'join',
     LEAVE: 'leave',
     LIST: 'list',
+    MEMBER_LIST: 'members',
+    REMOVE_MEMBER: 'remove-member',
     MESSAGE_LIST: 'messages',
     CHECK_USER_PARTICIPATION: 'check-user-participation'
   },

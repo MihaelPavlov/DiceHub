@@ -26,11 +26,36 @@ internal class JoinRoomCommandHandler : IRequestHandler<JoinRoomCommand>
         var room = await this.roomsRepository.GetByAsync(g => g.Id == request.Id, cancellationToken)
             ?? throw new NotFoundException(nameof(Room), request.Id);
 
-        var roomParticipantList = await this.roomParticipantsRepository.GetWithPropertiesAsync(x => x.RoomId == room.Id, x=> new {Id = x.Id }, cancellationToken);
-        if (room.MaxParticipants == roomParticipantList.Count)
+        var activeRoomParticipantList = await this.roomParticipantsRepository
+            .GetWithPropertiesAsync(
+                x => x.RoomId == room.Id && !x.IsDeleted,
+                x => new RoomParticipant
+                {
+                    Id = x.Id,
+                    UserId = x.UserId,
+                    IsDeleted = x.IsDeleted,
+                    JoinedAt = x.JoinedAt,
+                    RoomId = x.RoomId,
+                },
+                cancellationToken);
+
+        if (room.MaxParticipants == activeRoomParticipantList.Count)
             throw new BadRequestException("Maximum number of participants reached.");
 
-        var roomParticipant = new RoomParticipant { UserId = this.userContext.UserId, Room = room };
-        await this.roomParticipantsRepository.AddAsync(roomParticipant, cancellationToken);
+        var roomParticipantExist = await this.roomParticipantsRepository
+            .GetByAsync(
+                x => x.RoomId == room.Id && x.UserId == this.userContext.UserId,
+                cancellationToken);
+
+        if (roomParticipantExist != null)
+        {
+            roomParticipantExist.IsDeleted = false;
+            await this.roomParticipantsRepository.Update(roomParticipantExist, cancellationToken);
+        }
+        else
+        {
+            var roomParticipant = new RoomParticipant { UserId = this.userContext.UserId, Room = room, JoinedAt = DateTime.Now };
+            await this.roomParticipantsRepository.AddAsync(roomParticipant, cancellationToken);
+        }
     }
 }

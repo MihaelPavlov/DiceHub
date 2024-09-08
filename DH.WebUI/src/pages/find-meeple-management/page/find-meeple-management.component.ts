@@ -5,6 +5,7 @@ import { NAV_ITEM_LABELS } from '../../../shared/models/nav-items-labels.const';
 import { RoomsService } from '../../../entities/rooms/api/rooms.service';
 import { IRoomListResult } from '../../../entities/rooms/models/room-list.model';
 import { Observable } from 'rxjs';
+import { SearchService } from '../../../shared/services/search.service';
 
 @Component({
   selector: 'app-find-meeple-manager',
@@ -16,7 +17,8 @@ export class FindMeepleManagementComponent implements OnInit, OnDestroy {
   constructor(
     private readonly router: Router,
     private readonly menuTabsService: MenuTabsService,
-    private readonly roomService: RoomsService
+    private readonly roomService: RoomsService,
+    private readonly searchService: SearchService
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.MEEPLE);
   }
@@ -27,9 +29,10 @@ export class FindMeepleManagementComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.menuTabsService.resetData();
+    this.searchService.hideSearchForm();
   }
 
-  public handleSeachExpression(searchExpression: string) {
+  public handleSearchExpression(searchExpression: string) {
     this.roomList$ = this.roomService.getList(searchExpression);
   }
 

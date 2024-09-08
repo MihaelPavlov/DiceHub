@@ -37,6 +37,24 @@ public class RoomsController : ControllerBase
         return Ok(result);
     }
 
+    [HttpPost("members")]
+    [ActionAuthorize(UserAction.RoomsCRUD)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetRoomMemberListQueryModel>))]
+    public async Task<IActionResult> GetMemberList([FromBody] GetRoomMemberListQuery query, CancellationToken cancellationToken)
+    {
+        var result = await this.mediator.Send(query, cancellationToken);
+        return Ok(result);
+    }
+
+    [HttpPost("remove-member")]
+    [ActionAuthorize(UserAction.RoomsCRUD)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+    public async Task<IActionResult> RemoveMember([FromBody] RemoveRoomMemberCommand command, CancellationToken cancellationToken)
+    {
+        await this.mediator.Send(command, cancellationToken);
+        return Ok();
+    }
+
     [HttpGet("{id}")]
     [ActionAuthorize(UserAction.RoomsCRUD)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetRoomByIdQueryModel))]
@@ -85,7 +103,7 @@ public class RoomsController : ControllerBase
     [HttpDelete("{id}")]
     [ActionAuthorize(UserAction.RoomsCRUD)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
-    public async Task<IActionResult> LeaveRoom(int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> DeleteRoom(int id, CancellationToken cancellationToken)
     {
         await this.mediator.Send(new DeleteRoomCommand(id), cancellationToken);
         return Ok();

@@ -17,6 +17,7 @@ import {
 } from '@angular/material/dialog';
 import { RoomConfirmLeaveDialog } from '../../features/find-meeple-management/dialogs/room-confirm-leave/room-confirm-leave.component';
 import { MeepleRoomMenuComponent } from '../../features/find-meeple-management/components/meeple-room-menu/meeple-room-menu.component';
+import { RoomMembersComponent } from '../../features/find-meeple-management/components/room-members/room-members.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { MeepleRoomMenuComponent } from '../../features/find-meeple-management/c
     CreateMeepleRoomComponent,
     RoomChatComponent,
     MeepleRoomMenuComponent,
+    RoomMembersComponent,
     RoomConfirmDeleteDialog,
     RoomConfirmLeaveDialog,
   ],
@@ -43,4 +45,4 @@ import { MeepleRoomMenuComponent } from '../../features/find-meeple-management/c
     MatDialogModule
   ],
 })
-export class FindMeepleMamagementModule {}
+export class FindMeepleManagementModule {}

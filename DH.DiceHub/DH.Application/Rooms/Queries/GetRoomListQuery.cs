@@ -22,7 +22,7 @@ internal class GetRoomListQueryHandler : IRequestHandler<GetRoomListQuery, List<
     {
         var rooms = await this.roomService.GetListBySearchExpressionAsync(request.SearchExpression ?? string.Empty, cancellationToken);
 
-        var userIds = rooms.Select(x => x.UserId).ToArray();
+        var userIds = rooms.Select(x => x.UserId).Distinct().ToArray();
         var users = await this.userService.GetUserListByIds(userIds, cancellationToken);
 
         foreach (var room in rooms)

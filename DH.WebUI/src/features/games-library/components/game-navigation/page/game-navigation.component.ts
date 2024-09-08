@@ -51,7 +51,7 @@ export class GameNavigationComponent implements OnInit {
     this.activeChildComponent = componentRef;
   }
 
-  public handleSeachExpression(searchExpression: string) {
+  public handleSearchExpression(searchExpression: string) {
     if (
       this.activeChildComponent &&
       this.activeChildComponent.handleSearchExpression

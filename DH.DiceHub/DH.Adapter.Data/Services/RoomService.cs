@@ -74,7 +74,7 @@ public class RoomService : IRoomService
                     MaxParticipants = r.MaxParticipants,
                     GameId = r.GameId,
                     GameImageId = gi.Id,
-                    JoinedParticipants = r.Participants.Count,
+                    JoinedParticipants = r.Participants.Where(x => !x.IsDeleted).Count(),
                 }).FirstOrDefaultAsync(cancellationToken);
         }
     }
@@ -98,7 +98,7 @@ public class RoomService : IRoomService
                     GameId = r.GameId,
                     GameImageId = gi.Id,
                     GameName = g.Name,
-                    JoinedParticipants = r.Participants.Count,
+                    JoinedParticipants = r.Participants.Where(x => !x.IsDeleted).Count(),
                 }).ToListAsync(cancellationToken);
         }
     }

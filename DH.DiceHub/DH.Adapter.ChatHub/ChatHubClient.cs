@@ -5,6 +5,7 @@ using DH.Domain.Entities;
 using DH.Domain.Exceptions;
 using DH.Domain.Repositories;
 using Microsoft.AspNetCore.SignalR;
+using System.Net.WebSockets;
 
 namespace DH.Adapter.ChatHub;
 
@@ -15,15 +16,17 @@ public class ChatHubClient : Hub, IChatHubClient
     readonly IRepository<RoomMessages> roomMessagesRepository;
     readonly IUserContext userContext;
     readonly IJwtService jwtService;
+    readonly IUserService userService;
 
     public ChatHubClient(IRepository<Room> roomsRepository, IRepository<RoomParticipant> roomParticipantsRepository,
-        IRepository<RoomMessages> roomMessagesRepository, IUserContext userContext, IJwtService jwtService)
+        IRepository<RoomMessages> roomMessagesRepository, IUserContext userContext, IJwtService jwtService, IUserService userService)
     {
         this.roomsRepository = roomsRepository;
         this.roomParticipantsRepository = roomParticipantsRepository;
         this.roomMessagesRepository = roomMessagesRepository;
         this.userContext = userContext;
         this.jwtService = jwtService;
+        this.userService = userService;
     }
 
     public override Task OnConnectedAsync()
@@ -62,8 +65,9 @@ public class ChatHubClient : Hub, IChatHubClient
 
         var newMessage = new RoomMessages { Timestamp = DateTime.Now, Room = room, MessageContent = message, Sender = this.userContext.UserId };
 
+        var user = await this.userService.GetUserListByIds([this.userContext.UserId], CancellationToken.None);
         await this.roomMessagesRepository.AddAsync(newMessage, CancellationToken.None);
-        await Clients.Group(roomId.ToString()).SendAsync("ReceiveMessage", newMessage.Sender, newMessage.MessageContent, newMessage.Timestamp);
+        await Clients.Group(roomId.ToString()).SendAsync("ReceiveMessage", newMessage.Sender, user.First().UserName, newMessage.MessageContent, newMessage.Timestamp);
     }
 
     public async Task ConnectToGroup(int roomId)
