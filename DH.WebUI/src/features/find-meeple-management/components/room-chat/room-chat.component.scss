@@ -82,8 +82,6 @@
         overflow: auto;
         width: 90%;
 
-        &__chat {}
-
 
         &__left-chat {
             margin: 1rem 0;
@@ -129,6 +127,7 @@
 
         &__right-chat {
             margin: 1rem 0;
+
             .username {
                 font-size: 0.8rem;
                 color: gray;
@@ -165,6 +164,17 @@
                         border-radius: 5rem;
                     }
                 }
+            }
+        }
+
+        &__info-messages {
+            display: flex;
+            flex-direction: column;
+
+            .info-message {
+                font-size: 1rem;
+                color: gray;
+                margin: 1rem;
             }
         }
     }

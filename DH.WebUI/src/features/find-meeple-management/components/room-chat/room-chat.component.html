@@ -39,7 +39,7 @@
                   alt=""
                 />
               </div>
-              <span>{{ message }}</span>
+              <span>{{ message.text }}</span>
             </div>
           </ng-container>
         </div>
@@ -55,7 +55,7 @@
               group.senderUsername
             }}</span>
             <div class="item">
-              <span>{{ message }}</span>
+              <span>{{ message.text }}</span>
               <div class="item__image">
                 <!-- TODO: Add user IMAGE -->
                 <img
@@ -64,6 +64,12 @@
                 />
               </div>
             </div>
+          </ng-container>
+        </div>
+
+        <div class="wrapper_lobby__info-messages">
+          <ng-container *ngFor="let infoMessage of group.infoMessages">
+            <span class="info-message">{{ infoMessage.text }}</span>
           </ng-container>
         </div>
       </ng-container>
