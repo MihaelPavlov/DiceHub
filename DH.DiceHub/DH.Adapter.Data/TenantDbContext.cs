@@ -44,7 +44,8 @@ public class TenantDbContext : DbContext, ITenantDbContext
     public DbSet<EventParticipant> EventParticipants { get; set; } = default!;
     public DbSet<Room> Rooms { get; set; } = default!;
     public DbSet<RoomParticipant> RoomParticipants { get; set; } = default!;
-    public DbSet<RoomMessages> RoomMessages { get; set; } = default!;
+    public DbSet<RoomMessage> RoomMessages { get; set; } = default!;
+    public DbSet<RoomInfoMessage> RoomInfoMessages { get; set; } = default!;
 
     public T AcquireRepository<T>()
     {

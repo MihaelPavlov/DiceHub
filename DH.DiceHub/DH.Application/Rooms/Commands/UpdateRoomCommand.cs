@@ -3,6 +3,7 @@ using DH.Domain.Entities;
 using DH.Domain.Exceptions;
 using DH.Domain.Models.RoomModels.Commands;
 using DH.Domain.Repositories;
+using DH.Domain.Services;
 using Mapster;
 using MediatR;
 
@@ -13,14 +14,18 @@ public record UpdateRoomCommand(UpdateRoomCommandDto Room) : IRequest;
 internal class UpdateRoomCommandHanler : IRequestHandler<UpdateRoomCommand>
 {
     readonly IRepository<Room> roomRepository;
+    readonly IRepository<RoomInfoMessage> roomInfoMessagesRepository;
     readonly IRepository<Game> gameRepository;
     readonly IUserContext userContext;
+    readonly IRoomService roomService;
 
-    public UpdateRoomCommandHanler(IRepository<Room> roomRepository, IRepository<Game> gameRepository, IUserContext userContext)
+    public UpdateRoomCommandHanler(IRepository<Room> roomRepository, IRepository<RoomInfoMessage> roomInfoMessagesRepository, IRepository<Game> gameRepository, IUserContext userContext, IRoomService roomService)
     {
         this.roomRepository = roomRepository;
+        this.roomInfoMessagesRepository = roomInfoMessagesRepository;
         this.gameRepository = gameRepository;
         this.userContext = userContext;
+        this.roomService = roomService;
     }
 
     public async Task Handle(UpdateRoomCommand request, CancellationToken cancellationToken)
@@ -28,17 +33,6 @@ internal class UpdateRoomCommandHanler : IRequestHandler<UpdateRoomCommand>
         if (!request.Room.FieldsAreValid(out var validationErrors))
             throw new ValidationErrorsException(validationErrors);
 
-        var game = await this.gameRepository.GetByAsync(x => x.Id == request.Room.GameId, cancellationToken)
-            ?? throw new NotFoundException(nameof(Game), request.Room.GameId);
-
-        var room = await this.roomRepository.GetByAsync(x => x.Id == request.Room.Id, cancellationToken)
-           ?? throw new NotFoundException(nameof(Room), request.Room.Id);
-
-        room.StartDate = request.Room.StartDate.AddHours(3);
-        room.GameId = request.Room.GameId;
-        room.Name = request.Room.Name;
-        room.MaxParticipants = request.Room.MaxParticipants;
-
-        await this.roomRepository.Update(room, cancellationToken);
+        await this.roomService.Update(request.Room.Adapt<Room>(), cancellationToken);       
     }
 }

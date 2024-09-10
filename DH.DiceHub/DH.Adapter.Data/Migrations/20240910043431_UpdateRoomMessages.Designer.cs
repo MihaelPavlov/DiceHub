@@ -4,6 +4,7 @@ using DH.Adapter.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DH.Adapter.Data.Migrations
 {
     [DbContext(typeof(TenantDbContext))]
-    partial class TenantDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240910043431_UpdateRoomMessages")]
+    partial class UpdateRoomMessages
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -380,36 +383,7 @@ namespace DH.Adapter.Data.Migrations
                     b.ToTable("Rooms");
                 });
 
-            modelBuilder.Entity("DH.Domain.Entities.RoomInfoMessage", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("MessageContent")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("RoomId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RoomId");
-
-                    b.ToTable("RoomInfoMessages");
-                });
-
-            modelBuilder.Entity("DH.Domain.Entities.RoomMessage", b =>
+            modelBuilder.Entity("DH.Domain.Entities.RoomMessages", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -576,18 +550,7 @@ namespace DH.Adapter.Data.Migrations
                     b.Navigation("Game");
                 });
 
-            modelBuilder.Entity("DH.Domain.Entities.RoomInfoMessage", b =>
-                {
-                    b.HasOne("DH.Domain.Entities.Room", "Room")
-                        .WithMany()
-                        .HasForeignKey("RoomId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Room");
-                });
-
-            modelBuilder.Entity("DH.Domain.Entities.RoomMessage", b =>
+            modelBuilder.Entity("DH.Domain.Entities.RoomMessages", b =>
                 {
                     b.HasOne("DH.Domain.Entities.Room", "Room")
                         .WithMany("Messages")

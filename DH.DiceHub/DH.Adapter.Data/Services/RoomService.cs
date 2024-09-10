@@ -102,4 +102,59 @@ public class RoomService : IRoomService
                 }).ToListAsync(cancellationToken);
         }
     }
+
+    public async Task Update(Room updatedRoom, CancellationToken cancellationToken)
+    {
+        using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
+        {
+            using (var transaction = await context.Database.BeginTransactionAsync(cancellationToken))
+            {
+                try
+                {
+                    var game = await context.Games.FirstOrDefaultAsync(x => x.Id == updatedRoom.GameId, cancellationToken)
+                        ?? throw new NotFoundException(nameof(Game), updatedRoom.GameId);
+
+                    var room = await context.Rooms.AsTracking().FirstOrDefaultAsync(g => g.Id == updatedRoom.Id, cancellationToken)
+                        ?? throw new NotFoundException(nameof(Room), updatedRoom.Id);
+
+                    if (room.UserId != this.userContext.UserId)
+                        throw new BadRequestException("Cannot delete room if you are not the creator of it");
+
+                    if (room.GameId != updatedRoom.GameId)
+                    {
+                        await context.AddAsync(new RoomInfoMessage
+                        {
+                            CreatedBy = this.userContext.UserId,
+                            CreatedDate = DateTime.Now,
+                            MessageContent = "Game has been changed. Please check the new game rules",
+                            RoomId = room.Id,
+                        }, cancellationToken);
+                    }
+                    if (room.StartDate != updatedRoom.StartDate.AddHours(3))
+                    {
+                        await context.AddAsync(new RoomInfoMessage
+                        {
+                            CreatedBy = this.userContext.UserId,
+                            CreatedDate = DateTime.Now,
+                            MessageContent = "The start date of the room has been changed",
+                            RoomId = room.Id,
+                        }, cancellationToken);
+                    }
+
+                    room.StartDate = updatedRoom.StartDate.AddHours(3);
+                    room.GameId = updatedRoom.GameId;
+                    room.Name = updatedRoom.Name;
+                    room.MaxParticipants = updatedRoom.MaxParticipants;
+
+                    await context.SaveChangesAsync(cancellationToken);
+                    await transaction.CommitAsync(cancellationToken);
+                }
+                catch (Exception)
+                {
+                    await transaction.RollbackAsync(cancellationToken);
+                    throw;
+                }
+            }
+        }
+    }
 }

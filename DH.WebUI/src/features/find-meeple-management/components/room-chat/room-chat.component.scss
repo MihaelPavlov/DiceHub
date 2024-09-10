@@ -84,20 +84,18 @@
 
 
         &__left-chat {
-            margin: 1rem 0;
-
+            margin-top: 1rem;
             .username {
                 font-size: 0.8rem;
                 color: gray;
                 display: flex;
                 justify-content: start;
-                margin-bottom: -0.5rem;
                 margin-left: 2rem;
+                margin-bottom: 0.75rem;
             }
 
             .item {
 
-                margin: 1rem 0;
                 display: flex;
                 align-items: start;
 
@@ -126,19 +124,17 @@
         }
 
         &__right-chat {
-            margin: 1rem 0;
-
+            margin-top: 1rem;
             .username {
                 font-size: 0.8rem;
                 color: gray;
                 display: flex;
                 justify-content: end;
-                margin-bottom: -0.5rem;
+                margin-bottom: 0.75rem;
                 margin-right: 2rem;
             }
 
             .item {
-                margin: 1rem 0;
                 display: flex;
                 justify-content: end;
 

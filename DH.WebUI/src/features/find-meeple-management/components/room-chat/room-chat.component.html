@@ -19,7 +19,7 @@
   <div #chat class="wrapper_lobby">
     <div class="wrapper_lobby__chat">
       <ng-container
-        *ngFor="let group of currentChatMessagesSubject$.asObservable() | async"
+        *ngFor="let group of currentChatMessagesSubject$.asObservable() | async; let index = index"
       >
         <div
           class="wrapper_lobby__left-chat"
@@ -28,9 +28,9 @@
           <ng-container
             *ngFor="let message of group.messages; let isFirst = first"
           >
-            <span class="username" *ngIf="isFirst">{{
-              group.senderUsername
-            }}</span>
+            <ng-container *ngIf="group.senderUsername !== getPreviousSenderUsername(index)">
+              <span class="username">{{ group.senderUsername }}</span>
+            </ng-container>
             <div class="item">
               <div class="item__image">
                 <!-- TODO: Add user IMAGE -->
@@ -51,9 +51,9 @@
             *ngFor="let message of group.messages; let isFirst = first"
           >
             <!-- TODO: Change with real username -->
-            <span class="username" *ngIf="isFirst">{{
-              group.senderUsername
-            }}</span>
+            <ng-container *ngIf="group.senderUsername !== getPreviousSenderUsername(index)">
+              <span class="username">{{ group.senderUsername }}</span>
+            </ng-container>
             <div class="item">
               <span>{{ message.text }}</span>
               <div class="item__image">

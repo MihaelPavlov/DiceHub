@@ -21,6 +21,7 @@ import { ToastType } from '../../../../shared/models/toast.model';
 import { IRoomMessageResult } from '../../../../entities/rooms/models/room-message.model';
 import { MeepleRoomMenuComponent } from '../meeple-room-menu/meeple-room-menu.component';
 import { GroupedChatMessage } from './models/grouped-chat-messages.model';
+import { IRoomInfoMessageResult } from '../../../../entities/rooms/models/room-info-message.model';
 export interface IRoomInfoMessage {
   createdDate: Date;
   message: string;
@@ -33,12 +34,14 @@ export interface IRoomInfoMessage {
 export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   @ViewChild('chat') private chatContainer!: ElementRef;
   @ViewChild(MeepleRoomMenuComponent) menu!: MeepleRoomMenuComponent;
-  public roomInfoMessages: IRoomInfoMessage[] = [
+  public roomInfoMessages: IRoomInfoMessageResult[] = [
     {
+      id: 1,
       createdDate: new Date('2024-08-10'),
       message: 'Message 1',
     },
     {
+      id: 2,
       createdDate: new Date('2024-09-11'),
       message: 'Message 2',
     },
@@ -108,12 +111,21 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     combineLatest([
       this.roomService.getById(this.roomId),
       this.roomService.getMessageList(this.roomId),
+      this.roomService.getInfoMessageList(this.roomId),
       this.roomService.checkUserParticipateInRoom(this.roomId),
     ]).subscribe({
-      next: ([room, messages, isParticipate]) => {
+      next: ([room, messages, infoMessages, isParticipate]) => {
         if (room && messages) {
           this.room = room;
           this.roomMessages = messages;
+
+          this.roomInfoMessages = infoMessages.map((x) => ({
+            ...x,
+            createdDate: new Date(x.createdDate),
+          }));
+          console.log('room messages', infoMessages);
+
+          console.log('room messages', this.roomInfoMessages);
           this.isCurrentUserParticipateInRoom =
             room.createdBy === this.authService.getUser?.id || isParticipate;
 
@@ -161,40 +173,54 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
         this.hubConnection.on(
           'ReceiveMessage',
-          (sender, senderUsername, message, timestamp) => {
+          (sender, senderUsername, message, createdDate) => {
             console.log(
-              `Received message from ${sender}: ${message} at ${timestamp}`
+              `Received message from ${sender}: ${message} at ${createdDate}`
             );
             const groups = this.currentChatMessagesSubject$.value;
 
-            let currentGroup2: GroupedChatMessage | null | undefined =
-              groups.pop();
+            // let currentGroup2: GroupedChatMessage | null | undefined =
+            //   groups.pop();
 
-            let newGroup: GroupedChatMessage | null = null;
-            if (currentGroup2 && currentGroup2.senderId === sender) {
-              currentGroup2.messages.push({
-                dateCreated: timestamp,
-                text: message,
-              });
-              groups.push(currentGroup2);
-            } else {
-              if (currentGroup2) {
-                groups.push(currentGroup2);
-              }
-              newGroup = {
-                senderId: sender,
-                senderUsername: senderUsername,
-                messages: [{ dateCreated: timestamp, text: message }],
-                dateCreated: timestamp,
-                infoMessages: [],
-              };
-            }
+            // let newGroup: GroupedChatMessage | null = null;
+            // if (currentGroup2 && currentGroup2.senderId === sender) {
+            //   currentGroup2.messages.push({
+            //     dateCreated: timestamp,
+            //     text: message,
+            //   });
+            //   groups.push(currentGroup2);
+            // } else {
+            //   if (currentGroup2) {
+            //     groups.push(currentGroup2);
+            //   }
+            //   newGroup = {
+            //     senderId: sender,
+            //     senderUsername: senderUsername,
+            //     messages: [{ dateCreated: timestamp, text: message }],
+            //     dateCreated: timestamp,
+            //     infoMessages: [],
+            //   };
+            // }
 
-            if (newGroup) {
-              groups.push(newGroup);
-            }
+            // if (newGroup) {
+            //   groups.push(newGroup);
+            // }
 
-            this.currentChatMessagesSubject$.next(groups);
+            const currentGroup = {
+              senderId: sender,
+              senderUsername: senderUsername,
+              messages: [{ createdDate: createdDate, text: message }],
+              createdDate: createdDate,
+              infoMessages: [],
+            };
+            groups.push(currentGroup);
+            const sorted = groups.sort((a, b) => {
+              return (
+                new Date(a.createdDate).valueOf() -
+                new Date(b.createdDate).valueOf()
+              );
+            });
+            this.currentChatMessagesSubject$.next(sorted);
             this.shouldScrollToBottom = true;
             this.cdRef.detectChanges();
           }
@@ -203,139 +229,296 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
       .catch((err) => console.log('Error while starting connection: ' + err));
   }
 
+  public getPreviousSenderUsername(currentIndex: number): string {
+    const groups = this.currentChatMessagesSubject$.value;
+    if (groups[currentIndex - 1]) {
+      return groups[currentIndex - 1].senderUsername;
+    }
+
+    return '';
+  }
+
   public updateRoomMessages() {
-    let currentGroup: GroupedChatMessage | null = null;
-    const groups: GroupedChatMessage[] = [];
-    for (const message of this.roomMessages) {
-      if (currentGroup && currentGroup.senderId === message.senderId) {
-        currentGroup.messages.push({
-          dateCreated: message.createdDate,
-          text: message.message,
-        });
-      } else {
-        if (currentGroup) {
-          groups.push(currentGroup);
-        }
-        currentGroup = {
-          senderId: message.senderId,
-          senderUsername: message.senderUsername,
-          messages: [
-            { dateCreated: message.createdDate, text: message.message },
-          ],
-          dateCreated: message.createdDate,
-          infoMessages: [],
-        };
-      }
-    }
-
-    if (currentGroup) {
-      groups.push(currentGroup);
-    }
-    const newGroups: GroupedChatMessage[] = [];
-
-    for (let index = 0; index < groups.length; index++) {
-      const currentGroup = groups[index];
-      if (groups[index + 1]) {
-        const nextGroup = groups[index + 1];
-        //TODO: ALMOST working .
-        // need to cover the cases if the date is before the compared groups and etc
-        const smallestDateCreatedCurrentGroup = Math.min(
-          ...currentGroup.messages.map((infoMessage) =>
-            new Date(infoMessage.dateCreated).valueOf()
-          )
-        );
-
-        const smallestDateCreatedNextGroup = Math.min(
-          ...nextGroup.messages.map((infoMessage) =>
-            new Date(infoMessage.dateCreated).valueOf()
-          )
-        );
-        console.log(
-          'smallestDateCreatedCurrentGroup',
-          new Date(smallestDateCreatedCurrentGroup)
-        );
-        console.log(
-          'smallestDateCreatedNextGroup',
-          new Date(smallestDateCreatedNextGroup)
-        );
-
-        console.log(this.roomInfoMessages);
-        const filteredInfoMessagesInMiddle = this.roomInfoMessages.filter(
-          (x) => {
-            console.log(x.createdDate);
-
-            return (
-              x.createdDate >= new Date(smallestDateCreatedCurrentGroup) &&
-              x.createdDate <= new Date(smallestDateCreatedNextGroup)
-            );
-          }
-        );
-
-        const filteredInfoMessagesBefore = this.roomInfoMessages.filter((x) => {
-          console.log(x.createdDate);
-
-          return x.createdDate <= new Date(smallestDateCreatedCurrentGroup);
-        });
-
-        const filteredInfoMessagesAfter = this.roomInfoMessages.filter((x) => {
-          console.log(x.createdDate);
-
-          return x.createdDate >= new Date(smallestDateCreatedNextGroup);
-        });
-        console.log(filteredInfoMessagesBefore);
-        console.log(filteredInfoMessagesInMiddle);
-        console.log(filteredInfoMessagesAfter);
-
-        for (let j = 0; j < filteredInfoMessagesBefore.length; j++) {
-          const infoMessage = filteredInfoMessagesBefore[j];
-
-          newGroups.push({
-            senderId: '',
-            senderUsername: '',
-            messages: [],
-            dateCreated: infoMessage.createdDate,
-            infoMessages: [
-              {
-                text: infoMessage.message,
-                dateCreated: infoMessage.createdDate,
-              },
-            ],
-          });
-        }
-
-        for (let j = 0; j < filteredInfoMessagesInMiddle.length; j++) {
-          const infoMessage = filteredInfoMessagesInMiddle[j];
-
-          currentGroup.infoMessages.push({
-            dateCreated: infoMessage.createdDate,
-            text: infoMessage.message,
-          });
-        }
-
-        for (let j = 0; j < filteredInfoMessagesAfter.length; j++) {
-          const infoMessage = filteredInfoMessagesAfter[j];
-
-          newGroups.push({
-            senderId: '',
-            senderUsername: '',
-            messages: [],
-            dateCreated: infoMessage.createdDate,
-            infoMessages: [
-              {
-                text: infoMessage.message,
-                dateCreated: infoMessage.createdDate,
-              },
-            ],
-          });
-        }
-      }
-    }
+    const groups = this.createGroupsFromRoomMessages();
+    const newGroups = this.processGroupInfoMessages(groups);
 
     const sorted = groups.concat(newGroups).sort((a, b) => {
-      return new Date(a.dateCreated).valueOf() - new Date(b.dateCreated).valueOf();
+      return (
+        new Date(a.createdDate).valueOf() - new Date(b.createdDate).valueOf()
+      );
     });
+
     this.currentChatMessagesSubject$.next(sorted);
     this.shouldScrollToBottom = true;
     this.cdRef.detectChanges();
   }
+
+  // Step 1: Group room messages
+  private createGroupsFromRoomMessages(): GroupedChatMessage[] {
+    const groups: GroupedChatMessage[] = [];
+    for (const message of this.roomMessages) {
+      const currentGroup: GroupedChatMessage = {
+        senderId: message.senderId,
+        senderUsername: message.senderUsername,
+        messages: [{ createdDate: message.createdDate, text: message.message }],
+        createdDate: message.createdDate,
+        infoMessages: [],
+      };
+      groups.push(currentGroup);
+    }
+    return groups;
+  }
+
+  // Step 2: Process info messages and place them before, after, or in between groups
+  private processGroupInfoMessages(
+    groups: GroupedChatMessage[]
+  ): GroupedChatMessage[] {
+    const newGroups: GroupedChatMessage[] = [];
+
+    for (let index = 0; index < groups.length; index++) {
+      const currentGroup = groups[index];
+
+      if (groups[index + 1]) {
+        const nextGroup = groups[index + 1];
+
+        const smallestDateCreatedCurrentGroup =
+          this.getSmallestDateCreated(currentGroup);
+        const smallestDateCreatedNextGroup =
+          this.getSmallestDateCreated(nextGroup);
+
+        const filteredInfoMessagesBefore = this.getFilteredInfoMessagesBefore(
+          smallestDateCreatedCurrentGroup
+        );
+        const filteredInfoMessagesInMiddle =
+          this.getFilteredInfoMessagesInMiddle(
+            smallestDateCreatedCurrentGroup,
+            smallestDateCreatedNextGroup
+          );
+        const filteredInfoMessagesAfter = this.getFilteredInfoMessagesAfter(
+          smallestDateCreatedNextGroup
+        );
+        console.log(
+          'before',
+          filteredInfoMessagesBefore,
+          filteredInfoMessagesInMiddle,
+          filteredInfoMessagesAfter
+        );
+        this.addInfoMessagesToGroup(currentGroup, filteredInfoMessagesInMiddle);
+
+        this.addFilteredInfoMessagesToNewGroups(
+          filteredInfoMessagesBefore,
+          newGroups
+        );
+        this.addFilteredInfoMessagesToNewGroups(
+          filteredInfoMessagesAfter,
+          newGroups
+        );
+
+        this.removeProcessedInfoMessages(
+          filteredInfoMessagesBefore,
+          filteredInfoMessagesInMiddle,
+          filteredInfoMessagesAfter
+        );
+      }
+    }
+
+    return newGroups;
+  }
+
+  private getSmallestDateCreated(group: GroupedChatMessage): number {
+    return Math.min(
+      ...group.messages.map((infoMessage) =>
+        new Date(infoMessage.createdDate).valueOf()
+      )
+    );
+  }
+
+  private getFilteredInfoMessagesBefore(
+    date: number
+  ): IRoomInfoMessageResult[] {
+    console.log(this.roomInfoMessages);
+
+    return this.roomInfoMessages.filter((x) => x.createdDate <= new Date(date));
+  }
+
+  private getFilteredInfoMessagesInMiddle(
+    startDate: number,
+    endDate: number
+  ): IRoomInfoMessageResult[] {
+    console.log(this.roomInfoMessages);
+
+    return this.roomInfoMessages.filter(
+      (x) =>
+        x.createdDate >= new Date(startDate) &&
+        x.createdDate <= new Date(endDate)
+    );
+  }
+
+  private getFilteredInfoMessagesAfter(date: number): IRoomInfoMessageResult[] {
+    console.log(this.roomInfoMessages);
+
+    return this.roomInfoMessages.filter((x) => x.createdDate >= new Date(date));
+  }
+
+  private addInfoMessagesToGroup(
+    group: GroupedChatMessage,
+    infoMessages: IRoomInfoMessageResult[]
+  ) {
+    for (const infoMessage of infoMessages) {
+      group.infoMessages.push({
+        createdDate: infoMessage.createdDate,
+        text: infoMessage.message,
+      });
+    }
+  }
+
+  private addFilteredInfoMessagesToNewGroups(
+    infoMessages: IRoomInfoMessageResult[],
+    newGroups: GroupedChatMessage[]
+  ) {
+    console.log('infoMessages', infoMessages);
+
+    for (const infoMessage of infoMessages) {
+      newGroups.push({
+        senderId: '',
+        senderUsername: '',
+        messages: [],
+        createdDate: infoMessage.createdDate,
+        infoMessages: [
+          {
+            text: infoMessage.message,
+            createdDate: infoMessage.createdDate,
+          },
+        ],
+      });
+    }
+  }
+
+  private removeProcessedInfoMessages(
+    ...infoMessagesGroups: IRoomInfoMessageResult[][]
+  ) {
+    const allProcessedMessages = infoMessagesGroups.flat();
+    this.roomInfoMessages = this.roomInfoMessages.filter(
+      (x) => !allProcessedMessages.includes(x)
+    );
+  }
+
+  // public updateRoomMessages() {
+  //   let currentGroup: GroupedChatMessage | null = null;
+  //   const groups: GroupedChatMessage[] = [];
+  //   for (const message of this.roomMessages) {
+  //     currentGroup = {
+  //       senderId: message.senderId,
+  //       senderUsername: message.senderUsername,
+  //       messages: [{ dateCreated: message.createdDate, text: message.message }],
+  //       dateCreated: message.createdDate,
+  //       infoMessages: [],
+  //     };
+  //     groups.push(currentGroup);
+  //   }
+
+  //   // if (currentGroup) {
+  //   //   groups.push(currentGroup);
+  //   // }
+  //   const newGroups: GroupedChatMessage[] = [];
+
+  //   for (let index = 0; index < groups.length; index++) {
+  //     const currentGroup = groups[index];
+  //     if (groups[index + 1]) {
+  //       const nextGroup = groups[index + 1];
+  //       const smallestDateCreatedCurrentGroup = Math.min(
+  //         ...currentGroup.messages.map((infoMessage) =>
+  //           new Date(infoMessage.dateCreated).valueOf()
+  //         )
+  //       );
+
+  //       const smallestDateCreatedNextGroup = Math.min(
+  //         ...nextGroup.messages.map((infoMessage) =>
+  //           new Date(infoMessage.dateCreated).valueOf()
+  //         )
+  //       );
+
+  //       const filteredInfoMessagesInMiddle = this.roomInfoMessages.filter(
+  //         (x) => {
+  //           return (
+  //             x.createdDate >= new Date(smallestDateCreatedCurrentGroup) &&
+  //             x.createdDate <= new Date(smallestDateCreatedNextGroup)
+  //           );
+  //         }
+  //       );
+
+  //       const filteredInfoMessagesBefore = this.roomInfoMessages.filter((x) => {
+  //         return x.createdDate <= new Date(smallestDateCreatedCurrentGroup);
+  //       });
+
+  //       const filteredInfoMessagesAfter = this.roomInfoMessages.filter((x) => {
+  //         return x.createdDate >= new Date(smallestDateCreatedNextGroup);
+  //       });
+  //       console.log('before', filteredInfoMessagesBefore);
+  //       console.log('middle', filteredInfoMessagesInMiddle);
+  //       console.log('after', filteredInfoMessagesAfter);
+
+  //       for (let j = 0; j < filteredInfoMessagesBefore.length; j++) {
+  //         const infoMessage = filteredInfoMessagesBefore[j];
+
+  //         newGroups.push({
+  //           senderId: '',
+  //           senderUsername: '',
+  //           messages: [],
+  //           dateCreated: infoMessage.createdDate,
+  //           infoMessages: [
+  //             {
+  //               text: infoMessage.message,
+  //               dateCreated: infoMessage.createdDate,
+  //             },
+  //           ],
+  //         });
+  //       }
+
+  //       for (let j = 0; j < filteredInfoMessagesInMiddle.length; j++) {
+  //         const infoMessage = filteredInfoMessagesInMiddle[j];
+
+  //         currentGroup.infoMessages.push({
+  //           dateCreated: infoMessage.createdDate,
+  //           text: infoMessage.message,
+  //         });
+  //       }
+
+  //       for (let j = 0; j < filteredInfoMessagesAfter.length; j++) {
+  //         const infoMessage = filteredInfoMessagesAfter[j];
+
+  //         newGroups.push({
+  //           senderId: '',
+  //           senderUsername: '',
+  //           messages: [],
+  //           dateCreated: infoMessage.createdDate,
+  //           infoMessages: [
+  //             {
+  //               text: infoMessage.message,
+  //               dateCreated: infoMessage.createdDate,
+  //             },
+  //           ],
+  //         });
+  //       }
+
+  //       this.roomInfoMessages = this.roomInfoMessages.filter(
+  //         (x) =>
+  //           !filteredInfoMessagesInMiddle
+  //             .concat(filteredInfoMessagesBefore)
+  //             .concat(filteredInfoMessagesAfter)
+  //             .includes(x)
+  //       );
+  //     }
+  //   }
+
+  //   const sorted = groups.concat(newGroups).sort((a, b) => {
+  //     return (
+  //       new Date(a.dateCreated).valueOf() - new Date(b.dateCreated).valueOf()
+  //     );
+  //   });
+
+  //   this.currentChatMessagesSubject$.next(sorted);
+  //   this.shouldScrollToBottom = true;
+  //   this.cdRef.detectChanges();
+  // }
 }

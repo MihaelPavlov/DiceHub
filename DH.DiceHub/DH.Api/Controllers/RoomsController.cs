@@ -37,6 +37,15 @@ public class RoomsController : ControllerBase
         return Ok(result);
     }
 
+    [HttpGet("{id}/info-messages")]
+    [ActionAuthorize(UserAction.RoomsCRUD)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetRoomInfoMessageListQueryModel>))]
+    public async Task<IActionResult> GetInfoMessageList(int id, CancellationToken cancellationToken)
+    {
+        var result = await this.mediator.Send(new GetRoomInfoMessageListQuery(id), cancellationToken);
+        return Ok(result);
+    }
+
     [HttpPost("members")]
     [ActionAuthorize(UserAction.RoomsCRUD)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetRoomMemberListQueryModel>))]

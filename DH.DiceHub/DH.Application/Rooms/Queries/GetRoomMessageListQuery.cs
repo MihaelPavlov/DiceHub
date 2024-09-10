@@ -12,13 +12,13 @@ public record GetRoomMessageListQuery(int Id) : IRequest<List<GetRoomMessageList
 
 internal class GetRoomMessageListQueryHandler : IRequestHandler<GetRoomMessageListQuery, List<GetRoomMessageListQueryModel>>
 {
-    readonly IRepository<RoomMessages> roomMessagesRepository;
+    readonly IRepository<RoomMessage> roomMessagesRepository;
     readonly IRepository<RoomParticipant> roomParticipantsRepository;
     readonly IRepository<Room> roomsRepository;
     readonly IUserService userService;
     readonly IUserContext userContext;
 
-    public GetRoomMessageListQueryHandler(IRepository<RoomMessages> roomMessagesRepository, IRepository<Room> roomsRepository, IUserService userService, IRepository<RoomParticipant> roomParticipantsRepository, IUserContext userContext)
+    public GetRoomMessageListQueryHandler(IRepository<RoomMessage> roomMessagesRepository, IRepository<Room> roomsRepository, IUserService userService, IRepository<RoomParticipant> roomParticipantsRepository, IUserContext userContext)
     {
         this.roomMessagesRepository = roomMessagesRepository;
         this.roomsRepository = roomsRepository;
@@ -47,7 +47,7 @@ internal class GetRoomMessageListQueryHandler : IRequestHandler<GetRoomMessageLi
             {
                 Id = m.Id,
                 Message = m.MessageContent,
-                CreatedDate = m.Timestamp,
+                CreatedDate = m.CreatedDate,
                 SenderId = m.Sender,
             }, CancellationToken.None);
 

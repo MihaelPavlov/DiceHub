@@ -8,4 +8,5 @@ public interface IRoomService : IDomainService<Room>
     Task<List<GetRoomListQueryModel>> GetListBySearchExpressionAsync(string searchExpression, CancellationToken cancellationToken);
     Task<GetRoomByIdQueryModel?> GetById(int id, CancellationToken cancellationToken);
     Task Delete(int id, CancellationToken cancellationToken);
+    Task Update(Room updatedRoom, CancellationToken cancellationToken);
 }

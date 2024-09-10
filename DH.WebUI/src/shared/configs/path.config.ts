@@ -35,6 +35,7 @@ export const PATH = {
     MEMBER_LIST: 'members',
     REMOVE_MEMBER: 'remove-member',
     MESSAGE_LIST: 'messages',
+    INFO_MESSAGE_LIST: 'info-messages',
     CHECK_USER_PARTICIPATION: 'check-user-participation'
   },
   // AUTH: {

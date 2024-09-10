@@ -12,5 +12,5 @@ public class Room
 
     public virtual Game Game { get; set; } = null!;
     public virtual ICollection<RoomParticipant> Participants { get; set; } = [];
-    public virtual ICollection<RoomMessages> Messages { get; set; } = [];
+    public virtual ICollection<RoomMessage> Messages { get; set; } = [];
 }

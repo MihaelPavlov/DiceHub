@@ -7,6 +7,7 @@ import { IRoomListResult } from '../models/room-list.model';
 import { IRoomByIdResult } from '../models/room-by-id.model';
 import { IRoomMessageResult } from '../models/room-message.model';
 import { IRoomMemberResult } from '../models/room-member.model';
+import { IRoomInfoMessageResult } from '../models/room-info-message.model';
 
 @Injectable({
   providedIn: 'root',
@@ -48,6 +49,12 @@ export class RoomsService {
   public getMessageList(roomId: number): Observable<IRoomMessageResult[]> {
     return this.api.get<IRoomMessageResult[]>(
       `/${PATH.ROOMS.CORE}/${roomId}/${PATH.ROOMS.MESSAGE_LIST}`
+    );
+  }
+
+  public getInfoMessageList(roomId: number): Observable<IRoomInfoMessageResult[]> {
+    return this.api.get<IRoomInfoMessageResult[]>(
+      `/${PATH.ROOMS.CORE}/${roomId}/${PATH.ROOMS.INFO_MESSAGE_LIST}`
     );
   }
 
