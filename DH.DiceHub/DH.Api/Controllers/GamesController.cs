@@ -7,19 +7,54 @@ using DH.Domain.Models.GameModels.Commands;
 using DH.Domain.Models.GameModels.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
+using System.Drawing;
+using System.Diagnostics;
 using System.Text.Json;
+using DH.Domain.Adapters.QRManager;
 
 namespace DH.Api.Controllers;
+public class UploadImage
+{
+    public string imageData { get; set; }
+}
 
+public class QrCodeRequest
+{
+    public string QrCodeData { get; set; } = string.Empty;
+}
 [ApiController]
 [Route("[controller]")]
 public class GamesController : ControllerBase
 {
     readonly IMediator mediator;
+    readonly IQRCodeManager qRCodeManager;
+    readonly IWebHostEnvironment _hostEnvironment;
 
-    public GamesController(IMediator mediator)
+    public GamesController(IMediator mediator, IQRCodeManager qRCodeManager, IWebHostEnvironment hostEnvironment)
     {
         this.mediator = mediator;
+        this.qRCodeManager = qRCodeManager;
+        this._hostEnvironment = hostEnvironment;
+    }
+
+    [HttpPost("upload")]
+    [ActionAuthorize(UserAction.GamesRead)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetGameListQueryModel>))]
+    public async Task<IActionResult> UploadQrCode(UploadImage request, CancellationToken cancellationToken)
+    {
+        await this.qRCodeManager.ProcessQRCodeAsync(request.imageData, cancellationToken);
+        return Ok(request);
+    }
+
+    [HttpPost("create-qr-code")]
+    [ActionAuthorize(UserAction.GamesRead)]
+    public IActionResult GenerateQRCode([FromBody] QrCodeRequest request)
+    {
+        string webRootPath = _hostEnvironment.WebRootPath;
+
+        this.qRCodeManager.CreateQRCode(request.QrCodeData, webRootPath);
+        return Ok();
     }
 
     [HttpPost("list")]

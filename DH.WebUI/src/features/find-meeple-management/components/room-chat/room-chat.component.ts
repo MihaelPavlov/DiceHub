@@ -123,9 +123,7 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             ...x,
             createdDate: new Date(x.createdDate),
           }));
-          console.log('room messages', infoMessages);
 
-          console.log('room messages', this.roomInfoMessages);
           this.isCurrentUserParticipateInRoom =
             room.createdBy === this.authService.getUser?.id || isParticipate;
 
@@ -297,12 +295,7 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         const filteredInfoMessagesAfter = this.getFilteredInfoMessagesAfter(
           smallestDateCreatedNextGroup
         );
-        console.log(
-          'before',
-          filteredInfoMessagesBefore,
-          filteredInfoMessagesInMiddle,
-          filteredInfoMessagesAfter
-        );
+
         this.addInfoMessagesToGroup(currentGroup, filteredInfoMessagesInMiddle);
 
         this.addFilteredInfoMessagesToNewGroups(
@@ -355,8 +348,6 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   private getFilteredInfoMessagesAfter(date: number): IRoomInfoMessageResult[] {
-    console.log(this.roomInfoMessages);
-
     return this.roomInfoMessages.filter((x) => x.createdDate >= new Date(date));
   }
 
@@ -376,8 +367,6 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     infoMessages: IRoomInfoMessageResult[],
     newGroups: GroupedChatMessage[]
   ) {
-    console.log('infoMessages', infoMessages);
-
     for (const infoMessage of infoMessages) {
       newGroups.push({
         senderId: '',

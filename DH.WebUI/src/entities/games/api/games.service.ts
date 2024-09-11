@@ -29,6 +29,18 @@ export class GamesService {
     );
   }
 
+  public generateQRCode(qrCodeString: string): Observable<any> {
+    console.log(qrCodeString);
+    
+    return this.api.post(`/${PATH.GAMES.CORE}/create-qr-code`, {qrCodeData: qrCodeString});
+  }
+
+  public upload(data: any): Observable<any> {
+    return this.api.post<any>(`/${PATH.GAMES.CORE}/upload`, {
+      imageData: data,
+    });
+  }
+
   public getInventory(id: number): Observable<IGameInventory> {
     return this.api.get<IGameInventory>(
       `/${PATH.GAMES.CORE}/${id}/${PATH.GAMES.INVENTORY}`

@@ -1,0 +1,20 @@
+
+<h1>Generate QR Code</h1>
+<div>
+  <input type="text" [(ngModel)]="qrCodeString" placeholder="Enter text for QR Code" />
+  <button (click)="generateQRCode()">Generate</button>
+</div>
+
+<div *ngIf="qrCodeUrl">
+  <h2>Your QR Code:</h2>
+  <img [src]="qrCodeUrl" alt="QR Code" />
+</div>
+
+<div>
+  <h2>Captured Frame</h2>
+
+  <video #video width="640" height="480" autoplay></video>
+  <button (click)="capture()">Capture QR Code</button>
+
+  <img #image [src]="imageSrc" alt="Alternate Text" />
+</div>

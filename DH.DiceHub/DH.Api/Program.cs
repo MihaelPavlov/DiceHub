@@ -10,6 +10,7 @@ using DH.Domain;
 using Microsoft.Extensions.Caching.Memory;
 using System.Reflection;
 using DH.Adapter.ChatHub;
+using DH.Adapter.QRManager;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,6 +36,7 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.ConfigureSignalR();
+builder.Services.ConfigureQrCodeManager();
 builder.Services.AuthenticationAdapter(builder.Configuration);
 builder.Services.AddSchedulingConfiguration(builder.Configuration);
 
