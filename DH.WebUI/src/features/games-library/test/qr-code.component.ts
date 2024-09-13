@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import jsQR from 'jsqr';
 import { GamesService } from '../../../entities/games/api/games.service';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-qr-code',
@@ -18,10 +19,9 @@ export class QrCodeComponent implements AfterViewInit {
   constructor(private readonly gameService: GamesService) {}
 
   generateQRCode() {
-    this.gameService.generateQRCode(this.qrCodeString).subscribe(response => {
+    this.gameService.generateQRCode(this.qrCodeString).subscribe((response) => {
       this.qrCodeUrl = response.url;
       console.log('QR Code generated:', response.url);
-      
     });
   }
 
@@ -72,16 +72,18 @@ export class QrCodeComponent implements AfterViewInit {
 
         if (code) {
           console.log('QR Code detected:', code.data);
-          video.pause();
+          video.remove();
           const data = {
             imageData: code.data,
           };
 
-          this.gameService.upload(code.data).subscribe((res) => {
-            console.log('result -> ', res);
-            alert('QR Code detected: ' + code.data);
-          });
-
+          this.gameService
+            .upload(code.data)
+            .pipe(take(1))
+            .subscribe((res) => {
+              console.log('result -> ', res);
+              alert('QR Code detected: ' + code.data);
+            });
         }
       }
 
