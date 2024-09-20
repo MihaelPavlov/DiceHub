@@ -38,6 +38,7 @@ public class TenantDbContext : DbContext, ITenantDbContext
     public DbSet<GameImage> GameImages { get; set; } = default!;
     public DbSet<GameReservation> GameReservations { get; set; } = default!;
     public DbSet<GameInventory> GameInventories { get; set; } = default!;
+    public DbSet<GameQrCode> GameQrCodes { get; set; } = default!;
     public DbSet<FailedJob> FailedJobs { get; set; } = default!;
     public DbSet<Event> Events { get; set; } = default!;
     public DbSet<EventImage> EventImages { get; set; } = default!;

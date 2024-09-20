@@ -1,8 +1,10 @@
-﻿namespace DH.Domain.Adapters.QRManager;
+﻿using DH.Domain.Adapters.QRManager.StateModels;
+
+namespace DH.Domain.Adapters.QRManager;
 
 public interface IQRCodeManager
 {
     Task ProcessQRCodeAsync(string data, CancellationToken cancellationToken);
-    void CreateQRCode(string data, string webRootPath);
+    string CreateQRCode(QRReaderModel data, string webRootPath);
     void ValidateCode(string data);
 }

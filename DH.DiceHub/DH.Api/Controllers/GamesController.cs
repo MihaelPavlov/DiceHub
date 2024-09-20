@@ -23,19 +23,20 @@ public class QrCodeRequest
 {
     public string QrCodeData { get; set; } = string.Empty;
 }
+
 [ApiController]
 [Route("[controller]")]
 public class GamesController : ControllerBase
 {
     readonly IMediator mediator;
     readonly IQRCodeManager qRCodeManager;
-    readonly IWebHostEnvironment _hostEnvironment;
+    readonly IWebHostEnvironment hostEnvironment;
 
     public GamesController(IMediator mediator, IQRCodeManager qRCodeManager, IWebHostEnvironment hostEnvironment)
     {
         this.mediator = mediator;
         this.qRCodeManager = qRCodeManager;
-        this._hostEnvironment = hostEnvironment;
+        this.hostEnvironment = hostEnvironment;
     }
 
     [HttpPost("upload")]
@@ -47,15 +48,15 @@ public class GamesController : ControllerBase
         return Ok(request);
     }
 
-    [HttpPost("create-qr-code")]
-    [ActionAuthorize(UserAction.GamesRead)]
-    public IActionResult GenerateQRCode([FromBody] QrCodeRequest request)
-    {
-        string webRootPath = _hostEnvironment.WebRootPath;
+    //[HttpPost("create-qr-code")]
+    //[ActionAuthorize(UserAction.GamesRead)]
+    //public IActionResult GenerateQRCode([FromBody] QrCodeRequest request)
+    //{
+    //    string webRootPath = _hostEnvironment.WebRootPath;
 
-        this.qRCodeManager.CreateQRCode(request.QrCodeData, webRootPath);
-        return Ok();
-    }
+    //    this.qRCodeManager.CreateQRCode(request.QrCodeData, webRootPath);
+    //    return Ok();
+    //}
 
     [HttpPost("list")]
     [ActionAuthorize(UserAction.GamesRead)]
@@ -130,8 +131,16 @@ public class GamesController : ControllerBase
 
         using var memoryStream = new MemoryStream();
         await imageFile.CopyToAsync(memoryStream, cancellationToken);
+        string webRootPath = this.hostEnvironment.WebRootPath;
 
-        var result = await this.mediator.Send(new CreateGameCommand(gameDto, imageFile.FileName, imageFile.ContentType, memoryStream), cancellationToken);
+        var result = await this.mediator.Send(new CreateGameCommand(
+            gameDto,
+            imageFile.FileName,
+            imageFile.ContentType,
+            memoryStream,
+            webRootPath
+            ), cancellationToken);
+
         return Ok(result);
     }
 
@@ -140,6 +149,9 @@ public class GamesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> CreateGameCopy([FromBody] CreateGameCopyCommand command, CancellationToken cancellationToken)
     {
+        string webRootPath = this.hostEnvironment.WebRootPath;
+        command.webRootPath = webRootPath;
+
         await this.mediator.Send(command, cancellationToken);
         return Ok();
     }

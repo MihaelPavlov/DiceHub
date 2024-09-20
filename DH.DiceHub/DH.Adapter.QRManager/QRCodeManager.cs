@@ -16,10 +16,10 @@ internal class QRCodeManager : IQRCodeManager
         this.qRCodeContext = qRCodeContext;
     }
 
-    public void CreateQRCode(string data, string webRootPath)
+    public string CreateQRCode(QRReaderModel data, string webRootPath)
     {
         var writer = new QRCodeWriter();
-        var resultBit = writer.encode(data, ZXing.BarcodeFormat.QR_CODE, 200, 200);
+        var resultBit = writer.encode(JsonSerializer.Serialize(data), ZXing.BarcodeFormat.QR_CODE, 200, 200);
         var matrix = resultBit;
 
         int scale = 2;
@@ -50,11 +50,40 @@ internal class QRCodeManager : IQRCodeManager
             using (var image = surface.Snapshot())
             using (var dataImage = image.Encode(SKEncodedImageFormat.Png, 100))
             {
-                var filePath = webRootPath + "\\images\\QrcodeNew.png";
+                var baseDirectory = Path.Combine(webRootPath, "images");
+                string directory = baseDirectory;
+                string fileName = string.Empty;
+
+                var currentDate = DateTime.Now.ToString("yyyyMMddHHmmss");
+                switch (data.Type)
+                {
+                    case QrCodeType.Game:
+                        directory = Path.Combine(baseDirectory, "games");
+                        fileName = $"{data.Id}_{currentDate}.png";
+                        break;
+                    case QrCodeType.Event:
+                        directory = Path.Combine(baseDirectory, "events");
+                        fileName = $"{data.Id}_{currentDate}.png";
+                        break;
+                    default:
+                        /*
+                        TODO: Currently we are not handling the unknown type
+                        We throw exception and visualzie it in the UI
+                        */
+                        return string.Empty;
+                }
+
+                if (!Directory.Exists(directory))
+                    Directory.CreateDirectory(directory);
+
+                var filePath = Path.Combine(directory, fileName);
+
                 using (var stream = File.OpenWrite(filePath))
                 {
                     dataImage.SaveTo(stream);
                 }
+
+                return fileName;
             }
         }
     }
