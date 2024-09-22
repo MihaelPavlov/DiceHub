@@ -1,1 +1,20 @@
-<span>qr code list</span>
+<div class="wrapper_icons">
+  <span (click)="backNavigateBtn()" class="arrow left"></span>
+
+  <div class="info-container">
+    <span class="material-symbols-outlined info" (click)="showMenu()">
+      info
+    </span>
+
+    <div class="qr-code-info" *ngIf="isMenuVisible">
+      <span>
+        Here you are able to see all qr-codes that are related to the selected
+        game
+      </span>
+    </div>
+  </div>
+</div>
+
+<span class="header">
+    gameLongnameLoremipsumdoloritametconsecteturadipisicing elit. Natus impedit suscipit non vero sit laboriosam dicta obcaecati dolorem sint quia!
+</span>

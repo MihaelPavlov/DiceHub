@@ -10,6 +10,7 @@ import { NewGameListComponent } from '../../features/games-library/components/ne
 import { AddUpdateGameComponent } from '../../features/games-library/components/add-update-game/page/add-update-game.component';
 import { ReservationListComponent } from '../../features/games-library/components/reservation-list/page/reservation-list.component';
 import { QrCodeComponent } from '../../features/games-library/test/qr-code.component';
+import { GameQrCodeListComponent } from '../../features/games-library/components/qr-code-list/page/game-qr-code-list.component';
 
 const routes: Routes = [
   {
@@ -61,6 +62,10 @@ const routes: Routes = [
   {
     path: ':id/details',
     component: GameDetailsComponent,
+  },
+  {
+    path: ':id/qr-codes',
+    component: GameQrCodeListComponent,
   },
   {
     path: ':id/availability',
