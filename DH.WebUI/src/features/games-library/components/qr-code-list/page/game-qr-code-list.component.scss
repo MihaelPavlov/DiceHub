@@ -28,14 +28,99 @@
     }
 }
 
-.header {
+
+// .container_images {
+//     display: flex;
+//     justify-content: center;
+
+//     .wrapper_image {
+//         display: flex;
+//         flex-wrap: wrap;
+//         justify-content: start;
+
+//         img {
+//             width: 7rem;
+//             height: 7rem;
+//             min-width: 5rem;
+//             min-height: 5rem;
+//             object-fit: cover;
+//             border-radius: 20px;
+//             border: 0.1rem solid black;
+//             margin: 0.5rem;
+//         }
+//     }
+// }
+
+.container {
     display: flex;
+    flex-direction: column;
+    width: 85%;
+    padding-bottom: 7rem;
     margin: 0 auto;
-    width: 50%;
-    margin-top: -3rem;
-    text-align: center;
-    overflow-wrap: anywhere;
+    -top: 1.5rem;
+    overflow-y: visible;
+
+    .header {
+        display: flex;
+        margin: 0 auto;
+        justify-content: center;
+        margin-top: -3rem;
+        width: 50%;
+        text-align: center;
+        overflow-wrap: anywhere;
+        margin-bottom: 1rem;
+    }
+
+    .wrapper_library__item {
+        position: relative;
+        display: flex;
+        padding-bottom: 0.3rem;
+        padding-top: 0.5rem;
+
+        border-bottom: 0.2rem solid palette.$main-gray-color;
+
+        .wrapper_info {
+            position: relative;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            .wrapper_title {
+                padding-left: 1rem;
+                font-size: large;
+                padding-top: 0.2rem;
+                align-self: baseline;
+
+                .wrapper_description {
+                    padding-top: 0.5rem;
+                    width: 100%;
+                    font-size: 1rem;
+                    color: palette.$main-font-gray-color
+                }
+            }
+        }
+
+        .wrapper_image {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+
+            img {
+                width: 6rem;
+                height: 6rem;
+                min-width: 5rem;
+                min-height: 5rem;
+                object-fit: cover;
+                border-radius: 20px;
+                border: 0.1rem solid black;
+                margin: 0.5rem;
+            }
+        }
+    }
+
 }
+
 
 .wrapper_icons {
     display: flex;
