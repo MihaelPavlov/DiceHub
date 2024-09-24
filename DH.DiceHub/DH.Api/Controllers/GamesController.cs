@@ -68,12 +68,12 @@ public class GamesController : ControllerBase
     }
 
 
-    [HttpGet("get-game-qr-codes")]
+    [HttpGet("{id}/get-game-qr-code")]
     [ActionAuthorize(UserAction.GamesCUD)]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetGameQrCodeListQueryModel>))]
-    public async Task<IActionResult> GetGameQrCodeList(GetGameQrCodeListQuery request, CancellationToken cancellationToken)
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetGameQrCodeQueryModel))]
+    public async Task<IActionResult> GetGameQrCode(int id, CancellationToken cancellationToken)
     {
-        var result = await this.mediator.Send(request, cancellationToken);
+        var result = await this.mediator.Send(new GetGameQrCodeQuery(id), cancellationToken);
         return Ok(result);
     }
 

@@ -11,6 +11,7 @@ import { IGameInventory } from '../models/game-inventory.mode';
 import { ICreateGameReservation } from '../models/create-game-reservation.model';
 import { IReservedGame } from '../models/reserved-game.model';
 import { IGameReservationStatus } from '../models/game-reservation-status.model';
+import { IGameQrCode } from '../models/game-qr-code.model';
 
 @Injectable({
   providedIn: 'root',
@@ -29,10 +30,18 @@ export class GamesService {
     );
   }
 
+  public getQrCode(id: number): Observable<IGameQrCode> {
+    return this.api.get<IGameQrCode>(
+      `/${PATH.GAMES.CORE}/${id}/${PATH.GAMES.GET_QR_CODES}`
+    );
+  }
+
   public generateQRCode(qrCodeString: string): Observable<any> {
     console.log(qrCodeString);
-    
-    return this.api.post(`/${PATH.GAMES.CORE}/create-qr-code`, {qrCodeData: qrCodeString});
+
+    return this.api.post(`/${PATH.GAMES.CORE}/create-qr-code`, {
+      qrCodeData: qrCodeString,
+    });
   }
 
   public upload(data: any): Observable<any> {

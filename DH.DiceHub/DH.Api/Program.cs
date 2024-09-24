@@ -11,6 +11,7 @@ using Microsoft.Extensions.Caching.Memory;
 using System.Reflection;
 using DH.Adapter.ChatHub;
 using DH.Adapter.QRManager;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -66,6 +67,13 @@ if (app.Environment.IsDevelopment())
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "[TRINT] Invest Track API V1");
     });
 }
+var fileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.WebRootPath,"images"));
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = fileProvider,
+    RequestPath = "/images"
+});
 
 app.UseHttpsRedirection();
 app.UseRouting();

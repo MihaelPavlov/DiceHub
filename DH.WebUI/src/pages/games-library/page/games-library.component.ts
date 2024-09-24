@@ -10,6 +10,7 @@ import { PermissionService } from '../../../shared/services/permission.service';
 import { UserAction } from '../../../shared/constants/user-action';
 import { GameConfirmDeleteDialog } from '../../../features/games-library/dialogs/game-confirm-delete-dialog/game-confirm-delete.component';
 import { MatDialog } from '@angular/material/dialog';
+import { GameQrCodeDialog } from '../../../features/games-library/dialogs/qr-code-dialog/qr-code-dialog.component';
 
 @Component({
   selector: 'app-games-library',
@@ -94,6 +95,12 @@ export class GamesLibraryComponent implements OnInit, OnDestroy {
       );
     } else if (key === 'delete' && this.visibleMenuId) {
       this.openDeleteDialog(this.visibleMenuId);
+    } else if (key === 'qr-code') {
+      this.dialog.open(GameQrCodeDialog, {
+        width: '17rem',
+        position: { bottom: '60%', left: '2%' },
+        data: { id: this.visibleMenuId },
+      });
     }
     this.visibleMenuId = null;
   }

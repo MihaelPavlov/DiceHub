@@ -1,6 +1,6 @@
 namespace DH.Domain.Models.GameModels.Queries;
 
-public class GetGameQrCodeListQueryModel
+public class GetGameQrCodeQueryModel
 {
     public int Id { get; set; }
     public int GameId { get; set; }

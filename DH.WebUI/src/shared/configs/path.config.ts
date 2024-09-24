@@ -12,6 +12,7 @@ export const PATH = {
     DISLIKE: 'dislike',
     RESERVATION: 'reservation',
     RESERVATION_STATUS: 'reservation-status',
+    GET_QR_CODES: 'get-game-qr-code',
   },
   GAME_REVIEWS: {
     CORE: 'gameReviews',

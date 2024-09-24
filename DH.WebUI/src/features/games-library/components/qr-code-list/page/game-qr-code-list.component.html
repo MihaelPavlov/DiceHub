@@ -16,50 +16,23 @@
 </div>
 
 <div class="container">
-  <span class="header"> Dungeon and Dragons</span>
+  <span *ngIf="this.game" class="header"> {{this.game.name}}</span>
 
-  <div class="wrapper_library__item">
+  <div
+    *ngFor="let qrCode of qrCodes$ | async; let i = index"
+    class="wrapper_library__item"
+  >
     <div class="wrapper_image">
       <img
-        src="../../../../../shared/assets/images/qr-code.png"
+        src="https://localhost:7024/images/games/{{qrCode.fileName}}"
         alt="Game Image"
       />
     </div>
 
     <div class="wrapper_info">
       <div class="wrapper_title">
-        Copy #1
-        <div class="wrapper_description"></div>
-      </div>
-    </div>
-  </div>
-  <div class="wrapper_library__item">
-    <div class="wrapper_image">
-      <img
-        src="../../../../../shared/assets/images/qr-code.png"
-        alt="Game Image"
-      />
-    </div>
-
-    <div class="wrapper_info">
-      <div class="wrapper_title">
-        Copy #1
-        <div class="wrapper_description"></div>
-      </div>
-    </div>
-  </div>
-  <div class="wrapper_library__item">
-    <div class="wrapper_image">
-      <img
-        src="../../../../../shared/assets/images/qr-code.png"
-        alt="Game Image"
-      />
-    </div>
-
-    <div class="wrapper_info">
-      <div class="wrapper_title">
-        Copy #1
-        <div class="wrapper_description"></div>
+        Copy #{{ i }}
+        <div class="wrapper_description">{{qrCode.fileName}}</div>
       </div>
     </div>
   </div>

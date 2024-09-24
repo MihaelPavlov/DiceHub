@@ -27,6 +27,7 @@ import { GameConfirmDeleteDialog } from '../../features/games-library/dialogs/ga
 import { ReservationListComponent } from '../../features/games-library/components/reservation-list/page/reservation-list.component';
 import { QrCodeComponent } from '../../features/games-library/test/qr-code.component';
 import { GameQrCodeListComponent } from '../../features/games-library/components/qr-code-list/page/game-qr-code-list.component';
+import { GameQrCodeDialog } from '../../features/games-library/dialogs/qr-code-dialog/qr-code-dialog.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { GameQrCodeListComponent } from '../../features/games-library/components
     GameConfirmDeleteDialog,
     ReservationListComponent,
     QrCodeComponent,
-    GameQrCodeListComponent
+    GameQrCodeListComponent,
+    GameQrCodeDialog,
   ],
   exports: [GamesLibraryComponent],
   providers: [],
