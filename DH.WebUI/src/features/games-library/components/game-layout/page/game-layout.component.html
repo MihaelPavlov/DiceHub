@@ -2,17 +2,28 @@
   <div class="wrapper_icons">
     <span (click)="backNavigateBtn()" class="arrow left"></span>
     <span class="header_name">{{ game.name }}</span>
-    <span
-      class="material-symbols-outlined heart"
-      (click)="toggleGameLikeStatus()"
-      [ngClass]="{ 'heart-full': game.isLiked }"
-    >
-      favorite
-    </span>
+    <ng-container *ngIf="isQrCodeVisible">
+      <a
+        *ngIf="this.game.id"
+        (click)="openQrCodeDialog()"
+        class="wrapper_qrCode"
+      >
+        <img src="../../../../../shared/assets/images/qr-code.png" alt="" />
+      </a>
+    </ng-container>
+    <ng-container *ngIf="!isQrCodeVisible">
+      <span
+        class="material-symbols-outlined heart"
+        (click)="toggleGameLikeStatus()"
+        [ngClass]="{ 'heart-full': game.isLiked }"
+      >
+        favorite
+      </span>
+    </ng-container>
   </div>
 
   <div class="wrapper_image">
-    <img [src]="game.imageId| gameImage" alt="Game Image">
+    <img [src]="game.imageId | gameImage" alt="Game Image" />
   </div>
 
   <div class="wrapper_navigation">

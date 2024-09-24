@@ -12,6 +12,10 @@ import { ROUTES } from '../../../../../shared/configs/routes.config';
 import { GamesService } from '../../../../../entities/games/api/games.service';
 import { MenuTabsService } from '../../../../../shared/services/menu-tabs.service';
 import { NavItemInterface } from '../../../../../shared/models/nav-item.mode';
+import { MatDialog } from '@angular/material/dialog';
+import { GameQrCodeDialog } from '../../../dialogs/qr-code-dialog/qr-code-dialog.component';
+import { AuthService } from '../../../../../entities/auth/auth.service';
+import { UserRole } from '../../../../../entities/auth/enums/roles.enum';
 
 @Component({
   selector: 'app-game-layout',
@@ -23,12 +27,15 @@ export class GameLayoutComponent implements OnInit, OnDestroy {
   @Input() backNavigateBtn: () => void = () => {};
   @Output() refresh = new EventEmitter<void>();
 
+  public isQrCodeVisible: boolean = this.authService.getUser?.role !== UserRole.User;
   public menuItems: NavItemInterface[] = [];
 
   constructor(
     private readonly stringFormat: StringFormatPipe,
     private readonly gameService: GamesService,
-    private readonly menuTabsService: MenuTabsService
+    private readonly menuTabsService: MenuTabsService,
+    private readonly authService: AuthService,
+    private readonly dialog: MatDialog
   ) {}
 
   public ngOnDestroy(): void {
@@ -38,6 +45,14 @@ export class GameLayoutComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     let page: string = location.pathname;
     this.updateMenuItemsWihtPage(page);
+  }
+
+  public openQrCodeDialog(): void {
+    this.dialog.open(GameQrCodeDialog, {
+      width: '17rem',
+      position: { bottom: '60%', left: '2%' },
+      data: { id: this.game.id },
+    });
   }
 
   public updateMenuItemsWihtPage(page: string) {

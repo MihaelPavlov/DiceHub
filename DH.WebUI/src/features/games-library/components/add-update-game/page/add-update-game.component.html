@@ -19,10 +19,10 @@
       info
     </span>
     <div class="qr-code-info" *ngIf="isMenuVisible">
-      <span> New QR Code Will be Created </span>
+      <span> QR Code Exist for the current game </span>
     </div>
   </div>
-  <a *ngIf="editGameId" class="wrapper_qrCode">
+  <a *ngIf="editGameId" (click)="openQrCodeDialog()" class="wrapper_qrCode">
     <img src="../../../../../shared/assets/images/qr-code.png" alt="" />
   </a>
 </div>

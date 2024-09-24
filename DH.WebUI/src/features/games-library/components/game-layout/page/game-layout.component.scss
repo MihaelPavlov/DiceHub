@@ -11,6 +11,12 @@
         padding-top: 1rem;
         align-items: center;
 
+        .wrapper_qrCode img {
+            width: 4rem;
+            height: 4rem;
+            object-fit: cover;
+        }
+
         .header_name {
             font-size: 1.5rem;
             padding-top: 1rem;

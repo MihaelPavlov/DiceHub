@@ -19,6 +19,8 @@ import { IGameDropdownResult } from '../../../../../entities/games/models/game-d
 import { AppToastMessage } from '../../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { Formify } from '../../../../../shared/models/form.model';
 import { GameImagePipe } from '../../../../../shared/pipe/game-image.pipe';
+import { GameQrCodeDialog } from '../../../dialogs/qr-code-dialog/qr-code-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 interface ICreateGameForm {
   categoryId: number;
@@ -56,6 +58,7 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
     public override readonly toastService: ToastService,
     private readonly menuTabsService: MenuTabsService,
     private readonly router: Router,
+    private readonly dialog: MatDialog,
     private readonly activatedRoute: ActivatedRoute,
     private readonly gameImagePipe: GameImagePipe
   ) {
@@ -96,6 +99,15 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
       });
     }
   }
+
+  public openQrCodeDialog(): void {
+    this.dialog.open(GameQrCodeDialog, {
+      width: '17rem',
+      position: { bottom: '60%', left: '2%' },
+      data: { id: this.editGameId },
+    });
+  }
+
   public preparationForAddExistingGame() {
     this.addExistingGame = true;
     this.fetchGameList();
