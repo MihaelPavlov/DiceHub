@@ -36,7 +36,7 @@
             justify-content: center;
             align-items: center;
             width: 18rem;
-            height:18rem;
+            height: 18rem;
             cursor: pointer;
 
             img {
@@ -146,7 +146,11 @@
     }
 }
 
-input[disabled], textarea[disabled], select[disabled] {
-    opacity: 0.6; /* Adjust opacity to your liking */
-    cursor: not-allowed; /* Change cursor to indicate non-interaction */
-  }
+input[disabled],
+textarea[disabled],
+select[disabled] {
+    opacity: 0.6;
+    /* Adjust opacity to your liking */
+    cursor: not-allowed;
+    /* Change cursor to indicate non-interaction */
+}

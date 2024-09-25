@@ -33,7 +33,7 @@ export class GamesLibraryComponent implements OnInit, OnDestroy {
     private readonly menuTabsService: MenuTabsService,
     private readonly searchService: SearchService,
     private readonly permissionService: PermissionService,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.GAMES);
   }
