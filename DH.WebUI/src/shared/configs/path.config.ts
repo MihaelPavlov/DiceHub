@@ -39,6 +39,7 @@ export const PATH = {
     INFO_MESSAGE_LIST: 'info-messages',
     CHECK_USER_PARTICIPATION: 'check-user-participation'
   },
+  SCANNER:{}
   // AUTH: {
   //   LOGIN: 'auth/user/login',
   // },

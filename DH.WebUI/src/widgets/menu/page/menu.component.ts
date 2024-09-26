@@ -114,6 +114,10 @@ export class MenuComponent implements OnInit, AfterViewInit {
     ];
   }
 
+  public navigateToQrCodeScanner(): void {
+  this.router.navigateByUrl('qr-code-scanner' )
+  }
+
   private updateMenuItems() {
     let page: string = location.pathname.split('/')[1];
     this.updateMenuItemsWihtPage(page);

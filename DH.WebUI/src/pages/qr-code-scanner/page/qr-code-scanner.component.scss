@@ -1,0 +1,10 @@
+.qr_video_container {
+    display: flex;
+    justify-content: center;
+    margin: 2rem;
+
+    video {
+        width: 90%;
+        height: 10%;
+    }
+}

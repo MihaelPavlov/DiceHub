@@ -96,6 +96,7 @@ nav {
                 justify-content: center;
                 align-items: center;
                 position: absolute;
+                padding-left: 0.9px;
                 left: 50%;
                 top: calc(-25% + var(--index) * 40%);
                 transform: translate(-50%, 100%) rotate(-45deg);

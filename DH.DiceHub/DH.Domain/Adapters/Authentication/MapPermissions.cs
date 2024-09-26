@@ -16,6 +16,7 @@ public class MapPermissions : IMapPermissions, IActionPermissions<UserAction>
         { UserAction.EventsCUD, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff} },
         { UserAction.EventsRead, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff, Role.User} },
         { UserAction.RoomsCRUD, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff, Role.User} },
+        { UserAction.ScannerRead, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff, Role.User} },
     };
 
     public IDictionary<int, List<Role>> GetActionsMapping()

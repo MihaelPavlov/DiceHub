@@ -10,4 +10,5 @@ public enum UserAction
     EventsCUD = 5,
     EventsRead = 6,
     RoomsCRUD = 7,
+    ScannerRead = 8,
 }

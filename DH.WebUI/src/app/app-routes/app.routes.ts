@@ -62,6 +62,13 @@ export const ROUTES: Routes = [
             (m) => m.AdminSpaceModule
           ),
       },
+      {
+        path: 'qr-code-scanner',
+        loadChildren: () =>
+          import('../../pages/qr-code-scanner/qr-code-scanner.module').then(
+            (m) => m.QrCodeScannerModule
+          ),
+      },
     ],
   },
   {
