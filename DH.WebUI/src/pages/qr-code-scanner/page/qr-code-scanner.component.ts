@@ -1,5 +1,9 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import jsQR from 'jsqr';
+import { ScannerService } from '../../../entities/qr-code-scanner/api/scanner.service';
+import { IQrCode } from '../../../entities/qr-code-scanner/models/qr-code.model';
+import { QrCodeType } from '../../../entities/qr-code-scanner/enums/qr-code-type.enum';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-qr-code-scanner',
@@ -7,13 +11,15 @@ import jsQR from 'jsqr';
   styleUrl: 'qr-code-scanner.component.scss',
 })
 export class QrCodeScannerComponent implements AfterViewInit {
-
   @ViewChild('video') videoElement!: ElementRef<HTMLVideoElement>;
   // @ViewChild('image') imageElement!: ElementRef<HTMLImageElement>;
 
-  imageSrc: string | null = null;
-  canvas!: HTMLCanvasElement;
-  context!: CanvasRenderingContext2D | null;
+  public imageSrc: string | null = null;
+  public canvas!: HTMLCanvasElement;
+  public context!: CanvasRenderingContext2D | null;
+  public invalidQrCode = false;
+  public isValidQrScanned = false;
+  constructor(private readonly scannerService: ScannerService) {}
 
   public ngAfterViewInit(): void {
     this.canvas = document.createElement('canvas');
@@ -62,18 +68,35 @@ export class QrCodeScannerComponent implements AfterViewInit {
 
         if (code) {
           console.log('QR Code detected:', code.data);
-          video.remove();
-          const data = {
-            imageData: code.data,
-          };
+          video.pause();
+          if (!this.isQrCodeValid(code.data)) {
+            console.log('Invalid QR Code detected:', code.data);
 
-          // this.gameService
-          //   .upload(code.data)
-          //   .pipe(take(1))
-          //   .subscribe((res) => {
-          //     console.log('result -> ', res);
-          //     alert('QR Code detected: ' + code.data);
-          //   });
+            this.invalidQrCode = true;
+            video.play();
+          } else {
+            this.invalidQrCode = false;
+            const request = { data: code.data };
+            this.isValidQrScanned = true;
+            
+            this.scannerService
+            .upload(request)
+            .pipe(take(1))
+            .subscribe({
+              next: (res) => {
+                  video.remove();
+                  console.log('result -> ', res);
+                  alert('QR Code detected: ' + code.data);
+                },
+                error: (err) => {
+                  console.log(err,'error');
+                  
+                  this.invalidQrCode = true;
+                  this.isValidQrScanned = false;
+                  this.startCamera();
+                },
+              });
+          }
         }
       }
 
@@ -81,5 +104,27 @@ export class QrCodeScannerComponent implements AfterViewInit {
     } else {
       setTimeout(this.tick.bind(this), 10);
     }
+  }
+
+  public isQrCodeValid(data: string): boolean {
+    let qrReader: IQrCode;
+
+    try {
+      qrReader = JSON.parse(data) as IQrCode;
+    } catch {
+      return false;
+    }
+
+    if (
+      qrReader &&
+      qrReader.Id !== 0 &&
+      qrReader.Name &&
+      qrReader.Name.trim() !== '' &&
+      Object.values(QrCodeType).includes(qrReader.Type)
+    ) {
+      return true;
+    }
+
+    return false;
   }
 }

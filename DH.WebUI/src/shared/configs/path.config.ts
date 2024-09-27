@@ -37,9 +37,12 @@ export const PATH = {
     REMOVE_MEMBER: 'remove-member',
     MESSAGE_LIST: 'messages',
     INFO_MESSAGE_LIST: 'info-messages',
-    CHECK_USER_PARTICIPATION: 'check-user-participation'
+    CHECK_USER_PARTICIPATION: 'check-user-participation',
   },
-  SCANNER:{}
+  SCANNER: {
+    CORE: 'scanner',
+    UPLOAD: 'upload',
+  },
   // AUTH: {
   //   LOGIN: 'auth/user/login',
   // },

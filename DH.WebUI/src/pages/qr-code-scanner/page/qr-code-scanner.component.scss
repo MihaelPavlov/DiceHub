@@ -1,3 +1,5 @@
+@use "../../../shared/assets/styles/palette";
+
 .qr_video_container {
     display: flex;
     justify-content: center;
@@ -6,5 +8,19 @@
     video {
         width: 90%;
         height: 10%;
+    }
+
+}
+
+.qr_code_error {
+    display: flex;
+    justify-content: center;
+    color: palette.$main-red-color;
+    text-align: center;
+    margin: 1rem;
+    font-size: 1.2rem;
+
+    strong{
+        display: contents;
     }
 }

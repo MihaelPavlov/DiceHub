@@ -1,6 +1,9 @@
 <app-header Recommended="Scan QR Code" [withBottomLine]="true"></app-header>
 
-<div class="qr_video_container">
+<span class="qr_code_error" *ngIf="this.invalidQrCode"
+  >QR Code is invalid! <br> Contact the <strong>STAFF</strong> if you <strong>scan QR Code from a game</strong></span
+>
+<div class="qr_video_container" *ngIf="!this.isValidQrScanned">
   <video #video width="700" height="700" autoplay></video>
 
   <!-- <img #image [src]="imageSrc" alt="Alternate Text" /> -->

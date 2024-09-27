@@ -7,22 +7,11 @@ using DH.Domain.Models.GameModels.Commands;
 using DH.Domain.Models.GameModels.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Hosting;
-using System.Drawing;
-using System.Diagnostics;
 using System.Text.Json;
 using DH.Domain.Adapters.QRManager;
 
 namespace DH.Api.Controllers;
-public class UploadImage
-{
-    public string imageData { get; set; }
-}
 
-public class QrCodeRequest
-{
-    public string QrCodeData { get; set; } = string.Empty;
-}
 
 [ApiController]
 [Route("[controller]")]
@@ -39,14 +28,14 @@ public class GamesController : ControllerBase
         this.hostEnvironment = hostEnvironment;
     }
 
-    [HttpPost("upload")]
-    [ActionAuthorize(UserAction.GamesRead)]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetGameListQueryModel>))]
-    public async Task<IActionResult> UploadQrCode(UploadImage request, CancellationToken cancellationToken)
-    {
-        await this.qRCodeManager.ProcessQRCodeAsync(request.imageData, cancellationToken);
-        return Ok(request);
-    }
+    //[HttpPost("upload")]
+    //[ActionAuthorize(UserAction.GamesRead)]
+    //[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetGameListQueryModel>))]
+    //public async Task<IActionResult> UploadQrCode(QrCodeRequest request, CancellationToken cancellationToken)
+    //{
+    //    await this.qRCodeManager.ProcessQRCodeAsync(request.Data, cancellationToken);
+    //    return Ok(request);
+    //}
 
     //[HttpPost("create-qr-code")]
     //[ActionAuthorize(UserAction.GamesRead)]
