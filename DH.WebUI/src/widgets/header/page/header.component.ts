@@ -22,6 +22,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   @Input() withBackBtn: boolean = false;
   @Input() withSearch: boolean = false;
   @Input() withAdd: boolean = false;
+  @Input() withMenu: boolean = false;
   @Input() withQRcode: boolean = false;
   @Input() withBottomLine: boolean = false;
   @Input() menuItems: IMenuItem[] = [];

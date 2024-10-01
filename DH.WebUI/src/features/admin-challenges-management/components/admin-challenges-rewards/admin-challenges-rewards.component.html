@@ -1,0 +1,54 @@
+<div class="container">
+  <div class="buttons">
+    <div class="btn-container" (click)="addReward()">
+      <span>Add Reward</span>
+      <span class="material-symbols-outlined wrapper_add"> add </span>
+    </div>
+
+    <div class="btn-container" (click)="onSave()">
+      <span>Save</span>
+      <span class="material-symbols-outlined"> save </span>
+    </div>
+  </div>
+
+  <form [formGroup]="form">
+    <div formArrayName="rewards">
+      <div
+        class="input-group reward-container"
+        [formGroup]="getFormGroup(reward)"
+        *ngFor="let reward of rewardArray.controls; let i = index"
+      >
+        <div class="input-field">
+          <label for="reward" class="required">Choose Reward</label>
+
+          <ng-select
+            [items]="gameList"
+            bindLabel="name"
+            placeholder="Select Reward"
+            [searchable]="true"
+            formControlName="selectedGame"
+            class="app-select"
+          >
+          </ng-select>
+        </div>
+
+        <div class="input-field">
+          <label for="requiredPoints" class="required">Required Points</label>
+          <input
+            name="requiredPoints"
+            placeholder="points"
+            type="number"
+            [id]="i"
+            formControlName="requiredPoints"
+          />
+        </div>
+        <span
+          class="material-symbols-outlined input-remove"
+          (click)="removeReward(i)"
+        >
+          close
+        </span>
+      </div>
+    </div>
+  </form>
+</div>

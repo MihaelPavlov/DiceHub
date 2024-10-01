@@ -1,9 +1,11 @@
 <ng-container>
-  <div [id]="this.withSearch ? 'sticky_navbar' : 'navbar'">
+  <div [id]="this.withSearch || this.withAdd || this.withMenu || this.withQRcode ? 'sticky_navbar' : 'navbar'">
     <div
       class="wrapper_header"
       [ngStyle]="
-        this.withSearch ? { padding: '0px;' } : { padding: '15px 0 0' }
+        this.withSearch || this.withAdd || this.withMenu || this.withQRcode
+          ? { padding: '0px;' }
+          : { padding: '15px 0 0' }
       "
       [ngClass]="this.withBottomLine ? 'wrapper_header__line' : ''"
     >
@@ -24,6 +26,8 @@
         <ng-container *ngIf="!withSearch; else searchBtn" />
 
         <ng-container *ngIf="!withAdd; else addBtn" />
+
+        <ng-container *ngIf="!withMenu; else addMenu" />
 
         <ng-container *ngIf="!withQRcode; else qrCode" />
       </div>
@@ -72,6 +76,24 @@
   >
     <span class="material-symbols-outlined"> add </span>
   </a>
+  <div *ngIf="isMenuVisible" class="menu">
+    <ul>
+      <li *ngFor="let item of menuItems" (click)="onMenuItemClick(item.key)">
+        {{ item.label }}
+      </li>
+    </ul>
+  </div>
+</ng-template>
+
+<ng-template #addMenu>
+  <a
+    class="wrapper_menu"
+    *ngIf="this.menuItems.length !== 0"
+    (click)="showMenu()"
+  >
+    <span class="material-symbols-outlined"> widgets </span>
+  </a>
+
   <div *ngIf="isMenuVisible" class="menu">
     <ul>
       <li *ngFor="let item of menuItems" (click)="onMenuItemClick(item.key)">

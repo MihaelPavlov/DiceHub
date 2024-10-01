@@ -49,6 +49,18 @@
             margin-bottom: 0.5rem;
         }
 
+        .wrapper_menu {
+            background: palette.$main-blue-color;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            margin: 0 0.2rem;
+            margin-bottom: 0.5rem;
+        }
+
         .wrapper_qrCode {
             display: flex;
             align-items: center;
@@ -190,7 +202,6 @@
 #navbar.hidden {
     top: -10rem;
 }
-
 
 .menu {
     position: fixed;

@@ -20,7 +20,7 @@ export class ChallengesManagementComponent implements OnInit {
             }
     
             100% {
-                width: 30%; // Modify this value as needed
+                width: 50%; // Modify this value as needed
             }
         }
     `;
@@ -31,13 +31,11 @@ export class ChallengesManagementComponent implements OnInit {
     // Apply the modified animation to the bar value element
     barValue.style.animation = 'custom-load 3s normal forwards';
 
-
-
     // Top challenge bar with point
     const progress: HTMLElement | null = document.getElementById('progress');
     const stepCircles: NodeListOf<Element> =
       document.querySelectorAll('.circle');
-    let currentActive: number = 3 ;
+    let currentActive: number = 1 ;
 
     // NOTE CHANGE HERE TO 1-4
     // 1=25%

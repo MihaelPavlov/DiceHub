@@ -52,3 +52,55 @@
         color: palette.$main-font-color;
     }
 }
+
+
+.ng-select.app-select-long .ng-select-container {
+    background-color: palette.$main-nav-color;
+    color: palette.$main-font-color;
+    border-color: palette.$main-nav-color;
+
+}
+
+.ng-select.app-select-long {
+    color: palette.$main-font-color;
+    border-radius: 1rem;
+    background: palette.$main-nav-color;
+
+
+    .ng-dropdown-panel {
+        background-color: palette.$main-nav-color;
+        border: 0;
+        border-color: palette.$main-nav-color;
+
+        .ng-option {
+            color: palette.$main-font-color;
+            background: palette.$main-nav-color;
+
+            .ng-option-selected .ng-option-marked {
+                color: palette.$main-font-color;
+                background: palette.$main-gray-color;
+
+            }
+
+            &:hover {
+                background: palette.$main-gray-color;
+                color: palette.$main-font-color;
+            }
+        }
+    }
+
+    .ng-select.ng-invalid.ng-touched .ng-select-container {
+        border-color: palette.$main-font-color;
+    }
+
+    &.ng-select-focused:not(.ng-select-opened)>.ng-select-container {
+        background: palette.$main-gray-color;
+        border-color: palette.$main-blue-color;
+    }
+
+    .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected,
+    .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected.ng-option-marked {
+        background-color: mix(palette.$main-font-gray-color, black, 40%);
+        color: palette.$main-font-color;
+    }
+}
