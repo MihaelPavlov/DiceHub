@@ -8,7 +8,7 @@ public class UserChallengePeriodPerformance
     public string UserId { get; set; } = string.Empty;
     public bool IsPeriodActive { get; set; }
     public int Points { get; set; }
-    public int ChallengesCompleted { get; set; }
+    public int CompletedChallengeCount { get; set; }
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
     public TimePeriodType TimePeriodType { get; set; }

@@ -5,7 +5,7 @@ namespace DH.Domain.Models.GameModels.Commands;
 
 public class CreateGameDto : IValidableFields
 {
-    private const int MinNameLength = 3;
+    const int MinNameLength = 3;
 
     [JsonPropertyName("categoryId")]
     public int CategoryId { get; set; }
