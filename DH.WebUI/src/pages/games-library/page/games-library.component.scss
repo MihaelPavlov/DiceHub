@@ -28,12 +28,14 @@
                 font-size: large;
                 padding-top: 0.2rem;
                 align-self: baseline;
+                word-break: break-all;
 
                 .wrapper_description {
                     padding-top: 0.5rem;
                     width: 100%;
                     font-size: 0.6rem;
-                    color: palette.$main-font-gray-color
+                    color: palette.$main-font-gray-color;
+                    word-break: break-all;
                 }
 
                 @media (min-width: 568px) {

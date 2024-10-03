@@ -20,6 +20,7 @@ import { ToastType } from '../../../../shared/models/toast.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IGameInventory } from '../../../../entities/games/models/game-inventory.mode';
 import { GameImagePipe } from '../../../../shared/pipe/game-image.pipe';
+import { SafeUrl } from '@angular/platform-browser';
 
 export interface IAddUpdateRoomForm {
   name: string;
@@ -44,7 +45,7 @@ export class AddUpdateMeepleRoomComponent
   public selectedGame: IGameDropdownResult | null = null;
   public game: IGameByIdResult | null = null;
   public gameInventory!: IGameInventory;
-  public imagePreview: string | ArrayBuffer | null = null;
+  public imagePreview: string | ArrayBuffer | SafeUrl | null = null;
   public isMenuVisible: boolean = false;
   public editRoomId: number | null = null;
 

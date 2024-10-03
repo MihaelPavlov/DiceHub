@@ -6,6 +6,7 @@ import { EventsService } from '../../../entities/events/api/events.service';
 import { IEventListResult } from '../../../entities/events/models/event-list.model';
 import { GameImagePipe } from '../../../shared/pipe/game-image.pipe';
 import { EventImagePipe } from '../../../shared/pipe/event-image.pipe';
+import { SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-events-library',
@@ -38,7 +39,7 @@ export class EventsLibraryComponent implements OnInit, OnDestroy {
     this.router.navigateByUrl(`events/${id}/details`);
   }
 
-  public getImage(event: IEventListResult): string {
+  public getImage(event: IEventListResult): SafeUrl | null {
     if (event.isCustomImage) {
       return this.eventImagePipe.transform(event.imageId);
     }

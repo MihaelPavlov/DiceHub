@@ -76,7 +76,8 @@
               <label for="level" class="required">Choose Level</label>
 
               <ng-select
-                [items]="gameList"
+                [items]="rewardLevels"
+                bindValue="id"
                 bindLabel="name"
                 placeholder="Select Level"
                 [searchable]="true"
@@ -125,6 +126,11 @@
           </div>
         </div>
       </div>
+
+      <div *ngIf="getFirstErrorMessage()" class="errors">
+        {{ getFirstErrorMessage() }}
+      </div>
+
       <button
         [disabled]="this.form.invalid"
         type="button"
@@ -144,15 +150,15 @@
 </div>
 
 <section class="wrapper_library">
-  <div *ngFor="let game of games" class="wrapper_library__item">
+  <div *ngFor="let reward of rewardList" class="wrapper_library__item">
     <div class="wrapper_image">
-      <img [src]="game.imageId | gameImage" alt="Game Image" />
+      <img [src]="reward.imageId | rewardImage" alt="Reward Image" />
     </div>
     <div class="wrapper_info">
       <div class="wrapper_title">
-        {{ game.name }}
+        {{ reward.name }}
         <div class="wrapper_description">
-          {{ game.description }}
+          {{ reward.description }}
         </div>
       </div>
       <div class="wrapper_right">

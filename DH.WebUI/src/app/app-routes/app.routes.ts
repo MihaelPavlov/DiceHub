@@ -4,6 +4,8 @@ import { LoginComponent } from '../../pages/login/page/login.component';
 import { AuthGuard } from '../../shared/guards/auth.guard';
 import { EventUserAccessGuard } from '../../shared/guards/event-user.guard';
 import { EventAdminAccessGuard } from '../../shared/guards/event-admin-access.guard';
+import { ChallengeAdminAccessGuard } from '../../shared/guards/challenge-admin-acces.guard';
+import { ChallengeUserAccessGuard } from '../../shared/guards/challenge-user.guard';
 
 export const ROUTES: Routes = [
   {
@@ -47,6 +49,15 @@ export const ROUTES: Routes = [
           import(
             '../../pages/challenges-management/challenges-management.module'
           ).then((m) => m.ChallengesManagementModule),
+        canActivate: [ChallengeUserAccessGuard],
+      },
+      {
+        path: 'admin-challenges',
+        loadChildren: () =>
+          import(
+            '../../pages/admin-challenges-management/admin-challenges-management.module'
+          ).then((m) => m.AdminChallengesManagementModule),
+        canActivate: [ChallengeAdminAccessGuard],
       },
       {
         path: 'space',

@@ -21,6 +21,7 @@ import { IEventByIdResult } from '../../../../../entities/events/models/event-by
 import { Location } from '@angular/common';
 import { GameImagePipe } from '../../../../../shared/pipe/game-image.pipe';
 import { EventImagePipe } from '../../../../../shared/pipe/event-image.pipe';
+import { SafeUrl } from '@angular/platform-browser';
 
 interface ICreateEventForm {
   name: string;
@@ -42,7 +43,7 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
   public editEventId!: number;
   public gameList: IGameDropdownResult[] = [];
   public fileToUpload: File | null = null;
-  public imagePreview: string | ArrayBuffer | null = null;
+  public imagePreview: string | ArrayBuffer | SafeUrl | null = null;
   public isMenuVisible: boolean = false;
 
   constructor(
@@ -237,7 +238,7 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
     return `${year}-${month}-${day}`;
   }
 
-  private getImage(event: IEventByIdResult): string {
+  private getImage(event: IEventByIdResult): SafeUrl| null {
     if (event.isCustomImage) {
       return this.eventImagePipe.transform(event.imageId);
     }

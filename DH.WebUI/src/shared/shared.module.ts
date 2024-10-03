@@ -8,6 +8,7 @@ import { ToastComponent } from './components/toast/toast.component';
 import { CalculateRemainingDaysPipe } from './pipe/calculate-remaining-days.pipe';
 import { GameImagePipe } from './pipe/game-image.pipe';
 import { EventImagePipe } from './pipe/event-image.pipe';
+import { RewardImagePipe } from './pipe/reward-image.pipe';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { EventImagePipe } from './pipe/event-image.pipe';
     ToastComponent,
     CalculateRemainingDaysPipe,
     GameImagePipe,
+    RewardImagePipe,
     EventImagePipe,
   ],
   imports: [CommonModule, ReactiveFormsModule, MatProgressBarModule],
@@ -24,11 +26,13 @@ import { EventImagePipe } from './pipe/event-image.pipe';
     CalculateRemainingDaysPipe,
     StringFormatPipe,
     GameImagePipe,
+    RewardImagePipe,
     EventImagePipe,
   ],
   providers: [
     StringFormatPipe,
     GameImagePipe,
+    RewardImagePipe,
     EventImagePipe,
     CalculateRemainingDaysPipe,
     TOAST_DEFAULT_OPTIONS,

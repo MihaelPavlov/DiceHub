@@ -7,6 +7,7 @@ import { NAV_ITEM_LABELS } from '../../../../../shared/models/nav-items-labels.c
 import { MenuTabsService } from '../../../../../shared/services/menu-tabs.service';
 import { GameImagePipe } from '../../../../../shared/pipe/game-image.pipe';
 import { EventImagePipe } from '../../../../../shared/pipe/event-image.pipe';
+import { SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-admin-event-details',
@@ -49,7 +50,7 @@ export class AdminEventDetailsComponent implements OnInit, OnDestroy {
     this.router.navigateByUrl(`/admin-events/${id}/update`);
   }
 
-  public getImage(event: IEventByIdResult): string {
+  public getImage(event: IEventByIdResult): SafeUrl | null {
     if (event.isCustomImage) {
       return this.eventImagePipe.transform(event.imageId);
     }

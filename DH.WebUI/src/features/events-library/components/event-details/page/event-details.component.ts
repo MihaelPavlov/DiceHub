@@ -10,6 +10,7 @@ import { AppToastMessage } from '../../../../../shared/components/toast/constant
 import { ToastType } from '../../../../../shared/models/toast.model';
 import { GameImagePipe } from '../../../../../shared/pipe/game-image.pipe';
 import { EventImagePipe } from '../../../../../shared/pipe/event-image.pipe';
+import { SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-event-details',
@@ -99,7 +100,7 @@ export class EventDetailsComponent {
     this.router.navigateByUrl('/events/library');
   }
 
-  public getImage(event: IEventByIdResult): string {
+  public getImage(event: IEventByIdResult): SafeUrl | null {
     if (event.isCustomImage) {
       return this.eventImagePipe.transform(event.imageId);
     }

@@ -43,6 +43,11 @@ export const PATH = {
     CORE: 'scanner',
     UPLOAD: 'upload',
   },
+  REWARDS: {
+    CORE: 'rewards',
+    SYSTEM_REWARD: 'system-reward',
+    SYSTEM_REWARD_LIST: 'system-reward-list',
+  },
   // AUTH: {
   //   LOGIN: 'auth/user/login',
   // },

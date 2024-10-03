@@ -21,6 +21,7 @@ import { Formify } from '../../../../../shared/models/form.model';
 import { GameImagePipe } from '../../../../../shared/pipe/game-image.pipe';
 import { GameQrCodeDialog } from '../../../dialogs/qr-code-dialog/qr-code-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { SafeUrl } from '@angular/platform-browser';
 
 interface ICreateGameForm {
   categoryId: number;
@@ -41,7 +42,7 @@ interface ICreateGameForm {
 export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
   override form: Formify<ICreateGameForm>;
   public categories!: Observable<IGameCategory[] | null>;
-  public imagePreview: string | ArrayBuffer | null = null;
+  public imagePreview: string | ArrayBuffer | SafeUrl | null = null;
   public showQRCode = false;
   public editGameId: number | null = null;
   public gameList: IGameDropdownResult[] = [];
