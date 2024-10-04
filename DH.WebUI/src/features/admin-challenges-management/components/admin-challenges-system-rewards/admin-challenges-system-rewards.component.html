@@ -22,30 +22,46 @@
 
 <div class="container">
   <div class="buttons">
-    <div class="btn-container" (click)="toggleAddReward()">
-      <span>Add Reward</span>
+    <div class="btn-container" (click)="toggleRewardForm()">
+      <ng-container *ngIf="!editRewardId">
+        <span>Add Reward</span>
+
+        <span
+          *ngIf="!showRewardForm"
+          class="material-symbols-outlined wrapper_add"
+        >
+          add
+        </span>
+      </ng-container>
+      <ng-container *ngIf="editRewardId">
+        <span>Update Reward</span>
+
+        <span
+          *ngIf="!showRewardForm"
+          class="material-symbols-outlined wrapper_add"
+        >
+          edit
+        </span>
+      </ng-container>
       <span
-        *ngIf="!showAddReward"
+        *ngIf="showRewardForm"
         class="material-symbols-outlined wrapper_add"
       >
-        add
-      </span>
-      <span *ngIf="showAddReward" class="material-symbols-outlined wrapper_add">
         close
       </span>
     </div>
 
     <div class="btn-container">
-      <span>Total: 30</span>
+      <span>Total: {{ rewardList.length }}</span>
     </div>
   </div>
 
-  <form [formGroup]="form" *ngIf="showAddReward">
+  <form [formGroup]="form" *ngIf="showRewardForm">
     <div class="reward-container">
       <div class="close-container">
         <span
           class="material-symbols-outlined input-remove"
-          (click)="onHideReward()"
+          (click)="toggleRewardForm()"
         >
           close
         </span>
@@ -135,6 +151,7 @@
         [disabled]="this.form.invalid"
         type="button"
         class="btn btn-gray create-btn"
+        *ngIf="!this.editRewardId"
         (click)="onAddReward()"
         [ngClass]="{
           'btn-border-green': this.form.valid,
@@ -145,6 +162,22 @@
       >
         Create
       </button>
+
+      <button
+      [disabled]="this.form.invalid"
+      type="button"
+      class="btn btn-gray create-btn"
+      *ngIf="this.editRewardId"
+      (click)="onUpdateReward()"
+      [ngClass]="{
+        'btn-border-yellow': this.form.valid,
+        'btn-font-yellow': this.form.valid,
+        'btn-border-red': this.form.invalid,
+        'btn-font-red': this.form.invalid
+      }"
+    >
+      Update
+    </button>
     </div>
   </form>
 </div>
@@ -162,7 +195,12 @@
         </div>
       </div>
       <div class="wrapper_right">
-        <span class="material-symbols-outlined icon"> edit </span>
+        <span
+          class="material-symbols-outlined icon"
+          (click)="fillEditRewardForm(reward.id)"
+        >
+          edit
+        </span>
         <span class="material-symbols-outlined icon"> delete </span>
       </div>
     </div>

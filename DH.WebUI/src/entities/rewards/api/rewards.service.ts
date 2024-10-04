@@ -4,6 +4,8 @@ import { PATH } from '../../../shared/configs/path.config';
 import { Injectable } from '@angular/core';
 import { ICreateRewardDto } from '../models/create-reward.model';
 import { IRewardListResult } from '../models/reward-list.model';
+import { IRewardGetByIdResult } from '../models/reward-by-id.model';
+import { IUpdateRewardDto } from '../models/update-reward.model';
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +24,12 @@ export class RewardsService {
     );
   }
 
+  public getById(id: number): Observable<IRewardGetByIdResult> {
+    return this.api.get<IRewardGetByIdResult>(
+      `/${PATH.REWARDS.CORE}/${PATH.REWARDS.SYSTEM_REWARD}/${id}`
+    );
+  }
+
   public add(
     reward: ICreateRewardDto,
     imageFile: File
@@ -31,6 +39,20 @@ export class RewardsService {
     formData.append('imageFile', imageFile);
 
     return this.api.post<number>(
+      `/${PATH.REWARDS.CORE}/${PATH.REWARDS.SYSTEM_REWARD}`,
+      formData
+    );
+  }
+
+  public update(
+    reward: IUpdateRewardDto,
+    imageFile: File | null
+  ): Observable<null> {
+    const formData = new FormData();
+    formData.append('reward', JSON.stringify(reward));
+    if (imageFile) formData.append('imageFile', imageFile);
+
+    return this.api.put(
       `/${PATH.REWARDS.CORE}/${PATH.REWARDS.SYSTEM_REWARD}`,
       formData
     );

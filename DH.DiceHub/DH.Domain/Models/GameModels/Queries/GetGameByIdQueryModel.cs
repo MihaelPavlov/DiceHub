@@ -1,6 +1,6 @@
 ﻿namespace DH.Domain.Models.GameModels.Queries;
 
-public class GetGameByIdQueryModel
+public class GetSystemRewardByIdQueryModel
 {
     public int Id { get; set; }
     public int CategoryId { get; set; }

@@ -7,9 +7,9 @@ using MediatR;
 
 namespace DH.Application.Games.Queries.Games;
 
-public record GetGameByIdQuery(int Id) : IRequest<GetGameByIdQueryModel>;
+public record GetGameByIdQuery(int Id) : IRequest<GetSystemRewardByIdQueryModel>;
 
-internal class GetGameByIdQueryHandler : IRequestHandler<GetGameByIdQuery, GetGameByIdQueryModel>
+internal class GetGameByIdQueryHandler : IRequestHandler<GetGameByIdQuery, GetSystemRewardByIdQueryModel>
 {
     readonly IGameService gameService;
     readonly IUserContext userContext;
@@ -20,7 +20,7 @@ internal class GetGameByIdQueryHandler : IRequestHandler<GetGameByIdQuery, GetGa
         this.userContext = userContext;
     }
 
-    public async Task<GetGameByIdQueryModel> Handle(GetGameByIdQuery request, CancellationToken cancellationToken)
+    public async Task<GetSystemRewardByIdQueryModel> Handle(GetGameByIdQuery request, CancellationToken cancellationToken)
     {
         return await this.gameService.GetGameByIdAsync(request.Id, userContext.UserId, cancellationToken)
             ?? throw new NotFoundException(nameof(Game), request.Id);

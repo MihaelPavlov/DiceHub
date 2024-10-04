@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import { IGameDropdownResult } from '../../../../entities/games/models/game-dropdown.model';
-import { GamesService } from '../../../../entities/games/api/games.service';
 import { ToastService } from '../../../../shared/services/toast.service';
 import { Form } from '../../../../shared/components/form/form.component';
 import { Formify } from '../../../../shared/models/form.model';
@@ -18,6 +16,9 @@ import { AppToastMessage } from '../../../../shared/components/toast/constants/a
 import { ToastType } from '../../../../shared/models/toast.model';
 import { Router } from '@angular/router';
 import { IRewardListResult } from '../../../../entities/rewards/models/reward-list.model';
+import { throwError } from 'rxjs';
+import { RewardImagePipe } from '../../../../shared/pipe/reward-image.pipe';
+import { IRewardGetByIdResult } from '../../../../entities/rewards/models/reward-by-id.model';
 
 interface ISystemRewardsForm {
   selectedLevel: number;
@@ -44,15 +45,17 @@ export class AdminChallengesSystemRewardsComponent extends Form {
   public imagePreview: string | ArrayBuffer | null = null;
   public fileToUpload: File | null = null;
   public imageError: string | null = null;
-  public showAddReward: boolean = false;
+  public showRewardForm: boolean = false;
   public rewardLevels: ISystemRewardLevel[] = [];
   public rewardList: IRewardListResult[] = [];
+  public editRewardId: number | null = null;
 
   constructor(
     public override readonly toastService: ToastService,
     private readonly fb: FormBuilder,
     private readonly location: Location,
     private readonly rewardsService: RewardsService,
+    private readonly rewardImagePipe: RewardImagePipe,
     private readonly router: Router
   ) {
     super(toastService);
@@ -61,12 +64,14 @@ export class AdminChallengesSystemRewardsComponent extends Form {
       .filter(([key, value]) => typeof value === 'number')
       .map(([key, value]) => ({ id: value as number, name: key }));
 
-      this.fetchSystemRewardList();
+    this.fetchSystemRewardList();
 
     this.form = this.initFormGroup();
   }
 
-  public handleSearchExpression(searchExpression: string) {}
+  public handleSearchExpression(searchExpression: string) {
+    this.fetchSystemRewardList(searchExpression);
+  }
   public showMenu(): void {
     this.isMenuVisible = !this.isMenuVisible;
   }
@@ -75,13 +80,17 @@ export class AdminChallengesSystemRewardsComponent extends Form {
     return formGroup as FormGroup;
   }
 
-  public toggleAddReward() {
-    this.showAddReward = !this.showAddReward;
+  public toggleRewardForm(isOpenFromEdit: boolean = false) {
+    this.showRewardForm = !this.showRewardForm;
+
+    if (!isOpenFromEdit) {
+      this.form.reset();
+      this.imagePreview = null;
+      this.editRewardId = null;
+    }
   }
 
   public onAddReward() {
-    console.log('form', this.form.value);
-
     if (this.form.valid && this.fileToUpload) {
       this.rewardsService
         .add(
@@ -113,6 +122,65 @@ export class AdminChallengesSystemRewardsComponent extends Form {
     }
   }
 
+  public onUpdateReward() {
+    if (this.form.valid && this.editRewardId) {
+      this.rewardsService
+        .update(
+          {
+            id: this.editRewardId,
+            level: this.form.controls.selectedLevel.value,
+            name: this.form.controls.name.value,
+            description: this.form.controls.description.value,
+            requiredPoints: this.form.controls.requiredPoints.value,
+            imageId: !this.fileToUpload
+            ? +this.form.controls.image.value
+            : null,
+          },
+          this.fileToUpload
+        )
+        .subscribe({
+          next: (_) => {
+            this.toastService.success({
+              message: AppToastMessage.ChangesSaved,
+              type: ToastType.Success,
+            });
+
+            this.fetchSystemRewardList();
+            this.toggleRewardForm();
+          },
+          error: (error) => {
+            this.handleServerErrors(error);
+            this.toastService.error({
+              message: AppToastMessage.FailedToSaveChanges,
+              type: ToastType.Error,
+            });
+          },
+        });
+    }
+  }
+
+  public fillEditRewardForm(id: number) {
+    this.editRewardId = id;
+    this.rewardsService.getById(id).subscribe({
+      next: (reward: IRewardGetByIdResult) => {
+        this.form.patchValue({
+          name: reward.name,
+          description: reward.description,
+          requiredPoints: reward.requiredPoints,
+          selectedLevel: reward.level,
+          image: reward.imageId.toString(),
+        });
+        this.imagePreview = this.rewardImagePipe.transform(reward.imageId);
+        this.fileToUpload = null;
+        this.toggleRewardForm(true);
+      },
+      error: (error) => {
+        this.editRewardId = null;
+        throwError(() => error);
+      },
+    });
+  }
+
   public onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     console.log(input.files);
@@ -137,20 +205,29 @@ export class AdminChallengesSystemRewardsComponent extends Form {
     }
   }
 
-  public onHideReward(): void {
-    this.showAddReward = false;
-  }
-
   public backNavigateBtn() {
     this.location.back();
   }
 
   protected override getControlDisplayName(controlName: string): string {
-    throw new Error('Method not implemented.');
+    switch (controlName) {
+      case 'selectedLevel':
+        return 'Level';
+      case 'name':
+        return 'Name';
+      case 'description':
+        return 'Description';
+      case 'requiredPoints':
+        return 'Required Points';
+      case 'image':
+        return 'Image';
+      default:
+        return controlName;
+    }
   }
 
-  private fetchSystemRewardList() {
-    this.rewardsService.getList().subscribe({
+  private fetchSystemRewardList(searchExpression: string = '') {
+    this.rewardsService.getList(searchExpression).subscribe({
       next: (rewardList) => {
         this.rewardList = rewardList ?? [];
       },

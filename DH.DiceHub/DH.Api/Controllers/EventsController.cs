@@ -101,7 +101,6 @@ public class EventsController : ControllerBase
     }
 
     [HttpGet("get-image/{id}")]
-    [ActionAuthorize(UserAction.EventsRead)]
     public async Task<IActionResult> GetEventImage(int id, CancellationToken cancellationToken)
     {
         var gameFile = await this.mediator.Send(new GetEventImageByIdQuery(id), cancellationToken);

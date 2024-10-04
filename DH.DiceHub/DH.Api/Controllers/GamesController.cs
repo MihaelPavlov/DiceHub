@@ -113,7 +113,7 @@ public class GamesController : ControllerBase
 
     [HttpGet("{id}")]
     [ActionAuthorize(UserAction.GamesRead)]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetGameByIdQueryModel))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetSystemRewardByIdQueryModel))]
     public async Task<IActionResult> GetGameById(int id, CancellationToken cancellationToken)
     {
         var result = await this.mediator.Send(new GetGameByIdQuery(id), cancellationToken);

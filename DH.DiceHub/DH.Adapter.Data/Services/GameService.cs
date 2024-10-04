@@ -23,7 +23,7 @@ public class GameService : IGameService
         {
             await context.Games.AddAsync(game, cancellationToken);
 
-            await context.GameImages    
+            await context.GameImages
                 .AddAsync(new GameImage
                 {
                     Game = game,
@@ -54,7 +54,7 @@ public class GameService : IGameService
                 .AsTracking()
                 .Include(g => g.Image)
                 .FirstOrDefaultAsync(x => x.Id == game.Id, cancellationToken)
-                    ?? throw new Exception("Not Found");
+                    ?? throw new NotFoundException(nameof(Game), game.Id);
 
             var oldImage = dbGame.Image;
 
@@ -99,7 +99,7 @@ public class GameService : IGameService
         }
     }
 
-    public async Task<GetGameByIdQueryModel?> GetGameByIdAsync(int gameId, string userId, CancellationToken cancellationToken)
+    public async Task<GetSystemRewardByIdQueryModel?> GetGameByIdAsync(int gameId, string userId, CancellationToken cancellationToken)
     {
         using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
         {
@@ -107,7 +107,7 @@ public class GameService : IGameService
                 from g in context.Games
                 join gi in context.GameImages on g.Id equals gi.GameId
                 where g.Id == gameId && !g.IsDeleted
-                select new GetGameByIdQueryModel
+                select new GetSystemRewardByIdQueryModel
                 {
                     Id = g.Id,
                     CategoryId = g.CategoryId,

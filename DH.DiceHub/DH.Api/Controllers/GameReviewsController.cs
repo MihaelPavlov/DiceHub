@@ -21,7 +21,7 @@ public class GameReviewsController : ControllerBase
 
     [HttpGet("{id}")]
     [ActionAuthorize(UserAction.GameReviewsCRUD)]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetGameByIdQueryModel))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetSystemRewardByIdQueryModel))]
     public async Task<IActionResult> GetGameReviewList(int id, CancellationToken cancellationToken)
     {
         var result = await this.mediator.Send(new GetGameReviewListQuery(id), cancellationToken);
