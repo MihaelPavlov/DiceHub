@@ -24,10 +24,10 @@ export class ChallengesManagementComponent implements OnInit {
             }
         }
     `;
-    
+
     // Append the style to the document head
     document.head.appendChild(style);
-    
+
     // Apply the modified animation to the bar value element
     barValue.style.animation = 'custom-load 3s normal forwards';
 
@@ -35,7 +35,7 @@ export class ChallengesManagementComponent implements OnInit {
     const progress: HTMLElement | null = document.getElementById('progress');
     const stepCircles: NodeListOf<Element> =
       document.querySelectorAll('.circle');
-    let currentActive: number = 1 ;
+    let currentActive: number = 2;
 
     // NOTE CHANGE HERE TO 1-4
     // 1=25%
@@ -47,7 +47,7 @@ export class ChallengesManagementComponent implements OnInit {
     function update(currentActive: number): void {
       stepCircles.forEach((circle: Element, i: number) => {
         if (i < currentActive) {
-          circle.classList.add('active');
+          circle.classList.add('activated');
           circle.innerHTML = `
           <img class="_img"
           src="../../../shared/assets/images/challenge-complete.png"
@@ -55,12 +55,12 @@ export class ChallengesManagementComponent implements OnInit {
           />`;
           circle.classList.add('_img');
         } else {
-          circle.classList.remove('active');
+          circle.classList.remove('activated');
         }
       });
 
       const activeCircles: NodeListOf<Element> =
-        document.querySelectorAll('.active');
+        document.querySelectorAll('.activated');
       console.log(activeCircles);
       if (progress && stepCircles.length > 1) {
         console.log(

@@ -1,0 +1,19 @@
+@use "../../../../shared/assets/styles/palette";
+
+.dialog-container {
+    color: palette.$main-font-color;
+    background-color: palette.$main-nav-color;
+
+    &__header {
+        margin: 1rem;
+    }
+
+    mat-dialog-actions {
+        display: flex;
+        justify-content: end;
+    }
+
+    button {
+        margin: 0.4rem;
+    }
+}

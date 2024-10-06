@@ -96,7 +96,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
         searchIcon.innerHTML = `<span class="material-symbols-outlined">search</span>`;
       }
 
-      if (withClean) {
+      if (withClean && this.searchForm) {
         this.searchForm.get('search')?.reset();
       }
     }
@@ -111,7 +111,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
   private initSearchListenersJS(): void {
     let navbar = document.getElementById('navbar');
-    if(!navbar){
+    if (!navbar) {
       navbar = document.getElementById('sticky_navbar');
     }
     let prevScrollPos = window.scrollY;

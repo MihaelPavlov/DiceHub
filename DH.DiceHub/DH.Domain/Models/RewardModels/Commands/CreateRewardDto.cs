@@ -1,4 +1,5 @@
 ﻿using DH.Domain.Enums;
+using DH.Domain.Exceptions;
 using System.Text.Json.Serialization;
 using static DH.Domain.Exceptions.ValidationErrorsException;
 
@@ -16,7 +17,7 @@ public class CreateRewardDto : IValidableFields
     public string Description { get; set; } = string.Empty;
 
     [JsonPropertyName("requiredPoints")]
-    public int RequiredPoints { get; set; }
+    public RewardRequiredPoint RequiredPoints { get; set; }
 
     [JsonPropertyName("level")]
     public RewardLevel Level { get; set; }
@@ -29,9 +30,10 @@ public class CreateRewardDto : IValidableFields
             errors.Add(new ValidationError(nameof(Name),
                 $"Name should be at least {MinNameLength} characters long."));
 
-        if (RequiredPoints < MinRequiredPoints)
-            errors.Add(new ValidationError(nameof(RequiredPoints),
-                $"RequiredPoints should be bigger then {MinRequiredPoints}."));
+        if (!Enum.IsDefined(typeof(RewardRequiredPoint), RequiredPoints))
+            errors.Add(new ValidationError(nameof(RequiredPoints), "Invalid reward points value."));
+
+
 
         validationErrors = errors;
 

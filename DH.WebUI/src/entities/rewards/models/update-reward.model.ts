@@ -1,10 +1,6 @@
-import { RewardLevel } from '../enums/reward-level.enum';
+import { ICreateRewardDto } from './create-reward.model';
 
-export interface IUpdateRewardDto {
+export interface IUpdateRewardDto extends ICreateRewardDto {
   id: number;
-  name: string;
-  description: string;
-  requiredPoints: number;
-  level: RewardLevel;
   imageId: number | null;
 }

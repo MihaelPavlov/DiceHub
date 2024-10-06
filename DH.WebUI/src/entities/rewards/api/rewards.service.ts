@@ -57,4 +57,8 @@ export class RewardsService {
       formData
     );
   }
+
+  public delete(id: number): Observable<null> {
+    return this.api.delete(`/${PATH.REWARDS.CORE}/${PATH.REWARDS.SYSTEM_REWARD}/${id}`);
+  }
 }

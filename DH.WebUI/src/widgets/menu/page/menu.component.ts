@@ -58,6 +58,10 @@ export class MenuComponent implements OnInit, AfterViewInit {
     this.destroy$.unsubscribe();
   }
 
+  public navigateToChallenges(): void {
+    this.router.navigate(['/challenges/home']);
+  }
+
   public setActiveTab(label: string) {
     let menuItem = this.leftMenuItems
       .concat(this.rightMenuItems)
@@ -115,7 +119,7 @@ export class MenuComponent implements OnInit, AfterViewInit {
   }
 
   public navigateToQrCodeScanner(): void {
-  this.router.navigateByUrl('qr-code-scanner' )
+    this.router.navigateByUrl('qr-code-scanner');
   }
 
   private updateMenuItems() {

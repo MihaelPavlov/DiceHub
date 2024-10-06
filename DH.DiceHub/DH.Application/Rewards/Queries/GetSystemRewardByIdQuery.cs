@@ -19,7 +19,8 @@ internal class GetSystemRewardByIdQueryHandler : IRequestHandler<GetSystemReward
 
     public async Task<GetRewardByIdQueryModel> Handle(GetSystemRewardByIdQuery request, CancellationToken cancellationToken)
     {
-        var rewards = await this.repository.GetWithPropertiesAsync(x => x.Id == request.Id,
+        var rewards = await this.repository.GetWithPropertiesAsync(
+            x => !x.IsDeleted && x.Id == request.Id,
             x => new GetRewardByIdQueryModel
             {
                 Id = x.Id,

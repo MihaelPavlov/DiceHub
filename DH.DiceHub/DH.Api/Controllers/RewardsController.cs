@@ -31,7 +31,6 @@ public class RewardsController : ControllerBase
         return Ok(result);
     }
 
-
     [HttpPost("system-reward-list")]
     [ActionAuthorize(UserAction.SystemRewardCRUD)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetSystemRewardListQueryModel>))]
@@ -63,7 +62,7 @@ public class RewardsController : ControllerBase
 
     [HttpPut("system-reward")]
     [ActionAuthorize(UserAction.SystemRewardCRUD)]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> UpdateSystemReward([FromForm] string reward, [FromForm] IFormFile? imageFile, CancellationToken cancellationToken)
     {
         var rewardDto = JsonSerializer.Deserialize<UpdateRewardDto>(reward)
@@ -80,6 +79,15 @@ public class RewardsController : ControllerBase
             imageFile?.ContentType,
             memoryStream
             ), cancellationToken);
+        return Ok();
+    }
+
+    [HttpDelete("system-reward/{id}")]
+    [ActionAuthorize(UserAction.SystemRewardCRUD)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+    public async Task<IActionResult> DeleteSystemReward(int id, CancellationToken cancellationToken)
+    {
+        await this.mediator.Send(new DeleteSystemRewardCommand(id), cancellationToken);
         return Ok();
     }
 

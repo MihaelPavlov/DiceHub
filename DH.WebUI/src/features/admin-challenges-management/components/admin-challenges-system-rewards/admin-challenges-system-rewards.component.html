@@ -7,19 +7,6 @@
   (backClicked)="backNavigateBtn()"
 ></app-header>
 
-<!-- <div class="wrapper_icons">
-  <span (click)="backNavigateBtn()" class="arrow left"></span>
-  <div class="info-container">
-    <span class="material-symbols-outlined info" (click)="showMenu()">
-      info
-    </span>
-
-    <div class="qr-code-info" *ngIf="isMenuVisible">
-      <span> QR Code Exist for the current game </span>
-    </div>
-  </div>
-</div> -->
-
 <div class="container">
   <div class="buttons">
     <div class="btn-container" (click)="toggleRewardForm()">
@@ -107,13 +94,17 @@
               <label for="requiredPoints" class="required"
                 >Required Points</label
               >
-              <input
-                name="requiredPoints"
+
+              <ng-select
+                [items]="rewardRequiredPointList"
+                bindValue="id"
+                bindLabel="name"
                 placeholder="points"
-                type="number"
-                id="requiredPoints"
+                [searchable]="true"
                 formControlName="requiredPoints"
-              />
+                class="app-select-long"
+              >
+              </ng-select>
             </div>
           </div>
 
@@ -164,20 +155,20 @@
       </button>
 
       <button
-      [disabled]="this.form.invalid"
-      type="button"
-      class="btn btn-gray create-btn"
-      *ngIf="this.editRewardId"
-      (click)="onUpdateReward()"
-      [ngClass]="{
-        'btn-border-yellow': this.form.valid,
-        'btn-font-yellow': this.form.valid,
-        'btn-border-red': this.form.invalid,
-        'btn-font-red': this.form.invalid
-      }"
-    >
-      Update
-    </button>
+        [disabled]="this.form.invalid"
+        type="button"
+        class="btn btn-gray create-btn"
+        *ngIf="this.editRewardId"
+        (click)="onUpdateReward()"
+        [ngClass]="{
+          'btn-border-yellow': this.form.valid,
+          'btn-font-yellow': this.form.valid,
+          'btn-border-red': this.form.invalid,
+          'btn-font-red': this.form.invalid
+        }"
+      >
+        Update
+      </button>
     </div>
   </form>
 </div>
@@ -201,7 +192,12 @@
         >
           edit
         </span>
-        <span class="material-symbols-outlined icon"> delete </span>
+        <span
+          class="material-symbols-outlined icon"
+          (click)="openDeleteDialog(reward.id)"
+        >
+          delete
+        </span>
       </div>
     </div>
   </div>

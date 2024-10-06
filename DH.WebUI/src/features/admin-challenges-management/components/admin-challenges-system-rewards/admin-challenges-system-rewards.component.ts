@@ -1,3 +1,4 @@
+import { ScrollService } from './../../../../shared/services/scroll.service';
 import { Component } from '@angular/core';
 import { ToastService } from '../../../../shared/services/toast.service';
 import { Form } from '../../../../shared/components/form/form.component';
@@ -19,6 +20,9 @@ import { IRewardListResult } from '../../../../entities/rewards/models/reward-li
 import { throwError } from 'rxjs';
 import { RewardImagePipe } from '../../../../shared/pipe/reward-image.pipe';
 import { IRewardGetByIdResult } from '../../../../entities/rewards/models/reward-by-id.model';
+import { AdminChallengesRewardConfirmDeleteDialog } from '../../dialogs/admin-challenges-reward-confirm-delete/admin-challenges-reward-confirm-delete.component';
+import { MatDialog } from '@angular/material/dialog';
+import { RewardRequiredPoint } from '../../../../entities/rewards/enums/reward-required-point.enum';
 
 interface ISystemRewardsForm {
   selectedLevel: number;
@@ -28,7 +32,7 @@ interface ISystemRewardsForm {
   image: string;
 }
 
-interface ISystemRewardLevel {
+interface IDropdown {
   id: number;
   name: string;
 }
@@ -46,7 +50,8 @@ export class AdminChallengesSystemRewardsComponent extends Form {
   public fileToUpload: File | null = null;
   public imageError: string | null = null;
   public showRewardForm: boolean = false;
-  public rewardLevels: ISystemRewardLevel[] = [];
+  public rewardLevels: IDropdown[] = [];
+  public rewardRequiredPointList: IDropdown[] = [];
   public rewardList: IRewardListResult[] = [];
   public editRewardId: number | null = null;
 
@@ -56,7 +61,8 @@ export class AdminChallengesSystemRewardsComponent extends Form {
     private readonly location: Location,
     private readonly rewardsService: RewardsService,
     private readonly rewardImagePipe: RewardImagePipe,
-    private readonly router: Router
+    private readonly dialog: MatDialog,
+    private readonly scrollService: ScrollService
   ) {
     super(toastService);
 
@@ -64,9 +70,31 @@ export class AdminChallengesSystemRewardsComponent extends Form {
       .filter(([key, value]) => typeof value === 'number')
       .map(([key, value]) => ({ id: value as number, name: key }));
 
+    this.rewardRequiredPointList = Object.entries(RewardRequiredPoint)
+      .filter(([key, value]) => typeof value === 'number')
+      .map(([key, value]) => ({ id: value as number, name: value.toString() }));
+
     this.fetchSystemRewardList();
 
     this.form = this.initFormGroup();
+  }
+
+  public openDeleteDialog(id: number): void {
+    const dialogRef = this.dialog.open(
+      AdminChallengesRewardConfirmDeleteDialog,
+      {
+        width: '17rem',
+        position: { bottom: '80%', left: '2%' },
+        data: { id: id },
+      }
+    );
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.fetchSystemRewardList();
+        if (this.showRewardForm) this.toggleRewardForm()
+      }
+    });
   }
 
   public handleSearchExpression(searchExpression: string) {
@@ -109,7 +137,8 @@ export class AdminChallengesSystemRewardsComponent extends Form {
               type: ToastType.Success,
             });
 
-            this.router.navigateByUrl('/admin-challenges/system-rewards');
+            this.fetchSystemRewardList();
+            this.toggleRewardForm();
           },
           error: (error) => {
             this.handleServerErrors(error);
@@ -133,8 +162,8 @@ export class AdminChallengesSystemRewardsComponent extends Form {
             description: this.form.controls.description.value,
             requiredPoints: this.form.controls.requiredPoints.value,
             imageId: !this.fileToUpload
-            ? +this.form.controls.image.value
-            : null,
+              ? +this.form.controls.image.value
+              : null,
           },
           this.fileToUpload
         )
@@ -172,7 +201,8 @@ export class AdminChallengesSystemRewardsComponent extends Form {
         });
         this.imagePreview = this.rewardImagePipe.transform(reward.imageId);
         this.fileToUpload = null;
-        this.toggleRewardForm(true);
+        this.showRewardForm = true;
+        this.scrollService.scrollToTop();
       },
       error: (error) => {
         this.editRewardId = null;

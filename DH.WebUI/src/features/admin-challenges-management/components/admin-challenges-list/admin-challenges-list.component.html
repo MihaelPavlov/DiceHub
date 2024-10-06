@@ -1,20 +1,51 @@
 <div class="container">
   <div class="buttons">
-    <div class="btn-container" (click)="toggleAddChallenge()">
-      <span>Add Challenge</span>
-      <span *ngIf="!showAddChallenge" class="material-symbols-outlined wrapper_add"> add </span>
-      <span *ngIf="showAddChallenge" class="material-symbols-outlined wrapper_add"> close </span>
+    <div class="btn-container" (click)="toggleChallengeForm()">
+      <ng-container *ngIf="!editChallengeId">
+        <span>Add Challenge</span>
+        <span
+          *ngIf="!showChallengeForm"
+          class="material-symbols-outlined wrapper_add"
+        >
+          add
+        </span>
+      </ng-container>
+      <ng-container *ngIf="editChallengeId">
+        <span>Update Challenge</span>
+        <span
+          *ngIf="!showChallengeForm"
+          class="material-symbols-outlined wrapper_add"
+        >
+          edit
+        </span>
+      </ng-container>
+      <span
+        *ngIf="showChallengeForm"
+        class="material-symbols-outlined wrapper_add"
+      >
+        close
+      </span>
     </div>
 
     <div class="btn-container">
-      <span>Total: 30</span>
+      <span>Total: {{ challengeList.length }}</span>
     </div>
   </div>
   <div class="buttons">
     <div class="btn-container" (click)="toggleFilter()">
-      <span>Filter By Game</span>
-      <span *ngIf="!showFilter" class="material-symbols-outlined wrapper_filter"> filter_alt </span>
-      <span *ngIf="showFilter" class="material-symbols-outlined wrapper_filter"> close </span>
+      <span *ngIf="filterGameIds.length !== 0"
+        >Selected Games: {{ filterGameIds.length }}</span
+      >
+      <span *ngIf="filterGameIds.length === 0">Filter By Game</span>
+      <span
+        *ngIf="!showFilter"
+        class="material-symbols-outlined wrapper_filter"
+      >
+        filter_alt
+      </span>
+      <span *ngIf="showFilter" class="material-symbols-outlined wrapper_filter">
+        close
+      </span>
     </div>
   </div>
   <div class="input-field" *ngIf="showFilter">
@@ -23,20 +54,21 @@
       bindLabel="name"
       placeholder="Select Game"
       [searchable]="true"
-      formControlName="selectedGame"
       class="app-select-long"
       [multiple]="true"
       [closeOnSelect]="false"
+      [(ngModel)]="this.filterGameIds"
+      (change)="fetchChallengeList()"
     >
     </ng-select>
   </div>
 
-  <form [formGroup]="form" *ngIf="showAddChallenge">
+  <form [formGroup]="form" *ngIf="showChallengeForm">
     <div class="reward-container">
       <div class="close-container">
         <span
           class="material-symbols-outlined input-remove"
-          (click)="onHideChallenge()"
+          (click)="toggleChallengeForm()"
         >
           close
         </span>
@@ -50,6 +82,7 @@
               <ng-select
                 [items]="gameList"
                 bindLabel="name"
+                bindValue="id"
                 placeholder="Select Game"
                 [searchable]="true"
                 formControlName="selectedGame"
@@ -60,12 +93,16 @@
 
             <div class="input-field">
               <label for="rewardPoints" class="required">Points</label>
-              <input
-                name="rewardPoints"
+              <ng-select
+                [items]="challengeRewardPointList"
+                bindLabel="name"
+                bindValue="id"
                 placeholder="..."
-                type="number"
+                [searchable]="true"
                 formControlName="rewardPoints"
-              />
+                class="app-select-long"
+              >
+              </ng-select>
             </div>
           </div>
 
@@ -84,7 +121,8 @@
               <label for="type" class="required">Type</label>
 
               <ng-select
-                [items]="gameList"
+                [items]="challengeTypeList"
+                bindValue="id"
                 bindLabel="name"
                 placeholder="Type"
                 [searchable]="true"
@@ -106,7 +144,13 @@
           </div>
         </div>
       </div>
+
+      <div *ngIf="getFirstErrorMessage()" class="errors">
+        {{ getFirstErrorMessage() }}
+      </div>
+
       <button
+        *ngIf="!this.editChallengeId"
         [disabled]="this.form.invalid"
         type="button"
         class="btn btn-gray create-btn"
@@ -120,28 +164,59 @@
       >
         Create
       </button>
+
+      <button
+        *ngIf="this.editChallengeId"
+        [disabled]="this.form.invalid"
+        type="button"
+        class="btn btn-gray create-btn"
+        (click)="onUpdateChallenge()"
+        [ngClass]="{
+          'btn-border-yellow': this.form.valid,
+          'btn-font-yellow': this.form.valid,
+          'btn-border-red': this.form.invalid,
+          'btn-font-red': this.form.invalid
+        }"
+      >
+        Update
+      </button>
     </div>
   </form>
 </div>
 
 <section class="wrapper_library">
-  <div *ngFor="let game of games" class="wrapper_library__item">
+  <div *ngFor="let challenge of challengeList" class="wrapper_library__item">
     <div class="wrapper_image">
-      <img [src]="game.imageId | gameImage" alt="Game Image" />
+      <!-- TODO: fetch the imageId of this gameId -->
+      <img [src]="challenge.gameId | gameImage" alt="Game Image" />
     </div>
     <div class="wrapper_info">
       <div class="wrapper_title">
-        {{ game.name }}
+        {{ challenge.type }}
 
-        <div class="wrapper_description">Attempts: 2</div>
-        <div class="wrapper_description">Reward: 2</div>
         <div class="wrapper_description">
-          {{ game.description }}
+          Attempts: {{ challenge.attempts }}
+        </div>
+        <div class="wrapper_description">
+          Reward: {{ challenge.rewardPoints }}
+        </div>
+        <div class="wrapper_description">
+          {{ challenge.description }}
         </div>
       </div>
       <div class="wrapper_right">
-        <span class="material-symbols-outlined icon"> edit </span>
-        <span class="material-symbols-outlined icon"> delete </span>
+        <span
+          class="material-symbols-outlined icon"
+          (click)="fillEditChallengeForm(challenge.id)"
+        >
+          edit
+        </span>
+        <span
+          class="material-symbols-outlined icon"
+          (click)="openDeleteDialog(challenge.id)"
+        >
+          delete
+        </span>
       </div>
     </div>
   </div>

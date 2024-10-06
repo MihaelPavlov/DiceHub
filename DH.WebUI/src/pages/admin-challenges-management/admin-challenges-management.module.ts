@@ -9,6 +9,10 @@ import { AdminChallengesListComponent } from '../../features/admin-challenges-ma
 import { AdminChallengesRewardsComponent } from '../../features/admin-challenges-management/components/admin-challenges-rewards/admin-challenges-rewards.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { AdminChallengesSystemRewardsComponent } from '../../features/admin-challenges-management/components/admin-challenges-system-rewards/admin-challenges-system-rewards.component';
+import { AdminChallengesRewardConfirmDeleteDialog } from '../../features/admin-challenges-management/dialogs/admin-challenges-reward-confirm-delete/admin-challenges-reward-confirm-delete.component';
+import { MatDialogActions, MatDialogClose } from '@angular/material/dialog';
+import { FormsModule } from '@angular/forms';
+import { AdminChallengesConfirmDeleteDialog } from '../../features/admin-challenges-management/dialogs/admin-challenges-confirm-delete/admin-challenges-confirm-delete.component';
 
 @NgModule({
   declarations: [
@@ -17,15 +21,20 @@ import { AdminChallengesSystemRewardsComponent } from '../../features/admin-chal
     AdminChallengesListComponent,
     AdminChallengesRewardsComponent,
     AdminChallengesSystemRewardsComponent,
+    AdminChallengesRewardConfirmDeleteDialog,
+    AdminChallengesConfirmDeleteDialog
   ],
   exports: [],
   providers: [],
   imports: [
     SharedModule,
     HeaderModule,
+    MatDialogActions,
+    MatDialogClose,
     AdminChallengesManagementRoutingModule,
     NavBarModule,
     NgSelectModule,
+    FormsModule,
   ],
 })
 export class AdminChallengesManagementModule {}

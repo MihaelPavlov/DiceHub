@@ -25,7 +25,7 @@ import {
         return true;
       }
   
-      this.router.navigateByUrl('admin-challenges/home')
+      this.router.navigateByUrl('admin-challenges/list')
       return false;
     }
   }

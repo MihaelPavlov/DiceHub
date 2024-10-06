@@ -4,8 +4,14 @@ using DH.Domain.Adapters.Authentication.Models.Enums;
 
 namespace DH.Domain.Adapters.Authentication;
 
+/// <summary>
+/// Maps user actions to their allowed roles
+/// </summary>
 public class MapPermissions : IMapPermissions, IActionPermissions<UserAction>
 {
+    /// <summary>
+    /// Dictionary that maps each <see cref="UserAction"/> to a list of roles permitted to perform the action.
+    /// </summary>
     readonly static Dictionary<UserAction, List<Role>> _map = new()
     {
         { UserAction.GamesRead, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff, Role.User} },
@@ -19,6 +25,8 @@ public class MapPermissions : IMapPermissions, IActionPermissions<UserAction>
         { UserAction.ScannerRead, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff, Role.User} },
         { UserAction.SystemRewardCRUD, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff} },
         { UserAction.SystemRewardRead, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff, Role.User} },
+        { UserAction.ChallengesCUD, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff} },
+        { UserAction.ChallengesRead, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff, Role.User} },
     };
 
     public IDictionary<int, List<Role>> GetActionsMapping()

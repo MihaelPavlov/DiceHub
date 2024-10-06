@@ -48,6 +48,10 @@ export const PATH = {
     SYSTEM_REWARD: 'system-reward',
     SYSTEM_REWARD_LIST: 'system-reward-list',
   },
+  CHALLENGES: {
+    CORE: 'challenges',
+    LIST: 'list',
+  },
   // AUTH: {
   //   LOGIN: 'auth/user/login',
   // },
