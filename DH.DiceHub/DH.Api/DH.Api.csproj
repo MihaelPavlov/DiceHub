@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DH.Adapter.Authentication\DH.Adapter.Authentication.csproj" />
+    <ProjectReference Include="..\DH.Adapter.ChallengesOrchestrator\DH.Adapter.ChallengesOrchestrator.csproj" />
     <ProjectReference Include="..\DH.Adapter.ChatHub\DH.Adapter.ChatHub.csproj" />
     <ProjectReference Include="..\DH.Adapter.Data\DH.Adapter.Data.csproj" />
     <ProjectReference Include="..\DH.Adapter.QRManager\DH.Adapter.QRManager.csproj" />

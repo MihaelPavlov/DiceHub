@@ -12,6 +12,7 @@ using System.Reflection;
 using DH.Adapter.ChatHub;
 using DH.Adapter.QRManager;
 using Microsoft.Extensions.FileProviders;
+using DH.Adapter.ChallengesOrchestrator;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,6 +41,7 @@ builder.Services.ConfigureSignalR();
 builder.Services.ConfigureQrCodeManager();
 builder.Services.AuthenticationAdapter(builder.Configuration);
 builder.Services.AddSchedulingConfiguration(builder.Configuration);
+builder.Services.AddChallengesOrchestrator();
 
 builder.Services.AddAutofac();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
