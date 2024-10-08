@@ -2,7 +2,6 @@
 using DH.Domain.Exceptions;
 using DH.Domain.Models.GameModels;
 using DH.Domain.Models.GameModels.Queries;
-
 using DH.Domain.Services;
 using Microsoft.EntityFrameworkCore;
 
