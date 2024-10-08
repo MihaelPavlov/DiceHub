@@ -1,3 +1,5 @@
+import { RewardLevel } from "./reward-level.enum";
+
 export enum RewardRequiredPoint {
   Five = 5,
   Ten = 10,
@@ -20,3 +22,10 @@ export enum RewardRequiredPoint {
   NinetyFive = 95,
   OneHundred = 100,
 }
+
+export const REWARD_POINTS = {
+  [RewardLevel.Bronze]: [RewardRequiredPoint.Five,RewardRequiredPoint.Ten, RewardRequiredPoint.Fifteen, RewardRequiredPoint.Twenty],
+  [RewardLevel.Silver]: [RewardRequiredPoint.TwentyFive, RewardRequiredPoint.Thirty, RewardRequiredPoint.ThirtyFive, RewardRequiredPoint.Forty],
+  [RewardLevel.Gold]: [RewardRequiredPoint.FortyFive, RewardRequiredPoint.Fifty, RewardRequiredPoint.FiftyFive, RewardRequiredPoint.Sixty, RewardRequiredPoint.SixtyFive, RewardRequiredPoint.Seventy, RewardRequiredPoint.SeventyFive],
+  [RewardLevel.Platinum]: [RewardRequiredPoint.Eighty, RewardRequiredPoint.EightyFive, RewardRequiredPoint.Ninety, RewardRequiredPoint.NinetyFive, RewardRequiredPoint.OneHundred]
+};
