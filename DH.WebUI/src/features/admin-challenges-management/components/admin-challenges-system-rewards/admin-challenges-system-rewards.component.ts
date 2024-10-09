@@ -22,7 +22,10 @@ import { RewardImagePipe } from '../../../../shared/pipe/reward-image.pipe';
 import { IRewardGetByIdResult } from '../../../../entities/rewards/models/reward-by-id.model';
 import { AdminChallengesRewardConfirmDeleteDialog } from '../../dialogs/admin-challenges-reward-confirm-delete/admin-challenges-reward-confirm-delete.component';
 import { MatDialog } from '@angular/material/dialog';
-import { RewardRequiredPoint } from '../../../../entities/rewards/enums/reward-required-point.enum';
+import {
+  REWARD_POINTS,
+  RewardRequiredPoint,
+} from '../../../../entities/rewards/enums/reward-required-point.enum';
 
 interface ISystemRewardsForm {
   selectedLevel: number;
@@ -70,13 +73,23 @@ export class AdminChallengesSystemRewardsComponent extends Form {
       .filter(([key, value]) => typeof value === 'number')
       .map(([key, value]) => ({ id: value as number, name: key }));
 
-    this.rewardRequiredPointList = Object.entries(RewardRequiredPoint)
-      .filter(([key, value]) => typeof value === 'number')
-      .map(([key, value]) => ({ id: value as number, name: value.toString() }));
-
     this.fetchSystemRewardList();
 
     this.form = this.initFormGroup();
+
+    this.form.controls.selectedLevel.valueChanges.subscribe((selectedLevel) => {
+      this.updateRequiredPoints(selectedLevel);
+    });
+  }
+
+  public updateRequiredPoints(selectedLevel: number) {
+    if (Object.values(RewardLevel).includes(selectedLevel)) {
+      this.form.controls.requiredPoints.enable();
+      this.rewardRequiredPointList = REWARD_POINTS[selectedLevel] || [];
+    } else {
+      this.form.controls.requiredPoints.disable();
+      this.rewardRequiredPointList = [];
+    }
   }
 
   public openDeleteDialog(id: number): void {
@@ -92,7 +105,7 @@ export class AdminChallengesSystemRewardsComponent extends Form {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.fetchSystemRewardList();
-        if (this.showRewardForm) this.toggleRewardForm()
+        if (this.showRewardForm) this.toggleRewardForm();
       }
     });
   }
@@ -272,7 +285,9 @@ export class AdminChallengesSystemRewardsComponent extends Form {
       selectedLevel: new FormControl<number | null>(null, [
         Validators.required,
       ]),
-      requiredPoints: new FormControl<number>(0, [Validators.required]),
+      requiredPoints: new FormControl<number>({ value: 0, disabled: true }, [
+        Validators.required,
+      ]),
       name: new FormControl<string>('', [Validators.required]),
 
       description: new FormControl<string>('', [Validators.required]),

@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using DH.Adapter.Data.Repositories;
+using DH.Adapter.Data.Services;
 using DH.Domain.Adapters.Data;
 using DH.Domain.Repositories;
 using DH.Domain.Services;
@@ -40,7 +41,7 @@ public static class DataDIModule
             .EnableDetailedErrors(true)) // TODO:Don't do this on production. Don't hardcode this
             .AddScoped<ITenantDbContext>(provider => provider.GetService<TenantDbContext>()
                 ?? throw new ArgumentNullException("IDBContext was not found"))
-            .AddScoped(typeof(IRepository<>), typeof(DataRepository<>));
-
+            .AddScoped(typeof(IRepository<>), typeof(DataRepository<>))
+            .AddScoped<IUserChallengesManagementService, UserChallengesManagementService>();
 }
 

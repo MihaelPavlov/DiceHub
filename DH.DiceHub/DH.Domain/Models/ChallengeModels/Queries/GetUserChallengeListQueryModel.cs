@@ -2,11 +2,14 @@
 
 namespace DH.Domain.Models.ChallengeModels.Queries;
 
-public class GetChallengeListWithFilterQueryModel
+public class GetUserChallengeListQueryModel
 {
     public int Id { get; set; }
     public string Description { get; set; } = string.Empty;
     public ChallengeRewardPoint RewardPoints { get; set; }
-    public int Attempts { get; set; }
+    public int MaxAttempts { get; set; }
+    public int CurrentAttemps { get; set; }
+    public ChallengeType Type { get; set; }
     public int GameImageId { get; set; }
+    public string GameName { get; set; } = string.Empty;
 }

@@ -6,6 +6,6 @@ export interface IChallengeListResult {
     description: string;
     rewardPoints: ChallengeRewardPoint;
     attempts: number;
-    gameId: number;
+    gameImageId: number;
     type: ChallengeType
 }

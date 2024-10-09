@@ -16,7 +16,6 @@ public class JobListenerForDeadLetterQueue : JobListenerSupport
 
     public override string Name => "JobListenerForDeadLetterQueue";
 
-
     public override async Task JobWasExecuted(IJobExecutionContext context, JobExecutionException? jobException, CancellationToken cancellationToken = default)
     {
         if (jobException != null)

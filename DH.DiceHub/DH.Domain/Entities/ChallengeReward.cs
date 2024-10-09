@@ -17,4 +17,5 @@ public class ChallengeReward
 
     public virtual ChallengeRewardImage Image { get; set; } = null!;
     public virtual ICollection<UserChallengeReward> UserRewards { get; set; } = [];
+    public virtual ICollection<UserChallengePeriodReward> UserChallengePeriodRewards { get; set; } = [];
 }

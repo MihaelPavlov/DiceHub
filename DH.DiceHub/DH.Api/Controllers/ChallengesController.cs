@@ -29,6 +29,26 @@ public class ChallengesController : ControllerBase
         return Ok(result);
     }
 
+    //TODO: Use it in FE
+    [HttpGet("get-user-challenges")]
+    [ActionAuthorize(UserAction.ChallengesCUD)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetUserChallengeListQueryModel>))]
+    public async Task<IActionResult> GetUserChallengeList(CancellationToken cancellationToken)
+    {
+        var result = await this.mediator.Send(new GetUserChallengeListQuery(), cancellationToken);
+        return Ok(result);
+    }
+
+    //TODO: Use it in FE
+    [HttpGet("get-user-challenge-period-performance")]
+    [ActionAuthorize(UserAction.ChallengesCUD)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetUserChallengePeriodPerformanceQueryModel))]
+    public async Task<IActionResult> GetUserChallengePeriodPerformnace(CancellationToken cancellationToken)
+    {
+        var result = await this.mediator.Send(new GetUserChallengePeriodPerformanceQuery(), cancellationToken);
+        return Ok(result);
+    }
+
     [HttpPost("list")]
     [ActionAuthorize(UserAction.ChallengesRead)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetChallengeListWithFilterQueryModel>))]

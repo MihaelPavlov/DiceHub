@@ -4,6 +4,7 @@ using DH.Adapter.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DH.Adapter.Data.Migrations
 {
     [DbContext(typeof(TenantDbContext))]
-    partial class TenantDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241008072231_AddUserChallengePeriodReward")]
+    partial class AddUserChallengePeriodReward
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -650,9 +653,6 @@ namespace DH.Adapter.Data.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
                     b.Property<int>("RequiredUserTotalPoints")
                         .HasColumnType("int");
 
@@ -716,9 +716,6 @@ namespace DH.Adapter.Data.Migrations
                     b.Property<int>("ChallengeRewardId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsCompleted")
-                        .HasColumnType("bit");
-
                     b.Property<int>("UserChallengePeriodPerformanceId")
                         .HasColumnType("int");
 
@@ -728,7 +725,7 @@ namespace DH.Adapter.Data.Migrations
 
                     b.HasIndex("UserChallengePeriodPerformanceId");
 
-                    b.ToTable("UserChallengePeriodRewards");
+                    b.ToTable("UserChallengePeriodReward");
                 });
 
             modelBuilder.Entity("DH.Domain.Entities.UserChallengeReward", b =>
@@ -742,16 +739,13 @@ namespace DH.Adapter.Data.Migrations
                     b.Property<DateTime>("AvailableFromDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("ClaimedDate")
+                    b.Property<DateTime>("ClaimedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("ExpiresDate")
+                    b.Property<DateTime>("ExpiresDate")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsClaimed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsExpired")
                         .HasColumnType("bit");
 
                     b.Property<int>("RewardId")

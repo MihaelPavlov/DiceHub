@@ -187,8 +187,7 @@
 <section class="wrapper_library">
   <div *ngFor="let challenge of challengeList" class="wrapper_library__item">
     <div class="wrapper_image">
-      <!-- TODO: fetch the imageId of this gameId -->
-      <img [src]="challenge.gameId | gameImage" alt="Game Image" />
+      <img [src]="challenge.gameImageId | gameImage" alt="Game Image" />
     </div>
     <div class="wrapper_info">
       <div class="wrapper_title">

@@ -4,6 +4,15 @@
   .ng-touched.ng-invalid {
     border: none;
   }
+  position: relative;
+}
+.input-label {
+  position: relative;
+}
+.locked {
+  font-size: 1rem;
+  position: absolute;
+  left: 5.5rem;
 }
 
 .wrapper_icons {

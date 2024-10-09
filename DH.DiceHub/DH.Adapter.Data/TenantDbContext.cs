@@ -69,6 +69,7 @@ public class TenantDbContext : DbContext, ITenantDbContext
     public DbSet<ChallengeReward> ChallengeRewards { get; set; } = default!;
     public DbSet<ChallengeRewardImage> ChallengeRewardImages { get; set; } = default!;
     public DbSet<UserChallengeReward> UserChallengeRewards { get; set; } = default!;
+    public DbSet<UserChallengePeriodReward> UserChallengePeriodRewards { get; set; } = default!;
     public DbSet<UserChallengePeriodPerformance> UserChallengePeriodPerformances { get; set; } = default!;
 
     #endregion challenges

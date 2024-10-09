@@ -91,9 +91,15 @@
             </div>
 
             <div class="input-field">
-              <label for="requiredPoints" class="required"
-                >Required Points</label
-              >
+              <label for="requiredPoints input-label" class="required">
+                Required Points
+                <span
+                  *ngIf="form.controls.requiredPoints.disabled"
+                  class="material-symbols-outlined locked"
+                >
+                  lock
+                </span>
+              </label>
 
               <ng-select
                 [items]="rewardRequiredPointList"
@@ -102,6 +108,7 @@
                 placeholder="points"
                 [searchable]="true"
                 formControlName="requiredPoints"
+                [disabled]="form.controls.requiredPoints.disabled"
                 class="app-select-long"
               >
               </ng-select>
