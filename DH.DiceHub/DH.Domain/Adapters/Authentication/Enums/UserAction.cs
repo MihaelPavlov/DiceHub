@@ -20,4 +20,5 @@ public enum UserAction
     SystemRewardRead = 10,
     ChallengesCUD = 11,
     ChallengesRead = 12,
+    RewardRead = 13,
 }

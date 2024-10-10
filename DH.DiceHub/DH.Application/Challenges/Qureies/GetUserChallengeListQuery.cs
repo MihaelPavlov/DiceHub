@@ -27,10 +27,10 @@ internal class GetUserChallengeListQueryHandler : IRequestHandler<GetUserChallen
                 Id = x.Id,
                 Description = x.Challenge.Description,
                 RewardPoints = x.Challenge.RewardPoints,
-                Type = x.Challenge.Type,
+                Status = x.Status,
                 GameImageId = x.Challenge.Game.Image.Id,
                 GameName = x.Challenge.Game.Name,
-                CurrentAttemps = x.AttemptCount,
+                CurrentAttempts = x.AttemptCount,
                 MaxAttempts = x.Challenge.Attempts,
             }, cancellationToken);
     }

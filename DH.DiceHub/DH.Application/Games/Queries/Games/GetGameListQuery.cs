@@ -23,7 +23,7 @@ internal class GetGameListQueryHandler : IRequestHandler<GetGameListQuery, List<
 
     public async Task<List<GetGameListQueryModel>> Handle(GetGameListQuery request, CancellationToken cancellationToken)
     {
-        this.synchronizeUsersChallengesQueue.AddSynchronizeNewUserJob(this.userContext.UserId);
+        //this.synchronizeUsersChallengesQueue.AddSynchronizeNewUserJob(this.userContext.UserId);
         //this.synchronizeUsersChallengesQueue.AddChallengeInitiationJob(this.userContext.UserId, DateTime.UtcNow.AddMinutes(1));
 
         return await gameService.GetGameListBySearchExpressionAsync(request.SearchExpression ?? string.Empty, this.userContext.UserId, cancellationToken);

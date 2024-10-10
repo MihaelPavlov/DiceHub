@@ -6,6 +6,7 @@ import { ICreateRewardDto } from '../models/create-reward.model';
 import { IRewardListResult } from '../models/reward-list.model';
 import { IRewardGetByIdResult } from '../models/reward-by-id.model';
 import { IUpdateRewardDto } from '../models/update-reward.model';
+import { IUserChallengePeriodReward } from '../models/user-period-reward.model';
 
 @Injectable({
   providedIn: 'root',
@@ -27,6 +28,12 @@ export class RewardsService {
   public getById(id: number): Observable<IRewardGetByIdResult> {
     return this.api.get<IRewardGetByIdResult>(
       `/${PATH.REWARDS.CORE}/${PATH.REWARDS.SYSTEM_REWARD}/${id}`
+    );
+  }
+
+  public getUserChallengePeriodRewardList(periodPerformanceId: number): Observable<IUserChallengePeriodReward[]> {
+    return this.api.get<IUserChallengePeriodReward[]>(
+      `/${PATH.REWARDS.CORE}/${PATH.REWARDS.GET_USER_REWARDS}/${periodPerformanceId}`
     );
   }
 

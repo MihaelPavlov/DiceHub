@@ -76,9 +76,9 @@ public class UserChallengesManagementService : IUserChallengesManagementService
             };
 
             var userChallengePeriodRewards = await this.GenerateRewardsAsyncV3(rewardCount, userPerformance.Id, context, cancellationToken);
-
             var userChallenges = await this.GenerateChallengesAsync(userId, context, cancellationToken);
 
+            userPerformance.UserChallengePeriodRewards = userChallengePeriodRewards;
             await context.UserChallengePeriodPerformances.AddAsync(userPerformance, cancellationToken);
             await context.UserChallengePeriodRewards.AddRangeAsync(userChallengePeriodRewards, cancellationToken);
             await context.UserChallenges.AddRangeAsync(userChallenges, cancellationToken);

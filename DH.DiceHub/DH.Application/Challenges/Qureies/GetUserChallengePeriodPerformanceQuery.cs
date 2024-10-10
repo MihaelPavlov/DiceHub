@@ -22,7 +22,7 @@ internal class GetUserChallengePeriodPerformanceQueryHandler : IRequestHandler<G
 
     public async Task<GetUserChallengePeriodPerformanceQueryModel> Handle(GetUserChallengePeriodPerformanceQuery request, CancellationToken cancellationToken)
     {
-        var period = await this.repository.GetByAsync(x => x.UserId == this.userContext.UserId, cancellationToken);
+        var period = await this.repository.GetByAsync(x => x.UserId == this.userContext.UserId && x.IsPeriodActive, cancellationToken);
         return period.Adapt<GetUserChallengePeriodPerformanceQueryModel>();
     }
 }

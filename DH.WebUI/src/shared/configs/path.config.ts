@@ -47,10 +47,14 @@ export const PATH = {
     CORE: 'rewards',
     SYSTEM_REWARD: 'system-reward',
     SYSTEM_REWARD_LIST: 'system-reward-list',
+    GET_USER_REWARDS: 'get-user-rewards',
   },
   CHALLENGES: {
     CORE: 'challenges',
     LIST: 'list',
+    GET_USER_CHALLENGES: 'get-user-challenges',
+    GET_USER_CHALLENGE_PERIOD_PERFORMANCE:
+      'get-user-challenge-period-performance',
   },
   // AUTH: {
   //   LOGIN: 'auth/user/login',

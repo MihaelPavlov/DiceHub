@@ -8,8 +8,8 @@ public class GetUserChallengeListQueryModel
     public string Description { get; set; } = string.Empty;
     public ChallengeRewardPoint RewardPoints { get; set; }
     public int MaxAttempts { get; set; }
-    public int CurrentAttemps { get; set; }
-    public ChallengeType Type { get; set; }
+    public int CurrentAttempts { get; set; }
+    public ChallengeStatus Status { get; set; }
     public int GameImageId { get; set; }
     public string GameName { get; set; } = string.Empty;
 }

@@ -29,7 +29,7 @@ internal class GetUserChallengePeriodRewardListQueryHandler : IRequestHandler<Ge
               {
                   RewardImageId = x.ChallengeReward.Image.Id,
                   IsCompleted = x.IsCompleted,
-                  RewardRequiredPoints = x.ChallengeReward.RequiredPoints
+                  RewardRequiredPoints = (int)x.ChallengeReward.RequiredPoints
               }, cancellationToken);
     }
 }

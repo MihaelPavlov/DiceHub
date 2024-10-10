@@ -1,0 +1,13 @@
+import { ChallengeRewardPoint } from '../enums/challenge-reward-point.enum';
+import { ChallengeStatus } from '../enums/challenge-status.enum';
+
+export interface IUserChallenge {
+  id: number;
+  description: string;
+  rewardPoints: ChallengeRewardPoint;
+  maxAttempts: number;
+  currentAttempts: number;
+  status: ChallengeStatus;
+  gameImageId: number;
+  gameName: string;
+}

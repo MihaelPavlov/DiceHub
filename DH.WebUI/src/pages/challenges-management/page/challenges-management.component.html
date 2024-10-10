@@ -9,122 +9,77 @@
 ></app-header>
 
 <div class="wrapper_stats">
-  <div class="wrapper_stats__items">
-    <div class="item">
-      <img
-        src="https://static.vecteezy.com/system/resources/previews/018/931/018/original/cartoon-beer-icon-png.png"
-        alt=""
-      />
+  <div class="wrapper_scroller">
+    <span class="material-symbols-outlined left" (click)="scrollLeft()"
+      >play_arrow</span
+    >
+    <div #scroller class="scroller">
+      <div class="wrapper_stats__items">
+        <div class="item" *ngFor="let reward of userChallengePeriodRewardList">
+          <img [src]="reward.rewardImageId | rewardImage" alt="" />
+        </div>
+      </div>
     </div>
-    <div class="item">
-      <img
-        src="https://pemix.com.mt/wp-content/uploads/2023/08/7DAYS-COCOA.png"
-        alt=""
-      />
-    </div>
-    <div class="item">
-      <img
-        src="https://purepng.com/public/uploads/large/purepng.com-lays-potato-chipsfood-potato-tasty-pack-lays-chips-taste-product-snaks-9415246340529nj3f.png"
-        alt=""
-      />
-    </div>
-    <div class="item">
-      <img
-        src="https://static.vecteezy.com/system/resources/previews/026/774/690/original/burritos-with-ai-generated-free-png.png"
-        alt=""
-      />
-    </div>
-    <div class="item">
-      <img
-        src="https://png.pngtree.com/png-vector/20230227/ourmid/pngtree-golden-ticket-png-image_6621563.png"
-        alt=""
-      />
-    </div>
+    <span class="material-symbols-outlined" (click)="scrollRight()"
+      >play_arrow</span
+    >
   </div>
 
   <div class="wrapper_stats__bar">
-    <span class="wrapper_stats__bar-score">Score: 101</span>
+    <span class="wrapper_stats__bar-score" *ngIf="this.periodPerformance"
+      >Score: {{ this.periodPerformance.points }}</span
+    >
 
     <div class="progress-container">
       <div class="progress" id="progress"></div>
-      <div class="circle activated">15</div>
-      <div class="circle activated">30</div>
-      <div class="circle">45</div>
-      <div class="circle">60</div>
-      <div class="circle">75</div>
-      <div class="circle">90</div>
-      <div class="circle">100</div>
+      <div
+        *ngFor="let reward of userChallengePeriodRewardList"
+        class="circle"
+        [ngClass]="{ activated: reward.isCompleted }"
+      >
+        {{ reward.rewardRequiredPoints }}
+      </div>
     </div>
   </div>
 </div>
 
 <div class="wrapper_challenges">
-  <div class="wrapper_challenges__item">
+  <div
+    class="wrapper_challenges__item"
+    *ngFor="let challenge of userChallengeList; let i = index"
+    [ngClass]="{
+      'in-progress': challenge.status === ChallengeStatus.InProgress,
+      completed: challenge.status === ChallengeStatus.Completed,
+      locked: challenge.status === ChallengeStatus.Locked
+    }"
+  >
     <div class="image">
-      <img
-        src="https://cf.geekdo-images.com/fvhkcw4s6Q4-nMwwok1J6A__opengraph/img/bbHffM-AIBac7jMM8sgOM1sC0zk=/0x274:1314x964/fit-in/1200x630/filters:strip_icc()/pic6569894.png"
-        alt=""
-      />
+      <img [src]="challenge.gameImageId | gameImage" alt="" />
     </div>
     <div class="info">
-      <span class="header"
-        >Play <strong>Dungeon</strong> 2 Times dsad kokodq wk odwq</span
-      >
+      <span class="header">
+        Play <strong>{{ challenge.gameName }}</strong>
+        {{ challenge.maxAttempts }} times
+      </span>
       <div class="bar-2">
-        <span class="bar-2-span">1 / 2</span>
-        <div class="bar-2-value"></div>
-        <span class="points">10</span>
+        <span class="bar-2-span"
+          >{{ challenge.currentAttempts }} / {{ challenge.maxAttempts }}</span
+        >
+        <div class="bar-2-value" id="progress-bar-{{ i }}"></div>
+        <span class="points">{{ challenge.rewardPoints }}</span>
       </div>
     </div>
     <div class="status-image">
       <img
-        src="https://static.vecteezy.com/system/resources/previews/016/774/561/non_2x/loading-icon-loading-progress-icon-on-transparent-background-free-png.png"
+        [src]="
+          challenge.status === ChallengeStatus.InProgress
+            ? 'https://static.vecteezy.com/system/resources/previews/016/774/561/non_2x/loading-icon-loading-progress-icon-on-transparent-background-free-png.png'
+            : challenge.status === ChallengeStatus.Completed
+            ? '../../../shared/assets/images/challenge-complete.png'
+            : '../../../shared/assets/images/locked.png'
+        "
         alt=""
       />
-    </div>
-  </div>
-  <div class="wrapper_challenges__item completed">
-    <div class="image">
-      <img
-        src="https://cf.geekdo-images.com/fvhkcw4s6Q4-nMwwok1J6A__opengraph/img/bbHffM-AIBac7jMM8sgOM1sC0zk=/0x274:1314x964/fit-in/1200x630/filters:strip_icc()/pic6569894.png"
-        alt=""
-      />
-    </div>
-    <div class="info">
-      <span class="header"
-        >Play <strong>Dungeon</strong> 2 Times Lorem ipsum dolor sit amet
-        consectetur adipisicing elit. Molestiae, architecto!</span
-      >
-      <div class="bar-2">
-        <span class="bar-2-span">1 / 2</span>
-        <div class="bar-2-value"></div>
-        <span class="points">10</span>
-      </div>
-    </div>
-    <div class="status-image">
-      <img src="../../../shared/assets/images/challenge-complete.png" alt="" />
-    </div>
-  </div>
-
-  <div class="wrapper_challenges__item locked">
-    <div class="image">
-      <img
-        src="https://cf.geekdo-images.com/fvhkcw4s6Q4-nMwwok1J6A__opengraph/img/bbHffM-AIBac7jMM8sgOM1sC0zk=/0x274:1314x964/fit-in/1200x630/filters:strip_icc()/pic6569894.png"
-        alt=""
-      />
-    </div>
-    <div class="info">
-      <span class="header"
-        >Play <strong>Dungeon</strong> 2 TimesLoremipsumdolorsitametconsecteturadipisicingelit. Molestiae, architecto!</span
-      >
-      <div class="bar-2">
-        <span class="bar-2-span">1 / 2</span>
-        <div class="bar-2-value"></div>
-        <span class="points">10</span>
-      </div>
-    </div>
-    <div class="status-image">
-      <img src="../../../shared/assets/images/locked.png" alt="" />
     </div>
   </div>
 </div>

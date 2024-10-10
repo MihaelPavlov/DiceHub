@@ -1,5 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { IUserChallengePeriodReward } from './../../../entities/rewards/models/user-period-reward.model';
+import { IUserChallenge } from './../../../entities/challenges/models/user-challenge.model';
+import {
+  Component,
+  OnInit,
+  ChangeDetectorRef,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
 import { Router } from '@angular/router';
+import { ChallengesService } from '../../../entities/challenges/api/challenges.service';
+import { RewardsService } from '../../../entities/rewards/api/rewards.service';
+import { IUserChallengePeriodPerformance } from '../../../entities/challenges/models/user-challenge-period-performance.model';
+import { combineLatest } from 'rxjs';
+import { ChallengeStatus } from '../../../entities/challenges/enums/challenge-status.enum';
 
 @Component({
   selector: 'app-challenges-management',
@@ -7,102 +20,113 @@ import { Router } from '@angular/router';
   styleUrl: 'challenges-management.component.scss',
 })
 export class ChallengesManagementComponent implements OnInit {
-  constructor(private readonly router: Router) {}
-  ngOnInit(): void {
-    const barValue = document.querySelector('.bar-2-value') as HTMLElement;
+  @ViewChild('scroller') scroller!: ElementRef;
 
-    // Modify the keyframes dynamically
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes custom-load {
-            0% {
-                width: 0;
-            }
-    
-            100% {
-                width: 50%; // Modify this value as needed
-            }
+  public periodPerformance!: IUserChallengePeriodPerformance;
+  public userChallengePeriodRewardList!: IUserChallengePeriodReward[];
+  public userChallengeList: IUserChallenge[] = [];
+  public ChallengeStatus = ChallengeStatus;
+  constructor(
+    private readonly router: Router,
+    private readonly rewardsService: RewardsService,
+    private readonly challengeService: ChallengesService,
+    private readonly cd: ChangeDetectorRef
+  ) {}
+
+  public ngOnInit(): void {
+    this.challengeService.getUserChallengePeriodPerformance().subscribe({
+      next: (periodPerformance: IUserChallengePeriodPerformance) => {
+        this.periodPerformance = periodPerformance;
+
+        combineLatest([
+          this.challengeService.getUserChallengeList(),
+          this.rewardsService.getUserChallengePeriodRewardList(
+            this.periodPerformance.id
+          ),
+        ]).subscribe({
+          next: ([userChallengeList, rewardList]) => {
+            this.userChallengeList = userChallengeList;
+            this.userChallengePeriodRewardList = rewardList;
+
+            // Required to detect the changes from the api. Otherwise dom is empty
+            // Force the DOM Update Before Querying
+            this.cd.detectChanges();
+            this.updateChallengesProgressBar();
+            this.updateRewardProgressBar();
+          },
+        });
+      },
+      error: (error) => {},
+    });
+  }
+
+  public scrollLeft(): void {
+    this.scroller.nativeElement.scrollBy({ left: -150, behavior: 'smooth' });
+  }
+
+  public scrollRight(): void {
+    this.scroller.nativeElement.scrollBy({ left: 150, behavior: 'smooth' });
+  }
+
+  private updateChallengesProgressBar(): void {
+    this.userChallengeList.forEach((challenge, index) => {
+      const progressPercentage =
+        (challenge.currentAttempts / challenge.maxAttempts) * 100;
+
+      const barValue = document.getElementById(
+        `progress-bar-${index}`
+      ) as HTMLElement;
+
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes custom-load-${index} {
+          0% {
+            width: 0%;
+          }
+          100% {
+            width: ${progressPercentage}%;
+          }
         }
-    `;
+      `;
 
-    // Append the style to the document head
-    document.head.appendChild(style);
+      document.head.appendChild(style);
 
-    // Apply the modified animation to the bar value element
-    barValue.style.animation = 'custom-load 3s normal forwards';
+      barValue.style.animation = `custom-load-${index} 3s normal forwards`;
+    });
+  }
 
-    // Top challenge bar with point
+  private updateRewardProgressBar() {
     const progress: HTMLElement | null = document.getElementById('progress');
     const stepCircles: NodeListOf<Element> =
       document.querySelectorAll('.circle');
-    let currentActive: number = 2;
+    let currentActive: number = this.userChallengePeriodRewardList.filter(
+      (reward) => reward.isCompleted
+    ).length;
 
-    // NOTE CHANGE HERE TO 1-4
-    // 1=25%
-    // 2=50%
-    // 3=75%
-    // 4=100%
-    update(currentActive);
-
-    function update(currentActive: number): void {
-      stepCircles.forEach((circle: Element, i: number) => {
-        if (i < currentActive) {
-          circle.classList.add('activated');
-          circle.innerHTML = `
+    stepCircles.forEach((circle: Element, i: number) => {
+      if (i < currentActive) {
+        circle.classList.add('activated');
+        circle.innerHTML = `
           <img class="_img"
           src="../../../shared/assets/images/challenge-complete.png"
           alt=""
           />`;
-          circle.classList.add('_img');
-        } else {
-          circle.classList.remove('activated');
-        }
-      });
-
-      const activeCircles: NodeListOf<Element> =
-        document.querySelectorAll('.activated');
-      console.log(activeCircles);
-      if (progress && stepCircles.length > 1) {
-        console.log(
-          ((activeCircles.length - 1) / (stepCircles.length - 1)) * 100 + '%'
-        );
-
-        progress.style.width =
-          ((activeCircles.length - 1) / (stepCircles.length - 1)) * 100 + '%';
+        circle.classList.add('_img');
+      } else {
+        circle.classList.remove('activated');
       }
+    });
+
+    const activeCircles: NodeListOf<Element> =
+      document.querySelectorAll('.activated');
+    console.log('activated circles --- >', activeCircles);
+    if (progress && stepCircles.length > 1) {
+      console.log(
+        ((activeCircles.length - 1) / (stepCircles.length - 1)) * 100 + '%'
+      );
+
+      progress.style.width =
+        ((activeCircles.length - 1) / (stepCircles.length - 1)) * 100 + '%';
     }
   }
-  //   ngAfterViewInit(): void {
-  //     const progress: HTMLElement | null = document.getElementById("progress");
-  // const stepCircles: NodeListOf<Element> = document.querySelectorAll(".circle");
-  // let currentActive: number = 1;
-
-  // // NOTE CHANGE HERE TO 1-4
-  // // 1=25%
-  // // 2=50%
-  // // 3=75%
-  // // 4=100%
-  // update(3);
-
-  // function update(currentActive: number): void {
-  //   stepCircles.forEach((circle: Element, i: number) => {
-  //     if (i < currentActive) {
-  //       circle.classList.add("active");
-
-  //       // circle.classList.add("_img");
-  //       // circle.innerHTML = `
-  //       // <img class="_img"
-  //       // src="https://static.vecteezy.com/system/resources/thumbnails/017/350/123/small/green-check-mark-icon-in-round-shape-design-png.png"
-  //       // alt=""
-  //       // />`
-  //     } else {
-  //       circle.classList.remove("active");
-  //     }
-  //   });
-  //   const activeCircles: NodeListOf<Element> = document.querySelectorAll(".active");
-  //   if (progress && stepCircles.length > 1) {
-  //     progress.style.width = ((activeCircles.length - 1) / (stepCircles.length - 1)) * 100 + "%";
-  //   }
-  // }
-  //   }
 }

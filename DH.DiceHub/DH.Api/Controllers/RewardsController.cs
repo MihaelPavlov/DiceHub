@@ -31,9 +31,8 @@ public class RewardsController : ControllerBase
         return Ok(result);
     }
 
-    //TODO: Use it in FE
     [HttpGet("get-user-rewards/{id}")]
-    [ActionAuthorize(UserAction.SystemRewardCRUD)]
+    [ActionAuthorize(UserAction.RewardRead)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetUserChallengePeriodRewardListQueryModel>))]
     public async Task<IActionResult> GetUserChallengeRewardListByPeriodPerformanceId(int id, CancellationToken cancellationToken)
     {

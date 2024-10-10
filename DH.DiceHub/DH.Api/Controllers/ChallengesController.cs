@@ -29,9 +29,8 @@ public class ChallengesController : ControllerBase
         return Ok(result);
     }
 
-    //TODO: Use it in FE
     [HttpGet("get-user-challenges")]
-    [ActionAuthorize(UserAction.ChallengesCUD)]
+    [ActionAuthorize(UserAction.ChallengesRead)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetUserChallengeListQueryModel>))]
     public async Task<IActionResult> GetUserChallengeList(CancellationToken cancellationToken)
     {
@@ -39,9 +38,8 @@ public class ChallengesController : ControllerBase
         return Ok(result);
     }
 
-    //TODO: Use it in FE
     [HttpGet("get-user-challenge-period-performance")]
-    [ActionAuthorize(UserAction.ChallengesCUD)]
+    [ActionAuthorize(UserAction.ChallengesRead)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetUserChallengePeriodPerformanceQueryModel))]
     public async Task<IActionResult> GetUserChallengePeriodPerformnace(CancellationToken cancellationToken)
     {
