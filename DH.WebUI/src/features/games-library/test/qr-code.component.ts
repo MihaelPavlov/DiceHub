@@ -7,6 +7,7 @@ import { take } from 'rxjs';
   selector: 'app-qr-code',
   templateUrl: 'qr-code.component.html',
 })
+// TODO: DELETE THIS COMPONENT
 export class QrCodeComponent implements AfterViewInit {
   @ViewChild('video') videoElement!: ElementRef<HTMLVideoElement>;
   @ViewChild('image') imageElement!: ElementRef<HTMLImageElement>;

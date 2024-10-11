@@ -16,9 +16,10 @@ public enum UserAction
     EventsRead = 6,
     RoomsCRUD = 7,
     ScannerRead = 8,
-    SystemRewardCRUD = 9,
-    SystemRewardRead = 10,
+    SystemRewardsCRUD = 9,
+    SystemRewardsRead = 10,
     ChallengesCUD = 11,
     ChallengesRead = 12,
-    RewardRead = 13,
+    RewardsRead = 13,
+    SpaceManagementCRUD = 14,
 }

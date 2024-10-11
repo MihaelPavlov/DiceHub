@@ -35,6 +35,7 @@ const routes: Routes = [
       },
     ],
   },
+  //TODO: this qr code component can be deleted
   {
     path: 'qr-code',
     component: QrCodeComponent,

@@ -23,11 +23,12 @@ public class MapPermissions : IMapPermissions, IActionPermissions<UserAction>
         { UserAction.EventsRead, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff, Role.User} },
         { UserAction.RoomsCRUD, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff, Role.User} },
         { UserAction.ScannerRead, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff, Role.User} },
-        { UserAction.SystemRewardCRUD, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff} },
-        { UserAction.SystemRewardRead, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff, Role.User} },
+        { UserAction.SystemRewardsCRUD, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff} },
+        { UserAction.SystemRewardsRead, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff, Role.User} },
         { UserAction.ChallengesCUD, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff} },
         { UserAction.ChallengesRead, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff, Role.User} },
-        { UserAction.RewardRead, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff, Role.User} },
+        { UserAction.RewardsRead, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff, Role.User} },
+        { UserAction.SpaceManagementCRUD, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff, Role.User} },
     };
 
     public IDictionary<int, List<Role>> GetActionsMapping()

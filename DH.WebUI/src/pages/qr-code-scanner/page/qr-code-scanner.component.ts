@@ -79,6 +79,17 @@ export class QrCodeScannerComponent implements AfterViewInit {
             const request = { data: code.data };
             this.isValidQrScanned = true;
             
+
+            //TODO: Maybe change the BE request to return the result, based on the specific handler.
+            /*
+            for example if it's qr code for game and it's valid the backend will return response 
+            Example:
+              qr-code-type: game
+              isValid: true
+
+            And based on that information here we will decide it to when will be the user redirect in the game case
+            to create a space table
+            */
             this.scannerService
             .upload(request)
             .pipe(take(1))

@@ -74,8 +74,19 @@ public class TenantDbContext : DbContext, ITenantDbContext
 
     #endregion challenges
 
+    #region space
+
+    public DbSet<SpaceTable> SpaceTables { get; set; } = default!;
+    public DbSet<SpaceTableParticipant> SpaceTableParticipants { get; set; } = default!;
+
+    #endregion space
+
+    #region others
+
     public DbSet<UserStatistic> UserStatistics { get; set; } = default!;
     public DbSet<FailedJob> FailedJobs { get; set; } = default!;
+
+    #endregion others
 
     public T AcquireRepository<T>()
     {

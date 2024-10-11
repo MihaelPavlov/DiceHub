@@ -136,9 +136,9 @@ public class UserChallengesManagementService : IUserChallengesManagementService
 
         // Random generator
         var random = new Random();
-
+        var counterChallenges = 2;
         // 1. Assign the first two challenges with InProgress status and RequiredUserTotalPoints = 0
-        for (int i = 0; i < 2; i++)
+        while (counterChallenges != 0)
         {
             // Select a random challenge from the system challenges
             var randomIndex = random.Next(systemChallenges.Count);
@@ -151,12 +151,14 @@ public class UserChallengesManagementService : IUserChallengesManagementService
                 {
                     CreatedDate = DateTime.UtcNow,
                     Challenge = challenge,
+                    ChallengeId = challenge.Id,
                     RequiredUserTotalPoints = 0, // Set required points to 0 for the first two challenges
                     AttemptCount = 0,
                     Status = ChallengeStatus.InProgress, // InProgress status for the first two challenges
                     UserId = userId,
                     IsActive = true
                 });
+                counterChallenges--;
             }
         }
 
@@ -177,6 +179,7 @@ public class UserChallengesManagementService : IUserChallengesManagementService
                     CreatedDate = DateTime.UtcNow,
                     RequiredUserTotalPoints = minRequiredPoints,
                     Challenge = thirdChallenge,
+                    ChallengeId = thirdChallenge.Id,
                     AttemptCount = 0,
                     Status = ChallengeStatus.Locked,
                     UserId = userId,

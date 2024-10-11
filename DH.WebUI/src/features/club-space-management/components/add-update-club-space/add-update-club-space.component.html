@@ -1,21 +1,20 @@
-<app-header Recommended="Create Game Table" [withBottomLine]="true"> </app-header>
+<app-header Recommended="Create Game Table" [withBottomLine]="true">
+</app-header>
 
-<div class="wrapper">
-  <div class="wrapper_inputs">
-    <div class="form__group">
-      <input
-        type="input"
-        class="form__field"
-        placeholder="search"
-        name="search"
-        id="search"
-        disabled
-      />
-      <label for="search" class="form__label"> Scan game</label>
-      <a class="wrapper_qrCode">
-        <img src="../../../../shared/assets/images/qr-code.png" alt="" />
-      </a>
-    </div>
+<form [formGroup]="form" class="container">
+  <div class="input-field qr-code-field">
+    <label for="gameId" class="required">Scanned Game</label>
+    <input
+      type="text"
+      placeholder="scanned game"
+      name="gameId"
+      id="gameId"
+      formControlName="gameId"
+      readonly="readonly"
+    />
+    <a class="qr-code">
+      <img src="../../../../shared/assets/images/qr-code.png" alt="" />
+    </a>
   </div>
 
   <div class="wrapper_image">
@@ -24,48 +23,51 @@
       alt=""
     />
   </div>
-  <div class="wrapper_inputs">
-    <div class="form__group">
-      <input
-        type="input"
-        class="form__field"
-        placeholder="name"
-        name="name"
-        id="name"
-      />
-      <label for="name" class="form__label"> Table Name</label>
-    </div>
+  <div class="input-field">
+    <label for="table-name" class="required">Table Name</label>
+    <input
+      placeholder="name"
+      type="text"
+      id="table-name"
+      formControlName="name"
+    />
   </div>
-
-  <div class="wrapper_small_inputs">
-    <div class="form_group_small">
+  <div class="input-group">
+    <div class="input-field">
+      <label for="max-people" class="required">Max People</label>
       <input
+        placeholder="max people"
         type="number"
-        class="form__field"
-        placeholder="max_people"
-        name="max_people"
-        id="max_people"
+        id="max-people"
+        formControlName="maxPeople"
       />
-      <label for="max_people" class="form__label">Max People</label>
     </div>
-  </div>
-
-  <div class="wrapper_inputs">
-    <div class="form__group">
+    <div class="input-field password-field">
+      <label for="password">Password</label>
       <input
-        type="input"
-        class="form__field"
         placeholder="password"
-        name="password"
+        [type]="showPassword ? 'text' : 'password'"
         id="password"
+        formControlName="password"
       />
-      <label for="password" class="form__label">Password</label>
+      <div (click)="togglePasswordVisibility()" class="toggle-password">
+        <span *ngIf="showPassword" class="material-symbols-outlined">
+          visibility_off
+        </span>
+        <span *ngIf="!showPassword" class="material-symbols-outlined">
+          visibility
+        </span>
+      </div>
     </div>
   </div>
 
+  <span class="info-message">If no password is set, anyone can join the session until the maximum participant limit is reached.</span>
+  <div *ngIf="getFirstErrorMessage()" class="errors">
+    {{ getFirstErrorMessage() }}
+  </div>
   <div class="wrapper_btn">
     <button class="btn btn-gray btn-border-blue btn-font-blue">
       Create Table
     </button>
   </div>
-</div>
+</form>

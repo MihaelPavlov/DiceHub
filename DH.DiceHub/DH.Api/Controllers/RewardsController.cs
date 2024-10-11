@@ -23,7 +23,7 @@ public class RewardsController : ControllerBase
     }
 
     [HttpGet("system-reward/{id}")]
-    [ActionAuthorize(UserAction.SystemRewardCRUD)]
+    [ActionAuthorize(UserAction.SystemRewardsCRUD)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetSystemRewardByIdQueryModel))]
     public async Task<IActionResult> GetSystemRewardById(int id, CancellationToken cancellationToken)
     {
@@ -32,7 +32,7 @@ public class RewardsController : ControllerBase
     }
 
     [HttpGet("get-user-rewards/{id}")]
-    [ActionAuthorize(UserAction.RewardRead)]
+    [ActionAuthorize(UserAction.RewardsRead)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetUserChallengePeriodRewardListQueryModel>))]
     public async Task<IActionResult> GetUserChallengeRewardListByPeriodPerformanceId(int id, CancellationToken cancellationToken)
     {
@@ -41,7 +41,7 @@ public class RewardsController : ControllerBase
     }
 
     [HttpPost("system-reward-list")]
-    [ActionAuthorize(UserAction.SystemRewardCRUD)]
+    [ActionAuthorize(UserAction.SystemRewardsCRUD)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetSystemRewardListQueryModel>))]
     public async Task<IActionResult> GetSystemRewardList([FromBody] GetSystemRewardListQuery request, CancellationToken cancellationToken)
     {
@@ -50,7 +50,7 @@ public class RewardsController : ControllerBase
     }
 
     [HttpPost("system-reward")]
-    [ActionAuthorize(UserAction.SystemRewardCRUD)]
+    [ActionAuthorize(UserAction.SystemRewardsCRUD)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
     public async Task<IActionResult> CreateSystemReward([FromForm] string reward, [FromForm] IFormFile imageFile, CancellationToken cancellationToken)
     {
@@ -70,7 +70,7 @@ public class RewardsController : ControllerBase
     }
 
     [HttpPut("system-reward")]
-    [ActionAuthorize(UserAction.SystemRewardCRUD)]
+    [ActionAuthorize(UserAction.SystemRewardsCRUD)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> UpdateSystemReward([FromForm] string reward, [FromForm] IFormFile? imageFile, CancellationToken cancellationToken)
     {
@@ -92,7 +92,7 @@ public class RewardsController : ControllerBase
     }
 
     [HttpDelete("system-reward/{id}")]
-    [ActionAuthorize(UserAction.SystemRewardCRUD)]
+    [ActionAuthorize(UserAction.SystemRewardsCRUD)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
     public async Task<IActionResult> DeleteSystemReward(int id, CancellationToken cancellationToken)
     {

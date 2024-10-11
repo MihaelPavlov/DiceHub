@@ -1,169 +1,209 @@
 @use "../../../../shared/assets/styles/palette";
 
 .wrapper_image {
-    text-align: center;
-    margin: 1rem 0;
+  text-align: center;
+  margin: 1rem 0;
+  display: block;
+
+  img {
+    width: 7rem;
+    height: 7rem;
+    object-fit: cover;
+    border-radius: 20px;
+    border: 0.15rem solid black;
+  }
+}
+
+// .wrapper {
+//     width: 90%;
+//     margin: 0 auto;
+//     padding-bottom: 10rem;
+
+//     .wrapper_btn {
+//         display: flex;
+//         justify-content: center;
+//         margin: 4rem;
+//     }
+// }
+
+// .wrapper_small_inputs {
+//     display: flex;
+//     width: 100%;
+//     margin: 0.5rem 1rem;
+
+//     .form_group_small {
+//         position: relative;
+//         display: flex;
+//         width: 40%;
+//         padding: 10px 0 0;
+//         align-items: start;
+
+//         .form__field {
+//             background-color: palette.$main-nav-color;
+//             width: 100%;
+//             border: 0;
+//             outline: 0;
+//             font-size: small;
+//             color: palette.$main-font-color;
+//             padding: 0.7rem 1rem;
+//             border-radius: 3rem;
+//             transition: border-color 0.2s;
+
+//             &::placeholder {
+//                 color: transparent;
+//             }
+
+//             &:placeholder-shown~.form__label {
+//                 font-size: 1rem;
+//                 cursor: text;
+//                 top: 20px;
+//             }
+//         }
+
+//         .form__label {
+//             position: absolute;
+//             top: 0;
+//             display: block;
+//             transition: 0.2s;
+//             font-size: 1rem;
+//             color: palette.$main-font-gray-color;
+//             padding-left: 1rem;
+
+//         }
+
+//         .form__field:focus {
+//             ~.form__label {
+//                 position: absolute;
+//                 top: 0;
+//                 display: block;
+//                 transition: 0.2s;
+//                 font-size: 0.8rem;
+//                 color: palette.$main-font-gray-color;
+//                 font-weight: 700;
+//             }
+
+//             padding-bottom: 0.6rem;
+//             font-weight: 700;
+//             border-width: 3px;
+//         }
+
+//     }
+// }
+
+// .wrapper_inputs {
+//     display: flex;
+//     width: 100%;
+//     margin: 0.5rem 1rem;
+
+//     .form__group {
+//         position: relative;
+//         display: flex;
+//         width: 90%;
+//         padding: 10px 0 0;
+//         align-items: center;
+
+//         .form__field {
+//             background-color: palette.$main-nav-color;
+//             width: 100%;
+//             border: 0;
+//             outline: 0;
+//             font-size: small;
+//             color: palette.$main-font-color;
+//             padding: 0.7rem 1rem;
+//             border-radius: 3rem;
+//             transition: border-color 0.2s;
+
+//             &::placeholder {
+//                 color: transparent;
+//             }
+
+//             &:placeholder-shown~.form__label {
+//                 font-size: 1rem;
+//                 cursor: text;
+//                 top: 20px;
+//             }
+//         }
+
+//         .form__label {
+//             position: absolute;
+//             top: 0;
+//             display: block;
+//             transition: 0.2s;
+//             font-size: 1rem;
+//             color: palette.$main-font-gray-color;
+//             padding-left: 1rem;
+
+//         }
+
+//         .form__field:focus {
+//             ~.form__label {
+//                 position: absolute;
+//                 top: 0;
+//                 display: block;
+//                 transition: 0.2s;
+//                 font-size: 0.8rem;
+//                 color: palette.$main-font-gray-color;
+//                 font-weight: 700;
+//             }
+
+//             padding-bottom: 0.6rem;
+//             font-weight: 700;
+//             border-width: 3px;
+//         }
+
+//         .wrapper_qrCode {
+//             position: absolute;
+//             right: 1rem;
+//             top: 0.8rem;
+
+//             img {
+//                 width: 2rem;
+//                 height: 2rem;
+//                 object-fit: cover;
+//             }
+//         }
+//     }
+// }
+
+//
+.container {
+  font-size: palette.$main-font-color;
+  text-align: center;
+  padding: 1.3rem;
+  padding-top: 1rem;
+  border-radius: 10px;
+  text-align: center;
+  padding-bottom: 8rem;
+  .info-message {
     display: block;
+    color: palette.$main-font-gray-color;
+    margin-bottom: 1rem;
+  }
+  .qr-code-field {
+    position: relative;
 
-    img {
-        width: 7rem;
-        height: 7rem;
+    .qr-code {
+      position: absolute;
+      right: 1rem;
+      top: 1.7rem;
+      img {
+        width: 2rem;
+        height: 2rem;
         object-fit: cover;
-        border-radius: 20px;
-        border: 0.15rem solid black;
+      }
     }
-}
+  }
 
-.wrapper {
-    width: 90%;
-    margin: 0 auto;
-    padding-bottom: 10rem;
+  .password-field {
+    position: relative;
 
-    .wrapper_btn {
-        display: flex;
-        justify-content: center;
-        margin: 4rem;
+    input {
+      padding-right: 2.5rem;
     }
-}
-
-.wrapper_small_inputs {
-    display: flex;
-    width: 100%;
-    margin: 0.5rem 1rem;
-
-    .form_group_small {
-        position: relative;
-        display: flex;
-        width: 40%;
-        padding: 10px 0 0;
-        align-items: start;
-
-        .form__field {
-            background-color: palette.$main-nav-color;
-            width: 100%;
-            border: 0;
-            outline: 0;
-            font-size: small;
-            color: palette.$main-font-color;
-            padding: 0.7rem 1rem;
-            border-radius: 3rem;
-            transition: border-color 0.2s;
-
-
-            &::placeholder {
-                color: transparent;
-            }
-
-            &:placeholder-shown~.form__label {
-                font-size: 1rem;
-                cursor: text;
-                top: 20px;
-            }
-        }
-
-        .form__label {
-            position: absolute;
-            top: 0;
-            display: block;
-            transition: 0.2s;
-            font-size: 1rem;
-            color: palette.$main-font-gray-color;
-            padding-left: 1rem;
-
-        }
-
-        .form__field:focus {
-            ~.form__label {
-                position: absolute;
-                top: 0;
-                display: block;
-                transition: 0.2s;
-                font-size: 0.8rem;
-                color: palette.$main-font-gray-color;
-                font-weight: 700;
-            }
-
-            padding-bottom: 0.6rem;
-            font-weight: 700;
-            border-width: 3px;
-        }
-
-
+    .toggle-password {
+      position: absolute;
+      right: 10px;
+      top: 50%;
     }
-}
-
-.wrapper_inputs {
-    display: flex;
-    width: 100%;
-    margin: 0.5rem 1rem;
-
-    .form__group {
-        position: relative;
-        display: flex;
-        width: 90%;
-        padding: 10px 0 0;
-        align-items: center;
-
-        .form__field {
-            background-color: palette.$main-nav-color;
-            width: 100%;
-            border: 0;
-            outline: 0;
-            font-size: small;
-            color: palette.$main-font-color;
-            padding: 0.7rem 1rem;
-            border-radius: 3rem;
-            transition: border-color 0.2s;
-
-
-            &::placeholder {
-                color: transparent;
-            }
-
-            &:placeholder-shown~.form__label {
-                font-size: 1rem;
-                cursor: text;
-                top: 20px;
-            }
-        }
-
-        .form__label {
-            position: absolute;
-            top: 0;
-            display: block;
-            transition: 0.2s;
-            font-size: 1rem;
-            color: palette.$main-font-gray-color;
-            padding-left: 1rem;
-
-        }
-
-        .form__field:focus {
-            ~.form__label {
-                position: absolute;
-                top: 0;
-                display: block;
-                transition: 0.2s;
-                font-size: 0.8rem;
-                color: palette.$main-font-gray-color;
-                font-weight: 700;
-            }
-
-            padding-bottom: 0.6rem;
-            font-weight: 700;
-            border-width: 3px;
-        }
-
-        .wrapper_qrCode {
-            position: absolute;
-            right: 1rem;
-            top: 0.8rem;
-
-            img {
-                width: 2rem;
-                height: 2rem;
-                object-fit: cover;
-            }
-        }
-    }
+  }
 }
