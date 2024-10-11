@@ -1,6 +1,10 @@
 ﻿using DH.Adapter.QRManager.QRCodeStates;
+using DH.Domain;
 using DH.Domain.Adapters.QRManager;
 using DH.Domain.Adapters.QRManager.StateModels;
+using DH.Domain.Entities;
+using DH.Domain.Exceptions;
+using DH.Domain.Repositories;
 using SkiaSharp;
 using System.Text.Json;
 using ZXing.QrCode;
@@ -10,10 +14,12 @@ namespace DH.Adapter.QRManager;
 internal class QRCodeManager : IQRCodeManager
 {
     readonly IQRCodeContext qRCodeContext;
+    readonly IContainerService containerService;
 
-    public QRCodeManager(IQRCodeContext qRCodeContext)
+    public QRCodeManager(IQRCodeContext qRCodeContext, IContainerService containerService)
     {
         this.qRCodeContext = qRCodeContext;
+        this.containerService = containerService;
     }
 
     public string CreateQRCode(QRReaderModel data, string webRootPath)
@@ -88,15 +94,14 @@ internal class QRCodeManager : IQRCodeManager
         }
     }
 
-    public async Task ProcessQRCodeAsync(string data, CancellationToken cancellationToken)
+    public async Task<QrCodeValidationResult> ValidateQRCodeAsync(string data, CancellationToken cancellationToken)
     {
-        this.ValidateCode(data);
-        var codeType = this.IdentifyQrCodeType(data);
+        var qrReader = this.ValidateCode(data);
 
-        switch (codeType)
+        switch (qrReader.Type)
         {
             case QrCodeType.Game:
-                this.qRCodeContext.SetState(new GameQRCodeState());
+                this.qRCodeContext.SetState(new GameQRCodeState(this.containerService.Resolve<IRepository<Game>>()));
                 break;
             case QrCodeType.Event:
                 this.qRCodeContext.SetState(new EventQRCodeState());
@@ -106,30 +111,24 @@ internal class QRCodeManager : IQRCodeManager
                 break;
         }
 
-        await this.qRCodeContext.HandleAsync(data, cancellationToken);
+        return await this.qRCodeContext.HandleAsync(qrReader, cancellationToken);
     }
 
-    public QrCodeType IdentifyQrCodeType(string data)
+    private QRReaderModel ValidateCode(string data)
     {
-        var qrReader = JsonSerializer.Deserialize<QRReaderModel>(data);
+        try
+        {
+            var qrReader = JsonSerializer.Deserialize<QRReaderModel>(data);
 
-        if (qrReader != null)
-            return qrReader.Type;
-
-        return QrCodeType.Unknown;
-    }
-
-    public void ValidateCode(string data)
-    {
-        var qrReader = JsonSerializer.Deserialize<QRReaderModel>(data);
-
-        if (qrReader != null &&
-            qrReader.Id != 0 &&
-            !string.IsNullOrEmpty(qrReader.Name) &&
-            Enum.IsDefined(qrReader.Type))
-            return;
-
-
-        throw new Exception("Invalid QR Code");
+            if (qrReader == null || qrReader.Id == 0 || string.IsNullOrEmpty(qrReader.Name) || !Enum.IsDefined(typeof(QrCodeType), qrReader.Type))
+            {
+                throw new BadRequestException("Invalid QR Code data.");
+            }
+            return qrReader;
+        }
+        catch (JsonException ex)
+        {
+            throw new JsonException("Invalid QR Code format.", ex);
+        }
     }
 }

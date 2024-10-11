@@ -1,6 +1,7 @@
 ﻿using DH.Adapter.Authentication.Filters;
 using DH.Domain.Adapters.Authentication.Enums;
 using DH.Domain.Adapters.QRManager;
+using DH.Domain.Adapters.QRManager.StateModels;
 using DH.Domain.Models.ScannerModels.Queries;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,10 +20,10 @@ public class ScannerController : ControllerBase
 
     [HttpPost("upload")]
     [ActionAuthorize(UserAction.ScannerRead)]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(QrCodeValidationResult))]
     public async Task<IActionResult> UploadQrCode([FromBody] QrCodeRequestModel request, CancellationToken cancellationToken)
     {
-        await this.qRCodeManager.ProcessQRCodeAsync(request.Data, cancellationToken);
-        return Ok();
+        var result = await this.qRCodeManager.ValidateQRCodeAsync(request.Data, cancellationToken);
+        return Ok(result);
     }
 }

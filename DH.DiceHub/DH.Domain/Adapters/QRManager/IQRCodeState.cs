@@ -1,6 +1,8 @@
-﻿namespace DH.Domain.Adapters.QRManager;
+﻿using DH.Domain.Adapters.QRManager.StateModels;
+
+namespace DH.Domain.Adapters.QRManager;
 
 public interface IQRCodeState
 {
-    Task HandleAsync(IQRCodeContext context, string data, CancellationToken cancellationToken);
+    Task<QrCodeValidationResult> HandleAsync(IQRCodeContext context, QRReaderModel data, CancellationToken cancellationToken);
 }
