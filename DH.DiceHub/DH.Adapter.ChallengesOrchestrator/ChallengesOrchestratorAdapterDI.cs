@@ -9,6 +9,5 @@ public static class ChallengesOrchestratorAdapterDI
         this IServiceCollection services)
         => services
             .AddSingleton<SynchronizeUsersChallengesQueue>()
-            .AddSingleton<ISynchronizeUsersChallengesService, SynchronizeUsersChallengesService>()
             .AddHostedService<SynchronizeUsersChallengesService>();
 }

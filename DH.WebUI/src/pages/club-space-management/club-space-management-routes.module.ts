@@ -10,7 +10,7 @@ const routes: Routes = [
     component: ClubSpaceManagementComponent,
   },
   {
-    path: 'create',
+    path: 'create/:gameId',
     component: AddUpdateClubSpaceComponent,
   },
   {

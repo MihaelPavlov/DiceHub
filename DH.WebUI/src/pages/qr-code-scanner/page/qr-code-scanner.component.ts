@@ -4,6 +4,8 @@ import { ScannerService } from '../../../entities/qr-code-scanner/api/scanner.se
 import { IQrCode } from '../../../entities/qr-code-scanner/models/qr-code.model';
 import { QrCodeType } from '../../../entities/qr-code-scanner/enums/qr-code-type.enum';
 import { take } from 'rxjs';
+import { Router } from '@angular/router';
+import { IQrCodeValidationResult } from '../../../entities/qr-code-scanner/models/qr-code-validation-result.model';
 
 @Component({
   selector: 'app-qr-code-scanner',
@@ -19,7 +21,11 @@ export class QrCodeScannerComponent implements AfterViewInit {
   public context!: CanvasRenderingContext2D | null;
   public invalidQrCode = false;
   public isValidQrScanned = false;
-  constructor(private readonly scannerService: ScannerService) {}
+
+  constructor(
+    private readonly scannerService: ScannerService,
+    private readonly router: Router
+  ) {}
 
   public ngAfterViewInit(): void {
     this.canvas = document.createElement('canvas');
@@ -78,30 +84,27 @@ export class QrCodeScannerComponent implements AfterViewInit {
             this.invalidQrCode = false;
             const request = { data: code.data };
             this.isValidQrScanned = true;
-            
 
-            //TODO: Maybe change the BE request to return the result, based on the specific handler.
-            /*
-            for example if it's qr code for game and it's valid the backend will return response 
-            Example:
-              qr-code-type: game
-              isValid: true
-
-            And based on that information here we will decide it to when will be the user redirect in the game case
-            to create a space table
-            */
             this.scannerService
-            .upload(request)
-            .pipe(take(1))
-            .subscribe({
-              next: (res) => {
-                  video.remove();
-                  console.log('result -> ', res);
-                  alert('QR Code detected: ' + code.data);
+              .upload(request)
+              .pipe(take(1))
+              .subscribe({
+                next: (res: IQrCodeValidationResult | null) => {
+                  if (res?.isValid) {
+                    switch (res.type) {
+                      case QrCodeType.Game:
+                        this.router.navigateByUrl(
+                          `space/create/${res.objectId}`
+                        );
+                        break;
+                    }
+                  } else {
+                    // video.remove();
+                  }
                 },
                 error: (err) => {
-                  console.log(err,'error');
-                  
+                  console.log(err, 'error');
+
                   this.invalidQrCode = true;
                   this.isValidQrScanned = false;
                   this.startCamera();

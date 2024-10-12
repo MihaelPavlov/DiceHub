@@ -92,12 +92,8 @@ public class DataRepository<TEntity> : IRepository<TEntity>
         await this.SaveChangesAsync(cancellationToken);
     }
 
-    /// <summary>
-    /// Asynchronously saves all changes made in the repository.
-    /// </summary>
-    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
-    /// <returns>A task that represents the asynchronous operation.</returns>
-    private async Task SaveChangesAsync(CancellationToken cancellationToken)
+    /// <inheritdoc/>
+    public async Task SaveChangesAsync(CancellationToken cancellationToken)
     {
         await this.tenantDbContext.SaveChangesAsync(cancellationToken);
     }

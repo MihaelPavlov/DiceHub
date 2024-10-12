@@ -7,6 +7,6 @@ internal class EventQRCodeState : IQRCodeState
 {
     public async Task<QrCodeValidationResult> HandleAsync(IQRCodeContext context, QRReaderModel data, CancellationToken cancellationToken)
     {
-        return new QrCodeValidationResult(QrCodeType.Event);
+        return new QrCodeValidationResult(data.Id, QrCodeType.Event);
     }
 }

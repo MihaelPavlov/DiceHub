@@ -13,6 +13,7 @@ using DH.Adapter.ChatHub;
 using DH.Adapter.QRManager;
 using Microsoft.Extensions.FileProviders;
 using DH.Adapter.ChallengesOrchestrator;
+using DH.Adapter.GameSession;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,6 +43,8 @@ builder.Services.ConfigureQrCodeManager();
 builder.Services.AuthenticationAdapter(builder.Configuration);
 builder.Services.AddSchedulingConfiguration(builder.Configuration);
 builder.Services.AddChallengesOrchestrator();
+builder.Services.AddGameSessionAdapter();
+
 
 builder.Services.AddAutofac();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
@@ -69,7 +72,7 @@ if (app.Environment.IsDevelopment())
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "[TRINT] Invest Track API V1");
     });
 }
-var fileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.WebRootPath,"images"));
+var fileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.WebRootPath, "images"));
 
 app.UseStaticFiles(new StaticFileOptions
 {

@@ -42,6 +42,7 @@ public static class DataDIModule
             .AddScoped<ITenantDbContext>(provider => provider.GetService<TenantDbContext>()
                 ?? throw new ArgumentNullException("IDBContext was not found"))
             .AddScoped(typeof(IRepository<>), typeof(DataRepository<>))
-            .AddScoped<IUserChallengesManagementService, UserChallengesManagementService>();
+            .AddScoped<IUserChallengesManagementService, UserChallengesManagementService>()
+            .AddScoped<IGameSessionService, GameSessionService>();
 }
 

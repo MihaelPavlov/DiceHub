@@ -58,6 +58,10 @@ export class MenuComponent implements OnInit, AfterViewInit {
     this.destroy$.unsubscribe();
   }
 
+  public navigateToSpaceManagement():void{
+    this.router.navigate(['/space/home']);
+  }
+
   public navigateToChallenges(): void {
     this.router.navigate(['/challenges/home']);
   }

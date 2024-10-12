@@ -11,6 +11,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { SearchService } from '../../../shared/services/search.service';
 import { IMenuItem } from '../../../shared/models/menu-item.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -37,7 +38,8 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   constructor(
     private readonly fb: FormBuilder,
-    private readonly searchService: SearchService
+    private readonly searchService: SearchService,
+    private readonly router: Router
   ) {
     this.searchService.searchFormVisible$.subscribe((x) => {
       if (x === false) {
@@ -81,6 +83,10 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   public onBackClick(): void {
     this.backClicked.emit();
+  }
+
+  public onQrCodeClick():void{
+    this.router.navigateByUrl("/qr-code-scanner")
   }
 
   private onSearchSubmit(searchExpression: string) {

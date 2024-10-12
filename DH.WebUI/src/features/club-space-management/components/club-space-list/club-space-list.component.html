@@ -1,74 +1,45 @@
-<app-header Recommended="Join Game Table" [withBottomLine]="true"> </app-header>
-<div class="wrapper_search">
-  <div class="form__group">
-    <input
-      type="input"
-      class="form__field"
-      placeholder="search"
-      name="search"
-      id="search"
-    />
-    <label for="search" class="form__label"> Find table</label>
-  </div>
-  <a class="search">
-    <span id="search-btn" class="material-symbols-outlined"> search </span>
-  </a>
-</div>
+<app-header
+  Recommended="Join Game Table"
+  [withBottomLine]="true"
+  [withSearch]="true"
+  (searchExpressionResult)="this.handleSearchExpression($event)"
+>
+</app-header>
 
-<div class="wrapper_tables">
-  <div class="wrapper_tables__item">
+<div class="wrapper_tables" *ngIf="spaceTableList$ | async as spaceTables">
+  <div class="wrapper_tables__item" *ngFor="let table of spaceTables">
     <div class="wrapper_left">
       <div class="text">
-        <span>Tyson Room </span>
-        <span>Playing Dungeon </span>
+        <span>{{table.tableName}} Room </span>
+        <span>Playing {{table.gameName}} </span>
       </div>
       <div class="chips">
         <app-chip
           [size]="'small'"
           [color]="'orange'"
-          text="3 joined"
+          [text]="table.peopleJoined + ' joined'"
         ></app-chip>
-        <app-chip [size]="'small'" [color]="'red'" text="5 max"></app-chip>
+        <app-chip [size]="'small'" [color]="'red'" [text]="table.maxPeople + ' max'"></app-chip>
         <div class="image">
           <img
-            src="https://cf.geekdo-images.com/fvhkcw4s6Q4-nMwwok1J6A__opengraph/img/bbHffM-AIBac7jMM8sgOM1sC0zk=/0x274:1314x964/fit-in/1200x630/filters:strip_icc()/pic6569894.png"
+            [src]="table.gameImageId | gameImage"
             alt=""
           />
         </div>
       </div>
     </div>
 
-    <div class="info-btn">
-      <div class="image">
+    <div class="info-btn" *ngIf="getCurrentUserId !== table.createdBy">
+      <div class="image" *ngIf="table.isLocked">
         <img src="../../../../shared/assets/images/locked.png" alt="" />
       </div>
-      <button class="btn btn-yellow"> Join </button>
+      <button class="btn btn-yellow">Join</button>
     </div>
-  </div>
-  <div class="wrapper_tables__item">
-    <div class="wrapper_left">
-      <div class="text">
-        <span>Mike Room </span>
-        <span>Playing Cat are in Dangers rly long name</span>
+    <div class="info-btn" *ngIf="getCurrentUserId === table.createdBy">
+      <div class="image" *ngIf="table.isLocked">
+        <img src="../../../../shared/assets/images/locked.png" alt="" />
       </div>
-      <div class="chips">
-        <app-chip
-          [size]="'small'"
-          [color]="'orange'"
-          text="3 joined"
-        ></app-chip>
-        <app-chip [size]="'small'" [color]="'red'" text="5 max"></app-chip>
-        <div class="image">
-          <img
-            src="https://cf.geekdo-images.com/fvhkcw4s6Q4-nMwwok1J6A__opengraph/img/bbHffM-AIBac7jMM8sgOM1sC0zk=/0x274:1314x964/fit-in/1200x630/filters:strip_icc()/pic6569894.png"
-            alt=""
-          />
-        </div>
-      </div>
-    </div>
-
-    <div class="info-btn">
-      <button class="btn btn-yellow"> Join </button>
+      <button class="btn btn-yellow">My Room</button>
     </div>
   </div>
 </div>

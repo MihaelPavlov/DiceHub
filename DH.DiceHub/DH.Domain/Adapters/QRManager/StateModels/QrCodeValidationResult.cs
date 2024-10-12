@@ -2,11 +2,13 @@
 
 public class QrCodeValidationResult
 {
-    public QrCodeValidationResult(QrCodeType type)
+    public QrCodeValidationResult(int objectId,QrCodeType type)
     {
+        this.ObjectId = objectId;
         this.Type = type;
     }
 
+    public int ObjectId { get; set; }
     public QrCodeType Type { get; set; }
     private bool isValid;
     public bool IsValid

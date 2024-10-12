@@ -81,4 +81,11 @@ public interface IRepository<TEntity>
     /// </summary>
     /// <param name="entities">The entities to remove.</param>
     Task RemoveRange(IEnumerable<TEntity> entities, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Asynchronously saves all changes made in the repository.
+    /// </summary>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    Task SaveChangesAsync(CancellationToken cancellationToken);
 }

@@ -15,6 +15,7 @@
     <ProjectReference Include="..\DH.Adapter.ChallengesOrchestrator\DH.Adapter.ChallengesOrchestrator.csproj" />
     <ProjectReference Include="..\DH.Adapter.ChatHub\DH.Adapter.ChatHub.csproj" />
     <ProjectReference Include="..\DH.Adapter.Data\DH.Adapter.Data.csproj" />
+    <ProjectReference Include="..\DH.Adapter.GameSession\DH.Adapter.GameSession.csproj" />
     <ProjectReference Include="..\DH.Adapter.QRManager\DH.Adapter.QRManager.csproj" />
     <ProjectReference Include="..\DH.Adapter.Scheduling\DH.Adapter.Scheduling.csproj" />
     <ProjectReference Include="..\DH.Application\DH.Application.csproj" />

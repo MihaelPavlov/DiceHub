@@ -7,6 +7,6 @@ internal class UnknownQRCodeState : IQRCodeState
 {
     public async Task<QrCodeValidationResult> HandleAsync(IQRCodeContext context, QRReaderModel data, CancellationToken cancellationToken)
     {
-        return new QrCodeValidationResult(QrCodeType.Unknown);
+        return new QrCodeValidationResult(data.Id, QrCodeType.Unknown);
     }
 }

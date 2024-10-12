@@ -18,7 +18,7 @@ public class GameQRCodeState : IQRCodeState
     public async Task<QrCodeValidationResult> HandleAsync(IQRCodeContext context, QRReaderModel data, CancellationToken cancellationToken)
     {
         var traceId = Guid.NewGuid().ToString();
-        var validationResult = new QrCodeValidationResult(QrCodeType.Game);
+        var validationResult = new QrCodeValidationResult(data.Id, QrCodeType.Game);
         try
         {
             var game = await this.gameRepository.GetByAsyncWithTracking(x => x.Id == data.Id, cancellationToken);

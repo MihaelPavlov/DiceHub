@@ -1,3 +1,4 @@
+import { SpaceManagementService } from './../../../../entities/space-management/api/space-management.service';
 import { Component } from '@angular/core';
 import { Form } from '../../../../shared/components/form/form.component';
 import { Formify } from '../../../../shared/models/form.model';
@@ -8,10 +9,19 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { GamesService } from '../../../../entities/games/api/games.service';
+import { throwError } from 'rxjs';
+import { IGameByIdResult } from '../../../../entities/games/models/game-by-id.model';
+import { SafeUrl } from '@angular/platform-browser';
+import { GameImagePipe } from '../../../../shared/pipe/game-image.pipe';
+import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
+import { ToastType } from '../../../../shared/models/toast.model';
 
 interface ICreateSpaceTable {
+  gameName: string;
   gameId: number;
-  name: string;
+  tableName: string;
   maxPeople: number;
   password: string;
 }
@@ -23,25 +33,79 @@ interface ICreateSpaceTable {
 })
 export class AddUpdateClubSpaceComponent extends Form {
   override form: Formify<ICreateSpaceTable>;
+  public imagePreview: string | ArrayBuffer | SafeUrl | null = null;
 
   public showPassword = false;
   constructor(
     public override readonly toastService: ToastService,
-    private readonly fb: FormBuilder
+    private readonly fb: FormBuilder,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly gamesService: GamesService,
+    private readonly spaceManagementService: SpaceManagementService,
+    private readonly gameImagePipe: GameImagePipe,
+    private readonly router: Router
   ) {
     super(toastService);
     this.form = this.initFormGroup();
+    this.activatedRoute.paramMap.subscribe((params) => {
+      const id = params.get('gameId');
+      if (id) {
+        this.gamesService.getById(Number.parseInt(id)).subscribe({
+          next: (game: IGameByIdResult) => {
+            if (game) {
+              this.form.patchValue({
+                gameName: game.name,
+                gameId: game.id,
+              });
+
+              this.imagePreview = this.gameImagePipe.transform(game.imageId);
+            }
+          },
+          error: (error) => {
+            throwError(() => error);
+          },
+        });
+      }
+    });
   }
   public togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;
   }
 
+  public onAdd() {
+    if (this.form.valid) {
+      this.spaceManagementService
+        .add({
+          gameId: this.form.controls.gameId.value,
+          name: this.form.controls.tableName.value,
+          maxPeople: this.form.controls.maxPeople.value,
+          password: this.form.controls.password.value,
+        })
+        .subscribe({
+          next: () => {
+            this.toastService.success({
+              message: AppToastMessage.ChangesSaved,
+              type: ToastType.Success,
+            });
+            this.router.navigateByUrl('/games/library');
+          },
+          error: (error) => {
+            this.handleServerErrors(error);
+            this.toastService.error({
+              message: AppToastMessage.FailedToSaveChanges,
+              type: ToastType.Error,
+            });
+          },
+        });
+    }
+  }
+
   protected override getControlDisplayName(controlName: string): string {
     switch (controlName) {
-      case 'gameId':
+      case 'gameName':
         return 'Scanned Game';
-      case 'name':
-        return 'Name';
+      case 'tableName':
+        return 'Table Name';
       case 'maxPeople':
         return 'Max People';
       case 'password':
@@ -53,8 +117,9 @@ export class AddUpdateClubSpaceComponent extends Form {
 
   private initFormGroup(): FormGroup {
     return this.fb.group({
-      gameId: new FormControl<number | null>(null, [Validators.required]),
-      name: new FormControl<string>('', [
+      gameName: new FormControl<string>('', [Validators.required]),
+      gameId: new FormControl<number | null>(null),
+      tableName: new FormControl<string>('', [
         Validators.required,
         Validators.minLength(3),
       ]),

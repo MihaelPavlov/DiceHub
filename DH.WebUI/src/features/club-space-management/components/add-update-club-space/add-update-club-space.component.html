@@ -1,15 +1,14 @@
-<app-header Recommended="Create Game Table" [withBottomLine]="true">
-</app-header>
+<app-header Recommended="Create Game Table" [withQRcode]="true"> </app-header>
 
 <form [formGroup]="form" class="container">
   <div class="input-field qr-code-field">
-    <label for="gameId" class="required">Scanned Game</label>
+    <label for="gameName" class="required">Scanned Game</label>
     <input
       type="text"
       placeholder="scanned game"
-      name="gameId"
-      id="gameId"
-      formControlName="gameId"
+      name="gameName"
+      id="gameName"
+      formControlName="gameName"
       readonly="readonly"
     />
     <a class="qr-code">
@@ -19,17 +18,19 @@
 
   <div class="wrapper_image">
     <img
-      src="https://cf.geekdo-images.com/fvhkcw4s6Q4-nMwwok1J6A__opengraph/img/bbHffM-AIBac7jMM8sgOM1sC0zk=/0x274:1314x964/fit-in/1200x630/filters:strip_icc()/pic6569894.png"
+      [src]="
+        imagePreview || '../../../../../shared/assets/images/upload_img.svg'
+      "
       alt=""
     />
   </div>
   <div class="input-field">
-    <label for="table-name" class="required">Table Name</label>
+    <label for="tableName" class="required">Table Name</label>
     <input
-      placeholder="name"
+      placeholder="table Name"
       type="text"
-      id="table-name"
-      formControlName="name"
+      id="tableName"
+      formControlName="tableName"
     />
   </div>
   <div class="input-group">
@@ -61,13 +62,27 @@
     </div>
   </div>
 
-  <span class="info-message">If no password is set, anyone can join the session until the maximum participant limit is reached.</span>
+  <span class="info-message"
+    >If no password is set, anyone can join the session until the maximum
+    participant limit is reached.</span
+  >
   <div *ngIf="getFirstErrorMessage()" class="errors">
     {{ getFirstErrorMessage() }}
   </div>
   <div class="wrapper_btn">
-    <button class="btn btn-gray btn-border-blue btn-font-blue">
-      Create Table
-    </button>
+    <button
+    [disabled]="this.form.invalid"
+    type="button"
+    (click)="this.onAdd()"
+    class="btn btn-gray"
+    [ngClass]="{
+      'btn-border-blue': this.form.valid,
+      'btn-font-blue': this.form.valid,
+      'btn-border-red': this.form.invalid,
+      'btn-font-red': this.form.invalid
+    }"
+  >
+    Create
+  </button>
   </div>
 </form>

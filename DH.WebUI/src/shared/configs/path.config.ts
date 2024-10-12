@@ -56,6 +56,10 @@ export const PATH = {
     GET_USER_CHALLENGE_PERIOD_PERFORMANCE:
       'get-user-challenge-period-performance',
   },
+  SPACE_MANAGEMENT: {
+    CORE: 'spaceManagement',
+    LIST: 'list',
+  },
   // AUTH: {
   //   LOGIN: 'auth/user/login',
   // },

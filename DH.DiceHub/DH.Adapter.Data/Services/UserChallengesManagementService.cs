@@ -20,35 +20,55 @@ public class UserChallengesManagementService : IUserChallengesManagementService
     {
         using (var context = await this.dbContextFactory.CreateDbContextAsync(cancellationToken))
         {
-            // Fetch active challenges for the user (InProgress)
-            var activeChallenges = await context.UserChallenges
-            .Where(uc => uc.UserId == userId && uc.Status == ChallengeStatus.InProgress)
-            .ToListAsync(cancellationToken);
-
-            // Fetch locked challenges for the user
-            var lockedChallenges = await context.UserChallenges
-                .Where(uc => uc.UserId == userId && uc.Status == ChallengeStatus.Locked)
-                .ToListAsync(cancellationToken);
-
-            // Fetch available system challenges that are not yet assigned to the user
-            var systemChallenges = await context.Challenges
-                .Where(sc => !context.UserChallenges.Any(uc => uc.UserId == userId && uc.ChallengeId == sc.Id))
-                .ToListAsync(cancellationToken);
-
-            // Handle adding new challenges based on the current active count
-            if (activeChallenges.Count == 0 || activeChallenges.Count == 1)
+            using (var transaction = await context.Database.BeginTransactionAsync(cancellationToken))
             {
-                // User has no active challenges, add one active challenge
-                // User has one active challenge, add another active challenge
-                await AddNewChallenge(userId, systemChallenges, ChallengeStatus.InProgress, 0, context, cancellationToken);
-            }
-            else if (activeChallenges.Count == 2)
-            {
-                // User has two active challenges, add a locked challenge
-                var totalRequiredPoints = activeChallenges.Min(ac => ac.Challenge.RewardPoints);
+                try
+                {
+                    // Fetch active challenges for the user (InProgress)
+                    var activeChallenges = await context.UserChallenges
+                        .Where(uc => uc.UserId == userId && uc.Status == ChallengeStatus.InProgress)
+                        .ToListAsync(cancellationToken);
 
-                // Generate a locked challenge with required points
-                await AddNewChallenge(userId, systemChallenges, ChallengeStatus.Locked, totalRequiredPoints, context, cancellationToken);
+                    // Fetch locked challenges for the user
+                    var lockedChallenges = await context.UserChallenges
+                        .Where(uc => uc.UserId == userId && uc.Status == ChallengeStatus.Locked)
+                        .ToListAsync(cancellationToken);
+
+                    // Fetch available system challenges that are not yet assigned to the user
+                    var systemChallenges = await context.Challenges
+                        .Where(sc => !context.UserChallenges.Any(uc => uc.UserId == userId && uc.ChallengeId == sc.Id))
+                        .ToListAsync(cancellationToken);
+
+                    UserChallenge? newUserChallenge = null;
+
+                    // Handle adding new challenges based on the current active count
+                    if (activeChallenges.Count == 0 || activeChallenges.Count == 1)
+                    {
+                        // User has no active challenges, add one active challenge
+                        // User has one active challenge, add another active challenge
+                        newUserChallenge = AddNewChallenge(userId, systemChallenges, ChallengeStatus.InProgress, 0);
+                    }
+                    else if (activeChallenges.Count == 2)
+                    {
+                        // User has two active challenges, add a locked challenge
+                        var minRequiredPoints = activeChallenges.Min(ac => ac.Challenge.RewardPoints);
+
+                        // Generate a locked challenge with required points
+                        newUserChallenge = AddNewChallenge(userId, systemChallenges, ChallengeStatus.Locked, minRequiredPoints);
+                    }
+
+                    if (newUserChallenge != null)
+                    {
+                        await context.UserChallenges.AddAsync(newUserChallenge, cancellationToken);
+                        await context.SaveChangesAsync(cancellationToken);
+                        await transaction.CommitAsync(cancellationToken);
+                    }
+                }
+                catch (Exception)
+                {
+                    await transaction.RollbackAsync(cancellationToken);
+                    throw;
+                }
             }
         }
     }
@@ -62,28 +82,45 @@ public class UserChallengesManagementService : IUserChallengesManagementService
         // Reward count should be also in global settings
         using (var context = await this.dbContextFactory.CreateDbContextAsync(cancellationToken))
         {
-            var settingPeriod = "weekly";
-            var rewardCount = 5;
-
-            var userPerformance = new UserChallengePeriodPerformance
+            using (var transaction = await context.Database.BeginTransactionAsync(cancellationToken))
             {
-                UserId = userId,
-                IsPeriodActive = true,
-                Points = 0,
-                StartDate = DateTime.UtcNow,
-                EndDate = DateTime.UtcNow.AddDays(7),// this should be calculated based on the day that user is register and how much days are left from the current period time
-                TimePeriodType = TimePeriodType.Weekly,// based on the global setting settingPeriod
-            };
+                try
+                {
+                    var settingPeriod = "weekly";
+                    var rewardCount = 5;
 
-            var userChallengePeriodRewards = await this.GenerateRewardsAsyncV3(rewardCount, userPerformance.Id, context, cancellationToken);
-            var userChallenges = await this.GenerateChallengesAsync(userId, context, cancellationToken);
+                    var userPerformance = new UserChallengePeriodPerformance
+                    {
+                        UserId = userId,
+                        IsPeriodActive = true,
+                        Points = 0,
+                        StartDate = DateTime.UtcNow,
+                        EndDate = DateTime.UtcNow.AddDays(7),// this should be calculated based on the day that user is register and how much days are left from the current period time
+                        TimePeriodType = TimePeriodType.Weekly,// based on the global setting settingPeriod
+                    };
 
-            userPerformance.UserChallengePeriodRewards = userChallengePeriodRewards;
-            await context.UserChallengePeriodPerformances.AddAsync(userPerformance, cancellationToken);
-            await context.UserChallengePeriodRewards.AddRangeAsync(userChallengePeriodRewards, cancellationToken);
-            await context.UserChallenges.AddRangeAsync(userChallenges, cancellationToken);
+                    var userChallengePeriodRewards = await this.GenerateRewardsAsyncV3(rewardCount, userPerformance.Id, context, cancellationToken);
+                    var userChallenges = await this.GenerateChallengesAsync(userId, context, cancellationToken);
 
-            await context.SaveChangesAsync(cancellationToken);
+                    userPerformance.UserChallengePeriodRewards = userChallengePeriodRewards;
+                    await context.UserChallengePeriodPerformances.AddAsync(userPerformance, cancellationToken);
+                    await context.UserChallengePeriodRewards.AddRangeAsync(userChallengePeriodRewards, cancellationToken);
+                    await context.UserChallenges.AddRangeAsync(userChallenges, cancellationToken);
+                    await context.UserStatistics.AddAsync(new UserStatistic
+                    {
+                        TotalChallengesCompleted = 0,
+                        UserId = userId,
+                    });
+
+                    await context.SaveChangesAsync(cancellationToken);
+                    await transaction.CommitAsync(cancellationToken);
+                }
+                catch (Exception)
+                {
+                    await transaction.RollbackAsync(cancellationToken);
+                    throw;
+                }
+            }
         }
     }
 
@@ -95,15 +132,13 @@ public class UserChallengesManagementService : IUserChallengesManagementService
     /// <param name="availableChallenges">A list of available challenges to select from.</param>
     /// <param name="status">The status of the new challenge (e.g., InProgress, Locked).</param>
     /// <param name="rewardPoint">The required points for completing the challenge.</param>
-    /// <param name="dbContext">The database context for interacting with the challenges and user data.</param>
-    /// <param name="cancellationToken">Token for canceling the task if needed.</param>
-    /// <returns>A task representing the asynchronous operation.</returns>
-    private async Task AddNewChallenge(string userId, List<Challenge> availableChallenges, ChallengeStatus status, ChallengeRewardPoint rewardPoint, TenantDbContext dbContext, CancellationToken cancellationToken)
+    /// <returns>Returning user challenge</returns>
+    private UserChallenge AddNewChallenge(string userId, List<Challenge> availableChallenges, ChallengeStatus status, ChallengeRewardPoint rewardPoint)
     {
         var randomIndex = new Random().Next(availableChallenges.Count);
         var selectedChallenge = availableChallenges[randomIndex];
 
-        var newUserChallenge = new UserChallenge
+        return new UserChallenge
         {
             CreatedDate = DateTime.UtcNow,
             UserId = userId,
@@ -113,9 +148,6 @@ public class UserChallengesManagementService : IUserChallengesManagementService
             Status = status,
             IsActive = true,
         };
-
-        await dbContext.UserChallenges.AddAsync(newUserChallenge, cancellationToken);
-        await dbContext.SaveChangesAsync(cancellationToken);
     }
 
     /// <summary>

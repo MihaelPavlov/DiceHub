@@ -1,6 +1,5 @@
 ﻿using DH.Domain.Adapters.ChallengesOrchestrator;
 using DH.Domain.Adapters.Data;
-using DH.Domain.Helpers;
 using DH.Domain.Services;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -8,7 +7,7 @@ using System.Text.Json;
 
 namespace DH.Adapter.ChallengesOrchestrator;
 
-internal class SynchronizeUsersChallengesService : BackgroundService, ISynchronizeUsersChallengesService
+internal class SynchronizeUsersChallengesService : BackgroundService
 {
     readonly IUserChallengesManagementService userChallengesManagementService;
     readonly ILogger<SynchronizeUsersChallengesService> logger;
@@ -27,65 +26,46 @@ internal class SynchronizeUsersChallengesService : BackgroundService, ISynchroni
         {
             if (this.queue.TryDequeue(out var jobInfo))
             {
+                string traceId = Guid.NewGuid().ToString();
                 try
                 {
                     var jobStartTime = DateTime.UtcNow;
+                    logger.LogInformation("Job ID: {jobId} - Started at {startTime} - Job Info: {jobInfo}", traceId, jobStartTime, JsonSerializer.Serialize(jobInfo));
 
                     switch (jobInfo)
                     {
                         case SynchronizeUsersChallengesQueue.SynchronizeNewUserJob newUserJob:
-                            LogStartInformation(jobInfo);
-                            await SynchronizeNewUserJob(newUserJob, cancellationToken);
-                            LogEndInformation(jobInfo, jobStartTime, DateTime.UtcNow);
+                            await this.userChallengesManagementService.InitiateNewUserChallenges(newUserJob.UserId, cancellationToken);
                             break;
                         case SynchronizeUsersChallengesQueue.ChallengeInitiationJob challengeJob:
                             if (challengeJob.ScheduledTime.HasValue && DateTime.UtcNow >= challengeJob.ScheduledTime)
                             {
-                                LogStartInformation(jobInfo);
-                                await ChallengeInitiationJob(challengeJob, cancellationToken);
-                                LogEndInformation(jobInfo, jobStartTime, DateTime.UtcNow);
+                                await this.userChallengesManagementService.AddChallengeToUser(challengeJob.UserId, cancellationToken);
                                 break;
                             }
                             this.queue.AddChallengeInitiationJob(challengeJob.UserId, challengeJob.ScheduledTime.GetValueOrDefault());
-                            this.logger.LogInformation("Job Requeue : {jobInfo}", JsonSerializer.Serialize(jobInfo));
+                            logger.LogInformation("Job ID: {jobId} - Requeued at {requeueTime} - Job Info: {jobInfo}", traceId, DateTime.UtcNow, JsonSerializer.Serialize(jobInfo));
                             break;
-
                         default:
-                            this.logger.LogWarning("Unknown job type: {jobInfo}", JsonSerializer.Serialize(jobInfo));
+                            logger.LogWarning("Job ID: {jobId} - Unknown job type at {warningTime}: {jobInfo}", traceId, DateTime.UtcNow, JsonSerializer.Serialize(jobInfo));
                             break;
                     }
+
+                    DateTime jobEndTime = DateTime.UtcNow;
+                    logger.LogInformation("Job ID: {jobId} - Ended at {endTime} - Duration: {duration} - Job Info: {jobInfo}", traceId, jobEndTime, (jobEndTime - jobStartTime).TotalMilliseconds, JsonSerializer.Serialize(jobInfo));
                 }
                 catch (TaskCanceledException)
                 {
-                    // Application is stopping => ignore
+                    // Application is stopping, just ignore
+                    logger.LogInformation("Job ID: {jobId} - Canceled at {cancelTime}.", traceId, DateTime.UtcNow);
                 }
                 catch (Exception ex)
                 {
-                    this.logger.LogError(ex, "Job: {jobInfo}", JsonSerializer.Serialize(jobInfo));
+                    logger.LogError(ex, "Job ID: {jobId} - Failed at {failureTime}: {jobInfo}", traceId, DateTime.UtcNow, JsonSerializer.Serialize(jobInfo));
                 }
             }
 
             await Task.Delay(1000, cancellationToken);
         }
-    }
-
-    public async Task SynchronizeNewUserJob(SynchronizeUsersChallengesQueue.SynchronizeNewUserJob job, CancellationToken cancellationToken)
-    {
-        await this.userChallengesManagementService.InitiateNewUserChallenges(job.UserId, cancellationToken);
-    }
-
-    public async Task ChallengeInitiationJob(SynchronizeUsersChallengesQueue.ChallengeInitiationJob job, CancellationToken cancellationToken)
-    {
-        await this.userChallengesManagementService.AddChallengeToUser(job.UserId, cancellationToken);
-    }
-
-    private void LogStartInformation(SynchronizeUsersChallengesQueue.JobInfo jobInfo)
-    {
-        logger.LogInformation("Job started: {jobInfo}", JsonSerializer.Serialize(jobInfo));
-    }
-
-    private void LogEndInformation(SynchronizeUsersChallengesQueue.JobInfo jobInfo, DateTime jobStartTime, DateTime jobEndTime)
-    {
-        logger.LogInformation("Job executed in {FormattedDuration}: {jobInfo}", DateFormattingHelper.GetFormatedDuration(jobStartTime, jobEndTime), JsonSerializer.Serialize(jobInfo));
     }
 }
