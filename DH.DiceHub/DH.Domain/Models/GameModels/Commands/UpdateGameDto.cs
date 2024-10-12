@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using DH.Domain.Enums;
+using System.Text.Json.Serialization;
 using static DH.Domain.Exceptions.ValidationErrorsException;
 
 namespace DH.Domain.Models.GameModels.Commands;
@@ -28,7 +29,7 @@ public class UpdateGameDto : IValidableFields
     public int MaxPlayers { get; set; }
 
     [JsonPropertyName("averagePlaytime")]
-    public int AveragePlaytime { get; set; }
+    public GameAveragePlaytime AveragePlaytime { get; set; }
 
     [JsonPropertyName("imageId")]
     public int? ImageId { get; set; }

@@ -1,3 +1,5 @@
+import { GameAveragePlaytime } from "../enums/game-average-playtime.enum";
+
 export interface IUpdateGameDto {
   id: number;
   categoryId: number;
@@ -6,6 +8,6 @@ export interface IUpdateGameDto {
   minAge: number;
   minPlayers: number;
   maxPlayers: number;
-  averagePlaytime: number;
+  averagePlaytime: GameAveragePlaytime;
   imageId?: number | null;
 }

@@ -22,6 +22,7 @@ import { GameImagePipe } from '../../../../../shared/pipe/game-image.pipe';
 import { GameQrCodeDialog } from '../../../dialogs/qr-code-dialog/qr-code-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { SafeUrl } from '@angular/platform-browser';
+import { GameAveragePlaytime } from '../../../../../entities/games/enums/game-average-playtime.enum';
 
 interface ICreateGameForm {
   categoryId: number;
@@ -32,6 +33,11 @@ interface ICreateGameForm {
   maxPlayers: number;
   averagePlaytime: number;
   image: string;
+}
+
+interface IDropdown {
+  id: number;
+  name: string;
 }
 
 @Component({
@@ -51,6 +57,7 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
   public isMenuVisible: boolean = false;
   public imageError: string | null = null;
   public fileToUpload: File | null = null;
+  public gamAveragePlaytimeValues: IDropdown[] = [];
 
   constructor(
     private readonly fb: FormBuilder,
@@ -71,6 +78,11 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
       }
     });
     this.menuTabsService.setActive(NAV_ITEM_LABELS.GAMES);
+
+    this.gamAveragePlaytimeValues = Object.entries(GameAveragePlaytime)
+    .filter(([key, value]) => typeof value === 'number')
+    .map(([key, value]) => ({ id: value as number, name: value.toString() }));
+
   }
   public ngOnDestroy(): void {
     this.menuTabsService.resetData();
@@ -348,7 +360,7 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
         Validators.required,
         Validators.min(1),
       ]),
-      averagePlaytime: new FormControl<number>(0, [Validators.required]),
+      averagePlaytime: new FormControl<number>(5, [Validators.required]),
       image: new FormControl<string | null>('', [Validators.required]),
     });
   }

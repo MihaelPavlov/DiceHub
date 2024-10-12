@@ -15,7 +15,6 @@ import { RewardLevel } from '../../../../entities/rewards/enums/reward-level.enu
 import { RewardsService } from '../../../../entities/rewards/api/rewards.service';
 import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { ToastType } from '../../../../shared/models/toast.model';
-import { Router } from '@angular/router';
 import { IRewardListResult } from '../../../../entities/rewards/models/reward-list.model';
 import { throwError } from 'rxjs';
 import { RewardImagePipe } from '../../../../shared/pipe/reward-image.pipe';
@@ -24,7 +23,6 @@ import { AdminChallengesRewardConfirmDeleteDialog } from '../../dialogs/admin-ch
 import { MatDialog } from '@angular/material/dialog';
 import {
   REWARD_POINTS,
-  RewardRequiredPoint,
 } from '../../../../entities/rewards/enums/reward-required-point.enum';
 
 interface ISystemRewardsForm {

@@ -1,4 +1,6 @@
-﻿namespace DH.Domain.Models.GameModels.Queries;
+﻿using DH.Domain.Enums;
+
+namespace DH.Domain.Models.GameModels.Queries;
 
 public class GetSystemRewardByIdQueryModel
 {
@@ -9,7 +11,7 @@ public class GetSystemRewardByIdQueryModel
     public int MinAge { get; set; }
     public int MinPlayers { get; set; }
     public int MaxPlayers { get; set; }
-    public int AveragePlaytime { get; set; }
+    public GameAveragePlaytime AveragePlaytime { get; set; }
     public int Likes { get; set; }
     public bool IsLiked { get; set; }
     public int ImageId { get; set; }

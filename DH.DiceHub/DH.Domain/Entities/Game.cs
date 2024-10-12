@@ -1,4 +1,6 @@
-﻿namespace DH.Domain.Entities;
+﻿using DH.Domain.Enums;
+
+namespace DH.Domain.Entities;
 
 public class Game
 {
@@ -9,7 +11,7 @@ public class Game
     public int MinAge { get; set; }
     public int MinPlayers { get; set; }
     public int MaxPlayers { get; set; }
-    public int AveragePlaytime { get; set; }
+    public GameAveragePlaytime AveragePlaytime { get; set; }
     public int CategoryId { get; set; }
     public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedDate { get; set; } = DateTime.UtcNow;

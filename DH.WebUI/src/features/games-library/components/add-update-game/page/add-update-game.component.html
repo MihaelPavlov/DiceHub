@@ -76,12 +76,18 @@
       </div>
       <div class="input-field">
         <label for="approx-time" class="required">Approx Time</label>
-        <input
-          placeholder="average play time"
-          type="number"
-          id="approx-time"
-          formControlName="averagePlaytime"
-        />
+
+        <ng-select
+        id="approx-time"
+        [items]="gamAveragePlaytimeValues"
+        bindValue="id"
+        bindLabel="name"
+        placeholder="avg play time"
+        [searchable]="true"
+        formControlName="averagePlaytime"
+        class="app-select-long"
+      >
+      </ng-select>
       </div>
     </div>
 

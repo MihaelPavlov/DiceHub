@@ -1,4 +1,6 @@
-﻿namespace DH.Domain.Models.EventModels.Queries;
+﻿using DH.Domain.Enums;
+
+namespace DH.Domain.Models.EventModels.Queries;
 
 public class GetEventByIdQueryModel
 {
@@ -17,5 +19,5 @@ public class GetEventByIdQueryModel
     public int GameMinAge { get; set; }
     public int GameMinPlayers { get; set; }
     public int GameMaxPlayers { get; set; }
-    public int GameAveragePlaytime { get; set; }
+    public GameAveragePlaytime GameAveragePlaytime { get; set; }
 }

@@ -1,3 +1,5 @@
+import { GameAveragePlaytime } from "../enums/game-average-playtime.enum";
+
 export interface ICreateGameDto {
   categoryId: number;
   name: string;
@@ -5,5 +7,5 @@ export interface ICreateGameDto {
   minAge: number;
   minPlayers: number;
   maxPlayers: number;
-  averagePlaytime: number;
+  averagePlaytime: GameAveragePlaytime;
 }
