@@ -2,6 +2,8 @@
 using DH.Adapter.Data.Repositories;
 using DH.Adapter.Data.Services;
 using DH.Domain.Adapters.Data;
+using DH.Domain.Entities;
+using DH.Domain.Enums;
 using DH.Domain.Repositories;
 using DH.Domain.Services;
 using Microsoft.EntityFrameworkCore;
@@ -43,6 +45,12 @@ public static class DataDIModule
                 ?? throw new ArgumentNullException("IDBContext was not found"))
             .AddScoped(typeof(IRepository<>), typeof(DataRepository<>))
             .AddScoped<IUserChallengesManagementService, UserChallengesManagementService>()
-            .AddScoped<IGameSessionService, GameSessionService>();
+            .AddScoped<IGameSessionService, GameSessionService>()
+            .AddScoped<IDataSeeder, DataSeeder>();
+
+    public static void SeedDatabase(this IServiceProvider serviceProvider)
+    {
+       
+    }
 }
 

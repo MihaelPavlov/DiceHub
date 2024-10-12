@@ -14,6 +14,9 @@ using DH.Adapter.QRManager;
 using Microsoft.Extensions.FileProviders;
 using DH.Adapter.ChallengesOrchestrator;
 using DH.Adapter.GameSession;
+using Microsoft.EntityFrameworkCore;
+using System.Runtime.CompilerServices;
+using DH.Domain.Services.Seed;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -53,6 +56,12 @@ builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory()).Conf
 {
     // Add modules for each class library in solution
     builder.RegisterAssemblyModules(typeof(DomainDIModule).Assembly);
+
+    builder.RegisterAssemblyTypes()
+              .AsClosedTypesOf(typeof(ISeedService))
+              .AsImplementedInterfaces()
+             .InstancePerLifetimeScope();
+
     builder.RegisterType<ContainerService>().As<IContainerService>().InstancePerLifetimeScope();
     builder.RegisterAssemblyModules(typeof(ApplicationDIModule).Assembly);
     builder.RegisterAssemblyModules(typeof(AdapterDataDIModule).Assembly);

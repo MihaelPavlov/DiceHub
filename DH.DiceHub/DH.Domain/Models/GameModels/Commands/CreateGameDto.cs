@@ -29,9 +29,6 @@ public class CreateGameDto : IValidableFields
     [JsonPropertyName("averagePlaytime")]
     public GameAveragePlaytime AveragePlaytime { get; set; }
 
-    [JsonPropertyName("userId")]
-    public string UserId { get; set; } = string.Empty;
-
     public bool FieldsAreValid(out List<ValidationError> validationErrors)
     {
         var errors = new List<ValidationError>();
