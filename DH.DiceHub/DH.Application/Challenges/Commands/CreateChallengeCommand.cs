@@ -1,8 +1,7 @@
-﻿
-using DH.Domain.Entities;
+﻿using DH.Domain.Entities;
 using DH.Domain.Exceptions;
 using DH.Domain.Models.ChallengeModels.Commands;
-using DH.Domain.Repositories;
+using DH.Domain.Services;
 using Mapster;
 using MediatR;
 
@@ -12,13 +11,11 @@ public record CreateChallengeCommand(CreateChallengeDto Challenge) : IRequest<in
 
 internal class CreateChallengeCommandHandler : IRequestHandler<CreateChallengeCommand, int>
 {
-    readonly IRepository<Challenge> challengeRepository;
-    readonly IRepository<ChallengeStatistic> challengeStatisticRepository;
+    readonly IChallengeService service;
 
-    public CreateChallengeCommandHandler(IRepository<Challenge> challengeRepository, IRepository<ChallengeStatistic> challengeStatisticRepository)
+    public CreateChallengeCommandHandler(IChallengeService service)
     {
-        this.challengeRepository = challengeRepository;
-        this.challengeStatisticRepository = challengeStatisticRepository;
+        this.service = service;
     }
 
     public async Task<int> Handle(CreateChallengeCommand request, CancellationToken cancellationToken)
@@ -26,15 +23,8 @@ internal class CreateChallengeCommandHandler : IRequestHandler<CreateChallengeCo
         if (!request.Challenge.FieldsAreValid(out var validationErrors))
             throw new ValidationErrorsException(validationErrors);
 
-        var challenge = await this.challengeRepository.AddAsync(request.Challenge.Adapt<Challenge>(), cancellationToken) ??
-            throw new BadRequestException("Challenge was not successfully created");
+        var challengeId = await this.service.Create(request.Challenge.Adapt<Challenge>(), cancellationToken);
 
-        await this.challengeStatisticRepository.AddAsync(new ChallengeStatistic
-        {
-            ChallengeId = challenge.Id,
-            TotalCompletions = 0
-        }, cancellationToken);
-
-        return challenge.Id;
+        return challengeId;
     }
 }

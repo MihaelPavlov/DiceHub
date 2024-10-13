@@ -18,6 +18,8 @@ using DH.Adapter.Authentication.Entities;
 using DH.Domain.Adapters.Authentication.Services;
 using DH.Domain.Adapters.Authentication.Interfaces;
 using DH.Domain.Adapters.Authentication.Enums;
+using Microsoft.Extensions.Hosting;
+using System.Reflection;
 
 namespace DH.Adapter.Authentication;
 
@@ -63,6 +65,23 @@ public static class AuthenticationDIModule
 
     }
 
+    public static void SeedUsersAsync(this IHost app)
+    {
+        using (var scope = app.Services.CreateScope())
+        {
+            try
+            {
+                ApplicationDbContextSeeder.SeedUsers(scope.ServiceProvider).Wait();
+            }
+            catch (Exception ex)
+            {
+                var logger = scope.ServiceProvider.GetRequiredService<ILogger<WebApplication>>();
+                logger.LogError(ex, "An error occurred seeding the database.");
+            }
+        }
+
+    }
+
     public static IServiceCollection AuthenticationAdapter(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<AppIdentityDbContext>(x =>
@@ -72,6 +91,7 @@ public static class AuthenticationDIModule
                     .MigrationsAssembly(typeof(AppIdentityDbContext).Assembly.FullName)
             )
         );
+        services.AddScoped<IIdentityDbContext, AppIdentityDbContext>();
 
         services.AddIdentity<ApplicationUser, IdentityRole>()
             .AddEntityFrameworkStores<AppIdentityDbContext>()
@@ -113,7 +133,35 @@ public static class AuthenticationDIModule
            .AddScoped<IMapPermissions, MapPermissions>()
            .AddScoped<IActionPermissions<UserAction>, MapPermissions>()
            .AddScoped<IUserContext>(services => services.GetRequiredService<IUserContextFactory>().CreateUserContext());
+        // Register services implementing IRepository<>, IDomainService<>, and IDbContextFactory<> generics
+        //RegisterAssemblyTypesAsClosedGeneric(services, typeof(IRepository<>), typeof(IDomainService<>), typeof(IDbContextFactory<>));
 
         return services;
+    }
+
+    private static void RegisterAssemblyTypesAsClosedGeneric(IServiceCollection services, params Type[] openGenericInterfaces)
+    {
+        var assembly = Assembly.GetExecutingAssembly(); // Assuming the current assembly contains your types
+
+        var types = assembly.GetTypes()
+            .Where(t => t.IsClass && !t.IsAbstract) // Only get non-abstract classes
+            .ToList();
+
+        foreach (var type in types)
+        {
+            foreach (var openGenericInterface in openGenericInterfaces)
+            {
+                // Find interfaces that close the open generic interface
+                var closedGenericInterfaces = type.GetInterfaces()
+                    .Where(i => i.IsGenericType && i.GetGenericTypeDefinition() == openGenericInterface)
+                    .ToList();
+
+                foreach (var closedGenericInterface in closedGenericInterfaces)
+                {
+                    // Register each type as its closed generic interface with Scoped lifetime
+                    services.AddScoped(closedGenericInterface, type);
+                }
+            }
+        }
     }
 }

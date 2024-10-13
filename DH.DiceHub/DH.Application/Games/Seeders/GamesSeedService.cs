@@ -17,7 +17,7 @@ internal class GamesSeedService : ISeedService
         this.webRootPathHelper = webRootPathHelper;
     }
 
-    public async void Seed()
+    public async Task Seed()
     {
         foreach (var game in SeedData.GAME_LIST_DTOS)
         {

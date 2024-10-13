@@ -1,9 +1,10 @@
-using DH.Adapter.Data;
 using DH.Domain.Adapters.Authentication;
 using DH.Domain.Entities;
 using DH.Domain.Exceptions;
 using DH.Domain.Services;
 using Microsoft.EntityFrameworkCore;
+
+namespace DH.Adapter.Data.Services;
 
 public class RewardService : IRewardService
 {

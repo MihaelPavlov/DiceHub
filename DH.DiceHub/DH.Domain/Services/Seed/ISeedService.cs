@@ -2,5 +2,5 @@
 
 public interface ISeedService
 {
-    void Seed();
+    Task Seed();
 }

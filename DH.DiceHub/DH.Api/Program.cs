@@ -1,22 +1,18 @@
-using Autofac;
-using Autofac.Extensions.DependencyInjection;
 using DH.Adapter.Authentication;
 using DH.Adapter.Data;
 using DH.Adapter.Scheduling;
 using DH.Api;
 using DH.Api.Filters;
-using DH.Application;
 using DH.Domain;
 using Microsoft.Extensions.Caching.Memory;
-using System.Reflection;
 using DH.Adapter.ChatHub;
 using DH.Adapter.QRManager;
 using Microsoft.Extensions.FileProviders;
 using DH.Adapter.ChallengesOrchestrator;
 using DH.Adapter.GameSession;
-using Microsoft.EntityFrameworkCore;
-using System.Runtime.CompilerServices;
-using DH.Domain.Services.Seed;
+using DH.Domain.Helpers;
+using DH.Api.Helpers;
+using DH.Application.Games.Commands.Games;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,31 +44,12 @@ builder.Services.AddSchedulingConfiguration(builder.Configuration);
 builder.Services.AddChallengesOrchestrator();
 builder.Services.AddGameSessionAdapter();
 
-
-builder.Services.AddAutofac();
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
-
-builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory()).ConfigureContainer<ContainerBuilder>(builder =>
-{
-    // Add modules for each class library in solution
-    builder.RegisterAssemblyModules(typeof(DomainDIModule).Assembly);
-
-    builder.RegisterAssemblyTypes()
-              .AsClosedTypesOf(typeof(ISeedService))
-              .AsImplementedInterfaces()
-             .InstancePerLifetimeScope();
-
-    builder.RegisterType<ContainerService>().As<IContainerService>().InstancePerLifetimeScope();
-    builder.RegisterAssemblyModules(typeof(ApplicationDIModule).Assembly);
-    builder.RegisterAssemblyModules(typeof(AdapterDataDIModule).Assembly);
-    builder.RegisterAssemblyModules(typeof(AdapterAuthenticationDIModule).Assembly);
-});
+builder.Services.AddScoped<IWebRootPathHelper, WebRootPathHelper>();
+builder.Services.AddScoped<IContainerService, ContainerService>();
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(CreateGameCommand).Assembly));
 
 var app = builder.Build();
 
-app.SeedUsersAsync();
-
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

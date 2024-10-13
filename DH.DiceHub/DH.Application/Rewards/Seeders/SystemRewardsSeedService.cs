@@ -14,7 +14,7 @@ internal class SystemRewardsSeedService : ISeedService
         this.mediator = mediator;
     }
 
-    public async void Seed()
+    public async Task Seed()
     {
         foreach (var reward in SeedData.REWARD_LIST_DTOS)
         {

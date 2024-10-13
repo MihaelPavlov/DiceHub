@@ -14,6 +14,11 @@ public class TenantDbContext : DbContext, ITenantDbContext
     {
     }
 
+    public TenantDbContext(DbContextOptions<TenantDbContext> options)
+       : base(options)
+    {
+    }
+
     public TenantDbContext(
         DbContextOptions<TenantDbContext> options, IContainerService containerService)
         : base(options)

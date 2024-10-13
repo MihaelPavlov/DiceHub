@@ -10,4 +10,6 @@ public interface IUserContextFactory
     /// </summary>
     /// <returns>A new <see cref="IUserContext"/> instance.</returns>
     IUserContext CreateUserContext();
+
+    void SetDefaultUserContext(IUserContext defaultUserContext);
 }

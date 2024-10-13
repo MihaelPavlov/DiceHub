@@ -2,6 +2,7 @@
 
 namespace DH.Api.Helpers;
 
+/// <inheritdoc/>
 public class WebRootPathHelper : IWebRootPathHelper
 {
     readonly IWebHostEnvironment hostEnvironment;
@@ -11,5 +12,6 @@ public class WebRootPathHelper : IWebRootPathHelper
         this.hostEnvironment = hostEnvironment;
     }
 
+    /// <inheritdoc
     public string GetWebRootPath => this.hostEnvironment.WebRootPath;
 }

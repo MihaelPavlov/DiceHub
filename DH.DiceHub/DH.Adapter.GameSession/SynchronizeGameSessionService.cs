@@ -1,5 +1,6 @@
 ﻿using DH.Domain.Adapters.GameSession;
 using DH.Domain.Services;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
@@ -9,13 +10,13 @@ namespace DH.Adapter.GameSession;
 
 public class SynchronizeGameSessionService : BackgroundService
 {
-    readonly IGameSessionService gameSessionService;
     readonly ILogger<SynchronizeGameSessionService> logger;
     readonly SynchronizeGameSessionQueue queue;
+    readonly IServiceScopeFactory serviceScopeFactory;
 
-    public SynchronizeGameSessionService(IGameSessionService gameSessionService, ILogger<SynchronizeGameSessionService> logger, SynchronizeGameSessionQueue queue)
+    public SynchronizeGameSessionService(IServiceScopeFactory serviceScopeFactory, ILogger<SynchronizeGameSessionService> logger, SynchronizeGameSessionQueue queue)
     {
-        this.gameSessionService = gameSessionService;
+        this.serviceScopeFactory = serviceScopeFactory;
         this.logger = logger;
         this.queue = queue;
     }
@@ -77,37 +78,41 @@ public class SynchronizeGameSessionService : BackgroundService
     {
         bool isProcessSuccessful = false;
         bool isEvaluationSuccessful = false;
+        using (var scope = this.serviceScopeFactory.CreateScope())
+        {
+            var gameSessionService = scope.ServiceProvider.GetRequiredService<IGameSessionService>();
 
-        try
-        {
-            isProcessSuccessful = await this.gameSessionService.ProcessChallengeAfterSession(enforcerJob.UserId, enforcerJob.GameId, cancellationToken);
-        }
-        catch (Exception ex)
-        {
-            logger.LogError(ex, "Job ID: {jobId} - Failed during ProcessChallengeAfterSession at {failureTime}: {jobInfo}", traceId, DateTime.UtcNow, JsonSerializer.Serialize(enforcerJob));
-            throw;
-        }
-
-        if (isProcessSuccessful)
-        {
             try
             {
-                isEvaluationSuccessful = await this.gameSessionService.EvaluateRewardsAfterChallenges(enforcerJob.UserId, cancellationToken);
+                isProcessSuccessful = await gameSessionService.ProcessChallengeAfterSession(enforcerJob.UserId, enforcerJob.GameId, cancellationToken);
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Job ID: {jobId} - Failed during EvaluateRewardsAfterChallenges at {failureTime}: {jobInfo}", traceId, DateTime.UtcNow, JsonSerializer.Serialize(enforcerJob));
+                logger.LogError(ex, "Job ID: {jobId} - Failed during ProcessChallengeAfterSession at {failureTime}: {jobInfo}", traceId, DateTime.UtcNow, JsonSerializer.Serialize(enforcerJob));
                 throw;
             }
 
-            if (!isEvaluationSuccessful)
+            if (isProcessSuccessful)
             {
-                logger.LogWarning("Job ID: {jobId} - Nothing for reward evaluation at {currentTime} - Job Info: {jobInfo}", traceId, DateTime.UtcNow, JsonSerializer.Serialize(enforcerJob));
+                try
+                {
+                    isEvaluationSuccessful = await gameSessionService.EvaluateRewardsAfterChallenges(enforcerJob.UserId, cancellationToken);
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, "Job ID: {jobId} - Failed during EvaluateRewardsAfterChallenges at {failureTime}: {jobInfo}", traceId, DateTime.UtcNow, JsonSerializer.Serialize(enforcerJob));
+                    throw;
+                }
+
+                if (!isEvaluationSuccessful)
+                {
+                    logger.LogWarning("Job ID: {jobId} - Nothing for reward evaluation at {currentTime} - Job Info: {jobInfo}", traceId, DateTime.UtcNow, JsonSerializer.Serialize(enforcerJob));
+                }
             }
-        }
-        else
-        {
-            logger.LogWarning("Job ID: {jobId} - this.gameSessionService.ProcessChallengeAfterSession the user doesn't have anything to process at {currentTime} - Job Info: {jobInfo}", traceId, DateTime.UtcNow, JsonSerializer.Serialize(enforcerJob));
+            else
+            {
+                logger.LogWarning("Job ID: {jobId} - this.gameSessionService.ProcessChallengeAfterSession the user doesn't have anything to process at {currentTime} - Job Info: {jobInfo}", traceId, DateTime.UtcNow, JsonSerializer.Serialize(enforcerJob));
+            }
         }
     }
 

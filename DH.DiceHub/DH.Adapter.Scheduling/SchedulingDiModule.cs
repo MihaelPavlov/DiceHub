@@ -20,7 +20,7 @@ public static class SchedulingDiModule
                 storeOptions.UseProperties = true;
                 storeOptions.UseSqlServer(sqlServerOptions =>
                 {
-                    sqlServerOptions.ConnectionString = configuration.GetConnectionString("QuartzDatabase");
+                    sqlServerOptions.ConnectionString = configuration.GetConnectionString("DefaultConnection");
                     sqlServerOptions.TablePrefix = "QRTZ_";
                 });
                 storeOptions.UseNewtonsoftJsonSerializer();

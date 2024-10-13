@@ -8,8 +8,8 @@ namespace DH.Adapter.Authentication.Helper;
 
 public class UserContextFactory : IUserContextFactory
 {
+    IUserContext _defaultUserContext;
     readonly IHttpContextAccessor _httpContextAccessor;
-    readonly IUserContext _defaultUserContext;
     readonly HttpClient client;
     public UserContextFactory(IHttpContextAccessor httpContextAccessor, IHttpClientFactory httpClientFactory)
     {
@@ -52,6 +52,13 @@ public class UserContextFactory : IUserContextFactory
         var userIdClaim = user.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid);
         var userRoleClaim = user.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role);
 
-        return new UserContext(userId: userIdClaim != null ? userIdClaim.Value : null, roleKey: userRoleClaim != null ? RoleHelper.GetRoleKeyByName(userRoleClaim.Value) : null);
+        var userContext= new UserContext(userId: userIdClaim != null ? userIdClaim.Value : null, roleKey: userRoleClaim != null ? RoleHelper.GetRoleKeyByName(userRoleClaim.Value) : null);
+        this._defaultUserContext = userContext;
+        return userContext;
+    }
+
+    public void SetDefaultUserContext(IUserContext defaultUserContext)
+    {
+        _defaultUserContext = defaultUserContext;
     }
 }

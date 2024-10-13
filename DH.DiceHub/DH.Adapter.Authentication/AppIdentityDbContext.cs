@@ -16,7 +16,10 @@ public class AppIdentityDbContext : IdentityDbContext<ApplicationUser>, IIdentit
     {
 
     }
-
+    public AppIdentityDbContext(DbContextOptions<AppIdentityDbContext> options)
+        : base(options)
+    {
+    }
     public AppIdentityDbContext(DbContextOptions<AppIdentityDbContext> options, IContainerService _containerService)
         : base(options)
     {

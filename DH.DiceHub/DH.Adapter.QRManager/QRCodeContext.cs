@@ -3,6 +3,7 @@ using DH.Domain.Adapters.QRManager;
 using DH.Domain.Adapters.QRManager.StateModels;
 using DH.Domain.Entities;
 using DH.Domain.Repositories;
+using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json;
 
 namespace DH.Adapter.QRManager;
@@ -10,14 +11,12 @@ namespace DH.Adapter.QRManager;
 public class QRCodeContext : IQRCodeContext
 {
     IQRCodeState _state;
-    readonly IRepository<QrCodeScanAudit> scanAuditRepository;
-    readonly IUserContext userContext;
+    readonly IServiceScopeFactory serviceScopeFactory;
 
-    public QRCodeContext(IRepository<QrCodeScanAudit> scanAuditRepository, IUserContext userContext)
+    public QRCodeContext(IServiceScopeFactory serviceScopeFactory)
     {
         _state = null!;
-        this.scanAuditRepository = scanAuditRepository;
-        this.userContext = userContext;
+        this.serviceScopeFactory = serviceScopeFactory;
     }
 
     public void SetState(IQRCodeState state)
@@ -34,17 +33,23 @@ public class QRCodeContext : IQRCodeContext
     {
         try
         {
-            var jsonData = JsonSerializer.Serialize(data);
-            var jsonErrorMessage = JsonSerializer.Serialize(errorMessage);
-
-            await this.scanAuditRepository.AddAsync(new QrCodeScanAudit
+            using (var scope = this.serviceScopeFactory.CreateScope())
             {
-                TraceId = traceId,
-                ScannedData = jsonData,
-                ErrorMessage = jsonErrorMessage,
-                ScannedAt = DateTime.UtcNow,
-                UserId = this.userContext.UserId
-            }, cancellationToken);
+                var scanAuditRepository = scope.ServiceProvider.GetRequiredService<IRepository<QrCodeScanAudit>>();
+                var userContext = scope.ServiceProvider.GetRequiredService<IUserContext>();
+
+                var jsonData = JsonSerializer.Serialize(data);
+                var jsonErrorMessage = JsonSerializer.Serialize(errorMessage);
+
+                await scanAuditRepository.AddAsync(new QrCodeScanAudit
+                {
+                    TraceId = traceId,
+                    ScannedData = jsonData,
+                    ErrorMessage = jsonErrorMessage,
+                    ScannedAt = DateTime.UtcNow,
+                    UserId = userContext.UserId
+                }, cancellationToken);
+            }
         }
         catch (Exception ex)
         {

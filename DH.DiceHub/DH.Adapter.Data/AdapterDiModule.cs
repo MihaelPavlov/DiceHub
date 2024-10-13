@@ -2,39 +2,39 @@
 using DH.Adapter.Data.Repositories;
 using DH.Adapter.Data.Services;
 using DH.Domain.Adapters.Data;
-using DH.Domain.Entities;
-using DH.Domain.Enums;
 using DH.Domain.Repositories;
 using DH.Domain.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 namespace DH.Adapter.Data;
 
-public class AdapterDataDIModule : Module
-{
-    protected override void Load(ContainerBuilder builder)
-    {
-        builder.RegisterAssemblyTypes(this.ThisAssembly)
-         .AsClosedTypesOf(typeof(IDomainService<>))
-         .AsImplementedInterfaces()
-        .InstancePerLifetimeScope();
+//public class AdapterDataDIModule : Module
+//{
+//    protected override void Load(ContainerBuilder builder)
+//    {
+//        builder.RegisterAssemblyTypes(this.ThisAssembly)
+//         .AsClosedTypesOf(typeof(IDomainService<>))
+//         .AsImplementedInterfaces()
+//        .InstancePerLifetimeScope();
 
-        builder.RegisterAssemblyTypes(this.ThisAssembly)
-              .AsClosedTypesOf(typeof(IDbContextFactory<>))
-              .AsImplementedInterfaces()
-             .InstancePerLifetimeScope();
+//        builder.RegisterAssemblyTypes(this.ThisAssembly)
+//              .AsClosedTypesOf(typeof(IDbContextFactory<>))
+//              .AsImplementedInterfaces()
+//             .InstancePerLifetimeScope();
 
-        builder.RegisterType<TenantDbContext>().As<ITenantDbContext>().InstancePerLifetimeScope();
-    }
-}
+//        builder.RegisterType<TenantDbContext>().As<ITenantDbContext>().InstancePerLifetimeScope();
+//    }
+//}
 public static class DataDIModule
 {
     public static IServiceCollection LoadDatabase(
         this IServiceCollection services,
         IConfiguration configuration)
-        => services
+    {
+        services
             .AddDbContext<TenantDbContext>(options => options
                 .UseSqlServer(
                     configuration.GetConnectionString("DefaultConnection"),
@@ -46,11 +46,44 @@ public static class DataDIModule
             .AddScoped(typeof(IRepository<>), typeof(DataRepository<>))
             .AddScoped<IUserChallengesManagementService, UserChallengesManagementService>()
             .AddScoped<IGameSessionService, GameSessionService>()
+            .AddScoped<IChallengeService, ChallengeService>()
+            .AddScoped<IEventService, EventService>()
+            .AddScoped<IGameCategoryService, GameCategoryService>()
+            .AddScoped<IGameService, GameService>()
+            .AddScoped<IRewardService, RewardService>()
+            .AddScoped<IRoomService, RoomService>()
             .AddScoped<IDataSeeder, DataSeeder>();
 
-    public static void SeedDatabase(this IServiceProvider serviceProvider)
+        // Register all types implementing IDomainService<> and IDbContextFactory<>
+        RegisterAssemblyTypesAsClosedGeneric(services, typeof(IDomainService<>), typeof(IDbContextFactory<>));
+        return services;
+    }
+
+
+    private static void RegisterAssemblyTypesAsClosedGeneric(IServiceCollection services, params Type[] openGenericInterfaces)
     {
-       
+        var assembly = Assembly.GetExecutingAssembly(); // Assuming the current assembly contains your types
+
+        var types = assembly.GetTypes()
+            .Where(t => t.IsClass && !t.IsAbstract) // Only get non-abstract classes
+            .ToList();
+
+        foreach (var type in types)
+        {
+            foreach (var openGenericInterface in openGenericInterfaces)
+            {
+                // Find interfaces that close the open generic interface
+                var closedGenericInterfaces = type.GetInterfaces()
+                    .Where(i => i.IsGenericType && i.GetGenericTypeDefinition() == openGenericInterface)
+                    .ToList();
+
+                foreach (var closedGenericInterface in closedGenericInterfaces)
+                {
+                    Console.WriteLine(closedGenericInterface.FullName);
+                    services.AddScoped(closedGenericInterface, type);
+                }
+            }
+        }
     }
 }
 

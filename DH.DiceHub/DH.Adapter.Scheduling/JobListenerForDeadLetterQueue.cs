@@ -2,25 +2,31 @@
 using Quartz;
 using DH.Domain.Adapters.Scheduling;
 using System.Text.Json;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DH.Adapter.Scheduling;
 
 public class JobListenerForDeadLetterQueue : JobListenerSupport
 {
-    readonly IReservationExpirationHandler reservationExpirationHandler;
+    readonly IServiceScopeFactory serviceScopeFactory;
 
-    public JobListenerForDeadLetterQueue(IReservationExpirationHandler reservationExpirationHandler)
+    public JobListenerForDeadLetterQueue(IServiceScopeFactory serviceScopeFactory)
     {
-        this.reservationExpirationHandler = reservationExpirationHandler;
+        this.serviceScopeFactory = serviceScopeFactory;
     }
 
     public override string Name => "JobListenerForDeadLetterQueue";
 
     public override async Task JobWasExecuted(IJobExecutionContext context, JobExecutionException? jobException, CancellationToken cancellationToken = default)
     {
-        if (jobException != null)
+        using (var scope = this.serviceScopeFactory.CreateScope())
         {
-            await this.reservationExpirationHandler.ProcessFailedReservationExpirationAsync(JsonSerializer.Serialize(new { context.JobDetail.Key,context.JobDetail.JobDataMap }), jobException.Message, cancellationToken);
+            if (jobException != null)
+            {
+                var reservationExpirationHandler = scope.ServiceProvider.GetRequiredService<IReservationExpirationHandler>();
+
+                await reservationExpirationHandler.ProcessFailedReservationExpirationAsync(JsonSerializer.Serialize(new { context.JobDetail.Key, context.JobDetail.JobDataMap }), jobException.Message, cancellationToken);
+            }
         }
     }
 }

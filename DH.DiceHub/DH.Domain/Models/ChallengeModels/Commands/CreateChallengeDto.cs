@@ -7,7 +7,7 @@ namespace DH.Domain.Models.ChallengeModels.Commands;
 public class CreateChallengeDto : IValidableFields
 {
     const int MinDescriptionLength = 5;
-    const int MaxDescriptionLength = 50;
+    const int MaxDescriptionLength = 100;
 
     public string Description { get; set; } = string.Empty;
     public ChallengeRewardPoint RewardPoints { get; set; }

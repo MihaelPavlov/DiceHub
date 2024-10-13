@@ -14,7 +14,7 @@ internal class ChallengesSeedService : ISeedService
         this.mediator = mediator;
     }
 
-    public async void Seed()
+    public async Task Seed()
     {
         foreach (var challenge in SeedData.CHALLENGE_LIST_DTOS)
         {
