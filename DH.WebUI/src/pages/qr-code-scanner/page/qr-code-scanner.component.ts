@@ -52,6 +52,9 @@ export class QrCodeScannerComponent implements AfterViewInit {
   }
 
   tick() {
+    if(!this.videoElement){
+      return;
+    }
     const video = this.videoElement.nativeElement;
 
     if (video.readyState === video.HAVE_ENOUGH_DATA) {

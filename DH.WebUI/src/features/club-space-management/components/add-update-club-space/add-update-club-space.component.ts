@@ -17,6 +17,8 @@ import { SafeUrl } from '@angular/platform-browser';
 import { GameImagePipe } from '../../../../shared/pipe/game-image.pipe';
 import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { ToastType } from '../../../../shared/models/toast.model';
+import { MatDialog } from '@angular/material/dialog';
+import { SinglePlayerConfirmDialog } from '../../dialogs/single-player-confirm-dialog/single-player-confirm-dialog.component';
 
 interface ICreateSpaceTable {
   gameName: string;
@@ -43,7 +45,8 @@ export class AddUpdateClubSpaceComponent extends Form {
     private readonly gamesService: GamesService,
     private readonly spaceManagementService: SpaceManagementService,
     private readonly gameImagePipe: GameImagePipe,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly dialog: MatDialog
   ) {
     super(toastService);
     this.form = this.initFormGroup();
@@ -59,6 +62,20 @@ export class AddUpdateClubSpaceComponent extends Form {
               });
 
               this.imagePreview = this.gameImagePipe.transform(game.imageId);
+
+              if (game.minPlayers === 1) {
+                const dialogRef = this.dialog.open(SinglePlayerConfirmDialog, {
+                  width: '17rem',
+                  position: { bottom: '60%', left: '2%' },
+                });
+
+                dialogRef.afterClosed().subscribe((result) => {
+                  if (result) {
+                    // Process Single player
+                    console.log('process single player');
+                  }
+                });
+              }
             }
           },
           error: (error) => {
