@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DH.Adapter.Data.Migrations
 {
     [DbContext(typeof(TenantDbContext))]
-    [Migration("20241009074750_UpdateUserChallenge")]
-    partial class UpdateUserChallenge
+    [Migration("20241012155731_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -512,6 +512,38 @@ namespace DH.Adapter.Data.Migrations
                     b.ToTable("GameReviews");
                 });
 
+            modelBuilder.Entity("DH.Domain.Entities.QrCodeScanAudit", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ErrorMessage")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ScannedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ScannedData")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TraceId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("QrCodeScanAudits");
+                });
+
             modelBuilder.Entity("DH.Domain.Entities.Room", b =>
                 {
                     b.Property<int>("Id")
@@ -633,6 +665,67 @@ namespace DH.Adapter.Data.Migrations
                     b.ToTable("RoomParticipants");
                 });
 
+            modelBuilder.Entity("DH.Domain.Entities.SpaceTable", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("GameId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsLocked")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("MaxPeople")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GameId");
+
+                    b.ToTable("SpaceTables");
+                });
+
+            modelBuilder.Entity("DH.Domain.Entities.SpaceTableParticipant", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("SpaceTableId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SpaceTableId");
+
+                    b.ToTable("SpaceTableParticipants");
+                });
+
             modelBuilder.Entity("DH.Domain.Entities.UserChallenge", b =>
                 {
                     b.Property<int>("Id")
@@ -654,6 +747,9 @@ namespace DH.Adapter.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsRewardCollected")
                         .HasColumnType("bit");
 
                     b.Property<int>("RequiredUserTotalPoints")
@@ -978,6 +1074,28 @@ namespace DH.Adapter.Data.Migrations
                     b.Navigation("Room");
                 });
 
+            modelBuilder.Entity("DH.Domain.Entities.SpaceTable", b =>
+                {
+                    b.HasOne("DH.Domain.Entities.Game", "Game")
+                        .WithMany()
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Game");
+                });
+
+            modelBuilder.Entity("DH.Domain.Entities.SpaceTableParticipant", b =>
+                {
+                    b.HasOne("DH.Domain.Entities.SpaceTable", "SpaceTable")
+                        .WithMany("SpaceTableParticipants")
+                        .HasForeignKey("SpaceTableId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SpaceTable");
+                });
+
             modelBuilder.Entity("DH.Domain.Entities.UserChallenge", b =>
                 {
                     b.HasOne("DH.Domain.Entities.Challenge", "Challenge")
@@ -1073,6 +1191,11 @@ namespace DH.Adapter.Data.Migrations
                     b.Navigation("Messages");
 
                     b.Navigation("Participants");
+                });
+
+            modelBuilder.Entity("DH.Domain.Entities.SpaceTable", b =>
+                {
+                    b.Navigation("SpaceTableParticipants");
                 });
 
             modelBuilder.Entity("DH.Domain.Entities.UserChallengePeriodPerformance", b =>

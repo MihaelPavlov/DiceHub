@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DH.Adapter.Data.Migrations
 {
     [DbContext(typeof(TenantDbContext))]
-    [Migration("20241012124627_UpdateUserChallengeFields")]
-    partial class UpdateUserChallengeFields
+    [Migration("20241012155803_InitialSeedQuartzNET")]
+    partial class InitialSeedQuartzNET
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
