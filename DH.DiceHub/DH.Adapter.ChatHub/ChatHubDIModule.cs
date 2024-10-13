@@ -5,7 +5,7 @@ namespace DH.Adapter.ChatHub;
 
 public static class ChatHubDIModule
 {
-    public static void ConfigureSignalR(
+    public static void AddChatHubAdapter(
         this IServiceCollection services)
         => services
             .AddScoped<IChatHubClient, ChatHubClient>()

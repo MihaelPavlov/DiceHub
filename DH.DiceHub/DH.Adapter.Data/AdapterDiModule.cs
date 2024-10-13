@@ -11,26 +11,9 @@ using System.Reflection;
 
 namespace DH.Adapter.Data;
 
-//public class AdapterDataDIModule : Module
-//{
-//    protected override void Load(ContainerBuilder builder)
-//    {
-//        builder.RegisterAssemblyTypes(this.ThisAssembly)
-//         .AsClosedTypesOf(typeof(IDomainService<>))
-//         .AsImplementedInterfaces()
-//        .InstancePerLifetimeScope();
-
-//        builder.RegisterAssemblyTypes(this.ThisAssembly)
-//              .AsClosedTypesOf(typeof(IDbContextFactory<>))
-//              .AsImplementedInterfaces()
-//             .InstancePerLifetimeScope();
-
-//        builder.RegisterType<TenantDbContext>().As<ITenantDbContext>().InstancePerLifetimeScope();
-//    }
-//}
 public static class DataDIModule
 {
-    public static IServiceCollection LoadDatabase(
+    public static IServiceCollection AddDataAdapter(
         this IServiceCollection services,
         IConfiguration configuration)
     {
@@ -54,7 +37,6 @@ public static class DataDIModule
             .AddScoped<IRoomService, RoomService>()
             .AddScoped<IDataSeeder, DataSeeder>();
 
-        // Register all types implementing IDomainService<> and IDbContextFactory<>
         RegisterAssemblyTypesAsClosedGeneric(services, typeof(IDomainService<>), typeof(IDbContextFactory<>));
         return services;
     }
@@ -79,7 +61,6 @@ public static class DataDIModule
 
                 foreach (var closedGenericInterface in closedGenericInterfaces)
                 {
-                    Console.WriteLine(closedGenericInterface.FullName);
                     services.AddScoped(closedGenericInterface, type);
                 }
             }

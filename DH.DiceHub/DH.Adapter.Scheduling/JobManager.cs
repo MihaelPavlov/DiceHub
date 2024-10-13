@@ -3,6 +3,7 @@ using Quartz;
 
 namespace DH.Adapter.Scheduling;
 
+/// <inheritdoc/>
 internal class JobManager : IJobManager
 {
     readonly ISchedulerFactory schedulerFactory;
@@ -12,6 +13,7 @@ internal class JobManager : IJobManager
         this.schedulerFactory = schedulerFactory;
     }
 
+    /// <inheritdoc/>
     public async Task CreateReservationJob(int reservationId, DateTime reservationTime, int durationInMinutes)
     {
         var scheduler = await this.schedulerFactory.GetScheduler();

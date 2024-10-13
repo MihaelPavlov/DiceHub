@@ -5,9 +5,9 @@ using Quartz;
 
 namespace DH.Adapter.Scheduling;
 
-public static class SchedulingDiModule
+public static class SchedulingDIModule
 {
-    public static IServiceCollection AddSchedulingConfiguration(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddSchedulingAdapter(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<IJobManager, JobManager>();
         services.AddScoped<IReservationExpirationHandler, ReservationExpirationHandler>();

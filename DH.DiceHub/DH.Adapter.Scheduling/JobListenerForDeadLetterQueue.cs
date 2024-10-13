@@ -6,6 +6,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace DH.Adapter.Scheduling;
 
+/// <summary>
+/// A job listener that listens for job execution results and processes any failures by adding them to a dead-letter queue.
+/// </summary>
 public class JobListenerForDeadLetterQueue : JobListenerSupport
 {
     readonly IServiceScopeFactory serviceScopeFactory;
@@ -15,8 +18,18 @@ public class JobListenerForDeadLetterQueue : JobListenerSupport
         this.serviceScopeFactory = serviceScopeFactory;
     }
 
+    /// <summary>
+    /// The name of the job listener.
+    /// </summary>
     public override string Name => "JobListenerForDeadLetterQueue";
 
+    /// <summary>
+    /// Invoked after a job is executed. If the job fails, the failure details are processed and sent to a dead-letter queue.
+    /// </summary>
+    /// <param name="context">The context of the executed job.</param>
+    /// <param name="jobException">The exception thrown during job execution, if any.</param>
+    /// <param name="cancellationToken">A cancellation token for the asynchronous operation.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public override async Task JobWasExecuted(IJobExecutionContext context, JobExecutionException? jobException, CancellationToken cancellationToken = default)
     {
         using (var scope = this.serviceScopeFactory.CreateScope())

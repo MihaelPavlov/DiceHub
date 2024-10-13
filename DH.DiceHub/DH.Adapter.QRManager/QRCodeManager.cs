@@ -11,7 +11,8 @@ using ZXing.QrCode;
 
 namespace DH.Adapter.QRManager;
 
-internal class QRCodeManager : IQRCodeManager
+/// <inheritdoc/>
+public class QRCodeManager : IQRCodeManager
 {
     readonly IQRCodeContext qRCodeContext;
     readonly IContainerService containerService;
@@ -22,6 +23,7 @@ internal class QRCodeManager : IQRCodeManager
         this.containerService = containerService;
     }
 
+    /// <inheritdoc/>
     public string CreateQRCode(QRReaderModel data, string webRootPath)
     {
         var writer = new QRCodeWriter();
@@ -94,6 +96,7 @@ internal class QRCodeManager : IQRCodeManager
         }
     }
 
+    /// <inheritdoc/>
     public async Task<QrCodeValidationResult> ValidateQRCodeAsync(string data, CancellationToken cancellationToken)
     {
         var qrReader = this.ValidateCode(data);
@@ -114,6 +117,14 @@ internal class QRCodeManager : IQRCodeManager
         return await this.qRCodeContext.HandleAsync(qrReader, cancellationToken);
     }
 
+    /// <summary>
+    /// Deserializes and validates the provided QR code data.
+    /// Throws an exception if the data is invalid or malformed.
+    /// </summary>
+    /// <param name="data">The QR code data in JSON format.</param>
+    /// <returns>Returns the validated <see cref="QRReaderModel"/>.</returns>
+    /// <exception cref="BadRequestException">Thrown if the QR code data is invalid.</exception>
+    /// <exception cref="JsonException">Thrown if the QR code format is incorrect.</exception>
     private QRReaderModel ValidateCode(string data)
     {
         try

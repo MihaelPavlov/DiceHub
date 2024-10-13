@@ -5,6 +5,7 @@ using DH.Domain.Repositories;
 
 namespace DH.Adapter.Scheduling;
 
+/// <inheritdoc/>
 public class ReservationExpirationHandler : IReservationExpirationHandler
 {
     readonly IRepository<GameReservation> repository;
@@ -18,11 +19,13 @@ public class ReservationExpirationHandler : IReservationExpirationHandler
         this.inventoryRepository = inventoryRepository;
     }
 
+    /// <inheritdoc/>
     public async Task ProcessFailedReservationExpirationAsync(string data, string errorMessage, CancellationToken cancellationToken)
     {
         await failedJobsRepository.AddAsync(new FailedJob { Data = data, Type = 0, FailedAt = DateTime.UtcNow, ErrorMessage = errorMessage }, cancellationToken);
     }
 
+    /// <inheritdoc/>
     public async Task<bool> ProcessReservationExpirationAsync(int reservationId, CancellationToken cancellationToken)
     {
         var reservation = await repository.GetByAsyncWithTracking(x => x.Id == reservationId, cancellationToken);

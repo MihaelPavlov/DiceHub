@@ -1,5 +1,4 @@
 ﻿
-using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using DH.Adapter.Authentication;
 using DH.Adapter.Authentication.Helper;
@@ -9,7 +8,6 @@ using DH.Adapter.QRManager;
 using DH.Adapter.Scheduling;
 using DH.Api;
 using DH.Api.Helpers;
-using DH.Application;
 using DH.Application.Games.Commands.Games;
 using DH.Database.MigrationUtility;
 using DH.Domain;
@@ -17,13 +15,11 @@ using DH.Domain.Adapters.Authentication;
 using DH.Domain.Adapters.Data;
 using DH.Domain.Helpers;
 using DH.Domain.Services;
-using DH.Domain.Services.Seed;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System.Reflection;
 
 using var logger = new ConsoleFileLogger();
 try
@@ -46,8 +42,8 @@ try
     //    return 1;
     //}
 
-    await MigrateShareDatabases(connectionString, logger);
-    await MigrateTenantDatabases(connectionString, logger);
+    await MigrateAuthentication(connectionString, logger);
+    await MigrateTenantDatabase(connectionString, logger);
 
     var host = Host
         .CreateDefaultBuilder()
@@ -66,11 +62,11 @@ try
             services.AddScoped<IDataSeeder, DataSeeder>();
             services.AddAutofac();
 
-            services.LoadDatabase(hostContext.Configuration);
+            services.AddDataAdapter(hostContext.Configuration);
             services.AuthenticationAdapter(hostContext.Configuration);
-            services.AddSchedulingConfiguration(hostContext.Configuration);
+            services.AddSchedulingAdapter(hostContext.Configuration);
             services.LoadSeedServices();
-            services.ConfigureQrCodeManager();
+            services.AddQRManagerAdapter();
             services.AddScoped<IContainerService, ContainerService>();
             services.AddScoped<IRewardService, RewardService>();
             services.AddScoped<IChallengeService, ChallengeService>();
@@ -105,7 +101,7 @@ finally
 
 return 0;
 
-static async Task MigrateTenantDatabases(string connectionString, ConsoleFileLogger logger)
+static async Task MigrateTenantDatabase(string connectionString, ConsoleFileLogger logger)
 {
     logger.WriteLine();
     logger.WriteLine("-------------------------------------------------------------");
@@ -123,11 +119,11 @@ static async Task MigrateTenantDatabases(string connectionString, ConsoleFileLog
         await context.Database.MigrateAsync();
     }
 }
-static async Task MigrateShareDatabases(string connectionString, ConsoleFileLogger logger)
+static async Task MigrateAuthentication(string connectionString, ConsoleFileLogger logger)
 {
     logger.WriteLine();
     logger.WriteLine("-------------------------------------------------------------");
-    logger.WriteLine("Start migrations for Shared database");
+    logger.WriteLine("Start migrations for Authentication");
     logger.WriteLine("-------------------------------------------------------------");
     logger.WriteLine();
 

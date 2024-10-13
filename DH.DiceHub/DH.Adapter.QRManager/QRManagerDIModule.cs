@@ -5,7 +5,7 @@ namespace DH.Adapter.QRManager;
 
 public static class QRManagerDIModule
 {
-    public static void ConfigureQrCodeManager(
+    public static void AddQRManagerAdapter(
         this IServiceCollection services)
         => services
             .AddScoped<IQRCodeManager, QRCodeManager>()

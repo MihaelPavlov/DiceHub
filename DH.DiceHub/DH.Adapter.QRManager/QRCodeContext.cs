@@ -8,6 +8,7 @@ using System.Text.Json;
 
 namespace DH.Adapter.QRManager;
 
+/// <inheritdoc/>
 public class QRCodeContext : IQRCodeContext
 {
     IQRCodeState _state;
@@ -19,16 +20,19 @@ public class QRCodeContext : IQRCodeContext
         this.serviceScopeFactory = serviceScopeFactory;
     }
 
+    /// <inheritdoc/>
     public void SetState(IQRCodeState state)
     {
         _state = state;
     }
 
+    /// <inheritdoc/>
     public async Task<QrCodeValidationResult> HandleAsync(QRReaderModel data, CancellationToken cancellationToken)
     {
         return await _state.HandleAsync(this, data, cancellationToken);
     }
 
+    /// <inheritdoc/>
     public async Task TrackScannedQrCode(string traceId, QRReaderModel data, Exception? errorMessage, CancellationToken cancellationToken)
     {
         try

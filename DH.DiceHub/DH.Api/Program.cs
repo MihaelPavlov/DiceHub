@@ -13,6 +13,7 @@ using DH.Adapter.GameSession;
 using DH.Domain.Helpers;
 using DH.Api.Helpers;
 using DH.Application.Games.Commands.Games;
+using DH.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,7 +26,6 @@ builder.Services.AddSingleton<IMemoryCache>(service => new MemoryCache(new Memor
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpContextAccessor();
-builder.Services.LoadDatabase(builder.Configuration);
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("EnableCORS", builder =>
@@ -36,17 +36,17 @@ builder.Services.AddCors(options =>
          .AllowCredentials();
     });
 });
-
-builder.Services.ConfigureSignalR();
-builder.Services.ConfigureQrCodeManager();
-builder.Services.AuthenticationAdapter(builder.Configuration);
-builder.Services.AddSchedulingConfiguration(builder.Configuration);
-builder.Services.AddChallengesOrchestrator();
-builder.Services.AddGameSessionAdapter();
-
 builder.Services.AddScoped<IWebRootPathHelper, WebRootPathHelper>();
 builder.Services.AddScoped<IContainerService, ContainerService>();
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(CreateGameCommand).Assembly));
+
+builder.Services.AddApplication();
+builder.Services.AddDataAdapter(builder.Configuration);
+builder.Services.AuthenticationAdapter(builder.Configuration);
+builder.Services.AddChatHubAdapter();
+builder.Services.AddQRManagerAdapter();
+builder.Services.AddSchedulingAdapter(builder.Configuration);
+builder.Services.AddChallengesOrchestratorAdapter();
+builder.Services.AddGameSessionAdapter();
 
 var app = builder.Build();
 
