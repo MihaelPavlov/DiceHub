@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { PATH } from '../../../shared/configs/path.config';
 import { IAddSpaceTableDto } from '../models/add-space-table.model';
 import { ISpaceTableList } from '../models/space-table-list.model';
+import { IUserActiveSpaceTableResult } from '../models/user-active-space-table.model';
+import { ISpaceActivityStats } from '../models/space-activity-stats.model';
 
 @Injectable({
   providedIn: 'root',
@@ -11,14 +13,16 @@ import { ISpaceTableList } from '../models/space-table-list.model';
 export class SpaceManagementService {
   constructor(private readonly api: RestApiService) {}
 
-  public add(spaceTable: IAddSpaceTableDto): Observable<number | null> {
-    return this.api.post<number>(`/${PATH.SPACE_MANAGEMENT.CORE}`, {
-      ...spaceTable,
-    });
+  public getUserActiveTable(): Observable<IUserActiveSpaceTableResult> {
+    return this.api.get<IUserActiveSpaceTableResult>(
+      `/${PATH.SPACE_MANAGEMENT.CORE}/${PATH.SPACE_MANAGEMENT.GET_USER_ACTIVE_TABLE}`
+    );
   }
 
-  public join(): Observable<null> {
-    return this.api.put(`/${PATH.SPACE_MANAGEMENT.CORE}`, {});
+  public getSpaceActivityStats(): Observable<ISpaceActivityStats> {
+    return this.api.get<ISpaceActivityStats>(
+      `/${PATH.SPACE_MANAGEMENT.CORE}/${PATH.SPACE_MANAGEMENT.GET_SPACE_ACTIVITY_STATS}`
+    );
   }
 
   public getList(
@@ -28,5 +32,15 @@ export class SpaceManagementService {
       `/${PATH.SPACE_MANAGEMENT.CORE}/${PATH.SPACE_MANAGEMENT.LIST}`,
       { searchExpressionName }
     );
+  }
+
+  public add(spaceTable: IAddSpaceTableDto): Observable<number | null> {
+    return this.api.post<number>(`/${PATH.SPACE_MANAGEMENT.CORE}`, {
+      ...spaceTable,
+    });
+  }
+
+  public join(): Observable<null> {
+    return this.api.put(`/${PATH.SPACE_MANAGEMENT.CORE}`, {});
   }
 }

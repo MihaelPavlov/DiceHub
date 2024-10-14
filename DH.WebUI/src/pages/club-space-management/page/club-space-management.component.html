@@ -1,27 +1,79 @@
 <app-header Recommended="Club Space" [withBottomLine]="true"> </app-header>
 
-<div class="wrapper_btns">
-  <button class="btn btn__small btn-gray btn-font-green btn-border-green">
-    Create Table
-  </button>
-  <button (click)="navigateToSpaceManagement()" class="btn btn__small btn-gray btn-font-yellow btn-border-yellow">
-    Join Table
-  </button>
-</div>
+<ng-container *ngIf="userActiveTableInfo as info">
+  <div
+    *ngIf="info.isPlayerHaveActiveTable || info.isPlayerParticipateInTable"
+    class="wrapper_active_table"
+  >
+    <p *ngIf="info.isPlayerHaveActiveTable" class="wrapper_active_table--text">
+      Created Active Table
+    </p>
+    <p
+      *ngIf="info.isPlayerParticipateInTable"
+      class="wrapper_active_table--text"
+    >
+      You're participating in a Table
+    </p>
 
-<div class="wrapper_tabs">
+    <p class="wrapper_active_table--text">TableName</p>
+    <button class="btn btn__small btn-gray btn-font-blue btn-border-blue">
+      View Table
+    </button>
+  </div>
+
+  <div class="wrapper_btns">
+    <button
+      [disabled]="
+        info.isPlayerHaveActiveTable || info.isPlayerParticipateInTable
+      "
+      class="btn btn__small btn-gray"
+      [ngClass]="{
+        'btn-font-green btn-border-green': !(
+          info.isPlayerHaveActiveTable || info.isPlayerParticipateInTable
+        ),
+        'btn-font-red btn-border-red':
+          info.isPlayerHaveActiveTable || info.isPlayerParticipateInTable
+      }"
+    >
+      Create Table
+    </button>
+
+    <button
+      (click)="navigateToSpaceManagement()"
+      [disabled]="
+        info.isPlayerHaveActiveTable || info.isPlayerParticipateInTable
+      "
+      class="btn btn__small btn-gray"
+      [ngClass]="{
+        'btn-font-yellow btn-border-yellow': !(
+          info.isPlayerHaveActiveTable || info.isPlayerParticipateInTable
+        ),
+        'btn-font-red btn-border-red':
+          info.isPlayerHaveActiveTable || info.isPlayerParticipateInTable
+      }"
+    >
+      Join Table
+    </button>
+  </div>
+</ng-container>
+
+<div class="wrapper_tabs" *ngIf="spaceActivityStats">
   <div class="wrapper_tabs__tab">
     <span class="wrapper_tabs__tab-header">People In Club</span>
     <div class="info">
       <span class="material-symbols-outlined"> group </span>
-      <span class="info__count">23</span>
+      <span class="info__count">{{
+        spaceActivityStats.totalPeopleInSpace
+      }}</span>
     </div>
   </div>
   <div class="wrapper_tabs__tab">
     <span class="wrapper_tabs__tab-header">Online tables</span>
     <div class="info">
       <span class="material-symbols-outlined"> workspaces </span>
-      <span class="info__count">23</span>
+      <span class="info__count">{{
+        spaceActivityStats.totalActiveTables
+      }}</span>
     </div>
   </div>
 </div>

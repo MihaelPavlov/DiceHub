@@ -20,6 +20,24 @@ public class SpaceManagementController : ControllerBase
         this.mediator = mediator;
     }
 
+    [HttpGet("get-user-active-table")]
+    [ActionAuthorize(UserAction.SpaceManagementCRUD)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetUserActiveTableQueryModel))]
+    public async Task<IActionResult> GetUserActiveTable(CancellationToken cancellationToken)
+    {
+        var result = await this.mediator.Send(new GetUserActiveTableQuery(), cancellationToken);
+        return Ok(result);
+    }
+
+    [HttpGet("get-space-activity-stats")]
+    [ActionAuthorize(UserAction.SpaceManagementCRUD)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetSpaceActivityStatsQuery))]
+    public async Task<IActionResult> GetSpaceActivityStats(CancellationToken cancellationToken)
+    {
+        var result = await this.mediator.Send(new GetSpaceActivityStatsQuery(), cancellationToken);
+        return Ok(result);
+    }
+
     [HttpPost("list")]
     [ActionAuthorize(UserAction.SpaceManagementCRUD)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetSpaceTableListQueryModel>))]

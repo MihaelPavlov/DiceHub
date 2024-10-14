@@ -59,6 +59,8 @@ export const PATH = {
   SPACE_MANAGEMENT: {
     CORE: 'spaceManagement',
     LIST: 'list',
+    GET_USER_ACTIVE_TABLE: 'get-user-active-table',
+    GET_SPACE_ACTIVITY_STATS: 'get-space-activity-stats',
   },
   // AUTH: {
   //   LOGIN: 'auth/user/login',
