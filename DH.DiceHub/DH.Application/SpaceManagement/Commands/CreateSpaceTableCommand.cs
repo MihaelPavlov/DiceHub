@@ -48,7 +48,7 @@ internal class CreateSpaceTableCommandHandler : IRequestHandler<CreateSpaceTable
             throw new InfrastructureException($"Something went wrong: reference traceId: {traceId}");
         }
 
-        this.queue.AddUserPlayTimEnforcerJob(this.userContext.UserId, game!.Id, DateTime.UtcNow.AddMinutes((int)game!.AveragePlaytime));
+        this.queue.AddUserPlayTimEnforcerJob(this.userContext.UserId, game!.Id, DateTime.UtcNow.AddSeconds(10));
 
         return spaceTableId;
     }

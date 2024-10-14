@@ -2,6 +2,7 @@
 using DH.Domain.Adapters.Authentication.Models;
 using DH.Domain.Adapters.Authentication.Models.Enums;
 using DH.Domain.Adapters.Authentication.Services;
+using DH.Domain.Adapters.ChallengesOrchestrator;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +20,7 @@ public class UserService : IUserService
     readonly IJwtService jwtService;
     readonly IHttpContextAccessor _httpContextAccessor;
     readonly IPermissionStringBuilder _permissionStringBuilder;
+    readonly SynchronizeUsersChallengesQueue queue;
 
     /// <summary>
     /// Constructor for UserService to initialize dependencies.
@@ -28,17 +30,18 @@ public class UserService : IUserService
     /// <param name="jwtService"><see cref="IJwtService"/> for accessing application jwt authentication logic.</param>
     public UserService(IHttpContextAccessor httpContextAccessor, IHttpClientFactory httpClientFactory,
         SignInManager<ApplicationUser> signInManager, IJwtService jwtService,
-        UserManager<ApplicationUser> userManager, IPermissionStringBuilder permissionStringBuilder)
+        UserManager<ApplicationUser> userManager, IPermissionStringBuilder permissionStringBuilder, SynchronizeUsersChallengesQueue queue)
     {
         _httpContextAccessor = httpContextAccessor;
         this.signInManager = signInManager;
         this.jwtService = jwtService;
         this.userManager = userManager;
         this._permissionStringBuilder = permissionStringBuilder;
+        this.queue = queue;
     }
 
     /// <inheritdoc />
-    public async Task<TokenResponseModel> Login(LoginRequest form)
+    public async Task<TokenResponseModel> Login(LoginRequest form, bool fromRegister = false)
     {
         var user = await this.userManager.FindByEmailAsync(form.Email);
         if (user is null)
@@ -65,6 +68,11 @@ public class UserService : IUserService
             await this.userManager.UpdateAsync(user);
 
             _httpContextAccessor.HttpContext.User = new ClaimsPrincipal(new ClaimsIdentity(claims));
+
+            if (fromRegister)
+            {
+                this.queue.AddSynchronizeNewUserJob(user.Id);
+            }
             return new TokenResponseModel { AccessToken = tokenString, RefreshToken = refreshToken };
         }
         return new TokenResponseModel { AccessToken = null, RefreshToken = null };
@@ -82,7 +90,7 @@ public class UserService : IUserService
 
         //TODO: Update the logic 
         await this.userManager.AddToRoleAsync(user, "User");
-
+        await Login(new LoginRequest { Email = form.Email, Password = form.Password }, true);
         //TODO: _httpContextAccessor.HttpContext.User = new ClaimsPrincipal(new ClaimsIdentity(claims));
     }
 

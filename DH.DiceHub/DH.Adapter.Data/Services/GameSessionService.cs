@@ -26,9 +26,9 @@ public class GameSessionService : IGameSessionService
             {
                 try
                 {
-                    //TODO: Check if we gonna need include(x=>x.Challenges)
                     var userChallenges = await context.UserChallenges
                     .AsTracking()
+                    .Include(x => x.Challenge)
                     .Where(x =>
                         x.UserId == userId &&
                         x.IsActive &&
@@ -93,6 +93,7 @@ public class GameSessionService : IGameSessionService
                 {
                     var userChallenges = await context.UserChallenges
                         .AsTracking()
+                        .Include(x => x.Challenge)
                         .Where(x =>
                             x.UserId == userId &&
                             !x.IsActive &&

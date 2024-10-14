@@ -39,8 +39,8 @@ export class LoginComponent {
   }
   register() {
     this.authService.register({
-      username: 'rap4obg3',
-      email: 'rap4obg3@abv.bg',
+      username: 'rap4obg2',
+      email: 'rap4obg2@abv.bg',
       password: '123456789Mm!',
     });
   }

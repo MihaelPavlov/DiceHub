@@ -13,7 +13,7 @@ public interface IUserService
     /// </summary>
     /// <param name="form">LoginForm containing user related information.</param>
     /// <returns> <see cref="AuthenticatedResponse"/> containing JWT token if login is successful.</returns>
-    Task<TokenResponseModel> Login(LoginRequest form);
+    Task<TokenResponseModel> Login(LoginRequest form, bool fromRegister = false);
 
     /// <summary>
     /// Registers a new user
