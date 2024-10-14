@@ -71,8 +71,30 @@ export class AddUpdateClubSpaceComponent extends Form {
 
                 dialogRef.afterClosed().subscribe((result) => {
                   if (result) {
-                    // Process Single player
-                    console.log('process single player');
+                    this.spaceManagementService
+                      .add({
+                        gameId: this.form.controls.gameId.value,
+                        name: '',
+                        maxPeople: 0,
+                        password: '',
+                        isSoloModeActive: true,
+                      })
+                      .subscribe({
+                        next: () => {
+                          this.toastService.success({
+                            message: AppToastMessage.ChangesSaved,
+                            type: ToastType.Success,
+                          });
+                          this.router.navigateByUrl('/space/home');
+                        },
+                        error: (error) => {
+                          this.handleServerErrors(error);
+                          this.toastService.error({
+                            message: AppToastMessage.FailedToSaveChanges,
+                            type: ToastType.Error,
+                          });
+                        },
+                      });
                   }
                 });
               }
@@ -97,6 +119,7 @@ export class AddUpdateClubSpaceComponent extends Form {
           name: this.form.controls.tableName.value,
           maxPeople: this.form.controls.maxPeople.value,
           password: this.form.controls.password.value,
+          isSoloModeActive: false,
         })
         .subscribe({
           next: () => {
@@ -104,7 +127,7 @@ export class AddUpdateClubSpaceComponent extends Form {
               message: AppToastMessage.ChangesSaved,
               type: ToastType.Success,
             });
-            this.router.navigateByUrl('/games/library');
+            this.router.navigateByUrl('/space/home');
           },
           error: (error) => {
             this.handleServerErrors(error);

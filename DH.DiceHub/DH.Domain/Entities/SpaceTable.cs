@@ -9,6 +9,8 @@ public class SpaceTable
     public bool IsLocked { get; set; }
     public string Password { get; set; } = string.Empty;
     public DateTime CreatedDate { get; set; }
+    public bool IsTableActive { get; set; }
+    public bool IsSoloModeActive { get; set; }
     public int GameId { get; set; }
 
     public virtual Game Game { get; set; } = null!;

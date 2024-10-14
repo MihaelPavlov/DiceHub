@@ -1,8 +1,8 @@
-﻿using DH.Domain.Adapters.Authentication;
-using DH.Domain.Entities;
+﻿using DH.Domain.Entities;
 using DH.Domain.Exceptions;
 using DH.Domain.Models.SpaceManagementModels.Commands;
-using DH.Domain.Repositories;
+using DH.Domain.Services;
+using Mapster;
 using MediatR;
 
 namespace DH.Application.SpaceManagement.Commands;
@@ -11,13 +11,11 @@ public record CreateSpaceTableCommand(CreateSpaceTableDto SpaceTable) : IRequest
 
 internal class CreateSpaceTableCommandHandler : IRequestHandler<CreateSpaceTableCommand, int>
 {
-    readonly IRepository<SpaceTable> repository;
-    readonly IUserContext userContext;
+    readonly ISpaceTableService spaceTableService;
 
-    public CreateSpaceTableCommandHandler(IRepository<SpaceTable> repository, IUserContext userContext)
+    public CreateSpaceTableCommandHandler(ISpaceTableService spaceTableService)
     {
-        this.repository = repository;
-        this.userContext = userContext;
+        this.spaceTableService = spaceTableService;
     }
 
     public async Task<int> Handle(CreateSpaceTableCommand request, CancellationToken cancellationToken)
@@ -25,17 +23,8 @@ internal class CreateSpaceTableCommandHandler : IRequestHandler<CreateSpaceTable
         if (!request.SpaceTable.FieldsAreValid(out var validationErrors))
             throw new ValidationErrorsException(validationErrors);
 
-        var spaceTable = await this.repository.AddAsync(new SpaceTable
-        {
-            CreatedDate = DateTime.UtcNow,
-            CreatedBy = this.userContext.UserId,
-            GameId = request.SpaceTable.GameId,
-            Password = request.SpaceTable.Password,
-            IsLocked = !string.IsNullOrEmpty(request.SpaceTable.Password),
-            MaxPeople = request.SpaceTable.MaxPeople,
-            Name = request.SpaceTable.Name,
-        }, cancellationToken);
+        var spaceTableId = await this.spaceTableService.Create(request.SpaceTable.Adapt<SpaceTable>(), cancellationToken);
 
-        return spaceTable.Id;
+        return spaceTableId;
     }
 }

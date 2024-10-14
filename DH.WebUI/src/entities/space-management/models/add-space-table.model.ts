@@ -3,4 +3,5 @@ export interface IAddSpaceTableDto {
   maxPeople: number;
   password: string;
   gameId: number;
+  isSoloModeActive: boolean
 }

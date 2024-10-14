@@ -35,6 +35,7 @@ public static class DataDIModule
             .AddScoped<IGameService, GameService>()
             .AddScoped<IRewardService, RewardService>()
             .AddScoped<IRoomService, RoomService>()
+            .AddScoped<ISpaceTableService, SpaceTableService>()
             .AddScoped<IDataSeeder, DataSeeder>();
 
         RegisterAssemblyTypesAsClosedGeneric(services, typeof(IDomainService<>), typeof(IDbContextFactory<>));
