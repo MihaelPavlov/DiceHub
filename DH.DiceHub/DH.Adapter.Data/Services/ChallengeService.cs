@@ -55,7 +55,7 @@ public class ChallengeService : IChallengeService
 
             var lastCompletedChallenge = await context.UserChallenges
                 .Where(x => this.userContext.UserId == x.UserId && x.CompletedDate != null)
-                .OrderByDescending(x=>x.CompletedDate)
+                .OrderByDescending(x => x.CompletedDate)
                 .Select(x =>
                         new GetUserChallengeListQueryModel
                         {
@@ -68,9 +68,12 @@ public class ChallengeService : IChallengeService
                             CurrentAttempts = x.AttemptCount,
                             MaxAttempts = x.Challenge.Attempts,
                         })
-                .ToListAsync(cancellationToken);
+                .FirstOrDefaultAsync(cancellationToken);
 
-            return activeChallenges.Union(lastCompletedChallenge).ToList();
+            if (lastCompletedChallenge != null)
+                return activeChallenges.Union([lastCompletedChallenge]).ToList();
+
+            return activeChallenges;
         }
     }
 }
