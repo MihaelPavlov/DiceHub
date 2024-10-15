@@ -21,7 +21,20 @@ public interface IGameSessionService
     /// <returns>A <see cref="Task</bool>"/> representing the asynchronous operation. Represent is the processing was successfully.
     /// The task will complete when the challenge processing is finished, allowing for non-blocking execution.</returns>
     Task<bool> ProcessChallengeAfterSession(string userId, int gameId, CancellationToken cancellationToken);
-    
+
+    /// <summary>
+    /// Collects reward points that the user has earned by completing challenges. 
+    /// This method ensures that all reward points, based on the user's completed challenges, 
+    /// are properly accumulated and made available for the user.
+    /// </summary>
+    /// <param name="userId">The unique identifier of the user for whom reward points are being collected. 
+    /// This parameter helps track the user's challenge completions and determine the applicable reward points.</param>
+    /// <param name="cancellationToken">A token used to cancel the operation if needed. 
+    /// This allows for cooperative cancellation of the task, particularly in long-running operations.</param>
+    /// <returns>A <see cref="Task</bool>"/> representing the asynchronous operation. 
+    /// The task will complete once the reward points collection process is finished, indicating whether the operation was successful.</returns>
+    Task<bool> CollectRewardsFromChallenges(string userId, CancellationToken cancellationToken);
+
     /// <summary>
     /// Evaluates the user's rewards based on the completion of challenges after the game session.
     /// This method checks if any rewards can now be claimed by the user as a result of successfully completing their challenges.
@@ -29,8 +42,7 @@ public interface IGameSessionService
     /// <param name="userId">The unique identifier of the user for whom the rewards are being evaluated. 
     /// This parameter is essential to track the user's reward status and determine eligible rewards.</param>
     /// <param name="cancellationToken"></param>
-    /// <returns>A <see cref="Task</bool>"/> representing the asynchronous operation. Represent is the processing was successfully.
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.
     /// The task will complete once the evaluation of rewards is finished, allowing for non-blocking execution.</returns>
-    Task<bool> EvaluateRewardsAfterChallenges(string userId, CancellationToken cancellationToken);
-
+    Task EvaluateUserRewards(string userId, CancellationToken cancellationToken);
 }

@@ -77,7 +77,7 @@ public class SynchronizeGameSessionService : BackgroundService
     private async Task ProcessUserPlayTimeEnforcerJob(UserPlayTimeEnforcerJob enforcerJob, string traceId, CancellationToken cancellationToken)
     {
         bool isProcessSuccessful = false;
-        bool isEvaluationSuccessful = false;
+        bool isCollectingSuccessful = false;
         using (var scope = this.serviceScopeFactory.CreateScope())
         {
             var gameSessionService = scope.ServiceProvider.GetRequiredService<IGameSessionService>();
@@ -96,17 +96,29 @@ public class SynchronizeGameSessionService : BackgroundService
             {
                 try
                 {
-                    isEvaluationSuccessful = await gameSessionService.EvaluateRewardsAfterChallenges(enforcerJob.UserId, cancellationToken);
+                    isCollectingSuccessful = await gameSessionService.CollectRewardsFromChallenges(enforcerJob.UserId, cancellationToken);
                 }
                 catch (Exception ex)
                 {
-                    logger.LogError(ex, "Job ID: {jobId} - Failed during EvaluateRewardsAfterChallenges at {failureTime}: {jobInfo}", traceId, DateTime.UtcNow, JsonSerializer.Serialize(enforcerJob));
+                    logger.LogError(ex, "Job ID: {jobId} - Failed during CollectRewardsFromChallenges at {failureTime}: {jobInfo}", traceId, DateTime.UtcNow, JsonSerializer.Serialize(enforcerJob));
                     throw;
                 }
 
-                if (!isEvaluationSuccessful)
+                if (!isCollectingSuccessful)
                 {
-                    logger.LogWarning("Job ID: {jobId} - Nothing for reward evaluation at {currentTime} - Job Info: {jobInfo}", traceId, DateTime.UtcNow, JsonSerializer.Serialize(enforcerJob));
+                    logger.LogWarning("Job ID: {jobId} - Nothing for collecting from challenges at {currentTime} - Job Info: {jobInfo}", traceId, DateTime.UtcNow, JsonSerializer.Serialize(enforcerJob));
+                }
+                else
+                {
+                    try
+                    {
+                        await gameSessionService.EvaluateUserRewards(enforcerJob.UserId, cancellationToken);
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.LogError(ex, "Job ID: {jobId} - Failed during EvaluateUserRewards at {failureTime}: {jobInfo}", traceId, DateTime.UtcNow, JsonSerializer.Serialize(enforcerJob));
+                        throw;
+                    }
                 }
             }
             else

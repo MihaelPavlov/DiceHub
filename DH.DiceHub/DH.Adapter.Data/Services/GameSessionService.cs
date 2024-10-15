@@ -83,7 +83,7 @@ public class GameSessionService : IGameSessionService
     }
 
     /// <inheritdoc/>
-    public async Task<bool> EvaluateRewardsAfterChallenges(string userId, CancellationToken cancellationToken)
+    public async Task<bool> CollectRewardsFromChallenges(string userId, CancellationToken cancellationToken)
     {
         using (var context = await this.dbContextFactory.CreateDbContextAsync(cancellationToken))
         {
@@ -126,6 +126,50 @@ public class GameSessionService : IGameSessionService
                     await context.SaveChangesAsync(cancellationToken);
                     await transaction.CommitAsync(cancellationToken);
                     return true;
+                }
+                catch (Exception)
+                {
+                    await transaction.RollbackAsync(cancellationToken);
+                    throw;
+                }
+            }
+        }
+    }
+
+    /// <inheritdoc/>
+    public async Task EvaluateUserRewards(string userId, CancellationToken cancellationToken)
+    {
+        using (var context = await this.dbContextFactory.CreateDbContextAsync(cancellationToken))
+        {
+            using (var transaction = await context.Database.BeginTransactionAsync(cancellationToken))
+            {
+                try
+                {
+                    var userActivePeriodPerformanceList = await context.UserChallengePeriodPerformances
+                       .Where(x => x.UserId == userId && x.IsPeriodActive)
+                       .ToListAsync(cancellationToken);
+
+                    if (userActivePeriodPerformanceList.Count > 1)
+                        throw new InfrastructureException($"Active user period performance can't be more then 1(One). user-id {userId}");
+                    else if (userActivePeriodPerformanceList.Count == 0)
+                        throw new InfrastructureException($"There is no active user period performance. user-id {userId}");
+
+                    var periodPerformance = userActivePeriodPerformanceList.First();
+
+                    var userPeriodRewards = await context.UserChallengePeriodRewards
+                        .AsTracking()
+                        .Include(x => x.ChallengeReward)
+                        .Where(x => x.UserChallengePeriodPerformanceId == periodPerformance.Id && !x.IsCompleted)
+                        .ToListAsync(cancellationToken);
+
+                    foreach (var item in userPeriodRewards)
+                    {
+                        if (periodPerformance.Points >= (int)item.ChallengeReward.RequiredPoints)
+                            item.IsCompleted = true;
+                    }
+
+                    await context.SaveChangesAsync(cancellationToken);
+                    await transaction.CommitAsync(cancellationToken);
                 }
                 catch (Exception)
                 {
