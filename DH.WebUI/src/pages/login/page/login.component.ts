@@ -31,6 +31,15 @@ export class LoginComponent {
     });
   }
 
+  
+  loginUser3() {
+    this.authService.login({
+      email: 'rap4obg4@abv.bg',
+      password: '123456789Mm!',
+    });
+  }
+
+
   loginAdmin() {
     this.authService.login({ email: 'sa@dicehub.com', password: '1qaz!QAZ' });
   }
@@ -39,8 +48,8 @@ export class LoginComponent {
   }
   register() {
     this.authService.register({
-      username: 'rap4obg2',
-      email: 'rap4obg2@abv.bg',
+      username: 'rap4obg4',
+      email: 'rap4obg4@abv.bg',
       password: '123456789Mm!',
     });
   }

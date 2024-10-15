@@ -2,6 +2,7 @@
 using DH.Domain.Entities;
 using DH.Domain.Models.ChallengeModels.Queries;
 using DH.Domain.Repositories;
+using DH.Domain.Services;
 using MediatR;
 
 namespace DH.Application.Challenges.Qureies;
@@ -10,28 +11,16 @@ public record GetUserChallengeListQuery : IRequest<List<GetUserChallengeListQuer
 
 internal class GetUserChallengeListQueryHandler : IRequestHandler<GetUserChallengeListQuery, List<GetUserChallengeListQueryModel>>
 {
-    readonly IRepository<UserChallenge> repository;
+    readonly IChallengeService challengeService;
     readonly IUserContext userContext;
 
-    public GetUserChallengeListQueryHandler(IRepository<UserChallenge> repository, IUserContext userContext)
+    public GetUserChallengeListQueryHandler(IUserContext userContext, IChallengeService challengeService)
     {
-        this.repository = repository;
         this.userContext = userContext;
+        this.challengeService = challengeService;
     }
     public async Task<List<GetUserChallengeListQueryModel>> Handle(GetUserChallengeListQuery request, CancellationToken cancellationToken)
     {
-        return await this.repository.GetWithPropertiesAsync(
-            x => this.userContext.UserId == x.UserId && x.IsActive,
-            x => new GetUserChallengeListQueryModel
-            {
-                Id = x.Id,
-                Description = x.Challenge.Description,
-                RewardPoints = x.Challenge.RewardPoints,
-                Status = x.Status,
-                GameImageId = x.Challenge.Game.Image.Id,
-                GameName = x.Challenge.Game.Name,
-                CurrentAttempts = x.AttemptCount,
-                MaxAttempts = x.Challenge.Attempts,
-            }, cancellationToken);
+        return await this.challengeService.GetUserChallenges(cancellationToken);
     }
 }

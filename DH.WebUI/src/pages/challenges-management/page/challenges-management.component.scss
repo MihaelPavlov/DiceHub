@@ -136,14 +136,16 @@
     border-radius: 1rem;
     background-color: palette.$main-nav-color;
 
+    .image_info_container{
+      display: flex;
+      width: 80%;
+    }
     .status-image {
       display: flex;
-      justify-content: start;
-      text-align: center;
-      align-items: center;
-      margin: 0.5rem 1.2rem;
+      width: 20%;
+      justify-content: center;
       position: relative;
-
+      align-items: center;
       img {
         width: 2rem;
         height: 2rem;
@@ -160,7 +162,6 @@
       margin-right: 0.75rem;
       text-align: center;
       align-items: center;
-
       img {
         width: 3rem;
         height: 3rem;
@@ -175,10 +176,11 @@
       flex-direction: column;
       justify-content: start;
       position: relative;
-
+      width: 110%;
       .header {
         margin-top: 0.75rem;
         word-break: break-all;
+        width: 100%;
       }
 
       .bar-2 {
@@ -192,6 +194,7 @@
         height: 1rem;
         width: 11rem;
         margin-bottom: 0.7rem;
+        width: 100%;
       }
 
       .bar-2-span {

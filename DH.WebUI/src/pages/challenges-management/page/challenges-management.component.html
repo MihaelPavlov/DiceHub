@@ -53,20 +53,22 @@
       locked: challenge.status === ChallengeStatus.Locked
     }"
   >
-    <div class="image">
-      <img [src]="challenge.gameImageId | gameImage" alt="" />
-    </div>
-    <div class="info">
-      <span class="header">
-        Play <strong>{{ challenge.gameName }}</strong>
-        {{ challenge.maxAttempts }} times
-      </span>
-      <div class="bar-2">
-        <span class="bar-2-span"
-          >{{ challenge.currentAttempts }} / {{ challenge.maxAttempts }}</span
-        >
-        <div class="bar-2-value" id="progress-bar-{{ i }}"></div>
-        <span class="points">{{ challenge.rewardPoints }}</span>
+    <div class="image_info_container">
+      <div class="image">
+        <img [src]="challenge.gameImageId | gameImage" alt="" />
+      </div>
+      <div class="info">
+        <span class="header">
+          Play <strong>{{ challenge.gameName }}</strong>
+          {{ challenge.maxAttempts }} times
+        </span>
+        <div class="bar-2">
+          <span class="bar-2-span"
+            >{{ challenge.currentAttempts }} / {{ challenge.maxAttempts }}</span
+          >
+          <div class="bar-2-value" id="progress-bar-{{ i }}"></div>
+          <span class="points">{{ challenge.rewardPoints }}</span>
+        </div>
       </div>
     </div>
     <div class="status-image">
