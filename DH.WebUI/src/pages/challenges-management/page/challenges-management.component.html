@@ -15,7 +15,10 @@
     >
     <div #scroller class="scroller">
       <div class="wrapper_stats__items">
-        <div class="item" *ngFor="let reward of userChallengePeriodRewardList">
+        <div class="item" *ngFor="let reward of userChallengePeriodRewardList"
+        [ngClass]="{
+          'completed-img': reward.isCompleted
+        }">
           <img [src]="reward.rewardImageId | rewardImage" alt="" />
         </div>
       </div>

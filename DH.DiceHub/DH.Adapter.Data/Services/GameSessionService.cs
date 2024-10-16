@@ -162,12 +162,26 @@ public class GameSessionService : IGameSessionService
                         .Where(x => x.UserChallengePeriodPerformanceId == periodPerformance.Id && !x.IsCompleted)
                         .ToListAsync(cancellationToken);
 
+                    var completedRewards = new List<UserChallengeReward>();
+
                     foreach (var item in userPeriodRewards)
                     {
                         if (periodPerformance.Points >= (int)item.ChallengeReward.RequiredPoints)
+                        {
                             item.IsCompleted = true;
+                            completedRewards.Add(new UserChallengeReward
+                            {
+                                UserId = userId,
+                                AvailableFromDate = DateTime.UtcNow,
+                                ExpiresDate = DateTime.UtcNow.AddDays(7), //TODO: Coming from global settings
+                                IsClaimed = false,
+                                RewardId = item.ChallengeRewardId,
+                                //TODO: Create background service for managin the rewards is they are expired or no
+                                IsExpired = false,
+                            });
+                        }
                     }
-
+                    await context.UserChallengeRewards.AddRangeAsync(completedRewards, cancellationToken);
                     await context.SaveChangesAsync(cancellationToken);
                     await transaction.CommitAsync(cancellationToken);
                 }
