@@ -1,4 +1,6 @@
-﻿using DH.Domain.Adapters.Scheduling;
+﻿using DH.Adapter.Scheduling.Handlers;
+using DH.Adapter.Scheduling.Jobs;
+using DH.Domain.Adapters.Scheduling;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz;
@@ -11,6 +13,7 @@ public static class SchedulingDIModule
     {
         services.AddScoped<IJobManager, JobManager>();
         services.AddScoped<IReservationExpirationHandler, ReservationExpirationHandler>();
+        services.AddScoped<IUserRewardsExpiryHandler, UserRewardsExpiryHandler>();
 
         services.AddQuartz(q =>
         {
@@ -28,15 +31,27 @@ public static class SchedulingDIModule
             });
 
             // Register the job and trigger
-            q.AddJob<ExpireReservationJob>(opts => opts.WithIdentity("ExpireReservationJob").StoreDurably());
+            q.AddJob<ExpireReservationJob>(opts => opts.WithIdentity(nameof(ExpireReservationJob)).StoreDurably());
+
+            q.AddJob<UserRewardsExpiryJob>(opts => opts.WithIdentity(nameof(UserRewardsExpiryJob)));
+
+            TriggerDailyJobs(q);
 
             q.AddJobListener<JobListenerForDeadLetterQueue>();
-            //q.UseJobListener<JobListenerForDeadLetterQueue>();
         });
 
         // Register Quartz.NET hosted service
         services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
 
         return services;
+    }
+
+    private static void TriggerDailyJobs(IServiceCollectionQuartzConfigurator service)
+    {
+        service.AddTrigger(opts => opts
+            .ForJob(nameof(UserRewardsExpiryJob))
+            .WithIdentity("DailyJobTriggers")
+            .WithCronSchedule("0 0 0 * * ?"));  // Cron expression for 00:00
+            //.WithCronSchedule("0 * * * * ?"));  // Cron expression for every min
     }
 }

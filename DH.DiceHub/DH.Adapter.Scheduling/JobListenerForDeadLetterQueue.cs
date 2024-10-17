@@ -3,6 +3,7 @@ using Quartz;
 using DH.Domain.Adapters.Scheduling;
 using System.Text.Json;
 using Microsoft.Extensions.DependencyInjection;
+using DH.Adapter.Scheduling.Jobs;
 
 namespace DH.Adapter.Scheduling;
 
@@ -36,9 +37,16 @@ public class JobListenerForDeadLetterQueue : JobListenerSupport
         {
             if (jobException != null)
             {
-                var reservationExpirationHandler = scope.ServiceProvider.GetRequiredService<IReservationExpirationHandler>();
-
-                await reservationExpirationHandler.ProcessFailedReservationExpirationAsync(JsonSerializer.Serialize(new { context.JobDetail.Key, context.JobDetail.JobDataMap }), jobException.Message, cancellationToken);
+                if (nameof(UserRewardsExpiryJob) == context.JobDetail.JobType.Name)
+                {
+                    var userRewardsExpiryHandler = scope.ServiceProvider.GetRequiredService<IUserRewardsExpiryHandler>();
+                    await userRewardsExpiryHandler.ProcessFailedExpiryCheck(JsonSerializer.Serialize(new { context.JobDetail.Key, context.JobDetail.JobDataMap }), jobException.Message, cancellationToken);
+                }
+                else if (nameof(ExpireReservationJob) == context.JobDetail.JobType.Name)
+                {
+                    var reservationExpirationHandler = scope.ServiceProvider.GetRequiredService<IReservationExpirationHandler>();
+                    await reservationExpirationHandler.ProcessFailedReservationExpirationAsync(JsonSerializer.Serialize(new { context.JobDetail.Key, context.JobDetail.JobDataMap }), jobException.Message, cancellationToken);
+                }
             }
         }
     }

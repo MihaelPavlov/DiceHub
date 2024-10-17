@@ -23,11 +23,35 @@ public interface IRepository<TEntity>
     /// Retrieves a list of entities with the specified properties.
     /// </summary>
     /// <typeparam name="TResult">The type of the result.</typeparam>
+    /// <param name="selector">A function to select the properties.</param>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains the list of entities with the specified properties.</returns>
+    Task<List<TResult>> GetWithPropertiesAsTrackingAsync<TResult>(
+        Expression<Func<TEntity, TResult>> selector,
+        CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Retrieves a list of entities with the specified properties.
+    /// </summary>
+    /// <typeparam name="TResult">The type of the result.</typeparam>
     /// <param name="wherePredicate">A function to filter the result.</param>
     /// <param name="selector">A function to select the properties.</param>
     /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains the list of entities with the specified properties.</returns>
     Task<List<TResult>> GetWithPropertiesAsync<TResult>(
+        Expression<Func<TEntity, bool>> wherePredicate,
+        Expression<Func<TEntity, TResult>> selector,
+        CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Retrieves a list of entities with the specified properties.
+    /// </summary>
+    /// <typeparam name="TResult">The type of the result.</typeparam>
+    /// <param name="wherePredicate">A function to filter the result.</param>
+    /// <param name="selector">A function to select the properties.</param>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains the list of entities with the specified properties.</returns>
+    Task<List<TResult>> GetWithPropertiesAsTrackingAsync<TResult>(
         Expression<Func<TEntity, bool>> wherePredicate,
         Expression<Func<TEntity, TResult>> selector,
         CancellationToken cancellationToken);

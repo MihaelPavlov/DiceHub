@@ -2,7 +2,7 @@
 using DH.Domain.Exceptions;
 using Quartz;
 
-namespace DH.Adapter.Scheduling;
+namespace DH.Adapter.Scheduling.Jobs;
 
 /// <summary>
 /// A job responsible for handling the expiration of game reservations. 
@@ -29,7 +29,7 @@ internal class ExpireReservationJob : IJob
     {
         var reservationId = context.JobDetail.JobDataMap.GetInt("ReservationId");
 
-        var isJobSuccessfully = await this.expireReservationJob.ProcessReservationExpirationAsync(reservationId, CancellationToken.None);
+        var isJobSuccessfully = await expireReservationJob.ProcessReservationExpirationAsync(reservationId, CancellationToken.None);
 
         if (!isJobSuccessfully)
             throw new InfrastructureException("Failed Job");

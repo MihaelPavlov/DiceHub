@@ -1,9 +1,10 @@
 using DH.Domain.Adapters.Scheduling;
+using DH.Domain.Adapters.Scheduling.Enums;
 using DH.Domain.Entities;
 using DH.Domain.Exceptions;
 using DH.Domain.Repositories;
 
-namespace DH.Adapter.Scheduling;
+namespace DH.Adapter.Scheduling.Handlers;
 
 /// <inheritdoc/>
 public class ReservationExpirationHandler : IReservationExpirationHandler
@@ -22,7 +23,7 @@ public class ReservationExpirationHandler : IReservationExpirationHandler
     /// <inheritdoc/>
     public async Task ProcessFailedReservationExpirationAsync(string data, string errorMessage, CancellationToken cancellationToken)
     {
-        await failedJobsRepository.AddAsync(new FailedJob { Data = data, Type = 0, FailedAt = DateTime.UtcNow, ErrorMessage = errorMessage }, cancellationToken);
+        await failedJobsRepository.AddAsync(new FailedJob { Data = data, Type = (int)JobType.GameReservationExpiration, FailedAt = DateTime.UtcNow, ErrorMessage = errorMessage }, cancellationToken);
     }
 
     /// <inheritdoc/>

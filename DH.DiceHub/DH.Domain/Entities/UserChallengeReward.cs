@@ -15,7 +15,7 @@ public class UserChallengeReward
     public DateTime? ClaimedDate { get; set; }
 
     // The date till when the reward can be claimed
-    public DateTime? ExpiresDate { get; set; }
+    public DateTime ExpiresDate { get; set; }
 
     public virtual ChallengeReward Reward { get; set; } = null!;
 }

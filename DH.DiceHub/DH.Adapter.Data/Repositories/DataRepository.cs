@@ -33,12 +33,36 @@ public class DataRepository<TEntity> : IRepository<TEntity>
     }
 
     /// <inheritdoc/>
+    public async Task<List<TResult>> GetWithPropertiesAsTrackingAsync<TResult>(
+        Expression<Func<TEntity, TResult>> selector,
+        CancellationToken cancellationToken)
+    {
+        return await this.tenantDbContext.Set<TEntity>()
+            .AsTracking()
+            .Select(selector)
+            .ToListAsync(cancellationToken);
+    }
+
+    /// <inheritdoc/>
     public async Task<List<TResult>> GetWithPropertiesAsync<TResult>(
         Expression<Func<TEntity, bool>> wherePredicate,
         Expression<Func<TEntity, TResult>> selector,
         CancellationToken cancellationToken)
     {
         return await this.tenantDbContext.Set<TEntity>()
+            .Where(wherePredicate)
+            .Select(selector)
+            .ToListAsync(cancellationToken);
+    }
+
+    /// <inheritdoc/>
+    public async Task<List<TResult>> GetWithPropertiesAsTrackingAsync<TResult>(
+        Expression<Func<TEntity, bool>> wherePredicate,
+        Expression<Func<TEntity, TResult>> selector,
+        CancellationToken cancellationToken)
+    {
+        return await this.tenantDbContext.Set<TEntity>()
+            .AsTracking()
             .Where(wherePredicate)
             .Select(selector)
             .ToListAsync(cancellationToken);

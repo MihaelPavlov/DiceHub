@@ -1,4 +1,5 @@
-﻿using DH.Domain.Adapters.Scheduling;
+﻿using DH.Adapter.Scheduling.Jobs;
+using DH.Domain.Adapters.Scheduling;
 using Quartz;
 
 namespace DH.Adapter.Scheduling;
