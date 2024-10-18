@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ClubSpaceManagementComponent } from './page/club-space-management.component';
 import { AddUpdateClubSpaceComponent } from '../../features/club-space-management/components/add-update-club-space/add-update-club-space.component';
 import { ClubSpaceListComponent } from '../../features/club-space-management/components/club-space-list/club-space-list.component';
+import { ClubSpaceDetailsComponent } from '../../features/club-space-management/components/club-space-details/club-space-details.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,10 @@ const routes: Routes = [
   {
     path: 'list',
     component: ClubSpaceListComponent,
+  },
+  {
+    path: ':id/details',
+    component: ClubSpaceDetailsComponent,
   },
 ];
 

@@ -39,4 +39,8 @@ export class ClubSpaceManagementComponent implements OnInit {
   public navigateToSpaceManagement(): void {
     this.router.navigateByUrl('/space/list');
   }
+
+  public navigateToSpaceClubDetails(): void {
+    this.router.navigateByUrl('/space/1/details');
+  }
 }

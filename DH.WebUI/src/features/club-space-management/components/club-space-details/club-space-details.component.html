@@ -1,0 +1,47 @@
+<app-header
+  Recommended="Room Name"
+  [withSearch]="true"
+  (searchExpressionResult)="handleSearchExpression($event)"
+  [withBackBtn]="true"
+  [withBottomLine]="true"
+  (backClicked)="backToSpaceHome()"
+></app-header>
+<section class="wrapper_library">
+  <div class="item">
+    <div class="wrapper_library__item">
+        <div class="wrapper_image">
+          <img src="" alt="usr Image" />
+        </div>
+        <div class="wrapper_info">
+          <div class="wrapper_title">
+            Gosho Ot Pochivka
+            <div class="wrapper_description">joined before: 20m</div>
+          </div>
+        </div>
+    </div>
+    <div class="wrapper_library__item-actions">
+        <!-- <button class="btn btn__extra-small btn-blue btn-border-blue">Approve</button> -->
+        <button class="btn btn__extra-small btn-green btn-border-green" disabled>Approved</button>
+        <button class="btn btn__extra-small btn-red btn-border-red">Remove</button>
+    </div>
+  </div>
+  <div class="item">
+    <div class="wrapper_library__item">
+        <div class="wrapper_image">
+          <img src="" alt="usr Image" />
+        </div>
+        <div class="wrapper_info">
+          <div class="wrapper_title">
+            Gosho Ot Pochivka
+            <div class="wrapper_description">joined before: 20m</div>
+          </div>
+        </div>
+    </div>
+    <div class="wrapper_library__item-actions">
+        <!-- <button class="btn btn__extra-small btn-blue btn-border-blue">Approve</button> -->
+        <button class="btn btn__extra-small btn-green btn-border-green" disabled>Approved</button>
+        <button class="btn btn__extra-small btn-red btn-border-red">Remove</button>
+    </div>
+  </div>
+
+</section>

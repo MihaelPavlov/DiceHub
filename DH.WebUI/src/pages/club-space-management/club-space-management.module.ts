@@ -14,12 +14,14 @@ import {
   MatDialogModule,
   MatDialogTitle,
 } from '@angular/material/dialog';
+import { ClubSpaceDetailsComponent } from '../../features/club-space-management/components/club-space-details/club-space-details.component';
 
 @NgModule({
   declarations: [
     ClubSpaceManagementComponent,
     AddUpdateClubSpaceComponent,
     ClubSpaceListComponent,
+    ClubSpaceDetailsComponent,
     SinglePlayerConfirmDialog,
   ],
   exports: [ClubSpaceManagementComponent],
