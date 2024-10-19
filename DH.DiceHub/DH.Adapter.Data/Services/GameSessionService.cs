@@ -1,4 +1,4 @@
-
+using DH.Domain.Adapters.ChallengesOrchestrator;
 using DH.Domain.Entities;
 using DH.Domain.Enums;
 using DH.Domain.Exceptions;
@@ -11,10 +11,12 @@ namespace DH.Adapter.Data.Services;
 public class GameSessionService : IGameSessionService
 {
     readonly IDbContextFactory<TenantDbContext> dbContextFactory;
+    readonly SynchronizeUsersChallengesQueue queue;
 
-    public GameSessionService(IDbContextFactory<TenantDbContext> dbContextFactory)
+    public GameSessionService(IDbContextFactory<TenantDbContext> dbContextFactory, SynchronizeUsersChallengesQueue queue)
     {
         this.dbContextFactory = dbContextFactory;
+        this.queue = queue;
     }
 
     /// <inheritdoc/>
@@ -66,6 +68,19 @@ public class GameSessionService : IGameSessionService
 
                         var challengeStats = challengeStatistics.First(x => x.ChallengeId == challenge.ChallengeId);
                         challengeStats.TotalCompletions++;
+                    }
+
+                    // Initiation of the next challenge
+                    if (completedChallenges.Any())
+                    {
+                        var lockedChallenges = await context.UserChallenges
+                            .Where(uc => uc.UserId == userId && uc.Status == ChallengeStatus.Locked)
+                            .ToListAsync(cancellationToken);
+
+                        if (lockedChallenges.Count != 0)
+                            this.queue.AddChallengeInitiationJob(userId, DateTime.UtcNow);
+                        else
+                            this.queue.AddChallengeInitiationJob(userId, DateTime.UtcNow.AddHours(6));//TODO: This initial initiation time for challenge time should come from global settings
                     }
 
                     await context.SaveChangesAsync(cancellationToken);

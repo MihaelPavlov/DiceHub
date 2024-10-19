@@ -31,6 +31,7 @@ public class UserChallengesManagementService : IUserChallengesManagementService
 
                     // Fetch locked challenges for the user
                     var lockedChallenges = await context.UserChallenges
+                        .AsTracking()
                         .Where(uc => uc.UserId == userId && uc.Status == ChallengeStatus.Locked)
                         .ToListAsync(cancellationToken);
 
@@ -40,6 +41,15 @@ public class UserChallengesManagementService : IUserChallengesManagementService
                         .ToListAsync(cancellationToken);
 
                     UserChallenge? newUserChallenge = null;
+
+                    if (lockedChallenges.Count != 0)
+                    {
+                        var lockedChallenge = lockedChallenges.First();
+                        lockedChallenge.Status = ChallengeStatus.InProgress;
+                        await context.SaveChangesAsync(cancellationToken);
+                        await transaction.CommitAsync(cancellationToken);
+                        return;
+                    }
 
                     // Handle adding new challenges based on the current active count
                     if (activeChallenges.Count == 0 || activeChallenges.Count == 1)
