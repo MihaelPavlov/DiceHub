@@ -20,6 +20,15 @@ public class SpaceManagementController : ControllerBase
         this.mediator = mediator;
     }
 
+    [HttpPost("get-table-participants")]
+    [ActionAuthorize(UserAction.SpaceManagementCRUD)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetSpaceTableParticipantListQueryModel>))]
+    public async Task<IActionResult> GetTableParticipant([FromBody] GetSpaceTableParticipantListQuery query, CancellationToken cancellationToken)
+    {
+        var result = await this.mediator.Send(query, cancellationToken);
+        return Ok(result);
+    }
+
     [HttpGet("get-user-active-table")]
     [ActionAuthorize(UserAction.SpaceManagementCRUD)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetUserActiveTableQueryModel))]
@@ -38,10 +47,10 @@ public class SpaceManagementController : ControllerBase
         return Ok(result);
     }
 
-    [HttpPost("list")]
+    [HttpPost("get-space-available-tables")]
     [ActionAuthorize(UserAction.SpaceManagementCRUD)]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetSpaceTableListQueryModel>))]
-    public async Task<IActionResult> GetSpaceTableList([FromBody] GetSpaceTableListQuery query, CancellationToken cancellationToken)
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetSpaceAvailableTableListQueryModel>))]
+    public async Task<IActionResult> GetSpaceAvailableTableList([FromBody] GetSpaceAvailableTableListQuery query, CancellationToken cancellationToken)
     {
         var result = await this.mediator.Send(query, cancellationToken);
         return Ok(result);
@@ -56,12 +65,30 @@ public class SpaceManagementController : ControllerBase
         return Ok(result);
     }
 
-    [HttpPut("{id}/join")]
+    [HttpPost("leave-table")]
     [ActionAuthorize(UserAction.SpaceManagementCRUD)]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetSpaceTableListQueryModel>))]
-    public async Task<IActionResult> JoinSpaceTable([FromQuery] int id, CancellationToken cancellationToken)
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> LeaveSpaceTable([FromBody] LeaveSpaceTableCommand command, CancellationToken cancellationToken)
     {
-        await this.mediator.Send(new JoinSpaceTableCommand(id), cancellationToken);
+        await this.mediator.Send(command, cancellationToken);
+        return Ok();
+    }
+
+    [HttpPost("close-table")]
+    [ActionAuthorize(UserAction.SpaceManagementCRUD)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> CloseSpaceTable([FromBody] CloseSpaceTableCommand command, CancellationToken cancellationToken)
+    {
+        await this.mediator.Send(command, cancellationToken);
+        return Ok();
+    }
+
+    [HttpPut("join")]
+    [ActionAuthorize(UserAction.SpaceManagementCRUD)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> JoinSpaceTable([FromBody] JoinSpaceTableCommand command, CancellationToken cancellationToken)
+    {
+        await this.mediator.Send(command, cancellationToken);
         return Ok();
     }
 }

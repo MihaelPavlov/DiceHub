@@ -33,6 +33,7 @@ public class SynchronizeGameSessionService : BackgroundService
                 {
                     if (IsJobCanceled(jobInfo))
                     {
+                        this.queue.RemoveRecordFromCanceledJob(jobInfo.UserId, jobInfo.GameId);
                         logger.LogInformation("Job ID: {jobId} - Skipped processing because it is canceled by the user - Job Info: {jobInfo}", traceId, JsonSerializer.Serialize(jobInfo));
                         continue;
                     }

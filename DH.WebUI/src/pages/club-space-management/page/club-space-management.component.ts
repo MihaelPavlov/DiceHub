@@ -36,11 +36,15 @@ export class ClubSpaceManagementComponent implements OnInit {
     });
   }
 
-  public navigateToSpaceManagement(): void {
+  public navigateSpaceTableList(): void {
     this.router.navigateByUrl('/space/list');
   }
 
-  public navigateToSpaceClubDetails(): void {
-    this.router.navigateByUrl('/space/1/details');
+  public navigateToCreateTable(): void {
+    this.router.navigateByUrl('/qr-code-scanner');
+  }
+
+  public navigateToSpaceClubDetails(id: number | null | undefined): void {
+    if (id) this.router.navigateByUrl(`/space/${id}/details`);
   }
 }

@@ -1,0 +1,25 @@
+<div class="dialog-container">
+  <h3 class="dialog-container__header m-4">Join The Room?</h3>
+  <form class="input" *ngIf="this.data.withPassword">
+    <div class="input-field">
+      <label for="password" class="required">Password</label>
+      <input
+        placeholder="enter password"
+        type="password"
+        id="password"
+        [formControl]="password"
+      />
+    </div>
+  </form>
+  <div class="errors">{{ this.data.error }}</div>
+  <mat-dialog-actions>
+    <button class="btn btn__small btn-red" mat-dialog-close>Cancel</button>
+    <button
+      class="btn btn__small btn-orange btn-border-orange"
+      (click)="join()"
+      [disabled]="this.password.invalid"
+    >
+      Join
+    </button>
+  </mat-dialog-actions>
+</div>

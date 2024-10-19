@@ -1,5 +1,11 @@
 @use "../../../../shared/assets/styles/palette";
 
+.wrapper_btn {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
 .wrapper_library {
   display: flex;
   flex-direction: column;
@@ -12,15 +18,15 @@
   &__item-actions {
     display: flex;
     justify-content: space-evenly;
-    border-bottom: 0.2rem solid palette.$main-gray-color;
     padding-bottom: 0.3rem;
   }
-
+  
   &__item {
     position: relative;
     display: flex;
     padding-bottom: 0.3rem;
     padding-top: 0.5rem;
+    border-bottom: 0.2rem solid palette.$main-gray-color;
 
     .wrapper_info {
       position: relative;

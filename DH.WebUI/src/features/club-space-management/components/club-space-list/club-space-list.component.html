@@ -1,4 +1,4 @@
-<app-header
+ <app-header
   Recommended="Join Game Table"
   [withBottomLine]="true"
   [withSearch]="true"
@@ -6,12 +6,18 @@
 >
 </app-header>
 
-<div class="wrapper_tables" *ngIf="spaceTableList$ | async as spaceTables">
-  <div class="wrapper_tables__item" *ngFor="let table of spaceTables">
+<div
+  class="wrapper_tables"
+  *ngIf="spaceAvailableTableList$ | async as spaceAvailableTables"
+>
+  <div *ngIf="spaceAvailableTables.length === 0">
+    <p>No active rooms.</p>
+  </div>
+  <div class="wrapper_tables__item" *ngFor="let table of spaceAvailableTables">
     <div class="wrapper_left">
       <div class="text">
-        <span>{{table.tableName}} Room </span>
-        <span>Playing {{table.gameName}} </span>
+        <span>{{ table.tableName }} Room </span>
+        <span>Playing {{ table.gameName }} </span>
       </div>
       <div class="chips">
         <app-chip
@@ -19,12 +25,13 @@
           [color]="'orange'"
           [text]="table.peopleJoined + ' joined'"
         ></app-chip>
-        <app-chip [size]="'small'" [color]="'red'" [text]="table.maxPeople + ' max'"></app-chip>
+        <app-chip
+          [size]="'small'"
+          [color]="'red'"
+          [text]="table.maxPeople + ' max'"
+        ></app-chip>
         <div class="image">
-          <img
-            [src]="table.gameImageId | gameImage"
-            alt=""
-          />
+          <img [src]="table.gameImageId | gameImage" alt="" />
         </div>
       </div>
     </div>
@@ -33,13 +40,7 @@
       <div class="image" *ngIf="table.isLocked">
         <img src="../../../../shared/assets/images/locked.png" alt="" />
       </div>
-      <button class="btn btn-yellow">Join</button>
-    </div>
-    <div class="info-btn" *ngIf="getCurrentUserId === table.createdBy">
-      <div class="image" *ngIf="table.isLocked">
-        <img src="../../../../shared/assets/images/locked.png" alt="" />
-      </div>
-      <button class="btn btn-yellow">My Room</button>
+      <button class="btn btn-yellow" (click)="onJoin(table.id, table.isLocked)">Join</button>
     </div>
   </div>
 </div>

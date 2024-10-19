@@ -15,14 +15,18 @@
       You're participating in a Table
     </p>
 
-    <p class="wrapper_active_table--text">TableName</p>
-    <button (click)="navigateToSpaceClubDetails()" class="btn btn__small btn-gray btn-font-blue btn-border-blue">
+    <p class="wrapper_active_table--text">{{ info.activeTableName }}</p>
+    <button
+      (click)="navigateToSpaceClubDetails(info.activeTableId)"
+      class="btn btn__small btn-gray btn-font-blue btn-border-blue"
+    >
       View Table
     </button>
   </div>
 
   <div class="wrapper_btns">
     <button
+      (click)="navigateToCreateTable()"
       [disabled]="
         info.isPlayerHaveActiveTable || info.isPlayerParticipateInTable
       "
@@ -39,7 +43,7 @@
     </button>
 
     <button
-      (click)="navigateToSpaceManagement()"
+      (click)="navigateSpaceTableList()"
       [disabled]="
         info.isPlayerHaveActiveTable || info.isPlayerParticipateInTable
       "

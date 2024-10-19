@@ -1,6 +1,6 @@
 ﻿namespace DH.Domain.Models.SpaceManagementModels.Queries;
 
-public class GetSpaceTableListQueryModel
+public class GetSpaceAvailableTableListQueryModel
 {
     public int Id { get; set; }
     public string TableName { get; set; } = string.Empty;

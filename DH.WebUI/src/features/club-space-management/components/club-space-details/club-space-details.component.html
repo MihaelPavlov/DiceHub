@@ -6,42 +6,45 @@
   [withBottomLine]="true"
   (backClicked)="backToSpaceHome()"
 ></app-header>
-<section class="wrapper_library">
-  <div class="item">
-    <div class="wrapper_library__item">
-        <div class="wrapper_image">
-          <img src="" alt="usr Image" />
-        </div>
-        <div class="wrapper_info">
-          <div class="wrapper_title">
-            Gosho Ot Pochivka
-            <div class="wrapper_description">joined before: 20m</div>
-          </div>
-        </div>
-    </div>
-    <div class="wrapper_library__item-actions">
-        <!-- <button class="btn btn__extra-small btn-blue btn-border-blue">Approve</button> -->
-        <button class="btn btn__extra-small btn-green btn-border-green" disabled>Approved</button>
-        <button class="btn btn__extra-small btn-red btn-border-red">Remove</button>
-    </div>
-  </div>
-  <div class="item">
-    <div class="wrapper_library__item">
-        <div class="wrapper_image">
-          <img src="" alt="usr Image" />
-        </div>
-        <div class="wrapper_info">
-          <div class="wrapper_title">
-            Gosho Ot Pochivka
-            <div class="wrapper_description">joined before: 20m</div>
-          </div>
-        </div>
-    </div>
-    <div class="wrapper_library__item-actions">
-        <!-- <button class="btn btn__extra-small btn-blue btn-border-blue">Approve</button> -->
-        <button class="btn btn__extra-small btn-green btn-border-green" disabled>Approved</button>
-        <button class="btn btn__extra-small btn-red btn-border-red">Remove</button>
-    </div>
-  </div>
 
-</section>
+<ng-container *ngIf="this.userActiveTable$ | async as info">
+  <div class="wrapper_btn" *ngIf="info.isPlayerHaveActiveTable">
+    <button class="btn btn__small btn-red btn-border-red" (click)="onClose()">
+      Close the Room
+    </button>
+  </div>
+  <!-- TODO: On leave and on close in the BE. I need to check the job if it's still not executed i need to cancel it
+  I have canceJobMethod in the queue 
+  Show them warning message -->
+  <div class="wrapper_btn" *ngIf="info.isPlayerParticipateInTable">
+    <button class="btn btn__small btn-red btn-border-red" (click)="onLeave()">
+      Leave the Room
+    </button>
+  </div>
+  <section
+    class="wrapper_library"
+    *ngIf="this.spaceTableParticipantList$ | async as list"
+  >
+    <div class="item" *ngFor="let item of list">
+      <div class="wrapper_library__item">
+        <div class="wrapper_image">
+          <img src="" alt="usr Image" />
+        </div>
+        <div class="wrapper_info">
+          <div class="wrapper_title">
+            {{ item.userName }}
+            <div class="wrapper_description">
+              joined before: {{ item.joinedAt }}
+            </div>
+          </div>
+        </div>
+        <div
+          class="wrapper_library__item-actions"
+          *ngIf="info.isPlayerHaveActiveTable"
+        >
+          <span class="material-symbols-outlined"> delete </span>
+        </div>
+      </div>
+    </div>
+  </section>
+</ng-container>

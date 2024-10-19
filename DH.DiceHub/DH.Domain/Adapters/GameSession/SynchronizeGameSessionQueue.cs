@@ -30,6 +30,16 @@ public class SynchronizeGameSessionQueue
     }
 
     /// <summary>
+    /// Check if queue contains job with key userId and gameId
+    /// </summary>
+    /// <param name="userId">The unique identifier of the user whose playtime needs to be enforced.</param>
+    /// <param name="gameId">The unique identifier of the game for which the playtime enforcement applies.</param>
+    public bool Contains(string userId, int gameId)
+    {
+       return queue.Any(x => x.UserId == userId && x.GameId == gameId);
+    }
+
+    /// <summary>
     /// Attempts to dequeue a job from the queue.
     /// </summary>
     /// <param name="result">When this method returns, contains the job information if the operation was successful; otherwise, null.</param>
@@ -47,6 +57,16 @@ public class SynchronizeGameSessionQueue
     public void CancelUserPlayTimeEnforcerJob(string userId, int gameId)
     {
         this.canceledJobs.Add((userId, gameId));
+    }
+
+    /// <summary>
+    /// Remove the cancel job record after the job is not processed.
+    /// </summary>
+    /// <param name="userId">The unique identifier of the user whose job needs to be canceled.</param>
+    /// <param name="gameId">The unique identifier of the game associated with the job.</param>
+    public void RemoveRecordFromCanceledJob(string userId, int gameId)
+    {
+        this.canceledJobs.Remove((userId, gameId));
     }
 
     /// <summary>

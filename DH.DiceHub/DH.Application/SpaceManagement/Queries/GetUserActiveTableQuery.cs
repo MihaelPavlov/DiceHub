@@ -34,7 +34,11 @@ internal class GetUserActiveTableQueryHandler : IRequestHandler<GetUserActiveTab
         var spaceTableParticipations = await this.spaceTableParticipantRepository
             .GetWithPropertiesAsync(
                 x => x.UserId == this.userContext.UserId && x.SpaceTable.IsTableActive,
-                x => x,
+                x => new
+                {
+                    SpaceTableId = x.SpaceTableId,
+                    SpaceTableName = x.SpaceTable.Name
+                },
                 cancellationToken);
 
         var userActiveTableResult = new GetUserActiveTableQueryModel();
@@ -42,10 +46,15 @@ internal class GetUserActiveTableQueryHandler : IRequestHandler<GetUserActiveTab
         if (spaceTable != null)
         {
             userActiveTableResult.IsPlayerHaveActiveTable = true;
+            userActiveTableResult.ActiveTableName = spaceTable.Name;
+            userActiveTableResult.ActiveTableId = spaceTable.Id;
         }
         else if (spaceTableParticipations.Count == 1)
         {
+            var spaceTableFromParticipant = spaceTableParticipations.First();
             userActiveTableResult.IsPlayerParticipateInTable = true;
+            userActiveTableResult.ActiveTableName = spaceTableFromParticipant.SpaceTableName;
+            userActiveTableResult.ActiveTableId = spaceTableFromParticipant.SpaceTableId;
         }
         else if (spaceTableParticipations.Count > 1)
         {

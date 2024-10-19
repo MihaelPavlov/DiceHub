@@ -18,10 +18,10 @@ internal class CreateSpaceTableCommandHandler : IRequestHandler<CreateSpaceTable
     readonly ISpaceTableService spaceTableService;
     readonly IRepository<Game> gameRepostory;
     readonly IUserContext userContext;
-    readonly ILogger<CreateSpaceTableCommand> logger;
+    readonly ILogger<CreateSpaceTableCommandHandler> logger;
     readonly SynchronizeGameSessionQueue queue;
 
-    public CreateSpaceTableCommandHandler(ISpaceTableService spaceTableService, IRepository<Game> gameRepostory, SynchronizeGameSessionQueue queue, IUserContext userContext, ILogger<CreateSpaceTableCommand> logger)
+    public CreateSpaceTableCommandHandler(ISpaceTableService spaceTableService, IRepository<Game> gameRepostory, SynchronizeGameSessionQueue queue, IUserContext userContext, ILogger<CreateSpaceTableCommandHandler> logger)
     {
         this.spaceTableService = spaceTableService;
         this.queue = queue;
@@ -33,13 +33,12 @@ internal class CreateSpaceTableCommandHandler : IRequestHandler<CreateSpaceTable
 
     public async Task<int> Handle(CreateSpaceTableCommand request, CancellationToken cancellationToken)
     {
-        var traceId = Guid.NewGuid().ToString();
-
         if (!request.SpaceTable.FieldsAreValid(out var validationErrors))
             throw new ValidationErrorsException(validationErrors);
 
         var spaceTableId = await this.spaceTableService.Create(request.SpaceTable.Adapt<SpaceTable>(), cancellationToken);
 
+        var traceId = Guid.NewGuid().ToString();
         var game = await this.gameRepostory.GetByAsync(x => x.Id == request.SpaceTable.GameId, cancellationToken);
 
         if (game == null)
@@ -48,7 +47,7 @@ internal class CreateSpaceTableCommandHandler : IRequestHandler<CreateSpaceTable
             throw new InfrastructureException($"Something went wrong: reference traceId: {traceId}");
         }
 
-        this.queue.AddUserPlayTimEnforcerJob(this.userContext.UserId, game!.Id, DateTime.UtcNow.AddSeconds(10));
+        this.queue.AddUserPlayTimEnforcerJob(this.userContext.UserId, game!.Id, DateTime.UtcNow.AddMinutes((int)game.AveragePlaytime));
 
         return spaceTableId;
     }

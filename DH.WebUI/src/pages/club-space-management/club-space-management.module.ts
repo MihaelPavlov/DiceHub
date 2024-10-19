@@ -15,6 +15,7 @@ import {
   MatDialogTitle,
 } from '@angular/material/dialog';
 import { ClubSpaceDetailsComponent } from '../../features/club-space-management/components/club-space-details/club-space-details.component';
+import { JoinTableConfirmDialog } from '../../features/club-space-management/dialogs/join-table-confirm-dialog/join-table-confirm-dialog.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { ClubSpaceDetailsComponent } from '../../features/club-space-management/
     ClubSpaceListComponent,
     ClubSpaceDetailsComponent,
     SinglePlayerConfirmDialog,
+    JoinTableConfirmDialog
   ],
   exports: [ClubSpaceManagementComponent],
   providers: [],

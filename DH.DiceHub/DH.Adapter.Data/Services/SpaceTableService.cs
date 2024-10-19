@@ -48,7 +48,6 @@ public class SpaceTableService : ISpaceTableService
                     if (gameInvetory == null || gameInvetory.AvailableCopies <= 0)
                         throw new ValidationErrorsException("NoAvailableCopies", "No Available copies of this game.");
 
-                    //TODO: Increase the game ivnetory when we close the room
                     gameInvetory.AvailableCopies--;
 
                     spaceTable.IsTableActive = true;
