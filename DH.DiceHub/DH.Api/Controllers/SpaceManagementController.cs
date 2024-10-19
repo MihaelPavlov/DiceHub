@@ -74,6 +74,15 @@ public class SpaceManagementController : ControllerBase
         return Ok();
     }
 
+    [HttpPost("remove-user-from-table")]
+    [ActionAuthorize(UserAction.SpaceManagementCRUD)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> RemoveUserFromSpaceTable([FromBody] RemoveUserFromSpaceTableCommand command, CancellationToken cancellationToken)
+    {
+        await this.mediator.Send(command, cancellationToken);
+        return Ok();
+    }
+
     [HttpPost("close-table")]
     [ActionAuthorize(UserAction.SpaceManagementCRUD)]
     [ProducesResponseType(StatusCodes.Status200OK)]

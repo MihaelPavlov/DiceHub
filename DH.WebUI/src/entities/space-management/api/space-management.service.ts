@@ -70,6 +70,19 @@ export class SpaceManagementService {
     );
   }
 
+  public removeUserFromTable(
+    tableId: number,
+    userId: string
+  ): Observable<null> {
+    return this.api.post(
+      `/${PATH.SPACE_MANAGEMENT.CORE}/${PATH.SPACE_MANAGEMENT.REMOVE_USER_FROM_TABLE}`,
+      {
+        id: tableId,
+        userId,
+      }
+    );
+  }
+
   public leaveTable(tableId: number): Observable<null> {
     return this.api.post(
       `/${PATH.SPACE_MANAGEMENT.CORE}/${PATH.SPACE_MANAGEMENT.LEAVE_TABLE}`,

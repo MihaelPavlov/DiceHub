@@ -7,84 +7,89 @@
     ]"
   ></app-nav-bar
 ></app-header>
-
-<div class="wrapper_stats">
-  <div class="wrapper_scroller">
-    <span class="material-symbols-outlined left" (click)="scrollLeft()"
-      >play_arrow</span
-    >
-    <div #scroller class="scroller">
-      <div class="wrapper_stats__items">
-        <div class="item" *ngFor="let reward of userChallengePeriodRewardList"
-        [ngClass]="{
-          'completed-img': reward.isCompleted
-        }">
-          <img [src]="reward.rewardImageId | rewardImage" alt="" />
-        </div>
-      </div>
-    </div>
-    <span class="material-symbols-outlined" (click)="scrollRight()"
-      >play_arrow</span
-    >
-  </div>
-
-  <div class="wrapper_stats__bar">
-    <span class="wrapper_stats__bar-score" *ngIf="this.periodPerformance"
-      >Score: {{ this.periodPerformance.points }}</span
-    >
-
-    <div class="progress-container">
-      <div class="progress" id="progress"></div>
-      <div
-        *ngFor="let reward of userChallengePeriodRewardList"
-        class="circle"
-        [ngClass]="{ activated: reward.isCompleted }"
+<ng-container>
+  <div class="wrapper_stats">
+    <div class="wrapper_scroller">
+      <span class="material-symbols-outlined left" (click)="scrollLeft()"
+        >play_arrow</span
       >
-        {{ reward.rewardRequiredPoints }}
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="wrapper_challenges">
-  <div
-    class="wrapper_challenges__item"
-    *ngFor="let challenge of userChallengeList; let i = index"
-    [ngClass]="{
-      'in-progress': challenge.status === ChallengeStatus.InProgress,
-      completed: challenge.status === ChallengeStatus.Completed,
-      locked: challenge.status === ChallengeStatus.Locked
-    }"
-  >
-    <div class="image_info_container">
-      <div class="image">
-        <img [src]="challenge.gameImageId | gameImage" alt="" />
-      </div>
-      <div class="info">
-        <span class="header">
-          Play <strong>{{ challenge.gameName }}</strong>
-          {{ challenge.maxAttempts }} times
-        </span>
-        <div class="bar-2">
-          <span class="bar-2-span"
-            >{{ challenge.currentAttempts }} / {{ challenge.maxAttempts }}</span
+      <div #scroller class="scroller">
+        <div class="wrapper_stats__items">
+          <div
+            class="item"
+            *ngFor="let reward of userChallengePeriodRewardList"
+            [ngClass]="{
+              'completed-img': reward.isCompleted
+            }"
           >
-          <div class="bar-2-value" id="progress-bar-{{ i }}"></div>
-          <span class="points">{{ challenge.rewardPoints }}</span>
+            <img [src]="reward.rewardImageId | rewardImage" alt="" />
+          </div>
+        </div>
+      </div>
+      <span class="material-symbols-outlined" (click)="scrollRight()"
+        >play_arrow</span
+      >
+    </div>
+
+    <div class="wrapper_stats__bar">
+      <span class="wrapper_stats__bar-score" *ngIf="this.periodPerformance"
+        >Score: {{ this.periodPerformance.points }}</span
+      >
+
+      <div class="progress-container">
+        <div class="progress" id="progress"></div>
+        <div
+          *ngFor="let reward of userChallengePeriodRewardList"
+          class="circle"
+          [ngClass]="{ activated: reward.isCompleted }"
+        >
+          {{ reward.rewardRequiredPoints }}
         </div>
       </div>
     </div>
-    <div class="status-image">
-      <img
-        [src]="
-          challenge.status === ChallengeStatus.InProgress
-            ? 'https://static.vecteezy.com/system/resources/previews/016/774/561/non_2x/loading-icon-loading-progress-icon-on-transparent-background-free-png.png'
-            : challenge.status === ChallengeStatus.Completed
-            ? '../../../shared/assets/images/challenge-complete.png'
-            : '../../../shared/assets/images/locked.png'
-        "
-        alt=""
-      />
+  </div>
+
+  <div class="wrapper_challenges">
+    <div
+      class="wrapper_challenges__item"
+      *ngFor="let challenge of userChallengeList; let i = index"
+      [ngClass]="{
+        'in-progress': challenge.status === ChallengeStatus.InProgress,
+        completed: challenge.status === ChallengeStatus.Completed,
+        locked: challenge.status === ChallengeStatus.Locked
+      }"
+    >
+      <div class="image_info_container">
+        <div class="image">
+          <img [src]="challenge.gameImageId | gameImage" alt="" />
+        </div>
+        <div class="info">
+          <span class="header">
+            Play <strong>{{ challenge.gameName }}</strong>
+            {{ challenge.maxAttempts }} times
+          </span>
+          <div class="bar-2">
+            <span class="bar-2-span"
+              >{{ challenge.currentAttempts }} /
+              {{ challenge.maxAttempts }}</span
+            >
+            <div class="bar-2-value" id="progress-bar-{{ i }}"></div>
+            <span class="points">{{ challenge.rewardPoints }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="status-image">
+        <img
+          [src]="
+            challenge.status === ChallengeStatus.InProgress
+              ? 'https://static.vecteezy.com/system/resources/previews/016/774/561/non_2x/loading-icon-loading-progress-icon-on-transparent-background-free-png.png'
+              : challenge.status === ChallengeStatus.Completed
+              ? '../../../shared/assets/images/challenge-complete.png'
+              : '../../../shared/assets/images/locked.png'
+          "
+          alt=""
+        />
+      </div>
     </div>
   </div>
-</div>
+</ng-container>

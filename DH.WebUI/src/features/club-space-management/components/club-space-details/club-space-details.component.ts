@@ -53,4 +53,17 @@ export class ClubSpaceDetailsComponent implements OnInit {
       },
     });
   }
+
+  public onRemoveUserFromTable(userId: string): void {
+    this.spaceManagementService
+      .removeUserFromTable(this.tableId, userId)
+      .subscribe({
+        next: () => {
+          this.spaceTableParticipantList$ =
+            this.spaceManagementService.getSpaceTableParticipantList(
+              this.tableId
+            );
+        },
+      });
+  }
 }

@@ -26,7 +26,7 @@ internal class GetSpaceTableParticipantListQueryHandler : IRequestHandler<GetSpa
             x => new GetSpaceTableParticipantListQueryModel
             {
                 UserId = x.UserId,
-                JoinedAt = x.JoinedAt,
+                JoinedBefore = ((int)(DateTime.UtcNow - x.JoinedAt).TotalMinutes),
                 SpaceTableId = request.Id,
             }, cancellationToken);
 

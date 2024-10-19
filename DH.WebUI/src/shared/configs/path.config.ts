@@ -61,6 +61,7 @@ export const PATH = {
     JOIN: 'join',
     LEAVE_TABLE: 'leave-table',
     CLOSE_TABLE: 'close-table',
+    REMOVE_USER_FROM_TABLE: 'remove-user-from-table',
     GET_SPACE_AVAILABLE_TABLES: 'get-space-available-tables',
     GET_USER_ACTIVE_TABLE: 'get-user-active-table',
     GET_SPACE_ACTIVITY_STATS: 'get-space-activity-stats',

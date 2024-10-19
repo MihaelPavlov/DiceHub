@@ -34,7 +34,7 @@
           <div class="wrapper_title">
             {{ item.userName }}
             <div class="wrapper_description">
-              joined before: {{ item.joinedAt }}
+              joined before: {{ item.joinedBefore }} mins
             </div>
           </div>
         </div>
@@ -42,7 +42,12 @@
           class="wrapper_library__item-actions"
           *ngIf="info.isPlayerHaveActiveTable"
         >
-          <span class="material-symbols-outlined"> delete </span>
+          <span
+            class="material-symbols-outlined"
+            (click)="onRemoveUserFromTable(item.userId)"
+          >
+            delete
+          </span>
         </div>
       </div>
     </div>
