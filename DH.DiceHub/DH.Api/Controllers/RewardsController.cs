@@ -31,7 +31,16 @@ public class RewardsController : ControllerBase
         return Ok(result);
     }
 
-    [HttpGet("get-user-rewards/{id}")]
+    [HttpGet("get-user-rewards")]
+    [ActionAuthorize(UserAction.RewardsRead)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetUserRewardListQueryModel>))]
+    public async Task<IActionResult> GetUserRewardList(CancellationToken cancellationToken)
+    {
+        var result = await this.mediator.Send(new GetUserRewardListQuery(), cancellationToken);
+        return Ok(result);
+    }
+
+    [HttpGet("get-user-period-rewards/{id}")]
     [ActionAuthorize(UserAction.RewardsRead)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetUserChallengePeriodRewardListQueryModel>))]
     public async Task<IActionResult> GetUserChallengeRewardListByPeriodPerformanceId(int id, CancellationToken cancellationToken)

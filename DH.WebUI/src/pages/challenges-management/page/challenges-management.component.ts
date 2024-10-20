@@ -30,7 +30,7 @@ export class ChallengesManagementComponent implements OnInit {
     private readonly rewardsService: RewardsService,
     private readonly challengeService: ChallengesService,
     private readonly cd: ChangeDetectorRef,
-    private loadingService: LoadingService
+    private readonly loadingService: LoadingService
   ) {}
 
   public ngOnInit(): void {

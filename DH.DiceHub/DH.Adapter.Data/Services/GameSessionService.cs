@@ -191,7 +191,6 @@ public class GameSessionService : IGameSessionService
                                 ExpiresDate = DateTime.UtcNow.AddDays(7), //TODO: Coming from global settings
                                 IsClaimed = false,
                                 RewardId = item.ChallengeRewardId,
-                                //TODO: Create background service for managin the rewards is they are expired or no
                                 IsExpired = false,
                             });
                         }

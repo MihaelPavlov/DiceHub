@@ -7,6 +7,7 @@ import { IRewardListResult } from '../models/reward-list.model';
 import { IRewardGetByIdResult } from '../models/reward-by-id.model';
 import { IUpdateRewardDto } from '../models/update-reward.model';
 import { IUserChallengePeriodReward } from '../models/user-period-reward.model';
+import { IUserReward } from '../models/user-reward.model';
 
 @Injectable({
   providedIn: 'root',
@@ -31,9 +32,15 @@ export class RewardsService {
     );
   }
 
+  public getUserRewardList(): Observable<IUserReward[]> {
+    return this.api.get<IUserReward[]>(
+      `/${PATH.REWARDS.CORE}/${PATH.REWARDS.GET_USER_REWARDS}`
+    );
+  }
+
   public getUserChallengePeriodRewardList(periodPerformanceId: number): Observable<IUserChallengePeriodReward[]> {
     return this.api.get<IUserChallengePeriodReward[]>(
-      `/${PATH.REWARDS.CORE}/${PATH.REWARDS.GET_USER_REWARDS}/${periodPerformanceId}`
+      `/${PATH.REWARDS.CORE}/${PATH.REWARDS.GET_USER_PERIOD_REWARDS}/${periodPerformanceId}`
     );
   }
 

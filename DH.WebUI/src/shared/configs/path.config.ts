@@ -48,6 +48,7 @@ export const PATH = {
     SYSTEM_REWARD: 'system-reward',
     SYSTEM_REWARD_LIST: 'system-reward-list',
     GET_USER_REWARDS: 'get-user-rewards',
+    GET_USER_PERIOD_REWARDS: 'get-user-period-rewards',
   },
   CHALLENGES: {
     CORE: 'challenges',

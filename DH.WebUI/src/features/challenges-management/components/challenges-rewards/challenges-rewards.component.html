@@ -8,44 +8,44 @@
   ></app-nav-bar
 ></app-header>
 
-<div class="wrapper_challenges">
-  <div class="wrapper_challenges__item">
+<div class="wrapper_challenges" *ngIf="userRewards$ | async as userRewards">
+  <div
+    class="wrapper_challenges__item"
+    *ngFor="let reward of userRewards"
+    [ngClass]="{
+      completed: reward.status !== UserRewardStatus.NotExpired
+    }"
+  >
     <div class="image">
-      <img
-        src="https://static.vecteezy.com/system/resources/previews/018/931/018/original/cartoon-beer-icon-png.png"
-        alt=""
-      />
+      <img [src]="reward.rewardImageId | rewardImage" alt="" />
     </div>
     <div class="info">
-      <span class="header">Beer</span>
+      <span class="header">{{ reward.rewardName }}</span>
+      <span>{{ reward.rewardDescription }}</span>
       <span class="header"
         >Available more:
-        <app-chip [size]="'small'" text="5 DAYS" [color]="'blue'"></app-chip
+        <app-chip
+          [size]="'small'"
+          text="{{ reward.availableMoreForDays }} DAYS"
+          [color]="'blue'"
+        ></app-chip
       ></span>
     </div>
-    <div class="btn-container">
+    <div
+      class="btn-container"
+      *ngIf="reward.status === UserRewardStatus.NotExpired"
+    >
       <button class="btn btn__small btn-blue">Use</button>
     </div>
-  </div>
-  <div class="wrapper_challenges__item">
-    <div class="image">
-      <img
-        src="https://pemix.com.mt/wp-content/uploads/2023/08/7DAYS-COCOA.png"
-        alt=""
-      />
+    <div class="btn-container" *ngIf="reward.status === UserRewardStatus.Used">
+      <button class="btn btn__extra-small btn-green">Used</button>
     </div>
-    <div class="info">
-      <span
-        >7 DAYS croason Lorem ipsum dolor sit amet consectetur adipisicing elit.
-        Sint, eveniet?</span
-      >
-      <span class="header"
-        >Available more:
-        <app-chip [size]="'small'" text="5 DAYS" [color]="'blue'"></app-chip
-      ></span>
-    </div>
-    <div class="btn-container">
-      <button class="btn btn__small btn-blue">Use</button>
+
+    <div
+      class="btn-container"
+      *ngIf="reward.status === UserRewardStatus.Expired"
+    >
+      <button class="btn btn__extra-small btn-red">Expired</button>
     </div>
   </div>
 </div>
