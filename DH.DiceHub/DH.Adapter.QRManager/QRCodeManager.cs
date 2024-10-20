@@ -1,5 +1,6 @@
 ﻿using DH.Adapter.QRManager.QRCodeStates;
 using DH.Domain;
+using DH.Domain.Adapters.Authentication;
 using DH.Domain.Adapters.QRManager;
 using DH.Domain.Adapters.QRManager.StateModels;
 using DH.Domain.Entities;
@@ -104,10 +105,22 @@ public class QRCodeManager : IQRCodeManager
         switch (qrReader.Type)
         {
             case QrCodeType.Game:
-                this.qRCodeContext.SetState(new GameQRCodeState(this.containerService.Resolve<IRepository<Game>>()));
+                this.qRCodeContext.SetState(
+                    new GameQRCodeState(
+                        this.containerService.Resolve<IRepository<Game>>()
+                        )
+                    );
                 break;
             case QrCodeType.Event:
                 this.qRCodeContext.SetState(new EventQRCodeState());
+                break;
+            case QrCodeType.Reward:
+                this.qRCodeContext.SetState(
+                    new RewardQRCodeState(
+                        this.containerService.Resolve<IUserContext>(),
+                        this.containerService.Resolve<IRepository<UserChallengeReward>>()
+                        )
+                    );
                 break;
             default:
                 this.qRCodeContext.SetState(new UnknownQRCodeState());

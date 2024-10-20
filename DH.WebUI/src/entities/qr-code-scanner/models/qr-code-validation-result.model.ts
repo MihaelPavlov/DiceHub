@@ -4,5 +4,5 @@ export interface IQrCodeValidationResult {
   objectId: number;
   type: QrCodeType;
   isValid: boolean;
-  ErrorMessage: string;
+  errorMessage: string;
 }

@@ -6,6 +6,8 @@ import { QrCodeType } from '../../../entities/qr-code-scanner/enums/qr-code-type
 import { take } from 'rxjs';
 import { Router } from '@angular/router';
 import { IQrCodeValidationResult } from '../../../entities/qr-code-scanner/models/qr-code-validation-result.model';
+import { MatDialog } from '@angular/material/dialog';
+import { ScanResultAdminDialog } from '../../../shared/dialogs/scan-result-admin/scan-result-admin.dialog';
 
 @Component({
   selector: 'app-qr-code-scanner',
@@ -14,7 +16,6 @@ import { IQrCodeValidationResult } from '../../../entities/qr-code-scanner/model
 })
 export class QrCodeScannerComponent implements AfterViewInit {
   @ViewChild('video') videoElement!: ElementRef<HTMLVideoElement>;
-  // @ViewChild('image') imageElement!: ElementRef<HTMLImageElement>;
 
   public imageSrc: string | null = null;
   public canvas!: HTMLCanvasElement;
@@ -24,7 +25,8 @@ export class QrCodeScannerComponent implements AfterViewInit {
 
   constructor(
     private readonly scannerService: ScannerService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly dialog: MatDialog,
   ) {}
 
   public ngAfterViewInit(): void {
@@ -52,7 +54,7 @@ export class QrCodeScannerComponent implements AfterViewInit {
   }
 
   tick() {
-    if(!this.videoElement){
+    if (!this.videoElement) {
       return;
     }
     const video = this.videoElement.nativeElement;
@@ -93,17 +95,31 @@ export class QrCodeScannerComponent implements AfterViewInit {
               .pipe(take(1))
               .subscribe({
                 next: (res: IQrCodeValidationResult | null) => {
-                  if (res?.isValid) {
+                  if (res) {
                     switch (res.type) {
                       case QrCodeType.Game:
-                        this.router.navigateByUrl(
-                          `space/create/${res.objectId}`
-                        );
+                        if (res.isValid) {
+                          this.router.navigateByUrl(
+                            `space/create/${res.objectId}`
+                          );
+                        }
+                        break;
+                      case QrCodeType.Reward:
+                       const dialogRef= this.dialog.open(ScanResultAdminDialog, {
+                          width: '17rem',
+                          position: { bottom: '60%', left: '2%' },
+                          data: res,
+                        });
+
+                        dialogRef.afterClosed().subscribe({
+                          next:()=>{
+                            window.location.reload()
+                          }
+                        })
                         break;
                     }
-                  } else {
-                    // video.remove();
                   }
+                  // video.remove();
                 },
                 error: (err) => {
                   console.log(err, 'error');
@@ -125,6 +141,7 @@ export class QrCodeScannerComponent implements AfterViewInit {
 
   public isQrCodeValid(data: string): boolean {
     let qrReader: IQrCode;
+    console.log(data);
 
     try {
       qrReader = JSON.parse(data) as IQrCode;

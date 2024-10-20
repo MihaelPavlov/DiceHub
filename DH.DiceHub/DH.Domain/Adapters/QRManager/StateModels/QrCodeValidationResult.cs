@@ -11,6 +11,7 @@ public class QrCodeValidationResult
     public int ObjectId { get; set; }
     public QrCodeType Type { get; set; }
     private bool isValid;
+
     public bool IsValid
     {
         get => string.IsNullOrEmpty(ErrorMessage) && isValid;

@@ -35,7 +35,9 @@
       class="btn-container"
       *ngIf="reward.status === UserRewardStatus.NotExpired"
     >
-      <button class="btn btn__small btn-blue">Use</button>
+      <button class="btn btn__small btn-blue" (click)="openDialog(reward.id)">
+        Use
+      </button>
     </div>
     <div class="btn-container" *ngIf="reward.status === UserRewardStatus.Used">
       <button class="btn btn__extra-small btn-green">Used</button>

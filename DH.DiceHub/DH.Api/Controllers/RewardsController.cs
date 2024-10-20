@@ -100,6 +100,15 @@ public class RewardsController : ControllerBase
         return Ok();
     }
 
+    [HttpPost("user-reward-confirmation")]
+    [ActionAuthorize(UserAction.SystemRewardsCRUD)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+    public async Task<IActionResult> UserRewardConfirmation([FromBody] UserRewardConfirmationCommand command, CancellationToken cancellationToken)
+    {
+        await this.mediator.Send(command, cancellationToken);
+        return Ok();
+    }
+
     [HttpDelete("system-reward/{id}")]
     [ActionAuthorize(UserAction.SystemRewardsCRUD)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]

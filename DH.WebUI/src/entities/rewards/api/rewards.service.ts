@@ -38,7 +38,9 @@ export class RewardsService {
     );
   }
 
-  public getUserChallengePeriodRewardList(periodPerformanceId: number): Observable<IUserChallengePeriodReward[]> {
+  public getUserChallengePeriodRewardList(
+    periodPerformanceId: number
+  ): Observable<IUserChallengePeriodReward[]> {
     return this.api.get<IUserChallengePeriodReward[]>(
       `/${PATH.REWARDS.CORE}/${PATH.REWARDS.GET_USER_PERIOD_REWARDS}/${periodPerformanceId}`
     );
@@ -72,7 +74,16 @@ export class RewardsService {
     );
   }
 
+  public userRewardConfirmation(id: number): Observable<null> {
+    return this.api.post(
+      `/${PATH.REWARDS.CORE}/${PATH.REWARDS.USER_REWARD_CONFIRMATION}`,
+      { id }
+    );
+  }
+
   public delete(id: number): Observable<null> {
-    return this.api.delete(`/${PATH.REWARDS.CORE}/${PATH.REWARDS.SYSTEM_REWARD}/${id}`);
+    return this.api.delete(
+      `/${PATH.REWARDS.CORE}/${PATH.REWARDS.SYSTEM_REWARD}/${id}`
+    );
   }
 }

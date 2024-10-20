@@ -7,7 +7,6 @@ namespace DH.Domain.Adapters.QRManager;
 /// </summary>
 public interface IQRCodeManager
 {
-
     /// <summary>
     /// Validates the given QR code data asynchronously.
     /// </summary>

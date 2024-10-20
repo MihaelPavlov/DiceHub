@@ -1,7 +1,8 @@
-import { QrCodeType } from "../enums/qr-code-type.enum";
+import { QrCodeType } from '../enums/qr-code-type.enum';
 
 export interface IQrCode {
-    Id: number;
-    Name: string;
-    Type: QrCodeType;
+  Id: number;
+  Name: string;
+  Type: QrCodeType;
+  AdditionalData: { [key: string]: string };
 }

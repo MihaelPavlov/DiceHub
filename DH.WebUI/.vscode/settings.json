@@ -4,6 +4,8 @@
         "Formify",
         "meeple",
         "meeples",
+        "qrcode",
+        "qrdata",
         "scroller",
         "signalr"
     ]

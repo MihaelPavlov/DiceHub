@@ -38,7 +38,7 @@ import { LoadingIndicatorComponent } from "../shared/components/loading-indicato
     HeaderModule,
     RouterOutlet,
     JwtModule,
-    LoadingIndicatorComponent
+    LoadingIndicatorComponent,
 ],
 })
 export class AppModule {}

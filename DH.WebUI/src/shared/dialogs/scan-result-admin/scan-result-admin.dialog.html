@@ -1,0 +1,23 @@
+<div class="dialog-container">
+  <ng-container *ngIf="!this.data.isValid">
+    <h3 class="dialog-container__header m-4">Problem with the reward !</h3>
+    <h4 class="dialog-container__header error">{{this.data.errorMessage}}</h4>
+  </ng-container>
+  <ng-container *ngIf="this.data.isValid">
+    <h3 class="dialog-container__header m-4">Reward is valid!</h3>
+    <h4 class="dialog-container__header m-4">
+      Please confirm when you give the reward to the customer!
+    </h4>
+  </ng-container>
+
+  <mat-dialog-actions>
+    <button class="btn btn__small btn-blue" mat-dialog-close>Close</button>
+    <button
+      class="btn btn__small btn-red btn-border-red"
+      *ngIf="this.data.isValid"
+      (click)="confirm()"
+    >
+      Confirm
+    </button>
+  </mat-dialog-actions>
+</div>

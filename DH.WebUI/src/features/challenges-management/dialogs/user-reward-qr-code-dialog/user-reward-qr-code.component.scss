@@ -1,0 +1,37 @@
+@use "../../../../shared/assets/styles/palette";
+
+.dialog-container {
+  color: palette.$main-font-color;
+  background-color: palette.$main-nav-color;
+  position: relative;
+
+  &__header {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    text-align: center;
+  }
+
+  mat-dialog-actions {
+    display: flex;
+    justify-content: end;
+    position: absolute;
+    right: 0;
+
+    span {
+      color: palette.$main-font-color;
+      font-size: 2.5rem;
+    }
+  }
+}
+
+.qrcodeImage {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.demoBorderRadius {
+  border-radius: 1.2rem;
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
