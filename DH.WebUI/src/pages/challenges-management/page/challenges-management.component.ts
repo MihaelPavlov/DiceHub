@@ -7,12 +7,12 @@ import {
   ViewChild,
   ElementRef,
 } from '@angular/core';
-import { Router } from '@angular/router';
 import { ChallengesService } from '../../../entities/challenges/api/challenges.service';
 import { RewardsService } from '../../../entities/rewards/api/rewards.service';
 import { IUserChallengePeriodPerformance } from '../../../entities/challenges/models/user-challenge-period-performance.model';
 import { combineLatest } from 'rxjs';
 import { ChallengeStatus } from '../../../entities/challenges/enums/challenge-status.enum';
+import { LoadingService } from '../../../shared/services/loading.service';
 
 @Component({
   selector: 'app-challenges-management',
@@ -27,13 +27,15 @@ export class ChallengesManagementComponent implements OnInit {
   public userChallengeList: IUserChallenge[] = [];
   public ChallengeStatus = ChallengeStatus;
   constructor(
-    private readonly router: Router,
     private readonly rewardsService: RewardsService,
     private readonly challengeService: ChallengesService,
-    private readonly cd: ChangeDetectorRef
+    private readonly cd: ChangeDetectorRef,
+    private loadingService: LoadingService
   ) {}
 
   public ngOnInit(): void {
+    this.loadingService.loadingOn();
+
     this.challengeService.getUserChallengePeriodPerformance().subscribe({
       next: (periodPerformance: IUserChallengePeriodPerformance) => {
         this.periodPerformance = periodPerformance;
@@ -56,7 +58,12 @@ export class ChallengesManagementComponent implements OnInit {
           },
         });
       },
-      error: (error) => {},
+      error: (error) => {
+        this.loadingService.loadingOff();
+      },
+      complete: () => {
+        this.loadingService.loadingOff();
+      },
     });
   }
 

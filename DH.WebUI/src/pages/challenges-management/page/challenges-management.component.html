@@ -7,7 +7,7 @@
     ]"
   ></app-nav-bar
 ></app-header>
-<ng-container>
+<ng-container *ngIf="periodPerformance && userChallengePeriodRewardList">
   <div class="wrapper_stats">
     <div class="wrapper_scroller">
       <span class="material-symbols-outlined left" (click)="scrollLeft()"

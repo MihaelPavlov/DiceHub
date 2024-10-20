@@ -12,6 +12,7 @@ import { AuthGuard } from '../shared/guards/auth.guard';
 import { JWT_OPTIONS, JwtHelperService, JwtModule } from '@auth0/angular-jwt';
 import { HttpRequestInterceptor } from '../entities/auth/auth.interceptor';
 import { ErrorInterceptor } from '../shared/interceptors/http-error.interceptor';
+import { LoadingIndicatorComponent } from "../shared/components/loading-indicator/loading-indicator.component";
 
 @NgModule({
   declarations: [AppComponent],
@@ -36,7 +37,8 @@ import { ErrorInterceptor } from '../shared/interceptors/http-error.interceptor'
     LoginModule,
     HeaderModule,
     RouterOutlet,
-    JwtModule,    
-  ],
+    JwtModule,
+    LoadingIndicatorComponent
+],
 })
 export class AppModule {}
