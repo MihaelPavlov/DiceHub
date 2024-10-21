@@ -16,6 +16,7 @@
     <ProjectReference Include="..\DH.Adapter.ChatHub\DH.Adapter.ChatHub.csproj" />
     <ProjectReference Include="..\DH.Adapter.Data\DH.Adapter.Data.csproj" />
     <ProjectReference Include="..\DH.Adapter.GameSession\DH.Adapter.GameSession.csproj" />
+    <ProjectReference Include="..\DH.Adapter.PushNotifications\DH.Adapter.PushNotifications.csproj" />
     <ProjectReference Include="..\DH.Adapter.QRManager\DH.Adapter.QRManager.csproj" />
     <ProjectReference Include="..\DH.Adapter.Scheduling\DH.Adapter.Scheduling.csproj" />
     <ProjectReference Include="..\DH.Application\DH.Application.csproj" />
@@ -25,6 +26,12 @@
   <ItemGroup>
     <Folder Include="wwwroot\images\" />
     <Folder Include="wwwroot\images\games\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="dicehub-8c63f-firebase-adminsdk-y31l3-ac5f8a95aa.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
