@@ -13,8 +13,6 @@ import { JWT_OPTIONS, JwtHelperService, JwtModule } from '@auth0/angular-jwt';
 import { HttpRequestInterceptor } from '../entities/auth/auth.interceptor';
 import { ErrorInterceptor } from '../shared/interceptors/http-error.interceptor';
 import { LoadingIndicatorComponent } from "../shared/components/loading-indicator/loading-indicator.component";
-import { FirebaseModule } from '../shared/firebase.module';
-import { environment } from './environment';
 
 @NgModule({
   declarations: [AppComponent],
@@ -41,7 +39,6 @@ import { environment } from './environment';
     RouterOutlet,
     JwtModule,
     LoadingIndicatorComponent,
-    FirebaseModule,
 ],
 })
 export class AppModule {}

@@ -14,9 +14,6 @@ using DH.Domain.Helpers;
 using DH.Api.Helpers;
 using DH.Application.Games.Commands.Games;
 using DH.Application;
-using DH.Adapter.PushNotifications;
-using FirebaseAdmin;
-using Google.Apis.Auth.OAuth2;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,13 +47,6 @@ builder.Services.AddQRManagerAdapter();
 builder.Services.AddSchedulingAdapter(builder.Configuration);
 builder.Services.AddChallengesOrchestratorAdapter();
 builder.Services.AddGameSessionAdapter();
-var test = FirebaseApp.Create(new AppOptions()
-{
-    Credential = GoogleCredential.FromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "dicehub-8c63f-firebase-adminsdk-y31l3-ac5f8a95aa.json")),
-});
-
-Console.WriteLine(test.Options.ProjectId);
-builder.Services.AddFirebaseMessaging();
 
 var app = builder.Build();
 
