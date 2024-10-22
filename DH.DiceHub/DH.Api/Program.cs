@@ -52,7 +52,7 @@ builder.Services.AddChallengesOrchestratorAdapter();
 builder.Services.AddGameSessionAdapter();
 var test = FirebaseApp.Create(new AppOptions()
 {
-    Credential = GoogleCredential.FromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "dicehub-8c63f-firebase-adminsdk-y31l3-ac5f8a95aa.json")),
+    Credential = GoogleCredential.FromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "dicehub-8c63f-firebase-adminsdk-y31l3-6026a82c88.json")),
 });
 
 Console.WriteLine(test.Options.ProjectId);

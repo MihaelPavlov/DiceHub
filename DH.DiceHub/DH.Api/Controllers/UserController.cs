@@ -8,6 +8,7 @@ using Microsoft.VisualBasic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Microsoft.Extensions.Configuration;
+using System.ComponentModel.DataAnnotations;
 
 namespace DH.Api.Controllers;
 
@@ -37,6 +38,13 @@ public class UserController : ControllerBase
     public async Task<IActionResult> Register([FromBody] RegistrationRequest form)
     {
         await userService.Register(form);
+        return this.Ok();
+    }
+
+    [HttpPost("register-notification")]
+    public async Task<IActionResult> RegisterNotification([FromBody] RegistrationNotifcation form)
+    {
+        await userService.RegisterNotification(form.Email);
         return this.Ok();
     }
 

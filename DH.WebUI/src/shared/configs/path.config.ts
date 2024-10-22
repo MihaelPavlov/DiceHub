@@ -69,6 +69,10 @@ export const PATH = {
     GET_SPACE_ACTIVITY_STATS: 'get-space-activity-stats',
     GET_TABLE_PARTICIPANTS: 'get-table-participants',
   },
+  MESSAGING:{
+    CORE: "messaging",
+    SAVE_TOKEN: "save-token"
+  }
   // AUTH: {
   //   LOGIN: 'auth/user/login',
   // },

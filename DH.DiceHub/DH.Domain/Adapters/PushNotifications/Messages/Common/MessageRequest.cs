@@ -1,4 +1,4 @@
-﻿namespace DH.Domain.Adapters.PushNotifications;
+﻿namespace DH.Domain.Adapters.PushNotifications.Messages.Common;
 
 public class MessageRequest
 {

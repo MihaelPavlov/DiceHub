@@ -18,7 +18,7 @@ export class AuthService {
     return this.userInfoSubject$.value;
   }
 
-  login(loginForm: any) {
+  login(loginForm: any, withRegisterNotification: boolean = false) {
     const httpsOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
     };
@@ -30,6 +30,10 @@ export class AuthService {
         localStorage.setItem('jwt', accessToken);
         localStorage.setItem('refreshToken', refreshToken);
         this.userinfo();
+
+        if (withRegisterNotification) {
+          this.registerNotification(loginForm.email).subscribe();
+        }
       });
   }
 
@@ -42,12 +46,18 @@ export class AuthService {
       });
   }
 
-  register(registerForm: any) {
-    return this.httpClient
-      .post<any>('https://localhost:7024/user/register', registerForm)
-      .subscribe((_) => {
-        console.log(_);
-      });
+  register(registerForm: any): Observable<null> {
+    return this.httpClient.post<any>(
+      'https://localhost:7024/user/register',
+      registerForm
+    );
+  }
+
+  registerNotification(email: any): Observable<null> {
+    return this.httpClient.post<any>(
+      'https://localhost:7024/user/register-notification',
+       {email} 
+    );
   }
 
   //TODO: Change it to private in future

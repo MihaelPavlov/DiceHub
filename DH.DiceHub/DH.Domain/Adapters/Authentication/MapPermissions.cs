@@ -29,6 +29,7 @@ public class MapPermissions : IMapPermissions, IActionPermissions<UserAction>
         { UserAction.ChallengesRead, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff, Role.User} },
         { UserAction.RewardsRead, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff, Role.User} },
         { UserAction.SpaceManagementCRUD, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff, Role.User} },
+        { UserAction.MessagingCRUD, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff, Role.User} },
     };
 
     public IDictionary<int, List<Role>> GetActionsMapping()

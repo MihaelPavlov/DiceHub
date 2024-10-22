@@ -22,6 +22,8 @@ public interface IUserService
     /// <returns>A task representing the asynchronous operation.</returns>
     Task Register(RegistrationRequest form);
 
+    Task RegisterNotification(string email);
+
     /// <summary>
     /// Get user list only if the id is presented in the ids array.
     /// </summary>

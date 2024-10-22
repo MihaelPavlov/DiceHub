@@ -22,4 +22,5 @@ public enum UserAction
     ChallengesRead = 12,
     RewardsRead = 13,
     SpaceManagementCRUD = 14,
+    MessagingCRUD = 15,
 }

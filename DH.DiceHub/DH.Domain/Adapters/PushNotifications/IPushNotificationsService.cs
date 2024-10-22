@@ -1,6 +1,9 @@
-﻿namespace DH.Domain.Adapters.PushNotifications;
+﻿using DH.Domain.Adapters.PushNotifications.Messages.Common;
+
+namespace DH.Domain.Adapters.PushNotifications;
 
 public interface IPushNotificationsService
 {
-    Task SendMessage(MessageRequest message);
+    Task SendMessageAsync(MessageRequest message);
+    Task SendMultipleMessagesAsync(MultipleMessageRequest message);
 }

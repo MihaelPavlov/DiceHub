@@ -29,7 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="dicehub-8c63f-firebase-adminsdk-y31l3-ac5f8a95aa.json">
+    <Content Update="dicehub-8c63f-firebase-adminsdk-y31l3-6026a82c88.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

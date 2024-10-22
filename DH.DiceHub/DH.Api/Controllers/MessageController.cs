@@ -2,6 +2,7 @@
 using DH.Application.Common.Commands;
 using DH.Domain.Adapters.Authentication.Enums;
 using DH.Domain.Adapters.PushNotifications;
+using DH.Domain.Adapters.PushNotifications.Messages.Common;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,7 +23,7 @@ public class MessageController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> SendMessageAsync([FromBody] MessageRequest request)
     {
-        await this.pushNotificationsService.SendMessage(request);
+        await this.pushNotificationsService.SendMessageAsync(request);
         return Ok("Push notification sent successfully!");
     }
 

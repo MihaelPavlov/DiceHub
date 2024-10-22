@@ -1,34 +1,37 @@
 ﻿using DH.Domain.Adapters.PushNotifications;
-using FirebaseAdmin;
+using DH.Domain.Adapters.PushNotifications.Messages.Common;
 using FirebaseAdmin.Messaging;
+using Microsoft.Extensions.Logging;
 
 namespace DH.Adapter.PushNotifications;
 
 internal class PushNotificationsService : IPushNotificationsService
 {
-    public async Task SendMessage(MessageRequest message)
+    readonly ILogger<PushNotificationsService> logger;
+
+    public PushNotificationsService(ILogger<PushNotificationsService> logger)
     {
-        var notification = new Message()
+        this.logger = logger;
+    }
+
+    public async Task SendMessageAsync(MessageRequest message)
+    {
+        var notificationMessage = new Message
         {
+            Token = message.DeviceToken,
             Notification = new Notification
             {
                 Title = message.Title,
-                Body = message.Body,
-            },
-            Data = new Dictionary<string, string>()
-            {
-                ["FirstName"] = "John",
-                ["LastName"] = "Doe"
-            },
-            Token = message.DeviceToken
+                Body = message.Body
+            }
         };
-        
-        var messaging = FirebaseMessaging.DefaultInstance;
-        string result;
+
         try
         {
-         result = await messaging.SendAsync(notification);
+            var responseId = await FirebaseMessaging.DefaultInstance.SendAsync(notificationMessage);
 
+            if (string.IsNullOrEmpty(responseId))
+                this.logger.LogWarning("Message from type {typeMessage}, was not send", typeof(MessageRequest));
         }
         catch (Exception ex)
         {
@@ -36,15 +39,22 @@ internal class PushNotificationsService : IPushNotificationsService
             throw;
         }
 
-        if (!string.IsNullOrEmpty(result))
+    }
+
+    public async Task SendMultipleMessagesAsync(MultipleMessageRequest message)
+    {
+        var notificationMessage = new MulticastMessage
         {
-            // Message was sent successfully
-            return;
-        }
-        else
-        {
-            // There was an error sending the message
-            throw new Exception("Error sending the message.");
-        }
+            Tokens = message.Tokens,
+            Notification = new Notification
+            {
+                Title = message.Title,
+                Body = message.Body
+            }
+        };
+
+        var response = await FirebaseMessaging.DefaultInstance.SendEachForMulticastAsync(notificationMessage);
+
+        this.logger.LogWarning("Sent message from type {TypeOfMessage}: {SuccessCount} successful, {FailureCount} failed.", typeof(MessageRequest), response.SuccessCount, response.FailureCount);
     }
 }

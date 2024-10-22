@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../entities/auth/auth.service';
 import { environment } from '../environment';
-import { getToken, onMessage } from 'firebase/messaging';
+import { getToken ,onMessage } from 'firebase/messaging';
 import { Messaging } from '@angular/fire/messaging';
+import { MessagingService } from '../../entities/messaging/api/messaging.service';
 
 @Component({
   selector: 'app-root',
@@ -15,8 +16,10 @@ export class AppComponent implements OnInit {
 
   constructor(
     private readonly authService: AuthService,
-    private readonly _messaging: Messaging
+    private readonly _messaging: Messaging,
+    private readonly messagingService: MessagingService
   ) {
+    // TODO: Do i need initialize the user
     this._initializeUser();
   }
 
@@ -40,7 +43,7 @@ export class AppComponent implements OnInit {
   private _initializeFCM(): void {
     console.log('Initializing Firebase Cloud Messaging...');
     this._requestNotificationPermission();
-    this._getDeviceToken();
+    this.messagingService.getDeviceToken();
     this._listenForMessages();
   }
 
@@ -61,31 +64,15 @@ export class AppComponent implements OnInit {
   }
 
   /**
-   * Retrieve the device token from Firebase Messaging
-   */
-  private async _getDeviceToken(): Promise<void> {
-    try {
-      const token = await getToken(this._messaging, {
-        vapidKey: this._env.firebase.vapidKey,
-      });
-      if (token) {
-        console.log('Device token retrieved:', token);
-        this._saveDeviceToken(token);
-      } else {
-        console.warn('No device token retrieved.');
-      }
-    } catch (error) {
-      this._logError('Error retrieving device token', error);
-    }
-  }
-
-  /**
    * Save the device token (for example, send it to the server)
    */
   private _saveDeviceToken(token: string): void {
-    // Save the token to the server or log it.
     console.log('Saving device token:', token);
-    // You could send an HTTP request here to store the token in your server
+    this.messagingService.saveToken(token).subscribe({
+      error: (ex) => {
+        console.log('Token was not saved or updated', ex);
+      },
+    });
   }
 
   /**

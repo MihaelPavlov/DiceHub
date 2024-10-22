@@ -3,6 +3,10 @@ using DH.Domain.Adapters.Authentication.Models;
 using DH.Domain.Adapters.Authentication.Models.Enums;
 using DH.Domain.Adapters.Authentication.Services;
 using DH.Domain.Adapters.ChallengesOrchestrator;
+using DH.Domain.Adapters.PushNotifications;
+using DH.Domain.Adapters.PushNotifications.Messages;
+using DH.Domain.Entities;
+using DH.Domain.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -21,7 +25,8 @@ public class UserService : IUserService
     readonly IHttpContextAccessor _httpContextAccessor;
     readonly IPermissionStringBuilder _permissionStringBuilder;
     readonly SynchronizeUsersChallengesQueue queue;
-
+    readonly IPushNotificationsService pushNotificationsService;
+    readonly IRepository<UserDeviceToken> userDeviceTokenRepository;
     /// <summary>
     /// Constructor for UserService to initialize dependencies.
     /// </summary>
@@ -30,7 +35,7 @@ public class UserService : IUserService
     /// <param name="jwtService"><see cref="IJwtService"/> for accessing application jwt authentication logic.</param>
     public UserService(IHttpContextAccessor httpContextAccessor, IHttpClientFactory httpClientFactory,
         SignInManager<ApplicationUser> signInManager, IJwtService jwtService,
-        UserManager<ApplicationUser> userManager, IPermissionStringBuilder permissionStringBuilder, SynchronizeUsersChallengesQueue queue)
+        UserManager<ApplicationUser> userManager, IPermissionStringBuilder permissionStringBuilder, SynchronizeUsersChallengesQueue queue, IPushNotificationsService pushNotificationsService, IRepository<UserDeviceToken> userDeviceTokenRepository)
     {
         _httpContextAccessor = httpContextAccessor;
         this.signInManager = signInManager;
@@ -38,6 +43,8 @@ public class UserService : IUserService
         this.userManager = userManager;
         this._permissionStringBuilder = permissionStringBuilder;
         this.queue = queue;
+        this.pushNotificationsService = pushNotificationsService;
+        this.userDeviceTokenRepository = userDeviceTokenRepository;
     }
 
     /// <inheritdoc />
@@ -90,8 +97,34 @@ public class UserService : IUserService
 
         //TODO: Update the logic 
         await this.userManager.AddToRoleAsync(user, "User");
-        await Login(new LoginRequest { Email = form.Email, Password = form.Password }, true);
+
+        var afterRegister = await this.userManager.FindByEmailAsync(form.Email);
+        if (afterRegister is null)
+            throw new ArgumentNullException("User is not found");
+
+        this.queue.AddSynchronizeNewUserJob(afterRegister.Id);
+
+        await this.userDeviceTokenRepository.AddAsync(new UserDeviceToken
+        {
+            DeviceToken = form.DeviceToken,
+            LastUpdated = DateTime.UtcNow,
+            UserId = afterRegister.Id
+        }, CancellationToken.None);
+
+        await Login(new LoginRequest { Email = form.Email, Password = form.Password });
+        //await this.pushNotificationsService.SendMessageAsync(new RegistrationMessage(form.Username) { DeviceToken = form.DeviceToken });
+
+
         //TODO: _httpContextAccessor.HttpContext.User = new ClaimsPrincipal(new ClaimsIdentity(claims));
+    }
+
+    public async Task RegisterNotification(string email)
+    {
+        var user = await this.userManager.FindByEmailAsync(email);
+        if (user is null)
+            throw new ArgumentNullException("User is not found");
+        var userDeviceToken = await this.userDeviceTokenRepository.GetByAsync(x => x.UserId == user.Id, CancellationToken.None);
+        await this.pushNotificationsService.SendMessageAsync(new RegistrationMessage(email) { DeviceToken = userDeviceToken.DeviceToken });
     }
 
     public async Task<List<UserModel>> GetUserListByIds(string[] ids, CancellationToken cancellationToken)

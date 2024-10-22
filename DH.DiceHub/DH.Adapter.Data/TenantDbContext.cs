@@ -88,6 +88,7 @@ public class TenantDbContext : DbContext, ITenantDbContext
 
     #region others
 
+    public DbSet<UserDeviceToken> UserDeviceTokens { get; set; } = default!;
     public DbSet<UserStatistic> UserStatistics { get; set; } = default!;
     public DbSet<FailedJob> FailedJobs { get; set; } = default!;
     public DbSet<QrCodeScanAudit> QrCodeScanAudits { get; set; } = default!;

@@ -1,6 +1,8 @@
+import { map } from 'rxjs';
 import { Component } from '@angular/core';
 import { AuthService } from '../../../entities/auth/auth.service';
 import { Router } from '@angular/router';
+import { MessagingService } from '../../../entities/messaging/api/messaging.service';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +12,8 @@ import { Router } from '@angular/router';
 export class LoginComponent {
   constructor(
     private readonly router: Router,
-    readonly authService: AuthService
+    readonly authService: AuthService,
+    private readonly messagingService: MessagingService
   ) {}
 
   public navigateToGameDetails(): void {
@@ -31,14 +34,18 @@ export class LoginComponent {
     });
   }
 
-  
   loginUser3() {
     this.authService.login({
       email: 'rap4obg4@abv.bg',
       password: '123456789Mm!',
     });
   }
-
+  loginUser4() {
+    this.authService.login({
+      email: 'rap4obg17@abv.bg',
+      password: '123456789Mm!',
+    },true);
+  }
 
   loginAdmin() {
     this.authService.login({ email: 'sa@dicehub.com', password: '1qaz!QAZ' });
@@ -47,11 +54,22 @@ export class LoginComponent {
     this.authService.game({ name: 'test123' });
   }
   register() {
-    this.authService.register({
-      username: 'rap4obg4',
-      email: 'rap4obg4@abv.bg',
-      password: '123456789Mm!',
-    });
+    this.messagingService
+      .getDeviceTokenForRegistration()
+      .then((deviceToken) => {
+        console.log('from register -> ', deviceToken);
+
+        this.authService
+          .register({
+            username: 'rap4obg17',
+            email: 'rap4obg17@abv.bg',
+            password: '123456789Mm!',
+            deviceToken,
+          })
+          .subscribe({ next: () => {
+            this.loginUser4();
+          } });
+      });
   }
   userInfo() {
     this.authService.userinfo();

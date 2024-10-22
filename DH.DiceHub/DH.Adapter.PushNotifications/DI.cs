@@ -1,6 +1,4 @@
 ﻿using DH.Domain.Adapters.PushNotifications;
-using FirebaseAdmin;
-using Google.Apis.Auth.OAuth2;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DH.Adapter.PushNotifications;
