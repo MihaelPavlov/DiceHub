@@ -15,6 +15,7 @@ import { ErrorInterceptor } from '../shared/interceptors/http-error.interceptor'
 import { LoadingIndicatorComponent } from "../shared/components/loading-indicator/loading-indicator.component";
 import { FirebaseModule } from '../shared/firebase.module';
 import { environment } from './environment';
+import { RegisterModule } from '../pages/register/register.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -37,6 +38,7 @@ import { environment } from './environment';
     BrowserModule,
     MenuModule,
     LoginModule,
+    RegisterModule,
     HeaderModule,
     RouterOutlet,
     JwtModule,

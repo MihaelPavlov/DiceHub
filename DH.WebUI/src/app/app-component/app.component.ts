@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../entities/auth/auth.service';
 import { environment } from '../environment';
-import { getToken ,onMessage } from 'firebase/messaging';
+import { getToken, onMessage } from 'firebase/messaging';
 import { Messaging } from '@angular/fire/messaging';
 import { MessagingService } from '../../entities/messaging/api/messaging.service';
+import { IUserInfo } from '../../entities/auth/models/user-info.model';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,7 @@ import { MessagingService } from '../../entities/messaging/api/messaging.service
 export class AppComponent implements OnInit {
   title = 'DH.WebUI';
   private readonly _env = environment;
-
+  public readonly userInfo: IUserInfo | null = this.authService.getUser;
   constructor(
     private readonly authService: AuthService,
     private readonly _messaging: Messaging,

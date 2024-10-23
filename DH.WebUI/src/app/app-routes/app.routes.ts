@@ -6,6 +6,7 @@ import { EventUserAccessGuard } from '../../shared/guards/event-user.guard';
 import { EventAdminAccessGuard } from '../../shared/guards/event-admin-access.guard';
 import { ChallengeAdminAccessGuard } from '../../shared/guards/challenge-admin-acces.guard';
 import { ChallengeUserAccessGuard } from '../../shared/guards/challenge-user.guard';
+import { RegisterComponent } from '../../pages/register/page/register.component';
 
 export const ROUTES: Routes = [
   {
@@ -85,6 +86,10 @@ export const ROUTES: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
   },
   {
     path: 'unauthorized',

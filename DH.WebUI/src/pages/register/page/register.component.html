@@ -1,0 +1,53 @@
+<div class="wrapper">
+  <div class="interactive-option">
+    <span>
+      <span class="material-symbols-outlined icon__resize"> swords </span>
+    </span>
+  </div>
+  <span class="header">Board Club Level Up</span>
+
+  <form [formGroup]="this.form" class="container">
+    <div class="input-field">
+      <label for="username" class="required">Username</label>
+      <input placeholder="username.." type="text" formControlName="username" />
+    </div>
+    <div class="input-field">
+      <label for="email" class="required">Email</label>
+      <input placeholder="email.." type="text" formControlName="email" />
+    </div>
+    <div class="input-field">
+      <label for="password" class="required">Password</label>
+      <input
+        placeholder="password.."
+        type="password"
+        formControlName="password"
+      />
+    </div>
+    <div class="input-field">
+      <label for="confirmPassword" class="required">Confirm Password</label>
+      <input
+        placeholder="confirm your password"
+        type="confirmPassword"
+        formControlName="confirmPassword"
+      />
+    </div>
+
+    <div *ngIf="getFirstErrorMessage()" class="errors">
+      {{ getFirstErrorMessage() }}
+    </div>
+
+    <div class="btn-container">
+      <button
+        [disabled]="this.form.invalid"
+        type="button"
+        class="btn btn-gray btn-border-green btn-font-green"
+      >
+        Register
+      </button>
+    </div>
+    <div class="additional-link">
+      <p>You're already part of the guild!</p>
+      <p>Sign in to jump back into the action!</p>
+    </div>
+  </form>
+</div>
