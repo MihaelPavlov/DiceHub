@@ -1,0 +1,81 @@
+@use "../../.././shared/assets/styles/palette";
+
+.wrapper {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.interactive-option {
+  display: flex;
+  justify-content: center;
+  margin-top: 3rem;
+
+  span {
+    width: 5rem;
+    height: 5rem;
+    font-size: 3rem;
+    border-radius: 50px;
+    background: palette.$main-blue-color;
+    box-shadow: 0 0 0 12px var(--background-color);
+    transition: height 200ms ease, margin 200ms ease;
+    overflow: hidden;
+  }
+
+  .icon {
+    --icon-size: 24px;
+    cursor: pointer;
+    transition: transform 320ms ease, opacity 200ms ease;
+
+    &__resize {
+      position: relative;
+      top: 1rem;
+      text-align: center;
+    }
+  }
+}
+
+.header {
+  margin: 1rem;
+  display: flex;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  margin: 2rem;
+  margin-bottom: 8rem;
+  font-size: palette.$main-font-color;
+}
+
+.input-checkbox {
+  margin-left: 0.5rem;
+  display: flex;
+  .remember-label {
+    display: flex;
+    width: 95%;
+    justify-content: space-between;
+    label {
+      margin-left: 1rem;
+    }
+  }
+}
+
+.btn-container {
+  display: flex;
+  justify-content: center;
+  margin: 1rem;
+
+  button {
+    width: 60%;
+  }
+}
+
+.additional-link {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  flex-direction: column;
+}
