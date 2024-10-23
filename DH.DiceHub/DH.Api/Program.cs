@@ -12,7 +12,6 @@ using DH.Adapter.ChallengesOrchestrator;
 using DH.Adapter.GameSession;
 using DH.Domain.Helpers;
 using DH.Api.Helpers;
-using DH.Application.Games.Commands.Games;
 using DH.Application;
 using DH.Adapter.PushNotifications;
 using FirebaseAdmin;
@@ -42,6 +41,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddScoped<IWebRootPathHelper, WebRootPathHelper>();
 builder.Services.AddScoped<IContainerService, ContainerService>();
 
+builder.Services.AddDomain();
 builder.Services.AddApplication();
 builder.Services.AddDataAdapter(builder.Configuration);
 builder.Services.AuthenticationAdapter(builder.Configuration);

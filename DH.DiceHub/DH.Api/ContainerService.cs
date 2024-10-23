@@ -1,5 +1,4 @@
 ﻿using DH.Domain;
-using DH.Domain.Repositories;
 
 namespace DH.Api;
 

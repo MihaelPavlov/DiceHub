@@ -92,6 +92,7 @@ public class TenantDbContext : DbContext, ITenantDbContext
     public DbSet<UserStatistic> UserStatistics { get; set; } = default!;
     public DbSet<FailedJob> FailedJobs { get; set; } = default!;
     public DbSet<QrCodeScanAudit> QrCodeScanAudits { get; set; } = default!;
+    public DbSet<TenantSetting> TenantSettings { get; set; } = default!;
 
     #endregion others
 
