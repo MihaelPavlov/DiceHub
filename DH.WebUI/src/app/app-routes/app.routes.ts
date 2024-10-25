@@ -7,6 +7,7 @@ import { EventAdminAccessGuard } from '../../shared/guards/event-admin-access.gu
 import { ChallengeAdminAccessGuard } from '../../shared/guards/challenge-admin-acces.guard';
 import { ChallengeUserAccessGuard } from '../../shared/guards/challenge-user.guard';
 import { RegisterComponent } from '../../pages/register/page/register.component';
+import { ProfileComponent } from '../../pages/profile/page/profile.component';
 
 export const ROUTES: Routes = [
   {
@@ -80,6 +81,14 @@ export const ROUTES: Routes = [
           import('../../pages/qr-code-scanner/qr-code-scanner.module').then(
             (m) => m.QrCodeScannerModule
           ),
+      },
+      {
+        path: 'profile',
+        loadChildren: () =>
+          import('../../pages/profile/profile.module').then(
+            (m) => m.ProfileModule
+          ),
+        canActivate: [AuthGuard],
       },
     ],
   },

@@ -1,0 +1,118 @@
+@use "../../../shared/assets/styles/palette";
+.wrapper_icons {
+  margin: 2rem;
+
+  .arrow {
+    width: 3rem;
+    height: 3rem;
+    display: inline-block;
+    position: relative;
+    border: 0.1rem solid palette.$main-icon-color;
+    border-radius: 2.5rem;
+
+    &::before {
+      content: "";
+      display: block;
+      width: 0.75rem;
+      height: 0.75rem;
+      top: 65%;
+      left: 63%;
+      border-style: solid;
+      border-color: palette.$main-icon-color;
+      border-width: 0.2rem 0.2rem 0 0;
+      position: absolute;
+      transform-origin: 50% 50%;
+    }
+
+    &.left::before {
+      transform: rotate(-135deg);
+      margin: -0.9rem 0 0 -0.6rem;
+    }
+  }
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 8rem;
+  font-size: palette.$main-font-color;
+}
+
+.header {
+  display: flex;
+  width: 80%;
+  flex-direction: column;
+  margin: 0 auto;
+  font-size: 1.5rem;
+}
+
+.wrapper_stats {
+  width: 100%;
+  margin: 1rem 0;
+
+  .stats {
+    padding: 1rem 0;
+    background-color: palette.$main-nav-color;
+    border-radius: 1rem;
+    display: flex;
+    justify-content: center;
+    width: 70%;
+    margin: 0 auto;
+
+    &__header {
+      display: flex;
+      flex-direction: column;
+      font-size: 1rem;
+      width: 50%;
+      justify-content: center;
+
+      .xp {
+        margin-top: 0.5rem;
+      }
+    }
+
+    .circular-progress {
+      width: 4rem;
+      height: 4rem;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: palette.$chip-yellow-color;
+
+      .inner-circle {
+        position: absolute;
+        width: 3rem;
+        height: 3rem;
+        border-radius: 50%;
+        background-color: palette.$main-nav-color;
+      }
+
+      .percentage {
+        position: relative;
+        font-size: 1rem;
+      }
+    }
+  }
+}
+
+.wrapper_stats_2 {
+  display: flex;
+  justify-content: center;
+  .item {
+    display: flex;
+    flex-direction: column;
+    margin: 0.5rem 2rem;
+
+    &-value {
+    }
+    &-header {
+      color: palette.$main-icon-color;
+    }
+  }
+
+  .border-right {
+    border-right: 2px solid palette.$main-icon-color;
+  }
+}
