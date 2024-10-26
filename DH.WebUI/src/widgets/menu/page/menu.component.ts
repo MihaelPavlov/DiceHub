@@ -113,11 +113,11 @@ export class MenuComponent implements OnInit, AfterViewInit {
       },
       {
         label: NAV_ITEM_LABELS.PROFILE,
-        class: page === '/meeple' ? 'active' : '',
+        class: page === '/profile' ? 'active' : '',
         enabled: true,
         visible: true,
         icon: 'account_circle',
-        route: '/',
+        route: '/profile',
       },
     ];
   }
