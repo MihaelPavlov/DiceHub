@@ -1,6 +1,4 @@
-﻿using DH.Domain.Enums;
-
-namespace DH.Domain.Entities;
+﻿namespace DH.Domain.Entities;
 
 public class TenantSetting
 {
