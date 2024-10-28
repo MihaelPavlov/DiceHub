@@ -100,4 +100,22 @@ public class SpaceManagementController : ControllerBase
         await this.mediator.Send(command, cancellationToken);
         return Ok();
     }
+
+    [HttpPost("add-virtual-participant")]
+    [ActionAuthorize(UserAction.SpaceManagementVirtualC)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> AddVitrualPartcipant([FromBody] AddVirtualParticipantCommand command, CancellationToken cancellationToken)
+    {
+        await this.mediator.Send(command, cancellationToken);
+        return Ok();
+    }
+
+    [HttpPost("remove-virtual-participant")]
+    [ActionAuthorize(UserAction.SpaceManagementVirtualC)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> RemoveVitrualPartcipant([FromBody] RemoveVirtualParticipantCommand command, CancellationToken cancellationToken)
+    {
+        await this.mediator.Send(command, cancellationToken);
+        return Ok();
+    }
 }

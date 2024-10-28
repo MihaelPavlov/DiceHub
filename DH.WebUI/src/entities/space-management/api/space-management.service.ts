@@ -91,4 +91,26 @@ export class SpaceManagementService {
       }
     );
   }
+
+  public addVirtualParticipant(spaceTableId: number): Observable<null> {
+    return this.api.post(
+      `/${PATH.SPACE_MANAGEMENT.CORE}/${PATH.SPACE_MANAGEMENT.ADD_VIRTUAL_PARTICIPANT}`,
+      {
+        spaceTableId,
+      }
+    );
+  }
+
+  public removeVirtualParticipant(
+    spaceTableId: number,
+    participantId: number
+  ): Observable<null> {
+    return this.api.post(
+      `/${PATH.SPACE_MANAGEMENT.CORE}/${PATH.SPACE_MANAGEMENT.REMOVE_VIRTUAL_PARTICIPANT}`,
+      {
+        spaceTableId,
+        participantId,
+      }
+    );
+  }
 }

@@ -12,6 +12,13 @@
     <button class="btn btn__small btn-red btn-border-red" (click)="onClose()">
       Close the Room
     </button>
+    <button
+      *ngIf="isUserAdmin"
+      (click)="addVirtualParticipant()"
+      class="btn btn__small btn-red btn-border-red"
+    >
+      Add Virtual User
+    </button>
   </div>
   <!-- TODO: On leave and on close in the BE. I need to check the job if it's still not executed i need to cancel it
   I have canceJobMethod in the queue 
@@ -44,7 +51,13 @@
         >
           <span
             class="material-symbols-outlined"
-            (click)="onRemoveUserFromTable(item.userId)"
+            (click)="
+              onRemoveUserFromTable(
+                item.userId,
+                item.IsVirtualParticipant,
+                item.participantId
+              )
+            "
           >
             delete
           </span>

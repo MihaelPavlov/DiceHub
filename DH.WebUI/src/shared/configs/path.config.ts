@@ -68,6 +68,8 @@ export const PATH = {
     GET_USER_ACTIVE_TABLE: 'get-user-active-table',
     GET_SPACE_ACTIVITY_STATS: 'get-space-activity-stats',
     GET_TABLE_PARTICIPANTS: 'get-table-participants',
+    ADD_VIRTUAL_PARTICIPANT:'add-virtual-participant',
+    REMOVE_VIRTUAL_PARTICIPANT:'remove-virtual-participant'
   },
   MESSAGING:{
     CORE: "messaging",

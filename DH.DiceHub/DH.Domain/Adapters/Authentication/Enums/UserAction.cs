@@ -23,4 +23,5 @@ public enum UserAction
     RewardsRead = 13,
     SpaceManagementCRUD = 14,
     MessagingCRUD = 15,
+    SpaceManagementVirtualC = 16,
 }

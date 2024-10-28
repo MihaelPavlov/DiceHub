@@ -25,18 +25,30 @@ internal class GetSpaceTableParticipantListQueryHandler : IRequestHandler<GetSpa
             x => x.SpaceTableId == request.Id && x.SpaceTable.IsTableActive,
             x => new GetSpaceTableParticipantListQueryModel
             {
+                ParticipantId = x.Id,
                 UserId = x.UserId,
                 JoinedBefore = ((int)(DateTime.UtcNow - x.JoinedAt).TotalMinutes),
                 SpaceTableId = request.Id,
+                IsVirtualParticipant = x.IsVirtualParticipant,
+
             }, cancellationToken);
 
-        var userIds = participants.Select(x => x.UserId).ToArray();
+        var userIds = participants.Where(x => !x.IsVirtualParticipant).Select(x => x.UserId).ToArray();
 
         var users = await this.userService.GetUserListByIds(userIds, CancellationToken.None);
 
+        var virtualUserCount = 1;
         foreach (var participant in participants)
         {
-            participant.UserName = users.First(x => x.Id == participant.UserId).UserName;
+            if (participant.IsVirtualParticipant)
+            {
+                participant.UserName = $"Virtual User #{virtualUserCount}";
+                virtualUserCount++;
+            }
+            else
+            {
+                participant.UserName = users.First(x => x.Id == participant.UserId).UserName;
+            }
         }
 
         return participants.Where(x => x.UserName.ToLower().Contains(request.SearchExpression.ToLower())).ToList();
