@@ -28,7 +28,7 @@ export const ROUTES: Routes = [
           import('../../pages/events-library/events-library.module').then(
             (m) => m.EventsLibraryModule
           ),
-        canActivate: [EventUserAccessGuard],
+        canActivate: [AuthGuard, EventUserAccessGuard],
       },
       {
         path: 'admin-events',
@@ -36,7 +36,7 @@ export const ROUTES: Routes = [
           import(
             '../../pages/admin-event-management/admin-event-management.module'
           ).then((m) => m.AdminEventManagementModule),
-        canActivate: [EventAdminAccessGuard],
+        canActivate: [AuthGuard, EventAdminAccessGuard],
       },
       {
         path: 'meeples',
@@ -44,6 +44,7 @@ export const ROUTES: Routes = [
           import(
             '../../pages/find-meeple-management/find-meeple-management.module'
           ).then((m) => m.FindMeepleManagementModule),
+        canActivate: [AuthGuard],
       },
       {
         path: 'challenges',
@@ -51,7 +52,7 @@ export const ROUTES: Routes = [
           import(
             '../../pages/challenges-management/challenges-management.module'
           ).then((m) => m.ChallengesManagementModule),
-        canActivate: [ChallengeUserAccessGuard],
+        canActivate: [AuthGuard,ChallengeUserAccessGuard],
       },
       {
         path: 'admin-challenges',
@@ -59,7 +60,7 @@ export const ROUTES: Routes = [
           import(
             '../../pages/admin-challenges-management/admin-challenges-management.module'
           ).then((m) => m.AdminChallengesManagementModule),
-        canActivate: [ChallengeAdminAccessGuard],
+        canActivate: [AuthGuard,ChallengeAdminAccessGuard],
       },
       {
         path: 'space',
@@ -67,6 +68,7 @@ export const ROUTES: Routes = [
           import(
             '../../pages/club-space-management/club-space-management.module'
           ).then((m) => m.ClubSpaceManagementModule),
+          canActivate: [AuthGuard],
       },
       {
         path: 'admin-space',
@@ -81,6 +83,7 @@ export const ROUTES: Routes = [
           import('../../pages/qr-code-scanner/qr-code-scanner.module').then(
             (m) => m.QrCodeScannerModule
           ),
+          canActivate: [AuthGuard],
       },
       {
         path: 'profile',

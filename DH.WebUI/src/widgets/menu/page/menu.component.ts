@@ -132,6 +132,8 @@ export class MenuComponent implements OnInit, AfterViewInit {
   }
 
   private onInitJS(): void {
+    console.log('on init menu -0=------');
+    
     const interactiveOption = document.querySelector(
       '.interactive-option'
     ) as HTMLElement;

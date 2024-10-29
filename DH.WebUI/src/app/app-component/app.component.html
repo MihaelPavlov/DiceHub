@@ -4,4 +4,4 @@
 <!-- <app-header header="Recomended" [withSearch]="true">
 </app-header> -->
 
-<app-menu *ngIf="this.userInfo" />
+<app-menu *ngIf="this.userInfo | async" />

@@ -1,3 +1,4 @@
+import { AuthenticatedResponse, AuthService } from './../../entities/auth/auth.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {
   ActivatedRouteSnapshot,
@@ -7,7 +8,6 @@ import {
 } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Injectable } from '@angular/core';
-import { AuthenticatedResponse } from '../../entities/auth/auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -16,10 +16,11 @@ export class AuthGuard implements CanActivate {
   constructor(
     private readonly router: Router,
     private readonly jwtHelper: JwtHelperService,
-    private readonly http: HttpClient
+    private readonly http: HttpClient,
+    private readonly authService: AuthService
   ) {}
 
-  async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+  async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) :  Promise<boolean> {
     const token = localStorage.getItem('jwt');
     if (token && !this.jwtHelper.isTokenExpired(token)) {
       console.log(this.jwtHelper.decodeToken(token));
@@ -29,8 +30,14 @@ export class AuthGuard implements CanActivate {
     console.log('refresh',isRefreshSuccess);
 
     if (!isRefreshSuccess) {
-      this.router.navigate(['login']);
+      console.log('redirect to login');
+      this.authService.removeUserInfo();
+      this.router.navigateByUrl('login');
     }
+    else{
+      this.authService.userinfo();
+    }
+
     return isRefreshSuccess;
   }
 
@@ -76,11 +83,13 @@ export class AuthGuard implements CanActivate {
 
         localStorage.setItem('jwt', refreshRes.accessToken);
         localStorage.setItem('refreshToken', refreshRes.refreshToken);
-      
+        this.authService.removeUserInfo();
         isRefreshSuccess = true;
       
     }
     catch{
+      localStorage.removeItem('jwt');
+      localStorage.removeItem('refreshToken');
       isRefreshSuccess=false;
     }
     

@@ -11,6 +11,7 @@ import { UserAction } from '../../../shared/constants/user-action';
 import { GameConfirmDeleteDialog } from '../../../features/games-library/dialogs/game-confirm-delete-dialog/game-confirm-delete.component';
 import { MatDialog } from '@angular/material/dialog';
 import { GameQrCodeDialog } from '../../../features/games-library/dialogs/qr-code-dialog/qr-code-dialog.component';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-games-library',
@@ -22,7 +23,7 @@ export class GamesLibraryComponent implements OnInit, OnDestroy {
   public menuItems: IMenuItem[] = [];
   private categoryId: number | null = null;
   public visibleMenuId: number | null = null;
-  public isAdmin: boolean = this.permissionService.hasUserAction(
+  public isAdmin$: Observable<boolean> = this.permissionService.hasUserAction(
     UserAction.GamesCUD
   );
 

@@ -24,7 +24,7 @@
           </span>
           {{ game.likes }}
         </div>
-        <span *ngIf="isAdmin"
+        <span *ngIf="(isAdmin$ | async) ?? false"
           class="material-symbols-outlined menu-container"
           (click)="showMenu(game.id, $event)"
         >

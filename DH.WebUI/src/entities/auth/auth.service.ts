@@ -1,7 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { ChangeDetectorRef, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import { IUserInfo } from './models/user-info.model';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,10 @@ export class AuthService {
 
   public userInfo$ = this.userInfoSubject$.asObservable();
 
-  constructor(readonly httpClient: HttpClient) {}
+  constructor(
+    readonly httpClient: HttpClient,
+    private readonly router: Router
+  ) {}
 
   public get getUser(): IUserInfo | null {
     return this.userInfoSubject$.value;
@@ -30,7 +34,7 @@ export class AuthService {
         localStorage.setItem('jwt', accessToken);
         localStorage.setItem('refreshToken', refreshToken);
         this.userinfo();
-
+        this.router.navigateByUrl('games/library');
         if (withRegisterNotification) {
           this.registerNotification(loginForm.email).subscribe();
         }
@@ -56,7 +60,7 @@ export class AuthService {
   registerNotification(email: any): Observable<null> {
     return this.httpClient.post<any>(
       'https://localhost:7024/user/register-notification',
-       {email} 
+      { email }
     );
   }
 
@@ -67,18 +71,24 @@ export class AuthService {
     const roleClaim: string =
       'http://schemas.microsoft.com/ws/2008/06/identity/claims/role';
 
-    this.httpClient
-      .get('https://localhost:7024/user/info')
-      .subscribe((user: any) => {
+    this.httpClient.get('https://localhost:7024/user/info').subscribe({
+      next: (user: any) => {
         if (user)
           this.userInfoSubject$.next({
             id: user[sidClaim],
             role: user[roleClaim],
             permissionString: user['permissions'],
           });
-
+        else {
+          this.userInfoSubject$.next(null);
+        }
         console.log(this.userInfoSubject$.value);
-      });
+      },
+      error: () => {
+        this.userInfoSubject$.next(null);
+        this.router.navigateByUrl("login")
+      },
+    });
   }
 
   public isAuthenticated(): Observable<boolean> {
@@ -92,6 +102,11 @@ export class AuthService {
   logout() {
     localStorage.removeItem('jwt');
     localStorage.removeItem('refreshToken');
+    this.userInfoSubject$.next(null);
+  }
+
+  removeUserInfo() {
+    this.userInfoSubject$.next(null);
   }
 }
 

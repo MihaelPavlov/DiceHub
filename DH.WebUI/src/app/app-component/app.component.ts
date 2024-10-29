@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../entities/auth/auth.service';
 import { environment } from '../environment';
@@ -14,7 +15,7 @@ import { IUserInfo } from '../../entities/auth/models/user-info.model';
 export class AppComponent implements OnInit {
   title = 'DH.WebUI';
   private readonly _env = environment;
-  public readonly userInfo: IUserInfo | null = this.authService.getUser;
+  public readonly userInfo: Observable<IUserInfo | null> = this.authService.userInfo$;
   constructor(
     private readonly authService: AuthService,
     private readonly _messaging: Messaging,

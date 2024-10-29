@@ -11,9 +11,7 @@ export class UserRewardQrCodeDialog {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: IQrCode,
     private dialogRef: MatDialogRef<UserRewardQrCodeDialog>
-  ) {
-    console.log('user reward qr-code -> ', data);
-  }
+  ) {}
 
   public serializeData(): string {
     return JSON.stringify(this.data);

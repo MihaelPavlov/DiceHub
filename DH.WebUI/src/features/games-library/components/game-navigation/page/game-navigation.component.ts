@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { GamesLibraryComponent } from '../../../../../pages/games-library/page/games-library.component';
@@ -19,7 +20,7 @@ export class GameNavigationComponent implements OnInit {
     | NewGameListComponent;
 
   public menuItems: IMenuItem[] = [];
-  public isAdmin: boolean = this.permissionService.hasUserAction(
+  public isAdmin$: Observable<boolean> = this.permissionService.hasUserAction(
     UserAction.GamesCUD
   );
   constructor(
@@ -39,11 +40,11 @@ export class GameNavigationComponent implements OnInit {
 
   public handleMenuItemClick(key: string): void {
     if (key === 'add-game') {
-      this.router.navigateByUrl('/games/add')
+      this.router.navigateByUrl('/games/add');
     } else if (key === 'add-existing-game') {
-      this.router.navigateByUrl('/games/add-existing-game')
+      this.router.navigateByUrl('/games/add-existing-game');
     } else if (key === 'reserved-games') {
-      this.router.navigateByUrl('/games/reservations')
+      this.router.navigateByUrl('/games/reservations');
     }
   }
 

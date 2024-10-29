@@ -64,13 +64,12 @@ public class UserService : IUserService
                 new Claim(ClaimTypes.Name, user.UserName),
                 new Claim(ClaimTypes.Role, RoleHelper.GetRoleKeyByName(roles.First()).ToString()),
                 new Claim("permissions",_permissionStringBuilder.GetFromCacheOrBuildPermissionsString( RoleHelper.GetRoleKeyByName(roles.First())))
-
             };
             var tokenString = this.jwtService.GenerateAccessToken(claims);
             var refreshToken = this.jwtService.GenerateRefreshToken();
 
             user.RefreshToken = refreshToken;
-            user.RefreshTokenExpiryTime = DateTime.Now.AddDays(7);
+            user.RefreshTokenExpiryTime = DateTime.Now.AddDays(1);
 
             await this.userManager.UpdateAsync(user);
 

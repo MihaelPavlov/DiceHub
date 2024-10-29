@@ -43,7 +43,7 @@ export class LoginComponent extends Form implements OnInit {
   }
 
   public ngOnInit(): void {
-    throw new Error('Method not implemented.');
+  
   }
 
   private clearServerErrorMessage() {
@@ -56,6 +56,15 @@ export class LoginComponent extends Form implements OnInit {
 
   public navigateToGameDetails(): void {
     this.router.navigateByUrl('games/1/details');
+  }
+
+  public onLogin():void{
+    if(this.form.valid){
+      this.authService.login({
+        email: this.form.controls.email,
+        password: this.form.controls.password,
+      });
+    }
   }
 
   loginUser() {

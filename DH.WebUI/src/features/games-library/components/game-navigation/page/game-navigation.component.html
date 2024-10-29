@@ -1,7 +1,7 @@
 <app-header
   Recommended="Recommended"
   [withSearch]="true"
-  [withAdd]="isAdmin"
+  [withAdd]="(isAdmin$ | async) ?? false"
   [menuItems]="menuItems"
   [menuItemClickFunction]="handleMenuItemClick"
   (searchExpressionResult)="handleSearchExpression($event)"
