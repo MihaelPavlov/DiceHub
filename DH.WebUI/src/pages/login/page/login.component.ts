@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../entities/auth/auth.service';
 import { Router } from '@angular/router';
-import { MessagingService } from '../../../entities/messaging/api/messaging.service';
 import { Form } from '../../../shared/components/form/form.component';
 import { ToastService } from '../../../shared/services/toast.service';
 import { Formify } from '../../../shared/models/form.model';
@@ -11,6 +10,8 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { AppToastMessage } from '../../../shared/components/toast/constants/app-toast-messages.constant';
+import { ToastType } from '../../../shared/models/toast.model';
 
 interface ILoginForm {
   email: string;
@@ -29,7 +30,6 @@ export class LoginComponent extends Form implements OnInit {
   constructor(
     private readonly router: Router,
     readonly authService: AuthService,
-    private readonly messagingService: MessagingService,
     public override readonly toastService: ToastService,
     private readonly fb: FormBuilder
   ) {
@@ -42,28 +42,53 @@ export class LoginComponent extends Form implements OnInit {
     });
   }
 
-  public ngOnInit(): void {
-  
-  }
+  public ngOnInit(): void {}
 
   private clearServerErrorMessage() {
     this.getServerErrorMessage = null;
   }
 
   protected override getControlDisplayName(controlName: string): string {
-    throw new Error('Method not implemented.');
+    switch (controlName) {
+      case 'email':
+        return 'Email';
+      case 'password':
+        return 'Password';
+      default:
+        return controlName;
+    }
   }
 
   public navigateToGameDetails(): void {
     this.router.navigateByUrl('games/1/details');
   }
 
-  public onLogin():void{
-    if(this.form.valid){
-      this.authService.login({
-        email: this.form.controls.email,
-        password: this.form.controls.password,
-      });
+  public onLogin(): void {
+    if (this.form.valid) {
+      this.authService
+        .login({
+          email: this.form.controls.email.value,
+          password: this.form.controls.password.value,
+        })
+        .subscribe({
+          next: (response) => {
+            if (response) {
+              this.authService.onnSuccessfullyLogin(
+                response.accessToken,
+                response.refreshToken
+              );
+
+              this.router.navigateByUrl('games/library');
+            }
+          },
+          error: (error) => {
+            this.handleServerErrors(error);
+            this.toastService.error({
+              message: AppToastMessage.FailedToSaveChanges,
+              type: ToastType.Error,
+            });
+          },
+        });
     }
   }
 
@@ -88,56 +113,21 @@ export class LoginComponent extends Form implements OnInit {
     });
   }
   loginUser4() {
-    this.authService.login(
-      {
-        email: 'rap4obg17@abv.bg',
-        password: '123456789Mm!',
-      },
-      true
-    );
+    this.authService.login({
+      email: 'rap4obg17@abv.bg',
+      password: '123456789Mm!',
+    });
   }
 
   loginAdmin() {
-    this.authService.login({ email: 'sa@dicehub.com', password: '1qaz!QAZ' });
-  }
-  game() {
-    this.authService.game({ name: 'test123' });
-  }
-  register() {
-    this.messagingService
-      .getDeviceTokenForRegistration()
-      .then((deviceToken) => {
-        console.log('from register -> ', deviceToken);
-
-        this.authService
-          .register({
-            username: 'rap4obg17',
-            email: 'rap4obg17@abv.bg',
-            password: '123456789Mm!',
-            deviceToken,
-          })
-          .subscribe({
-            next: () => {
-              this.loginUser4();
-            },
-          });
-      });
-  }
-  userInfo() {
-    this.authService.userinfo();
-  }
-  logout() {
-    this.authService.logout();
+    this.authService.login({ email: 'sa@dicehub.com', password: '1qaz!QAZ' }).subscribe();
   }
 
   private initFormGroup(): FormGroup {
     return this.fb.group({
-      email: new FormControl<string>('', [
-        Validators.required,
-        Validators.minLength(3),
-      ]),
+      email: new FormControl<string>('', [Validators.required]),
       password: new FormControl<string>('', Validators.required),
-      rememberMe: new FormControl<boolean>(true, Validators.required),
+      rememberMe: new FormControl<boolean>(true),
     });
   }
 }
