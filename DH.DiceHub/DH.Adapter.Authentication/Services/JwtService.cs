@@ -1,6 +1,9 @@
 ﻿using DH.Adapter.Authentication.Entities;
+using DH.Domain.Adapters.Authentication;
 using DH.Domain.Adapters.Authentication.Models;
 using DH.Domain.Adapters.Authentication.Services;
+using DH.Domain.Exceptions;
+using DH.Domain.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -42,7 +45,7 @@ public class JwtService : IJwtService
             issuer: fe_url,
             audience: fe_url,
             claims: claims,
-            expires: DateTime.Now.AddHours(1),
+            expires: DateTime.Now.AddSeconds(20),
             signingCredentials: signinCredentials
         );
         var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
@@ -77,8 +80,11 @@ public class JwtService : IJwtService
         var newAccessToken = GenerateAccessToken(principal.Claims);
         var newRefreshToken = GenerateRefreshToken();
         user.RefreshToken = newRefreshToken;
-        await userManager.UpdateAsync(user);
+       var result =  await userManager.UpdateAsync(user);
+        if (result.Succeeded)
+        {
 
+        }
         return new TokenResponseModel()
         {
             AccessToken = newAccessToken,

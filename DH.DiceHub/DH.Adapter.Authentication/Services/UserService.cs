@@ -6,6 +6,7 @@ using DH.Domain.Adapters.ChallengesOrchestrator;
 using DH.Domain.Adapters.PushNotifications;
 using DH.Domain.Adapters.PushNotifications.Messages;
 using DH.Domain.Entities;
+using DH.Domain.Exceptions;
 using DH.Domain.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -48,13 +49,14 @@ public class UserService : IUserService
     }
 
     /// <inheritdoc />
-    public async Task<TokenResponseModel> Login(LoginRequest form, bool fromRegister = false)
+    public async Task<TokenResponseModel?> Login(LoginRequest form)
     {
         var user = await this.userManager.FindByEmailAsync(form.Email);
         if (user is null)
-            throw new ArgumentNullException("User is not found");
+            throw new ValidationErrorsException("Email", "Email or Password is invalid!");
+
         var roles = await this.userManager.GetRolesAsync(user);
-        var result = await this.signInManager.PasswordSignInAsync(user, form.Password, true, false);
+        var result = await this.signInManager.PasswordSignInAsync(user, form.Password, form.RememberMe, false);
 
         if (result.Succeeded)
         {
@@ -69,19 +71,15 @@ public class UserService : IUserService
             var refreshToken = this.jwtService.GenerateRefreshToken();
 
             user.RefreshToken = refreshToken;
-            user.RefreshTokenExpiryTime = DateTime.Now.AddDays(1);
+            user.RefreshTokenExpiryTime = DateTime.Now.AddMinutes(10);
 
             await this.userManager.UpdateAsync(user);
 
             _httpContextAccessor.HttpContext.User = new ClaimsPrincipal(new ClaimsIdentity(claims));
 
-            if (fromRegister)
-            {
-                this.queue.AddSynchronizeNewUserJob(user.Id);
-            }
             return new TokenResponseModel { AccessToken = tokenString, RefreshToken = refreshToken };
         }
-        return new TokenResponseModel { AccessToken = null, RefreshToken = null };
+        return null;
     }
 
     /// <inheritdoc />
