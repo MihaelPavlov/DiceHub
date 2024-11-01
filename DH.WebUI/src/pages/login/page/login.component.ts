@@ -12,6 +12,8 @@ import {
 } from '@angular/forms';
 import { AppToastMessage } from '../../../shared/components/toast/constants/app-toast-messages.constant';
 import { ToastType } from '../../../shared/models/toast.model';
+import { FULL_ROUTE, ROUTE } from '../../../shared/configs/route.config';
+import { LoadingService } from '../../../shared/services/loading.service';
 
 interface ILoginForm {
   email: string;
@@ -26,12 +28,12 @@ interface ILoginForm {
 })
 export class LoginComponent extends Form implements OnInit {
   override form: Formify<ILoginForm>;
-
   constructor(
     private readonly router: Router,
     readonly authService: AuthService,
     public override readonly toastService: ToastService,
-    private readonly fb: FormBuilder
+    private readonly fb: FormBuilder,
+    private readonly loadingService: LoadingService
   ) {
     super(toastService);
     this.form = this.initFormGroup();
@@ -43,6 +45,10 @@ export class LoginComponent extends Form implements OnInit {
   }
 
   public ngOnInit(): void {}
+
+  public navigateToRegister(): void {
+    this.router.navigateByUrl(ROUTE.REGISTER);
+  }
 
   private clearServerErrorMessage() {
     this.getServerErrorMessage = null;
@@ -65,6 +71,7 @@ export class LoginComponent extends Form implements OnInit {
 
   public onLogin(): void {
     if (this.form.valid) {
+      this.loadingService.loadingOn();
       this.authService
         .login({
           email: this.form.controls.email.value,
@@ -78,121 +85,135 @@ export class LoginComponent extends Form implements OnInit {
                 response.refreshToken
               );
 
-              this.router.navigateByUrl('games/library');
+              this.router.navigateByUrl(FULL_ROUTE.GAMES.LIBRARY);
             }
           },
           error: (error) => {
-            this.handleServerErrors(error);
+            this.getServerErrorMessage = 'Email or Password is invalid';
             this.toastService.error({
               message: AppToastMessage.FailedToSaveChanges,
               type: ToastType.Error,
             });
+            this.loadingService.loadingOff();
+          },
+          complete: () => {
+            this.loadingService.loadingOff();
           },
         });
     }
   }
 
   loginUser() {
-    this.authService.login({
-      email: 'rap4obg2@abv.bg',
-      password: '123456789Mm!',
-    }).subscribe({
-      next: (response) => {
-        if (response) {
-          this.authService.onnSuccessfullyLogin(
-            response.accessToken,
-            response.refreshToken
-          );
+    this.authService
+      .login({
+        email: 'rap4obg2@abv.bg',
+        password: '123456789Mm!',
+      })
+      .subscribe({
+        next: (response) => {
+          if (response) {
+            this.authService.onnSuccessfullyLogin(
+              response.accessToken,
+              response.refreshToken
+            );
 
-          this.router.navigateByUrl('games/library');
-        }
-      },
-      error: (error) => {
-        this.handleServerErrors(error);
-        this.toastService.error({
-          message: AppToastMessage.FailedToSaveChanges,
-          type: ToastType.Error,
-        });
-      },
-    });
+            this.router.navigateByUrl('games/library');
+          }
+        },
+        error: (error) => {
+          this.handleServerErrors(error);
+          this.toastService.error({
+            message: AppToastMessage.FailedToSaveChanges,
+            type: ToastType.Error,
+          });
+        },
+      });
   }
 
   loginUser2() {
-    this.authService.login({
-      email: 'rap4obg3@abv.bg',
-      password: '123456789Mm!',
-    }).subscribe({
-      next: (response) => {
-        if (response) {
-          this.authService.onnSuccessfullyLogin(
-            response.accessToken,
-            response.refreshToken
-          );
+    this.authService
+      .login({
+        email: 'rap4obg3@abv.bg',
+        password: '123456789Mm!',
+      })
+      .subscribe({
+        next: (response) => {
+          if (response) {
+            this.authService.onnSuccessfullyLogin(
+              response.accessToken,
+              response.refreshToken
+            );
 
-          this.router.navigateByUrl('games/library');
-        }
-      },
-      error: (error) => {
-        this.handleServerErrors(error);
-        this.toastService.error({
-          message: AppToastMessage.FailedToSaveChanges,
-          type: ToastType.Error,
-        });
-      },
-    });
+            this.router.navigateByUrl('games/library');
+          }
+        },
+        error: (error) => {
+          this.handleServerErrors(error);
+          this.toastService.error({
+            message: AppToastMessage.FailedToSaveChanges,
+            type: ToastType.Error,
+          });
+        },
+      });
   }
 
   loginUser3() {
-    this.authService.login({
-      email: 'rap4obg4@abv.bg',
-      password: '123456789Mm!',
-    }).subscribe({
-      next: (response) => {
-        if (response) {
-          this.authService.onnSuccessfullyLogin(
-            response.accessToken,
-            response.refreshToken
-          );
+    this.authService
+      .login({
+        email: 'rap4obg4@abv.bg',
+        password: '123456789Mm!',
+      })
+      .subscribe({
+        next: (response) => {
+          if (response) {
+            this.authService.onnSuccessfullyLogin(
+              response.accessToken,
+              response.refreshToken
+            );
 
-          this.router.navigateByUrl('games/library');
-        }
-      },
-      error: (error) => {
-        this.handleServerErrors(error);
-        this.toastService.error({
-          message: AppToastMessage.FailedToSaveChanges,
-          type: ToastType.Error,
-        });
-      },
-    });
+            this.router.navigateByUrl('games/library');
+          }
+        },
+        error: (error) => {
+          this.handleServerErrors(error);
+          this.toastService.error({
+            message: AppToastMessage.FailedToSaveChanges,
+            type: ToastType.Error,
+          });
+        },
+      });
   }
   loginUser4() {
-    this.authService.login({
-      email: 'rap4obg17@abv.bg',
-      password: '123456789Mm!',
-    }).subscribe({
-      next: (response) => {
-        if (response) {
-          this.authService.onnSuccessfullyLogin(
-            response.accessToken,
-            response.refreshToken
-          );
+    this.authService
+      .login({
+        email: 'rap4obg17@abv.bg',
+        password: '123456789Mm!',
+      })
+      .subscribe({
+        next: (response) => {
+          if (response) {
+            this.authService.onnSuccessfullyLogin(
+              response.accessToken,
+              response.refreshToken
+            );
 
-          this.router.navigateByUrl('games/library');
-        }
-      },
-      error: (error) => {
-        this.handleServerErrors(error);
-        this.toastService.error({
-          message: AppToastMessage.FailedToSaveChanges,
-          type: ToastType.Error,
-        });
-      },
-    });
+            this.router.navigateByUrl('games/library');
+          }
+        },
+        error: (error) => {
+          this.handleServerErrors(error);
+          this.toastService.error({
+            message: AppToastMessage.FailedToSaveChanges,
+            type: ToastType.Error,
+          });
+        },
+      });
   }
 
   loginAdmin() {
-    this.authService.login({ email: 'sa@dicehub.com', password: '1qaz!QAZ' }).subscribe();
+    this.authService
+      .login({ email: 'sa@dicehub.com', password: '1qaz!QAZ' })
+      .subscribe();
   }
 
   private initFormGroup(): FormGroup {

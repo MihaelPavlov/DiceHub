@@ -6,6 +6,11 @@
   flex-direction: column;
   justify-content: center;
 }
+
+.markup {
+  color: palette.$main-blue-color;
+}
+
 .interactive-option {
   display: flex;
   justify-content: center;

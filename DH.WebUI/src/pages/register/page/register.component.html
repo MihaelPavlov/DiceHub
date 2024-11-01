@@ -27,7 +27,7 @@
       <label for="confirmPassword" class="required">Confirm Password</label>
       <input
         placeholder="confirm your password"
-        type="confirmPassword"
+        type="password"
         formControlName="confirmPassword"
       />
     </div>
@@ -39,15 +39,19 @@
     <div class="btn-container">
       <button
         [disabled]="this.form.invalid"
+        (click)="register()"
         type="button"
-        class="btn btn-gray btn-border-green btn-font-green"
+        class="btn btn-gray btn-border-blue btn-font-blue"
       >
         Register
       </button>
     </div>
     <div class="additional-link">
       <p>You're already part of the guild!</p>
-      <p>Sign in to jump back into the action!</p>
+      <p>
+        <strong class="markup" (click)="navigateToLogin()">Sign in</strong> to
+        jump back into the action!
+      </p>
     </div>
   </form>
 </div>

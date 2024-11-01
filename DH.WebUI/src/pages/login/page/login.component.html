@@ -1,8 +1,8 @@
-<button (click)="loginUser()">Login USER</button> 
-<button (click)="loginUser2()">Login user 2</button> 
-<button (click)="loginUser3()">Login user 3</button> 
-<button (click)="loginUser4()">Login user 4</button> 
-<button (click)="loginAdmin()">Login ADMIN</button> 
+<button (click)="loginUser()">Login USER</button>
+<button (click)="loginUser2()">Login user 2</button>
+<button (click)="loginUser3()">Login user 3</button>
+<button (click)="loginUser4()">Login user 4</button>
+<button (click)="loginAdmin()">Login ADMIN</button>
 
 <div class="wrapper">
   <div class="interactive-option">
@@ -34,7 +34,7 @@
       />
       <div class="remember-label">
         <label for="rememberMe">Remember me</label>
-        <span>Lost your way?</span>
+        <span class="markup">Lost your way?</span>
       </div>
     </div>
 
@@ -47,14 +47,17 @@
         [disabled]="this.form.invalid"
         type="button"
         (click)="onLogin()"
-        class="btn btn-gray btn-border-green btn-font-green"
+        class="btn btn-gray btn-border-blue btn-font-blue"
       >
         Login
       </button>
     </div>
     <div class="additional-link">
       <p>Still a stranger to this realm?</p>
-      <p>Sign up and embark on your journey!</p>
+      <p>
+        <strong class="markup" (click)="navigateToRegister()">Sign up</strong>
+        and embark on your journey!
+      </p>
     </div>
   </form>
 </div>

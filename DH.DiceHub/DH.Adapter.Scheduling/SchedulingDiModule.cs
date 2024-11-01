@@ -26,6 +26,7 @@ public static class SchedulingDIModule
                     sqlServerOptions.ConnectionString = configuration.GetConnectionString("DefaultConnection");
                     sqlServerOptions.TablePrefix = "QRTZ_";
                 });
+                storeOptions.PerformSchemaValidation = false;
                 storeOptions.UseNewtonsoftJsonSerializer();
                 storeOptions.UseClustering(); // Enable clustering if needed
             });

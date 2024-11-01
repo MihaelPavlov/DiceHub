@@ -1,4 +1,5 @@
-﻿using DH.Adapter.Authentication.Entities;
+﻿using Azure.Core;
+using DH.Adapter.Authentication.Entities;
 using DH.Domain.Adapters.Authentication.Models;
 using DH.Domain.Adapters.Authentication.Models.Enums;
 using DH.Domain.Adapters.Authentication.Services;
@@ -22,6 +23,7 @@ public class UserService : IUserService
 {
     readonly SignInManager<ApplicationUser> signInManager;
     readonly UserManager<ApplicationUser> userManager;
+    readonly RoleManager<IdentityRole> roleManager;
     readonly IJwtService jwtService;
     readonly IHttpContextAccessor _httpContextAccessor;
     readonly IPermissionStringBuilder _permissionStringBuilder;
@@ -36,12 +38,13 @@ public class UserService : IUserService
     /// <param name="jwtService"><see cref="IJwtService"/> for accessing application jwt authentication logic.</param>
     public UserService(IHttpContextAccessor httpContextAccessor, IHttpClientFactory httpClientFactory,
         SignInManager<ApplicationUser> signInManager, IJwtService jwtService,
-        UserManager<ApplicationUser> userManager, IPermissionStringBuilder permissionStringBuilder, SynchronizeUsersChallengesQueue queue, IPushNotificationsService pushNotificationsService, IRepository<UserDeviceToken> userDeviceTokenRepository)
+        UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IPermissionStringBuilder permissionStringBuilder, SynchronizeUsersChallengesQueue queue, IPushNotificationsService pushNotificationsService, IRepository<UserDeviceToken> userDeviceTokenRepository)
     {
         _httpContextAccessor = httpContextAccessor;
         this.signInManager = signInManager;
         this.jwtService = jwtService;
         this.userManager = userManager;
+        this.roleManager = roleManager;
         this._permissionStringBuilder = permissionStringBuilder;
         this.queue = queue;
         this.pushNotificationsService = pushNotificationsService;
@@ -55,49 +58,60 @@ public class UserService : IUserService
         if (user is null)
             throw new ValidationErrorsException("Email", "Email or Password is invalid!");
 
+
         var roles = await this.userManager.GetRolesAsync(user);
         var result = await this.signInManager.PasswordSignInAsync(user, form.Password, form.RememberMe, false);
 
-        if (result.Succeeded)
-        {
-            var claims = new List<Claim>
+        if (!result.Succeeded)
+            throw new ValidationErrorsException("Email", "Email or Password is invalid!");
+
+        var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Sid,user.Id),
                 new Claim(ClaimTypes.Name, user.UserName),
                 new Claim(ClaimTypes.Role, RoleHelper.GetRoleKeyByName(roles.First()).ToString()),
                 new Claim("permissions",_permissionStringBuilder.GetFromCacheOrBuildPermissionsString( RoleHelper.GetRoleKeyByName(roles.First())))
             };
-            var tokenString = this.jwtService.GenerateAccessToken(claims);
-            var refreshToken = this.jwtService.GenerateRefreshToken();
+        var tokenString = this.jwtService.GenerateAccessToken(claims);
+        var refreshToken = this.jwtService.GenerateRefreshToken();
 
-            user.RefreshToken = refreshToken;
-            user.RefreshTokenExpiryTime = DateTime.Now.AddMinutes(10);
+        user.RefreshToken = refreshToken;
+        user.RefreshTokenExpiryTime = DateTime.Now.AddMinutes(10);
 
-            await this.userManager.UpdateAsync(user);
+        await this.userManager.UpdateAsync(user);
 
-            _httpContextAccessor.HttpContext.User = new ClaimsPrincipal(new ClaimsIdentity(claims));
+        _httpContextAccessor.HttpContext.User = new ClaimsPrincipal(new ClaimsIdentity(claims));
 
-            return new TokenResponseModel { AccessToken = tokenString, RefreshToken = refreshToken };
-        }
-        return null;
+        return new TokenResponseModel { AccessToken = tokenString, RefreshToken = refreshToken };
     }
 
     /// <inheritdoc />
-    public async Task Register(RegistrationRequest form)
+    public async Task RegisterUser(UserRegistrationRequest form)
     {
+        if (!form.FieldsAreValid(out var validationErrors))
+            throw new ValidationErrorsException(validationErrors);
+
+        var existingUserByEmail = await this.userManager.FindByEmailAsync(form.Email);
+        if(existingUserByEmail != null)
+            throw new ValidationErrorsException("Exist", "Player with that Email, already exist");
+
+        var existingUserByUsername = await this.userManager.FindByNameAsync(form.Username);
+        if (existingUserByUsername != null)
+            throw new ValidationErrorsException("Exist", "Player with that Username, already exist");
+
         var user = new ApplicationUser() { UserName = form.Username, Email = form.Email, EmailConfirmed = true };
         var createUserResult = await userManager.CreateAsync(user, form.Password);
         if (!createUserResult.Succeeded)
-        {
-            throw new BadHttpRequestException("User registration failed!");
-        }
+            throw new BadRequestException("User registration failed!");
 
-        //TODO: Update the logic 
+        if (!await this.roleManager.Roles.AnyAsync(x => x.Name == "User"))
+            throw new BadRequestException("User registration failed!");
+
         await this.userManager.AddToRoleAsync(user, "User");
 
         var afterRegister = await this.userManager.FindByEmailAsync(form.Email);
         if (afterRegister is null)
-            throw new ArgumentNullException("User is not found");
+            throw new NotFoundException("User was not created");
 
         this.queue.AddSynchronizeNewUserJob(afterRegister.Id);
 
@@ -107,12 +121,6 @@ public class UserService : IUserService
             LastUpdated = DateTime.UtcNow,
             UserId = afterRegister.Id
         }, CancellationToken.None);
-
-        await Login(new LoginRequest { Email = form.Email, Password = form.Password });
-        //await this.pushNotificationsService.SendMessageAsync(new RegistrationMessage(form.Username) { DeviceToken = form.DeviceToken });
-
-
-        //TODO: _httpContextAccessor.HttpContext.User = new ClaimsPrincipal(new ClaimsIdentity(claims));
     }
 
     public async Task RegisterNotification(string email)

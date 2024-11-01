@@ -1,8 +1,10 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { ChangeDetectorRef, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import { IUserInfo } from './models/user-info.model';
 import { Router } from '@angular/router';
+import { ITokenResponse } from './models/token-response.model';
+import { RestApiService } from '../../shared/services/rest-api.service';
+import { IRegisterRequest } from './models/register.model';
 
 @Injectable({
   providedIn: 'root',
@@ -13,65 +15,48 @@ export class AuthService {
 
   public userInfo$ = this.userInfoSubject$.asObservable();
 
-  constructor(
-    readonly httpClient: HttpClient,
-    private readonly router: Router
-  ) {}
+  constructor(readonly api: RestApiService, private readonly router: Router) {}
 
   public get getUser(): IUserInfo | null {
     return this.userInfoSubject$.value;
   }
 
-  login(loginForm: any, withRegisterNotification: boolean = false) {
-    const httpsOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-    };
-    return this.httpClient
-      .post<any>('https://localhost:7024/user', loginForm, httpsOptions)
-      .subscribe((response) => {
-        const accessToken = response.accessToken;
-        const refreshToken = response.refreshToken;
-        localStorage.setItem('jwt', accessToken);
-        localStorage.setItem('refreshToken', refreshToken);
-        this.userinfo();
-        this.router.navigateByUrl('games/library');
-        if (withRegisterNotification) {
-          this.registerNotification(loginForm.email).subscribe();
-        }
-      });
+  public login(loginForm: any): Observable<ITokenResponse | null> {
+    return this.api.post<ITokenResponse>('/user', loginForm);
+  }
+
+  public onnSuccessfullyLogin(accessToken: string, refreshToken: string): void {
+    localStorage.setItem('jwt', accessToken);
+    localStorage.setItem('refreshToken', refreshToken);
+    this.userinfo();
+  }
+
+  public initiateNotifications(email: string): void {
+    this.registerNotification(email).subscribe();
+  }
+
+  public register(registerForm: IRegisterRequest): Observable<null> {
+    return this.api.post('/user/register-user', registerForm);
   }
 
   // For tests
   game(gameForm: any) {
-    return this.httpClient
-      .post<any>('https://localhost:7024/games', gameForm)
-      .subscribe((response) => {
-        console.log(response);
-      });
+    return this.api.post<any>('/games', gameForm).subscribe((response) => {
+      console.log(response);
+    });
   }
 
-  register(registerForm: any): Observable<null> {
-    return this.httpClient.post<any>(
-      'https://localhost:7024/user/register',
-      registerForm
-    );
+  public registerNotification(email: any): Observable<null> {
+    return this.api.post<any>('/user/register-notification', { email });
   }
 
-  registerNotification(email: any): Observable<null> {
-    return this.httpClient.post<any>(
-      'https://localhost:7024/user/register-notification',
-      { email }
-    );
-  }
-
-  //TODO: Change it to private in future
   public userinfo(): void {
     const sidClaim: string =
       'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid';
     const roleClaim: string =
       'http://schemas.microsoft.com/ws/2008/06/identity/claims/role';
 
-    this.httpClient.get('https://localhost:7024/user/info').subscribe({
+    this.api.get('/user/info').subscribe({
       next: (user: any) => {
         if (user)
           this.userInfoSubject$.next({
@@ -86,7 +71,7 @@ export class AuthService {
       },
       error: () => {
         this.userInfoSubject$.next(null);
-        this.router.navigateByUrl("login")
+        this.router.navigateByUrl('login');
       },
     });
   }
@@ -99,18 +84,9 @@ export class AuthService {
     );
   }
 
-  logout() {
+  public logout(): void {
     localStorage.removeItem('jwt');
     localStorage.removeItem('refreshToken');
     this.userInfoSubject$.next(null);
   }
-
-  removeUserInfo() {
-    this.userInfoSubject$.next(null);
-  }
-}
-
-export interface AuthenticatedResponse {
-  accessToken: string;
-  refreshToken: string;
 }

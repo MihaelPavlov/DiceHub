@@ -6,6 +6,11 @@
   flex-direction: column;
   justify-content: center;
 }
+
+.markup {
+  color: palette.$main-blue-color;
+}
+
 .interactive-option {
   display: flex;
   justify-content: center;
@@ -65,4 +70,12 @@
   flex-direction: column;
   justify-content: center;
   text-align: center;
+}
+
+.errors {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+  margin-bottom: 0;
+  font-size: 1.1rem;
 }
