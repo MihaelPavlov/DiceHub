@@ -1,4 +1,4 @@
-import { ScrollService } from './../../../../shared/services/scroll.service';
+import { ScrollService } from '../../../../shared/services/scroll.service';
 import { Component } from '@angular/core';
 import { ToastService } from '../../../../shared/services/toast.service';
 import { Form } from '../../../../shared/components/form/form.component';

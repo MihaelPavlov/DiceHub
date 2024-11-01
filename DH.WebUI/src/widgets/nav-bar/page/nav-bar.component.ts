@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-interface Column {
+export interface Column {
   name: string;
   link: string;
   isActive: boolean;

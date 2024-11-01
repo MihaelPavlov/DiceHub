@@ -2,9 +2,8 @@ import { Routes } from '@angular/router';
 import { AppComponent } from '../app-component/app.component';
 import { LoginComponent } from '../../pages/login/page/login.component';
 import { AuthGuard } from '../../shared/guards/auth.guard';
-import { ChallengeAdminAccessGuard } from '../../shared/guards/challenge-admin-acces.guard';
-import { ChallengeUserAccessGuard } from '../../shared/guards/challenge-user.guard';
 import { RegisterComponent } from '../../pages/register/page/register.component';
+import { ROUTE } from '../../shared/configs/route.config';
 
 export const ROUTES: Routes = [
   {
@@ -20,7 +19,7 @@ export const ROUTES: Routes = [
         canActivate: [AuthGuard],
       },
       {
-        path: 'events',
+        path: ROUTE.EVENTS.CORE,
         loadChildren: () =>
           import('../../pages/events-library/events-library.module').then(
             (m) => m.EventsLibraryModule
@@ -36,20 +35,12 @@ export const ROUTES: Routes = [
         canActivate: [AuthGuard],
       },
       {
-        path: 'challenges',
+        path: ROUTE.CHALLENGES.CORE,
         loadChildren: () =>
           import(
             '../../pages/challenges-management/challenges-management.module'
           ).then((m) => m.ChallengesManagementModule),
-        canActivate: [AuthGuard, ChallengeUserAccessGuard],
-      },
-      {
-        path: 'admin-challenges',
-        loadChildren: () =>
-          import(
-            '../../pages/admin-challenges-management/admin-challenges-management.module'
-          ).then((m) => m.AdminChallengesManagementModule),
-        canActivate: [AuthGuard, ChallengeAdminAccessGuard],
+        canActivate: [AuthGuard],
       },
       {
         path: 'space',

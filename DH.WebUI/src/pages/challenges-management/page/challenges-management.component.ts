@@ -13,6 +13,8 @@ import { IUserChallengePeriodPerformance } from '../../../entities/challenges/mo
 import { combineLatest } from 'rxjs';
 import { ChallengeStatus } from '../../../entities/challenges/enums/challenge-status.enum';
 import { LoadingService } from '../../../shared/services/loading.service';
+import { Column } from '../../../widgets/nav-bar/page/nav-bar.component';
+import { FULL_ROUTE } from '../../../shared/configs/route.config';
 
 @Component({
   selector: 'app-challenges-management',
@@ -26,6 +28,22 @@ export class ChallengesManagementComponent implements OnInit {
   public userChallengePeriodRewardList!: IUserChallengePeriodReward[];
   public userChallengeList: IUserChallenge[] = [];
   public ChallengeStatus = ChallengeStatus;
+
+  public columns: Column[] = [
+    {
+      name: 'Daily Task',
+      link: FULL_ROUTE.CHALLENGES.CHALLENGES_HOME,
+      isActive: true,
+    },
+    // TODO: Update the word weekly based on the settings. Weekly rewards could be monthly
+    { name: 'Weekly', link: '', isActive: false },
+    {
+      name: 'Rewards',
+      link: FULL_ROUTE.CHALLENGES.CHALLENGES_REWARDS,
+      isActive: false,
+    },
+  ];
+
   constructor(
     private readonly rewardsService: RewardsService,
     private readonly challengeService: ChallengesService,

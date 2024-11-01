@@ -9,11 +9,27 @@ import { ChipModule } from '../../widgets/chip/chip.module';
 import { QRCodeModule } from 'angularx-qrcode';
 import { UserRewardQrCodeDialog } from '../../features/challenges-management/dialogs/user-reward-qr-code-dialog/user-reward-qr-code.component';
 import { MatDialogActions, MatDialogClose } from '@angular/material/dialog';
+import { AdminChallengesConfirmDeleteDialog } from '../../features/challenges-management/dialogs/admin-challenges-confirm-delete/admin-challenges-confirm-delete.component';
+import { AdminChallengesHistoryLogComponent } from '../../features/challenges-management/components/admin-challenges-history-log/admin-challenges-history-log.component';
+import { AdminChallengesListComponent } from '../../features/challenges-management/components/admin-challenges-list/admin-challenges-list.component';
+import { AdminChallengesRewardsComponent } from '../../features/challenges-management/components/admin-challenges-rewards/admin-challenges-rewards.component';
+import { AdminChallengesSystemRewardsComponent } from '../../features/challenges-management/components/admin-challenges-system-rewards/admin-challenges-system-rewards.component';
+import { AdminChallengesRewardConfirmDeleteDialog } from '../../features/challenges-management/dialogs/admin-challenges-reward-confirm-delete/admin-challenges-reward-confirm-delete.component';
+import { AdminChallengesNavigationComponent } from './admin-page/admin-challenges-navigation.component';
+import { FormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [
     ChallengesManagementComponent,
     ChallengesRewardsComponent,
+    AdminChallengesNavigationComponent,
+    AdminChallengesHistoryLogComponent,
+    AdminChallengesListComponent,
+    AdminChallengesRewardsComponent,
+    AdminChallengesSystemRewardsComponent,
+    AdminChallengesRewardConfirmDeleteDialog,
+    AdminChallengesConfirmDeleteDialog,
     UserRewardQrCodeDialog,
   ],
   exports: [ChallengesManagementComponent],
@@ -27,6 +43,8 @@ import { MatDialogActions, MatDialogClose } from '@angular/material/dialog';
     QRCodeModule,
     MatDialogActions,
     MatDialogClose,
+    NgSelectModule,
+    FormsModule,
   ],
 })
 export class ChallengesManagementModule {}

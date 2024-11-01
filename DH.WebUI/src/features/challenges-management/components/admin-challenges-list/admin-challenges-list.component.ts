@@ -1,5 +1,5 @@
-import { IChallengeResult } from './../../../../entities/challenges/models/challenge-by-id.model';
-import { AdminChallengesConfirmDeleteDialog } from './../../dialogs/admin-challenges-confirm-delete/admin-challenges-confirm-delete.component';
+import { IChallengeResult } from '../../../../entities/challenges/models/challenge-by-id.model';
+import { AdminChallengesConfirmDeleteDialog } from '../../dialogs/admin-challenges-confirm-delete/admin-challenges-confirm-delete.component';
 import { Router } from '@angular/router';
 import { Component } from '@angular/core';
 import { IGameDropdownResult } from '../../../../entities/games/models/game-dropdown.model';

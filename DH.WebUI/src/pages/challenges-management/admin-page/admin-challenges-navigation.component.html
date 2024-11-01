@@ -1,0 +1,10 @@
+<app-header
+  Recommended="Challenges Manager"
+  [withMenu]="true"
+  [menuItems]="menuItems"
+  [menuItemClickFunction]="handleMenuItemClick"
+>
+  <app-nav-bar [columns]="columns"></app-nav-bar
+></app-header>
+
+<router-outlet (activate)="onActivate($event)"></router-outlet>

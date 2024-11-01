@@ -1,10 +1,6 @@
 <app-header Recommended="Challenges" [withQRcode]="true">
   <app-nav-bar
-    [columns]="[
-      { name: 'Daily Task', link: 'challenges/home', isActive: true },
-      { name: 'Weekly', link: '', isActive: false },
-      { name: 'Rewards', link: 'challenges/rewards', isActive: false }
-    ]"
+    [columns]="columns"
   ></app-nav-bar
 ></app-header>
 <ng-container *ngIf="periodPerformance && userChallengePeriodRewardList">
