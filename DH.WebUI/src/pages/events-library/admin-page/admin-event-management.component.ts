@@ -9,6 +9,7 @@ import { IEventListResult } from '../../../entities/events/models/event-list.mod
 import { GameImagePipe } from '../../../shared/pipe/game-image.pipe';
 import { EventImagePipe } from '../../../shared/pipe/event-image.pipe';
 import { SafeUrl } from '@angular/platform-browser';
+import { FULL_ROUTE } from '../../../shared/configs/route.config';
 
 @Component({
   selector: 'app-admin-event-management',
@@ -63,9 +64,12 @@ export class AdminEventManagementComponent implements OnInit, OnDestroy {
 
   public handleEventMenuItemClick(key: string, event: MouseEvent): void {
     event.stopPropagation();
-    if (key === 'update') {
-      this.router.navigateByUrl(`/admin-events/${this.visibleMenuId}/update`);
+    if (key === 'update' && this.visibleMenuId) {
+      this.router.navigateByUrl(
+        FULL_ROUTE.EVENTS.ADMIN.UPDATE_BY_ID(this.visibleMenuId)
+      );
     } else if (key === 'delete') {
+      //TODO: Add event delete
       this.router.navigateByUrl('/games/add-existing-game');
     } else if (key === 'send-notification') {
       this.router.navigateByUrl('/games/reservations');
@@ -75,7 +79,7 @@ export class AdminEventManagementComponent implements OnInit, OnDestroy {
 
   public handleHeaderMenuItemClick(key: string): void {
     if (key === 'add') {
-      this.router.navigateByUrl('/admin-events/add');
+      this.router.navigateByUrl(FULL_ROUTE.EVENTS.ADMIN.ADD);
     }
   }
 
@@ -101,7 +105,7 @@ export class AdminEventManagementComponent implements OnInit, OnDestroy {
   }
 
   public navigateToDetails(eventId: number): void {
-    this.router.navigateByUrl(`admin-events/${eventId}/details`);
+    this.router.navigateByUrl(FULL_ROUTE.EVENTS.ADMIN.DETAILS_BY_ID(eventId));
   }
 
   private fetchEventList(searchExpression: string = '') {

@@ -53,7 +53,7 @@ export class EventDetailsComponent {
           type: ToastType.Success,
         });
 
-        this.router.navigateByUrl('/events/library');
+        this.router.navigateByUrl('/events/home');
       },
       error: (error) => {
         const errorMessage = error.error.errors['maxPeople'][0];
@@ -79,7 +79,7 @@ export class EventDetailsComponent {
             message: AppToastMessage.ChangesApplied,
             type: ToastType.Success,
           });
-          this.router.navigateByUrl('/events/library');
+          this.router.navigateByUrl('/events/home');
         } else {
           this.toastService.error({
             message: AppToastMessage.SomethingWrong,
@@ -97,7 +97,7 @@ export class EventDetailsComponent {
   }
 
   public navigateBackToEventList(): void {
-    this.router.navigateByUrl('/events/library');
+    this.router.navigateByUrl('/events/home');
   }
 
   public getImage(event: IEventByIdResult): SafeUrl | null {

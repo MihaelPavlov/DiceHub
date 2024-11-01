@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { environment } from '../environments/environment.development';
 
-export const URL: string = `${environment.appUrl}`;
+const URL: string = `${environment.appUrl}`;
 
 @Injectable({
   providedIn: 'root',

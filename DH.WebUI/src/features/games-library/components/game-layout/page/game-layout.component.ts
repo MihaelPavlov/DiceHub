@@ -8,7 +8,6 @@ import {
 } from '@angular/core';
 import { IGameByIdResult } from '../../../../../entities/games/models/game-by-id.model';
 import { StringFormatPipe } from '../../../../../shared/pipe/string-format.pipe';
-import { ROUTES } from '../../../../../shared/configs/routes.config';
 import { GamesService } from '../../../../../entities/games/api/games.service';
 import { MenuTabsService } from '../../../../../shared/services/menu-tabs.service';
 import { NavItemInterface } from '../../../../../shared/models/nav-item.mode';
@@ -16,6 +15,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { GameQrCodeDialog } from '../../../dialogs/qr-code-dialog/qr-code-dialog.component';
 import { AuthService } from '../../../../../entities/auth/auth.service';
 import { UserRole } from '../../../../../entities/auth/enums/roles.enum';
+import { ROUTE } from '../../../../../shared/configs/route.config';
 
 @Component({
   selector: 'app-game-layout',
@@ -61,14 +61,14 @@ export class GameLayoutComponent implements OnInit, OnDestroy {
         label: 'Statistics',
         class:
           page ==
-          this.stringFormat.transform(ROUTES.GAMES.DETAILS, {
+          this.stringFormat.transform(ROUTE.GAMES.DETAILS, {
             id: this.game.id,
           })
             ? 'active'
             : '',
         enabled: true,
         visible: true,
-        route: this.stringFormat.transform(ROUTES.GAMES.DETAILS, {
+        route: this.stringFormat.transform(ROUTE.GAMES.DETAILS, {
           id: this.game.id,
         }),
       },
@@ -76,14 +76,14 @@ export class GameLayoutComponent implements OnInit, OnDestroy {
         label: 'Availability',
         class:
           page ==
-          this.stringFormat.transform(ROUTES.GAMES.DETAILS_AVAILABILITY, {
+          this.stringFormat.transform(ROUTE.GAMES.DETAILS_AVAILABILITY, {
             id: this.game.id,
           })
             ? 'active'
             : '',
         enabled: true,
         visible: true,
-        route: this.stringFormat.transform(ROUTES.GAMES.DETAILS_AVAILABILITY, {
+        route: this.stringFormat.transform(ROUTE.GAMES.DETAILS_AVAILABILITY, {
           id: this.game.id,
         }),
       },
@@ -91,14 +91,14 @@ export class GameLayoutComponent implements OnInit, OnDestroy {
         label: 'Reviews',
         class:
           page ==
-          this.stringFormat.transform(ROUTES.GAMES.DETAILS_REVIEWS, {
+          this.stringFormat.transform(ROUTE.GAMES.DETAILS_REVIEWS, {
             id: this.game.id,
           })
             ? 'active'
             : '',
         enabled: true,
         visible: true,
-        route: this.stringFormat.transform(ROUTES.GAMES.DETAILS_REVIEWS, {
+        route: this.stringFormat.transform(ROUTE.GAMES.DETAILS_REVIEWS, {
           id: this.game.id,
         }),
       },

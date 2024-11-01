@@ -1,12 +1,13 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { SafeUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { MenuTabsService } from '../../../shared/services/menu-tabs.service';
-import { NAV_ITEM_LABELS } from '../../../shared/models/nav-items-labels.const';
 import { EventsService } from '../../../entities/events/api/events.service';
 import { IEventListResult } from '../../../entities/events/models/event-list.model';
-import { GameImagePipe } from '../../../shared/pipe/game-image.pipe';
+import { NAV_ITEM_LABELS } from '../../../shared/models/nav-items-labels.const';
 import { EventImagePipe } from '../../../shared/pipe/event-image.pipe';
-import { SafeUrl } from '@angular/platform-browser';
+import { GameImagePipe } from '../../../shared/pipe/game-image.pipe';
+import { MenuTabsService } from '../../../shared/services/menu-tabs.service';
+import { FULL_ROUTE } from '../../../shared/configs/route.config';
 
 @Component({
   selector: 'app-events-library',
@@ -22,7 +23,7 @@ export class EventsLibraryComponent implements OnInit, OnDestroy {
     private readonly menuTabsService: MenuTabsService,
     private readonly eventService: EventsService,
     private readonly eventImagePipe: EventImagePipe,
-    private readonly gameImagePipe: GameImagePipe,
+    private readonly gameImagePipe: GameImagePipe
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.EVENTS);
   }
@@ -36,7 +37,7 @@ export class EventsLibraryComponent implements OnInit, OnDestroy {
   }
 
   public navigateToDetails(id: number): void {
-    this.router.navigateByUrl(`events/${id}/details`);
+    this.router.navigateByUrl(FULL_ROUTE.EVENTS.DETAILS_BY_ID(id));
   }
 
   public getImage(event: IEventListResult): SafeUrl | null {

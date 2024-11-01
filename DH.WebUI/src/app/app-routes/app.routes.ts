@@ -2,12 +2,9 @@ import { Routes } from '@angular/router';
 import { AppComponent } from '../app-component/app.component';
 import { LoginComponent } from '../../pages/login/page/login.component';
 import { AuthGuard } from '../../shared/guards/auth.guard';
-import { EventUserAccessGuard } from '../../shared/guards/event-user.guard';
-import { EventAdminAccessGuard } from '../../shared/guards/event-admin-access.guard';
 import { ChallengeAdminAccessGuard } from '../../shared/guards/challenge-admin-acces.guard';
 import { ChallengeUserAccessGuard } from '../../shared/guards/challenge-user.guard';
 import { RegisterComponent } from '../../pages/register/page/register.component';
-import { ProfileComponent } from '../../pages/profile/page/profile.component';
 
 export const ROUTES: Routes = [
   {
@@ -28,15 +25,7 @@ export const ROUTES: Routes = [
           import('../../pages/events-library/events-library.module').then(
             (m) => m.EventsLibraryModule
           ),
-        canActivate: [AuthGuard, EventUserAccessGuard],
-      },
-      {
-        path: 'admin-events',
-        loadChildren: () =>
-          import(
-            '../../pages/admin-event-management/admin-event-management.module'
-          ).then((m) => m.AdminEventManagementModule),
-        canActivate: [AuthGuard, EventAdminAccessGuard],
+        canActivate: [AuthGuard],
       },
       {
         path: 'meeples',
@@ -52,7 +41,7 @@ export const ROUTES: Routes = [
           import(
             '../../pages/challenges-management/challenges-management.module'
           ).then((m) => m.ChallengesManagementModule),
-        canActivate: [AuthGuard,ChallengeUserAccessGuard],
+        canActivate: [AuthGuard, ChallengeUserAccessGuard],
       },
       {
         path: 'admin-challenges',
@@ -60,7 +49,7 @@ export const ROUTES: Routes = [
           import(
             '../../pages/admin-challenges-management/admin-challenges-management.module'
           ).then((m) => m.AdminChallengesManagementModule),
-        canActivate: [AuthGuard,ChallengeAdminAccessGuard],
+        canActivate: [AuthGuard, ChallengeAdminAccessGuard],
       },
       {
         path: 'space',
@@ -68,7 +57,7 @@ export const ROUTES: Routes = [
           import(
             '../../pages/club-space-management/club-space-management.module'
           ).then((m) => m.ClubSpaceManagementModule),
-          canActivate: [AuthGuard],
+        canActivate: [AuthGuard],
       },
       {
         path: 'admin-space',
@@ -83,7 +72,7 @@ export const ROUTES: Routes = [
           import('../../pages/qr-code-scanner/qr-code-scanner.module').then(
             (m) => m.QrCodeScannerModule
           ),
-          canActivate: [AuthGuard],
+        canActivate: [AuthGuard],
       },
       {
         path: 'profile',

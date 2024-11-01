@@ -1,99 +1,138 @@
-import { AuthenticatedResponse, AuthService } from './../../entities/auth/auth.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { AuthService } from './../../entities/auth/auth.service';
+import {  HttpHeaders } from '@angular/common/http';
 import {
   ActivatedRouteSnapshot,
-  CanActivate,
   Router,
   RouterStateSnapshot,
 } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Injectable } from '@angular/core';
+import { ITokenResponse } from '../../entities/auth/models/token-response.model';
+import { catchError, map, Observable, of, take, tap } from 'rxjs';
+import { RestApiService } from '../services/rest-api.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuard implements CanActivate {
+export class AuthGuard {
+
   constructor(
     private readonly router: Router,
     private readonly jwtHelper: JwtHelperService,
-    private readonly http: HttpClient,
+    private readonly api: RestApiService,
     private readonly authService: AuthService
-  ) {}
+  ) {
+    
+  }
 
-  async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) :  Promise<boolean> {
+  public canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<boolean> | boolean | Promise<boolean> {
+
     const token = localStorage.getItem('jwt');
+    
     if (token && !this.jwtHelper.isTokenExpired(token)) {
       console.log(this.jwtHelper.decodeToken(token));
-      return true;
+      return of(true);
     }
-    const isRefreshSuccess = await this.tryRefreshingTokens(token);
-    console.log('refresh',isRefreshSuccess);
+  
 
-    if (!isRefreshSuccess) {
-      console.log('redirect to login');
-      this.authService.removeUserInfo();
-      this.router.navigateByUrl('login');
-    }
-    else{
-      this.authService.userinfo();
-    }
+    return this.tryRefreshingTokens(token).pipe(
+      take(1),
+      tap((isRefreshSuccess) => {
 
-    return isRefreshSuccess;
+        if (!isRefreshSuccess) {
+          console.log('redirect to login');
+          this.authService.logout();
+          this.router.navigateByUrl('login');
+        } else {
+          this.authService.userinfo();
+        }
+      })
+    );
   }
 
-  private async tryRefreshingTokens(token: string | null): Promise<boolean> {
+  private tryRefreshingTokens(token: string | null): Observable<boolean> {
     const refreshToken: string | null = localStorage.getItem('refreshToken');
     if (!token || !refreshToken) {
-      return false;
+      return of(false);
     }
 
-    const credentials = JSON.stringify({
+    const credentials = {
       accessToken: token,
       refreshToken: refreshToken,
-    });
-    console.log('refresh');
+    };
 
-    let isRefreshSuccess: boolean = true;
-    try{
-      const refreshRes = await new Promise<AuthenticatedResponse>(
-        (resolve, reject) => {
-          this.http
-            .post<AuthenticatedResponse>(
-              'https://localhost:7024/user/refresh',
-              {
-                accessToken: token,
-                refreshToken: refreshToken,
-              },
-              {
-                headers: new HttpHeaders({
-                  'Content-Type': 'application/json',
-                }),
-              }
-            )
-            .subscribe({
-              next: (res: AuthenticatedResponse) => resolve(res),
-              error: (_) => {
-                console.log(_);
-                
-               reject();
-              },
-            });
-        }
-      );    
-
-        localStorage.setItem('jwt', refreshRes.accessToken);
-        localStorage.setItem('refreshToken', refreshRes.refreshToken);
-        this.authService.removeUserInfo();
-        isRefreshSuccess = true;
-      
-    }
-    catch{
-      localStorage.removeItem('jwt');
-      localStorage.removeItem('refreshToken');
-      isRefreshSuccess=false;
-    }
-    
-
-    return isRefreshSuccess;
+    return this.api
+      .post<ITokenResponse>(`/user/refresh`, credentials, {
+        headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      })
+      .pipe(
+        take(1),
+        tap((res: ITokenResponse | null) => {
+          if (res) {
+            localStorage.setItem('jwt', res.accessToken);
+            localStorage.setItem('refreshToken', res.refreshToken);
+          }
+        }),
+        map(() => true), // Emit true if refresh is successful
+        catchError((error) => {
+          console.log(error);
+          this.authService.logout();
+          return of(false); // Emit false if refresh fails
+        })
+      );
   }
+  // private async tryRefreshingTokens2(token: string | null): Promise<boolean> {
+  //   const refreshToken: string | null = localStorage.getItem('refreshToken');
+  //   if (!token || !refreshToken) {
+  //     return false;
+  //   }
+
+  //   const credentials = JSON.stringify({
+  //     accessToken: token,
+  //     refreshToken: refreshToken,
+  //   });
+  //   console.log('refresh');
+
+  //   let isRefreshSuccess: boolean = true;
+  //   try {
+  //     const refreshRes = await new Promise<ITokenResponse>(
+  //       (resolve, reject) => {
+  //         this.http
+  //           .post<ITokenResponse>(
+  //             `${this.baseUrl}/user/refresh`,
+  //             {
+  //               accessToken: token,
+  //               refreshToken: refreshToken,
+  //             },
+  //             {
+  //               headers: new HttpHeaders({
+  //                 'Content-Type': 'application/json',
+  //               }),
+  //             }
+  //           )
+  //           .subscribe({
+  //             next: (res: ITokenResponse) => resolve(res),
+  //             error: (_) => {
+  //               console.log(_);
+
+  //               reject();
+  //             },
+  //           });
+  //       }
+  //     );
+
+  //     this.authService.logout();
+  //     localStorage.setItem('jwt', refreshRes.accessToken);
+  //     localStorage.setItem('refreshToken', refreshRes.refreshToken);
+  //     isRefreshSuccess = true;
+  //   } catch {
+  //     this.authService.logout();
+  //     isRefreshSuccess = false;
+  //   }
+
+  //   return isRefreshSuccess;
+  // }
 }

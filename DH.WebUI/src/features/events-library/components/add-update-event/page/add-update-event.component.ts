@@ -113,7 +113,7 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
               type: ToastType.Success,
             });
 
-            this.router.navigateByUrl('/admin-events');
+            this.router.navigateByUrl('/events/home');
           },
           error: (error) => {
             this.handleServerErrors(error);
@@ -148,7 +148,7 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
               type: ToastType.Success,
             });
 
-            this.router.navigateByUrl('/admin-events');
+            this.router.navigateByUrl('/events/home');
           },
           error: (error) => {
             this.handleServerErrors(error);

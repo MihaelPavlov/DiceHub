@@ -105,11 +105,11 @@ export class MenuComponent implements OnInit, AfterViewInit {
     this.rightMenuItems = [
       {
         label: NAV_ITEM_LABELS.EVENTS,
-        class: page === '/events/library' ? 'active' : '',
+        class: page === '/events/home' ? 'active' : '',
         enabled: true,
         visible: true,
         icon: 'stadium',
-        route: '/events/library',
+        route: '/events/home',
       },
       {
         label: NAV_ITEM_LABELS.PROFILE,
@@ -131,9 +131,7 @@ export class MenuComponent implements OnInit, AfterViewInit {
     this.updateMenuItemsWihtPage(page);
   }
 
-  private onInitJS(): void {
-    console.log('on init menu -0=------');
-    
+  private onInitJS(): void {    
     const interactiveOption = document.querySelector(
       '.interactive-option'
     ) as HTMLElement;

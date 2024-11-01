@@ -1,3 +1,4 @@
+import { EventAdminAccessGuard } from './../../../../../shared/guards/event-admin-access.guard';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { IEventByIdResult } from '../../../../../entities/events/models/event-by-id.mode';
 import { Observable } from 'rxjs';
@@ -8,6 +9,7 @@ import { MenuTabsService } from '../../../../../shared/services/menu-tabs.servic
 import { GameImagePipe } from '../../../../../shared/pipe/game-image.pipe';
 import { EventImagePipe } from '../../../../../shared/pipe/event-image.pipe';
 import { SafeUrl } from '@angular/platform-browser';
+import { FULL_ROUTE } from '../../../../../shared/configs/route.config';
 
 @Component({
   selector: 'app-admin-event-details',
@@ -43,11 +45,11 @@ export class AdminEventDetailsComponent implements OnInit, OnDestroy {
   }
 
   public navigateBackToEventList(): void {
-    this.router.navigateByUrl('/admin-events');
+    this.router.navigateByUrl(FULL_ROUTE.EVENTS.HOME);
   }
 
   public navigateToUpdate(id: number): void {
-    this.router.navigateByUrl(`/admin-events/${id}/update`);
+    this.router.navigateByUrl(FULL_ROUTE.EVENTS.ADMIN.UPDATE_BY_ID(id));
   }
 
   public getImage(event: IEventByIdResult): SafeUrl | null {

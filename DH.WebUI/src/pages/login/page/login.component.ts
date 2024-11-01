@@ -96,6 +96,24 @@ export class LoginComponent extends Form implements OnInit {
     this.authService.login({
       email: 'rap4obg2@abv.bg',
       password: '123456789Mm!',
+    }).subscribe({
+      next: (response) => {
+        if (response) {
+          this.authService.onnSuccessfullyLogin(
+            response.accessToken,
+            response.refreshToken
+          );
+
+          this.router.navigateByUrl('games/library');
+        }
+      },
+      error: (error) => {
+        this.handleServerErrors(error);
+        this.toastService.error({
+          message: AppToastMessage.FailedToSaveChanges,
+          type: ToastType.Error,
+        });
+      },
     });
   }
 
@@ -103,6 +121,24 @@ export class LoginComponent extends Form implements OnInit {
     this.authService.login({
       email: 'rap4obg3@abv.bg',
       password: '123456789Mm!',
+    }).subscribe({
+      next: (response) => {
+        if (response) {
+          this.authService.onnSuccessfullyLogin(
+            response.accessToken,
+            response.refreshToken
+          );
+
+          this.router.navigateByUrl('games/library');
+        }
+      },
+      error: (error) => {
+        this.handleServerErrors(error);
+        this.toastService.error({
+          message: AppToastMessage.FailedToSaveChanges,
+          type: ToastType.Error,
+        });
+      },
     });
   }
 
@@ -110,12 +146,48 @@ export class LoginComponent extends Form implements OnInit {
     this.authService.login({
       email: 'rap4obg4@abv.bg',
       password: '123456789Mm!',
+    }).subscribe({
+      next: (response) => {
+        if (response) {
+          this.authService.onnSuccessfullyLogin(
+            response.accessToken,
+            response.refreshToken
+          );
+
+          this.router.navigateByUrl('games/library');
+        }
+      },
+      error: (error) => {
+        this.handleServerErrors(error);
+        this.toastService.error({
+          message: AppToastMessage.FailedToSaveChanges,
+          type: ToastType.Error,
+        });
+      },
     });
   }
   loginUser4() {
     this.authService.login({
       email: 'rap4obg17@abv.bg',
       password: '123456789Mm!',
+    }).subscribe({
+      next: (response) => {
+        if (response) {
+          this.authService.onnSuccessfullyLogin(
+            response.accessToken,
+            response.refreshToken
+          );
+
+          this.router.navigateByUrl('games/library');
+        }
+      },
+      error: (error) => {
+        this.handleServerErrors(error);
+        this.toastService.error({
+          message: AppToastMessage.FailedToSaveChanges,
+          type: ToastType.Error,
+        });
+      },
     });
   }
 
