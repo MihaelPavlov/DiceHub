@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-assistive-touch',
@@ -19,8 +19,8 @@ export class AssistiveTouchComponent {
   public button3Right: number = 0;
 
   public positionY = 256; // Initial Y position of the button
-  //   public positionX = 0; // Initial X position of the button (left side)
-  public positionX = window.innerWidth - 32; // Initial X position of the button (right side)
+  public positionX = 0; // Initial X position of the button (left side)
+  //public positionX = window.innerWidth - 32; // Initial X position of the button (right side)
 
   private isDragging = false;
   private dragOffsetX = 0; // To store the x offset from where the drag started
@@ -64,13 +64,13 @@ export class AssistiveTouchComponent {
   }
   // Update button position with boundary checks
   private updatePosition(clientX: number, clientY: number): void {
-    const buttonWidth = 32; // Those 32px are coming from the css padding of the button. This is the actual size of it.
+    const buttonWidth = 38.4; // Those 32px are coming from the css padding of the button. This is the actual size of it.
     // check class .assistive_btn -> padding: 1rem
-    const buttonHeight = 32; // Assuming button height is 50px
+    const buttonHeight = 38.4; // Assuming button height is 50px
     const screenWidth = window.innerWidth;
     const screenHeight = window.innerHeight;
-    const bottomBoundary = screenHeight - buttonHeight - 64; // e.g., 60px from the bottom
-    const topBoundary = 64; // e.g., 60px from the top
+    const bottomBoundary = screenHeight - buttonHeight - 76.8; // e.g., 60px from the bottom
+    const topBoundary = 76.8; // e.g., 60px from the top
 
     // Update positions based on offsets
     this.positionX = clientX - this.dragOffsetX;
@@ -103,7 +103,7 @@ export class AssistiveTouchComponent {
       this.button3Left = 20;
       this.button3Bottom = 80;
     } else {
-      this.positionX = screenWidth - 32; // Snap to right (assuming button width is 32px)
+      this.positionX = screenWidth - 38.4; // Snap to right (assuming button width is 32px)
 
       this.button1Right = 80;
       this.button1Left = 0;

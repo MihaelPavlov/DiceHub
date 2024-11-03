@@ -1,8 +1,9 @@
+@use "../../../shared/assets/styles/palette";
 .assistive_btn {
   position: fixed;
-  padding: 1rem;
-  background: #e8e8f3;
-  border-radius: 100%;
+  padding: 1.2rem;
+  background: palette.$main-blue-color;
+  border-radius: 0.5rem;
   z-index: 10000;
   cursor: pointer;
   // box-shadow: 7px 7px 15px rgba(55, 84, 170, 0.15),
@@ -14,22 +15,17 @@
   &::before,
   &::after {
     content: "";
-    background: #c3c2c7;
-    border-radius: 5px;
-    width: 1rem;
-    height: 0.3rem;
+    background: palette.$main-blue-color;
+    border: 0.1rem solid palette.$main-font-color;
+    border-radius: 100%;
+    padding: 0.8rem;
     position: absolute;
-    top: 0.9rem;
-    right: 0.45rem;
+    top: 0.35rem;
+    right: 0.325rem;
     transition: 0.2s ease;
     z-index: 1;
   }
-  &::before {
-    transform: rotate(0deg);
-  }
-  &::after {
-    transform: rotate(-90deg);
-  }
+
   &.open {
     opacity: 0.9;
     &::before {
@@ -59,10 +55,10 @@
 }
 
 .assistive_option {
-  padding: 1.5rem;
-  border-radius: 50%;
+  padding: 1.3rem;
+  border-radius: 10px;
   cursor: pointer;
-  background: #e8e8f3;
+  background: palette.$main-blue-color;
   position: absolute;
   bottom: 0;
   right: 0;
@@ -77,14 +73,14 @@
   }
   &:first-of-type {
     background: url("https://assets.codepen.io/3537853/cam.svg") no-repeat 50%/50%
-      #e8e8f3;
+      palette.$main-blue-color;
   }
   &:nth-of-type(2) {
     background: url("https://assets.codepen.io/3537853/img.svg") no-repeat 50%/ 50%
-      #e8e8f3;
+      palette.$main-blue-color;
   }
   &:last-of-type {
     background: url("https://assets.codepen.io/3537853/music.svg") no-repeat 50%
-      45%/50% 45% #e8e8f3;
+      45%/50% 45% palette.$main-blue-color;
   }
 }
