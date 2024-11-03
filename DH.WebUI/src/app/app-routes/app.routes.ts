@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { AppComponent } from '../app-component/app.component';
 import { LoginComponent } from '../../pages/login/page/login.component';
 import { AuthGuard } from '../../shared/guards/auth.guard';
 import { RegisterComponent } from '../../pages/register/page/register.component';
@@ -8,7 +7,6 @@ import { ROUTE } from '../../shared/configs/route.config';
 export const ROUTES: Routes = [
   {
     path: '',
-    component: AppComponent,
     children: [
       {
         path: 'games',

@@ -25,7 +25,7 @@
             "inlineStyleLanguage": "scss",
             "assets": ["src/favicon.ico", "src/shared/assets","src/firebase-messaging-sw.js"],
             "styles": ["src/shared/assets/styles/styles.scss"],
-            "scripts": []
+            "scripts": ["src/app/app-component/assesive-btn.component.js"]
           },
           "configurations": {
             "production": {
@@ -77,7 +77,7 @@
             "inlineStyleLanguage": "scss",
             "assets": ["src/favicon.ico", "src/shared/assets","src/firebase-messaging-sw.js"],
             "styles": ["src/shared/assets/styles/styles.scss"],
-            "scripts": []
+            "scripts": ["src/app/app-component/assesive-btn.component.js"]
           }
         }
       }

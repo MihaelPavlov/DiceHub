@@ -121,11 +121,11 @@ export class RegisterComponent extends Form {
               response.refreshToken
             );
 
-            this.router.navigateByUrl(FULL_ROUTE.GAMES.LIBRARY);
-
             this.authService.initiateNotifications(
               this.form.controls.email.value
             );
+
+            this.router.navigateByUrl(FULL_ROUTE.GAMES.LIBRARY);
           } else {
             this.toastService.error({
               message: AppToastMessage.SomethingWrong,

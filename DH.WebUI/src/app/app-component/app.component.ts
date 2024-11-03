@@ -2,7 +2,7 @@ import { Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../entities/auth/auth.service';
 import { environment } from '../environment';
-import { getToken, onMessage } from 'firebase/messaging';
+import { onMessage } from 'firebase/messaging';
 import { Messaging } from '@angular/fire/messaging';
 import { MessagingService } from '../../entities/messaging/api/messaging.service';
 import { IUserInfo } from '../../entities/auth/models/user-info.model';
@@ -15,7 +15,8 @@ import { IUserInfo } from '../../entities/auth/models/user-info.model';
 export class AppComponent implements OnInit {
   title = 'DH.WebUI';
   private readonly _env = environment;
-  public readonly userInfo: Observable<IUserInfo | null> = this.authService.userInfo$;
+  public readonly userInfo: Observable<IUserInfo | null> =
+    this.authService.userInfo$;
   constructor(
     private readonly authService: AuthService,
     private readonly _messaging: Messaging,

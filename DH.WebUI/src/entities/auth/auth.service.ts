@@ -32,7 +32,14 @@ export class AuthService {
   }
 
   public initiateNotifications(email: string): void {
-    this.registerNotification(email).subscribe();
+    this.registerNotification(email).subscribe({
+      next: () => {
+        console.log('success send register not');
+      },
+      error: (error) => {
+        console.log('error notification not send', error);
+      },
+    });
   }
 
   public register(registerForm: IRegisterRequest): Observable<null> {

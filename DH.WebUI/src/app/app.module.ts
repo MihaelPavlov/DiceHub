@@ -12,10 +12,10 @@ import { AuthGuard } from '../shared/guards/auth.guard';
 import { JWT_OPTIONS, JwtHelperService, JwtModule } from '@auth0/angular-jwt';
 import { HttpRequestInterceptor } from '../entities/auth/auth.interceptor';
 import { ErrorInterceptor } from '../shared/interceptors/http-error.interceptor';
-import { LoadingIndicatorComponent } from "../shared/components/loading-indicator/loading-indicator.component";
+import { LoadingIndicatorComponent } from '../shared/components/loading-indicator/loading-indicator.component';
 import { FirebaseModule } from '../shared/firebase.module';
-import { environment } from './environment';
 import { RegisterModule } from '../pages/register/register.module';
+import { AssistiveTouchModule } from '../shared/components/assistive-touch/assistive-touch.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -40,10 +40,11 @@ import { RegisterModule } from '../pages/register/register.module';
     LoginModule,
     RegisterModule,
     HeaderModule,
+    AssistiveTouchModule,
     RouterOutlet,
     JwtModule,
     LoadingIndicatorComponent,
     FirebaseModule,
-],
+  ],
 })
 export class AppModule {}
