@@ -19,7 +19,9 @@ export class AssistiveTouchComponent {
   public button3Right: number = 0;
 
   public positionY = 256; // Initial Y position of the button
-  public positionX = 0; // Initial X position of the button (left side)
+  //   public positionX = 0; // Initial X position of the button (left side)
+  public positionX = window.innerWidth - 32; // Initial X position of the button (right side)
+
   private isDragging = false;
   private dragOffsetX = 0; // To store the x offset from where the drag started
   private dragOffsetY = 0; // To store the y offset from where the drag started
