@@ -1,0 +1,86 @@
+@use "../../../shared/assets/styles/palette";
+.assistive_btn {
+  position: fixed;
+  padding: 1.2rem;
+  background: palette.$main-blue-color;
+  border-radius: 0.5rem;
+  z-index: 10000;
+  cursor: pointer;
+  // box-shadow: 7px 7px 15px rgba(55, 84, 170, 0.15),
+  //   -7px -7px 20px rgba(255, 255, 255, 1),
+  //   inset 0px 0px 4px rgba(255, 255, 255, 0.2),
+  //   inset 7px 7px 15px rgba(55, 84, 170, 0),
+  //   inset -7px -7px 20px rgba(255, 255, 255, 0),
+  //   0px 0px 4px rgba(255, 255, 255, 0);
+  &::before,
+  &::after {
+    content: "";
+    background: palette.$main-blue-color;
+    border: 0.1rem solid palette.$main-font-color;
+    border-radius: 100%;
+    padding: 0.8rem;
+    position: absolute;
+    top: 0.35rem;
+    right: 0.325rem;
+    transition: 0.2s ease;
+    z-index: 1;
+  }
+
+  &.open {
+    opacity: 0.9;
+    &::before {
+      transform: rotate(45deg);
+    }
+    &::after {
+      transform: rotate(-45deg);
+    }
+    .assistive_option {
+      opacity: 1;
+      pointer-events: auto;
+      &:first-of-type {
+        left: 80px;
+      }
+      &:nth-of-type(2) {
+        top: 80px;
+        left: 20px;
+        transition-delay: 0.05s;
+      }
+      &:last-of-type {
+        bottom: 80px;
+        left: 20px;
+        transition-delay: 0.1s;
+      }
+    }
+  }
+}
+
+.assistive_option {
+  padding: 1.3rem;
+  border-radius: 10px;
+  cursor: pointer;
+  background: palette.$main-blue-color;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  opacity: 0;
+  pointer-events: none;
+  box-shadow: inherit;
+  transition: 0.2s cubic-bezier(0.18, 0.89, 0.32, 1.28), 0.2s ease opacity,
+    0.2s cubic-bezier(0.08, 0.82, 0.17, 1) transform;
+  z-index: -1;
+  &:hover {
+    transform: scale(1.1);
+  }
+  &:first-of-type {
+    background: url("https://assets.codepen.io/3537853/cam.svg") no-repeat 50%/50%
+      palette.$main-blue-color;
+  }
+  &:nth-of-type(2) {
+    background: url("https://assets.codepen.io/3537853/img.svg") no-repeat 50%/ 50%
+      palette.$main-blue-color;
+  }
+  &:last-of-type {
+    background: url("https://assets.codepen.io/3537853/music.svg") no-repeat 50%
+      45%/50% 45% palette.$main-blue-color;
+  }
+}
