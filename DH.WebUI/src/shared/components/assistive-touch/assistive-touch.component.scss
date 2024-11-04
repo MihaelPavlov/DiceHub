@@ -1,31 +1,38 @@
 @use "../../../shared/assets/styles/palette";
 .assistive_btn {
+  transition: opacity 0.5s ease-in-out;
   position: fixed;
   padding: 1.2rem;
   background: palette.$main-blue-color;
   border-radius: 0.5rem;
-  z-index: 10000;
+  z-index: 1000;
   cursor: pointer;
-  // box-shadow: 7px 7px 15px rgba(55, 84, 170, 0.15),
-  //   -7px -7px 20px rgba(255, 255, 255, 1),
-  //   inset 0px 0px 4px rgba(255, 255, 255, 0.2),
-  //   inset 7px 7px 15px rgba(55, 84, 170, 0),
-  //   inset -7px -7px 20px rgba(255, 255, 255, 0),
-  //   0px 0px 4px rgba(255, 255, 255, 0);
-  &::before,
-  &::after {
-    content: "";
-    background: palette.$main-blue-color;
-    border: 0.1rem solid palette.$main-font-color;
-    border-radius: 100%;
-    padding: 0.8rem;
+
+  .icon {
     position: absolute;
-    top: 0.35rem;
-    right: 0.325rem;
-    transition: 0.2s ease;
-    z-index: 1;
+    font-size: 2rem;
+    bottom: 0.2rem;
+    right: 0.2rem;
+    font-variation-settings: "FILL" 1;
   }
 
+  .icon-button__badge {
+    position: absolute;
+    background: palette.$main-red-color;
+    border-radius: 50%;
+    width: 1rem;
+    height: 1rem;
+
+    &-right {
+      bottom: 1.7rem;
+      left: 1.8rem;
+    }
+
+    &-left {
+      bottom: 1.7rem;
+      right: 1.8rem;
+    }
+  }
   &.open {
     opacity: 0.9;
     &::before {

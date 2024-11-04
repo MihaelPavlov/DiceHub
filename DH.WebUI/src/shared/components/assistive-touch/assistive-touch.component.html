@@ -1,12 +1,25 @@
 <div
   class="assistive_btn"
-  onclick="this.classList.toggle('open')"
+  (click)="openNotifications()"
   (mousedown)="startDragging($event)"
   (mouseup)="stopDragging()"
   (touchstart)="startDragging($event)"
   (touchend)="stopDragging()"
-  [ngStyle]="{ top: positionY + 'px', left: positionX + 'px' }"
+  [ngStyle]="{
+    top: positionY + 'px',
+    left: positionX + 'px',
+    opacity: buttonOpacity
+  }"
 >
+  <span class="material-symbols-outlined icon"> notifications </span>
+  <span
+    class="icon-button__badge"
+    [ngClass]="
+      isLeftAligned ? 'icon-button__badge-right' : 'icon-button__badge-left'
+    "
+  >
+  </span>
+
   <div
     class="assistive_option"
     [ngStyle]="{

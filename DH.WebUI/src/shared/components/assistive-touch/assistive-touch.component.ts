@@ -1,4 +1,7 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { NotificationsDialog } from './notifications/notifications.dialog';
+import { Subscription, timer } from 'rxjs';
 
 @Component({
   selector: 'app-assistive-touch',
@@ -6,6 +9,9 @@ import { Component, HostListener, OnInit } from '@angular/core';
   styleUrl: 'assistive-touch.component.scss',
 })
 export class AssistiveTouchComponent {
+  public buttonOpacity = 1; // Button opacity (1 = fully visible)
+  private inactivityTimer!: Subscription;
+
   public button1Left: number = 80;
   public button1Top: number = 0;
   public button1Right: number = 0;
@@ -21,10 +27,30 @@ export class AssistiveTouchComponent {
   public positionY = 256; // Initial Y position of the button
   public positionX = 0; // Initial X position of the button (left side)
   //public positionX = window.innerWidth - 32; // Initial X position of the button (right side)
+  public isLeftAligned = true;
 
   private isDragging = false;
   private dragOffsetX = 0; // To store the x offset from where the drag started
   private dragOffsetY = 0; // To store the y offset from where the drag started
+  private dialogOpened = false;
+  constructor(private readonly dialog: MatDialog) {
+    this.resetInactivityTimer();
+  }
+
+  ngOnDestroy(): void {
+    this.inactivityTimer?.unsubscribe(); // Clean up timer on component destroy
+  }
+  public openNotifications(): void {
+    this.resetInactivityTimer();
+    if (this.dialogOpened) return; // Prevent opening if already open
+    this.dialogOpened = true;
+    const dialogRef = this.dialog.open(NotificationsDialog);
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.dialogOpened = false;
+      this.resetInactivityTimer();
+    });
+  }
 
   // Start dragging on mouse or touch start
   public startDragging(event: MouseEvent | TouchEvent): void {
@@ -44,12 +70,14 @@ export class AssistiveTouchComponent {
   public stopDragging(): void {
     this.isDragging = false;
     this.snapToEdge();
+    this.resetInactivityTimer();
   }
 
   // Track mouse move events
   @HostListener('window:mousemove', ['$event'])
   public onMouseMove(event: MouseEvent) {
     if (this.isDragging) {
+      this.resetInactivityTimer();
       this.updatePosition(event.clientX, event.clientY);
     }
   }
@@ -57,6 +85,7 @@ export class AssistiveTouchComponent {
   @HostListener('window:touchmove', ['$event'])
   public onTouchMove(event: TouchEvent) {
     if (this.isDragging && event.touches.length === 1) {
+      this.resetInactivityTimer();
       // Check for single touch
       const touch = event.touches[0];
       this.updatePosition(touch.clientX, touch.clientY);
@@ -87,6 +116,15 @@ export class AssistiveTouchComponent {
     );
   }
 
+  // Resets the inactivity timer
+  private resetInactivityTimer(): void {
+    this.inactivityTimer?.unsubscribe(); // Clear existing timer if any
+    this.buttonOpacity = 1; // Make the button fully visible
+    this.inactivityTimer = timer(3000).subscribe(() => {
+      this.buttonOpacity = 0.5; // Reduce opacity after 3 seconds of inactivity
+    });
+  }
+
   // Snap to the nearest edge
   private snapToEdge(): void {
     const screenWidth = window.innerWidth;
@@ -102,6 +140,8 @@ export class AssistiveTouchComponent {
 
       this.button3Left = 20;
       this.button3Bottom = 80;
+
+      this.isLeftAligned = true;
     } else {
       this.positionX = screenWidth - 38.4; // Snap to right (assuming button width is 32px)
 
@@ -111,6 +151,7 @@ export class AssistiveTouchComponent {
       this.button2Right = 20;
       this.button3Left = 0;
       this.button3Right = 20;
+      this.isLeftAligned = false;
     }
   }
 }

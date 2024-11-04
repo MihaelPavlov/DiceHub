@@ -1,0 +1,44 @@
+@use "../../../../shared/assets/styles/palette";
+
+.dialog-container {
+  color: palette.$main-font-color;
+  background-color: palette.$main-nav-color;
+  // height: 25rem;
+  
+  .header {
+    margin: 1rem;
+    padding-bottom: 0.2rem;
+    border-bottom: 0.2rem solid palette.$main-icon-color;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position:sticky;
+  }
+  &__header {
+    font-size: 1.5rem;
+  }
+
+  &__close {
+  }
+
+  mat-dialog-actions {
+    display: flex;
+    justify-content: end;
+  }
+
+  button {
+    margin: 0.4rem;
+  }
+.items{
+  overflow: auto;
+  height: 25rem;
+}
+  .item {
+    margin: 1rem;
+    display: flex;
+    flex-direction: column;
+    background-color:  #505061;
+    padding: 1rem;
+    border-radius: 1rem;
+  }
+}
