@@ -1,10 +1,11 @@
 <div
+  #assistive_btn
   class="assistive_btn"
-  (click)="openNotifications()"
+  (click)="openNotifications($event)"
   (mousedown)="startDragging($event)"
-  (mouseup)="stopDragging()"
+  (mouseup)="stopDragging($event)"
   (touchstart)="startDragging($event)"
-  (touchend)="stopDragging()"
+  (touchend)="stopDragging($event)"
   [ngStyle]="{
     top: positionY + 'px',
     left: positionX + 'px',

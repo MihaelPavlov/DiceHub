@@ -1,7 +1,8 @@
-import { Component, HostListener } from '@angular/core';
+import { ToastType } from './../../models/toast.model';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NotificationsDialog } from './notifications/notifications.dialog';
-import { Subscription, timer } from 'rxjs';
+import { fromEvent, Subscription, takeUntil, timer } from 'rxjs';
 
 @Component({
   selector: 'app-assistive-touch',
@@ -33,6 +34,11 @@ export class AssistiveTouchComponent {
   private dragOffsetX = 0; // To store the x offset from where the drag started
   private dragOffsetY = 0; // To store the y offset from where the drag started
   private dialogOpened = false;
+
+  private readonly dragThreshold = 1; // Distance threshold to differentiate click vs. drag
+  private initialX = 0; // Initial X position when drag starts
+  private initialY = 0; // Initial Y position when drag starts
+  private canOpenPanel = false;
   constructor(private readonly dialog: MatDialog) {
     this.resetInactivityTimer();
   }
@@ -40,9 +46,13 @@ export class AssistiveTouchComponent {
   ngOnDestroy(): void {
     this.inactivityTimer?.unsubscribe(); // Clean up timer on component destroy
   }
-  public openNotifications(): void {
-    this.resetInactivityTimer();
+
+  public openNotifications(event: any): void {
+    if (!this.canOpenPanel) return;
+    console.log('open', event.type);
+
     if (this.dialogOpened) return; // Prevent opening if already open
+    this.resetInactivityTimer();
     this.dialogOpened = true;
     const dialogRef = this.dialog.open(NotificationsDialog);
 
@@ -54,22 +64,50 @@ export class AssistiveTouchComponent {
 
   // Start dragging on mouse or touch start
   public startDragging(event: MouseEvent | TouchEvent): void {
+    console.log('start drag -> ', event);
+    this.canOpenPanel = false;
     this.isDragging = true;
-
     // Calculate the offsets
+    // Set initial positions for threshold comparison
     if (event instanceof MouseEvent) {
+      this.initialX = event.clientX;
+      this.initialY = event.clientY;
       this.dragOffsetX = event.clientX - this.positionX;
       this.dragOffsetY = event.clientY - this.positionY;
     } else if (event instanceof TouchEvent) {
+      this.initialX = event.touches[0].clientX;
+      this.initialY = event.touches[0].clientY;
       this.dragOffsetX = event.touches[0].clientX - this.positionX;
       this.dragOffsetY = event.touches[0].clientY - this.positionY;
     }
   }
 
   // Stop dragging on mouse or touch end
-  public stopDragging(): void {
+  public stopDragging(event: any): void {
+    if (!this.isDragging) return;
+
     this.isDragging = false;
-    this.snapToEdge();
+    const distanceMoved = Math.sqrt(
+      Math.pow(event.clientX - this.initialX, 2) +
+        Math.pow(event.clientY - this.initialY, 2)
+    );
+
+    // Only snap to edge if drag threshold is met
+    console.log(distanceMoved,this.dragThreshold);
+    
+    if (distanceMoved > this.dragThreshold) {
+      console.log('distance');
+
+      this.snapToEdge();
+      timer(400).subscribe(() => {
+        this.canOpenPanel = true; 
+      });
+    } else {
+      this.canOpenPanel=true;
+      console.log('from stop', event.type);
+      this.openNotifications(event); // Treat as a click if below threshold
+    }
+
     this.resetInactivityTimer();
   }
 
