@@ -1,6 +1,5 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ToastType } from '../../../../shared/models/toast.model';
 import { ToastService } from '../../../../shared/services/toast.service';
 import { GamesService } from '../../../../entities/games/api/games.service';
 
@@ -18,8 +17,6 @@ export class SinglePlayerConfirmDialog {
   ) {}
 
   public onSinglePlayer(): void {
-    
-      this.dialogRef.close(true);
-
+    this.dialogRef.close(true);
   }
 }

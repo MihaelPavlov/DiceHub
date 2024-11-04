@@ -67,8 +67,6 @@ export class GameReviewsComponent implements OnInit, OnDestroy {
 
   public openDeleteDialog(id: number): void {
     const dialogRef = this.dialog.open(GameReviewConfirmDeleteDialog, {
-      width: '17rem',
-      position: { bottom: '80%', left: '2%' },
       data: { id: id },
     });
 

@@ -91,8 +91,6 @@ export class MeepleRoomMenuComponent implements OnInit {
 
   public openDeleteRoomDialog(): void {
     const dialogRef = this.dialog.open(RoomConfirmDeleteDialog, {
-      width: '17rem',
-      position: { bottom: '80%', left: '2%' },
       data: { id: this.room.id },
     });
 
@@ -105,8 +103,6 @@ export class MeepleRoomMenuComponent implements OnInit {
 
   public openLeaveRoomDialog(): void {
     const dialogRef = this.dialog.open(RoomConfirmLeaveDialog, {
-      width: '17rem',
-      position: { bottom: '80%', left: '2%' },
       data: { id: this.room.id },
     });
 

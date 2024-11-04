@@ -99,7 +99,6 @@ export class GamesLibraryComponent implements OnInit, OnDestroy {
     } else if (key === 'qr-code') {
       this.dialog.open(GameQrCodeDialog, {
         width: '17rem',
-        position: { bottom: '60%', left: '2%' },
         data: { id: this.visibleMenuId },
       });
     }
@@ -123,8 +122,6 @@ export class GamesLibraryComponent implements OnInit, OnDestroy {
 
   private openDeleteDialog(id: number): void {
     const dialogRef = this.dialog.open(GameConfirmDeleteDialog, {
-      width: '17rem',
-      position: { bottom: '80%', left: '2%' },
       data: { id: id },
     });
 

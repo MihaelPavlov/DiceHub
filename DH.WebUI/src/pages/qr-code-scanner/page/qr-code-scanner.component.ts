@@ -106,8 +106,6 @@ export class QrCodeScannerComponent implements AfterViewInit {
                         break;
                       case QrCodeType.Reward:
                        const dialogRef= this.dialog.open(ScanResultAdminDialog, {
-                          width: '17rem',
-                          position: { bottom: '60%', left: '2%' },
                           data: res,
                         });
 

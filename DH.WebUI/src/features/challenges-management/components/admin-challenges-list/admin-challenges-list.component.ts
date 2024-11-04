@@ -87,8 +87,6 @@ export class AdminChallengesListComponent extends Form {
 
   public openDeleteDialog(id: number): void {
     const dialogRef = this.dialog.open(AdminChallengesConfirmDeleteDialog, {
-      width: '17rem',
-      position: { bottom: '80%', left: '2%' },
       data: { id: id },
     });
 

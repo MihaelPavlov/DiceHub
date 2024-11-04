@@ -21,9 +21,7 @@ import { RewardImagePipe } from '../../../../shared/pipe/reward-image.pipe';
 import { IRewardGetByIdResult } from '../../../../entities/rewards/models/reward-by-id.model';
 import { AdminChallengesRewardConfirmDeleteDialog } from '../../dialogs/admin-challenges-reward-confirm-delete/admin-challenges-reward-confirm-delete.component';
 import { MatDialog } from '@angular/material/dialog';
-import {
-  REWARD_POINTS,
-} from '../../../../entities/rewards/enums/reward-required-point.enum';
+import { REWARD_POINTS } from '../../../../entities/rewards/enums/reward-required-point.enum';
 
 interface ISystemRewardsForm {
   selectedLevel: number;
@@ -94,8 +92,6 @@ export class AdminChallengesSystemRewardsComponent extends Form {
     const dialogRef = this.dialog.open(
       AdminChallengesRewardConfirmDeleteDialog,
       {
-        width: '17rem',
-        position: { bottom: '80%', left: '2%' },
         data: { id: id },
       }
     );

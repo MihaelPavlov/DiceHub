@@ -63,8 +63,6 @@ export class RoomMembersComponent implements OnInit, OnDestroy {
 
   public onDelete(userId: string): void {
     const dialogRef = this.dialog.open(RoomMemberConfirmDeleteDialog, {
-      width: '17rem',
-      position: { bottom: '80%', left: '2%' },
       data: { roomId: this.roomId, userId },
     });
 

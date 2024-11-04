@@ -32,7 +32,6 @@ export class ChallengesRewardsComponent implements OnInit {
 
     const dialogRef = this.dialog.open(UserRewardQrCodeDialog, {
       width: '17rem',
-      position: { bottom: '60%', left: '2%' },
       data: {
         Id : id,
         Name: 'UserReward',

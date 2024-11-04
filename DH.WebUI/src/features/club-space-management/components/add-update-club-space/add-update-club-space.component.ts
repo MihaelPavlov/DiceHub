@@ -65,8 +65,6 @@ export class AddUpdateClubSpaceComponent extends Form {
 
               if (game.minPlayers === 1) {
                 const dialogRef = this.dialog.open(SinglePlayerConfirmDialog, {
-                  width: '17rem',
-                  position: { bottom: '60%', left: '2%' },
                 });
 
                 dialogRef.afterClosed().subscribe((result) => {

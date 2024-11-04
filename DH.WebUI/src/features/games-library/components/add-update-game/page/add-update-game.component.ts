@@ -116,7 +116,6 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
   public openQrCodeDialog(): void {
     this.dialog.open(GameQrCodeDialog, {
       width: '17rem',
-      position: { bottom: '60%', left: '2%' },
       data: { id: this.editGameId },
     });
   }

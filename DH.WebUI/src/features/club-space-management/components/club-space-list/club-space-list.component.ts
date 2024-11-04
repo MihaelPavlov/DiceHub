@@ -43,7 +43,6 @@ export class ClubSpaceListComponent {
   ): void {
     const dialogRef = this.dialog.open(JoinTableConfirmDialog, {
       width: '17rem',
-      position: { bottom: '80%', left: '2%' },
       data: { roomId, withPassword, error },
     });
 

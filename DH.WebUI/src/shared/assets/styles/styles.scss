@@ -5,10 +5,10 @@
 @import "./scrollbar";
 @import "./ng-select";
 @import "../../../../node_modules/@ng-select/ng-select/themes/default.theme.css";
-@import '@angular/cdk/overlay-prebuilt.css';
+@import "@angular/cdk/overlay-prebuilt.css";
 
-$color-success-20-percent: #CDE9D5;
-$color-danger-10-percent: #F6E8EB;
+$color-success-20-percent: #cde9d5;
+$color-danger-10-percent: #f6e8eb;
 
 * {
   box-sizing: border-box;
@@ -23,12 +23,12 @@ body {
 }
 
 a {
-  color: #0060B6;
+  color: #0060b6;
   text-decoration: none;
 }
 
 a:hover {
-  color: #00A0C6;
+  color: #00a0c6;
   text-decoration: none;
   cursor: pointer;
 }
@@ -41,12 +41,20 @@ a:active {
   color: inherit;
 }
 
-.cdk-overlay-pane {
+// Region Toasts: Toast message angular css classes
+.mat-mdc-dialog-container .mdc-dialog__surface {
+  background-color: transparent !important; /* Change as needed */
+  border-radius: 8px; /* Example for a nice corner */
+  box-shadow: none !important;
+  overflow: hidden; /* Prevent overflow */
+}
+
+.mat-mdc-snack-bar-handset {
   position: fixed !important;
   bottom: 11vh;
   left: 50%;
   transform: translateX(-52.5%);
-  width: 60%;
+  width: 70%;
   /* This ensures it spans the full width to maintain centering */
   display: flex;
   justify-content: center;
@@ -58,7 +66,7 @@ a:active {
   border-radius: 0.2rem;
 }
 
-.cdk-overlay-pane .mat-mdc-snack-bar-container {
+.mat-mdc-snack-bar-container {
   margin-right: 0;
   /* Removes the right margin */
   pointer-events: auto;
@@ -71,18 +79,24 @@ a:active {
   align-items: center;
   color: black;
   // max-height: 1.25rem;
-  max-width: 25rem;
+  max-width: 20rem;
   font-size: 0.875rem;
   line-height: 1.375rem;
-}
+  .close {
+    display: flex;
+  }
 
-.toast-icon {
-  margin-right: 0.625rem;
-  margin-bottom: 0.25rem;
-}
-
-.spacer {
-  flex-grow: 1;
+  .toast-icon {
+    margin-right: 0.625rem;
+    margin-bottom: 0.25rem;
+  }
+  .toast-message {
+    word-break: break-word;
+  }
+  .spacer {
+    flex-grow: 1;
+    margin-left: 0.4rem;
+  }
 }
 
 .toast-success {
@@ -107,15 +121,16 @@ a:active {
   height: 20px !important;
 }
 
+// Region Toasts: End
 
 // like animation
 .heart-full {
-  font-variation-settings: 'FILL' 1;
+  font-variation-settings: "FILL" 1;
   animation: heartBeat 0.3s ease-in-out;
 }
 
 .cdk-overlay-backdrop {
-  background-color: rgba(0, 0, 0, 0.5);  /* Ensure backdrop visibility */
+  background-color: rgba(0, 0, 0, 0.5); /* Ensure backdrop visibility */
 }
 
 @keyframes heartBeat {
