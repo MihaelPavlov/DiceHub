@@ -1,8 +1,9 @@
-import { ToastType } from './../../models/toast.model';
-import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import { TenantUserSettingsService } from './../../../entities/common/api/tenant-user-settings.service';
+import { Component, HostListener } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NotificationsDialog } from './notifications/notifications.dialog';
-import { fromEvent, Subscription, takeUntil, timer } from 'rxjs';
+import { Subscription, timer } from 'rxjs';
+import { AssistiveTouchSettings } from '../../../entities/common/models/assistive-touch-settings.model';
 
 @Component({
   selector: 'app-assistive-touch',
@@ -13,22 +14,14 @@ export class AssistiveTouchComponent {
   public buttonOpacity = 1; // Button opacity (1 = fully visible)
   private inactivityTimer!: Subscription;
 
-  public button1Left: number = 80;
-  public button1Top: number = 0;
-  public button1Right: number = 0;
-
-  public button2Left: number = 20;
-  public button2Top: number = 80;
-  public button2Right: number = 0;
-
-  public button3Left: number = 20;
-  public button3Bottom: number = 80;
-  public button3Right: number = 0;
-
-  public positionY = 256; // Initial Y position of the button
+  private assistiveTouchSettings: AssistiveTouchSettings | null = null;
+  public positionY = this.assistiveTouchSettings
+    ? Number(this.assistiveTouchSettings.positionY)
+    : 256; // Initial Y position of the button
   public positionX = 0; // Initial X position of the button (left side)
-  //public positionX = window.innerWidth - 32; // Initial X position of the button (right side)
-  public isLeftAligned = true;
+  public isLeftAligned = this.assistiveTouchSettings
+    ? this.assistiveTouchSettings.isLeftAligned
+    : true;
 
   private isDragging = false;
   private dragOffsetX = 0; // To store the x offset from where the drag started
@@ -39,7 +32,31 @@ export class AssistiveTouchComponent {
   private initialX = 0; // Initial X position when drag starts
   private initialY = 0; // Initial Y position when drag starts
   private canOpenPanel = false;
-  constructor(private readonly dialog: MatDialog) {
+
+  constructor(
+    private readonly dialog: MatDialog,
+    private readonly tenantUserSettingsService: TenantUserSettingsService
+  ) {
+    this.tenantUserSettingsService.getAssistiveTouchSettings().subscribe({
+      next: (setting) => {
+        if (setting) {
+          this.assistiveTouchSettings = setting;
+          this.initiatePosition();
+        } else if (!setting) {
+          this.tenantUserSettingsService.updateAssistiveTouchSettings({
+            positionY: this.positionY.toString(),
+            isLeftAligned: this.isLeftAligned,
+          });
+        }
+      },
+    });
+    this.tenantUserSettingsService.assistiveTouchSettings$.subscribe({
+      next: (setting) => {
+        console.log('from assistive touch component ->', setting);
+
+        this.assistiveTouchSettings = setting;
+      },
+    });
     this.resetInactivityTimer();
   }
 
@@ -49,7 +66,6 @@ export class AssistiveTouchComponent {
 
   public openNotifications(event: any): void {
     if (!this.canOpenPanel) return;
-    console.log('open', event.type);
 
     if (this.dialogOpened) return; // Prevent opening if already open
     this.resetInactivityTimer();
@@ -64,7 +80,6 @@ export class AssistiveTouchComponent {
 
   // Start dragging on mouse or touch start
   public startDragging(event: MouseEvent | TouchEvent): void {
-    console.log('start drag -> ', event);
     this.canOpenPanel = false;
     this.isDragging = true;
     // Calculate the offsets
@@ -93,18 +108,13 @@ export class AssistiveTouchComponent {
     );
 
     // Only snap to edge if drag threshold is met
-    console.log(distanceMoved,this.dragThreshold);
-    
     if (distanceMoved > this.dragThreshold) {
-      console.log('distance');
-
       this.snapToEdge();
       timer(400).subscribe(() => {
-        this.canOpenPanel = true; 
+        this.canOpenPanel = true;
       });
     } else {
-      this.canOpenPanel=true;
-      console.log('from stop', event.type);
+      this.canOpenPanel = true;
       this.openNotifications(event); // Treat as a click if below threshold
     }
 
@@ -148,10 +158,12 @@ export class AssistiveTouchComponent {
       0,
       Math.min(this.positionX, screenWidth - buttonWidth)
     );
+
     this.positionY = Math.max(
       topBoundary,
       Math.min(this.positionY, bottomBoundary)
     );
+    console.log(this.positionX, this.positionY);
   }
 
   // Resets the inactivity timer
@@ -171,25 +183,40 @@ export class AssistiveTouchComponent {
     if (this.positionX < halfScreenWidth) {
       this.positionX = 0; // Snap to left
 
-      this.button1Left = 80;
-      this.button1Top = 0;
-      this.button2Left = 20;
-      this.button2Top = 80;
-
-      this.button3Left = 20;
-      this.button3Bottom = 80;
-
       this.isLeftAligned = true;
+      this.tenantUserSettingsService.updateAssistiveTouchSettings({
+        positionY: this.positionY.toString(),
+        isLeftAligned: true,
+      });
     } else {
       this.positionX = screenWidth - 38.4; // Snap to right (assuming button width is 32px)
 
-      this.button1Right = 80;
-      this.button1Left = 0;
-      this.button2Left = 0;
-      this.button2Right = 20;
-      this.button3Left = 0;
-      this.button3Right = 20;
       this.isLeftAligned = false;
+
+      this.tenantUserSettingsService.updateAssistiveTouchSettings({
+        positionY: this.positionY.toString(),
+        isLeftAligned: false,
+      });
+    }
+  }
+
+  private initiatePosition(): void {
+    const screenWidth = window.innerWidth;
+    const buttonHeight = 38.4; // Assuming button height is 50px
+    const screenHeight = window.innerHeight;
+    const bottomBoundary = screenHeight - buttonHeight - 76.8; // e.g., 60px from the bottom
+    const topBoundary = 76.8; // e.g., 60px from the top
+    if (this.assistiveTouchSettings)
+      this.isLeftAligned = this.assistiveTouchSettings.isLeftAligned;
+    
+    this.positionY = Math.max(
+      topBoundary,
+      Math.min(Number(this.assistiveTouchSettings?.positionY), bottomBoundary)
+    );
+    if (this.assistiveTouchSettings?.isLeftAligned) {
+      this.positionX = 0; // Snap to left
+    } else {
+      this.positionX = screenWidth - 38.4; // Snap to right (assuming button width is 32px)
     }
   }
 }

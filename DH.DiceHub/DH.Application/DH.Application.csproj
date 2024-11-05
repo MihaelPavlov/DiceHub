@@ -15,8 +15,4 @@
     <ProjectReference Include="..\DH.Domain\DH.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Common\Queries\" />
-  </ItemGroup>
-
 </Project>
