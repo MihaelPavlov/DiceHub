@@ -1,14 +1,10 @@
 ﻿using DH.Domain.Adapters.Authentication.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 using DH.Domain.Adapters.Authentication.Models;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.VisualBasic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
-using Microsoft.Extensions.Configuration;
-using System.ComponentModel.DataAnnotations;
 
 namespace DH.Api.Controllers;
 

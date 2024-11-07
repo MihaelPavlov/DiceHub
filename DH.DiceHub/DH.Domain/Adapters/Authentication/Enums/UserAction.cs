@@ -24,4 +24,5 @@ public enum UserAction
     SpaceManagementCRUD = 14,
     MessagingCRUD = 15,
     SpaceManagementVirtualC = 16,
+    NotificationCRUD = 17,
 }

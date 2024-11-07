@@ -1,5 +1,4 @@
 import { BehaviorSubject, Observable } from 'rxjs';
-import { AssistiveTouchComponent } from '../../../shared/components/assistive-touch/assistive-touch.component';
 import { RestApiService } from '../../../shared/services/rest-api.service';
 import { Injectable } from '@angular/core';
 import { AssistiveTouchSettings } from '../models/assistive-touch-settings.model';

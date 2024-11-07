@@ -1,5 +1,5 @@
 <router-outlet></router-outlet>
 <loading-indicator />
-<app-assistive-touch *ngIf="this.userInfo | async"></app-assistive-touch>
+<app-assistive-touch (updateUserNotifications)="onUpdateUserNotifications()" [areAnyActiveNotifications]="this.areAnyActiveNotificationSubject" *ngIf="this.userInfo | async"></app-assistive-touch>
 
 <app-menu *ngIf="this.userInfo | async" />

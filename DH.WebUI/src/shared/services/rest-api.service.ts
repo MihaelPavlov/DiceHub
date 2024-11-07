@@ -23,7 +23,7 @@ export class RestApiService {
 
   public post<T>(
     path: string,
-    body: object | string,
+    body: object | string | number,
     options?: object
   ): Observable<T | null> {
     return this.http

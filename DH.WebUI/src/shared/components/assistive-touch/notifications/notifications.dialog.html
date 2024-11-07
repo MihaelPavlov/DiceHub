@@ -9,53 +9,26 @@
     </span>
   </div>
   <div class="items">
-    <div class="item">
-      <p class="type">Welcome Register Message</p>
-
-      <span class="date">23/03/2023 12:33:33</span>
-      <span class="text">Hey Rap4obg welcome on the table.</span>
+    <div class="no-items" *ngIf="this.userNotifications.length === 0">
+      <p>🎉 "You’re all caught up, Champion! 🎉</p>
+      No new notifications for now — stay sharp, the next challenge could be
+      just around the corner!" 🏆✨
     </div>
+    <ng-container *ngIf="this.userNotifications.length !== 0">
+      <div
+        class="item"
+        [ngClass]="
+        item.hasBeenViewed ? 'item-viewed' : ''"
+        (click)="markedAsViewed(item.id, item.hasBeenViewed)"
+        *ngFor="let item of userNotifications"
+      >
+        <p class="type">{{item.messageTitle}}</p>
 
-    <div class="item">
-      <p class="type">Welcome Register Message</p>
-
-      <span class="date">23/03/2023 12:33:33</span>
-      <span class="text">Hey Rap4obg welcome on the table.</span>
-    </div>
-
-    <div class="item">
-      <p class="type">Welcome Register Message</p>
-
-      <span class="date">23/03/2023 12:33:33</span>
-      <span class="text">Hey Rap4obg welcome on the table.</span>
-    </div>
-
-    <div class="item">
-      <p class="type">Welcome Register Message</p>
-
-      <span class="date">23/03/2023 12:33:33</span>
-      <span class="text">Hey Rap4obg welcome on the table.</span>
-    </div>
-<!-- 
-    <div class="item">
-      <p class="type">Welcome Register Message</p>
-
-      <span class="date">23/03/2023 12:33:33</span>
-      <span class="text">Hey Rap4obg welcome on the table.</span>
-    </div>
-
-    <div class="item">
-      <p class="type">Welcome Register Message</p>
-
-      <span class="date">23/03/2023 12:33:33</span>
-      <span class="text">Hey Rap4obg welcome on the table.</span>
-    </div>
-
-    <div class="item">
-      <p class="type">Welcome Register Message</p>
-
-      <span class="date">23/03/2023 12:33:33</span>
-      <span class="text">Hey Rap4obg welcome on the table.</span>
-    </div> -->
+        <span class="date"
+          >{{item.createdDate| date:'dd/MM/yyyy HH:mm:ss' }}</span
+        >
+        <span class="text">{{item.messageType}} - {{item.messageBody}}</span>
+      </div>
+    </ng-container>
   </div>
 </div>

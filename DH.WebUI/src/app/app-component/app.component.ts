@@ -1,11 +1,12 @@
-import { Observable } from 'rxjs';
-import { Component, OnInit } from '@angular/core';
+import { BehaviorSubject , Observable } from 'rxjs';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { AuthService } from '../../entities/auth/auth.service';
 import { environment } from '../environment';
 import { onMessage } from 'firebase/messaging';
 import { Messaging } from '@angular/fire/messaging';
 import { MessagingService } from '../../entities/messaging/api/messaging.service';
 import { IUserInfo } from '../../entities/auth/models/user-info.model';
+import { NotificationsService } from '../../entities/common/api/notifications.service';
 
 @Component({
   selector: 'app-root',
@@ -17,10 +18,15 @@ export class AppComponent implements OnInit {
   private readonly _env = environment;
   public readonly userInfo: Observable<IUserInfo | null> =
     this.authService.userInfo$;
+  public areAnyActiveNotificationSubject: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(false);
+
   constructor(
     private readonly authService: AuthService,
     private readonly _messaging: Messaging,
-    private readonly messagingService: MessagingService
+    private readonly messagingService: MessagingService,
+    private readonly notificationService: NotificationsService,
+    private readonly cd: ChangeDetectorRef
   ) {
     // TODO: Do i need initialize the user
     this._initializeUser();
@@ -50,6 +56,32 @@ export class AppComponent implements OnInit {
     this._listenForMessages();
   }
 
+  public onUpdateUserNotifications() {
+    this.notificationService.areAnyActiveNotifications().subscribe({
+      next: (areAnyActive) => {
+        this.areAnyActiveNotificationSubject.next(areAnyActive);
+      },
+    });
+  }
+  /**
+   * Listen for foreground messages from Firebase Messaging
+   */
+  private _listenForMessages(): void {
+    onMessage(this._messaging, {
+      next: () => {
+        this.notificationService.areAnyActiveNotifications().subscribe({
+          next: (result) => {
+            this.areAnyActiveNotificationSubject.next(result);
+            this.cd.detectChanges();
+          },
+        });
+      },
+      error: (error) => {},
+      complete: () => {
+        console.log('Done listening for messages.');
+      },
+    });
+  }
   /**
    * Request notification permission from the user
    */
@@ -74,24 +106,6 @@ export class AppComponent implements OnInit {
     this.messagingService.saveToken(token).subscribe({
       error: (ex) => {
         console.log('Token was not saved or updated', ex);
-      },
-    });
-  }
-
-  /**
-   * Listen for foreground messages from Firebase Messaging
-   */
-  private _listenForMessages(): void {
-    onMessage(this._messaging, {
-      next: (payload) => {
-        console.log('Foreground message received:', payload);
-        // Handle the message payload here (e.g., display a notification)
-      },
-      error: (error) => {
-        this._logError('Error while listening to messages', error);
-      },
-      complete: () => {
-        console.log('Done listening for messages.');
       },
     });
   }

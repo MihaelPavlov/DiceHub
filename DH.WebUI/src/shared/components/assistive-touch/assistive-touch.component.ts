@@ -1,19 +1,34 @@
 import { TenantUserSettingsService } from './../../../entities/common/api/tenant-user-settings.service';
-import { Component, HostListener } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  HostListener,
+  Input,
+  NgZone,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NotificationsDialog } from './notifications/notifications.dialog';
-import { Subscription, timer } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription, timer } from 'rxjs';
 import { AssistiveTouchSettings } from '../../../entities/common/models/assistive-touch-settings.model';
+import { NotificationsService } from '../../../entities/common/api/notifications.service';
+import { Messaging } from '@angular/fire/messaging';
 
 @Component({
   selector: 'app-assistive-touch',
   templateUrl: 'assistive-touch.component.html',
   styleUrl: 'assistive-touch.component.scss',
 })
-export class AssistiveTouchComponent {
+export class AssistiveTouchComponent implements OnInit, OnDestroy {
   public buttonOpacity = 1; // Button opacity (1 = fully visible)
   private inactivityTimer!: Subscription;
-
+  @Input() areAnyActiveNotifications!: BehaviorSubject<boolean>;
+  @Output() updateUserNotifications: EventEmitter<void> =
+    new EventEmitter<void>();
+  public areAnyActiveNotifications2!: Observable<boolean>;
   private assistiveTouchSettings: AssistiveTouchSettings | null = null;
   public positionY = this.assistiveTouchSettings
     ? Number(this.assistiveTouchSettings.positionY)
@@ -32,10 +47,11 @@ export class AssistiveTouchComponent {
   private initialX = 0; // Initial X position when drag starts
   private initialY = 0; // Initial Y position when drag starts
   private canOpenPanel = false;
-
+  public subscriptionRefreshForAnyActiveNotifications!: any;
   constructor(
     private readonly dialog: MatDialog,
-    private readonly tenantUserSettingsService: TenantUserSettingsService
+    private readonly tenantUserSettingsService: TenantUserSettingsService,
+    private readonly notificationService: NotificationsService,
   ) {
     this.tenantUserSettingsService.getAssistiveTouchSettings().subscribe({
       next: (setting) => {
@@ -60,17 +76,37 @@ export class AssistiveTouchComponent {
     this.resetInactivityTimer();
   }
 
+  public ngOnInit(): void {
+    this.subscriptionRefreshForAnyActiveNotifications = setInterval(
+      () => this.refreshForAnyActiveNotifications(),
+      10000
+    );
+  }
+  public refreshForAnyActiveNotifications(): void {
+    this.notificationService.areAnyActiveNotifications().subscribe({
+      next: (res) => {
+        this.areAnyActiveNotifications.next(res);
+      },
+    });
+  }
   ngOnDestroy(): void {
     this.inactivityTimer?.unsubscribe(); // Clean up timer on component destroy
+    if (this.subscriptionRefreshForAnyActiveNotifications)
+      clearInterval(this.subscriptionRefreshForAnyActiveNotifications);
   }
 
-  public openNotifications(event: any): void {
+  public openNotifications(): void {
     if (!this.canOpenPanel) return;
 
     if (this.dialogOpened) return; // Prevent opening if already open
     this.resetInactivityTimer();
+
     this.dialogOpened = true;
     const dialogRef = this.dialog.open(NotificationsDialog);
+
+    dialogRef.componentInstance.notificationsUpdated.subscribe(() => {
+      this.updateUserNotifications.emit();
+    });
 
     dialogRef.afterClosed().subscribe(() => {
       this.dialogOpened = false;
@@ -115,7 +151,7 @@ export class AssistiveTouchComponent {
       });
     } else {
       this.canOpenPanel = true;
-      this.openNotifications(event); // Treat as a click if below threshold
+      this.openNotifications(); // Treat as a click if below threshold
     }
 
     this.resetInactivityTimer();
@@ -208,7 +244,7 @@ export class AssistiveTouchComponent {
     const topBoundary = 76.8; // e.g., 60px from the top
     if (this.assistiveTouchSettings)
       this.isLeftAligned = this.assistiveTouchSettings.isLeftAligned;
-    
+
     this.positionY = Math.max(
       topBoundary,
       Math.min(Number(this.assistiveTouchSettings?.positionY), bottomBoundary)

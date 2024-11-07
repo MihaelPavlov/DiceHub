@@ -1,7 +1,8 @@
-import { Component, Inject } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ToastService } from '../../../services/toast.service';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { NotificationsService } from '../../../../entities/common/api/notifications.service';
+import { IUserNotification } from '../../../../entities/common/models/user-notification-model';
 
 @Component({
   selector: 'app-notifications-dialog',
@@ -40,14 +41,36 @@ import { trigger, transition, style, animate } from '@angular/animations';
     ]),
   ],
 })
-export class NotificationsDialog {
+export class NotificationsDialog implements OnInit {
+  public notificationsUpdated = new EventEmitter<IUserNotification[]>();
+  public userNotifications: IUserNotification[] = [];
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<NotificationsDialog>,
-    private readonly toastService: ToastService
+    private readonly notificationService: NotificationsService
   ) {}
+  public ngOnInit(): void {
+    this.notificationService.getUserNotificationList().subscribe({
+      next: (result) => {
+        this.userNotifications = result;
+      },
+    });
+  }
 
-  //TODO: Check if you are be able to delete, because of userChallenges
+  public markedAsViewed(id: number, hasBeenViewed: boolean) {
+    if (!hasBeenViewed)
+      this.notificationService.markNotificationAsViewed(id).subscribe({
+        next: () => {
+          this.notificationService.getUserNotificationList().subscribe({
+            next: (result) => {
+              this.userNotifications = result;
+              this.notificationsUpdated.emit();
+            },
+          });
+        },
+      });
+  }
+
   public closeDialog(): void {
     document
       .getElementsByClassName('animate__animated')[0]

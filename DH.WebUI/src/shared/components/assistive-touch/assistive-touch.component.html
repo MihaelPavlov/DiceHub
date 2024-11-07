@@ -1,11 +1,12 @@
 <div
   #assistive_btn
   class="assistive_btn"
-  (click)="openNotifications($event)"
+  (click)="openNotifications()"
   (mousedown)="startDragging($event)"
   (mouseup)="stopDragging($event)"
   (touchstart)="startDragging($event)"
   (touchend)="stopDragging($event)"
+  s
   [ngStyle]="{
     top: positionY + 'px',
     left: positionX + 'px',
@@ -14,6 +15,7 @@
 >
   <span class="material-symbols-outlined icon"> notifications </span>
   <span
+    *ngIf="areAnyActiveNotifications | async"
     class="icon-button__badge"
     [ngClass]="
       isLeftAligned ? 'icon-button__badge-right' : 'icon-button__badge-left'
