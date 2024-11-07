@@ -25,17 +25,17 @@ internal class PushNotificationsService : IPushNotificationsService
         this.userContext = userContext;
     }
 
-    public async Task<bool> AreAnyActiveNotifcations()
+    public async Task<bool> AreAnyActiveNotifcations(CancellationToken cancellationToken)
     {
         var result = await this.userNotificationRepository.GetWithPropertiesAsync(x => x.UserId == this.userContext.UserId, x => new GetUserNotificationsModel
         {
             HasBeenViewed = x.HasBeenViewed,
-        }, CancellationToken.None);
+        }, cancellationToken);
 
         return result.Any(x => !x.HasBeenViewed);
     }
 
-    public async Task<IEnumerable<GetUserNotificationsModel>> GetNotificationsByUserId()
+    public async Task<IEnumerable<GetUserNotificationsModel>> GetNotificationsByUserId(CancellationToken cancellationToken)
     {
         var result = await this.userNotificationRepository.GetWithPropertiesAsync(x => x.UserId == this.userContext.UserId, x => new GetUserNotificationsModel
         {
@@ -46,18 +46,29 @@ internal class PushNotificationsService : IPushNotificationsService
             MessageType = x.MessageType,
             HasBeenViewed = x.HasBeenViewed,
             CreatedDate = x.CreatedDate
-        }, CancellationToken.None);
+        }, cancellationToken);
 
         return result.OrderByDescending(x => x.CreatedDate);
     }
 
-    public async Task MarkedNotificationAsViewed(int notificationId)
+    public async Task MarkedNotificationAsViewed(int notificationId, CancellationToken cancellationToken)
     {
         var notification = await this.userNotificationRepository.GetByAsyncWithTracking(x => x.Id == notificationId && this.userContext.UserId == x.UserId, CancellationToken.None);
         if (notification != null)
         {
             notification.HasBeenViewed = true;
-            await this.userNotificationRepository.SaveChangesAsync(CancellationToken.None);
+            await this.userNotificationRepository.SaveChangesAsync(cancellationToken);
+        }
+    }
+
+    public async Task RefreshUserDeviceToken(string deviceToken, CancellationToken cancellationToken)
+    {
+        var userDeviceToken = await this.deviceTokenRepository.GetByAsyncWithTracking(x => x.UserId == this.userContext.UserId, cancellationToken);
+
+        if (userDeviceToken != null)
+        {
+            userDeviceToken.DeviceToken = deviceToken;
+            await this.deviceTokenRepository.SaveChangesAsync(cancellationToken);
         }
     }
 

@@ -1,4 +1,4 @@
-import { BehaviorSubject , Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { AuthService } from '../../entities/auth/auth.service';
 import { environment } from '../environment';
@@ -82,6 +82,7 @@ export class AppComponent implements OnInit {
       },
     });
   }
+
   /**
    * Request notification permission from the user
    */

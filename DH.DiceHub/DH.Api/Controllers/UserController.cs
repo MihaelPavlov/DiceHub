@@ -85,7 +85,7 @@ public class UserController : ControllerBase
 
                 tokenHandler.ValidateToken(accessToken, tokenValidationParameters, out SecurityToken validatedToken);
                 var jwtToken = (JwtSecurityToken)validatedToken;
-                var claims = jwtToken.Claims.DistinctBy(x=>x.Type).ToDictionary(claim => claim.Type, claim => claim.Value);
+                var claims = jwtToken.Claims.DistinctBy(x => x.Type).ToDictionary(claim => claim.Type, claim => claim.Value);
 
                 // The token is valid
                 return Ok(claims);

@@ -25,7 +25,7 @@ export class MessagingService {
   }
 
   /**
-   * Retrieve the device token from Firebase Messaging
+   * Retrieve the device token from Firebase Messaging and update the token in the database
    */
   public async getDeviceToken(): Promise<void> {
     try {

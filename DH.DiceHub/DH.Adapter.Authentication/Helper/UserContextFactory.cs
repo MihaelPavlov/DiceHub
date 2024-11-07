@@ -2,7 +2,6 @@
 using DH.Domain.Adapters.Authentication.Models.Enums;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
-using System.Text.Json;
 
 namespace DH.Adapter.Authentication.Helper;
 
@@ -11,6 +10,7 @@ public class UserContextFactory : IUserContextFactory
     IUserContext _defaultUserContext;
     readonly IHttpContextAccessor _httpContextAccessor;
     readonly HttpClient client;
+
     public UserContextFactory(IHttpContextAccessor httpContextAccessor, IHttpClientFactory httpClientFactory)
     {
         client = httpClientFactory.CreateClient();

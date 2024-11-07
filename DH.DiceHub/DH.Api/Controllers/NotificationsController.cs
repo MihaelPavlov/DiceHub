@@ -22,25 +22,25 @@ public class NotificationsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<GetUserNotificationsModel>))]
     public async Task<IActionResult> GetNotificationList(int id, CancellationToken cancellationToken)
     {
-        var result = await this.pushNotificationsService.GetNotificationsByUserId();
+        var result = await this.pushNotificationsService.GetNotificationsByUserId(cancellationToken);
         return Ok(result);
     }
 
     [HttpGet("are-any-active")]
     [ActionAuthorize(UserAction.NotificationCRUD)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
-    public async Task<IActionResult> AreAnyActiveNotifcations( CancellationToken cancellationToken)
+    public async Task<IActionResult> AreAnyActiveNotifcations(CancellationToken cancellationToken)
     {
-        var result = await this.pushNotificationsService.AreAnyActiveNotifcations();
+        var result = await this.pushNotificationsService.AreAnyActiveNotifcations(cancellationToken);
         return Ok(result);
     }
 
     [HttpPost("marked-as-viewed")]
     [ActionAuthorize(UserAction.NotificationCRUD)]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> MarkedNotiicationAsViewed([FromBody]int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> MarkedNotiicationAsViewed([FromBody] int id, CancellationToken cancellationToken)
     {
-        await this.pushNotificationsService.MarkedNotificationAsViewed(id);
+        await this.pushNotificationsService.MarkedNotificationAsViewed(id, cancellationToken);
         return Ok();
     }
 }
