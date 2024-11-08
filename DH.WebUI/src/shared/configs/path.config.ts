@@ -74,6 +74,9 @@ export const PATH = {
   MESSAGING:{
     CORE: "messaging",
     SAVE_TOKEN: "save-token"
+  },
+  TENANT_SETTINGS:{
+    CORE: "tenantSettings"
   }
   // AUTH: {
   //   LOGIN: 'auth/user/login',

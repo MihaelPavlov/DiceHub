@@ -20,7 +20,7 @@ public class TenantUserSettingsController : ControllerBase
     }
 
     [HttpGet("assistive-touch-settings")]
-    [ActionAuthorize(UserAction.GameCategoriesCRUD)]
+    [ActionAuthorize(UserAction.TenantUserSettingsCRUD)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AssistiveTouchSettings))]
     public async Task<IActionResult> GetAssistiveTouchSettings(int id, CancellationToken cancellationToken)
     {
@@ -29,7 +29,7 @@ public class TenantUserSettingsController : ControllerBase
     }
 
     [HttpPost("assistive-touch-settings")]
-    [ActionAuthorize(UserAction.GameCategoriesCRUD)]
+    [ActionAuthorize(UserAction.TenantUserSettingsCRUD)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> UpdateAssistiveTouchSettings([FromBody] UpdateAssistiveTouchSettingsCommand settings, CancellationToken cancellationToken)
     {

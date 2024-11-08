@@ -1,22 +1,24 @@
 <div class="wrapper_icons">
-    <span (click)="backNavigateBtn()" class="arrow left"></span>
-    <span class="header_name">Space Settings</span>
-    <div class="info-container">
-      <span class="material-symbols-outlined info" (click)="showMenu()">
-        info
-      </span>
-      <div class="info__text" *ngIf="isMenuVisible">
-        <p>Information for the settings</p>
-      </div>
+  <span (click)="backNavigateBtn()" class="arrow left"></span>
+  <span class="header_name">Space Settings</span>
+  <div class="info-container">
+    <span class="material-symbols-outlined info" (click)="showMenu()">
+      info
+    </span>
+    <div class="info__text" *ngIf="isMenuVisible">
+      <p>Information for the settings</p>
     </div>
   </div>
+</div>
 
 <form [formGroup]="form" class="container">
   <div class="input-field">
     <label for="averageMaxCapacity" class="required"
       >Average Max Capacity</label
     >
-    <span class="input-info">Used to have the average capacity of the place.</span>
+    <span class="input-info"
+      >Used to have the average capacity of the place.</span
+    >
     <input
       placeholder="0"
       type="number"
@@ -29,7 +31,9 @@
     <label for="challengeRewardsCountForPeriod" class="required"
       >Challenge Rewards Count For Period</label
     >
-    <span class="input-info">The rewards that the user can receive in specific time period.</span>
+    <span class="input-info"
+      >The rewards that the user can receive in specific time period.</span
+    >
 
     <input
       placeholder="0"
@@ -43,35 +47,51 @@
     <label for="periodOfRewardReset" class="required"
       >Period Of Reward Reset</label
     >
-    <span class="input-info">Period of the rewards reset. Weekly, Monthly, etc.</span>
-
-    <input
-      placeholder=""
-      type="number"
+    <span class="input-info"
+      >Period of the rewards reset. Weekly, Monthly, etc.</span
+    >
+    <ng-select
       id="periodOfRewardReset"
+      [items]="periodTimeValues"
+      bindValue="name"
+      bindLabel="name"
+      placeholder="0"
+      [searchable]="true"
       formControlName="periodOfRewardReset"
-    />
+      class="app-select-long"
+    >
+    </ng-select>
   </div>
 
   <div class="input-field">
     <label for="challengeInitiationDelayHours" class="required"
       >Challenge Initiation Delay Hours</label
     >
-    <span class="input-info">Defines the number of hours to delay the initiation of the new challenge.</span>
+    <span class="input-info"
+      >Defines the number of hours to delay the initiation of the new
+      challenge.</span
+    >
 
-    <input
-      placeholder=""
-      type="time"
+    <ng-select
       id="challengeInitiationDelayHours"
+      [items]="delayHours"
+      bindValue="name"
+      bindLabel="name"
+      placeholder="0"
+      [searchable]="true"
       formControlName="challengeInitiationDelayHours"
-    />
+      class="app-select-long"
+    >
+    </ng-select>
   </div>
 
   <div class="input-field">
     <label for="resetDayForRewards" class="required"
       >Reset Day For Rewards</label
     >
-    <span class="input-info">The day at 12:00 PM (Example) when rewards will be reset.</span>
+    <span class="input-info"
+      >The day at 12:00 PM (Example) when rewards will be reset.</span
+    >
 
     <ng-select
       id="resetDayForRewards"
@@ -90,7 +110,11 @@
     {{ getFirstErrorMessage() }}
   </div>
 
-  <button type="button" (click)="onSave()" class="btn btn-gray btn-border-green btn-font-green">
+  <button
+    type="button"
+    (click)="onSave()"
+    class="btn btn-gray btn-border-green btn-font-green"
+  >
     Save
   </button>
 </form>

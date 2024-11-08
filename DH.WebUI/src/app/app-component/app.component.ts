@@ -100,18 +100,6 @@ export class AppComponent implements OnInit {
   }
 
   /**
-   * Save the device token (for example, send it to the server)
-   */
-  private _saveDeviceToken(token: string): void {
-    console.log('Saving device token:', token);
-    this.messagingService.saveToken(token).subscribe({
-      error: (ex) => {
-        console.log('Token was not saved or updated', ex);
-      },
-    });
-  }
-
-  /**
    * Log errors in a standardized way
    */
   private _logError(message: string, error: any): void {

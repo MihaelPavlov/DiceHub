@@ -32,6 +32,8 @@ public class MapPermissions : IMapPermissions, IActionPermissions<UserAction>
         { UserAction.MessagingCRUD, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff, Role.User} },
         { UserAction.SpaceManagementVirtualC, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff} },
         { UserAction.NotificationCRUD, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff, Role.User} },
+        { UserAction.TenantUserSettingsCRUD, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff, Role.User} },
+        { UserAction.TenantSettingsCRUD, new List<Role> { Role.SuperAdmin, Role.Owner} },
     };
 
     public IDictionary<int, List<Role>> GetActionsMapping()

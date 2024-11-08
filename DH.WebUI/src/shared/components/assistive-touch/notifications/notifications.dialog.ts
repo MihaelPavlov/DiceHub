@@ -44,11 +44,13 @@ import { IUserNotification } from '../../../../entities/common/models/user-notif
 export class NotificationsDialog implements OnInit {
   public notificationsUpdated = new EventEmitter<IUserNotification[]>();
   public userNotifications: IUserNotification[] = [];
+  
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<NotificationsDialog>,
     private readonly notificationService: NotificationsService
   ) {}
+
   public ngOnInit(): void {
     this.notificationService.getUserNotificationList().subscribe({
       next: (result) => {

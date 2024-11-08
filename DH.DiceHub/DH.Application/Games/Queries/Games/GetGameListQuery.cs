@@ -16,12 +16,9 @@ internal class GetGameListQueryHandler(IGameService gameService, IUserContext us
     readonly IGameService gameService = gameService;
     readonly IUserContext userContext = userContext;
     readonly IPushNotificationsService pushNotificationsService = pushNotificationsService;
-    readonly ITenantSettingsCacheService tenantSettingsCacheService = tenantSettingsCacheService;
 
     public async Task<List<GetGameListQueryModel>> Handle(GetGameListQuery request, CancellationToken cancellationToken)
     {
-        await this.tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
-        await this.tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
         await this.pushNotificationsService.SendMessageAsync(new GameReservationReminder("Dungeon", DateTime.UtcNow) { DeviceToken= "c-svnhcnWcwOOVSzVdmO4u:APA91bGhnAs9AyJTfBfyF00l45SSK5l_JpA4ktDkZz77RfbjNCvLqXgTbwDbb0lHG1gxYJHbA5Ak1s0y-MaGodei16OgfkfZbaAooYUqWC9iLNBK2DhrosUY-LO8O_XBTiURtFHrqEAW" });
         return await gameService.GetGameListBySearchExpressionAsync(request.SearchExpression ?? string.Empty, this.userContext.UserId, cancellationToken);
     }
