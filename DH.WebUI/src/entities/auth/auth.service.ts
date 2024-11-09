@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ITokenResponse } from './models/token-response.model';
 import { RestApiService } from '../../shared/services/rest-api.service';
 import { IRegisterRequest } from './models/register.model';
+import { PATH } from '../../shared/configs/path.config';
 
 @Injectable({
   providedIn: 'root',
@@ -95,5 +96,14 @@ export class AuthService {
     localStorage.removeItem('jwt');
     localStorage.removeItem('refreshToken');
     this.userInfoSubject$.next(null);
+  }
+
+  public saveToken(deviceToken: string): Observable<null> {
+    return this.api.post(
+      `/${PATH.USER.CORE}/${PATH.USER.SAVE_TOKEN}`,
+      {
+        deviceToken,
+      }
+    );
   }
 }

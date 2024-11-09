@@ -55,6 +55,8 @@ export class NotificationsDialog implements OnInit {
     this.notificationService.getUserNotificationList().subscribe({
       next: (result) => {
         this.userNotifications = result;
+        console.log(this.userNotifications);
+        
       },
     });
   }

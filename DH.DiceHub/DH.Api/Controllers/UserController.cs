@@ -5,6 +5,11 @@ using DH.Domain.Adapters.Authentication.Models;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
+using DH.Adapter.Authentication.Filters;
+using DH.Application.Common.Commands;
+using DH.Domain.Adapters.Authentication.Enums;
+using Google.Apis.Download;
+using MediatR;
 
 namespace DH.Api.Controllers;
 
@@ -15,12 +20,14 @@ public class UserController : ControllerBase
     readonly IConfiguration configuration;
     readonly IUserService userService;
     readonly IJwtService jwtService;
+    readonly IMediator mediator;
 
-    public UserController(IConfiguration configuration, IJwtService jwtService, IUserService userService)
+    public UserController(IConfiguration configuration, IJwtService jwtService, IUserService userService, IMediator mediator)
     {
         this.configuration = configuration;
         this.userService = userService;
         this.jwtService = jwtService;
+        this.mediator = mediator;
     }
 
     [HttpPost]
@@ -98,5 +105,14 @@ public class UserController : ControllerBase
         }
 
         return BadRequest();
+    }
+
+    [HttpPost("save-token")]
+    [ActionAuthorize(UserAction.MessagingCRUD)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> SaveToken([FromBody] SaveUserDeviceTokenCommand command, CancellationToken cancellationToken)
+    {
+        await this.mediator.Send(command, cancellationToken);
+        return Ok();
     }
 }
