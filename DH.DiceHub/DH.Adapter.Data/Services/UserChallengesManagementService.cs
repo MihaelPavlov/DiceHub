@@ -1,6 +1,8 @@
 ﻿using DH.Domain.Entities;
 using DH.Domain.Enums;
+using DH.Domain.Helpers;
 using DH.Domain.Services;
+using DH.Domain.Services.TenantSettingsService;
 using Microsoft.EntityFrameworkCore;
 
 namespace DH.Adapter.Data.Services;
@@ -9,10 +11,12 @@ namespace DH.Adapter.Data.Services;
 public class UserChallengesManagementService : IUserChallengesManagementService
 {
     readonly IDbContextFactory<TenantDbContext> dbContextFactory;
+    readonly ITenantSettingsCacheService tenantSettingsCacheService;
 
-    public UserChallengesManagementService(IDbContextFactory<TenantDbContext> dbContextFactory)
+    public UserChallengesManagementService(IDbContextFactory<TenantDbContext> dbContextFactory, ITenantSettingsCacheService tenantSettingsCacheService)
     {
         this.dbContextFactory = dbContextFactory;
+        this.tenantSettingsCacheService = tenantSettingsCacheService;
     }
 
     /// <inheritdoc/>
@@ -88,16 +92,15 @@ public class UserChallengesManagementService : IUserChallengesManagementService
     //IMPORTANT! Every Sunday at 12:00 PM reset all reward for everybody 
     public async Task InitiateNewUserChallenges(string userId, CancellationToken cancellationToken)
     {
-        // Initiation should work based on the global settings are the reward are weekly or monthly
-        // Reward count should be also in global settings
         using (var context = await this.dbContextFactory.CreateDbContextAsync(cancellationToken))
         {
             using (var transaction = await context.Database.BeginTransactionAsync(cancellationToken))
             {
                 try
                 {
-                    var settingPeriod = "weekly";
-                    var rewardCount = 5;
+                    var tenantSettings = await this.tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
+
+                    var settingPeriod = Enum.Parse<TimePeriodType>(tenantSettings.PeriodOfRewardReset);
 
                     var userPerformance = new UserChallengePeriodPerformance
                     {
@@ -105,11 +108,11 @@ public class UserChallengesManagementService : IUserChallengesManagementService
                         IsPeriodActive = true,
                         Points = 0,
                         StartDate = DateTime.UtcNow,
-                        EndDate = DateTime.UtcNow.AddDays(7),// this should be calculated based on the day that user is register and how much days are left from the current period time
-                        TimePeriodType = TimePeriodType.Weekly,// based on the global setting settingPeriod
+                        EndDate = DateTime.UtcNow.AddDays(settingPeriod.GetDays()),
+                        TimePeriodType = settingPeriod
                     };
 
-                    var userChallengePeriodRewards = await this.GenerateRewardsAsyncV3(rewardCount, userPerformance.Id, context, cancellationToken);
+                    var userChallengePeriodRewards = await this.GenerateRewardsAsyncV3(tenantSettings.ChallengeRewardsCountForPeriod, userPerformance.Id, context, cancellationToken);
                     var userChallenges = await this.GenerateChallengesAsync(userId, context, cancellationToken);
 
                     userPerformance.UserChallengePeriodRewards = userChallengePeriodRewards;

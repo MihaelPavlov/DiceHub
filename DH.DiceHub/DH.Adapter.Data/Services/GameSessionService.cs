@@ -2,7 +2,9 @@ using DH.Domain.Adapters.ChallengesOrchestrator;
 using DH.Domain.Entities;
 using DH.Domain.Enums;
 using DH.Domain.Exceptions;
+using DH.Domain.Helpers;
 using DH.Domain.Services;
+using DH.Domain.Services.TenantSettingsService;
 using Microsoft.EntityFrameworkCore;
 
 namespace DH.Adapter.Data.Services;
@@ -12,11 +14,13 @@ public class GameSessionService : IGameSessionService
 {
     readonly IDbContextFactory<TenantDbContext> dbContextFactory;
     readonly SynchronizeUsersChallengesQueue queue;
+    readonly ITenantSettingsCacheService tenantSettingsCacheService;
 
-    public GameSessionService(IDbContextFactory<TenantDbContext> dbContextFactory, SynchronizeUsersChallengesQueue queue)
+    public GameSessionService(IDbContextFactory<TenantDbContext> dbContextFactory, SynchronizeUsersChallengesQueue queue, ITenantSettingsCacheService tenantSettingsCacheService)
     {
         this.dbContextFactory = dbContextFactory;
         this.queue = queue;
+        this.tenantSettingsCacheService = tenantSettingsCacheService;
     }
 
     /// <inheritdoc/>
@@ -80,7 +84,10 @@ public class GameSessionService : IGameSessionService
                         if (lockedChallenges.Count != 0)
                             this.queue.AddChallengeInitiationJob(userId, DateTime.UtcNow);
                         else
-                            this.queue.AddChallengeInitiationJob(userId, DateTime.UtcNow.AddHours(6));//TODO: This initial initiation time for challenge time should come from global settings
+                        {
+                            var tenantSettings = await this.tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
+                            this.queue.AddChallengeInitiationJob(userId, DateTime.UtcNow.AddHours(tenantSettings.ChallengeInitiationDelayHours));
+                        }
                     }
 
                     await context.SaveChangesAsync(cancellationToken);
@@ -183,12 +190,14 @@ public class GameSessionService : IGameSessionService
                     {
                         if (periodPerformance.Points >= (int)item.ChallengeReward.RequiredPoints)
                         {
+                            var tenantSettings = await this.tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
+
                             item.IsCompleted = true;
                             completedRewards.Add(new UserChallengeReward
                             {
                                 UserId = userId,
                                 AvailableFromDate = DateTime.UtcNow,
-                                ExpiresDate = DateTime.UtcNow.AddDays(7), //TODO: Coming from global settings
+                                ExpiresDate = DateTime.UtcNow.AddDays(Enum.Parse<TimePeriodType>(tenantSettings.PeriodOfRewardReset).GetDays()),
                                 IsClaimed = false,
                                 RewardId = item.ChallengeRewardId,
                                 IsExpired = false,
