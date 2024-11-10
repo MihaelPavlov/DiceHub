@@ -1,10 +1,11 @@
-﻿using DH.Domain.Enums;
+﻿using DH.Adapter.Scheduling.Jobs;
+using DH.Domain.Enums;
 using DH.Domain.Services.TenantSettingsService;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Quartz;
 
-namespace DH.Adapter.Scheduling.Jobs;
+namespace DH.Adapter.Scheduling;
 
 internal class ConditionalJobScheduler : IHostedService
 {
@@ -45,7 +46,7 @@ internal class ConditionalJobScheduler : IHostedService
 
                     var cronDay = GetCronDay(Enum.Parse<WeekDays>(tenantSettings.ResetDayForRewards));
 
-                    if (!await scheduler.CheckExists(new TriggerKey("WeeklyJobTrigger", "DEFAULT")))
+                    if (!await scheduler.CheckExists(new TriggerKey($"WeeklyJobTrigger-{nameof(AddUserChallengePeriodJob)}", "DEFAULT")))
                     {
                         var weeklyJobTrigger = TriggerBuilder.Create()
                         .ForJob(nameof(AddUserChallengePeriodJob))
@@ -59,7 +60,7 @@ internal class ConditionalJobScheduler : IHostedService
                 }
                 else if (timePeriod == TimePeriodType.Monthly)
                 {
-                    if (!await scheduler.CheckExists(new TriggerKey("WeeklyJobTrigger", "DEFAULT")))
+                    if (!await scheduler.CheckExists(new TriggerKey($"WeeklyJobTrigger-{nameof(AddUserChallengePeriodJob)}", "DEFAULT")))
                     {
                         var monthlyJobTrigger = TriggerBuilder.Create()
                         .ForJob(nameof(AddUserChallengePeriodJob))
