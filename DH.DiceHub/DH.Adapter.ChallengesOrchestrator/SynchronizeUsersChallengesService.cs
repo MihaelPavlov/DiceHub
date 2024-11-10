@@ -37,7 +37,7 @@ public class SynchronizeUsersChallengesService : BackgroundService
                         switch (jobInfo)
                         {
                             case SynchronizeUsersChallengesQueue.SynchronizeNewUserJob newUserJob:
-                                await userChallengesManagementService.InitiateNewUserChallenges(newUserJob.UserId, cancellationToken);
+                                await userChallengesManagementService.InitiateNewUserChallengePeriod(newUserJob.UserId, cancellationToken);
                                 break;
                             case SynchronizeUsersChallengesQueue.ChallengeInitiationJob challengeJob:
                                 if (challengeJob.ScheduledTime.HasValue && DateTime.UtcNow >= challengeJob.ScheduledTime)

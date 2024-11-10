@@ -69,7 +69,7 @@ public class GameSessionService : IGameSessionService
                         challenge.CompletedDate = DateTime.UtcNow;
                         challenge.Status = ChallengeStatus.Completed;
                         challenge.IsActive = false;
-
+                        
                         var challengeStats = challengeStatistics.First(x => x.ChallengeId == challenge.ChallengeId);
                         challengeStats.TotalCompletions++;
                     }

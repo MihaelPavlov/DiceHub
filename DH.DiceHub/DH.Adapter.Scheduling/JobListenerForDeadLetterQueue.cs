@@ -47,6 +47,11 @@ public class JobListenerForDeadLetterQueue : JobListenerSupport
                     var reservationExpirationHandler = scope.ServiceProvider.GetRequiredService<IReservationExpirationHandler>();
                     await reservationExpirationHandler.ProcessFailedReservationExpirationAsync(JsonSerializer.Serialize(new { context.JobDetail.Key, context.JobDetail.JobDataMap }), jobException.Message, cancellationToken);
                 }
+                else if (nameof(AddUserChallengePeriodJob) == context.JobDetail.JobType.Name)
+                {
+                    var addUserChallengePeriodHandler = scope.ServiceProvider.GetRequiredService<IAddUserChallengePeriodHandler>();
+                    await addUserChallengePeriodHandler.ProcessFailedReset(JsonSerializer.Serialize(new { context.JobDetail.Key, context.JobDetail.JobDataMap }), jobException.Message, cancellationToken);
+                }
             }
         }
     }

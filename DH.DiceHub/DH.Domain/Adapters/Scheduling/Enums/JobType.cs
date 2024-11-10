@@ -3,5 +3,6 @@
 public enum JobType
 {
     GameReservationExpiration = 0,
-    UserRewardsExpiry = 1
+    UserRewardsExpiry = 1,
+    AddUserChallengePeriod = 2
 }

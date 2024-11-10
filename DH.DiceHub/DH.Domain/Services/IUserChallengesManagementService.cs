@@ -7,13 +7,22 @@
 public interface IUserChallengesManagementService
 {
     /// <summary>
-    /// Initializes new challenges for a user. 
-    /// If the user has no challenges, the system generates and assigns initial challenges.
+    /// Initiate challenge period for a new user. 
+    /// The system generates rewards and assigns initial challenges.
     /// </summary>
     /// <param name="userId">The ID of the user for whom to initialize challenges.</param>
     /// <param name="cancellationToken">Cancellation token for the task.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    Task InitiateNewUserChallenges(string userId, CancellationToken cancellationToken);
+    Task InitiateNewUserChallengePeriod(string userId, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Initiate challenge period
+    /// The system generate user challenge period, with new rewards
+    /// </summary>
+    /// <param name="userId">The ID of the user for whom to initialize challenges.</param>
+    /// <param name="cancellationToken">Cancellation token for the task.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    Task<bool> InitiateUserChallengePeriod(string userId, CancellationToken cancellationToken);
 
     /// <summary>
     /// Adds a new challenge to the user. 

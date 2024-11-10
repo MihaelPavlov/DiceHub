@@ -1,7 +1,5 @@
 ﻿using DH.Domain.Adapters.Authentication;
-using DH.Domain.Entities;
 using DH.Domain.Models.ChallengeModels.Queries;
-using DH.Domain.Repositories;
 using DH.Domain.Services;
 using MediatR;
 

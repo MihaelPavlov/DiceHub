@@ -4,6 +4,8 @@ using DH.Domain.Helpers;
 using DH.Domain.Services;
 using DH.Domain.Services.TenantSettingsService;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System.Text.Json;
 
 namespace DH.Adapter.Data.Services;
 
@@ -12,11 +14,13 @@ public class UserChallengesManagementService : IUserChallengesManagementService
 {
     readonly IDbContextFactory<TenantDbContext> dbContextFactory;
     readonly ITenantSettingsCacheService tenantSettingsCacheService;
+    readonly ILogger<UserChallengesManagementService> logger;
 
-    public UserChallengesManagementService(IDbContextFactory<TenantDbContext> dbContextFactory, ITenantSettingsCacheService tenantSettingsCacheService)
+    public UserChallengesManagementService(IDbContextFactory<TenantDbContext> dbContextFactory, ITenantSettingsCacheService tenantSettingsCacheService, ILogger<UserChallengesManagementService> logger)
     {
         this.dbContextFactory = dbContextFactory;
         this.tenantSettingsCacheService = tenantSettingsCacheService;
+        this.logger = logger;
     }
 
     /// <inheritdoc/>
@@ -87,10 +91,7 @@ public class UserChallengesManagementService : IUserChallengesManagementService
         }
     }
 
-    /// <inheritdoc/>
-    //IMPORTANT! Challenge period time will be the same for everybody
-    //IMPORTANT! Every Sunday at 12:00 PM reset all reward for everybody 
-    public async Task InitiateNewUserChallenges(string userId, CancellationToken cancellationToken)
+    public async Task<bool> InitiateUserChallengePeriod(string userId, CancellationToken cancellationToken)
     {
         using (var context = await this.dbContextFactory.CreateDbContextAsync(cancellationToken))
         {
@@ -101,6 +102,7 @@ public class UserChallengesManagementService : IUserChallengesManagementService
                     var tenantSettings = await this.tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
 
                     var settingPeriod = Enum.Parse<TimePeriodType>(tenantSettings.PeriodOfRewardReset);
+                    var nextResetDate = TimePeriodTypeHelper.CalculateNextResetDate(settingPeriod, tenantSettings.ResetDayForRewards);
 
                     var userPerformance = new UserChallengePeriodPerformance
                     {
@@ -108,7 +110,52 @@ public class UserChallengesManagementService : IUserChallengesManagementService
                         IsPeriodActive = true,
                         Points = 0,
                         StartDate = DateTime.UtcNow,
-                        EndDate = DateTime.UtcNow.AddDays(settingPeriod.GetDays()),
+                        EndDate = nextResetDate,
+                        TimePeriodType = settingPeriod
+                    };
+
+                    var userChallengePeriodRewards = await this.GenerateRewardsAsyncV3(tenantSettings.ChallengeRewardsCountForPeriod, userPerformance.Id, context, cancellationToken);
+                    userPerformance.UserChallengePeriodRewards = userChallengePeriodRewards;
+                    await context.UserChallengePeriodPerformances.AddAsync(userPerformance, cancellationToken);
+
+                    await context.SaveChangesAsync(cancellationToken);
+                    await transaction.CommitAsync(cancellationToken);
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    await transaction.RollbackAsync(cancellationToken);
+                    this.logger.LogError("Error appear while new challenge period was adding for user - {userId}. Ex-> {exception}", userId, JsonSerializer.Serialize(ex));
+                    return false;
+                }
+            }
+        }
+    }
+
+    /// <inheritdoc/>
+    //IMPORTANT! Challenge period time will be the same for everybody
+    //IMPORTANT! Every Sunday at 12:00 PM reset all reward for everybody 
+    public async Task InitiateNewUserChallengePeriod(string userId, CancellationToken cancellationToken)
+    {
+        using (var context = await this.dbContextFactory.CreateDbContextAsync(cancellationToken))
+        {
+            using (var transaction = await context.Database.BeginTransactionAsync(cancellationToken))
+            {
+                try
+                {
+                    var tenantSettings = await this.tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
+
+                    var settingPeriod = Enum.Parse<TimePeriodType>(tenantSettings.PeriodOfRewardReset);
+                    var nextResetDate = TimePeriodTypeHelper.CalculateNextResetDate(settingPeriod, tenantSettings.ResetDayForRewards);
+
+                    var userPerformance = new UserChallengePeriodPerformance
+                    {
+                        UserId = userId,
+                        IsPeriodActive = true,
+                        Points = 0,
+                        StartDate = DateTime.UtcNow,
+                        EndDate = nextResetDate,
                         TimePeriodType = settingPeriod
                     };
 
@@ -246,7 +293,7 @@ public class UserChallengesManagementService : IUserChallengesManagementService
     /// <param name="dbContext">The database context to interact with rewards and user data.</param>
     /// <param name="cancellationToken">Token for canceling the task if needed.</param>
     /// <returns>A list of user challenge period rewards ordered by required points.</returns>
-    public async Task<List<UserChallengePeriodReward>> GenerateRewardsAsyncV3(int rewardCount, int userPerformanceId, TenantDbContext dbContext, CancellationToken cancellationToken)
+    private async Task<List<UserChallengePeriodReward>> GenerateRewardsAsyncV3(int rewardCount, int userPerformanceId, TenantDbContext dbContext, CancellationToken cancellationToken)
     {
         // Fetch all rewards from the database
         var systemRewards = await dbContext.ChallengeRewards
