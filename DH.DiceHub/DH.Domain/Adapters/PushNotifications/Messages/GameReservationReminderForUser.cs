@@ -2,12 +2,12 @@
 
 namespace DH.Domain.Adapters.PushNotifications.Messages;
 
-public class GameReservationReminder : MessageRequest
+public class GameReservationReminderForUser : MessageRequest
 {
     public string GameName { get; set; }
     public DateTime ReservationTime { get; set; }
 
-    public GameReservationReminder(string gameName, DateTime reservationTime)
+    public GameReservationReminderForUser(string gameName, DateTime reservationTime)
     {
         this.GameName = gameName;
         this.ReservationTime = reservationTime;

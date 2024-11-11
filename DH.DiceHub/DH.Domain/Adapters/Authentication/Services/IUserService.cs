@@ -1,4 +1,6 @@
 ﻿using DH.Domain.Adapters.Authentication.Models;
+using DH.Domain.Adapters.Authentication.Models.Enums;
+using DH.Domain.Entities;
 
 namespace DH.Domain.Adapters.Authentication.Services;
 
@@ -22,7 +24,7 @@ public interface IUserService
     /// <returns>A task representing the asynchronous operation.</returns>
     Task RegisterUser(UserRegistrationRequest form);
 
-    Task RegisterNotification(string email);
+    Task<UserDeviceToken> GetDeviceTokenByUserEmail(string email);
 
     /// <summary>
     /// Get user list only if the id is presented in the ids array.
@@ -30,4 +32,11 @@ public interface IUserService
     /// <param name="ids">Ids of user that we want.</param>
     /// <returns>A <see cref="UserModel"/> collection.</returns>
     Task<List<UserModel>> GetUserListByIds(string[] ids, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Get user list by role
+    /// </summary>
+    /// <param name="role">Specific role.</param>
+    /// <returns>A <see cref="GetUserByRoleModel"/> collection.</returns>
+    Task<List<GetUserByRoleModel>> GetUserListByRole(Role role, CancellationToken cancellationToken);
 }

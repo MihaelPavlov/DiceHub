@@ -4,5 +4,5 @@ namespace DH.Domain.Services;
 
 public interface ISpaceTableService : IDomainService<SpaceTable>
 {
-    Task<int> Create(SpaceTable spaceTable,CancellationToken cancellationToken);
+    Task<int> Create(SpaceTable spaceTable, CancellationToken cancellationToken, bool fromGameReservation = false, string userId = "");
 }

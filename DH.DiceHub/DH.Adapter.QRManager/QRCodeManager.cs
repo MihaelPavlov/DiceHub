@@ -1,11 +1,15 @@
 ﻿using DH.Adapter.QRManager.QRCodeStates;
 using DH.Domain;
 using DH.Domain.Adapters.Authentication;
+using DH.Domain.Adapters.Authentication.Services;
+using DH.Domain.Adapters.GameSession;
 using DH.Domain.Adapters.QRManager;
 using DH.Domain.Adapters.QRManager.StateModels;
+using DH.Domain.Adapters.Scheduling;
 using DH.Domain.Entities;
 using DH.Domain.Exceptions;
 using DH.Domain.Repositories;
+using DH.Domain.Services;
 using SkiaSharp;
 using System.Text.Json;
 using ZXing.QrCode;
@@ -107,6 +111,19 @@ public class QRCodeManager : IQRCodeManager
             case QrCodeType.Game:
                 this.qRCodeContext.SetState(
                     new GameQRCodeState(
+                        this.containerService.Resolve<IRepository<Game>>()
+                        )
+                    );
+                break;
+            case QrCodeType.GameReservation:
+                this.qRCodeContext.SetState(
+                    new GameReservationQRCodeState(
+                        this.containerService.Resolve<IUserContext>(),
+                        this.containerService.Resolve<IRepository<GameReservation>>(),
+                        this.containerService.Resolve<IUserService>(),
+                        this.containerService.Resolve<ISpaceTableService>(),
+                        this.containerService.Resolve<SynchronizeGameSessionQueue>(),
+                        this.containerService.Resolve<IJobManager>(),
                         this.containerService.Resolve<IRepository<Game>>()
                         )
                     );

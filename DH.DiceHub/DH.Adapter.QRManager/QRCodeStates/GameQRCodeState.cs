@@ -23,8 +23,6 @@ public class GameQRCodeState : IQRCodeState
         {
             var game = await this.gameRepository.GetByAsyncWithTracking(x => x.Id == data.Id, cancellationToken);
 
-            await context.TrackScannedQrCode(traceId, data, null, cancellationToken);
-
             if (game == null)
             {
                 validationResult.ErrorMessage = "Game doesn't exists. Reach someone from the staff with the scanned game.";
@@ -32,6 +30,7 @@ public class GameQRCodeState : IQRCodeState
                 return validationResult;
             }
 
+            await context.TrackScannedQrCode(traceId, data, null, cancellationToken);
             validationResult.IsValid = true;
         }
         catch (Exception ex)

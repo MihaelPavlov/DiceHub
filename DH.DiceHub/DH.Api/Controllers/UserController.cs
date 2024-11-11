@@ -10,6 +10,9 @@ using DH.Application.Common.Commands;
 using DH.Domain.Adapters.Authentication.Enums;
 using Google.Apis.Download;
 using MediatR;
+using DH.Domain.Adapters.PushNotifications.Messages;
+using DH.Domain.Entities;
+using DH.Domain.Adapters.PushNotifications;
 
 namespace DH.Api.Controllers;
 
@@ -21,13 +24,15 @@ public class UserController : ControllerBase
     readonly IUserService userService;
     readonly IJwtService jwtService;
     readonly IMediator mediator;
+    readonly IPushNotificationsService pushNotificationsService;
 
-    public UserController(IConfiguration configuration, IJwtService jwtService, IUserService userService, IMediator mediator)
+    public UserController(IConfiguration configuration, IJwtService jwtService, IUserService userService, IMediator mediator, IPushNotificationsService pushNotificationsService)
     {
         this.configuration = configuration;
         this.userService = userService;
         this.jwtService = jwtService;
         this.mediator = mediator;
+        this.pushNotificationsService = pushNotificationsService;
     }
 
     [HttpPost]
@@ -47,7 +52,9 @@ public class UserController : ControllerBase
     [HttpPost("register-notification")]
     public async Task<IActionResult> RegisterNotification([FromBody] RegistrationNotifcation form)
     {
-        await userService.RegisterNotification(form.Email);
+        var userDeviceToken = await userService.GetDeviceTokenByUserEmail(form.Email);
+        await this.pushNotificationsService.SendUserNotificationAsync(new RegistrationMessage(form.Email) { DeviceToken = userDeviceToken.DeviceToken });
+
         return this.Ok();
     }
 

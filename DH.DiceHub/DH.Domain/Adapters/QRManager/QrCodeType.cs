@@ -6,4 +6,5 @@ public enum QrCodeType
     Game = 1,
     Event = 2,
     Reward = 3,
+    GameReservation = 4,
 }

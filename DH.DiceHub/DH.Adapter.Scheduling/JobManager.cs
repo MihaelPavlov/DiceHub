@@ -31,4 +31,14 @@ internal class JobManager : IJobManager
 
         await scheduler.ScheduleJob(job, trigger);
     }
+
+    /// <inheritdoc/>
+    public async Task<bool> DeleteJob(string jobName, string jobGroup = "DEFAULT")
+    {
+        var scheduler = await this.schedulerFactory.GetScheduler();
+
+        var jobKey = new JobKey(jobName, jobGroup);
+
+        return await scheduler.DeleteJob(jobKey);
+    }
 }

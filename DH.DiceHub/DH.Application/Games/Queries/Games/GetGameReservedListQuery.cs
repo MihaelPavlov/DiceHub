@@ -27,7 +27,7 @@ internal class GetGameReservedListQueryHandler : IRequestHandler<GetGameReserved
             UserId = x.UserId,
             ReservationDate = x.ReservationDate,
             ReservedDurationMinutes = x.ReservedDurationMinutes,
-            IsExpired = x.IsExpired,
+            IsExpired = x.IsActive,
             IsPaymentSuccessful = x.IsPaymentSuccessful,
             GameId = x.GameId
         }, cancellationToken);

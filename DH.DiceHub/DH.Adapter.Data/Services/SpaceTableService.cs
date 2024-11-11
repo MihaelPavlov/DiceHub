@@ -17,7 +17,7 @@ public class SpaceTableService : ISpaceTableService
         this.dbContextFactory = dbContextFactory;
     }
 
-    public async Task<int> Create(SpaceTable spaceTable, CancellationToken cancellationToken)
+    public async Task<int> Create(SpaceTable spaceTable, CancellationToken cancellationToken, bool fromGameReservation = false, string userId = "")
     {
         using (var context = await this.dbContextFactory.CreateDbContextAsync(cancellationToken))
         {
@@ -25,14 +25,15 @@ public class SpaceTableService : ISpaceTableService
             {
                 try
                 {
+                    var currentUser = fromGameReservation ? userId : this.userContext.UserId;
                     var doesUserHaveActiveTable = await context.SpaceTables
                    .AnyAsync(x =>
                        x.IsTableActive &&
-                       x.CreatedBy == this.userContext.UserId, cancellationToken);
+                       x.CreatedBy == currentUser, cancellationToken);
 
                     var userParticipateInAnyActiveTables = await context.SpaceTableParticipants
                         .Where(x =>
-                            x.UserId == this.userContext.UserId &&
+                            x.UserId == currentUser &&
                             x.SpaceTable.IsTableActive
                         ).ToListAsync(cancellationToken);
 
@@ -42,17 +43,20 @@ public class SpaceTableService : ISpaceTableService
                     if (userParticipateInAnyActiveTables.Count != 0)
                         throw new ValidationErrorsException("UserParticipateInActiveTable", "You already participate in table");
 
-                    var gameInvetory = await context.GameInventories.AsTracking()
-                        .FirstOrDefaultAsync(x => x.GameId == spaceTable.GameId, cancellationToken);
+                    if (!fromGameReservation)
+                    {
+                        var gameInvetory = await context.GameInventories.AsTracking()
+                            .FirstOrDefaultAsync(x => x.GameId == spaceTable.GameId, cancellationToken);
 
-                    if (gameInvetory == null || gameInvetory.AvailableCopies <= 0)
-                        throw new ValidationErrorsException("NoAvailableCopies", "No Available copies of this game.");
+                        if (gameInvetory == null || gameInvetory.AvailableCopies <= 0)
+                            throw new ValidationErrorsException("NoAvailableCopies", "No Available copies of this game.");
 
-                    gameInvetory.AvailableCopies--;
+                        gameInvetory.AvailableCopies--;
+                    }
 
                     spaceTable.IsTableActive = true;
                     spaceTable.IsLocked = !string.IsNullOrEmpty(spaceTable.Password);
-                    spaceTable.CreatedBy = this.userContext.UserId;
+                    spaceTable.CreatedBy = currentUser;
                     spaceTable.CreatedDate = DateTime.UtcNow;
 
                     var createdSpaceTable = await context.SpaceTables.AddAsync(spaceTable, cancellationToken);

@@ -38,6 +38,31 @@
 
 }
 
+.field-inputs{
+    margin: 1rem;
+}
+
+.reservation-qrcode{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.wrapper_qrCode {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    margin: 1rem;
+
+    img {
+        width: 4rem;
+        height: 4rem;
+        object-fit: cover;
+    }
+}
 .wrapper {
     display: flex;
     justify-content: center;

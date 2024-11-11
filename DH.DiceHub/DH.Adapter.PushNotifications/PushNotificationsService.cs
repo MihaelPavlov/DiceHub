@@ -1,4 +1,7 @@
 ﻿using DH.Domain.Adapters.Authentication;
+using DH.Domain.Adapters.Authentication.Models;
+using DH.Domain.Adapters.Authentication.Models.Enums;
+using DH.Domain.Adapters.Authentication.Services;
 using DH.Domain.Adapters.PushNotifications;
 using DH.Domain.Adapters.PushNotifications.Messages.Common;
 using DH.Domain.Adapters.PushNotifications.Messages.Models;
@@ -72,7 +75,7 @@ internal class PushNotificationsService : IPushNotificationsService
         }
     }
 
-    public async Task SendMessageAsync(MessageRequest message)
+    public async Task SendUserNotificationAsync(MessageRequest message)
     {
         var deviceToken = await this.deviceTokenRepository.GetByAsync(x => x.DeviceToken == message.DeviceToken && this.userContext.UserId == x.UserId, CancellationToken.None);
 
@@ -116,7 +119,7 @@ internal class PushNotificationsService : IPushNotificationsService
         }
     }
 
-    public async Task SendMultipleMessagesAsync(MultipleMessageRequest message)
+    public async Task SendBulkNotificationsAsync(MultipleMessageRequest message)
     {
         var deviceTokens = await this.deviceTokenRepository.GetWithPropertiesAsync(x => message.Tokens.Contains(x.DeviceToken), x => x, CancellationToken.None);
 
@@ -154,5 +157,52 @@ internal class PushNotificationsService : IPushNotificationsService
         }
 
         this.logger.LogWarning("Sent message from type {TypeOfMessage}: {SuccessCount} successful, {FailureCount} failed.", typeof(MessageRequest), result.SuccessCount, result.FailureCount);
+    }
+
+    public async Task SendNotificationToUsersAsync(List<GetUserByRoleModel> users, MessageRequest message, CancellationToken cancellationToken)
+    {
+        var userIds = users.Select(x => x.Id).ToList();
+        var deviceTokens = await this.deviceTokenRepository.GetWithPropertiesAsync(x => userIds.Contains(x.UserId), x => x, CancellationToken.None);
+        foreach (var user in users)
+        {
+            var deviceToken = deviceTokens.FirstOrDefault(x => x.UserId == user.Id);
+            if (deviceToken is null)
+            {
+                this.logger.LogWarning("Message from type {typeMessage}, was not send", typeof(MessageRequest));
+                return;
+            }
+            try
+            {
+                var responseId = await FirebaseMessaging.DefaultInstance.SendAsync(new Message
+                {
+                    Token = deviceToken.DeviceToken,
+                    Notification = new Notification
+                    {
+                        Title = message.Title,
+                        Body = message.Body
+                    }
+                });
+
+                if (string.IsNullOrEmpty(responseId))
+                {
+                    this.logger.LogWarning("Message from type {typeMessage}, was not send", typeof(MessageRequest));
+                    return;
+                }
+
+                await this.userNotificationRepository.AddAsync(new UserNotification
+                {
+                    UserId = user.Id,
+                    MessageBody = message.Body,
+                    MessageTitle = message.Title,
+                    MessageId = responseId.Split("/").Last(),
+                    MessageType = message.GetType().ToString().Split(".").Last(),
+                    CreatedDate = DateTime.UtcNow,
+                }, CancellationToken.None);
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError("Message error was catched exception -> {exception}", JsonSerializer.Serialize(ex));
+            }
+        }
     }
 }

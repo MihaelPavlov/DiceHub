@@ -4,6 +4,7 @@ import { IQrCodeValidationResult } from '../../../entities/qr-code-scanner/model
 import { RewardsService } from '../../../entities/rewards/api/rewards.service';
 import { ToastService } from '../../services/toast.service';
 import { ToastType } from '../../models/toast.model';
+import { QrCodeType } from '../../../entities/qr-code-scanner/enums/qr-code-type.enum';
 
 @Component({
   selector: 'scan-result-admin-dialog',
@@ -11,6 +12,7 @@ import { ToastType } from '../../models/toast.model';
   styleUrls: ['scan-result-admin.dialog.scss'],
 })
 export class ScanResultAdminDialog {
+  public QrCodeType = QrCodeType;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: IQrCodeValidationResult,
     private dialogRef: MatDialogRef<ScanResultAdminDialog>,
@@ -18,6 +20,21 @@ export class ScanResultAdminDialog {
     private readonly toastService: ToastService
   ) {
     console.log('user reward data -> ', data);
+  }
+
+  public get getTypeOfQrCode(): string {
+    switch (this.data.type) {
+      case QrCodeType.Reward:
+        return 'Reward';
+      case QrCodeType.GameReservation:
+        return 'Game Reservation';
+      case QrCodeType.Game:
+        return 'Game';
+      case QrCodeType.Event:
+        return 'Event';
+      default:
+        return 'Qr-Code';
+    }
   }
 
   public confirm(): void {

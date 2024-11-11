@@ -26,7 +26,7 @@ export class QrCodeScannerComponent implements AfterViewInit {
   constructor(
     private readonly scannerService: ScannerService,
     private readonly router: Router,
-    private readonly dialog: MatDialog,
+    private readonly dialog: MatDialog
   ) {}
 
   public ngAfterViewInit(): void {
@@ -104,16 +104,38 @@ export class QrCodeScannerComponent implements AfterViewInit {
                           );
                         }
                         break;
+                      case QrCodeType.GameReservation:
+                        if (res.isValid) {
+                          
+                        }
+                        else{
+                          const dialogRef = this.dialog.open(
+                            ScanResultAdminDialog,
+                            {
+                              data: res,
+                            }
+                          );
+  
+                          dialogRef.afterClosed().subscribe({
+                            next: () => {
+                              window.location.reload();
+                            },
+                          });
+                        }
+                        break;
                       case QrCodeType.Reward:
-                       const dialogRef= this.dialog.open(ScanResultAdminDialog, {
-                          data: res,
-                        });
+                        const dialogRef = this.dialog.open(
+                          ScanResultAdminDialog,
+                          {
+                            data: res,
+                          }
+                        );
 
                         dialogRef.afterClosed().subscribe({
-                          next:()=>{
-                            window.location.reload()
-                          }
-                        })
+                          next: () => {
+                            window.location.reload();
+                          },
+                        });
                         break;
                     }
                   }

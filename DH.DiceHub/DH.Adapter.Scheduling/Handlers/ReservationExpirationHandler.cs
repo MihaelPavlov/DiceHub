@@ -31,7 +31,7 @@ public class ReservationExpirationHandler : IReservationExpirationHandler
     {
         var reservation = await repository.GetByAsyncWithTracking(x => x.Id == reservationId, cancellationToken);
 
-        if (reservation != null && !reservation.IsExpired)
+        if (reservation != null && reservation.IsActive && !reservation.IsReservationSuccessful)
         {
             var actualExpirationTime = reservation.ReservationDate.AddMinutes(reservation.ReservedDurationMinutes);
 
@@ -43,7 +43,8 @@ public class ReservationExpirationHandler : IReservationExpirationHandler
                 if (inventory.AvailableCopies < inventory.TotalCopies)
                     inventory.AvailableCopies++;
 
-                reservation.IsExpired = true;
+                reservation.IsActive = false;
+                reservation.IsReservationSuccessful = false;
 
                 await repository.Update(reservation, cancellationToken);
                 await inventoryRepository.Update(inventory, cancellationToken);

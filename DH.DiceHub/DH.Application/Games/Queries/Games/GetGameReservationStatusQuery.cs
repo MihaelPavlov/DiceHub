@@ -1,6 +1,5 @@
 ﻿using DH.Domain.Adapters.Authentication;
 using DH.Domain.Entities;
-using DH.Domain.Exceptions;
 using DH.Domain.Models.GameModels.Queries;
 using DH.Domain.Repositories;
 using MediatR;
@@ -25,14 +24,15 @@ internal class GetGameReservationStatusQueryHandler : IRequestHandler<GetGameRes
             x => x.UserId == this.userContext.UserId && x.GameId == request.Id,
             x => new GetGameReservationStatusQueryModel
             {
+                ReservationId = x.Id,
                 GameId = x.GameId,
                 ReservationDate = x.ReservationDate,
                 ReservedDurationMinutes = x.ReservedDurationMinutes,
-                IsExpired = x.IsExpired,
+                IsActive = x.IsActive,
             }, cancellationToken);
 
         return userReservationList
             .OrderByDescending(x => x.ReservationDate)
-            .FirstOrDefault(x => !x.IsExpired);
+            .FirstOrDefault(x => x.IsActive);
     }
 }

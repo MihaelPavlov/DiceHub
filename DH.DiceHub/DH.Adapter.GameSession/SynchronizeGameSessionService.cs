@@ -71,6 +71,7 @@ public class SynchronizeGameSessionService : BackgroundService
                 }
             }
 
+            //TODO: THINK for this. This is execute every 1 second. It's seems to much loggs
             await Task.Delay(1000, cancellationToken);
         }
     }

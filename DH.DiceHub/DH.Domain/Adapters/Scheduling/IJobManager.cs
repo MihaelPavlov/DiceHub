@@ -13,4 +13,13 @@ public interface IJobManager
     /// <param name="durationInMinutes">The duration in minutes after which the reservation will expire.</param>
     /// <returns>A task representing the asynchronous operation of scheduling the reservation expiration job.</returns>
     Task CreateReservationJob(int reservationId, DateTime reservationTime, int durationInMinutes);
+
+    /// <summary>
+    /// Deletes a job from the scheduler based on the job name and optionally its group.
+    /// If no group is specified, the default group ("DEFAULT") will be used.
+    /// </summary>
+    /// <param name="jobName">The name of the job to be deleted.</param>
+    /// <param name="jobGroup">The group to which the job belongs (optional, defaults to "DEFAULT").</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
+    Task<bool> DeleteJob(string jobName, string jobGroup = "DEFAULT");
 }

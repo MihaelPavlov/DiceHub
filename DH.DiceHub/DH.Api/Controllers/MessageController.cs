@@ -20,7 +20,7 @@ public class MessageController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> SendMessageAsync([FromBody] MessageRequest request)
     {
-        await this.pushNotificationsService.SendMessageAsync(request);
+        await this.pushNotificationsService.SendUserNotificationAsync(request);
         return Ok("Push notification sent successfully!");
     }
 }
