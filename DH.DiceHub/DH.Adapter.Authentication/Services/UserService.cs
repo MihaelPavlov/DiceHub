@@ -30,6 +30,7 @@ public class UserService : IUserService
     readonly SynchronizeUsersChallengesQueue queue;
     readonly IPushNotificationsService pushNotificationsService;
     readonly IRepository<UserDeviceToken> userDeviceTokenRepository;
+
     /// <summary>
     /// Constructor for UserService to initialize dependencies.
     /// </summary>
@@ -76,7 +77,7 @@ public class UserService : IUserService
         var refreshToken = this.jwtService.GenerateRefreshToken();
 
         user.RefreshToken = refreshToken;
-        user.RefreshTokenExpiryTime = DateTime.Now.AddMinutes(10);
+        user.RefreshTokenExpiryTime = DateTime.Now.AddDays(10);
 
         await this.userManager.UpdateAsync(user);
 
@@ -92,7 +93,7 @@ public class UserService : IUserService
             throw new ValidationErrorsException(validationErrors);
 
         var existingUserByEmail = await this.userManager.FindByEmailAsync(form.Email);
-        if(existingUserByEmail != null)
+        if (existingUserByEmail != null)
             throw new ValidationErrorsException("Exist", "Player with that Email, already exist");
 
         var existingUserByUsername = await this.userManager.FindByNameAsync(form.Username);
@@ -123,13 +124,16 @@ public class UserService : IUserService
         }, CancellationToken.None);
     }
 
-    public async Task RegisterNotification(string email)
+    public async Task<UserDeviceToken> GetDeviceTokenByUserEmail(string email)
     {
         var user = await this.userManager.FindByEmailAsync(email);
         if (user is null)
             throw new ArgumentNullException("User is not found");
         var userDeviceToken = await this.userDeviceTokenRepository.GetByAsync(x => x.UserId == user.Id, CancellationToken.None);
-        await this.pushNotificationsService.SendMessageAsync(new RegistrationMessage(email) { DeviceToken = userDeviceToken.DeviceToken });
+
+        if (userDeviceToken is null)
+            throw new NotFoundException("User Device Token was not found");
+        return userDeviceToken;
     }
 
     public async Task<List<UserModel>> GetUserListByIds(string[] ids, CancellationToken cancellationToken)
@@ -143,5 +147,21 @@ public class UserService : IUserService
                 ImageUrl = string.Empty
             })
             .ToListAsync(cancellationToken);
+    }
+
+    public async Task<List<GetUserByRoleModel>> GetUserListByRole(Role role, CancellationToken cancellationToken)
+    {
+        // Check if the role exists
+        if (!await this.roleManager.RoleExistsAsync(role.ToString()))
+            throw new ArgumentException("Role does not exist.");
+
+        // Get users in the specified role
+        var usersInRole = await this.userManager.GetUsersInRoleAsync(role.ToString());
+
+        return usersInRole.Select(x => new GetUserByRoleModel
+        {
+            Id = x.Id,
+            UserName = x.UserName ?? "username_placeholder",
+        }).ToList();
     }
 }

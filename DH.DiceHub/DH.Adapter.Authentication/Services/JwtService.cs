@@ -45,7 +45,7 @@ public class JwtService : IJwtService
             issuer: fe_url,
             audience: fe_url,
             claims: claims,
-            expires: DateTime.Now.AddSeconds(20),
+            expires: DateTime.Now.AddDays(1),
             signingCredentials: signinCredentials
         );
         var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
