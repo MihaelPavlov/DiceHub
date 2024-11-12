@@ -6,6 +6,8 @@ import { IUserActiveSpaceTableResult } from '../../../../entities/space-manageme
 import { ISpaceTableParticipant } from '../../../../entities/space-management/models/table-participant.model';
 import { AuthService } from '../../../../entities/auth/auth.service';
 import { UserRole } from '../../../../entities/auth/enums/roles.enum';
+import { FULL_ROUTE } from '../../../../shared/configs/route.config';
+import { IMenuItem } from '../../../../shared/models/menu-item.model';
 
 @Component({
   selector: 'app-club-space-details',
@@ -18,19 +20,36 @@ export class ClubSpaceDetailsComponent implements OnInit {
     ISpaceTableParticipant[] | null
   >;
   public tableId!: number;
+  public menuItems: IMenuItem[] = [];
 
   constructor(
     private readonly router: Router,
     private readonly activeRoute: ActivatedRoute,
     private readonly spaceManagementService: SpaceManagementService,
     private readonly authService: AuthService
-  ) {}
+  ) {
+    this.menuItems = [
+      { key: 'settings', label: 'Settings' },
+      { key: 'system-rewards', label: 'System Rewards' },
+      { key: 'custom-challenges', label: 'Custom Challenges' },
+    ];
+  }
 
   public get isUserAdmin(): boolean {
     if (this.authService.getUser) {
       return this.authService.getUser.role !== UserRole.User ? true : false;
     }
     return false;
+  }
+
+  public handleMenuItemClick(key: string) {
+      this.menuItemClickFunction(key);
+      }
+
+  public menuItemClickFunction(key: string): void {
+    if (key === 'add') {
+      this.router.navigateByUrl(FULL_ROUTE.EVENTS.ADMIN.ADD);
+    }
   }
 
   public ngOnInit(): void {

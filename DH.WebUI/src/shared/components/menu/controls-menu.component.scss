@@ -1,0 +1,92 @@
+@use "../../../shared/assets/styles/palette";
+
+.menu {
+  width: 90%;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  flex-direction: column;
+  position: fixed;
+  bottom: 5rem;
+  padding: 1rem;
+  z-index: 1000;
+  transform: translateY(20px);
+  opacity: 0;
+  animation: slideUp 0.5s ease-out forwards;
+}
+
+/* Keyframes for slide-up animation */
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.menu .menu_ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-radius: 0.5rem;
+  background-color: palette.$main-nav-color;
+}
+
+.menu .menu_ul .menu_li {
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+}
+
+.last_menu_ul {
+  list-style: none;
+  border-radius: 0.5rem;
+  background-color: palette.$main-nav-color;
+  margin: 0.5rem 0;
+  padding: 0.3rem;
+}
+.last_menu_li {
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+}
+.last_menu_li:hover {
+  background-color: palette.$main-icon-color;
+  border-radius: 0.5rem;
+}
+
+.menu .menu_ul .menu_li:hover {
+  background-color: palette.$main-icon-color;
+  border-radius: 0.5rem;
+}
+
+.blur-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  background: palette.$main-overlay-color;
+  z-index: 900;
+  pointer-events: none;
+  transition: opacity 0.2s ease-in-out, backdrop-filter 0.2s ease-in-out;
+  visibility: hidden; /* Hides overlay when opacity is 0 */
+}
+.wrapper_settings.active .blur-overlay {
+  opacity: 0.5;
+  backdrop-filter: blur(1rem);
+  pointer-events: all;
+  visibility: visible; /* Shows overlay */
+}
+.wrapper_settings.active {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}

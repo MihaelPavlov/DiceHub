@@ -2,4 +2,4 @@
 <loading-indicator />
 <app-assistive-touch (updateUserNotifications)="onUpdateUserNotifications()" [areAnyActiveNotifications]="this.areAnyActiveNotificationSubject" *ngIf="this.userInfo | async"></app-assistive-touch>
 
-<app-menu *ngIf="this.userInfo | async" />
+<app-navigation-menu *ngIf="this.userInfo | async" />

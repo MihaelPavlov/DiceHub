@@ -9,6 +9,7 @@ import { CalculateRemainingDaysPipe } from './pipe/calculate-remaining-days.pipe
 import { GameImagePipe } from './pipe/game-image.pipe';
 import { EventImagePipe } from './pipe/event-image.pipe';
 import { RewardImagePipe } from './pipe/reward-image.pipe';
+import { ControlsMenuComponent } from './components/menu/controls-menu.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { RewardImagePipe } from './pipe/reward-image.pipe';
     GameImagePipe,
     RewardImagePipe,
     EventImagePipe,
+    ControlsMenuComponent
   ],
   imports: [CommonModule, ReactiveFormsModule, MatProgressBarModule],
   exports: [
@@ -28,6 +30,7 @@ import { RewardImagePipe } from './pipe/reward-image.pipe';
     GameImagePipe,
     RewardImagePipe,
     EventImagePipe,
+    ControlsMenuComponent
   ],
   providers: [
     StringFormatPipe,

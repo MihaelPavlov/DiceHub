@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app-component/app.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
-import { MenuModule } from '../widgets/menu/menu.module';
+import { NavigationMenuModule } from '../widgets/menu/navigation-menu.module';
 import { RouterOutlet } from '@angular/router';
 import { AppRoutingModule } from './app-routes/app-routes.module';
 import { HeaderModule } from '../widgets/header/header.module';
@@ -36,7 +36,7 @@ import { AssistiveTouchModule } from '../shared/components/assistive-touch/assis
     HttpClientModule,
     AppRoutingModule,
     BrowserModule,
-    MenuModule,
+    NavigationMenuModule,
     LoginModule,
     RegisterModule,
     HeaderModule,

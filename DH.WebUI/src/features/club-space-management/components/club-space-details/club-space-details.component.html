@@ -1,5 +1,5 @@
 <app-header
-  Recommended="Room Name"
+  Recommended="Room"
   [withSearch]="true"
   (searchExpressionResult)="handleSearchExpression($event)"
   [withBackBtn]="true"
@@ -8,7 +8,30 @@
 ></app-header>
 
 <ng-container *ngIf="this.userActiveTable$ | async as info">
-  <div class="wrapper_btn" *ngIf="info.isPlayerHaveActiveTable">
+  <div class="wrapper_helper">
+    <div class="info">
+      <span> <strong>Name:</strong> Room Name dasdsadsadasdsadsadasdsadas</span>
+      <span> <strong>Game:</strong> Game Name dsad wwdqwd wqd </span>
+      <span> <strong>People:</strong> 9 </span>
+      <span> <strong>Password:</strong> 005143024 </span>
+    </div>
+    <a class="wrapper_menu">
+      <span
+        id="search-btn"
+        class="material-symbols-outlined"
+        (click)="menu.toggleMenu()"
+        >
+        settings
+      </span>
+
+      <app-controls-menu
+        #menu
+        [menuItems]="menuItems"
+        (menuItemClick)="handleMenuItemClick($event)"
+      ></app-controls-menu>
+    </a>
+  </div>
+  <!-- <div class="wrapper_btn" *ngIf="info.isPlayerHaveActiveTable">
     <button class="btn btn__small btn-red btn-border-red" (click)="onClose()">
       Close the Room
     </button>
@@ -19,7 +42,7 @@
     >
       Add Virtual User
     </button>
-  </div>
+  </div> -->
   <!-- TODO: On leave and on close in the BE. I need to check the job if it's still not executed i need to cancel it
   I have canceJobMethod in the queue 
   Show them warning message -->
@@ -61,6 +84,26 @@
           >
             delete
           </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" *ngFor="let item of [1, 2, 3, 4, 5]">
+      <div class="wrapper_library__item">
+        <div class="wrapper_image">
+          <img src="" alt="usr Image" />
+        </div>
+        <div class="wrapper_info">
+          <div class="wrapper_title">
+            test
+            <div class="wrapper_description">joined before: mins</div>
+          </div>
+        </div>
+        <div
+          class="wrapper_library__item-actions"
+          *ngIf="info.isPlayerHaveActiveTable"
+        >
+          <span class="material-symbols-outlined"> delete </span>
         </div>
       </div>
     </div>

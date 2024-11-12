@@ -12,12 +12,12 @@ import { NAV_ITEM_LABELS } from '../../../shared/models/nav-items-labels.const';
 import { MenuTabsService } from '../../../shared/services/menu-tabs.service';
 
 @Component({
-  selector: 'app-menu',
-  templateUrl: 'menu.component.html',
-  styleUrl: 'menu.component.scss',
+  selector: 'app-navigation-menu',
+  templateUrl: 'navigation-menu.component.html',
+  styleUrl: 'navigation-menu.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MenuComponent implements OnInit, AfterViewInit {
+export class NavigationMenuComponent implements OnInit, AfterViewInit {
   public leftMenuItems: IMenuItemInterface[] = [];
   public rightMenuItems: IMenuItemInterface[] = [];
   public menuItemWithForceActiveExists: boolean = false;
