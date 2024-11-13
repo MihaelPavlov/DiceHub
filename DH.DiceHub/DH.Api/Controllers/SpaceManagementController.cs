@@ -20,6 +20,15 @@ public class SpaceManagementController : ControllerBase
         this.mediator = mediator;
     }
 
+    [HttpGet("{id}")]
+    [ActionAuthorize(UserAction.SpaceManagementCRUD)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetSpaceTableByIdQueryModel))]
+    public async Task<IActionResult> GetTableById(int id, CancellationToken cancellationToken)
+    {
+        var result = await this.mediator.Send(new GetSpaceTableByIdQuery(id), cancellationToken);
+        return Ok(result);
+    }
+
     [HttpPost("get-table-participants")]
     [ActionAuthorize(UserAction.SpaceManagementCRUD)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetSpaceTableParticipantListQueryModel>))]
@@ -63,6 +72,15 @@ public class SpaceManagementController : ControllerBase
     {
         var result = await this.mediator.Send(new CreateSpaceTableCommand(command), cancellationToken);
         return Ok(result);
+    }
+
+    [HttpPut]
+    [ActionAuthorize(UserAction.SpaceManagementCRUD)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+    public async Task<IActionResult> UpdateSpaceTable([FromBody] UpdateSpaceTableDto command, CancellationToken cancellationToken)
+    {
+        await this.mediator.Send(new UpdateSpaceTableCommand(command), cancellationToken);
+        return Ok();
     }
 
     [HttpPost("leave-table")]
