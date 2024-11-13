@@ -12,7 +12,7 @@ export const TOAST_DEFAULT_OPTIONS = {
   useValue: {
     horizontalPosition: 'center',
     verticalPosition: 'bottom',
-    duration: 112000,
+    duration: 2000,
   },
 };
 

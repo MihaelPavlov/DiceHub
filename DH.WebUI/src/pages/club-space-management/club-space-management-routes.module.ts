@@ -16,6 +16,10 @@ const routes: Routes = [
     component: AddUpdateClubSpaceComponent,
   },
   {
+    path: 'update/:tableId',
+    component: AddUpdateClubSpaceComponent,
+  },
+  {
     path: 'list',
     component: ClubSpaceListComponent,
     canActivate: [UserHasActiveTableGuard],

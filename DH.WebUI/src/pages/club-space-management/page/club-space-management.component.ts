@@ -45,6 +45,8 @@ export class ClubSpaceManagementComponent implements OnInit {
   }
 
   public navigateToSpaceClubDetails(id: number | null | undefined): void {
+    console.log('navigat to -> ', `/space/${id}/details`);
+    
     if (id) this.router.navigateByUrl(`/space/${id}/details`);
   }
 }

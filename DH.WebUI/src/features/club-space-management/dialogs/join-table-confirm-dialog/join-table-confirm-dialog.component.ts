@@ -20,7 +20,10 @@ export class JoinTableConfirmDialog {
     @Inject(MAT_DIALOG_DATA) public data: JoinTableConfirmDialogData,
     private dialogRef: MatDialogRef<JoinTableConfirmDialog>,
     private readonly spaceManagementService: SpaceManagementService
-  ) {}
+  ) {
+    console.log('data->',this.data);
+    
+  }
 
   public join(): void {
     this.spaceManagementService

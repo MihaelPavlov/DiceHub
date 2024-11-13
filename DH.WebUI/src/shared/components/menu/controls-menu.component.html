@@ -9,14 +9,16 @@
   
     <!-- Menu content -->
     <div *ngIf="isVisible" class="menu">
-      <ul class="menu_ul">
-        <li
-          class="menu_li"
-          *ngFor="let item of menuItems"
-          (click)="onMenuItemClick(item.key)"
-        >
-          {{ item.label }}
-        </li>
+      <ul class="menu_ul" *ngIf="menuItems | async as menu">
+        <ng-container  *ngFor="let item of menu">
+          <li 
+            class="menu_li"
+            *ngIf="item.isVisible === undefined  || item.isVisible === null ? true: item.isVisible"
+            (click)="onMenuItemClick(item.key)"
+          >
+            {{ item.label }}
+          </li>
+        </ng-container>
       </ul>
       <ul class="last_menu_ul last_menu_item">
         <li class="last_menu_li" (click)="closeMenu()">Cancel</li>

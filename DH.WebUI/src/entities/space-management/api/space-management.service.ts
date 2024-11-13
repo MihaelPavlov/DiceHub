@@ -7,12 +7,20 @@ import { ISpaceTableList } from '../models/space-table-list.model';
 import { IUserActiveSpaceTableResult } from '../models/user-active-space-table.model';
 import { ISpaceActivityStats } from '../models/space-activity-stats.model';
 import { ISpaceTableParticipant } from '../models/table-participant.model';
+import { IUpdateSpaceTableDto } from '../models/update-space-table.model';
+import { ISpaceTableById } from '../models/get-space-table-by-id.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SpaceManagementService {
   constructor(private readonly api: RestApiService) {}
+
+  public getTableById(id:number): Observable<ISpaceTableById> {
+    return this.api.get<ISpaceTableById>(
+      `/${PATH.SPACE_MANAGEMENT.CORE}/${id}`
+    );
+  }
 
   public getUserActiveTable(): Observable<IUserActiveSpaceTableResult> {
     return this.api.get<IUserActiveSpaceTableResult>(
@@ -47,6 +55,12 @@ export class SpaceManagementService {
 
   public add(spaceTable: IAddSpaceTableDto): Observable<number | null> {
     return this.api.post<number>(`/${PATH.SPACE_MANAGEMENT.CORE}`, {
+      ...spaceTable,
+    });
+  }
+
+  public update(spaceTable: IUpdateSpaceTableDto): Observable<null> {
+    return this.api.put(`/${PATH.SPACE_MANAGEMENT.CORE}`, {
       ...spaceTable,
     });
   }

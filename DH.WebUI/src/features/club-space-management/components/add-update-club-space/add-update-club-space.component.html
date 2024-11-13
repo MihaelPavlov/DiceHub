@@ -1,5 +1,13 @@
-<app-header Recommended="Create Game Table" [withQRcode]="true"> </app-header>
+<div class="wrapper_icons">
+  <span (click)="backNavigateBtn()" class="arrow left"></span>
 
+  <app-header [Recommended]="getHeader" [withQRcode]="withQrCode"> </app-header>
+  <div *ngIf="this.editTableId" class="info-container">
+    <span class="material-symbols-outlined info" (click)="showInfoForGame()">
+      info
+    </span>
+  </div>
+</div>
 <form [formGroup]="form" class="container">
   <div class="input-field qr-code-field">
     <label for="gameName" class="required">Scanned Game</label>
@@ -71,18 +79,34 @@
   </div>
   <div class="wrapper_btn">
     <button
-    [disabled]="this.form.invalid"
-    type="button"
-    (click)="this.onAdd()"
-    class="btn btn-gray"
-    [ngClass]="{
-      'btn-border-blue': this.form.valid,
-      'btn-font-blue': this.form.valid,
-      'btn-border-red': this.form.invalid,
-      'btn-font-red': this.form.invalid
-    }"
-  >
-    Create
-  </button>
+      *ngIf="!this.editTableId"
+      [disabled]="this.form.invalid"
+      type="button"
+      (click)="this.onAdd()"
+      class="btn btn-gray"
+      [ngClass]="{
+        'btn-border-blue': this.form.valid,
+        'btn-font-blue': this.form.valid,
+        'btn-border-red': this.form.invalid,
+        'btn-font-red': this.form.invalid
+      }"
+    >
+      Create
+    </button>
+    <button
+      *ngIf="this.editTableId"
+      [disabled]="this.form.invalid"
+      type="button"
+      (click)="this.onUpdate()"
+      class="btn btn-gray"
+      [ngClass]="{
+        'btn-border-yellow': this.form.valid,
+        'btn-font-yellow': this.form.valid,
+        'btn-border-red': this.form.invalid,
+        'btn-font-red': this.form.invalid
+      }"
+    >
+      Update
+    </button>
   </div>
 </form>

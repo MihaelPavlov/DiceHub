@@ -17,7 +17,7 @@
     <button
       class="btn btn__small btn-orange btn-border-orange"
       (click)="join()"
-      [disabled]="this.password.invalid"
+      [disabled]="this.data.withPassword ? this.password.invalid : false"
     >
       Join
     </button>

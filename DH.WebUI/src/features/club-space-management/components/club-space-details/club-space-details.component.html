@@ -7,49 +7,31 @@
   (backClicked)="backToSpaceHome()"
 ></app-header>
 
-<ng-container *ngIf="this.userActiveTable$ | async as info">
+<ng-container *ngIf="this.userActiveTable as info">
   <div class="wrapper_helper">
-    <div class="info">
-      <span> <strong>Name:</strong> Room Name dasdsadsadasdsadsadasdsadas</span>
-      <span> <strong>Game:</strong> Game Name dsad wwdqwd wqd </span>
-      <span> <strong>People:</strong> 9 </span>
-      <span> <strong>Password:</strong> 005143024 </span>
+    <div class="info" *ngIf="this.detailsSpaceTable as details">
+      <span> <strong>Name:</strong> {{ details.name }}</span>
+      <span> <strong>Game:</strong> {{ details.gameName }}</span>
+      <span> <strong>Max People:</strong> {{ details.maxPeople }} </span>
+      <span *ngIf="isUserCreatorOfTable">
+        <strong>Password:</strong> {{ detailsSpaceTable.password }}
+      </span>
     </div>
     <a class="wrapper_menu">
       <span
         id="search-btn"
         class="material-symbols-outlined"
         (click)="menu.toggleMenu()"
-        >
+      >
         settings
       </span>
 
       <app-controls-menu
         #menu
-        [menuItems]="menuItems"
+        [menuItems]="menuItems.asObservable()"
         (menuItemClick)="handleMenuItemClick($event)"
       ></app-controls-menu>
     </a>
-  </div>
-  <!-- <div class="wrapper_btn" *ngIf="info.isPlayerHaveActiveTable">
-    <button class="btn btn__small btn-red btn-border-red" (click)="onClose()">
-      Close the Room
-    </button>
-    <button
-      *ngIf="isUserAdmin"
-      (click)="addVirtualParticipant()"
-      class="btn btn__small btn-red btn-border-red"
-    >
-      Add Virtual User
-    </button>
-  </div> -->
-  <!-- TODO: On leave and on close in the BE. I need to check the job if it's still not executed i need to cancel it
-  I have canceJobMethod in the queue 
-  Show them warning message -->
-  <div class="wrapper_btn" *ngIf="info.isPlayerParticipateInTable">
-    <button class="btn btn__small btn-red btn-border-red" (click)="onLeave()">
-      Leave the Room
-    </button>
   </div>
   <section
     class="wrapper_library"
@@ -84,26 +66,6 @@
           >
             delete
           </span>
-        </div>
-      </div>
-    </div>
-
-    <div class="item" *ngFor="let item of [1, 2, 3, 4, 5]">
-      <div class="wrapper_library__item">
-        <div class="wrapper_image">
-          <img src="" alt="usr Image" />
-        </div>
-        <div class="wrapper_info">
-          <div class="wrapper_title">
-            test
-            <div class="wrapper_description">joined before: mins</div>
-          </div>
-        </div>
-        <div
-          class="wrapper_library__item-actions"
-          *ngIf="info.isPlayerHaveActiveTable"
-        >
-          <span class="material-symbols-outlined"> delete </span>
         </div>
       </div>
     </div>

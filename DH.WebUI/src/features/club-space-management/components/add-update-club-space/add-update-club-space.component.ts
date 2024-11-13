@@ -1,5 +1,5 @@
 import { SpaceManagementService } from './../../../../entities/space-management/api/space-management.service';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Form } from '../../../../shared/components/form/form.component';
 import { Formify } from '../../../../shared/models/form.model';
 import { ToastService } from '../../../../shared/services/toast.service';
@@ -33,11 +33,15 @@ interface ICreateSpaceTable {
   templateUrl: 'add-update-club-space.component.html',
   styleUrl: 'add-update-club-space.component.scss',
 })
-export class AddUpdateClubSpaceComponent extends Form {
+export class AddUpdateClubSpaceComponent extends Form implements OnInit {
   override form: Formify<ICreateSpaceTable>;
+  
   public imagePreview: string | ArrayBuffer | SafeUrl | null = null;
+  public editTableId: number | null = null;
 
   public showPassword = false;
+  private gameId: number | null = null;
+
   constructor(
     public override readonly toastService: ToastService,
     private readonly fb: FormBuilder,
@@ -50,61 +54,47 @@ export class AddUpdateClubSpaceComponent extends Form {
   ) {
     super(toastService);
     this.form = this.initFormGroup();
+  }
+
+  public ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe((params) => {
-      const id = params.get('gameId');
-      if (id) {
-        this.gamesService.getById(Number.parseInt(id)).subscribe({
-          next: (game: IGameByIdResult) => {
-            if (game) {
-              this.form.patchValue({
-                gameName: game.name,
-                gameId: game.id,
-              });
+      this.gameId = Number.parseInt(params.get('gameId') ?? '');
+      const tableId = params.get('tableId');
 
-              this.imagePreview = this.gameImagePipe.transform(game.imageId);
-
-              if (game.minPlayers === 1) {
-                const dialogRef = this.dialog.open(SinglePlayerConfirmDialog, {
-                });
-
-                dialogRef.afterClosed().subscribe((result) => {
-                  if (result) {
-                    this.spaceManagementService
-                      .add({
-                        gameId: this.form.controls.gameId.value,
-                        name: '',
-                        maxPeople: 0,
-                        password: '',
-                        isSoloModeActive: true,
-                      })
-                      .subscribe({
-                        next: () => {
-                          this.toastService.success({
-                            message: AppToastMessage.ChangesSaved,
-                            type: ToastType.Success,
-                          });
-                          this.router.navigateByUrl('/space/home');
-                        },
-                        error: (error) => {
-                          this.handleServerErrors(error);
-                          this.toastService.error({
-                            message: AppToastMessage.FailedToSaveChanges,
-                            type: ToastType.Error,
-                          });
-                        },
-                      });
-                  }
-                });
-              }
-            }
-          },
-          error: (error) => {
-            throwError(() => error);
+      if (this.gameId) {
+        this.fetchGameByIdForCreate(this.gameId);
+      } else if (tableId) {
+        this.editTableId = Number.parseInt(tableId);
+        this.spaceManagementService.getTableById(this.editTableId).subscribe({
+          next: (result) => {
+            this.form.patchValue({
+              tableName: result.name,
+              maxPeople: result.maxPeople,
+              password: result.password,
+            });
+            this.fetchGameByIdForUpdate(result.gameId);
           },
         });
       }
     });
   }
+
+  public get withQrCode(): boolean {
+    return this.editTableId ? false : true;
+  }
+
+  public get getHeader(): string {
+    return this.editTableId ? 'Update Game Table' : 'Create Game Table ';
+  }
+
+  public showInfoForGame(): void {
+    this.router.navigateByUrl(`games/${this.gameId}/details`);
+  }
+
+  public backNavigateBtn(): void {
+    this.router.navigateByUrl(`space/${this.editTableId}/details`);
+  }
+
   public togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;
   }
@@ -138,6 +128,34 @@ export class AddUpdateClubSpaceComponent extends Form {
     }
   }
 
+  public onUpdate() {
+    if (this.form.valid && this.editTableId) {
+      this.spaceManagementService
+        .update({
+          id: this.editTableId,
+          name: this.form.controls.tableName.value,
+          maxPeople: this.form.controls.maxPeople.value,
+          password: this.form.controls.password.value,
+        })
+        .subscribe({
+          next: () => {
+            this.toastService.success({
+              message: AppToastMessage.ChangesSaved,
+              type: ToastType.Success,
+            });
+            this.router.navigateByUrl(`/space/${this.editTableId}/details`);
+          },
+          error: (error) => {
+            this.handleServerErrors(error);
+            this.toastService.error({
+              message: AppToastMessage.FailedToSaveChanges,
+              type: ToastType.Error,
+            });
+          },
+        });
+    }
+  }
+
   protected override getControlDisplayName(controlName: string): string {
     switch (controlName) {
       case 'gameName':
@@ -151,6 +169,73 @@ export class AddUpdateClubSpaceComponent extends Form {
       default:
         return controlName;
     }
+  }
+
+  private fetchGameByIdForUpdate(gameId: number): void {
+    this.gamesService.getById(gameId).subscribe({
+      next: (game: IGameByIdResult) => {
+        if (game) {
+          this.gameId = game.id;
+          this.form.patchValue({
+            gameName: game.name,
+            gameId: game.id,
+          });
+
+          this.imagePreview = this.gameImagePipe.transform(game.imageId);
+        }
+      },
+    });
+  }
+
+  private fetchGameByIdForCreate(gameId: number): void {
+    this.gamesService.getById(gameId).subscribe({
+      next: (game: IGameByIdResult) => {
+        if (game) {
+          this.form.patchValue({
+            gameName: game.name,
+            gameId: game.id,
+          });
+
+          this.imagePreview = this.gameImagePipe.transform(game.imageId);
+
+          if (game.minPlayers === 1) {
+            const dialogRef = this.dialog.open(SinglePlayerConfirmDialog, {});
+
+            dialogRef.afterClosed().subscribe((result) => {
+              if (result) {
+                this.spaceManagementService
+                  .add({
+                    gameId: this.form.controls.gameId.value,
+                    name: '',
+                    maxPeople: 0,
+                    password: '',
+                    isSoloModeActive: true,
+                  })
+                  .subscribe({
+                    next: () => {
+                      this.toastService.success({
+                        message: AppToastMessage.ChangesSaved,
+                        type: ToastType.Success,
+                      });
+                      this.router.navigateByUrl('/space/home');
+                    },
+                    error: (error) => {
+                      this.handleServerErrors(error);
+                      this.toastService.error({
+                        message: AppToastMessage.FailedToSaveChanges,
+                        type: ToastType.Error,
+                      });
+                    },
+                  });
+              }
+            });
+          }
+        }
+      },
+      error: (error) => {
+        throwError(() => error);
+      },
+    });
   }
 
   private initFormGroup(): FormGroup {

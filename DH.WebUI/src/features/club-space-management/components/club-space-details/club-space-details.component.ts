@@ -1,5 +1,5 @@
-import { Observable } from 'rxjs';
-import { Component, OnInit } from '@angular/core';
+import { Observable, debounceTime, BehaviorSubject } from 'rxjs';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { SpaceManagementService } from '../../../../entities/space-management/api/space-management.service';
 import { IUserActiveSpaceTableResult } from '../../../../entities/space-management/models/user-active-space-table.model';
@@ -8,6 +8,7 @@ import { AuthService } from '../../../../entities/auth/auth.service';
 import { UserRole } from '../../../../entities/auth/enums/roles.enum';
 import { FULL_ROUTE } from '../../../../shared/configs/route.config';
 import { IMenuItem } from '../../../../shared/models/menu-item.model';
+import { ISpaceTableById } from '../../../../entities/space-management/models/get-space-table-by-id.model';
 
 @Component({
   selector: 'app-club-space-details',
@@ -15,24 +16,25 @@ import { IMenuItem } from '../../../../shared/models/menu-item.model';
   styleUrl: 'club-space-details.component.scss',
 })
 export class ClubSpaceDetailsComponent implements OnInit {
-  public userActiveTable$!: Observable<IUserActiveSpaceTableResult>;
+  public userActiveTable!: IUserActiveSpaceTableResult;
   public spaceTableParticipantList$!: Observable<
     ISpaceTableParticipant[] | null
   >;
   public tableId!: number;
-  public menuItems: IMenuItem[] = [];
+  public menuItems: BehaviorSubject<IMenuItem[]> = new BehaviorSubject<
+    IMenuItem[]
+  >([]);
 
+  public detailsSpaceTable!: ISpaceTableById;
   constructor(
     private readonly router: Router,
     private readonly activeRoute: ActivatedRoute,
     private readonly spaceManagementService: SpaceManagementService,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
   ) {
-    this.menuItems = [
-      { key: 'settings', label: 'Settings' },
-      { key: 'system-rewards', label: 'System Rewards' },
-      { key: 'custom-challenges', label: 'Custom Challenges' },
-    ];
+  }
+  public get isUserCreatorOfTable() {
+    return this.detailsSpaceTable.createdBy === this.authService.getUser?.id;
   }
 
   public get isUserAdmin(): boolean {
@@ -43,21 +45,61 @@ export class ClubSpaceDetailsComponent implements OnInit {
   }
 
   public handleMenuItemClick(key: string) {
-      this.menuItemClickFunction(key);
-      }
+    this.menuItemClickFunction(key);
+  }
 
   public menuItemClickFunction(key: string): void {
-    if (key === 'add') {
-      this.router.navigateByUrl(FULL_ROUTE.EVENTS.ADMIN.ADD);
+    if (key === 'update') {
+      this.router.navigateByUrl(
+        FULL_ROUTE.SPACE_MANAGEMENT.UPDATE_BY_ID(this.tableId)
+      );
+    } else if (key === 'add-virtual-user') {
+      this.addVirtualParticipant();
+    } else if (key === 'close-room') {
+      this.onClose();
+    } else if (key === 'leave-room') {
+      this.onLeave();
     }
   }
 
   public ngOnInit(): void {
-    this.userActiveTable$ = this.spaceManagementService.getUserActiveTable();
+    this.spaceManagementService.getUserActiveTable().subscribe({
+      next: (result) => {
+        this.userActiveTable = result;
+      },
+    });
     this.activeRoute.params.subscribe((params: Params) => {
       this.tableId = params['id'];
       this.spaceTableParticipantList$ =
         this.spaceManagementService.getSpaceTableParticipantList(this.tableId);
+
+      this.spaceManagementService.getTableById(this.tableId).subscribe({
+        next: (result) => {
+          this.detailsSpaceTable = result;
+          this.menuItems.next([
+            {
+              key: 'update',
+              label: 'Update',
+              isVisible: this.isUserCreatorOfTable,
+            },
+            {
+              key: 'add-virtual-user',
+              label: 'Add Virtual User',
+              isVisible: this.isUserAdmin,
+            },
+            {
+              key: 'close-room',
+              label: 'Close Room',
+              isVisible: this.isUserCreatorOfTable,
+            },
+            {
+              key: 'leave-room',
+              label: 'Leave Room',
+              isVisible: this.userActiveTable ? this.userActiveTable.isPlayerParticipateInTable :false,
+            },
+          ]);
+        },
+      });
     });
   }
 

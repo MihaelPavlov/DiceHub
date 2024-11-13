@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { IMenuItem } from '../../models/menu-item.model';
 
@@ -7,22 +8,23 @@ import { IMenuItem } from '../../models/menu-item.model';
   styleUrls: ['controls-menu.component.scss'],
 })
 export class ControlsMenuComponent {
-  @Input() isVisible: boolean = false; // Controls visibility of menu and overlay
-  @Input() menuItems: IMenuItem[] = [];
+  @Input() isVisible: boolean = false;
+  @Input() menuItems!: Observable<IMenuItem[]>;
+
   @Output() menuItemClick = new EventEmitter<string>();
   @Output() visibilityChange = new EventEmitter<boolean>();
 
-  onMenuItemClick(key: string) {
+  public onMenuItemClick(key: string): void {
     this.menuItemClick.emit(key);
     this.closeMenu();
   }
 
-  closeMenu() {
+  public closeMenu(): void {
     this.isVisible = false;
     this.visibilityChange.emit(this.isVisible); // Notify parent if needed
   }
 
-  toggleMenu() {
+  public toggleMenu(): void {
     this.isVisible = !this.isVisible;
     this.visibilityChange.emit(this.isVisible);
   }
