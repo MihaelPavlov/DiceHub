@@ -11,7 +11,8 @@ import { UserAction } from '../../../shared/constants/user-action';
 import { GameConfirmDeleteDialog } from '../../../features/games-library/dialogs/game-confirm-delete-dialog/game-confirm-delete.component';
 import { MatDialog } from '@angular/material/dialog';
 import { GameQrCodeDialog } from '../../../features/games-library/dialogs/qr-code-dialog/qr-code-dialog.component';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { ControlsMenuComponent } from '../../../shared/components/menu/controls-menu.component';
 
 @Component({
   selector: 'app-games-library',
@@ -20,7 +21,9 @@ import { Observable } from 'rxjs';
 })
 export class GamesLibraryComponent implements OnInit, OnDestroy {
   public games: IGameListResult[] = [];
-  public menuItems: IMenuItem[] = [];
+  public menuItems: BehaviorSubject<IMenuItem[]> = new BehaviorSubject<
+    IMenuItem[]
+  >([]);
   private categoryId: number | null = null;
   public visibleMenuId: number | null = null;
   public isAdmin$: Observable<boolean> = this.permissionService.hasUserAction(
@@ -34,7 +37,7 @@ export class GamesLibraryComponent implements OnInit, OnDestroy {
     private readonly menuTabsService: MenuTabsService,
     private readonly searchService: SearchService,
     private readonly permissionService: PermissionService,
-    private readonly dialog: MatDialog,
+    private readonly dialog: MatDialog
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.GAMES);
   }
@@ -44,21 +47,24 @@ export class GamesLibraryComponent implements OnInit, OnDestroy {
     this.searchService.hideSearchForm();
   }
 
-  public showMenu(gameId: number, event: MouseEvent): void {
+  public showMenu(
+    gameId: number,
+    event: MouseEvent,
+    controlMenu: ControlsMenuComponent
+  ): void {
     event.stopPropagation();
-    console.log('test', gameId);
-
     this.visibleMenuId = this.visibleMenuId === gameId ? null : gameId;
+    controlMenu.toggleMenu();
   }
 
   public ngOnInit(): void {
-    this.menuItems = [
+    this.menuItems.next([
       { key: 'qr-code', label: 'QR Code' },
       { key: 'history-log', label: 'Last Activities' },
       { key: 'update', label: 'Update' },
       { key: 'copy', label: 'Add Copy' },
       { key: 'delete', label: 'Delete' },
-    ];
+    ]);
 
     this.activeRoute.params.subscribe((params: Params) => {
       this.categoryId = params['id'];
@@ -87,7 +93,6 @@ export class GamesLibraryComponent implements OnInit, OnDestroy {
 
   public onMenuOption(key: string, event: MouseEvent): void {
     event.stopPropagation();
-    console.log(key);
     if (key === 'update') {
       this.router.navigateByUrl(`games/${this.visibleMenuId}/update`);
     } else if (key === 'copy') {
@@ -132,23 +137,25 @@ export class GamesLibraryComponent implements OnInit, OnDestroy {
     });
   }
 
-  @HostListener('window:scroll', [])
-  private onWindowScroll(): void {
-    if (this.visibleMenuId !== null) {
-      this.visibleMenuId = null;
-    }
-  }
+  //WARNING: After the implementation of the new menu, we might not need that
 
-  @HostListener('document:click', ['$event'])
-  private onClickOutside(event: Event): void {
-    const targetElement = event.target as HTMLElement;
+  // @HostListener('window:scroll', [])
+  // private onWindowScroll(): void {
+  //   if (this.visibleMenuId !== null) {
+  //     this.visibleMenuId = null;
+  //   }
+  // }
 
-    // Check if the clicked element is within the menu or the button that toggles the menu
-    if (
-      this.visibleMenuId !== null &&
-      !targetElement.closest('.wrapper_library__item')
-    ) {
-      this.visibleMenuId = null;
-    }
-  }
+  // @HostListener('document:click', ['$event'])
+  // private onClickOutside(event: Event): void {
+  //   const targetElement = event.target as HTMLElement;
+
+  //   // Check if the clicked element is within the menu or the button that toggles the menu
+  //   if (
+  //     this.visibleMenuId !== null &&
+  //     !targetElement.closest('.wrapper_library__item')
+  //   ) {
+  //     this.visibleMenuId = null;
+  //   }
+  // }
 }

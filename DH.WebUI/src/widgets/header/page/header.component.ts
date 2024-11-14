@@ -8,7 +8,7 @@ import {
   Output,
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { BehaviorSubject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { SearchService } from '../../../shared/services/search.service';
 import { IMenuItem } from '../../../shared/models/menu-item.model';
 import { Router } from '@angular/router';
@@ -26,7 +26,9 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   @Input() withMenu: boolean = false;
   @Input() withQRcode: boolean = false;
   @Input() withBottomLine: boolean = false;
-  @Input() menuItems: IMenuItem[] = [];
+  @Input() menuItems: BehaviorSubject<IMenuItem[]> = new BehaviorSubject<
+    IMenuItem[]
+  >([]);
   @Input() menuItemClickFunction!: (option: string) => void;
   @Output() addClicked: EventEmitter<void> = new EventEmitter<void>();
   @Output() backClicked: EventEmitter<void> = new EventEmitter<void>();
@@ -85,8 +87,8 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     this.backClicked.emit();
   }
 
-  public onQrCodeClick():void{
-    this.router.navigateByUrl("/qr-code-scanner")
+  public onQrCodeClick(): void {
+    this.router.navigateByUrl('/qr-code-scanner');
   }
 
   private onSearchSubmit(searchExpression: string) {

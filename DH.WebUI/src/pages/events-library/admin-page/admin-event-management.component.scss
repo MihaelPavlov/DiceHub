@@ -47,6 +47,11 @@
         bottom: 40%;
         font-size: small;
       }
+      .wrapper_menu {
+        background: palette.$main-icon-color;
+        padding: 0.2rem;
+        border-radius: 20%;
+      }
     }
 
     .wrapper_image img {
@@ -59,29 +64,4 @@
       border: 0.1rem solid black;
     }
   }
-}
-
-.menu {
-  position: absolute;
-  right: 0.5rem;
-  top: 1.25rem;
-  background-color: palette.$main-nav-color;
-  padding: 0.5rem;
-  z-index: 1000;
-  width: max-content;
-}
-
-.menu ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.menu ul li {
-  padding: 0.5rem 0.7rem;
-  cursor: pointer;
-}
-
-.menu ul li:hover {
-  background-color: #f0f0f0;
 }

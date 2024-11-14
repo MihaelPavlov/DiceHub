@@ -11,11 +11,14 @@ export class ControlsMenuComponent {
   @Input() isVisible: boolean = false;
   @Input() menuItems!: Observable<IMenuItem[]>;
 
-  @Output() menuItemClick = new EventEmitter<string>();
+  @Output() menuItemClick = new EventEmitter<{
+    value: string;
+    event: MouseEvent;
+  }>();
   @Output() visibilityChange = new EventEmitter<boolean>();
 
-  public onMenuItemClick(key: string): void {
-    this.menuItemClick.emit(key);
+  public onMenuItemClick(key: string, event: MouseEvent): void {
+    this.menuItemClick.emit({ value: key, event });
     this.closeMenu();
   }
 
@@ -24,7 +27,7 @@ export class ControlsMenuComponent {
     this.visibilityChange.emit(this.isVisible); // Notify parent if needed
   }
 
-  public toggleMenu(): void {
+  public toggleMenu(): void {    
     this.isVisible = !this.isVisible;
     this.visibilityChange.emit(this.isVisible);
   }

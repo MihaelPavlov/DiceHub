@@ -1,7 +1,7 @@
 <app-header
   Recommended="Recommended"
   [withSearch]="true"
-  [withAdd]="(isAdmin$ | async) ?? false"
+  [withMenu]="(isAdmin$ | async) ?? false"
   [menuItems]="menuItems"
   [menuItemClickFunction]="handleMenuItemClick"
   (searchExpressionResult)="handleSearchExpression($event)"
@@ -22,4 +22,11 @@
     ]"
   ></app-nav-bar>
 </app-header>
+
+<app-controls-menu
+  #menu
+  [menuItems]="menuItems.asObservable()"
+  (menuItemClick)="handleMenuItemClick($event.value)"
+></app-controls-menu>
+
 <router-outlet (activate)="onActivate($event)"></router-outlet>

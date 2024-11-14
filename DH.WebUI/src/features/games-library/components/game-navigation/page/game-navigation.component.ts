@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { GamesLibraryComponent } from '../../../../../pages/games-library/page/games-library.component';
@@ -19,7 +19,9 @@ export class GameNavigationComponent implements OnInit {
     | GameCategoriesComponent
     | NewGameListComponent;
 
-  public menuItems: IMenuItem[] = [];
+    public menuItems: BehaviorSubject<IMenuItem[]> = new BehaviorSubject<
+    IMenuItem[]
+  >([]);
   public isAdmin$: Observable<boolean> = this.permissionService.hasUserAction(
     UserAction.GamesCUD
   );
@@ -31,11 +33,11 @@ export class GameNavigationComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.menuItems = [
+    this.menuItems.next([
       { key: 'add-game', label: 'Add Game' },
       { key: 'add-existing-game', label: 'Add Existing Game' },
       { key: 'reserved-games', label: 'Reserved Games' },
-    ];
+    ]);
   }
 
   public handleMenuItemClick(key: string): void {

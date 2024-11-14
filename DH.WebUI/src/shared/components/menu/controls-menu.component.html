@@ -14,7 +14,7 @@
           <li 
             class="menu_li"
             *ngIf="item.isVisible === undefined  || item.isVisible === null ? true: item.isVisible"
-            (click)="onMenuItemClick(item.key)"
+            (click)="onMenuItemClick(item.key,$event)"
           >
             {{ item.label }}
           </li>

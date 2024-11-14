@@ -19,7 +19,6 @@ internal class GetGameListQueryHandler(IGameService gameService, IUserContext us
 
     public async Task<List<GetGameListQueryModel>> Handle(GetGameListQuery request, CancellationToken cancellationToken)
     {
-        await this.pushNotificationsService.SendUserNotificationAsync(new ExpiredRewardReminder("Reward", DateTime.UtcNow) { DeviceToken= "c-svnhcnWcwOOVSzVdmO4u:APA91bGhnAs9AyJTfBfyF00l45SSK5l_JpA4ktDkZz77RfbjNCvLqXgTbwDbb0lHG1gxYJHbA5Ak1s0y-MaGodei16OgfkfZbaAooYUqWC9iLNBK2DhrosUY-LO8O_XBTiURtFHrqEAW" });
         return await gameService.GetGameListBySearchExpressionAsync(request.SearchExpression ?? string.Empty, this.userContext.UserId, cancellationToken);
     }
 }

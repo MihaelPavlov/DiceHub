@@ -23,7 +23,6 @@
     .wrapper_items {
         display: flex;
         justify-content: end;
-        position: relative;
 
         .wrapper_search {
             background: palette.$main-blue-color;
@@ -49,8 +48,8 @@
             margin-bottom: 0.5rem;
         }
 
-        .wrapper_menu {
-            background: palette.$main-blue-color;
+        .wrapper_menu_btn {
+            background: palette.$main-icon-color;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -60,6 +59,18 @@
             margin: 0 0.2rem;
             margin-bottom: 0.5rem;
         }
+
+        // .wrapper_menu {
+        //     background: palette.$main-blue-color;
+        //     display: flex;
+        //     align-items: center;
+        //     justify-content: center;
+        //     width: 3rem;
+        //     height: 3rem;
+        //     border-radius: 50%;
+        //     margin: 0 0.2rem;
+        //     margin-bottom: 0.5rem;
+        // }
 
         .wrapper_qrCode {
             display: flex;
@@ -203,26 +214,26 @@
     top: -10rem;
 }
 
-.menu {
-    position: fixed;
-    right: 2rem;
-    top: 4rem;
-    background-color: palette.$main-nav-color;
-    padding: 1rem;
-    z-index: 1000;
-}
+// .menu {
+//     position: fixed;
+//     right: 2rem;
+//     top: 4rem;
+//     background-color: palette.$main-nav-color;
+//     padding: 1rem;
+//     z-index: 1000;
+// }
 
-.menu ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
+// .menu ul {
+//     list-style: none;
+//     margin: 0;
+//     padding: 0;
+// }
 
-.menu ul li {
-    padding: 8px 12px;
-    cursor: pointer;
-}
+// .menu ul li {
+//     padding: 8px 12px;
+//     cursor: pointer;
+// }
 
-.menu ul li:hover {
-    background-color: #f0f0f0;
-}
+// .menu ul li:hover {
+//     background-color: #f0f0f0;
+// }

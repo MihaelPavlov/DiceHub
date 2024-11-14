@@ -10,6 +10,8 @@ import { GameImagePipe } from '../../../shared/pipe/game-image.pipe';
 import { EventImagePipe } from '../../../shared/pipe/event-image.pipe';
 import { SafeUrl } from '@angular/platform-browser';
 import { FULL_ROUTE } from '../../../shared/configs/route.config';
+import { BehaviorSubject } from 'rxjs';
+import { ControlsMenuComponent } from '../../../shared/components/menu/controls-menu.component';
 
 @Component({
   selector: 'app-admin-event-management',
@@ -17,8 +19,12 @@ import { FULL_ROUTE } from '../../../shared/configs/route.config';
   styleUrl: 'admin-event-management.component.scss',
 })
 export class AdminEventManagementComponent implements OnInit, OnDestroy {
-  public headerMenuItems: IMenuItem[] = [];
-  public eventMenuItems: IMenuItem[] = [];
+  public headerMenuItems: BehaviorSubject<IMenuItem[]> = new BehaviorSubject<
+    IMenuItem[]
+  >([]);
+  public itemMenuItems: BehaviorSubject<IMenuItem[]> = new BehaviorSubject<
+    IMenuItem[]
+  >([]);
   public visibleMenuId: number | null = null;
   public events: IEventListResult[] = [];
 
@@ -33,26 +39,25 @@ export class AdminEventManagementComponent implements OnInit, OnDestroy {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.EVENTS);
     this.handleHeaderMenuItemClick = this.handleHeaderMenuItemClick.bind(this);
   }
-  public showHeaderMenu(gameId: number, event: MouseEvent): void {
-    event.stopPropagation();
-    console.log('test', gameId);
-  }
 
-  public showEventMenu(eventId: number, event: MouseEvent): void {
+  public showEventMenu(
+    eventId: number,
+    event: MouseEvent,
+    menu: ControlsMenuComponent
+  ): void {
     event.stopPropagation();
-    console.log('test', eventId);
-
     this.visibleMenuId = this.visibleMenuId === eventId ? null : eventId;
+    menu.toggleMenu();
   }
 
   public ngOnInit(): void {
-    this.eventMenuItems = [
+    this.itemMenuItems.next([
       { key: 'update', label: 'Update' },
       { key: 'delete', label: 'Delete' },
-      { key: 'send-notification', label: 'Send Notificaion' },
-    ];
+      { key: 'send-notification', label: 'Send Notification' },
+    ]);
 
-    this.headerMenuItems = [{ key: 'add', label: 'Add Event' }];
+    this.headerMenuItems.next([{ key: 'add', label: 'Add Event' }]);
 
     this.fetchEventList();
   }
@@ -83,7 +88,7 @@ export class AdminEventManagementComponent implements OnInit, OnDestroy {
     }
   }
 
-  public handleSeachExpression(searchExpression: string) {
+  public handleSearchExpression(searchExpression: string) {
     this.fetchEventList(searchExpression);
   }
 
@@ -115,25 +120,5 @@ export class AdminEventManagementComponent implements OnInit, OnDestroy {
         console.log(error);
       },
     });
-  }
-
-  @HostListener('window:scroll', [])
-  private onWindowScroll(): void {
-    if (this.visibleMenuId !== null) {
-      this.visibleMenuId = null;
-    }
-  }
-
-  @HostListener('document:click', ['$event'])
-  private onClickOutside(event: Event): void {
-    const targetElement = event.target as HTMLElement;
-
-    // Check if the clicked element is within the menu or the button that toggles the menu
-    if (
-      this.visibleMenuId !== null &&
-      !targetElement.closest('.wrapper_library__item')
-    ) {
-      this.visibleMenuId = null;
-    }
   }
 }

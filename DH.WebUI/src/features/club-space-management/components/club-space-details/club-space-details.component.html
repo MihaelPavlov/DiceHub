@@ -29,7 +29,7 @@
       <app-controls-menu
         #menu
         [menuItems]="menuItems.asObservable()"
-        (menuItemClick)="handleMenuItemClick($event)"
+        (menuItemClick)="handleMenuItemClick($event.value)"
       ></app-controls-menu>
     </a>
   </div>

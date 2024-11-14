@@ -6,6 +6,7 @@ import { AdminChallengesListComponent } from '../../../features/challenges-manag
 import { AdminChallengesHistoryLogComponent } from '../../../features/challenges-management/components/admin-challenges-history-log/admin-challenges-history-log.component';
 import { FULL_ROUTE } from '../../../shared/configs/route.config';
 import { Column } from '../../../widgets/nav-bar/page/nav-bar.component';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-admin-challenges-navigation',
@@ -13,8 +14,9 @@ import { Column } from '../../../widgets/nav-bar/page/nav-bar.component';
   styleUrl: 'admin-challenges-navigation.component.scss',
 })
 export class AdminChallengesNavigationComponent {
-  public menuItems: IMenuItem[] = [];
-
+  public menuItems: BehaviorSubject<IMenuItem[]> = new BehaviorSubject<
+    IMenuItem[]
+  >([]);
   public ADMIN_REWARDS = FULL_ROUTE.CHALLENGES.ADMIN_REWARDS;
   public ADMIN_LIST = FULL_ROUTE.CHALLENGES.ADMIN_LIST;
   public ADMIN_HISTORY_LOG = FULL_ROUTE.CHALLENGES.ADMIN_HISTORY_LOG;
@@ -48,11 +50,11 @@ export class AdminChallengesNavigationComponent {
   }
 
   public ngOnInit(): void {
-    this.menuItems = [
+    this.menuItems.next([
       { key: 'settings', label: 'Settings' },
       { key: 'system-rewards', label: 'System Rewards' },
       { key: 'custom-challenges', label: 'Custom Challenges' },
-    ];
+    ]);
   }
 
   public handleMenuItemClick(key: string): void {

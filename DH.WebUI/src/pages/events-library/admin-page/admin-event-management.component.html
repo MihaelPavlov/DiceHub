@@ -2,10 +2,10 @@
   Recommended="Event Management"
   [withBottomLine]="true"
   [withSearch]="true"
-  [withAdd]="true"
+  [withMenu]="true"
   [menuItems]="headerMenuItems"
   [menuItemClickFunction]="handleHeaderMenuItemClick"
-  (searchExpressionResult)="handleSeachExpression($event)"
+  (searchExpressionResult)="handleSearchExpression($event)"
 >
 </app-header>
 
@@ -48,29 +48,18 @@
       </div>
       <div class="wrapper_right">
         <span
-          class="material-symbols-outlined menu-container"
-          (click)="showEventMenu(event.id, $event)"
+          class="material-symbols-outlined wrapper_menu"
+          (click)="showEventMenu(event.id, $event, menu)"
         >
           lists
         </span>
-        <div
-          *ngIf="visibleMenuId === event.id"
-          [ngTemplateOutlet]="menuTemplate"
-        ></div>
+
       </div>
     </div>
   </div>
 </section>
-
-<ng-template #menuTemplate>
-  <div class="menu">
-    <ul>
-      <li
-        *ngFor="let item of eventMenuItems"
-        (click)="handleEventMenuItemClick(item.key, $event)"
-      >
-        {{ item.label }}
-      </li>
-    </ul>
-  </div>
-</ng-template>
+<app-controls-menu
+  #menu
+  [menuItems]="itemMenuItems.asObservable()"
+  (menuItemClick)="handleEventMenuItemClick($event.value, $event.event)"
+></app-controls-menu>

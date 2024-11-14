@@ -5,7 +5,7 @@
     (click)="navigateToGameDetails(game.id)"
   >
     <div class="wrapper_image">
-      <img [src]="game.imageId | gameImage" alt="Game Image">
+      <img [src]="game.imageId | gameImage" alt="Game Image" />
     </div>
     <div class="wrapper_info">
       <div class="wrapper_title">
@@ -24,30 +24,20 @@
           </span>
           {{ game.likes }}
         </div>
-        <span *ngIf="(isAdmin$ | async) ?? false"
-          class="material-symbols-outlined menu-container"
-          (click)="showMenu(game.id, $event)"
+        <span
+          *ngIf="(isAdmin$ | async) ?? false"
+          class="material-symbols-outlined wrapper_menu"
+          (click)="showMenu(game.id, $event, controls)"
         >
           lists
         </span>
-        <div
-          *ngIf="visibleMenuId === game.id"
-          [ngTemplateOutlet]="menuTemplate"
-        ></div>
       </div>
     </div>
   </div>
 </section>
 
-<ng-template #menuTemplate>
-  <div class="menu">
-    <ul>
-      <li
-        *ngFor="let item of menuItems"
-        (click)="onMenuOption(item.key, $event)"
-      >
-        {{ item.label }}
-      </li>
-    </ul>
-  </div>
-</ng-template>
+<app-controls-menu
+  #controls
+  [menuItems]="menuItems.asObservable()"
+  (menuItemClick)="onMenuOption($event.value, $event.event)"
+></app-controls-menu>

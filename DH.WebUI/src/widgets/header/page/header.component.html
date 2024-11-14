@@ -1,5 +1,11 @@
 <ng-container>
-  <div [id]="this.withSearch || this.withAdd || this.withMenu || this.withQRcode ? 'sticky_navbar' : 'navbar'">
+  <div
+    [id]="
+      this.withSearch || this.withAdd || this.withMenu || this.withQRcode
+        ? 'sticky_navbar'
+        : 'navbar'
+    "
+  >
     <div
       class="wrapper_header"
       [ngStyle]="
@@ -24,6 +30,8 @@
 
       <div class="wrapper_items">
         <ng-container *ngIf="!withSearch; else searchBtn" />
+
+        <ng-container *ngIf="!withAdd; else addBtn" />
 
         <ng-container *ngIf="!withAdd; else addBtn" />
 
@@ -61,31 +69,29 @@
 </ng-template>
 
 <ng-template #addBtn>
-  <a
-    class="wrapper_add"
-    *ngIf="this.menuItems.length !== 0"
-    (click)="showMenu()"
-  >
+  <a class="wrapper_add" (click)="onAddClick()">
     <span class="material-symbols-outlined"> add </span>
   </a>
-
-  <a
-    class="wrapper_add"
-    *ngIf="this.menuItems.length === 0"
-    (click)="onAddClick()"
-  >
-    <span class="material-symbols-outlined"> add </span>
-  </a>
-  <div *ngIf="isMenuVisible" class="menu">
-    <ul>
-      <li *ngFor="let item of menuItems" (click)="onMenuItemClick(item.key)">
-        {{ item.label }}
-      </li>
-    </ul>
-  </div>
 </ng-template>
 
 <ng-template #addMenu>
+  <ng-container *ngIf="this.menuItems | async as menu">
+    <a
+      class="wrapper_menu_btn"
+      *ngIf="menu.length !== 0"
+      (click)="controls.toggleMenu()"
+    >
+      <span class="material-symbols-outlined"> widgets </span>
+    </a>
+    <app-controls-menu
+      #controls
+      [menuItems]="menuItems.asObservable()"
+      (menuItemClick)="onMenuItemClick($event.value)"
+    ></app-controls-menu>
+  </ng-container>
+</ng-template>
+
+<!-- <ng-template #addMenu>
   <a
     class="wrapper_menu"
     *ngIf="this.menuItems.length !== 0"
@@ -101,7 +107,7 @@
       </li>
     </ul>
   </div>
-</ng-template>
+</ng-template> -->
 
 <ng-template #qrCode>
   <a class="wrapper_qrCode" (click)="onQrCodeClick()">
