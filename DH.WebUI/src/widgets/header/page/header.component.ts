@@ -2,7 +2,6 @@ import {
   AfterViewInit,
   Component,
   EventEmitter,
-  HostListener,
   Input,
   OnInit,
   Output,
@@ -36,7 +35,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     new EventEmitter<string>();
 
   public searchForm!: FormGroup;
-  public isMenuVisible: boolean = false;
 
   constructor(
     private readonly fb: FormBuilder,
@@ -55,7 +53,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     if (this.menuItemClickFunction) {
       this.menuItemClickFunction(key);
     }
-    this.isMenuVisible = false;
   }
 
   public ngOnInit(): void {
@@ -73,10 +70,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   public ngAfterViewInit(): void {
     this.initSearchListenersJS();
-  }
-
-  public showMenu(): void {
-    this.isMenuVisible = !this.isMenuVisible;
   }
 
   public onAddClick(): void {
@@ -161,26 +154,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
           this.setDisabledScrollEvent(false);
         }
       });
-    }
-  }
-
-  @HostListener('window:scroll', [])
-  private onWindowScroll(): void {
-    if (this.isMenuVisible) {
-      this.isMenuVisible = false;
-    }
-  }
-
-  @HostListener('document:click', ['$event'])
-  private onClickOutside(event: Event): void {
-    const targetElement = event.target as HTMLElement;
-
-    // Check if the clicked element is within the menu or the button that toggles the menu
-    if (
-      this.isMenuVisible === true &&
-      !targetElement.closest('.wrapper_items')
-    ) {
-      this.isMenuVisible = false;
     }
   }
 }

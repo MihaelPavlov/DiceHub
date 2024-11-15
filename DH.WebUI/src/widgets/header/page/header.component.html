@@ -33,9 +33,7 @@
 
         <ng-container *ngIf="!withAdd; else addBtn" />
 
-        <ng-container *ngIf="!withAdd; else addBtn" />
-
-        <ng-container *ngIf="!withMenu; else addMenu" />
+        <ng-container *ngIf="!withMenu; else menuBtn" />
 
         <ng-container *ngIf="!withQRcode; else qrCode" />
       </div>
@@ -74,7 +72,7 @@
   </a>
 </ng-template>
 
-<ng-template #addMenu>
+<ng-template #menuBtn>
   <ng-container *ngIf="this.menuItems | async as menu">
     <a
       class="wrapper_menu_btn"
@@ -90,24 +88,6 @@
     ></app-controls-menu>
   </ng-container>
 </ng-template>
-
-<!-- <ng-template #addMenu>
-  <a
-    class="wrapper_menu"
-    *ngIf="this.menuItems.length !== 0"
-    (click)="showMenu()"
-  >
-    <span class="material-symbols-outlined"> widgets </span>
-  </a>
-
-  <div *ngIf="isMenuVisible" class="menu">
-    <ul>
-      <li *ngFor="let item of menuItems" (click)="onMenuItemClick(item.key)">
-        {{ item.label }}
-      </li>
-    </ul>
-  </div>
-</ng-template> -->
 
 <ng-template #qrCode>
   <a class="wrapper_qrCode" (click)="onQrCodeClick()">
