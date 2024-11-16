@@ -17,14 +17,37 @@
 
 .wrapper_btns {
   display: flex;
-  justify-content: space-evenly;
+  flex-direction: column;
   margin: 1rem;
+  .btn_container {
+    display: flex;
+    align-items: center;
+    border: 0.2rem solid palette.$main-nav-color;
+    border-radius: 0.5rem;
+    margin: 0.25rem 1rem;
+    padding: 0.5rem;
+    .info {
+      display: flex;
+      flex-direction: column;
+      width: 75%;
+      margin-right: 0.75rem;
+      .description {
+        font-size: 0.8rem;
+        color: palette.$main-font-gray-color;
+      }
+    }
+    .button {
+      display: flex;
+      width: 15%;
+      justify-content: center;
+    }
+  }
 }
 
 .wrapper_tabs {
   display: flex;
   justify-content: space-evenly;
-  margin-bottom: 2rem;
+  margin: 2rem 0;
   &__tab {
     display: flex;
     flex-direction: column;
@@ -67,4 +90,10 @@
   .btn {
     margin-bottom: 1rem;
   }
+}
+
+.btn {
+  border-radius: 0.5rem;
+  margin: 0 0.3rem;
+  padding: 0.3rem 0.5rem;
 }

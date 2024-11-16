@@ -1,5 +1,26 @@
 <app-header Recommended="Club Space" [withBottomLine]="true"> </app-header>
 
+<div class="wrapper_tabs" *ngIf="spaceActivityStats">
+  <div class="wrapper_tabs__tab">
+    <span class="wrapper_tabs__tab-header">People In Club</span>
+    <div class="info">
+      <span class="material-symbols-outlined"> group </span>
+      <span class="info__count">{{
+        spaceActivityStats.totalPeopleInSpace
+      }}</span>
+    </div>
+  </div>
+  <div class="wrapper_tabs__tab">
+    <span class="wrapper_tabs__tab-header">Online tables</span>
+    <div class="info">
+      <span class="material-symbols-outlined"> workspaces </span>
+      <span class="info__count">{{
+        spaceActivityStats.totalActiveTables
+      }}</span>
+    </div>
+  </div>
+</div>
+
 <ng-container *ngIf="userActiveTableInfo as info">
   <div
     *ngIf="info.isPlayerHaveActiveTable || info.isPlayerParticipateInTable"
@@ -23,61 +44,81 @@
       View Table
     </button>
   </div>
+  <app-dice-roller></app-dice-roller>
 
   <div class="wrapper_btns">
-    <button
-      (click)="navigateToCreateTable()"
-      [disabled]="
-        info.isPlayerHaveActiveTable || info.isPlayerParticipateInTable
-      "
-      class="btn btn__small btn-gray"
-      [ngClass]="{
-        'btn-font-green btn-border-green': !(
-          info.isPlayerHaveActiveTable || info.isPlayerParticipateInTable
-        ),
-        'btn-font-red btn-border-red':
-          info.isPlayerHaveActiveTable || info.isPlayerParticipateInTable
-      }"
-    >
-      Create Table
-    </button>
+    <div class="btn_container">
+      <div class="info">
+        <span>Create Table</span>
+        <span class="description"
+          >Begin your adventure. Create a table if you're free and you are in
+          the club!
+        </span>
+      </div>
+      <div class="button">
+        <button
+          (click)="navigateToCreateTable()"
+          [disabled]="
+            info.isPlayerHaveActiveTable || info.isPlayerParticipateInTable
+          "
+          class="btn btn__small btn-gray"
+          [ngClass]="{
+            'btn-font-green btn-border-green': !(
+              info.isPlayerHaveActiveTable || info.isPlayerParticipateInTable
+            ),
+            'btn-font-red btn-border-red':
+              info.isPlayerHaveActiveTable || info.isPlayerParticipateInTable
+          }"
+        >
+          Create
+        </button>
+      </div>
+    </div>
 
-    <button
-      (click)="navigateSpaceTableList()"
-      [disabled]="
-        info.isPlayerHaveActiveTable || info.isPlayerParticipateInTable
-      "
-      class="btn btn__small btn-gray"
-      [ngClass]="{
-        'btn-font-yellow btn-border-yellow': !(
-          info.isPlayerHaveActiveTable || info.isPlayerParticipateInTable
-        ),
-        'btn-font-red btn-border-red':
-          info.isPlayerHaveActiveTable || info.isPlayerParticipateInTable
-      }"
-    >
-      Join Table
-    </button>
+    <div class="btn_container">
+      <div class="info">
+        <span>Join Table</span>
+        <span class="description"
+          >Jump into an ongoing game! Join a table if you're free and ready to
+          play.</span
+        >
+      </div>
+      <div class="button">
+        <button
+          (click)="navigateSpaceTableList()"
+          [disabled]="
+            info.isPlayerHaveActiveTable || info.isPlayerParticipateInTable
+          "
+          class="btn btn__small btn-gray"
+          [ngClass]="{
+            'btn-font-yellow btn-border-yellow': !(
+              info.isPlayerHaveActiveTable || info.isPlayerParticipateInTable
+            ),
+            'btn-font-red btn-border-red':
+              info.isPlayerHaveActiveTable || info.isPlayerParticipateInTable
+          }"
+        >
+          Join
+        </button>
+      </div>
+    </div>
+
+    <div class="btn_container">
+      <div class="info">
+        <span>Book Table</span>
+        <span class="description"
+          >Reserve your spot for a future game! Book a table and prepare for the
+          fun.
+        </span>
+      </div>
+      <div class="button">
+        <button
+          (click)="navigateSpaceTableList()"
+          class="btn btn__small btn-gray btn-font-blue btn-border-blue"
+        >
+          Book
+        </button>
+      </div>
+    </div>
   </div>
 </ng-container>
-
-<div class="wrapper_tabs" *ngIf="spaceActivityStats">
-  <div class="wrapper_tabs__tab">
-    <span class="wrapper_tabs__tab-header">People In Club</span>
-    <div class="info">
-      <span class="material-symbols-outlined"> group </span>
-      <span class="info__count">{{
-        spaceActivityStats.totalPeopleInSpace
-      }}</span>
-    </div>
-  </div>
-  <div class="wrapper_tabs__tab">
-    <span class="wrapper_tabs__tab-header">Online tables</span>
-    <div class="info">
-      <span class="material-symbols-outlined"> workspaces </span>
-      <span class="info__count">{{
-        spaceActivityStats.totalActiveTables
-      }}</span>
-    </div>
-  </div>
-</div>
