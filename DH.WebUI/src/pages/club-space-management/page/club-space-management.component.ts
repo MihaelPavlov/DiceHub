@@ -40,13 +40,15 @@ export class ClubSpaceManagementComponent implements OnInit {
     this.router.navigateByUrl('/space/list');
   }
 
+  public navigateSpaceTableBooking(): void {
+    this.router.navigateByUrl('/space/booking');
+  }
+
   public navigateToCreateTable(): void {
     this.router.navigateByUrl('/qr-code-scanner');
   }
 
   public navigateToSpaceClubDetails(id: number | null | undefined): void {
-    console.log('navigat to -> ', `/space/${id}/details`);
-    
     if (id) this.router.navigateByUrl(`/space/${id}/details`);
   }
 }
