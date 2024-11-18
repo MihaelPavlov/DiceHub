@@ -16,6 +16,8 @@ import {
 } from '@angular/material/dialog';
 import { ClubSpaceDetailsComponent } from '../../features/club-space-management/components/club-space-details/club-space-details.component';
 import { JoinTableConfirmDialog } from '../../features/club-space-management/dialogs/join-table-confirm-dialog/join-table-confirm-dialog.component';
+import { SpaceBookingComponent } from '../../features/club-space-management/components/space-booking/space-booking.component';
+import { DiceRollerComponent } from '../../features/club-space-management/components/space-booking/components/dice-scroller/dice-roller.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import { JoinTableConfirmDialog } from '../../features/club-space-management/dia
     ClubSpaceListComponent,
     ClubSpaceDetailsComponent,
     SinglePlayerConfirmDialog,
-    JoinTableConfirmDialog
+    JoinTableConfirmDialog,
+    DiceRollerComponent,
+    SpaceBookingComponent
   ],
   exports: [ClubSpaceManagementComponent],
   providers: [],

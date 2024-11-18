@@ -1,0 +1,24 @@
+<!-- <h1>{{ sum }}</h1>
+<div class="dice">
+  <div class="die" [ngClass]="{'roll': isRolling}" [class]="'die face-' + result1">
+    <div class="dot" *ngFor="let pos of getDotPositions(result1)"
+         [ngClass]="{ 'hide': isRolling }"
+         [ngStyle]="{ top: pos.top, left: pos.left }"></div>
+  </div>
+  <div class="die" [ngClass]="{'roll': isRolling}" [class]="'die face-' + result2">
+    <div class="dot" *ngFor="let pos of getDotPositions(result2)"
+         [ngClass]="{ 'hide': isRolling }"
+         [ngStyle]="{ top: pos.top, left: pos.left }"></div>
+  </div>
+</div>
+<button class="btn" (click)="rollDice()">Roll Dice</button> -->
+
+<div class="controls">
+  <button (click)="changeFace('left')">←</button>
+  <div class="die" [class.roll]="isRolling" [class]="'die face-' + currentFace">
+    <div class="dot" *ngFor="let pos of getDotPositions(currentFace)"
+         [style.top]="pos.top"
+         [style.left]="pos.left"></div>
+  </div>
+  <button (click)="changeFace('right')">→</button>
+</div>
