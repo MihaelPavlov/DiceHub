@@ -1,0 +1,11 @@
+<div class="controls">
+    <!-- <button (click)="changeFace('left')">←</button> -->
+    <div class="die" [class.roll]="isRolling" [class]="'die face-' + currentFace">
+      <div class="dot" *ngFor="let pos of getDotPositions(currentFace)"
+      [ngClass]="{ 'hide': isRolling }"
+           [style.top]="pos.top"
+           [style.left]="pos.left"></div>
+    </div>
+    <!-- <button (click)="changeFace('right')">→</button> -->
+  </div>
+  

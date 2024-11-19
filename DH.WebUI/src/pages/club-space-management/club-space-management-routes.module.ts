@@ -5,6 +5,7 @@ import { AddUpdateClubSpaceComponent } from '../../features/club-space-managemen
 import { ClubSpaceListComponent } from '../../features/club-space-management/components/club-space-list/club-space-list.component';
 import { ClubSpaceDetailsComponent } from '../../features/club-space-management/components/club-space-details/club-space-details.component';
 import { UserHasActiveTableGuard } from '../../shared/guards/user-has-active-table.guard';
+import { SpaceBookingComponent } from '../../features/club-space-management/components/space-booking/space-booking.component';
 
 const routes: Routes = [
   {
@@ -27,6 +28,10 @@ const routes: Routes = [
   {
     path: ':id/details',
     component: ClubSpaceDetailsComponent,
+  },
+  {
+    path: 'booking',
+    component: SpaceBookingComponent,
   },
 ];
 

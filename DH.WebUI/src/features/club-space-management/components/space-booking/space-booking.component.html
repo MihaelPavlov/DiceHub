@@ -1,0 +1,70 @@
+<div class="wrapper_icons">
+  <span (click)="backNavigateBtn()" class="arrow left"></span>
+  <span class="header_name">Booking</span>
+
+  <span class="material-symbols-outlined info" (click)="showMenu()">
+    info
+  </span>
+  <div class="qr-code-info" *ngIf="isMenuVisible">
+    <span> QR Code Exist for the current game </span>
+  </div>
+</div>
+
+<form [formGroup]="form" class="wrapper">
+  <app-dice-roller #diceRoller (faceChange)="updateGuests($event)"></app-dice-roller>
+
+  <div class="people_container">
+    <div class="input-field">
+      <label for="numberGuests" class="required">Number Of Guests</label>
+      <div class="input-container">
+        <input
+          class="people_input"
+          placeholder=""
+          type="number"
+          id="numberGuests"
+          formControlName="numberGuests"
+          [value]="numberOfGuests"
+        />
+
+        <div class="plus_container">
+          <span class="material-symbols-outlined" (click)="diceRoller.changeFace('right')"> add </span>
+        </div>
+
+        <div class="minus_container">
+          <span class="material-symbols-outlined" (click)="diceRoller.changeFace('left')"> remove </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="input-field date">
+    <label for="reservationDate" class="required">Reservation Date</label>
+    <input
+      class="people_input"
+      placeholder="kids or adults"
+      type="date"
+      id="reservationDate"
+      formControlName="reservationDate"
+    />
+  </div>
+
+  <div class="input-field">
+    <label for="min-age" class="required">Available Time Slots</label>
+    <div class="slots scroller">
+      <div
+      *ngFor="let slot of timeSlots; let i = index"
+      class="slot"
+      [ngClass]="{ 'slot-active': i === activeSlotIndex }"
+      (click)="onSlotClick(i)"
+    >
+      {{ slot }}
+    </div>
+    </div>
+  </div>
+
+  <div class="btn_container">
+    <button class="btn btn-gray create-btn btn-border-green btn-font-green">
+      Book a Table
+    </button>
+  </div>
+</form>

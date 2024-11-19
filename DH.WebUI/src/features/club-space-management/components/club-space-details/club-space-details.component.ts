@@ -1,5 +1,5 @@
-import { Observable, debounceTime, BehaviorSubject } from 'rxjs';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { SpaceManagementService } from '../../../../entities/space-management/api/space-management.service';
 import { IUserActiveSpaceTableResult } from '../../../../entities/space-management/models/user-active-space-table.model';
@@ -30,9 +30,8 @@ export class ClubSpaceDetailsComponent implements OnInit {
     private readonly router: Router,
     private readonly activeRoute: ActivatedRoute,
     private readonly spaceManagementService: SpaceManagementService,
-    private readonly authService: AuthService,
-  ) {
-  }
+    private readonly authService: AuthService
+  ) {}
   public get isUserCreatorOfTable() {
     return this.detailsSpaceTable.createdBy === this.authService.getUser?.id;
   }
@@ -95,7 +94,9 @@ export class ClubSpaceDetailsComponent implements OnInit {
             {
               key: 'leave-room',
               label: 'Leave Room',
-              isVisible: this.userActiveTable ? this.userActiveTable.isPlayerParticipateInTable :false,
+              isVisible: this.userActiveTable
+                ? this.userActiveTable.isPlayerParticipateInTable
+                : false,
             },
           ]);
         },
