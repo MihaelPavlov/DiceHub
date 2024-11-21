@@ -99,6 +99,11 @@
       border-radius: 50%;
       margin: 0 0.2rem;
     }
+
+    .btn_disabled{
+      opacity: 0.5;
+      pointer-events: none;
+    }
   }
   .input-field .people_input {
     width: 17.5%;
@@ -138,4 +143,9 @@
   .btn {
     padding: 0.65rem 5rem;
   }
+}
+
+.item-wrapper {
+  display: flex;
+  justify-content: center;
 }

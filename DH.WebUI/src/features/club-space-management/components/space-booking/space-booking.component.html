@@ -11,7 +11,36 @@
 </div>
 
 <form [formGroup]="form" class="wrapper">
-  <app-dice-roller #diceRoller (faceChange)="updateGuests($event)"></app-dice-roller>
+  <!-- <app-dice-roller #diceRoller (faceChange)="updateGuests($event)"></app-dice-roller> -->
+
+  <!-- Single Dice Roller -->
+  <app-dice-roller
+    #singleDice
+    *ngIf="!isSplit"
+    [@mergeItems]="isSplit ? 'reverse' : 'start'"
+    (faceChange)="updateGuests($event)"
+    (directionChange)="onDirectionChange($event)"
+    [currentFace]="guestsFirstSection"
+  ></app-dice-roller>
+
+  <!-- Two Dice Rollers -->
+  <div class="item-wrapper" *ngIf="isSplit">
+    <!-- First Dice Roller -->
+    <app-dice-roller
+      #firstDice
+      [currentFace]="guestsFirstSection"
+      [isActive]="false"
+      [@flowLeft]="isSplit ? 'start' : 'reverse'"
+    ></app-dice-roller>
+
+    <!-- Second Dice Roller -->
+    <app-dice-roller
+      #secondDice
+      [@flowRight]="isSplit ? 'start' : 'reverse'"
+      (faceChange)="updateGuests($event)"
+      (directionChange)="onDirectionChange($event)"
+    ></app-dice-roller>
+  </div>
 
   <div class="people_container">
     <div class="input-field">
@@ -23,15 +52,31 @@
           type="number"
           id="numberGuests"
           formControlName="numberGuests"
-          [value]="numberOfGuests"
+          [value]="guestsFirstSection + guestsSecondSection"
         />
 
-        <div class="plus_container">
-          <span class="material-symbols-outlined" (click)="diceRoller.changeFace('right')"> add </span>
+        <div
+          class="plus_container"
+          [ngClass]="{ btn_disabled: isAddButtonActive }"
+        >
+          <span
+            class="material-symbols-outlined"
+            (click)="getActiveDiceRoller()?.changeFace('right')"
+          >
+            add
+          </span>
         </div>
 
-        <div class="minus_container">
-          <span class="material-symbols-outlined" (click)="diceRoller.changeFace('left')"> remove </span>
+        <div
+          class="minus_container"
+          [ngClass]="{ btn_disabled: isMinusButtonActive }"
+        >
+          <span
+            class="material-symbols-outlined"
+            (click)="getActiveDiceRoller()?.changeFace('left')"
+          >
+            remove
+          </span>
         </div>
       </div>
     </div>
@@ -52,13 +97,13 @@
     <label for="min-age" class="required">Available Time Slots</label>
     <div class="slots scroller">
       <div
-      *ngFor="let slot of timeSlots; let i = index"
-      class="slot"
-      [ngClass]="{ 'slot-active': i === activeSlotIndex }"
-      (click)="onSlotClick(i)"
-    >
-      {{ slot }}
-    </div>
+        *ngFor="let slot of timeSlots; let i = index"
+        class="slot"
+        [ngClass]="{ 'slot-active': i === activeSlotIndex }"
+        (click)="onSlotClick(i)"
+      >
+        {{ slot }}
+      </div>
     </div>
   </div>
 

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoadingService } from '../../../../shared/services/loading.service';
 import { Formify } from '../../../../shared/models/form.model';
@@ -10,6 +10,16 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import {
+  animate,
+  keyframes,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
+import { DiceRollerComponent } from './components/dice-scroller/dice-roller.component';
+
 interface ICreateSpaceReservation {
   gameName: string;
   gameId: number;
@@ -21,16 +31,76 @@ interface ICreateSpaceReservation {
   selector: 'app-club-space-booking',
   templateUrl: 'space-booking.component.html',
   styleUrl: 'space-booking.component.scss',
+  animations: [
+    trigger('flowLeft', [
+      state('start', style({ transform: 'translateX(-50px)', opacity: 1 })),
+      state('reverse', style({ transform: 'translateX(0)', opacity: 1 })),
+      transition('* => start', [
+        style({ transform: 'translateX(0)', opacity: 0 }),
+        animate('0.6s ease-out'),
+      ]),
+      transition('* => reverse', [
+        animate(
+          '1.2s ease-in-out',
+          keyframes([
+            style({ transform: 'translateX(-25px)', opacity: 1, offset: 0.5 }),
+            style({ transform: 'translateX(0)', opacity: 1, offset: 1 }),
+          ])
+        ),
+      ]),
+    ]),
+
+    trigger('flowRight', [
+      state('start', style({ transform: 'translateX(50px)', opacity: 1 })),
+      state('reverse', style({ transform: 'translateX(0)', opacity: 1 })),
+      transition('* => start', [
+        style({ transform: 'translateX(0)', opacity: 0 }),
+        animate('0.6s ease-out'),
+      ]),
+      transition('* => reverse', [
+        animate(
+          '1.2s ease-in-out',
+          keyframes([
+            style({ transform: 'translateX(25px)', opacity: 1, offset: 0.5 }),
+            style({ transform: 'translateX(0)', opacity: 1, offset: 1 }),
+          ])
+        ),
+      ]),
+    ]),
+
+    trigger('mergeItems', [
+      state('start', style({ transform: 'scale(1)', opacity: 1 })),
+      state('reverse', style({ transform: 'scale(1)', opacity: 1 })),
+      transition('start => reverse', [
+        animate(
+          '1s ease-in-out',
+          keyframes([
+            style({ transform: 'scale(1.1)', opacity: 0.8, offset: 0.5 }),
+            style({ transform: 'scale(1)', opacity: 1, offset: 1 }),
+          ])
+        ),
+      ]),
+    ]),
+  ],
 })
 export class SpaceBookingComponent extends Form implements AfterViewInit {
-  protected override getControlDisplayName(controlName: string): string {
-    throw new Error('Method not implemented.');
-  }
   override form: Formify<ICreateSpaceReservation>;
+  @ViewChild('singleDice') singleDice: DiceRollerComponent | undefined;
+  @ViewChild('secondDice') secondDice: DiceRollerComponent | undefined;
 
   public isMenuVisible: boolean = false;
-  timeSlots: string[] = ['17:30', '18:00', '18:30', '19:00', '19:30', '20:00'];
-  activeSlotIndex: number | null = null; // Holds the index of the active slot
+  public timeSlots: string[] = [
+    '17:30',
+    '18:00',
+    '18:30',
+    '19:00',
+    '19:30',
+    '20:00',
+  ];
+  public activeSlotIndex: number | null = null; // Holds the index of the active slot
+  public guestsFirstSection: number = 1;
+  public guestsSecondSection: number = 0;
+  public isSplit: boolean = false;
 
   constructor(
     public override readonly toastService: ToastService,
@@ -42,22 +112,42 @@ export class SpaceBookingComponent extends Form implements AfterViewInit {
     this.loadingService.loadingOn();
     this.form = this.initFormGroup();
   }
-  ngAfterViewInit(): void {
+
+  public get isAddButtonActive(): boolean {
+    return this.guestsFirstSection + this.guestsSecondSection === 12;
+  }
+
+  public get isMinusButtonActive(): boolean {
+    return this.guestsFirstSection === 1;
+  }
+
+  public toggleSplit(): void {
+    this.isSplit = !this.isSplit;
+  }
+  public ngAfterViewInit(): void {
     this.loadingService.loadingOff();
   }
 
-  numberOfGuests: number = 1; // Default number of guests
-
-  public onAdd() {
-    this.numberOfGuests = Math.min(this.numberOfGuests + 1, 6); // Ensure it doesn't exceed 6
-  }
-
-  public onRemove() {
-    this.numberOfGuests = Math.max(this.numberOfGuests - 1, 1); // Ensure it doesn't go below 1
+  public getActiveDiceRoller(): DiceRollerComponent | undefined {
+    return this.isSplit ? this.secondDice : this.singleDice;
   }
 
   public updateGuests(faceValue: number): void {
-    this.numberOfGuests = faceValue; // Sync value from child
+    if (this.isSplit) {
+      this.guestsSecondSection = faceValue;
+    } else {
+      this.guestsFirstSection = faceValue;
+    }
+  }
+
+  public onDirectionChange(direction) {
+    if (this.guestsFirstSection === 6 && direction === 'right') {
+      this.guestsFirstSection = 6;
+      this.isSplit = true;
+    } else if (this.guestsSecondSection === 1 && direction === 'left') {
+      this.guestsSecondSection = 0;
+      this.isSplit = false;
+    }
   }
 
   public onSlotClick(index: number): void {
@@ -71,6 +161,11 @@ export class SpaceBookingComponent extends Form implements AfterViewInit {
   public showMenu(): void {
     this.isMenuVisible = !this.isMenuVisible;
   }
+
+  protected override getControlDisplayName(controlName: string): string {
+    throw new Error('Method not implemented.');
+  }
+  
   private initFormGroup(): FormGroup {
     return this.fb.group({
       numberGuests: new FormControl<number>(1, [Validators.required]),
