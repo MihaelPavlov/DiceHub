@@ -11,9 +11,6 @@
 </div>
 
 <form [formGroup]="form" class="wrapper">
-  <!-- <app-dice-roller #diceRoller (faceChange)="updateGuests($event)"></app-dice-roller> -->
-
-  <!-- Single Dice Roller -->
   <app-dice-roller
     #singleDice
     *ngIf="!isSplit"
@@ -23,7 +20,6 @@
     [currentFace]="guestsFirstSection"
   ></app-dice-roller>
 
-  <!-- Two Dice Rollers -->
   <div class="item-wrapper" *ngIf="isSplit">
     <!-- First Dice Roller -->
     <app-dice-roller
