@@ -21,7 +21,6 @@
   ></app-dice-roller>
 
   <div class="item-wrapper" *ngIf="isSplit">
-    <!-- First Dice Roller -->
     <app-dice-roller
       #firstDice
       [currentFace]="guestsFirstSection"
@@ -29,7 +28,6 @@
       [@flowLeft]="isSplit ? 'start' : 'reverse'"
     ></app-dice-roller>
 
-    <!-- Second Dice Roller -->
     <app-dice-roller
       #secondDice
       [@flowRight]="isSplit ? 'start' : 'reverse'"
