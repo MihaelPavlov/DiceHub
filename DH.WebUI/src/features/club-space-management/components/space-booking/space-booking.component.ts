@@ -163,7 +163,7 @@ export class SpaceBookingComponent extends Form implements AfterViewInit {
   }
 
   protected override getControlDisplayName(controlName: string): string {
-    throw new Error('Method not implemented.');
+    return ''
   }
   
   private initFormGroup(): FormGroup {
