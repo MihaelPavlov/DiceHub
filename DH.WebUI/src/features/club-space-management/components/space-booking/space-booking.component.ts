@@ -21,11 +21,8 @@ import {
 import { DiceRollerComponent } from './components/dice-scroller/dice-roller.component';
 
 interface ICreateSpaceReservation {
-  gameName: string;
-  gameId: number;
-  tableName: string;
-  maxPeople: number;
-  password: string;
+  numberGuests: string;
+  reservationDate: number;
 }
 @Component({
   selector: 'app-club-space-booking',
@@ -89,6 +86,7 @@ export class SpaceBookingComponent extends Form implements AfterViewInit {
   @ViewChild('secondDice') secondDice: DiceRollerComponent | undefined;
 
   public isMenuVisible: boolean = false;
+  //TODO: Working hours should come from the tenantSettings
   public timeSlots: string[] = [
     '17:30',
     '18:00',
@@ -97,7 +95,7 @@ export class SpaceBookingComponent extends Form implements AfterViewInit {
     '19:30',
     '20:00',
   ];
-  public activeSlotIndex: number | null = null; // Holds the index of the active slot
+  public activeSlotIndex: number | null = 0;
   public guestsFirstSection: number = 1;
   public guestsSecondSection: number = 0;
   public isSplit: boolean = false;
@@ -162,10 +160,20 @@ export class SpaceBookingComponent extends Form implements AfterViewInit {
     this.isMenuVisible = !this.isMenuVisible;
   }
 
-  protected override getControlDisplayName(controlName: string): string {
-    return ''
+  public bookTable(): void {
+    if (this.form.valid) {
+      console.log({
+        numberGuests: this.form.controls.numberGuests.value,
+        reservationDate: this.form.controls.reservationDate.value,
+        time: this.timeSlots[this.activeSlotIndex ?? 0],
+      });
+    }
   }
-  
+
+  protected override getControlDisplayName(controlName: string): string {
+    return '';
+  }
+
   private initFormGroup(): FormGroup {
     return this.fb.group({
       numberGuests: new FormControl<number>(1, [Validators.required]),

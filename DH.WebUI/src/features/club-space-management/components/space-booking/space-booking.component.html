@@ -42,7 +42,6 @@
       <div class="input-container">
         <input
           class="people_input"
-          placeholder=""
           type="number"
           id="numberGuests"
           formControlName="numberGuests"
@@ -80,7 +79,6 @@
     <label for="reservationDate" class="required">Reservation Date</label>
     <input
       class="people_input"
-      placeholder="kids or adults"
       type="date"
       id="reservationDate"
       formControlName="reservationDate"
@@ -94,6 +92,7 @@
         *ngFor="let slot of timeSlots; let i = index"
         class="slot"
         [ngClass]="{ 'slot-active': i === activeSlotIndex }"
+        l
         (click)="onSlotClick(i)"
       >
         {{ slot }}
@@ -102,7 +101,16 @@
   </div>
 
   <div class="btn_container">
-    <button class="btn btn-gray create-btn btn-border-green btn-font-green">
+    <button
+      class="btn btn-gray create-btn"
+      (click)="this.bookTable()"
+      [ngClass]="{
+        'btn-border-green': this.form.valid,
+        'btn-font-green': this.form.valid,
+        'btn-border-red': this.form.invalid,
+        'btn-font-red': this.form.invalid
+      }"
+    >
       Book a Table
     </button>
   </div>
