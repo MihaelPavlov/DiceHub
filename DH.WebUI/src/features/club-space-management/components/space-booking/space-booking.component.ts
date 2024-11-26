@@ -1,3 +1,4 @@
+import { SpaceManagementService } from './../../../../entities/space-management/api/space-management.service';
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoadingService } from '../../../../shared/services/loading.service';
@@ -19,10 +20,11 @@ import {
   trigger,
 } from '@angular/animations';
 import { DiceRollerComponent } from './components/dice-scroller/dice-roller.component';
+import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
+import { ToastType } from '../../../../shared/models/toast.model';
 
 interface ICreateSpaceReservation {
-  numberGuests: string;
-  reservationDate: number;
+  reservationDate: Date;
 }
 @Component({
   selector: 'app-club-space-booking',
@@ -95,7 +97,7 @@ export class SpaceBookingComponent extends Form implements AfterViewInit {
     '19:30',
     '20:00',
   ];
-  public activeSlotIndex: number | null = 0;
+  public activeSlotIndex: number = 0;
   public guestsFirstSection: number = 1;
   public guestsSecondSection: number = 0;
   public isSplit: boolean = false;
@@ -104,7 +106,8 @@ export class SpaceBookingComponent extends Form implements AfterViewInit {
     public override readonly toastService: ToastService,
     private readonly fb: FormBuilder,
     private readonly router: Router,
-    private readonly loadingService: LoadingService
+    private readonly loadingService: LoadingService,
+    private readonly spaceManagementService: SpaceManagementService
   ) {
     super(toastService);
     this.loadingService.loadingOn();
@@ -162,21 +165,43 @@ export class SpaceBookingComponent extends Form implements AfterViewInit {
 
   public bookTable(): void {
     if (this.form.valid) {
-      console.log({
-        numberGuests: this.form.controls.numberGuests.value,
-        reservationDate: this.form.controls.reservationDate.value,
-        time: this.timeSlots[this.activeSlotIndex ?? 0],
-      });
+      this.spaceManagementService
+        .bookTable(
+          this.guestsFirstSection + this.guestsSecondSection,
+          this.form.controls.reservationDate.value,
+          this.timeSlots[this.activeSlotIndex]
+        )
+        .subscribe({
+          next: () => {
+            this.toastService.success({
+              message: AppToastMessage.ChangesApplied,
+              type: ToastType.Success,
+            });
+          },
+          error: (error) => {
+            if (error.error.detail === "User already have an active reservation") {
+              this.toastService.error({
+                message: "This account already have an active reservation",
+                type: ToastType.Error,
+              });
+            } else {
+              this.handleServerErrors(error);
+              this.toastService.error({
+                message: AppToastMessage.SomethingWrong,
+                type: ToastType.Error,
+              });
+            }
+          },
+        });
     }
   }
 
   protected override getControlDisplayName(controlName: string): string {
-    return '';
+    return controlName;
   }
 
   private initFormGroup(): FormGroup {
     return this.fb.group({
-      numberGuests: new FormControl<number>(1, [Validators.required]),
       reservationDate: new FormControl<Date | null>(null, [
         Validators.required,
       ]),

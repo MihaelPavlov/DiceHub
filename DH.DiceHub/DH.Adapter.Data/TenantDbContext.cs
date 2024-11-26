@@ -82,6 +82,7 @@ public class TenantDbContext : DbContext, ITenantDbContext
     #region space
 
     public DbSet<SpaceTable> SpaceTables { get; set; } = default!;
+    public DbSet<SpaceTableReservation> SpaceTableReservations { get; set; } = default!;
     public DbSet<SpaceTableParticipant> SpaceTableParticipants { get; set; } = default!;
 
     #endregion space

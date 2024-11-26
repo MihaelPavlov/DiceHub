@@ -70,6 +70,8 @@ export const PATH = {
     GET_TABLE_PARTICIPANTS: 'get-table-participants',
     ADD_VIRTUAL_PARTICIPANT: 'add-virtual-participant',
     REMOVE_VIRTUAL_PARTICIPANT: 'remove-virtual-participant',
+    GET_ACTIVE_BOOKED_TABLE: 'get-active-booked-table',
+    BOOK_TABLE: 'book-table',
   },
   MESSAGING: {
     CORE: 'message',
@@ -78,7 +80,7 @@ export const PATH = {
     CORE: 'tenantSettings',
   },
   USER: {
-    CORE:"user",
+    CORE: 'user',
     SAVE_TOKEN: 'save-token',
   },
   // AUTH: {

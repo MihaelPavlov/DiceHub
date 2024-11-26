@@ -136,4 +136,22 @@ public class SpaceManagementController : ControllerBase
         await this.mediator.Send(command, cancellationToken);
         return Ok();
     }
+
+    [HttpPost("get-active-booked-table")]
+    [ActionAuthorize(UserAction.SpaceManagementCRUD)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetActiveBookedSpaceTableQueryModel))]
+    public async Task<IActionResult> GetActiveBookedTable(CancellationToken cancellationToken)
+    {
+        var result = await this.mediator.Send(new GetActiveBookedSpaceTableQuery(), cancellationToken);
+        return Ok(result);
+    }
+
+    [HttpPost("book-table")]
+    [ActionAuthorize(UserAction.SpaceManagementCRUD)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> BookSpaceTable([FromBody] BookSpaceTableCommand command, CancellationToken cancellationToken)
+    {
+        await this.mediator.Send(command, cancellationToken);
+        return Ok();
+    }
 }

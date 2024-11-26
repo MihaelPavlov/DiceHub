@@ -1,7 +1,5 @@
 ﻿using DH.Domain.Adapters.Authentication;
 using DH.Domain.Adapters.PushNotifications;
-using DH.Domain.Adapters.PushNotifications.Messages;
-using DH.Domain.Entities;
 using DH.Domain.Models.GameModels.Queries;
 using DH.Domain.Services;
 using DH.Domain.Services.TenantSettingsService;
