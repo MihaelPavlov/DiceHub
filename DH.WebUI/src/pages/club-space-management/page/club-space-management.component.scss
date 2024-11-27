@@ -36,6 +36,22 @@
         color: palette.$main-font-gray-color;
       }
     }
+
+    .booked-info {
+      display: flex;
+      flex-direction: column;
+      width: 90%;
+      margin-right: 0.75rem;
+      .description {
+        font-size: 0.8rem;
+        color: palette.$main-font-gray-color;
+      }
+
+      .description-field{
+        font-size: 0.8rem;
+        color: palette.$main-blue-color;
+      }
+    }
     .button {
       display: flex;
       width: 15%;

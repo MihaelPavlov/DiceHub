@@ -102,7 +102,7 @@
       </div>
     </div>
 
-    <div class="btn_container">
+    <div class="btn_container" *ngIf="!activeBookedTableModel">
       <div class="info">
         <span>Book Table</span>
         <span class="description"
@@ -117,6 +117,19 @@
         >
           Book
         </button>
+      </div>
+    </div>
+
+    <div class="btn_container" *ngIf="activeBookedTableModel">
+      <div class="booked-info">
+        <span>Your Reservation</span>
+        <span class="description"
+          >Your spot for a future game! Be prepared for the fun.
+        </span>
+
+        <span class="description-field" *ngFor="let item of getKeyValuePair()">
+          {{ item.key }}: {{ item.value }}
+        </span>
       </div>
     </div>
   </div>
