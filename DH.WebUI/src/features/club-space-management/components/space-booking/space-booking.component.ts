@@ -141,7 +141,7 @@ export class SpaceBookingComponent extends Form implements AfterViewInit {
     }
   }
 
-  public onDirectionChange(direction) {
+  public onDirectionChange(direction): void {
     if (this.guestsFirstSection === 6 && direction === 'right') {
       this.guestsFirstSection = 6;
       this.isSplit = true;
@@ -179,9 +179,11 @@ export class SpaceBookingComponent extends Form implements AfterViewInit {
             });
           },
           error: (error) => {
-            if (error.error.detail === "User already have an active reservation") {
+            if (
+              error.error.detail === 'User already have an active reservation'
+            ) {
               this.toastService.error({
-                message: "This account already have an active reservation",
+                message: 'This account already have an active reservation',
                 type: ToastType.Error,
               });
             } else {
