@@ -1,7 +1,7 @@
 <span>No events</span>
 <ng-container *ngIf="todayEvents.length !== 0">
   <app-header
-    Recommended="Todays Events"
+    header="Todays Events"
     [withSearch]="false"
     [withBottomLine]="true"
   >
@@ -52,7 +52,7 @@
 
 <ng-container *ngIf="upcomingEvents.length !== 0">
   <app-header
-    Recommended="Upcoming Events"
+    header="Upcoming Events"
     [withSearch]="false"
     [withBottomLine]="true"
   >

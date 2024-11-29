@@ -1,7 +1,7 @@
 <div class="wrapper_icons">
   <span (click)="backNavigateBtn()" class="arrow left"></span>
 
-  <app-header [Recommended]="getHeader" [withQRcode]="withQrCode"> </app-header>
+  <app-header [header]="getHeader" [withQRcode]="withQrCode"> </app-header>
   <div *ngIf="this.editTableId" class="info-container">
     <span class="material-symbols-outlined info" (click)="showInfoForGame()">
       info

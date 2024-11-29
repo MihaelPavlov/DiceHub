@@ -19,7 +19,7 @@ export class GameNavigationComponent implements OnInit {
     | GameCategoriesComponent
     | NewGameListComponent;
 
-    public menuItems: BehaviorSubject<IMenuItem[]> = new BehaviorSubject<
+  public menuItems: BehaviorSubject<IMenuItem[]> = new BehaviorSubject<
     IMenuItem[]
   >([]);
   public isAdmin$: Observable<boolean> = this.permissionService.hasUserAction(
