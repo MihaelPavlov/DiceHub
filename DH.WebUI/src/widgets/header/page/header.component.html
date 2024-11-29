@@ -23,9 +23,10 @@
 
       <span
         class="wrapper_header__title"
+        (click)="this.onHeaderClick()"
         [ngClass]="this.withBottomLine ? 'wrapper_header__title-mb' : ''"
       >
-        {{ this.Recommended }}
+        {{ this.header }}
       </span>
 
       <div class="wrapper_items">

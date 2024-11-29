@@ -18,7 +18,7 @@ import { Router } from '@angular/router';
   styleUrl: 'header.component.scss',
 })
 export class HeaderComponent implements OnInit, AfterViewInit {
-  @Input() Recommended!: string;
+  @Input() header!: string;
   @Input() withBackBtn: boolean = false;
   @Input() withSearch: boolean = false;
   @Input() withAdd: boolean = false;
@@ -33,6 +33,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   @Output() backClicked: EventEmitter<void> = new EventEmitter<void>();
   @Output() searchExpressionResult: EventEmitter<string> =
     new EventEmitter<string>();
+  @Output() headerClicked: EventEmitter<void> = new EventEmitter<void>();
 
   public searchForm!: FormGroup;
 
@@ -78,6 +79,10 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   public onBackClick(): void {
     this.backClicked.emit();
+  }
+
+  public onHeaderClick(): void {
+    this.headerClicked.emit();
   }
 
   public onQrCodeClick(): void {

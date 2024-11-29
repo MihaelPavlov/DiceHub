@@ -17,6 +17,14 @@ export const ROUTES: Routes = [
         canActivate: [AuthGuard],
       },
       {
+        path: 'reservations',
+        loadChildren: () =>
+          import('../../pages/reservation-management/reservation-management.module').then(
+            (m) => m.ReservationManagementModule
+          ),
+        canActivate: [AuthGuard],
+      },
+      {
         path: ROUTE.EVENTS.CORE,
         loadChildren: () =>
           import('../../pages/events-library/events-library.module').then(

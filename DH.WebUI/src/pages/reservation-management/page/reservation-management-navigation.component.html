@@ -1,0 +1,34 @@
+<app-header
+  header="Reservations"
+  [withMenu]="true"
+  [menuItems]="menuItems"
+  [menuItemClickFunction]="handleMenuItemClick"
+  (headerClicked)="onHeader()"
+>
+  <app-nav-bar
+    [columns]="[
+      {
+        name: 'Games',
+        link: 'reservations/games',
+        isActive: isActiveLink('/reservations/games')
+      },
+      {
+        name: 'Tables',
+        link: 'reservations/tables',
+        isActive: isActiveLink('/reservations/tables')
+      }
+    ]"
+  ></app-nav-bar>
+</app-header>
+
+<app-controls-menu
+  #menu
+  [menuItems]="menuItems.asObservable()"
+  (menuItemClick)="handleMenuItemClick($event.value)"
+></app-controls-menu>
+
+<ng-container *ngIf="!this.activeChildComponent">
+  <span>welcome what you are seing here </span>
+</ng-container>
+
+<router-outlet (activate)="onActivate($event)"></router-outlet>

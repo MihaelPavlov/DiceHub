@@ -10,6 +10,8 @@ import { NavigationEnd, Router } from '@angular/router';
 import { filter, Subject, takeUntil } from 'rxjs';
 import { NAV_ITEM_LABELS } from '../../../shared/models/nav-items-labels.const';
 import { MenuTabsService } from '../../../shared/services/menu-tabs.service';
+import { AuthService } from '../../../entities/auth/auth.service';
+import { UserRole } from '../../../entities/auth/enums/roles.enum';
 
 @Component({
   selector: 'app-navigation-menu',
@@ -27,6 +29,7 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
   constructor(
     private readonly router: Router,
     private readonly menuTabsService: MenuTabsService,
+    private readonly authService: AuthService,
     private readonly cd: ChangeDetectorRef
   ) {
     this.updateMenuItems();
@@ -58,7 +61,7 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
     this.destroy$.unsubscribe();
   }
 
-  public navigateToSpaceManagement():void{
+  public navigateToSpaceManagement(): void {
     this.router.navigate(['/space/home']);
   }
 
@@ -92,15 +95,27 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
         icon: 'kid_star',
         route: '/games/library',
       },
-      {
+    ];
+
+    if (this.authService.getUser?.role !== UserRole.User) {
+      this.leftMenuItems.push({
+        label: NAV_ITEM_LABELS.RESERVATION,
+        class: page === '/reservations' ? 'active' : '',
+        enabled: true,
+        visible: true,
+        icon: 'menu_book',
+        route: '/reservations',
+      });
+    } else {
+      this.leftMenuItems.push({
         label: NAV_ITEM_LABELS.MEEPLE,
         class: page === '/meeples/find' ? 'active' : '',
         enabled: true,
         visible: true,
         icon: 'group',
         route: '/meeples/find',
-      },
-    ];
+      });
+    }
 
     this.rightMenuItems = [
       {
@@ -131,7 +146,7 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
     this.updateMenuItemsWihtPage(page);
   }
 
-  private onInitJS(): void {    
+  private onInitJS(): void {
     const interactiveOption = document.querySelector(
       '.interactive-option'
     ) as HTMLElement;
