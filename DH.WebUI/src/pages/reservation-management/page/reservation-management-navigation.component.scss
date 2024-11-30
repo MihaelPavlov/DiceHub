@@ -1,0 +1,38 @@
+@use "../../../shared/assets/styles/palette";
+
+.wrapper_tabs {
+  display: flex;
+  flex-direction: column;
+  margin: 2rem;
+  &__tab {
+    display: flex;
+    flex-direction: column;
+    border-radius: 0.5rem;
+    background-color: palette.$main-nav-color;
+    color: palette.$main-font-gray-color;
+    margin: 0.5rem 1rem;
+    &-header {
+      margin: 0.75rem;
+      font-weight: 600;
+
+      .marked {
+        color: palette.$main-blue-color;
+      }
+    }
+
+    .info {
+      display: flex;
+      justify-content: space-between;
+      .material-symbols-outlined {
+        font-size: 3.5rem;
+        margin: 0.7rem;
+      }
+
+      &__count {
+        font-size: 2.5rem;
+        margin-top: 1rem;
+        margin-right: 1rem;
+      }
+    }
+  }
+}

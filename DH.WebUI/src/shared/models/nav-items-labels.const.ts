@@ -1,7 +1,7 @@
 export const NAV_ITEM_LABELS = {
   GAMES: 'Games',
   MEEPLE: 'Meeple',
-  RESERVATION: 'Bookings',
+  BOOKING: 'Bookings',
   EVENTS: 'Events',
   PROFILE: 'Profile',
 };

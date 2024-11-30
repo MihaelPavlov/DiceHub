@@ -1,5 +1,5 @@
 <app-header
-  header="Reservations"
+  header="Bookings"
   [withMenu]="true"
   [menuItems]="menuItems"
   [menuItemClickFunction]="handleMenuItemClick"
@@ -28,7 +28,22 @@
 ></app-controls-menu>
 
 <ng-container *ngIf="!this.activeChildComponent">
-  <span>welcome what you are seing here </span>
+  <div class="wrapper_tabs">
+    <div class="wrapper_tabs__tab">
+      <span class="wrapper_tabs__tab-header"><strong class="marked">Active</strong> Game Bookings</span>
+      <div class="info">
+        <span class="material-symbols-outlined"> simulation </span>
+        <span class="info__count">12</span>
+      </div>
+    </div>
+    <div class="wrapper_tabs__tab">
+      <span class="wrapper_tabs__tab-header"><strong class="marked">Active</strong> Table Bookings</span>
+      <div class="info">
+        <span class="material-symbols-outlined"> workspaces </span>
+        <span class="info__count">14</span>
+      </div>
+    </div>
+  </div>
 </ng-container>
 
 <router-outlet (activate)="onActivate($event)"></router-outlet>

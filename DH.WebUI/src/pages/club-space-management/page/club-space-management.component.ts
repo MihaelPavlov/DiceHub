@@ -42,10 +42,7 @@ export class ClubSpaceManagementComponent implements OnInit {
     this.spaceManagementService.getActiveBookedTable().subscribe({
       next: (result) => {
         this.activeBookedTableModel = result;
-      },
-      error: (error) => {
-        console.log(error);
-      },
+      }
     });
   }
 
@@ -69,13 +66,13 @@ export class ClubSpaceManagementComponent implements OnInit {
     if (this.activeBookedTableModel) {
       const keyFriendlyNames = getKeyFriendlyNames();
       const keyTransformations = this.getKeyTransformations();
-  
+
       return Object.entries(this.activeBookedTableModel)
         .filter(([key]) => keyFriendlyNames[key] && keyTransformations[key])
         .map(([key, value]) => {
-          const friendlyName = keyFriendlyNames[key]; 
+          const friendlyName = keyFriendlyNames[key];
           const transformedValue = keyTransformations[key]?.(value) ?? value;
-  
+
           return { key: friendlyName, value: transformedValue };
         });
     }
@@ -88,7 +85,8 @@ export class ClubSpaceManagementComponent implements OnInit {
       numberOfGuests: (value) => value,
       reservationDate: (value) =>
         new Date(value).toISOString().replace('T', ' ').substring(0, 16),
-      createdDate: (value) => new Date(value).toISOString().replace('T', ' ').substring(0, 10),
+      createdDate: (value) =>
+        new Date(value).toISOString().replace('T', ' ').substring(0, 10),
       isConfirmed: (value) => value,
     };
   }

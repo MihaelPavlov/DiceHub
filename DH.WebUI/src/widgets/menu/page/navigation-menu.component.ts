@@ -85,11 +85,12 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
     }
   }
 
-  public updateMenuItemsWihtPage(page: string) {
+  public updateMenuItemsWithPage(page: string) {
     this.leftMenuItems = [
       {
         label: NAV_ITEM_LABELS.GAMES,
         class: page === '/games/library' ? 'active' : '',
+        isAlertActive: false,
         enabled: true,
         visible: true,
         icon: 'kid_star',
@@ -99,8 +100,9 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
 
     if (this.authService.getUser?.role !== UserRole.User) {
       this.leftMenuItems.push({
-        label: NAV_ITEM_LABELS.RESERVATION,
+        label: NAV_ITEM_LABELS.BOOKING,
         class: page === '/reservations' ? 'active' : '',
+        isAlertActive: true,
         enabled: true,
         visible: true,
         icon: 'menu_book',
@@ -110,6 +112,7 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
       this.leftMenuItems.push({
         label: NAV_ITEM_LABELS.MEEPLE,
         class: page === '/meeples/find' ? 'active' : '',
+        isAlertActive: false,
         enabled: true,
         visible: true,
         icon: 'group',
@@ -121,6 +124,7 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
       {
         label: NAV_ITEM_LABELS.EVENTS,
         class: page === '/events/home' ? 'active' : '',
+        isAlertActive: false,
         enabled: true,
         visible: true,
         icon: 'stadium',
@@ -129,6 +133,7 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
       {
         label: NAV_ITEM_LABELS.PROFILE,
         class: page === '/profile' ? 'active' : '',
+        isAlertActive: false,
         enabled: true,
         visible: true,
         icon: 'account_circle',
@@ -143,7 +148,7 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
 
   private updateMenuItems() {
     let page: string = location.pathname.split('/')[1];
-    this.updateMenuItemsWihtPage(page);
+    this.updateMenuItemsWithPage(page);
   }
 
   private onInitJS(): void {

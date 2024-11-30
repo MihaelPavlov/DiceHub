@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { IMenuItem } from '../../../shared/models/menu-item.model';
 import { Router } from '@angular/router';
@@ -26,7 +32,8 @@ export class ReservationManagementNavigationComponent implements OnInit {
   );
   constructor(
     private readonly router: Router,
-    private readonly permissionService: PermissionService
+    private readonly permissionService: PermissionService,
+    private readonly cd: ChangeDetectorRef
   ) {
     this.handleMenuItemClick = this.handleMenuItemClick.bind(this);
   }
@@ -60,5 +67,9 @@ export class ReservationManagementNavigationComponent implements OnInit {
   public onHeader(): void {
     this.activeChildComponent = null;
     this.router.navigateByUrl('reservations');
+  }
+
+  public removeActiveChildComponent(): void {
+    this.activeChildComponent = null;
   }
 }

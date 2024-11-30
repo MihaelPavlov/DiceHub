@@ -1,138 +1,157 @@
 @use "../../../shared/assets/styles/palette";
 
 nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 4rem;
-    background-color: palette.$main-nav-color;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 4rem;
+  background-color: palette.$main-nav-color;
 }
 
 .wrapper_nav {
+  display: flex;
+  justify-content: center;
+  z-index: 100;
+
+  .option {
     display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 20%;
+    position: relative;
+    top: 0.5rem;
+  }
+
+  .option:hover {
+    span {
+      color: palette.$main-blue-color;
+      transition: color 0.5s ease;
+    }
+  }
+
+  .interactive-option {
+    --size: 75px;
+
+    position: relative;
+
+    display: flex;
+    bottom: 1.5rem;
+    align-items: center;
     justify-content: center;
-    z-index: 100;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
 
-    .option {
-        display: flex;
-        flex-direction: column;
+    .icon {
+      height: var(--icon-size);
+      width: var(--icon-size);
+      cursor: pointer;
+
+      svg {
+        height: var(--icon-size);
+        width: var(--icon-size);
+        fill: white;
+      }
+    }
+
+    span {
+      width: 3.5rem;
+      height: 3.5rem;
+      border-radius: 50px;
+      background: palette.$main-blue-color;
+      box-shadow: 0 0 0 12px var(--background-color);
+      transition: height 200ms ease, margin 200ms ease;
+      overflow: hidden;
+    }
+
+    .icon {
+      --icon-size: 24px;
+      cursor: pointer;
+      transition: transform 320ms ease, opacity 200ms ease;
+
+      &__resize {
+        position: relative;
+        top: 1rem;
         text-align: center;
-        width: 20%;
-        position: relative;
-        top: 0.5rem;
+      }
     }
 
-    .option:hover {
-        span {
-            color: palette.$main-blue-color;
-            transition: color 0.5s ease;
-        }
-    }
+    .icons-container {
+      width: 100%;
+      height: calc(2 * var(--size));
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
 
-    .interactive-option {
-        --size: 75px;
-
-        position: relative;
-
-        display: flex;
-        bottom: 1.5rem;
-        align-items: center;
-        justify-content: center;
-        width: 3.5rem;
-        height: 3.5rem;
+      .icon {
+        background: rgba(204, 220, 255, 0.25);
+        width: calc(1.8 * var(--icon-size));
+        height: calc(1.8 * var(--icon-size));
         border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        padding-left: 0.9px;
+        left: 50%;
+        top: calc(-25% + var(--index) * 40%);
+        transform: translate(-50%, 100%) rotate(-45deg);
+        transition: transform 300ms cubic-bezier(0.65, -0.55, 0.25, 1.25);
+        transition-delay: calc(var(--index) * 55ms);
 
-        .icon {
-            height: var(--icon-size);
-            width: var(--icon-size);
-            cursor: pointer;
-
-            svg {
-                height: var(--icon-size);
-                width: var(--icon-size);
-                fill: white
-            }
+        &:hover {
+          background: rgba(204, 220, 255, 0.45);
         }
-
-        span {
-            width: 3.5rem;
-            height: 3.5rem;
-            border-radius: 50px;
-            background: palette.$main-blue-color;
-            box-shadow: 0 0 0 12px var(--background-color);
-            transition: height 200ms ease, margin 200ms ease;
-            overflow: hidden;
-        }
-
-        .icon {
-            --icon-size: 24px;
-            cursor: pointer;
-            transition: transform 320ms ease, opacity 200ms ease;
-
-            &__resize {
-                position: relative;
-                top: 1rem;
-                text-align: center;
-            }
-
-        }
-
-        .icons-container {
-            width: 100%;
-            height: calc(2 * var(--size));
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-
-            .icon {
-                background: rgba(204, 220, 255, 0.25);
-                width: calc(1.8 * var(--icon-size));
-                height: calc(1.8 * var(--icon-size));
-                border-radius: 50%;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                position: absolute;
-                padding-left: 0.9px;
-                left: 50%;
-                top: calc(-25% + var(--index) * 40%);
-                transform: translate(-50%, 100%) rotate(-45deg);
-                transition: transform 300ms cubic-bezier(0.65, -0.55, 0.25, 1.25);
-                transition-delay: calc(var(--index) * 55ms);
-
-                &:hover {
-                    background: rgba(204, 220, 255, 0.45);
-                }
-            }
-        }
-
-        &.active {
-            border: none;
-            outline: none;
-            color: palette.$main-blue-color;
-
-            span {
-                height: calc(2.6 * var(--size));
-                margin-top: calc(-1.6 * var(--size));
-            }
-
-
-            .icons-container {
-                .icon {
-                    transform: translate(-50%, -50%) rotate(0);
-                }
-            }
-        }
-
-
+      }
     }
+
+    &.active {
+      border: none;
+      outline: none;
+      color: palette.$main-blue-color;
+
+      span {
+        height: calc(2.6 * var(--size));
+        margin-top: calc(-1.6 * var(--size));
+      }
+
+      .icons-container {
+        .icon {
+          transform: translate(-50%, -50%) rotate(0);
+        }
+      }
+    }
+  }
 }
 
 .active {
-    border: none;
-    outline: none;
-    color: palette.$main-blue-color;
+  border: none;
+  outline: none;
+  color: palette.$main-blue-color;
 }
+
+.icon-button__badge {
+  position: absolute;
+  background: palette.$main-red-color;
+  border-radius: 50%;
+  width: 0.5rem;
+  height: 0.5rem;
+  right: 1.3rem;
+  animation: breathing 2s infinite;
+}
+
+@keyframes breathing {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 1;
+      box-shadow: 0 0 0.2rem #ff4d4f; /* Subtle glow at rest */
+    }
+    50% {
+      transform: scale(1.4);
+      opacity: 0.9;
+      box-shadow: 0 0 0.5rem #ff4d4f; /* Enhanced glow at peak */
+    }
+  }

@@ -16,6 +16,7 @@
           {{ item.icon }}
         </span>
         <span> {{ item.label }} </span>
+        <span *ngIf="item.isAlertActive" class="icon-button__badge"> </span>
       </a>
     </ng-container>
     <a class="interactive-option">
@@ -23,7 +24,11 @@
         <span class="material-symbols-outlined icon__resize"> swords </span>
 
         <div class="icons-container">
-          <div (click)="navigateToSpaceManagement()" class="icon" style="--index: 0">
+          <div
+            (click)="navigateToSpaceManagement()"
+            class="icon"
+            style="--index: 0"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -82,7 +87,11 @@
               ></path>
             </svg>
           </div>
-          <div (click)="navigateToSpaceManagement()" class="icon" style="--index: 3">
+          <div
+            (click)="navigateToSpaceManagement()"
+            class="icon"
+            style="--index: 3"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               xmlns:xlink="http://www.w3.org/1999/xlink"

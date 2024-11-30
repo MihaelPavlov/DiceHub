@@ -139,6 +139,7 @@ public class SpaceManagementController : ControllerBase
 
     [HttpGet("get-active-booked-table")]
     [ActionAuthorize(UserAction.SpaceManagementCRUD)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = null!)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetActiveBookedSpaceTableQueryModel))]
     public async Task<IActionResult> GetActiveBookedTable(CancellationToken cancellationToken)
     {
