@@ -13,6 +13,7 @@ internal class GetGameReservedListQueryHandler : IRequestHandler<GetGameReserved
     readonly IRepository<GameReservation> repository;
     readonly IUserService userService;
     readonly IRepository<Game> gameRepository;
+
     public GetGameReservedListQueryHandler(IRepository<GameReservation> repository, IUserService userService, IRepository<Game> gameRepository)
     {
         this.repository = repository;

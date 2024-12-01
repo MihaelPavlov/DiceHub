@@ -29,6 +29,7 @@ public class MapPermissions : IMapPermissions, IActionPermissions<UserAction>
         { UserAction.ChallengesRead, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff, Role.User} },
         { UserAction.RewardsRead, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff, Role.User} },
         { UserAction.SpaceManagementCRUD, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff, Role.User} },
+        { UserAction.SpaceManagementReservedTablesRead, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff} },
         { UserAction.MessagingCRUD, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff, Role.User} },
         { UserAction.SpaceManagementVirtualC, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff} },
         { UserAction.NotificationCRUD, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff, Role.User} },

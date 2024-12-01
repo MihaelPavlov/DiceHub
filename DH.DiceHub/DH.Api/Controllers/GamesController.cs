@@ -1,4 +1,3 @@
-
 using DH.Adapter.Authentication.Filters;
 using DH.Application.Games.Commands;
 using DH.Application.Games.Commands.Games;
@@ -12,7 +11,6 @@ using System.Text.Json;
 using DH.Domain.Adapters.QRManager;
 
 namespace DH.Api.Controllers;
-
 
 [ApiController]
 [Route("[controller]")]

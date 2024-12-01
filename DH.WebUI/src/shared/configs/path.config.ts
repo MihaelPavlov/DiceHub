@@ -71,6 +71,7 @@ export const PATH = {
     ADD_VIRTUAL_PARTICIPANT: 'add-virtual-participant',
     REMOVE_VIRTUAL_PARTICIPANT: 'remove-virtual-participant',
     GET_ACTIVE_BOOKED_TABLE: 'get-active-booked-table',
+    GET_RESERVED_TABLES: 'get-reserved-tables',
     BOOK_TABLE: 'book-table',
   },
   MESSAGING: {

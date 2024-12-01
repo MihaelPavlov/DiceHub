@@ -10,6 +10,7 @@ import { ISpaceTableParticipant } from '../models/table-participant.model';
 import { IUpdateSpaceTableDto } from '../models/update-space-table.model';
 import { ISpaceTableById } from '../models/get-space-table-by-id.model';
 import { ActiveBookedTableModel } from '../models/active-booked-table.model';
+import { IReservedTable } from '../models/reserved-table.model';
 
 @Injectable({
   providedIn: 'root',
@@ -20,6 +21,12 @@ export class SpaceManagementService {
   public getTableById(id: number): Observable<ISpaceTableById> {
     return this.api.get<ISpaceTableById>(
       `/${PATH.SPACE_MANAGEMENT.CORE}/${id}`
+    );
+  }
+
+  public getReservedTableList(): Observable<IReservedTable[]> {
+    return this.api.get<IReservedTable[]>(
+      `/${PATH.SPACE_MANAGEMENT.CORE}/${PATH.SPACE_MANAGEMENT.GET_RESERVED_TABLES}`
     );
   }
 

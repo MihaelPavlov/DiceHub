@@ -27,4 +27,5 @@ public enum UserAction
     NotificationCRUD = 17,
     TenantUserSettingsCRUD = 18,
     TenantSettingsCRUD = 19,
+    SpaceManagementReservedTablesRead = 20,
 }

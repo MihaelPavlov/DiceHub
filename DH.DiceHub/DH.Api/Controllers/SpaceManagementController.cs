@@ -1,7 +1,9 @@
 ﻿using DH.Adapter.Authentication.Filters;
+using DH.Application.Games.Queries.Games;
 using DH.Application.SpaceManagement.Commands;
 using DH.Application.SpaceManagement.Queries;
 using DH.Domain.Adapters.Authentication.Enums;
+using DH.Domain.Models.GameModels.Queries;
 using DH.Domain.Models.SpaceManagementModels.Commands;
 using DH.Domain.Models.SpaceManagementModels.Queries;
 using MediatR;
@@ -144,6 +146,15 @@ public class SpaceManagementController : ControllerBase
     public async Task<IActionResult> GetActiveBookedTable(CancellationToken cancellationToken)
     {
         var result = await this.mediator.Send(new GetActiveBookedSpaceTableQuery(), cancellationToken);
+        return Ok(result);
+    }
+
+    [HttpGet("get-reserved-tables")]
+    [ActionAuthorize(UserAction.SpaceManagementReservedTablesRead)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetSpaceTableReservationListQueryModel>))]
+    public async Task<IActionResult> GetSpaceTableReservationList(CancellationToken cancellationToken)
+    {
+        var result = await this.mediator.Send(new GetSpaceTableReservationListQuery(), cancellationToken);
         return Ok(result);
     }
 
