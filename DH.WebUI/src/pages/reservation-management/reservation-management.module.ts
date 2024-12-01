@@ -6,6 +6,7 @@ import { ReservationManagementNavigationComponent } from './page/reservation-man
 import { NavBarModule } from '../../widgets/nav-bar/nav-bar.module';
 import { GameReservations } from '../../features/reservation-management/components/game-reservations/game-reservations.component';
 import { SpaceTableReservations } from '../../features/reservation-management/components/space-table-reservations/space-table-reservations.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { SpaceTableReservations } from '../../features/reservation-management/co
     HeaderModule,
     ReservationManagementRoutingModule,
     NavBarModule,
+    NgSelectModule,
   ],
 })
 export class ReservationManagementModule {}

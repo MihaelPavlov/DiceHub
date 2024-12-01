@@ -1,4 +1,5 @@
 export interface IReservedGame {
+  id: number;
   reservationDate: Date;
   reservedDurationMinutes: number;
   isExpired: boolean;

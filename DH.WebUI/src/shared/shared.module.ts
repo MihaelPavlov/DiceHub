@@ -19,7 +19,7 @@ import { ControlsMenuComponent } from './components/menu/controls-menu.component
     GameImagePipe,
     RewardImagePipe,
     EventImagePipe,
-    ControlsMenuComponent
+    ControlsMenuComponent,
   ],
   imports: [CommonModule, ReactiveFormsModule, MatProgressBarModule],
   exports: [
@@ -30,7 +30,7 @@ import { ControlsMenuComponent } from './components/menu/controls-menu.component
     GameImagePipe,
     RewardImagePipe,
     EventImagePipe,
-    ControlsMenuComponent
+    ControlsMenuComponent,
   ],
   providers: [
     StringFormatPipe,

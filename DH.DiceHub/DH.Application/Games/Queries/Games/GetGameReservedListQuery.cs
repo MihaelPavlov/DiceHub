@@ -24,6 +24,7 @@ internal class GetGameReservedListQueryHandler : IRequestHandler<GetGameReserved
     {
         var reservations = await this.repository.GetWithPropertiesAsync<GetGameReservationListQueryModel>(x => new GetGameReservationListQueryModel
         {
+            Id = x.Id,
             UserId = x.UserId,
             ReservationDate = x.ReservationDate,
             ReservedDurationMinutes = x.ReservedDurationMinutes,

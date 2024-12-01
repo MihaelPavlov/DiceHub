@@ -2,6 +2,7 @@
 
 public class GetGameReservationListQueryModel
 {
+    public int Id { get; set; }
     public DateTime ReservationDate { get; set; }
     public int ReservedDurationMinutes { get; set; }
     public bool IsExpired { get; set; }

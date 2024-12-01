@@ -67,16 +67,13 @@
     flex-direction: column;
 
     .input-group {
-      // .input-field {
-      //     flex: none;
-      // }
 
       .input-field input {
         padding: 0.6rem;
       }
 
       .input-field label {
-        font-size: 0.7rem;
+        // font-size: 0.7rem;
         color: palette.$main-font-gray-color;
       }
     }
