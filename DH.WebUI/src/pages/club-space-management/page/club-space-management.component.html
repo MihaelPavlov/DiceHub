@@ -141,9 +141,30 @@
           {{ item.key }}: {{ item.value }}
         </span>
       </div>
-      <a class="wrapper_qrCode" (click)="openDialog(1)">
+      <a
+        class="wrapper_qrCode"
+        *ngIf="
+          this.activeBookedTableModel.status === ReservationStatus.Approved
+        "
+        (click)="openDialog(this.activeBookedTableModel.id)"
+      >
         <img src="../../../../../shared/assets/images/qr-code.png" alt="" />
       </a>
+      <span
+        class="text_waiting_for_confirmation"
+        *ngIf="this.activeBookedTableModel.status === ReservationStatus.None"
+      >
+        Waiting for confirmation
+      </span>
+
+      <span
+        class="text_declined"
+        *ngIf="
+          this.activeBookedTableModel.status === ReservationStatus.Declined
+        "
+      >
+        DECLINED
+      </span>
     </div>
   </div>
 </ng-container>

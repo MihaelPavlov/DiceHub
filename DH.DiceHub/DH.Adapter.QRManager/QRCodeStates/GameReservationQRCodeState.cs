@@ -6,6 +6,7 @@ using DH.Domain.Adapters.QRManager;
 using DH.Domain.Adapters.QRManager.StateModels;
 using DH.Domain.Adapters.Scheduling;
 using DH.Domain.Entities;
+using DH.Domain.Enums;
 using DH.Domain.Exceptions;
 using DH.Domain.Repositories;
 using DH.Domain.Services;
@@ -53,6 +54,9 @@ public class GameReservationQRCodeState : IQRCodeState
 
         if (!gameReservation.IsActive)
             return await SetError(context, data, result, "This game reservation is no longer active", traceId, cancellationToken);
+
+        if (gameReservation.Status != ReservationStatus.Accepted)
+            return await SetError(context, data, result, "This game reservation is not approved from staff", traceId, cancellationToken);
 
         gameReservation.IsReservationSuccessful = true;
         gameReservation.IsActive = false;

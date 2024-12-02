@@ -28,7 +28,6 @@ internal class GetSpaceTableReservationListQueryHandler : IRequestHandler<GetSpa
             CreatedDate = x.CreatedDate,
             ReservationDate = x.ReservationDate,
             IsActive = x.IsActive,
-            IsConfirmed = x.IsConfirmed,
             IsReservationSuccessful = x.IsReservationSuccessful,
             NumberOfGuests = x.NumberOfGuests
         }, cancellationToken);

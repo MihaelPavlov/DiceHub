@@ -1,26 +1,34 @@
 @use "../../../shared/assets/styles/palette";
 
 .qr_video_container {
-    display: flex;
-    justify-content: center;
-    margin: 2rem;
+  display: flex;
+  justify-content: center;
+  margin: 2rem;
 
-    video {
-        width: 90%;
-        height: 10%;
-    }
-
+  video {
+    width: 90%;
+    height: 10%;
+  }
 }
 
 .qr_code_error {
-    display: flex;
-    justify-content: center;
-    color: palette.$main-red-color;
-    text-align: center;
-    margin: 1rem;
-    font-size: 1.2rem;
+  display: flex;
+  justify-content: center;
+  color: palette.$main-red-color;
+  text-align: center;
+  margin: 1rem;
+  font-size: 1.2rem;
 
-    strong{
-        display: contents;
-    }
+  strong {
+    display: contents;
+  }
+}
+
+.after_scan_success_message {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: 1.25rem;
+  margin-top: 2rem;
+  color: palette.$main-blue-color;
 }

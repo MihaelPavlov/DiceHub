@@ -1,10 +1,13 @@
+import { ReservationStatus } from "../enums/reservation-status.enum";
+
 export interface ActiveBookedTableModel {
+  id: number;
   username: string;
   numberOfGuests: number;
   reservationDate: Date;
   createdDate: Date;
   isActive: boolean;
-  isConfirmed: boolean;
+  status: ReservationStatus;
 }
 
 export function getKeyFriendlyNames(): Record<string, string> {

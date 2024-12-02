@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import jsQR from 'jsqr';
 import { ScannerService } from '../../../entities/qr-code-scanner/api/scanner.service';
 import { IQrCode } from '../../../entities/qr-code-scanner/models/qr-code.model';
@@ -14,20 +20,27 @@ import { ScanResultAdminDialog } from '../../../shared/dialogs/scan-result-admin
   templateUrl: 'qr-code-scanner.component.html',
   styleUrl: 'qr-code-scanner.component.scss',
 })
-export class QrCodeScannerComponent implements AfterViewInit {
+export class QrCodeScannerComponent implements OnInit, AfterViewInit {
   @ViewChild('video') videoElement!: ElementRef<HTMLVideoElement>;
-
+  private currentStream: MediaStream | null = null;
+  private readonly KEY_AFTER_SCAN_SUCCESS_MESSAGE = 'afterScanSuccessMessage';
   public imageSrc: string | null = null;
   public canvas!: HTMLCanvasElement;
   public context!: CanvasRenderingContext2D | null;
   public invalidQrCode = false;
   public isValidQrScanned = false;
+  public afterScanSuccessfulMessage: string | null = null;
 
   constructor(
     private readonly scannerService: ScannerService,
     private readonly router: Router,
     private readonly dialog: MatDialog
   ) {}
+
+  public ngOnInit(): void {
+    this.setLocalStorageSuccessMessage('Table Reservation is VALID!');
+    this.initAfterScanSuccessMessage();
+  }
 
   public ngAfterViewInit(): void {
     this.canvas = document.createElement('canvas');
@@ -79,6 +92,7 @@ export class QrCodeScannerComponent implements AfterViewInit {
 
         if (code) {
           console.log('QR Code detected:', code.data);
+          this.afterScanSuccessfulMessage = null;
           video.pause();
           if (!this.isQrCodeValid(code.data)) {
             console.log('Invalid QR Code detected:', code.data);
@@ -104,18 +118,40 @@ export class QrCodeScannerComponent implements AfterViewInit {
                           );
                         }
                         break;
+
                       case QrCodeType.GameReservation:
                         if (res.isValid) {
-                          
-                        }
-                        else{
+                        } else {
                           const dialogRef = this.dialog.open(
                             ScanResultAdminDialog,
                             {
                               data: res,
                             }
                           );
-  
+
+                          dialogRef.afterClosed().subscribe({
+                            next: () => {
+                              window.location.reload();
+                            },
+                          });
+                        }
+                        break;
+                      case QrCodeType.TableReservation:
+                        if (res.isValid) {
+                          this.setLocalStorageSuccessMessage(
+                            'Table Reservation is VALID'
+                          );
+                          // TODO: Show description from approving
+
+                          window.location.reload();
+                        } else {
+                          const dialogRef = this.dialog.open(
+                            ScanResultAdminDialog,
+                            {
+                              data: res,
+                            }
+                          );
+
                           dialogRef.afterClosed().subscribe({
                             next: () => {
                               window.location.reload();
@@ -180,5 +216,23 @@ export class QrCodeScannerComponent implements AfterViewInit {
     }
 
     return false;
+  }
+
+  private setLocalStorageSuccessMessage(message: string): void {
+    this.afterScanSuccessfulMessage = message;
+    localStorage.setItem(
+      this.KEY_AFTER_SCAN_SUCCESS_MESSAGE,
+      this.afterScanSuccessfulMessage
+    );
+  }
+
+  private initAfterScanSuccessMessage(): void {
+    const storedMessage = localStorage.getItem(
+      this.KEY_AFTER_SCAN_SUCCESS_MESSAGE
+    );
+    if (storedMessage) {
+      this.afterScanSuccessfulMessage = storedMessage;
+      localStorage.removeItem(this.KEY_AFTER_SCAN_SUCCESS_MESSAGE);
+    }
   }
 }

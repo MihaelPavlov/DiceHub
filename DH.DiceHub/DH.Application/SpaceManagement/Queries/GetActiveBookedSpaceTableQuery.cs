@@ -26,12 +26,13 @@ internal class GetActiveBookedSpaceTableQueryHandler(IUserContext userContext, I
 
         return new GetActiveBookedSpaceTableQueryModel
         {
+            Id = userReservation.Id,
             CreatedDate = userReservation.CreatedDate,
             ReservationDate = userReservation.ReservationDate,
             IsActive = userReservation.IsActive,
-            IsConfirmed = userReservation.IsConfirmed,
             NumberOfGuests = userReservation.NumberOfGuests,
-            Username = users.First().UserName
+            Username = users.First().UserName,
+            Status = userReservation.Status,
         };
     }
 }

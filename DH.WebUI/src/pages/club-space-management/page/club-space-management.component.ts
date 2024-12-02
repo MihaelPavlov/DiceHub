@@ -12,6 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { QrCodeType } from '../../../entities/qr-code-scanner/enums/qr-code-type.enum';
 import { AuthService } from '../../../entities/auth/auth.service';
 import { ReservationQrCodeDialog } from '../../../shared/dialogs/reservation-qr-code/reservation-qr-code.component';
+import { ReservationStatus } from '../../../entities/space-management/enums/reservation-status.enum';
 
 @Component({
   selector: 'app-club-space-management',
@@ -22,13 +23,13 @@ export class ClubSpaceManagementComponent implements OnInit {
   public userActiveTableInfo!: IUserActiveSpaceTableResult;
   public spaceActivityStats!: ISpaceActivityStats;
   public activeBookedTableModel: ActiveBookedTableModel | null = null;
+  public ReservationStatus = ReservationStatus;
   constructor(
     private readonly router: Router,
     private readonly spaceManagementService: SpaceManagementService,
     private readonly dialog: MatDialog,
-    private readonly authService: AuthService,
+    private readonly authService: AuthService
   ) {}
-
   public ngOnInit(): void {
     combineLatest([
       this.spaceManagementService.getUserActiveTable(),
@@ -48,22 +49,19 @@ export class ClubSpaceManagementComponent implements OnInit {
     this.spaceManagementService.getActiveBookedTable().subscribe({
       next: (result) => {
         this.activeBookedTableModel = result;
-      }
+      },
     });
   }
 
-  public openDialog(
-    id: number,
-  ) {
-
+  public openDialog(id: number) {
     const dialogRef = this.dialog.open(ReservationQrCodeDialog, {
       width: '17rem',
       data: {
-        Id : id,
+        Id: id,
         Name: 'TableReservation',
         Type: QrCodeType.TableReservation,
         AdditionalData: {
-          "userId": this.authService.getUser?.id,
+          userId: this.authService.getUser?.id,
         },
       },
     });

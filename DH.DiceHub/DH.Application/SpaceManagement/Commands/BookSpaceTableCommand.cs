@@ -1,5 +1,6 @@
 ﻿using DH.Domain.Adapters.Authentication;
 using DH.Domain.Entities;
+using DH.Domain.Enums;
 using DH.Domain.Exceptions;
 using DH.Domain.Repositories;
 using MediatR;
@@ -29,7 +30,7 @@ internal class BookSpaceTableCommandHandler(IRepository<SpaceTableReservation> r
             IsReservationSuccessful = false,
             IsActive = true,
             NumberOfGuests = request.NumberOfGuests,
-            IsConfirmed = false,
+            Status = ReservationStatus.None,
         }, cancellationToken);
     }
 

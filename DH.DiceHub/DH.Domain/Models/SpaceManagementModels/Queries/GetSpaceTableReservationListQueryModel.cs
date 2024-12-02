@@ -10,5 +10,4 @@ public class GetSpaceTableReservationListQueryModel
     public DateTime CreatedDate { get; set; }
     public bool IsActive { get; set; }
     public bool IsReservationSuccessful { get; set; }
-    public bool IsConfirmed { get; set; }
 }
