@@ -19,8 +19,8 @@ import {
 import { Formify } from '../../../../../shared/models/form.model';
 import { MatDialog } from '@angular/material/dialog';
 import { QrCodeType } from '../../../../../entities/qr-code-scanner/enums/qr-code-type.enum';
-import { GameReservationQrCodeDialog } from '../../../dialogs/game-reservation-qr-code-dialog/game-reservation-qr-code-dialog.component';
 import { AuthService } from '../../../../../entities/auth/auth.service';
+import { ReservationQrCodeDialog } from '../../../../../shared/dialogs/reservation-qr-code/reservation-qr-code.component';
 
 interface IReservationGameForm {
   reservationPeopleCount: number;
@@ -92,7 +92,7 @@ export class GameAvailabilityComponent
     id: number,
   ) {
 
-    const dialogRef = this.dialog.open(GameReservationQrCodeDialog, {
+    const dialogRef = this.dialog.open(ReservationQrCodeDialog, {
       width: '17rem',
       data: {
         Id : id,

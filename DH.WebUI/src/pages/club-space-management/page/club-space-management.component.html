@@ -113,7 +113,17 @@
       <div class="button">
         <button
           (click)="navigateSpaceTableBooking()"
-          class="btn btn__small btn-gray btn-font-blue btn-border-blue"
+          class="btn btn__small btn-gray"
+          [disabled]="
+            info.isPlayerHaveActiveTable || info.isPlayerParticipateInTable
+          "
+          [ngClass]="{
+            'btn-font-blue btn-border-blue': !(
+              info.isPlayerHaveActiveTable || info.isPlayerParticipateInTable
+            ),
+            'btn-font-red btn-border-red':
+              info.isPlayerHaveActiveTable || info.isPlayerParticipateInTable
+          }"
         >
           Book
         </button>
@@ -131,6 +141,9 @@
           {{ item.key }}: {{ item.value }}
         </span>
       </div>
+      <a class="wrapper_qrCode" (click)="openDialog(1)">
+        <img src="../../../../../shared/assets/images/qr-code.png" alt="" />
+      </a>
     </div>
   </div>
 </ng-container>

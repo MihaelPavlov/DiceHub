@@ -12,12 +12,14 @@
         <div class="wrapper_title">
           {{ reservation.gameName }}
           <div class="wrapper_description">
-            <p>{{ reservation.reservationDate | date : "dd/MM/yyyy, h:mm a" }}</p>
+            <p>{{ reservation.reservationDate | date : "dd/MM/yy, h:mm a" }}</p>
 
             <p>From: {{ reservation.userName }}</p>
             <p>
               Payment:
-              <span *ngIf="reservation.isExpired" class="success">Successfully</span>
+              <span *ngIf="reservation.isExpired" class="success"
+                >Successfully</span
+              >
               <span *ngIf="!reservation.isExpired" class="unsuccess"
                 >Unsuccessfully</span
               >

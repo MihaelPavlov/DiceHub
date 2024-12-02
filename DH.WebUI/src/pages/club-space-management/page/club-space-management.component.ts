@@ -8,6 +8,10 @@ import {
   ActiveBookedTableModel,
   getKeyFriendlyNames,
 } from '../../../entities/space-management/models/active-booked-table.model';
+import { MatDialog } from '@angular/material/dialog';
+import { QrCodeType } from '../../../entities/qr-code-scanner/enums/qr-code-type.enum';
+import { AuthService } from '../../../entities/auth/auth.service';
+import { ReservationQrCodeDialog } from '../../../shared/dialogs/reservation-qr-code/reservation-qr-code.component';
 
 @Component({
   selector: 'app-club-space-management',
@@ -20,7 +24,9 @@ export class ClubSpaceManagementComponent implements OnInit {
   public activeBookedTableModel: ActiveBookedTableModel | null = null;
   constructor(
     private readonly router: Router,
-    private readonly spaceManagementService: SpaceManagementService
+    private readonly spaceManagementService: SpaceManagementService,
+    private readonly dialog: MatDialog,
+    private readonly authService: AuthService,
   ) {}
 
   public ngOnInit(): void {
@@ -43,6 +49,23 @@ export class ClubSpaceManagementComponent implements OnInit {
       next: (result) => {
         this.activeBookedTableModel = result;
       }
+    });
+  }
+
+  public openDialog(
+    id: number,
+  ) {
+
+    const dialogRef = this.dialog.open(ReservationQrCodeDialog, {
+      width: '17rem',
+      data: {
+        Id : id,
+        Name: 'TableReservation',
+        Type: QrCodeType.TableReservation,
+        AdditionalData: {
+          "userId": this.authService.getUser?.id,
+        },
+      },
     });
   }
 

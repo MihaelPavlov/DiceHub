@@ -1,0 +1,17 @@
+<div class="dialog-container">
+  <mat-dialog-actions>
+    <span mat-dialog-close class="material-symbols-outlined"> cancel </span>
+  </mat-dialog-actions>
+  <h3 class="dialog-container__header m-4">Show To Staff</h3>
+
+  <div class="qrcodeImage">
+    <qrcode
+      [qrdata]="this.serializeData()"
+      [width]="200"
+      [margin]="4"
+      [scale]="128"
+      class="demoBorderRadius"
+      [errorCorrectionLevel]="'M'"
+    ></qrcode>
+  </div>
+</div>

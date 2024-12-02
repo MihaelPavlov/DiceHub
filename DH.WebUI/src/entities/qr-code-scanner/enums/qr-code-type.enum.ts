@@ -4,4 +4,5 @@ export enum QrCodeType {
   Event = 2,
   Reward = 3,
   GameReservation = 4,
+  TableReservation = 5,
 }

@@ -18,6 +18,7 @@ import { ClubSpaceDetailsComponent } from '../../features/club-space-management/
 import { JoinTableConfirmDialog } from '../../features/club-space-management/dialogs/join-table-confirm-dialog/join-table-confirm-dialog.component';
 import { SpaceBookingComponent } from '../../features/club-space-management/components/space-booking/space-booking.component';
 import { DiceRollerComponent } from '../../features/club-space-management/components/space-booking/components/dice-scroller/dice-roller.component';
+import { ReservationQrCodeDialogModule } from '../../shared/dialogs/reservation-qr-code/reservation-qr-code.module';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { DiceRollerComponent } from '../../features/club-space-management/compon
     MatDialogActions,
     MatDialogClose,
     MatDialogModule,
+    ReservationQrCodeDialogModule
   ],
 })
 export class ClubSpaceManagementModule {}
