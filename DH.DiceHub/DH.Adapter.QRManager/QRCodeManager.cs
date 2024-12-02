@@ -139,6 +139,14 @@ public class QRCodeManager : IQRCodeManager
                         )
                     );
                 break;
+            case QrCodeType.TableReservation:
+                this.qRCodeContext.SetState(
+                    new TableReservationQRCodeState(
+                        this.containerService.Resolve<IUserContext>(),
+                        this.containerService.Resolve<IRepository<SpaceTableReservation>>()
+                        )
+                    );
+                break;
             default:
                 this.qRCodeContext.SetState(new UnknownQRCodeState());
                 break;
