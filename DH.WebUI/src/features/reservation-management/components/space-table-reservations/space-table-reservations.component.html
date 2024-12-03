@@ -27,28 +27,36 @@
           </div>
         </div>
       </div>
-      <div class="circle-btn" (click)="toggleItem(reservation.id)">
+      <div class="circle-btn" (click)="toggleItem(reservation.id, reservation.status)">
         <!-- If it's approved -->
-        <!-- <span class="material-symbols-outlined accept"> check_circle </span> -->
+        <span class="material-symbols-outlined accept" *ngIf="reservation.status === ReservationStatus.Approved"> check_circle </span>
 
         <!-- If it's declined -->
-        <!-- <span class="material-symbols-outlined decline"> cancel </span> -->
+        <span class="material-symbols-outlined decline" *ngIf="reservation.status === ReservationStatus.Declined"> cancel </span>
 
         <!-- Hide if the reservation is approved or declined -->
-        <span class="material-symbols-outlined menu">
+        <span class="material-symbols-outlined menu" *ngIf="reservation.status === ReservationStatus.None">
           {{
-            reservation.id === this.expandedItemId
+            reservation.id === this.expandedReservationId
               ? rightArrowKey
               : leftArrowKey
           }}
         </span>
       </div>
       <div class="expanded-buttons">
-        <button type="button" class="btnWithIcon">
+        <button
+          type="button"
+          class="btnWithIcon"
+          (click)="this.approveReservation()"
+        >
           <span class="material-symbols-outlined accept"> check_circle </span>
           <span class="header">Approve</span>
         </button>
-        <button type="button" class="btnWithIcon">
+        <button
+          type="button"
+          class="btnWithIcon"
+          (click)="this.declineReservation()"
+        >
           <span class="material-symbols-outlined decline"> cancel </span>
           <span class="header">Decline</span>
         </button>

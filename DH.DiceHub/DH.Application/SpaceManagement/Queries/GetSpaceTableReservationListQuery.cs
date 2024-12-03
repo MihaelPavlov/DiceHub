@@ -1,5 +1,6 @@
 using DH.Domain.Adapters.Authentication.Services;
 using DH.Domain.Entities;
+using DH.Domain.Enums;
 using DH.Domain.Models.SpaceManagementModels.Queries;
 using DH.Domain.Repositories;
 using MediatR;
@@ -29,7 +30,8 @@ internal class GetSpaceTableReservationListQueryHandler : IRequestHandler<GetSpa
             ReservationDate = x.ReservationDate,
             IsActive = x.IsActive,
             IsReservationSuccessful = x.IsReservationSuccessful,
-            NumberOfGuests = x.NumberOfGuests
+            NumberOfGuests = x.NumberOfGuests,
+            Status = x.Status
         }, cancellationToken);
 
         var userIds = reservations.DistinctBy(x => x.UserId).Select(x => x.UserId).ToArray();
@@ -44,6 +46,9 @@ internal class GetSpaceTableReservationListQueryHandler : IRequestHandler<GetSpa
                 reservation.Username = user.UserName;
         }
 
-        return reservations.OrderByDescending(x => x.ReservationDate).ToList();
+        return reservations
+        .OrderBy(x => x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Declined)
+        .ThenByDescending(x => x.ReservationDate)
+        .ToList();
     }
 }

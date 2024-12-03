@@ -177,6 +177,7 @@ export class SpaceBookingComponent extends Form implements AfterViewInit {
               message: AppToastMessage.ChangesApplied,
               type: ToastType.Success,
             });
+            this.router.navigateByUrl("space/home")
           },
           error: (error) => {
             if (

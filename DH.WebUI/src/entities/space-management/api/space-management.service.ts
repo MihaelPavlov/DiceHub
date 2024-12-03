@@ -79,6 +79,24 @@ export class SpaceManagementService {
     });
   }
 
+  public approveReservation(reservationId: number): Observable<null> {
+    return this.api.put(
+      `/${PATH.SPACE_MANAGEMENT.CORE}/${PATH.SPACE_MANAGEMENT.APPROVE_RESERVATION}`,
+      {
+        reservationId,
+      }
+    );
+  }
+
+  public declinedReservation(reservationId: number): Observable<null> {
+    return this.api.put(
+      `/${PATH.SPACE_MANAGEMENT.CORE}/${PATH.SPACE_MANAGEMENT.DECLINE_RESERVATION}`,
+      {
+        reservationId,
+      }
+    );
+  }
+
   public join(tableId: number, password: string = ''): Observable<null> {
     return this.api.put(
       `/${PATH.SPACE_MANAGEMENT.CORE}/${PATH.SPACE_MANAGEMENT.JOIN}`,

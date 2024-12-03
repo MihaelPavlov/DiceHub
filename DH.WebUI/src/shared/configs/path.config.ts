@@ -73,6 +73,8 @@ export const PATH = {
     GET_ACTIVE_BOOKED_TABLE: 'get-active-booked-table',
     GET_RESERVED_TABLES: 'get-reserved-tables',
     BOOK_TABLE: 'book-table',
+    APPROVE_RESERVATION: 'approve-reservation',
+    DECLINE_RESERVATION: 'decline-reservation',
   },
   MESSAGING: {
     CORE: 'message',

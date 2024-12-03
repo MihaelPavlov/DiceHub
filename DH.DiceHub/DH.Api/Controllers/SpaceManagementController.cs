@@ -150,7 +150,7 @@ public class SpaceManagementController : ControllerBase
     }
 
     [HttpGet("get-reserved-tables")]
-    [ActionAuthorize(UserAction.SpaceManagementReservedTablesRead)]
+    [ActionAuthorize(UserAction.SpaceManagementReservedTablesRU)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetSpaceTableReservationListQueryModel>))]
     public async Task<IActionResult> GetSpaceTableReservationList(CancellationToken cancellationToken)
     {
@@ -158,10 +158,28 @@ public class SpaceManagementController : ControllerBase
         return Ok(result);
     }
 
+    [HttpPut("approve-reservation")]
+    [ActionAuthorize(UserAction.SpaceManagementReservedTablesRU)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> ApproveSpaceTableReservation([FromBody] ApproveSpaceTableReservationCommand command, CancellationToken cancellationToken)
+    {
+        await this.mediator.Send(command, cancellationToken);
+        return Ok();
+    }
+
+    [HttpPut("decline-reservation")]
+    [ActionAuthorize(UserAction.SpaceManagementReservedTablesRU)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> DeclineSpaceTableReservation([FromBody] DeclineSpaceTableReservationCommand command, CancellationToken cancellationToken)
+    {
+        await this.mediator.Send(command, cancellationToken);
+        return Ok();
+    }
+
     [HttpPost("book-table")]
     [ActionAuthorize(UserAction.SpaceManagementCRUD)]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> BookSpaceTable([FromBody] BookSpaceTableCommand command, CancellationToken cancellationToken)
+    public async Task<IActionResult> BookSpaceTable([FromBody] CreateSpaceTableReservationCommand command, CancellationToken cancellationToken)
     {
         await this.mediator.Send(command, cancellationToken);
         return Ok();

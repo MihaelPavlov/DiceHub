@@ -1,3 +1,5 @@
+import { ReservationStatus } from "../enums/reservation-status.enum";
+
 export interface IReservedTable {
     id: number;
     userId: string;
@@ -7,5 +9,5 @@ export interface IReservedTable {
     createdDate: Date;
     isActive: boolean;
     isReservationSuccessful: boolean;
-    isConfirmed: boolean;
+    status: ReservationStatus;
 }
