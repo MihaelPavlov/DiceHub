@@ -72,8 +72,10 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
   public setActiveTab(label: string) {
     let menuItem = this.leftMenuItems
       .concat(this.rightMenuItems)
-      .find((item) => item.label === label);
-
+      .find(
+        (item) =>
+          item.label.toString().toLowerCase() === label.toString().toLowerCase()
+      );
     if (menuItem) {
       menuItem.forceActive = true;
       this.menuItemWithForceActiveExists = true;
