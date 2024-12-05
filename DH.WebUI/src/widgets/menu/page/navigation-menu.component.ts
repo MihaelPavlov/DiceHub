@@ -77,83 +77,16 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
       this.spaceManagementService.getReservedTableList(),
     ]).subscribe({
       next: ([gameReservations, tableReservations]) => {
-        const gameActiveReservations = this.filterActiveReservations(gameReservations);
-        const tableActiveReservations = this.filterActiveReservations(tableReservations);
-        const anyActiveReservations = gameActiveReservations.length > 0 || tableActiveReservations.length > 0;
-  
+        const gameActiveReservations =
+          this.filterActiveReservations(gameReservations);
+        const tableActiveReservations =
+          this.filterActiveReservations(tableReservations);
+
+        const anyActiveReservations =
+          gameActiveReservations.length > 0 ||
+          tableActiveReservations.length > 0;
+
         this.updateLeftMenuItems(anyActiveReservations);
-  
-        this.cd.detectChanges();
-        // // TODO: Fix this too much repetitive code and after the refresh of active if we are in the current reservations page is not more selected, not glowing in blue
-        // if (gameReservations) {
-        //   const activeReservations = gameReservations.filter(x=>x.isActive);
-
-        //   if(activeReservations.length !==0){
-        //     this.areAnyActiveReservation.next(true);
-        //     this.leftMenuItems.pop();
-        //     let page: string = location.pathname.split('/')[1];
-        //     console.log("page -> ",page);
-            
-        //     this.leftMenuItems.push({
-        //       label: NAV_ITEM_LABELS.BOOKING,
-        //       class: page === '/reservations' ? 'active' : '',
-        //       forceActive :  page === 'reservations',
-        //       isAlertActive: true,
-        //       enabled: true,
-        //       visible: true,
-        //       icon: 'menu_book',
-        //       route: '/reservations',
-        //     });
-        //   }
-        //   else{
-        //     this.leftMenuItems.pop();
-        //     let page: string = location.pathname.split('/')[1];
-        //     this.leftMenuItems.push({
-        //       label: NAV_ITEM_LABELS.BOOKING,
-        //       class: page === '/reservations' ? 'active' : '',
-        //       forceActive :  page === 'reservations',
-        //       isAlertActive: false,
-        //       enabled: true,
-        //       visible: true,
-        //       icon: 'menu_book',
-        //       route: '/reservations',
-        //     });
-        //   }
-        // }
-        
-        // if (tableReservations) {
-        //   const activeReservations = tableReservations.filter(x=>x.isActive);
-
-        //   if(activeReservations.length !==0){
-        //     this.areAnyActiveReservation.next(true);
-        //     this.leftMenuItems.pop();
-        //     let page: string = location.pathname.split('/')[1];
-        //     this.leftMenuItems.push({
-        //       label: NAV_ITEM_LABELS.BOOKING,
-        //       class: page === '/reservations' ? 'active' : '',
-        //       forceActive :  page === 'reservations',
-        //       isAlertActive: true,
-        //       enabled: true,
-        //       visible: true,
-        //       icon: 'menu_book',
-        //       route: '/reservations',
-        //     });
-        //   }
-        //   else{
-        //     this.leftMenuItems.pop();
-        //     let page: string = location.pathname.split('/')[1];
-        //     this.leftMenuItems.push({
-        //       label: NAV_ITEM_LABELS.BOOKING,
-        //       class: page === '/reservations' ? 'active' : '',
-        //       forceActive :  page === 'reservations',
-        //       isAlertActive: false,
-        //       enabled: true,
-        //       visible: true,
-        //       icon: 'menu_book',
-        //       route: '/reservations',
-        //     });
-        //   }
-        // }
 
         this.cd.detectChanges();
       },
@@ -162,11 +95,11 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
   private updateLeftMenuItems(hasActive: boolean): void {
     const page = location.pathname.split('/')[1];
     const isReservationsPage = page === 'reservations';
-  
-    // Clear existing booking menu item
-    this.leftMenuItems = this.leftMenuItems.filter(item => item.route !== '/reservations');
-  
-    // Add updated booking menu item
+
+    this.leftMenuItems = this.leftMenuItems.filter(
+      (item) => item.route !== '/reservations'
+    );
+
     this.leftMenuItems.push({
       label: NAV_ITEM_LABELS.BOOKING,
       class: isReservationsPage ? 'active' : '',
@@ -179,7 +112,7 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
     });
   }
   private filterActiveReservations(reservations: any[]): any[] {
-    return reservations?.filter(x => x.isActive) || [];
+    return reservations?.filter((x) => x.isActive) || [];
   }
 
   public ngAfterViewInit(): void {
