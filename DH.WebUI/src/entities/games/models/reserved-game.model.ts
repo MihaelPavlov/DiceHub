@@ -2,7 +2,7 @@ export interface IReservedGame {
   id: number;
   reservationDate: Date;
   reservedDurationMinutes: number;
-  isExpired: boolean;
+  isActive: boolean;
   isPaymentSuccessful: boolean;
   gameName: string;
   gameImageId: number;

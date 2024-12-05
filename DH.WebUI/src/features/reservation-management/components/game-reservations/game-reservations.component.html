@@ -17,10 +17,10 @@
             <p>From: {{ reservation.userName }}</p>
             <p>
               Payment:
-              <span *ngIf="reservation.isExpired" class="success"
+              <span *ngIf="reservation.isActive" class="success"
                 >Successfully</span
               >
-              <span *ngIf="!reservation.isExpired" class="unsuccess"
+              <span *ngIf="!reservation.isActive" class="unsuccess"
                 >Unsuccessfully</span
               >
             </p>

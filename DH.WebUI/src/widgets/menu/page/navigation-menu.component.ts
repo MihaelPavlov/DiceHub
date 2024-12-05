@@ -1,17 +1,27 @@
+import { SpaceManagementService } from './../../../entities/space-management/api/space-management.service';
+import { style } from '@angular/animations';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  Input,
   OnInit,
 } from '@angular/core';
 import { IMenuItemInterface } from '../models/menu-item.interface';
 import { NavigationEnd, Router } from '@angular/router';
-import { filter, Subject, takeUntil } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  filter,
+  Subject,
+  takeUntil,
+} from 'rxjs';
 import { NAV_ITEM_LABELS } from '../../../shared/models/nav-items-labels.const';
 import { MenuTabsService } from '../../../shared/services/menu-tabs.service';
 import { AuthService } from '../../../entities/auth/auth.service';
 import { UserRole } from '../../../entities/auth/enums/roles.enum';
+import { GamesService } from '../../../entities/games/api/games.service';
 
 @Component({
   selector: 'app-navigation-menu',
@@ -20,19 +30,24 @@ import { UserRole } from '../../../entities/auth/enums/roles.enum';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavigationMenuComponent implements OnInit, AfterViewInit {
+  public areAnyActiveReservation!: BehaviorSubject<boolean>;
   public leftMenuItems: IMenuItemInterface[] = [];
   public rightMenuItems: IMenuItemInterface[] = [];
   public menuItemWithForceActiveExists: boolean = false;
   private destroy$: Subject<boolean> = new Subject<boolean>();
   public activeLink = NAV_ITEM_LABELS.GAMES;
+  public subscriptionRefreshForAnyActiveReservations!: any;
 
   constructor(
     private readonly router: Router,
     private readonly menuTabsService: MenuTabsService,
     private readonly authService: AuthService,
-    private readonly cd: ChangeDetectorRef
+    private readonly cd: ChangeDetectorRef,
+    private readonly spaceManagementService: SpaceManagementService,
+    private readonly gameService: GamesService
   ) {
     this.updateMenuItems();
+    this.refreshForAnyActiveReservations();
   }
 
   public ngOnInit(): void {
@@ -50,6 +65,121 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
       .subscribe((navEvent: any) => {
         this.activeLink = (navEvent as NavigationEnd).url.split('/')[1];
       });
+    this.subscriptionRefreshForAnyActiveReservations = setInterval(
+      () => this.refreshForAnyActiveReservations(),
+      10000
+    );
+  }
+
+  public refreshForAnyActiveReservations(): void {
+    combineLatest([
+      this.gameService.getReservations(),
+      this.spaceManagementService.getReservedTableList(),
+    ]).subscribe({
+      next: ([gameReservations, tableReservations]) => {
+        const gameActiveReservations = this.filterActiveReservations(gameReservations);
+        const tableActiveReservations = this.filterActiveReservations(tableReservations);
+        const anyActiveReservations = gameActiveReservations.length > 0 || tableActiveReservations.length > 0;
+  
+        this.updateLeftMenuItems(anyActiveReservations);
+  
+        this.cd.detectChanges();
+        // // TODO: Fix this too much repetitive code and after the refresh of active if we are in the current reservations page is not more selected, not glowing in blue
+        // if (gameReservations) {
+        //   const activeReservations = gameReservations.filter(x=>x.isActive);
+
+        //   if(activeReservations.length !==0){
+        //     this.areAnyActiveReservation.next(true);
+        //     this.leftMenuItems.pop();
+        //     let page: string = location.pathname.split('/')[1];
+        //     console.log("page -> ",page);
+            
+        //     this.leftMenuItems.push({
+        //       label: NAV_ITEM_LABELS.BOOKING,
+        //       class: page === '/reservations' ? 'active' : '',
+        //       forceActive :  page === 'reservations',
+        //       isAlertActive: true,
+        //       enabled: true,
+        //       visible: true,
+        //       icon: 'menu_book',
+        //       route: '/reservations',
+        //     });
+        //   }
+        //   else{
+        //     this.leftMenuItems.pop();
+        //     let page: string = location.pathname.split('/')[1];
+        //     this.leftMenuItems.push({
+        //       label: NAV_ITEM_LABELS.BOOKING,
+        //       class: page === '/reservations' ? 'active' : '',
+        //       forceActive :  page === 'reservations',
+        //       isAlertActive: false,
+        //       enabled: true,
+        //       visible: true,
+        //       icon: 'menu_book',
+        //       route: '/reservations',
+        //     });
+        //   }
+        // }
+        
+        // if (tableReservations) {
+        //   const activeReservations = tableReservations.filter(x=>x.isActive);
+
+        //   if(activeReservations.length !==0){
+        //     this.areAnyActiveReservation.next(true);
+        //     this.leftMenuItems.pop();
+        //     let page: string = location.pathname.split('/')[1];
+        //     this.leftMenuItems.push({
+        //       label: NAV_ITEM_LABELS.BOOKING,
+        //       class: page === '/reservations' ? 'active' : '',
+        //       forceActive :  page === 'reservations',
+        //       isAlertActive: true,
+        //       enabled: true,
+        //       visible: true,
+        //       icon: 'menu_book',
+        //       route: '/reservations',
+        //     });
+        //   }
+        //   else{
+        //     this.leftMenuItems.pop();
+        //     let page: string = location.pathname.split('/')[1];
+        //     this.leftMenuItems.push({
+        //       label: NAV_ITEM_LABELS.BOOKING,
+        //       class: page === '/reservations' ? 'active' : '',
+        //       forceActive :  page === 'reservations',
+        //       isAlertActive: false,
+        //       enabled: true,
+        //       visible: true,
+        //       icon: 'menu_book',
+        //       route: '/reservations',
+        //     });
+        //   }
+        // }
+
+        this.cd.detectChanges();
+      },
+    });
+  }
+  private updateLeftMenuItems(hasActive: boolean): void {
+    const page = location.pathname.split('/')[1];
+    const isReservationsPage = page === 'reservations';
+  
+    // Clear existing booking menu item
+    this.leftMenuItems = this.leftMenuItems.filter(item => item.route !== '/reservations');
+  
+    // Add updated booking menu item
+    this.leftMenuItems.push({
+      label: NAV_ITEM_LABELS.BOOKING,
+      class: isReservationsPage ? 'active' : '',
+      forceActive: isReservationsPage,
+      isAlertActive: hasActive,
+      enabled: true,
+      visible: true,
+      icon: 'menu_book',
+      route: '/reservations',
+    });
+  }
+  private filterActiveReservations(reservations: any[]): any[] {
+    return reservations?.filter(x => x.isActive) || [];
   }
 
   public ngAfterViewInit(): void {
@@ -59,6 +189,8 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
   public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+    if (this.subscriptionRefreshForAnyActiveReservations)
+      clearInterval(this.subscriptionRefreshForAnyActiveReservations);
   }
 
   public navigateToSpaceManagement(): void {

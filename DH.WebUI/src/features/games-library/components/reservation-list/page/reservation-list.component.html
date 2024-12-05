@@ -22,8 +22,8 @@
           <p>From: {{ game.userName }}</p>
           <p>
             Payment:
-            <span *ngIf="game.isExpired" class="success">Successfully</span>
-            <span *ngIf="!game.isExpired" class="unsuccess"
+            <span *ngIf="game.isActive" class="success">Successfully</span>
+            <span *ngIf="!game.isActive" class="unsuccess"
               >Unsuccessfully</span
             >
           </p>

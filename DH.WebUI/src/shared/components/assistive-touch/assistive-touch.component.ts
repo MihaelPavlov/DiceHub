@@ -1,11 +1,9 @@
 import { TenantUserSettingsService } from './../../../entities/common/api/tenant-user-settings.service';
 import {
-  ChangeDetectorRef,
   Component,
   EventEmitter,
   HostListener,
   Input,
-  NgZone,
   OnDestroy,
   OnInit,
   Output,
@@ -15,7 +13,6 @@ import { NotificationsDialog } from './notifications/notifications.dialog';
 import { BehaviorSubject, Observable, Subscription, timer } from 'rxjs';
 import { AssistiveTouchSettings } from '../../../entities/common/models/assistive-touch-settings.model';
 import { NotificationsService } from '../../../entities/common/api/notifications.service';
-import { Messaging } from '@angular/fire/messaging';
 
 @Component({
   selector: 'app-assistive-touch',
@@ -28,7 +25,6 @@ export class AssistiveTouchComponent implements OnInit, OnDestroy {
   @Input() areAnyActiveNotifications!: BehaviorSubject<boolean>;
   @Output() updateUserNotifications: EventEmitter<void> =
     new EventEmitter<void>();
-  public areAnyActiveNotifications2!: Observable<boolean>;
   private assistiveTouchSettings: AssistiveTouchSettings | null = null;
   public positionY = this.assistiveTouchSettings
     ? Number(this.assistiveTouchSettings.positionY)
