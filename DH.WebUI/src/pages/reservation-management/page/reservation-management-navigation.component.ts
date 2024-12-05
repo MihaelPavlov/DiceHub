@@ -1,3 +1,5 @@
+import { MeepleRoomDetailsComponent } from './../../../features/find-meeple-management/components/meeple-room-details/meeple-room-details.component';
+import { MenuTabsService } from './../../../shared/services/menu-tabs.service';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -12,13 +14,16 @@ import { UserAction } from '../../../shared/constants/user-action';
 import { PermissionService } from '../../../shared/services/permission.service';
 import { GameReservations } from '../../../features/reservation-management/components/game-reservations/game-reservations.component';
 import { SpaceTableReservations } from '../../../features/reservation-management/components/space-table-reservations/space-table-reservations.component';
+import { NAV_ITEM_LABELS } from '../../../shared/models/nav-items-labels.const';
 
 @Component({
   selector: 'app-reservation-management-navigation',
   templateUrl: 'reservation-management-navigation.component.html',
   styleUrl: 'reservation-management-navigation.component.scss',
 })
-export class ReservationManagementNavigationComponent implements OnInit {
+export class ReservationManagementNavigationComponent
+  implements OnInit, OnDestroy
+{
   public activeChildComponent:
     | GameReservations
     | SpaceTableReservations
@@ -33,9 +38,15 @@ export class ReservationManagementNavigationComponent implements OnInit {
   constructor(
     private readonly router: Router,
     private readonly permissionService: PermissionService,
+    private readonly menuTabsService: MenuTabsService,
     private readonly cd: ChangeDetectorRef
   ) {
     this.handleMenuItemClick = this.handleMenuItemClick.bind(this);
+    this.menuTabsService.setActive(NAV_ITEM_LABELS.BOOKING);
+  }
+  
+  public ngOnDestroy(): void {
+    this.menuTabsService.resetData();
   }
 
   public ngOnInit(): void {

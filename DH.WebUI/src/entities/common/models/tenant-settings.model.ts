@@ -28,4 +28,9 @@ export interface ITenantSettings {
   /// Defines the number of hours to delay the initiation of the new challenge
   /// </summary>
   challengeInitiationDelayHours: number;
+
+  /// <summary>
+  /// These hours should correspond to the operational hours of the facility.
+  /// </summary>
+  reservationHours: string[];
 }

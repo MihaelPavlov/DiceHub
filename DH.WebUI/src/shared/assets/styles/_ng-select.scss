@@ -102,3 +102,6 @@
         color: palette.$main-font-color;
     }
 }
+.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-placeholder{
+    top:unset
+}

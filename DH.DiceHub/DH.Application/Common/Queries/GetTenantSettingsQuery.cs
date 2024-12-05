@@ -1,6 +1,5 @@
 ﻿using DH.Domain.Entities;
 using DH.Domain.Services.TenantSettingsService;
-using Mapster;
 using MediatR;
 
 namespace DH.Application.Common.Queries;
@@ -20,6 +19,17 @@ internal class GetTenantSettingsQueryHandler : IRequestHandler<GetTenantSettings
     {
         var settings = await this.tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
 
-        return settings.Adapt<TenantSettingDto>();
+        var dto = new TenantSettingDto
+        {
+            Id = settings.Id,
+            AverageMaxCapacity = settings.AverageMaxCapacity,
+            ChallengeRewardsCountForPeriod = settings.ChallengeRewardsCountForPeriod,
+            PeriodOfRewardReset = settings.PeriodOfRewardReset,
+            ResetDayForRewards = settings.ResetDayForRewards,
+            ChallengeInitiationDelayHours = settings.ChallengeInitiationDelayHours,
+            ReservationHours = settings.ReservationHours.Split(",")
+        };
+
+        return dto;
     }
 }

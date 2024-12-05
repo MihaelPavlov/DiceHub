@@ -106,6 +106,29 @@
     </ng-select>
   </div>
 
+  <div class="input-field">
+    <label for="resetDayForRewards" class="required"
+      >Reservation Hours</label
+    >
+    <span class="input-info"
+      >These hours should correspond to the operational hours of the facility. You can select multiple slots as needed.</span
+    >
+
+    <ng-select
+      id="reservationHours"
+      [items]="reservationHours"
+      bindValue="name"
+      bindLabel="name"
+      placeholder="Select your hours"
+      [multiple]="true"
+      [closeOnSelect]="false"
+      [searchable]="true"
+      formControlName="reservationHours"
+      class="app-select-long"
+    >
+    </ng-select>
+  </div>
+
   <div *ngIf="getFirstErrorMessage()" class="errors">
     {{ getFirstErrorMessage() }}
   </div>

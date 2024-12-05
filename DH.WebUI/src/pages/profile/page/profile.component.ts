@@ -27,5 +27,9 @@ export class ProfileComponent implements OnDestroy {
     this.router.navigateByUrl('login');
   }
 
+  public navigateToSettings():void{
+    this.router.navigateByUrl("profile/settings");
+  }
+
   public backNavigateBtn() {}
 }

@@ -1,4 +1,5 @@
 ﻿using DH.Domain.Entities;
+using DH.Domain.Exceptions;
 using DH.Domain.Repositories;
 using MediatR;
 
@@ -17,6 +18,9 @@ internal class UpdateTenantSettingsCommandHandler : IRequestHandler<UpdateTenant
 
     public async Task Handle(UpdateTenantSettingsCommand request, CancellationToken cancellationToken)
     {
+        if (!request.Settings.FieldsAreValid(out var validationErrors))
+            throw new ValidationErrorsException(validationErrors);
+
         if (request.Settings.Id == null)
         {
             await this.repository.AddAsync(new TenantSetting
@@ -25,7 +29,8 @@ internal class UpdateTenantSettingsCommandHandler : IRequestHandler<UpdateTenant
                 ResetDayForRewards = request.Settings.ResetDayForRewards,
                 AverageMaxCapacity = request.Settings.AverageMaxCapacity,
                 ChallengeRewardsCountForPeriod = request.Settings.ChallengeRewardsCountForPeriod,
-                PeriodOfRewardReset = request.Settings.PeriodOfRewardReset
+                PeriodOfRewardReset = request.Settings.PeriodOfRewardReset,
+                ReservationHours = string.Join(",", request.Settings.ReservationHours.OrderBy(x => x)),
             }, cancellationToken);
 
             return;
@@ -56,6 +61,11 @@ internal class UpdateTenantSettingsCommandHandler : IRequestHandler<UpdateTenant
         if (dbSettings.ChallengeInitiationDelayHours != request.Settings.ChallengeInitiationDelayHours)
         {
             dbSettings.ChallengeInitiationDelayHours = request.Settings.ChallengeInitiationDelayHours;
+        }
+
+        if (dbSettings.ReservationHours != string.Join(",", request.Settings.ReservationHours.OrderBy(x => x)))
+        {
+            dbSettings.ReservationHours = string.Join(",", request.Settings.ReservationHours.OrderBy(x => x));
         }
 
         await this.repository.SaveChangesAsync(cancellationToken);

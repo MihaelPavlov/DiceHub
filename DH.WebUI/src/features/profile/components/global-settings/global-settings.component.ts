@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Form } from '../../../../shared/components/form/form.component';
 import {
   FormBuilder,
@@ -23,6 +23,7 @@ interface ITenantSettingsForm {
   periodOfRewardReset: string;
   resetDayForRewards: string;
   challengeInitiationDelayHours: number;
+  reservationHours: string[];
 }
 
 interface IDropdown {
@@ -35,12 +36,13 @@ interface IDropdown {
   templateUrl: 'global-settings.component.html',
   styleUrl: 'global-settings.component.scss',
 })
-export class GlobalSettingsComponent extends Form implements OnInit {
+export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
   override form: Formify<ITenantSettingsForm>;
   public isMenuVisible: boolean = false;
 
   public weekDaysValues: IDropdown[] = [];
   public periodTimeValues: IDropdown[] = [];
+  public reservationHours: IDropdown[] = [];
 
   public delayHours: IDropdown[] = [
     { id: 2, name: '2' },
@@ -70,7 +72,7 @@ export class GlobalSettingsComponent extends Form implements OnInit {
         this.clearServerErrorMessage();
       }
     });
-    this.menuTabsService.setActive(NAV_ITEM_LABELS.GAMES);
+    this.menuTabsService.setActive(NAV_ITEM_LABELS.PROFILE);
 
     this.weekDaysValues = Object.entries(WeekDay)
       .filter(([key, value]) => typeof value === 'number')
@@ -79,8 +81,26 @@ export class GlobalSettingsComponent extends Form implements OnInit {
     this.periodTimeValues = Object.entries(TimePeriodType)
       .filter(([key, value]) => typeof value === 'number')
       .map(([key, value]) => ({ id: value as number, name: key }));
+
+    let id = 1;
+    for (let hour = 8; hour < 22; hour++) {
+      for (let minute = 0; minute < 60; minute += 15) {
+        const time = `${hour.toString().padStart(2, '0')}:${minute
+          .toString()
+          .padStart(2, '0')}`;
+        this.reservationHours.push({ id: id, name: time });
+        id++;
+      }
+    }
+  }
+  ngOnDestroy(): void {
+    this.menuTabsService.resetData();
   }
   public ngOnInit(): void {
+    this.fetchSettings();
+  }
+
+  public fetchSettings(): void {
     this.tenantSettingsService.get().subscribe({
       next: (res) => {
         this.tenantSettingsId = res.id ?? null;
@@ -91,6 +111,12 @@ export class GlobalSettingsComponent extends Form implements OnInit {
           resetDayForRewards: res.resetDayForRewards.toString(),
           challengeInitiationDelayHours: res.challengeInitiationDelayHours,
         });
+
+        if (res.reservationHours.length !== 0) {
+          this.form.patchValue({
+            reservationHours: res.reservationHours,
+          });
+        }
       },
     });
   }
@@ -117,6 +143,7 @@ export class GlobalSettingsComponent extends Form implements OnInit {
             .value as unknown as WeekDay,
           challengeInitiationDelayHours:
             this.form.controls.challengeInitiationDelayHours.value,
+          reservationHours: this.form.controls.reservationHours.value,
         })
         .subscribe({
           next: () => {
@@ -124,6 +151,8 @@ export class GlobalSettingsComponent extends Form implements OnInit {
               message: AppToastMessage.ChangesSaved,
               type: ToastType.Success,
             });
+
+            this.fetchSettings();
           },
           error: (error) => {
             this.handleServerErrors(error);
@@ -141,7 +170,22 @@ export class GlobalSettingsComponent extends Form implements OnInit {
   }
 
   protected override getControlDisplayName(controlName: string): string {
-    throw new Error('Method not implemented.');
+    switch (controlName) {
+      case 'averageMaxCapacity':
+        return 'Average Max Capacity';
+      case 'challengeRewardsCountForPeriod':
+        return 'Challenge Rewards Count For Period';
+      case 'periodOfRewardReset':
+        return 'Period Of Reward Reset';
+      case 'resetDayForRewards':
+        return 'Reset Day For Rewards';
+      case 'challengeInitiationDelayHours':
+        return 'Challenge Initiation Delay Hours';
+      case 'reservationHours':
+        return 'Reservation Hours';
+      default:
+        return controlName;
+    }
   }
 
   private initFormGroup(): FormGroup {
@@ -164,6 +208,7 @@ export class GlobalSettingsComponent extends Form implements OnInit {
       challengeInitiationDelayHours: new FormControl<string | null>('2', [
         Validators.required,
       ]),
+      reservationHours: [[]],
     });
   }
 }

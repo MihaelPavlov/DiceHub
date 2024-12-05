@@ -33,6 +33,11 @@ public class TenantSettingDto : IValidableFields
     /// </summary>
     public int ChallengeInitiationDelayHours { get; set; }
 
+    /// <summary>
+    /// These hours should correspond to the operational hours of the facility.
+    /// </summary>
+    public string[] ReservationHours { get; set; } = [];
+
     public bool FieldsAreValid(out List<ValidationError> validationErrors)
     {
         var errors = new List<ValidationError>();
@@ -57,6 +62,9 @@ public class TenantSettingDto : IValidableFields
             errors.Add(new ValidationError(nameof(ChallengeInitiationDelayHours),
                 $"Available hours should be between 2 and 12."));
 
+        if (ReservationHours.Length < 3)
+            errors.Add(new ValidationError(nameof(ReservationHours),
+                $"Reservation hours should have atleast 3 values"));
 
         validationErrors = errors;
 

@@ -28,4 +28,9 @@ public class TenantSetting
     /// Defines the number of hours to delay the initiation of the new challenge
     /// </summary>
     public int ChallengeInitiationDelayHours { get; set; }
+
+    /// <summary>
+    /// These hours should correspond to the operational hours of the facility.
+    /// </summary>
+    public string ReservationHours { get; set; } = string.Empty;
 }
