@@ -1,3 +1,4 @@
+import { TenantSettingsService } from './../../../../entities/common/api/tenant-settings.service';
 import { SpaceManagementService } from './../../../../entities/space-management/api/space-management.service';
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
@@ -88,15 +89,7 @@ export class SpaceBookingComponent extends Form implements AfterViewInit {
   @ViewChild('secondDice') secondDice: DiceRollerComponent | undefined;
 
   public isMenuVisible: boolean = false;
-  //TODO: Working hours should come from the tenantSettings
-  public timeSlots: string[] = [
-    '17:30',
-    '18:00',
-    '18:30',
-    '19:00',
-    '19:30',
-    '20:00',
-  ];
+  public timeSlots: string[] = [];
   public activeSlotIndex: number = 0;
   public guestsFirstSection: number = 1;
   public guestsSecondSection: number = 0;
@@ -107,11 +100,19 @@ export class SpaceBookingComponent extends Form implements AfterViewInit {
     private readonly fb: FormBuilder,
     private readonly router: Router,
     private readonly loadingService: LoadingService,
-    private readonly spaceManagementService: SpaceManagementService
+    private readonly spaceManagementService: SpaceManagementService,
+    private readonly tenantSettingsService: TenantSettingsService
   ) {
     super(toastService);
     this.loadingService.loadingOn();
     this.form = this.initFormGroup();
+    this.tenantSettingsService.get().subscribe({
+      next:(result)=>{
+        if(result){
+          this.timeSlots = result.reservationHours;
+        }
+      }
+    })
   }
 
   public get isAddButtonActive(): boolean {
@@ -177,7 +178,7 @@ export class SpaceBookingComponent extends Form implements AfterViewInit {
               message: AppToastMessage.ChangesApplied,
               type: ToastType.Success,
             });
-            this.router.navigateByUrl("space/home")
+            this.router.navigateByUrl('space/home');
           },
           error: (error) => {
             if (
