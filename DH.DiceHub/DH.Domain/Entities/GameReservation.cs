@@ -21,8 +21,10 @@ public class GameReservation
     /// </summary>
     public ReservationStatus Status { get; set; }
 
-    public bool IsReservationSuccessful{ get; set; }
+    public bool IsReservationSuccessful { get; set; }
     public int GameId { get; set; }
+    public string InternalNote { get; set; } = string.Empty;
+    public string PublicNote { get; set; } = string.Empty;
 
     public virtual Game Game { get; set; } = null!;
 }

@@ -19,6 +19,8 @@ public class SpaceTableReservation
     /// Indicates if the reservation is approved, declined or without status from the staff
     /// </summary>
     public ReservationStatus Status { get; set; }
+    public string InternalNote { get; set; } = string.Empty;
+    public string PublicNote { get; set; } = string.Empty;
 
     public bool IsReservationSuccessful { get; set; }
 }

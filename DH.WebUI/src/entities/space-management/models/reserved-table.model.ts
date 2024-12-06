@@ -1,4 +1,4 @@
-import { ReservationStatus } from "../enums/reservation-status.enum";
+import { ReservationStatus } from "../../../shared/enums/reservation-status.enum";
 
 export interface IReservedTable {
     id: number;

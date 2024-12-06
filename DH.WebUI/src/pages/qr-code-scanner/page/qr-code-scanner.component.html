@@ -6,10 +6,9 @@
   <strong>scan QR Code from a game</strong></span
 >
 
-<!-- todo: add  *ngIf="this.afterScanSuccessfulMessage" -->
-<span class="after_scan_success_message"
+<pre   *ngIf="this.afterScanSuccessfulMessage" class="after_scan_success_message"
   >QR Code is valid! <br />
-  {{ this.afterScanSuccessfulMessage }}</span
+  {{ this.afterScanSuccessfulMessage }}</pre
 >
 
 <div class="qr_video_container" *ngIf="!this.isValidQrScanned">

@@ -79,20 +79,32 @@ export class SpaceManagementService {
     });
   }
 
-  public approveReservation(reservationId: number): Observable<null> {
+  public approveReservation(
+    reservationId: number,
+    publicNote: string,
+    internalNote: string
+  ): Observable<null> {
     return this.api.put(
       `/${PATH.SPACE_MANAGEMENT.CORE}/${PATH.SPACE_MANAGEMENT.APPROVE_RESERVATION}`,
       {
         reservationId,
+        publicNote,
+        internalNote,
       }
     );
   }
 
-  public declinedReservation(reservationId: number): Observable<null> {
+  public declinedReservation(
+    reservationId: number,
+    publicNote: string,
+    internalNote: string
+  ): Observable<null> {
     return this.api.put(
       `/${PATH.SPACE_MANAGEMENT.CORE}/${PATH.SPACE_MANAGEMENT.DECLINE_RESERVATION}`,
       {
         reservationId,
+        publicNote,
+        internalNote,
       }
     );
   }

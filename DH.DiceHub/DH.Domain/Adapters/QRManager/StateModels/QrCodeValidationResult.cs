@@ -2,7 +2,7 @@
 
 public class QrCodeValidationResult
 {
-    public QrCodeValidationResult(int objectId,QrCodeType type)
+    public QrCodeValidationResult(int objectId, QrCodeType type)
     {
         this.ObjectId = objectId;
         this.Type = type;
@@ -10,6 +10,7 @@ public class QrCodeValidationResult
 
     public int ObjectId { get; set; }
     public QrCodeType Type { get; set; }
+    public string? InternalNote { get; set; }
     private bool isValid;
 
     public bool IsValid

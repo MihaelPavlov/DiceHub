@@ -38,7 +38,6 @@ export class QrCodeScannerComponent implements OnInit, AfterViewInit {
   ) {}
 
   public ngOnInit(): void {
-    this.setLocalStorageSuccessMessage('Table Reservation is VALID!');
     this.initAfterScanSuccessMessage();
   }
 
@@ -139,10 +138,8 @@ export class QrCodeScannerComponent implements OnInit, AfterViewInit {
                       case QrCodeType.TableReservation:
                         if (res.isValid) {
                           this.setLocalStorageSuccessMessage(
-                            'Table Reservation is VALID'
+                            `Table Reservation is VALID \n\n ${res.internalNote}`
                           );
-                          // TODO: Show description from approving
-
                           window.location.reload();
                         } else {
                           const dialogRef = this.dialog.open(

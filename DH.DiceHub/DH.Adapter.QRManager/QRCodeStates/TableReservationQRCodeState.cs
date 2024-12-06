@@ -40,6 +40,7 @@ public class TableReservationQRCodeState(IUserContext userContext, IRepository<S
 
         await this.spaceTableReservationRepository.SaveChangesAsync(cancellationToken);
 
+        result.InternalNote = string.IsNullOrEmpty(tableReservation.InternalNote) ? null : tableReservation.InternalNote;
         result.IsValid = true;
         return result;
     }

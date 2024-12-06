@@ -6,7 +6,10 @@ import { SpaceManagementService } from '../../../../entities/space-management/ap
 import { ToastService } from '../../../../shared/services/toast.service';
 import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { ToastType } from '../../../../shared/models/toast.model';
-import { ReservationStatus } from '../../../../entities/space-management/enums/reservation-status.enum';
+import { ReservationConfirmationDialog } from '../../dialogs/reservation-status-confirmation/reservation-confirmation.dialog';
+import { MatDialog } from '@angular/material/dialog';
+import { ReservationType } from '../../enums/reservation-type.enum';
+import { ReservationStatus } from '../../../../shared/enums/reservation-status.enum';
 
 @Component({
   selector: 'app-space-table-reservations',
@@ -25,6 +28,7 @@ export class SpaceTableReservations implements OnDestroy {
   constructor(
     private readonly injector: Injector,
     private readonly toastService: ToastService,
+    private readonly dialog: MatDialog,
     private readonly spaceManagementService: SpaceManagementService
   ) {
     this.reservationNavigationRef = this.injector.get(
@@ -57,54 +61,55 @@ export class SpaceTableReservations implements OnDestroy {
     return this.expandedReservationId === reservationId;
   }
 
-  public approveReservation(): void {
+  public approveReservation(
+    reservationDate: Date,
+    numberOfGuests: number
+  ): void {
     if (this.expandedReservationId) {
-      this.spaceManagementService
-        .approveReservation(this.expandedReservationId)
-        .subscribe({
-          next: () => {
-            this.toastService.success({
-              message: 'Reservation is approved',
-              type: ToastType.Success,
-            });
+      const dialogRef = this.dialog.open(ReservationConfirmationDialog, {
+        width: '17rem',
+        data: {
+          type: ReservationType.Table,
+          reservationId: this.expandedReservationId,
+          status: ReservationStatus.Approved,
+          reservationDate,
+          numberOfGuests,
+        },
+      });
 
-            this.reservedGames$ =
-              this.spaceManagementService.getReservedTableList();
-            this.expandedReservationId = null;
-          },
-          error: () => {
-            this.toastService.error({
-              message: AppToastMessage.SomethingWrong,
-              type: ToastType.Error,
-            });
-          },
-        });
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          this.reservedGames$ =
+            this.spaceManagementService.getReservedTableList();
+          this.expandedReservationId = null;
+        }
+      });
     }
   }
 
-  public declineReservation(): void {
+  public declineReservation(
+    reservationDate: Date,
+    numberOfGuests: number
+  ): void {
     if (this.expandedReservationId) {
-      this.spaceManagementService
-        .declinedReservation(this.expandedReservationId)
-        .subscribe({
-          next: () => {
-            this.toastService.success({
-              message: 'Reservation is declined',
-              type: ToastType.Success,
-            });
+      const dialogRef = this.dialog.open(ReservationConfirmationDialog, {
+        width: '17rem',
+        data: {
+          type: ReservationType.Table,
+          reservationId: this.expandedReservationId,
+          status: ReservationStatus.Declined,
+          reservationDate,
+          numberOfGuests,
+        },
+      });
 
-            this.reservedGames$ =
-              this.spaceManagementService.getReservedTableList();
-
-            this.expandedReservationId = null;
-          },
-          error: () => {
-            this.toastService.error({
-              message: AppToastMessage.SomethingWrong,
-              type: ToastType.Error,
-            });
-          },
-        });
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          this.reservedGames$ =
+            this.spaceManagementService.getReservedTableList();
+          this.expandedReservationId = null;
+        }
+      });
     }
   }
 }

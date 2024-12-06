@@ -9,7 +9,7 @@ using MediatR;
 
 namespace DH.Application.SpaceManagement.Commands;
 
-public record DeclineSpaceTableReservationCommand(int ReservationId) : IRequest;
+public record DeclineSpaceTableReservationCommand(int ReservationId, string InternalNote, string PublicNote) : IRequest;
 
 internal class DeclineSpaceTableReservationCommandHandler(IRepository<SpaceTableReservation> repository, IPushNotificationsService pushNotificationsService) : IRequestHandler<DeclineSpaceTableReservationCommand>
 {
@@ -22,6 +22,8 @@ internal class DeclineSpaceTableReservationCommandHandler(IRepository<SpaceTable
             ?? throw new NotFoundException(nameof(SpaceTableReservation), request.ReservationId);
 
         reservation.Status = ReservationStatus.Declined;
+        reservation.InternalNote = request.InternalNote;
+        reservation.PublicNote = request.PublicNote;
 
         await this.repository.SaveChangesAsync(cancellationToken);
 

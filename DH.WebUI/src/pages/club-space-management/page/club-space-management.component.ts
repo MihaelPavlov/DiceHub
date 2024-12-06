@@ -12,7 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { QrCodeType } from '../../../entities/qr-code-scanner/enums/qr-code-type.enum';
 import { AuthService } from '../../../entities/auth/auth.service';
 import { ReservationQrCodeDialog } from '../../../shared/dialogs/reservation-qr-code/reservation-qr-code.component';
-import { ReservationStatus } from '../../../entities/space-management/enums/reservation-status.enum';
+import { ReservationStatus } from '../../../shared/enums/reservation-status.enum';
 
 @Component({
   selector: 'app-club-space-management',

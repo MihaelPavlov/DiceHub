@@ -1,0 +1,67 @@
+<div class="dialog-container">
+  <div class="wrapper">
+    <ng-container *ngIf="this.data.status === ReservationStatus.Approved">
+      <h3 class="dialog-container__header">Approving reservation:</h3>
+      <div class="dialog-container__description">
+        <p>people <strong> {{this.data.numberOfGuests}}</strong></p>
+        <p>
+          date
+          <strong
+            >{{this.data.reservationDate | date : "dd/MM/yy, h:mm a" }}</strong
+          >
+        </p>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="this.data.status === ReservationStatus.Declined">
+      <h3 class="dialog-container__header">Declining reservation:</h3>
+      <div class="dialog-container__description">
+        <p>people <strong> {{this.data.numberOfGuests}}</strong></p>
+        <p>
+          date
+          <strong
+            >{{this.data.reservationDate | date : "dd/MM/yy, h:mm a" }}</strong
+          >
+        </p>
+      </div>
+    </ng-container>
+    <form [formGroup]="form">
+      <div class="input-field">
+        <label for="internalNote">Internal Note</label>
+        <textarea
+          placeholder="internalNote"
+          type="text"
+          id="internalNote"
+          formControlName="internalNote"
+        ></textarea>
+      </div>
+
+      <div class="input-field">
+        <label for="publicNote">Public Note</label>
+        <textarea
+          placeholder="publicNote"
+          type="text"
+          id="publicNote"
+          formControlName="publicNote"
+        ></textarea>
+      </div>
+    </form>
+  </div>
+  <mat-dialog-actions>
+    <button class="btn btn__small btn-blue" mat-dialog-close>Cancel</button>
+
+    <button
+      *ngIf="this.data.status === ReservationStatus.Approved"
+      class="btn btn__small btn-green btn-border-green"
+      (click)="approveReservation()"
+    >
+      Approve
+    </button>
+    <button
+      *ngIf="this.data.status === ReservationStatus.Declined"
+      class="btn btn__small btn-red btn-border-red"
+      (click)="declineReservation()"
+    >
+      Decline
+    </button>
+  </mat-dialog-actions>
+</div>

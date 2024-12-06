@@ -47,7 +47,9 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
     private readonly gameService: GamesService
   ) {
     this.updateMenuItems();
-    this.refreshForAnyActiveReservations();
+    if (this.authService.getUser?.role !== UserRole.User) {
+      this.refreshForAnyActiveReservations();
+    }
   }
 
   public ngOnInit(): void {
@@ -65,10 +67,12 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
       .subscribe((navEvent: any) => {
         this.activeLink = (navEvent as NavigationEnd).url.split('/')[1];
       });
-    this.subscriptionRefreshForAnyActiveReservations = setInterval(
-      () => this.refreshForAnyActiveReservations(),
-      10000
-    );
+    if (this.authService.getUser?.role !== UserRole.User) {
+      this.subscriptionRefreshForAnyActiveReservations = setInterval(
+        () => this.refreshForAnyActiveReservations(),
+        10000
+      );
+    }
   }
 
   public refreshForAnyActiveReservations(): void {
