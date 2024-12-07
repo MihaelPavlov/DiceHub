@@ -1,25 +1,23 @@
 import { Component, Injector, OnDestroy } from '@angular/core';
-import { ReservationManagementNavigationComponent } from '../../../../pages/reservation-management/page/reservation-management-navigation.component';
+import { ReservationManagementNavigationComponent } from '../../../../../pages/reservation-management/page/reservation-management-navigation.component';
 import { Observable } from 'rxjs';
-import { IReservedTable } from '../../../../entities/space-management/models/reserved-table.model';
-import { SpaceManagementService } from '../../../../entities/space-management/api/space-management.service';
-import { ToastService } from '../../../../shared/services/toast.service';
-import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
-import { ToastType } from '../../../../shared/models/toast.model';
-import { ReservationConfirmationDialog } from '../../dialogs/reservation-status-confirmation/reservation-confirmation.dialog';
+import { SpaceManagementService } from '../../../../../entities/space-management/api/space-management.service';
+import { ToastService } from '../../../../../shared/services/toast.service';
+import { ReservationConfirmationDialog } from '../../../dialogs/reservation-status-confirmation/reservation-confirmation.dialog';
 import { MatDialog } from '@angular/material/dialog';
-import { ReservationType } from '../../enums/reservation-type.enum';
-import { ReservationStatus } from '../../../../shared/enums/reservation-status.enum';
+import { ReservationType } from '../../../enums/reservation-type.enum';
+import { ReservationStatus } from '../../../../../shared/enums/reservation-status.enum';
+import { IActiveReservedTable } from '../../../../../entities/space-management/models/active-reserved-table.model';
 
 @Component({
-  selector: 'app-space-table-reservations',
-  templateUrl: 'space-table-reservations.component.html',
-  styleUrl: 'space-table-reservations.component.scss',
+  selector: 'app-space-table-active-reservations',
+  templateUrl: 'space-table-active-reservations.component.html',
+  styleUrl: 'space-table-active-reservations.component.scss',
 })
-export class SpaceTableReservations implements OnDestroy {
+export class SpaceTableActiveReservations implements OnDestroy {
   private reservationNavigationRef!: ReservationManagementNavigationComponent | null;
 
-  public reservedGames$!: Observable<IReservedTable[]>;
+  public reservedGames$!: Observable<IActiveReservedTable[]>;
   public showFilter: boolean = false;
   public expandedReservationId: number | null = null;
   public leftArrowKey: string = 'arrow_circle_left';
@@ -38,7 +36,7 @@ export class SpaceTableReservations implements OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.reservedGames$ = this.spaceManagementService.getReservedTableList();
+    this.reservedGames$ = this.spaceManagementService.getActiveReservedTableList();
   }
 
   public ngOnDestroy(): void {
@@ -48,11 +46,7 @@ export class SpaceTableReservations implements OnDestroy {
 
   public toggleItem(
     reservationId: number,
-    reservationStatus: ReservationStatus
   ): void {
-    if (reservationStatus !== ReservationStatus.None) {
-      return;
-    }
     this.expandedReservationId =
       this.expandedReservationId === reservationId ? null : reservationId;
   }
@@ -80,7 +74,7 @@ export class SpaceTableReservations implements OnDestroy {
       dialogRef.afterClosed().subscribe((result) => {
         if (result) {
           this.reservedGames$ =
-            this.spaceManagementService.getReservedTableList();
+            this.spaceManagementService.getActiveReservedTableList();
           this.expandedReservationId = null;
         }
       });
@@ -106,7 +100,7 @@ export class SpaceTableReservations implements OnDestroy {
       dialogRef.afterClosed().subscribe((result) => {
         if (result) {
           this.reservedGames$ =
-            this.spaceManagementService.getReservedTableList();
+            this.spaceManagementService.getActiveReservedTableList();
           this.expandedReservationId = null;
         }
       });

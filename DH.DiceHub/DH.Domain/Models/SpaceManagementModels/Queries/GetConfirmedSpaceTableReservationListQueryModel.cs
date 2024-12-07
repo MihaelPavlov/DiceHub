@@ -2,7 +2,7 @@
 
 namespace DH.Domain.Models.SpaceManagementModels.Queries;
 
-public class GetSpaceTableReservationListQueryModel
+public class GetConfirmedSpaceTableReservationListQueryModel
 {
     public int Id { get; set; }
     public string UserId { get; set; } = string.Empty;

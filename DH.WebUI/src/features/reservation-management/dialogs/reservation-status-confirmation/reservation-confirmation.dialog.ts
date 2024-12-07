@@ -13,7 +13,6 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
-  Validators,
 } from '@angular/forms';
 
 interface IReservationConfirmationForm {

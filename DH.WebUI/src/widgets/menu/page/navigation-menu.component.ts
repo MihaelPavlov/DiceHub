@@ -1,5 +1,4 @@
 import { SpaceManagementService } from './../../../entities/space-management/api/space-management.service';
-import { style } from '@angular/animations';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -78,7 +77,7 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
   public refreshForAnyActiveReservations(): void {
     combineLatest([
       this.gameService.getReservations(),
-      this.spaceManagementService.getReservedTableList(),
+      this.spaceManagementService.getActiveReservedTableList(),
     ]).subscribe({
       next: ([gameReservations, tableReservations]) => {
         const gameActiveReservations =

@@ -10,7 +10,8 @@ import { ISpaceTableParticipant } from '../models/table-participant.model';
 import { IUpdateSpaceTableDto } from '../models/update-space-table.model';
 import { ISpaceTableById } from '../models/get-space-table-by-id.model';
 import { ActiveBookedTableModel } from '../models/active-booked-table.model';
-import { IReservedTable } from '../models/reserved-table.model';
+import { IActiveReservedTable } from '../models/active-reserved-table.model';
+import { IConfirmedReservedTable } from '../models/confirmed-reserved-table.model';
 
 @Injectable({
   providedIn: 'root',
@@ -24,9 +25,15 @@ export class SpaceManagementService {
     );
   }
 
-  public getReservedTableList(): Observable<IReservedTable[]> {
-    return this.api.get<IReservedTable[]>(
-      `/${PATH.SPACE_MANAGEMENT.CORE}/${PATH.SPACE_MANAGEMENT.GET_RESERVED_TABLES}`
+  public getActiveReservedTableList(): Observable<IActiveReservedTable[]> {
+    return this.api.get<IActiveReservedTable[]>(
+      `/${PATH.SPACE_MANAGEMENT.CORE}/${PATH.SPACE_MANAGEMENT.GET_ACTIVE_RESERVED_TABLES}`
+    );
+  }
+
+  public getConfirmedReservedTableList(): Observable<IConfirmedReservedTable[]> {
+    return this.api.get<IConfirmedReservedTable[]>(
+      `/${PATH.SPACE_MANAGEMENT.CORE}/${PATH.SPACE_MANAGEMENT.GET_CONFIRMED_RESERVED_TABLES}`
     );
   }
 

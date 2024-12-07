@@ -149,12 +149,21 @@ public class SpaceManagementController : ControllerBase
         return Ok(result);
     }
 
-    [HttpGet("get-reserved-tables")]
+    [HttpGet("get-active-reserved-tables")]
     [ActionAuthorize(UserAction.SpaceManagementReservedTablesRU)]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetSpaceTableReservationListQueryModel>))]
-    public async Task<IActionResult> GetSpaceTableReservationList(CancellationToken cancellationToken)
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetActiveSpaceTableReservationListQueryModel>))]
+    public async Task<IActionResult> GetActiveSpaceTableReservationList(CancellationToken cancellationToken)
     {
-        var result = await this.mediator.Send(new GetSpaceTableReservationListQuery(), cancellationToken);
+        var result = await this.mediator.Send(new GetActiveSpaceTableReservationListQuery(), cancellationToken);
+        return Ok(result);
+    }
+
+    [HttpGet("get-confirmed-reserved-tables")]
+    [ActionAuthorize(UserAction.SpaceManagementReservedTablesRU)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetConfirmedSpaceTableReservationListQueryModel>))]
+    public async Task<IActionResult> GetConfirmedSpaceTableReservationList(CancellationToken cancellationToken)
+    {
+        var result = await this.mediator.Send(new GetConfirmedSpaceTableReservationListQuery(), cancellationToken);
         return Ok(result);
     }
 

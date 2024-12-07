@@ -1,7 +1,5 @@
-import { MeepleRoomDetailsComponent } from './../../../features/find-meeple-management/components/meeple-room-details/meeple-room-details.component';
 import { MenuTabsService } from './../../../shared/services/menu-tabs.service';
 import {
-  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   OnDestroy,
@@ -13,8 +11,8 @@ import { Router } from '@angular/router';
 import { UserAction } from '../../../shared/constants/user-action';
 import { PermissionService } from '../../../shared/services/permission.service';
 import { GameReservations } from '../../../features/reservation-management/components/game-reservations/game-reservations.component';
-import { SpaceTableReservations } from '../../../features/reservation-management/components/space-table-reservations/space-table-reservations.component';
 import { NAV_ITEM_LABELS } from '../../../shared/models/nav-items-labels.const';
+import { SpaceTableActiveReservations } from '../../../features/reservation-management/components/space-table-reservations/active-list/space-table-active-reservations.component';
 
 @Component({
   selector: 'app-reservation-management-navigation',
@@ -26,7 +24,7 @@ export class ReservationManagementNavigationComponent
 {
   public activeChildComponent:
     | GameReservations
-    | SpaceTableReservations
+    | SpaceTableActiveReservations
     | null = null;
 
   public menuItems: BehaviorSubject<IMenuItem[]> = new BehaviorSubject<
@@ -51,15 +49,15 @@ export class ReservationManagementNavigationComponent
 
   public ngOnInit(): void {
     this.menuItems.next([
-      { key: 'add-game', label: 'Add Game' },
+      { key: 'confirmed-tables', label: 'Confirmed Tables' },
       { key: 'add-existing-game', label: 'Add Existing Game' },
       { key: 'reserved-games', label: 'Reserved Games' },
     ]);
   }
 
   public handleMenuItemClick(key: string): void {
-    if (key === 'add-game') {
-      this.router.navigateByUrl('/games/add');
+    if (key === 'confirmed-tables') {
+      this.router.navigateByUrl('/reservations/confirmed-tables');
     } else if (key === 'add-existing-game') {
       this.router.navigateByUrl('/games/add-existing-game');
     } else if (key === 'reserved-games') {
