@@ -1,7 +1,7 @@
 <ng-container>
   <div
     [id]="
-      this.withSearch || this.withAdd || this.withMenu || this.withQRcode
+      this.withSearch || this.withAdd || this.withHistoryBtn || this.withMenu  || this.withQRcode
         ? 'sticky_navbar'
         : 'navbar'
     "
@@ -9,7 +9,7 @@
     <div
       class="wrapper_header"
       [ngStyle]="
-        this.withSearch || this.withAdd || this.withMenu || this.withQRcode
+        this.withSearch || this.withAdd || this.withHistoryBtn || this.withMenu  || this.withQRcode
           ? { padding: '0px;' }
           : { padding: '15px 0 0' }
       "
@@ -34,8 +34,10 @@
 
         <ng-container *ngIf="!withAdd; else addBtn" />
 
+        <ng-container *ngIf="!withHistoryBtn; else historyBtn" />
+        
         <ng-container *ngIf="!withMenu; else menuBtn" />
-
+        
         <ng-container *ngIf="!withQRcode; else qrCode" />
       </div>
     </div>
@@ -64,6 +66,12 @@
 <ng-template #searchBtn>
   <a class="wrapper_search">
     <span id="search-btn" class="material-symbols-outlined"> search </span>
+  </a>
+</ng-template>
+
+<ng-template #historyBtn>
+  <a class="wrapper_history" (click)="onHistoryClick()">
+    <span id="history-btn" class="material-symbols-outlined"> history </span>
   </a>
 </ng-template>
 

@@ -10,11 +10,11 @@ import { ReservationStatus } from '../../../../../shared/enums/reservation-statu
 import { IConfirmedReservedTable } from '../../../../../entities/space-management/models/confirmed-reserved-table.model';
 
 @Component({
-  selector: 'app-space-table-confirmed-reservations',
-  templateUrl: 'space-table-confirmed-reservations.component.html',
-  styleUrl: 'space-table-confirmed-reservations.component.scss',
+  selector: 'app-space-table-reservation-history',
+  templateUrl: 'space-table-reservation-history.component.html',
+  styleUrl: 'space-table-reservation-history.component.scss',
 })
-export class SpaceTableConfirmedReservations implements OnDestroy {
+export class SpaceTableReservationHistory implements OnDestroy {
   private reservationNavigationRef!: ReservationManagementNavigationComponent | null;
 
   public reservedGames$!: Observable<IConfirmedReservedTable[]>;
@@ -33,6 +33,8 @@ export class SpaceTableConfirmedReservations implements OnDestroy {
       ReservationManagementNavigationComponent,
       null
     );
+
+    this.reservationNavigationRef?.header.next('History');
   }
 
   public ngOnInit(): void {

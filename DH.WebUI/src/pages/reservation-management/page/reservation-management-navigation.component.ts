@@ -1,10 +1,5 @@
 import { MenuTabsService } from './../../../shared/services/menu-tabs.service';
-import {
-  ChangeDetectorRef,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { IMenuItem } from '../../../shared/models/menu-item.model';
 import { Router } from '@angular/router';
@@ -33,6 +28,11 @@ export class ReservationManagementNavigationComponent
   public isAdmin$: Observable<boolean> = this.permissionService.hasUserAction(
     UserAction.GamesCUD
   );
+
+  public header: BehaviorSubject<string> = new BehaviorSubject<string>(
+    'Reservations'
+  );
+
   constructor(
     private readonly router: Router,
     private readonly permissionService: PermissionService,
@@ -40,28 +40,33 @@ export class ReservationManagementNavigationComponent
     private readonly cd: ChangeDetectorRef
   ) {
     this.handleMenuItemClick = this.handleMenuItemClick.bind(this);
-    this.menuTabsService.setActive(NAV_ITEM_LABELS.BOOKING);
+    this.menuTabsService.setActive(NAV_ITEM_LABELS.RESERVATIONS);
   }
-  
+
   public ngOnDestroy(): void {
     this.menuTabsService.resetData();
   }
 
   public ngOnInit(): void {
     this.menuItems.next([
-      { key: 'confirmed-tables', label: 'Confirmed Tables' },
-      { key: 'add-existing-game', label: 'Add Existing Game' },
-      { key: 'reserved-games', label: 'Reserved Games' },
+      { key: 'history-tables', label: 'History Tables' },
+      { key: 'history-games', label: 'History Games' },
     ]);
   }
 
   public handleMenuItemClick(key: string): void {
-    if (key === 'confirmed-tables') {
+    if (key === 'history-tables') {
       this.router.navigateByUrl('/reservations/confirmed-tables');
-    } else if (key === 'add-existing-game') {
+    } else if (key === 'history-games') {
       this.router.navigateByUrl('/games/add-existing-game');
-    } else if (key === 'reserved-games') {
-      this.router.navigateByUrl('/games/reservations');
+    }
+  }
+
+  public onHistoryExpression(): void {
+    if (this.activeChildComponent) {
+      try {
+        this.activeChildComponent.onHistory();
+      } catch (error) {}
     }
   }
 
@@ -75,10 +80,12 @@ export class ReservationManagementNavigationComponent
 
   public onHeader(): void {
     this.activeChildComponent = null;
+    this.header.next('Reservations');
     this.router.navigateByUrl('reservations');
   }
 
   public removeActiveChildComponent(): void {
     this.activeChildComponent = null;
+    this.header.next("Reservations")
   }
 }

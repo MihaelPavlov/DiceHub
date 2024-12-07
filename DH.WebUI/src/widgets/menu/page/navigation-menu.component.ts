@@ -104,7 +104,7 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
     );
 
     this.leftMenuItems.push({
-      label: NAV_ITEM_LABELS.BOOKING,
+      label: NAV_ITEM_LABELS.RESERVATIONS,
       class: isReservationsPage ? 'active' : '',
       forceActive: isReservationsPage,
       isAlertActive: hasActive,
@@ -170,7 +170,7 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
 
     if (this.authService.getUser?.role !== UserRole.User) {
       this.leftMenuItems.push({
-        label: NAV_ITEM_LABELS.BOOKING,
+        label: NAV_ITEM_LABELS.RESERVATIONS,
         class: page === '/reservations' ? 'active' : '',
         isAlertActive: true,
         enabled: true,

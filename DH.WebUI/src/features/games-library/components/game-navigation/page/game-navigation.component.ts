@@ -68,8 +68,6 @@ export class GameNavigationComponent implements OnInit {
     secondaryLink: string | null = null,
     strictMatch: boolean = false
   ): boolean {
-    console.log('Current URL:', this.router.url);
-
     if (strictMatch) {
       return this.router.url === primaryLink;
     }

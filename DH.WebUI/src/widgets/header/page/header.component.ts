@@ -3,6 +3,7 @@ import {
   Component,
   EventEmitter,
   Input,
+  LOCALE_ID,
   OnInit,
   Output,
 } from '@angular/core';
@@ -20,6 +21,7 @@ import { Router } from '@angular/router';
 export class HeaderComponent implements OnInit, AfterViewInit {
   @Input() header!: string;
   @Input() withBackBtn: boolean = false;
+  @Input() withHistoryBtn: boolean = false;
   @Input() withSearch: boolean = false;
   @Input() withAdd: boolean = false;
   @Input() withMenu: boolean = false;
@@ -31,6 +33,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   @Input() menuItemClickFunction!: (option: string) => void;
   @Output() addClicked: EventEmitter<void> = new EventEmitter<void>();
   @Output() backClicked: EventEmitter<void> = new EventEmitter<void>();
+  @Output() historyClicked: EventEmitter<void> = new EventEmitter<void>();
   @Output() searchExpressionResult: EventEmitter<string> =
     new EventEmitter<string>();
   @Output() headerClicked: EventEmitter<void> = new EventEmitter<void>();
@@ -79,6 +82,12 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   public onBackClick(): void {
     this.backClicked.emit();
+  }
+
+  public onHistoryClick(): void {
+    console.log('history header');
+    
+    this.historyClicked.emit();
   }
 
   public onHeaderClick(): void {

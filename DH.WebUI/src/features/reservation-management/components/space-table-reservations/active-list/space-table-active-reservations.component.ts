@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ReservationType } from '../../../enums/reservation-type.enum';
 import { ReservationStatus } from '../../../../../shared/enums/reservation-status.enum';
 import { IActiveReservedTable } from '../../../../../entities/space-management/models/active-reserved-table.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-space-table-active-reservations',
@@ -26,6 +27,7 @@ export class SpaceTableActiveReservations implements OnDestroy {
   constructor(
     private readonly injector: Injector,
     private readonly toastService: ToastService,
+    private readonly router: Router,
     private readonly dialog: MatDialog,
     private readonly spaceManagementService: SpaceManagementService
   ) {
@@ -33,10 +35,14 @@ export class SpaceTableActiveReservations implements OnDestroy {
       ReservationManagementNavigationComponent,
       null
     );
+
+    if (this.reservationNavigationRef)
+      this.reservationNavigationRef.header.next('Reservations');
   }
 
   public ngOnInit(): void {
-    this.reservedGames$ = this.spaceManagementService.getActiveReservedTableList();
+    this.reservedGames$ =
+      this.spaceManagementService.getActiveReservedTableList();
   }
 
   public ngOnDestroy(): void {
@@ -44,9 +50,7 @@ export class SpaceTableActiveReservations implements OnDestroy {
       this.reservationNavigationRef.removeActiveChildComponent();
   }
 
-  public toggleItem(
-    reservationId: number,
-  ): void {
+  public toggleItem(reservationId: number): void {
     this.expandedReservationId =
       this.expandedReservationId === reservationId ? null : reservationId;
   }
@@ -105,5 +109,9 @@ export class SpaceTableActiveReservations implements OnDestroy {
         }
       });
     }
+  }
+
+  public onHistory(): void {
+    this.router.navigateByUrl('reservations/tables/history');
   }
 }

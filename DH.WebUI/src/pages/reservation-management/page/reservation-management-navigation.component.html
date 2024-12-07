@@ -1,25 +1,29 @@
-<app-header
-  header="Bookings"
-  [withMenu]="true"
-  [menuItems]="menuItems"
-  [menuItemClickFunction]="handleMenuItemClick"
-  (headerClicked)="onHeader()"
->
-  <app-nav-bar
-    [columns]="[
-      {
-        name: 'Games',
-        link: 'reservations/games',
-        isActive: isActiveLink('/reservations/games')
-      },
-      {
-        name: 'Tables',
-        link: 'reservations/tables',
-        isActive: isActiveLink('/reservations/tables')
-      }
-    ]"
-  ></app-nav-bar>
-</app-header>
+<ng-container *ngIf="this.header | async as header">
+  <app-header
+    [header]="header"
+    [withHistoryBtn]="this.activeChildComponent !== null ? true : false"
+    (historyClicked)="onHistoryExpression()"
+    [withMenu]="true"
+    [menuItems]="menuItems"
+    [menuItemClickFunction]="handleMenuItemClick"
+    (headerClicked)="onHeader()"
+  >
+    <app-nav-bar
+      [columns]="[
+        {
+          name: 'Games',
+          link: 'reservations/games',
+          isActive: isActiveLink('/reservations/games')
+        },
+        {
+          name: 'Tables',
+          link: 'reservations/tables',
+          isActive: isActiveLink('/reservations/tables')
+        }
+      ]"
+    ></app-nav-bar>
+  </app-header>
+</ng-container>
 
 <app-controls-menu
   #menu
@@ -30,14 +34,18 @@
 <ng-container *ngIf="!this.activeChildComponent">
   <div class="wrapper_tabs">
     <div class="wrapper_tabs__tab">
-      <span class="wrapper_tabs__tab-header"><strong class="marked">Active</strong> Game Bookings</span>
+      <span class="wrapper_tabs__tab-header"
+        ><strong class="marked">Active</strong> Game Bookings</span
+      >
       <div class="info">
         <span class="material-symbols-outlined"> simulation </span>
         <span class="info__count">12</span>
       </div>
     </div>
     <div class="wrapper_tabs__tab">
-      <span class="wrapper_tabs__tab-header"><strong class="marked">Active</strong> Table Bookings</span>
+      <span class="wrapper_tabs__tab-header"
+        ><strong class="marked">Active</strong> Table Bookings</span
+      >
       <div class="info">
         <span class="material-symbols-outlined"> workspaces </span>
         <span class="info__count">14</span>

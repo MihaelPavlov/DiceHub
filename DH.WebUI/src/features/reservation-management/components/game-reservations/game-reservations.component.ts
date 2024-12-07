@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, Injector, OnDestroy, OnInit } from '@angular/core';
 import { ReservationManagementNavigationComponent } from '../../../../pages/reservation-management/page/reservation-management-navigation.component';
 import { Observable } from 'rxjs';
@@ -20,12 +21,16 @@ export class GameReservations implements OnInit, OnDestroy {
 
   constructor(
     private readonly injector: Injector,
-    private readonly gameService: GamesService
+    private readonly gameService: GamesService,
+    private readonly router: Router
   ) {
     this.reservationNavigationRef = this.injector.get(
       ReservationManagementNavigationComponent,
       null
     );
+
+    if (this.reservationNavigationRef)
+      this.reservationNavigationRef.header.next('Reservations');
   }
   public toggleItem(reservationId: number): void {
     this.expandedItemId =
@@ -43,5 +48,11 @@ export class GameReservations implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     if (this.reservationNavigationRef)
       this.reservationNavigationRef.removeActiveChildComponent();
+  }
+
+  public onHistory(): void {
+    console.log('from game reservation history');
+
+    this.router.navigateByUrl('games/library');
   }
 }
