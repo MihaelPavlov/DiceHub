@@ -63,7 +63,20 @@ export class GameNavigationComponent implements OnInit {
     }
   }
 
-  public isActiveLink(link: string): boolean {
-    return this.router.url.includes(link);
+  public isActiveLink(
+    primaryLink: string,
+    secondaryLink: string | null = null,
+    strictMatch: boolean = false
+  ): boolean {
+    console.log('Current URL:', this.router.url);
+
+    if (strictMatch) {
+      return this.router.url === primaryLink;
+    }
+
+    return (
+      this.router.url.includes(primaryLink) ||
+      (secondaryLink !== null && this.router.url.includes(secondaryLink))
+    );
   }
 }

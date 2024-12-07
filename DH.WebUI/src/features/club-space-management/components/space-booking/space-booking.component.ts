@@ -1,17 +1,3 @@
-import { TenantSettingsService } from './../../../../entities/common/api/tenant-settings.service';
-import { SpaceManagementService } from './../../../../entities/space-management/api/space-management.service';
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
-import { LoadingService } from '../../../../shared/services/loading.service';
-import { Formify } from '../../../../shared/models/form.model';
-import { Form } from '../../../../shared/components/form/form.component';
-import { ToastService } from '../../../../shared/services/toast.service';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
 import {
   animate,
   keyframes,
@@ -20,9 +6,23 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { DiceRollerComponent } from './components/dice-scroller/dice-roller.component';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import { Router } from '@angular/router';
+import { Form } from '../../../../shared/components/form/form.component';
 import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
+import { Formify } from '../../../../shared/models/form.model';
 import { ToastType } from '../../../../shared/models/toast.model';
+import { LoadingService } from '../../../../shared/services/loading.service';
+import { ToastService } from '../../../../shared/services/toast.service';
+import { TenantSettingsService } from './../../../../entities/common/api/tenant-settings.service';
+import { SpaceManagementService } from './../../../../entities/space-management/api/space-management.service';
+import { DiceRollerComponent } from './components/dice-scroller/dice-roller.component';
 
 interface ICreateSpaceReservation {
   reservationDate: Date;
@@ -107,12 +107,12 @@ export class SpaceBookingComponent extends Form implements AfterViewInit {
     this.loadingService.loadingOn();
     this.form = this.initFormGroup();
     this.tenantSettingsService.get().subscribe({
-      next:(result)=>{
-        if(result){
+      next: (result) => {
+        if (result) {
           this.timeSlots = result.reservationHours;
         }
-      }
-    })
+      },
+    });
   }
 
   public get isAddButtonActive(): boolean {

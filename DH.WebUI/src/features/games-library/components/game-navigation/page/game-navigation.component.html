@@ -11,12 +11,12 @@
       {
         name: 'Popular',
         link: 'games/library',
-        isActive: isActiveLink('/games/library')
+        isActive: isActiveLink('/games/library',null, true)
       },
       {
         name: 'Categories',
         link: 'games/categories',
-        isActive: isActiveLink('/games/categories')
+        isActive: isActiveLink('/games/categories','/games/library/')
       },
       { name: 'New', link: 'games/new', isActive: isActiveLink('/games/new') }
     ]"
