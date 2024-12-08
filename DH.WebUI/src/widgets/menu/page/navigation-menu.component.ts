@@ -4,8 +4,9 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  Input,
+  ElementRef,
   OnInit,
+  ViewChild,
 } from '@angular/core';
 import { IMenuItemInterface } from '../models/menu-item.interface';
 import { NavigationEnd, Router } from '@angular/router';
@@ -29,6 +30,8 @@ import { GamesService } from '../../../entities/games/api/games.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavigationMenuComponent implements OnInit, AfterViewInit {
+  @ViewChild('interactiveOption') interactiveOption!: ElementRef<HTMLElement>;
+
   public areAnyActiveReservation!: BehaviorSubject<boolean>;
   public leftMenuItems: IMenuItemInterface[] = [];
   public rightMenuItems: IMenuItemInterface[] = [];
@@ -36,7 +39,7 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
   private destroy$: Subject<boolean> = new Subject<boolean>();
   public activeLink = NAV_ITEM_LABELS.GAMES;
   public subscriptionRefreshForAnyActiveReservations!: any;
-
+  public eventLis: any;
   constructor(
     private readonly router: Router,
     private readonly menuTabsService: MenuTabsService,
@@ -72,6 +75,21 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
         10000
       );
     }
+  }
+
+  public ngAfterViewInit(): void {
+    this.interactiveOption.nativeElement.addEventListener('click', (event) => {
+      event.stopPropagation();
+      this.interactiveOption.nativeElement.classList.toggle('active');
+    });
+
+    document.documentElement.addEventListener('click', (event) => {
+      if (
+        !this.interactiveOption.nativeElement.contains(event.target as Node)
+      ) {
+        this.interactiveOption.nativeElement.classList.remove('active');
+      }
+    });
   }
 
   public refreshForAnyActiveReservations(): void {
@@ -116,10 +134,6 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
   }
   private filterActiveReservations(reservations: any[]): any[] {
     return reservations?.filter((x) => x.isActive) || [];
-  }
-
-  public ngAfterViewInit(): void {
-    this.onInitJS();
   }
 
   public ngOnDestroy(): void {
@@ -219,24 +233,5 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
   private updateMenuItems() {
     let page: string = location.pathname.split('/')[1];
     this.updateMenuItemsWithPage(page);
-  }
-
-  private onInitJS(): void {
-    const interactiveOption = document.querySelector(
-      '.interactive-option'
-    ) as HTMLElement;
-
-    interactiveOption.addEventListener('click', function (event) {
-      event.stopPropagation(); // Prevents the click event from propagating to the document body
-
-      interactiveOption.classList.toggle('active');
-    });
-
-    // Hide the interactive option when clicking anywhere outside of it
-    document.documentElement.addEventListener('mousedown', function (event) {
-      if (!interactiveOption.contains(event.target as Node)) {
-        interactiveOption.classList.remove('active');
-      }
-    });
   }
 }
