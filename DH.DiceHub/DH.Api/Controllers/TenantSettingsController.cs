@@ -20,7 +20,7 @@ public class TenantSettingsController : ControllerBase
     }
 
     [HttpGet]
-    [ActionAuthorize(UserAction.TenantSettingsCRUD)]
+    [ActionAuthorize(UserAction.TenantSettingsR)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TenantSettingDto))]
     public async Task<IActionResult> GetSettings(CancellationToken cancellationToken)
     {
@@ -29,7 +29,7 @@ public class TenantSettingsController : ControllerBase
     }
 
     [HttpPut]
-    [ActionAuthorize(UserAction.TenantSettingsCRUD)]
+    [ActionAuthorize(UserAction.TenantSettingsCUD)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TenantSettingDto))]
     public async Task<IActionResult> UpdateSettings([FromBody] TenantSettingDto command, CancellationToken cancellationToken)
     {

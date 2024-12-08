@@ -11,4 +11,5 @@ public class GetActiveBookedSpaceTableQueryModel
     public DateTime CreatedDate { get; set; }
     public bool IsActive { get; set; }
     public ReservationStatus Status { get; set; }
+    public string PublicNote { get; set; }
 }

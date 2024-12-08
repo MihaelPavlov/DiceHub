@@ -130,9 +130,28 @@
       </div>
     </div>
 
-    <div class="btn_container" *ngIf="activeBookedTableModel">
+    <div class="btn_container-center" *ngIf="activeBookedTableModel">
       <div class="booked-info">
-        <span>Your Reservation</span>
+        <span
+          >Your Reservation -
+
+          <strong
+            class="waiting"
+            *ngIf="activeBookedTableModel.status === ReservationStatus.None"
+            >Waiting</strong
+          >
+          <strong
+            class="approved"
+            *ngIf="activeBookedTableModel.status === ReservationStatus.Approved"
+            >Approved</strong
+          >
+          <strong
+            class="declined"
+            *ngIf="activeBookedTableModel.status === ReservationStatus.Declined"
+            >Declined</strong
+          >
+        </span>
+
         <span class="description"
           >Your spot for a future game! Be prepared for the fun.
         </span>
@@ -142,29 +161,17 @@
         </span>
       </div>
       <a
-        class="wrapper_qrCode"
-        *ngIf="
+      class="wrapper_qrCode"
+      *ngIf="
           this.activeBookedTableModel.status === ReservationStatus.Approved
         "
         (click)="openDialog(this.activeBookedTableModel.id)"
-      >
+        >
         <img src="../../../../../shared/assets/images/qr-code.png" alt="" />
       </a>
-      <span
-        class="text_waiting_for_confirmation"
-        *ngIf="this.activeBookedTableModel.status === ReservationStatus.None"
-      >
-        Waiting for confirmation
-      </span>
-
-      <span
-        class="text_declined"
-        *ngIf="
-          this.activeBookedTableModel.status === ReservationStatus.Declined
-        "
-      >
-        DECLINED
-      </span>
+      <p class="description-public-message" *ngIf="activeBookedTableModel.publicNote !== '' ">
+        Message from Club: {{activeBookedTableModel.publicNote}}
+      </p>
     </div>
   </div>
 </ng-container>

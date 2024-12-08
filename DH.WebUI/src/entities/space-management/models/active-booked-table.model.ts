@@ -1,4 +1,4 @@
-import { ReservationStatus } from "../../../shared/enums/reservation-status.enum";
+import { ReservationStatus } from '../../../shared/enums/reservation-status.enum';
 
 export interface ActiveBookedTableModel {
   id: number;
@@ -8,6 +8,7 @@ export interface ActiveBookedTableModel {
   createdDate: Date;
   isActive: boolean;
   status: ReservationStatus;
+  publicNote: string;
 }
 
 export function getKeyFriendlyNames(): Record<string, string> {

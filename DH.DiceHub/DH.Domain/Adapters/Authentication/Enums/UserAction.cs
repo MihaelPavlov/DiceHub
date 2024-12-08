@@ -26,6 +26,7 @@ public enum UserAction
     SpaceManagementVirtualC = 16,
     NotificationCRUD = 17,
     TenantUserSettingsCRUD = 18,
-    TenantSettingsCRUD = 19,
+    TenantSettingsCUD = 19,
     SpaceManagementReservedTablesRU = 20,
+    TenantSettingsR = 21,
 }

@@ -33,6 +33,7 @@ internal class GetActiveBookedSpaceTableQueryHandler(IUserContext userContext, I
             NumberOfGuests = userReservation.NumberOfGuests,
             Username = users.First().UserName,
             Status = userReservation.Status,
+            PublicNote = userReservation.PublicNote,
         };
     }
 }

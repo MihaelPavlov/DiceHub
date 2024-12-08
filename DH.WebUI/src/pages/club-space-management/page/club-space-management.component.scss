@@ -33,6 +33,17 @@
   display: flex;
   flex-direction: column;
   margin: 1rem;
+
+  .btn_container-center {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    border: 0.2rem solid palette.$main-nav-color;
+    border-radius: 0.5rem;
+    margin: 0.25rem 1rem;
+    padding: 0.5rem;
+  }
+  
   .btn_container {
     display: flex;
     align-items: center;
@@ -50,26 +61,38 @@
         color: palette.$main-font-gray-color;
       }
     }
-
-    .booked-info {
-      display: flex;
-      flex-direction: column;
-      width: 90%;
-      margin-right: 0.75rem;
-      .description {
-        font-size: 0.8rem;
-        color: palette.$main-font-gray-color;
-      }
-
-      .description-field {
-        font-size: 0.8rem;
-        color: palette.$main-blue-color;
-      }
-    }
     .button {
       display: flex;
       width: 15%;
       justify-content: center;
+    }
+  }
+
+  .booked-info {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    margin-right: 0.75rem;
+    .declined {
+      color: palette.$main-red-color;
+    }
+
+    .approved {
+      color: palette.$main-green-color;
+    }
+
+    .waiting {
+      color: palette.$main-icon-color;
+    }
+
+    .description {
+      font-size: 0.8rem;
+      color: palette.$main-font-gray-color;
+    }
+
+    .description-field {
+      font-size: 0.8rem;
+      color: palette.$main-blue-color;
     }
   }
 }
@@ -128,16 +151,6 @@
   padding: 0.3rem 0.5rem;
 }
 
-.text_waiting_for_confirmation {
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  color: palette.$main-font-gray-color;
-}
-
-.text_declined {
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  color: palette.$main-red-color;
+.description-public-message {
+  color: palette.$glow-yellow-color;
 }
