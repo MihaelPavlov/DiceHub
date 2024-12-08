@@ -1,0 +1,31 @@
+@use "../../../../shared/assets/styles/palette";
+
+.dialog-container {
+  color: palette.$main-font-color;
+  background-color: palette.$main-nav-color;
+  .wrapper {
+    margin: 1rem;
+  }
+
+  input,
+  textarea {
+    background-color: #43434b;
+  }
+  &__header {
+    margin: 1rem 0;
+  }
+
+  &__description {
+    margin: 1rem 0;
+    color: palette.$main-blue-color;
+  }
+
+  mat-dialog-actions {
+    display: flex;
+    justify-content: end;
+  }
+
+  button {
+    margin: 0.4rem;
+  }
+}

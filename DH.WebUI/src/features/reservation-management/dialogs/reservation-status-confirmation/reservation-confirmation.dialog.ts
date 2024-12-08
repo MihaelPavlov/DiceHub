@@ -14,11 +14,7 @@ import {
   FormControl,
   FormGroup,
 } from '@angular/forms';
-
-interface IReservationConfirmationForm {
-  internalNote: string;
-  publicNote: string;
-}
+import { IReservationConfirmationForm } from '../models/reservation-confirmation-form.model';
 
 @Component({
   selector: 'app-reservation-confirmation',

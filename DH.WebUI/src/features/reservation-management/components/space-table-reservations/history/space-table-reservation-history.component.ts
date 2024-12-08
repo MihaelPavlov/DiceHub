@@ -3,11 +3,11 @@ import { ReservationManagementNavigationComponent } from '../../../../../pages/r
 import { Observable } from 'rxjs';
 import { SpaceManagementService } from '../../../../../entities/space-management/api/space-management.service';
 import { ToastService } from '../../../../../shared/services/toast.service';
-import { ReservationConfirmationDialog } from '../../../dialogs/reservation-status-confirmation/reservation-confirmation.dialog';
 import { MatDialog } from '@angular/material/dialog';
-import { ReservationType } from '../../../enums/reservation-type.enum';
 import { ReservationStatus } from '../../../../../shared/enums/reservation-status.enum';
 import { IConfirmedReservedTable } from '../../../../../entities/space-management/models/confirmed-reserved-table.model';
+import { ReservationDetailsDialog } from '../../../dialogs/reservation-details/reservation-details.dialog';
+import { ReservationDetailsActions } from '../../../dialogs/enums/reservation-details-actions.enum';
 
 @Component({
   selector: 'app-space-table-reservation-history',
@@ -51,9 +51,6 @@ export class SpaceTableReservationHistory implements OnDestroy {
     reservationId: number,
     reservationStatus: ReservationStatus
   ): void {
-    if (reservationStatus !== ReservationStatus.None) {
-      return;
-    }
     this.expandedReservationId =
       this.expandedReservationId === reservationId ? null : reservationId;
   }
@@ -62,19 +59,13 @@ export class SpaceTableReservationHistory implements OnDestroy {
     return this.expandedReservationId === reservationId;
   }
 
-  public approveReservation(
-    reservationDate: Date,
-    numberOfGuests: number
-  ): void {
+  public updateReservation(id: number): void {
     if (this.expandedReservationId) {
-      const dialogRef = this.dialog.open(ReservationConfirmationDialog, {
+      const dialogRef = this.dialog.open(ReservationDetailsDialog, {
         width: '17rem',
         data: {
-          type: ReservationType.Table,
-          reservationId: this.expandedReservationId,
-          status: ReservationStatus.Approved,
-          reservationDate,
-          numberOfGuests,
+          reservationId: id,
+          action: ReservationDetailsActions.Edit,
         },
       });
 
@@ -88,19 +79,13 @@ export class SpaceTableReservationHistory implements OnDestroy {
     }
   }
 
-  public declineReservation(
-    reservationDate: Date,
-    numberOfGuests: number
-  ): void {
+  public deleteReservation(id: number): void {
     if (this.expandedReservationId) {
-      const dialogRef = this.dialog.open(ReservationConfirmationDialog, {
+      const dialogRef = this.dialog.open(ReservationDetailsDialog, {
         width: '17rem',
         data: {
-          type: ReservationType.Table,
-          reservationId: this.expandedReservationId,
-          status: ReservationStatus.Declined,
-          reservationDate,
-          numberOfGuests,
+          reservationId: id,
+          action: ReservationDetailsActions.Delete,
         },
       });
 

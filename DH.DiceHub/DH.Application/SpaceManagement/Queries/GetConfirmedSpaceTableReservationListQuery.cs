@@ -9,16 +9,10 @@ namespace DH.Application.SpaceManagement.Queries;
 
 public record GetConfirmedSpaceTableReservationListQuery : IRequest<List<GetConfirmedSpaceTableReservationListQueryModel>>;
 
-internal class GetConfirmedSpaceTableReservationListQueryHandler : IRequestHandler<GetConfirmedSpaceTableReservationListQuery, List<GetConfirmedSpaceTableReservationListQueryModel>>
+internal class GetConfirmedSpaceTableReservationListQueryHandler(IRepository<SpaceTableReservation> repository, IUserService userService) : IRequestHandler<GetConfirmedSpaceTableReservationListQuery, List<GetConfirmedSpaceTableReservationListQueryModel>>
 {
-    readonly IRepository<SpaceTableReservation> repository;
-    readonly IUserService userService;
-
-    public GetConfirmedSpaceTableReservationListQueryHandler(IRepository<SpaceTableReservation> repository, IUserService userService)
-    {
-        this.repository = repository;
-        this.userService = userService;
-    }
+    readonly IRepository<SpaceTableReservation> repository = repository;
+    readonly IUserService userService = userService;
 
     public async Task<List<GetConfirmedSpaceTableReservationListQueryModel>> Handle(GetConfirmedSpaceTableReservationListQuery request, CancellationToken cancellationToken)
     {

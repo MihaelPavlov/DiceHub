@@ -12,6 +12,7 @@ import { ISpaceTableById } from '../models/get-space-table-by-id.model';
 import { ActiveBookedTableModel } from '../models/active-booked-table.model';
 import { IActiveReservedTable } from '../models/active-reserved-table.model';
 import { IConfirmedReservedTable } from '../models/confirmed-reserved-table.model';
+import { IGetReservationById } from '../models/get-reservation-by-id.model';
 
 @Injectable({
   providedIn: 'root',
@@ -25,13 +26,21 @@ export class SpaceManagementService {
     );
   }
 
+  public getReservationById(id: number): Observable<IGetReservationById> {
+    return this.api.get<IGetReservationById>(
+      `/${PATH.SPACE_MANAGEMENT.CORE}/${PATH.SPACE_MANAGEMENT.GET_RESERVATION_BY_ID}/${id}`
+    );
+  }
+
   public getActiveReservedTableList(): Observable<IActiveReservedTable[]> {
     return this.api.get<IActiveReservedTable[]>(
       `/${PATH.SPACE_MANAGEMENT.CORE}/${PATH.SPACE_MANAGEMENT.GET_ACTIVE_RESERVED_TABLES}`
     );
   }
 
-  public getConfirmedReservedTableList(): Observable<IConfirmedReservedTable[]> {
+  public getConfirmedReservedTableList(): Observable<
+    IConfirmedReservedTable[]
+  > {
     return this.api.get<IConfirmedReservedTable[]>(
       `/${PATH.SPACE_MANAGEMENT.CORE}/${PATH.SPACE_MANAGEMENT.GET_CONFIRMED_RESERVED_TABLES}`
     );
@@ -86,6 +95,21 @@ export class SpaceManagementService {
     });
   }
 
+  public updateReservation(
+    id: number,
+    publicNote: string,
+    internalNote: string
+  ): Observable<null> {
+    return this.api.put(
+      `/${PATH.SPACE_MANAGEMENT.CORE}/${PATH.SPACE_MANAGEMENT.UPDATE_RESERVATION}`,
+      {
+        id,
+        publicNote,
+        internalNote,
+      }
+    );
+  }
+
   public approveReservation(
     reservationId: number,
     publicNote: string,
@@ -113,6 +137,12 @@ export class SpaceManagementService {
         publicNote,
         internalNote,
       }
+    );
+  }
+
+  public deleteReservation(id: number): Observable<null> {
+    return this.api.delete(
+      `/${PATH.SPACE_MANAGEMENT.CORE}/${PATH.SPACE_MANAGEMENT.DELETE_RESERVATION}/${id}`
     );
   }
 

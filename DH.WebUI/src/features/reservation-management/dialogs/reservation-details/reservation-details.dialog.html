@@ -1,0 +1,56 @@
+<div class="dialog-container">
+  <div class="wrapper">
+    <ng-container>
+      <h3 class="dialog-container__header">Information:</h3>
+      <div class="dialog-container__description">
+        <p>people <strong> {{this.reservation.numberOfGuests}}</strong></p>
+        <p>
+          date
+          <strong
+            >{{this.reservation.reservationDate | date : "dd/MM/yy, h:mm a"
+            }}</strong
+          >
+        </p>
+      </div>
+    </ng-container>
+    <form [formGroup]="form">
+      <div class="input-field">
+        <label for="internalNote">Internal Note</label>
+        <textarea
+          placeholder="Nobody add an internal note"
+          type="text"
+          id="internalNote"
+          formControlName="internalNote"
+        ></textarea>
+      </div>
+
+      <div class="input-field">
+        <label for="publicNote">Public Note</label>
+        <textarea
+        placeholder="Nobody add an public note"
+        type="text"
+          id="publicNote"
+          formControlName="publicNote"
+        ></textarea>
+      </div>
+    </form>
+  </div>
+  <mat-dialog-actions>
+    <button class="btn btn__small btn-blue" mat-dialog-close>Cancel</button>
+
+    <button
+        *ngIf="this.data.action === ReservationDetailsActions.Edit"
+        class="btn btn__small btn-yellow btn-border-yellow"
+        (click)="updateReservation()"
+      >
+        Update
+      </button>
+      <button
+        *ngIf="this.data.action === ReservationDetailsActions.Delete"
+        class="btn btn__small btn-red btn-border-red"
+        (click)="deleteReservation()"
+      >
+        Decline
+      </button>
+  </mat-dialog-actions>
+</div>

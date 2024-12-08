@@ -10,6 +10,7 @@ import { ReservationConfirmationDialog } from '../../features/reservation-manage
 import { MatDialogActions, MatDialogClose } from '@angular/material/dialog';
 import { SpaceTableActiveReservations } from '../../features/reservation-management/components/space-table-reservations/active-list/space-table-active-reservations.component';
 import { SpaceTableReservationHistory } from '../../features/reservation-management/components/space-table-reservations/history/space-table-reservation-history.component';
+import { ReservationDetailsDialog } from '../../features/reservation-management/dialogs/reservation-details/reservation-details.dialog';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { SpaceTableReservationHistory } from '../../features/reservation-managem
     GameReservations,
     SpaceTableActiveReservations,
     ReservationConfirmationDialog,
+    ReservationDetailsDialog,
     SpaceTableReservationHistory
   ],
   exports: [],
