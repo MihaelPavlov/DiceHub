@@ -26,7 +26,6 @@ export class SpaceTableActiveReservations implements OnDestroy {
   public ReservationStatus = ReservationStatus;
   constructor(
     private readonly injector: Injector,
-    private readonly toastService: ToastService,
     private readonly router: Router,
     private readonly dialog: MatDialog,
     private readonly spaceManagementService: SpaceManagementService
