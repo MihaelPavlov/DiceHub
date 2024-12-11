@@ -1,99 +1,108 @@
 @use "../../../../../shared/assets/styles/palette";
 
 .header {
-    color: palette.$main-font-gray-color;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  color: palette.$main-font-gray-color;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  margin: 0 2rem;
 
-    &__information {
-        display: flex;
-        align-items: center;
+  &__information {
+    color: palette.$main-red-color;
+  }
 
-    }
-
-    .material-symbols-outlined {
-        font-size: 2rem;
-    }
+  .material-symbols-outlined {
+    font-size: 2rem;
+  }
 }
 
 .info {
-    margin-top: 1rem;
-    margin-bottom: 0.85rem;
-    text-align: center;
+  margin-top: 1rem;
+  margin-bottom: 0.85rem;
+  text-align: center;
 
-    &__status {
-        font-size: 1.25rem;
-    }
+  &__status {
+    font-size: 1.25rem;
+  }
 
-    &__available {
+  &__available {
+    color: palette.$main-green-color;
+  }
 
-        color: palette.$main-green-color;
-    }
+  &__unavailable {
+    color: palette.$main-red-color;
+  }
 
-    &__unavailable {
-        color: palette.$main-red-color
-    }
+  .declined {
+    color: palette.$main-red-color;
+  }
 
+  .approved {
+    color: palette.$main-green-color;
+  }
+
+  .waiting {
+    color: palette.$main-icon-color;
+  }
 }
 
-.field-inputs{
-    margin: 1rem;
+.field-inputs {
+  margin: 1rem;
 }
 
-.reservation-qrcode{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.reservation-qrcode {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .wrapper_qrCode {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 3rem;
-    height: 3rem;
-    border-radius: 50%;
-    margin: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  margin: 1rem;
 
-    img {
-        width: 4rem;
-        height: 4rem;
-        object-fit: cover;
-    }
+  img {
+    width: 4rem;
+    height: 4rem;
+    object-fit: cover;
+  }
 }
 .wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .circle {
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 7rem;
+    height: 7rem;
+    margin: 0.5rem;
+    border: 0.2rem solid palette.$main-icon-color;
+    border-radius: 100%;
 
-    .circle {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 7rem;
-        height: 7rem;
-        margin: 0.5rem;
-        border: 0.2rem solid palette.$main-icon-color;
-        border-radius: 100%;
-
-        .timer {
-            font-size: 2.5rem;
-        }
+    .timer {
+      font-size: 2.5rem;
     }
+  }
 
-    .material-symbols-outlined {
-        font-size: 4rem;
-    }
+  .material-symbols-outlined {
+    font-size: 4rem;
+  }
 
-    .left {
-        font-size: 4rem;
-        transform: rotate(180deg);
-    }
+  .left {
+    font-size: 4rem;
+    transform: rotate(180deg);
+  }
 }
 
 .wrapper_btn {
-    text-align: center;
-    margin-top: 1.5rem;
+  text-align: center;
+  margin-top: 1.5rem;
 }

@@ -1,3 +1,5 @@
+import { WeekDay } from '@angular/common';
+import { SpaceManagementService } from './../../../../../entities/space-management/api/space-management.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { GamesService } from '../../../../../entities/games/api/games.service';
@@ -21,6 +23,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { QrCodeType } from '../../../../../entities/qr-code-scanner/enums/qr-code-type.enum';
 import { AuthService } from '../../../../../entities/auth/auth.service';
 import { ReservationQrCodeDialog } from '../../../../../shared/dialogs/reservation-qr-code/reservation-qr-code.component';
+import { ActiveBookedTableModel } from '../../../../../entities/space-management/models/active-booked-table.model';
+import { ReservationStatus } from '../../../../../shared/enums/reservation-status.enum';
 
 interface IReservationGameForm {
   reservationPeopleCount: number;
@@ -46,13 +50,13 @@ export class GameAvailabilityComponent
   public gameId!: number;
   public gameInventory$!: Observable<IGameInventory>;
   public gameReservationStatus: IGameReservationStatus | null = null;
-
+  public ReservationStatus = ReservationStatus;
   public availableMinutes = [1, 2, 5, 10, 15, 20, 30, 40, 50, 60];
   public currentTimer = 15;
   display: string = '';
   public peopleNumber: IDropdown[] = [];
   public reservationMinutes: IDropdown[] = [];
-
+  public activeBookedTableModel: ActiveBookedTableModel | null = null;
   constructor(
     private readonly gameService: GamesService,
     private readonly activeRoute: ActivatedRoute,
@@ -61,6 +65,7 @@ export class GameAvailabilityComponent
     private readonly menuTabsService: MenuTabsService,
     public override readonly toastService: ToastService,
     private readonly authService: AuthService,
+    private readonly spaceManagementService: SpaceManagementService,
     private readonly dialog: MatDialog
   ) {
     super(toastService);
@@ -75,6 +80,15 @@ export class GameAvailabilityComponent
     this.reservationMinutes = [1, 2, 5, 10, 15, 20, 30, 40, 50, 60].map(
       (key) => ({ id: key as number, name: key.toString() })
     );
+
+    this.spaceManagementService.getActiveBookedTable().subscribe({
+      next: (result) => {
+        this.activeBookedTableModel = result;
+      },
+      error: () => {
+        this.activeBookedTableModel = null;
+      },
+    });
   }
 
   public ngOnInit(): void {
@@ -88,18 +102,32 @@ export class GameAvailabilityComponent
     });
   }
 
-  public openDialog(
-    id: number,
-  ) {
+  public isShowingActiveReservationTableMessage(
+    reservation: ActiveBookedTableModel
+  ): boolean {
+    const now = new Date();
+    const reservationDate = new Date(reservation.reservationDate);
 
+    if (
+      now.getFullYear() === reservationDate.getFullYear() &&
+      now.getMonth() === reservationDate.getMonth() &&
+      now.getDate() === reservationDate.getDate()
+    ) {
+      return true;
+    }
+
+    return false;
+  }
+
+  public openDialog(id: number) {
     const dialogRef = this.dialog.open(ReservationQrCodeDialog, {
       width: '17rem',
       data: {
-        Id : id,
+        Id: id,
         Name: 'GameReservation',
         Type: QrCodeType.GameReservation,
         AdditionalData: {
-          "userId": this.authService.getUser?.id,
+          userId: this.authService.getUser?.id,
         },
       },
     });
@@ -120,7 +148,6 @@ export class GameAvailabilityComponent
     this.gameService.reservationStatus(gameId).subscribe({
       next: (status: IGameReservationStatus | null) => {
         this.gameReservationStatus = status;
-        console.log('status of reservation', status);
 
         if (status) {
           const secondsLeft = this.calculateSecondsLeft(

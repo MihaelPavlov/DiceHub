@@ -4,11 +4,24 @@
   [backNavigateBtn]="navigateBackToGameList.bind(this)"
 >
   <div class="header">
-    <p>Secure Your Sport for Epic Gameplay !</p>
-    <span class="header__information"
-      >Click for more information -
-      <span class="material-symbols-outlined"> info </span>
-    </span>
+    <p>Reserve Your Seat and Get Ready to Play!</p>
+    <ng-container *ngIf="this.activeBookedTableModel">
+      <span
+        class="header__information"
+        *ngIf="
+          isShowingActiveReservationTableMessage(this.activeBookedTableModel)
+        "
+      >
+        You have table reservation for
+        <strong>{{
+          this.activeBookedTableModel.reservationDate
+            | date : "dd/MM/yy, h:mm a"
+        }}</strong>
+        <br />
+        Game reservation for your table will become available
+        <strong>1 hour </strong>before your reserved time.
+      </span>
+    </ng-container>
   </div>
 
   <ng-container *ngIf="!gameReservationStatus">
@@ -46,7 +59,7 @@
       <div class="input-field">
         <label for="min-age" class="required">Your Crew?</label>
         <ng-select
-        [items]="peopleNumber"
+          [items]="peopleNumber"
           id="reservationPeopleCount"
           bindValue="id"
           bindLabel="name"
@@ -61,7 +74,7 @@
         <label for="approx-time" class="required">Arrival Time:</label>
 
         <ng-select
-        [items]="reservationMinutes"
+          [items]="reservationMinutes"
           id="reservationInMinutes"
           bindValue="id"
           bindLabel="name"
@@ -77,7 +90,25 @@
 
   <ng-container *ngIf="gameReservationStatus">
     <div class="info">
-      <p>Your current reservation</p>
+      <p>
+        Your current reservation -
+
+        <strong
+          class="waiting"
+          *ngIf="gameReservationStatus.status === ReservationStatus.None"
+          >Under Review</strong
+        >
+        <strong
+          class="approved"
+          *ngIf="gameReservationStatus.status === ReservationStatus.Approved"
+          >Approved</strong
+        >
+        <strong
+          class="declined"
+          *ngIf="gameReservationStatus.status === ReservationStatus.Declined"
+          >Declined</strong
+        >
+      </p>
     </div>
 
     <div class="wrapper">
@@ -86,9 +117,15 @@
       </p>
     </div>
 
-    <div class="reservation-qrcode">
+    <div
+      class="reservation-qrcode"
+      *ngIf="gameReservationStatus.status === ReservationStatus.Approved"
+    >
       <span>Your reservation qr-code</span>
-      <a class="wrapper_qrCode" (click)="openDialog(gameReservationStatus.reservationId)">
+      <a
+        class="wrapper_qrCode"
+        (click)="openDialog(gameReservationStatus.reservationId)"
+      >
         <img src="../../../../../shared/assets/images/qr-code.png" alt="" />
       </a>
     </div>
@@ -101,11 +138,15 @@
         class="btn btn-gray btn-border-green btn-font-green"
         [disabled]="!this.form.valid || inventory.availableCopies === 0"
         [ngClass]="{
-          'btn-border-red btn-font-red': !this.form.valid || inventory.availableCopies === 0,
-          'btn-border-green btn-font-green': this.form.valid|| inventory.availableCopies !== 0
+          'btn-border-red btn-font-red':
+            !this.form.valid || inventory.availableCopies === 0,
+          'btn-border-green btn-font-green':
+            this.form.valid || inventory.availableCopies !== 0
         }"
       >
-      Prepare to arrive in <strong>{{ this.form.controls.reservationInMinutes.value }}</strong> mins
+        Prepare to arrive in
+        <strong>{{ this.form.controls.reservationInMinutes.value }}</strong>
+        mins
       </button>
     </div>
   </ng-container>
