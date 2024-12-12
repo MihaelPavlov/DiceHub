@@ -101,7 +101,21 @@ export class GameAvailabilityComponent
       this.fetchReservationStatus(gameId);
     });
   }
+  public populateReservationMinutes(): number {
+    if (this.activeBookedTableModel) {
+      const now = new Date();
+      const reservationDate = new Date(
+        this.activeBookedTableModel.reservationDate
+      );
 
+      // Calculate minutes left until reservation
+      const timeDifference = reservationDate.getTime() - now.getTime();
+      const minutesLeft = Math.max(Math.floor(timeDifference / (1000 * 60)), 0); // Ensure non-negative value
+      return minutesLeft;
+    }
+
+    return 0;
+  }
   public isShowingActiveReservationTableMessage(
     reservation: ActiveBookedTableModel
   ): boolean {
@@ -109,6 +123,7 @@ export class GameAvailabilityComponent
     const reservationDate = new Date(reservation.reservationDate);
 
     if (
+      reservation.status === ReservationStatus.Approved &&
       now.getFullYear() === reservationDate.getFullYear() &&
       now.getMonth() === reservationDate.getMonth() &&
       now.getDate() === reservationDate.getDate()
@@ -116,6 +131,27 @@ export class GameAvailabilityComponent
       return true;
     }
 
+    return false;
+  }
+
+  public isOneHourLeftTillTheTableReservation(): boolean {
+    if (this.activeBookedTableModel) {
+      const now = new Date();
+      const reservationDate = new Date(
+        this.activeBookedTableModel.reservationDate
+      );
+      const timeDifference = reservationDate.getTime() - now.getTime();
+      if (
+        this.activeBookedTableModel.status === ReservationStatus.Approved &&
+        timeDifference <= 3600000 // 1 hour in milliseconds
+      ) {
+        console.log('one hour left');
+
+        return true;
+      }
+
+      return false;
+    }
     return false;
   }
 

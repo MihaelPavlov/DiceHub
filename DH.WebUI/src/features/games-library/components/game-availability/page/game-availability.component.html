@@ -12,7 +12,8 @@
           isShowingActiveReservationTableMessage(this.activeBookedTableModel)
         "
       >
-        You have table reservation for
+        You have table reservation for today
+        <br />
         <strong>{{
           this.activeBookedTableModel.reservationDate
             | date : "dd/MM/yy, h:mm a"
@@ -56,35 +57,76 @@
       > -->
 
     <form [formGroup]="form" class="field-inputs" form>
-      <div class="input-field">
-        <label for="min-age" class="required">Your Crew?</label>
-        <ng-select
-          [items]="peopleNumber"
-          id="reservationPeopleCount"
-          bindValue="id"
-          bindLabel="name"
-          placeholder="How much people in your crew?"
-          [searchable]="true"
-          formControlName="reservationPeopleCount"
-          class="app-select-long"
-        >
-        </ng-select>
+      <ng-container
+        *ngIf="
+          isOneHourLeftTillTheTableReservation() && this.activeBookedTableModel
+        "
+      >
+      <div class="reservation-indicator">
+        <p class="info-message">
+          These details are prefilled from your table reservation.
+        </p>
       </div>
-      <div class="input-field">
-        <label for="approx-time" class="required">Arrival Time:</label>
+        <div class="input-field">
+          <label for="min-age" class="required">Your Crew?</label>
+          <ng-select
+            id="reservationPeopleCount"
+            placeholder="How much people in your crew?"
+            [disabled]="true"
+            [readonly]="true"
+            [ngModel]="this.activeBookedTableModel.numberOfGuests.toString()"
+            formControlName="reservationPeopleCount"
+            class="app-select-long prefilled-field"
+          >
+          </ng-select>
+        </div>
+        <div class="input-field">
+          <label for="approx-time" class="required">Arrival Time:</label>
 
-        <ng-select
-          [items]="reservationMinutes"
-          id="reservationInMinutes"
-          bindValue="id"
-          bindLabel="name"
-          placeholder="When will you arrive?"
-          [searchable]="true"
-          formControlName="reservationInMinutes"
-          class="app-select-long"
-        >
-        </ng-select>
-      </div>
+          <ng-select
+            id="reservationInMinutes"
+            [disabled]="true"
+            [readonly]="true"
+            [ngModel]="populateReservationMinutes()"
+            placeholder="When will you arrive?"
+            [searchable]="true"
+            formControlName="reservationInMinutes"
+            class="app-select-long prefilled-field"
+          >
+          </ng-select>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="!isOneHourLeftTillTheTableReservation()">
+        <div class="input-field">
+          <label for="min-age" class="required">Your Crew?</label>
+          <ng-select
+            [items]="peopleNumber"
+            id="reservationPeopleCount"
+            bindValue="id"
+            bindLabel="name"
+            placeholder="How much people in your crew?"
+            [searchable]="true"
+            formControlName="reservationPeopleCount"
+            class="app-select-long"
+          >
+          </ng-select>
+        </div>
+        <div class="input-field">
+          <label for="approx-time" class="required">Arrival Time:</label>
+
+          <ng-select
+            [items]="reservationMinutes"
+            id="reservationInMinutes"
+            bindValue="id"
+            bindLabel="name"
+            placeholder="When will you arrive?"
+            [searchable]="true"
+            formControlName="reservationInMinutes"
+            class="app-select-long"
+          >
+          </ng-select>
+        </div>
+      </ng-container>
     </form>
   </ng-container>
 

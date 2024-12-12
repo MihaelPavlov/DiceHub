@@ -106,3 +106,22 @@
   text-align: center;
   margin-top: 1.5rem;
 }
+
+.reservation-indicator {
+  margin-bottom: 1rem;
+  background-color: palette.$main-nav-color;
+  padding: 0.5rem;
+  border-left: 4px solid palette.$main-green-color;
+  border-right: 4px solid palette.$main-green-color;
+}
+
+.info-message {
+  font-size: 0.9rem;
+  color: palette.$main-green-color;
+  margin: 0;
+  text-align: center;
+}
+
+.prefilled-field {
+  opacity: 0.5;
+}
