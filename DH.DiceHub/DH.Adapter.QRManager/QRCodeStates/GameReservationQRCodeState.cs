@@ -62,14 +62,17 @@ public class GameReservationQRCodeState : IQRCodeState
         gameReservation.IsActive = false;
         await this.gameReservationRepository.SaveChangesAsync(cancellationToken);
 
+        // Check if user DoesUserHaveTableReservation == true.
+        // If it's true then find the table reservation and confirm it
+
         var users = await this.userService.GetUserListByIds([userId], cancellationToken);
         var gameReservationUser = users.First();
 
         var request = new SpaceTable
         {
             GameId = gameReservation.GameId,
-            IsSoloModeActive = gameReservation.PeopleCount == 1 ? true : false,
-            MaxPeople = gameReservation.PeopleCount,
+            IsSoloModeActive = gameReservation.NumberOfGuests == 1 ? true : false,
+            MaxPeople = gameReservation.NumberOfGuests,
             Name = gameReservationUser.UserName,
             Password = string.Empty,
         };

@@ -1,6 +1,6 @@
 ﻿using DH.Domain.Entities;
+using DH.Domain.Enums;
 using DH.Domain.Exceptions;
-using DH.Domain.Models.GameModels;
 using DH.Domain.Models.GameModels.Queries;
 using DH.Domain.Services;
 using Microsoft.EntityFrameworkCore;
@@ -82,21 +82,37 @@ public class GameService : IGameService
         }
     }
 
-    public async Task<List<GameComplexDataQuery>> GetCompexDataAsync(CancellationToken cancellationToken)
+    public async Task<List<GetActiveGameReservationListQueryModel>> GetActiveGameReservation(CancellationToken cancellationToken)
     {
         using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
         {
-            var games = await (from g in context.Games
-                               where g.Name == "string"
-                               select new GameComplexDataQuery
-                               {
-                                   Id = g.Id,
-                                   Name = g.Name
-                               }).ToListAsync(cancellationToken);
-
-            return games;
+            return await (
+                from gameReservation in context.GameReservations
+                where gameReservation.IsActive && gameReservation.Status == ReservationStatus.None
+                orderby gameReservation.ReservationDate descending
+                let tableReservation = context.SpaceTableReservations
+                    .Where(t => t.IsActive && t.UserId == gameReservation.UserId && gameReservation.ReservationDate.Date == t.ReservationDate.Date)
+                    .FirstOrDefault()
+                select new GetActiveGameReservationListQueryModel
+                {
+                    Id = gameReservation.Id,
+                    GameId = gameReservation.Game.Id,
+                    GameName = gameReservation.Game.Name,
+                    GameImageId = gameReservation.Game.Image.Id,
+                    CreatedDate = gameReservation.CreatedDate,
+                    ReservationDate = gameReservation.ReservationDate,
+                    ReservedDurationMinutes = gameReservation.ReservedDurationMinutes,
+                    Status = gameReservation.Status,
+                    UserId = gameReservation.UserId,
+                    NumberOfGuests = gameReservation.NumberOfGuests,
+                    UserHaveActiveTableReservation = tableReservation != null,
+                    TableReservationTime = tableReservation != null
+                        ? tableReservation.ReservationDate
+                        : null
+                }).ToListAsync();
         }
     }
+
 
     public async Task<GetSystemRewardByIdQueryModel?> GetGameByIdAsync(int gameId, string userId, CancellationToken cancellationToken)
     {

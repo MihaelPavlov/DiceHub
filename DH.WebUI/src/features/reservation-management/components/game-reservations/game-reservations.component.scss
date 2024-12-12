@@ -60,6 +60,29 @@
   margin: 0 auto;
   padding-top: 1.5rem;
   overflow-y: visible;
+  .no_records {
+    text-align: center;
+    margin: 2rem;
+    font-size: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .first-header {
+      font-size: 1.5rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .second-header {
+      font-size: 1.2rem;
+      color: palette.$main-font-gray-color;
+    }
+
+    img {
+      height: 15rem;
+      width: 15rem;
+    }
+  }
   &__item.expanded .content {
     transform: translateX(-150px);
   }
@@ -135,6 +158,9 @@
         padding-top: 0.2rem;
         align-self: baseline;
 
+        .table-reservation {
+          color: palette.$main-blue-color;
+        }
         .wrapper_description {
           padding-top: 0.25rem;
           width: 100%;

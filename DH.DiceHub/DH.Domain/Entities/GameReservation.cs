@@ -6,9 +6,10 @@ public class GameReservation
 {
     public int Id { get; set; }
     public string UserId { get; set; } = string.Empty;
-    public DateTime ReservationDate { get; set; } = DateTime.UtcNow;
+    public DateTime ReservationDate { get; set; } 
+    public DateTime CreatedDate { get; set; }
     public int ReservedDurationMinutes { get; set; }
-    public int PeopleCount { get; set; }
+    public int NumberOfGuests { get; set; }
     public bool IsPaymentSuccessful { get; set; }
 
     /// <summary>

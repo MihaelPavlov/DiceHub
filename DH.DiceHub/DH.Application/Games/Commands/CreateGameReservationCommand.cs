@@ -5,6 +5,7 @@ using DH.Domain.Adapters.PushNotifications;
 using DH.Domain.Adapters.PushNotifications.Messages;
 using DH.Domain.Adapters.Scheduling;
 using DH.Domain.Entities;
+using DH.Domain.Enums;
 using DH.Domain.Exceptions;
 using DH.Domain.Models.GameModels.Commands;
 using DH.Domain.Repositories;
@@ -47,10 +48,12 @@ internal class CreateGameReservationCommandHandler : IRequestHandler<CreateGameR
         {
             GameId = request.Reservation.GameId,
             UserId = this.userContext.UserId,
-            ReservationDate = DateTime.Now,
+            ReservationDate = DateTime.UtcNow.AddMinutes(request.Reservation.DurationInMinutes),
+            CreatedDate = DateTime.UtcNow,
             ReservedDurationMinutes = request.Reservation.DurationInMinutes,
             IsActive = true,
-            PeopleCount = request.Reservation.PeopleCount,
+            NumberOfGuests = request.Reservation.PeopleCount,
+            Status = ReservationStatus.None
         };
 
         await this.gameService.CreateReservation(reservation, cancellationToken);
@@ -66,7 +69,7 @@ internal class CreateGameReservationCommandHandler : IRequestHandler<CreateGameR
 
         DateTime reservationEndTime = reservation.ReservationDate.AddMinutes(reservation.ReservedDurationMinutes);
 
-        await this.pushNotificationsService.SendNotificationToUsersAsync(users, new GameReservationManagementReminder(game!.Name,currentUser.UserName,request.Reservation.PeopleCount, reservationEndTime), cancellationToken);
+        await this.pushNotificationsService.SendNotificationToUsersAsync(users, new GameReservationManagementReminder(game!.Name, currentUser.UserName, request.Reservation.PeopleCount, reservationEndTime), cancellationToken);
     }
 }
 

@@ -2,7 +2,6 @@ import { Component, Injector, OnDestroy } from '@angular/core';
 import { ReservationManagementNavigationComponent } from '../../../../../pages/reservation-management/page/reservation-management-navigation.component';
 import { Observable } from 'rxjs';
 import { SpaceManagementService } from '../../../../../entities/space-management/api/space-management.service';
-import { ToastService } from '../../../../../shared/services/toast.service';
 import { ReservationConfirmationDialog } from '../../../dialogs/reservation-status-confirmation/reservation-confirmation.dialog';
 import { MatDialog } from '@angular/material/dialog';
 import { ReservationType } from '../../../enums/reservation-type.enum';
@@ -24,6 +23,7 @@ export class SpaceTableActiveReservations implements OnDestroy {
   public leftArrowKey: string = 'arrow_circle_left';
   public rightArrowKey: string = 'arrow_circle_right';
   public ReservationStatus = ReservationStatus;
+  
   constructor(
     private readonly injector: Injector,
     private readonly router: Router,

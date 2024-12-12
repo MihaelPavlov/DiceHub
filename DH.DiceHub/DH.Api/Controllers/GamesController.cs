@@ -1,3 +1,4 @@
+
 using DH.Adapter.Authentication.Filters;
 using DH.Application.Games.Commands;
 using DH.Application.Games.Commands.Games;
@@ -9,6 +10,9 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using DH.Domain.Adapters.QRManager;
+using DH.Application.SpaceManagement.Queries;
+using DH.Domain.Models.SpaceManagementModels.Queries;
+using DH.Application.SpaceManagement.Commands;
 
 namespace DH.Api.Controllers;
 
@@ -227,5 +231,32 @@ public class GamesController : ControllerBase
     {
         var result = await this.mediator.Send(request, cancellationToken);
         return Ok(result);
+    }
+
+    [HttpGet("get-active-reserved-games")]
+    [ActionAuthorize(UserAction.GamesCUD)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetActiveGameReservationListQueryModel>))]
+    public async Task<IActionResult> GetActiveGameReservationList(CancellationToken cancellationToken)
+    {
+        var result = await this.mediator.Send(new GetActiveGameReservationListQuery(), cancellationToken);
+        return Ok(result);
+    }
+
+    [HttpPut("approve-reservation")]
+    [ActionAuthorize(UserAction.GamesCUD)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> ApproveGameReservation([FromBody] ApproveGameReservationCommand command, CancellationToken cancellationToken)
+    {
+        await this.mediator.Send(command, cancellationToken);
+        return Ok();
+    }
+
+    [HttpPut("decline-reservation")]
+    [ActionAuthorize(UserAction.GamesCUD)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> DeclineGameReservation([FromBody] DeclineGameReservationCommand command, CancellationToken cancellationToken)
+    {
+        await this.mediator.Send(command, cancellationToken);
+        return Ok();
     }
 }

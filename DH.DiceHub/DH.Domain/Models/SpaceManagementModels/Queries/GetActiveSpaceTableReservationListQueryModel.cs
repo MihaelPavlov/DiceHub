@@ -1,6 +1,4 @@
-﻿using DH.Domain.Enums;
-
-namespace DH.Domain.Models.SpaceManagementModels.Queries;
+﻿namespace DH.Domain.Models.SpaceManagementModels.Queries;
 
 public class GetActiveSpaceTableReservationListQueryModel
 {

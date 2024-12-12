@@ -29,6 +29,7 @@ internal class GetGameReservationStatusQueryHandler : IRequestHandler<GetGameRes
                 ReservationDate = x.ReservationDate,
                 ReservedDurationMinutes = x.ReservedDurationMinutes,
                 IsActive = x.IsActive,
+                Status = x.Status,
             }, cancellationToken);
 
         return userReservationList

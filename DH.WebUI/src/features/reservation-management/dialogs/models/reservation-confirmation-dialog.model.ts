@@ -1,5 +1,5 @@
-import { ReservationStatus } from "../../../../shared/enums/reservation-status.enum";
-import { ReservationType } from "../../enums/reservation-type.enum";
+import { ReservationStatus } from '../../../../shared/enums/reservation-status.enum';
+import { ReservationType } from '../../enums/reservation-type.enum';
 
 export interface ReservationConfirmation {
   reservationId: number;
@@ -7,4 +7,6 @@ export interface ReservationConfirmation {
   status: ReservationStatus;
   reservationDate: Date;
   numberOfGuests: number;
+  gameName?: string | null;
+  tableReservationDate?: Date | null;
 }

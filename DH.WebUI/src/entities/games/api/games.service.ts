@@ -12,6 +12,7 @@ import { ICreateGameReservation } from '../models/create-game-reservation.model'
 import { IReservedGame } from '../models/reserved-game.model';
 import { IGameReservationStatus } from '../models/game-reservation-status.model';
 import { IGameQrCode } from '../models/game-qr-code.model';
+import { ActiveReservedGame } from '../models/active-reserved-game.model';
 
 @Injectable({
   providedIn: 'root',
@@ -59,6 +60,12 @@ export class GamesService {
   public getReservations(): Observable<IReservedGame[]> {
     return this.api.get<IReservedGame[]>(
       `/${PATH.GAMES.CORE}/${PATH.GAMES.GET_RESERVED_GAMES}`
+    );
+  }
+
+  public getActiveReservations(): Observable<ActiveReservedGame[]> {
+    return this.api.get<ActiveReservedGame[]>(
+      `/${PATH.GAMES.CORE}/${PATH.GAMES.GET_ACTIVE_RESERVED_GAMES}`
     );
   }
 
@@ -144,6 +151,36 @@ export class GamesService {
       `/${PATH.GAMES.CORE}/${PATH.GAMES.RESERVATION_STATUS}`,
       {
         id,
+      }
+    );
+  }
+
+  public approveReservation(
+    reservationId: number,
+    publicNote: string,
+    internalNote: string
+  ): Observable<null> {
+    return this.api.put(
+      `/${PATH.GAMES.CORE}/${PATH.GAMES.APPROVE_RESERVATION}`,
+      {
+        id:reservationId,
+        publicNote,
+        internalNote,
+      }
+    );
+  }
+
+  public declinedReservation(
+    reservationId: number,
+    publicNote: string,
+    internalNote: string
+  ): Observable<null> {
+    return this.api.put(
+      `/${PATH.GAMES.CORE}/${PATH.GAMES.DECLINE_RESERVATION}`,
+      {
+        id:reservationId,
+        publicNote,
+        internalNote,
       }
     );
   }

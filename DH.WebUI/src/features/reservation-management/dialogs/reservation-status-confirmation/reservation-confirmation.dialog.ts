@@ -9,12 +9,9 @@ import { AppToastMessage } from '../../../../shared/components/toast/constants/a
 import { ReservationConfirmation } from '../models/reservation-confirmation-dialog.model';
 import { Form } from '../../../../shared/components/form/form.component';
 import { Formify } from '../../../../shared/models/form.model';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { IReservationConfirmationForm } from '../models/reservation-confirmation-form.model';
+import { GamesService } from '../../../../entities/games/api/games.service';
 
 @Component({
   selector: 'app-reservation-confirmation',
@@ -29,6 +26,7 @@ export class ReservationConfirmationDialog extends Form {
     @Inject(MAT_DIALOG_DATA) public data: ReservationConfirmation,
     private dialogRef: MatDialogRef<ReservationConfirmationDialog>,
     private readonly spaceManagementService: SpaceManagementService,
+    private readonly gameService: GamesService,
     public override readonly toastService: ToastService,
     private readonly fb: FormBuilder
   ) {
@@ -60,12 +58,58 @@ export class ReservationConfirmationDialog extends Form {
             });
           },
         });
+    } else if (this.data.type === ReservationType.Game) {
+      this.gameService
+        .declinedReservation(
+          this.data.reservationId,
+          this.form.controls.publicNote.value,
+          this.form.controls.internalNote.value
+        )
+        .subscribe({
+          next: () => {
+            this.toastService.success({
+              message: 'Reservation is declined',
+              type: ToastType.Success,
+            });
+
+            this.dialogRef.close(true);
+          },
+          error: () => {
+            this.toastService.error({
+              message: AppToastMessage.SomethingWrong,
+              type: ToastType.Error,
+            });
+          },
+        });
     }
   }
 
   public approveReservation(): void {
     if (this.data.type === ReservationType.Table) {
       this.spaceManagementService
+        .approveReservation(
+          this.data.reservationId,
+          this.form.controls.publicNote.value,
+          this.form.controls.internalNote.value
+        )
+        .subscribe({
+          next: () => {
+            this.toastService.success({
+              message: 'Reservation is approved',
+              type: ToastType.Success,
+            });
+
+            this.dialogRef.close(true);
+          },
+          error: () => {
+            this.toastService.error({
+              message: AppToastMessage.SomethingWrong,
+              type: ToastType.Error,
+            });
+          },
+        });
+    } else if (this.data.type === ReservationType.Game) {
+      this.gameService
         .approveReservation(
           this.data.reservationId,
           this.form.controls.publicNote.value,

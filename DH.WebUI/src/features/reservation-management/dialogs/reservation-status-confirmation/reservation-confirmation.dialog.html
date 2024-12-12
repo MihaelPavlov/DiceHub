@@ -3,11 +3,21 @@
     <ng-container *ngIf="this.data.status === ReservationStatus.Approved">
       <h3 class="dialog-container__header">Approving reservation:</h3>
       <div class="dialog-container__description">
+        <p *ngIf="this.data.gameName">
+          game - <strong>{{this.data.gameName}}</strong>
+        </p>
         <p>people <strong> {{this.data.numberOfGuests}}</strong></p>
-        <p>
+        <p *ngIf="!this.data.tableReservationDate">
           date
           <strong
             >{{this.data.reservationDate | date : "dd/MM/yy, h:mm a" }}</strong
+          >
+        </p>
+        <p *ngIf="this.data.tableReservationDate">
+          existing table reservation
+          <strong
+            >{{this.data.tableReservationDate | date : "dd/MM/yy, h:mm a"
+            }}</strong
           >
         </p>
       </div>
@@ -15,11 +25,22 @@
     <ng-container *ngIf="this.data.status === ReservationStatus.Declined">
       <h3 class="dialog-container__header">Declining reservation:</h3>
       <div class="dialog-container__description">
+        <p *ngIf="this.data.gameName">
+          game - <strong>{{this.data.gameName}}</strong>
+        </p>
         <p>people <strong> {{this.data.numberOfGuests}}</strong></p>
-        <p>
+        <p *ngIf="!this.data.tableReservationDate">
           date
           <strong
             >{{this.data.reservationDate | date : "dd/MM/yy, h:mm a" }}</strong
+          >
+        </p>
+
+        <p *ngIf="this.data.tableReservationDate">
+          existing table reservation
+          <strong
+            >{{this.data.tableReservationDate | date : "dd/MM/yy, h:mm a"
+            }}</strong
           >
         </p>
       </div>
