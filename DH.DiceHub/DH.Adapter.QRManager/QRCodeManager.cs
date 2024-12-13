@@ -120,6 +120,7 @@ public class QRCodeManager : IQRCodeManager
                     new GameReservationQRCodeState(
                         this.containerService.Resolve<IUserContext>(),
                         this.containerService.Resolve<IRepository<GameReservation>>(),
+                        this.containerService.Resolve<IRepository<SpaceTableReservation>>(),
                         this.containerService.Resolve<IUserService>(),
                         this.containerService.Resolve<ISpaceTableService>(),
                         this.containerService.Resolve<SynchronizeGameSessionQueue>(),

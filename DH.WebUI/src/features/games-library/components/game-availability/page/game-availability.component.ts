@@ -57,6 +57,7 @@ export class GameAvailabilityComponent
   public peopleNumber: IDropdown[] = [];
   public reservationMinutes: IDropdown[] = [];
   public activeBookedTableModel: ActiveBookedTableModel | null = null;
+
   constructor(
     private readonly gameService: GamesService,
     private readonly activeRoute: ActivatedRoute,
@@ -116,6 +117,7 @@ export class GameAvailabilityComponent
 
     return 0;
   }
+
   public isShowingActiveReservationTableMessage(
     reservation: ActiveBookedTableModel
   ): boolean {
@@ -184,12 +186,14 @@ export class GameAvailabilityComponent
     this.gameService.reservationStatus(gameId).subscribe({
       next: (status: IGameReservationStatus | null) => {
         this.gameReservationStatus = status;
-
         if (status) {
           const secondsLeft = this.calculateSecondsLeft(
             new Date(status.reservationDate),
             status.reservedDurationMinutes
           );
+          console.log('status', status);
+
+          console.log('secondsLeft', secondsLeft);
 
           if (secondsLeft > 0) {
             this.startTimer(secondsLeft);

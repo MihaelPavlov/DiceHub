@@ -13,6 +13,7 @@ export const PATH = {
     RESERVATION: 'reservation',
     RESERVATION_STATUS: 'reservation-status',
     GET_QR_CODES: 'get-game-qr-code',
+    GET_ACTIVE_RESERVED_GAME: 'get-active-reserved-game',
     GET_ACTIVE_RESERVED_GAMES: 'get-active-reserved-games',
     APPROVE_RESERVATION: 'approve-reservation',
     DECLINE_RESERVATION: 'decline-reservation',

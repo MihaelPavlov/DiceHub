@@ -63,6 +63,12 @@ export class GamesService {
     );
   }
 
+  public getActiveReservation(): Observable<ActiveReservedGame> {
+    return this.api.get<ActiveReservedGame>(
+      `/${PATH.GAMES.CORE}/${PATH.GAMES.GET_ACTIVE_RESERVED_GAME}`
+    );
+  }
+
   public getActiveReservations(): Observable<ActiveReservedGame[]> {
     return this.api.get<ActiveReservedGame[]>(
       `/${PATH.GAMES.CORE}/${PATH.GAMES.GET_ACTIVE_RESERVED_GAMES}`

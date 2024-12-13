@@ -17,16 +17,18 @@ public class GameReservationQRCodeState : IQRCodeState
 {
     readonly IUserContext userContext;
     readonly IRepository<GameReservation> gameReservationRepository;
+    readonly IRepository<SpaceTableReservation> tableReservationRepository;
     readonly IRepository<Game> gameRepository;
     readonly IUserService userService;
     readonly ISpaceTableService spaceTableService;
     readonly SynchronizeGameSessionQueue queue;
     readonly IJobManager jobManager;
 
-    public GameReservationQRCodeState(IUserContext userContext, IRepository<GameReservation> gameReservationRepository, IUserService userService, ISpaceTableService spaceTableService, SynchronizeGameSessionQueue queue, IJobManager jobManager, IRepository<Game> gameRepository)
+    public GameReservationQRCodeState(IUserContext userContext, IRepository<GameReservation> gameReservationRepository, IRepository<SpaceTableReservation> tableReservationRepository, IUserService userService, ISpaceTableService spaceTableService, SynchronizeGameSessionQueue queue, IJobManager jobManager, IRepository<Game> gameRepository)
     {
         this.userContext = userContext;
         this.gameReservationRepository = gameReservationRepository;
+        this.tableReservationRepository = tableReservationRepository;
         this.userService = userService;
         this.spaceTableService = spaceTableService;
         this.queue = queue;
@@ -60,10 +62,17 @@ public class GameReservationQRCodeState : IQRCodeState
 
         gameReservation.IsReservationSuccessful = true;
         gameReservation.IsActive = false;
-        await this.gameReservationRepository.SaveChangesAsync(cancellationToken);
 
-        // Check if user DoesUserHaveTableReservation == true.
-        // If it's true then find the table reservation and confirm it
+        var tableReservation = await this.tableReservationRepository.GetByAsyncWithTracking(x => x.IsActive && x.Status == ReservationStatus.Accepted && x.UserId == userId && x.ReservationDate.Date == gameReservation.ReservationDate.Date, cancellationToken);
+
+        if (tableReservation != null)
+        {
+            tableReservation.IsReservationSuccessful = true;
+            tableReservation.IsActive = false;
+            result.InternalNote = string.IsNullOrEmpty(tableReservation.InternalNote) ? null : tableReservation.InternalNote;
+        }
+
+        await this.gameReservationRepository.SaveChangesAsync(cancellationToken);
 
         var users = await this.userService.GetUserListByIds([userId], cancellationToken);
         var gameReservationUser = users.First();
