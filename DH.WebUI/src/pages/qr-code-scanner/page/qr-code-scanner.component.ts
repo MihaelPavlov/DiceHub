@@ -138,7 +138,7 @@ export class QrCodeScannerComponent implements OnInit, AfterViewInit {
                       case QrCodeType.TableReservation:
                         if (res.isValid) {
                           this.setLocalStorageSuccessMessage(
-                            `Table Reservation is VALID \n\n ${res.internalNote}`
+                            `Table Reservation is VALID \n\n ${res.internalNote ?? 'No Note From Staff'}`
                           );
                           window.location.reload();
                         } else {

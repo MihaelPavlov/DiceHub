@@ -21,6 +21,11 @@
   margin-top: 1rem;
   margin-bottom: 0.85rem;
   text-align: center;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  .blue-font {
+    color: palette.$main-blue-color;
+  }
 
   &__status {
     font-size: 1.25rem;

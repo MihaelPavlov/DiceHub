@@ -3,47 +3,52 @@
   [game]="game"
   [backNavigateBtn]="navigateBackToGameList.bind(this)"
 >
-  <div class="header">
-    <p>Reserve Your Seat and Get Ready to Play!</p>
-    <ng-container *ngIf="this.activeBookedTableModel">
-      <span
-        class="header__information"
-        *ngIf="
-          isShowingActiveReservationTableMessage(this.activeBookedTableModel)
-        "
-      >
-        You have table reservation for today
-        <br />
-        <strong>{{
-          this.activeBookedTableModel.reservationDate
-            | date : "dd/MM/yy, h:mm a"
-        }}</strong>
-        <br />
-        Game reservation for your table will become available
-        <strong>1 hour </strong>before your reserved time.
-      </span>
-    </ng-container>
-  </div>
-
-  <ng-container *ngIf="!gameReservationStatus">
-    <div
-      class="info"
-      [ngClass]="{
-        info__unavailable: inventory.availableCopies === 0,
-        info__available: inventory.availableCopies !== 0
-      }"
-      *ngIf="this.gameInventory$ | async as inventory"
-    >
-      <p *ngIf="inventory.availableCopies !== 0" class="info__status">
-        AVAILABLE
-      </p>
-      <p *ngIf="inventory.availableCopies === 0" class="info__status">
-        UNAVAILABLE
-      </p>
-      <p>units {{ inventory.availableCopies }} / {{ inventory.totalCopies }}</p>
+  <ng-container
+    *ngIf="!userActiveSpaceTable || !userActiveSpaceTable.activeTableId"
+  >
+    <div class="header">
+      <p>Reserve Your Seat and Get Ready to Play!</p>
+      <ng-container *ngIf="this.activeBookedTableModel">
+        <span
+          class="header__information"
+          *ngIf="
+            isShowingActiveReservationTableMessage(this.activeBookedTableModel)
+          "
+        >
+          You have table reservation for today
+          <br />
+          <strong>{{
+            this.activeBookedTableModel.reservationDate
+              | date : "dd/MM/yy, h:mm a"
+          }}</strong>
+          <br />
+          Game reservation for your table will become available
+          <strong>1 hour </strong>before your reserved time.
+        </span>
+      </ng-container>
     </div>
 
-    <!-- <span class="material-symbols-outlined left" (click)="decreaseTimer()"
+    <ng-container *ngIf="!gameReservationStatus">
+      <div
+        class="info"
+        [ngClass]="{
+          info__unavailable: inventory.availableCopies === 0,
+          info__available: inventory.availableCopies !== 0
+        }"
+        *ngIf="this.gameInventory$ | async as inventory"
+      >
+        <p *ngIf="inventory.availableCopies !== 0" class="info__status">
+          AVAILABLE
+        </p>
+        <p *ngIf="inventory.availableCopies === 0" class="info__status">
+          UNAVAILABLE
+        </p>
+        <p>
+          units {{ inventory.availableCopies }} / {{ inventory.totalCopies }}
+        </p>
+      </div>
+
+      <!-- <span class="material-symbols-outlined left" (click)="decreaseTimer()"
         >play_arrow</span
       >
       <p class="circle">
@@ -56,139 +61,167 @@
         >play_arrow</span
       > -->
 
-    <form [formGroup]="form" class="field-inputs" form>
-      <ng-container
-        *ngIf="
-          isOneHourLeftTillTheTableReservation() && this.activeBookedTableModel
-        "
-      >
-      <div class="reservation-indicator">
-        <p class="info-message">
-          These details are prefilled from your table reservation.
+      <form [formGroup]="form" class="field-inputs" form>
+        <ng-container
+          *ngIf="
+            isOneHourLeftTillTheTableReservation() &&
+            this.activeBookedTableModel
+          "
+        >
+          <div class="reservation-indicator">
+            <p class="info-message">
+              These details are prefilled from your table reservation.
+            </p>
+          </div>
+          <div class="input-field">
+            <label for="min-age" class="required">Your Crew?</label>
+            <ng-select
+              id="reservationPeopleCount"
+              placeholder="How much people in your crew?"
+              [disabled]="true"
+              [readonly]="true"
+              [ngModel]="this.activeBookedTableModel.numberOfGuests.toString()"
+              formControlName="reservationPeopleCount"
+              class="app-select-long prefilled-field"
+            >
+            </ng-select>
+          </div>
+          <div class="input-field">
+            <label for="approx-time" class="required">Arrival Time:</label>
+
+            <ng-select
+              id="reservationInMinutes"
+              [disabled]="true"
+              [readonly]="true"
+              [ngModel]="populateReservationMinutes()"
+              placeholder="When will you arrive?"
+              [searchable]="true"
+              formControlName="reservationInMinutes"
+              class="app-select-long prefilled-field"
+            >
+            </ng-select>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="!isOneHourLeftTillTheTableReservation()">
+          <div class="input-field">
+            <label for="min-age" class="required">Your Crew?</label>
+            <ng-select
+              [items]="peopleNumber"
+              id="reservationPeopleCount"
+              bindValue="id"
+              bindLabel="name"
+              placeholder="How much people in your crew?"
+              [searchable]="true"
+              formControlName="reservationPeopleCount"
+              class="app-select-long"
+            >
+            </ng-select>
+          </div>
+          <div class="input-field">
+            <label for="approx-time" class="required">Arrival Time:</label>
+
+            <ng-select
+              [items]="reservationMinutes"
+              id="reservationInMinutes"
+              bindValue="id"
+              bindLabel="name"
+              placeholder="When will you arrive?"
+              [searchable]="true"
+              formControlName="reservationInMinutes"
+              class="app-select-long"
+            >
+            </ng-select>
+          </div>
+        </ng-container>
+      </form>
+    </ng-container>
+
+    <ng-container *ngIf="gameReservationStatus">
+      <div class="info">
+        <p>
+          Your current reservation -
+
+          <strong
+            class="waiting"
+            *ngIf="gameReservationStatus.status === ReservationStatus.None"
+            >Under Review</strong
+          >
+          <strong
+            class="approved"
+            *ngIf="gameReservationStatus.status === ReservationStatus.Approved"
+            >Approved</strong
+          >
+          <strong
+            class="declined"
+            *ngIf="gameReservationStatus.status === ReservationStatus.Declined"
+            >Declined</strong
+          >
         </p>
       </div>
-        <div class="input-field">
-          <label for="min-age" class="required">Your Crew?</label>
-          <ng-select
-            id="reservationPeopleCount"
-            placeholder="How much people in your crew?"
-            [disabled]="true"
-            [readonly]="true"
-            [ngModel]="this.activeBookedTableModel.numberOfGuests.toString()"
-            formControlName="reservationPeopleCount"
-            class="app-select-long prefilled-field"
-          >
-          </ng-select>
-        </div>
-        <div class="input-field">
-          <label for="approx-time" class="required">Arrival Time:</label>
 
-          <ng-select
-            id="reservationInMinutes"
-            [disabled]="true"
-            [readonly]="true"
-            [ngModel]="populateReservationMinutes()"
-            placeholder="When will you arrive?"
-            [searchable]="true"
-            formControlName="reservationInMinutes"
-            class="app-select-long prefilled-field"
-          >
-          </ng-select>
-        </div>
-      </ng-container>
-      <ng-container *ngIf="!isOneHourLeftTillTheTableReservation()">
-        <div class="input-field">
-          <label for="min-age" class="required">Your Crew?</label>
-          <ng-select
-            [items]="peopleNumber"
-            id="reservationPeopleCount"
-            bindValue="id"
-            bindLabel="name"
-            placeholder="How much people in your crew?"
-            [searchable]="true"
-            formControlName="reservationPeopleCount"
-            class="app-select-long"
-          >
-          </ng-select>
-        </div>
-        <div class="input-field">
-          <label for="approx-time" class="required">Arrival Time:</label>
+      <div class="wrapper">
+        <p class="circle">
+          <span class="timer">{{ display }}</span>
+        </p>
+      </div>
 
-          <ng-select
-            [items]="reservationMinutes"
-            id="reservationInMinutes"
-            bindValue="id"
-            bindLabel="name"
-            placeholder="When will you arrive?"
-            [searchable]="true"
-            formControlName="reservationInMinutes"
-            class="app-select-long"
-          >
-          </ng-select>
-        </div>
-      </ng-container>
-    </form>
+      <div
+        class="reservation-qrcode"
+        *ngIf="gameReservationStatus.status === ReservationStatus.Approved"
+      >
+        <span>Your reservation qr-code</span>
+        <a
+          class="wrapper_qrCode"
+          (click)="openDialog(gameReservationStatus.reservationId)"
+        >
+          <img src="../../../../../shared/assets/images/qr-code.png" alt="" />
+        </a>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="!gameReservationStatus">
+      <div class="wrapper_btn" *ngIf="this.gameInventory$ | async as inventory">
+        <button
+          (click)="onReservation(game.id)"
+          class="btn btn-gray btn-border-green btn-font-green"
+          [disabled]="!this.form.valid || inventory.availableCopies === 0"
+          [ngClass]="{
+            'btn-border-red btn-font-red':
+              !this.form.valid || inventory.availableCopies === 0,
+            'btn-border-green btn-font-green':
+              this.form.valid || inventory.availableCopies !== 0
+          }"
+        >
+          Prepare to arrive in
+          <strong>{{ this.form.controls.reservationInMinutes.value }}</strong>
+          mins
+        </button>
+      </div>
+    </ng-container>
   </ng-container>
 
-  <ng-container *ngIf="gameReservationStatus">
+  <ng-container
+    *ngIf="userActiveSpaceTable && userActiveSpaceTable.activeTableId"
+  >
+    <div class="header">
+      <p>Reserve Your Seat and Get Ready to Play!</p>
+    </div>
+
+    <div class="info info__unavailable">
+      <p class="info__status">GAME RESERVATION UNAVAILABLE</p>
+    </div>
+
     <div class="info">
-      <p>
-        Your current reservation -
-
-        <strong
-          class="waiting"
-          *ngIf="gameReservationStatus.status === ReservationStatus.None"
-          >Under Review</strong
-        >
-        <strong
-          class="approved"
-          *ngIf="gameReservationStatus.status === ReservationStatus.Approved"
-          >Approved</strong
-        >
-        <strong
-          class="declined"
-          *ngIf="gameReservationStatus.status === ReservationStatus.Declined"
-          >Declined</strong
-        >
-      </p>
+      Reservation of game will be available after
+      <strong class="blue-font">closing</strong> or
+      <strong class="blue-font">leaving</strong> the current active table
     </div>
-
-    <div class="wrapper">
-      <p class="circle">
-        <span class="timer">{{ display }}</span>
-      </p>
-    </div>
-
-    <div
-      class="reservation-qrcode"
-      *ngIf="gameReservationStatus.status === ReservationStatus.Approved"
-    >
-      <span>Your reservation qr-code</span>
-      <a
-        class="wrapper_qrCode"
-        (click)="openDialog(gameReservationStatus.reservationId)"
-      >
-        <img src="../../../../../shared/assets/images/qr-code.png" alt="" />
-      </a>
-    </div>
-  </ng-container>
-
-  <ng-container *ngIf="!gameReservationStatus">
-    <div class="wrapper_btn" *ngIf="this.gameInventory$ | async as inventory">
+    <div class="wrapper_btn">
       <button
-        (click)="onReservation(game.id)"
-        class="btn btn-gray btn-border-green btn-font-green"
-        [disabled]="!this.form.valid || inventory.availableCopies === 0"
-        [ngClass]="{
-          'btn-border-red btn-font-red':
-            !this.form.valid || inventory.availableCopies === 0,
-          'btn-border-green btn-font-green':
-            this.form.valid || inventory.availableCopies !== 0
-        }"
+        class="btn btn-gray btn-border-blue btn-font-blue"
+        (click)="navigateToActiveTable(userActiveSpaceTable.activeTableId)"
       >
-        Prepare to arrive in
-        <strong>{{ this.form.controls.reservationInMinutes.value }}</strong>
-        mins
+        Active table
       </button>
     </div>
   </ng-container>

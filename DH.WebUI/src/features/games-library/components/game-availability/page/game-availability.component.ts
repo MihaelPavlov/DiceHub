@@ -1,4 +1,3 @@
-import { WeekDay } from '@angular/common';
 import { SpaceManagementService } from './../../../../../entities/space-management/api/space-management.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -25,6 +24,8 @@ import { AuthService } from '../../../../../entities/auth/auth.service';
 import { ReservationQrCodeDialog } from '../../../../../shared/dialogs/reservation-qr-code/reservation-qr-code.component';
 import { ActiveBookedTableModel } from '../../../../../entities/space-management/models/active-booked-table.model';
 import { ReservationStatus } from '../../../../../shared/enums/reservation-status.enum';
+import { IUserActiveSpaceTableResult } from '../../../../../entities/space-management/models/user-active-space-table.model';
+import { FULL_ROUTE } from '../../../../../shared/configs/route.config';
 
 interface IReservationGameForm {
   reservationPeopleCount: number;
@@ -57,6 +58,7 @@ export class GameAvailabilityComponent
   public peopleNumber: IDropdown[] = [];
   public reservationMinutes: IDropdown[] = [];
   public activeBookedTableModel: ActiveBookedTableModel | null = null;
+  public userActiveSpaceTable: IUserActiveSpaceTableResult | null = null;
 
   constructor(
     private readonly gameService: GamesService,
@@ -90,6 +92,18 @@ export class GameAvailabilityComponent
         this.activeBookedTableModel = null;
       },
     });
+
+    this.spaceManagementService.getUserActiveTable().subscribe({
+      next: (result) => {
+        this.userActiveSpaceTable = result;
+      },
+    });
+  }
+
+  public navigateToActiveTable(tableId: number): void {
+    this.router.navigateByUrl(
+      FULL_ROUTE.SPACE_MANAGEMENT.ROOM_DETAILS(tableId)
+    );
   }
 
   public ngOnInit(): void {
