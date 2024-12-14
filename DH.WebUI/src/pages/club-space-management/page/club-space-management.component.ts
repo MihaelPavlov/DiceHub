@@ -35,6 +35,7 @@ export class ClubSpaceManagementComponent implements OnInit {
     private readonly dialog: MatDialog,
     private readonly authService: AuthService
   ) {}
+
   public ngOnInit(): void {
     combineLatest([
       this.spaceManagementService.getUserActiveTable(),

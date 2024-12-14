@@ -3,7 +3,6 @@ import {
   Component,
   EventEmitter,
   Input,
-  LOCALE_ID,
   OnInit,
   Output,
 } from '@angular/core';

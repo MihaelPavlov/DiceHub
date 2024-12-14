@@ -24,6 +24,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { throwError } from 'rxjs';
 import { ChallengeRewardPoint } from '../../../../entities/challenges/enums/challenge-reward-point.enum';
 import { ScrollService } from '../../../../shared/services/scroll.service';
+
 interface IChallengeForm {
   selectedGame: number;
   rewardPoints: number;

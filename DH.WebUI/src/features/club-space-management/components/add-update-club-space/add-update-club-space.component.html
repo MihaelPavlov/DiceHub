@@ -1,13 +1,6 @@
-<div class="wrapper_icons">
-  <span (click)="backNavigateBtn()" class="arrow left"></span>
+<app-header [header]="getHeader" [withBackBtn]="true" (backClicked)="backNavigateBtn()" [withQRcode]="true">
+</app-header>
 
-  <app-header [header]="getHeader" [withQRcode]="withQrCode"> </app-header>
-  <div *ngIf="this.editTableId" class="info-container">
-    <span class="material-symbols-outlined info" (click)="showInfoForGame()">
-      info
-    </span>
-  </div>
-</div>
 <form [formGroup]="form" class="container">
   <div class="input-field qr-code-field">
     <label for="gameName" class="required">Scanned Game</label>
@@ -24,7 +17,7 @@
     </a>
   </div>
 
-  <div class="wrapper_image">
+  <div class="wrapper_image" (click)="showInfoForGame()">
     <img
       [src]="
         imagePreview || '../../../../../shared/assets/images/upload_img.svg'

@@ -19,6 +19,7 @@ import { AppToastMessage } from '../../../../shared/components/toast/constants/a
 import { ToastType } from '../../../../shared/models/toast.model';
 import { MatDialog } from '@angular/material/dialog';
 import { SinglePlayerConfirmDialog } from '../../dialogs/single-player-confirm-dialog/single-player-confirm-dialog.component';
+import { Location } from '@angular/common';
 
 interface ICreateSpaceTable {
   gameName: string;
@@ -35,7 +36,7 @@ interface ICreateSpaceTable {
 })
 export class AddUpdateClubSpaceComponent extends Form implements OnInit {
   override form: Formify<ICreateSpaceTable>;
-  
+
   public imagePreview: string | ArrayBuffer | SafeUrl | null = null;
   public editTableId: number | null = null;
 
@@ -50,7 +51,8 @@ export class AddUpdateClubSpaceComponent extends Form implements OnInit {
     private readonly spaceManagementService: SpaceManagementService,
     private readonly gameImagePipe: GameImagePipe,
     private readonly router: Router,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly location: Location
   ) {
     super(toastService);
     this.form = this.initFormGroup();
@@ -79,10 +81,6 @@ export class AddUpdateClubSpaceComponent extends Form implements OnInit {
     });
   }
 
-  public get withQrCode(): boolean {
-    return this.editTableId ? false : true;
-  }
-
   public get getHeader(): string {
     return this.editTableId ? 'Update Game Table' : 'Create Game Table ';
   }
@@ -92,7 +90,10 @@ export class AddUpdateClubSpaceComponent extends Form implements OnInit {
   }
 
   public backNavigateBtn(): void {
-    this.router.navigateByUrl(`space/${this.editTableId}/details`);
+    if (this.editTableId)
+      this.router.navigateByUrl(`space/${this.editTableId}/details`);
+
+    this.location.back();
   }
 
   public togglePasswordVisibility(): void {
