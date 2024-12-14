@@ -26,7 +26,7 @@ internal class GetGameReservationStatusQueryHandler : IRequestHandler<GetGameRes
             {
                 ReservationId = x.Id,
                 GameId = x.GameId,
-                ReservationDate = x.ReservationDate,
+                ReservationDate = x.ReservationDate.ToLocalTime(),
                 ReservedDurationMinutes = x.ReservedDurationMinutes,
                 IsActive = x.IsActive,
                 Status = x.Status,

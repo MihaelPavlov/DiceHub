@@ -23,14 +23,17 @@
               {{ reservation.gameName }}
               <div class="wrapper_description">
                 <p>
-                  {{ reservation.reservationDate | date : "dd/MM/yy, h:mm a" }}
+                  Game reservation:
+                  <span class="blue">{{
+                    reservation.reservationDate | date : "dd/MM/yy, h:mm a"
+                  }}</span>
                 </p>
 
                 <p>From: {{ reservation.username }}</p>
                 <p>
                   Table reservation:
                   <span
-                    class="table-reservation"
+                    class="blue"
                     *ngIf="reservation.userHaveActiveTableReservation"
                     >{{
                       reservation.tableReservationTime

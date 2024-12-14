@@ -1,5 +1,4 @@
 ﻿using DH.Domain.Adapters.Authentication;
-using DH.Domain.Adapters.Authentication.Models;
 using DH.Domain.Adapters.Authentication.Models.Enums;
 using DH.Domain.Adapters.Authentication.Services;
 using DH.Domain.Adapters.PushNotifications;
@@ -33,7 +32,7 @@ internal class CreateSpaceTableReservationCommandHandler(IRepository<SpaceTableR
         {
             UserId = this.userContext.UserId,
             CreatedDate = DateTime.UtcNow,
-            ReservationDate = CombineDateAndTime(request.ReservationDate, request.Time),
+            ReservationDate = CombineDateAndTime(request.ReservationDate, request.Time).ToUniversalTime(),
             IsReservationSuccessful = false,
             IsActive = true,
             NumberOfGuests = request.NumberOfGuests,

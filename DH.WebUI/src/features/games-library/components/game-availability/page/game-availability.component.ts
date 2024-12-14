@@ -188,8 +188,7 @@ export class GameAvailabilityComponent
         this.gameReservationStatus = status;
         if (status) {
           const secondsLeft = this.calculateSecondsLeft(
-            new Date(status.reservationDate),
-            status.reservedDurationMinutes
+            new Date(status.reservationDate)
           );
           console.log('status', status);
 
@@ -265,14 +264,10 @@ export class GameAvailabilityComponent
     }
   }
 
-  private calculateSecondsLeft(
-    reservationDate: Date,
-    reservedDurationMinutes: number
-  ): number {
+  private calculateSecondsLeft(reservationDate: Date): number {
     const currentTime = Date.now();
 
-    const reservationEndTime =
-      reservationDate.getTime() + reservedDurationMinutes * 60000;
+    const reservationEndTime = reservationDate.getTime();
 
     const differenceInMs = reservationEndTime - currentTime;
     const secondsLeft = Math.floor(differenceInMs / 1000);

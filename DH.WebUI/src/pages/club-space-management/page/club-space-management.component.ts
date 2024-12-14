@@ -1,4 +1,3 @@
-import { animate } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SpaceManagementService } from '../../../entities/space-management/api/space-management.service';

@@ -22,14 +22,14 @@ internal class GetActiveSpaceTableReservationListQueryHandler : IRequestHandler<
 
     public async Task<List<GetActiveSpaceTableReservationListQueryModel>> Handle(GetActiveSpaceTableReservationListQuery request, CancellationToken cancellationToken)
     {
-        var reservations = await this.repository.GetWithPropertiesAsync<GetActiveSpaceTableReservationListQueryModel>(
+        var reservations = await this.repository.GetWithPropertiesAsync(
             x => x.IsActive && x.Status == ReservationStatus.None,
             x => new GetActiveSpaceTableReservationListQueryModel
             {
                 Id = x.Id,
                 UserId = x.UserId,
-                CreatedDate = x.CreatedDate,
-                ReservationDate = x.ReservationDate,
+                CreatedDate = x.CreatedDate.ToLocalTime(),
+                ReservationDate = x.ReservationDate.ToLocalTime(),
                 IsActive = x.IsActive,
                 NumberOfGuests = x.NumberOfGuests,
             }, cancellationToken);

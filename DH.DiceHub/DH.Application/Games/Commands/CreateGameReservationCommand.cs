@@ -67,7 +67,7 @@ internal class CreateGameReservationCommandHandler : IRequestHandler<CreateGameR
 
         var game = await this.gameRepository.GetByAsync(x => x.Id == request.Reservation.GameId, cancellationToken);
 
-        DateTime reservationEndTime = reservation.ReservationDate.AddMinutes(reservation.ReservedDurationMinutes);
+        DateTime reservationEndTime = reservation.ReservationDate.AddMinutes(reservation.ReservedDurationMinutes).ToLocalTime();
 
         await this.pushNotificationsService.SendNotificationToUsersAsync(users, new GameReservationManagementReminder(game!.Name, currentUser.UserName, request.Reservation.PeopleCount, reservationEndTime), cancellationToken);
     }

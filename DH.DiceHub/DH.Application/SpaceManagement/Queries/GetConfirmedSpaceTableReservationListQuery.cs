@@ -22,8 +22,8 @@ internal class GetConfirmedSpaceTableReservationListQueryHandler(IRepository<Spa
             {
                 Id = x.Id,
                 UserId = x.UserId,
-                CreatedDate = x.CreatedDate,
-                ReservationDate = x.ReservationDate,
+                CreatedDate = x.CreatedDate.ToLocalTime(),
+                ReservationDate = x.ReservationDate.ToLocalTime(),
                 NumberOfGuests = x.NumberOfGuests,
                 IsActive = x.IsActive,
                 IsReservationSuccessful = x.IsReservationSuccessful,
