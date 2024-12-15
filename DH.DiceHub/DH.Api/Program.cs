@@ -16,6 +16,7 @@ using DH.Application;
 using DH.Adapter.PushNotifications;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
+using DH.Adapter.Reservations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -49,6 +50,7 @@ builder.Services.AddChatHubAdapter();
 builder.Services.AddQRManagerAdapter();
 builder.Services.AddSchedulingAdapter(builder.Configuration);
 builder.Services.AddChallengesOrchestratorAdapter();
+builder.Services.AddReservationAdapter();
 builder.Services.AddGameSessionAdapter();
 var test = FirebaseApp.Create(new AppOptions()
 {

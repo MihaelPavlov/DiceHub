@@ -8,7 +8,7 @@ public class ReservationCleanupQueue
     // Concurrent queue to store job information.
     readonly ConcurrentQueue<JobInfo> queue = new();
 
-    public void AddReservationCleaningJob(string reservationId, ReservationType type, DateTime removingTime)
+    public void AddReservationCleaningJob(int reservationId, ReservationType type, DateTime removingTime)
     {
         queue.Enqueue(new JobInfo(reservationId, type, removingTime));
     }
@@ -23,5 +23,5 @@ public class ReservationCleanupQueue
         return queue.TryDequeue(out result);
     }
 
-    public record JobInfo(string ReservationId, ReservationType Type, DateTime RemovingTime);
+    public record JobInfo(int ReservationId, ReservationType Type, DateTime RemovingTime);
 }

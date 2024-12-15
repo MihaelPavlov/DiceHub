@@ -6,14 +6,16 @@ using DH.Domain.Enums;
 using DH.Domain.Exceptions;
 using DH.Domain.Repositories;
 using MediatR;
+using DH.Domain.Adapters.Reservations;
 
 namespace DH.Application.SpaceManagement.Commands;
 
 public record DeclineSpaceTableReservationCommand(int ReservationId, string InternalNote, string PublicNote) : IRequest;
 
-internal class DeclineSpaceTableReservationCommandHandler(IRepository<SpaceTableReservation> repository, IPushNotificationsService pushNotificationsService) : IRequestHandler<DeclineSpaceTableReservationCommand>
+internal class DeclineSpaceTableReservationCommandHandler(IRepository<SpaceTableReservation> repository, ReservationCleanupQueue queue, IPushNotificationsService pushNotificationsService) : IRequestHandler<DeclineSpaceTableReservationCommand>
 {
     readonly IRepository<SpaceTableReservation> repository = repository;
+    readonly ReservationCleanupQueue queue = queue;
     readonly IPushNotificationsService pushNotificationsService = pushNotificationsService;
 
     public async Task Handle(DeclineSpaceTableReservationCommand request, CancellationToken cancellationToken)
@@ -26,6 +28,9 @@ internal class DeclineSpaceTableReservationCommandHandler(IRepository<SpaceTable
         reservation.PublicNote = request.PublicNote;
 
         await this.repository.SaveChangesAsync(cancellationToken);
+
+        //TODO: Additional minutes can be tenantSettings
+        this.queue.AddReservationCleaningJob(reservation.Id, ReservationType.Table, DateTime.UtcNow.AddMinutes(10));
 
         await this.pushNotificationsService
             .SendNotificationToUsersAsync(
