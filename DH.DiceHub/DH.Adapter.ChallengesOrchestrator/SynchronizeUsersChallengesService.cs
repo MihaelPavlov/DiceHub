@@ -68,7 +68,7 @@ public class SynchronizeUsersChallengesService : BackgroundService
                 }
             }
 
-            await Task.Delay(1000, cancellationToken);
+            await Task.Delay(10000, cancellationToken);
         }
     }
 }

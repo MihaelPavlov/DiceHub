@@ -37,8 +37,7 @@ public class ReservationCleanupService : BackgroundService
                     if (DateTime.UtcNow < jobInfo.RemovingTime)
                     {
                         RequeueJob(jobInfo);
-                        await Task.Delay(60000, cancellationToken);
-
+                        await Task.Delay(10000, cancellationToken); 
                         continue;
                     }
 
@@ -55,7 +54,7 @@ public class ReservationCleanupService : BackgroundService
                 }
             }
 
-            await Task.Delay(60000, cancellationToken);
+            await Task.Delay(10000, cancellationToken);
         }
     }
 
