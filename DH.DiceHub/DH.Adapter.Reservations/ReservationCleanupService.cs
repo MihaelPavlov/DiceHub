@@ -37,7 +37,7 @@ public class ReservationCleanupService : BackgroundService
                     if (DateTime.UtcNow < jobInfo.RemovingTime)
                     {
                         RequeueJob(jobInfo);
-                        await Task.Delay(10000, cancellationToken); 
+                        await Task.Delay(10000, cancellationToken);
                         continue;
                     }
 
@@ -121,6 +121,7 @@ public class ReservationCleanupService : BackgroundService
         catch (Exception ex)
         {
             logger.LogError(ex, "Failed to process job {traceId}: {jobInfo}", traceId, JsonSerializer.Serialize(jobInfo));
+            throw;
         }
     }
 
