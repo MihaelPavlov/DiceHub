@@ -38,6 +38,16 @@ public class TenantSettingDto : IValidableFields
     /// </summary>
     public string[] ReservationHours { get; set; } = [];
 
+    /// <summary>
+    /// Grace/Bonus time that we give to each reservation before is closed.
+    /// </summary>
+    public int BonusTimeAfterReservationExpiration { get; set; }
+
+    /// <summary>
+    /// Phone Number
+    /// </summary>
+    public string PhoneNumber { get; set; } = string.Empty;
+
     public bool FieldsAreValid(out List<ValidationError> validationErrors)
     {
         var errors = new List<ValidationError>();
@@ -56,7 +66,7 @@ public class TenantSettingDto : IValidableFields
 
         if (!Enum.TryParse<WeekDays>(ResetDayForRewards, out var parsedResetDayForRewards))
             errors.Add(new ValidationError(nameof(ResetDayForRewards),
-                $"{parsedResetDayForRewards} is not a valid value "));
+                $"{parsedResetDayForRewards} is not a valid value."));
 
         if (ChallengeInitiationDelayHours <= 1 || ChallengeInitiationDelayHours > 12)
             errors.Add(new ValidationError(nameof(ChallengeInitiationDelayHours),
@@ -64,7 +74,11 @@ public class TenantSettingDto : IValidableFields
 
         if (ReservationHours.Length < 3)
             errors.Add(new ValidationError(nameof(ReservationHours),
-                $"Reservation hours should have atleast 3 values"));
+                $"Reservation hours should have atleast 3 values."));
+
+        if (string.IsNullOrEmpty(PhoneNumber))
+            errors.Add(new ValidationError(nameof(PhoneNumber),
+                $"Phone Number is required."));
 
         validationErrors = errors;
 

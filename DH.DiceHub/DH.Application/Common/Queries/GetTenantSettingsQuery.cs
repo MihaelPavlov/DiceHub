@@ -27,7 +27,9 @@ internal class GetTenantSettingsQueryHandler : IRequestHandler<GetTenantSettings
             PeriodOfRewardReset = settings.PeriodOfRewardReset,
             ResetDayForRewards = settings.ResetDayForRewards,
             ChallengeInitiationDelayHours = settings.ChallengeInitiationDelayHours,
-            ReservationHours = settings.ReservationHours.Split(",")
+            ReservationHours = settings.ReservationHours.Split(","),
+            PhoneNumber = settings.PhoneNumber,
+            BonusTimeAfterReservationExpiration = settings.BonusTimeAfterReservationExpiration,
         };
 
         return dto;

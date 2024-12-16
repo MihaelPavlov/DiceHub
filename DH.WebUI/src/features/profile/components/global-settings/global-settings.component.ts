@@ -24,6 +24,8 @@ interface ITenantSettingsForm {
   resetDayForRewards: string;
   challengeInitiationDelayHours: number;
   reservationHours: string[];
+  bonusTimeAfterReservationExpiration: number;
+  phoneNumber: string;
 }
 
 interface IDropdown {
@@ -110,6 +112,9 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
           periodOfRewardReset: res.periodOfRewardReset.toString(),
           resetDayForRewards: res.resetDayForRewards.toString(),
           challengeInitiationDelayHours: res.challengeInitiationDelayHours,
+          bonusTimeAfterReservationExpiration:
+            res.bonusTimeAfterReservationExpiration,
+          phoneNumber: res.phoneNumber,
         });
 
         if (res.reservationHours.length !== 0) {
@@ -144,6 +149,9 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
           challengeInitiationDelayHours:
             this.form.controls.challengeInitiationDelayHours.value,
           reservationHours: this.form.controls.reservationHours.value,
+          bonusTimeAfterReservationExpiration:
+            this.form.controls.bonusTimeAfterReservationExpiration.value,
+          phoneNumber: this.form.controls.phoneNumber.value,
         })
         .subscribe({
           next: () => {
@@ -183,6 +191,10 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
         return 'Challenge Initiation Delay Hours';
       case 'reservationHours':
         return 'Reservation Hours';
+      case 'phoneNumber':
+        return 'Phone Number';
+      case 'bonusTimeAfterReservationExpiration':
+        return 'Bonus Time After Reservation Expiration';
       default:
         return controlName;
     }

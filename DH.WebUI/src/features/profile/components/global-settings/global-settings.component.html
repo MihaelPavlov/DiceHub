@@ -13,6 +13,19 @@
 
 <form [formGroup]="form" class="container">
   <div class="input-field">
+    <label for="phoneNumber" class="required">Club Phone Number</label>
+    <span class="input-info"
+      >The phone number which people will use to contact the club.</span
+    >
+
+    <input
+      placeholder="+359 ....."
+      type="text"
+      id="phoneNumber"
+      formControlName="phoneNumber"
+    />
+  </div>
+  <div class="input-field">
     <label for="averageMaxCapacity" class="required"
       >Average Max Capacity</label
     >
@@ -107,11 +120,10 @@
   </div>
 
   <div class="input-field">
-    <label for="resetDayForRewards" class="required"
-      >Reservation Hours</label
-    >
+    <label for="resetDayForRewards" class="required">Reservation Hours</label>
     <span class="input-info"
-      >These hours should correspond to the operational hours of the facility. You can select multiple slots as needed.</span
+      >These hours should correspond to the operational hours of the facility.
+      You can select multiple slots as needed.</span
     >
 
     <ng-select
@@ -127,6 +139,22 @@
       class="app-select-long"
     >
     </ng-select>
+  </div>
+
+  <div class="input-field">
+    <label for="bonusTimeAfterReservationExpiration" class="required"
+      >Bonus Time After Reservation Expiration</label
+    >
+    <span class="input-info"
+      >Grace/Bonus time that we give to each reservation before is closed.</span
+    >
+
+    <input
+      placeholder="15 minutes"
+      type="number"
+      id="bonusTimeAfterReservationExpiration"
+      formControlName="bonusTimeAfterReservationExpiration"
+    />
   </div>
 
   <div *ngIf="getFirstErrorMessage()" class="errors">

@@ -33,4 +33,14 @@ public class TenantSetting
     /// These hours should correspond to the operational hours of the facility.
     /// </summary>
     public string ReservationHours { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Grace/Bonus time that we give to each reservation before is closed.
+    /// </summary>
+    public int BonusTimeAfterReservationExpiration { get; set; }
+
+    /// <summary>
+    /// Phone Number
+    /// </summary>
+    public string PhoneNumber { get; set; } = string.Empty;
 }

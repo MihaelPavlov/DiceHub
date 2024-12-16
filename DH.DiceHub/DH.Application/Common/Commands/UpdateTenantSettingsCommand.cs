@@ -31,6 +31,8 @@ internal class UpdateTenantSettingsCommandHandler : IRequestHandler<UpdateTenant
                 ChallengeRewardsCountForPeriod = request.Settings.ChallengeRewardsCountForPeriod,
                 PeriodOfRewardReset = request.Settings.PeriodOfRewardReset,
                 ReservationHours = string.Join(",", request.Settings.ReservationHours.OrderBy(x => x)),
+                BonusTimeAfterReservationExpiration = request.Settings.BonusTimeAfterReservationExpiration,
+                PhoneNumber = request.Settings.PhoneNumber,
             }, cancellationToken);
 
             return;
@@ -67,6 +69,17 @@ internal class UpdateTenantSettingsCommandHandler : IRequestHandler<UpdateTenant
         {
             dbSettings.ReservationHours = string.Join(",", request.Settings.ReservationHours.OrderBy(x => x));
         }
+
+        if (dbSettings.PhoneNumber != request.Settings.PhoneNumber)
+        {
+            dbSettings.PhoneNumber = request.Settings.PhoneNumber;
+        }
+
+        if (dbSettings.BonusTimeAfterReservationExpiration != request.Settings.BonusTimeAfterReservationExpiration)
+        {
+            dbSettings.BonusTimeAfterReservationExpiration = request.Settings.BonusTimeAfterReservationExpiration;
+        }
+
 
         await this.repository.SaveChangesAsync(cancellationToken);
     }

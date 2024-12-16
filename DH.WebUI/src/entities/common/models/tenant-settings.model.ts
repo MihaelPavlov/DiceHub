@@ -33,4 +33,14 @@ export interface ITenantSettings {
   /// These hours should correspond to the operational hours of the facility.
   /// </summary>
   reservationHours: string[];
+
+  /// <summary>
+  /// Grace/Bonus time that we give to each reservation before is closed.
+  /// </summary>
+  bonusTimeAfterReservationExpiration: number;
+
+  /// <summary>
+  /// Phone Number
+  /// </summary>
+  phoneNumber: string;
 }
