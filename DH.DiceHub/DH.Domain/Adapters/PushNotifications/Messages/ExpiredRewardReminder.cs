@@ -12,7 +12,7 @@ public class ExpiredRewardReminder : MessageRequest
         this.RewardName = rewardName;
         this.ExpiryDate = expiryDate;
 
-        Title = "Reward Expired. Considiring visiting the club?";
+        Title = "Reward Expired Soon. Considiring visiting the club?";
         Body = $"Your reward: {this.RewardName} expired on {this.ExpiryDate.ToShortTimeString()}!";
     }
 }
