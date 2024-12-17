@@ -90,6 +90,10 @@ export const PATH = {
   TENANT_SETTINGS: {
     CORE: 'tenantSettings',
   },
+  USER_SETTINGS: {
+    CORE: 'tenantUserSettings',
+    ASSISTIVE_TOUCH_SETTINGS: "assistive-touch-settings"
+  },
   USER: {
     CORE: 'user',
     SAVE_TOKEN: 'save-token',

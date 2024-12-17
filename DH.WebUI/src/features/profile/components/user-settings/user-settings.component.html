@@ -1,0 +1,40 @@
+<div class="wrapper_icons">
+  <span (click)="backNavigateBtn()" class="arrow left"></span>
+  <span class="header_name">Space Settings</span>
+  <div class="info-container">
+    <span class="material-symbols-outlined info" (click)="showMenu()">
+      info
+    </span>
+    <div class="info__text" *ngIf="isMenuVisible">
+      <p>Information for the settings</p>
+    </div>
+  </div>
+</div>
+
+<form [formGroup]="form" class="container">
+  <div class="input-field">
+    <label for="phoneNumber" class="required">Phone Number</label>
+    <span class="input-info"
+      >The phone number which club will use to contact you.</span
+    >
+
+    <input
+      placeholder="+359 ....."
+      type="text"
+      id="phoneNumber"
+      formControlName="phoneNumber"
+    />
+  </div>
+
+  <div *ngIf="getFirstErrorMessage()" class="errors">
+    {{ getFirstErrorMessage() }}
+  </div>
+
+  <button
+    type="button"
+    (click)="onSave()"
+    class="btn btn-gray btn-border-green btn-font-green"
+  >
+    Save
+  </button>
+</form>

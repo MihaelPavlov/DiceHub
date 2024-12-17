@@ -3,6 +3,7 @@ import { MenuTabsService } from '../../../shared/services/menu-tabs.service';
 import { NAV_ITEM_LABELS } from '../../../shared/models/nav-items-labels.const';
 import { AuthService } from '../../../entities/auth/auth.service';
 import { Router } from '@angular/router';
+import { UserRole } from '../../../entities/auth/enums/roles.enum';
 
 @Component({
   selector: 'app-profile',
@@ -27,8 +28,12 @@ export class ProfileComponent implements OnDestroy {
     this.router.navigateByUrl('login');
   }
 
-  public navigateToSettings():void{
-    this.router.navigateByUrl("profile/settings");
+  public navigateToSettings(): void {
+    if (this.authService.getUser?.role === UserRole.Owner)
+      this.router.navigateByUrl('profile/settings');
+    else {
+      this.router.navigateByUrl('profile/user-settings');
+    }
   }
 
   public backNavigateBtn() {}

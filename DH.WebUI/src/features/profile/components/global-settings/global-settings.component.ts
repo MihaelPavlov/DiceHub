@@ -95,9 +95,11 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
       }
     }
   }
-  ngOnDestroy(): void {
+
+  public ngOnDestroy(): void {
     this.menuTabsService.resetData();
   }
+
   public ngOnInit(): void {
     this.fetchSettings();
   }
@@ -221,6 +223,11 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
         Validators.required,
       ]),
       reservationHours: [[]],
+      phoneNumber: new FormControl<string | null>('', [Validators.required]),
+      bonusTimeAfterReservationExpiration: new FormControl<number | null>(
+        null,
+        [Validators.required]
+      ),
     });
   }
 }

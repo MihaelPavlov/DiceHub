@@ -19,6 +19,24 @@ public class TenantUserSettingsController : ControllerBase
         this.mediator = mediator;
     }
 
+    [HttpGet]
+    [ActionAuthorize(UserAction.TenantUserSettingsCRUD)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserSettingsDto))]
+    public async Task<IActionResult> GetSettings(CancellationToken cancellationToken)
+    {
+        var result = await this.mediator.Send(new GetUserSettingsQuery(), cancellationToken);
+        return Ok(result);
+    }
+
+    [HttpPut]
+    [ActionAuthorize(UserAction.TenantUserSettingsCRUD)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserSettingsDto))]
+    public async Task<IActionResult> UpdateSettings([FromBody] UserSettingsDto command, CancellationToken cancellationToken)
+    {
+        await this.mediator.Send(new UpdateUserSettingsCommand(command), cancellationToken);
+        return Ok();
+    }
+
     [HttpGet("assistive-touch-settings")]
     [ActionAuthorize(UserAction.TenantUserSettingsCRUD)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AssistiveTouchSettings))]

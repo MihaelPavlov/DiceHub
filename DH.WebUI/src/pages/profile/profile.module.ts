@@ -5,9 +5,14 @@ import { ProfileComponent } from './page/profile.component';
 import { ProfileRoutingModule } from './profile-routes.module';
 import { GlobalSettingsComponent } from '../../features/profile/components/global-settings/global-settings.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { UserSettingsComponent } from '../../features/profile/components/user-settings/user-settings.component';
 
 @NgModule({
-  declarations: [ProfileComponent, GlobalSettingsComponent],
+  declarations: [
+    ProfileComponent,
+    GlobalSettingsComponent,
+    UserSettingsComponent,
+  ],
   exports: [],
   providers: [],
   imports: [SharedModule, HeaderModule, ProfileRoutingModule, NgSelectModule],
