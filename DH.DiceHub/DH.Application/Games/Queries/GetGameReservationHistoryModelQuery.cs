@@ -1,24 +1,24 @@
 ﻿using DH.Domain.Adapters.Authentication.Services;
 using DH.Domain.Entities;
 using DH.Domain.Enums;
-using DH.Domain.Models.SpaceManagementModels.Queries;
+using DH.Domain.Models.GameModels.Queries;
 using DH.Domain.Repositories;
 using MediatR;
 
-namespace DH.Application.SpaceManagement.Queries;
+namespace DH.Application.Games.Queries;
 
-public record GetConfirmedSpaceTableReservationListQuery : IRequest<List<GetConfirmedSpaceTableReservationListQueryModel>>;
+public record GetGameReservationHistoryQuery : IRequest<List<GetGameReservationHistoryQueryModel>>;
 
-internal class GetConfirmedSpaceTableReservationListQueryHandler(IRepository<SpaceTableReservation> repository, IUserService userService) : IRequestHandler<GetConfirmedSpaceTableReservationListQuery, List<GetConfirmedSpaceTableReservationListQueryModel>>
+internal class GetGameReservationHistoryQueryHandler(IRepository<GameReservation> repository, IUserService userService) : IRequestHandler<GetGameReservationHistoryQuery, List<GetGameReservationHistoryQueryModel>>
 {
-    readonly IRepository<SpaceTableReservation> repository = repository;
+    readonly IRepository<GameReservation> repository = repository;
     readonly IUserService userService = userService;
 
-    public async Task<List<GetConfirmedSpaceTableReservationListQueryModel>> Handle(GetConfirmedSpaceTableReservationListQuery request, CancellationToken cancellationToken)
+    public async Task<List<GetGameReservationHistoryQueryModel>> Handle(GetGameReservationHistoryQuery request, CancellationToken cancellationToken)
     {
-        var reservations = await this.repository.GetWithPropertiesAsync<GetConfirmedSpaceTableReservationListQueryModel>(
+        var reservations = await this.repository.GetWithPropertiesAsync(
             x => x.Status != ReservationStatus.None,
-            x => new GetConfirmedSpaceTableReservationListQueryModel
+            x => new GetGameReservationHistoryQueryModel
             {
                 Id = x.Id,
                 UserId = x.UserId,

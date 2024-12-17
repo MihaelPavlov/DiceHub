@@ -10,6 +10,8 @@ import { IGetReservationById } from '../../../../entities/space-management/model
 import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { ToastType } from '../../../../shared/models/toast.model';
 import { ReservationDetailsActions } from '../enums/reservation-details-actions.enum';
+import { ReservationType } from '../../enums/reservation-type.enum';
+import { GamesService } from '../../../../entities/games/api/games.service';
 
 @Component({
   selector: 'app-reservation-details',
@@ -22,18 +24,35 @@ export class ReservationDetailsDialog extends Form {
   public reservation!: IGetReservationById;
   constructor(
     @Inject(MAT_DIALOG_DATA)
-    public data: { reservationId: number; action: ReservationDetailsActions },
+    public data: {
+      reservationId: number;
+      action: ReservationDetailsActions;
+      type: ReservationType;
+    },
     private readonly spaceManagementService: SpaceManagementService,
-    private dialogRef: MatDialogRef<ReservationDetailsDialog>,
+    private readonly gameService: GamesService,
+    private readonly dialogRef: MatDialogRef<ReservationDetailsDialog>,
     public override readonly toastService: ToastService,
     private readonly fb: FormBuilder
   ) {
     super(toastService);
     this.form = this.initFormGroup();
 
-    this.spaceManagementService
-      .getReservationById(this.data.reservationId)
-      .subscribe({
+    if (data.type === ReservationType.Table) {
+      this.spaceManagementService
+        .getReservationById(this.data.reservationId)
+        .subscribe({
+          next: (reservation) => {
+            console.log(reservation);
+            this.reservation = reservation;
+            this.form.patchValue({
+              internalNote: reservation.internalNote,
+              publicNote: reservation.publicNote,
+            });
+          },
+        });
+    } else if (data.type === ReservationType.Game) {
+      this.gameService.getReservationById(this.data.reservationId).subscribe({
         next: (reservation) => {
           console.log(reservation);
           this.reservation = reservation;
@@ -43,37 +62,81 @@ export class ReservationDetailsDialog extends Form {
           });
         },
       });
+    }
   }
 
   public updateReservation(): void {
-    this.spaceManagementService
-      .updateReservation(
-        this.data.reservationId,
-        this.form.controls.publicNote.value,
-        this.form.controls.internalNote.value
-      )
-      .subscribe({
-        next: () => {
-          this.toastService.success({
-            message: AppToastMessage.ChangesSaved,
-            type: ToastType.Success,
-          });
+    if (this.data.type === ReservationType.Table) {
+      this.spaceManagementService
+        .updateReservation(
+          this.data.reservationId,
+          this.form.controls.publicNote.value,
+          this.form.controls.internalNote.value
+        )
+        .subscribe({
+          next: () => {
+            this.toastService.success({
+              message: AppToastMessage.ChangesSaved,
+              type: ToastType.Success,
+            });
 
-          this.dialogRef.close(true);
-        },
-        error: () => {
-          this.toastService.error({
-            message: AppToastMessage.SomethingWrong,
-            type: ToastType.Error,
-          });
-        },
-      });
+            this.dialogRef.close(true);
+          },
+          error: () => {
+            this.toastService.error({
+              message: AppToastMessage.SomethingWrong,
+              type: ToastType.Error,
+            });
+          },
+        });
+    } else if (this.data.type === ReservationType.Game) {
+      this.gameService
+        .updateReservation(
+          this.data.reservationId,
+          this.form.controls.publicNote.value,
+          this.form.controls.internalNote.value
+        )
+        .subscribe({
+          next: () => {
+            this.toastService.success({
+              message: AppToastMessage.ChangesSaved,
+              type: ToastType.Success,
+            });
+
+            this.dialogRef.close(true);
+          },
+          error: () => {
+            this.toastService.error({
+              message: AppToastMessage.SomethingWrong,
+              type: ToastType.Error,
+            });
+          },
+        });
+    }
   }
 
   public deleteReservation(): void {
-    this.spaceManagementService
-      .deleteReservation(this.data.reservationId)
-      .subscribe({
+    if (this.data.type === ReservationType.Table) {
+      this.spaceManagementService
+        .deleteReservation(this.data.reservationId)
+        .subscribe({
+          next: () => {
+            this.toastService.success({
+              message: AppToastMessage.ChangesApplied,
+              type: ToastType.Success,
+            });
+
+            this.dialogRef.close(true);
+          },
+          error: () => {
+            this.toastService.error({
+              message: AppToastMessage.SomethingWrong,
+              type: ToastType.Error,
+            });
+          },
+        });
+    } else if (this.data.type === ReservationType.Game) {
+      this.gameService.deleteReservation(this.data.reservationId).subscribe({
         next: () => {
           this.toastService.success({
             message: AppToastMessage.ChangesApplied,
@@ -89,6 +152,7 @@ export class ReservationDetailsDialog extends Form {
           });
         },
       });
+    }
   }
 
   protected override getControlDisplayName(controlName: string): string {

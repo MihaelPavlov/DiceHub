@@ -157,28 +157,28 @@ public class SpaceManagementController : ControllerBase
         return Ok(result);
     }
 
-    [HttpGet("get-confirmed-reserved-tables")]
+    [HttpGet("get-reservation-history")]
     [ActionAuthorize(UserAction.SpaceManagementReservedTablesRU)]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetConfirmedSpaceTableReservationListQueryModel>))]
-    public async Task<IActionResult> GetConfirmedSpaceTableReservationList(CancellationToken cancellationToken)
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetSpaceTableReservationHistoryQueryModel>))]
+    public async Task<IActionResult> GetSpaceTableReservationHistory(CancellationToken cancellationToken)
     {
-        var result = await this.mediator.Send(new GetConfirmedSpaceTableReservationListQuery(), cancellationToken);
+        var result = await this.mediator.Send(new GetSpaceTableReservationHistoryQuery(), cancellationToken);
         return Ok(result);
     }
 
     [HttpGet("get-reservation/{id}")]
     [ActionAuthorize(UserAction.SpaceManagementReservedTablesRU)]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetReservationByIdQueryModel))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetSpaceTableReservationByIdQueryModel))]
     public async Task<IActionResult> GetReservationById(int id, CancellationToken cancellationToken)
     {
-        var result = await this.mediator.Send(new GetReservationByIdQuery(id), cancellationToken);
+        var result = await this.mediator.Send(new GetSpaceTableReservationByIdQuery(id), cancellationToken);
         return Ok(result);
     }
 
     [HttpPut("update-reservation")]
     [ActionAuthorize(UserAction.SpaceManagementReservedTablesRU)]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> UpdateReservation([FromBody] UpdateReservationCommand command, CancellationToken cancellationToken)
+    public async Task<IActionResult> UpdateReservation([FromBody] UpdateSpaceTableReservationCommand command, CancellationToken cancellationToken)
     {
         await this.mediator.Send(command, cancellationToken);
         return Ok();
@@ -189,7 +189,7 @@ public class SpaceManagementController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> DeleteReservation(int id, CancellationToken cancellationToken)
     {
-        await this.mediator.Send(new DeleteReservationCommand(id), cancellationToken);
+        await this.mediator.Send(new DeleteSpaceTableReservationCommand(id), cancellationToken);
         return Ok();
     }
 

@@ -1,8 +1,8 @@
 ﻿using DH.Domain.Enums;
 
-namespace DH.Domain.Models.SpaceManagementModels.Queries;
+namespace DH.Domain.Models.GameModels.Queries;
 
-public class GetConfirmedSpaceTableReservationListQueryModel
+public class GetGameReservationHistoryQueryModel
 {
     public int Id { get; set; }
     public string UserId { get; set; } = string.Empty;

@@ -1,6 +1,6 @@
 import { ReservationStatus } from '../../../shared/enums/reservation-status.enum';
 
-export interface IConfirmedReservedTable {
+export interface IGameReservationHistory {
   id: number;
   userId: string;
   username: string;

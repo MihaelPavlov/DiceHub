@@ -2,7 +2,7 @@
 
 namespace DH.Domain.Models.SpaceManagementModels.Queries;
 
-public class GetReservationByIdQueryModel
+public class GetSpaceTableReservationHistoryQueryModel
 {
     public int Id { get; set; }
     public string UserId { get; set; } = string.Empty;
@@ -13,6 +13,4 @@ public class GetReservationByIdQueryModel
     public bool IsActive { get; set; }
     public bool IsReservationSuccessful { get; set; }
     public ReservationStatus Status { get; set; }
-    public string InternalNote { get; set; } = string.Empty;
-    public string PublicNote { get; set; } = string.Empty;
 }

@@ -1,23 +1,23 @@
-import { Component, Injector, OnDestroy } from '@angular/core';
-import { ReservationManagementNavigationComponent } from '../../../../../pages/reservation-management/page/reservation-management-navigation.component';
-import { Observable } from 'rxjs';
-import { SpaceManagementService } from '../../../../../entities/space-management/api/space-management.service';
+import { Component, OnDestroy, Injector } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
+import { ReservationManagementNavigationComponent } from '../../../../../pages/reservation-management/page/reservation-management-navigation.component';
 import { ReservationStatus } from '../../../../../shared/enums/reservation-status.enum';
 import { ReservationDetailsDialog } from '../../../dialogs/reservation-details/reservation-details.dialog';
 import { ReservationDetailsActions } from '../../../dialogs/enums/reservation-details-actions.enum';
 import { ReservationType } from '../../../enums/reservation-type.enum';
 import { ITableReservationHistory } from '../../../../../entities/space-management/models/table-reservation-history.model';
+import { GamesService } from '../../../../../entities/games/api/games.service';
 
 @Component({
-  selector: 'app-space-table-reservation-history',
-  templateUrl: 'space-table-reservation-history.component.html',
-  styleUrl: 'space-table-reservation-history.component.scss',
+  selector: 'app-game-reservation-history',
+  templateUrl: 'game-reservation-history.component.html',
+  styleUrl: 'game-reservation-history.component.scss',
 })
-export class SpaceTableReservationHistory implements OnDestroy {
+export class GameReservationHistory implements OnDestroy {
   private reservationNavigationRef!: ReservationManagementNavigationComponent | null;
 
-  public reservedTables$!: Observable<ITableReservationHistory[]>;
+  public reservedGames$!: Observable<ITableReservationHistory[]>;
   public showFilter: boolean = false;
   public expandedReservationId: number | null = null;
   public leftArrowKey: string = 'arrow_circle_left';
@@ -26,7 +26,7 @@ export class SpaceTableReservationHistory implements OnDestroy {
   constructor(
     private readonly injector: Injector,
     private readonly dialog: MatDialog,
-    private readonly spaceManagementService: SpaceManagementService
+    private readonly gameService: GamesService
   ) {
     this.reservationNavigationRef = this.injector.get(
       ReservationManagementNavigationComponent,
@@ -36,22 +36,25 @@ export class SpaceTableReservationHistory implements OnDestroy {
     this.reservationNavigationRef?.header.next('History');
   }
 
-  public ngOnInit(): void {
-    this.reservedTables$ = this.spaceManagementService.getReservationHistory();
-  }
-
-  public ngOnDestroy(): void {
-    if (this.reservationNavigationRef)
-      this.reservationNavigationRef.removeActiveChildComponent();
-  }
-
-  public toggleItem(reservationId: number): void {
+  public toggleItem(
+    reservationId: number,
+    reservationStatus: ReservationStatus
+  ): void {
     this.expandedReservationId =
       this.expandedReservationId === reservationId ? null : reservationId;
   }
 
   public isExpanded(reservationId: number): boolean {
     return this.expandedReservationId === reservationId;
+  }
+
+  public ngOnInit(): void {
+    this.reservedGames$ = this.gameService.getReservationHistory();
+  }
+
+  public ngOnDestroy(): void {
+    if (this.reservationNavigationRef)
+      this.reservationNavigationRef.removeActiveChildComponent();
   }
 
   public updateReservation(id: number): void {
@@ -61,14 +64,13 @@ export class SpaceTableReservationHistory implements OnDestroy {
         data: {
           reservationId: id,
           action: ReservationDetailsActions.Edit,
-          type: ReservationType.Table,
+          type: ReservationType.Game,
         },
       });
 
       dialogRef.afterClosed().subscribe((result) => {
         if (result) {
-          this.reservedTables$ =
-            this.spaceManagementService.getReservationHistory();
+          this.reservedGames$ = this.gameService.getReservationHistory();
           this.expandedReservationId = null;
         }
       });
@@ -82,14 +84,13 @@ export class SpaceTableReservationHistory implements OnDestroy {
         data: {
           reservationId: id,
           action: ReservationDetailsActions.Delete,
-          type: ReservationType.Table,
+          type: ReservationType.Game,
         },
       });
 
       dialogRef.afterClosed().subscribe((result) => {
         if (result) {
-          this.reservedTables$ =
-            this.spaceManagementService.getReservationHistory();
+          this.reservedGames$ = this.gameService.getReservationHistory();
           this.expandedReservationId = null;
         }
       });

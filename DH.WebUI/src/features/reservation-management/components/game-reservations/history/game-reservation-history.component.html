@@ -1,9 +1,9 @@
 <section class="wrapper_library">
   <div
-    *ngFor="let reservation of reservedTables$ | async"
+    *ngFor="let reservation of reservedGames$ | async"
     class="wrapper_library__item approve"
     [class.expanded]="isExpanded(reservation.id)"
-    (click)="toggleItem(reservation.id)"
+    (click)="toggleItem(reservation.id, reservation.status)"
   >
     <div class="content">
       <div class="wrapper_info">
@@ -14,8 +14,7 @@
               {{ reservation.createdDate | date : "dd/MM/yy, h:mm a" }}
             </p>
           </div>
-          <span class="blue">{{ reservation.username }}</span> has booked a
-          table
+          <span class="blue">{{ reservation.username }}</span> has booked a game
           <p>
             <span class="blue">{{ reservation.numberOfGuests }}</span>
             {{ reservation.numberOfGuests === 1 ? "person" : "people" }}

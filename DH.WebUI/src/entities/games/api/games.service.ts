@@ -1,3 +1,4 @@
+import { GamesLibraryComponent } from './../../../pages/games-library/page/games-library.component';
 import { Injectable } from '@angular/core';
 import { RestApiService } from '../../../shared/services/rest-api.service';
 import { Observable } from 'rxjs';
@@ -13,6 +14,8 @@ import { IReservedGame } from '../models/reserved-game.model';
 import { IGameReservationStatus } from '../models/game-reservation-status.model';
 import { IGameQrCode } from '../models/game-qr-code.model';
 import { ActiveReservedGame } from '../models/active-reserved-game.model';
+import { IGetReservationById } from '../models/get-reservation-by-id.model';
+import { IGameReservationHistory } from '../models/game-reservation-history.model';
 
 @Injectable({
   providedIn: 'root',
@@ -28,6 +31,18 @@ export class GamesService {
       {
         searchExpression,
       }
+    );
+  }
+
+  public getReservationById(id: number): Observable<IGetReservationById> {
+    return this.api.get<IGetReservationById>(
+      `/${PATH.GAMES.CORE}/${PATH.GAMES.GET_RESERVATION_BY_ID}/${id}`
+    );
+  }
+
+  public getReservationHistory(): Observable<IGameReservationHistory[]> {
+    return this.api.get<IGameReservationHistory[]>(
+      `/${PATH.GAMES.CORE}/${PATH.GAMES.GET_RESERVATION_HISTORY}`
     );
   }
 
@@ -169,7 +184,7 @@ export class GamesService {
     return this.api.put(
       `/${PATH.GAMES.CORE}/${PATH.GAMES.APPROVE_RESERVATION}`,
       {
-        id:reservationId,
+        id: reservationId,
         publicNote,
         internalNote,
       }
@@ -184,10 +199,31 @@ export class GamesService {
     return this.api.put(
       `/${PATH.GAMES.CORE}/${PATH.GAMES.DECLINE_RESERVATION}`,
       {
-        id:reservationId,
+        id: reservationId,
         publicNote,
         internalNote,
       }
+    );
+  }
+
+  public updateReservation(
+    id: number,
+    publicNote: string,
+    internalNote: string
+  ): Observable<null> {
+    return this.api.put(
+      `/${PATH.GAMES.CORE}/${PATH.GAMES.UPDATE_RESERVATION}`,
+      {
+        id,
+        publicNote,
+        internalNote,
+      }
+    );
+  }
+
+  public deleteReservation(id: number): Observable<null> {
+    return this.api.delete(
+      `/${PATH.GAMES.CORE}/${PATH.GAMES.DELETE_RESERVATION}/${id}`
     );
   }
 }

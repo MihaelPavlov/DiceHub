@@ -1,14 +1,15 @@
 import { Router } from '@angular/router';
 import { Component, Injector, OnDestroy, OnInit } from '@angular/core';
-import { ReservationManagementNavigationComponent } from '../../../../pages/reservation-management/page/reservation-management-navigation.component';
 import { Observable } from 'rxjs';
-import { IReservedGame } from '../../../../entities/games/models/reserved-game.model';
-import { GamesService } from '../../../../entities/games/api/games.service';
-import { ActiveReservedGame } from '../../../../entities/games/models/active-reserved-game.model';
-import { ReservationStatus } from '../../../../shared/enums/reservation-status.enum';
-import { ReservationConfirmationDialog } from '../../dialogs/reservation-status-confirmation/reservation-confirmation.dialog';
-import { ReservationType } from '../../enums/reservation-type.enum';
+
 import { MatDialog } from '@angular/material/dialog';
+import { GamesService } from '../../../../../entities/games/api/games.service';
+import { ActiveReservedGame } from '../../../../../entities/games/models/active-reserved-game.model';
+import { IReservedGame } from '../../../../../entities/games/models/reserved-game.model';
+import { ReservationManagementNavigationComponent } from '../../../../../pages/reservation-management/page/reservation-management-navigation.component';
+import { ReservationStatus } from '../../../../../shared/enums/reservation-status.enum';
+import { ReservationConfirmationDialog } from '../../../dialogs/reservation-status-confirmation/reservation-confirmation.dialog';
+import { ReservationType } from '../../../enums/reservation-type.enum';
 
 @Component({
   selector: 'app-game-reservations',
@@ -59,9 +60,7 @@ export class GameReservations implements OnInit, OnDestroy {
   }
 
   public onHistory(): void {
-    console.log('from game reservation history');
-
-    this.router.navigateByUrl('games/library');
+    this.router.navigateByUrl('reservations/games/history');
   }
 
   public approveReservation(

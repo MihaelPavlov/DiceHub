@@ -1,0 +1,132 @@
+@use "../../.././../../shared/assets/styles/palette";
+
+.wrapper_library {
+  display: flex;
+  flex-direction: column;
+  width: 85%;
+  padding-bottom: 7rem;
+  margin: 0 auto;
+  padding-top: 1.5rem;
+  overflow-y: visible;
+
+  &__item.expanded .content {
+    transform: translateX(-150px);
+  }
+
+  &__item.expanded .expanded-buttons {
+    display: flex;
+  }
+
+  &__item {
+    position: relative;
+    display: flex;
+    padding-bottom: 0.3rem;
+    padding-top: 0.5rem;
+    border-bottom: 0.2rem solid palette.$main-gray-color;
+    transition: transform 0.3s ease-in-out;
+    overflow: hidden;
+    .content {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      transform: translateX(0);
+      transition: transform 0.3s ease-in-out;
+    }
+    .circle-btn {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      margin: 0;
+
+      .accept {
+        color: palette.$main-green-color;
+        font-variation-settings: "FILL" 1;
+        font-size: 3rem;
+      }
+
+      .decline {
+        color: palette.$main-red-color;
+        font-variation-settings: "FILL" 1;
+        font-size: 3rem;
+      }
+      
+      span {
+        margin: 0.5rem;
+        font-variation-settings: "FILL" 1;
+        font-size: 2.5rem;
+      }
+
+      .menu {
+        color: palette.$main-blue-color;
+      }
+    }
+
+    .expanded-buttons {
+      display: none;
+      position: absolute;
+      left: 100%;
+
+      .btnWithIcon {
+        cursor: pointer;
+        padding: 1rem;
+        border: none;
+        background: transparent;
+        color: palette.$main-font-color;
+        border-radius: 0.25rem;
+
+        .accept {
+          color: palette.$chip-yellow-color;
+          font-variation-settings: "FILL" 1;
+          font-size: 3rem;
+        }
+
+        .decline {
+          color: palette.$main-red-color;
+          font-variation-settings: "FILL" 1;
+          font-size: 3rem;
+        }
+      }
+    }
+    
+    .wrapper_info {
+      position: relative;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+
+      .wrapper_title {
+        padding-left: 1rem;
+        font-size: large;
+        padding-top: 0.2rem;
+        align-self: baseline;
+        .blue {
+          color: palette.$main-blue-color;
+        }
+        .wrapper_description {
+          padding-top: 0.25rem;
+          width: 100%;
+          font-size: 1rem;
+          color: palette.$main-font-gray-color;
+
+          .success {
+            color: palette.$main-green-color;
+          }
+
+          .unsuccess {
+            color: palette.$main-red-color;
+          }
+        }
+      }
+    }
+
+    .wrapper_image img {
+      width: 5rem;
+      height: 5rem;
+      min-width: 5rem;
+      min-height: 5rem;
+      object-fit: cover;
+      border-radius: 20px;
+      border: 0.1rem solid black;
+    }
+  }
+}

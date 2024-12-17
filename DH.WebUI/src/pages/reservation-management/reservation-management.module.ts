@@ -4,13 +4,14 @@ import { HeaderModule } from '../../widgets/header/header.module';
 import { ReservationManagementRoutingModule } from './reservation-management-routes.module';
 import { ReservationManagementNavigationComponent } from './page/reservation-management-navigation.component';
 import { NavBarModule } from '../../widgets/nav-bar/nav-bar.module';
-import { GameReservations } from '../../features/reservation-management/components/game-reservations/game-reservations.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ReservationConfirmationDialog } from '../../features/reservation-management/dialogs/reservation-status-confirmation/reservation-confirmation.dialog';
 import { MatDialogActions, MatDialogClose } from '@angular/material/dialog';
 import { SpaceTableActiveReservations } from '../../features/reservation-management/components/space-table-reservations/active-list/space-table-active-reservations.component';
 import { SpaceTableReservationHistory } from '../../features/reservation-management/components/space-table-reservations/history/space-table-reservation-history.component';
 import { ReservationDetailsDialog } from '../../features/reservation-management/dialogs/reservation-details/reservation-details.dialog';
+import { GameReservations } from '../../features/reservation-management/components/game-reservations/active-list/game-reservations.component';
+import { GameReservationHistory } from '../../features/reservation-management/components/game-reservations/history/game-reservation-history.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { ReservationDetailsDialog } from '../../features/reservation-management/
     SpaceTableActiveReservations,
     ReservationConfirmationDialog,
     ReservationDetailsDialog,
-    SpaceTableReservationHistory
+    SpaceTableReservationHistory,
+    GameReservationHistory,
   ],
   exports: [],
   providers: [],
@@ -30,7 +32,7 @@ import { ReservationDetailsDialog } from '../../features/reservation-management/
     NavBarModule,
     NgSelectModule,
     MatDialogActions,
-    MatDialogClose
+    MatDialogClose,
   ],
 })
 export class ReservationManagementModule {}

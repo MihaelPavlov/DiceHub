@@ -11,8 +11,8 @@ import { IUpdateSpaceTableDto } from '../models/update-space-table.model';
 import { ISpaceTableById } from '../models/get-space-table-by-id.model';
 import { ActiveBookedTableModel } from '../models/active-booked-table.model';
 import { IActiveReservedTable } from '../models/active-reserved-table.model';
-import { IConfirmedReservedTable } from '../models/confirmed-reserved-table.model';
 import { IGetReservationById } from '../models/get-reservation-by-id.model';
+import { ITableReservationHistory } from '../models/table-reservation-history.model';
 
 @Injectable({
   providedIn: 'root',
@@ -38,11 +38,9 @@ export class SpaceManagementService {
     );
   }
 
-  public getConfirmedReservedTableList(): Observable<
-    IConfirmedReservedTable[]
-  > {
-    return this.api.get<IConfirmedReservedTable[]>(
-      `/${PATH.SPACE_MANAGEMENT.CORE}/${PATH.SPACE_MANAGEMENT.GET_CONFIRMED_RESERVED_TABLES}`
+  public getReservationHistory(): Observable<ITableReservationHistory[]> {
+    return this.api.get<ITableReservationHistory[]>(
+      `/${PATH.SPACE_MANAGEMENT.CORE}/${PATH.SPACE_MANAGEMENT.GET_RESERVATION_HISTORY}`
     );
   }
 

@@ -5,9 +5,9 @@ import { IMenuItem } from '../../../shared/models/menu-item.model';
 import { Router } from '@angular/router';
 import { UserAction } from '../../../shared/constants/user-action';
 import { PermissionService } from '../../../shared/services/permission.service';
-import { GameReservations } from '../../../features/reservation-management/components/game-reservations/game-reservations.component';
 import { NAV_ITEM_LABELS } from '../../../shared/models/nav-items-labels.const';
 import { SpaceTableActiveReservations } from '../../../features/reservation-management/components/space-table-reservations/active-list/space-table-active-reservations.component';
+import { GameReservations } from '../../../features/reservation-management/components/game-reservations/active-list/game-reservations.component';
 
 @Component({
   selector: 'app-reservation-management-navigation',

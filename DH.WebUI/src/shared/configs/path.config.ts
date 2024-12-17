@@ -17,6 +17,10 @@ export const PATH = {
     GET_ACTIVE_RESERVED_GAMES: 'get-active-reserved-games',
     APPROVE_RESERVATION: 'approve-reservation',
     DECLINE_RESERVATION: 'decline-reservation',
+    UPDATE_RESERVATION: 'update-reservation',
+    DELETE_RESERVATION: 'delete-reservation',
+    GET_RESERVATION_HISTORY: 'get-reservation-history',
+    GET_RESERVATION_BY_ID: 'get-reservation',
   },
   GAME_REVIEWS: {
     CORE: 'gameReviews',
@@ -76,7 +80,7 @@ export const PATH = {
     REMOVE_VIRTUAL_PARTICIPANT: 'remove-virtual-participant',
     GET_ACTIVE_BOOKED_TABLE: 'get-active-booked-table',
     GET_ACTIVE_RESERVED_TABLES: 'get-active-reserved-tables',
-    GET_CONFIRMED_RESERVED_TABLES: 'get-confirmed-reserved-tables',
+    GET_RESERVATION_HISTORY: 'get-reservation-history',
     BOOK_TABLE: 'book-table',
     GET_RESERVATION_BY_ID: 'get-reservation',
     APPROVE_RESERVATION: 'approve-reservation',
@@ -92,7 +96,7 @@ export const PATH = {
   },
   USER_SETTINGS: {
     CORE: 'tenantUserSettings',
-    ASSISTIVE_TOUCH_SETTINGS: "assistive-touch-settings"
+    ASSISTIVE_TOUCH_SETTINGS: 'assistive-touch-settings',
   },
   USER: {
     CORE: 'user',

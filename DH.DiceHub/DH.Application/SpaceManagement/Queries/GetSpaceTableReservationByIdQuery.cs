@@ -8,20 +8,20 @@ using MediatR;
 
 namespace DH.Application.SpaceManagement.Queries;
 
-public record GetReservationByIdQuery(int Id) : IRequest<GetReservationByIdQueryModel>;
+public record GetSpaceTableReservationByIdQuery(int Id) : IRequest<GetSpaceTableReservationByIdQueryModel>;
 
-internal class GetReservationByIdQueryHandler : IRequestHandler<GetReservationByIdQuery, GetReservationByIdQueryModel>
+internal class GetSpaceTableReservationByIdQueryHandler : IRequestHandler<GetSpaceTableReservationByIdQuery, GetSpaceTableReservationByIdQueryModel>
 {
     readonly IRepository<SpaceTableReservation> repository;
     readonly IUserService userService;
 
-    public GetReservationByIdQueryHandler(IRepository<SpaceTableReservation> repository, IUserService userService)
+    public GetSpaceTableReservationByIdQueryHandler(IRepository<SpaceTableReservation> repository, IUserService userService)
     {
         this.repository = repository;
         this.userService = userService;
     }
 
-    public async Task<GetReservationByIdQueryModel> Handle(GetReservationByIdQuery request, CancellationToken cancellationToken)
+    public async Task<GetSpaceTableReservationByIdQueryModel> Handle(GetSpaceTableReservationByIdQuery request, CancellationToken cancellationToken)
     {
         var reservationDb = await this.repository.GetByAsync(x => x.Id == request.Id, cancellationToken)
             ?? throw new NotFoundException(nameof(SpaceTableReservation), request.Id);
@@ -30,7 +30,7 @@ internal class GetReservationByIdQueryHandler : IRequestHandler<GetReservationBy
         reservationDb.ReservationDate = reservationDb.ReservationDate.ToLocalTime();
         reservationDb.CreatedDate = reservationDb.CreatedDate.ToLocalTime();
 
-        var reservation = reservationDb.Adapt<GetReservationByIdQueryModel>();
+        var reservation = reservationDb.Adapt<GetSpaceTableReservationByIdQueryModel>();
         var user = users.FirstOrDefault(x => x.Id == reservationDb.UserId);
 
         if (user != null)
