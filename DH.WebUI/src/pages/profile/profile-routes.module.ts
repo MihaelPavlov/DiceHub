@@ -5,6 +5,7 @@ import { GlobalSettingsComponent } from '../../features/profile/components/globa
 import { UserSettingsComponent } from '../../features/profile/components/user-settings/user-settings.component';
 import { SettingsUserAccessGuard } from './guards/settings-user-access.guard';
 import { SettingsOwnerAccessGuard } from './guards/settings-owner-access.guard';
+import { EmployeeListComponent } from '../../features/profile/components/employee-list/employee-list.component';
 
 const routes: Routes = [
   {
@@ -20,6 +21,11 @@ const routes: Routes = [
     path: 'user-settings',
     component: UserSettingsComponent,
     canActivate: [SettingsUserAccessGuard],
+  },
+  {
+    path: 'employees',
+    component: EmployeeListComponent,
+    // canActivate: [SettingsUserAccessGuard],
   },
 ];
 

@@ -1,4 +1,4 @@
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { GamesService } from '../../../entities/games/api/games.service';
 import { IGameListResult } from '../../../entities/games/models/game-list.model';
@@ -136,26 +136,4 @@ export class GamesLibraryComponent implements OnInit, OnDestroy {
       }
     });
   }
-
-  //WARNING: After the implementation of the new menu, we might not need that
-
-  // @HostListener('window:scroll', [])
-  // private onWindowScroll(): void {
-  //   if (this.visibleMenuId !== null) {
-  //     this.visibleMenuId = null;
-  //   }
-  // }
-
-  // @HostListener('document:click', ['$event'])
-  // private onClickOutside(event: Event): void {
-  //   const targetElement = event.target as HTMLElement;
-
-  //   // Check if the clicked element is within the menu or the button that toggles the menu
-  //   if (
-  //     this.visibleMenuId !== null &&
-  //     !targetElement.closest('.wrapper_library__item')
-  //   ) {
-  //     this.visibleMenuId = null;
-  //   }
-  // }
 }

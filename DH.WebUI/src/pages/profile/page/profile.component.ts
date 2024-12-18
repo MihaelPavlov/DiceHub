@@ -36,5 +36,9 @@ export class ProfileComponent implements OnDestroy {
     }
   }
 
+  public navigateToEmployeeList(): void {
+    this.router.navigateByUrl('profile/employees');
+  }
+
   public backNavigateBtn() {}
 }

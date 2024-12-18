@@ -1,0 +1,75 @@
+@use "../../../../shared/assets/styles/palette";
+
+.wrapper_library {
+  display: flex;
+  flex-direction: column;
+  width: 85%;
+  padding-bottom: 7rem;
+  margin: 0 auto;
+  padding-top: 1.5rem;
+  overflow-y: visible;
+
+  &__item {
+    position: relative;
+    display: flex;
+    padding-bottom: 0.3rem;
+    padding-top: 0.5rem;
+
+    border-bottom: 0.2rem solid palette.$main-gray-color;
+
+    .btnWithIcon {
+      cursor: pointer;
+      padding: 1rem;
+      border: none;
+      background: transparent;
+      color: palette.$main-font-color;
+      border-radius: 0.25rem;
+
+      .decline {
+        color: palette.$main-red-color;
+        font-variation-settings: "FILL" 1;
+        font-size: 2.5rem;
+      }
+    }
+
+    .wrapper_info {
+      position: relative;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+
+      .wrapper_title {
+        padding-left: 1rem;
+        font-size: large;
+        padding-top: 0.2rem;
+        align-self: baseline;
+        word-break: break-all;
+        width: 80%;
+
+        .wrapper_description {
+          padding-top: 0.5rem;
+          width: 100%;
+          font-size: 0.6rem;
+          color: palette.$main-font-gray-color;
+          word-break: break-all;
+        }
+
+        @media (min-width: 568px) {
+          .wrapper_description {
+            width: 85%;
+          }
+        }
+      }
+    }
+
+    .wrapper_image img {
+      width: 5rem;
+      height: 5rem;
+      min-width: 5rem;
+      min-height: 5rem;
+      object-fit: cover;
+      border-radius: 10rem;
+      border: 0.1rem solid black;
+    }
+  }
+}
