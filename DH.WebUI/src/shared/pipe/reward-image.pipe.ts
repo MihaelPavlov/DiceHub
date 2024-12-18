@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { environment } from '../environments/environment.development';
 
 @Pipe({
   name: 'rewardImage',
@@ -6,7 +7,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class RewardImagePipe implements PipeTransform {
   transform(imageId: number): string {
-    const baseUrl = 'https://localhost:7024/rewards/get-image/';
-    return `${baseUrl}${imageId}`;
+    const URL: string = `${environment.appUrl}/rewards/get-image/`;
+    return `${URL}${imageId}`;
   }
 }
