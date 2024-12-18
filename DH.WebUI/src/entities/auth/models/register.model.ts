@@ -2,6 +2,6 @@ export interface IRegisterRequest {
   username: string;
   email: string;
   password: string;
-  confirmPAssword: string;
+  confirmPassword: string;
   deviceToken: string;
 }

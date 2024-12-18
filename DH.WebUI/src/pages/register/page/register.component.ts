@@ -56,55 +56,50 @@ export class RegisterComponent extends Form {
     this.router.navigateByUrl(ROUTE.LOGIN);
   }
 
-  public register(): void {
+  public async register(): Promise<void> {
     if (this.form.valid) {
       this.loadingService.loadingOn();
-      this.messagingService
-        .getDeviceTokenForRegistration()
-        .then((deviceToken) => {
-          this.authService
-            .register({
-              username: this.form.controls.username.value,
-              email: this.form.controls.email.value,
-              password: this.form.controls.password.value,
-              confirmPAssword: this.form.controls.confirmPassword.value,
-              deviceToken,
-            })
-            .subscribe({
-              next: () => {
-                this.loginAfterSuccessRegistration();
-              },
-              error: (error) => {
-                if (
-                  error.error &&
-                  error.error.errors &&
-                  error.error.errors.Exist
-                ) {
-                  this.getServerErrorMessage = error.error.errors.Exist[0];
-                } else {
-                  this.handleServerErrors(error);
-                }
-                this.toastService.error({
-                  message: AppToastMessage.FailedToSaveChanges,
-                  type: ToastType.Error,
-                });
-                this.loadingService.loadingOff();
-              },
-              complete: () => {
-                this.loadingService.loadingOff();
-              },
-            });
-        })
-        .catch((err) => {
-          //TODO: If we couldn't get the device token. Think of a flow, should we be able to register a user. Answer i think YES
-          this.toastService.error({
-            message: AppToastMessage.SomethingWrong,
-            type: ToastType.Error,
-          });
 
-          this.loadingService.loadingOff();
-        });
+      try {
+        const deviceToken =
+          await this.messagingService.getDeviceTokenForRegistration();
+
+        this.authService
+          .register({
+            username: this.form.controls.username.value,
+            email: this.form.controls.email.value,
+            password: this.form.controls.password.value,
+            confirmPassword: this.form.controls.confirmPassword.value,
+            deviceToken,
+          })
+          .subscribe({
+            next: () => this.loginAfterSuccessRegistration(),
+            error: (error) => this.handleRegistrationError(error),
+            complete: () => this.loadingService.loadingOff(),
+          });
+      } catch (error) {
+        // Handle the case where getting the device token fails
+        // this.toastService.error({
+        //   message: AppToastMessage.SomethingWrong,
+        //   type: ToastType.Error,
+        // });
+      } finally {
+        this.loadingService.loadingOff();
+      }
     }
+  }
+
+  private handleRegistrationError(error: any): void {
+    if (error.error?.errors?.Exist) {
+      this.getServerErrorMessage = error.error.errors.Exist[0];
+    } else {
+      this.handleServerErrors(error);
+    }
+
+    this.toastService.error({
+      message: AppToastMessage.FailedToSaveChanges,
+      type: ToastType.Error,
+    });
   }
 
   private loginAfterSuccessRegistration(): void {
