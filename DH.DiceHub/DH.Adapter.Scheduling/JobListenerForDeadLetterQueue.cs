@@ -42,6 +42,11 @@ public class JobListenerForDeadLetterQueue : JobListenerSupport
                     var userRewardsExpiryHandler = scope.ServiceProvider.GetRequiredService<IUserRewardsExpiryHandler>();
                     await userRewardsExpiryHandler.ProcessFailedExpiryCheck(JsonSerializer.Serialize(new { context.JobDetail.Key, context.JobDetail.JobDataMap }), jobException.Message, cancellationToken);
                 }
+                else if (nameof(UserRewardsExpirationReminderJob) == context.JobDetail.JobType.Name)
+                {
+                    var userRewardsExpirationReminderHandler = scope.ServiceProvider.GetRequiredService<IUserRewardsExpirationReminderHandler>();
+                    await userRewardsExpirationReminderHandler.ProcessFailedRewardExpirationReminder(JsonSerializer.Serialize(new { context.JobDetail.Key, context.JobDetail.JobDataMap }), jobException.Message, cancellationToken);
+                }
                 else if (nameof(ExpireReservationJob) == context.JobDetail.JobType.Name)
                 {
                     var reservationExpirationHandler = scope.ServiceProvider.GetRequiredService<IReservationExpirationHandler>();

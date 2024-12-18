@@ -15,6 +15,7 @@ public static class SchedulingDIModule
         services.AddScoped<IReservationExpirationHandler, ReservationExpirationHandler>();
         services.AddScoped<IUserRewardsExpiryHandler, UserRewardsExpiryHandler>();
         services.AddScoped<IAddUserChallengePeriodHandler, AddUserChallengePeriodHandler>();
+        services.AddScoped<IUserRewardsExpirationReminderHandler, UserRewardsExpirationReminderHandler>();
 
         services.AddQuartz(q =>
         {
@@ -36,6 +37,7 @@ public static class SchedulingDIModule
             q.AddJob<ExpireReservationJob>(opts => opts.WithIdentity(nameof(ExpireReservationJob)).StoreDurably());
 
             q.AddJob<UserRewardsExpiryJob>(opts => opts.WithIdentity(nameof(UserRewardsExpiryJob)));
+            q.AddJob<UserRewardsExpirationReminderJob>(opts => opts.WithIdentity(nameof(UserRewardsExpirationReminderJob)));
             q.AddJob<AddUserChallengePeriodJob>(opts => opts.WithIdentity(nameof(AddUserChallengePeriodJob)).StoreDurably());
 
             TriggerDailyJobs(q, services);
@@ -56,7 +58,11 @@ public static class SchedulingDIModule
         service.AddTrigger(opts => opts
             .ForJob(nameof(UserRewardsExpiryJob))
             .WithIdentity($"DailyJobTriggers-{nameof(UserRewardsExpiryJob)}")
-            .WithCronSchedule("0 0 0 * * ?"));  // Cron expression for 00:00
-                                                //.WithCronSchedule("0 * * * * ?"));  // Cron expression for every min
+            .WithCronSchedule("0 0 0 * * ?"));// Every night 00:00 UTC 
+
+        service.AddTrigger(opts => opts
+           .ForJob(nameof(UserRewardsExpirationReminderJob))
+           .WithIdentity($"DailyJobTriggers-{nameof(UserRewardsExpirationReminderJob)}")
+           .WithCronSchedule("0 0/2 * * * ?")); // Every two mins
     }
 }

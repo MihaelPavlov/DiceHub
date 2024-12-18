@@ -8,7 +8,9 @@ using DH.Domain.Services;
 
 namespace DH.Adapter.Scheduling.Handlers;
 
-/// <inheritdoc/>
+/// <summary>
+/// Implementation of <see cref="IAddUserChallengePeriodHandler"/>
+/// </summary>
 internal class AddUserChallengePeriodHandler : IAddUserChallengePeriodHandler
 {
     readonly IRepository<FailedJob> failedJobsRepository;

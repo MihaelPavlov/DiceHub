@@ -7,7 +7,9 @@ using DH.Domain.Repositories;
 
 namespace DH.Adapter.Scheduling.Handlers;
 
-/// <inheritdoc/>
+/// <summary>
+/// Implementation of <see cref="IUserRewardsExpiryHandler"/>
+/// </summary>
 internal class UserRewardsExpiryHandler(IRepository<UserChallengeReward> repository, IRepository<FailedJob> failedJobsRepository, IPushNotificationsService pushNotificationsService) : IUserRewardsExpiryHandler
 {
     readonly IRepository<UserChallengeReward> repository = repository;

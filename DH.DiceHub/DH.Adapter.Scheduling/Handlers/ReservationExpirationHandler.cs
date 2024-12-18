@@ -6,7 +6,9 @@ using DH.Domain.Repositories;
 
 namespace DH.Adapter.Scheduling.Handlers;
 
-/// <inheritdoc/>
+/// <summary>
+/// Implementation of <see cref="IReservationExpirationHandler"/>
+/// </summary>
 public class ReservationExpirationHandler : IReservationExpirationHandler
 {
     readonly IRepository<GameReservation> repository;
