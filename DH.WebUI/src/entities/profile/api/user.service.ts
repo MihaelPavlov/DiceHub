@@ -15,4 +15,16 @@ export class UsersService {
       `/${PATH.USER.CORE}/${PATH.USER.GET_EMPLOYEE_LIST}`
     );
   }
+
+  public createEmployee(
+    firstName: string,
+    lastName: string,
+    email: string
+  ): Observable<null> {
+    return this.api.post(`/${PATH.USER.CORE}/${PATH.USER.CREATE_EMPLOYEE}`, {
+      firstName,
+      lastName,
+      email,
+    });
+  }
 }

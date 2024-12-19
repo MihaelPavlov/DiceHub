@@ -7,13 +7,15 @@ import { GlobalSettingsComponent } from '../../features/profile/components/globa
 import { NgSelectModule } from '@ng-select/ng-select';
 import { UserSettingsComponent } from '../../features/profile/components/user-settings/user-settings.component';
 import { EmployeeListComponent } from '../../features/profile/components/employee-list/employee-list.component';
+import { AddEmployeeComponent } from '../../features/profile/components/add-employee/add-employee.component';
 
 @NgModule({
   declarations: [
     ProfileComponent,
     GlobalSettingsComponent,
     UserSettingsComponent,
-    EmployeeListComponent
+    EmployeeListComponent,
+    AddEmployeeComponent,
   ],
   exports: [],
   providers: [],

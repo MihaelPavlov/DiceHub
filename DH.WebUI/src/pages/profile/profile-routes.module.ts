@@ -6,6 +6,7 @@ import { UserSettingsComponent } from '../../features/profile/components/user-se
 import { SettingsUserAccessGuard } from './guards/settings-user-access.guard';
 import { SettingsOwnerAccessGuard } from './guards/settings-owner-access.guard';
 import { EmployeeListComponent } from '../../features/profile/components/employee-list/employee-list.component';
+import { AddEmployeeComponent } from '../../features/profile/components/add-employee/add-employee.component';
 
 const routes: Routes = [
   {
@@ -25,6 +26,11 @@ const routes: Routes = [
   {
     path: 'employees',
     component: EmployeeListComponent,
+    // canActivate: [SettingsUserAccessGuard],
+  },
+  {
+    path: 'add-employee',
+    component: AddEmployeeComponent,
     // canActivate: [SettingsUserAccessGuard],
   },
 ];

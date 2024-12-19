@@ -1,5 +1,4 @@
-import { Observable } from 'rxjs';
-import { PATH } from '../../../shared/configs/path.config';
+
 import { inject, Injectable } from '@angular/core';
 import { RestApiService } from '../../../shared/services/rest-api.service';
 import { getToken } from 'firebase/messaging';

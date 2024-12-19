@@ -1,0 +1,42 @@
+<div class="wrapper_icons">
+  <span (click)="onBack()" class="arrow left"></span>
+  <span class="header_name">New Employee</span>
+  <div class="info-container">
+    <span class="material-symbols-outlined info" (click)="showMenu()">
+      info
+    </span>
+    <div class="info__text" *ngIf="isMenuVisible">
+      <p>Email will be send to the new employee with the password.</p>
+    </div>
+  </div>
+</div>
+
+<form [formGroup]="this.form" class="container">
+  <div class="input-field">
+    <label for="firstName" class="required">First Name</label>
+    <input placeholder="first name" type="text" formControlName="firstName" />
+  </div>
+  <div class="input-field">
+    <label for="lastName" class="required">Last Name</label>
+    <input placeholder="last name " type="text" formControlName="lastName" />
+  </div>
+  <div class="input-field">
+    <label for="email" class="required">Email</label>
+    <input placeholder="email.." type="text" formControlName="email" />
+  </div>
+
+  <div *ngIf="getFirstErrorMessage()" class="errors">
+    {{ getFirstErrorMessage() }}
+  </div>
+
+  <div class="btn-container">
+    <button
+      [disabled]="this.form.invalid"
+      (click)="onAdd()"
+      type="button"
+      class="btn btn-gray btn-border-blue btn-font-blue"
+    >
+      Create
+    </button>
+  </div>
+</form>

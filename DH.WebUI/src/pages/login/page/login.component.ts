@@ -14,6 +14,7 @@ import { AppToastMessage } from '../../../shared/components/toast/constants/app-
 import { ToastType } from '../../../shared/models/toast.model';
 import { FULL_ROUTE, ROUTE } from '../../../shared/configs/route.config';
 import { LoadingService } from '../../../shared/services/loading.service';
+import { MessagingService } from '../../../entities/messaging/api/messaging.service';
 
 interface ILoginForm {
   email: string;
@@ -32,6 +33,7 @@ export class LoginComponent extends Form implements OnInit {
     private readonly router: Router,
     readonly authService: AuthService,
     public override readonly toastService: ToastService,
+    private readonly messagingService: MessagingService,
     private readonly fb: FormBuilder,
     private readonly loadingService: LoadingService
   ) {
@@ -69,13 +71,18 @@ export class LoginComponent extends Form implements OnInit {
     this.router.navigateByUrl('games/1/details');
   }
 
-  public onLogin(): void {
+  public async onLogin(): Promise<void> {
     if (this.form.valid) {
       this.loadingService.loadingOn();
+
+      const deviceToken =
+        await this.messagingService.getDeviceTokenForRegistration();
+
       this.authService
         .login({
           email: this.form.controls.email.value,
           password: this.form.controls.password.value,
+          deviceToken,
         })
         .subscribe({
           next: (response) => {

@@ -96,9 +96,11 @@ export class AddUpdateMeepleRoomComponent
       this.fetchGameById(this.selectedGame.id);
     }
   }
+
   public showMenu(): void {
     this.isMenuVisible = !this.isMenuVisible;
   }
+  
   public backNavigateBtn() {
     if (this.editRoomId)
       this.router.navigateByUrl(`meeples/${this.editRoomId}/details`);

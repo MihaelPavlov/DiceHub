@@ -59,20 +59,31 @@ public class UserService : IUserService
         if (user is null)
             throw new ValidationErrorsException("Email", "Email or Password is invalid!");
 
-
         var roles = await this.userManager.GetRolesAsync(user);
         var result = await this.signInManager.PasswordSignInAsync(user, form.Password, form.RememberMe, false);
 
         if (!result.Succeeded)
             throw new ValidationErrorsException("Email", "Email or Password is invalid!");
 
-        var claims = new List<Claim>
+        var userDiviceToken = await this.userDeviceTokenRepository.GetByAsync(x => x.UserId == user.Id, CancellationToken.None);
+        if (userDiviceToken is null)
+        {
+            await this.userDeviceTokenRepository.AddAsync(new UserDeviceToken
             {
-                new Claim(ClaimTypes.Sid,user.Id),
-                new Claim(ClaimTypes.Name, user.UserName),
-                new Claim(ClaimTypes.Role, RoleHelper.GetRoleKeyByName(roles.First()).ToString()),
-                new Claim("permissions",_permissionStringBuilder.GetFromCacheOrBuildPermissionsString( RoleHelper.GetRoleKeyByName(roles.First())))
-            };
+                DeviceToken = form.DeviceToken,
+                LastUpdated = DateTime.UtcNow,
+                UserId = user.Id
+            }, CancellationToken.None);
+        }
+
+        var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.Sid,user.Id),
+            new Claim(ClaimTypes.Name, user.UserName),
+            new Claim(ClaimTypes.Role, RoleHelper.GetRoleKeyByName(roles.First()).ToString()),
+            new Claim("permissions",_permissionStringBuilder.GetFromCacheOrBuildPermissionsString( RoleHelper.GetRoleKeyByName(roles.First())))
+        };
+
         var tokenString = this.jwtService.GenerateAccessToken(claims);
         var refreshToken = this.jwtService.GenerateRefreshToken();
 
@@ -163,5 +174,53 @@ public class UserService : IUserService
             Id = x.Id,
             UserName = x.UserName ?? "username_placeholder",
         }).ToList();
+    }
+
+    public async Task CreateEmployee(CreateEmployeeRequest request, CancellationToken cancellationToken)
+    {
+        if (!request.FieldsAreValid(out var validationErrors))
+            throw new ValidationErrorsException(validationErrors);
+
+        var existingUserByEmail = await this.userManager.FindByEmailAsync(request.Email);
+        if (existingUserByEmail != null)
+            throw new ValidationErrorsException("Exist", "Player with that Email, already exist");
+
+        var username = $"{request.FirstName}{request.LastName}";
+        var existingUserByUsername = await this.userManager.FindByNameAsync(username);
+        if (existingUserByUsername != null)
+            throw new ValidationErrorsException("Exist", "Player with that Username, already exist");
+
+        var user = new ApplicationUser() { UserName = username, Email = request.Email, EmailConfirmed = true };
+        var generatedRandomPassowrd = GenerateRandomPassword();
+        var createUserResult = await userManager.CreateAsync(user, generatedRandomPassowrd);
+        if (!createUserResult.Succeeded)
+            throw new BadRequestException("User registration failed!");
+
+        if (!await this.roleManager.Roles.AnyAsync(x => x.Name == Role.Staff.ToString()))
+            throw new BadRequestException("User registration failed!");
+
+        await this.userManager.AddToRoleAsync(user, Role.Staff.ToString());
+
+        var afterRegister = await this.userManager.FindByEmailAsync(request.Email);
+        if (afterRegister is null)
+            throw new NotFoundException("User was not created");
+
+        this.queue.AddSynchronizeNewUserJob(afterRegister.Id);
+
+        //TODO: Send email with the generate password
+        /*
+            dotnet add package FluentEmail.Core
+            dotnet add package FluentEmail.Smtp
+         */
+    }
+
+    private static string GenerateRandomPassword()
+    {
+        var passwordLength = 12;
+        string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_=+[]{};:<>?/";
+
+        return new string(Enumerable.Range(0, passwordLength)
+            .Select(_ => chars[new Random().Next(chars.Length)])
+            .ToArray());
     }
 }

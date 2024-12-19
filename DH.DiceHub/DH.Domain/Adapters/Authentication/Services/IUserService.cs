@@ -39,4 +39,13 @@ public interface IUserService
     /// <param name="role">Specific role.</param>
     /// <returns>A <see cref="GetUserByRoleModel"/> collection.</returns>
     Task<List<GetUserByRoleModel>> GetUserListByRole(Role role, CancellationToken cancellationToken);
+
+
+    /// <summary>
+    /// Create employee
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task CreateEmployee(CreateEmployeeRequest request, CancellationToken cancellationToken);
 }

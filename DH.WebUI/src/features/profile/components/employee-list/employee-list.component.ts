@@ -32,7 +32,10 @@ export class EmployeeListComponent implements OnDestroy {
     this.menuTabsService.resetData();
   }
 
-  public onAdd(): void {}
+  public onAdd(): void {
+    this.router.navigateByUrl('profile/add-employee');
+
+  }
 
   public onBack(): void {
     this.router.navigateByUrl('profile');

@@ -130,4 +130,13 @@ public class UserController : ControllerBase
         var employees = await this.userService.GetUserListByRole(Role.Staff, cancellationToken);
         return Ok(employees);
     }
+
+    [HttpPost("create-employee")]
+    [ActionAuthorize(UserAction.EmployeesCRUD)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> CreateEmployee([FromBody] CreateEmployeeRequest request, CancellationToken cancellationToken)
+    {
+        await this.userService.CreateEmployee(request, cancellationToken);
+        return Ok();
+    }
 }
