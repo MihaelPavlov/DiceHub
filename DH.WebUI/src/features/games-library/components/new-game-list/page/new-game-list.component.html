@@ -1,4 +1,10 @@
 <section class="wrapper_library">
+    <ng-container *ngIf="games.length ===0">
+      <div class="wrapper_library__no-games">
+
+        No Recent new games are added
+      </div>
+    </ng-container>
     <div
       *ngFor="let game of games"
       class="wrapper_library__item"
