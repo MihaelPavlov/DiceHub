@@ -7,14 +7,14 @@
 >
 </app-header>
 <section class="wrapper_library">
-  <div *ngFor="let user of games" class="wrapper_library__item">
+  <div *ngFor="let user of employees" class="wrapper_library__item">
     <div class="wrapper_image">
       <img [src]="1 | gameImage" alt="User Image" />
     </div>
     <div class="wrapper_info">
       <div class="wrapper_title">
-        Mihael Pavlov
-        <div class="wrapper_description">Joined At: 2022/14/05</div>
+        {{ user.userName }}
+        <!-- <div class="wrapper_description">Joined At: 2022/14/05</div> -->
       </div>
     </div>
     <button type="button" class="btnWithIcon">

@@ -8,11 +8,10 @@ using System.Text;
 using DH.Adapter.Authentication.Filters;
 using DH.Application.Common.Commands;
 using DH.Domain.Adapters.Authentication.Enums;
-using Google.Apis.Download;
 using MediatR;
 using DH.Domain.Adapters.PushNotifications.Messages;
-using DH.Domain.Entities;
 using DH.Domain.Adapters.PushNotifications;
+using DH.Domain.Adapters.Authentication.Models.Enums;
 
 namespace DH.Api.Controllers;
 
@@ -121,5 +120,14 @@ public class UserController : ControllerBase
     {
         await this.mediator.Send(command, cancellationToken);
         return Ok();
+    }
+
+    [HttpGet("get-employee-list")]
+    [ActionAuthorize(UserAction.EmployeesCRUD)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetUserByRoleModel>))]
+    public async Task<IActionResult> GetEmployeeList(CancellationToken cancellationToken)
+    {
+        var employees = await this.userService.GetUserListByRole(Role.Staff, cancellationToken);
+        return Ok(employees);
     }
 }

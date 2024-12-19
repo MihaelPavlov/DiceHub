@@ -101,6 +101,7 @@ export const PATH = {
   USER: {
     CORE: 'user',
     SAVE_TOKEN: 'save-token',
+    GET_EMPLOYEE_LIST: 'get-employee-list'
   },
   // AUTH: {
   //   LOGIN: 'auth/user/login',
