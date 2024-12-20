@@ -17,6 +17,8 @@ using DH.Adapter.PushNotifications;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
 using DH.Adapter.Reservations;
+using Autofac.Core;
+using DH.Messaging.Publisher;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,7 +43,13 @@ builder.Services.AddCors(options =>
 });
 builder.Services.AddScoped<IWebRootPathHelper, WebRootPathHelper>();
 builder.Services.AddScoped<IContainerService, ContainerService>();
+builder.Services.AddSingleton<IRabbitMqClient>(sp =>
+{
+    var client = new RabbitMqClient("localhost", "my_exchange");
 
+    //client.Setup("my_exchange", "participation.agreement.queue", "participation.agreement.activated");
+    return client;
+});
 builder.Services.AddDomain();
 builder.Services.AddApplication();
 builder.Services.AddDataAdapter(builder.Configuration);
