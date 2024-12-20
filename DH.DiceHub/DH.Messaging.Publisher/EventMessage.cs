@@ -1,4 +1,4 @@
-﻿namespace DH.ServiceBusWorker;
+﻿namespace DH.Messaging.Publisher;
 
 /// <summary>
 /// Implementation for Event Message with custom body
@@ -7,6 +7,7 @@
 public record EventMessage<T> : EventMessage
 {
     public T? Body { get; init; }
+    public override string? Label => Body?.GetType().Name;
 }
 
 /// <summary>
@@ -33,8 +34,7 @@ public record EventMessage
     /// <summary>
     /// A label that can be used to add context to the message and or be used for filtering
     /// </summary>
-    public string? Label { get; init; }
-
+    public virtual string? Label { get; init; }
 
     /// <summary>
     /// Original Message Topic Name (useful when forwarding messages to other topics)
