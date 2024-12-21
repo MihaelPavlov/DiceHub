@@ -19,6 +19,9 @@ using Google.Apis.Auth.OAuth2;
 using DH.Adapter.Reservations;
 using Autofac.Core;
 using DH.Messaging.Publisher;
+using DH.Domain.Adapters.Authentication;
+using DH.Adapter.Authentication.Helper;
+using DH.Messaging.Publisher.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,13 +46,7 @@ builder.Services.AddCors(options =>
 });
 builder.Services.AddScoped<IWebRootPathHelper, WebRootPathHelper>();
 builder.Services.AddScoped<IContainerService, ContainerService>();
-builder.Services.AddSingleton<IRabbitMqClient>(sp =>
-{
-    var client = new RabbitMqClient("localhost", "my_exchange");
 
-    //client.Setup("my_exchange", "participation.agreement.queue", "participation.agreement.activated");
-    return client;
-});
 builder.Services.AddDomain();
 builder.Services.AddApplication();
 builder.Services.AddDataAdapter(builder.Configuration);
@@ -60,6 +57,32 @@ builder.Services.AddSchedulingAdapter(builder.Configuration);
 builder.Services.AddChallengesOrchestratorAdapter();
 builder.Services.AddReservationAdapter();
 builder.Services.AddGameSessionAdapter();
+
+builder.Services.AddScoped<IRabbitMqUserContextFactory, RabbitMqUserContextFactory>();
+
+builder.Services.AddScoped<IRabbitMqClient>(sp =>
+{
+    // Retrieve IUserContextFactory
+    var userContextFactory = sp.GetRequiredService<IUserContextFactory>();
+    var userContext = userContextFactory.CreateUserContext();
+
+    // Retrieve IRabbitMqUserContextFactory
+    var rabbitMqUserContextFactory = sp.GetRequiredService<IRabbitMqUserContextFactory>();
+
+    // Transfer values without direct reference to IUserContext
+    rabbitMqUserContextFactory.SetDefaultUserContext(new RabbitMqUserContext
+    {
+        UserId = userContext.UserId,
+        IsAuthenticated = userContext.IsAuthenticated,
+        RoleKey = userContext.RoleKey,
+        Token = userContext.Token
+    });
+
+    var client = new RabbitMqClient("localhost", "my_exchange", rabbitMqUserContextFactory);
+
+    //client.Setup("my_exchange", "participation.agreement.queue", "participation.agreement.activated");
+    return client;
+});
 var test = FirebaseApp.Create(new AppOptions()
 {
     Credential = GoogleCredential.FromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "dicehub-8c63f-firebase-adminsdk-y31l3-6026a82c88.json")),
@@ -75,7 +98,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "[TRINT] Invest Track API V1");
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "[DH] Dice Hub API V1");
     });
 }
 var fileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.WebRootPath, "images"));

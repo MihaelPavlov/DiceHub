@@ -27,5 +27,5 @@ public interface IRabbitMqClient
     /// </summary>
     /// <param name="queueName">Name of the queue to consume messages from.</param>
     /// <param name="onMessageReceived">Callback to handle received messages.</param>
-    Task Consume(string queueName, Func<string, Task> onMessageReceived);
+    Task Consume(string queueName, Func<string, string, Task> onMessageReceived);
 }

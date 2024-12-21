@@ -2,11 +2,14 @@
 
 namespace DH.Statistics.WorkerService;
 
-public class ParticipationAgreementActivatedHandler : IServiceBusHandler<ParticipationAgreementActivatedMessage>
+public class ParticipationAgreementActivatedHandler(IRabbitMqClient client) : IServiceBusHandler<ParticipationAgreementActivatedMessage>
 {
-    public Task HandleMessageAsync(EventMessage<ParticipationAgreementActivatedMessage> message, string messageId, CancellationToken cancellationToken)
+    readonly IRabbitMqClient client = client;
+
+    public async Task HandleMessageAsync(EventMessage<ParticipationAgreementActivatedMessage> message, string messageId, CancellationToken cancellationToken)
     {
         Console.WriteLine($"Processing message: ");
-        return Task.CompletedTask;
+
+        await client.Publish("exchange", "routingKey", new ParticipationAgreementActivatedMessage());
     }
 }

@@ -1,4 +1,6 @@
-﻿using RabbitMQ.Client;
+﻿using DH.Messaging.Publisher.Authentication;
+using DH.Messaging.Publisher.Extensions;
+using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
 using System.Text.Json;
@@ -14,12 +16,25 @@ public class RabbitMqClient : IRabbitMqClient
     private readonly IChannel _channel;
 
     /// <summary>
+    /// Factory for creating user context for RabbitMQ.
+    /// Which can be null when it's on the consumer side.
+    /// </summary>
+    private readonly IRabbitMqUserContextFactory? _rabbitMqUserContextFactory;
+
+    /// <summary>
+    /// Client Token that the publisher can use if it's want to send event from the consumer.
+    /// </summary>
+    private string? _clientToken;
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="RabbitMqClient"/> class.
     /// </summary>
     /// <param name="hostName">RabbitMQ server hostname.</param>
     /// <param name="exchangeName">Default exchange name for RabbitMQ.</param>
-    public RabbitMqClient(string hostName, string exchangeName)
+    public RabbitMqClient(string hostName, string exchangeName, IRabbitMqUserContextFactory? rabbitMqUserContextFactory = null)
     {
+        _rabbitMqUserContextFactory = rabbitMqUserContextFactory;
+
         var factory = new ConnectionFactory() { HostName = hostName };
 
         _connection = factory.CreateConnectionAsync(CancellationToken.None).Result;
@@ -33,29 +48,35 @@ public class RabbitMqClient : IRabbitMqClient
     public void Setup(string exchangeName, string queueName, string routingKey)
     {
         // Declare the exchange
-        _channel.ExchangeDeclareAsync(exchange: exchangeName, type: ExchangeType.Topic).GetAwaiter().GetResult(); ;
+        _channel.ExchangeDeclareAsync(exchange: exchangeName, type: ExchangeType.Topic).GetAwaiter().GetResult();
 
         // Declare the queue
-        _channel.QueueDeclareAsync(queue: queueName, durable: true, exclusive: false, autoDelete: false, arguments: null).GetAwaiter().GetResult(); ;
+        _channel.QueueDeclareAsync(queue: queueName, durable: true, exclusive: false, autoDelete: false, arguments: null).GetAwaiter().GetResult();
 
         // Bind the queue to the exchange with the routing key
-        _channel.QueueBindAsync(queue: queueName, exchange: exchangeName, routingKey: routingKey).GetAwaiter().GetResult(); ;
+        _channel.QueueBindAsync(queue: queueName, exchange: exchangeName, routingKey: routingKey).GetAwaiter().GetResult();
     }
 
     /// <inheritdoc/>
     public async Task Publish<T>(string exchange, string routingKey, T message)
     {
         var body = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(message));
-        var props = new BasicProperties();
-        props.ContentType = "text/plain";
-        props.DeliveryMode = DeliveryModes.Persistent;
-        props.Expiration = "36000000";
+        var props = new BasicProperties().InitializeBasicProperties();
+
+        if (_rabbitMqUserContextFactory == null && this._clientToken != null)
+        {
+            props.AddUserToken(this._clientToken);
+        }
+        else
+        {
+            props.AddUserToken(this._rabbitMqUserContextFactory);
+        }
 
         await _channel.BasicPublishAsync(exchange, routingKey, false, props, body);
     }
 
     /// <inheritdoc/>
-    public async Task Consume(string queueName, Func<string, Task> onMessageReceived)
+    public async Task Consume(string queueName, Func<string, string, Task> onMessageReceived)
     {
         await _channel.QueueDeclareAsync(queue: queueName, durable: true, exclusive: false, autoDelete: false, arguments: null);
 
@@ -65,8 +86,12 @@ public class RabbitMqClient : IRabbitMqClient
             var body = eventArgs.Body.ToArray();
             var message = Encoding.UTF8.GetString(body);
 
-            await onMessageReceived(message);
-         };
+            if (eventArgs.GetToken() is string token)
+            {
+                SetupClientToken(token);
+                await onMessageReceived(message, token);
+            }
+        };
 
         await _channel.BasicConsumeAsync(queue: queueName, autoAck: true, consumer: consumer);
     }
@@ -78,5 +103,14 @@ public class RabbitMqClient : IRabbitMqClient
     {
         await _channel.CloseAsync();
         await _connection.CloseAsync();
+    }
+
+    /// <summary>
+    /// Sets the client token to be used in consuming messages.
+    /// </summary>
+    /// <param name="token">The client token.</param>
+    private void SetupClientToken(string token)
+    {
+        _clientToken = token;
     }
 }

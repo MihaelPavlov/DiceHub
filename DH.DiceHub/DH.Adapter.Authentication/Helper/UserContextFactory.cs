@@ -15,7 +15,7 @@ public class UserContextFactory : IUserContextFactory
     {
         client = httpClientFactory.CreateClient();
         _httpContextAccessor = httpContextAccessor;
-        _defaultUserContext = new UserContext(null, null);
+        _defaultUserContext = new UserContext(null, null, null);
     }
 
     public IUserContext CreateUserContext()
@@ -23,38 +23,47 @@ public class UserContextFactory : IUserContextFactory
         if (_httpContextAccessor.HttpContext == null)
             return _defaultUserContext;
 
-        //if (_httpContextAccessor.HttpContext.Request.Headers.TryGetValue("Authorization", out var authHeader))
-        //{
-        //    var accessToken = authHeader.ToString().Split(' ').Last();
-        //    client.DefaultRequestHeaders.Add("Authorization", authHeader.ToString());
+        if (_httpContextAccessor.HttpContext.Request.Headers.TryGetValue("Authorization", out var authHeader))
+        {
+            var accessToken = authHeader.ToString().Split(' ').Last();
+            client.DefaultRequestHeaders.Remove("Authorization");
+            client.DefaultRequestHeaders.Add("Authorization", authHeader.ToString());
 
-        //    var response = client
-        //        .GetAsync($"https://localhost:7024/user/info").Result;
+            //var response = client
+            //    .GetAsync($"https://localhost:7024/user/info").Result;
 
-        //    if (response.StatusCode != System.Net.HttpStatusCode.OK)
-        //    {
-        //        return new UserContext(null, null);
-        //    }
+            //if (response.StatusCode != System.Net.HttpStatusCode.OK)
+            //{
+            //    return new UserContext(null, null);
+            //}
 
-        //    if (response.StatusCode == System.Net.HttpStatusCode.OK)
-        //    {
-        //        var content = response.Content.ReadAsStringAsync().Result;
-        //        var claims = JsonSerializer.Deserialize<IDictionary<string, string>>(content);
-        //        var claimsIdentity = new ClaimsIdentity(claims.Select(c => new Claim(c.Key, c.Value)));
-        //        var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+            //if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            //{
+            //    var content = response.Content.ReadAsStringAsync().Result;
+            //    var claims = JsonSerializer.Deserialize<IDictionary<string, string>>(content);
+            //    var claimsIdentity = new ClaimsIdentity(claims.Select(c => new Claim(c.Key, c.Value)));
+            //    var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
 
-        //        _httpContextAccessor.HttpContext.User = claimsPrincipal;
-        //    }
-        //}
+            //    _httpContextAccessor.HttpContext.User = claimsPrincipal;
+            //}
+            var user = _httpContextAccessor.HttpContext.User;
 
-        var user = _httpContextAccessor.HttpContext.User;
+            var userIdClaim = user.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid);
+            var userRoleClaim = user.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role);
 
-        var userIdClaim = user.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid);
-        var userRoleClaim = user.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role);
+            var userContext = new UserContext(userId: userIdClaim != null ? userIdClaim.Value : null, roleKey: userRoleClaim != null ? RoleHelper.GetRoleKeyByName(userRoleClaim.Value) : null, accessToken);
+            this._defaultUserContext = userContext;
+            return userContext;
+        }
+        return this._defaultUserContext;
+        //var user = _httpContextAccessor.HttpContext.User;
 
-        var userContext= new UserContext(userId: userIdClaim != null ? userIdClaim.Value : null, roleKey: userRoleClaim != null ? RoleHelper.GetRoleKeyByName(userRoleClaim.Value) : null);
-        this._defaultUserContext = userContext;
-        return userContext;
+        //var userIdClaim = user.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid);
+        //var userRoleClaim = user.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role);
+
+        //var userContext = new UserContext(userId: userIdClaim != null ? userIdClaim.Value : null, roleKey: userRoleClaim != null ? RoleHelper.GetRoleKeyByName(userRoleClaim.Value) : null);
+        //this._defaultUserContext = userContext;
+        //return userContext;
     }
 
     public void SetDefaultUserContext(IUserContext defaultUserContext)

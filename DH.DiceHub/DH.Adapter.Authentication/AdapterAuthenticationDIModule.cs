@@ -136,9 +136,9 @@ public static class AuthenticationDIModule
            .AddScoped<IJwtService, JwtService>()
            .AddScoped<IUserActionService, UserActionService>()
            .AddScoped<IPermissionStringBuilder, PermissionStringBuilder>()
-           .AddScoped<IUserContextFactory, UserContextFactory>()
            .AddScoped<IMapPermissions, MapPermissions>()
            .AddScoped<IActionPermissions<UserAction>, MapPermissions>()
+           .AddScoped<IUserContextFactory, UserContextFactory>()
            .AddScoped<IUserContext>(services => services.GetRequiredService<IUserContextFactory>().CreateUserContext());
         // Register services implementing IRepository<>, IDomainService<>, and IDbContextFactory<> generics
         //RegisterAssemblyTypesAsClosedGeneric(services, typeof(IRepository<>), typeof(IDomainService<>), typeof(IDbContextFactory<>));

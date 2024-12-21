@@ -10,15 +10,17 @@ public class UserContext : IUserContext
 {
     readonly string? _userId;
     readonly int? _roleKey;
+    readonly string? _token;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="UserContext"/> class with the specified user ID.
     /// </summary>
     /// <param name="userId">The unique identifier of the current user.</param>
-    public UserContext(string? userId, int? roleKey)
+    public UserContext(string? userId, int? roleKey, string? token)
     {
         _userId = userId;
         _roleKey = roleKey;
+        _token = token;
     }
 
     /// <inheritdoc/>
@@ -44,6 +46,16 @@ public class UserContext : IUserContext
                 return _roleKey.Value;
 
             throw new Exception("Can not find current role.");
+        }
+    }
+
+    public string Token
+    {
+        get
+        {
+            if (_token != null)
+                return _token;
+            throw new Exception("Can not find current token.");
         }
     }
 }
