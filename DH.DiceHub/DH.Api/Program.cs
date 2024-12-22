@@ -76,10 +76,7 @@ builder.Services.AddScoped<IRabbitMqClient>(sp =>
         Token = userContext.Token
     });
 
-    var client = new RabbitMqClient("localhost", "my_exchange", rabbitMqUserContextFactory);
-
-    //client.Setup("my_exchange", "participation.agreement.queue", "participation.agreement.activated");
-    return client;
+    return new RabbitMqClient("localhost", "my_exchange", rabbitMqUserContextFactory);
 });
 var test = FirebaseApp.Create(new AppOptions()
 {
