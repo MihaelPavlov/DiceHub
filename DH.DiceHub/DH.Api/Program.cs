@@ -17,10 +17,8 @@ using DH.Adapter.PushNotifications;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
 using DH.Adapter.Reservations;
-using Autofac.Core;
 using DH.Messaging.Publisher;
 using DH.Domain.Adapters.Authentication;
-using DH.Adapter.Authentication.Helper;
 using DH.Messaging.Publisher.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);

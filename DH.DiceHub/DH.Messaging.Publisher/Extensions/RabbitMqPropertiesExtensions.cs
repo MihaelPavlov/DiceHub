@@ -14,29 +14,33 @@ public static class RabbitMqPropertiesExtensions
         return props;
     }
 
-    public static BasicProperties AddUserToken(this BasicProperties props, IRabbitMqUserContextFactory? _userContextFactory)
+    public static BasicProperties AddUserProps(this BasicProperties props, IRabbitMqUserContextFactory? _userContextFactory)
     {
         var userContextFactory = _userContextFactory
             ?? throw new ArgumentException("The rabbit mq User Context Factory is missing");
 
-        var token = userContextFactory.CreateUserContext().Token;
+        var userContext = userContextFactory.CreateUserContext();
 
-        if (string.IsNullOrEmpty(token))
+        if (string.IsNullOrEmpty(userContext.Token))
             throw new ArgumentException("Token is missing");
 
         props.Headers = new Dictionary<string, object?>
         {
-            { "Authorization", $"Bearer {token}" }
+            { "Authorization", $"Bearer {userContext.Token}" },
+            { "UserId", $"{userContext.UserId}" },
+            { "Role", $"{userContext.RoleKey}" }
         };
 
         return props;
     }
 
-    public static BasicProperties AddUserToken(this BasicProperties props, string token)
+    public static BasicProperties AddUserProps(this BasicProperties props, IRabbitMqUserContext rabbitMqUserContext)
     {
         props.Headers = new Dictionary<string, object?>
         {
-            { "Authorization", $"Bearer {token}" }
+            { "Authorization", $"Bearer {rabbitMqUserContext.Token}" },
+             { "UserId", $"{rabbitMqUserContext.UserId}" },
+            { "Role", $"{rabbitMqUserContext.RoleKey}" }
         };
 
         return props;

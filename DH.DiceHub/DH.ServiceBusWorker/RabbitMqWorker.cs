@@ -36,7 +36,7 @@ public class RabbitMqWorker<TMessage> : BackgroundService
     /// <returns>A task that represents the asynchronous operation.</returns>
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        _rabbitMqClient.Consume(_queueName, async (message, token) =>
+        _rabbitMqClient.Consume(_queueName, async (message) =>
         {
             using var scope = _serviceProvider.CreateScope();
 

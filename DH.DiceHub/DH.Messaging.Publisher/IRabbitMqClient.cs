@@ -1,4 +1,6 @@
-﻿namespace DH.Messaging.Publisher;
+﻿using DH.Messaging.Publisher.Authentication;
+
+namespace DH.Messaging.Publisher;
 
 /// <summary>
 /// Interface for RabbitMQ client operations.
@@ -27,7 +29,7 @@ public interface IRabbitMqClient
     /// </summary>
     /// <param name="queueName">Name of the queue to consume messages from.</param>
     /// <param name="onMessageReceived">Callback to handle received messages.</param>
-    Task Consume(string queueName, Func<string, string, Task> onMessageReceived);
+    Task Consume(string queueName, Func<string, Task> onMessageReceived);
 
-    //string GetToken(string queueName, Func<string, string, Task> onMessageReceived);
+    IRabbitMqUserContext GetSender();
 }

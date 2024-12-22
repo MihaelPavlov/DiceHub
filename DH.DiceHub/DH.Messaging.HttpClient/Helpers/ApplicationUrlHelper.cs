@@ -1,4 +1,5 @@
 ﻿using DH.Messaging.HttpClient.Enums;
+using static System.Net.WebRequestMethods;
 
 namespace DH.Messaging.HttpClient.Helpers;
 
@@ -8,7 +9,7 @@ public static class ApplicationUrlHelper
     {
         return application switch
         {
-            ApplicationApi.Statistics => $"https://statistics",
+            ApplicationApi.Statistics => $"https://localhost:7030",
         };
     }
 }

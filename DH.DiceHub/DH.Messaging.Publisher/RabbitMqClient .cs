@@ -22,9 +22,9 @@ public class RabbitMqClient : IRabbitMqClient
     private readonly IRabbitMqUserContextFactory? _rabbitMqUserContextFactory;
 
     /// <summary>
-    /// Client Token that the publisher can use if it's want to send event from the consumer.
+    /// Rabbit Mq UserContext that the publisher can use if it's want to send event from the consumer.
     /// </summary>
-    private string? _clientToken;
+    private IRabbitMqUserContext? _rabbitMqUserContext;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="RabbitMqClient"/> class.
@@ -63,20 +63,20 @@ public class RabbitMqClient : IRabbitMqClient
         var body = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(message));
         var props = new BasicProperties().InitializeBasicProperties();
 
-        if (_rabbitMqUserContextFactory == null && this._clientToken != null)
+        if (_rabbitMqUserContextFactory == null && this._rabbitMqUserContext != null)
         {
-            props.AddUserToken(this._clientToken);
+            props.AddUserProps(this._rabbitMqUserContext);
         }
         else
         {
-            props.AddUserToken(this._rabbitMqUserContextFactory);
+            props.AddUserProps(this._rabbitMqUserContextFactory);
         }
 
         await _channel.BasicPublishAsync(exchange, routingKey, false, props, body);
     }
 
     /// <inheritdoc/>
-    public async Task Consume(string queueName, Func<string, string, Task> onMessageReceived)
+    public async Task Consume(string queueName, Func<string, Task> onMessageReceived)
     {
         await _channel.QueueDeclareAsync(queue: queueName, durable: true, exclusive: false, autoDelete: false, arguments: null);
 
@@ -86,10 +86,10 @@ public class RabbitMqClient : IRabbitMqClient
             var body = eventArgs.Body.ToArray();
             var message = Encoding.UTF8.GetString(body);
 
-            if (eventArgs.GetToken() is string token)
+            if (eventArgs.GetUserContextFromEvent() is IRabbitMqUserContext rabbitMqContext)
             {
-                SetupClientToken(token);
-                await onMessageReceived(message, token);
+                SetupRabbitMqUserContext(rabbitMqContext);
+                await onMessageReceived(message);
             }
         };
 
@@ -109,8 +109,16 @@ public class RabbitMqClient : IRabbitMqClient
     /// Sets the client token to be used in consuming messages.
     /// </summary>
     /// <param name="token">The client token.</param>
-    private void SetupClientToken(string token)
+    private void SetupRabbitMqUserContext(IRabbitMqUserContext rabbitMqUserContext)
     {
-        _clientToken = token;
+        _rabbitMqUserContext = rabbitMqUserContext;
+    }
+
+    public IRabbitMqUserContext GetSender()
+    {
+        if (_rabbitMqUserContextFactory == null && this._rabbitMqUserContext != null)
+            return this._rabbitMqUserContext;
+
+        throw new ArgumentException("The rabbit mq User Context is missing");
     }
 }

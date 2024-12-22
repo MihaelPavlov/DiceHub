@@ -81,9 +81,15 @@ public class UserController : ControllerBase
             var accessToken = authHeader.ToString().Split(' ').Last();
             try
             {
-                var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetValue<string>("JWT_SecrectKey") ?? throw new ArgumentException("JWT_SecretKey was not specified")));
-                var fe_url = configuration.GetValue<string>("Front_End_Application_URL")
-             ?? throw new ArgumentException("Front_End_Application_URL was not specified");
+                var apiAudiences = configuration.GetSection("APIs_Audience_URLs").Get<string[]>()
+                    ?? throw new ArgumentException("APIs_Audience_URLs was not specified");
+
+                var issuer = configuration.GetValue<string>("TokenIssuer")
+                    ?? throw new ArgumentException("TokenIssuer was not specified");
+
+                var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetValue<string>("JWT_SecretKey")
+                    ?? throw new ArgumentException("JWT_SecretKey was not specified")));
+
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var tokenValidationParameters = new TokenValidationParameters
                 {
@@ -91,8 +97,8 @@ public class UserController : ControllerBase
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = fe_url,
-                    ValidAudience = fe_url,
+                    ValidIssuer = issuer,
+                    ValidAudiences = apiAudiences,
                     IssuerSigningKey = secretKey
                 };
 

@@ -1,6 +1,5 @@
 ﻿using DH.Messaging.HttpClient.Enums;
 using Microsoft.Extensions.Logging;
-using System.IO;
 using System.Net.Http.Headers;
 using System.Net;
 using System.Text.Json;
@@ -15,7 +14,7 @@ public class AuthorizedHttpClient : IAuthorizedHttpClient
     static readonly JsonSerializerOptions JSON_OPTIONS = new() { PropertyNameCaseInsensitive = true };
     readonly ApplicationApi _application;
     readonly string _httpClientName;
-    readonly string _userSubject;
+    readonly string _userId;
     readonly string _userAccessToken;
     readonly Uri _applicationUri;
     readonly IHttpClientFactory _httpClientFactory;
@@ -27,7 +26,7 @@ public class AuthorizedHttpClient : IAuthorizedHttpClient
     {
         _application = application;
         _httpClientName = httpClientName;
-        _userSubject = userId;
+        _userId = userId;
         _userAccessToken = userAccessToken;
         _applicationUri = applicationUri;
         _httpClientFactory = httpClientFactory;
@@ -92,7 +91,7 @@ public class AuthorizedHttpClient : IAuthorizedHttpClient
     {
         if (isImpersonated)
         {
-            httpMessage.Headers.Add("B2Bsub", _userSubject);
+            httpMessage.Headers.Add("B2Bsub", _userId);
             httpMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _userAccessToken);
         }
         else

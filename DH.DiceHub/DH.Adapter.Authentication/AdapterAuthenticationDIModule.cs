@@ -112,8 +112,11 @@ public static class AuthenticationDIModule
             })
             .AddJwtBearer(options =>
             {
-                var fe_url = configuration.GetValue<string>("Front_End_Application_URL")
-                    ?? throw new ArgumentException("Front_End_Application_URL was not specified");
+                var apiAudiences = configuration.GetSection("APIs_Audience_URLs").Get<string[]>()
+                    ?? throw new ArgumentException("APIs_Audience_URLs was not specified");
+
+                var issuer = configuration.GetValue<string>("TokenIssuer")
+                    ?? throw new ArgumentException("TokenIssuer was not specified");
 
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
@@ -121,9 +124,9 @@ public static class AuthenticationDIModule
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = fe_url,
-                    ValidAudience = fe_url,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetValue<string>("JWT_SecrectKey")
+                    ValidIssuer = issuer,
+                    ValidAudiences = apiAudiences,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetValue<string>("JWT_SecretKey")
                         ?? throw new ArgumentException("JWT_SecretKey was not specified")))
                 };
             });

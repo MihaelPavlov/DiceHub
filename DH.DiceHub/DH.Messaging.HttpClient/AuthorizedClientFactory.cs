@@ -1,7 +1,6 @@
 ﻿using DH.Messaging.HttpClient.Enums;
 using DH.Messaging.HttpClient.Helpers;
 using Microsoft.Extensions.Logging;
-using System.Net.Http;
 
 namespace DH.Messaging.HttpClient;
 

@@ -1,4 +1,5 @@
-﻿using DH.Messaging.Publisher;
+﻿using DH.Messaging.HttpClient;
+using DH.Messaging.Publisher;
 using DH.ServiceBusWorker;
 using DH.Statistics.WorkerService;
 using DH.Statistics.WorkerService.Common;
@@ -69,6 +70,8 @@ public class Program
 
                 services.AddScopedRabbitMqWorker<PartProcessMessage, PartProcessHandler>(
                     rabbitMqConfig.Queues.ParticipationAgreementQueue);
+
+                services.AddCommunicationService();
             });
     }
 }

@@ -37,17 +37,25 @@ public class JwtService : IJwtService
     /// <inheritdoc/>
     public string GenerateAccessToken(IEnumerable<Claim> claims)
     {
-        var fe_url = configuration.GetValue<string>("Front_End_Application_URL")
-               ?? throw new ArgumentException("Front_End_Application_URL was not specified");
-        var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetValue<string>("JWT_SecrectKey") ?? throw new ArgumentException("JWT_SecretKey was not specified")));
+        var apiAudiences = configuration.GetSection("APIs_Audience_URLs").Get<string[]>()
+            ?? throw new ArgumentException("APIs_Audience_URLs was not specified");
+
+        var issuer = configuration.GetValue<string>("TokenIssuer")
+            ?? throw new ArgumentException("TokenIssuer was not specified");
+
+        var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetValue<string>("JWT_SecretKey")
+            ?? throw new ArgumentException("JWT_SecretKey was not specified")));
+
         var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
         var tokeOptions = new JwtSecurityToken(
-            issuer: fe_url,
-            audience: fe_url,
+            issuer: issuer,
             claims: claims,
             expires: DateTime.Now.AddDays(1),
             signingCredentials: signinCredentials
         );
+
+        tokeOptions.Payload["aud"] = apiAudiences;
+
         var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
         return tokenString;
     }
@@ -68,6 +76,7 @@ public class JwtService : IJwtService
     {
         if (tokens is null)
             throw new ArgumentNullException("Invalid client request");
+
         string accessToken = tokens.AccessToken;
         string refreshToken = tokens.RefreshToken;
 
@@ -75,16 +84,17 @@ public class JwtService : IJwtService
 
         var username = principal.Identity.Name; //this is mapped to the Name claim by default
         var user = await userManager.FindByNameAsync(username);
+
         if (user is null || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
             throw new ArgumentNullException("Invalid client request");
+
         var newAccessToken = GenerateAccessToken(principal.Claims);
         var newRefreshToken = GenerateRefreshToken();
-        user.RefreshToken = newRefreshToken;
-       var result =  await userManager.UpdateAsync(user);
-        if (result.Succeeded)
-        {
 
-        }
+        user.RefreshToken = newRefreshToken;
+
+        var result = await userManager.UpdateAsync(user);
+
         return new TokenResponseModel()
         {
             AccessToken = newAccessToken,
@@ -104,20 +114,31 @@ public class JwtService : IJwtService
     /// <returns>A <see cref="ClaimsPrincipal"/> representing the user.</returns>
     private ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
     {
-        var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetValue<string>("JWT_SecrectKey") ?? throw new ArgumentException("JWT_SecretKey was not specified")));
+        var apiAudiences = configuration.GetSection("APIs_Audience_URLs").Get<string[]>()
+            ?? throw new ArgumentException("APIs_Audience_URLs was not specified");
+
+        var issuer = configuration.GetValue<string>("TokenIssuer")
+            ?? throw new ArgumentException("TokenIssuer was not specified");
+
+        var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetValue<string>("JWT_SecrectKey")
+            ?? throw new ArgumentException("JWT_SecretKey was not specified")));
 
         var tokenValidationParameters = new TokenValidationParameters
         {
-            ValidateAudience = false, //you might want to validate the audience and issuer depending on your use case
-            ValidateIssuer = false,
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = secretKey,
-            ValidateLifetime = false //here we are saying that we don't care about the token's expiration date
+            ValidIssuer = issuer,
+            ValidAudiences = apiAudiences,
         };
+
         var tokenHandler = new JwtSecurityTokenHandler();
         SecurityToken securityToken;
         var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out securityToken);
         var jwtSecurityToken = securityToken as JwtSecurityToken;
+
         if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
             throw new SecurityTokenException("Invalid token");
         return principal;
