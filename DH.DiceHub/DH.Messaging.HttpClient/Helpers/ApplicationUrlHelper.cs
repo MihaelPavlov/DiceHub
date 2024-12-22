@@ -1,5 +1,4 @@
 ﻿using DH.Messaging.HttpClient.Enums;
-using static System.Net.WebRequestMethods;
 
 namespace DH.Messaging.HttpClient.Helpers;
 
