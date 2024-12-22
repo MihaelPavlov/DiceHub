@@ -1,27 +1,27 @@
-﻿using DH.Messaging.HttpClient.Enums;
+﻿using DH.Authentication.UserContext;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System.Security.Claims;
 
 namespace DH.Messaging.HttpClient.UserContext;
 
-public class B2bUserContextFactory : IB2bUserContextFactory
+public class UserContextFactory : IUserContextFactory
 {
-    IB2bUserContext? _defaultUserContext;
+    IUserContext? _defaultUserContext;
 
-    readonly ILogger<B2bUserContextFactory> _logger;
+    readonly ILogger<UserContextFactory> _logger;
     readonly IHttpContextAccessor _httpContextAccessor;
 
-    public B2bUserContextFactory(ILogger<B2bUserContextFactory> logger, IHttpContextAccessor httpContextAccessor)
+    public UserContextFactory(ILogger<UserContextFactory> logger, IHttpContextAccessor httpContextAccessor)
     {
         _logger = logger;
         _httpContextAccessor = httpContextAccessor;
     }
 
-    public IB2bUserContext CreateUserContext()
+    public IUserContext CreateUserContext()
     {
         if (_httpContextAccessor.HttpContext == null)
-            return _defaultUserContext ?? B2bUserContext.Empty;
+            return _defaultUserContext ?? UserContext.Empty;
 
         if (_httpContextAccessor.HttpContext.Request.Headers.Authorization.FirstOrDefault()?.StartsWith("Bearer ") ?? false)
         {
@@ -41,7 +41,7 @@ public class B2bUserContextFactory : IB2bUserContextFactory
                     accessToken = _httpContextAccessor.HttpContext.Request.Headers.Authorization.FirstOrDefault()?.Substring(7);
                 }
 
-                return new B2bUserContext(userId: userId,
+                return new UserContext(userId: userId,
                     roleKey: roleKey,
                     accessToken: accessToken);
             }
@@ -59,14 +59,14 @@ public class B2bUserContextFactory : IB2bUserContextFactory
             var userIdparsed = user.FindFirstValue(ClaimTypes.Sid);
             var roleKeyParsed = int.TryParse(user.FindFirstValue(ClaimTypes.Role), out int roleKey);
 
-            return new B2bUserContext(userId: userIdparsed ?? null,
+            return new UserContext(userId: userIdparsed ?? null,
                 roleKey: roleKeyParsed ? roleKey : null,
                 accessToken: user.FindFirstValue("accessToken"));
         }
         #endregion introduce a separate scope
     }
 
-    public void SetDefaultUserContext(IB2bUserContext defaultUserContext)
+    public void SetDefaultUserContext(IUserContext defaultUserContext)
     {
         _defaultUserContext = defaultUserContext;
     }

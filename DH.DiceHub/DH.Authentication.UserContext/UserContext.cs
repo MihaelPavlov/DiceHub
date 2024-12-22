@@ -1,14 +1,14 @@
 ﻿namespace DH.Messaging.HttpClient.UserContext;
 
-public class B2bUserContext : IB2bUserContext
+public class UserContext : IUserContext
 {
-    public static B2bUserContext Empty { get; } = new B2bUserContext(null, null, null);
+    public static UserContext Empty { get; } = new UserContext(null, null, null);
 
     private readonly string? _userId;
     private readonly int? _roleKey;
     private readonly string? _accessToken;
 
-    public B2bUserContext(string? userId, int? roleKey, string? accessToken)
+    public UserContext(string? userId, int? roleKey, string? accessToken)
     {
         _userId = userId;
         _roleKey = roleKey;

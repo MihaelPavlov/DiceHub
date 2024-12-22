@@ -1,4 +1,4 @@
-﻿namespace DH.Messaging.HttpClient.Enums;
+﻿namespace DH.Authentication.UserContext;
 
 public enum Role
 {

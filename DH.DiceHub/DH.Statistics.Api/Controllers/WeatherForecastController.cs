@@ -16,10 +16,10 @@ namespace DH.Statistics.Api.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
-        private readonly IB2bUserContext _userContext;
+        private readonly IUserContext _userContext;
         readonly IMediator mediator;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger, IB2bUserContext userContext, IMediator mediator)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, IUserContext userContext, IMediator mediator)
         {
             this.mediator = mediator;
             _logger = logger;

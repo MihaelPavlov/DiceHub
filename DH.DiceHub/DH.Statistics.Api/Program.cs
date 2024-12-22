@@ -1,4 +1,4 @@
-using DH.Messaging.HttpClient;
+using DH.Authentication.UserContext;
 using DH.Statistics.Application;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -10,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddApplication(builder.Configuration);
+builder.Services.AddUserContextService();
 
 builder.Services
     .AddAuthentication(opt =>
@@ -45,7 +46,7 @@ builder.Services.AddCors(options =>
 });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddAuthenticationService();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

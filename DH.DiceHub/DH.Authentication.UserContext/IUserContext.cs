@@ -1,6 +1,6 @@
 ﻿namespace DH.Messaging.HttpClient.UserContext;
 
-public interface IB2bUserContext
+public interface IUserContext
 {
     string UserId { get; }
     int RoleKey { get; }
