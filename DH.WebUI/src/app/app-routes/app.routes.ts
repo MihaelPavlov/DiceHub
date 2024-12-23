@@ -19,9 +19,9 @@ export const ROUTES: Routes = [
       {
         path: 'reservations',
         loadChildren: () =>
-          import('../../pages/reservation-management/reservation-management.module').then(
-            (m) => m.ReservationManagementModule
-          ),
+          import(
+            '../../pages/reservation-management/reservation-management.module'
+          ).then((m) => m.ReservationManagementModule),
         canActivate: [AuthGuard],
       },
       {
@@ -77,6 +77,12 @@ export const ROUTES: Routes = [
           import('../../pages/profile/profile.module').then(
             (m) => m.ProfileModule
           ),
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'charts',
+        loadChildren: () =>
+          import('../../pages/charts/charts.module').then((m) => m.ChartAppModule),
         canActivate: [AuthGuard],
       },
     ],
