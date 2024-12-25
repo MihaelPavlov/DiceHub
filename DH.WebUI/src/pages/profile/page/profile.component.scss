@@ -98,6 +98,11 @@
   width: 100%;
   margin: 2rem 0;
 
+  .separator {
+    display: flex;
+    margin: 2rem;
+    border-bottom: 0.2rem solid palette.$main-icon-color;
+  }
   .menu {
     display: grid;
     grid-template-columns: repeat(4, 1fr);

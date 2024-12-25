@@ -1,0 +1,49 @@
+<div class="wrapper_icons">
+  <span (click)="backNavigateBtn()" class="arrow left"></span>
+  <span class="header_name">Visitors Chart</span>
+  <div class="info-container">
+    <span class="material-symbols-outlined info" (click)="showMenu()">
+      info
+    </span>
+
+    <div class="info-description" *ngIf="isMenuVisible">
+      <span>
+        Here you are able to see all qr-codes that are related to the selected
+        game
+      </span>
+    </div>
+  </div>
+</div>
+<div class="wrapper">
+  <div class="input-field">
+    <label for="approx-time">Chart Type</label>
+
+    <ng-select
+      [items]="chartType"
+      id="approx-time"
+      bindValue="id"
+      bindLabel="name"
+      class="app-select-long"
+      [formControl]="visitorsChartType"
+    >
+    </ng-select>
+  </div>
+
+  <div class="date_stepper">
+    <span
+    class="material-symbols-outlined arrow left"
+    (click)="updateDateRange('backward')"
+  >
+    play_arrow
+  </span>
+
+  <span class="date blue">{{ (this.visitorsChartType.value ? getFormattedRange() : 'Select Chart Type')  }}</span>
+
+  <span
+    class="material-symbols-outlined arrow"
+    (click)="updateDateRange('forward')"
+  >
+    play_arrow
+  </span>
+  </div>
+</div>
