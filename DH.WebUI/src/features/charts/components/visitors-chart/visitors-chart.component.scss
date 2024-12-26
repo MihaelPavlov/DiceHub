@@ -73,7 +73,10 @@
 
 .wrapper {
   margin: 1rem;
-
+  .container {
+    padding: 1rem;
+  }
+  
   .input-field {
     label {
       text-align: center;
