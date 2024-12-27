@@ -13,6 +13,7 @@ import { MenuTabsService } from '../../../../shared/services/menu-tabs.service';
 import { NAV_ITEM_LABELS } from '../../../../shared/models/nav-items-labels.const';
 import { FormControl } from '@angular/forms';
 import { colors } from '../../consts/colors.const';
+import { ControlsMenuComponent } from '../../../../shared/components/menu/controls-menu.component';
 
 @Component({
   selector: 'reservations-chart',
@@ -23,7 +24,6 @@ export class ReservationsChartComponent implements AfterViewInit, OnDestroy {
   @ViewChild('reservationChartCanvas')
   private reservationChartCanvas!: ElementRef<HTMLCanvasElement>;
   private reservationChart: any;
-  public isMenuVisible: boolean = false;
   public fromDateControl = new FormControl(null);
   public toDateControl = new FormControl(null);
 
@@ -37,8 +37,8 @@ export class ReservationsChartComponent implements AfterViewInit, OnDestroy {
 
     Chart.register(ChartDataLabels, ...registerables);
   }
-  
-  public dateValidation():void{
+
+  public dateValidation(): void {
     // if toDateControl is changes, check if fromDateControl have value
     // if not
     //    show message the specifying from which date we start is important
@@ -57,8 +57,9 @@ export class ReservationsChartComponent implements AfterViewInit, OnDestroy {
     this.router.navigateByUrl('profile');
   }
 
-  public showMenu(): void {
-    this.isMenuVisible = !this.isMenuVisible;
+  public showMenu(event: MouseEvent, controlMenu: ControlsMenuComponent): void {
+    event.stopPropagation();
+    controlMenu.toggleMenu();
   }
 
   createReservationChartCanvas(colors): void {

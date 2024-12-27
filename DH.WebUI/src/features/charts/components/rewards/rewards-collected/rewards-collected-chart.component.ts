@@ -14,6 +14,7 @@ import { LoadingService } from '../../../../../shared/services/loading.service';
 import { MenuTabsService } from '../../../../../shared/services/menu-tabs.service';
 import { colors } from '../../../consts/colors.const';
 import { FormControl } from '@angular/forms';
+import { ControlsMenuComponent } from '../../../../../shared/components/menu/controls-menu.component';
 interface IRewardsDataChart {
   rewardName: string;
   collectionCount: number;
@@ -29,7 +30,6 @@ export class RewardsCollectedChartComponent
   @ViewChild('rewardsChartCanvas')
   private rewardsChartCanvas!: ElementRef<HTMLCanvasElement>;
   private rewardsChart: any;
-  public isMenuVisible: boolean = false;
   public fromDateControl = new FormControl(null);
   public toDateControl = new FormControl(null);
   public rewardsCount: number = 10;
@@ -66,8 +66,12 @@ export class RewardsCollectedChartComponent
     this.router.navigateByUrl('charts/rewards');
   }
 
-  public showMenu(): void {
-    this.isMenuVisible = !this.isMenuVisible;
+  public showMenu(
+    event: MouseEvent,
+    controlMenu: ControlsMenuComponent
+  ): void {
+    event.stopPropagation();
+    controlMenu.toggleMenu();
   }
 
   public createRewardsStatsChartCanvas(colors): void {

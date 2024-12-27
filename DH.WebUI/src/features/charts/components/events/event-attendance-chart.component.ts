@@ -12,6 +12,7 @@ import { LoadingService } from '../../../../shared/services/loading.service';
 import { MenuTabsService } from '../../../../shared/services/menu-tabs.service';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { FormControl } from '@angular/forms';
+import { ControlsMenuComponent } from '../../../../shared/components/menu/controls-menu.component';
 
 @Component({
   selector: 'event-attendance-chart',
@@ -22,9 +23,9 @@ export class EventAttendanceChartComponent implements AfterViewInit, OnDestroy {
   @ViewChild('eventAttendanceChartCanvas')
   private eventAttendanceChartCanvas!: ElementRef<HTMLCanvasElement>;
   private eventAttendanceChart: any;
-  public isMenuVisible: boolean = false;
   public fromDateControl = new FormControl(null);
   public toDateControl = new FormControl(null);
+
   constructor(
     private readonly loadingService: LoadingService,
     private readonly router: Router,
@@ -48,8 +49,9 @@ export class EventAttendanceChartComponent implements AfterViewInit, OnDestroy {
     this.router.navigateByUrl('profile');
   }
 
-  public showMenu(): void {
-    this.isMenuVisible = !this.isMenuVisible;
+  public showMenu(event: MouseEvent, controlMenu: ControlsMenuComponent): void {
+    event.stopPropagation();
+    controlMenu.toggleMenu();
   }
 
   public ngAfterViewInit(): void {

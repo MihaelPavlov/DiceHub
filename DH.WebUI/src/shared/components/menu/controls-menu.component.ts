@@ -10,7 +10,9 @@ import { IMenuItem } from '../../models/menu-item.model';
 export class ControlsMenuComponent {
   @Input() isVisible: boolean = false;
   @Input() menuItems!: Observable<IMenuItem[]>;
-
+  @Input() isInfo: boolean = false;
+  @Input() infoDescription: string = '';
+  
   @Output() menuItemClick = new EventEmitter<{
     value: string;
     event: MouseEvent;
@@ -27,7 +29,7 @@ export class ControlsMenuComponent {
     this.visibilityChange.emit(this.isVisible); // Notify parent if needed
   }
 
-  public toggleMenu(): void {    
+  public toggleMenu(): void {
     this.isVisible = !this.isVisible;
     this.visibilityChange.emit(this.isVisible);
   }

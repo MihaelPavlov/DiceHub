@@ -2,17 +2,12 @@
   <span (click)="backNavigateBtn()" class="arrow left"></span>
   <span class="header_name">Visitors Chart</span>
   <div class="info-container">
-    <span class="material-symbols-outlined info" (click)="showMenu()">
+    <span
+      class="material-symbols-outlined info"
+      (click)="showMenu($event, controls)"
+    >
       info
     </span>
-
-    <div class="info-description" *ngIf="isMenuVisible">
-      <span>
-        This chart displays the overall club activity, summarizing all actions
-        triggered by app users. You can view the data weekly, monthly, or yearly
-        based on your selected chart type.
-      </span>
-    </div>
   </div>
 </div>
 <div class="wrapper">
@@ -54,3 +49,12 @@
     <canvas #visitorActivityChartCanvas></canvas>
   </div>
 </div>
+
+<app-controls-menu
+  #controls
+  [isInfo]="true"
+  infoDescription="This chart displays the overall club activity, summarizing all actions
+  triggered by app users.
+  You can view the data weekly, monthly, or yearly
+  based on your selected chart type."
+></app-controls-menu>

@@ -2,6 +2,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { MenuTabsService } from '../../../../../shared/services/menu-tabs.service';
 import { Router } from '@angular/router';
 import { NAV_ITEM_LABELS } from '../../../../../shared/models/nav-items-labels.const';
+import { ControlsMenuComponent } from '../../../../../shared/components/menu/controls-menu.component';
 
 @Component({
   selector: 'rewards-layout-chart',
@@ -9,8 +10,6 @@ import { NAV_ITEM_LABELS } from '../../../../../shared/models/nav-items-labels.c
   styleUrl: 'rewards-charts-layout.component.scss',
 })
 export class RewardChartsLayoutComponent implements OnDestroy {
-  public isMenuVisible: boolean = false;
-
   constructor(
     private readonly menuTabsService: MenuTabsService,
     private readonly router: Router
@@ -26,15 +25,16 @@ export class RewardChartsLayoutComponent implements OnDestroy {
     this.router.navigateByUrl('profile');
   }
 
-  public showMenu(): void {
-    this.isMenuVisible = !this.isMenuVisible;
+  public showMenu(event: MouseEvent, controlMenu: ControlsMenuComponent): void {
+    event.stopPropagation();
+    controlMenu.toggleMenu();
   }
 
-  public navigateToExpiredCollectedChart():void{
-    this.router.navigateByUrl('charts/rewards/expired-collected')
+  public navigateToExpiredCollectedChart(): void {
+    this.router.navigateByUrl('charts/rewards/expired-collected');
   }
 
-  public navigateToCollectedRewardsChart():void{
-    this.router.navigateByUrl('charts/rewards/collected')
+  public navigateToCollectedRewardsChart(): void {
+    this.router.navigateByUrl('charts/rewards/collected');
   }
 }

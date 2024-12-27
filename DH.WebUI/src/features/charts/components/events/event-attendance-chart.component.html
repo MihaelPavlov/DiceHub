@@ -2,13 +2,12 @@
   <span (click)="backNavigateBtn()" class="arrow left"></span>
   <span class="header_name">Event Attendance Chart</span>
   <div class="info-container">
-    <span class="material-symbols-outlined info" (click)="showMenu()">
+    <span
+      class="material-symbols-outlined info"
+      (click)="showMenu($event, controls)"
+    >
       info
     </span>
-
-    <div class="info-description" *ngIf="isMenuVisible">
-      <span>Based on the selected dates you would see the events and the people attended to every event.</span>
-    </div>
   </div>
 </div>
 
@@ -28,3 +27,10 @@
     <canvas #eventAttendanceChartCanvas></canvas>
   </div>
 </div>
+
+<app-controls-menu
+  #controls
+  [isInfo]="true"
+  infoDescription="Based on the selected dates 
+  you would see the events and the people attended to every event."
+></app-controls-menu>

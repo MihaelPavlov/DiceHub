@@ -13,6 +13,7 @@ import { LoadingService } from '../../../../../shared/services/loading.service';
 import { MenuTabsService } from '../../../../../shared/services/menu-tabs.service';
 import { colors } from '../../../consts/colors.const';
 import { addDays, addYears, format } from 'date-fns';
+import { ControlsMenuComponent } from '../../../../../shared/components/menu/controls-menu.component';
 
 @Component({
   selector: 'collected-expired-rewards-chart',
@@ -25,9 +26,8 @@ export class CollectedExpiredRewardsChartComponent
   @ViewChild('rewardsChartCanvas')
   private rewardsChartCanvas!: ElementRef<HTMLCanvasElement>;
   private rewardsChart: any;
-  public isMenuVisible: boolean = false;
   public currentRangeStart: Date = new Date();
-  public currentRangeEnd: Date = addDays(this.currentRangeStart, 7);
+  
   constructor(
     private readonly loadingService: LoadingService,
     private readonly router: Router,
@@ -41,14 +41,18 @@ export class CollectedExpiredRewardsChartComponent
   public ngOnDestroy(): void {
     this.menuTabsService.resetData();
   }
+
   public ngAfterViewInit(): void {
     this.createRewardsChartCanvas(colors);
   }
+
   public backNavigateBtn(): void {
     this.router.navigateByUrl('charts/rewards');
   }
-  public showMenu(): void {
-    this.isMenuVisible = !this.isMenuVisible;
+
+  public showMenu(event: MouseEvent, controlMenu: ControlsMenuComponent): void {
+    event.stopPropagation();
+    controlMenu.toggleMenu();
   }
 
   public updateDateRange(direction: 'forward' | 'backward'): void {

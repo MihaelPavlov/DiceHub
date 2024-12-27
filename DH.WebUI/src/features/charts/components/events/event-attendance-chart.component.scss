@@ -41,7 +41,7 @@
     width: 70%;
     text-align: center;
   }
-  
+
   .info-container {
     position: relative;
 
@@ -50,39 +50,19 @@
       font-size: 3rem;
       color: palette.$main-blue-color;
     }
-
-    .info-description {
-      position: absolute;
-      right: 0.5rem;
-      top: 2.25rem;
-      background-color: palette.$main-gray-color;
-      padding: 0.5rem;
-      z-index: 1000;
-      width: 15rem;
-      text-align: center;
-    }
-
-    .info-description span {
-      width: 9rem;
-      text-align: center;
-      line-height: 2rem;
-      font-size: 1.2rem;
-    }
   }
 }
 
-
 .wrapper {
-    margin: 1rem;
-    margin-bottom: 10rem;
-    .container {
-      padding: 1rem;
-    }
-    
-    .input-field {
-      label {
-        text-align: center;
-      }
+  margin: 1rem;
+  margin-bottom: 10rem;
+  .container {
+    padding: 1rem;
+  }
+
+  .input-field {
+    label {
+      text-align: center;
     }
   }
-  
+}

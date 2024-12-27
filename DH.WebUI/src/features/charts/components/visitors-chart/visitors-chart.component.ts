@@ -16,6 +16,7 @@ import { Chart, registerables } from 'chart.js';
 import 'chartjs-adapter-date-fns';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { colors } from '../../consts/colors.const';
+import { ControlsMenuComponent } from '../../../../shared/components/menu/controls-menu.component';
 
 interface IDropdown {
   id: number;
@@ -45,7 +46,6 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
       name: 'Yearly',
     },
   ];
-  public isMenuVisible: boolean = false;
   public visitorsChartType = new FormControl(1);
   public currentRangeStart: Date = this.getStartOfWeek();
   public currentRangeEnd: Date = addDays(this.currentRangeStart, 6);
@@ -81,8 +81,9 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
     this.router.navigateByUrl('profile');
   }
 
-  public showMenu(): void {
-    this.isMenuVisible = !this.isMenuVisible;
+  public showMenu(event: MouseEvent, controlMenu: ControlsMenuComponent): void {
+    event.stopPropagation();
+    controlMenu.toggleMenu();
   }
 
   public createVisitorWeekActivityChartCanvas(colors): void {

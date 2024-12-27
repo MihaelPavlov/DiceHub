@@ -2,13 +2,12 @@
   <span (click)="backNavigateBtn()" class="arrow left"></span>
   <span class="header_name">Collected Rewards Chart</span>
   <div class="info-container">
-    <span class="material-symbols-outlined info" (click)="showMenu()">
+    <span
+      class="material-symbols-outlined info"
+      (click)="showMenu($event, controls)"
+    >
       info
     </span>
-
-    <div class="info-description" *ngIf="isMenuVisible">
-      <span> All rewards and it's collected count for the selected dates </span>
-    </div>
   </div>
 </div>
 
@@ -32,3 +31,9 @@
     <canvas #rewardsChartCanvas></canvas>
   </div>
 </div>
+
+<app-controls-menu
+  #controls
+  [isInfo]="true"
+  infoDescription="All rewards and it's collected count for the selected dates"
+></app-controls-menu>

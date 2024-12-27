@@ -2,17 +2,12 @@
   <span (click)="backNavigateBtn()" class="arrow left"></span>
   <span class="header_name">Collected/Expired Rewards Chart</span>
   <div class="info-container">
-    <span class="material-symbols-outlined info" (click)="showMenu()">
+    <span
+      class="material-symbols-outlined info"
+      (click)="showMenu($event, controls)"
+    >
       info
     </span>
-
-    <div class="info-description" *ngIf="isMenuVisible">
-      <span>
-        This chart displays the total collected and expired rewards for each
-        month. It provides an overview for the entire year, with the ability to
-        switch between different years using the navigation arrows.
-      </span>
-    </div>
   </div>
 </div>
 <div class="wrapper">
@@ -38,3 +33,12 @@
     <canvas #rewardsChartCanvas></canvas>
   </div>
 </div>
+
+<app-controls-menu
+  #controls
+  [isInfo]="true"
+  infoDescription="This chart displays the total collected and expired rewards for each month.
+  It provides an overview for the entire year,
+  with the ability to
+  switch between different years using the navigation arrows."
+></app-controls-menu>
