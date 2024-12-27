@@ -82,24 +82,4 @@
       text-align: center;
     }
   }
-  .date_stepper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    .date {
-      font-weight: 700;
-    }
-    .arrow {
-      font-size: 4rem;
-    }
-
-    .left {
-      transform: rotate(180deg);
-    }
-
-    .blue {
-      color: palette.$main-blue-color;
-    }
-  }
 }

@@ -42,7 +42,10 @@ export class ProfileComponent implements OnDestroy {
 
   public navigateToVisitorChart():void{
     this.router.navigateByUrl('charts/visitors');
+  }
 
+  public navigateToReservationsChart():void{
+    this.router.navigateByUrl('charts/reservations');
   }
 
   public backNavigateBtn() {}

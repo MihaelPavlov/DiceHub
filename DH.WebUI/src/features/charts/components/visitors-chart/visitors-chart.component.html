@@ -8,8 +8,9 @@
 
     <div class="info-description" *ngIf="isMenuVisible">
       <span>
-        Here you are able to see all qr-codes that are related to the selected
-        game
+        This chart displays the overall club activity, summarizing all actions
+        triggered by app users. You can view the data weekly, monthly, or yearly
+        based on your selected chart type.
       </span>
     </div>
   </div>
@@ -31,20 +32,22 @@
 
   <div class="date_stepper">
     <span
-    class="material-symbols-outlined arrow left"
-    (click)="updateDateRange('backward')"
-  >
-    play_arrow
-  </span>
+      class="material-symbols-outlined arrow left"
+      (click)="updateDateRange('backward')"
+    >
+      play_arrow
+    </span>
 
-  <span class="date blue">{{ (this.visitorsChartType.value ? getFormattedRange() : 'Select Chart Type')  }}</span>
+    <span class="date blue">{{
+      this.visitorsChartType.value ? getFormattedRange() : "Select Chart Type"
+    }}</span>
 
-  <span
-    class="material-symbols-outlined arrow"
-    (click)="updateDateRange('forward')"
-  >
-    play_arrow
-  </span>
+    <span
+      class="material-symbols-outlined arrow"
+      (click)="updateDateRange('forward')"
+    >
+      play_arrow
+    </span>
   </div>
 
   <div class="container" style="width: 100%; height: 20rem">

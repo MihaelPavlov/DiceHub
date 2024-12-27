@@ -1,0 +1,33 @@
+<div class="wrapper_icons">
+  <span (click)="backNavigateBtn()" class="arrow left"></span>
+  <span class="header_name">Reservations Chart</span>
+  <div class="info-container">
+    <span class="material-symbols-outlined info" (click)="showMenu()">
+      info
+    </span>
+
+    <div class="info-description" *ngIf="isMenuVisible">
+      <span>
+        View detailed statistics of reservations. The chart differentiates
+        between successful bookings and those canceled or unfulfilled due to
+        no-shows.
+      </span>
+    </div>
+  </div>
+</div>
+<div class="wrapper">
+  <div class="input-group">
+    <div class="input-field">
+      <label for="fromDate">From Date</label>
+      <input type="date" id="fromDate" [formControl]="fromDateControl" />
+    </div>
+    <div class="input-field">
+      <label for="toDate">To Date</label>
+      <input type="date" id="toDate" [formControl]="toDateControl" />
+    </div>
+  </div>
+
+  <div class="container" style="width: 100%; height: 20rem">
+    <canvas #reservationChartCanvas></canvas>
+  </div>
+</div>

@@ -1,5 +1,11 @@
 import { timer } from 'rxjs';
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnDestroy,
+  ViewChild,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { NAV_ITEM_LABELS } from '../../../../shared/models/nav-items-labels.const';
 import { MenuTabsService } from '../../../../shared/services/menu-tabs.service';
@@ -21,10 +27,10 @@ interface IDropdown {
   templateUrl: 'visitors-chart.component.html',
   styleUrl: 'visitors-chart.component.scss',
 })
-export class VisitorsChartComponent  implements AfterViewInit{
+export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
   @ViewChild('visitorActivityChartCanvas')
   private visitorActivityChartCanvas!: ElementRef<HTMLCanvasElement>;
-  public visitorActivityChart: any;
+  private visitorActivityChart: any;
   public chartType: IDropdown[] = [
     {
       id: 1,
@@ -55,6 +61,10 @@ export class VisitorsChartComponent  implements AfterViewInit{
   }
   public ngAfterViewInit(): void {
     this.createVisitorWeekActivityChartCanvas(colors);
+  }
+
+  public ngOnDestroy(): void {
+    this.menuTabsService.resetData();
   }
 
   public backNavigateBtn(): void {
