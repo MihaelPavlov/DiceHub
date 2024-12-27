@@ -1,0 +1,28 @@
+<div class="wrapper_icons">
+  <span (click)="backNavigateBtn()" class="arrow left"></span>
+  <span class="header_name">Reward Charts</span>
+  <div class="info-container">
+    <span class="material-symbols-outlined info" (click)="showMenu()">
+      info
+    </span>
+
+    <div class="info-description" *ngIf="isMenuVisible">
+      <span> All available charts related to rewards </span>
+    </div>
+  </div>
+</div>
+
+<div class="wrapper_tabs">
+  <div class="wrapper_tabs__tab" (click)="navigateToExpiredCollectedChart()">
+      <div class="info">
+        <span class="material-symbols-outlined"> finance </span>
+      </div>
+    <span class="wrapper_tabs__tab-header">Expired & Collected</span>
+  </div>
+  <div class="wrapper_tabs__tab">
+      <div class="info">
+        <span class="material-symbols-outlined"> bar_chart </span>
+      </div>
+    <span class="wrapper_tabs__tab-header">Rewards Uses</span>
+  </div>
+</div>

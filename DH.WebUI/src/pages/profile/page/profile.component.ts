@@ -48,5 +48,9 @@ export class ProfileComponent implements OnDestroy {
     this.router.navigateByUrl('charts/reservations');
   }
 
+  public navigateToRewardCharts():void{
+    this.router.navigateByUrl('charts/rewards');
+  }
+
   public backNavigateBtn() {}
 }

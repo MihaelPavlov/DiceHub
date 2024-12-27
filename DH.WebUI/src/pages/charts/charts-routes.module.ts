@@ -3,6 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { Chart2Component } from './page/chart.component';
 import { VisitorsChartComponent } from '../../features/charts/components/visitors-chart/visitors-chart.component';
 import { ReservationsChartComponent } from '../../features/charts/components/reservations/reservations-chart.component';
+import { CollectedExpiredRewardsChartComponent } from '../../features/charts/components/rewards/collected-expired-rewards/collected-expired-rewards-chart.component';
+import { RewardChartsLayoutComponent } from '../../features/charts/components/rewards/rewards-charts-layout/rewards-charts-layout.component';
 
 const routes: Routes = [
   {
@@ -16,6 +18,11 @@ const routes: Routes = [
   {
     path: 'reservations',
     component: ReservationsChartComponent,
+  },
+  { path: 'rewards', component: RewardChartsLayoutComponent },
+  {
+    path: 'rewards/expired-collected',
+    component: CollectedExpiredRewardsChartComponent,
   },
 ];
 
