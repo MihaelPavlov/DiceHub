@@ -47,8 +47,8 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
   ];
   public isMenuVisible: boolean = false;
   public visitorsChartType = new FormControl(1);
-  public currentRangeStart: Date = new Date();
-  public currentRangeEnd: Date = addDays(this.currentRangeStart, 7);
+  public currentRangeStart: Date = this.getStartOfWeek();
+  public currentRangeEnd: Date = addDays(this.currentRangeStart, 6);
 
   constructor(
     private readonly menuTabsService: MenuTabsService,
@@ -58,6 +58,16 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
     Chart.register(ChartDataLabels, ...registerables);
     this.menuTabsService.setActive(NAV_ITEM_LABELS.PROFILE);
     this.visitorsChartType.valueChanges.subscribe(() => this.resetDateRange());
+  }
+
+  public getStartOfWeek(): Date {
+    const date = new Date();
+    const day = date.getDay();
+    const diff = day === 0 ? -6 : 1 - day; // Adjust for Sunday (0) and other days
+    const startOfWeek = new Date(date);
+    startOfWeek.setDate(date.getDate() + diff);
+    startOfWeek.setHours(0, 0, 0, 0); // Set time to 00:00:00.000
+    return startOfWeek;
   }
   public ngAfterViewInit(): void {
     this.createVisitorWeekActivityChartCanvas(colors);
@@ -78,16 +88,13 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
   public createVisitorWeekActivityChartCanvas(colors): void {
     // Hardcoded visitor activity data
     const activityDataByWeek = [
-      { userCount: 1, dateTime: '2024-12-21T10:30:00Z' },
-      { userCount: 2, dateTime: '2024-12-22T10:45:00Z' },
       { userCount: 1, dateTime: '2024-12-23T11:00:00Z' },
       { userCount: 2, dateTime: '2024-12-24T11:30:00Z' },
       { userCount: 3, dateTime: '2024-12-25T11:15:00Z' },
       { userCount: 3, dateTime: '2024-12-26T12:00:00Z' },
       { userCount: 30, dateTime: '2024-12-27T12:15:00Z' },
-      { userCount: 1, dateTime: '2024-12-28T11:45:00Z' },
-      { userCount: 5, dateTime: '2024-12-29T12:00:00Z' }, // Visit in December (month)
-      { userCount: 1000, dateTime: '2024-12-30T12:30:00Z' }, // Visit in December (month)
+      { userCount: 0, dateTime: '2024-12-28T11:45:00Z' },
+      { userCount: 0, dateTime: '2024-12-29T12:00:00Z' },
     ];
     console.log(this.visitorActivityChartCanvas);
 
@@ -535,8 +542,8 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
     if (selectedType === 1) {
       // Weekly
 
-      this.currentRangeStart = new Date();
-      this.currentRangeEnd = addDays(this.currentRangeStart, 7);
+      this.currentRangeStart = this.getStartOfWeek();
+      this.currentRangeEnd = addDays(this.currentRangeStart, 6);
 
       console.log('weekly -> ', this.currentRangeStart, this.currentRangeEnd);
       this.createVisitorWeekActivityChartCanvas(colors);
