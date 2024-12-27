@@ -33,4 +33,8 @@ export class RewardChartsLayoutComponent implements OnDestroy {
   public navigateToExpiredCollectedChart():void{
     this.router.navigateByUrl('charts/rewards/expired-collected')
   }
+
+  public navigateToCollectedRewardsChart():void{
+    this.router.navigateByUrl('charts/rewards/collected')
+  }
 }

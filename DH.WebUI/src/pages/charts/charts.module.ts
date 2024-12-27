@@ -8,6 +8,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { ReservationsChartComponent } from '../../features/charts/components/reservations/reservations-chart.component';
 import { CollectedExpiredRewardsChartComponent } from '../../features/charts/components/rewards/collected-expired-rewards/collected-expired-rewards-chart.component';
 import { RewardChartsLayoutComponent } from '../../features/charts/components/rewards/rewards-charts-layout/rewards-charts-layout.component';
+import { RewardsCollectedChartComponent } from '../../features/charts/components/rewards/rewards-collected/rewards-collected-chart.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { RewardChartsLayoutComponent } from '../../features/charts/components/re
     VisitorsChartComponent,
     ReservationsChartComponent,
     CollectedExpiredRewardsChartComponent,
-    RewardChartsLayoutComponent
+    RewardChartsLayoutComponent,
+    RewardsCollectedChartComponent
   ],
   exports: [],
   providers: [],
