@@ -1,13 +1,13 @@
 <div class="wrapper_icons">
   <span (click)="backNavigateBtn()" class="arrow left"></span>
-  <span class="header_name">Collected Rewards Chart</span>
+  <span class="header_name">Event Attendance Chart</span>
   <div class="info-container">
     <span class="material-symbols-outlined info" (click)="showMenu()">
       info
     </span>
 
     <div class="info-description" *ngIf="isMenuVisible">
-      <span> All rewards and it's collected count for the selected dates </span>
+      <span>Based on the selected dates you would see the events and the people attended to every event.</span>
     </div>
   </div>
 </div>
@@ -24,11 +24,7 @@
     </div>
   </div>
 
-  <div
-    class="container"
-    style="width: 100%"
-    [style.height.rem]="rewardsCount * 1.75"
-  >
-    <canvas #rewardsChartCanvas></canvas>
+  <div class="container" style="width: 100%; height: 35rem">
+    <canvas #eventAttendanceChartCanvas></canvas>
   </div>
 </div>

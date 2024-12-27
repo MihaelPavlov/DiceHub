@@ -34,10 +34,7 @@ export class Chart2Component implements AfterViewInit {
   rewardsStatsChart: any;
 
   constructor() {
-    Chart.register(
-      ChartDataLabels,
-      ...registerables
-    );
+    Chart.register(ChartDataLabels, ...registerables);
   }
   ngAfterViewInit(): void {
     this.loadAllCharts();
@@ -696,6 +693,30 @@ export class Chart2Component implements AfterViewInit {
     const eventColors = attendanceData.map((_, index) =>
       this.generateColor(index)
     );
+    const plugin = {
+      id: 'customCanvasBackgroundImage',
+      beforeDraw: (chart) => {
+        const ctx = chart.ctx;
+        const { top, left, width, height } = chart.chartArea;
+        const centerX = left + width / 2;
+        const centerY = top + height / 2;
+
+        // You can adjust this value or pass a dynamic value for the number
+        const numberToDisplay = `${attendanceData.length} Events`; // Example number
+
+        // Set text style
+        ctx.save();
+        ctx.font = 'bold 24px Arial'; // Customize font size and style
+        ctx.fillStyle = 'white'; // Text color
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+
+        // Draw the number in the center
+        ctx.fillText(numberToDisplay, centerX, centerY);
+
+        ctx.restore();
+      },
+    };
     this.eventAttendanceChart = new Chart(ctx, {
       type: 'doughnut',
       data: {
@@ -714,6 +735,7 @@ export class Chart2Component implements AfterViewInit {
           },
         ],
       },
+      plugins:[plugin],
       options: {
         responsive: true,
         maintainAspectRatio: false,

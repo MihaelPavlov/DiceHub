@@ -6,6 +6,7 @@ import { ReservationsChartComponent } from '../../features/charts/components/res
 import { CollectedExpiredRewardsChartComponent } from '../../features/charts/components/rewards/collected-expired-rewards/collected-expired-rewards-chart.component';
 import { RewardChartsLayoutComponent } from '../../features/charts/components/rewards/rewards-charts-layout/rewards-charts-layout.component';
 import { RewardsCollectedChartComponent } from '../../features/charts/components/rewards/rewards-collected/rewards-collected-chart.component';
+import { EventAttendanceChartComponent } from '../../features/charts/components/events/event-attendance-chart.component';
 
 const routes: Routes = [
   {
@@ -28,6 +29,10 @@ const routes: Routes = [
   {
     path: 'rewards/collected',
     component: RewardsCollectedChartComponent,
+  },
+  {
+    path: 'events',
+    component: EventAttendanceChartComponent,
   },
 ];
 
