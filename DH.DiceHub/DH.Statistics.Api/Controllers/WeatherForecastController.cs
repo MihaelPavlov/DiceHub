@@ -1,43 +1,42 @@
-using DH.Messaging.HttpClient.UserContext;
 using DH.Statistics.Application;
+using DH.Statistics.Domain.Exceptions;
+using DH.Statistics.Domain.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static DH.Statistics.Domain.Exceptions.ValidationErrorsException;
 
-namespace DH.Statistics.Api.Controllers
+namespace DH.Statistics.Api.Controllers;
+
+[ApiController]
+[Route("[controller]")]
+public class WeatherForecastController : ControllerBase
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class WeatherForecastController : ControllerBase
+    readonly IMediator mediator;
+
+    public WeatherForecastController(IMediator mediator)
     {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
+        this.mediator = mediator;
+    }
 
-        private readonly ILogger<WeatherForecastController> _logger;
-        private readonly IUserContext _userContext;
-        readonly IMediator mediator;
+    [HttpGet]
+    [Authorize]
+    public async Task<IActionResult> Get()
+    {
+        var errors = new List<ValidationError>();
+        errors.Add(new ValidationError("Email", "Invalid Email"));
+        errors.Add(new ValidationError("Email", "Email already exists"));
+        errors.Add(new ValidationError("Phone", "Invalid Phone number"));
+        throw new ValidationErrorsException(errors);
+        return Ok();
+    }
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger, IUserContext userContext, IMediator mediator)
-        {
-            this.mediator = mediator;
-            _logger = logger;
-            _userContext = userContext;
-        }
-
-        [HttpGet]
-        [Authorize]
-        public async Task<IEnumerable<WeatherForecast>> Get()
-        {
-            await this.mediator.Send(new CreateStatisticCommand(), CancellationToken.None);
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
-        }
+    [HttpPost]
+    [Authorize]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OperationResult<int>))]
+    public async Task<IActionResult> CreateLog([FromBody] CreateClubVisitorLogRequest request, CancellationToken cancellationToken)
+    {
+        var result = await this.mediator.Send(new CreateClubVisitorLogCommand(request), cancellationToken);
+        return Ok(result);
     }
 }

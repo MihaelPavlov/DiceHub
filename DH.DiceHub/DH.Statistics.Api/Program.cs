@@ -1,4 +1,5 @@
 using DH.Authentication.UserContext;
+using DH.Statistics.Api.Filters;
 using DH.Statistics.Application;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -8,7 +9,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<ApiExceptionFilterAttribute>();
+    options.Filters.Add<ValidationFilterAttribute>();
+});
 builder.Services.AddApplication(builder.Configuration);
 builder.Services.AddUserContextService();
 

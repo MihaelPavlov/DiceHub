@@ -8,6 +8,6 @@ public static class DI
 {
     public static void AddApplication(this IServiceCollection services, IConfiguration configuration) 
         => services
-            .AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(CreateStatisticCommand).Assembly))
+            .AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(CreateClubVisitorLogCommand).Assembly))
             .AddStatisticsData(configuration);
 }
