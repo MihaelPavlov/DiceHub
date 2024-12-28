@@ -10,6 +10,7 @@ using DH.Domain.Enums;
 using DH.Domain.Exceptions;
 using DH.Domain.Repositories;
 using DH.Domain.Services;
+using DH.Domain.Services.Publisher;
 
 namespace DH.Adapter.QRManager.QRCodeStates;
 
@@ -23,8 +24,10 @@ public class GameReservationQRCodeState : IQRCodeState
     readonly ISpaceTableService spaceTableService;
     readonly SynchronizeGameSessionQueue queue;
     readonly IJobManager jobManager;
+    readonly IEventPublisherService eventPublisherService;
 
-    public GameReservationQRCodeState(IUserContext userContext, IRepository<GameReservation> gameReservationRepository, IRepository<SpaceTableReservation> tableReservationRepository, IUserService userService, ISpaceTableService spaceTableService, SynchronizeGameSessionQueue queue, IJobManager jobManager, IRepository<Game> gameRepository)
+    public GameReservationQRCodeState(IUserContext userContext, IRepository<GameReservation> gameReservationRepository, IRepository<SpaceTableReservation> tableReservationRepository,
+        IUserService userService, ISpaceTableService spaceTableService, SynchronizeGameSessionQueue queue, IJobManager jobManager, IRepository<Game> gameRepository, IEventPublisherService eventPublisherService)
     {
         this.userContext = userContext;
         this.gameReservationRepository = gameReservationRepository;
@@ -34,6 +37,7 @@ public class GameReservationQRCodeState : IQRCodeState
         this.queue = queue;
         this.jobManager = jobManager;
         this.gameRepository = gameRepository;
+        this.eventPublisherService = eventPublisherService;
     }
 
     public async Task<QrCodeValidationResult> HandleAsync(IQRCodeContext context, QRReaderModel data, CancellationToken cancellationToken)
@@ -94,6 +98,9 @@ public class GameReservationQRCodeState : IQRCodeState
         this.queue.AddUserPlayTimEnforcerJob(this.userContext.UserId, game.Id, DateTime.UtcNow.AddMinutes((int)game.AveragePlaytime));
 
         await context.TrackScannedQrCode(traceId, data, null, cancellationToken);
+
+        await this.eventPublisherService.PublishClubActivityDetectedMessage();
+
         await this.jobManager.DeleteJob($"ExpireReservationJob-{gameReservation.Id}", "ReservationJobs");
 
         result.IsValid = true;

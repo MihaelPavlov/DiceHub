@@ -23,9 +23,9 @@ public class Program
         return Host.CreateDefaultBuilder(args)
             .ConfigureServices((hostBuilderContext, services) =>
             {
-                // Bind RabbitMQ settings from appsettings.json
+                // Bind RabbitMQ settings from app-settings.json
                 var rabbitMqConfig = hostBuilderContext.Configuration.GetSection("RabbitMq").Get<RabbitMqOptions>()
-                    ?? throw new ConfigurationErrorsException("Failed to load RabbitMQ configuration. Ensure 'RabbitMq' section exists in appsettings.json.");
+                    ?? throw new ConfigurationErrorsException("Failed to load RabbitMQ configuration. Ensure 'RabbitMq' section exists in app-settings.json.");
 
                 if (string.IsNullOrEmpty(rabbitMqConfig.HostName))
                     throw new ConfigurationErrorsException("RabbitMQ HostName is missing in the configuration.");
@@ -33,12 +33,12 @@ public class Program
                 if (string.IsNullOrEmpty(rabbitMqConfig.ExchangeName))
                     throw new ConfigurationErrorsException("RabbitMQ ExchangeName is missing in the configuration.");
 
-                if (string.IsNullOrEmpty(rabbitMqConfig.Queues?.ParticipationAgreementQueue))
-                    throw new ConfigurationErrorsException("RabbitMQ ParticipationAgreementQueue is missing in the configuration.");
+                if (string.IsNullOrEmpty(rabbitMqConfig.Queues?.StatisticsQueue))
+                    throw new ConfigurationErrorsException("RabbitMQ StatisticsQueue is missing in the configuration.");
 
                 var missingRoutingKeys = new List<string>();
-                if (string.IsNullOrEmpty(rabbitMqConfig.RoutingKeys?.ParticipationAgreementActivated))
-                    missingRoutingKeys.Add(nameof(rabbitMqConfig.RoutingKeys.ParticipationAgreementActivated));
+                if (string.IsNullOrEmpty(rabbitMqConfig.RoutingKeys?.ClubActivityDetected))
+                    missingRoutingKeys.Add(nameof(rabbitMqConfig.RoutingKeys.ClubActivityDetected));
                 if (string.IsNullOrEmpty(rabbitMqConfig.RoutingKeys?.PartProcess))
                     missingRoutingKeys.Add(nameof(rabbitMqConfig.RoutingKeys.PartProcess));
 
@@ -53,23 +53,23 @@ public class Program
                     // Set up queues and bindings with specific routing keys
                     client.Setup(
                         rabbitMqConfig.ExchangeName,
-                        rabbitMqConfig.Queues.ParticipationAgreementQueue,
-                        rabbitMqConfig.RoutingKeys!.ParticipationAgreementActivated);
+                        rabbitMqConfig.Queues.StatisticsQueue,
+                        rabbitMqConfig.RoutingKeys!.ClubActivityDetected);
 
                     client.Setup(
                         rabbitMqConfig.ExchangeName,
-                        rabbitMqConfig.Queues.ParticipationAgreementQueue,
+                        rabbitMqConfig.Queues.StatisticsQueue,
                         rabbitMqConfig.RoutingKeys.PartProcess);
 
                     return client;
                 });
 
                 // Add RabbitMQ Workers
-                services.AddScopedRabbitMqWorker<ParticipationAgreementActivatedMessage, ParticipationAgreementActivatedHandler>(
-                    rabbitMqConfig.Queues.ParticipationAgreementQueue);
+                services.AddScopedRabbitMqWorker<ClubActivityDetectedMessage, ClubActivityDetectedHandler>(
+                    rabbitMqConfig.Queues.StatisticsQueue);
 
                 services.AddScopedRabbitMqWorker<PartProcessMessage, PartProcessHandler>(
-                    rabbitMqConfig.Queues.ParticipationAgreementQueue);
+                    rabbitMqConfig.Queues.StatisticsQueue);
 
                 services.AddCommunicationService();
             });

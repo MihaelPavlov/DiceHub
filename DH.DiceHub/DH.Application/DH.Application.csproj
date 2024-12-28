@@ -14,7 +14,6 @@
   <ItemGroup>
     <ProjectReference Include="..\DH.Domain\DH.Domain.csproj" />
     <ProjectReference Include="..\DH.Messaging.Publisher\DH.Messaging.Publisher.csproj" />
-    <ProjectReference Include="..\DH.Statistics.WorkerService\DH.Statistics.WorkerService.csproj" />
   </ItemGroup>
 
 </Project>

@@ -3,6 +3,7 @@ using DH.Domain.Adapters.GameSession;
 using DH.Domain.Entities;
 using DH.Domain.Exceptions;
 using DH.Domain.Repositories;
+using DH.Domain.Services.Publisher;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
@@ -14,25 +15,28 @@ internal class JoinSpaceTableCommandHandler : IRequestHandler<JoinSpaceTableComm
 {
     readonly IRepository<SpaceTable> spaceTableRepository;
     readonly IRepository<SpaceTableParticipant> spaceTableParticipantRepository;
-    readonly IRepository<Game> gameRepostory;
+    readonly IRepository<Game> gameRepository;
     readonly IUserContext userContext;
     readonly SynchronizeGameSessionQueue queue;
     readonly ILogger<JoinSpaceTableCommandHandler> logger;
+    readonly IEventPublisherService eventPublisherService;
 
     public JoinSpaceTableCommandHandler(
         IRepository<SpaceTable> spaceTableRepository,
         IRepository<SpaceTableParticipant> spaceTableParticipantRepository,
-        IRepository<Game> gameRepostory,
+        IRepository<Game> gameRepository,
         IUserContext userContext,
         SynchronizeGameSessionQueue queue,
-        ILogger<JoinSpaceTableCommandHandler> logger)
+        ILogger<JoinSpaceTableCommandHandler> logger,
+        IEventPublisherService eventPublisherService)
     {
         this.spaceTableRepository = spaceTableRepository;
         this.spaceTableParticipantRepository = spaceTableParticipantRepository;
-        this.gameRepostory = gameRepostory;
+        this.gameRepository = gameRepository;
         this.userContext = userContext;
         this.queue = queue;
         this.logger = logger;
+        this.eventPublisherService = eventPublisherService;
     }
 
     public async Task Handle(JoinSpaceTableCommand request, CancellationToken cancellationToken)
@@ -58,7 +62,7 @@ internal class JoinSpaceTableCommandHandler : IRequestHandler<JoinSpaceTableComm
         await this.spaceTableRepository.SaveChangesAsync(cancellationToken);
 
         var traceId = Guid.NewGuid().ToString();
-        var game = await this.gameRepostory.GetByAsync(x => x.Id == spaceTable.GameId, cancellationToken);
+        var game = await this.gameRepository.GetByAsync(x => x.Id == spaceTable.GameId, cancellationToken);
 
         if (game == null)
         {
@@ -67,5 +71,7 @@ internal class JoinSpaceTableCommandHandler : IRequestHandler<JoinSpaceTableComm
         }
 
         this.queue.AddUserPlayTimEnforcerJob(this.userContext.UserId, game!.Id, DateTime.UtcNow.AddMinutes((int)game.AveragePlaytime));
+
+        await this.eventPublisherService.PublishClubActivityDetectedMessage();
     }
 }

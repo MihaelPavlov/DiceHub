@@ -2,6 +2,6 @@
 
 public class RabbitMqRoutingKeys
 {
-    public string ParticipationAgreementActivated { get; set; } = string.Empty;
+    public string ClubActivityDetected { get; set; } = string.Empty;
     public string PartProcess { get; set; } = string.Empty;
 }

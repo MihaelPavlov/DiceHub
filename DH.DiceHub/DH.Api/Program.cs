@@ -20,6 +20,9 @@ using DH.Adapter.Reservations;
 using DH.Messaging.Publisher;
 using DH.Domain.Adapters.Authentication;
 using DH.Messaging.Publisher.Authentication;
+using DH.Domain.Models.Common;
+using DH.Domain.Services.Publisher;
+using DH.Application.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,6 +47,7 @@ builder.Services.AddCors(options =>
 });
 builder.Services.AddScoped<IWebRootPathHelper, WebRootPathHelper>();
 builder.Services.AddScoped<IContainerService, ContainerService>();
+builder.Services.AddScoped<IEventPublisherService, EventPublisherService>();
 
 builder.Services.AddDomain();
 builder.Services.AddApplication();
@@ -55,6 +59,11 @@ builder.Services.AddSchedulingAdapter(builder.Configuration);
 builder.Services.AddChallengesOrchestratorAdapter();
 builder.Services.AddReservationAdapter();
 builder.Services.AddGameSessionAdapter();
+var rabbitMqConfig = builder.Configuration.GetSection("RabbitMq").Get<RabbitMqOptions>()
+    ?? throw new Exception("Failed to load RabbitMQ configuration. Ensure 'RabbitMq' section exists in appsettings.json.");
+
+// Register RabbitMqOptions as a singleton
+builder.Services.AddSingleton(rabbitMqConfig);
 
 builder.Services.AddScoped<IRabbitMqUserContextFactory, RabbitMqUserContextFactory>();
 
@@ -76,7 +85,7 @@ builder.Services.AddScoped<IRabbitMqClient>(sp =>
         Token = userContext.Token
     });
 
-    return new RabbitMqClient("localhost", "my_exchange", rabbitMqUserContextFactory);
+    return new RabbitMqClient(rabbitMqConfig.HostName, rabbitMqConfig.ExchangeName, rabbitMqUserContextFactory);
 });
 var test = FirebaseApp.Create(new AppOptions()
 {

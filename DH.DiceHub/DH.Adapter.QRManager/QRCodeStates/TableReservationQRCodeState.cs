@@ -6,13 +6,15 @@ using DH.Domain.Entities;
 using DH.Domain.Enums;
 using DH.Domain.Exceptions;
 using DH.Domain.Repositories;
+using DH.Domain.Services.Publisher;
 
 namespace DH.Adapter.QRManager.QRCodeStates;
 
-public class TableReservationQRCodeState(IUserContext userContext, IRepository<SpaceTableReservation> spaceTableReservationRepository) : IQRCodeState
+public class TableReservationQRCodeState(IUserContext userContext, IRepository<SpaceTableReservation> spaceTableReservationRepository, IEventPublisherService eventPublisherService) : IQRCodeState
 {
     readonly IUserContext userContext = userContext;
     readonly IRepository<SpaceTableReservation> spaceTableReservationRepository = spaceTableReservationRepository;
+    readonly IEventPublisherService eventPublisherService = eventPublisherService;
 
     public async Task<QrCodeValidationResult> HandleAsync(IQRCodeContext context, QRReaderModel data, CancellationToken cancellationToken)
     {
@@ -41,6 +43,8 @@ public class TableReservationQRCodeState(IUserContext userContext, IRepository<S
         await this.spaceTableReservationRepository.SaveChangesAsync(cancellationToken);
 
         await context.TrackScannedQrCode(traceId, data, null, cancellationToken);
+
+        await this.eventPublisherService.PublishClubActivityDetectedMessage();
 
         result.InternalNote = string.IsNullOrEmpty(tableReservation.InternalNote) ? null : tableReservation.InternalNote;
         result.IsValid = true;

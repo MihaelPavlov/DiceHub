@@ -1,20 +1,17 @@
 ﻿using DH.Domain.Entities;
 using DH.Domain.Exceptions;
 using DH.Domain.Repositories;
+using DH.Domain.Services.Publisher;
 using MediatR;
 
 namespace DH.Application.SpaceManagement.Commands;
 
 public record AddVirtualParticipantCommand(int SpaceTableId) : IRequest;
 
-internal class AddVirtualParticipantCommandHandler : IRequestHandler<AddVirtualParticipantCommand>
+internal class AddVirtualParticipantCommandHandler(IRepository<SpaceTable> spaceTableRepository, IEventPublisherService eventPublisherService) : IRequestHandler<AddVirtualParticipantCommand>
 {
-    readonly IRepository<SpaceTable> spaceTableRepository;
-
-    public AddVirtualParticipantCommandHandler(IRepository<SpaceTable> spaceTableRepository)
-    {
-        this.spaceTableRepository = spaceTableRepository;
-    }
+    readonly IRepository<SpaceTable> spaceTableRepository = spaceTableRepository;
+    readonly IEventPublisherService eventPublisherService = eventPublisherService;
 
     public async Task Handle(AddVirtualParticipantCommand request, CancellationToken cancellationToken)
     {
@@ -30,5 +27,7 @@ internal class AddVirtualParticipantCommandHandler : IRequestHandler<AddVirtualP
         });
 
         await this.spaceTableRepository.SaveChangesAsync(cancellationToken);
+
+        await this.eventPublisherService.PublishClubActivityDetectedMessage();
     }
 }

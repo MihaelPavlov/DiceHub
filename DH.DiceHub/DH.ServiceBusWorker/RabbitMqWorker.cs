@@ -104,7 +104,7 @@ public class RabbitMqWorker<TMessage> : BackgroundService
     {
         return label switch
         {
-            "ParticipationAgreementActivated" => typeof(IServiceBusHandler<ParticipationAgreementActivatedMessage>),
+            "ParticipationAgreementActivated" => typeof(IServiceBusHandler<ClubActivityDetectedMessage>),
             "PartProcess" => typeof(IServiceBusHandler<PartProcessMessage>),
             // Add more cases as needed
             _ => null
@@ -115,7 +115,7 @@ public class RabbitMqWorker<TMessage> : BackgroundService
     {
         return label switch
         {
-            "ParticipationAgreementActivated" => typeof(EventMessage<ParticipationAgreementActivatedMessage>),
+            "ParticipationAgreementActivated" => typeof(EventMessage<ClubActivityDetectedMessage>),
             "PartProcess" => typeof(EventMessage<PartProcessMessage>),
             // Add more cases as needed
             _ => null

@@ -14,7 +14,7 @@ internal class CreateClubVisitorLogCommandHandler(IDbContextFactory<StatisticsDb
 
     public async Task<OperationResult<int>> Handle(CreateClubVisitorLogCommand request, CancellationToken cancellationToken)
     {
-        using (var context = dbContext.CreateDbContext())
+        using (var context = await dbContext.CreateDbContextAsync(cancellationToken))
         {
             var result = await context.ClubVisitorLogs.AddAsync(new ClubVisitorLog
             {

@@ -2,6 +2,6 @@
 
 public class RabbitMqQueues
 {
-    public string ParticipationAgreementQueue { get; set; } = string.Empty;
+    public string StatisticsQueue { get; set; } = string.Empty;
 }
 
