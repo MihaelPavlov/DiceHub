@@ -1,6 +1,8 @@
 ﻿using DH.Domain.Adapters.Authentication;
 using DH.Domain.Entities;
 using DH.Domain.Repositories;
+using DH.Domain.Services.Publisher;
+using DH.Messaging.Publisher.Messages;
 using DH.OperationResultCore.Exceptions;
 using MediatR;
 
@@ -13,14 +15,17 @@ internal class ParticipateInEventCommandHandler : IRequestHandler<ParticipateInE
     readonly IRepository<Event> eventRepository;
     readonly IRepository<EventParticipant> eventParticipantRepository;
     readonly IUserContext userContext;
+    readonly IEventPublisherService eventPublisherService;
+
     public ParticipateInEventCommandHandler(
         IRepository<Event> eventRepository,
         IRepository<EventParticipant> eventParticipantRepository,
-        IUserContext userContext)
+        IUserContext userContext, IEventPublisherService eventPublisherService)
     {
         this.eventRepository = eventRepository;
         this.eventParticipantRepository = eventParticipantRepository;
         this.userContext = userContext;
+        this.eventPublisherService = eventPublisherService;
     }
 
     public async Task<bool> Handle(ParticipateInEventCommand request, CancellationToken cancellationToken)
@@ -42,6 +47,8 @@ internal class ParticipateInEventCommandHandler : IRequestHandler<ParticipateInE
                 EventId = eventDb.Id,
                 UserId = this.userContext.UserId,
             }, cancellationToken);
+
+            await this.eventPublisherService.PublishEventAttendanceDetectedMessage(AttendanceAction.Joining.ToString(), eventDb.Id);
 
             return true;
         }

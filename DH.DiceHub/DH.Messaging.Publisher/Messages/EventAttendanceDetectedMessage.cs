@@ -3,7 +3,7 @@
 public class EventAttendanceDetectedMessage
 {
     public int EventId { get; set; }
-    public DateTime LogDate { get; set; }
+    public DateTime? LogDate { get; set; }
     public AttendanceAction Type { get; set; }
 }
 

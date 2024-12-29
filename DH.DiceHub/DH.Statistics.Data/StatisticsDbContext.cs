@@ -13,4 +13,5 @@ public class StatisticsDbContext : TenantDbContext
 
     public DbSet<ClubVisitorLog> ClubVisitorLogs { get; set; } = default!;
     public DbSet<EventAttendanceLog> EventAttendanceLogs { get; set; } = default!;
+    public DbSet<ReservationOutcomeLog> ReservationOutcomeLogs { get; set; } = default!;
 }

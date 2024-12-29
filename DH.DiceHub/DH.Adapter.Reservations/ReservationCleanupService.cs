@@ -1,6 +1,7 @@
 ﻿using DH.Domain.Adapters.Reservations;
 using DH.Domain.Entities;
 using DH.Domain.Repositories;
+using DH.Domain.Services.Publisher;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -81,6 +82,11 @@ public class ReservationCleanupService : BackgroundService
                         reservation.IsActive = false;
                         reservation.IsReservationSuccessful = false;
                         await repository.SaveChangesAsync(cancellationToken);
+
+                        var eventPublisherService = scope.ServiceProvider.GetRequiredService<IEventPublisherService>();
+
+                        await eventPublisherService.PublishReservationProcessingOutcomeMessage(ReservationOutcome.Cancelled.ToString(), reservation.UserId, ReservationType.Game.ToString(), reservation.Id);
+
                         logger.LogInformation("Job {traceId}: Deactivated reservation ID {reservationId}.", traceId, jobInfo.ReservationId);
                     }
                 }
@@ -108,6 +114,11 @@ public class ReservationCleanupService : BackgroundService
                         reservation.IsActive = false;
                         reservation.IsReservationSuccessful = false;
                         await repository.SaveChangesAsync(cancellationToken);
+
+                        var eventPublisherService = scope.ServiceProvider.GetRequiredService<IEventPublisherService>();
+
+                        await eventPublisherService.PublishReservationProcessingOutcomeMessage(ReservationOutcome.Cancelled.ToString(), reservation.UserId, ReservationType.Table.ToString(), reservation.Id);
+
                         logger.LogInformation("Job {traceId}: Deactivated reservation ID {reservationId}.", traceId, jobInfo.ReservationId);
                     }
                 }

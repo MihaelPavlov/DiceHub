@@ -21,6 +21,9 @@ internal class EventAttendanceDetectedHandler(IAuthorizedClientFactory authorize
 
         if (message.Body.Type == AttendanceAction.Joining)
         {
+            if (message.Body.LogDate is null)
+                throw new Exception("Log Date is missing.");
+
             result = await _authorizedClientFactory
               .CreateClient(ApplicationApi.Statistics, sender.UserId, sender.Token)
               .BuildPost(ApiEndpoints.Statistics.CreateEventAttendanceLog)
@@ -38,6 +41,7 @@ internal class EventAttendanceDetectedHandler(IAuthorizedClientFactory authorize
              .SendWithResulAsync<OperationResult<int>>(cancellationToken);
         }
 
+        //TODO: Change this to log and if their is operation result exception pass it.
         if (result is null || !result.Success)
             throw new Exception("The handler was not handle successfully");
     }

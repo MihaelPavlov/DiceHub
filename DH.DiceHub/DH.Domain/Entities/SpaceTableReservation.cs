@@ -11,7 +11,7 @@ public class SpaceTableReservation
     public DateTime CreatedDate { get; set; }
 
     /// <summary>
-    /// Indicates if the reservation is still active and it's waithing for aprrove or decline
+    /// Indicates if the reservation is still active and it's waiting for approve or decline
     /// </summary>
     public bool IsActive { get; set; }
 

@@ -2,6 +2,7 @@
 using DH.Domain.Adapters.Authentication.Models.Enums;
 using DH.Domain.Adapters.QRManager;
 using DH.Domain.Adapters.QRManager.StateModels;
+using DH.Domain.Adapters.Reservations;
 using DH.Domain.Entities;
 using DH.Domain.Enums;
 using DH.Domain.Repositories;
@@ -44,7 +45,8 @@ public class TableReservationQRCodeState(IUserContext userContext, IRepository<S
 
         await context.TrackScannedQrCode(traceId, data, null, cancellationToken);
 
-        await this.eventPublisherService.PublishClubActivityDetectedMessage();
+        await this.eventPublisherService.PublishClubActivityDetectedMessage(userId);
+        await this.eventPublisherService.PublishReservationProcessingOutcomeMessage(ReservationOutcome.Completed.ToString(), userId, ReservationType.Table.ToString(), tableReservation.Id);
 
         result.InternalNote = string.IsNullOrEmpty(tableReservation.InternalNote) ? null : tableReservation.InternalNote;
         result.IsValid = true;

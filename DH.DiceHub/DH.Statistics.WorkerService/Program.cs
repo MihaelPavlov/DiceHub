@@ -42,6 +42,8 @@ public class Program
                     missingRoutingKeys.Add(nameof(rabbitMqConfig.RoutingKeys.ClubActivityDetected));
                 if (string.IsNullOrEmpty(rabbitMqConfig.RoutingKeys?.EventAttendanceDetected))
                     missingRoutingKeys.Add(nameof(rabbitMqConfig.RoutingKeys.EventAttendanceDetected));
+                if (string.IsNullOrEmpty(rabbitMqConfig.RoutingKeys?.EventAttendanceDetected))
+                    missingRoutingKeys.Add(nameof(rabbitMqConfig.RoutingKeys.ReservationProcessingOutcome));
 
                 if (missingRoutingKeys.Any())
                     throw new ConfigurationErrorsException($"RabbitMQ RoutingKeys missing in the configuration: {string.Join(", ", missingRoutingKeys)}.");
@@ -62,6 +64,11 @@ public class Program
                         rabbitMqConfig.Queues.StatisticsQueue,
                         rabbitMqConfig.RoutingKeys.EventAttendanceDetected);
 
+                    client.Setup(
+                        rabbitMqConfig.ExchangeName,
+                        rabbitMqConfig.Queues.StatisticsQueue,
+                        rabbitMqConfig.RoutingKeys.ReservationProcessingOutcome);
+
                     return client;
                 });
 
@@ -70,6 +77,9 @@ public class Program
                     rabbitMqConfig.Queues.StatisticsQueue);
 
                 services.AddScopedRabbitMqWorker<EventAttendanceDetectedMessage, EventAttendanceDetectedHandler>(
+                    rabbitMqConfig.Queues.StatisticsQueue);
+
+                services.AddScopedRabbitMqWorker<ReservationProcessingOutcomeMessage, ReservationProcessingOutcomeHandler>(
                     rabbitMqConfig.Queues.StatisticsQueue);
 
                 services.AddCommunicationService();

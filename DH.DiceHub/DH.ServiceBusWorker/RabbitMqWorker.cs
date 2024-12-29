@@ -99,26 +99,26 @@ public class RabbitMqWorker<TMessage> : BackgroundService
         return nameof(handler.HandleMessageAsync);
     }
 
-    // TODO: Considiring other approach, but might be removed 
-    private Type? GetHandlerTypeFromLabel(string label)
-    {
-        return label switch
-        {
-            "ParticipationAgreementActivated" => typeof(IServiceBusHandler<ClubActivityDetectedMessage>),
-            "PartProcess" => typeof(IServiceBusHandler<PartProcessMessage>),
-            // Add more cases as needed
-            _ => null
-        };
-    }
+    //// TODO: Considiring other approach, but might be removed 
+    //private Type? GetHandlerTypeFromLabel(string label)
+    //{
+    //    return label switch
+    //    {
+    //        "ParticipationAgreementActivated" => typeof(IServiceBusHandler<ClubActivityDetectedMessage>),
+    //        "PartProcess" => typeof(IServiceBusHandler<PartProcessMessage>),
+    //        // Add more cases as needed
+    //        _ => null
+    //    };
+    //}
 
-    private Type? GetMessageTypeFromLabel(string label)
-    {
-        return label switch
-        {
-            "ParticipationAgreementActivated" => typeof(EventMessage<ClubActivityDetectedMessage>),
-            "PartProcess" => typeof(EventMessage<PartProcessMessage>),
-            // Add more cases as needed
-            _ => null
-        };
-    }
+    //private Type? GetMessageTypeFromLabel(string label)
+    //{
+    //    return label switch
+    //    {
+    //        "ParticipationAgreementActivated" => typeof(EventMessage<ClubActivityDetectedMessage>),
+    //        "PartProcess" => typeof(EventMessage<PartProcessMessage>),
+    //        // Add more cases as needed
+    //        _ => null
+    //    };
+    //}
 }

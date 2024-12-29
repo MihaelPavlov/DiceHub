@@ -4,6 +4,7 @@ using DH.Domain.Adapters.Authentication.Services;
 using DH.Domain.Adapters.GameSession;
 using DH.Domain.Adapters.QRManager;
 using DH.Domain.Adapters.QRManager.StateModels;
+using DH.Domain.Adapters.Reservations;
 using DH.Domain.Adapters.Scheduling;
 using DH.Domain.Entities;
 using DH.Domain.Enums;
@@ -99,7 +100,8 @@ public class GameReservationQRCodeState : IQRCodeState
 
         await context.TrackScannedQrCode(traceId, data, null, cancellationToken);
 
-        await this.eventPublisherService.PublishClubActivityDetectedMessage();
+        await this.eventPublisherService.PublishClubActivityDetectedMessage(userId);
+        await this.eventPublisherService.PublishReservationProcessingOutcomeMessage(ReservationOutcome.Completed.ToString(), userId, ReservationType.Game.ToString(), gameReservation.Id);
 
         await this.jobManager.DeleteJob($"ExpireReservationJob-{gameReservation.Id}", "ReservationJobs");
 

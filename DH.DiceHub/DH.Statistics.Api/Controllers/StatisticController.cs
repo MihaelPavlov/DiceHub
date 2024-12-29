@@ -43,4 +43,13 @@ public class StatisticController : ControllerBase
         var result = await this.mediator.Send(new RemoveEventAttendanceLogCommand(request), cancellationToken);
         return Ok(result);
     }
+
+    [HttpPost("create-reservation-outcome-log")]
+    [Authorize]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OperationResult<int>))]
+    public async Task<IActionResult> CreateReservationOutcomeLog([FromBody] CreateReservationOutcomeRequest request, CancellationToken cancellationToken)
+    {
+        var result = await this.mediator.Send(new CreateReservationOutcomeCommand(request), cancellationToken);
+        return Ok(result);
+    }
 }

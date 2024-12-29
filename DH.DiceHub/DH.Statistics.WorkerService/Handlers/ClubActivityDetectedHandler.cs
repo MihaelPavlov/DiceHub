@@ -19,7 +19,7 @@ public class ClubActivityDetectedHandler(IAuthorizedClientFactory authorizedClie
         var result = await _authorizedClientFactory
            .CreateClient(ApplicationApi.Statistics, sender.UserId, sender.Token)
            .BuildPost(ApiEndpoints.Statistics.CreateClubActivityLog)
-           .WithContent(new { sender.UserId, message.Body.LogDate })
+           .WithContent(new { UserId = message.Body.UserId ?? sender.UserId, message.Body.LogDate })
            .WithImpersonated()
            .SendWithResulAsync<OperationResult<int>>(cancellationToken);
 

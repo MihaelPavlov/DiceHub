@@ -87,7 +87,7 @@ export class ReservationsChartComponent implements AfterViewInit, OnDestroy {
           labels: ['Table Reservations', 'Game Reservations'],
           datasets: [
             {
-              label: 'Non-Cancelled',
+              label: 'Completed',
               data: [
                 reservationData.table.nonCancelled,
                 reservationData.game.nonCancelled,

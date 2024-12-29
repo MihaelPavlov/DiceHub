@@ -1,6 +1,9 @@
-﻿using DH.Domain.Models.Common;
+﻿using DH.Domain.Entities;
+using DH.Domain.Models.Common;
 using DH.Domain.Services.Publisher;
 using DH.Messaging.Publisher;
+using DH.Messaging.Publisher.Messages;
+using Microsoft.Extensions.Logging;
 
 namespace DH.Application.Services;
 
@@ -9,7 +12,7 @@ public class EventPublisherService(RabbitMqOptions options, IRabbitMqClient rabb
     readonly RabbitMqOptions options = options;
     readonly IRabbitMqClient rabbitMqClient = rabbitMqClient;
 
-    public async Task PublishClubActivityDetectedMessage()
+    public async Task PublishClubActivityDetectedMessage(string userId)
     {
         var message = new EventMessage<ClubActivityDetectedMessage>
         {
@@ -17,10 +20,58 @@ public class EventPublisherService(RabbitMqOptions options, IRabbitMqClient rabb
             DateTime = DateTimeOffset.UtcNow,
             Body = new ClubActivityDetectedMessage()
             {
+                UserId = userId,
                 LogDate = DateTime.UtcNow
             }
         };
 
         await this.rabbitMqClient.Publish(options.ExchangeName, options.RoutingKeys.ClubActivityDetected, message);
+    }
+
+    public async Task PublishEventAttendanceDetectedMessage(string action, int eventId)
+    {
+        if (Enum.TryParse<AttendanceAction>(action, out var parsedAction))
+        {
+            var message = new EventMessage<EventAttendanceDetectedMessage>
+            {
+                MessageId = Guid.NewGuid().ToString(),
+                DateTime = DateTimeOffset.UtcNow,
+                Body = new EventAttendanceDetectedMessage()
+                {
+                    LogDate = DateTime.UtcNow,
+                    EventId = eventId,
+                    Type = parsedAction
+                }
+            };
+
+            await this.rabbitMqClient.Publish(options.ExchangeName, options.RoutingKeys.EventAttendanceDetected, message);
+        }
+        else //TODO: Added a Logger
+            return;
+
+    }
+
+    public async Task PublishReservationProcessingOutcomeMessage(string action, string userId, string type, int reservationId)
+    {
+        if (Enum.TryParse<ReservationOutcome>(action, out var parsedAction) && Enum.TryParse<ReservationType>(type, out var parsedType))
+        {
+            var message = new EventMessage<ReservationProcessingOutcomeMessage>
+            {
+                MessageId = Guid.NewGuid().ToString(),
+                DateTime = DateTimeOffset.UtcNow,
+                Body = new ReservationProcessingOutcomeMessage()
+                {
+                    UserId = userId,
+                    OutcomeDate = DateTime.UtcNow,
+                    ReservationId = reservationId,
+                    Outcome = parsedAction,
+                    Type = parsedType
+                }
+            };
+
+            await this.rabbitMqClient.Publish(options.ExchangeName, options.RoutingKeys.ReservationProcessingOutcome, message);
+        }
+        else //TODO: Added a Logger
+            return;
     }
 }
