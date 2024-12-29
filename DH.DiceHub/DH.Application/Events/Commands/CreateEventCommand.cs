@@ -1,7 +1,7 @@
 ﻿using DH.Domain.Entities;
-using DH.Domain.Exceptions;
 using DH.Domain.Models.EventModels.Command;
 using DH.Domain.Services;
+using DH.OperationResultCore.Exceptions;
 using Mapster;
 using MediatR;
 

@@ -1,5 +1,5 @@
 ﻿using DH.Domain.Entities;
-using DH.Domain.Exceptions;
+using DH.OperationResultCore.Exceptions;
 using DH.Domain.Models.ChallengeModels.Queries;
 using DH.Domain.Repositories;
 using MediatR;

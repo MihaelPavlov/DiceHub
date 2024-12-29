@@ -1,8 +1,8 @@
 ﻿using DH.Domain.Adapters.Data;
 using DH.Domain.Entities;
-using DH.Domain.Exceptions;
 using DH.Domain.Models.GameModels.Commands;
 using DH.Domain.Repositories;
+using DH.OperationResultCore.Exceptions;
 using MediatR;
 
 namespace DH.Application.Games.Commands.Games;

@@ -5,8 +5,8 @@ using DH.Domain.Adapters.PushNotifications;
 using DH.Domain.Adapters.PushNotifications.Messages;
 using DH.Domain.Entities;
 using DH.Domain.Enums;
-using DH.Domain.Exceptions;
 using DH.Domain.Repositories;
+using DH.OperationResultCore.Exceptions;
 using MediatR;
 using System.Globalization;
 

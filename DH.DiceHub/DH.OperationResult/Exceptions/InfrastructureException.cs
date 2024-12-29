@@ -1,4 +1,4 @@
-﻿namespace DH.Domain.Exceptions;
+﻿namespace DH.OperationResultCore.Exceptions;
 
 public class InfrastructureException : Exception
 {

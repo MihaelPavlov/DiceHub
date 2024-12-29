@@ -1,8 +1,8 @@
 ﻿using DH.Domain.Adapters.QRManager;
 using DH.Domain.Adapters.QRManager.StateModels;
 using DH.Domain.Entities;
-using DH.Domain.Exceptions;
 using DH.Domain.Repositories;
+using DH.OperationResultCore.Exceptions;
 
 namespace DH.Adapter.QRManager.QRCodeStates;
 

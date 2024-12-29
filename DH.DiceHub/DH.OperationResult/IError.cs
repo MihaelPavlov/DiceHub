@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace DH.Statistics.Domain.Models;
+namespace DH.OperationResultCore;
 
 /// <summary>
 /// An class defining the structure of a component responsible for the representation of an unexpected behavior in our software.

@@ -1,10 +1,10 @@
 using DH.Domain.Adapters.ChallengesOrchestrator;
 using DH.Domain.Entities;
 using DH.Domain.Enums;
-using DH.Domain.Exceptions;
 using DH.Domain.Helpers;
 using DH.Domain.Services;
 using DH.Domain.Services.TenantSettingsService;
+using DH.OperationResultCore.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace DH.Adapter.Data.Services;

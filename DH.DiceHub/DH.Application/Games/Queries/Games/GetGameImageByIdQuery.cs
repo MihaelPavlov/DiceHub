@@ -1,6 +1,6 @@
 ﻿using DH.Domain.Entities;
-using DH.Domain.Exceptions;
 using DH.Domain.Repositories;
+using DH.OperationResultCore.Exceptions;
 using MediatR;
 
 namespace DH.Application.Games.Queries.Games;

@@ -1,7 +1,6 @@
-﻿using DH.Statistics.Domain.Exceptions;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
-namespace DH.Statistics.Domain.Models;
+namespace DH.OperationResultCore.Utility;
 
 /// <summary>
 /// A Class for a system operation result, with a generic TKey.
@@ -15,15 +14,15 @@ public class OperationResult
     [JsonPropertyName("validationErrors")]
     public Dictionary<string, List<string>> ValidationErrors
     {
-        get => this._validationErrors;
-        set => this._validationErrors = value;
+        get => _validationErrors;
+        set => _validationErrors = value;
     }
 
     [JsonPropertyName("success")]
     public bool Success
     {
-        get => this._success;
-        set => this._success = value;
+        get => _success;
+        set => _success = value;
     }
 
     /// <summary>
@@ -35,8 +34,8 @@ public class OperationResult
         get => _initialException;
         set
         {
-            this._initialException = value;
-            this._success = false;
+            _initialException = value;
+            _success = false;
         }
     }
 
@@ -47,16 +46,16 @@ public class OperationResult
 
     public void AppendValidationError(string errorMessage, string propertyName)
     {
-        if (this._initialException == null)
+        if (_initialException == null)
         {
-            this._initialException = new IError(ErrorCode.Validation.ToString(),(int)ErrorCode.Validation,"Validation Message");
+            _initialException = new IError("Validation", 422, "Validation Message");
         }
 
         //this._success = false;
-        if (!this._validationErrors.Any(x => x.Key == propertyName))
-            this._validationErrors.Add(propertyName, new List<string>());
+        if (!_validationErrors.Any(x => x.Key == propertyName))
+            _validationErrors.Add(propertyName, new List<string>());
 
-        this._validationErrors.First(x => x.Key == propertyName).Value.Add(errorMessage);
+        _validationErrors.First(x => x.Key == propertyName).Value.Add(errorMessage);
     }
 }
 
@@ -71,7 +70,7 @@ public class OperationResult<T> : OperationResult
 
     public OperationResult(T resultObject)
     {
-        this.RelatedObject = resultObject;
+        RelatedObject = resultObject;
     }
 
     /// <summary>

@@ -1,8 +1,8 @@
 using DH.Domain.Adapters.Scheduling;
 using DH.Domain.Adapters.Scheduling.Enums;
 using DH.Domain.Entities;
-using DH.Domain.Exceptions;
 using DH.Domain.Repositories;
+using DH.OperationResultCore.Exceptions;
 
 namespace DH.Adapter.Scheduling.Handlers;
 

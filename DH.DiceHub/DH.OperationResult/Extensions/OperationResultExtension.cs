@@ -1,11 +1,6 @@
-﻿using DH.Statistics.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DH.OperationResultCore.Utility;
 
-namespace DH.Statistics.Domain.Extensions;
+namespace DH.OperationResultCore.Extension;
 
 public static class OperationResultExtension
 {

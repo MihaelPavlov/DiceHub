@@ -7,10 +7,10 @@ using DH.Domain.Adapters.QRManager.StateModels;
 using DH.Domain.Adapters.Scheduling;
 using DH.Domain.Entities;
 using DH.Domain.Enums;
-using DH.Domain.Exceptions;
 using DH.Domain.Repositories;
 using DH.Domain.Services;
 using DH.Domain.Services.Publisher;
+using DH.OperationResultCore.Exceptions;
 
 namespace DH.Adapter.QRManager.QRCodeStates;
 

@@ -3,10 +3,10 @@ using DH.Domain.Adapters.PushNotifications.Messages;
 using DH.Domain.Adapters.PushNotifications;
 using DH.Domain.Entities;
 using DH.Domain.Enums;
-using DH.Domain.Exceptions;
 using DH.Domain.Repositories;
 using MediatR;
 using DH.Domain.Adapters.Reservations;
+using DH.OperationResultCore.Exceptions;
 
 namespace DH.Application.Games.Commands.Games;
 

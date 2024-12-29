@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DH.OperationResult\DH.OperationResultCore.csproj" />
     <ProjectReference Include="..\DH.Statistics.Data\DH.Statistics.Data.csproj" />
     <ProjectReference Include="..\DH.Statistics.Domain\DH.Statistics.Domain.csproj" />
   </ItemGroup>

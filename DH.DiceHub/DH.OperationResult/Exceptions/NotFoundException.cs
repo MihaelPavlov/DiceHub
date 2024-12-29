@@ -1,4 +1,4 @@
-﻿namespace DH.Domain.Exceptions;
+﻿namespace DH.OperationResultCore.Exceptions;
 
 public class NotFoundException : Exception
 {
@@ -13,12 +13,12 @@ public class NotFoundException : Exception
     }
 
     public NotFoundException(string entityName, object key)
-        : base($"Entity \"{entityName}\" ({key}) was not found.")
+        : base($"Entity {entityName} ({key}) was not found.")
     {
     }
 
     public NotFoundException(Type entityType, object key)
-        : base($"Entity \"{entityType.Name}\" ({key}) was not found.")
+        : base($"Entity {entityType.Name} ({key}) was not found.")
     {
     }
 }

@@ -1,7 +1,7 @@
-﻿using DH.Domain.Exceptions;
-using DH.Domain.Models;
+﻿using DH.Domain.Models;
+using DH.OperationResultCore.Exceptions;
 using System.Text.RegularExpressions;
-using static DH.Domain.Exceptions.ValidationErrorsException;
+using static DH.OperationResultCore.Exceptions.ValidationErrorsException;
 
 namespace DH.Domain.Adapters.Authentication.Models;
 

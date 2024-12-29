@@ -4,7 +4,7 @@ using DH.Domain.Adapters.Authentication;
 using DH.Domain.Repositories;
 using DH.Domain.Entities;
 using DH.Domain.Adapters.Authentication.Models.Enums;
-using DH.Domain.Exceptions;
+using DH.OperationResultCore.Exceptions;
 
 internal class RewardQRCodeState : IQRCodeState
 {

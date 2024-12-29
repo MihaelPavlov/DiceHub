@@ -1,8 +1,8 @@
 ﻿using DH.Domain.Entities;
 using DH.Domain.Enums;
-using DH.Domain.Exceptions;
 using DH.Domain.Models.GameModels.Queries;
 using DH.Domain.Services;
+using DH.OperationResultCore.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace DH.Adapter.Data.Services;

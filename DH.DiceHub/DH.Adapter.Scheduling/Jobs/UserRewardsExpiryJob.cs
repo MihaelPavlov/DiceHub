@@ -1,5 +1,5 @@
 ﻿using DH.Domain.Adapters.Scheduling;
-using DH.Domain.Exceptions;
+using DH.OperationResultCore.Exceptions;
 using Quartz;
 
 namespace DH.Adapter.Scheduling.Jobs;

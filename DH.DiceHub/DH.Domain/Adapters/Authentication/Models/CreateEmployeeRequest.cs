@@ -1,6 +1,6 @@
 ﻿using DH.Domain.Models;
 using System.ComponentModel.DataAnnotations;
-using static DH.Domain.Exceptions.ValidationErrorsException;
+using static DH.OperationResultCore.Exceptions.ValidationErrorsException;
 
 namespace DH.Domain.Adapters.Authentication.Models;
 

@@ -1,6 +1,6 @@
-﻿using DH.Domain.Exceptions;
+﻿using DH.OperationResultCore.Exceptions;
 using System.Text.Json.Serialization;
-using static DH.Domain.Exceptions.ValidationErrorsException;
+using static DH.OperationResultCore.Exceptions.ValidationErrorsException;
 
 namespace DH.Domain.Models.EventModels.Command;
 

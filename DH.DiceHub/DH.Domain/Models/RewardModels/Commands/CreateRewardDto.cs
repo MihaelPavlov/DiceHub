@@ -1,7 +1,6 @@
 ﻿using DH.Domain.Enums;
-using DH.Domain.Exceptions;
 using System.Text.Json.Serialization;
-using static DH.Domain.Exceptions.ValidationErrorsException;
+using static DH.OperationResultCore.Exceptions.ValidationErrorsException;
 
 namespace DH.Domain.Models.RewardModels.Commands;
 
@@ -32,8 +31,6 @@ public class CreateRewardDto : IValidableFields
 
         if (!Enum.IsDefined(typeof(RewardRequiredPoint), RequiredPoints))
             errors.Add(new ValidationError(nameof(RequiredPoints), "Invalid reward points value."));
-
-
 
         validationErrors = errors;
 

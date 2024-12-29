@@ -1,6 +1,6 @@
-﻿using DH.Domain.Exceptions;
-using Microsoft.AspNetCore.Mvc.Filters;
+﻿using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
+using DH.OperationResultCore.Exceptions;
 
 namespace DH.Api.Filters;
 

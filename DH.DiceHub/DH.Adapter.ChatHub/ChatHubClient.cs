@@ -2,8 +2,8 @@
 using DH.Domain.Adapters.Authentication.Services;
 using DH.Domain.Adapters.ChatHub;
 using DH.Domain.Entities;
-using DH.Domain.Exceptions;
 using DH.Domain.Repositories;
+using DH.OperationResultCore.Exceptions;
 using Microsoft.AspNetCore.SignalR;
 using System.Net.WebSockets;
 

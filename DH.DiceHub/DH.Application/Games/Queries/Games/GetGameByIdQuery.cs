@@ -1,9 +1,9 @@
 ﻿using DH.Domain.Adapters.Authentication;
 using DH.Domain.Entities;
-using DH.Domain.Exceptions;
 using DH.Domain.Models.GameModels.Queries;
 using DH.Domain.Services;
 using DH.Messaging.Publisher;
+using DH.OperationResultCore.Exceptions;
 using MediatR;
 
 namespace DH.Application.Games.Queries.Games;

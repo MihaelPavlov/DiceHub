@@ -1,9 +1,6 @@
 ﻿using DH.Adapter.Authentication.Entities;
-using DH.Domain.Adapters.Authentication;
 using DH.Domain.Adapters.Authentication.Models;
 using DH.Domain.Adapters.Authentication.Services;
-using DH.Domain.Exceptions;
-using DH.Domain.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;

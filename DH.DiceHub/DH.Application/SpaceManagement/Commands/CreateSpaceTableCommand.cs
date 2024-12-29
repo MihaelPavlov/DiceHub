@@ -1,10 +1,10 @@
 ﻿using DH.Domain.Adapters.Authentication;
 using DH.Domain.Adapters.GameSession;
 using DH.Domain.Entities;
-using DH.Domain.Exceptions;
 using DH.Domain.Models.SpaceManagementModels.Commands;
 using DH.Domain.Repositories;
 using DH.Domain.Services;
+using DH.OperationResultCore.Exceptions;
 using Mapster;
 using MediatR;
 using Microsoft.Extensions.Logging;

@@ -1,4 +1,4 @@
-﻿namespace DH.Statistics.Domain.Exceptions;
+﻿namespace DH.OperationResultCore.Exceptions;
 
 public class ForbiddenAccessException : Exception
 {

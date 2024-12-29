@@ -1,6 +1,6 @@
 ﻿using DH.Domain.Enums;
 using System.Text.Json.Serialization;
-using static DH.Domain.Exceptions.ValidationErrorsException;
+using static DH.OperationResultCore.Exceptions.ValidationErrorsException;
 
 namespace DH.Domain.Models.GameModels.Commands;
 

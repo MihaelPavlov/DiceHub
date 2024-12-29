@@ -68,6 +68,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DH.Authentication.UserConte
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Main", "Main", "{11CAE57E-0664-412F-ABF8-DE0E924E0040}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DH.OperationResultCore", "DH.OperationResult\DH.OperationResultCore.csproj", "{3DEFF94D-0BA0-49A6-B0CA-33C03B9B8FC9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -166,6 +168,10 @@ Global
 		{8E7DDA25-A41F-4180-B0D4-AF6EAF6681D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E7DDA25-A41F-4180-B0D4-AF6EAF6681D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8E7DDA25-A41F-4180-B0D4-AF6EAF6681D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DEFF94D-0BA0-49A6-B0CA-33C03B9B8FC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DEFF94D-0BA0-49A6-B0CA-33C03B9B8FC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DEFF94D-0BA0-49A6-B0CA-33C03B9B8FC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DEFF94D-0BA0-49A6-B0CA-33C03B9B8FC9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -197,6 +203,7 @@ Global
 		{D4028FBD-E8F3-4407-B38F-563E73C2809A} = {9E9E58EC-1180-48A8-BEC7-B934E3538F20}
 		{BEBA7396-CFDE-4ACE-BE88-D44094856624} = {9E9E58EC-1180-48A8-BEC7-B934E3538F20}
 		{8E7DDA25-A41F-4180-B0D4-AF6EAF6681D8} = {48E1054C-275F-4BF6-9CF0-9EA648D549C4}
+		{3DEFF94D-0BA0-49A6-B0CA-33C03B9B8FC9} = {48E1054C-275F-4BF6-9CF0-9EA648D549C4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {16F99846-C0F6-4373-96DE-9ADCFED2E236}

@@ -1,5 +1,4 @@
-﻿using DH.Domain.Exceptions;
-using static DH.Domain.Exceptions.ValidationErrorsException;
+﻿using static DH.OperationResultCore.Exceptions.ValidationErrorsException;
 
 namespace DH.Domain.Models.SpaceManagementModels.Commands;
 
@@ -10,7 +9,7 @@ public class UpdateSpaceTableDto : IValidableFields
     public int MaxPeople { get; set; }
     public string Password { get; set; } = string.Empty;
 
-    public bool FieldsAreValid(out List<ValidationErrorsException.ValidationError> validationErrors)
+    public bool FieldsAreValid(out List<ValidationError> validationErrors)
     {
         var errors = new List<ValidationError>();
 

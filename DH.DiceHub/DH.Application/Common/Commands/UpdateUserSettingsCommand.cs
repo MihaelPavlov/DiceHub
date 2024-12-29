@@ -1,8 +1,8 @@
 ﻿using DH.Domain.Adapters.Authentication;
 using DH.Domain.Entities;
-using DH.Domain.Exceptions;
 using DH.Domain.Models.Common;
 using DH.Domain.Repositories;
+using DH.OperationResultCore.Exceptions;
 using MediatR;
 
 namespace DH.Application.Common.Commands;

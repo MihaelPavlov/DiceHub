@@ -1,14 +1,12 @@
-﻿using Azure.Core;
-using DH.Adapter.Authentication.Entities;
+﻿using DH.Adapter.Authentication.Entities;
 using DH.Domain.Adapters.Authentication.Models;
 using DH.Domain.Adapters.Authentication.Models.Enums;
 using DH.Domain.Adapters.Authentication.Services;
 using DH.Domain.Adapters.ChallengesOrchestrator;
 using DH.Domain.Adapters.PushNotifications;
-using DH.Domain.Adapters.PushNotifications.Messages;
 using DH.Domain.Entities;
-using DH.Domain.Exceptions;
 using DH.Domain.Repositories;
+using DH.OperationResultCore.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

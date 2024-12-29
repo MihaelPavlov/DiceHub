@@ -1,4 +1,4 @@
-﻿using static DH.Domain.Exceptions.ValidationErrorsException;
+﻿using static DH.OperationResultCore.Exceptions.ValidationErrorsException;
 
 namespace DH.Domain.Models.GameModels.Commands;
 

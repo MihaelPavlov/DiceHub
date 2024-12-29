@@ -1,6 +1,6 @@
 ﻿using DH.Domain.Entities;
-using DH.Domain.Exceptions;
 using DH.Domain.Repositories;
+using DH.OperationResultCore.Exceptions;
 using MediatR;
 using System.ComponentModel.DataAnnotations;
 
@@ -23,7 +23,7 @@ internal class DeleteChallengeCommandHandler : IRequestHandler<DeleteChallengeCo
             ?? throw new NotFoundException(nameof(Challenge), request.Id);
 
         if (challenge.UserChallenges.Count != 0)
-            throw new ValidationException("Challenge has dependancies and cannot be deleted");
+            throw new ValidationException("Challenge has dependencies and cannot be deleted");
 
         await this.repository.Remove(challenge, cancellationToken);
     }

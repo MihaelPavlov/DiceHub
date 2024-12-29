@@ -1,9 +1,9 @@
 ﻿using DH.Domain.Adapters.Authentication;
 using DH.Domain.Adapters.Data;
 using DH.Domain.Entities;
-using DH.Domain.Exceptions;
 using DH.Domain.Models.GameModels.Commands;
 using DH.Domain.Repositories;
+using DH.OperationResultCore.Exceptions;
 using Mapster;
 using MediatR;
 

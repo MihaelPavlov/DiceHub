@@ -1,6 +1,6 @@
 ﻿using DH.Domain.Enums;
-using DH.Domain.Exceptions;
-using static DH.Domain.Exceptions.ValidationErrorsException;
+using DH.OperationResultCore.Exceptions;
+using static DH.OperationResultCore.Exceptions.ValidationErrorsException;
 
 namespace DH.Domain.Models.ChallengeModels.Commands;
 
