@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DH.Messaging.HttpClient\DH.Messaging.HttpClient.csproj" />
+    <ProjectReference Include="..\DH.OperationResult\DH.OperationResultCore.csproj" />
     <ProjectReference Include="..\DH.ServiceBusWorker\DH.ServiceBusWorker.csproj" />
   </ItemGroup>
 

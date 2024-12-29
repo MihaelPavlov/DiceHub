@@ -4,6 +4,7 @@ using System.Net;
 using DH.OperationResultCore.Exceptions;
 using DH.OperationResultCore.Utility;
 using DH.OperationResultCore;
+using DH.OperationResultCore.Extension;
 
 namespace DH.Statistics.Api.Filters;
 
@@ -71,13 +72,11 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
 
     private void HandleNotFoundException(ExceptionContext context)
     {
-        var operationResult = new OperationResult
-        {
-            Success = false
-        };
         var exception = (NotFoundException)context.Exception;
-        operationResult.InitialException = new IError(HttpStatusCode.NotFound.ToString(), (int)HttpStatusCode.NotFound, exception.Message);
-        context.Result = new NotFoundObjectResult(operationResult);
+        context.Result = new NotFoundObjectResult(
+            new OperationResult()
+                .ReturnWithNotFoundException(exception.Message)
+        );
         context.ExceptionHandled = true;
     }
 

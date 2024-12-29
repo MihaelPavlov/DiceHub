@@ -1,4 +1,5 @@
-﻿using DH.Statistics.Data;
+﻿using DH.Statistics.Application.Commands;
+using DH.Statistics.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

@@ -4,7 +4,7 @@ using DH.Statistics.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace DH.Statistics.Application;
+namespace DH.Statistics.Application.Commands;
 
 public record CreateClubVisitorLogCommand(CreateClubVisitorLogRequest Log) : IRequest<OperationResult<int>>;
 

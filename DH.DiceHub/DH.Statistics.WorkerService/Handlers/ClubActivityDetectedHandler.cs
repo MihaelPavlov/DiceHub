@@ -1,8 +1,9 @@
 ﻿using DH.Messaging.HttpClient;
 using DH.Messaging.HttpClient.Enums;
 using DH.Messaging.Publisher;
+using DH.OperationResultCore.Utility;
 
-namespace DH.Statistics.WorkerService;
+namespace DH.Statistics.WorkerService.Handlers;
 
 public class ClubActivityDetectedHandler(IAuthorizedClientFactory authorizedClientFactory, IRabbitMqClient client) : IServiceBusHandler<ClubActivityDetectedMessage>
 {
@@ -18,10 +19,11 @@ public class ClubActivityDetectedHandler(IAuthorizedClientFactory authorizedClie
         var result = await _authorizedClientFactory
            .CreateClient(ApplicationApi.Statistics, sender.UserId, sender.Token)
            .BuildPost(ApiEndpoints.Statistics.CreateClubActivityLog)
-           .WithContent(new { UserId = sender.UserId, message.Body.LogDate })
+           .WithContent(new { sender.UserId, message.Body.LogDate })
            .WithImpersonated()
-           .SendWithResulAsync<object>(cancellationToken);
+           .SendWithResulAsync<OperationResult<int>>(cancellationToken);
 
-        //TODO: Use the operation result after move it to library
+        if (!result.Success)
+            throw new Exception("The handler was not handle successfully");
     }
 }

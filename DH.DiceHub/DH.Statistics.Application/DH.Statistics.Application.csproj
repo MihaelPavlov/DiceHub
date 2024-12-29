@@ -17,4 +17,8 @@
     <ProjectReference Include="..\DH.Statistics.Domain\DH.Statistics.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Queries\" />
+  </ItemGroup>
+
 </Project>

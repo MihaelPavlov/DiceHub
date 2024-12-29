@@ -1,4 +1,6 @@
 ﻿using DH.OperationResultCore.Utility;
+using System.Net;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DH.OperationResultCore.Extension;
 
@@ -95,6 +97,154 @@ public static class OperationResultExtension
 
         return operationResult;
     }
+
+    #region Not Found Exception
+
+    /// <summary>
+    /// Updates the <see cref="OperationResult"/> to indicate a failure due to a not found exception.
+    /// </summary>
+    /// <param name="operationResult">The current <see cref="OperationResult"/> instance.</param>
+    /// <param name="message">Optional. A custom message describing the exception. Defaults to "Entity was not found."</param>
+    /// <returns>The updated <see cref="OperationResult"/> with the not found exception details.</returns>
+    public static OperationResult ReturnWithNotFoundException(this OperationResult operationResult, string? message = null)
+    {
+        operationResult.Success = false;
+        operationResult.InitialException = new IError(HttpStatusCode.NotFound.ToString(), (int)HttpStatusCode.NotFound, message ?? "Entity was not found.");
+
+        return operationResult;
+    }
+
+    /// <summary>
+    /// Updates the <see cref="OperationResult"/> to indicate a failure due to a specific entity not being found.
+    /// </summary>
+    /// <param name="operationResult">The current <see cref="OperationResult"/> instance.</param>
+    /// <param name="entityName">The name of the entity that was not found.</param>
+    /// <param name="key">The key or identifier of the missing entity.</param>
+    /// <returns>The updated <see cref="OperationResult"/> with the not found exception details.</returns>
+    public static OperationResult ReturnWithNotFoundException(this OperationResult operationResult, string entityName, object key)
+    {
+        operationResult.Success = false;
+        operationResult.InitialException = new IError(HttpStatusCode.NotFound.ToString(), (int)HttpStatusCode.NotFound, $"Entity {entityName} ({key}) was not found.");
+
+        return operationResult;
+    }
+
+    /// <summary>
+    /// Updates the <see cref="OperationResult{T}"/> to indicate a failure due to a specific entity not being found.
+    /// </summary>
+    /// <typeparam name="T">The type of the result data.</typeparam>
+    /// <param name="operationResult">The current <see cref="OperationResult{T}"/> instance.</param>
+    /// <param name="entityName">The name of the entity that was not found.</param>
+    /// <param name="key">The key or identifier of the missing entity.</param>
+    /// <returns>The updated <see cref="OperationResult{T}"/> with the not found exception details.</returns>
+    public static OperationResult<T> ReturnWithNotFoundException<T>(this OperationResult<T> operationResult, string entityName, object key)
+    {
+        operationResult.Success = false;
+        operationResult.InitialException = new IError(HttpStatusCode.NotFound.ToString(), (int)HttpStatusCode.NotFound, $"Entity {entityName} ({key}) was not found.");
+
+        return operationResult;
+    }
+
+    /// <summary>
+    /// Updates the <see cref="OperationResult{T}"/> to indicate a failure due to a not found exception.
+    /// </summary>
+    /// <typeparam name="T">The type of the result data.</typeparam>
+    /// <param name="operationResult">The current <see cref="OperationResult{T}"/> instance.</param>
+    /// <param name="message">Optional. A custom message describing the exception. Defaults to "Entity was not found."</param>
+    /// <returns>The updated <see cref="OperationResult{T}"/> with the not found exception details.</returns>
+    public static OperationResult<T> ReturnWithNotFoundException<T>(this OperationResult<T> operationResult, string? message = null)
+    {
+        operationResult.Success = false;
+        operationResult.InitialException = new IError(HttpStatusCode.NotFound.ToString(), (int)HttpStatusCode.NotFound, message ?? "Entity was not found.");
+
+        return operationResult;
+    }
+
+    #endregion Not Found Exception
+
+    #region Bad Request Exception
+
+    /// <summary>
+    /// Updates the <see cref="OperationResult"/> to indicate a failure due to a bad request.
+    /// </summary>
+    /// <param name="operationResult">The current <see cref="OperationResult"/> instance.</param>
+    /// <param name="message">Optional. A custom message describing the reason for the bad request. Defaults to "The request was invalid or cannot be processed."</param>
+    /// <returns>The updated <see cref="OperationResult"/> with the bad request exception details.</returns>
+    public static OperationResult ReturnWithBadRequestException(this OperationResult operationResult, string? message = null)
+    {
+        operationResult.Success = false;
+        operationResult.InitialException = new IError(
+            HttpStatusCode.BadRequest.ToString(),
+            (int)HttpStatusCode.BadRequest,
+            message ?? "The request was invalid or cannot be processed."
+        );
+
+        return operationResult;
+    }
+
+    /// <summary>
+    /// Updates the <see cref="OperationResult{T}"/> to indicate a failure due to a bad request.
+    /// </summary>
+    /// <typeparam name="T">The type of the result data.</typeparam>
+    /// <param name="operationResult">The current <see cref="OperationResult{T}"/> instance.</param>
+    /// <param name="message">Optional. A custom message describing the reason for the bad request. Defaults to "The request was invalid or cannot be processed."</param>
+    /// <returns>The updated <see cref="OperationResult{T}"/> with the bad request exception details.</returns>
+    public static OperationResult<T> ReturnWithBadRequestException<T>(this OperationResult<T> operationResult, string? message = null)
+    {
+        operationResult.Success = false;
+        operationResult.InitialException = new IError(
+            HttpStatusCode.BadRequest.ToString(),
+            (int)HttpStatusCode.BadRequest,
+            message ?? "The request was invalid or cannot be processed."
+        );
+
+        return operationResult;
+    }
+
+    #endregion Bad Request Exception
+
+    #region Validation Exception
+
+    /// <summary>
+    /// Updates the <see cref="OperationResult"/> to indicate a failure due to validation errors in the request.
+    /// </summary>
+    /// <param name="operationResult">The current <see cref="OperationResult"/> instance.</param>
+    /// <param name="errors">A dictionary containing validation errors where the key represents the field name and the value is a list of error messages for that field.</param>
+    /// <returns>The updated <see cref="OperationResult"/> with validation exception details and a collection of validation errors.</returns>
+    public static OperationResult ReturnWithValidationException(this OperationResult operationResult, Dictionary<string, List<string>> errors)
+    {
+        operationResult.Success = false;
+        operationResult.InitialException = new IError(
+            HttpStatusCode.UnprocessableEntity.ToString(),
+            (int)HttpStatusCode.UnprocessableEntity,
+            "Validation failed for one or more fields."
+        );
+        operationResult.ValidationErrors = errors;
+
+        return operationResult;
+    }
+
+    /// <summary>
+    /// Updates the <see cref="OperationResult{T}"/> to indicate a failure due to validation errors in the request.
+    /// </summary>
+    /// <typeparam name="T">The type of the result data.</typeparam>
+    /// <param name="operationResult">The current <see cref="OperationResult{T}"/> instance.</param>
+    /// <param name="errors">A dictionary containing validation errors where the key represents the field name and the value is a list of error messages for that field.</param>
+    /// <returns>The updated <see cref="OperationResult{T}"/> with validation exception details and a collection of validation errors.</returns>
+    public static OperationResult<T> ReturnWithValidationException<T>(this OperationResult<T> operationResult, Dictionary<string, List<string>> errors)
+    {
+        operationResult.Success = false;
+        operationResult.InitialException = new IError(
+            HttpStatusCode.UnprocessableEntity.ToString(),
+            (int)HttpStatusCode.UnprocessableEntity,
+            "Validation failed for one or more fields."
+        );
+        operationResult.ValidationErrors = errors;
+
+        return operationResult;
+    }
+
+    #endregion Validation Exception
 
     /// <summary>
     /// Creates a new <see cref="OperationResult{U}"/> with a different generic type.

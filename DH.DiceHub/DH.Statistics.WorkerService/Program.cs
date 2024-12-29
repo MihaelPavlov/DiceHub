@@ -1,8 +1,9 @@
 ﻿using DH.Messaging.HttpClient;
 using DH.Messaging.Publisher;
+using DH.Messaging.Publisher.Messages;
 using DH.ServiceBusWorker;
-using DH.Statistics.WorkerService;
 using DH.Statistics.WorkerService.Common;
+using DH.Statistics.WorkerService.Handlers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -39,8 +40,8 @@ public class Program
                 var missingRoutingKeys = new List<string>();
                 if (string.IsNullOrEmpty(rabbitMqConfig.RoutingKeys?.ClubActivityDetected))
                     missingRoutingKeys.Add(nameof(rabbitMqConfig.RoutingKeys.ClubActivityDetected));
-                if (string.IsNullOrEmpty(rabbitMqConfig.RoutingKeys?.PartProcess))
-                    missingRoutingKeys.Add(nameof(rabbitMqConfig.RoutingKeys.PartProcess));
+                if (string.IsNullOrEmpty(rabbitMqConfig.RoutingKeys?.EventAttendanceDetected))
+                    missingRoutingKeys.Add(nameof(rabbitMqConfig.RoutingKeys.EventAttendanceDetected));
 
                 if (missingRoutingKeys.Any())
                     throw new ConfigurationErrorsException($"RabbitMQ RoutingKeys missing in the configuration: {string.Join(", ", missingRoutingKeys)}.");
@@ -59,7 +60,7 @@ public class Program
                     client.Setup(
                         rabbitMqConfig.ExchangeName,
                         rabbitMqConfig.Queues.StatisticsQueue,
-                        rabbitMqConfig.RoutingKeys.PartProcess);
+                        rabbitMqConfig.RoutingKeys.EventAttendanceDetected);
 
                     return client;
                 });
@@ -68,7 +69,7 @@ public class Program
                 services.AddScopedRabbitMqWorker<ClubActivityDetectedMessage, ClubActivityDetectedHandler>(
                     rabbitMqConfig.Queues.StatisticsQueue);
 
-                services.AddScopedRabbitMqWorker<PartProcessMessage, PartProcessHandler>(
+                services.AddScopedRabbitMqWorker<EventAttendanceDetectedMessage, EventAttendanceDetectedHandler>(
                     rabbitMqConfig.Queues.StatisticsQueue);
 
                 services.AddCommunicationService();
