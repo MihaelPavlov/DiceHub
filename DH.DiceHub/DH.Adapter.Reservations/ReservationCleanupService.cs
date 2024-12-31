@@ -83,10 +83,6 @@ public class ReservationCleanupService : BackgroundService
                         reservation.IsReservationSuccessful = false;
                         await repository.SaveChangesAsync(cancellationToken);
 
-                        var eventPublisherService = scope.ServiceProvider.GetRequiredService<IEventPublisherService>();
-
-                        await eventPublisherService.PublishReservationProcessingOutcomeMessage(ReservationOutcome.Cancelled.ToString(), reservation.UserId, ReservationType.Game.ToString(), reservation.Id);
-
                         logger.LogInformation("Job {traceId}: Deactivated reservation ID {reservationId}.", traceId, jobInfo.ReservationId);
                     }
                 }
@@ -114,10 +110,6 @@ public class ReservationCleanupService : BackgroundService
                         reservation.IsActive = false;
                         reservation.IsReservationSuccessful = false;
                         await repository.SaveChangesAsync(cancellationToken);
-
-                        var eventPublisherService = scope.ServiceProvider.GetRequiredService<IEventPublisherService>();
-
-                        await eventPublisherService.PublishReservationProcessingOutcomeMessage(ReservationOutcome.Cancelled.ToString(), reservation.UserId, ReservationType.Table.ToString(), reservation.Id);
 
                         logger.LogInformation("Job {traceId}: Deactivated reservation ID {reservationId}.", traceId, jobInfo.ReservationId);
                     }

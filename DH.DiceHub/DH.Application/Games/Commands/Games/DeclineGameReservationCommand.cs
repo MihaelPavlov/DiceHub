@@ -7,17 +7,19 @@ using DH.Domain.Repositories;
 using MediatR;
 using DH.Domain.Adapters.Reservations;
 using DH.OperationResultCore.Exceptions;
+using DH.Domain.Services.Publisher;
 
 namespace DH.Application.Games.Commands.Games;
 
 public record DeclineGameReservationCommand(int Id, string InternalNote, string PublicNote) : IRequest;
 
-internal class DeclineGameReservationCommandHandler(IRepository<GameReservation> repository, IRepository<Game> gameRepository, ReservationCleanupQueue queue, IPushNotificationsService pushNotificationsService) : IRequestHandler<DeclineGameReservationCommand>
+internal class DeclineGameReservationCommandHandler(IRepository<GameReservation> repository, IRepository<Game> gameRepository, IEventPublisherService eventPublisherService, ReservationCleanupQueue queue, IPushNotificationsService pushNotificationsService) : IRequestHandler<DeclineGameReservationCommand>
 {
     readonly IRepository<GameReservation> repository = repository;
     readonly IRepository<Game> gameRepository = gameRepository;
     readonly ReservationCleanupQueue queue = queue;
     readonly IPushNotificationsService pushNotificationsService = pushNotificationsService;
+    readonly IEventPublisherService eventPublisherService = eventPublisherService;
 
     public async Task Handle(DeclineGameReservationCommand request, CancellationToken cancellationToken)
     {
@@ -33,6 +35,8 @@ internal class DeclineGameReservationCommandHandler(IRepository<GameReservation>
 
         //TODO: Additional minutes can be tenantSettings
         this.queue.AddReservationCleaningJob(reservation.Id, ReservationType.Game, reservation.ReservationDate.AddMinutes(10));
+
+        await eventPublisherService.PublishReservationProcessingOutcomeMessage(ReservationOutcome.Cancelled.ToString(), reservation.UserId, ReservationType.Game.ToString(), reservation.Id);
 
         await this.pushNotificationsService
             .SendNotificationToUsersAsync(

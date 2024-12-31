@@ -101,6 +101,7 @@ public class GameReservationQRCodeState : IQRCodeState
         await context.TrackScannedQrCode(traceId, data, null, cancellationToken);
 
         await this.eventPublisherService.PublishClubActivityDetectedMessage(userId);
+
         await this.eventPublisherService.PublishReservationProcessingOutcomeMessage(ReservationOutcome.Completed.ToString(), userId, ReservationType.Game.ToString(), gameReservation.Id);
 
         await this.jobManager.DeleteJob($"ExpireReservationJob-{gameReservation.Id}", "ReservationJobs");

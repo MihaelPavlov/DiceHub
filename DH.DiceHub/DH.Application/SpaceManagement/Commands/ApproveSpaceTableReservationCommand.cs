@@ -17,7 +17,6 @@ internal class ApproveSpaceTableReservationCommandHandler(IRepository<SpaceTable
     readonly IRepository<SpaceTableReservation> repository = repository;
     readonly ReservationCleanupQueue queue = queue;
     readonly IPushNotificationsService pushNotificationsService = pushNotificationsService;
-
     public async Task Handle(ApproveSpaceTableReservationCommand request, CancellationToken cancellationToken)
     {
         var reservation = await this.repository.GetByAsyncWithTracking(x => x.Id == request.ReservationId, cancellationToken)

@@ -7,16 +7,18 @@ using DH.Domain.Repositories;
 using MediatR;
 using DH.Domain.Adapters.Reservations;
 using DH.OperationResultCore.Exceptions;
+using DH.Domain.Services.Publisher;
 
 namespace DH.Application.SpaceManagement.Commands;
 
 public record DeclineSpaceTableReservationCommand(int ReservationId, string InternalNote, string PublicNote) : IRequest;
 
-internal class DeclineSpaceTableReservationCommandHandler(IRepository<SpaceTableReservation> repository, ReservationCleanupQueue queue, IPushNotificationsService pushNotificationsService) : IRequestHandler<DeclineSpaceTableReservationCommand>
+internal class DeclineSpaceTableReservationCommandHandler(IRepository<SpaceTableReservation> repository, ReservationCleanupQueue queue, IEventPublisherService eventPublisherService, IPushNotificationsService pushNotificationsService) : IRequestHandler<DeclineSpaceTableReservationCommand>
 {
     readonly IRepository<SpaceTableReservation> repository = repository;
     readonly ReservationCleanupQueue queue = queue;
     readonly IPushNotificationsService pushNotificationsService = pushNotificationsService;
+    readonly IEventPublisherService eventPublisherService = eventPublisherService;
 
     public async Task Handle(DeclineSpaceTableReservationCommand request, CancellationToken cancellationToken)
     {
@@ -32,6 +34,8 @@ internal class DeclineSpaceTableReservationCommandHandler(IRepository<SpaceTable
         //TODO: Additional minutes can be tenantSettings
         this.queue.AddReservationCleaningJob(reservation.Id, ReservationType.Table, DateTime.UtcNow.AddMinutes(10));
 
+        await eventPublisherService.PublishReservationProcessingOutcomeMessage(ReservationOutcome.Cancelled.ToString(), reservation.UserId, ReservationType.Table.ToString(), reservation.Id);
+
         await this.pushNotificationsService
             .SendNotificationToUsersAsync(
                 new List<GetUserByRoleModel>
@@ -39,7 +43,7 @@ internal class DeclineSpaceTableReservationCommandHandler(IRepository<SpaceTable
                     { new() { Id = reservation.UserId } }
                 },
                 new SpaceTableDeclinedMessage(reservation.NumberOfGuests, reservation.ReservationDate),
-                cancellationToken);
+        cancellationToken);
     }
 }
 

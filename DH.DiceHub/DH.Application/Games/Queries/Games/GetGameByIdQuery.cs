@@ -2,7 +2,6 @@
 using DH.Domain.Entities;
 using DH.Domain.Models.GameModels.Queries;
 using DH.Domain.Services;
-using DH.Messaging.Publisher;
 using DH.OperationResultCore.Exceptions;
 using MediatR;
 
@@ -14,13 +13,11 @@ internal class GetGameByIdQueryHandler : IRequestHandler<GetGameByIdQuery, GetSy
 {
     readonly IGameService gameService;
     readonly IUserContext userContext;
-    readonly IRabbitMqClient _rabbitMqClient;
 
-    public GetGameByIdQueryHandler(IGameService gameService, IUserContext userContext, IRabbitMqClient rabbitMqClient)
+    public GetGameByIdQueryHandler(IGameService gameService, IUserContext userContext)
     {
         this.gameService = gameService;
         this.userContext = userContext;
-        this._rabbitMqClient = rabbitMqClient;
     }
 
     public async Task<GetSystemRewardByIdQueryModel> Handle(GetGameByIdQuery request, CancellationToken cancellationToken)

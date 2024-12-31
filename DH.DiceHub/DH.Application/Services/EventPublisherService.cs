@@ -3,7 +3,6 @@ using DH.Domain.Models.Common;
 using DH.Domain.Services.Publisher;
 using DH.Messaging.Publisher;
 using DH.Messaging.Publisher.Messages;
-using Microsoft.Extensions.Logging;
 
 namespace DH.Application.Services;
 
@@ -12,7 +11,7 @@ public class EventPublisherService(RabbitMqOptions options, IRabbitMqClient rabb
     readonly RabbitMqOptions options = options;
     readonly IRabbitMqClient rabbitMqClient = rabbitMqClient;
 
-    public async Task PublishClubActivityDetectedMessage(string userId)
+    public async Task PublishClubActivityDetectedMessage(string? userId = null)
     {
         var message = new EventMessage<ClubActivityDetectedMessage>
         {
