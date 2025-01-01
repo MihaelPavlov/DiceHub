@@ -38,12 +38,18 @@ public class Program
                     throw new ConfigurationErrorsException("RabbitMQ StatisticsQueue is missing in the configuration.");
 
                 var missingRoutingKeys = new List<string>();
+
                 if (string.IsNullOrEmpty(rabbitMqConfig.RoutingKeys?.ClubActivityDetected))
                     missingRoutingKeys.Add(nameof(rabbitMqConfig.RoutingKeys.ClubActivityDetected));
+
                 if (string.IsNullOrEmpty(rabbitMqConfig.RoutingKeys?.EventAttendanceDetected))
                     missingRoutingKeys.Add(nameof(rabbitMqConfig.RoutingKeys.EventAttendanceDetected));
-                if (string.IsNullOrEmpty(rabbitMqConfig.RoutingKeys?.EventAttendanceDetected))
+
+                if (string.IsNullOrEmpty(rabbitMqConfig.RoutingKeys?.ReservationProcessingOutcome))
                     missingRoutingKeys.Add(nameof(rabbitMqConfig.RoutingKeys.ReservationProcessingOutcome));
+
+                if (string.IsNullOrEmpty(rabbitMqConfig.RoutingKeys?.RewardActionDetected))
+                    missingRoutingKeys.Add(nameof(rabbitMqConfig.RoutingKeys.RewardActionDetected));
 
                 if (missingRoutingKeys.Any())
                     throw new ConfigurationErrorsException($"RabbitMQ RoutingKeys missing in the configuration: {string.Join(", ", missingRoutingKeys)}.");
@@ -69,6 +75,11 @@ public class Program
                         rabbitMqConfig.Queues.StatisticsQueue,
                         rabbitMqConfig.RoutingKeys.ReservationProcessingOutcome);
 
+                    client.Setup(
+                       rabbitMqConfig.ExchangeName,
+                       rabbitMqConfig.Queues.StatisticsQueue,
+                       rabbitMqConfig.RoutingKeys.RewardActionDetected);
+
                     return client;
                 });
 
@@ -80,6 +91,9 @@ public class Program
                     rabbitMqConfig.Queues.StatisticsQueue);
 
                 services.AddScopedRabbitMqWorker<ReservationProcessingOutcomeMessage, ReservationProcessingOutcomeHandler>(
+                    rabbitMqConfig.Queues.StatisticsQueue);
+
+                services.AddScopedRabbitMqWorker<RewardActionDetectedMessage, RewardActionDetectedHandler>(
                     rabbitMqConfig.Queues.StatisticsQueue);
 
                 services.AddCommunicationService();

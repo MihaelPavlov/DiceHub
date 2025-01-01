@@ -73,4 +73,23 @@ public class EventPublisherService(RabbitMqOptions options, IRabbitMqClient rabb
         else //TODO: Added a Logger
             return;
     }
+
+    public async Task PublishRewardActionDetectedMessage(string userId, int rewardId, bool isExpired, bool isCollected)
+    {
+        var message = new EventMessage<RewardActionDetectedMessage>
+        {
+            MessageId = Guid.NewGuid().ToString(),
+            DateTime = DateTimeOffset.UtcNow,
+            Body = new RewardActionDetectedMessage()
+            {
+                UserId = userId,
+                ActionDate = DateTime.UtcNow,
+                IsCollected = isCollected,
+                IsExpired = isExpired,
+                RewardId = rewardId
+            }
+        };
+
+        await this.rabbitMqClient.Publish(options.ExchangeName, options.RoutingKeys.RewardActionDetected, message);
+    }
 }

@@ -52,4 +52,14 @@ public class StatisticController : ControllerBase
         var result = await this.mediator.Send(new CreateReservationOutcomeCommand(request), cancellationToken);
         return Ok(result);
     }
+
+
+    [HttpPost("create-reward-history-log")]
+    [Authorize]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OperationResult<int>))]
+    public async Task<IActionResult> CreateRewardHistoryLog([FromBody] CreateRewardHistoryLogRequest request, CancellationToken cancellationToken)
+    {
+        var result = await this.mediator.Send(new CreateRewardHistoryLogCommand(request), cancellationToken);
+        return Ok(result);
+    }
 }

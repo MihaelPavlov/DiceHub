@@ -4,6 +4,7 @@ using DH.Domain.Entities;
 using DH.Domain.Models.SpaceManagementModels.Commands;
 using DH.Domain.Repositories;
 using DH.Domain.Services;
+using DH.Domain.Services.Publisher;
 using DH.OperationResultCore.Exceptions;
 using Mapster;
 using MediatR;
@@ -20,8 +21,9 @@ internal class CreateSpaceTableCommandHandler : IRequestHandler<CreateSpaceTable
     readonly IUserContext userContext;
     readonly ILogger<CreateSpaceTableCommandHandler> logger;
     readonly SynchronizeGameSessionQueue queue;
+    readonly IEventPublisherService eventPublisherService;
 
-    public CreateSpaceTableCommandHandler(ISpaceTableService spaceTableService, IRepository<Game> gameRepostory, SynchronizeGameSessionQueue queue, IUserContext userContext, ILogger<CreateSpaceTableCommandHandler> logger)
+    public CreateSpaceTableCommandHandler(ISpaceTableService spaceTableService, IRepository<Game> gameRepostory, SynchronizeGameSessionQueue queue, IUserContext userContext, IEventPublisherService eventPublisherService, ILogger<CreateSpaceTableCommandHandler> logger)
     {
         this.spaceTableService = spaceTableService;
         this.queue = queue;
@@ -29,6 +31,7 @@ internal class CreateSpaceTableCommandHandler : IRequestHandler<CreateSpaceTable
         this.queue = queue;
         this.userContext = userContext;
         this.logger = logger;
+        this.eventPublisherService = eventPublisherService;
     }
 
     public async Task<int> Handle(CreateSpaceTableCommand request, CancellationToken cancellationToken)
@@ -48,6 +51,8 @@ internal class CreateSpaceTableCommandHandler : IRequestHandler<CreateSpaceTable
         }
 
         this.queue.AddUserPlayTimEnforcerJob(this.userContext.UserId, game!.Id, DateTime.UtcNow.AddMinutes((int)game.AveragePlaytime));
+
+        await this.eventPublisherService.PublishClubActivityDetectedMessage();
 
         return spaceTableId;
     }

@@ -12,4 +12,6 @@ public interface IUserContextFactory
     IUserContext CreateUserContext();
 
     void SetDefaultUserContext(IUserContext defaultUserContext);
+
+    IUserContext GetUserContextForB2b();
 }

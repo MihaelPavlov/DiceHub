@@ -46,4 +46,3 @@ internal class DeclineSpaceTableReservationCommandHandler(IRepository<SpaceTable
         cancellationToken);
     }
 }
-

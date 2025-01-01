@@ -71,7 +71,7 @@ builder.Services.AddScoped<IRabbitMqClient>(sp =>
 {
     // Retrieve IUserContextFactory
     var userContextFactory = sp.GetRequiredService<IUserContextFactory>();
-    var userContext = userContextFactory.CreateUserContext();
+    var userContext = userContextFactory.GetUserContextForB2b();
 
     // Retrieve IRabbitMqUserContextFactory
     var rabbitMqUserContextFactory = sp.GetRequiredService<IRabbitMqUserContextFactory>();

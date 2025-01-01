@@ -1,5 +1,7 @@
-﻿using DH.Domain.Adapters.Authentication;
+﻿using DH.Adapter.Authentication.Services;
+using DH.Domain.Adapters.Authentication;
 using DH.Domain.Adapters.Authentication.Models.Enums;
+using DH.Domain.Adapters.Authentication.Services;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 
@@ -10,11 +12,13 @@ public class UserContextFactory : IUserContextFactory
     IUserContext _defaultUserContext;
     readonly IHttpContextAccessor _httpContextAccessor;
     readonly HttpClient client;
+    readonly IJwtService jwtService;
 
-    public UserContextFactory(IHttpContextAccessor httpContextAccessor, IHttpClientFactory httpClientFactory)
+    public UserContextFactory(IHttpContextAccessor httpContextAccessor, IHttpClientFactory httpClientFactory, IJwtService jwtService)
     {
         client = httpClientFactory.CreateClient();
         _httpContextAccessor = httpContextAccessor;
+        this.jwtService = jwtService;
         _defaultUserContext = new UserContext(null, null, null);
     }
 
@@ -69,5 +73,23 @@ public class UserContextFactory : IUserContextFactory
     public void SetDefaultUserContext(IUserContext defaultUserContext)
     {
         _defaultUserContext = defaultUserContext;
+    }
+
+    public IUserContext GetUserContextForB2b()
+    {
+        if (_httpContextAccessor.HttpContext == null)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Sid,"b2b"),
+            };
+            var token = this.jwtService.GenerateAccessToken(claims);
+
+            return new UserContext("1", 1, token); //Todo: it might be needed to generate a valid token, because of the authentication inside the statistic service
+        }
+        else
+        {
+            return CreateUserContext();
+        }
     }
 }

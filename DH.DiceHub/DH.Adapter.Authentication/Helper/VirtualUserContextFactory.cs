@@ -15,6 +15,11 @@ public class VirtualUserContextFactory : IUserContextFactory
         return _defaultUserContext;
     }
 
+    public IUserContext GetUserContextForB2b()
+    {
+        throw new NotImplementedException("No B2B Comunication inside the virtual user context");
+    }
+
     public void SetDefaultUserContext(IUserContext defaultUserContext)
     {
         _defaultUserContext = defaultUserContext;

@@ -10,5 +10,7 @@ public static class ApiEndpoints
         public const string RemoveEventAttendanceLog = "statistic/remove-event-attendance-log";
 
         public const string CreateReservationOutcomeLog= "statistic/create-reservation-outcome-log";
+
+        public const string CreateRewardHistoryLog= "statistic/create-reward-history-log";
     }
 }
