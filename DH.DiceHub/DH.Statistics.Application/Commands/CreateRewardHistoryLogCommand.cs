@@ -9,7 +9,7 @@ namespace DH.Statistics.Application.Commands;
 
 public record CreateRewardHistoryLogCommand(CreateRewardHistoryLogRequest Log) : IRequest<OperationResult<int>>;
 
-internal class CreateRewardHistoryLogCommandHandler(IDbContextFactory<StatisticsDbContext> dbContext,IUserContext userContext) : IRequestHandler<CreateRewardHistoryLogCommand, OperationResult<int>>
+internal class CreateRewardHistoryLogCommandHandler(IDbContextFactory<StatisticsDbContext> dbContext, IUserContext userContext) : IRequestHandler<CreateRewardHistoryLogCommand, OperationResult<int>>
 {
     readonly IDbContextFactory<StatisticsDbContext> dbContext = dbContext;
     readonly IUserContext userContext = userContext;
