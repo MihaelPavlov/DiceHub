@@ -56,6 +56,20 @@
 .wrapper_users {
   margin-top: 1rem;
   margin-bottom: 10rem;
+
+  .filters {
+    display: flex;
+    justify-content: space-around;
+    margin: 1.5rem;
+    align-items: center;
+
+    .active {
+      background-color: palette.$main-blue-color;
+      border-radius: 0.5rem;
+      padding: 0.5rem 1rem;
+    }
+  }
+
   .wrapper_steps {
     display: flex;
     justify-content: space-evenly;

@@ -55,6 +55,10 @@ export class ProfileComponent implements OnDestroy {
     this.router.navigateByUrl('charts/events');
   }
 
+  public navigateToChallengeLeaderboard():void{
+    this.router.navigateByUrl('charts/challenges/leaderboard');
+
+  }
 
   public backNavigateBtn() {}
 }

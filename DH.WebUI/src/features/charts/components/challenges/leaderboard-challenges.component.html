@@ -1,17 +1,23 @@
 <div class="wrapper_icons">
-    <span (click)="backNavigateBtn()" class="arrow left"></span>
-    <span class="header_name">Leaderboard</span>
-    <div class="info-container">
-      <span
-        class="material-symbols-outlined info"
-        (click)="showMenu($event, controls)"
-      >
-        info
-      </span>
-    </div>
+  <span (click)="backNavigateBtn()" class="arrow left"></span>
+  <span class="header_name">Leaderboard</span>
+  <div class="info-container">
+    <span
+      class="material-symbols-outlined info"
+      (click)="showMenu($event, controls)"
+    >
+      info
+    </span>
   </div>
+</div>
 
 <div class="wrapper_users">
+  <div class="filters">
+    <span class="active">Day</span>
+    <span>Week</span>
+    <span>Month</span>
+  </div>
+
   <div class="wrapper_steps">
     <div class="wrapper_steps__item small-board">
       <div class="wrapper_image">
@@ -62,7 +68,6 @@
     </div>
   </div>
 </div>
-
 
 <app-controls-menu
   #controls
