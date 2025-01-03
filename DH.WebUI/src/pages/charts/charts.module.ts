@@ -10,6 +10,7 @@ import { CollectedExpiredRewardsChartComponent } from '../../features/charts/com
 import { RewardChartsLayoutComponent } from '../../features/charts/components/rewards/rewards-charts-layout/rewards-charts-layout.component';
 import { RewardsCollectedChartComponent } from '../../features/charts/components/rewards/rewards-collected/rewards-collected-chart.component';
 import { EventAttendanceChartComponent } from '../../features/charts/components/events/event-attendance-chart.component';
+import { LeaderboardChallengesComponent } from '../../features/charts/components/challenges/leaderboard-challenges.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { EventAttendanceChartComponent } from '../../features/charts/components/
     CollectedExpiredRewardsChartComponent,
     RewardChartsLayoutComponent,
     RewardsCollectedChartComponent,
-    EventAttendanceChartComponent
+    EventAttendanceChartComponent,
+    LeaderboardChallengesComponent,
   ],
   exports: [],
   providers: [],

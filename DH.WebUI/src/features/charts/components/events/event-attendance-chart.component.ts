@@ -179,7 +179,7 @@ export class EventAttendanceChartComponent implements AfterViewInit, OnDestroy {
     zero: string;
   } {
     // Define base hues for variety
-    // cool collers- >     const hues = [100, 120, 200, 360, 180, 100, 300, 180]; // Softer hues
+    // cool colors- >     const hues = [100, 120, 200, 360, 180, 100, 300, 180]; // Softer hues
 
     const hues = [100, 120, 200, 360, 180, 100, 300, 180]; // Softer hues
     const hue = hues[index % hues.length]; // Cycle through hues

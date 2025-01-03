@@ -10,6 +10,7 @@ import { GameImagePipe } from './pipe/game-image.pipe';
 import { EventImagePipe } from './pipe/event-image.pipe';
 import { RewardImagePipe } from './pipe/reward-image.pipe';
 import { ControlsMenuComponent } from './components/menu/controls-menu.component';
+import { RandomColorDirective } from './directives/random-color/random-color.directive';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { ControlsMenuComponent } from './components/menu/controls-menu.component
     RewardImagePipe,
     EventImagePipe,
     ControlsMenuComponent,
+    RandomColorDirective
   ],
   imports: [CommonModule, ReactiveFormsModule, MatProgressBarModule],
   exports: [
@@ -31,6 +33,7 @@ import { ControlsMenuComponent } from './components/menu/controls-menu.component
     RewardImagePipe,
     EventImagePipe,
     ControlsMenuComponent,
+    RandomColorDirective
   ],
   providers: [
     StringFormatPipe,
