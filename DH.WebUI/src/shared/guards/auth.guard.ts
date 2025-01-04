@@ -1,5 +1,5 @@
 import { AuthService } from './../../entities/auth/auth.service';
-import {  HttpHeaders } from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
 import {
   ActivatedRouteSnapshot,
   Router,
@@ -15,33 +15,27 @@ import { RestApiService } from '../services/rest-api.service';
   providedIn: 'root',
 })
 export class AuthGuard {
-
   constructor(
     private readonly router: Router,
     private readonly jwtHelper: JwtHelperService,
     private readonly api: RestApiService,
     private readonly authService: AuthService
-  ) {
-    
-  }
+  ) {}
 
   public canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | boolean | Promise<boolean> {
-
     const token = localStorage.getItem('jwt');
-    
+
     if (token && !this.jwtHelper.isTokenExpired(token)) {
       console.log(this.jwtHelper.decodeToken(token));
       return of(true);
     }
-  
 
     return this.tryRefreshingTokens(token).pipe(
       take(1),
       tap((isRefreshSuccess) => {
-
         if (!isRefreshSuccess) {
           console.log('redirect to login');
           this.authService.logout();
@@ -66,7 +60,9 @@ export class AuthGuard {
 
     return this.api
       .post<ITokenResponse>(`/user/refresh`, credentials, {
-        headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+        options: {
+          headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+        },
       })
       .pipe(
         take(1),

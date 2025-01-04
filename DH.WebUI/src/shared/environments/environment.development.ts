@@ -1,4 +1,5 @@
 export const environment = {
     production: false,
-    appUrl: 'https://localhost:7024',
+    defaultAppUrl: 'https://localhost:7024',
+    statisticsAppUrl: 'https://localhost:7030',
 };

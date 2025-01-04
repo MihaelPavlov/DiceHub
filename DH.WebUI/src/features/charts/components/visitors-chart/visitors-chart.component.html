@@ -34,7 +34,7 @@
     </span>
 
     <span class="date blue">{{
-      this.visitorsChartType.value ? getFormattedRange() : "Select Chart Type"
+      this.visitorsChartType.value !==null ? getFormattedRange() : "Select Chart Type"
     }}</span>
 
     <span

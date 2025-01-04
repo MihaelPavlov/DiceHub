@@ -11,7 +11,7 @@ import { IUserInfo } from '../../../../../entities/auth/models/user-info.model';
 import { UserRole } from '../../../../../entities/auth/enums/roles.enum';
 import { ToastService } from '../../../../../shared/services/toast.service';
 import { ToastType } from '../../../../../shared/models/toast.model';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { GameReviewConfirmDeleteDialog } from '../components/game-review-confirm-delete/game-review-confirm-delete.component';
 import { MenuTabsService } from '../../../../../shared/services/menu-tabs.service';
 import { NAV_ITEM_LABELS } from '../../../../../shared/models/nav-items-labels.const';

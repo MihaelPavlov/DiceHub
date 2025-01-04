@@ -104,6 +104,10 @@ export const PATH = {
     GET_EMPLOYEE_LIST: 'get-employee-list',
     CREATE_EMPLOYEE: 'create-employee',
   },
+  STATISTICS: {
+    CORE:"statistic",
+    GET_ACTIVITY_CHART_DATA: "get-activity-chart-data",
+  }
   // AUTH: {
   //   LOGIN: 'auth/user/login',
   // },

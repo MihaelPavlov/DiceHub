@@ -7,7 +7,7 @@ import { environment } from '../environments/environment.development';
 })
 export class GameImagePipe implements PipeTransform {
   transform(imageId: number): string {
-    const URL: string = `${environment.appUrl}/games/get-image/`;
+    const URL: string = `${environment.defaultAppUrl}/games/get-image/`;
     return `${URL}${imageId}`;
   }
 }

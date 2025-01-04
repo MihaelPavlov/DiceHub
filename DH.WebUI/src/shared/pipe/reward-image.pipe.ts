@@ -7,7 +7,7 @@ import { environment } from '../environments/environment.development';
 })
 export class RewardImagePipe implements PipeTransform {
   transform(imageId: number): string {
-    const URL: string = `${environment.appUrl}/rewards/get-image/`;
+    const URL: string = `${environment.defaultAppUrl}/rewards/get-image/`;
     return `${URL}${imageId}`;
   }
 }

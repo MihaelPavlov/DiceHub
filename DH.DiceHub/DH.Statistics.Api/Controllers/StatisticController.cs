@@ -1,5 +1,7 @@
 using DH.OperationResultCore.Utility;
 using DH.Statistics.Application.Commands;
+using DH.Statistics.Application.Queries;
+using DH.Statistics.Domain.Models.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,6 +25,15 @@ public class StatisticController : ControllerBase
     public async Task<IActionResult> CreateClubVisitorLog([FromBody] CreateClubVisitorLogRequest request, CancellationToken cancellationToken)
     {
         var result = await this.mediator.Send(new CreateClubVisitorLogCommand(request), cancellationToken);
+        return Ok(result);
+    }
+
+    [HttpPost("get-activity-chart-data")]
+    [Authorize]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OperationResult<GetActivityChartData>))]
+    public async Task<IActionResult> GetActivityChartData([FromBody] GetActivityChartDataQuery request, CancellationToken cancellationToken)
+    {
+        var result = await this.mediator.Send(request, cancellationToken);
         return Ok(result);
     }
 

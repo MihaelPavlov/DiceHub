@@ -7,7 +7,7 @@ import { environment } from '../environments/environment.development';
 })
 export class EventImagePipe implements PipeTransform {
   transform(imageId: number): string {
-    const URL: string = `${environment.appUrl}/events/get-image/`;
+    const URL: string = `${environment.defaultAppUrl}/events/get-image/`;
     return `${URL}${imageId}`;
   }
 }

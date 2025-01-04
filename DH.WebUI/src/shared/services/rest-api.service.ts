@@ -3,47 +3,77 @@ import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { environment } from '../environments/environment.development';
 
-const URL: string = `${environment.appUrl}`;
+export enum ApiBase {
+  Default = 'default',
+  Statistics = 'statistics',
+}
+export const ApiEndpoints = {
+  default: `${environment.defaultAppUrl}`,
+  statistics: `${environment.statisticsAppUrl}`,
+};
+
+interface ApiConfig {
+  options?: object;
+  base?: ApiBase;
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class RestApiService {
-  private readonly baseUrl;
+  constructor(private readonly http: HttpClient) {}
 
-  constructor(private readonly http: HttpClient) {
-    this.baseUrl = URL;
+  private getBaseUrl(base: ApiBase): string {
+    return ApiEndpoints[base] || ApiEndpoints.default;
   }
 
-  public get<T>(path: string, options?: object): Observable<T> {
+  private buildUrl(base: ApiBase, path: string): string {
+    return `${this.getBaseUrl(base)}${path}`;
+  }
+
+  public get<T>(
+    path: string,
+    config: ApiConfig = {}
+  ): Observable<T> {
+    const { options = {}, base = ApiBase.Default } = config;
+
     return this.http
-      .get<T>(`${this.baseUrl}${path}`, options)
+      .get<T>(this.buildUrl(base, path), options)
       .pipe(map((result: any) => result as T));
   }
 
   public post<T>(
     path: string,
     body: object | string | number,
-    options?: object
+    config: ApiConfig = {}
   ): Observable<T | null> {
+    const { options = {}, base = ApiBase.Default } = config;
+
     return this.http
-      .post<T>(`${this.baseUrl}${path}`, body, options)
+      .post<T>(this.buildUrl(base, path), body, options)
       .pipe(map((res: any) => res as T));
   }
 
   public put<T>(
     path: string,
     body: object | string,
-    options?: object
+    config: ApiConfig = {}
   ): Observable<T | null> {
+    const { options = {}, base = ApiBase.Default } = config;
+
     return this.http
-      .put<T>(`${this.baseUrl}${path}`, body, options)
+      .put<T>(this.buildUrl(base, path), body, options)
       .pipe(map((res: any) => res as T));
   }
 
-  public delete<T>(path: string, options?: object): Observable<any> {
+  public delete<T>(
+    path: string,
+    config: ApiConfig = {}
+  ): Observable<any> {
+    const { options = {}, base = ApiBase.Default } = config;
+
     return this.http
-      .delete<T>(`${this.baseUrl}${path}`, options)
+      .delete<T>(this.buildUrl(base, path), options)
       .pipe(map((res: any) => res as T));
   }
 }
