@@ -41,7 +41,7 @@
     width: 70%;
     text-align: center;
   }
-  
+
   .info-container {
     position: relative;
 
@@ -58,10 +58,16 @@
   .container {
     padding: 1rem;
   }
-  
+
   .input-field {
     label {
       text-align: center;
     }
   }
+}
+
+.errors {
+  display: flex;
+  justify-content: center;
+  text-align: center;
 }

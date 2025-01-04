@@ -64,6 +64,14 @@ public class StatisticController : ControllerBase
         return Ok(result);
     }
 
+    [HttpPost("get-reservation-chart-data")]
+    [Authorize]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OperationResult<GetReservationChartData>))]
+    public async Task<IActionResult> GetReservationChartData([FromBody] GetReservationChartDataQuery request, CancellationToken cancellationToken)
+    {
+        var result = await this.mediator.Send(request, cancellationToken);
+        return Ok(result);
+    }
 
     [HttpPost("create-reward-history-log")]
     [Authorize]

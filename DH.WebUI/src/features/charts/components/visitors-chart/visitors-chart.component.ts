@@ -37,7 +37,7 @@ interface IDropdown {
 export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
   @ViewChild('visitorActivityChartCanvas')
   private visitorActivityChartCanvas!: ElementRef<HTMLCanvasElement>;
-  private visitorActivityChart: any;
+  private visitorActivityChart!: Chart;
   public chartType: IDropdown[] = [];
   public visitorsChartType = new FormControl(0);
   public currentRangeStart: Date = this.getStartOfWeek();
@@ -51,7 +51,7 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
     private readonly statisticsService: StatisticsService
   ) {
     Chart.register(ChartDataLabels, ...registerables);
-    
+
     this.chartType = Object.entries(ChartActivityType)
       .filter(([key, value]) => typeof value === 'number')
       .map(([key, value]) => ({ id: value as number, name: key }));
@@ -60,15 +60,6 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
     this.visitorsChartType.valueChanges.subscribe(() => this.resetDateRange());
   }
 
-  public getStartOfWeek(): Date {
-    const date = new Date();
-    const day = date.getDay();
-    const diff = day === 0 ? -6 : 1 - day; // Adjust for Sunday (0) and other days
-    const startOfWeek = new Date(date);
-    startOfWeek.setDate(date.getDate() + diff);
-    startOfWeek.setHours(0, 0, 0, 0); // Set time to 00:00:00.000
-    return startOfWeek;
-  }
   public ngAfterViewInit(): void {
     this.createVisitorWeekActivityChartCanvas(colors);
   }
@@ -86,7 +77,60 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
     controlMenu.toggleMenu();
   }
 
-  public createVisitorWeekActivityChartCanvas(colors): void {
+  public updateDateRange(direction: 'forward' | 'backward'): void {
+    const selectedType = this.visitorsChartType.value;
+    if (this.visitorActivityChart) {
+      this.visitorActivityChart.destroy();
+    }
+    let adjustmentValue = 0;
+    if (selectedType === ChartActivityType.Weekly)
+      adjustmentValue = 7; // Weekly
+    else if (selectedType === ChartActivityType.Monthly)
+      adjustmentValue = 1; // Monthly
+    else if (selectedType === ChartActivityType.Yearly) adjustmentValue = 1; // Yearly
+
+    if (direction === 'backward') adjustmentValue *= -1;
+
+    if (selectedType === ChartActivityType.Weekly) {
+      this.currentRangeStart = addDays(this.currentRangeStart, adjustmentValue);
+      this.currentRangeEnd = addDays(this.currentRangeEnd, adjustmentValue);
+
+      this.createVisitorWeekActivityChartCanvas(colors);
+    } else if (selectedType === ChartActivityType.Monthly) {
+      this.currentRangeStart = addMonths(
+        this.currentRangeStart,
+        adjustmentValue
+      );
+
+      this.createVisitorMonthActivityChartCanvas(colors);
+    } else if (selectedType === ChartActivityType.Yearly) {
+      this.currentRangeStart = addYears(
+        this.currentRangeStart,
+        adjustmentValue
+      );
+
+      this.createVisitorYearlyActivityChartCanvas(colors);
+    }
+  }
+
+  public getFormattedRange(): string {
+    let date;
+    const selectedType = this.visitorsChartType.value;
+
+    if (selectedType === (ChartActivityType.Weekly as number)) {
+      date = `${format(this.currentRangeStart, 'MMM dd yyyy')} - ${format(
+        this.currentRangeEnd,
+        'MMM dd yyyy'
+      )}`;
+    } else if (selectedType === ChartActivityType.Monthly) {
+      date = `${format(this.currentRangeStart, 'MMM yyyy')}`;
+    } else if (selectedType === ChartActivityType.Yearly) {
+      date = `${format(this.currentRangeStart, 'yyyy')}`;
+    }
+    return date;
+  }
+
+  private createVisitorWeekActivityChartCanvas(colors): void {
     this.loadingService.loadingOn();
     this.statisticsService
       .getActivityChartData(
@@ -226,7 +270,7 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
       });
   }
 
-  public createVisitorMonthActivityChartCanvas(colors): void {
+  private createVisitorMonthActivityChartCanvas(colors): void {
     this.loadingService.loadingOn();
     this.statisticsService
       .getActivityChartData(
@@ -390,7 +434,7 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
       });
   }
 
-  public createVisitorYearlyActivityChartCanvas(colors): void {
+  private createVisitorYearlyActivityChartCanvas(colors): void {
     this.loadingService.loadingOn();
     this.statisticsService
       .getActivityChartData(
@@ -557,7 +601,7 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
     return { labels, values };
   }
 
-  public resetDateRange(): void {
+  private resetDateRange(): void {
     const selectedType = this.visitorsChartType.value;
 
     if (this.visitorActivityChart) {
@@ -580,56 +624,14 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
       this.createVisitorYearlyActivityChartCanvas(colors);
     }
   }
-  public updateDateRange(direction: 'forward' | 'backward'): void {
-    const selectedType = this.visitorsChartType.value;
-    if (this.visitorActivityChart) {
-      this.visitorActivityChart.destroy();
-    }
-    let adjustmentValue = 0;
-    if (selectedType === ChartActivityType.Weekly)
-      adjustmentValue = 7; // Weekly
-    else if (selectedType === ChartActivityType.Monthly)
-      adjustmentValue = 1; // Monthly
-    else if (selectedType === ChartActivityType.Yearly) adjustmentValue = 1; // Yearly
 
-    if (direction === 'backward') adjustmentValue *= -1;
-
-    if (selectedType === ChartActivityType.Weekly) {
-      this.currentRangeStart = addDays(this.currentRangeStart, adjustmentValue);
-      this.currentRangeEnd = addDays(this.currentRangeEnd, adjustmentValue);
-
-      this.createVisitorWeekActivityChartCanvas(colors);
-    } else if (selectedType === ChartActivityType.Monthly) {
-      this.currentRangeStart = addMonths(
-        this.currentRangeStart,
-        adjustmentValue
-      );
-
-      this.createVisitorMonthActivityChartCanvas(colors);
-    } else if (selectedType === ChartActivityType.Yearly) {
-      this.currentRangeStart = addYears(
-        this.currentRangeStart,
-        adjustmentValue
-      );
-
-      this.createVisitorYearlyActivityChartCanvas(colors);
-    }
-  }
-
-  public getFormattedRange(): string {
-    let date;
-    const selectedType = this.visitorsChartType.value;
-
-    if (selectedType === (ChartActivityType.Weekly as number)) {
-      date = `${format(this.currentRangeStart, 'MMM dd yyyy')} - ${format(
-        this.currentRangeEnd,
-        'MMM dd yyyy'
-      )}`;
-    } else if (selectedType === ChartActivityType.Monthly) {
-      date = `${format(this.currentRangeStart, 'MMM yyyy')}`;
-    } else if (selectedType === ChartActivityType.Yearly) {
-      date = `${format(this.currentRangeStart, 'yyyy')}`;
-    }
-    return date;
+  private getStartOfWeek(): Date {
+    const date = new Date();
+    const day = date.getDay();
+    const diff = day === 0 ? -6 : 1 - day; // Adjust for Sunday (0) and other days
+    const startOfWeek = new Date(date);
+    startOfWeek.setDate(date.getDate() + diff);
+    startOfWeek.setHours(0, 0, 0, 0); // Set time to 00:00:00.000
+    return startOfWeek;
   }
 }

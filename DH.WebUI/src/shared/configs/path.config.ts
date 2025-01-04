@@ -107,6 +107,7 @@ export const PATH = {
   STATISTICS: {
     CORE:"statistic",
     GET_ACTIVITY_CHART_DATA: "get-activity-chart-data",
+    GET_RESERVATION_CHART_DATA: "get-reservation-chart-data",
   }
   // AUTH: {
   //   LOGIN: 'auth/user/login',
