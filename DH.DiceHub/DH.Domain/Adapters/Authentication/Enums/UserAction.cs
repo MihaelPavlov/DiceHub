@@ -29,5 +29,6 @@ public enum UserAction
     TenantSettingsCUD = 19,
     SpaceManagementReservedTablesRU = 20,
     TenantSettingsR = 21,
-    EmployeesCRUD = 22
+    EmployeesCRUD = 22,
+    EventsAdminRead = 23,
 }

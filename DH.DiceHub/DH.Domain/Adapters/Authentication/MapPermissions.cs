@@ -21,6 +21,7 @@ public class MapPermissions : IMapPermissions, IActionPermissions<UserAction>
         { UserAction.GameReservedCRUD, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff} },
         { UserAction.EventsCUD, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff} },
         { UserAction.EventsRead, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff, Role.User} },
+        { UserAction.EventsAdminRead, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff} },
         { UserAction.RoomsCRUD, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff, Role.User} },
         { UserAction.ScannerRead, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff, Role.User} },
         { UserAction.SystemRewardsCRUD, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff} },

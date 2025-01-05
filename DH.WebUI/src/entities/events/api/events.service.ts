@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 import { IEventByIdResult } from '../models/event-by-id.mode';
 import { ICreateEventDto } from '../models/create-event.mode';
 import { IUpdateEventDto } from '../models/update-event.model';
+import { IEventDropdownListResult } from '../models/event-dropdown-list-result.model';
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +22,12 @@ export class EventsService {
       {
         searchExpression,
       }
+    );
+  }
+
+  public getAllEventsDropdownList(): Observable<IEventDropdownListResult[]> {
+    return this.api.get<IEventDropdownListResult[]>(
+      `/${PATH.EVENTS.CORE}/${PATH.EVENTS.GET_ALL_EVENTS_DROPDOWN_LIST}`
     );
   }
 
