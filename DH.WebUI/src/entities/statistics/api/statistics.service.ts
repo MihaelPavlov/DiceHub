@@ -9,13 +9,13 @@ import { PATH } from '../../../shared/configs/path.config';
 import { ChartActivityType } from '../enums/chart-activity-type.enum';
 import { OperationResult } from '../../../shared/models/operation-result.model';
 import { GetReservationChartData } from '../models/reservation-chart.model';
+import { GetEventAttendanceChartData } from '../models/event-attendance-chart.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StatisticsService {
-  constructor(private readonly api: RestApiService) {
-  }
+  constructor(private readonly api: RestApiService) {}
 
   public getActivityChartData(
     type: ChartActivityType,
@@ -28,7 +28,8 @@ export class StatisticsService {
         type,
         rangeStart,
         rangeEnd,
-      },{
+      },
+      {
         base: ApiBase.Statistics,
       }
     );
@@ -43,7 +44,38 @@ export class StatisticsService {
       {
         fromDate,
         toDate,
-      },{
+      },
+      {
+        base: ApiBase.Statistics,
+      }
+    );
+  }
+
+  public getEventAttendanceChartData(
+    fromDate: string,
+    toDate: string
+  ): Observable<OperationResult<GetEventAttendanceChartData> | null> {
+    return this.api.post<OperationResult<GetEventAttendanceChartData>>(
+      `/${PATH.STATISTICS.CORE}/${PATH.STATISTICS.GET_EVENT_ATTENDANCE_CHART_DATA}`,
+      {
+        fromDate,
+        toDate,
+      },
+      {
+        base: ApiBase.Statistics,
+      }
+    );
+  }
+
+  public getEventAttendanceByIds(
+    eventIds: number[]
+  ): Observable<OperationResult<GetEventAttendanceChartData> | null> {
+    return this.api.post<OperationResult<GetEventAttendanceChartData>>(
+      `/${PATH.STATISTICS.CORE}/${PATH.STATISTICS.GET_EVENT_ATTENDANCE_BY_IDS}`,
+      {
+        eventIds,
+      },
+      {
         base: ApiBase.Statistics,
       }
     );

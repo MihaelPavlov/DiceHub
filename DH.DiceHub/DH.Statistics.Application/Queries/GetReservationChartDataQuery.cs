@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DH.Statistics.Application.Queries;
 
-public record GetReservationChartDataQuery(string FromDate, string? ToDate) : IRequest<OperationResult<GetReservationChartData>>;
+public record GetReservationChartDataQuery(string FromDate, string ToDate) : IRequest<OperationResult<GetReservationChartData>>;
 
 internal class GetReservationChartDataQueryHandler(IDbContextFactory<StatisticsDbContext> dbContextFactory) : IRequestHandler<GetReservationChartDataQuery, OperationResult<GetReservationChartData>>
 {

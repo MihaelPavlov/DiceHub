@@ -46,6 +46,24 @@ public class StatisticController : ControllerBase
         return Ok(result);
     }
 
+    [HttpPost("get-event-attendance-chart-data")]
+    [Authorize]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OperationResult<GetEventAttendanceChartData>))]
+    public async Task<IActionResult> GetEventAttendanceChartData([FromBody] GetEventAttendanceChartDataQuery request, CancellationToken cancellationToken)
+    {
+        var result = await this.mediator.Send(request, cancellationToken);
+        return Ok(result);
+    }
+
+    [HttpPost("get-event-attendance-by-ids")]
+    [Authorize]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OperationResult<GetEventAttendanceChartData>))]
+    public async Task<IActionResult> GetEventAttendanceByIds([FromBody] GetEventAttendanceByIdsQuery request, CancellationToken cancellationToken)
+    {
+        var result = await this.mediator.Send(request, cancellationToken);
+        return Ok(result);
+    }
+
     [HttpDelete("remove-event-attendance-log")]
     [Authorize]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OperationResult<int>))]

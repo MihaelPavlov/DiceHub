@@ -8,6 +8,7 @@ import { RewardChartsLayoutComponent } from '../../features/charts/components/re
 import { RewardsCollectedChartComponent } from '../../features/charts/components/rewards/rewards-collected/rewards-collected-chart.component';
 import { EventAttendanceChartComponent } from '../../features/charts/components/events/event-attendance-chart.component';
 import { LeaderboardChallengesComponent } from '../../features/charts/components/challenges/leaderboard-challenges.component';
+import { EventAttendanceByEventsChartComponent } from '../../features/charts/components/events/event-attendance-by-ids/event-attendance-by-events-chart.component';
 
 const routes: Routes = [
   {
@@ -34,6 +35,10 @@ const routes: Routes = [
   {
     path: 'events',
     component: EventAttendanceChartComponent,
+  },
+  {
+    path: 'events/select-events',
+    component: EventAttendanceByEventsChartComponent,
   },
   {
     path: 'challenges/leaderboard',
