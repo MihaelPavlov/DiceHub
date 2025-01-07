@@ -16,6 +16,9 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { FormControl } from '@angular/forms';
 import { ControlsMenuComponent } from '../../../../shared/components/menu/controls-menu.component';
 import { combineLatest, map } from 'rxjs';
+import { ToastService } from '../../../../shared/services/toast.service';
+import { ToastType } from '../../../../shared/models/toast.model';
+import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
 
 @Component({
   selector: 'event-attendance-chart',
@@ -25,7 +28,7 @@ import { combineLatest, map } from 'rxjs';
 export class EventAttendanceChartComponent implements AfterViewInit, OnDestroy {
   @ViewChild('eventAttendanceChartCanvas')
   private eventAttendanceChartCanvas!: ElementRef<HTMLCanvasElement>;
-  private eventAttendanceChart: any;
+  private eventAttendanceChart!: Chart;
   private REQUIRED_MESSAGE_FROM_DATES: string =
     'Specifying from which date we start is required.';
 
@@ -39,7 +42,8 @@ export class EventAttendanceChartComponent implements AfterViewInit, OnDestroy {
     private readonly router: Router,
     private readonly menuTabsService: MenuTabsService,
     private readonly eventsService: EventsService,
-    private readonly statisticsService: StatisticsService
+    private readonly statisticsService: StatisticsService,
+    private readonly toastService: ToastService
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.PROFILE);
 
@@ -92,6 +96,7 @@ export class EventAttendanceChartComponent implements AfterViewInit, OnDestroy {
 
   public createDoughnutChart(): void {
     if (this.fromDateControl.value && this.toDateControl.value) {
+      this.loadingService.loadingOn();
       combineLatest([
         this.eventsService.getAllEventsDropdownList(),
         this.statisticsService.getEventAttendanceChartData(
@@ -200,6 +205,16 @@ export class EventAttendanceChartComponent implements AfterViewInit, OnDestroy {
               }
             }
           }
+        },
+        error: () => {
+          this.toastService.error({
+            message: AppToastMessage.SomethingWrong,
+            type: ToastType.Error,
+          });
+          this.loadingService.loadingOff();
+        },
+        complete: () => {
+          this.loadingService.loadingOff();
         },
       });
     }
