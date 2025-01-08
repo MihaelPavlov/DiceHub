@@ -66,4 +66,7 @@ export class EventAttendanceByEventsChartComponent
   public ngOnDestroy(): void {
     this.menuTabsService.resetData();
   }
+  public getName(item: any): void {
+    return item.name;
+  }
 }

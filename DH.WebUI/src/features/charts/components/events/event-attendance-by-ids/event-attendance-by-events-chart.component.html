@@ -24,6 +24,11 @@
       [(ngModel)]="this.selectedEventIds"
       (change)="createDoughnutChart()"
     >
+      <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+        <div class="ng-value">
+          <span class="ng-value-label">{{ items.length }} selected</span>
+        </div>
+      </ng-template>
     </ng-select>
   </div>
 
