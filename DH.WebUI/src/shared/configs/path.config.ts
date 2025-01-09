@@ -35,6 +35,7 @@ export const PATH = {
     PARTICIPATE: 'participate',
     REMOVE_PARTICIPANT: 'remove-participant',
     CHECK_USER_PARTICIPATION: 'check-user-participation',
+    GET_ALL_EVENTS_DROPDOWN_LIST: 'get-all-events-dropdown-list',
   },
   ROOMS: {
     CORE: 'rooms',
@@ -105,10 +106,12 @@ export const PATH = {
     CREATE_EMPLOYEE: 'create-employee',
   },
   STATISTICS: {
-    CORE:"statistic",
-    GET_ACTIVITY_CHART_DATA: "get-activity-chart-data",
-    GET_RESERVATION_CHART_DATA: "get-reservation-chart-data",
-  }
+    CORE: 'statistic',
+    GET_ACTIVITY_CHART_DATA: 'get-activity-chart-data',
+    GET_RESERVATION_CHART_DATA: 'get-reservation-chart-data',
+    GET_EVENT_ATTENDANCE_CHART_DATA: 'get-event-attendance-chart-data',
+    GET_EVENT_ATTENDANCE_BY_IDS: 'get-event-attendance-by-ids',
+  },
   // AUTH: {
   //   LOGIN: 'auth/user/login',
   // },
