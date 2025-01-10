@@ -53,6 +53,13 @@
   }
 }
 
+.mini_header {
+  display: flex;
+  justify-content: center;
+  color: palette.$main-font-gray-color;
+  font-size: 1.2rem;
+}
+
 .wrapper {
   margin: 1rem;
   margin-bottom: 10rem;
@@ -60,4 +67,11 @@
   .container {
     padding: 1rem;
   }
+}
+
+.custom-loading-text {
+  font-size: 16px;
+  color: palette.$main-blue-color; 
+  text-align: center;
+  margin-top: 20px;
 }

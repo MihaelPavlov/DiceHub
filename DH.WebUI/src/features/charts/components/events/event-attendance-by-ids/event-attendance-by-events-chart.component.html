@@ -11,18 +11,22 @@
   </div>
 </div>
 
+<p class="mini_header">Select Events</p>
+<div class="custom-loading-text" *ngIf="isLoading">
+  Processing, please wait<span>{{ dots }}</span>
+</div>
 <div class="wrapper">
   <div class="input-field">
     <ng-select
       [items]="eventList"
       bindLabel="name"
-      placeholder="Select Events"
+      placeholder="All Events"
       [searchable]="true"
       class="app-select-long"
       [multiple]="true"
       [closeOnSelect]="false"
       [(ngModel)]="this.selectedEventIds"
-      (change)="createDoughnutChart()"
+      (ngModelChange)="onEventSelectionChange()"
     >
       <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
         <div class="ng-value">

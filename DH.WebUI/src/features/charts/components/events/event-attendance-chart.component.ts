@@ -79,7 +79,7 @@ export class EventAttendanceChartComponent implements AfterViewInit, OnDestroy {
   }
 
   public backNavigateBtn(): void {
-    this.router.navigateByUrl('profile');
+    this.router.navigateByUrl('charts/events');
   }
 
   public showMenu(event: MouseEvent, controlMenu: ControlsMenuComponent): void {
@@ -236,7 +236,8 @@ export class EventAttendanceChartComponent implements AfterViewInit, OnDestroy {
     //   { userAttendedCount: 60, eventName: 'Event J' },
     // ];
   }
-  generateGradient(
+
+  private generateGradient(
     ctx: CanvasRenderingContext2D,
     color: {
       default: string;
@@ -252,7 +253,7 @@ export class EventAttendanceChartComponent implements AfterViewInit, OnDestroy {
     return gradient;
   }
 
-  generateColor(index: number): {
+  private generateColor(index: number): {
     default: string;
     half: string;
     quarter: string;

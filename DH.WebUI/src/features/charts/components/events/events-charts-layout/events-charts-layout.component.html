@@ -1,0 +1,33 @@
+<div class="wrapper_icons">
+  <span (click)="backNavigateBtn()" class="arrow left"></span>
+  <span class="header_name">Event Charts</span>
+  <div class="info-container">
+    <span
+      class="material-symbols-outlined info"
+      (click)="showMenu($event, controls)"
+    >
+      info
+    </span>
+  </div>
+</div>
+
+<div class="wrapper_tabs">
+  <div class="wrapper_tabs__tab" (click)="navigateToEventsByDates()">
+    <div class="info">
+      <span class="material-symbols-outlined"> donut_large </span>
+    </div>
+    <span class="wrapper_tabs__tab-header">Between Dates</span>
+  </div>
+  <div class="wrapper_tabs__tab" (click)="navigateToEventsByEventIds()">
+    <div class="info">
+      <span class="material-symbols-outlined"> donut_small </span>
+    </div>
+    <span class="wrapper_tabs__tab-header">Select Event</span>
+  </div>
+</div>
+
+<app-controls-menu
+  #controls
+  [isInfo]="true"
+  infoDescription="All available charts related to events."
+></app-controls-menu>
