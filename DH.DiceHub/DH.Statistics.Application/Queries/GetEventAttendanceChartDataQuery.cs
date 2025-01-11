@@ -1,5 +1,6 @@
 ﻿using DH.OperationResultCore.Extension;
 using DH.OperationResultCore.Utility;
+using DH.Statistics.Application.Helpers;
 using DH.Statistics.Data;
 using DH.Statistics.Domain.Models.Queries;
 using MediatR;
@@ -15,16 +16,18 @@ internal class GetEventAttendanceChartDataQueryHandler(IDbContextFactory<Statist
 
     public async Task<OperationResult<GetEventAttendanceChartData>> Handle(GetEventAttendanceChartDataQuery request, CancellationToken cancellationToken)
     {
-        if (!DateTime.TryParse(request.FromDate, out var fromDateUtc))
-            return new OperationResult<GetEventAttendanceChartData>().ReturnWithBadRequestException("From Date is Missing or Incorrect");
+        var (fromDateUtc, toDateUtc, errorMessage) = request.ValidateAndParseDates();
 
-        if (!DateTime.TryParse(request.ToDate, out var toDateUtc))
-            return new OperationResult<GetEventAttendanceChartData>().ReturnWithBadRequestException("To Date is Missing or Incorrect");
+        if (errorMessage != null)
+            return new OperationResult<GetEventAttendanceChartData>()
+                .ReturnWithBadRequestException(errorMessage);
 
         using (var context = await dbContextFactory.CreateDbContextAsync(cancellationToken))
         {
             var events = await context.EventAttendanceLogs
-                .Where(x => x.LogDate.Date >= fromDateUtc.Date && x.LogDate.Date <= toDateUtc.Date)
+                .Where(x =>
+                    x.LogDate.Date >= fromDateUtc!.Value.Date &&
+                    x.LogDate.Date <= toDateUtc!.Value.Date)
                 .GroupBy(x => x.EventId)
                 .Select(x => new EventAttendance
                 {

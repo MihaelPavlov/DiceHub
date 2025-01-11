@@ -26,6 +26,12 @@ export class RewardsService {
     );
   }
 
+  public getAllSystemRewards(): Observable<IRewardListResult[]> {
+    return this.api.get<IRewardListResult[]>(
+      `/${PATH.REWARDS.CORE}/${PATH.REWARDS.GET_ALL_SYSTEM_REWARD_LIST}`
+    );
+  }
+
   public getById(id: number): Observable<IRewardGetByIdResult> {
     return this.api.get<IRewardGetByIdResult>(
       `/${PATH.REWARDS.CORE}/${PATH.REWARDS.SYSTEM_REWARD}/${id}`

@@ -49,6 +49,15 @@ public class RewardsController : ControllerBase
         return Ok(result);
     }
 
+    [HttpGet("get-all-system-rewards-list")]
+    [ActionAuthorize(UserAction.SystemRewardsCRUD)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetSystemRewardListQueryModel>))]
+    public async Task<IActionResult> GetAllSystemRewardList(CancellationToken cancellationToken)
+    {
+        var result = await this.mediator.Send(new GetAllSystemRewardListQuery(), cancellationToken);
+        return Ok(result);
+    }
+
     [HttpPost("system-reward-list")]
     [ActionAuthorize(UserAction.SystemRewardsCRUD)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetSystemRewardListQueryModel>))]

@@ -23,13 +23,16 @@
     </div>
   </div>
 
-  <div
-    class="container"
-    style="width: 100%"
-    [style.height.rem]="rewardsCount * 1.75"
-  >
-    <canvas #rewardsChartCanvas></canvas>
+  <div class="errors">
+    {{ validationMessageFromDates }}
   </div>
+
+    <div
+      class="container"
+      style="width: 100%;"
+    >
+      <canvas #rewardsChartCanvas></canvas>
+    </div>
 </div>
 
 <app-controls-menu

@@ -1,5 +1,6 @@
 ﻿using DH.OperationResultCore.Extension;
 using DH.OperationResultCore.Utility;
+using DH.Statistics.Application.Helpers;
 using DH.Statistics.Data;
 using DH.Statistics.Domain.Enums;
 using DH.Statistics.Domain.Models.Queries;
@@ -16,16 +17,18 @@ internal class GetReservationChartDataQueryHandler(IDbContextFactory<StatisticsD
 
     public async Task<OperationResult<GetReservationChartData>> Handle(GetReservationChartDataQuery request, CancellationToken cancellationToken)
     {
-        if (!DateTime.TryParse(request.FromDate, out var fromDateUtc))
-            return new OperationResult<GetReservationChartData>().ReturnWithBadRequestException("From Date is Missing or Incorrect");
+        var (fromDateUtc, toDateUtc, errorMessage) = request.ValidateAndParseDates();
 
-        if (!DateTime.TryParse(request.ToDate, out var toDateUtc))
-            return new OperationResult<GetReservationChartData>().ReturnWithBadRequestException("To Date is Missing or Incorrect");
+        if (errorMessage != null)
+            return new OperationResult<GetReservationChartData>()
+                .ReturnWithBadRequestException(errorMessage);
 
         using (var context = await dbContextFactory.CreateDbContextAsync(cancellationToken))
         {
             var reservations = await context.ReservationOutcomeLogs
-                .Where(x => x.OutcomeDate.Date >= fromDateUtc.Date && x.OutcomeDate.Date <= toDateUtc.Date)
+                .Where(x => 
+                    x.OutcomeDate.Date >= fromDateUtc!.Value.Date &&
+                    x.OutcomeDate.Date <= toDateUtc!.Value.Date)
                 .ToListAsync(cancellationToken);
 
             var gameReservations = reservations.Where(r => r.Type == ReservationType.Game)

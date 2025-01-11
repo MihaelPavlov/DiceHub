@@ -56,6 +56,7 @@ export const PATH = {
     CORE: 'rewards',
     SYSTEM_REWARD: 'system-reward',
     SYSTEM_REWARD_LIST: 'system-reward-list',
+    GET_ALL_SYSTEM_REWARD_LIST: 'get-all-system-rewards-list',
     GET_USER_REWARDS: 'get-user-rewards',
     GET_USER_PERIOD_REWARDS: 'get-user-period-rewards',
     USER_REWARD_CONFIRMATION: 'user-reward-confirmation',
@@ -111,6 +112,9 @@ export const PATH = {
     GET_RESERVATION_CHART_DATA: 'get-reservation-chart-data',
     GET_EVENT_ATTENDANCE_CHART_DATA: 'get-event-attendance-chart-data',
     GET_EVENT_ATTENDANCE_BY_IDS: 'get-event-attendance-by-ids',
+    GET_COLLECTED_REWARDS_BY_DATES: 'get-collected-rewards-by-dates',
+    GET_EXPIRED_COLLECTED_REWARDS_CHART_DATA:
+      'get-expired-collected-rewards-chart-data',
   },
   // AUTH: {
   //   LOGIN: 'auth/user/login',

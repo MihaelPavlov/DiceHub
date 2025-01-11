@@ -1,3 +1,4 @@
+import { GetEventAttendanceChartData } from './../models/event-attendance-chart.model';
 import { Injectable } from '@angular/core';
 import {
   ApiBase,
@@ -9,7 +10,8 @@ import { PATH } from '../../../shared/configs/path.config';
 import { ChartActivityType } from '../enums/chart-activity-type.enum';
 import { OperationResult } from '../../../shared/models/operation-result.model';
 import { GetReservationChartData } from '../models/reservation-chart.model';
-import { GetEventAttendanceChartData } from '../models/event-attendance-chart.model';
+import { GetCollectedRewardsByDates } from '../models/collected-rewards-by-dates.model';
+import { GetExpiredCollectedRewardsChart } from '../models/expired-collected-rewards-chart.model';
 
 @Injectable({
   providedIn: 'root',
@@ -74,6 +76,36 @@ export class StatisticsService {
       `/${PATH.STATISTICS.CORE}/${PATH.STATISTICS.GET_EVENT_ATTENDANCE_BY_IDS}`,
       {
         eventIds,
+      },
+      {
+        base: ApiBase.Statistics,
+      }
+    );
+  }
+
+  public getCollectedRewardsByDates(
+    fromDate: string,
+    toDate: string
+  ): Observable<OperationResult<GetCollectedRewardsByDates[]> | null> {
+    return this.api.post<OperationResult<GetCollectedRewardsByDates[]>>(
+      `/${PATH.STATISTICS.CORE}/${PATH.STATISTICS.GET_COLLECTED_REWARDS_BY_DATES}`,
+      {
+        fromDate,
+        toDate,
+      },
+      {
+        base: ApiBase.Statistics,
+      }
+    );
+  }
+
+  public getExpiredCollectedRewardChartData(
+    year: number
+  ): Observable<OperationResult<GetExpiredCollectedRewardsChart> | null> {
+    return this.api.post<OperationResult<GetExpiredCollectedRewardsChart>>(
+      `/${PATH.STATISTICS.CORE}/${PATH.STATISTICS.GET_EXPIRED_COLLECTED_REWARDS_CHART_DATA}`,
+      {
+        year,
       },
       {
         base: ApiBase.Statistics,
