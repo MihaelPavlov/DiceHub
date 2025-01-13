@@ -9,8 +9,10 @@ public static class ApiEndpoints
         public const string CreateEventAttendanceLog = "statistic/create-event-attendance-log";
         public const string RemoveEventAttendanceLog = "statistic/remove-event-attendance-log";
 
-        public const string CreateReservationOutcomeLog= "statistic/create-reservation-outcome-log";
+        public const string CreateReservationOutcomeLog = "statistic/create-reservation-outcome-log";
 
-        public const string CreateRewardHistoryLog= "statistic/create-reward-history-log";
+        public const string CreateChallengeOutcomeLog = "statistic/create-challenge-outcome-log";
+
+        public const string CreateRewardHistoryLog = "statistic/create-reward-history-log";
     }
 }

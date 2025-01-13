@@ -14,7 +14,6 @@ internal class GetExpiredCollectedRewardsChartDataQueryHandler(IDbContextFactory
 
     public async Task<OperationResult<GetExpiredCollectedRewardsChartDataModel>> Handle(GetExpiredCollectedRewardsChartDataQuery request, CancellationToken cancellationToken)
     {
-
         using (var context = await dbContextFactory.CreateDbContextAsync(cancellationToken))
         {
             var collectedRewards = await context.RewardHistoryLogs

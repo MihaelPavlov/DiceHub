@@ -51,6 +51,9 @@ public class Program
                 if (string.IsNullOrEmpty(rabbitMqConfig.RoutingKeys?.RewardActionDetected))
                     missingRoutingKeys.Add(nameof(rabbitMqConfig.RoutingKeys.RewardActionDetected));
 
+                if (string.IsNullOrEmpty(rabbitMqConfig.RoutingKeys?.ChallengeProcessingOutcome))
+                    missingRoutingKeys.Add(nameof(rabbitMqConfig.RoutingKeys.ChallengeProcessingOutcome));
+
                 if (missingRoutingKeys.Any())
                     throw new ConfigurationErrorsException($"RabbitMQ RoutingKeys missing in the configuration: {string.Join(", ", missingRoutingKeys)}.");
 
@@ -80,6 +83,11 @@ public class Program
                        rabbitMqConfig.Queues.StatisticsQueue,
                        rabbitMqConfig.RoutingKeys.RewardActionDetected);
 
+                    client.Setup(
+                       rabbitMqConfig.ExchangeName,
+                       rabbitMqConfig.Queues.StatisticsQueue,
+                       rabbitMqConfig.RoutingKeys.ChallengeProcessingOutcome);
+
                     return client;
                 });
 
@@ -94,6 +102,9 @@ public class Program
                     rabbitMqConfig.Queues.StatisticsQueue);
 
                 services.AddScopedRabbitMqWorker<RewardActionDetectedMessage, RewardActionDetectedHandler>(
+                    rabbitMqConfig.Queues.StatisticsQueue);
+
+                services.AddScopedRabbitMqWorker<ChallengeProcessingOutcomeMessage, ChallengeProcessingOutcomeHandler>(
                     rabbitMqConfig.Queues.StatisticsQueue);
 
                 services.AddCommunicationService();

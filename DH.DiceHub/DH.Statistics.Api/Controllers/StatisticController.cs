@@ -76,6 +76,14 @@ public class StatisticController : ControllerBase
         return Ok(result);
     }
 
+    [HttpPost("create-challenge-outcome-log")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OperationResult<int>))]
+    public async Task<IActionResult> CreateChallengeOutcomeLog([FromBody] CreateChallengeOutcomeRequest request, CancellationToken cancellationToken)
+    {
+        var result = await this.mediator.Send(new CreateChallengeOutcomeCommand(request), cancellationToken);
+        return Ok(result);
+    }
+
     [HttpPost("get-reservation-chart-data")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OperationResult<GetReservationChartData>))]
     public async Task<IActionResult> GetReservationChartData([FromBody] GetReservationChartDataQuery request, CancellationToken cancellationToken)
