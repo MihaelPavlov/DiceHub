@@ -13,64 +13,104 @@
 
 <div class="wrapper_users">
   <div class="filters">
-    <span class="active">Day</span>
-    <span>Week</span>
-    <span>Month</span>
+    <span
+      [ngClass]="{
+        active: currentLeaderboardActiveType === ChallengeLeaderboardType.Weekly
+      }"
+      (click)="fetchLeaderboardData(ChallengeLeaderboardType.Weekly)"
+    >
+      Week
+    </span>
+    <span
+      [ngClass]="{
+        active:
+          currentLeaderboardActiveType === ChallengeLeaderboardType.Monthly
+      }"
+      (click)="fetchLeaderboardData(ChallengeLeaderboardType.Monthly)"
+    >
+      Month
+    </span>
+    <span
+      [ngClass]="{
+        active: currentLeaderboardActiveType === ChallengeLeaderboardType.Yearly
+      }"
+      (click)="fetchLeaderboardData(ChallengeLeaderboardType.Yearly)"
+    >
+      Yearly
+    </span>
   </div>
 
-  <div class="wrapper_steps">
-    <div class="wrapper_steps__item small-board">
+  <div class="wrapper_steps" *ngIf="challengeLeaderboardData.length > 3">
+    <div
+      class="wrapper_steps__item small-board"
+      *ngFor="let user of challengeLeaderboardData | slice : 1 : 2"
+    >
       <div class="wrapper_image">
         <img src="../../../../../shared/assets/images/mpavlov.png" alt="" />
       </div>
       <div class="wrapper_steps__item__info">
-        <span>Keney West</span>
-        <span [randomColor]="2">202</span>
+        <span>{{ user.username }}</span>
+        <span [randomColor]="2">{{ user.challengeCount }}</span>
       </div>
     </div>
-    <div class="wrapper_steps__item big-board">
+    <div
+      class="wrapper_steps__item big-board"
+      *ngFor="let user of challengeLeaderboardData | slice : 0 : 1"
+    >
       <div class="wrapper_image">
         <img src="../../../../../shared/assets/images/mpavlov.png" alt="" />
       </div>
       <div class="wrapper_steps__item__info">
-        <span>Keney Westt</span>
-        <span [randomColor]="1">202</span>
+        <span>{{ user.username }}</span>
+        <span [randomColor]="1">{{ user.challengeCount }}</span>
       </div>
     </div>
-    <div class="wrapper_steps__item small-board">
+    <div
+      class="wrapper_steps__item small-board"
+      *ngFor="let user of challengeLeaderboardData | slice : 2 : 3"
+    >
       <div class="wrapper_image">
         <img src="../../../../../shared/assets/images/mpavlov.png" alt="" />
       </div>
       <div class="wrapper_steps__item__info">
-        <span>Keney West</span>
-        <span [randomColor]="3">202</span>
+        <span>{{ user.username }}</span>
+        <span [randomColor]="3">{{ user.challengeCount }}</span>
       </div>
     </div>
   </div>
 
-  <!-- *ngFor="let user of users" for the wrapper_reviews__item-->
-  <div class="wrapper_users__item">
-    <div class="wrapper_image">
-      <img src="../../../../../shared/assets/images/mpavlov.png" alt="" />
+  <ng-container *ngIf="challengeLeaderboardData.length > 3">
+    <div
+      *ngFor="let user of challengeLeaderboardData | slice : 3; let i = index"
+      class="wrapper_users__item"
+    >
+      <div class="wrapper_image">
+        <img src="../../../../../shared/assets/images/mpavlov.png" alt="" />
+      </div>
+      <div class="wrapper_users__item__info">
+        <span class="name">{{ user.username }}</span>
+        <span [randomColor]="i">{{ user.challengeCount }}</span>
+      </div>
     </div>
-    <div class="wrapper_users__item__info">
-      <span class="name">Keney WEst</span>
-      <span [randomColor]="1">202</span>
+  </ng-container>
+  <ng-container *ngIf="challengeLeaderboardData.length <= 3">
+    <div
+      *ngFor="let user of challengeLeaderboardData; let i = index"
+      class="wrapper_users__item"
+    >
+      <div class="wrapper_image">
+        <img src="../../../../../shared/assets/images/mpavlov.png" alt="" />
+      </div>
+      <div class="wrapper_users__item__info">
+        <span class="name">{{ user.username }}</span>
+        <span [randomColor]="i">{{ user.challengeCount }}</span>
+      </div>
     </div>
-  </div>
-  <div class="wrapper_users__item">
-    <div class="wrapper_image">
-      <img src="../../../../../shared/assets/images/mpavlov.png" alt="" />
-    </div>
-    <div class="wrapper_users__item__info">
-      <span class="name">Keney West</span>
-      <span [randomColor]="2">202</span>
-    </div>
-  </div>
+  </ng-container>
 </div>
 
 <app-controls-menu
   #controls
   [isInfo]="true"
-  infoDescription="Challenge LeaderBoard"
+  infoDescription="Here you will see Challenge Leaderboard, visualizing only the completed."
 ></app-controls-menu>

@@ -16,6 +16,12 @@ export class UsersService {
     );
   }
 
+  public getUserList(): Observable<IUser[] | null> {
+    return this.api.get<IUser[]>(
+      `/${PATH.USER.CORE}/${PATH.USER.GET_USER_LIST}`
+    );
+  }
+
   public createEmployee(
     firstName: string,
     lastName: string,

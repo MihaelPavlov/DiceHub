@@ -34,5 +34,7 @@ public record RewardActionDetectedHandler(IAuthorizedClientFactory authorizedCli
         var result = await request
              .WithImpersonated()
              .SendWithResulAsync<OperationResult<int>>(cancellationToken);
+
+        //TODO: What happened after failed
     }
 }

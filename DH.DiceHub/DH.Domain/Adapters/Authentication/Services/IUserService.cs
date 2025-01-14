@@ -40,6 +40,12 @@ public interface IUserService
     /// <returns>A <see cref="GetUserByRoleModel"/> collection.</returns>
     Task<List<GetUserByRoleModel>> GetUserListByRole(Role role, CancellationToken cancellationToken);
 
+    /// <summary>
+    /// Get user list by roles
+    /// </summary>
+    /// <param name="role">Specific role.</param>
+    /// <returns>A <see cref="GetUserByRoleModel"/> collection.</returns>
+    Task<List<GetUserByRoleModel>> GetUserListByRoles(Role[] roles, CancellationToken cancellationToken);
 
     /// <summary>
     /// Create employee

@@ -104,6 +104,7 @@ export const PATH = {
     CORE: 'user',
     SAVE_TOKEN: 'save-token',
     GET_EMPLOYEE_LIST: 'get-employee-list',
+    GET_USER_LIST: 'get-user-list',
     CREATE_EMPLOYEE: 'create-employee',
   },
   STATISTICS: {
@@ -115,6 +116,7 @@ export const PATH = {
     GET_COLLECTED_REWARDS_BY_DATES: 'get-collected-rewards-by-dates',
     GET_EXPIRED_COLLECTED_REWARDS_CHART_DATA:
       'get-expired-collected-rewards-chart-data',
+    GET_CHALLENGE_HISTORY_LOG: 'get-challenge-history-log',
   },
   // AUTH: {
   //   LOGIN: 'auth/user/login',

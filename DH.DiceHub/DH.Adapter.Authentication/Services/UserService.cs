@@ -174,6 +174,28 @@ public class UserService : IUserService
         }).ToList();
     }
 
+    public async Task<List<GetUserByRoleModel>> GetUserListByRoles(Role[] roles, CancellationToken cancellationToken)
+    {
+        var result = new List<GetUserByRoleModel>();
+        foreach (var role in roles)
+        {
+            // Check if the role exists
+            if (!await this.roleManager.RoleExistsAsync(role.ToString()))
+                throw new ArgumentException("Role does not exist.");
+
+            // Get users in the specified role
+            var usersInRole = await this.userManager.GetUsersInRoleAsync(role.ToString());
+
+            result.AddRange(usersInRole.Select(x => new GetUserByRoleModel
+            {
+                Id = x.Id,
+                UserName = x.UserName ?? "username_placeholder",
+            }).ToList());
+        }
+
+        return result;
+    }
+
     public async Task CreateEmployee(CreateEmployeeRequest request, CancellationToken cancellationToken)
     {
         if (!request.FieldsAreValid(out var validationErrors))

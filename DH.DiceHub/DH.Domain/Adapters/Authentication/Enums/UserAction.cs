@@ -31,4 +31,5 @@ public enum UserAction
     TenantSettingsR = 21,
     EmployeesCRUD = 22,
     EventsAdminRead = 23,
+    UsersRead = 24,
 }

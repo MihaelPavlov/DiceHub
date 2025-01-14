@@ -128,6 +128,15 @@ public class UserController : ControllerBase
         return Ok();
     }
 
+    [HttpGet("get-user-list")]
+    [ActionAuthorize(UserAction.UsersRead)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetUserByRoleModel>))]
+    public async Task<IActionResult> GetUserList(CancellationToken cancellationToken)
+    {
+        var employees = await this.userService.GetUserListByRoles([Role.User, Role.Staff], cancellationToken);
+        return Ok(employees);
+    }
+
     [HttpGet("get-employee-list")]
     [ActionAuthorize(UserAction.EmployeesCRUD)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetUserByRoleModel>))]

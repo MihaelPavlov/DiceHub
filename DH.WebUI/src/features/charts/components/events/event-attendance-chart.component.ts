@@ -115,7 +115,7 @@ export class EventAttendanceChartComponent implements AfterViewInit, OnDestroy {
               (x) => ({
                 userAttendedCount: x.userAttendedCount,
                 eventName:
-                  events.find((e) => e.id == x.eventId)?.name ||
+                  events.find((e) => e.id === x.eventId)?.name ||
                   'Event Deleted',
               })
             );

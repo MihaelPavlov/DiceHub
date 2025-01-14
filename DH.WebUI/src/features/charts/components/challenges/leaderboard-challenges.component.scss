@@ -62,11 +62,12 @@
     justify-content: space-around;
     margin: 1.5rem;
     align-items: center;
-
+    span {
+      padding: 0.5rem 1rem;
+    }
     .active {
       background-color: palette.$main-blue-color;
       border-radius: 0.5rem;
-      padding: 0.5rem 1rem;
     }
   }
 

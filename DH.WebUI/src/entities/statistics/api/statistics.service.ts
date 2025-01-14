@@ -12,6 +12,8 @@ import { OperationResult } from '../../../shared/models/operation-result.model';
 import { GetReservationChartData } from '../models/reservation-chart.model';
 import { GetCollectedRewardsByDates } from '../models/collected-rewards-by-dates.model';
 import { GetExpiredCollectedRewardsChart } from '../models/expired-collected-rewards-chart.model';
+import { IChallengeLeaderboard } from '../models/challenge-leaderboard.model';
+import { ChallengeLeaderboardType } from '../enums/challenge-leaderboard-type.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -106,6 +108,20 @@ export class StatisticsService {
       `/${PATH.STATISTICS.CORE}/${PATH.STATISTICS.GET_EXPIRED_COLLECTED_REWARDS_CHART_DATA}`,
       {
         year,
+      },
+      {
+        base: ApiBase.Statistics,
+      }
+    );
+  }
+
+  public getChallengeLeaderboard(
+    type: ChallengeLeaderboardType
+  ): Observable<OperationResult<IChallengeLeaderboard[]> | null> {
+    return this.api.post<OperationResult<IChallengeLeaderboard[]>>(
+      `/${PATH.STATISTICS.CORE}/${PATH.STATISTICS.GET_CHALLENGE_HISTORY_LOG}`,
+      {
+        type,
       },
       {
         base: ApiBase.Statistics,
