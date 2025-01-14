@@ -1,5 +1,4 @@
-﻿using DH.Domain.Entities;
-using DH.Domain.Models.Common;
+﻿using DH.Domain.Models.Common;
 using DH.Domain.Services.Publisher;
 using DH.Messaging.Publisher;
 using DH.Messaging.Publisher.Messages;
@@ -91,5 +90,27 @@ public class EventPublisherService(RabbitMqOptions options, IRabbitMqClient rabb
         };
 
         await this.rabbitMqClient.Publish(options.ExchangeName, options.RoutingKeys.RewardActionDetected, message);
+    }
+
+    public async Task PublishChallengeProcessingOutcomeMessage(string userId, int challengeId, string type)
+    {
+        if (Enum.TryParse<ChallengeOutcome>(type, out var parsedType))
+        {
+            var message = new EventMessage<ChallengeProcessingOutcomeMessage>
+            {
+                MessageId = Guid.NewGuid().ToString(),
+                DateTime = DateTimeOffset.UtcNow,
+                Body = new ChallengeProcessingOutcomeMessage()
+                {
+                    UserId = userId,
+                    OutcomeDate = DateTime.UtcNow,
+                    ChallengeId = challengeId,
+                    Outcome = parsedType,
+                }
+            };
+            await this.rabbitMqClient.Publish(options.ExchangeName, options.RoutingKeys.ChallengeProcessingOutcome, message);
+        }
+        else //TODO: Added a Logger
+            return;
     }
 }

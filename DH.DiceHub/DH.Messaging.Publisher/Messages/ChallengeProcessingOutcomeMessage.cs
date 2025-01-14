@@ -20,5 +20,11 @@ public class ChallengeProcessingOutcomeMessage
     /// <summary>
     /// Gets or sets the outcome action (Completed or Expired).
     /// </summary>
-    public int Outcome { get; set; }
+    public ChallengeOutcome Outcome { get; set; }
+}
+
+public enum ChallengeOutcome
+{
+    Completed = 0,
+    Expired = 1
 }

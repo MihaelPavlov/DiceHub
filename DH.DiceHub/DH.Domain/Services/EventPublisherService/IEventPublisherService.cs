@@ -26,6 +26,8 @@ public interface IEventPublisherService
     /// <param name="userId"></param>
     /// <returns></returns>
     Task PublishReservationProcessingOutcomeMessage(string action, string userId, string type, int reservationId);
-    
+
     Task PublishRewardActionDetectedMessage(string userId, int rewardId, bool isExpired, bool isCollected);
+
+    Task PublishChallengeProcessingOutcomeMessage(string userId, int challengeId, string type);
 }
