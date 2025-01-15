@@ -85,7 +85,7 @@ public static class AuthenticationDIModule
     public static IServiceCollection AuthenticationAdapter(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<AppIdentityDbContext>(x =>
-            x.UseSqlServer(
+            x.UseNpgsql(
                 connectionString: configuration.GetConnectionString("DefaultConnection"),
                 sqlServer => sqlServer
                     .MigrationsAssembly(typeof(AppIdentityDbContext).Assembly.FullName)

@@ -86,7 +86,7 @@ public class UserService : IUserService
         var refreshToken = this.jwtService.GenerateRefreshToken();
 
         user.RefreshToken = refreshToken;
-        user.RefreshTokenExpiryTime = DateTime.Now.AddDays(10);
+        user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(10);
 
         await this.userManager.UpdateAsync(user);
 

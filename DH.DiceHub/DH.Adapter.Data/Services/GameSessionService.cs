@@ -3,6 +3,7 @@ using DH.Domain.Entities;
 using DH.Domain.Enums;
 using DH.Domain.Helpers;
 using DH.Domain.Services;
+using DH.Domain.Services.Publisher;
 using DH.Domain.Services.TenantSettingsService;
 using DH.OperationResultCore.Exceptions;
 using Microsoft.EntityFrameworkCore;
@@ -15,12 +16,14 @@ public class GameSessionService : IGameSessionService
     readonly IDbContextFactory<TenantDbContext> dbContextFactory;
     readonly SynchronizeUsersChallengesQueue queue;
     readonly ITenantSettingsCacheService tenantSettingsCacheService;
+    readonly IEventPublisherService eventPublisherService;
 
-    public GameSessionService(IDbContextFactory<TenantDbContext> dbContextFactory, SynchronizeUsersChallengesQueue queue, ITenantSettingsCacheService tenantSettingsCacheService)
+    public GameSessionService(IDbContextFactory<TenantDbContext> dbContextFactory, SynchronizeUsersChallengesQueue queue, ITenantSettingsCacheService tenantSettingsCacheService, IEventPublisherService eventPublisherService)
     {
         this.dbContextFactory = dbContextFactory;
         this.queue = queue;
         this.tenantSettingsCacheService = tenantSettingsCacheService;
+        this.eventPublisherService = eventPublisherService;
     }
 
     /// <inheritdoc/>
@@ -69,7 +72,8 @@ public class GameSessionService : IGameSessionService
                         challenge.CompletedDate = DateTime.UtcNow;
                         challenge.Status = ChallengeStatus.Completed;
                         challenge.IsActive = false;
-                        
+
+                        await this.eventPublisherService.PublishChallengeProcessingOutcomeMessage(userId, challenge.ChallengeId, "Completed");
                         var challengeStats = challengeStatistics.First(x => x.ChallengeId == challenge.ChallengeId);
                         challengeStats.TotalCompletions++;
                     }

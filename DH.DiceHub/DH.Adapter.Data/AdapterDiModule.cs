@@ -19,7 +19,7 @@ public static class DataDIModule
     {
         services
             .AddDbContext<TenantDbContext>(options => options
-                .UseSqlServer(
+                .UseNpgsql(
                     configuration.GetConnectionString("DefaultConnection"),
                     sqlServer => sqlServer
                         .MigrationsAssembly(typeof(TenantDbContext).Assembly.FullName))

@@ -23,7 +23,7 @@ public static class SchedulingDIModule
             q.UsePersistentStore(storeOptions =>
             {
                 storeOptions.UseProperties = true;
-                storeOptions.UseSqlServer(sqlServerOptions =>
+                storeOptions.UsePostgres(sqlServerOptions =>
                 {
                     sqlServerOptions.ConnectionString = configuration.GetConnectionString("DefaultConnection");
                     sqlServerOptions.TablePrefix = "QRTZ_";

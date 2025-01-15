@@ -111,7 +111,7 @@ static async Task MigrateTenantDatabase(string connectionString, ConsoleFileLogg
 
     var optionsBuilder = new DbContextOptionsBuilder<TenantDbContext>();
     optionsBuilder
-        .UseSqlServer(connectionString, x => x.MigrationsAssembly("DH.Adapter.Data"))
+        .UseNpgsql(connectionString, x => x.MigrationsAssembly("DH.Adapter.Data"))
         .LogTo(logger.WriteLine, LogLevel.Information);
 
     using (var context = new TenantDbContext(optionsBuilder.Options))
@@ -129,7 +129,7 @@ static async Task MigrateAuthentication(string connectionString, ConsoleFileLogg
 
     var optionsBuilder = new DbContextOptionsBuilder<AppIdentityDbContext>();
     optionsBuilder
-        .UseSqlServer(connectionString, x => x.MigrationsAssembly("DH.Adapter.Authentication"))
+        .UseNpgsql(connectionString, x => x.MigrationsAssembly("DH.Adapter.Authentication"))
         .LogTo(logger.WriteLine, LogLevel.Information);
 
     using (var context = new AppIdentityDbContext(optionsBuilder.Options))

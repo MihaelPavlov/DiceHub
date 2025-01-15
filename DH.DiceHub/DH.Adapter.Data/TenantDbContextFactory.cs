@@ -15,7 +15,7 @@ public class TenantDbContextFactory : IDbContextFactory<TenantDbContext>
     TenantDbContext IDbContextFactory<TenantDbContext>.CreateDbContext()
     {
         var optionsBuilder = new DbContextOptionsBuilder<TenantDbContext>();
-        optionsBuilder.UseSqlServer("Server=(local);Database=DH.DiceHub;Trusted_Connection=True;Encrypt=False");
+        optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=DH.DiceHub;User Id=postgres;Password=1qaz!QAZ;");
 
         return new TenantDbContext(optionsBuilder.Options, this.containerService);
     }

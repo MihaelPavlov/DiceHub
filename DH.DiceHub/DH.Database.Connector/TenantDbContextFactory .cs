@@ -18,7 +18,7 @@ public class TenantDbContextFactory<TContext> : IDbContextFactory<TContext>
     public TContext CreateDbContext()
     {
         var optionsBuilder = new DbContextOptionsBuilder<TContext>()
-            .UseSqlServer(_connectionString)
+            .UseNpgsql(_connectionString)
         ?? throw new InvalidOperationException("Failed to initialize DbContextOptionsBuilder. Ensure the connection string is valid and properly configured.");
 
         // Use Activator to create an instance of the derived context

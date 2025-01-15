@@ -9,7 +9,7 @@ public class StatisticsDbContextFactory : IDesignTimeDbContextFactory<Statistics
     public StatisticsDbContext CreateDbContext(string[] args)
     {
         var optionsBuilder = new DbContextOptionsBuilder<StatisticsDbContext>()
-            .UseSqlServer("Server=(local);Database=DH.DiceHub.Statistics;Trusted_Connection=True;Encrypt=False",
+            .UseNpgsql("Server=localhost;Port=5432;Database=DH.DiceHub.Statistics;User Id=postgres;Password=1qaz!QAZ;",
                 sqlOptions => sqlOptions.MigrationsAssembly(typeof(StatisticsDbContext).Assembly.FullName));
 
         var assembly = Assembly.GetExecutingAssembly();

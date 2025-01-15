@@ -14,7 +14,7 @@ public static class DI
             ?? throw new InvalidOperationException("Connection string not found");
 
         services.AddDbContext<TDbContext>(
-            options => options.UseSqlServer(connectionString,
+            options => options.UseNpgsql(connectionString,
             sqlServer => sqlServer.MigrationsAssembly(typeof(TDbContext).Assembly.FullName)));
 
         services.AddSingleton<IDbContextFactory<TDbContext>>(
@@ -39,6 +39,6 @@ public static class DI
 
         //    return dbContext;
         //});
-         return services;
+        return services;
     }
 }

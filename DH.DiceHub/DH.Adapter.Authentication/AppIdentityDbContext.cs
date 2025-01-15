@@ -33,7 +33,7 @@ public class AppIdentityDbContext : IdentityDbContext<ApplicationUser>, IIdentit
 #if DEBUG
         if (!optionsBuilder.IsConfigured)
         {
-            optionsBuilder.UseSqlServer("server=(local); database=DH.DiceHub; Integrated Security=true; encrypt=false");
+            optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=DH.DiceHub;User Id=postgres;Password=1qaz!QAZ;");
         }
 #endif
     }

@@ -28,15 +28,15 @@ public class DataSeeder : IDataSeeder
             {
                 try
                 {
-                    await context.Database.ExecuteSqlRawAsync("SET IDENTITY_INSERT GameCategories ON");
+                    //await context.Database.ExecuteSqlRawAsync("SET IDENTITY_INSERT GameCategories ON");
 
-                    var isGameCategoriesEmpty = await context.GameCategories.AnyAsync();
-                    if (!isGameCategoriesEmpty)
+                    var isAnyGameCategories = await context.GameCategories.AnyAsync();
+                    if (!isAnyGameCategories)
                     {
                         await context.AddRangeAsync(SeedData.GAME_CATEGORIES);
                     }
                     await context.SaveChangesAsync();
-                    await context.Database.ExecuteSqlRawAsync("SET IDENTITY_INSERT GameCategories OFF");
+                    //await context.Database.ExecuteSqlRawAsync("SET IDENTITY_INSERT GameCategories OFF");
 
                     await transaction.CommitAsync();
                 }
