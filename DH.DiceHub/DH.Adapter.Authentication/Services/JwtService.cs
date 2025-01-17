@@ -47,7 +47,7 @@ public class JwtService : IJwtService
         var tokeOptions = new JwtSecurityToken(
             issuer: issuer,
             claims: claims,
-            expires: DateTime.Now.AddDays(1),
+            expires: DateTime.UtcNow.AddDays(1),
             signingCredentials: signinCredentials
         );
 
@@ -82,7 +82,7 @@ public class JwtService : IJwtService
         var username = principal.Identity.Name; //this is mapped to the Name claim by default
         var user = await userManager.FindByNameAsync(username);
 
-        if (user is null || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
+        if (user is null || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.UtcNow)
             throw new ArgumentNullException("Invalid client request");
 
         var newAccessToken = GenerateAccessToken(principal.Claims);

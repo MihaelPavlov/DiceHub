@@ -20,15 +20,15 @@ internal class GetChallengeHistoryLogQueryHandler(IDbContextFactory<StatisticsDb
         switch (request.Type)
         {
             case ChallengeHistoryLogType.Weekly:
-                startDate = DateTime.Now.StartOfWeek(DayOfWeek.Monday);
+                startDate = DateTime.UtcNow.StartOfWeek(DayOfWeek.Monday);
                 endDate = startDate.AddDays(7).AddTicks(-1);
                 break;
             case ChallengeHistoryLogType.Monthly:
-                startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+                startDate = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, 1);
                 endDate = startDate.AddMonths(1).AddTicks(-1);
                 break;
             case ChallengeHistoryLogType.Yearly:
-                startDate = new DateTime(DateTime.Now.Year, 1, 1);
+                startDate = new DateTime(DateTime.UtcNow.Year, 1, 1);
                 endDate = startDate.AddYears(1).AddTicks(-1);
                 break;
             default:

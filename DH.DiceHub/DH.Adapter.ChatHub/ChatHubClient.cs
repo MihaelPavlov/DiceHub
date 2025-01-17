@@ -63,7 +63,7 @@ public class ChatHubClient : Hub, IChatHubClient
         var room = await this.roomsRepository.GetByAsync(g => g.Id == roomId, CancellationToken.None)
             ?? throw new NotFoundException(nameof(Room), roomId);
 
-        var newMessage = new RoomMessage { CreatedDate = DateTime.Now, Room = room, MessageContent = message, Sender = this.userContext.UserId };
+        var newMessage = new RoomMessage { CreatedDate = DateTime.UtcNow, Room = room, MessageContent = message, Sender = this.userContext.UserId };
 
         var user = await this.userService.GetUserListByIds([this.userContext.UserId], CancellationToken.None);
         await this.roomMessagesRepository.AddAsync(newMessage, CancellationToken.None);

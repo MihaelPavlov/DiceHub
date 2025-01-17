@@ -68,7 +68,7 @@ public class QRCodeManager : IQRCodeManager
                 string directory = baseDirectory;
                 string fileName = string.Empty;
 
-                var currentDate = DateTime.Now.ToString("yyyyMMddHHmmss");
+                var currentDate = DateTime.UtcNow.ToString("yyyyMMddHHmmss");
                 switch (data.Type)
                 {
                     case QrCodeType.Game:

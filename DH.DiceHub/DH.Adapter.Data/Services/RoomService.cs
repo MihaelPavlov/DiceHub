@@ -125,7 +125,7 @@ public class RoomService : IRoomService
                         await context.AddAsync(new RoomInfoMessage
                         {
                             CreatedBy = this.userContext.UserId,
-                            CreatedDate = DateTime.Now,
+                            CreatedDate = DateTime.UtcNow,
                             MessageContent = "Game has been changed. Please check the new game rules",
                             RoomId = room.Id,
                         }, cancellationToken);
@@ -135,7 +135,7 @@ public class RoomService : IRoomService
                         await context.AddAsync(new RoomInfoMessage
                         {
                             CreatedBy = this.userContext.UserId,
-                            CreatedDate = DateTime.Now,
+                            CreatedDate = DateTime.UtcNow,
                             MessageContent = "The start date of the room has been changed",
                             RoomId = room.Id,
                         }, cancellationToken);

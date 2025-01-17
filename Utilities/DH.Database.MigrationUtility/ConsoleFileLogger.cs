@@ -8,7 +8,7 @@ internal class ConsoleFileLogger : IDisposable
 
     public ConsoleFileLogger()
     {
-        FullFileName = Path.Combine(AppContext.BaseDirectory, DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".log");
+        FullFileName = Path.Combine(AppContext.BaseDirectory, DateTime.UtcNow.ToString("yyyyMMdd_HHmmss") + ".log");
         _logStream = new StreamWriter(FullFileName);
     }
 

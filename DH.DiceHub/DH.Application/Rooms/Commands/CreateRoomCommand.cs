@@ -34,7 +34,7 @@ internal class CreateRoomCommandHanler : IRequestHandler<CreateRoomCommand, int>
         var roomDto = request.Room.Adapt<Room>();
 
         roomDto.StartDate = roomDto.StartDate.AddHours(3);
-        roomDto.CreatedDate = DateTime.Now;
+        roomDto.CreatedDate = DateTime.UtcNow;
         roomDto.UserId = this.userContext.UserId;
 
         var room = await this.roomRepository.AddAsync(roomDto, cancellationToken);

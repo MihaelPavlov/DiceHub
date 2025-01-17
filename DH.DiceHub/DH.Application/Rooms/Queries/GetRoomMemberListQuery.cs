@@ -32,7 +32,7 @@ internal class GetRoomMemberListQueryHandler : IRequestHandler<GetRoomMemberList
             x => new GetRoomMemberListQueryModel
             {
                 UserId = x.UserId,
-                JoinedAt = DateTime.Now,
+                JoinedAt = DateTime.UtcNow,
                 //TODO: Update this to get the age from the user service
                 Age = 18,
             },

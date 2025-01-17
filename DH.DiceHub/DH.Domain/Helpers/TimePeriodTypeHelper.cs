@@ -11,8 +11,8 @@ public static class TimePeriodTypeHelper
             case TimePeriodType.Weekly:
                 return 7;
             case TimePeriodType.Monthly:
-                int currentMonth = DateTime.Now.Month;
-                int currentYear = DateTime.Now.Year;
+                int currentMonth = DateTime.UtcNow.Month;
+                int currentYear = DateTime.UtcNow.Year;
                 return DateTime.DaysInMonth(currentYear, currentMonth);
             case TimePeriodType.Yearly:
                 throw new NotImplementedException("TimePeriodType for Yearly period is not implemented");
