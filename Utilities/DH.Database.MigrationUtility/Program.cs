@@ -1,6 +1,4 @@
-﻿
-using Autofac.Extensions.DependencyInjection;
-using DH.Adapter.Authentication;
+﻿using DH.Adapter.Authentication;
 using DH.Adapter.Authentication.Helper;
 using DH.Adapter.Data;
 using DH.Adapter.Data.Services;
@@ -60,7 +58,6 @@ try
                 throw new Exception("ConnectionStrings BaseConnectionString is expected in appsettings.json");
 
             services.AddScoped<IDataSeeder, DataSeeder>();
-            services.AddAutofac();
 
             services.AddDataAdapter(hostContext.Configuration);
             services.AuthenticationAdapter(hostContext.Configuration);
@@ -81,11 +78,13 @@ try
         .Build();
 
     host.SeedUsersAsync();
-    using (var scope = host.Services.CreateScope())
-    {
-        var dataSeeder = scope.ServiceProvider.GetRequiredService<IDataSeeder>();
-        await dataSeeder.SeedAsync();
-    }
+
+    //TODO: Migraiton Of Data Depend On ???? 
+    //using (var scope = host.Services.CreateScope())
+    //{
+    //    var dataSeeder = scope.ServiceProvider.GetRequiredService<IDataSeeder>();
+    //    await dataSeeder.SeedAsync();
+    //}
 }
 catch (Exception ex)
 {

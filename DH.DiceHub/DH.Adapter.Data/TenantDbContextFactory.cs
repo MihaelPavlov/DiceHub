@@ -1,22 +1,29 @@
 ﻿using DH.Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Protocols.Configuration;
 
 namespace DH.Adapter.Data;
 
 public class TenantDbContextFactory : IDbContextFactory<TenantDbContext>
 {
     readonly IContainerService containerService;
+    readonly IConfiguration configuration;
 
-    public TenantDbContextFactory(IContainerService containerService)
+    public TenantDbContextFactory(IContainerService containerService, IConfiguration configuration)
     {
         this.containerService = containerService;
+        this.configuration = configuration;
     }
 
     TenantDbContext IDbContextFactory<TenantDbContext>.CreateDbContext()
     {
-        var optionsBuilder = new DbContextOptionsBuilder<TenantDbContext>();
-        optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=DH.DiceHub;User Id=postgres;Password=1qaz!QAZ;");
+        var connectionString = this.configuration.GetConnectionString("DefaultConnection")
+            ?? throw new InvalidConfigurationException("DefaultConnection: Was not found. Place TenantDbContextFactory");
 
-        return new TenantDbContext(optionsBuilder.Options, this.containerService);
+        var optionsBuilder = new DbContextOptionsBuilder<TenantDbContext>();
+        optionsBuilder.UseNpgsql(connectionString);
+
+        return new TenantDbContext(optionsBuilder.Options, this.containerService, this.configuration);
     }
 }

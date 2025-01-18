@@ -3,12 +3,15 @@ using DH.Domain.Entities;
 using System.Reflection;
 using DH.Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Protocols.Configuration;
 
 namespace DH.Adapter.Data;
 
 public class TenantDbContext : DbContext, ITenantDbContext
 {
     readonly IContainerService containerService;
+    readonly IConfiguration configuration;
 
     public TenantDbContext()
     {
@@ -20,19 +23,23 @@ public class TenantDbContext : DbContext, ITenantDbContext
     }
 
     public TenantDbContext(
-        DbContextOptions<TenantDbContext> options, IContainerService containerService)
+        DbContextOptions<TenantDbContext> options, IContainerService containerService, IConfiguration configuration)
         : base(options)
     {
         this.containerService = containerService;
+        this.configuration = configuration;
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
 #if DEBUG
+        var connectionString = this.configuration.GetConnectionString("DefaultConnection")
+            ?? throw new InvalidConfigurationException("DefaultConnection: Was not found. Place TenantDbContextFactory");
+
         if (!optionsBuilder.IsConfigured)
         {
-            optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=DH.DiceHub;User Id=postgres;Password=1qaz!QAZ;");
-            //optionsBuilder.UseSqlServer("server=(local); database=DH.DiceHub; Integrated Security=true; encrypt=false");
+            optionsBuilder.UseNpgsql(connectionString);
+            return;
         }
 #endif
     }

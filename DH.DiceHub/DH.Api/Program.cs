@@ -85,8 +85,9 @@ builder.Services.AddScoped<IRabbitMqClient>(sp =>
         Token = userContext.Token
     });
 
-    return new RabbitMqClient(rabbitMqConfig.HostName, rabbitMqConfig.ExchangeName, rabbitMqUserContextFactory);
+    return new RabbitMqClient(rabbitMqConfig.EnableMessageQueue,rabbitMqConfig.HostName, rabbitMqConfig.ExchangeName, rabbitMqUserContextFactory);
 });
+
 var test = FirebaseApp.Create(new AppOptions()
 {
     Credential = GoogleCredential.FromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "dicehub-8c63f-firebase-adminsdk-y31l3-6026a82c88.json")),

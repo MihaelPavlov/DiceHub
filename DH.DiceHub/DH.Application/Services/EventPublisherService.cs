@@ -12,6 +12,8 @@ public class EventPublisherService(RabbitMqOptions options, IRabbitMqClient rabb
 
     public async Task PublishClubActivityDetectedMessage(string? userId = null)
     {
+        if (!options.EnableMessageQueue) return;
+
         var message = new EventMessage<ClubActivityDetectedMessage>
         {
             MessageId = Guid.NewGuid().ToString(),
@@ -28,6 +30,8 @@ public class EventPublisherService(RabbitMqOptions options, IRabbitMqClient rabb
 
     public async Task PublishEventAttendanceDetectedMessage(string action, int eventId)
     {
+        if (!options.EnableMessageQueue) return;
+
         if (Enum.TryParse<AttendanceAction>(action, out var parsedAction))
         {
             var message = new EventMessage<EventAttendanceDetectedMessage>
@@ -51,6 +55,8 @@ public class EventPublisherService(RabbitMqOptions options, IRabbitMqClient rabb
 
     public async Task PublishReservationProcessingOutcomeMessage(string action, string userId, string type, int reservationId)
     {
+        if (!options.EnableMessageQueue) return;
+
         if (Enum.TryParse<ReservationOutcome>(action, out var parsedAction) && Enum.TryParse<ReservationType>(type, out var parsedType))
         {
             var message = new EventMessage<ReservationProcessingOutcomeMessage>
@@ -75,6 +81,8 @@ public class EventPublisherService(RabbitMqOptions options, IRabbitMqClient rabb
 
     public async Task PublishRewardActionDetectedMessage(string userId, int rewardId, bool isExpired, bool isCollected)
     {
+        if (!options.EnableMessageQueue) return;
+
         var message = new EventMessage<RewardActionDetectedMessage>
         {
             MessageId = Guid.NewGuid().ToString(),
@@ -94,6 +102,8 @@ public class EventPublisherService(RabbitMqOptions options, IRabbitMqClient rabb
 
     public async Task PublishChallengeProcessingOutcomeMessage(string userId, int challengeId, string type)
     {
+        if (!options.EnableMessageQueue) return;
+
         if (Enum.TryParse<ChallengeOutcome>(type, out var parsedType))
         {
             var message = new EventMessage<ChallengeProcessingOutcomeMessage>

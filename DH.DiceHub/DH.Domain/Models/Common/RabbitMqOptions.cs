@@ -2,6 +2,7 @@
 
 public class RabbitMqOptions
 {
+    public bool EnableMessageQueue { get; set; }
     public string HostName { get; set; } = string.Empty;
     public string ExchangeName { get; set; } = string.Empty;
     public RabbitMqQueues Queues { get; set; } = null!;

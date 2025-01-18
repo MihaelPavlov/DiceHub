@@ -4,6 +4,7 @@ using DH.Domain.Adapters.Scheduling;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz;
+using Quartz.Impl.AdoJobStore;
 
 namespace DH.Adapter.Scheduling;
 
@@ -25,8 +26,9 @@ public static class SchedulingDIModule
                 storeOptions.UseProperties = true;
                 storeOptions.UsePostgres(sqlServerOptions =>
                 {
-                    sqlServerOptions.ConnectionString = configuration.GetConnectionString("DefaultConnection");
-                    sqlServerOptions.TablePrefix = "QRTZ_";
+                    sqlServerOptions.ConnectionString = configuration.GetConnectionString("DefaultConnection")
+                        ?? throw new InvalidConfigurationException("DefaultConnection: Was not found. Place SchedulingDIModule.AddSchedulingAdapter");
+                    sqlServerOptions.TablePrefix = "qrtz_";
                 });
                 storeOptions.PerformSchemaValidation = false;
                 storeOptions.UseNewtonsoftJsonSerializer();

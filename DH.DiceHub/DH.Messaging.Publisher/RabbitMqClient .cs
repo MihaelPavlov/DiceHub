@@ -31,8 +31,9 @@ public class RabbitMqClient : IRabbitMqClient
     /// </summary>
     /// <param name="hostName">RabbitMQ server hostname.</param>
     /// <param name="exchangeName">Default exchange name for RabbitMQ.</param>
-    public RabbitMqClient(string hostName, string exchangeName, IRabbitMqUserContextFactory? rabbitMqUserContextFactory = null)
+    public RabbitMqClient(bool enableMessageQueue, string hostName, string exchangeName, IRabbitMqUserContextFactory? rabbitMqUserContextFactory = null)
     {
+        if (!enableMessageQueue) return;
         _rabbitMqUserContextFactory = rabbitMqUserContextFactory;
 
         var factory = new ConnectionFactory() { HostName = hostName };
