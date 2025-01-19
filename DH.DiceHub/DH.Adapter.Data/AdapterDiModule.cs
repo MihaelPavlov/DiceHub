@@ -1,5 +1,4 @@
-﻿using Autofac;
-using DH.Adapter.Data.Repositories;
+﻿using DH.Adapter.Data.Repositories;
 using DH.Adapter.Data.Services;
 using DH.Domain.Adapters.Data;
 using DH.Domain.Repositories;
