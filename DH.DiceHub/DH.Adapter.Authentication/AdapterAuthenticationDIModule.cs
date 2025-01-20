@@ -1,5 +1,4 @@
-﻿using Autofac;
-using DH.Adapter.Authentication.Services;
+﻿using DH.Adapter.Authentication.Services;
 using DH.Domain.Repositories;
 using DH.Domain.Services;
 using Microsoft.AspNetCore.Identity;
@@ -13,7 +12,6 @@ using DH.Adapter.Authentication.Helper;
 using DH.Domain.Adapters.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Builder;
-using Module = Autofac.Module;
 using DH.Adapter.Authentication.Entities;
 using DH.Domain.Adapters.Authentication.Services;
 using DH.Domain.Adapters.Authentication.Interfaces;
@@ -22,29 +20,6 @@ using Microsoft.Extensions.Hosting;
 using System.Reflection;
 
 namespace DH.Adapter.Authentication;
-
-public class AdapterAuthenticationDIModule : Module
-{
-    protected override void Load(ContainerBuilder builder)
-    {
-        builder.RegisterAssemblyTypes(this.ThisAssembly)
-            .AsClosedTypesOf(typeof(IRepository<>))
-            .AsImplementedInterfaces()
-            .InstancePerLifetimeScope();
-
-        builder.RegisterAssemblyTypes(this.ThisAssembly)
-         .AsClosedTypesOf(typeof(IDomainService<>))
-         .AsImplementedInterfaces()
-        .InstancePerLifetimeScope();
-
-        builder.RegisterAssemblyTypes(this.ThisAssembly)
-              .AsClosedTypesOf(typeof(IDbContextFactory<>))
-              .AsImplementedInterfaces()
-             .InstancePerLifetimeScope();
-
-        builder.RegisterType<AppIdentityDbContext>().As<IIdentityDbContext>().InstancePerLifetimeScope();
-    }
-}
 
 public static class AuthenticationDIModule
 {
@@ -143,8 +118,8 @@ public static class AuthenticationDIModule
            .AddScoped<IActionPermissions<UserAction>, MapPermissions>()
            .AddScoped<IUserContextFactory, UserContextFactory>()
            .AddScoped<IUserContext>(services => services.GetRequiredService<IUserContextFactory>().CreateUserContext());
-        // Register services implementing IRepository<>, IDomainService<>, and IDbContextFactory<> generics
-        //RegisterAssemblyTypesAsClosedGeneric(services, typeof(IRepository<>), typeof(IDomainService<>), typeof(IDbContextFactory<>));
+
+        RegisterAssemblyTypesAsClosedGeneric(services, typeof(IRepository<>), typeof(IDomainService<>), typeof(IDbContextFactory<>));
 
         return services;
     }

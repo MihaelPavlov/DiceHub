@@ -60,7 +60,7 @@ public class Program
                 // Configure RabbitMQ Client
                 services.AddSingleton<IRabbitMqClient>(sp =>
                 {
-                    var client = new RabbitMqClient(rabbitMqConfig.HostName, rabbitMqConfig.ExchangeName);
+                    var client = new RabbitMqClient(true, rabbitMqConfig.HostName, rabbitMqConfig.ExchangeName);
 
                     // Set up queues and bindings with specific routing keys
                     client.Setup(
