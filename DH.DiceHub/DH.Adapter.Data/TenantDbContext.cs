@@ -3,15 +3,12 @@ using DH.Domain.Entities;
 using System.Reflection;
 using DH.Domain;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Protocols.Configuration;
 
 namespace DH.Adapter.Data;
 
 public class TenantDbContext : DbContext, ITenantDbContext
 {
     readonly IContainerService containerService;
-    readonly IConfiguration configuration;
 
     public TenantDbContext()
     {
@@ -21,25 +18,19 @@ public class TenantDbContext : DbContext, ITenantDbContext
        : base(options)
     {
     }
-
     public TenantDbContext(
-        DbContextOptions<TenantDbContext> options, IContainerService containerService, IConfiguration configuration)
-        : base(options)
+       DbContextOptions<TenantDbContext> options, IContainerService containerService)
+       : base(options)
     {
         this.containerService = containerService;
-        this.configuration = configuration;
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
 #if DEBUG
-        var connectionString = this.configuration.GetConnectionString("DefaultConnection")
-            ?? throw new InvalidConfigurationException("DefaultConnection: Was not found. Place TenantDbContextFactory");
-
         if (!optionsBuilder.IsConfigured)
         {
-            optionsBuilder.UseNpgsql(connectionString);
-            return;
+            optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=DH.DiceHub;User Id=postgres;Password=1qaz!QAZ;");
         }
 #endif
     }
@@ -53,7 +44,6 @@ public class TenantDbContext : DbContext, ITenantDbContext
     public DbSet<GameImage> GameImages { get; set; } = default!;
     public DbSet<GameReservation> GameReservations { get; set; } = default!;
     public DbSet<GameInventory> GameInventories { get; set; } = default!;
-    public DbSet<GameQrCode> GameQrCodes { get; set; } = default!;
 
     #endregion games
 

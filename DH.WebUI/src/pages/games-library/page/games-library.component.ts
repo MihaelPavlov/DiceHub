@@ -13,6 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { GameQrCodeDialog } from '../../../features/games-library/dialogs/qr-code-dialog/qr-code-dialog.component';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ControlsMenuComponent } from '../../../shared/components/menu/controls-menu.component';
+import { QrCodeType } from '../../../entities/qr-code-scanner/enums/qr-code-type.enum';
 
 @Component({
   selector: 'app-games-library',
@@ -104,7 +105,13 @@ export class GamesLibraryComponent implements OnInit, OnDestroy {
     } else if (key === 'qr-code') {
       this.dialog.open(GameQrCodeDialog, {
         width: '17rem',
-        data: { id: this.visibleMenuId },
+        data: {
+          Id: this.visibleMenuId,
+          Name:
+            this.games.find((x) => x.id === this.visibleMenuId)?.name ??
+            'Game Qr Code',
+          Type: QrCodeType.Game,
+        },
       });
     }
     this.visibleMenuId = null;

@@ -24,6 +24,6 @@ public class TenantDbContextFactory : IDbContextFactory<TenantDbContext>
         var optionsBuilder = new DbContextOptionsBuilder<TenantDbContext>();
         optionsBuilder.UseNpgsql(connectionString);
 
-        return new TenantDbContext(optionsBuilder.Options, this.containerService, this.configuration);
+        return new TenantDbContext(optionsBuilder.Options, this.containerService);
     }
 }

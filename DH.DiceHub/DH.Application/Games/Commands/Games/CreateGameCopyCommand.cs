@@ -5,11 +5,7 @@ using MediatR;
 
 namespace DH.Application.Games.Commands.Games;
 
-public class CreateGameCopyCommand : IRequest
-{
-    public int Id { get; set; }
-    public string webRootPath { get; set; } = string.Empty;
-}
+public record CreateGameCopyCommand(int Id) : IRequest;
 
 internal class CreateGameCopyCommandHandler : IRequestHandler<CreateGameCopyCommand>
 {

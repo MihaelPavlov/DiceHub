@@ -4,14 +4,20 @@
             cancel
             </span>
     </mat-dialog-actions>
-  <h3 *ngIf="this.game" class="dialog-container__header m-4">
-    {{ this.game.name }}
+  <h3 *ngIf="this.data" class="dialog-container__header m-4">
+    {{ this.data.Name }}
   </h3>
 
-  <div class="wrapper_image" *ngIf="this.qrCode">
-    <img
-      src="https://localhost:7024/images/games/{{ this.qrCode.fileName }}"
-      alt="Game_Qr_Code"
-    />
+  <div class="qrcodeImage" *ngIf="this.data">
+    <qrcode
+      [qrdata]="this.serializeData()"
+
+      [width]="200"
+      [margin]="4"
+      [scale]="128"
+      class="demoBorderRadius"
+  
+      [errorCorrectionLevel]="'M'"
+    ></qrcode>
   </div>
 </div>

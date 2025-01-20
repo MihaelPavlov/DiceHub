@@ -23,6 +23,7 @@ import { GameQrCodeDialog } from '../../../dialogs/qr-code-dialog/qr-code-dialog
 import { MatDialog } from '@angular/material/dialog';
 import { SafeUrl } from '@angular/platform-browser';
 import { GameAveragePlaytime } from '../../../../../entities/games/enums/game-average-playtime.enum';
+import { QrCodeType } from '../../../../../entities/qr-code-scanner/enums/qr-code-type.enum';
 
 interface ICreateGameForm {
   categoryId: number;
@@ -51,6 +52,7 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
   public imagePreview: string | ArrayBuffer | SafeUrl | null = null;
   public showQRCode = false;
   public editGameId: number | null = null;
+  public editGameName: string | null = null;
   public gameList: IGameDropdownResult[] = [];
   public selectedGame: IGameDropdownResult | null = null;
   public addExistingGame: boolean = false;
@@ -80,9 +82,8 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.GAMES);
 
     this.gamAveragePlaytimeValues = Object.entries(GameAveragePlaytime)
-    .filter(([key, value]) => typeof value === 'number')
-    .map(([key, value]) => ({ id: value as number, name: value.toString() }));
-
+      .filter(([key, value]) => typeof value === 'number')
+      .map(([key, value]) => ({ id: value as number, name: value.toString() }));
   }
   public ngOnDestroy(): void {
     this.menuTabsService.resetData();
@@ -116,7 +117,11 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
   public openQrCodeDialog(): void {
     this.dialog.open(GameQrCodeDialog, {
       width: '17rem',
-      data: { id: this.editGameId },
+      data: {
+        Id: this.editGameId,
+        Name: this.editGameName,
+        Type: QrCodeType.Game,
+      },
     });
   }
 
@@ -332,6 +337,7 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
             averagePlaytime: game.averagePlaytime,
             image: game.imageId.toString(),
           });
+          this.editGameName = game.name;
           this.imagePreview = this.gameImagePipe.transform(game.imageId);
           this.fileToUpload = null;
         }

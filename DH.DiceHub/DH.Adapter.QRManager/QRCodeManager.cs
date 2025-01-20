@@ -11,9 +11,7 @@ using DH.Domain.Repositories;
 using DH.Domain.Services;
 using DH.Domain.Services.Publisher;
 using DH.OperationResultCore.Exceptions;
-using SkiaSharp;
 using System.Text.Json;
-using ZXing.QrCode;
 
 namespace DH.Adapter.QRManager;
 
@@ -27,79 +25,6 @@ public class QRCodeManager : IQRCodeManager
     {
         this.qRCodeContext = qRCodeContext;
         this.containerService = containerService;
-    }
-
-    /// <inheritdoc/>
-    public string CreateQRCode(QRReaderModel data, string webRootPath)
-    {
-        var writer = new QRCodeWriter();
-        var resultBit = writer.encode(JsonSerializer.Serialize(data), ZXing.BarcodeFormat.QR_CODE, 200, 200);
-        var matrix = resultBit;
-
-        int scale = 2;
-        int width = matrix.Width * scale;
-        int height = matrix.Height * scale;
-
-        using (var surface = SKSurface.Create(new SKImageInfo(width, height)))
-        {
-            var canvas = surface.Canvas;
-            canvas.Clear(SKColors.White);
-
-            using (var paint = new SKPaint())
-            {
-                paint.Color = SKColors.Black;
-
-                for (int x = 0; x < matrix.Height; x++)
-                {
-                    for (int y = 0; y < matrix.Width; y++)
-                    {
-                        if (matrix[x, y])
-                        {
-                            canvas.DrawRect(x * scale, y * scale, scale, scale, paint);
-                        }
-                    }
-                }
-            }
-
-            using (var image = surface.Snapshot())
-            using (var dataImage = image.Encode(SKEncodedImageFormat.Png, 100))
-            {
-                var baseDirectory = Path.Combine(webRootPath, "images");
-                string directory = baseDirectory;
-                string fileName = string.Empty;
-
-                var currentDate = DateTime.UtcNow.ToString("yyyyMMddHHmmss");
-                switch (data.Type)
-                {
-                    case QrCodeType.Game:
-                        directory = Path.Combine(baseDirectory, "games");
-                        fileName = $"{data.Id}_{currentDate}.png";
-                        break;
-                    case QrCodeType.Event:
-                        directory = Path.Combine(baseDirectory, "events");
-                        fileName = $"{data.Id}_{currentDate}.png";
-                        break;
-                    default:
-                        /*
-                        TODO: Currently we are not handling the unknown type
-                        We throw exception and visualzie it in the UI
-                        */
-                        return string.Empty;
-                }
-
-                if (!Directory.Exists(directory))
-                    Directory.CreateDirectory(directory);
-
-                var filePath = Path.Combine(directory, fileName);
-
-                using (var stream = File.OpenWrite(filePath))
-                {
-                    dataImage.SaveTo(stream);
-                }
-
-                return fileName;
-            }
-        }
     }
 
     /// <inheritdoc/>

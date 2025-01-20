@@ -1,6 +1,5 @@
 ﻿using DH.Application.Games.Commands.Games;
 using DH.Domain.Adapters.Data;
-using DH.Domain.Helpers;
 using DH.Domain.Services.Seed;
 using MediatR;
 
@@ -9,12 +8,10 @@ namespace DH.Application.Games.Seeders;
 internal class GamesSeedService : ISeedService
 {
     readonly IMediator mediator;
-    readonly IWebRootPathHelper webRootPathHelper;
 
-    public GamesSeedService(IMediator mediator, IWebRootPathHelper webRootPathHelper)
+    public GamesSeedService(IMediator mediator)
     {
         this.mediator = mediator;
-        this.webRootPathHelper = webRootPathHelper;
     }
 
     public async Task Seed()
@@ -23,7 +20,7 @@ internal class GamesSeedService : ISeedService
         {
             var memoryStream = new MemoryStream();
 
-            await this.mediator.Send(new CreateGameCommand(game, "game_image.png", "image/png", memoryStream, this.webRootPathHelper.GetWebRootPath));
+            await this.mediator.Send(new CreateGameCommand(game, "game_image.png", "image/png", memoryStream));
         }
     }
 }

@@ -23,6 +23,5 @@ public class Game
     public virtual ICollection<GameReview> Reviews { get; set; } = [];
     public virtual ICollection<GameLike> Likes { get; set; } = [];
     public virtual ICollection<GameReservation> Reservations { get; set; } = [];
-    public virtual ICollection<GameQrCode> QrCodes { get; set; } = [];
     public virtual ICollection<Room> Rooms { get; set; } = [];
 }

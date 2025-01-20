@@ -7,11 +7,8 @@ using DH.Domain;
 using Microsoft.Extensions.Caching.Memory;
 using DH.Adapter.ChatHub;
 using DH.Adapter.QRManager;
-using Microsoft.Extensions.FileProviders;
 using DH.Adapter.ChallengesOrchestrator;
 using DH.Adapter.GameSession;
-using DH.Domain.Helpers;
-using DH.Api.Helpers;
 using DH.Application;
 using DH.Adapter.PushNotifications;
 using FirebaseAdmin;
@@ -45,7 +42,6 @@ builder.Services.AddCors(options =>
          .AllowCredentials();
     });
 });
-builder.Services.AddScoped<IWebRootPathHelper, WebRootPathHelper>();
 builder.Services.AddScoped<IContainerService, ContainerService>();
 builder.Services.AddScoped<IEventPublisherService, EventPublisherService>();
 
@@ -85,7 +81,7 @@ builder.Services.AddScoped<IRabbitMqClient>(sp =>
         Token = userContext.Token
     });
 
-    return new RabbitMqClient(rabbitMqConfig.EnableMessageQueue,rabbitMqConfig.HostName, rabbitMqConfig.ExchangeName, rabbitMqUserContextFactory);
+    return new RabbitMqClient(rabbitMqConfig.EnableMessageQueue, rabbitMqConfig.HostName, rabbitMqConfig.ExchangeName, rabbitMqUserContextFactory);
 });
 
 var test = FirebaseApp.Create(new AppOptions()
@@ -98,14 +94,14 @@ builder.Services.AddFirebaseMessaging();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "[DH] Dice Hub API V1");
-    });
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "[DH] Dice Hub API V1");
+});
+
+//Uncomment if you want to use static file
+/*
 var fileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.WebRootPath, "images"));
 
 app.UseStaticFiles(new StaticFileOptions
@@ -113,8 +109,12 @@ app.UseStaticFiles(new StaticFileOptions
     FileProvider = fileProvider,
     RequestPath = "/images"
 });
+*/
 
-app.UseHttpsRedirection();
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();

@@ -58,6 +58,7 @@ internal class AddUserChallengePeriodHandler : IAddUserChallengePeriodHandler
 
             if (isInitiationSuccessfully)
             {
+                //TODO: After disabling the old performance period do we make Inactive the old challenges??
                 period.IsPeriodActive = false;
             }
         }

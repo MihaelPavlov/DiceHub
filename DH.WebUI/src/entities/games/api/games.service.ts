@@ -1,4 +1,3 @@
-import { GamesLibraryComponent } from './../../../pages/games-library/page/games-library.component';
 import { Injectable } from '@angular/core';
 import { RestApiService } from '../../../shared/services/rest-api.service';
 import { Observable } from 'rxjs';
@@ -43,12 +42,6 @@ export class GamesService {
   public getReservationHistory(): Observable<IGameReservationHistory[]> {
     return this.api.get<IGameReservationHistory[]>(
       `/${PATH.GAMES.CORE}/${PATH.GAMES.GET_RESERVATION_HISTORY}`
-    );
-  }
-
-  public getQrCode(id: number): Observable<IGameQrCode> {
-    return this.api.get<IGameQrCode>(
-      `/${PATH.GAMES.CORE}/${id}/${PATH.GAMES.GET_QR_CODES}`
     );
   }
 

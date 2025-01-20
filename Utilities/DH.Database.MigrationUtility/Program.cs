@@ -5,13 +5,11 @@ using DH.Adapter.Data.Services;
 using DH.Adapter.QRManager;
 using DH.Adapter.Scheduling;
 using DH.Api;
-using DH.Api.Helpers;
 using DH.Application.Games.Commands.Games;
 using DH.Database.MigrationUtility;
 using DH.Domain;
 using DH.Domain.Adapters.Authentication;
 using DH.Domain.Adapters.Data;
-using DH.Domain.Helpers;
 using DH.Domain.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -68,9 +66,6 @@ try
             services.AddScoped<IRewardService, RewardService>();
             services.AddScoped<IChallengeService, ChallengeService>();
             services.AddScoped<IGameService, GameService>();
-            //services.AddAutofac();
-            var wwwrootPath = ProjectPathHelper.BuildWebRootPath();
-            services.AddScoped<IWebRootPathHelper>(provider => new NonWebRootPathHelper(wwwrootPath));
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(CreateGameCommand).Assembly));
             services.AddScoped<IUserContextFactory, VirtualUserContextFactory>();
             services.AddScoped<IUserContext>(services => services.GetRequiredService<IUserContextFactory>().CreateUserContext());
@@ -79,12 +74,11 @@ try
 
     host.SeedUsersAsync();
 
-    //TODO: Migraiton Of Data Depend On ???? 
-    //using (var scope = host.Services.CreateScope())
-    //{
-    //    var dataSeeder = scope.ServiceProvider.GetRequiredService<IDataSeeder>();
-    //    await dataSeeder.SeedAsync();
-    //}
+    using (var scope = host.Services.CreateScope())
+    {
+        var dataSeeder = scope.ServiceProvider.GetRequiredService<IDataSeeder>();
+        await dataSeeder.SeedAsync();
+    }
 }
 catch (Exception ex)
 {
@@ -135,17 +129,4 @@ static async Task MigrateAuthentication(string connectionString, ConsoleFileLogg
     {
         await context.Database.MigrateAsync();
     }
-}
-
-public class NonWebRootPathHelper : IWebRootPathHelper
-{
-    private readonly string _defaultRootPath;
-
-    public NonWebRootPathHelper(string defaultRootPath)
-    {
-        _defaultRootPath = defaultRootPath;
-    }
-
-    public string GetWebRootPath => _defaultRootPath;
-
 }

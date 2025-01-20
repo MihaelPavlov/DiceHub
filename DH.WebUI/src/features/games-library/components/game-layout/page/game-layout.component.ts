@@ -16,6 +16,7 @@ import { GameQrCodeDialog } from '../../../dialogs/qr-code-dialog/qr-code-dialog
 import { AuthService } from '../../../../../entities/auth/auth.service';
 import { UserRole } from '../../../../../entities/auth/enums/roles.enum';
 import { ROUTE } from '../../../../../shared/configs/route.config';
+import { QrCodeType } from '../../../../../entities/qr-code-scanner/enums/qr-code-type.enum';
 
 @Component({
   selector: 'app-game-layout',
@@ -27,7 +28,8 @@ export class GameLayoutComponent implements OnInit, OnDestroy {
   @Input() backNavigateBtn: () => void = () => {};
   @Output() refresh = new EventEmitter<void>();
 
-  public isQrCodeVisible: boolean = this.authService.getUser?.role !== UserRole.User;
+  public isQrCodeVisible: boolean =
+    this.authService.getUser?.role !== UserRole.User;
   public menuItems: NavItemInterface[] = [];
 
   constructor(
@@ -44,17 +46,21 @@ export class GameLayoutComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     let page: string = location.pathname;
-    this.updateMenuItemsWihtPage(page);
+    this.updateMenuItemsWithPage(page);
   }
 
   public openQrCodeDialog(): void {
     this.dialog.open(GameQrCodeDialog, {
       width: '17rem',
-      data: { id: this.game.id },
+      data: {
+        Id: this.game.id,
+        Name: this.game.name,
+        Type: QrCodeType.Game,
+      },
     });
   }
 
-  public updateMenuItemsWihtPage(page: string) {
+  public updateMenuItemsWithPage(page: string) {
     this.menuItems = [
       {
         label: 'Statistics',

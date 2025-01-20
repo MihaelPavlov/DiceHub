@@ -219,8 +219,29 @@ export class LoginComponent extends Form implements OnInit {
 
   loginAdmin() {
     this.authService
-      .login({ email: 'sa@dicehub.com', password: '1qaz!QAZ' })
-      .subscribe();
+      .login({
+        email: 'sa@dicehub.com',
+        password: '1qaz!QAZ',
+      })
+      .subscribe({
+        next: (response) => {
+          if (response) {
+            this.authService.onnSuccessfullyLogin(
+              response.accessToken,
+              response.refreshToken
+            );
+
+            this.router.navigateByUrl('games/library');
+          }
+        },
+        error: (error) => {
+          this.handleServerErrors(error);
+          this.toastService.error({
+            message: AppToastMessage.FailedToSaveChanges,
+            type: ToastType.Error,
+          });
+        },
+      });
   }
 
   private initFormGroup(): FormGroup {

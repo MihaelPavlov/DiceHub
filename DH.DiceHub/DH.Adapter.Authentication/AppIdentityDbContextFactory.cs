@@ -24,6 +24,6 @@ public class AppIdentityDbContextFactory : IDbContextFactory<AppIdentityDbContex
         var optionsBuilder = new DbContextOptionsBuilder<AppIdentityDbContext>();
         optionsBuilder.UseNpgsql(connectionString);
 
-        return new AppIdentityDbContext(optionsBuilder.Options, this.containerService, this.configuration);
+        return new AppIdentityDbContext(optionsBuilder.Options, this.containerService);
     }
 }
