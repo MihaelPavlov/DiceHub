@@ -16,7 +16,7 @@
     (click)="navigateToDetails(event.id)"
   >
     <div class="wrapper_image">
-      <img [src]="getImage(event)" alt="event Image" />
+      <img [src]="getImage(event) | async" alt="event Image" />
     </div>
     <div class="wrapper_info">
       <div class="wrapper_title">

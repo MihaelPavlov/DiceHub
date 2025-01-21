@@ -14,6 +14,7 @@ import { GameQrCodeDialog } from '../../../features/games-library/dialogs/qr-cod
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ControlsMenuComponent } from '../../../shared/components/menu/controls-menu.component';
 import { QrCodeType } from '../../../entities/qr-code-scanner/enums/qr-code-type.enum';
+import { ImageEntityType } from '../../../shared/pipe/entity-image.pipe';
 
 @Component({
   selector: 'app-games-library',
@@ -30,6 +31,7 @@ export class GamesLibraryComponent implements OnInit, OnDestroy {
   public isAdmin$: Observable<boolean> = this.permissionService.hasUserAction(
     UserAction.GamesCUD
   );
+  public readonly ImageEntityType = ImageEntityType;
 
   constructor(
     private readonly router: Router,

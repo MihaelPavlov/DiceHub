@@ -187,7 +187,7 @@
 <section class="wrapper_library">
   <div *ngFor="let challenge of challengeList" class="wrapper_library__item">
     <div class="wrapper_image">
-      <img [src]="challenge.gameImageId | gameImage" alt="Game Image" />
+      <img [src]="ImageEntityType.Games | entityImage : challenge.gameImageId | async" alt="Game Image" />
     </div>
     <div class="wrapper_info">
       <div class="wrapper_title">

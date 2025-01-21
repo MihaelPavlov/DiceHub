@@ -7,6 +7,7 @@ import { UserRewardQrCodeDialog } from '../../dialogs/user-reward-qr-code-dialog
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '../../../../entities/auth/auth.service';
 import { QrCodeType } from '../../../../entities/qr-code-scanner/enums/qr-code-type.enum';
+import { ImageEntityType } from '../../../../shared/pipe/entity-image.pipe';
 
 @Component({
   selector: 'app-challenges-rewards',
@@ -16,6 +17,8 @@ import { QrCodeType } from '../../../../entities/qr-code-scanner/enums/qr-code-t
 export class ChallengesRewardsComponent implements OnInit {
   public userRewards$!: Observable<IUserReward[]>;
   public UserRewardStatus = UserRewardStatus;
+  public readonly ImageEntityType = ImageEntityType;
+
   constructor(
     private readonly rewardsService: RewardsService,
     private readonly authService: AuthService,
@@ -26,18 +29,15 @@ export class ChallengesRewardsComponent implements OnInit {
     this.userRewards$ = this.rewardsService.getUserRewardList();
   }
 
-  public openDialog(
-    id: number,
-  ) {
-
-    const dialogRef = this.dialog.open(UserRewardQrCodeDialog, {
+  public openDialog(id: number): void {
+    this.dialog.open(UserRewardQrCodeDialog, {
       width: '17rem',
       data: {
-        Id : id,
+        Id: id,
         Name: 'UserReward',
         Type: QrCodeType.Reward,
         AdditionalData: {
-          "userId": this.authService.getUser?.id,
+          userId: this.authService.getUser?.id,
         },
       },
     });

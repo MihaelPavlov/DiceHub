@@ -1,3 +1,6 @@
+import {
+  EntityImagePipe,
+} from './../../../../../shared/pipe/entity-image.pipe';
 import { Component } from '@angular/core';
 import { IEventByIdResult } from '../../../../../entities/events/models/event-by-id.mode';
 import { Observable } from 'rxjs';
@@ -8,9 +11,6 @@ import { MenuTabsService } from '../../../../../shared/services/menu-tabs.servic
 import { ToastService } from '../../../../../shared/services/toast.service';
 import { AppToastMessage } from '../../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { ToastType } from '../../../../../shared/models/toast.model';
-import { GameImagePipe } from '../../../../../shared/pipe/game-image.pipe';
-import { EventImagePipe } from '../../../../../shared/pipe/event-image.pipe';
-import { SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-event-details',
@@ -27,8 +27,7 @@ export class EventDetailsComponent {
     private readonly activeRoute: ActivatedRoute,
     private readonly menuTabsService: MenuTabsService,
     private readonly toastService: ToastService,
-    private readonly gameImagePipe: GameImagePipe,
-    private readonly eventImagePipe: EventImagePipe,
+    private readonly entityImagePipe: EntityImagePipe,
     private readonly router: Router
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.EVENTS);
@@ -100,11 +99,8 @@ export class EventDetailsComponent {
     this.router.navigateByUrl('/events/home');
   }
 
-  public getImage(event: IEventByIdResult): SafeUrl | null {
-    if (event.isCustomImage) {
-      return this.eventImagePipe.transform(event.imageId);
-    }
-    return this.gameImagePipe.transform(event.imageId);
+  public getImage(event: IEventByIdResult): Observable<string> {
+    return this.eventService.getImage(event.isCustomImage, event.imageId);
   }
 
   private fetchEvent(): void {

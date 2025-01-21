@@ -6,6 +6,7 @@ import { RoomsService } from '../../../entities/rooms/api/rooms.service';
 import { IRoomListResult } from '../../../entities/rooms/models/room-list.model';
 import { Observable } from 'rxjs';
 import { SearchService } from '../../../shared/services/search.service';
+import { ImageEntityType } from '../../../shared/pipe/entity-image.pipe';
 
 @Component({
   selector: 'app-find-meeple-manager',
@@ -14,6 +15,8 @@ import { SearchService } from '../../../shared/services/search.service';
 })
 export class FindMeepleManagementComponent implements OnInit, OnDestroy {
   public roomList$!: Observable<IRoomListResult[] | null>;
+  public readonly ImageEntityType = ImageEntityType;
+  
   constructor(
     private readonly router: Router,
     private readonly menuTabsService: MenuTabsService,

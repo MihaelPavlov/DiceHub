@@ -8,7 +8,11 @@
 ></app-header>
 
 <div class="wrapper_groups">
-  <div class="wrapper_group" *ngFor="let room of roomList$ | async" (click)="navigateToDetails(room.id)">
+  <div
+    class="wrapper_group"
+    *ngFor="let room of roomList$ | async"
+    (click)="navigateToDetails(room.id)"
+  >
     <div class="wrapper_group__header">
       <span> {{ room.name }}</span>
     </div>
@@ -18,15 +22,17 @@
     </div>
 
     <div class="wrapper_group__image">
-      <img [src]="room.gameImageId | gameImage" alt="" />
+      <img
+        [src]="ImageEntityType.Games | entityImage : room.gameImageId | async"
+        alt=""
+      />
     </div>
 
-    <div class="wrapper_group__chips" *ngIf="room.startDate | date:'dd/MM/yyyy H:mm' as date">
-      <app-chip
-        [color]="'blue'"
-        [text]="date"
-        [size]="'small'"
-      ></app-chip>
+    <div
+      class="wrapper_group__chips"
+      *ngIf="room.startDate | date : 'dd/MM/yyyy H:mm' as date"
+    >
+      <app-chip [color]="'blue'" [text]="date" [size]="'small'"></app-chip>
     </div>
     <div class="wrapper_group__chips-date-info">
       <app-chip

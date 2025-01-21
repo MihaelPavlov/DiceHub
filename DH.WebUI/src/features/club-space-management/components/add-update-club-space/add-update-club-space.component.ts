@@ -14,14 +14,17 @@ import { GamesService } from '../../../../entities/games/api/games.service';
 import { throwError } from 'rxjs';
 import { IGameByIdResult } from '../../../../entities/games/models/game-by-id.model';
 import { SafeUrl } from '@angular/platform-browser';
-import { GameImagePipe } from '../../../../shared/pipe/game-image.pipe';
 import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { ToastType } from '../../../../shared/models/toast.model';
 import { MatDialog } from '@angular/material/dialog';
 import { SinglePlayerConfirmDialog } from '../../dialogs/single-player-confirm-dialog/single-player-confirm-dialog.component';
 import { Location } from '@angular/common';
+import {
+  EntityImagePipe,
+  ImageEntityType,
+} from '../../../../shared/pipe/entity-image.pipe';
 
-interface ICreateSpaceTable {
+interface ICreateSpaceTableForm {
   gameName: string;
   gameId: number;
   tableName: string;
@@ -35,7 +38,7 @@ interface ICreateSpaceTable {
   styleUrl: 'add-update-club-space.component.scss',
 })
 export class AddUpdateClubSpaceComponent extends Form implements OnInit {
-  override form: Formify<ICreateSpaceTable>;
+  override form: Formify<ICreateSpaceTableForm>;
 
   public imagePreview: string | ArrayBuffer | SafeUrl | null = null;
   public editTableId: number | null = null;
@@ -49,7 +52,7 @@ export class AddUpdateClubSpaceComponent extends Form implements OnInit {
     private readonly activatedRoute: ActivatedRoute,
     private readonly gamesService: GamesService,
     private readonly spaceManagementService: SpaceManagementService,
-    private readonly gameImagePipe: GameImagePipe,
+    private readonly entityImagePipe: EntityImagePipe,
     private readonly router: Router,
     private readonly dialog: MatDialog,
     private readonly location: Location
@@ -182,7 +185,9 @@ export class AddUpdateClubSpaceComponent extends Form implements OnInit {
             gameId: game.id,
           });
 
-          this.imagePreview = this.gameImagePipe.transform(game.imageId);
+          this.entityImagePipe
+            .transform(ImageEntityType.Games, game.imageId)
+            .subscribe((x) => (this.imagePreview = x));
         }
       },
     });
@@ -197,7 +202,9 @@ export class AddUpdateClubSpaceComponent extends Form implements OnInit {
             gameId: game.id,
           });
 
-          this.imagePreview = this.gameImagePipe.transform(game.imageId);
+          this.entityImagePipe
+            .transform(ImageEntityType.Games, game.imageId)
+            .subscribe((x) => (this.imagePreview = x));
 
           if (game.minPlayers === 1) {
             const dialogRef = this.dialog.open(SinglePlayerConfirmDialog, {});

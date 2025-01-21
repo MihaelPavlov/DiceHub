@@ -11,7 +11,7 @@
   </div>
 
   <div class="wrapper_image">
-    <img [src]="room.gameImageId | gameImage" alt="" />
+    <img [src]="ImageEntityType.Games | entityImage :  room.gameImageId | async" alt="" />
   </div>
 
   <div class="wrapper_header">from: {{ room.username }}</div>

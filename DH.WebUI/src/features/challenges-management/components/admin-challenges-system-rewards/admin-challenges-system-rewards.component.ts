@@ -17,11 +17,14 @@ import { AppToastMessage } from '../../../../shared/components/toast/constants/a
 import { ToastType } from '../../../../shared/models/toast.model';
 import { IRewardListResult } from '../../../../entities/rewards/models/reward-list.model';
 import { throwError } from 'rxjs';
-import { RewardImagePipe } from '../../../../shared/pipe/reward-image.pipe';
 import { IRewardGetByIdResult } from '../../../../entities/rewards/models/reward-by-id.model';
 import { AdminChallengesRewardConfirmDeleteDialog } from '../../dialogs/admin-challenges-reward-confirm-delete/admin-challenges-reward-confirm-delete.component';
 import { MatDialog } from '@angular/material/dialog';
 import { REWARD_POINTS } from '../../../../entities/rewards/enums/reward-required-point.enum';
+import {
+  EntityImagePipe,
+  ImageEntityType,
+} from '../../../../shared/pipe/entity-image.pipe';
 
 interface ISystemRewardsForm {
   selectedLevel: number;
@@ -53,13 +56,14 @@ export class AdminChallengesSystemRewardsComponent extends Form {
   public rewardRequiredPointList: IDropdown[] = [];
   public rewardList: IRewardListResult[] = [];
   public editRewardId: number | null = null;
-
+  public readonly ImageEntityType = ImageEntityType;
+  
   constructor(
     public override readonly toastService: ToastService,
     private readonly fb: FormBuilder,
     private readonly location: Location,
     private readonly rewardsService: RewardsService,
-    private readonly rewardImagePipe: RewardImagePipe,
+    private readonly entityImagePipe: EntityImagePipe,
     private readonly dialog: MatDialog,
     private readonly scrollService: ScrollService
   ) {
@@ -206,7 +210,9 @@ export class AdminChallengesSystemRewardsComponent extends Form {
           selectedLevel: reward.level,
           image: reward.imageId.toString(),
         });
-        this.imagePreview = this.rewardImagePipe.transform(reward.imageId);
+        this.entityImagePipe
+          .transform(ImageEntityType.Rewards, reward.imageId)
+          .subscribe((image) => (this.imagePreview = image));
         this.fileToUpload = null;
         this.showRewardForm = true;
         this.scrollService.scrollToTop();

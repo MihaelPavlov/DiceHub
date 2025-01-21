@@ -7,12 +7,27 @@ import { IEventByIdResult } from '../models/event-by-id.mode';
 import { ICreateEventDto } from '../models/create-event.mode';
 import { IUpdateEventDto } from '../models/update-event.model';
 import { IEventDropdownListResult } from '../models/event-dropdown-list-result.model';
+import {
+  EntityImagePipe,
+  ImageEntityType,
+} from '../../../shared/pipe/entity-image.pipe';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EventsService {
-  constructor(private readonly api: RestApiService) {}
+  constructor(
+    private readonly api: RestApiService,
+    private readonly entityImagePipe: EntityImagePipe
+  ) {}
+
+  public getImage(isCustomImage: boolean, imageId: number): Observable<string> {
+    let type = ImageEntityType.Games;
+    if (isCustomImage) {
+      type = ImageEntityType.Events;
+    }
+    return this.entityImagePipe.transform(type, imageId);
+  }
 
   public getList(
     searchExpression: string = ''

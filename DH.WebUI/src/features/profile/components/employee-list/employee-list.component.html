@@ -9,7 +9,7 @@
 <section class="wrapper_library">
   <div *ngFor="let user of employees" class="wrapper_library__item">
     <div class="wrapper_image">
-      <img [src]="1 | gameImage" alt="User Image" />
+      <img [src]="ImageEntityType.Games | entityImage : 1 | async" alt="User Image" />
     </div>
     <div class="wrapper_info">
       <div class="wrapper_title">

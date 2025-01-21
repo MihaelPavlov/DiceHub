@@ -27,7 +27,7 @@
       </div>
 
       <div class="wrapper_event__image">
-        <img [src]="getImage(event)" alt="" />
+        <img [src]="getImage(event) | async" alt="" />
       </div>
 
       <div class="wrapper_event__header">
@@ -78,7 +78,7 @@
       </div>
 
       <div class="wrapper_event__image">
-        <img [src]="getImage(event)" alt="" />
+        <img [src]="getImage(event) | async" alt="" />
       </div>
 
       <div class="wrapper_event__header">

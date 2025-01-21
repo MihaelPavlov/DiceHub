@@ -17,6 +17,7 @@ import { AuthService } from '../../../../../entities/auth/auth.service';
 import { UserRole } from '../../../../../entities/auth/enums/roles.enum';
 import { ROUTE } from '../../../../../shared/configs/route.config';
 import { QrCodeType } from '../../../../../entities/qr-code-scanner/enums/qr-code-type.enum';
+import { ImageEntityType } from '../../../../../shared/pipe/entity-image.pipe';
 
 @Component({
   selector: 'app-game-layout',
@@ -31,6 +32,7 @@ export class GameLayoutComponent implements OnInit, OnDestroy {
   public isQrCodeVisible: boolean =
     this.authService.getUser?.role !== UserRole.User;
   public menuItems: NavItemInterface[] = [];
+  public readonly ImageEntityType = ImageEntityType;
 
   constructor(
     private readonly stringFormat: StringFormatPipe,

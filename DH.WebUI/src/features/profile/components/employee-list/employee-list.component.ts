@@ -5,6 +5,7 @@ import { NAV_ITEM_LABELS } from '../../../../shared/models/nav-items-labels.cons
 import { MenuTabsService } from '../../../../shared/services/menu-tabs.service';
 import { IUser } from '../../../../entities/profile/models/user.model';
 import { UsersService } from '../../../../entities/profile/api/user.service';
+import { ImageEntityType } from '../../../../shared/pipe/entity-image.pipe';
 
 @Component({
   selector: 'app-profile',
@@ -13,6 +14,8 @@ import { UsersService } from '../../../../entities/profile/api/user.service';
 })
 export class EmployeeListComponent implements OnDestroy {
   public employees: IUser[] = [];
+    public readonly ImageEntityType = ImageEntityType;
+  
   constructor(
     private readonly menuTabsService: MenuTabsService,
     private readonly authService: AuthService,

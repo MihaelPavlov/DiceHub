@@ -1,7 +1,5 @@
 <app-header header="Challenges" [withQRcode]="true">
-  <app-nav-bar
-    [columns]="columns"
-  ></app-nav-bar
+  <app-nav-bar [columns]="columns"></app-nav-bar
 ></app-header>
 <ng-container *ngIf="periodPerformance && userChallengePeriodRewardList">
   <div class="wrapper_stats">
@@ -18,7 +16,14 @@
               'completed-img': reward.isCompleted
             }"
           >
-            <img [src]="reward.rewardImageId | rewardImage" alt="" />
+            <img
+              [src]="
+                ImageEntityType.Rewards
+                  | entityImage : reward.rewardImageId
+                  | async
+              "
+              alt=""
+            />
           </div>
         </div>
       </div>
@@ -57,7 +62,14 @@
     >
       <div class="image_info_container">
         <div class="image">
-          <img [src]="challenge.gameImageId | gameImage" alt="" />
+          <img
+            [src]="
+              ImageEntityType.Games
+                | entityImage : challenge.gameImageId
+                | async
+            "
+            alt=""
+          />
         </div>
         <div class="info">
           <span class="header">

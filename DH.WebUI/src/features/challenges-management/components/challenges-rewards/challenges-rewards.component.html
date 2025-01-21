@@ -17,7 +17,12 @@
     }"
   >
     <div class="image">
-      <img [src]="reward.rewardImageId | rewardImage" alt="" />
+      <img
+        [src]="
+          ImageEntityType.Rewards | entityImage : reward.rewardImageId | async
+        "
+        alt=""
+      />
     </div>
     <div class="info">
       <span class="header">{{ reward.rewardName }}</span>

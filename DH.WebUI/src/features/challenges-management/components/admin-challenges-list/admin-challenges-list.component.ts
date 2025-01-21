@@ -24,6 +24,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { throwError } from 'rxjs';
 import { ChallengeRewardPoint } from '../../../../entities/challenges/enums/challenge-reward-point.enum';
 import { ScrollService } from '../../../../shared/services/scroll.service';
+import { ImageEntityType } from '../../../../shared/pipe/entity-image.pipe';
 
 interface IChallengeForm {
   selectedGame: number;
@@ -55,6 +56,8 @@ export class AdminChallengesListComponent extends Form {
   public filterGameIds: IGameDropdownResult[] = [];
   public challengeTypeList: IDropdown[] = [];
   public challengeRewardPointList: IDropdown[] = [];
+  public readonly ImageEntityType = ImageEntityType;
+
   constructor(
     public override readonly toastService: ToastService,
     private readonly gameService: GamesService,

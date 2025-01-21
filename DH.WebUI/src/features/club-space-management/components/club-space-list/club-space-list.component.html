@@ -31,7 +31,12 @@
           [text]="table.maxPeople + ' max'"
         ></app-chip>
         <div class="image">
-          <img [src]="table.gameImageId | gameImage" alt="" />
+          <img
+            [src]="
+              ImageEntityType.Games | entityImage : table.gameImageId | async
+            "
+            alt=""
+          />
         </div>
       </div>
     </div>

@@ -1,7 +1,7 @@
 <div class="wrapper_event" *ngIf="this.event$ | async as event">
   <div class="wrapper_event__image" (click)="navigateBackToEventList()">
     <span class="arrow left"></span>
-    <img [src]="getImage(event)" alt="" />
+    <img [src]="getImage(event) | async" alt="" />
   </div>
 
   <div class="wrapper_event__header">

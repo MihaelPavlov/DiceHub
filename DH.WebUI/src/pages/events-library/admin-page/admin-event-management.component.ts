@@ -6,11 +6,8 @@ import { SearchService } from '../../../shared/services/search.service';
 import { Router } from '@angular/router';
 import { EventsService } from '../../../entities/events/api/events.service';
 import { IEventListResult } from '../../../entities/events/models/event-list.model';
-import { GameImagePipe } from '../../../shared/pipe/game-image.pipe';
-import { EventImagePipe } from '../../../shared/pipe/event-image.pipe';
-import { SafeUrl } from '@angular/platform-browser';
 import { FULL_ROUTE } from '../../../shared/configs/route.config';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ControlsMenuComponent } from '../../../shared/components/menu/controls-menu.component';
 
 @Component({
@@ -33,8 +30,6 @@ export class AdminEventManagementComponent implements OnInit, OnDestroy {
     private readonly searchService: SearchService,
     private readonly eventService: EventsService,
     private readonly router: Router,
-    private readonly gameImagePipe: GameImagePipe,
-    private readonly eventImagePipe: EventImagePipe
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.EVENTS);
     this.handleHeaderMenuItemClick = this.handleHeaderMenuItemClick.bind(this);
@@ -102,11 +97,8 @@ export class AdminEventManagementComponent implements OnInit, OnDestroy {
     return `${Math.abs(remainingDays)}d`;
   }
 
-  public getImage(event: IEventListResult): SafeUrl | null {
-    if (event.isCustomImage) {
-      return this.eventImagePipe.transform(event.imageId);
-    }
-    return this.gameImagePipe.transform(event.imageId);
+  public getImage(event: IEventListResult): Observable<string> {
+    return this.eventService.getImage(event.isCustomImage, event.imageId);
   }
 
   public navigateToDetails(eventId: number): void {

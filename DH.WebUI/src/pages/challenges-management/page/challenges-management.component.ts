@@ -15,6 +15,7 @@ import { ChallengeStatus } from '../../../entities/challenges/enums/challenge-st
 import { LoadingService } from '../../../shared/services/loading.service';
 import { Column } from '../../../widgets/nav-bar/page/nav-bar.component';
 import { FULL_ROUTE } from '../../../shared/configs/route.config';
+import { ImageEntityType } from '../../../shared/pipe/entity-image.pipe';
 
 @Component({
   selector: 'app-challenges-management',
@@ -28,6 +29,7 @@ export class ChallengesManagementComponent implements OnInit {
   public userChallengePeriodRewardList!: IUserChallengePeriodReward[];
   public userChallengeList: IUserChallenge[] = [];
   public ChallengeStatus = ChallengeStatus;
+  public readonly ImageEntityType = ImageEntityType;
 
   public columns: Column[] = [
     {

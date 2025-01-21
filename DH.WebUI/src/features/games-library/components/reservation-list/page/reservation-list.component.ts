@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { GamesService } from '../../../../../entities/games/api/games.service';
 import { IReservedGame } from '../../../../../entities/games/models/reserved-game.model';
 import { Observable } from 'rxjs';
+import { ImageEntityType } from '../../../../../shared/pipe/entity-image.pipe';
 
 @Component({
   selector: 'app-game-reservation-list',
@@ -11,6 +12,7 @@ import { Observable } from 'rxjs';
 })
 export class ReservationListComponent implements OnInit {
   public reservedGames$!: Observable<IReservedGame[]>;
+  public readonly ImageEntityType = ImageEntityType;
 
   constructor(
     private readonly router: Router,

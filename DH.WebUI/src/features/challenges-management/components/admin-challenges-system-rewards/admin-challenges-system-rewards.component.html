@@ -183,7 +183,7 @@
 <section class="wrapper_library">
   <div *ngFor="let reward of rewardList" class="wrapper_library__item">
     <div class="wrapper_image">
-      <img [src]="reward.imageId | rewardImage" alt="Reward Image" />
+      <img [src]="ImageEntityType.Rewards | entityImage : reward.imageId | async" alt="Reward Image" />
     </div>
     <div class="wrapper_info">
       <div class="wrapper_title">

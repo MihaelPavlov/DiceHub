@@ -91,7 +91,9 @@ export class AuthService {
       })
     );
   }
-
+  public getToken(): string | null {
+    return localStorage.getItem('jwt');
+  }
   public logout(): void {
     localStorage.removeItem('jwt');
     localStorage.removeItem('refreshToken');
@@ -99,11 +101,8 @@ export class AuthService {
   }
 
   public saveToken(deviceToken: string): Observable<null> {
-    return this.api.post(
-      `/${PATH.USER.CORE}/${PATH.USER.SAVE_TOKEN}`,
-      {
-        deviceToken,
-      }
-    );
+    return this.api.post(`/${PATH.USER.CORE}/${PATH.USER.SAVE_TOKEN}`, {
+      deviceToken,
+    });
   }
 }

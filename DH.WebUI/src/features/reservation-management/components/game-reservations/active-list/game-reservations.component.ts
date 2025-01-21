@@ -10,6 +10,7 @@ import { ReservationManagementNavigationComponent } from '../../../../../pages/r
 import { ReservationStatus } from '../../../../../shared/enums/reservation-status.enum';
 import { ReservationConfirmationDialog } from '../../../dialogs/reservation-status-confirmation/reservation-confirmation.dialog';
 import { ReservationType } from '../../../enums/reservation-type.enum';
+import { ImageEntityType } from '../../../../../shared/pipe/entity-image.pipe';
 
 @Component({
   selector: 'app-game-reservations',
@@ -25,6 +26,8 @@ export class GameReservations implements OnInit, OnDestroy {
   public leftArrowKey: string = 'arrow_circle_left';
   public rightArrowKey: string = 'arrow_circle_right';
   public activeReservations$!: Observable<ActiveReservedGame[]>;
+  public readonly ImageEntityType = ImageEntityType;
+
   constructor(
     private readonly injector: Injector,
     private readonly gameService: GamesService,

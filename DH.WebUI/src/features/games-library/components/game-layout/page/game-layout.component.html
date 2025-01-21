@@ -23,7 +23,10 @@
   </div>
 
   <div class="wrapper_image">
-    <img [src]="game.imageId | gameImage" alt="Game Image" />
+    <img
+      [src]="ImageEntityType.Games | entityImage : game.imageId | async"
+      alt="Game Image"
+    />
   </div>
 
   <div class="wrapper_navigation">

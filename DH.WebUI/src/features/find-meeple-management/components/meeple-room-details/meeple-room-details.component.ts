@@ -7,6 +7,7 @@ import { IRoomByIdResult } from '../../../../entities/rooms/models/room-by-id.mo
 import { combineLatest } from 'rxjs';
 import { AuthService } from '../../../../entities/auth/auth.service';
 import { MeepleRoomMenuComponent } from '../meeple-room-menu/meeple-room-menu.component';
+import { ImageEntityType } from '../../../../shared/pipe/entity-image.pipe';
 
 @Component({
   selector: 'app-meeple-room-details',
@@ -19,6 +20,8 @@ export class MeepleRoomDetailsComponent implements OnInit, OnDestroy {
   public isCurrentUserParticipateInRoom: boolean = false;
   public roomId!: number;
   public errorMessage: string | null = null;
+  public readonly ImageEntityType = ImageEntityType;
+
   constructor(
     private readonly roomService: RoomsService,
     private readonly activeRoute: ActivatedRoute,

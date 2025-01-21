@@ -1,4 +1,3 @@
-import { EventAdminAccessGuard } from './../../../../../shared/guards/event-admin-access.guard';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { IEventByIdResult } from '../../../../../entities/events/models/event-by-id.mode';
 import { Observable } from 'rxjs';
@@ -6,9 +5,6 @@ import { EventsService } from '../../../../../entities/events/api/events.service
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { NAV_ITEM_LABELS } from '../../../../../shared/models/nav-items-labels.const';
 import { MenuTabsService } from '../../../../../shared/services/menu-tabs.service';
-import { GameImagePipe } from '../../../../../shared/pipe/game-image.pipe';
-import { EventImagePipe } from '../../../../../shared/pipe/event-image.pipe';
-import { SafeUrl } from '@angular/platform-browser';
 import { FULL_ROUTE } from '../../../../../shared/configs/route.config';
 
 @Component({
@@ -24,8 +20,6 @@ export class AdminEventDetailsComponent implements OnInit, OnDestroy {
     private readonly eventService: EventsService,
     private readonly activeRoute: ActivatedRoute,
     private readonly menuTabsService: MenuTabsService,
-    private readonly gameImagePipe: GameImagePipe,
-    private readonly eventImagePipe: EventImagePipe,
     private readonly router: Router
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.EVENTS);
@@ -52,11 +46,8 @@ export class AdminEventDetailsComponent implements OnInit, OnDestroy {
     this.router.navigateByUrl(FULL_ROUTE.EVENTS.ADMIN.UPDATE_BY_ID(id));
   }
 
-  public getImage(event: IEventByIdResult): SafeUrl | null {
-    if (event.isCustomImage) {
-      return this.eventImagePipe.transform(event.imageId);
-    }
-    return this.gameImagePipe.transform(event.imageId);
+  public getImage(event: IEventByIdResult): Observable<string>  {
+    return this.eventService.getImage(event.isCustomImage, event.imageId);
   }
 
   private fetchEvent(): void {

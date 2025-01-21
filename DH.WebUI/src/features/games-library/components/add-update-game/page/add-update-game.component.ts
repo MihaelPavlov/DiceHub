@@ -18,12 +18,15 @@ import { Form } from '../../../../../shared/components/form/form.component';
 import { IGameDropdownResult } from '../../../../../entities/games/models/game-dropdown.model';
 import { AppToastMessage } from '../../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { Formify } from '../../../../../shared/models/form.model';
-import { GameImagePipe } from '../../../../../shared/pipe/game-image.pipe';
 import { GameQrCodeDialog } from '../../../dialogs/qr-code-dialog/qr-code-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { SafeUrl } from '@angular/platform-browser';
 import { GameAveragePlaytime } from '../../../../../entities/games/enums/game-average-playtime.enum';
 import { QrCodeType } from '../../../../../entities/qr-code-scanner/enums/qr-code-type.enum';
+import {
+  EntityImagePipe,
+  ImageEntityType,
+} from '../../../../../shared/pipe/entity-image.pipe';
 
 interface ICreateGameForm {
   categoryId: number;
@@ -65,12 +68,12 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
     private readonly fb: FormBuilder,
     private readonly gameService: GamesService,
     private readonly gameCategoriesService: GameCategoriesService,
-    public override readonly toastService: ToastService,
     private readonly menuTabsService: MenuTabsService,
     private readonly router: Router,
     private readonly dialog: MatDialog,
     private readonly activatedRoute: ActivatedRoute,
-    private readonly gameImagePipe: GameImagePipe
+    private readonly entityImagePipe: EntityImagePipe,
+    public override readonly toastService: ToastService
   ) {
     super(toastService);
     this.form = this.initFormGroup();
@@ -338,7 +341,11 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
             image: game.imageId.toString(),
           });
           this.editGameName = game.name;
-          this.imagePreview = this.gameImagePipe.transform(game.imageId);
+
+          this.entityImagePipe
+            .transform(ImageEntityType.Games, game.imageId)
+            .subscribe((image) => (this.imagePreview = image));
+
           this.fileToUpload = null;
         }
       },

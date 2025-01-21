@@ -5,6 +5,7 @@ import { SearchService } from '../../../../../shared/services/search.service';
 import { MenuTabsService } from '../../../../../shared/services/menu-tabs.service';
 import { GamesService } from '../../../../../entities/games/api/games.service';
 import { Router } from '@angular/router';
+import { ImageEntityType } from '../../../../../shared/pipe/entity-image.pipe';
 
 @Component({
   selector: 'app-new-game-list',
@@ -13,6 +14,7 @@ import { Router } from '@angular/router';
 })
 export class NewGameListComponent implements OnInit, OnDestroy {
   public games: IGameListResult[] = [];
+  public readonly ImageEntityType = ImageEntityType;
 
   constructor(
     private readonly router: Router,

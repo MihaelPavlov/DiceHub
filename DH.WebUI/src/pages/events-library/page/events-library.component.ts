@@ -1,13 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { SafeUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { EventsService } from '../../../entities/events/api/events.service';
 import { IEventListResult } from '../../../entities/events/models/event-list.model';
 import { NAV_ITEM_LABELS } from '../../../shared/models/nav-items-labels.const';
-import { EventImagePipe } from '../../../shared/pipe/event-image.pipe';
-import { GameImagePipe } from '../../../shared/pipe/game-image.pipe';
 import { MenuTabsService } from '../../../shared/services/menu-tabs.service';
 import { FULL_ROUTE } from '../../../shared/configs/route.config';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-events-library',
@@ -21,9 +19,7 @@ export class EventsLibraryComponent implements OnInit, OnDestroy {
   constructor(
     private readonly router: Router,
     private readonly menuTabsService: MenuTabsService,
-    private readonly eventService: EventsService,
-    private readonly eventImagePipe: EventImagePipe,
-    private readonly gameImagePipe: GameImagePipe
+    private readonly eventService: EventsService
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.EVENTS);
   }
@@ -40,11 +36,8 @@ export class EventsLibraryComponent implements OnInit, OnDestroy {
     this.router.navigateByUrl(FULL_ROUTE.EVENTS.DETAILS_BY_ID(id));
   }
 
-  public getImage(event: IEventListResult): SafeUrl | null {
-    if (event.isCustomImage) {
-      return this.eventImagePipe.transform(event.imageId);
-    }
-    return this.gameImagePipe.transform(event.imageId);
+  public getImage(event: IEventListResult): Observable<string> | null {
+    return this.eventService.getImage(event.isCustomImage, event.imageId);
   }
 
   private fetchEventList() {

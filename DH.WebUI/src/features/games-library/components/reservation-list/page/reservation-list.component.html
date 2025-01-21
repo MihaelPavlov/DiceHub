@@ -10,7 +10,7 @@
   >
     <div class="wrapper_image">
       <img
-        [src]="game.gameImageId | gameImage"
+        [src]="ImageEntityType.Games | entityImage : game.gameImageId | async"
         alt="Game Image"
       />
     </div>
@@ -23,9 +23,7 @@
           <p>
             Payment:
             <span *ngIf="game.isActive" class="success">Successfully</span>
-            <span *ngIf="!game.isActive" class="unsuccess"
-              >Unsuccessfully</span
-            >
+            <span *ngIf="!game.isActive" class="unsuccess">Unsuccessfully</span>
           </p>
         </div>
       </div>

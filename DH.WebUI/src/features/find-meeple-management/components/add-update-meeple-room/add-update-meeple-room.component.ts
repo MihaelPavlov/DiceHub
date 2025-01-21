@@ -19,10 +19,13 @@ import { AppToastMessage } from '../../../../shared/components/toast/constants/a
 import { ToastType } from '../../../../shared/models/toast.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IGameInventory } from '../../../../entities/games/models/game-inventory.mode';
-import { GameImagePipe } from '../../../../shared/pipe/game-image.pipe';
 import { SafeUrl } from '@angular/platform-browser';
+import {
+  EntityImagePipe,
+  ImageEntityType,
+} from '../../../../shared/pipe/entity-image.pipe';
 
-export interface IAddUpdateRoomForm {
+interface IAddUpdateRoomForm {
   name: string;
   startDate: string;
   startTime: string;
@@ -55,7 +58,7 @@ export class AddUpdateMeepleRoomComponent
     private readonly roomService: RoomsService,
     private readonly menuTabsService: MenuTabsService,
     private readonly fb: FormBuilder,
-    private readonly gameImagePipe: GameImagePipe,
+    private readonly entityImagePipe: EntityImagePipe,
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute
   ) {
@@ -100,7 +103,7 @@ export class AddUpdateMeepleRoomComponent
   public showMenu(): void {
     this.isMenuVisible = !this.isMenuVisible;
   }
-  
+
   public backNavigateBtn() {
     if (this.editRoomId)
       this.router.navigateByUrl(`meeples/${this.editRoomId}/details`);
@@ -225,7 +228,9 @@ export class AddUpdateMeepleRoomComponent
           this.form.patchValue({
             gameId: game.id,
           });
-          this.imagePreview = this.gameImagePipe.transform(game.imageId);
+          this.entityImagePipe
+            .transform(ImageEntityType.Games, game.imageId)
+            .subscribe((image) => (this.imagePreview = image));
 
           this.gameInventory = inventory;
         }
@@ -278,7 +283,7 @@ export class AddUpdateMeepleRoomComponent
     });
   }
 
-  private clearServerErrorMessage() {
+  private clearServerErrorMessage(): void {
     this.getServerErrorMessage = null;
   }
 }
