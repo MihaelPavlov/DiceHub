@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StringFormatPipe } from './pipe/string-format.pipe';
@@ -17,7 +17,7 @@ import { EntityImagePipe } from './pipe/entity-image.pipe';
     CalculateRemainingDaysPipe,
     EntityImagePipe,
     ControlsMenuComponent,
-    RandomColorDirective
+    RandomColorDirective,
   ],
   imports: [CommonModule, ReactiveFormsModule, MatProgressBarModule],
   exports: [
@@ -27,12 +27,14 @@ import { EntityImagePipe } from './pipe/entity-image.pipe';
     StringFormatPipe,
     EntityImagePipe,
     ControlsMenuComponent,
-    RandomColorDirective
+    RandomColorDirective,
+    DatePipe
   ],
   providers: [
     StringFormatPipe,
     EntityImagePipe,
     CalculateRemainingDaysPipe,
+    DatePipe,
     TOAST_DEFAULT_OPTIONS,
   ],
 })

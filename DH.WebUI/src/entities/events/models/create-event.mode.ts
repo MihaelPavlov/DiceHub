@@ -2,7 +2,7 @@ export interface ICreateEventDto {
   gameId: number;
   name: string;
   description: string;
-  startDate: Date;
+  startDate: string;
   maxPeople: number;
   isCustomImage: boolean;
 }

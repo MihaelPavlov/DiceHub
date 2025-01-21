@@ -17,17 +17,19 @@ import { throwError } from 'rxjs';
 import { EventsService } from '../../../../../entities/events/api/events.service';
 import { AppToastMessage } from '../../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { ToastType } from '../../../../../shared/models/toast.model';
-import { Location } from '@angular/common';
+import { DatePipe, Location } from '@angular/common';
 import { SafeUrl } from '@angular/platform-browser';
 import {
   EntityImagePipe,
   ImageEntityType,
 } from '../../../../../shared/pipe/entity-image.pipe';
+import { DateHelper } from '../../../../../shared/helpers/date-helper';
 
 interface ICreateEventForm {
   name: string;
   description: string;
-  startDate: Date;
+  startDate: string;
+  startTime: string;
   maxPeople: number;
   gameId: number;
   image: string | null;
@@ -57,7 +59,8 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
     private readonly location: Location,
     private readonly entityImagePipe: EntityImagePipe,
     private readonly cd: ChangeDetectorRef,
-    public override readonly toastService: ToastService
+    public override readonly toastService: ToastService,
+    private readonly datePipe: DatePipe
   ) {
     super(toastService);
     this.form = this.initFormGroup();
@@ -95,13 +98,20 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
 
   public onAdd(): void {
     if (this.form.valid) {
+      const startDate = this.form.controls.startDate.value;
+      const startTime = this.form.controls.startTime.value;
+      const combinedDateTime = DateHelper.combineDateAndTime(
+        startDate,
+        startTime
+      );
+
       this.eventService
         .add(
           {
             name: this.form.controls.name.value,
             description: this.form.controls.description.value,
             gameId: parseInt(this.form.controls.gameId.value as any),
-            startDate: this.form.controls.startDate.value,
+            startDate: combinedDateTime,
             maxPeople: this.form.controls.maxPeople.value,
             isCustomImage: this.form.controls.isCustomImage.value,
           },
@@ -129,6 +139,13 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
 
   public onUpdate(): void {
     if (this.form.valid && this.editEventId) {
+      const startDate = this.form.controls.startDate.value;
+      const startTime = this.form.controls.startTime.value;
+      const combinedDateTime = DateHelper.combineDateAndTime(
+        startDate,
+        startTime
+      );
+
       this.eventService
         .update(
           {
@@ -136,7 +153,7 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
             name: this.form.controls.name.value,
             description: this.form.controls.description.value,
             gameId: parseInt(this.form.controls.gameId.value as any),
-            startDate: this.form.controls.startDate.value,
+            startDate: combinedDateTime,
             maxPeople: this.form.controls.maxPeople.value,
             isCustomImage: this.form.controls.isCustomImage.value,
           },
@@ -197,6 +214,8 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
         return 'Description';
       case 'startDate':
         return 'Start Date';
+      case 'startTime':
+        return 'Start Time';
       case 'maxPeople':
         return 'Max People';
       case 'image':
@@ -210,11 +229,20 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
     this.eventService.getById(id).subscribe({
       next: (event) => {
         if (event) {
+          const formattedDate = this.datePipe.transform(
+            event.startDate,
+            DateHelper.DATE_FORMAT
+          );
+          const formattedTime = this.datePipe.transform(
+            event.startDate,
+            DateHelper.TIME_FORMAT
+          );
           this.form.patchValue({
             name: event.name,
             description: event.description,
             gameId: event.gameId,
-            startDate: this.formatDate(event.startDate) as any,
+            startDate: formattedDate?.toString(),
+            startTime: formattedTime?.toString(),
             maxPeople: event.maxPeople,
             image: event.imageId.toString(),
             isCustomImage: event.isCustomImage,
@@ -225,21 +253,13 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
             .subscribe((image) => (this.imagePreview = image));
           this.fileToUpload = null;
 
-          this.initFormValueChanges();
+          this.initFormValueChanges(true);
         }
       },
       error: (error) => {
         throwError(() => error);
       },
     });
-  }
-
-  private formatDate(date: string | Date): string {
-    const d = new Date(date);
-    const month = ('0' + (d.getMonth() + 1)).slice(-2);
-    const day = ('0' + d.getDate()).slice(-2);
-    const year = d.getFullYear();
-    return `${year}-${month}-${day}`;
   }
 
   private fetchGameList(): void {
@@ -292,13 +312,13 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
     this.getServerErrorMessage = null;
   }
 
-  private initFormValueChanges(): void {
+  private initFormValueChanges(imageIsPopulated:boolean = false): void {
     this.form.controls.gameId.valueChanges.subscribe((x) => {
       this.fetchGameById(x);
     });
 
     this.form.controls.isCustomImage.valueChanges.subscribe((x) => {
-      if (x) {
+      if (x && !imageIsPopulated) {
         this.form.patchValue({
           image: '',
         });
@@ -319,6 +339,7 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
       ]),
       description: new FormControl<string | null>(null, Validators.required),
       startDate: new FormControl<Date | null>(null, [Validators.required]),
+      startTime: new FormControl<Date | null>(null, [Validators.required]),
       maxPeople: new FormControl<number | null>(null, [
         Validators.required,
         Validators.min(1),

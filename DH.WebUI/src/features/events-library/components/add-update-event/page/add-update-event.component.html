@@ -35,24 +35,20 @@
 
     <div class="input-field">
       <label for="game" class="required">Game</label>
-      <select id="game" formControlName="gameId">
-        <option [value]="null" disabled selected>Choose game</option>
-        <option *ngFor="let item of gameList" [value]="item.id">
-          {{ item.name }}
-        </option>
-      </select>
+      <ng-select
+        [items]="gameList"
+        bindLabel="name"
+        bindValue="id"
+        placeholder="Choose Game"
+        [searchable]="true"
+        class="app-select-long"
+        [closeOnSelect]="false"
+        formControlName="gameId"
+      >
+      </ng-select>
     </div>
 
     <div class="input-group">
-      <div class="input-field">
-        <label for="max-people" class="required">Max People</label>
-        <input
-          placeholder="max people"
-          type="number"
-          id="max-people"
-          formControlName="maxPeople"
-        />
-      </div>
       <div class="input-field">
         <label for="start-date" class="required">Start Date</label>
         <input
@@ -62,18 +58,36 @@
           formControlName="startDate"
         />
       </div>
+      <div class="input-field">
+        <label for="start-time" class="required">Start Time</label>
+        <input
+          placeholder="start time"
+          type="time"
+          id="start-time"
+          formControlName="startTime"
+        />
+      </div>
     </div>
-
-    <div class="input-field">
-      <label for="name" class="required">Name</label>
-      <input
-        placeholder="name of the game ?"
-        type="text"
-        id="name"
-        formControlName="name"
-      />
+    <div class="input-group">
+      <div class="input-field">
+        <label for="name" class="required">Name</label>
+        <input
+          placeholder="name of the game ?"
+          type="text"
+          id="name"
+          formControlName="name"
+        />
+      </div>
+      <div class="input-field">
+        <label for="max-people" class="required">Max People</label>
+        <input
+          placeholder="max people"
+          type="number"
+          id="max-people"
+          formControlName="maxPeople"
+        />
+      </div>
     </div>
-
     <div class="input-field">
       <label for="description" class="required">Description</label>
       <textarea
