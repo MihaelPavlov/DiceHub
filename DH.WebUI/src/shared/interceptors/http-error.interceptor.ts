@@ -39,6 +39,10 @@ export class ErrorInterceptor implements HttpInterceptor {
             case 404:
               this.router.navigate(['/not-found']);
               break;
+            case 0: {
+              this.router.navigate(['/server-error']);
+              break;
+            }
           }
         }
 

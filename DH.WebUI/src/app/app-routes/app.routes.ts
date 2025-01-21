@@ -82,7 +82,9 @@ export const ROUTES: Routes = [
       {
         path: 'charts',
         loadChildren: () =>
-          import('../../pages/charts/charts.module').then((m) => m.ChartAppModule),
+          import('../../pages/charts/charts.module').then(
+            (m) => m.ChartAppModule
+          ),
         canActivate: [AuthGuard],
       },
     ],
@@ -107,6 +109,13 @@ export const ROUTES: Routes = [
     loadChildren: () =>
       import('../../shared/exceptions/forbidden/forbidden.module').then(
         (m) => m.ForbiddenModule
+      ),
+  },
+  {
+    path: 'server-error',
+    loadChildren: () =>
+      import('../../shared/exceptions/server-down/server-error.module').then(
+        (m) => m.ServerErrorModule
       ),
   },
   {
