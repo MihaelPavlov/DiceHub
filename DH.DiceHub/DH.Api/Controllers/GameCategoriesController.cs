@@ -3,10 +3,12 @@ using DH.Application.Games.Queries.Games;
 using DH.Domain.Adapters.Authentication.Enums;
 using DH.Domain.Models.GameModels.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DH.Api.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class GameCategoriesController : ControllerBase

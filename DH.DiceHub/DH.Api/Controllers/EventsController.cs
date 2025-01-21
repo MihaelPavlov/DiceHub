@@ -5,11 +5,13 @@ using DH.Domain.Adapters.Authentication.Enums;
 using DH.Domain.Models.EventModels.Command;
 using DH.Domain.Models.EventModels.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
 namespace DH.Api.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class EventsController : ControllerBase

@@ -34,6 +34,7 @@ public class UserController : ControllerBase
         this.pushNotificationsService = pushNotificationsService;
     }
 
+    [AllowAnonymous]
     [HttpPost]
     public async Task<IActionResult> Login([FromBody] LoginRequest form)
     {
@@ -41,6 +42,7 @@ public class UserController : ControllerBase
         return this.Ok(result);
     }
 
+    [AllowAnonymous]
     [HttpPost("register-user")]
     public async Task<IActionResult> RegisterUser([FromBody] UserRegistrationRequest form)
     {
@@ -48,6 +50,7 @@ public class UserController : ControllerBase
         return this.Ok();
     }
 
+    [AllowAnonymous]
     [HttpPost("register-notification")]
     public async Task<IActionResult> RegisterNotification([FromBody] RegistrationNotifcation form)
     {
@@ -56,13 +59,6 @@ public class UserController : ControllerBase
 
         return this.Ok();
     }
-
-    //[HttpPost("info")]
-    //[Authorize]
-    //public IActionResult UserInfo()
-    //{
-    //    return this.Ok(new { IsAuthenticated = this.User.Identity.IsAuthenticated, Id = this.User.Claims.First(x => x.Type == ClaimTypes.Sid).Value, Role = this.User.Claims.First(x => x.Type == ClaimTypes.Role).Value });
-    //}
 
     [HttpPost]
     [Route("refresh")]
@@ -119,6 +115,7 @@ public class UserController : ControllerBase
         return BadRequest();
     }
 
+    [Authorize]
     [HttpPost("save-token")]
     [ActionAuthorize(UserAction.MessagingCRUD)]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -128,6 +125,7 @@ public class UserController : ControllerBase
         return Ok();
     }
 
+    [Authorize]
     [HttpGet("get-user-list")]
     [ActionAuthorize(UserAction.UsersRead)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetUserByRoleModel>))]
@@ -137,6 +135,7 @@ public class UserController : ControllerBase
         return Ok(employees);
     }
 
+    [Authorize]
     [HttpGet("get-employee-list")]
     [ActionAuthorize(UserAction.EmployeesCRUD)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetUserByRoleModel>))]
@@ -146,6 +145,7 @@ public class UserController : ControllerBase
         return Ok(employees);
     }
 
+    [Authorize]
     [HttpPost("create-employee")]
     [ActionAuthorize(UserAction.EmployeesCRUD)]
     [ProducesResponseType(StatusCodes.Status200OK)]

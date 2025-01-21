@@ -1,20 +1,20 @@
 ﻿using DH.Domain.Adapters.PushNotifications;
 using DH.Domain.Adapters.PushNotifications.Messages.Common;
-using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DH.Api.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class MessageController : ControllerBase
 {
     readonly IPushNotificationsService pushNotificationsService;
-    readonly IMediator mediator;
-    public MessageController(IPushNotificationsService pushNotificationsService, IMediator mediator)
+
+    public MessageController(IPushNotificationsService pushNotificationsService)
     {
         this.pushNotificationsService = pushNotificationsService;
-        this.mediator = mediator;
     }
 
     [HttpPost]

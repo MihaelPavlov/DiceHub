@@ -4,10 +4,12 @@ using DH.Application.Common.Queries;
 using DH.Domain.Adapters.Authentication.Enums;
 using DH.Domain.Entities;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DH.Api.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class TenantSettingsController : ControllerBase

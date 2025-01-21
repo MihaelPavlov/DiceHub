@@ -6,11 +6,13 @@ using DH.Domain.Models.GameModels.Queries;
 using DH.Domain.Models.RewardModels.Commands;
 using DH.Domain.Models.RewardModels.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
 namespace DH.Api.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class RewardsController : ControllerBase

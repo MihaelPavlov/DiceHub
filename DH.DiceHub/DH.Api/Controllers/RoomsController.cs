@@ -4,10 +4,12 @@ using DH.Application.Rooms.Queries;
 using DH.Domain.Adapters.Authentication.Enums;
 using DH.Domain.Models.RoomModels.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DH.Api.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class RoomsController : ControllerBase

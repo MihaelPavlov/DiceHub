@@ -5,10 +5,12 @@ using DH.Domain.Adapters.Authentication.Enums;
 using DH.Domain.Models.ChallengeModels.Commands;
 using DH.Domain.Models.ChallengeModels.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DH.Api.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class ChallengesController : ControllerBase

@@ -2,10 +2,12 @@
 using DH.Domain.Adapters.Authentication.Enums;
 using DH.Domain.Adapters.PushNotifications;
 using DH.Domain.Adapters.PushNotifications.Messages.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DH.Api.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class NotificationsController : ControllerBase

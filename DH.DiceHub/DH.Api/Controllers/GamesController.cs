@@ -9,9 +9,11 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using DH.Application.Games.Queries;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DH.Api.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class GamesController : ControllerBase

@@ -5,11 +5,13 @@ using DH.Domain.Adapters.Authentication.Enums;
 using DH.Domain.Models.SpaceManagementModels.Commands;
 using DH.Domain.Models.SpaceManagementModels.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 
 namespace DH.Api.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class SpaceManagementController : ControllerBase
