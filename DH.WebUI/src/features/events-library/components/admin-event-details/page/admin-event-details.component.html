@@ -10,7 +10,7 @@
   <div class="wrapper_event__chips">
     <app-chip
       [color]="'blue'"
-      [text]="(event.startDate | date : 'dd/MM/yyyy')?.toString() ?? ''"
+      [text]="(event.startDate | date : 'dd/MM/yyyy HH:mm')?.toString() ?? ''"
       [size]="'small'"
     />
     <app-chip

@@ -103,8 +103,8 @@ export class AdminEventManagementComponent implements OnInit, OnDestroy {
     }
   }
 
-  public handleSearchExpression() {
-    this.fetchEventList();
+  public handleSearchExpression(searchExpression: string): void {
+    this.fetchEventList(searchExpression);
   }
 
   public getImage(event: IEventListResult): Observable<string> {
@@ -115,8 +115,8 @@ export class AdminEventManagementComponent implements OnInit, OnDestroy {
     this.router.navigateByUrl(FULL_ROUTE.EVENTS.ADMIN.DETAILS_BY_ID(eventId));
   }
 
-  private fetchEventList() {
-    this.eventService.getListForStaff().subscribe({
+  private fetchEventList(searchExpression: string = ''): void {
+    this.eventService.getListForStaff(searchExpression).subscribe({
       next: (gameList) => (this.events = gameList ?? []),
       error: (error) => {
         console.log(error);

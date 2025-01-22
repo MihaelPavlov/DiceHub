@@ -103,7 +103,7 @@ internal class EventService : IEventService
         }
     }
 
-    public async Task<List<GetEventListQueryModel>> GetListForStaff(CancellationToken cancellationToken)
+    public async Task<List<GetEventListQueryModel>> GetListForStaff(string searchExpression, CancellationToken cancellationToken)
     {
         using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
         {
@@ -114,6 +114,7 @@ internal class EventService : IEventService
                 join g in context.Games on e.GameId equals g.Id
                 join ei in context.EventImages on e.Id equals ei.EventId into eventImages
                 from ei in eventImages.DefaultIfEmpty()
+                where e.Name.ToLower().Contains(searchExpression.ToLower())
                 select new GetEventListQueryModel
                 {
                     Id = e.Id,

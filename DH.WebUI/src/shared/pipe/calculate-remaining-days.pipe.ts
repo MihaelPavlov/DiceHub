@@ -7,11 +7,20 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class CalculateRemainingDaysPipe implements PipeTransform {
   transform(startDate: Date): string {
     const currentDate = new Date();
-    const startDateSubject = new Date(startDate.toString());
-    const remainingDays = Math.ceil(
-      (startDateSubject.getTime() - currentDate.getTime()) /
-        (1000 * 60 * 60 * 24)
-    );
-    return `${Math.abs(remainingDays)}d`;
+    const targetDate = new Date(startDate);
+
+    currentDate.setHours(0, 0, 0, 0);
+    targetDate.setHours(0, 0, 0, 0);
+
+    const differenceInTime = targetDate.getTime() - currentDate.getTime();
+    const differenceInDays = Math.ceil(differenceInTime / (1000 * 3600 * 24));
+
+    if (differenceInDays > 0) {
+      return `${differenceInDays}d left`;
+    } else if (differenceInDays === 0) {
+      return 'Today';
+    } else {
+      return `${Math.abs(differenceInDays)}d ago`;
+    }
   }
 }

@@ -8,6 +8,6 @@ public interface IEventService : IDomainService<Event>
     Task<int> CreateEvent(Event eventModel, string? fileName, string? contentType, MemoryStream? imageStream, CancellationToken cancellationToken);
     Task UpdateEvent(Event eventModel, string? fileName, string? contentType, MemoryStream? imageStream, CancellationToken cancellationToken);
     Task<List<GetEventListQueryModel>> GetListForUsers(CancellationToken cancellationToken);
-    Task<List<GetEventListQueryModel>> GetListForStaff(CancellationToken cancellationToken);
+    Task<List<GetEventListQueryModel>> GetListForStaff(string searchExpression, CancellationToken cancellationToken);
     Task<GetEventByIdQueryModel?> GetById(int eventId, CancellationToken cancellationToken);
 }

@@ -4,7 +4,7 @@ using MediatR;
 
 namespace DH.Application.Events.Queries;
 
-public record GetEventListForStaffQuery : IRequest<List<GetEventListQueryModel>>;
+public record GetEventListForStaffQuery(string? SearchExpression) : IRequest<List<GetEventListQueryModel>>;
 
 internal class GetEventListForStaffQueryHandler(IEventService eventService) : IRequestHandler<GetEventListForStaffQuery, List<GetEventListQueryModel>>
 {
@@ -12,6 +12,6 @@ internal class GetEventListForStaffQueryHandler(IEventService eventService) : IR
 
     public async Task<List<GetEventListQueryModel>> Handle(GetEventListForStaffQuery request, CancellationToken cancellationToken)
     {
-        return await this.eventService.GetListForStaff(cancellationToken);
+        return await this.eventService.GetListForStaff(request.SearchExpression ?? string.Empty, cancellationToken);
     }
 }

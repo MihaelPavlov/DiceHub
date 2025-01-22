@@ -35,9 +35,14 @@ export class EventsService {
     );
   }
 
-  public getListForStaff(): Observable<IEventListResult[]> {
-    return this.api.get<IEventListResult[]>(
-      `/${PATH.EVENTS.CORE}/${PATH.EVENTS.LIST_FOR_STAFF}`
+  public getListForStaff(
+    searchExpression: string
+  ): Observable<IEventListResult[] | null> {
+    return this.api.post<IEventListResult[]>(
+      `/${PATH.EVENTS.CORE}/${PATH.EVENTS.LIST_FOR_STAFF}`,
+      {
+        searchExpression,
+      }
     );
   }
 

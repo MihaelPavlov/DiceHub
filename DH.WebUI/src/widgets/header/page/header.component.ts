@@ -29,6 +29,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   @Input() menuItems: BehaviorSubject<IMenuItem[]> = new BehaviorSubject<
     IMenuItem[]
   >([]);
+  @Input() withScrollAnimation: boolean = true;
   @Input() menuItemClickFunction!: (option: string) => void;
   @Output() addClicked: EventEmitter<void> = new EventEmitter<void>();
   @Output() backClicked: EventEmitter<void> = new EventEmitter<void>();
@@ -129,7 +130,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       navbar = document.getElementById('sticky_navbar');
     }
     let prevScrollPos = window.scrollY;
-    if (navbar) {
+    if (navbar && this.withScrollAnimation) {
       window.onscroll = () => {
         if (this.getDisabledScrollEvent()) return;
 

@@ -32,12 +32,12 @@ public class EventsController : ControllerBase
         return Ok(result);
     }
 
-    [HttpGet("get-list-for-staff")]
+    [HttpPost("get-list-for-staff")]
     [ActionAuthorize(UserAction.EventsAdminRead)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetEventListQueryModel>))]
-    public async Task<IActionResult> GetEventListForStaff(CancellationToken cancellationToken)
+    public async Task<IActionResult> GetEventListForStaff([FromBody] GetEventListForStaffQuery query, CancellationToken cancellationToken)
     {
-        var result = await this.mediator.Send(new GetEventListForStaffQuery(), cancellationToken);
+        var result = await this.mediator.Send(query, cancellationToken);
         return Ok(result);
     }
 

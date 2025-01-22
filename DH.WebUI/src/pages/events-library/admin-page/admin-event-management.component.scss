@@ -1,5 +1,8 @@
 @use "../../../shared/assets/styles/palette";
 
+.expired{
+  opacity: 0.5;
+}
 .wrapper_library {
   display: flex;
   flex-direction: column;
@@ -29,7 +32,7 @@
         padding-top: 0.2rem;
         align-self: baseline;
         word-break: break-all;
-        width: 60%;
+        width: 90%;
 
         .wrapper_chips {
           padding-top: 0.25rem;

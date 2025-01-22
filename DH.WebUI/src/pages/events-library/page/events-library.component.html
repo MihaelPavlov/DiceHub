@@ -1,12 +1,16 @@
-<span>No events</span>
-<ng-container *ngIf="todayEvents.length !== 0">
+<ng-container>
   <app-header
+    [withScrollAnimation]="false"
     header="Todays Events"
     [withSearch]="false"
     [withBottomLine]="true"
   >
   </app-header>
 
+  <div class="no_records" *ngIf="todayEvents.length === 0">
+    <img src="../../../../../shared/assets/images/no-events.png" alt="" />
+    <p class="first-header">No events for today</p>
+  </div>
   <div class="wrapper_events">
     <div
       *ngFor="let event of todayEvents"
@@ -52,6 +56,7 @@
 
 <ng-container *ngIf="upcomingEvents.length !== 0">
   <app-header
+    [withScrollAnimation]="false"
     header="Upcoming Events"
     [withSearch]="false"
     [withBottomLine]="true"
@@ -88,7 +93,7 @@
       <div class="wrapper_event__chips-date-info">
         <app-chip
           [color]="'blue'"
-          [text]="(event.startDate | date : 'dd/MM/yyyy')?.toString() ?? ''"
+          [text]="(event.startDate | date : 'dd/MM/yyyy HH:mm')?.toString() ?? ''"
           [size]="'small'"
         ></app-chip>
         <app-chip
