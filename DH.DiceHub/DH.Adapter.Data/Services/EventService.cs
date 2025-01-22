@@ -76,16 +76,17 @@ internal class EventService : IEventService
         }
     }
 
-    public async Task<List<GetEventListQueryModel>> GetListBySearchExpressionAsync(string searchExpression, CancellationToken cancellationToken)
+    public async Task<List<GetEventListQueryModel>> GetListForUsers(CancellationToken cancellationToken)
     {
         using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
         {
+            var today = DateTime.UtcNow;
             return await (
                 from e in context.Events
                 join g in context.Games on e.GameId equals g.Id
                 join ei in context.EventImages on e.Id equals ei.EventId into eventImages
                 from ei in eventImages.DefaultIfEmpty()
-                where e.Name.ToLower().Contains(searchExpression.ToLower())
+                where today.Date <= e.StartDate.Date
                 select new GetEventListQueryModel
                 {
                     Id = e.Id,
@@ -96,7 +97,37 @@ internal class EventService : IEventService
                     MaxPeople = e.MaxPeople,
                     PeopleJoined = e.Participants.Count,
                     ImageId = e.IsCustomImage ? ei.Id : g.Image.Id,
-                }).ToListAsync(cancellationToken);
+                })
+                .OrderBy(x => x.StartDate)
+                .ToListAsync(cancellationToken);
+        }
+    }
+
+    public async Task<List<GetEventListQueryModel>> GetListForStaff(CancellationToken cancellationToken)
+    {
+        using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
+        {
+            var today = DateTime.UtcNow.Date;
+
+            return await (
+                from e in context.Events
+                join g in context.Games on e.GameId equals g.Id
+                join ei in context.EventImages on e.Id equals ei.EventId into eventImages
+                from ei in eventImages.DefaultIfEmpty()
+                select new GetEventListQueryModel
+                {
+                    Id = e.Id,
+                    GameId = g.Id,
+                    Name = e.Name,
+                    StartDate = e.StartDate,
+                    IsCustomImage = e.IsCustomImage,
+                    MaxPeople = e.MaxPeople,
+                    PeopleJoined = e.Participants.Count,
+                    ImageId = e.IsCustomImage ? ei.Id : g.Image.Id,
+                })
+                .OrderBy(x => x.StartDate.Date == today ? 0 : (x.StartDate.Date > today ? 1 : 2))  // Explicit order: today first, future next, past last
+                .ThenBy(x => x.StartDate)
+                .ToListAsync(cancellationToken);
         }
     }
 

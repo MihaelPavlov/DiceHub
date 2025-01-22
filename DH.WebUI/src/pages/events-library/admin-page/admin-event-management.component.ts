@@ -29,7 +29,7 @@ export class AdminEventManagementComponent implements OnInit, OnDestroy {
     private readonly menuTabsService: MenuTabsService,
     private readonly searchService: SearchService,
     private readonly eventService: EventsService,
-    private readonly router: Router,
+    private readonly router: Router
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.EVENTS);
     this.handleHeaderMenuItemClick = this.handleHeaderMenuItemClick.bind(this);
@@ -62,6 +62,26 @@ export class AdminEventManagementComponent implements OnInit, OnDestroy {
     this.searchService.hideSearchForm();
   }
 
+  public isEventExpired(eventDate: Date): boolean {
+    const eventDateObj =
+      eventDate instanceof Date ? eventDate : new Date(eventDate);
+    const today = new Date();
+
+    // Set both dates to the beginning of the day to ignore time differences
+    const todayStartOfDay = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate()
+    );
+    const eventStartOfDay = new Date(
+      eventDateObj.getFullYear(),
+      eventDateObj.getMonth(),
+      eventDateObj.getDate()
+    );
+
+    return eventStartOfDay.getTime() < todayStartOfDay.getTime();
+  }
+
   public handleEventMenuItemClick(key: string, event: MouseEvent): void {
     event.stopPropagation();
     if (key === 'update' && this.visibleMenuId) {
@@ -83,18 +103,8 @@ export class AdminEventManagementComponent implements OnInit, OnDestroy {
     }
   }
 
-  public handleSearchExpression(searchExpression: string) {
-    this.fetchEventList(searchExpression);
-  }
-
-  public calculateRemainingDays(startDate: Date): string {
-    const currentDate = new Date();
-    const startDateSubject = new Date(startDate.toString());
-    const remainingDays = Math.ceil(
-      (startDateSubject.getTime() - currentDate.getTime()) /
-        (1000 * 60 * 60 * 24)
-    );
-    return `${Math.abs(remainingDays)}d`;
+  public handleSearchExpression() {
+    this.fetchEventList();
   }
 
   public getImage(event: IEventListResult): Observable<string> {
@@ -105,8 +115,8 @@ export class AdminEventManagementComponent implements OnInit, OnDestroy {
     this.router.navigateByUrl(FULL_ROUTE.EVENTS.ADMIN.DETAILS_BY_ID(eventId));
   }
 
-  private fetchEventList(searchExpression: string = '') {
-    this.eventService.getList(searchExpression).subscribe({
+  private fetchEventList() {
+    this.eventService.getListForStaff().subscribe({
       next: (gameList) => (this.events = gameList ?? []),
       error: (error) => {
         console.log(error);

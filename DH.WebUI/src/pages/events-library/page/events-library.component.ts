@@ -41,7 +41,7 @@ export class EventsLibraryComponent implements OnInit, OnDestroy {
   }
 
   private fetchEventList() {
-    this.eventService.getList().subscribe({
+    this.eventService.getListForUser().subscribe({
       next: (eventList) => {
         this.filterEvents(eventList ?? []);
       },
@@ -53,7 +53,7 @@ export class EventsLibraryComponent implements OnInit, OnDestroy {
 
   private filterEvents(events: IEventListResult[]) {
     const today = new Date();
-    today.setHours(0, 0, 0, 0); // Set to midnight to compare dates only
+    today.setHours(0, 0, 0, 0);
 
     this.todayEvents = events.filter((event) =>
       this.isToday(event.startDate, today)
@@ -65,11 +65,16 @@ export class EventsLibraryComponent implements OnInit, OnDestroy {
 
   private isToday(eventDate: string | Date, today: Date): boolean {
     const eventDateObj = new Date(eventDate);
-    return eventDateObj.getTime() === today.getTime();
+    return eventDateObj.toDateString() === today.toDateString();
   }
 
   private isUpcoming(eventDate: string | Date, today: Date): boolean {
-    const eventDateObj = new Date(eventDate);
-    return eventDateObj.getTime() > today.getTime();
-  }
+    const eventDateObj = eventDate instanceof Date ? eventDate : new Date(eventDate);
+
+    // Set both dates to the beginning of the day to ignore time differences
+    const todayStartOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    const eventStartOfDay = new Date(eventDateObj.getFullYear(), eventDateObj.getMonth(), eventDateObj.getDate());
+  
+    return eventStartOfDay.getTime() > todayStartOfDay.getTime();
+   }
 }

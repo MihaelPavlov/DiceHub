@@ -29,14 +29,15 @@ export class EventsService {
     return this.entityImagePipe.transform(type, imageId);
   }
 
-  public getList(
-    searchExpression: string = ''
-  ): Observable<IEventListResult[] | null> {
-    return this.api.post<IEventListResult[]>(
-      `/${PATH.EVENTS.CORE}/${PATH.EVENTS.LIST}`,
-      {
-        searchExpression,
-      }
+  public getListForUser(): Observable<IEventListResult[]> {
+    return this.api.get<IEventListResult[]>(
+      `/${PATH.EVENTS.CORE}/${PATH.EVENTS.LIST_FOR_USERS}`
+    );
+  }
+
+  public getListForStaff(): Observable<IEventListResult[]> {
+    return this.api.get<IEventListResult[]>(
+      `/${PATH.EVENTS.CORE}/${PATH.EVENTS.LIST_FOR_STAFF}`
     );
   }
 
