@@ -1,7 +1,6 @@
 import {
   HttpEvent,
   HttpHandler,
-  HttpHeaders,
   HttpInterceptor,
   HttpRequest,
 } from '@angular/common/http';
@@ -16,19 +15,12 @@ export class HttpRequestInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     const token = localStorage.getItem('jwt');
 
-    req = req.clone({
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    });
-
+    let headers = req.headers.set('Content-Type', 'application/json');
     if (token) {
-      req = req.clone({
-        headers: new HttpHeaders({
-          Authorization: `Bearer ${token}`,
-        }),
-      });
+      headers = headers.set('Authorization', `Bearer ${token}`);
     }
+
+    req = req.clone({ headers });
 
     return next.handle(req);
   }

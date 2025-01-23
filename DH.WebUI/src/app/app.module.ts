@@ -16,6 +16,7 @@ import { LoadingIndicatorComponent } from '../shared/components/loading-indicato
 import { FirebaseModule } from '../shared/firebase.module';
 import { RegisterModule } from '../pages/register/register.module';
 import { AssistiveTouchModule } from '../shared/components/assistive-touch/assistive-touch.module';
+import { LoadingInterceptor } from '../shared/interceptors/loading.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -27,6 +28,11 @@ import { AssistiveTouchModule } from '../shared/components/assistive-touch/assis
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpRequestInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoadingInterceptor,
       multi: true,
     },
     JwtHelperService,

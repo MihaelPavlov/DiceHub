@@ -38,6 +38,16 @@ export class SpaceManagementService {
     );
   }
 
+  public getActiveReservedTableList_BackgroundRequest(): Observable<
+    IActiveReservedTable[]
+  > {
+    return this.api.get<IActiveReservedTable[]>(
+      `/${PATH.SPACE_MANAGEMENT.CORE}/${PATH.SPACE_MANAGEMENT.GET_ACTIVE_RESERVED_TABLES}`,
+      {},
+      true
+    );
+  }
+
   public getReservationHistory(): Observable<ITableReservationHistory[]> {
     return this.api.get<ITableReservationHistory[]>(
       `/${PATH.SPACE_MANAGEMENT.CORE}/${PATH.SPACE_MANAGEMENT.GET_RESERVATION_HISTORY}`

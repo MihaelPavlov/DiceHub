@@ -94,8 +94,8 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
 
   public refreshForAnyActiveReservations(): void {
     combineLatest([
-      this.gameService.getReservations(),
-      this.spaceManagementService.getActiveReservedTableList(),
+      this.gameService.getReservations_BackgroundRequest(),
+      this.spaceManagementService.getActiveReservedTableList_BackgroundRequest(),
     ]).subscribe({
       next: ([gameReservations, tableReservations]) => {
         const gameActiveReservations =

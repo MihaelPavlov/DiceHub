@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { environment } from '../environments/environment.development';
@@ -33,9 +33,21 @@ export class RestApiService {
 
   public get<T>(
     path: string,
-    config: ApiConfig = {}
+    config: ApiConfig = {},
+    backgroundRequest: boolean = false
   ): Observable<T> {
-    const { options = {}, base = ApiBase.Default } = config;
+    let { options = {}, base = ApiBase.Default } = config;
+
+    if (backgroundRequest) {
+      const updatedHeaders = new HttpHeaders().set(
+        'X-Background-Request',
+        'true'
+      );
+      options = {
+        ...options,
+        headers: updatedHeaders,
+      };
+    }
 
     return this.http
       .get<T>(this.buildUrl(base, path), options)
@@ -66,10 +78,7 @@ export class RestApiService {
       .pipe(map((res: any) => res as T));
   }
 
-  public delete<T>(
-    path: string,
-    config: ApiConfig = {}
-  ): Observable<any> {
+  public delete<T>(path: string, config: ApiConfig = {}): Observable<any> {
     const { options = {}, base = ApiBase.Default } = config;
 
     return this.http

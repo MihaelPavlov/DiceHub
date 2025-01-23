@@ -14,7 +14,7 @@ export class NotificationsService {
   }
 
   public areAnyActiveNotifications(): Observable<boolean> {
-    return this.api.get<boolean>('/notifications/are-any-active');
+    return this.api.get<boolean>('/notifications/are-any-active', {}, true);
   }
 
   public markNotificationAsViewed(id: number): Observable<null> {
