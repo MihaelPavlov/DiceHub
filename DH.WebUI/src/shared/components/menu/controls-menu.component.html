@@ -23,6 +23,9 @@
               ? true
               : item.isVisible
           "
+          [ngClass]="{
+            'red-text': item.isRedTextOn
+          }"
           (click)="onMenuItemClick(item.key, $event)"
         >
           {{ item.label }}

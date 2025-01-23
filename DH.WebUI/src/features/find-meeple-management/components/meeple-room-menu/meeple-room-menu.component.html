@@ -1,23 +1,11 @@
 <ng-container *ngIf="isCurrentUserParticipateInRoom">
   <div class="menu_container">
-    <span class="material-symbols-outlined icon" (click)="showMenu()">
+    <span
+      class="material-symbols-outlined icon"
+      (click)="showMenu($event, controls)"
+    >
       menu
     </span>
-    <div *ngIf="isMenuVisible" class="menu">
-      <ul>
-        <ng-container *ngFor="let item of menuItems">
-          <li
-            *ngIf="item.isVisible"
-            (click)="handleMenuItemClick(item.key)"
-            [ngClass]="{
-              'red-text': item.key === 'leave-room' || item.key === 'delete-room'
-            }"
-          >
-            {{ item.label }}
-          </li>
-        </ng-container>
-      </ul>
-    </div>
   </div>
 </ng-container>
 <ng-container *ngIf="!isCurrentUserParticipateInRoom">
@@ -28,3 +16,9 @@
     info
   </span>
 </ng-container>
+
+<app-controls-menu
+  #controls
+  [menuItems]="menuItems.asObservable()"
+  (menuItemClick)="onMenuOption($event.value, $event.event)"
+></app-controls-menu>

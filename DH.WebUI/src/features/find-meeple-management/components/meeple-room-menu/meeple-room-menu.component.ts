@@ -1,4 +1,6 @@
+import { REWARD_POINTS } from './../../../../entities/rewards/enums/reward-required-point.enum';
 import {
+  AfterViewInit,
   Component,
   EventEmitter,
   HostListener,
@@ -13,6 +15,8 @@ import { RoomConfirmDeleteDialog } from '../../dialogs/room-confirm-delete/room-
 import { RoomConfirmLeaveDialog } from '../../dialogs/room-confirm-leave/room-confirm-leave.component';
 import { AuthService } from '../../../../entities/auth/auth.service';
 import { IRoomByIdResult } from '../../../../entities/rooms/models/room-by-id.model';
+import { BehaviorSubject } from 'rxjs';
+import { ControlsMenuComponent } from '../../../../shared/components/menu/controls-menu.component';
 
 @Component({
   selector: 'app-meeple-room-menu',
@@ -24,25 +28,28 @@ export class MeepleRoomMenuComponent implements OnInit {
   @Input() room!: IRoomByIdResult;
   @Output() fetchData: EventEmitter<void> = new EventEmitter<void>();
 
-  public menuItems: IMenuItem[] = [];
+  public menuItems: BehaviorSubject<IMenuItem[]> = new BehaviorSubject<
+    IMenuItem[]
+  >([]);
   public isMenuVisible: boolean = false;
 
   constructor(
     private readonly router: Router,
     private readonly dialog: MatDialog,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
   ) {}
 
   public ngOnInit(): void {
     this.updateMenuItems();
   }
 
-  public showMenu(): void {
-    this.isMenuVisible = !this.isMenuVisible;
+  public showMenu(event: MouseEvent, controlMenu: ControlsMenuComponent): void {
+    event.stopPropagation();
+    controlMenu.toggleMenu();
   }
 
   public updateMenuItems(): void {
-    this.menuItems = [
+    this.menuItems.next([
       {
         key: 'update',
         label: 'Update',
@@ -59,6 +66,7 @@ export class MeepleRoomMenuComponent implements OnInit {
           this.room &&
           this.room.createdBy !== this.currentUserId() &&
           this.isCurrentUserParticipateInRoom,
+        isRedTextOn: true,
       },
       {
         key: 'delete-room',
@@ -67,15 +75,16 @@ export class MeepleRoomMenuComponent implements OnInit {
           this.room &&
           this.room.createdBy === this.currentUserId() &&
           this.isCurrentUserParticipateInRoom,
+        isRedTextOn: true,
       },
-    ];
+    ]);
   }
 
   public currentUserId(): string {
     return this.authService.getUser?.id || '';
   }
 
-  public handleMenuItemClick(key: string): void {
+  public onMenuOption(key: string, event: MouseEvent): void {
     if (key === 'group-members') {
       this.router.navigateByUrl(`/meeples/${this.room.id}/chat/members`);
     } else if (key === 'update') {
