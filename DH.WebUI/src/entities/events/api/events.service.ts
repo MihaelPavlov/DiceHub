@@ -35,6 +35,12 @@ export class EventsService {
     );
   }
 
+  public getUserEvents(): Observable<IEventListResult[]> {
+    return this.api.get<IEventListResult[]>(
+      `/${PATH.EVENTS.CORE}/${PATH.EVENTS.GET_USER_EVENTS}`
+    );
+  }
+  
   public getListForStaff(
     searchExpression: string
   ): Observable<IEventListResult[] | null> {

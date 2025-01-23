@@ -1,3 +1,55 @@
+<ng-container *ngIf="this.userEvents.length !== 0">
+  <app-header
+    [withScrollAnimation]="false"
+    header="My Events"
+    [withSearch]="false"
+    [withBottomLine]="true"
+  >
+  </app-header>
+
+  <div class="wrapper_events">
+    <div
+      *ngFor="let event of userEvents"
+      class="wrapper_event"
+      (click)="navigateToDetails(event.id)"
+    >
+      <div class="wrapper_event__chips">
+        <app-chip
+          [color]="'orange'"
+          text="{{ event.peopleJoined }} joined"
+          [size]="'small'"
+        ></app-chip>
+        <app-chip
+          [color]="'red'"
+          text="{{ event.maxPeople }} max"
+          [size]="'small'"
+        ></app-chip>
+      </div>
+
+      <div class="wrapper_event__image">
+        <img [src]="getImage(event) | async" alt="" />
+      </div>
+
+      <div class="wrapper_event__header">
+        <span> {{ event.name }} </span>
+      </div>
+
+      <div class="wrapper_event__chips-date-info">
+        <app-chip
+          [color]="'blue'"
+          [text]="(event.startDate | date : 'dd/MM/yyyy')?.toString() ?? ''"
+          [size]="'small'"
+        ></app-chip>
+        <app-chip
+          [color]="'yellow'"
+          [text]="event.startDate | calculateRemainingDays"
+          [size]="'small'"
+        ></app-chip>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
 <ng-container>
   <app-header
     [withScrollAnimation]="false"
@@ -26,6 +78,13 @@
         <app-chip
           [color]="'red'"
           text="{{ event.maxPeople }} max"
+          [size]="'small'"
+        ></app-chip>
+
+        <app-chip
+          *ngIf="isUserParticipatedIn(event.id)"
+          [color]="'green'"
+          text="joined"
           [size]="'small'"
         ></app-chip>
       </div>
@@ -80,6 +139,12 @@
           text="{{ event.maxPeople }} max"
           [size]="'small'"
         ></app-chip>
+        <app-chip
+          *ngIf="isUserParticipatedIn(event.id)"
+          [color]="'green'"
+          text="joined"
+          [size]="'small'"
+        ></app-chip>
       </div>
 
       <div class="wrapper_event__image">
@@ -93,7 +158,9 @@
       <div class="wrapper_event__chips-date-info">
         <app-chip
           [color]="'blue'"
-          [text]="(event.startDate | date : 'dd/MM/yyyy HH:mm')?.toString() ?? ''"
+          [text]="
+            (event.startDate | date : 'dd/MM/yyyy HH:mm')?.toString() ?? ''
+          "
           [size]="'small'"
         ></app-chip>
         <app-chip

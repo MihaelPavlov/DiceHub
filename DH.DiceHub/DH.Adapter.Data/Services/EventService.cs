@@ -1,4 +1,5 @@
-﻿using DH.Domain.Entities;
+﻿using DH.Domain.Adapters.Authentication;
+using DH.Domain.Entities;
 using DH.Domain.Models.EventModels.Queries;
 using DH.Domain.Services;
 using DH.OperationResultCore.Exceptions;
@@ -9,10 +10,12 @@ namespace DH.Adapter.Data.Services;
 internal class EventService : IEventService
 {
     readonly IDbContextFactory<TenantDbContext> _contextFactory;
+    readonly IUserContext userContext;
 
-    public EventService(IDbContextFactory<TenantDbContext> _contextFactory)
+    public EventService(IDbContextFactory<TenantDbContext> _contextFactory, IUserContext userContext)
     {
         this._contextFactory = _contextFactory;
+        this.userContext = userContext;
     }
 
     public async Task<int> CreateEvent(Event eventModel, string? fileName, string? contentType, MemoryStream? imageStream, CancellationToken cancellationToken)
@@ -107,7 +110,7 @@ internal class EventService : IEventService
     {
         using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
         {
-            var today = DateTime.UtcNow.Date;
+            var today = DateTime.UtcNow;
 
             return await (
                 from e in context.Events
@@ -126,8 +129,34 @@ internal class EventService : IEventService
                     PeopleJoined = e.Participants.Count,
                     ImageId = e.IsCustomImage ? ei.Id : g.Image.Id,
                 })
-                .OrderBy(x => x.StartDate.Date == today ? 0 : (x.StartDate.Date > today ? 1 : 2))  // Explicit order: today first, future next, past last
-                .ThenBy(x => x.StartDate)
+                .OrderBy(x => x.StartDate < today ? 1 : 0)   // Past events (1) go to the bottom
+                .ThenBy(x => x.StartDate >= today ? x.StartDate : DateTime.MaxValue) // Ascending for future/today
+                .ThenByDescending(x => x.StartDate < today ? x.StartDate : DateTime.MinValue) // Descending for past
+                .ToListAsync(cancellationToken);
+        }
+    }
+
+    public async Task<List<GetEventListQueryModel>> GetUserEvents(CancellationToken cancellationToken)
+    {
+        using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
+        {
+            return await (
+                from ep in context.EventParticipants
+                join g in context.Games on ep.Event.GameId equals g.Id
+                join ei in context.EventImages on ep.Event.Id equals ei.EventId into eventImages
+                from ei in eventImages.DefaultIfEmpty()
+                select new GetEventListQueryModel
+                {
+                    Id = ep.Event.Id,
+                    GameId = g.Id,
+                    Name = ep.Event.Name,
+                    StartDate = ep.Event.StartDate,
+                    IsCustomImage = ep.Event.IsCustomImage,
+                    MaxPeople = ep.Event.MaxPeople,
+                    PeopleJoined = ep.Event.Participants.Count,
+                    ImageId = ep.Event.IsCustomImage ? ei.Id : g.Image.Id,
+                })
+                .OrderBy(x => x.StartDate)
                 .ToListAsync(cancellationToken);
         }
     }

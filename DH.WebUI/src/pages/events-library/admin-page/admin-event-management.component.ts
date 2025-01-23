@@ -71,12 +71,14 @@ export class AdminEventManagementComponent implements OnInit, OnDestroy {
     const todayStartOfDay = new Date(
       today.getFullYear(),
       today.getMonth(),
-      today.getDate()
+      today.getDate(),
+      today.getHours()
     );
     const eventStartOfDay = new Date(
       eventDateObj.getFullYear(),
       eventDateObj.getMonth(),
-      eventDateObj.getDate()
+      eventDateObj.getDate(),
+      eventDateObj.getHours()
     );
 
     return eventStartOfDay.getTime() < todayStartOfDay.getTime();

@@ -41,6 +41,15 @@ public class EventsController : ControllerBase
         return Ok(result);
     }
 
+    [HttpGet("get-user-events")]
+    [ActionAuthorize(UserAction.EventsRead)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetEventListQueryModel>))]
+    public async Task<IActionResult> GetUserEvents(CancellationToken cancellationToken)
+    {
+        var result = await this.mediator.Send(new GetUserEventListQuery(), cancellationToken);
+        return Ok(result);
+    }
+
     [HttpGet("get-all-events-dropdown-list")]
     [ActionAuthorize(UserAction.EventsAdminRead)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetAllEventsDropdownListModel>))]

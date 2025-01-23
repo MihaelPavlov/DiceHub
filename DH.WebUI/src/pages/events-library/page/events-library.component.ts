@@ -1,3 +1,4 @@
+import { initializeApp } from '@angular/fire/app';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { EventsService } from '../../../entities/events/api/events.service';
@@ -5,7 +6,7 @@ import { IEventListResult } from '../../../entities/events/models/event-list.mod
 import { NAV_ITEM_LABELS } from '../../../shared/models/nav-items-labels.const';
 import { MenuTabsService } from '../../../shared/services/menu-tabs.service';
 import { FULL_ROUTE } from '../../../shared/configs/route.config';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-events-library',
@@ -15,6 +16,7 @@ import { Observable } from 'rxjs';
 export class EventsLibraryComponent implements OnInit, OnDestroy {
   public todayEvents: IEventListResult[] = [];
   public upcomingEvents: IEventListResult[] = [];
+  public userEvents: IEventListResult[] = [];
 
   constructor(
     private readonly router: Router,
@@ -40,13 +42,18 @@ export class EventsLibraryComponent implements OnInit, OnDestroy {
     return this.eventService.getImage(event.isCustomImage, event.imageId);
   }
 
+  public isUserParticipatedIn(eventId): boolean {
+    return this.userEvents.find((x) => x.id == eventId) ? true : false;
+  }
+
   private fetchEventList() {
-    this.eventService.getListForUser().subscribe({
-      next: (eventList) => {
-        this.filterEvents(eventList ?? []);
-      },
-      error: (error) => {
-        console.log(error);
+    combineLatest([
+      this.eventService.getListForUser(),
+      this.eventService.getUserEvents(),
+    ]).subscribe({
+      next: ([eventList, userEvents]) => {
+        this.userEvents = userEvents ?? [];
+        this.filterEvents(eventList);
       },
     });
   }
@@ -69,12 +76,21 @@ export class EventsLibraryComponent implements OnInit, OnDestroy {
   }
 
   private isUpcoming(eventDate: string | Date, today: Date): boolean {
-    const eventDateObj = eventDate instanceof Date ? eventDate : new Date(eventDate);
+    const eventDateObj =
+      eventDate instanceof Date ? eventDate : new Date(eventDate);
 
     // Set both dates to the beginning of the day to ignore time differences
-    const todayStartOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-    const eventStartOfDay = new Date(eventDateObj.getFullYear(), eventDateObj.getMonth(), eventDateObj.getDate());
-  
+    const todayStartOfDay = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate()
+    );
+    const eventStartOfDay = new Date(
+      eventDateObj.getFullYear(),
+      eventDateObj.getMonth(),
+      eventDateObj.getDate()
+    );
+
     return eventStartOfDay.getTime() > todayStartOfDay.getTime();
-   }
+  }
 }
