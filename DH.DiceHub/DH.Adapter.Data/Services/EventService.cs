@@ -140,11 +140,14 @@ internal class EventService : IEventService
     {
         using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
         {
+            var today = DateTime.UtcNow;
+
             return await (
                 from ep in context.EventParticipants
                 join g in context.Games on ep.Event.GameId equals g.Id
                 join ei in context.EventImages on ep.Event.Id equals ei.EventId into eventImages
                 from ei in eventImages.DefaultIfEmpty()
+                where today.Date <= ep.Event.StartDate.Date
                 select new GetEventListQueryModel
                 {
                     Id = ep.Event.Id,
