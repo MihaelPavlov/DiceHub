@@ -7,7 +7,6 @@ import {
   Output,
 } from '@angular/core';
 import { IGameByIdResult } from '../../../../../entities/games/models/game-by-id.model';
-import { StringFormatPipe } from '../../../../../shared/pipe/string-format.pipe';
 import { GamesService } from '../../../../../entities/games/api/games.service';
 import { MenuTabsService } from '../../../../../shared/services/menu-tabs.service';
 import { NavItemInterface } from '../../../../../shared/models/nav-item.mode';
@@ -15,7 +14,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { GameQrCodeDialog } from '../../../dialogs/qr-code-dialog/qr-code-dialog.component';
 import { AuthService } from '../../../../../entities/auth/auth.service';
 import { UserRole } from '../../../../../entities/auth/enums/roles.enum';
-import { ROUTE } from '../../../../../shared/configs/route.config';
+import { FULL_ROUTE } from '../../../../../shared/configs/route.config';
 import { QrCodeType } from '../../../../../entities/qr-code-scanner/enums/qr-code-type.enum';
 import { ImageEntityType } from '../../../../../shared/pipe/entity-image.pipe';
 
@@ -35,7 +34,6 @@ export class GameLayoutComponent implements OnInit, OnDestroy {
   public readonly ImageEntityType = ImageEntityType;
 
   constructor(
-    private readonly stringFormat: StringFormatPipe,
     private readonly gameService: GamesService,
     private readonly menuTabsService: MenuTabsService,
     private readonly authService: AuthService,
@@ -66,48 +64,25 @@ export class GameLayoutComponent implements OnInit, OnDestroy {
     this.menuItems = [
       {
         label: 'Statistics',
-        class:
-          page ==
-          this.stringFormat.transform(ROUTE.GAMES.DETAILS, {
-            id: this.game.id,
-          })
-            ? 'active'
-            : '',
+        class: page == FULL_ROUTE.GAMES.DETAILS(this.game.id) ? 'active' : '',
         enabled: true,
         visible: true,
-        route: this.stringFormat.transform(ROUTE.GAMES.DETAILS, {
-          id: this.game.id,
-        }),
+        route: FULL_ROUTE.GAMES.DETAILS(this.game.id),
       },
       {
         label: 'Availability',
         class:
-          page ==
-          this.stringFormat.transform(ROUTE.GAMES.DETAILS_AVAILABILITY, {
-            id: this.game.id,
-          })
-            ? 'active'
-            : '',
+          page == FULL_ROUTE.GAMES.AVAILABILITY(this.game.id) ? 'active' : '',
         enabled: true,
         visible: true,
-        route: this.stringFormat.transform(ROUTE.GAMES.DETAILS_AVAILABILITY, {
-          id: this.game.id,
-        }),
+        route: FULL_ROUTE.GAMES.AVAILABILITY(this.game.id),
       },
       {
         label: 'Reviews',
-        class:
-          page ==
-          this.stringFormat.transform(ROUTE.GAMES.DETAILS_REVIEWS, {
-            id: this.game.id,
-          })
-            ? 'active'
-            : '',
+        class: page == FULL_ROUTE.GAMES.REVIEWS(this.game.id) ? 'active' : '',
         enabled: true,
         visible: true,
-        route: this.stringFormat.transform(ROUTE.GAMES.DETAILS_REVIEWS, {
-          id: this.game.id,
-        }),
+        route: FULL_ROUTE.GAMES.REVIEWS(this.game.id),
       },
     ];
   }

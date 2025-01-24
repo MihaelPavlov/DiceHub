@@ -4,9 +4,9 @@ export const ROUTE = {
   GAMES: {
     CORE: 'games',
     LIBRARY: 'library',
-    DETAILS: '/games/{id}/details',
-    DETAILS_AVAILABILITY: '/games/{id}/availability',
-    DETAILS_REVIEWS: '/games/{id}/reviews',
+    DETAILS: 'details',
+    AVAILABILITY: 'availability',
+    REVIEWS: 'reviews',
   },
   EVENTS: {
     CORE: 'events',
@@ -39,14 +39,29 @@ export const ROUTE = {
     CREATE: 'create',
     UPDATE: 'update',
   },
-  CHAT_HUB: {
-    CORE: 'chat-hub',
+  CHAT_HUB_CLIENT: {
+    CORE: 'chatHub',
+    SEND_MESSAGE_TO_GROUP: 'SendMessageToGroup',
+    RECEIVE_MESSAGE: 'ReceiveMessage',
+    CONNECT_TO_GROUP: 'ConnectToGroup',
+  },
+  MEEPLE_ROOMS: {
+    CORE: 'meeples',
+    DETAILS: 'details',
+    FIND: 'find',
+    CHAT: 'chat',
   },
 };
 
 export const FULL_ROUTE = {
   GAMES: {
     LIBRARY: `${ROUTE.GAMES.CORE}/${ROUTE.GAMES.LIBRARY}`,
+    DETAILS: (gameId: number) =>
+      `/${ROUTE.GAMES.CORE}/${gameId}/${ROUTE.GAMES.DETAILS}`,
+    AVAILABILITY: (gameId: number) =>
+      `/${ROUTE.GAMES.CORE}/${gameId}/${ROUTE.GAMES.AVAILABILITY}`,
+    REVIEWS: (gameId: number) =>
+      `/${ROUTE.GAMES.CORE}/${gameId}/${ROUTE.GAMES.REVIEWS}`,
   },
   EVENTS: {
     HOME: `${ROUTE.EVENTS.CORE}/${ROUTE.EVENTS.HOME}`,
@@ -76,5 +91,12 @@ export const FULL_ROUTE = {
       `${ROUTE.SPACE_MANAGEMENT.CORE}/${ROUTE.SPACE_MANAGEMENT.UPDATE}/${tableId}`,
     ROOM_DETAILS: (tableId: number) =>
       `${ROUTE.SPACE_MANAGEMENT.CORE}/${tableId}/${ROUTE.SPACE_MANAGEMENT.DETAILS}`,
+  },
+  MEEPLE_ROOM: {
+    DETAILS_BY_ID: (roomId: number) =>
+      `${ROUTE.MEEPLE_ROOMS.CORE}/${roomId}/${ROUTE.MEEPLE_ROOMS.DETAILS}`,
+    FIND: `${ROUTE.MEEPLE_ROOMS.CORE}/${ROUTE.MEEPLE_ROOMS.FIND}`,
+    CHAT_ROOM_BY_ID: (roomId: number) =>
+      `${ROUTE.MEEPLE_ROOMS.CORE}/${roomId}/${ROUTE.MEEPLE_ROOMS.CHAT}`,
   },
 };

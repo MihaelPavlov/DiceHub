@@ -5,9 +5,6 @@ import { NAV_ITEM_LABELS } from '../../../../shared/models/nav-items-labels.cons
 import { RoomsService } from '../../../../entities/rooms/api/rooms.service';
 import { ActivatedRoute, Params } from '@angular/router';
 import { IRoomMemberResult } from '../../../../entities/rooms/models/room-member.model';
-import { ToastService } from '../../../../shared/services/toast.service';
-import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
-import { ToastType } from '../../../../shared/models/toast.model';
 import { combineLatest } from 'rxjs';
 import { IRoomByIdResult } from '../../../../entities/rooms/models/room-by-id.model';
 import { AuthService } from '../../../../entities/auth/auth.service';
@@ -30,13 +27,13 @@ export class RoomMembersComponent implements OnInit, OnDestroy {
     private readonly searchService: SearchService,
     private readonly roomService: RoomsService,
     private readonly activeRoute: ActivatedRoute,
-    private readonly toastService: ToastService,
     private readonly authService: AuthService,
     private readonly location: Location,
     private readonly dialog: MatDialog
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.MEEPLE);
   }
+
   public ngOnInit(): void {
     this.activeRoute.params.subscribe((params: Params) => {
       this.roomId = +params['id'];

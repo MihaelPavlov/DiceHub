@@ -1,7 +1,6 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { StringFormatPipe } from './pipe/string-format.pipe';
 import { TOAST_DEFAULT_OPTIONS } from './models/toast.model';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { ToastComponent } from './components/toast/toast.component';
@@ -12,7 +11,6 @@ import { EntityImagePipe } from './pipe/entity-image.pipe';
 
 @NgModule({
   declarations: [
-    StringFormatPipe,
     ToastComponent,
     CalculateRemainingDaysPipe,
     EntityImagePipe,
@@ -24,14 +22,12 @@ import { EntityImagePipe } from './pipe/entity-image.pipe';
     CommonModule,
     ReactiveFormsModule,
     CalculateRemainingDaysPipe,
-    StringFormatPipe,
     EntityImagePipe,
     ControlsMenuComponent,
     RandomColorDirective,
-    DatePipe
+    DatePipe,
   ],
   providers: [
-    StringFormatPipe,
     EntityImagePipe,
     CalculateRemainingDaysPipe,
     DatePipe,

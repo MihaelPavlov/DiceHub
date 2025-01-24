@@ -23,12 +23,8 @@ import { MeepleRoomMenuComponent } from '../meeple-room-menu/meeple-room-menu.co
 import { GroupedChatMessage } from './models/grouped-chat-messages.model';
 import { IRoomInfoMessageResult } from '../../../../entities/rooms/models/room-info-message.model';
 import { environment } from '../../../../shared/environments/environment.development';
-import { ROUTE } from '../../../../shared/configs/route.config';
+import { FULL_ROUTE, ROUTE } from '../../../../shared/configs/route.config';
 
-export interface IRoomInfoMessage {
-  createdDate: Date;
-  message: string;
-}
 @Component({
   selector: 'app-room-chat',
   templateUrl: 'room-chat.component.html',
@@ -82,7 +78,11 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     if (!this.message) return;
 
     this.hubConnection
-      .invoke('SendMessageToGroup', this.roomId, this.message)
+      .invoke(
+        ROUTE.CHAT_HUB_CLIENT.SEND_MESSAGE_TO_GROUP,
+        this.roomId,
+        this.message
+      )
       .then(() => (this.message = ''))
       .catch((err) => console.error(err));
   }
@@ -92,7 +92,9 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   public backNavigateBtn(): void {
-    this.router.navigateByUrl(`meeples/${this.roomId}/details`);
+    this.router.navigateByUrl(
+      FULL_ROUTE.MEEPLE_ROOM.DETAILS_BY_ID(this.roomId)
+    );
   }
 
   public onLeaveCompleted(): void {
@@ -149,7 +151,7 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   private startConnection(): void {
     const token = localStorage.getItem('jwt');
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl(`${environment.defaultAppUrl}/${ROUTE.CHAT_HUB.CORE}`, {
+      .withUrl(`${environment.defaultAppUrl}/${ROUTE.CHAT_HUB_CLIENT.CORE}`, {
         accessTokenFactory: (): any => token,
       })
       .build();
@@ -158,15 +160,12 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
       .start()
       .then(() => {
         this.hubConnection
-          .invoke('ConnectToGroup', this.roomId)
+          .invoke(ROUTE.CHAT_HUB_CLIENT.CONNECT_TO_GROUP, this.roomId)
           .catch((err) => console.error(err));
 
         this.hubConnection.on(
-          'ReceiveMessage',
+          ROUTE.CHAT_HUB_CLIENT.RECEIVE_MESSAGE,
           (sender, senderUsername, message, createdDate) => {
-            console.log(
-              `Received message from ${sender}: ${message} at ${createdDate}`
-            );
             const groups = this.currentChatMessagesSubject$.value;
 
             const currentGroup = {
@@ -176,8 +175,6 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
               createdDate: createdDate,
               infoMessages: [],
             };
-
-            console.log(currentGroup);
 
             groups.push(currentGroup);
             const sorted = groups.sort((a, b) => {
@@ -248,8 +245,6 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
       };
       groups.push(currentGroup);
     }
-    console.log('createGroupsFromRoomMessages -> ', groups);
-
     return groups;
   }
 

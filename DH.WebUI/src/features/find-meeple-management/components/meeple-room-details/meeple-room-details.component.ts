@@ -8,6 +8,7 @@ import { combineLatest } from 'rxjs';
 import { AuthService } from '../../../../entities/auth/auth.service';
 import { MeepleRoomMenuComponent } from '../meeple-room-menu/meeple-room-menu.component';
 import { ImageEntityType } from '../../../../shared/pipe/entity-image.pipe';
+import { FULL_ROUTE } from '../../../../shared/configs/route.config';
 
 @Component({
   selector: 'app-meeple-room-details',
@@ -44,15 +45,15 @@ export class MeepleRoomDetailsComponent implements OnInit, OnDestroy {
   }
 
   public backNavigateBtn(): void {
-    this.router.navigateByUrl('meeples/find');
+    this.router.navigateByUrl(FULL_ROUTE.MEEPLE_ROOM.FIND);
   }
 
   public navigateToGameDetails(id: number): void {
-    this.router.navigateByUrl(`games/${id}/details`);
+    this.router.navigateByUrl(FULL_ROUTE.GAMES.DETAILS(id));
   }
 
   public navigateToChat(id: number): void {
-    this.router.navigateByUrl(`meeples/${id}/chat`);
+    this.router.navigateByUrl(FULL_ROUTE.MEEPLE_ROOM.CHAT_ROOM_BY_ID(id));
   }
 
   public onJoinRoom(): void {
