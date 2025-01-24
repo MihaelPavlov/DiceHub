@@ -117,7 +117,7 @@ public class JwtService : IJwtService
         var issuer = configuration.GetValue<string>("TokenIssuer")
             ?? throw new ArgumentException("TokenIssuer was not specified");
 
-        var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetValue<string>("JWT_SecrectKey")
+        var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetValue<string>("JWT_SecretKey")
             ?? throw new ArgumentException("JWT_SecretKey was not specified")));
 
         var tokenValidationParameters = new TokenValidationParameters

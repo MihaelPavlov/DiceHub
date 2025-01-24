@@ -22,6 +22,8 @@ import { IRoomMessageResult } from '../../../../entities/rooms/models/room-messa
 import { MeepleRoomMenuComponent } from '../meeple-room-menu/meeple-room-menu.component';
 import { GroupedChatMessage } from './models/grouped-chat-messages.model';
 import { IRoomInfoMessageResult } from '../../../../entities/rooms/models/room-info-message.model';
+import { environment } from '../../../../shared/environments/environment.development';
+
 export interface IRoomInfoMessage {
   createdDate: Date;
   message: string;
@@ -34,18 +36,7 @@ export interface IRoomInfoMessage {
 export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   @ViewChild('chat') private chatContainer!: ElementRef;
   @ViewChild(MeepleRoomMenuComponent) menu!: MeepleRoomMenuComponent;
-  public roomInfoMessages: IRoomInfoMessageResult[] = [
-    {
-      id: 1,
-      createdDate: new Date('2024-08-10'),
-      message: 'Message 1',
-    },
-    {
-      id: 2,
-      createdDate: new Date('2024-09-11'),
-      message: 'Message 2',
-    },
-  ];
+  public roomInfoMessages: IRoomInfoMessageResult[] = [];
   public room!: IRoomByIdResult;
   public roomMessages: IRoomMessageResult[] = [];
   public message!: string;
@@ -148,16 +139,16 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   private scrollToBottom(): void {
-    console.log('scrolling to bottom', this.chatContainer);
-
-    this.chatContainer.nativeElement.scrollTop =
-      this.chatContainer.nativeElement.scrollHeight;
+    this.chatContainer.nativeElement.scrollTo({
+      top: this.chatContainer.nativeElement.scrollHeight,
+      behavior: 'smooth',
+    });
   }
 
   private startConnection(): void {
     const token = localStorage.getItem('jwt');
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl('https://localhost:7024/chatHub', {
+      .withUrl(`${environment.defaultAppUrl}/${ROUTE.CHAT_HUB.CORE}`, {
         accessTokenFactory: (): any => token,
       })
       .build();
@@ -177,33 +168,6 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             );
             const groups = this.currentChatMessagesSubject$.value;
 
-            // let currentGroup2: GroupedChatMessage | null | undefined =
-            //   groups.pop();
-
-            // let newGroup: GroupedChatMessage | null = null;
-            // if (currentGroup2 && currentGroup2.senderId === sender) {
-            //   currentGroup2.messages.push({
-            //     dateCreated: timestamp,
-            //     text: message,
-            //   });
-            //   groups.push(currentGroup2);
-            // } else {
-            //   if (currentGroup2) {
-            //     groups.push(currentGroup2);
-            //   }
-            //   newGroup = {
-            //     senderId: sender,
-            //     senderUsername: senderUsername,
-            //     messages: [{ dateCreated: timestamp, text: message }],
-            //     dateCreated: timestamp,
-            //     infoMessages: [],
-            //   };
-            // }
-
-            // if (newGroup) {
-            //   groups.push(newGroup);
-            // }
-
             const currentGroup = {
               senderId: sender,
               senderUsername: senderUsername,
@@ -211,6 +175,9 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
               createdDate: createdDate,
               infoMessages: [],
             };
+
+            console.log(currentGroup);
+
             groups.push(currentGroup);
             const sorted = groups.sort((a, b) => {
               return (
@@ -218,6 +185,7 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                 new Date(b.createdDate).valueOf()
               );
             });
+
             this.currentChatMessagesSubject$.next(sorted);
             this.shouldScrollToBottom = true;
             this.cdRef.detectChanges();
@@ -238,7 +206,22 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   public updateRoomMessages() {
     const groups = this.createGroupsFromRoomMessages();
-    const newGroups = this.processGroupInfoMessages(groups);
+    let newGroups = this.processGroupInfoMessages(groups);
+
+    if (groups.length === 0) {
+      newGroups = this.roomInfoMessages.map((infoMessage) => ({
+        senderId: '',
+        senderUsername: '',
+        messages: [],
+        createdDate: infoMessage.createdDate,
+        infoMessages: [
+          {
+            text: infoMessage.message,
+            createdDate: infoMessage.createdDate,
+          },
+        ],
+      }));
+    }
 
     const sorted = groups.concat(newGroups).sort((a, b) => {
       return (
@@ -264,6 +247,8 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
       };
       groups.push(currentGroup);
     }
+    console.log('createGroupsFromRoomMessages -> ', groups);
+
     return groups;
   }
 
@@ -275,44 +260,41 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
     for (let index = 0; index < groups.length; index++) {
       const currentGroup = groups[index];
+      const nextGroup = groups[index + 1];
 
-      if (groups[index + 1]) {
-        const nextGroup = groups[index + 1];
+      const smallestDateCreatedCurrentGroup =
+        this.getSmallestDateCreated(currentGroup);
+      const smallestDateCreatedNextGroup = nextGroup
+        ? this.getSmallestDateCreated(nextGroup)
+        : Number.MAX_SAFE_INTEGER;
 
-        const smallestDateCreatedCurrentGroup =
-          this.getSmallestDateCreated(currentGroup);
-        const smallestDateCreatedNextGroup =
-          this.getSmallestDateCreated(nextGroup);
+      const filteredInfoMessagesBefore = this.getFilteredInfoMessagesBefore(
+        smallestDateCreatedCurrentGroup
+      );
+      const filteredInfoMessagesInMiddle = this.getFilteredInfoMessagesInMiddle(
+        smallestDateCreatedCurrentGroup,
+        smallestDateCreatedNextGroup
+      );
+      const filteredInfoMessagesAfter = this.getFilteredInfoMessagesAfter(
+        smallestDateCreatedNextGroup
+      );
 
-        const filteredInfoMessagesBefore = this.getFilteredInfoMessagesBefore(
-          smallestDateCreatedCurrentGroup
-        );
-        const filteredInfoMessagesInMiddle =
-          this.getFilteredInfoMessagesInMiddle(
-            smallestDateCreatedCurrentGroup,
-            smallestDateCreatedNextGroup
-          );
-        const filteredInfoMessagesAfter = this.getFilteredInfoMessagesAfter(
-          smallestDateCreatedNextGroup
-        );
+      this.addInfoMessagesToGroup(currentGroup, filteredInfoMessagesInMiddle);
 
-        this.addInfoMessagesToGroup(currentGroup, filteredInfoMessagesInMiddle);
+      this.addFilteredInfoMessagesToNewGroups(
+        filteredInfoMessagesBefore,
+        newGroups
+      );
+      this.addFilteredInfoMessagesToNewGroups(
+        filteredInfoMessagesAfter,
+        newGroups
+      );
 
-        this.addFilteredInfoMessagesToNewGroups(
-          filteredInfoMessagesBefore,
-          newGroups
-        );
-        this.addFilteredInfoMessagesToNewGroups(
-          filteredInfoMessagesAfter,
-          newGroups
-        );
-
-        this.removeProcessedInfoMessages(
-          filteredInfoMessagesBefore,
-          filteredInfoMessagesInMiddle,
-          filteredInfoMessagesAfter
-        );
-      }
+      this.removeProcessedInfoMessages(
+        filteredInfoMessagesBefore,
+        filteredInfoMessagesInMiddle,
+        filteredInfoMessagesAfter
+      );
     }
 
     return newGroups;
@@ -329,8 +311,6 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   private getFilteredInfoMessagesBefore(
     date: number
   ): IRoomInfoMessageResult[] {
-    console.log(this.roomInfoMessages);
-
     return this.roomInfoMessages.filter((x) => x.createdDate <= new Date(date));
   }
 
@@ -338,8 +318,6 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     startDate: number,
     endDate: number
   ): IRoomInfoMessageResult[] {
-    console.log(this.roomInfoMessages);
-
     return this.roomInfoMessages.filter(
       (x) =>
         x.createdDate >= new Date(startDate) &&
@@ -391,123 +369,4 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
       (x) => !allProcessedMessages.includes(x)
     );
   }
-
-  // public updateRoomMessages() {
-  //   let currentGroup: GroupedChatMessage | null = null;
-  //   const groups: GroupedChatMessage[] = [];
-  //   for (const message of this.roomMessages) {
-  //     currentGroup = {
-  //       senderId: message.senderId,
-  //       senderUsername: message.senderUsername,
-  //       messages: [{ dateCreated: message.createdDate, text: message.message }],
-  //       dateCreated: message.createdDate,
-  //       infoMessages: [],
-  //     };
-  //     groups.push(currentGroup);
-  //   }
-
-  //   // if (currentGroup) {
-  //   //   groups.push(currentGroup);
-  //   // }
-  //   const newGroups: GroupedChatMessage[] = [];
-
-  //   for (let index = 0; index < groups.length; index++) {
-  //     const currentGroup = groups[index];
-  //     if (groups[index + 1]) {
-  //       const nextGroup = groups[index + 1];
-  //       const smallestDateCreatedCurrentGroup = Math.min(
-  //         ...currentGroup.messages.map((infoMessage) =>
-  //           new Date(infoMessage.dateCreated).valueOf()
-  //         )
-  //       );
-
-  //       const smallestDateCreatedNextGroup = Math.min(
-  //         ...nextGroup.messages.map((infoMessage) =>
-  //           new Date(infoMessage.dateCreated).valueOf()
-  //         )
-  //       );
-
-  //       const filteredInfoMessagesInMiddle = this.roomInfoMessages.filter(
-  //         (x) => {
-  //           return (
-  //             x.createdDate >= new Date(smallestDateCreatedCurrentGroup) &&
-  //             x.createdDate <= new Date(smallestDateCreatedNextGroup)
-  //           );
-  //         }
-  //       );
-
-  //       const filteredInfoMessagesBefore = this.roomInfoMessages.filter((x) => {
-  //         return x.createdDate <= new Date(smallestDateCreatedCurrentGroup);
-  //       });
-
-  //       const filteredInfoMessagesAfter = this.roomInfoMessages.filter((x) => {
-  //         return x.createdDate >= new Date(smallestDateCreatedNextGroup);
-  //       });
-  //       console.log('before', filteredInfoMessagesBefore);
-  //       console.log('middle', filteredInfoMessagesInMiddle);
-  //       console.log('after', filteredInfoMessagesAfter);
-
-  //       for (let j = 0; j < filteredInfoMessagesBefore.length; j++) {
-  //         const infoMessage = filteredInfoMessagesBefore[j];
-
-  //         newGroups.push({
-  //           senderId: '',
-  //           senderUsername: '',
-  //           messages: [],
-  //           dateCreated: infoMessage.createdDate,
-  //           infoMessages: [
-  //             {
-  //               text: infoMessage.message,
-  //               dateCreated: infoMessage.createdDate,
-  //             },
-  //           ],
-  //         });
-  //       }
-
-  //       for (let j = 0; j < filteredInfoMessagesInMiddle.length; j++) {
-  //         const infoMessage = filteredInfoMessagesInMiddle[j];
-
-  //         currentGroup.infoMessages.push({
-  //           dateCreated: infoMessage.createdDate,
-  //           text: infoMessage.message,
-  //         });
-  //       }
-
-  //       for (let j = 0; j < filteredInfoMessagesAfter.length; j++) {
-  //         const infoMessage = filteredInfoMessagesAfter[j];
-
-  //         newGroups.push({
-  //           senderId: '',
-  //           senderUsername: '',
-  //           messages: [],
-  //           dateCreated: infoMessage.createdDate,
-  //           infoMessages: [
-  //             {
-  //               text: infoMessage.message,
-  //               dateCreated: infoMessage.createdDate,
-  //             },
-  //           ],
-  //         });
-  //       }
-
-  //       this.roomInfoMessages = this.roomInfoMessages.filter(
-  //         (x) =>
-  //           !filteredInfoMessagesInMiddle
-  //             .concat(filteredInfoMessagesBefore)
-  //             .concat(filteredInfoMessagesAfter)
-  //             .includes(x)
-  //       );
-  //     }
-  //   }
-
-  //   const sorted = groups.concat(newGroups).sort((a, b) => {
-  //     return (
-  //       new Date(a.dateCreated).valueOf() - new Date(b.dateCreated).valueOf()
-  //     );
-  //   });
-
-  //   this.currentChatMessagesSubject$.next(sorted);
-  //   this.shouldScrollToBottom = true;
-  //   this.cdRef.detectChanges();
-  // }
 }

@@ -85,16 +85,15 @@ export class AddUpdateMeepleRoomComponent
   public ngOnDestroy(): void {
     this.menuTabsService.resetData();
   }
-  public ngOnInit(): void {
-    this.fetchGameList();
 
-    this.activatedRoute.paramMap.subscribe((params) => {
-      const id = params.get('id');
-      if (id) {
-        this.editRoomId = +id;
-        this.fetchRoom(this.editRoomId);
-      }
-    });
+  public ngOnInit(): void {
+    const id = this.activatedRoute.snapshot.paramMap.get('id');
+    if (id) {
+      this.editRoomId = +id;
+      this.fetchRoom(this.editRoomId);
+    } else {
+      this.fetchGameList();
+    }
   }
 
   public handleSelectGame(): void {
@@ -178,10 +177,13 @@ export class AddUpdateMeepleRoomComponent
   }
 
   private fetchRoom(id: number): void {
-    this.roomService.getById(id).subscribe({
-      next: (room) => {
+    combineLatest([
+      this.gameService.getDropdownList(),
+      this.roomService.getById(id),
+    ]).subscribe({
+      next: ([gameList, room]) => {
         console.log(room);
-
+        this.gameList = gameList;
         const formattedDate = this.datePipe.transform(
           room.startDate,
           DateHelper.DATE_FORMAT
@@ -197,8 +199,11 @@ export class AddUpdateMeepleRoomComponent
           startTime: formattedTime?.toString(),
           maxParticipants: room.maxParticipants,
         });
+        console.log('gameId', parseInt(room.gameId as any));
 
         const selectGame = this.gameList.find((x) => x.id == room.gameId);
+        console.log('select game ', selectGame);
+
         if (selectGame) {
           this.selectedGame = selectGame;
           this.handleSelectGame();

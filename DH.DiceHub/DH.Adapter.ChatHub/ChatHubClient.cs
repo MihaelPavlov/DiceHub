@@ -4,7 +4,9 @@ using DH.Domain.Adapters.ChatHub;
 using DH.Domain.Entities;
 using DH.Domain.Repositories;
 using DH.OperationResultCore.Exceptions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
+using System.Net;
 using System.Net.WebSockets;
 
 namespace DH.Adapter.ChatHub;
@@ -40,6 +42,7 @@ public class ChatHubClient : Hub, IChatHubClient
 
             if (claimsPrincipal != null)
             {
+                Context.GetHttpContext().Request.Headers.Add("Authorization", $"Bearer {accessToken}");
                 Context.GetHttpContext().User = claimsPrincipal;
             }
         }

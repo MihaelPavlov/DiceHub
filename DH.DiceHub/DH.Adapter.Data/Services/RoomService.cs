@@ -83,11 +83,12 @@ public class RoomService : IRoomService
     {
         using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
         {
+            var today = DateTime.UtcNow;
             return await (
                 from r in context.Rooms
                 join g in context.Games on r.GameId equals g.Id
                 join gi in context.GameImages on g.Id equals gi.GameId
-                where r.Name.ToLower().Contains(searchExpression.ToLower())
+                where r.Name.ToLower().Contains(searchExpression.ToLower()) && r.StartDate > today
                 select new GetRoomListQueryModel
                 {
                     Id = r.Id,
@@ -99,7 +100,9 @@ public class RoomService : IRoomService
                     GameImageId = gi.Id,
                     GameName = g.Name,
                     JoinedParticipants = r.Participants.Where(x => !x.IsDeleted).Count(),
-                }).ToListAsync(cancellationToken);
+                })
+                .OrderBy(x => x.StartDate)
+                .ToListAsync(cancellationToken);
         }
     }
 
