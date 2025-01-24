@@ -24,6 +24,8 @@ import {
   EntityImagePipe,
   ImageEntityType,
 } from '../../../../shared/pipe/entity-image.pipe';
+import { DateHelper } from '../../../../shared/helpers/date-helper';
+import { DatePipe } from '@angular/common';
 
 interface IAddUpdateRoomForm {
   name: string;
@@ -60,7 +62,8 @@ export class AddUpdateMeepleRoomComponent
     private readonly fb: FormBuilder,
     private readonly entityImagePipe: EntityImagePipe,
     private readonly router: Router,
-    private readonly activatedRoute: ActivatedRoute
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly datePipe: DatePipe
   ) {
     super(toastService);
     this.form = this.initFormGroup();
@@ -114,7 +117,10 @@ export class AddUpdateMeepleRoomComponent
     const startDate = this.form.controls.startDate.value;
     const startTime = this.form.controls.startTime.value;
     if (this.form.valid && startDate && startTime) {
-      const combinedDateTime = this.combineDateAndTime(startDate, startTime);
+      const combinedDateTime = DateHelper.combineDateAndTime(
+        startDate,
+        startTime
+      );
 
       if (this.editRoomId) {
         this.roomService
@@ -176,14 +182,19 @@ export class AddUpdateMeepleRoomComponent
       next: (room) => {
         console.log(room);
 
-        const startDate = new Date(room.startDate);
-        startDate.setHours(startDate.getHours() + 3);
-
+        const formattedDate = this.datePipe.transform(
+          room.startDate,
+          DateHelper.DATE_FORMAT
+        );
+        const formattedTime = this.datePipe.transform(
+          room.startDate,
+          DateHelper.TIME_FORMAT
+        );
         this.form.patchValue({
           gameId: parseInt(room.gameId as any),
           name: room.name,
-          startDate: startDate.toISOString().split('T')[0],
-          startTime: startDate.toISOString().split('T')[1].substring(0, 5),
+          startDate: formattedDate?.toString(),
+          startTime: formattedTime?.toString(),
           maxParticipants: room.maxParticipants,
         });
 
@@ -260,11 +271,6 @@ export class AddUpdateMeepleRoomComponent
       default:
         return controlName;
     }
-  }
-
-  private combineDateAndTime(date: string, time: string): string {
-    const parsedDate: string = new Date(`${date}T${time}:00`).toISOString();
-    return parsedDate;
   }
 
   private initFormGroup(): FormGroup {

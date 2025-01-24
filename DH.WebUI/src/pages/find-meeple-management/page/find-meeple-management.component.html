@@ -30,7 +30,7 @@
 
     <div
       class="wrapper_group__chips"
-      *ngIf="room.startDate | date : 'dd/MM/yyyy H:mm' as date"
+      *ngIf="room.startDate | date : 'dd/MM/yyyy HH:mm' as date"
     >
       <app-chip [color]="'blue'" [text]="date" [size]="'small'"></app-chip>
     </div>

@@ -130,7 +130,7 @@ public class RoomService : IRoomService
                             RoomId = room.Id,
                         }, cancellationToken);
                     }
-                    if (room.StartDate != updatedRoom.StartDate.AddHours(3))
+                    if (room.StartDate != updatedRoom.StartDate)
                     {
                         await context.AddAsync(new RoomInfoMessage
                         {
@@ -141,7 +141,7 @@ public class RoomService : IRoomService
                         }, cancellationToken);
                     }
 
-                    room.StartDate = updatedRoom.StartDate.AddHours(3);
+                    room.StartDate = updatedRoom.StartDate;
                     room.GameId = updatedRoom.GameId;
                     room.Name = updatedRoom.Name;
                     room.MaxParticipants = updatedRoom.MaxParticipants;
