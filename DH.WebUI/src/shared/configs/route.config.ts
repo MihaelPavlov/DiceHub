@@ -39,6 +39,9 @@ export const ROUTE = {
     CREATE: 'create',
     UPDATE: 'update',
   },
+  CHAT_HUB: {
+    CORE: 'chat-hub',
+  },
 };
 
 export const FULL_ROUTE = {
