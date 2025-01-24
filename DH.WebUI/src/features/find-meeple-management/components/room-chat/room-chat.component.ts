@@ -23,6 +23,7 @@ import { MeepleRoomMenuComponent } from '../meeple-room-menu/meeple-room-menu.co
 import { GroupedChatMessage } from './models/grouped-chat-messages.model';
 import { IRoomInfoMessageResult } from '../../../../entities/rooms/models/room-info-message.model';
 import { environment } from '../../../../shared/environments/environment.development';
+import { ROUTE } from '../../../../shared/configs/route.config';
 
 export interface IRoomInfoMessage {
   createdDate: Date;
