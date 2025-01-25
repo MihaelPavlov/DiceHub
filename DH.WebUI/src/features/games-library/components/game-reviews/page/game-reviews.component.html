@@ -2,7 +2,7 @@
   class="wrapper"
   *ngIf="game"
   [game]="game"
-  [backNavigateBtn]="navigateBackToGameList.bind(this)"
+  [backNavigateBtn]="navigateBack.bind(this)"
 >
   <div class="wrapper_info">
     <span *ngIf="gameReviews">{{ gameReviews.length }} reviews</span>

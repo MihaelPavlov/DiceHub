@@ -7,6 +7,7 @@ import { IRoomListResult } from '../../../entities/rooms/models/room-list.model'
 import { Observable } from 'rxjs';
 import { SearchService } from '../../../shared/services/search.service';
 import { ImageEntityType } from '../../../shared/pipe/entity-image.pipe';
+import { FULL_ROUTE } from '../../../shared/configs/route.config';
 
 @Component({
   selector: 'app-find-meeple-manager',
@@ -16,7 +17,7 @@ import { ImageEntityType } from '../../../shared/pipe/entity-image.pipe';
 export class FindMeepleManagementComponent implements OnInit, OnDestroy {
   public roomList$!: Observable<IRoomListResult[] | null>;
   public readonly ImageEntityType = ImageEntityType;
-  
+
   constructor(
     private readonly router: Router,
     private readonly menuTabsService: MenuTabsService,
@@ -40,10 +41,10 @@ export class FindMeepleManagementComponent implements OnInit, OnDestroy {
   }
 
   public navigateToDetails(id: number): void {
-    this.router.navigateByUrl(`meeples/${id}/details`);
+    this.router.navigateByUrl(FULL_ROUTE.MEEPLE_ROOM.DETAILS_BY_ID(id));
   }
 
   public navigateToCreateMeepleRoom(): void {
-    this.router.navigateByUrl(`meeples/create`);
+    this.router.navigateByUrl(FULL_ROUTE.MEEPLE_ROOM.CREATE);
   }
 }

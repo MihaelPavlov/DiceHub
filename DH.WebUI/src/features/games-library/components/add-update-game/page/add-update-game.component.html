@@ -78,16 +78,16 @@
         <label for="approx-time" class="required">Approx Time</label>
 
         <ng-select
-        id="approx-time"
-        [items]="gamAveragePlaytimeValues"
-        bindValue="id"
-        bindLabel="name"
-        placeholder="avg play time"
-        [searchable]="true"
-        formControlName="averagePlaytime"
-        class="app-select-long"
-      >
-      </ng-select>
+          id="approx-time"
+          [items]="gamAveragePlaytimeValues"
+          bindValue="id"
+          bindLabel="name"
+          placeholder="avg play time"
+          [searchable]="true"
+          formControlName="averagePlaytime"
+          class="app-select-long"
+        >
+        </ng-select>
       </div>
     </div>
 
@@ -130,7 +130,6 @@
         id="description"
         formControlName="description"
       ></textarea>
-  
     </div>
 
     <div *ngIf="getFirstErrorMessage()" class="errors">
@@ -170,19 +169,19 @@
     </button>
 
     <button
-    *ngIf="this.addExistingGame"
-    [disabled]="this.form.invalid"
-    type="button"
-    (click)="this.onCopy()"
-    class="btn btn-gray"
-    [ngClass]="{
-      'btn-border-green': this.form.valid,
-      'btn-font-green': this.form.valid,
-      'btn-border-red': this.form.invalid,
-      'btn-font-red': this.form.invalid
-    }"
-  >
-    Add Copy
-  </button>
+      *ngIf="this.addExistingGame"
+      [disabled]="this.form.invalid"
+      type="button"
+      (click)="this.onCopy()"
+      class="btn btn-gray"
+      [ngClass]="{
+        'btn-border-green': this.form.valid,
+        'btn-font-green': this.form.valid,
+        'btn-border-red': this.form.invalid,
+        'btn-font-red': this.form.invalid
+      }"
+    >
+      Add Copy
+    </button>
   </div>
 </form>

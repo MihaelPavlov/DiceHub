@@ -47,6 +47,7 @@ export const ROUTE = {
   },
   MEEPLE_ROOMS: {
     CORE: 'meeples',
+    CREATE: 'create',
     DETAILS: 'details',
     FIND: 'find',
     CHAT: 'chat',
@@ -98,5 +99,6 @@ export const FULL_ROUTE = {
     FIND: `${ROUTE.MEEPLE_ROOMS.CORE}/${ROUTE.MEEPLE_ROOMS.FIND}`,
     CHAT_ROOM_BY_ID: (roomId: number) =>
       `${ROUTE.MEEPLE_ROOMS.CORE}/${roomId}/${ROUTE.MEEPLE_ROOMS.CHAT}`,
+    CREATE: `${ROUTE.MEEPLE_ROOMS.CORE}/${ROUTE.MEEPLE_ROOMS.CREATE}`,
   },
 };
