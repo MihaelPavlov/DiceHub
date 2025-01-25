@@ -7,6 +7,8 @@ export const ROUTE = {
     DETAILS: 'details',
     AVAILABILITY: 'availability',
     REVIEWS: 'reviews',
+    UPDATE: 'update',
+    ADD_EXISTING_GAME: 'add-existing-game',
   },
   EVENTS: {
     CORE: 'events',
@@ -63,6 +65,10 @@ export const FULL_ROUTE = {
       `/${ROUTE.GAMES.CORE}/${gameId}/${ROUTE.GAMES.AVAILABILITY}`,
     REVIEWS: (gameId: number) =>
       `/${ROUTE.GAMES.CORE}/${gameId}/${ROUTE.GAMES.REVIEWS}`,
+    UPDATE: (gameId: number) =>
+      `/${ROUTE.GAMES.CORE}/${gameId}/${ROUTE.GAMES.UPDATE}`,
+    ADD_EXISTING_GAME: (gameId: number) =>
+      `/${ROUTE.GAMES.CORE}/${gameId}/${ROUTE.GAMES.ADD_EXISTING_GAME}`,
   },
   EVENTS: {
     HOME: `${ROUTE.EVENTS.CORE}/${ROUTE.EVENTS.HOME}`,

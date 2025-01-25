@@ -1,3 +1,4 @@
+import { IGameCategory } from './../../../entities/games/models/game-category.model';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { GamesService } from '../../../entities/games/api/games.service';
@@ -11,10 +12,12 @@ import { UserAction } from '../../../shared/constants/user-action';
 import { GameConfirmDeleteDialog } from '../../../features/games-library/dialogs/game-confirm-delete-dialog/game-confirm-delete.component';
 import { MatDialog } from '@angular/material/dialog';
 import { GameQrCodeDialog } from '../../../features/games-library/dialogs/qr-code-dialog/qr-code-dialog.component';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { ControlsMenuComponent } from '../../../shared/components/menu/controls-menu.component';
 import { QrCodeType } from '../../../entities/qr-code-scanner/enums/qr-code-type.enum';
 import { ImageEntityType } from '../../../shared/pipe/entity-image.pipe';
+import { GameCategoriesService } from '../../../entities/games/api/game-categories.service';
+import { FULL_ROUTE } from '../../../shared/configs/route.config';
 
 @Component({
   selector: 'app-games-library',
@@ -32,7 +35,8 @@ export class GamesLibraryComponent implements OnInit, OnDestroy {
     UserAction.GamesCUD
   );
   public readonly ImageEntityType = ImageEntityType;
-
+  public selectedCategoryName$ = new BehaviorSubject<string | null>(null);
+  public categoryList: IGameCategory[] = [];
   constructor(
     private readonly router: Router,
     private readonly activeRoute: ActivatedRoute,
@@ -40,7 +44,8 @@ export class GamesLibraryComponent implements OnInit, OnDestroy {
     private readonly menuTabsService: MenuTabsService,
     private readonly searchService: SearchService,
     private readonly permissionService: PermissionService,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly gameCategoriesService: GameCategoriesService
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.GAMES);
   }
@@ -48,6 +53,8 @@ export class GamesLibraryComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.menuTabsService.resetData();
     this.searchService.hideSearchForm();
+
+    this.selectedCategoryName$.next(null);
   }
 
   public showMenu(
@@ -73,7 +80,7 @@ export class GamesLibraryComponent implements OnInit, OnDestroy {
       this.categoryId = params['id'];
 
       if (this.categoryId) {
-        this.fetchGameListByCategoryId(this.categoryId);
+        this.fetchGameListByCategoryId(this.categoryId, '', true);
       }
     });
 
@@ -83,7 +90,7 @@ export class GamesLibraryComponent implements OnInit, OnDestroy {
   }
 
   public navigateToGameDetails(id: number): void {
-    this.router.navigateByUrl(`games/${id}/details`);
+    this.router.navigateByUrl(FULL_ROUTE.GAMES.DETAILS(id));
   }
 
   public handleSearchExpression(searchExpression: string) {
@@ -96,11 +103,11 @@ export class GamesLibraryComponent implements OnInit, OnDestroy {
 
   public onMenuOption(key: string, event: MouseEvent): void {
     event.stopPropagation();
-    if (key === 'update') {
-      this.router.navigateByUrl(`games/${this.visibleMenuId}/update`);
-    } else if (key === 'copy') {
+    if (key === 'update' && this.visibleMenuId) {
+      this.router.navigateByUrl(FULL_ROUTE.GAMES.UPDATE(this.visibleMenuId));
+    } else if (key === 'copy' && this.visibleMenuId) {
       this.router.navigateByUrl(
-        `games/${this.visibleMenuId}/add-existing-game`
+        FULL_ROUTE.GAMES.ADD_EXISTING_GAME(this.visibleMenuId)
       );
     } else if (key === 'delete' && this.visibleMenuId) {
       this.openDeleteDialog(this.visibleMenuId);
@@ -119,10 +126,37 @@ export class GamesLibraryComponent implements OnInit, OnDestroy {
     this.visibleMenuId = null;
   }
 
-  private fetchGameListByCategoryId(id: number, searchExpression: string = '') {
-    this.gameService
-      .getListByCategoryId(id, searchExpression)
-      .subscribe((gameList) => (this.games = gameList ?? []));
+  private fetchGameListByCategoryId(
+    id: number,
+    searchExpression: string = '',
+    withCategories: boolean = false
+  ) {
+    if (withCategories) {
+      combineLatest([
+        this.gameService.getListByCategoryId(id, searchExpression),
+        this.gameCategoriesService.getList(''),
+      ]).subscribe(
+        ([gameList, categories]: [
+          IGameListResult[] | null,
+          IGameCategory[] | null
+        ]) => {
+          this.games = gameList ?? [];
+          this.categoryList = categories ?? [];
+
+          const categoryName = this.categoryList.find(
+            (x) => x.id === Number(id)
+          );
+
+          this.selectedCategoryName$.next(categoryName?.name ?? null);
+        }
+      );
+    } else {
+      this.gameService
+        .getListByCategoryId(id, searchExpression)
+        .subscribe((gameList) => {
+          this.games = gameList ?? [];
+        });
+    }
   }
 
   private fetchGameList(searchExpression: string = '') {

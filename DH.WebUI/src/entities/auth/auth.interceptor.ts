@@ -15,7 +15,10 @@ export class HttpRequestInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     const token = localStorage.getItem('jwt');
 
-    let headers = req.headers.set('Content-Type', 'application/json');
+    let headers = req.headers
+    if (!(req.body instanceof FormData)) {
+      headers = headers.set('Content-Type', 'application/json');
+    }
     if (token) {
       headers = headers.set('Authorization', `Bearer ${token}`);
     }

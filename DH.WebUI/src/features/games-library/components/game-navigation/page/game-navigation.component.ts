@@ -1,4 +1,4 @@
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { GamesLibraryComponent } from '../../../../../pages/games-library/page/games-library.component';
@@ -25,6 +25,8 @@ export class GameNavigationComponent implements OnInit {
   public isAdmin$: Observable<boolean> = this.permissionService.hasUserAction(
     UserAction.GamesCUD
   );
+
+  public headerSectionName: string = 'Games';
   constructor(
     private readonly router: Router,
     private readonly permissionService: PermissionService
@@ -52,6 +54,20 @@ export class GameNavigationComponent implements OnInit {
 
   public onActivate(componentRef: any) {
     this.activeChildComponent = componentRef;
+
+    if (
+      this.activeChildComponent instanceof GamesLibraryComponent &&
+      this.activeChildComponent.selectedCategoryName$
+    ) {
+      this.activeChildComponent.selectedCategoryName$.subscribe(
+        (categoryName) => {
+          console.log(categoryName);
+
+          if (categoryName) this.headerSectionName = categoryName;
+          else this.headerSectionName = 'Games';
+        }
+      );
+    }
   }
 
   public handleSearchExpression(searchExpression: string) {

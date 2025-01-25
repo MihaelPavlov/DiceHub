@@ -144,7 +144,7 @@ export class GamesService {
     const formData = new FormData();
     formData.append('game', JSON.stringify(game));
     if (imageFile) formData.append('imageFile', imageFile);
-
+    
     return this.api.put(`/${PATH.GAMES.CORE}`, formData);
   }
 

@@ -28,6 +28,9 @@ export class EntityImagePipe implements PipeTransform {
 
   transform(entityType: ImageEntityType, imageId: number): Observable<string> {
     const cachedImageUrl = this.cacheService.get(entityType, imageId);
+    console.log('cachedImageUrl', cachedImageUrl);
+    const imageSharedUrl = 'shared/assets/images/default-no-image.jpg';
+
     if (cachedImageUrl) {
       return of(cachedImageUrl);
     }
@@ -42,13 +45,20 @@ export class EntityImagePipe implements PipeTransform {
       })
       .pipe(
         map((imageBlob: Blob) => {
+          if (imageBlob.size === 0) {
+            // If the image is empty, return the default image URL
+            this.cacheService.set(entityType, imageId, imageSharedUrl);
+            return imageSharedUrl;
+          }
+
           const imageUrl = URL.createObjectURL(imageBlob);
           this.cacheService.set(entityType, imageId, imageUrl);
           return imageUrl;
         }),
         catchError((error) => {
-          console.error('Image fetch failed:', error);
-          return of(''); // Fallback to an empty string or a default image URL
+          this.cacheService.set(entityType, imageId, imageSharedUrl);
+
+          return of(imageSharedUrl);
         })
       );
   }

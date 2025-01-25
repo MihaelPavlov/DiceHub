@@ -157,7 +157,9 @@ public class GameService : IGameService
                      ImageId = gi.Id,
                      Likes = likes.Count(),
                      IsLiked = likes.Any(x => x.UserId == userId)
-                 }).ToListAsync(cancellationToken);
+                 })
+                 .OrderBy(x=>x.Name)
+                 .ToListAsync(cancellationToken);
         }
     }
 
@@ -179,7 +181,9 @@ public class GameService : IGameService
                      ImageId = gi.Id,
                      Likes = likes.Count(),
                      IsLiked = likes.Any(x => x.UserId == userId)
-                 }).ToListAsync(cancellationToken);
+                 })
+                 .OrderBy(x => x.Name)
+                 .ToListAsync(cancellationToken);
         }
     }
 
@@ -201,7 +205,9 @@ public class GameService : IGameService
                      ImageId = gi.Id,
                      Likes = likes.Count(),
                      IsLiked = likes.Any(x => x.UserId == userId)
-                 }).ToListAsync(cancellationToken);
+                 })
+                 .OrderBy(x => x.Name)
+                 .ToListAsync(cancellationToken);
         }
     }
 

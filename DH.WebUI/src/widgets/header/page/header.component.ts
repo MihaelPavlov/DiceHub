@@ -165,6 +165,9 @@ export class HeaderComponent implements OnInit, AfterViewInit {
           }
         } else {
           closeFunction(false);
+          this.searchExpressionResult.emit('');
+          const searchInput = document.getElementById('search') as HTMLInputElement;
+          searchInput.value = '';
           this.setDisabledScrollEvent(false);
         }
       });

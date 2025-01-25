@@ -23,7 +23,7 @@ public class GameCategoriesController : ControllerBase
     [HttpPost("list")]
     [ActionAuthorize(UserAction.GameCategoriesCRUD)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetGameCategoryListQueryModel>))]
-    public async Task<IActionResult> GetGameCategoryList(GetGameCategoryListQuery request, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetGameCategoryList([FromBody]GetGameCategoryListQuery request, CancellationToken cancellationToken)
     {
         var result = await this.mediator.Send(request, cancellationToken);
         return Ok(result);

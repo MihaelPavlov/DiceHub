@@ -24,7 +24,9 @@ public class GameCategoryService : IGameCategoryService
                  {
                      Id = g.Id,
                      Name = g.Name,
-                 }).ToListAsync(cancellationToken);
+                 })
+                 .OrderBy(x => x.Name)
+                 .ToListAsync(cancellationToken);
         }
     }
 }

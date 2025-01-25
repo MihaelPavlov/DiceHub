@@ -1,5 +1,5 @@
 <app-header
-  header="Recommended"
+  [header]="headerSectionName"
   [withSearch]="true"
   [withMenu]="(isAdmin$ | async) ?? false"
   [menuItems]="menuItems"
@@ -11,12 +11,12 @@
       {
         name: 'Popular',
         link: 'games/library',
-        isActive: isActiveLink('/games/library',null, true)
+        isActive: isActiveLink('/games/library', null, true)
       },
       {
         name: 'Categories',
         link: 'games/categories',
-        isActive: isActiveLink('/games/categories','/games/library/')
+        isActive: isActiveLink('/games/categories', '/games/library/')
       },
       { name: 'New', link: 'games/new', isActive: isActiveLink('/games/new') }
     ]"
