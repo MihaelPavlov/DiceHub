@@ -2,7 +2,7 @@ import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { IGameByIdResult } from '../../../../../entities/games/models/game-by-id.model';
 import { BehaviorSubject } from 'rxjs';
 import { GamesService } from '../../../../../entities/games/api/games.service';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { GameReviewsService } from '../../../../../entities/games/api/game-reviews.service';
 import { IGameReviewListResult } from '../../../../../entities/games/models/game-review-list.model';
@@ -15,7 +15,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { GameReviewConfirmDeleteDialog } from '../components/game-review-confirm-delete/game-review-confirm-delete.component';
 import { MenuTabsService } from '../../../../../shared/services/menu-tabs.service';
 import { NAV_ITEM_LABELS } from '../../../../../shared/models/nav-items-labels.const';
-import { Location } from '@angular/common';
+import { NavigationService } from '../../../../../shared/services/navigation-service';
 
 enum ReviewState {
   create,
@@ -57,7 +57,8 @@ export class GameReviewsComponent implements OnInit, OnDestroy {
     private readonly gameReviewService: GameReviewsService,
     private readonly activeRoute: ActivatedRoute,
     private readonly menuTabsService: MenuTabsService,
-    private readonly location: Location
+    private readonly navigationService: NavigationService,
+    private readonly router: Router
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.GAMES);
   }
@@ -110,7 +111,7 @@ export class GameReviewsComponent implements OnInit, OnDestroy {
   }
 
   public navigateBack(): void {
-    this.location.back();
+    this.router.navigateByUrl(this.navigationService.getPreviousUrl());
   }
 
   private onUpdateReview() {

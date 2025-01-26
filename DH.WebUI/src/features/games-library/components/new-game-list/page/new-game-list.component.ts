@@ -6,6 +6,7 @@ import { MenuTabsService } from '../../../../../shared/services/menu-tabs.servic
 import { GamesService } from '../../../../../entities/games/api/games.service';
 import { Router } from '@angular/router';
 import { ImageEntityType } from '../../../../../shared/pipe/entity-image.pipe';
+import { FULL_ROUTE } from '../../../../../shared/configs/route.config';
 
 @Component({
   selector: 'app-new-game-list',
@@ -35,7 +36,7 @@ export class NewGameListComponent implements OnInit, OnDestroy {
   }
 
   public navigateToGameDetails(id: number): void {
-    this.router.navigateByUrl(`games/${id}/details`);
+    this.router.navigateByUrl(FULL_ROUTE.GAMES.DETAILS(id));
   }
 
   public handleSearchExpression(searchExpression: string) {

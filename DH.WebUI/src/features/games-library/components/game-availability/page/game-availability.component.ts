@@ -26,7 +26,7 @@ import { ActiveBookedTableModel } from '../../../../../entities/space-management
 import { ReservationStatus } from '../../../../../shared/enums/reservation-status.enum';
 import { IUserActiveSpaceTableResult } from '../../../../../entities/space-management/models/user-active-space-table.model';
 import { FULL_ROUTE } from '../../../../../shared/configs/route.config';
-import { Location } from '@angular/common';
+import { NavigationService } from '../../../../../shared/services/navigation-service';
 
 interface IReservationGameForm {
   reservationPeopleCount: number;
@@ -71,7 +71,7 @@ export class GameAvailabilityComponent
     private readonly authService: AuthService,
     private readonly spaceManagementService: SpaceManagementService,
     private readonly dialog: MatDialog,
-    private readonly location: Location
+    private readonly navigationService: NavigationService
   ) {
     super(toastService);
     this.form = this.initFormGroup();
@@ -226,7 +226,7 @@ export class GameAvailabilityComponent
   }
 
   public navigateBack(): void {
-    this.location.back();
+    this.router.navigateByUrl(this.navigationService.getPreviousUrl());
   }
 
   public decreaseTimer() {

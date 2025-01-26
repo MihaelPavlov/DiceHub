@@ -1,3 +1,4 @@
+import { NavigationService } from './../../../shared/services/navigation-service';
 import { IGameCategory } from './../../../entities/games/models/game-category.model';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -45,7 +46,8 @@ export class GamesLibraryComponent implements OnInit, OnDestroy {
     private readonly searchService: SearchService,
     private readonly permissionService: PermissionService,
     private readonly dialog: MatDialog,
-    private readonly gameCategoriesService: GameCategoriesService
+    private readonly gameCategoriesService: GameCategoriesService,
+    private readonly NavigationService: NavigationService
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.GAMES);
   }
@@ -90,6 +92,7 @@ export class GamesLibraryComponent implements OnInit, OnDestroy {
   }
 
   public navigateToGameDetails(id: number): void {
+    this.NavigationService.setPreviousUrl(FULL_ROUTE.GAMES.LIBRARY);
     this.router.navigateByUrl(FULL_ROUTE.GAMES.DETAILS(id));
   }
 

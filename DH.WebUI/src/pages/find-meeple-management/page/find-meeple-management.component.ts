@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { SearchService } from '../../../shared/services/search.service';
 import { ImageEntityType } from '../../../shared/pipe/entity-image.pipe';
 import { FULL_ROUTE } from '../../../shared/configs/route.config';
+import { NavigationService } from '../../../shared/services/navigation-service';
 
 @Component({
   selector: 'app-find-meeple-manager',
@@ -22,7 +23,8 @@ export class FindMeepleManagementComponent implements OnInit, OnDestroy {
     private readonly router: Router,
     private readonly menuTabsService: MenuTabsService,
     private readonly roomService: RoomsService,
-    private readonly searchService: SearchService
+    private readonly searchService: SearchService,
+    private readonly navigationService: NavigationService
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.MEEPLE);
   }
@@ -41,6 +43,7 @@ export class FindMeepleManagementComponent implements OnInit, OnDestroy {
   }
 
   public navigateToDetails(id: number): void {
+    this.navigationService.setPreviousUrl(FULL_ROUTE.MEEPLE_ROOM.DETAILS_BY_ID(id));
     this.router.navigateByUrl(FULL_ROUTE.MEEPLE_ROOM.DETAILS_BY_ID(id));
   }
 
