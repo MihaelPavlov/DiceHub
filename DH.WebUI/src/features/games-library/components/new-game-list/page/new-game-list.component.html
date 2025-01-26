@@ -1,35 +1,35 @@
 <section class="wrapper_library">
-    <ng-container *ngIf="games.length ===0">
-      <div class="wrapper_library__no-games">
-
-        No Recent new games are added
-      </div>
-    </ng-container>
-    <div
-      *ngFor="let game of games"
-      class="wrapper_library__item"
-      (click)="navigateToGameDetails(game.id)"
-    >
-      <div class="wrapper_image">
-        <img [src]="ImageEntityType.Games | entityImage : game.imageId | async" alt="Game Image">
-      </div>
-      <div class="wrapper_info">
-        <div class="wrapper_title">
-          {{ game.name }}
-          <div class="wrapper_description">
-            {{ game.description }}
-          </div>
+  <div class="no_records" *ngIf="games.length === 0">
+    <img src="/shared/assets/images/no-games-found.png" alt="" />
+    <p class="first-header">No Games Found</p>
+  </div>
+  <div
+    *ngFor="let game of games"
+    class="wrapper_library__item"
+    (click)="navigateToGameDetails(game.id)"
+  >
+    <div class="wrapper_image">
+      <img
+        [src]="ImageEntityType.Games | entityImage : game.imageId | async"
+        alt="Game Image"
+      />
+    </div>
+    <div class="wrapper_info">
+      <div class="wrapper_title">
+        {{ game.name }}
+        <div class="wrapper_description">
+          {{ game.description }}
         </div>
-        <div class="wrapper_likes">
-          <span
-            class="material-symbols-outlined like-icon"
-            [ngClass]="{ 'heart-full': game.isLiked }"
-          >
-            favorite
-          </span>
-          {{ game.likes }}
-        </div>
+      </div>
+      <div class="wrapper_likes">
+        <span
+          class="material-symbols-outlined like-icon"
+          [ngClass]="{ 'heart-full': game.isLiked }"
+        >
+          favorite
+        </span>
+        {{ game.likes }}
       </div>
     </div>
-  </section>
-  
+  </div>
+</section>

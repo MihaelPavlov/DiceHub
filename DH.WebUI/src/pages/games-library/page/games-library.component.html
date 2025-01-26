@@ -1,4 +1,8 @@
 <section class="wrapper_library">
+  <div class="no_records" *ngIf="games.length === 0">
+    <img src="/shared/assets/images/no-games-found.png" alt="" />
+    <p class="first-header">No Games Found</p>
+  </div>
   <div
     *ngFor="let game of games"
     class="wrapper_library__item"

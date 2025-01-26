@@ -9,6 +9,25 @@
   padding-top: 1.5rem;
   overflow-y: visible;
 
+  .no_records {
+    text-align: center;
+    margin: 2rem;
+    font-size: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .first-header {
+      font-size: 1.5rem;
+      margin-bottom: 0.2rem;
+    }
+
+    img {
+      height: 15rem;
+      width: 15rem;
+    }
+  }
+
   &__item {
     position: relative;
     display: flex;
