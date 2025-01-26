@@ -1,158 +1,97 @@
 @use "../../../shared/assets/styles/palette";
 
 .wrapper_groups:last-child {
-    padding-bottom: 5rem;
-
+  padding-bottom: 5rem;
 }
 
-// .wrapper_groups {
-//     display: flex;
-//     flex-direction: column;
-//     width: 85%;
-//     margin: 0 auto;
-//     padding-top: 1.5rem;
-//     overflow-y: visible;
+.no_records {
+  text-align: center;
+  margin: 2rem;
+  font-size: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-//     .wrapper_group {
-//         display: flex;
-//         flex-direction: column;
-//         border-radius: 1rem;
-//         background-color: palette.$main-nav-color;
-//         position: relative;
-//         margin-bottom: 1.5rem;
+  .first-header {
+    font-size: 1.5rem;
+    margin-bottom: 0.2rem;
+  }
 
-//         .wrapper{
-//             display: flex;
-//             justify-content: start;
-//         }
-
-//         &__header {
-//             text-align: start;
-//             font-size: 1.25rem;
-//             margin: 0.5rem 1rem;
-//         }
-
-        
-//         &__image {
-//             margin: 0 1rem;
-//             margin-bottom: 0.5rem;
-
-//             img {
-//                 width: 4rem;
-//                 height: 4rem;
-//                 object-fit: cover;
-//                 border-radius: 20px;
-//             }
-//         }
-
-//         &__chips {
-//             display: flex;
-//             flex-direction: column;
-//             margin-left: 0.5rem;
-
-//             >* {
-//                 margin: 0 0.35rem;
-//             }
-//         }
-
-//         &__chips-date-info {
-//             position: absolute;
-//             bottom: 0.5rem;
-//             margin-left: 0.5rem;
-
-//             >* {
-//                 margin: 0 0.35rem;
-//             }
-//         }
-
-//         &__navigation {
-//             display: flex;
-//             justify-content: end;
-
-//             span {
-//                 color: palette.$main-icon-color;
-//                 margin: 1rem 0;
-//                 font-size: 4.5rem;
-//             }
-//         }
-
-//     }
-
-// }
-
+  img {
+    height: 15rem;
+  }
+}
 
 .wrapper_groups {
-    display: flex;
-    flex-direction: column;
-    width: 85%;
-    margin: 0 auto;
-    padding-top: 1.5rem;
-    overflow-y: visible;
+  display: flex;
+  flex-direction: column;
+  width: 85%;
+  margin: 0 auto;
+  padding-top: 1.5rem;
+  overflow-y: visible;
 
-    .wrapper_group {
-        border-radius: 1rem;
-        background-color: palette.$main-nav-color;
-        position: relative;
-        margin-bottom: 1.5rem;
+  .wrapper_group {
+    border-radius: 1rem;
+    background-color: palette.$main-nav-color;
+    position: relative;
+    margin-bottom: 1.5rem;
 
-        &__chips {
-            position: absolute;
-            bottom: 2.2rem;
-            margin-left: 0.5rem;
+    &__chips {
+      position: absolute;
+      bottom: 2.2rem;
+      margin-left: 0.5rem;
 
-            >* {
-                margin: 0 0.35rem;
-            }
-        }
-
-        &__chips-date-info {
-            position: absolute;
-            bottom: 0.5rem;
-            margin-left: 0.5rem;
-
-            >* {
-                margin: 0 0.35rem;
-            }
-        }
-
-
-        &__header {
-            position: absolute;
-            top: 0.5rem;
-            font-size: 1.25rem;
-            margin: 0 1rem;
-        }
-
-        &__navigation {
-            display: flex;
-            justify-content: end;
-
-            span {
-                color: palette.$main-icon-color;
-                margin: 1rem 0;
-                font-size: 4.5rem;
-            }
-        }
-
-        &__info {
-            display: flex;
-            position: absolute;
-            font-size: 1rem;
-            top: 2rem;
-            margin: 0 1rem;         
-        }
-
-        &__image {
-            display: flex;
-            justify-content: end;
-
-            img {
-                width: 7rem;
-                height: 7rem;
-                object-fit: cover;
-                border-radius: 20px;
-            }
-        }
+      > * {
+        margin: 0 0.35rem;
+      }
     }
 
+    &__chips-date-info {
+      position: absolute;
+      bottom: 0.5rem;
+      margin-left: 0.5rem;
+
+      > * {
+        margin: 0 0.35rem;
+      }
+    }
+
+    &__header {
+      position: absolute;
+      top: 0.5rem;
+      font-size: 1.25rem;
+      margin: 0 1rem;
+    }
+
+    &__navigation {
+      display: flex;
+      justify-content: end;
+
+      span {
+        color: palette.$main-icon-color;
+        margin: 1rem 0;
+        font-size: 4.5rem;
+      }
+    }
+
+    &__info {
+      display: flex;
+      position: absolute;
+      font-size: 1rem;
+      top: 2rem;
+      margin: 0 1rem;
+    }
+
+    &__image {
+      display: flex;
+      justify-content: end;
+
+      img {
+        width: 7rem;
+        height: 7rem;
+        object-fit: cover;
+        border-radius: 20px;
+      }
+    }
+  }
 }

@@ -8,43 +8,51 @@
 ></app-header>
 
 <div class="wrapper_groups">
-  <div
-    class="wrapper_group"
-    *ngFor="let room of roomList$ | async"
-    (click)="navigateToDetails(room.id)"
-  >
-    <div class="wrapper_group__header">
-      <span> {{ room.name }}</span>
-    </div>
+  <ng-container *ngIf="roomList$ | async as roomList">
 
-    <div class="wrapper_group__info">
-      <span>game - {{ room.gameName }}</span>
-    </div>
-
-    <div class="wrapper_group__image">
-      <img
-        [src]="ImageEntityType.Games | entityImage : room.gameImageId | async"
-        alt=""
-      />
+    <div class="no_records" *ngIf="roomList.length === 0">
+      <img src="/shared/assets/images/no-rooms-found.png" alt="" />
+      <p class="first-header">Rooms was not Found</p>
     </div>
 
     <div
-      class="wrapper_group__chips"
-      *ngIf="room.startDate | date : 'dd/MM/yyyy HH:mm' as date"
+      class="wrapper_group"
+      *ngFor="let room of roomList"
+      (click)="navigateToDetails(room.id)"
     >
-      <app-chip [color]="'blue'" [text]="date" [size]="'small'"></app-chip>
+      <div class="wrapper_group__header">
+        <span> {{ room.name }}</span>
+      </div>
+  
+      <div class="wrapper_group__info">
+        <span>game - {{ room.gameName }}</span>
+      </div>
+  
+      <div class="wrapper_group__image">
+        <img
+          [src]="ImageEntityType.Games | entityImage : room.gameImageId | async"
+          alt=""
+        />
+      </div>
+  
+      <div
+        class="wrapper_group__chips"
+        *ngIf="room.startDate | date : 'dd/MM/yyyy HH:mm' as date"
+      >
+        <app-chip [color]="'blue'" [text]="date" [size]="'small'"></app-chip>
+      </div>
+      <div class="wrapper_group__chips-date-info">
+        <app-chip
+          [color]="'orange'"
+          text="{{ room.joinedParticipants }} joined"
+          [size]="'small'"
+        ></app-chip>
+        <app-chip
+          [color]="'red'"
+          text="{{ room.maxParticipants }} max"
+          [size]="'small'"
+        ></app-chip>
+      </div>
     </div>
-    <div class="wrapper_group__chips-date-info">
-      <app-chip
-        [color]="'orange'"
-        text="{{ room.joinedParticipants }} joined"
-        [size]="'small'"
-      ></app-chip>
-      <app-chip
-        [color]="'red'"
-        text="{{ room.maxParticipants }} max"
-        [size]="'small'"
-      ></app-chip>
-    </div>
-  </div>
+  </ng-container>
 </div>
