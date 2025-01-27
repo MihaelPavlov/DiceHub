@@ -90,10 +90,10 @@
         <img
           [src]="
             challenge.status === ChallengeStatus.InProgress
-              ? 'https://static.vecteezy.com/system/resources/previews/016/774/561/non_2x/loading-icon-loading-progress-icon-on-transparent-background-free-png.png'
+              ? '/shared/assets/images/challenge-inprogress.png'
               : challenge.status === ChallengeStatus.Completed
-              ? '../../../shared/assets/images/challenge-complete.png'
-              : '../../../shared/assets/images/locked.png'
+              ? '/shared/assets/images/challenge-complete.png'
+              : '/shared/assets/images/locked.png'
           "
           alt=""
         />
