@@ -22,11 +22,7 @@ import { GetActivityChartData } from '../../../../entities/statistics/models/act
 import { ToastService } from '../../../../shared/services/toast.service';
 import { ToastType } from '../../../../shared/models/toast.model';
 import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
-
-interface IDropdown {
-  id: number;
-  name: string;
-}
+import { IDropdown } from '../../../../shared/models/dropdown.model';
 
 @Component({
   selector: 'visitors-chart',

@@ -25,6 +25,7 @@ import { throwError } from 'rxjs';
 import { ChallengeRewardPoint } from '../../../../entities/challenges/enums/challenge-reward-point.enum';
 import { ScrollService } from '../../../../shared/services/scroll.service';
 import { ImageEntityType } from '../../../../shared/pipe/entity-image.pipe';
+import { IDropdown } from '../../../../shared/models/dropdown.model';
 
 interface IChallengeForm {
   selectedGame: number;
@@ -32,11 +33,6 @@ interface IChallengeForm {
   attempts: number;
   type: number;
   description: string;
-}
-
-interface IDropdown {
-  id: number;
-  name: string;
 }
 
 @Component({

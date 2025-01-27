@@ -27,15 +27,11 @@ import { ReservationStatus } from '../../../../../shared/enums/reservation-statu
 import { IUserActiveSpaceTableResult } from '../../../../../entities/space-management/models/user-active-space-table.model';
 import { FULL_ROUTE } from '../../../../../shared/configs/route.config';
 import { NavigationService } from '../../../../../shared/services/navigation-service';
+import { IDropdown } from '../../../../../shared/models/dropdown.model';
 
 interface IReservationGameForm {
   reservationPeopleCount: number;
   reservationInMinutes: number;
-}
-
-interface IDropdown {
-  id: number;
-  name: string;
 }
 
 @Component({

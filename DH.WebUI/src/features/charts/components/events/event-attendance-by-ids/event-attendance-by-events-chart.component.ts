@@ -11,11 +11,8 @@ import { ControlsMenuComponent } from '../../../../../shared/components/menu/con
 import { AppToastMessage } from '../../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { ToastType } from '../../../../../shared/models/toast.model';
 import { combineLatest, debounceTime, Subject, tap } from 'rxjs';
+import { IDropdown } from '../../../../../shared/models/dropdown.model';
 
-interface IEventDropdownResult {
-  id: number;
-  name: string;
-}
 @Component({
   selector: 'event-attendance-by-events-chart',
   templateUrl: 'event-attendance-by-events-chart.component.html',
@@ -25,10 +22,10 @@ export class EventAttendanceByEventsChartComponent implements OnDestroy {
   @ViewChild('eventAttendanceChartCanvas')
   private eventAttendanceChartCanvas!: ElementRef<HTMLCanvasElement>;
   private eventAttendanceChart!: any;
-  public selectedEventIds: IEventDropdownResult[] = [];
-  public eventList: IEventDropdownResult[] = [];
-  private eventSelectionSubject: Subject<IEventDropdownResult[]> = new Subject<
-    IEventDropdownResult[]
+  public selectedEventIds: IDropdown[] = [];
+  public eventList: IDropdown[] = [];
+  private eventSelectionSubject: Subject<IDropdown[]> = new Subject<
+    IDropdown[]
   >();
   public dots: string = '';
   private intervalId: any;
@@ -101,7 +98,7 @@ export class EventAttendanceByEventsChartComponent implements OnDestroy {
     }
   }
 
-  public createDoughnutChart(selectedIds: IEventDropdownResult[]): void {
+  public createDoughnutChart(selectedIds: IDropdown[]): void {
     if (this.eventAttendanceChart) {
       this.eventAttendanceChart.destroy();
     }

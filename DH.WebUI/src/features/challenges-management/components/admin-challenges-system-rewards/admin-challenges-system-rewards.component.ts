@@ -25,6 +25,7 @@ import {
   EntityImagePipe,
   ImageEntityType,
 } from '../../../../shared/pipe/entity-image.pipe';
+import { IDropdown } from '../../../../shared/models/dropdown.model';
 
 interface ISystemRewardsForm {
   selectedLevel: number;
@@ -32,11 +33,6 @@ interface ISystemRewardsForm {
   name: string;
   description: string;
   image: string;
-}
-
-interface IDropdown {
-  id: number;
-  name: string;
 }
 
 @Component({
@@ -57,7 +53,7 @@ export class AdminChallengesSystemRewardsComponent extends Form {
   public rewardList: IRewardListResult[] = [];
   public editRewardId: number | null = null;
   public readonly ImageEntityType = ImageEntityType;
-  
+
   constructor(
     public override readonly toastService: ToastService,
     private readonly fb: FormBuilder,

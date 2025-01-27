@@ -16,6 +16,7 @@ import { TimePeriodType } from '../../../../entities/common/enum/time-period-typ
 import { TenantSettingsService } from '../../../../entities/common/api/tenant-settings.service';
 import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { ToastType } from '../../../../shared/models/toast.model';
+import { IDropdown } from '../../../../shared/models/dropdown.model';
 
 interface ITenantSettingsForm {
   averageMaxCapacity: number;
@@ -26,11 +27,6 @@ interface ITenantSettingsForm {
   reservationHours: string[];
   bonusTimeAfterReservationExpiration: number;
   phoneNumber: string;
-}
-
-interface IDropdown {
-  id: number;
-  name: string;
 }
 
 @Component({

@@ -27,6 +27,7 @@ import {
   EntityImagePipe,
   ImageEntityType,
 } from '../../../../../shared/pipe/entity-image.pipe';
+import { IDropdown } from '../../../../../shared/models/dropdown.model';
 
 interface ICreateGameForm {
   categoryId: number;
@@ -37,11 +38,6 @@ interface ICreateGameForm {
   maxPlayers: number;
   averagePlaytime: number;
   image: string;
-}
-
-interface IDropdown {
-  id: number;
-  name: string;
 }
 
 @Component({
