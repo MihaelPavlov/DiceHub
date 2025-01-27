@@ -11,7 +11,6 @@ import { NAV_ITEM_LABELS } from '../../../../shared/models/nav-items-labels.cons
 import { MenuTabsService } from '../../../../shared/services/menu-tabs.service';
 import { FormControl } from '@angular/forms';
 import { addDays, addMonths, addYears, format } from 'date-fns';
-import { LoadingService } from '../../../../shared/services/loading.service';
 import { Chart, registerables } from 'chart.js';
 import 'chartjs-adapter-date-fns';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
@@ -45,7 +44,6 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
 
   constructor(
     private readonly menuTabsService: MenuTabsService,
-    private readonly loadingService: LoadingService,
     private readonly toastService: ToastService,
     private readonly router: Router,
     private readonly statisticsService: StatisticsService
@@ -131,7 +129,6 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
   }
 
   private createVisitorWeekActivityChartCanvas(colors): void {
-    this.loadingService.loadingOn();
     this.statisticsService
       .getActivityChartData(
         ChartActivityType.Weekly,
@@ -220,24 +217,6 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
                       time: {
                         round: 'day', // Use 'day' for daily data
                       },
-                      // ticks: {
-                      //   callback: (value, index, ticks) => {
-                      //     const date = new Date(value);
-                      //     const totalTicks = ticks.length;
-                      //     console.log(index, '---------', totalTicks);
-                      //     if (index === totalTicks - 1) {
-                      //       console.log('less');
-
-                      //       return ''
-                      //     }
-
-                      //     if (index === 0 || index === totalTicks - 1) {
-                      //       return date.getDate(); // Show the day of the month
-                      //     }
-
-                      //     return date.getDate();
-                      //   },
-                      // },
                     },
                     y: {
                       max:
@@ -262,16 +241,11 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
             message: AppToastMessage.SomethingWrong,
             type: ToastType.Error,
           });
-          this.loadingService.loadingOff();
-        },
-        complete: () => {
-          this.loadingService.loadingOff();
         },
       });
   }
 
   private createVisitorMonthActivityChartCanvas(colors): void {
-    this.loadingService.loadingOn();
     this.statisticsService
       .getActivityChartData(
         ChartActivityType.Monthly,
@@ -303,20 +277,10 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
                       data: dailyData.values,
                       fill: true,
                       backgroundColor: gradient,
-                      // pointBackgroundColor: '#52cba4', //'2a78af'
-                      // pointBorderWidth:2.5,
-                      // pointBorderColor:'#52cba4',
                       tension: 0.5,
                       borderColor: colors.yellow.quarter,
                       pointBackgroundColor: colors.yellow.default,
                     },
-                    // {
-                    //   label: 'Monthly Visitor Activity',
-                    //   data: monthlyData.values,
-                    //   fill: 'start',
-                    //   borderColor: '#52cba4', #52cba4
-                    //   tension: 0.5,
-                    // },
                   ],
                 },
                 options: {
@@ -356,12 +320,6 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
                     datalabels: {
                       display: false,
                     },
-                    // datalabels: {
-                    //   display: true,
-                    //   align: 'top', // Position the labels
-                    //   color: '#75a0ff', // Label text color
-                    //   formatter: (value) => value, // Show the value
-                    // },
                   },
                   responsive: true,
 
@@ -375,22 +333,11 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
                       time: {
                         round: 'day', // Use 'day' for daily data
                       },
-                      // title: {
-                      //   display: true,
-                      //   text: 'Date/Time',
-                      // },
-                      //   TODO: This should be only for the month
                       ticks: {
                         // autoSkip: false,
                         maxTicksLimit: activityDataByDay.length / 2,
                         callback: (value, index, ticks) => {
                           const date = new Date(value);
-                          //     const totalTicks = ticks.length;
-                          // console.log(index,'-----',totalTicks);
-
-                          //     if (index === 0 || index === totalTicks - 1) {
-                          //       return date.getDate(); // Show the day of the month
-                          //     }
 
                           return date.getDate(); // Show the day of the month
                         },
@@ -408,13 +355,6 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
                         color: '#31313b',
                       },
                     },
-
-                    // y: {
-                    //   title: {
-                    //     display: true,
-                    //     text: 'Activity Count',
-                    //   },
-                    // },
                   },
                 },
               });
@@ -426,16 +366,11 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
             message: AppToastMessage.SomethingWrong,
             type: ToastType.Error,
           });
-          this.loadingService.loadingOff();
-        },
-        complete: () => {
-          this.loadingService.loadingOff();
         },
       });
   }
 
   private createVisitorYearlyActivityChartCanvas(colors): void {
-    this.loadingService.loadingOn();
     this.statisticsService
       .getActivityChartData(
         ChartActivityType.Yearly,
@@ -556,10 +491,6 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
             message: AppToastMessage.SomethingWrong,
             type: ToastType.Error,
           });
-          this.loadingService.loadingOff();
-        },
-        complete: () => {
-          this.loadingService.loadingOff();
         },
       });
   }

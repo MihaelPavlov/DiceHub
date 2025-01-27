@@ -1,17 +1,8 @@
-import { OperationResult } from './../../../../../shared/models/operation-result.model';
-import { GetCollectedRewardsByDates } from './../../../../../entities/statistics/models/collected-rewards-by-dates.model';
-import {
-  Component,
-  OnDestroy,
-  ViewChild,
-  ElementRef,
-  ChangeDetectorRef,
-} from '@angular/core';
+import { Component, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Router } from '@angular/router';
 import { Chart, registerables } from 'chart.js';
 import { NAV_ITEM_LABELS } from '../../../../../shared/models/nav-items-labels.const';
-import { LoadingService } from '../../../../../shared/services/loading.service';
 import { MenuTabsService } from '../../../../../shared/services/menu-tabs.service';
 import { colors } from '../../../consts/colors.const';
 import { FormControl } from '@angular/forms';
@@ -19,15 +10,9 @@ import { ControlsMenuComponent } from '../../../../../shared/components/menu/con
 import { RewardsService } from '../../../../../entities/rewards/api/rewards.service';
 import { StatisticsService } from '../../../../../entities/statistics/api/statistics.service';
 import { ToastService } from '../../../../../shared/services/toast.service';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest } from 'rxjs';
 import { AppToastMessage } from '../../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { ToastType } from '../../../../../shared/models/toast.model';
-import { IRewardListResult } from '../../../../../entities/rewards/models/reward-list.model';
-
-interface IRewardsDataChart {
-  rewardName: string;
-  collectionCount: number;
-}
 
 @Component({
   selector: 'rewards-collected-chart',
@@ -48,10 +33,8 @@ export class RewardsCollectedChartComponent implements OnDestroy {
     this.REQUIRED_MESSAGE_FROM_DATES;
 
   constructor(
-    private readonly loadingService: LoadingService,
     private readonly router: Router,
     private readonly menuTabsService: MenuTabsService,
-    private readonly cd: ChangeDetectorRef,
     private readonly toastService: ToastService,
     private readonly statisticsService: StatisticsService,
     private readonly rewardsService: RewardsService
@@ -212,37 +195,8 @@ export class RewardsCollectedChartComponent implements OnDestroy {
             message: AppToastMessage.SomethingWrong,
             type: ToastType.Error,
           });
-          this.loadingService.loadingOff();
-        },
-        complete: () => {
-          this.loadingService.loadingOff();
         },
       });
     }
-
-    const ctx = this.rewardsChartCanvas.nativeElement.getContext('2d');
-    if (!ctx) return;
-
-    // const rewardsData: IRewardsDataChart[] = [
-    //   { rewardName: 'Reward long long long long', collectionCount: 191 },
-    //   { rewardName: 'Reward F', collectionCount: 186 },
-    //   { rewardName: 'Reward T', collectionCount: 180 },
-    //   { rewardName: 'Reward E', collectionCount: 180 },
-    //   { rewardName: 'Reward B', collectionCount: 161 },
-    //   { rewardName: 'Reward L', collectionCount: 160 },
-    //   { rewardName: 'Reward S', collectionCount: 157 },
-    //   { rewardName: 'Reward J', collectionCount: 148 },
-    //   { rewardName: 'Reward N', collectionCount: 134 },
-    //   { rewardName: 'Reward P', collectionCount: 119 },
-    //   { rewardName: 'Reward M', collectionCount: 110 },
-    //   { rewardName: 'Reward O', collectionCount: 110 },
-    //   { rewardName: 'Reward Q', collectionCount: 103 },
-    //   { rewardName: 'Reward H', collectionCount: 100 },
-    //   { rewardName: 'Reward A', collectionCount: 100 },
-    //   { rewardName: 'Reward G', collectionCount: 94 },
-    //   { rewardName: 'Reward C', collectionCount: 84 },
-    //   { rewardName: 'Reward I', collectionCount: 78 },
-    //   { rewardName: 'Reward D', collectionCount: 76 },
-    // ];
   }
 }

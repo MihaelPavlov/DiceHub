@@ -1,4 +1,3 @@
-import { LoadingService } from './../../../shared/services/loading.service';
 import { Component } from '@angular/core';
 import { Form } from '../../../shared/components/form/form.component';
 import {
@@ -36,8 +35,7 @@ export class RegisterComponent extends Form {
     private readonly authService: AuthService,
     private readonly messagingService: MessagingService,
     public override readonly toastService: ToastService,
-    private readonly fb: FormBuilder,
-    private readonly loadingService: LoadingService
+    private readonly fb: FormBuilder
   ) {
     super(toastService);
     this.form = this.initFormGroup();
@@ -58,8 +56,6 @@ export class RegisterComponent extends Form {
 
   public async register(): Promise<void> {
     if (this.form.valid) {
-      this.loadingService.loadingOn();
-
       try {
         const deviceToken =
           await this.messagingService.getDeviceTokenForRegistration();
@@ -75,7 +71,6 @@ export class RegisterComponent extends Form {
           .subscribe({
             next: () => this.loginAfterSuccessRegistration(),
             error: (error) => this.handleRegistrationError(error),
-            complete: () => this.loadingService.loadingOff(),
           });
       } catch (error) {
         // Handle the case where getting the device token fails
@@ -83,8 +78,6 @@ export class RegisterComponent extends Form {
         //   message: AppToastMessage.SomethingWrong,
         //   type: ToastType.Error,
         // });
-      } finally {
-        this.loadingService.loadingOff();
       }
     }
   }

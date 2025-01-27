@@ -1,14 +1,8 @@
 import { ToastService } from './../../../../../shared/services/toast.service';
 import { StatisticsService } from './../../../../../entities/statistics/api/statistics.service';
 import { EventsService } from './../../../../../entities/events/api/events.service';
-import {
-  Component,
-  OnDestroy,
-  ViewChild,
-  ElementRef,
-} from '@angular/core';
+import { Component, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
-import { LoadingService } from '../../../../../shared/services/loading.service';
 import { Router } from '@angular/router';
 import { NAV_ITEM_LABELS } from '../../../../../shared/models/nav-items-labels.const';
 import { MenuTabsService } from '../../../../../shared/services/menu-tabs.service';
@@ -41,7 +35,6 @@ export class EventAttendanceByEventsChartComponent implements OnDestroy {
   public isLoading: boolean = false;
 
   constructor(
-    private readonly loadingService: LoadingService,
     private readonly router: Router,
     private readonly menuTabsService: MenuTabsService,
     private readonly eventsService: EventsService,
@@ -115,7 +108,6 @@ export class EventAttendanceByEventsChartComponent implements OnDestroy {
 
     if (selectedIds.length !== 0) {
       this.loading = false;
-      this.loadingService.loadingOn();
       combineLatest([
         this.eventsService.getAllEventsDropdownList(),
         this.statisticsService.getEventAttendanceByIds(
@@ -230,10 +222,6 @@ export class EventAttendanceByEventsChartComponent implements OnDestroy {
             message: AppToastMessage.SomethingWrong,
             type: ToastType.Error,
           });
-          this.loadingService.loadingOff();
-        },
-        complete: () => {
-          this.loadingService.loadingOff();
         },
       });
     }

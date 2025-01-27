@@ -6,7 +6,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -18,7 +18,6 @@ import { Form } from '../../../../shared/components/form/form.component';
 import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { Formify } from '../../../../shared/models/form.model';
 import { ToastType } from '../../../../shared/models/toast.model';
-import { LoadingService } from '../../../../shared/services/loading.service';
 import { ToastService } from '../../../../shared/services/toast.service';
 import { TenantSettingsService } from './../../../../entities/common/api/tenant-settings.service';
 import { SpaceManagementService } from './../../../../entities/space-management/api/space-management.service';
@@ -83,7 +82,7 @@ interface ICreateSpaceReservation {
     ]),
   ],
 })
-export class SpaceBookingComponent extends Form implements AfterViewInit {
+export class SpaceBookingComponent extends Form {
   override form: Formify<ICreateSpaceReservation>;
   @ViewChild('singleDice') singleDice: DiceRollerComponent | undefined;
   @ViewChild('secondDice') secondDice: DiceRollerComponent | undefined;
@@ -99,12 +98,10 @@ export class SpaceBookingComponent extends Form implements AfterViewInit {
     public override readonly toastService: ToastService,
     private readonly fb: FormBuilder,
     private readonly router: Router,
-    private readonly loadingService: LoadingService,
     private readonly spaceManagementService: SpaceManagementService,
     private readonly tenantSettingsService: TenantSettingsService
   ) {
     super(toastService);
-    this.loadingService.loadingOn();
     this.form = this.initFormGroup();
     this.tenantSettingsService.get().subscribe({
       next: (result) => {
@@ -125,9 +122,6 @@ export class SpaceBookingComponent extends Form implements AfterViewInit {
 
   public toggleSplit(): void {
     this.isSplit = !this.isSplit;
-  }
-  public ngAfterViewInit(): void {
-    this.loadingService.loadingOff();
   }
 
   public getActiveDiceRoller(): DiceRollerComponent | undefined {

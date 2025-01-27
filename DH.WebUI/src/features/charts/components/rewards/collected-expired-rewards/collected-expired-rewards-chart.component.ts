@@ -10,7 +10,6 @@ import { Router } from '@angular/router';
 import { Chart, registerables } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { NAV_ITEM_LABELS } from '../../../../../shared/models/nav-items-labels.const';
-import { LoadingService } from '../../../../../shared/services/loading.service';
 import { MenuTabsService } from '../../../../../shared/services/menu-tabs.service';
 import { colors } from '../../../consts/colors.const';
 import { addYears, format } from 'date-fns';
@@ -33,7 +32,6 @@ export class CollectedExpiredRewardsChartComponent
   public currentRangeStart: Date = new Date();
 
   constructor(
-    private readonly loadingService: LoadingService,
     private readonly router: Router,
     private readonly menuTabsService: MenuTabsService,
     private readonly toastService: ToastService,
@@ -62,7 +60,6 @@ export class CollectedExpiredRewardsChartComponent
   }
 
   public updateDateRange(direction: 'forward' | 'backward'): void {
-    this.loadingService.loadingOn();
     if (this.rewardsChart) {
       this.rewardsChart.destroy();
     }
@@ -73,8 +70,6 @@ export class CollectedExpiredRewardsChartComponent
     this.currentRangeStart = addYears(this.currentRangeStart, adjustmentValue);
 
     this.createRewardsChartCanvas(colors);
-
-    this.loadingService.loadingOff();
   }
 
   public getFormattedRange(): string {
@@ -85,7 +80,6 @@ export class CollectedExpiredRewardsChartComponent
     if (this.rewardsChart) {
       this.rewardsChart.destroy();
     }
-    this.loadingService.loadingOn();
 
     this.statisticsService
       .getExpiredCollectedRewardChartData(this.currentRangeStart.getFullYear())
@@ -93,7 +87,7 @@ export class CollectedExpiredRewardsChartComponent
         next: (operation) => {
           if (operation && operation.success && operation.relatedObject) {
             console.log(operation.relatedObject.collected);
-            
+
             const collectedRewards = operation.relatedObject.collected.map(
               (x) => x.countRewards || 0
             );
@@ -101,7 +95,7 @@ export class CollectedExpiredRewardsChartComponent
               (x) => x.countRewards || 0
             );
             console.log(collectedRewards);
-            
+
             if (this.rewardsChartCanvas) {
               const ctx4 =
                 this.rewardsChartCanvas.nativeElement.getContext('2d');
@@ -205,10 +199,6 @@ export class CollectedExpiredRewardsChartComponent
             message: AppToastMessage.SomethingWrong,
             type: ToastType.Error,
           });
-          this.loadingService.loadingOff();
-        },
-        complete: () => {
-          this.loadingService.loadingOff();
         },
       });
   }

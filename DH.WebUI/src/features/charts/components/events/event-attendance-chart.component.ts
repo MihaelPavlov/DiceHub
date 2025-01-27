@@ -10,12 +10,11 @@ import {
 import { Router } from '@angular/router';
 import { Chart, registerables } from 'chart.js';
 import { NAV_ITEM_LABELS } from '../../../../shared/models/nav-items-labels.const';
-import { LoadingService } from '../../../../shared/services/loading.service';
 import { MenuTabsService } from '../../../../shared/services/menu-tabs.service';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { FormControl } from '@angular/forms';
 import { ControlsMenuComponent } from '../../../../shared/components/menu/controls-menu.component';
-import { combineLatest, map } from 'rxjs';
+import { combineLatest } from 'rxjs';
 import { ToastService } from '../../../../shared/services/toast.service';
 import { ToastType } from '../../../../shared/models/toast.model';
 import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
@@ -38,7 +37,6 @@ export class EventAttendanceChartComponent implements AfterViewInit, OnDestroy {
     this.REQUIRED_MESSAGE_FROM_DATES;
 
   constructor(
-    private readonly loadingService: LoadingService,
     private readonly router: Router,
     private readonly menuTabsService: MenuTabsService,
     private readonly eventsService: EventsService,
@@ -96,7 +94,6 @@ export class EventAttendanceChartComponent implements AfterViewInit, OnDestroy {
 
   public createDoughnutChart(): void {
     if (this.fromDateControl.value && this.toDateControl.value) {
-      this.loadingService.loadingOn();
       combineLatest([
         this.eventsService.getAllEventsDropdownList(),
         this.statisticsService.getEventAttendanceChartData(
@@ -211,11 +208,7 @@ export class EventAttendanceChartComponent implements AfterViewInit, OnDestroy {
             message: AppToastMessage.SomethingWrong,
             type: ToastType.Error,
           });
-          this.loadingService.loadingOff();
-        },
-        complete: () => {
-          this.loadingService.loadingOff();
-        },
+        }
       });
     }
     // const attendanceData = [

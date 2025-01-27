@@ -8,7 +8,6 @@ import { UsersService } from '../../../../entities/profile/api/user.service';
 import { ChallengeLeaderboardType } from '../../../../entities/statistics/enums/challenge-leaderboard-type.enum';
 import { combineLatest } from 'rxjs';
 import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
-import { LoadingService } from '../../../../shared/services/loading.service';
 
 interface IChallengeLeaderboardData {
   username: string;
@@ -32,7 +31,6 @@ export class LeaderboardChallengesComponent implements OnInit {
     private readonly toastService: ToastService,
     private readonly statisticsService: StatisticsService,
     private readonly userService: UsersService,
-    private readonly loadingService: LoadingService
   ) {}
   public ngOnInit(): void {
     this.fetchLeaderboardData(ChallengeLeaderboardType.Weekly);
@@ -49,7 +47,6 @@ export class LeaderboardChallengesComponent implements OnInit {
 
   public fetchLeaderboardData(type: ChallengeLeaderboardType): void {
     this.currentLeaderboardActiveType = type;
-    this.loadingService.loadingOn();
     combineLatest([
       this.userService.getUserList(),
       this.statisticsService.getChallengeLeaderboard(type),
@@ -76,11 +73,7 @@ export class LeaderboardChallengesComponent implements OnInit {
           message: AppToastMessage.SomethingWrong,
           type: ToastType.Error,
         });
-        this.loadingService.loadingOff();
-      },
-      complete: () => {
-        this.loadingService.loadingOff();
-      },
+      }
     });
   }
 }

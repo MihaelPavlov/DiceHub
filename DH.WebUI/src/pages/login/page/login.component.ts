@@ -13,7 +13,6 @@ import {
 import { AppToastMessage } from '../../../shared/components/toast/constants/app-toast-messages.constant';
 import { ToastType } from '../../../shared/models/toast.model';
 import { FULL_ROUTE, ROUTE } from '../../../shared/configs/route.config';
-import { LoadingService } from '../../../shared/services/loading.service';
 import { MessagingService } from '../../../entities/messaging/api/messaging.service';
 
 interface ILoginForm {
@@ -34,8 +33,7 @@ export class LoginComponent extends Form implements OnInit {
     readonly authService: AuthService,
     public override readonly toastService: ToastService,
     private readonly messagingService: MessagingService,
-    private readonly fb: FormBuilder,
-    private readonly loadingService: LoadingService
+    private readonly fb: FormBuilder
   ) {
     super(toastService);
     this.form = this.initFormGroup();
@@ -73,8 +71,6 @@ export class LoginComponent extends Form implements OnInit {
 
   public async onLogin(): Promise<void> {
     if (this.form.valid) {
-      this.loadingService.loadingOn();
-
       const deviceToken =
         await this.messagingService.getDeviceTokenForRegistration();
 
@@ -101,10 +97,6 @@ export class LoginComponent extends Form implements OnInit {
               message: AppToastMessage.FailedToSaveChanges,
               type: ToastType.Error,
             });
-            this.loadingService.loadingOff();
-          },
-          complete: () => {
-            this.loadingService.loadingOff();
           },
         });
     }

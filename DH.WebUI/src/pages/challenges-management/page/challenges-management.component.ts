@@ -12,7 +12,6 @@ import { RewardsService } from '../../../entities/rewards/api/rewards.service';
 import { IUserChallengePeriodPerformance } from '../../../entities/challenges/models/user-challenge-period-performance.model';
 import { combineLatest } from 'rxjs';
 import { ChallengeStatus } from '../../../entities/challenges/enums/challenge-status.enum';
-import { LoadingService } from '../../../shared/services/loading.service';
 import { Column } from '../../../widgets/nav-bar/page/nav-bar.component';
 import { FULL_ROUTE } from '../../../shared/configs/route.config';
 import { ImageEntityType } from '../../../shared/pipe/entity-image.pipe';
@@ -49,13 +48,10 @@ export class ChallengesManagementComponent implements OnInit {
   constructor(
     private readonly rewardsService: RewardsService,
     private readonly challengeService: ChallengesService,
-    private readonly cd: ChangeDetectorRef,
-    private readonly loadingService: LoadingService
+    private readonly cd: ChangeDetectorRef
   ) {}
 
   public ngOnInit(): void {
-    this.loadingService.loadingOn();
-
     this.challengeService.getUserChallengePeriodPerformance().subscribe({
       next: (periodPerformance: IUserChallengePeriodPerformance) => {
         this.periodPerformance = periodPerformance;
@@ -77,12 +73,6 @@ export class ChallengesManagementComponent implements OnInit {
             this.updateRewardProgressBar();
           },
         });
-      },
-      error: (error) => {
-        this.loadingService.loadingOff();
-      },
-      complete: () => {
-        this.loadingService.loadingOff();
       },
     });
   }

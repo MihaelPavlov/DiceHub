@@ -9,7 +9,6 @@ import {
 } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
 import { Router } from '@angular/router';
-import { LoadingService } from '../../../../shared/services/loading.service';
 import { MenuTabsService } from '../../../../shared/services/menu-tabs.service';
 import { NAV_ITEM_LABELS } from '../../../../shared/models/nav-items-labels.const';
 import { FormControl } from '@angular/forms';
@@ -32,14 +31,13 @@ export class ReservationsChartComponent implements AfterViewInit, OnDestroy {
   private reservationChart!: Chart;
   private REQUIRED_MESSAGE_FROM_DATES: string =
     'Specifying from which date we start is required.';
-    
+
   public fromDateControl = new FormControl<Date | null>(null);
   public toDateControl = new FormControl<Date | null>(null);
   public validationMessageFromDates: string | null =
     this.REQUIRED_MESSAGE_FROM_DATES;
 
   constructor(
-    private readonly loadingService: LoadingService,
     private readonly router: Router,
     private readonly statisticsService: StatisticsService,
     private readonly menuTabsService: MenuTabsService,
@@ -99,7 +97,6 @@ export class ReservationsChartComponent implements AfterViewInit, OnDestroy {
     }
 
     if (this.fromDateControl.value && this.toDateControl.value) {
-      this.loadingService.loadingOn();
       this.statisticsService
         .getReservationChartData(
           new Date(this.fromDateControl.value).toISOString(),
@@ -213,10 +210,6 @@ export class ReservationsChartComponent implements AfterViewInit, OnDestroy {
               message: AppToastMessage.SomethingWrong,
               type: ToastType.Error,
             });
-            this.loadingService.loadingOff();
-          },
-          complete: () => {
-            this.loadingService.loadingOff();
           },
         });
     }

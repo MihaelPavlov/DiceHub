@@ -1,4 +1,3 @@
-import { LoadingService } from './../../../../shared/services/loading.service';
 import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { UsersService } from '../../../../entities/profile/api/user.service';
@@ -36,7 +35,6 @@ export class AddEmployeeComponent extends Form implements OnDestroy {
     public override readonly toastService: ToastService,
     private readonly usersService: UsersService,
     private readonly fb: FormBuilder,
-    private readonly loadingService: LoadingService,
     private readonly router: Router
   ) {
     super(toastService);
@@ -59,7 +57,6 @@ export class AddEmployeeComponent extends Form implements OnDestroy {
 
   public onAdd(): void {
     if (this.form.valid) {
-      this.loadingService.loadingOn();
       this.usersService
         .createEmployee(
           this.form.controls.firstName.value,
@@ -85,11 +82,6 @@ export class AddEmployeeComponent extends Form implements OnDestroy {
               message: AppToastMessage.SomethingWrong,
               type: ToastType.Error,
             });
-
-            this.loadingService.loadingOff();
-          },
-          complete: () => {
-            this.loadingService.loadingOff();
           },
         });
     }
