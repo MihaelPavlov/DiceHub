@@ -120,6 +120,10 @@ export class QrCodeScannerComponent implements OnInit, AfterViewInit {
 
                       case QrCodeType.GameReservation:
                         if (res.isValid) {
+                          this.setLocalStorageSuccessMessage(
+                            `Game Reservation is VALID \n\n ${res.internalNote ?? 'No Note From Staff'}`
+                          );
+                          window.location.reload();
                         } else {
                           const dialogRef = this.dialog.open(
                             ScanResultAdminDialog,

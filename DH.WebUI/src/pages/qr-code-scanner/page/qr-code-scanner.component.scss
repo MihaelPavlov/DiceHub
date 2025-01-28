@@ -29,6 +29,7 @@
   display: flex;
   justify-content: center;
   font-size: 1.25rem;
-  margin-top: 2rem;
+  margin: 2rem;
+  text-wrap: auto;
   color: palette.$main-blue-color;
 }
