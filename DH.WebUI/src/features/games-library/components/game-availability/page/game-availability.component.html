@@ -48,19 +48,6 @@
         </p>
       </div>
 
-      <!-- <span class="material-symbols-outlined left" (click)="decreaseTimer()"
-        >play_arrow</span
-      >
-      <p class="circle">
-        <span  class="timer">{{
-          currentTimer
-        }}</span>
-      </p>
-
-      <span class="material-symbols-outlined" (click)="increaseTimer()"
-        >play_arrow</span
-      > -->
-
       <form [formGroup]="form" class="field-inputs" form>
         <ng-container
           *ngIf="
@@ -159,20 +146,56 @@
         </p>
       </div>
 
+      <p
+        *ngIf="
+          isTimerExpired &&
+          gameReservationStatus.status === ReservationStatus.None
+        "
+        class="expiry-message"
+      >
+        Your reservation hasn’t been acknowledged by our staff. <br />
+        We’ve extended it for an additional 5-10 minutes. <br />
+        If no one approves or declines your reservation, please contact us.
+      </p>
+
+      <p
+        *ngIf="
+          isTimerExpired &&
+          gameReservationStatus.status === ReservationStatus.Approved
+        "
+        class="expiry-message"
+      >
+        We’ve extended your reservation with an additional 5-10 minutes. <br />
+      </p>
+
       <div class="wrapper">
-        <p class="circle">
+        <div
+          class="info-container"
+          *ngIf="
+            gameReservationStatus.status === ReservationStatus.Declined ||
+            gameReservationStatus.status === ReservationStatus.Approved
+          "
+        >
+          <span
+            class="material-symbols-outlined info"
+            aria-label="More information"
+            (click)="openInfo()"
+          >
+            info
+          </span>
+        </div>
+
+        <p
+          class="circle"
+          *ngIf="gameReservationStatus.status !== ReservationStatus.Declined"
+        >
           <span class="timer">{{ display }}</span>
         </p>
-      </div>
 
-      <div
-        class="reservation-qrcode"
-        *ngIf="gameReservationStatus.status === ReservationStatus.Approved"
-      >
-        <span>Your reservation qr-code</span>
         <a
           class="wrapper_qrCode"
           (click)="openDialog(gameReservationStatus.reservationId)"
+          *ngIf="gameReservationStatus.status === ReservationStatus.Approved"
         >
           <img src="../../../../../shared/assets/images/qr-code.png" alt="" />
         </a>

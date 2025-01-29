@@ -1,4 +1,4 @@
-import { ReservationStatus } from "../../../shared/enums/reservation-status.enum";
+import { ReservationStatus } from '../../../shared/enums/reservation-status.enum';
 
 export interface IGameReservationStatus {
   reservationId: number;
@@ -6,5 +6,6 @@ export interface IGameReservationStatus {
   reservationDate: Date;
   reservedDurationMinutes: number;
   isActive: boolean;
-  status: ReservationStatus
+  status: ReservationStatus;
+  publicNote: string;
 }

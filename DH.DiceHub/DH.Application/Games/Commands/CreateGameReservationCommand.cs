@@ -3,6 +3,7 @@ using DH.Domain.Adapters.Authentication.Models.Enums;
 using DH.Domain.Adapters.Authentication.Services;
 using DH.Domain.Adapters.PushNotifications;
 using DH.Domain.Adapters.PushNotifications.Messages;
+using DH.Domain.Adapters.Reservations;
 using DH.Domain.Adapters.Scheduling;
 using DH.Domain.Entities;
 using DH.Domain.Enums;
@@ -16,26 +17,16 @@ namespace DH.Application.Games.Commands;
 
 public record CreateGameReservationCommand(CreateGameReservationModel Reservation) : IRequest;
 
-internal class CreateGameReservationCommandHandler : IRequestHandler<CreateGameReservationCommand>
+internal class CreateGameReservationCommandHandler(IGameService gameService, IRepository<GameReservation> repository, IJobManager jobManager, IUserContext userContext, ReservationCleanupQueue queue, IPushNotificationsService pushNotificationsService, IUserService userService, IRepository<Game> gameRepository) : IRequestHandler<CreateGameReservationCommand>
 {
-    readonly IGameService gameService;
-    readonly IRepository<GameReservation> repository;
-    readonly IRepository<Game> gameRepository;
-    readonly IJobManager jobManager;
-    readonly IUserContext userContext;
-    readonly IPushNotificationsService pushNotificationsService;
-    readonly IUserService userService;
-
-    public CreateGameReservationCommandHandler(IGameService gameService, IRepository<GameReservation> repository, IJobManager jobManager, IUserContext userContext, IPushNotificationsService pushNotificationsService, IUserService userService, IRepository<Game> gameRepository)
-    {
-        this.gameService = gameService;
-        this.repository = repository;
-        this.jobManager = jobManager;
-        this.userContext = userContext;
-        this.pushNotificationsService = pushNotificationsService;
-        this.userService = userService;
-        this.gameRepository = gameRepository;
-    }
+    readonly IGameService gameService = gameService;
+    readonly IRepository<GameReservation> repository = repository;
+    readonly IRepository<Game> gameRepository = gameRepository;
+    readonly IJobManager jobManager = jobManager;
+    readonly IUserContext userContext = userContext;
+    readonly IPushNotificationsService pushNotificationsService = pushNotificationsService;
+    readonly IUserService userService = userService;
+    readonly ReservationCleanupQueue queue = queue;
 
     public async Task Handle(CreateGameReservationCommand request, CancellationToken cancellationToken)
     {
@@ -58,7 +49,11 @@ internal class CreateGameReservationCommandHandler : IRequestHandler<CreateGameR
 
         await this.gameService.CreateReservation(reservation, cancellationToken);
 
-        await this.jobManager.CreateReservationJob(reservation.Id, reservation.ReservationDate, reservation.ReservedDurationMinutes);
+        //TODO: Delete This logic
+        //await this.jobManager.CreateReservationJob(reservation.Id, reservation.ReservationDate, reservation.ReservedDurationMinutes);
+
+        //TODO: Additional minutes can be tenantSettings
+        this.queue.AddReservationCleaningJob(reservation.Id, ReservationType.Game, reservation.ReservationDate.AddMinutes(2));
 
         //TODO: Change to Role.Staff
         var users = await this.userService.GetUserListByRole(Role.SuperAdmin, cancellationToken);
@@ -67,7 +62,7 @@ internal class CreateGameReservationCommandHandler : IRequestHandler<CreateGameR
 
         var game = await this.gameRepository.GetByAsync(x => x.Id == request.Reservation.GameId, cancellationToken);
 
-        DateTime reservationEndTime = reservation.ReservationDate.AddMinutes(reservation.ReservedDurationMinutes).ToLocalTime();
+        DateTime reservationEndTime = reservation.ReservationDate.ToLocalTime();
 
         await this.pushNotificationsService.SendNotificationToUsersAsync(users, new GameReservationManagementReminder(game!.Name, currentUser.UserName, request.Reservation.PeopleCount, reservationEndTime), cancellationToken);
     }

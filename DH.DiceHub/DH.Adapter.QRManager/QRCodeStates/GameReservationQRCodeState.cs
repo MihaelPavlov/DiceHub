@@ -68,13 +68,27 @@ public class GameReservationQRCodeState : IQRCodeState
         gameReservation.IsReservationSuccessful = true;
         gameReservation.IsActive = false;
 
-        var tableReservation = await this.tableReservationRepository.GetByAsyncWithTracking(x => x.IsActive && x.Status == ReservationStatus.Accepted && x.UserId == userId && x.ReservationDate.Date == gameReservation.ReservationDate.Date, cancellationToken);
+        var tableReservation = await this.tableReservationRepository
+            .GetByAsyncWithTracking(x =>
+                x.IsActive && x.Status == ReservationStatus.Accepted &&
+                x.UserId == userId &&
+                x.ReservationDate.Date == gameReservation.ReservationDate.Date,
+            cancellationToken);
 
         if (tableReservation != null)
         {
             tableReservation.IsReservationSuccessful = true;
             tableReservation.IsActive = false;
             result.InternalNote = string.IsNullOrEmpty(tableReservation.InternalNote) ? null : tableReservation.InternalNote;
+        }
+
+        string? gameNote = string.IsNullOrEmpty(gameReservation.InternalNote) ? null : gameReservation.InternalNote;
+        if (gameNote != null)
+        {
+            if (!string.IsNullOrEmpty(result.InternalNote)) 
+                result.InternalNote += "; \n\n" + gameNote;
+            else 
+                result.InternalNote = gameNote;
         }
 
         await this.gameReservationRepository.SaveChangesAsync(cancellationToken);

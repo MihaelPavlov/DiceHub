@@ -16,13 +16,17 @@
     font-size: 2rem;
   }
 }
-
+.expiry-message {
+  color: palette.$main-red-color;
+  font-weight: bold;
+  text-align: center;
+  margin: 1rem;
+}
 .info {
   margin-top: 1rem;
   margin-bottom: 0.85rem;
   text-align: center;
-  margin-left: 1rem;
-  margin-right: 1rem;
+
   .blue-font {
     color: palette.$main-blue-color;
   }
@@ -56,20 +60,9 @@
   margin: 1rem;
 }
 
-.reservation-qrcode {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
 .wrapper_qrCode {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 3rem;
-  height: 3rem;
-  border-radius: 50%;
-  margin: 1rem;
+  width: 4rem;
+  height: 4rem;
 
   img {
     width: 4rem;
@@ -79,8 +72,38 @@
 }
 .wrapper {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
+
+  .info-container {
+    .info {
+      font-variation-settings: "FILL" 1;
+      font-size: 4rem;
+      color: palette.$main-blue-color;
+      animation: breathe 1s ease-in-out infinite, glow 3s ease-in-out infinite;
+      will-change: transform, filter;
+    }
+
+    @keyframes breathe {
+      0%,
+      100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.2);
+      }
+    }
+
+    @keyframes glow {
+      0%,
+      100% {
+        filter: drop-shadow(0 0 5px rgba(0, 123, 255, 0.5));
+      }
+      50% {
+        filter: drop-shadow(0 0 15px rgba(0, 123, 255, 0.8));
+      }
+    }
+  }
 
   .circle {
     display: flex;

@@ -28,6 +28,7 @@ import { IUserActiveSpaceTableResult } from '../../../../../entities/space-manag
 import { FULL_ROUTE } from '../../../../../shared/configs/route.config';
 import { NavigationService } from '../../../../../shared/services/navigation-service';
 import { IDropdown } from '../../../../../shared/models/dropdown.model';
+import { AvailabilityReservationInfoDialog } from '../../../dialogs/availability-reservation-info-dialog/availability-reservation-info-dialog.component';
 
 interface IReservationGameForm {
   reservationPeopleCount: number;
@@ -50,8 +51,8 @@ export class GameAvailabilityComponent
   public gameReservationStatus: IGameReservationStatus | null = null;
   public ReservationStatus = ReservationStatus;
   public availableMinutes = [1, 2, 5, 10, 15, 20, 30, 40, 50, 60];
-  public currentTimer = 15;
-  display: string = '';
+  display: string = '00:00';
+  isTimerExpired: boolean = false;
   public peopleNumber: IDropdown[] = [];
   public reservationMinutes: IDropdown[] = [];
   public activeBookedTableModel: ActiveBookedTableModel | null = null;
@@ -84,6 +85,8 @@ export class GameAvailabilityComponent
 
     this.spaceManagementService.getActiveBookedTable().subscribe({
       next: (result) => {
+        console.log('activeBookedTableModel', result);
+
         this.activeBookedTableModel = result;
       },
       error: () => {
@@ -93,6 +96,8 @@ export class GameAvailabilityComponent
 
     this.spaceManagementService.getUserActiveTable().subscribe({
       next: (result) => {
+        console.log('userActiveSpaceTable', result);
+
         this.userActiveSpaceTable = result;
       },
     });
@@ -105,14 +110,12 @@ export class GameAvailabilityComponent
   }
 
   public ngOnInit(): void {
-    this.activeRoute.params.subscribe((params: Params) => {
-      const gameId = params['id'];
-      this.gameId = gameId;
-      this.game$ = this.gameService.getById(gameId);
-      this.gameInventory$ = this.gameService.getInventory(gameId);
+    const id = this.activeRoute.snapshot.paramMap.get('id');
+    this.gameId = id ? Number.parseInt(id) : -1;
+    this.game$ = this.gameService.getById(this.gameId);
+    this.gameInventory$ = this.gameService.getInventory(this.gameId);
 
-      this.fetchReservationStatus(gameId);
-    });
+    this.fetchReservationStatus(this.gameId);
   }
   public populateReservationMinutes(): number {
     if (this.activeBookedTableModel) {
@@ -169,7 +172,7 @@ export class GameAvailabilityComponent
     return false;
   }
 
-  public openDialog(id: number) {
+  public openDialog(id: number): void {
     const dialogRef = this.dialog.open(ReservationQrCodeDialog, {
       width: '17rem',
       data: {
@@ -179,6 +182,15 @@ export class GameAvailabilityComponent
         AdditionalData: {
           userId: this.authService.getUser?.id,
         },
+      },
+    });
+  }
+
+  public openInfo(): void {
+    this.dialog.open(AvailabilityReservationInfoDialog, {
+      data: {
+        publicNote: this.gameReservationStatus?.publicNote ?? '',
+        status: this.gameReservationStatus?.status ?? ReservationStatus.None,
       },
     });
   }
@@ -208,6 +220,8 @@ export class GameAvailabilityComponent
 
           if (secondsLeft > 0) {
             this.startTimer(secondsLeft);
+          } else {
+            this.isTimerExpired = true;
           }
         }
       },
@@ -223,20 +237,6 @@ export class GameAvailabilityComponent
 
   public navigateBack(): void {
     this.router.navigateByUrl(this.navigationService.getPreviousUrl());
-  }
-
-  public decreaseTimer() {
-    const currentIndex = this.availableMinutes.indexOf(this.currentTimer);
-    if (currentIndex > 0) {
-      this.currentTimer = this.availableMinutes[currentIndex - 1];
-    }
-  }
-
-  public increaseTimer() {
-    const currentIndex = this.availableMinutes.indexOf(this.currentTimer);
-    if (currentIndex < this.availableMinutes.length - 1) {
-      this.currentTimer = this.availableMinutes[currentIndex + 1];
-    }
   }
 
   public onReservation(gameId: number): void {
@@ -305,6 +305,7 @@ export class GameAvailabilityComponent
       if (seconds < 0) {
         clearInterval(timer);
         this.display = '00:00';
+        this.isTimerExpired = true;
         this.fetchReservationStatus(this.gameId);
       }
     }, 1000);

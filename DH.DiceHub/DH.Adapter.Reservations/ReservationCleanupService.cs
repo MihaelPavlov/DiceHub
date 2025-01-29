@@ -1,7 +1,6 @@
 ﻿using DH.Domain.Adapters.Reservations;
 using DH.Domain.Entities;
 using DH.Domain.Repositories;
-using DH.Domain.Services.Publisher;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -66,12 +65,12 @@ public class ReservationCleanupService : BackgroundService
         {
             if (jobInfo.Type == ReservationType.Game)
             {
-                var repository = scope.ServiceProvider.GetRequiredService<IRepository<GameReservation>>();
-                var reservation = await repository.GetByAsyncWithTracking(x => x.Id == jobInfo.ReservationId, cancellationToken);
+                var gameReservationRepository = scope.ServiceProvider.GetRequiredService<IRepository<GameReservation>>();
+                var reservation = await gameReservationRepository.GetByAsyncWithTracking(x => x.Id == jobInfo.ReservationId, cancellationToken);
 
                 if (reservation == null)
                 {
-                    logger.LogWarning("Job {traceId}: Reservation not found for ID {reservationId}.", traceId, jobInfo.ReservationId);
+                    logger.LogWarning("Job {traceId}: Reservation not found for id {reservationId}.", traceId, jobInfo.ReservationId);
                     return;
                 }
 
@@ -79,9 +78,22 @@ public class ReservationCleanupService : BackgroundService
                 {
                     if (reservation.IsActive)
                     {
-                        reservation.IsActive = false;
+                        var gameInventoryRepository = scope.ServiceProvider.GetRequiredService<IRepository<GameInventory>>();
+                        var inventory = await gameInventoryRepository.GetByAsyncWithTracking(x => x.GameId == reservation.GameId, cancellationToken);
+
+                        if (inventory == null)
+                        {
+                            logger.LogWarning("Job {traceId}: Game inventory not found for gameId {gameId} and reservationId {reservationId}.", traceId, reservation.GameId, jobInfo.ReservationId);
+                            return;
+                        }
+
+                        if (inventory.AvailableCopies < inventory.TotalCopies)
+                            inventory.AvailableCopies++;
+
                         reservation.IsReservationSuccessful = false;
-                        await repository.SaveChangesAsync(cancellationToken);
+                        reservation.IsActive = false;
+
+                        await gameReservationRepository.SaveChangesAsync(cancellationToken);
 
                         logger.LogInformation("Job {traceId}: Deactivated reservation ID {reservationId}.", traceId, jobInfo.ReservationId);
                     }

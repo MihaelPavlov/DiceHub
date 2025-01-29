@@ -30,6 +30,7 @@ internal class GetGameReservationStatusQueryHandler : IRequestHandler<GetGameRes
                 ReservedDurationMinutes = x.ReservedDurationMinutes,
                 IsActive = x.IsActive,
                 Status = x.Status,
+                PublicNote = x.PublicNote
             }, cancellationToken);
 
         return userReservationList

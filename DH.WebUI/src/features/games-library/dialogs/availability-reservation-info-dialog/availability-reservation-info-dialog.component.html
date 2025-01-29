@@ -1,0 +1,21 @@
+<div class="dialog-container">
+  <mat-dialog-actions>
+    <span mat-dialog-close class="material-symbols-outlined"> cancel </span>
+  </mat-dialog-actions>
+  <h3 *ngIf="this.data" class="dialog-container__header m-4">
+    Reservation Information
+  </h3>
+  <div class="info">
+    <p *ngIf="this.data.publicNote.length !== 0">
+      Message from Staff: {{ this.data.publicNote }}
+    </p>
+    <p *ngIf="this.data.status === ReservationStatus.Approved">
+      Don't forget to show the QR code to the Staff when you arrive in our space
+    </p>
+    <p *ngIf="this.data.status === ReservationStatus.Declined">
+      We're sorry, but your reservation couldn't be approved this time due to
+      high demand. Please try again later or check out other available time
+      slots. Thank you for understanding!
+    </p>
+  </div>
+</div>

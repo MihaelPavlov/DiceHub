@@ -30,6 +30,7 @@ import { GameQrCodeListComponent } from '../../features/games-library/components
 import { GameQrCodeDialog } from '../../features/games-library/dialogs/qr-code-dialog/qr-code-dialog.component';
 import { ReservationQrCodeDialogModule } from '../../shared/dialogs/reservation-qr-code/reservation-qr-code.module';
 import { QRCodeModule } from 'angularx-qrcode';
+import { AvailabilityReservationInfoDialog } from '../../features/games-library/dialogs/availability-reservation-info-dialog/availability-reservation-info-dialog.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { QRCodeModule } from 'angularx-qrcode';
     QrCodeComponent,
     GameQrCodeListComponent,
     GameQrCodeDialog,
+    AvailabilityReservationInfoDialog
   ],
   exports: [GamesLibraryComponent],
   providers: [],

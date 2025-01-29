@@ -10,4 +10,5 @@ public class GetGameReservationStatusQueryModel
     public int ReservedDurationMinutes { get; set; }
     public bool IsActive { get; set; } = false;
     public ReservationStatus Status { get; set; }
+    public string PublicNote { get; set; } = string.Empty;
 }
