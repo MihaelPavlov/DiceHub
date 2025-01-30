@@ -1,15 +1,41 @@
-﻿using System.Collections.Concurrent;
+﻿using DH.Domain.Queue;
+using DH.Domain.Services.Queue;
+using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
+using System.Text.Json;
 
 namespace DH.Domain.Adapters.ChallengesOrchestrator;
 
 /// <summary>
 /// Represents a queue for managing synchronization and challenge initiation jobs for users.
 /// </summary>
-public class SynchronizeUsersChallengesQueue
+public class SynchronizeUsersChallengesQueue : QueueBase
 {
     // Concurrent queue to store job information.
     readonly ConcurrentQueue<JobInfo> queue = new();
+
+    public override string QueueName => "synchronize-users-challenges-queue";
+
+    private IQueuedJobService? queuedJobService = null;
+    readonly IServiceScopeFactory serviceFactory;
+
+    public SynchronizeUsersChallengesQueue(IServiceScopeFactory serviceFactory)
+    {
+        this.serviceFactory = serviceFactory;
+    }
+
+    private IQueuedJobService QueuedJobService
+    {
+        get
+        {
+            if (queuedJobService == null)
+            {
+                queuedJobService = serviceFactory.CreateScope().ServiceProvider.GetRequiredService<IQueuedJobService>();
+            }
+            return queuedJobService;
+        }
+    }
 
     /// <summary>
     /// Adds a new synchronization job for a user to the queue.
@@ -18,7 +44,9 @@ public class SynchronizeUsersChallengesQueue
     /// <param name="scheduledTime">The time when the synchronization job is scheduled to execute.</param>
     public void AddSynchronizeNewUserJob(string userId)
     {
-        queue.Enqueue(new SynchronizeNewUserJob(userId));
+        var job = new SynchronizeNewUserJob(userId);
+        queue.Enqueue(job);
+        this.QueuedJobService.Create(this.QueueName, job.JobId, JsonSerializer.Serialize(job));
     }
 
     /// <summary>
@@ -28,7 +56,14 @@ public class SynchronizeUsersChallengesQueue
     ///     /// <param name="scheduledTime">The time when the synchronization job is scheduled to execute.</param>
     public void AddChallengeInitiationJob(string userId, DateTime scheduledTime)
     {
-        queue.Enqueue(new ChallengeInitiationJob(userId,scheduledTime));
+        var job = new ChallengeInitiationJob(userId, scheduledTime);
+        queue.Enqueue(job);
+        this.QueuedJobService.Create(this.QueueName, job.JobId, JsonSerializer.Serialize(job));
+    }
+
+    public void RequeueChallengeInitiationJob(ChallengeInitiationJob job)
+    {
+        queue.Enqueue(job);
     }
 
     /// <summary>
@@ -47,7 +82,7 @@ public class SynchronizeUsersChallengesQueue
     /// <param name="UserId">The unique identifier for the user associated with the job.</param>
     /// <param name="ScheduledTime">The scheduled time for the job's execution. 
     /// If set to NULL, the job will be executed immediately.</param>
-    public record JobInfo(string UserId, DateTime? ScheduledTime);
+    public record JobInfo(string UserId, DateTime? ScheduledTime) : JobInfoBase;
 
     /// <summary>
     /// Represents a job for initiating a challenge for a user.

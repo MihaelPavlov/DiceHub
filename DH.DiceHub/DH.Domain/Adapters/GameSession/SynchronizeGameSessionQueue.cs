@@ -1,5 +1,9 @@
-﻿using System.Collections.Concurrent;
+﻿using DH.Domain.Queue;
+using DH.Domain.Services.Queue;
+using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
+using System.Text.Json;
 
 namespace DH.Domain.Adapters.GameSession;
 
@@ -7,7 +11,7 @@ namespace DH.Domain.Adapters.GameSession;
 /// Represents a queue that manages jobs for enforcing user playtime requirements during game sessions.
 /// This queue ensures that users spend the necessary average time playing a game before they can complete related challenges.
 /// </summary>
-public class SynchronizeGameSessionQueue
+public class SynchronizeGameSessionQueue : QueueBase
 {
     // Concurrent queue to store job information.
     readonly ConcurrentQueue<JobInfo> queue = new();
@@ -17,6 +21,27 @@ public class SynchronizeGameSessionQueue
 
     public IReadOnlyCollection<(string UserId, int GameId)> CanceledJobs => canceledJobs;
 
+    public override string QueueName => "synchronize-game-session-queue";
+
+    private IQueuedJobService? queuedJobService = null;
+    readonly IServiceScopeFactory serviceFactory;
+    public SynchronizeGameSessionQueue(IServiceScopeFactory serviceFactory)
+    {
+        this.serviceFactory = serviceFactory;
+    }
+
+    private IQueuedJobService QueuedJobService
+    {
+        get
+        {
+            if (queuedJobService == null)
+            {
+                queuedJobService = serviceFactory.CreateScope().ServiceProvider.GetRequiredService<IQueuedJobService>();
+            }
+            return queuedJobService;
+        }
+    }
+
     /// <summary>
     /// Adds a new user playtime enforcement job to the queue.
     /// </summary>
@@ -25,7 +50,14 @@ public class SynchronizeGameSessionQueue
     /// <param name="averageTimePlay">The average playtime that the user must meet to complete the challenge.</param>
     public void AddUserPlayTimEnforcerJob(string userId, int gameId, DateTime requiredPlayUntil)
     {
-        queue.Enqueue(new UserPlayTimeEnforcerJob(userId, gameId, requiredPlayUntil));
+        var job = new UserPlayTimeEnforcerJob(userId, gameId, requiredPlayUntil);
+        queue.Enqueue(job);
+        this.QueuedJobService.Create(this.QueueName, job.JobId, JsonSerializer.Serialize(job));
+    }
+
+    public void RequeueJob(JobInfo jobInfo)
+    {
+        queue.Enqueue(jobInfo);
     }
 
     /// <summary>
@@ -35,7 +67,7 @@ public class SynchronizeGameSessionQueue
     /// <param name="gameId">The unique identifier of the game for which the playtime enforcement applies.</param>
     public bool Contains(string userId, int gameId)
     {
-       return queue.Any(x => x.UserId == userId && x.GameId == gameId);
+        return queue.Any(x => x.UserId == userId && x.GameId == gameId);
     }
 
     /// <summary>
@@ -74,7 +106,7 @@ public class SynchronizeGameSessionQueue
     /// <param name="UserId">The unique identifier of the user associated with the job.</param>
     /// <param name="GameId">The unique identifier of the game that the job is related to.</param>
     /// <param name="requiredPlayUntil">The average time that the user must spend playing the game.</param>
-    public record JobInfo(string UserId, int GameId, DateTime requiredPlayUntil);
+    public record JobInfo(string UserId, int GameId, DateTime requiredPlayUntil) : JobInfoBase;
 
     /// <summary>
     /// Represents a job specifically for enforcing user playtime requirements for a game.

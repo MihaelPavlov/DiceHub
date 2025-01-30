@@ -5,7 +5,6 @@ using DH.Domain.Adapters.GameSession;
 using DH.Domain.Adapters.QRManager;
 using DH.Domain.Adapters.QRManager.StateModels;
 using DH.Domain.Adapters.Reservations;
-using DH.Domain.Adapters.Scheduling;
 using DH.Domain.Entities;
 using DH.Domain.Enums;
 using DH.Domain.Repositories;
@@ -26,6 +25,7 @@ public class GameReservationQRCodeState : IQRCodeState
     readonly SynchronizeGameSessionQueue gameSessionQueue;
     readonly IEventPublisherService eventPublisherService;
     readonly ReservationCleanupQueue reservationCleanupQueue;
+
     public GameReservationQRCodeState(IUserContext userContext, IRepository<GameReservation> gameReservationRepository,
         IRepository<SpaceTableReservation> tableReservationRepository, IUserService userService,
         ISpaceTableService spaceTableService, SynchronizeGameSessionQueue gameSessionQueue,

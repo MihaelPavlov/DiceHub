@@ -1,17 +1,48 @@
-﻿using System.Collections.Concurrent;
+﻿using DH.Domain.Queue;
+using DH.Domain.Services.Queue;
+using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
+using System.Text.Json;
 
 namespace DH.Domain.Adapters.Reservations;
 
-public class ReservationCleanupQueue
+public class ReservationCleanupQueue : QueueBase
 {
     // Concurrent queue to store job information.
     readonly ConcurrentDictionary<int, JobInfo> jobs = new();
 
+    public override string QueueName => "reservation-cleanup-queue";
+
+    private IQueuedJobService? queuedJobService = null;
+    readonly IServiceScopeFactory serviceFactory;
+    public ReservationCleanupQueue(IServiceScopeFactory serviceFactory)
+    {
+        this.serviceFactory = serviceFactory;
+    }
+
+    private IQueuedJobService QueuedJobService
+    {
+        get
+        {
+            if (queuedJobService == null)
+            {
+                queuedJobService = serviceFactory.CreateScope().ServiceProvider.GetRequiredService<IQueuedJobService>();
+            }
+            return queuedJobService;
+        }
+    }
+
     public void AddReservationCleaningJob(int reservationId, ReservationType type, DateTime removingTime)
     {
-        var jobInfo = new JobInfo(reservationId, type, removingTime);
-        jobs.AddOrUpdate(reservationId, jobInfo, (id, existingJob) => jobInfo);
+        var job = new JobInfo(reservationId, type, removingTime);
+        jobs.AddOrUpdate(reservationId, job, (id, existingJob) => job);
+        this.QueuedJobService.Create(this.QueueName, job.JobId, JsonSerializer.Serialize(job));
+    }
+
+    public void RequeueJob(JobInfo jobInfo)
+    {
+        jobs.AddOrUpdate(jobInfo.ReservationId, jobInfo, (id, existingJob) => jobInfo);
     }
 
     public void UpdateReservationCleaningJob(int reservationId, DateTime newRemovingTime)
@@ -19,7 +50,10 @@ public class ReservationCleanupQueue
         if (jobs.TryGetValue(reservationId, out var existingJob))
         {
             var updatedJobInfo = existingJob with { RemovingTime = newRemovingTime };
-            jobs.TryUpdate(reservationId, updatedJobInfo, existingJob);
+            var isUpdated = jobs.TryUpdate(reservationId, updatedJobInfo, existingJob);
+
+            if (isUpdated)
+                this.QueuedJobService.UpdatePayload(this.QueueName, updatedJobInfo.JobId, JsonSerializer.Serialize(updatedJobInfo));
         }
     }
 
@@ -45,5 +79,5 @@ public class ReservationCleanupQueue
         return jobs.TryRemove(reservationId, out _);
     }
 
-    public record JobInfo(int ReservationId, ReservationType Type, DateTime RemovingTime);
+    public record JobInfo(int ReservationId, ReservationType Type, DateTime RemovingTime) : JobInfoBase;
 }
