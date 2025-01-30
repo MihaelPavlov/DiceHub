@@ -21,6 +21,7 @@ using DH.Domain.Models.Common;
 using DH.Domain.Services.Publisher;
 using DH.Application.Services;
 using Microsoft.OpenApi.Models;
+using DH.Domain.Queue.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -122,6 +123,12 @@ Console.WriteLine(test.Options.ProjectId);
 builder.Services.AddFirebaseMessaging();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var queueDispatcher = scope.ServiceProvider.GetRequiredService<IQueueDispatcher>();
+    queueDispatcher.Dispatch();
+}
 
 app.UseSwagger();
 app.UseSwaggerUI(c =>

@@ -21,7 +21,7 @@ public class SynchronizeGameSessionQueue : QueueBase
 
     public IReadOnlyCollection<(string UserId, int GameId)> CanceledJobs => canceledJobs;
 
-    public override string QueueName => "synchronize-game-session-queue";
+    public override string QueueName => QueueNameKeysConstants.SYNCHRONIZE_GAME_SESSION_QUEUE_NAME;
 
     private IQueuedJobService? queuedJobService = null;
     readonly IServiceScopeFactory serviceFactory;

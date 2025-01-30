@@ -12,7 +12,7 @@ public class ReservationCleanupQueue : QueueBase
     // Concurrent queue to store job information.
     readonly ConcurrentDictionary<int, JobInfo> jobs = new();
 
-    public override string QueueName => "reservation-cleanup-queue";
+    public override string QueueName => QueueNameKeysConstants.RESERVATION_CLEANUP_QUEUE_NAME;
 
     private IQueuedJobService? queuedJobService = null;
     readonly IServiceScopeFactory serviceFactory;

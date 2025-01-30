@@ -17,7 +17,7 @@ public class QueuedJobService : IQueuedJobService
         this.contextFactory = contextFactory;
     }
 
-    public async Task Create(string queueName,Guid jobId, string payload)
+    public async Task Create(string queueName, Guid jobId, string payload)
     {
         using (var context = await this.contextFactory.CreateDbContextAsync())
         {
@@ -95,6 +95,14 @@ public class QueuedJobService : IQueuedJobService
                 return true;
             }
             return false;
+        }
+    }
+
+    public List<QueuedJob> GetJobsInPendingStatus()
+    {
+        using (var context = this.contextFactory.CreateDbContext())
+        {
+            return context.QueuedJobs.Where(x => x.Status == JobStatus.Pending).ToList();
         }
     }
 }

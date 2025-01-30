@@ -15,7 +15,7 @@ public class SynchronizeUsersChallengesQueue : QueueBase
     // Concurrent queue to store job information.
     readonly ConcurrentQueue<JobInfo> queue = new();
 
-    public override string QueueName => "synchronize-users-challenges-queue";
+    public override string QueueName => QueueNameKeysConstants.SYNCHRONIZE_USERS_CHALLENGES_QUEUE_NAME;
 
     private IQueuedJobService? queuedJobService = null;
     readonly IServiceScopeFactory serviceFactory;
@@ -62,6 +62,11 @@ public class SynchronizeUsersChallengesQueue : QueueBase
     }
 
     public void RequeueChallengeInitiationJob(ChallengeInitiationJob job)
+    {
+        queue.Enqueue(job);
+    }
+
+    public void RequeueSynchronizeNewUserJob(SynchronizeNewUserJob job)
     {
         queue.Enqueue(job);
     }
