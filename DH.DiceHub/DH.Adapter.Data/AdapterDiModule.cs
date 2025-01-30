@@ -3,6 +3,7 @@ using DH.Adapter.Data.Services;
 using DH.Domain.Adapters.Data;
 using DH.Domain.Repositories;
 using DH.Domain.Services;
+using DH.Domain.Services.Queue;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,13 +36,14 @@ public static class DataDIModule
             .AddScoped<IRewardService, RewardService>()
             .AddScoped<IRoomService, RoomService>()
             .AddScoped<ISpaceTableService, SpaceTableService>()
+            .AddScoped<IQueuedJobService, QueuedJobService>()
             .AddScoped<IDataSeeder, DataSeeder>();
 
         RegisterAssemblyTypesAsClosedGeneric(services, typeof(IDomainService<>), typeof(IDbContextFactory<>));
         return services;
     }
 
-
+    //TODO: VERIFY IF THIS IS NEEDED
     private static void RegisterAssemblyTypesAsClosedGeneric(IServiceCollection services, params Type[] openGenericInterfaces)
     {
         var assembly = Assembly.GetExecutingAssembly(); // Assuming the current assembly contains your types
