@@ -13,12 +13,15 @@ namespace DH.Application.Games.Commands.Games;
 
 public record DeclineGameReservationCommand(int Id, string InternalNote, string PublicNote) : IRequest;
 
-internal class DeclineGameReservationCommandHandler(IRepository<GameReservation> repository, IRepository<Game> gameRepository, IEventPublisherService eventPublisherService, IPushNotificationsService pushNotificationsService) : IRequestHandler<DeclineGameReservationCommand>
+internal class DeclineGameReservationCommandHandler(IRepository<GameReservation> repository, IRepository<Game> gameRepository,
+    ReservationCleanupQueue queue, IEventPublisherService eventPublisherService,
+    IPushNotificationsService pushNotificationsService) : IRequestHandler<DeclineGameReservationCommand>
 {
     readonly IRepository<GameReservation> repository = repository;
     readonly IRepository<Game> gameRepository = gameRepository;
     readonly IPushNotificationsService pushNotificationsService = pushNotificationsService;
     readonly IEventPublisherService eventPublisherService = eventPublisherService;
+    readonly ReservationCleanupQueue queue = queue;
 
     public async Task Handle(DeclineGameReservationCommand request, CancellationToken cancellationToken)
     {
@@ -32,8 +35,9 @@ internal class DeclineGameReservationCommandHandler(IRepository<GameReservation>
         await this.repository.SaveChangesAsync(cancellationToken);
         var game = await this.gameRepository.GetByAsync(x => x.Id == reservation.GameId, cancellationToken);
 
-        //Todo: maybe if we are declining the reservation we can adjust the cleaning time, to be 10mins after the declining of the reservation.
-        // For example if the resevation is for after 50minutes. and the staff declined it at the 10min, it's not nesscarry to wait additional 50mins for the reservation to be cleaned.
+        //TODO: This additional minutes can be tenantSettings
+        DateTime newCleanupTime = DateTime.UtcNow.AddMinutes(2);
+        this.queue.UpdateReservationCleaningJob(reservation.Id, newCleanupTime);
 
         await eventPublisherService.PublishReservationProcessingOutcomeMessage(ReservationOutcome.Cancelled.ToString(), reservation.UserId, ReservationType.Game.ToString(), reservation.Id);
 

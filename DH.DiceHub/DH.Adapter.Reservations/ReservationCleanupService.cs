@@ -1,11 +1,13 @@
 ﻿using DH.Domain.Adapters.Reservations;
 using DH.Domain.Entities;
+using DH.Domain.Enums;
 using DH.Domain.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
 using static DH.Domain.Adapters.Reservations.ReservationCleanupQueue;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace DH.Adapter.Reservations;
 
@@ -74,28 +76,19 @@ public class ReservationCleanupService : BackgroundService
                     return;
                 }
 
+                // Handle declined reservations immediately
+                if (reservation.Status == ReservationStatus.Declined)
+                {
+                    await this.CleanupGameReservationAsync(scope, reservation, traceId, cancellationToken);
+                    return;
+                }
+
+                // Handle time-based cleanup for non-declined reservations
                 if (DateTime.UtcNow >= reservation.ReservationDate)
                 {
                     if (reservation.IsActive)
                     {
-                        var gameInventoryRepository = scope.ServiceProvider.GetRequiredService<IRepository<GameInventory>>();
-                        var inventory = await gameInventoryRepository.GetByAsyncWithTracking(x => x.GameId == reservation.GameId, cancellationToken);
-
-                        if (inventory == null)
-                        {
-                            logger.LogWarning("Job {traceId}: Game inventory not found for gameId {gameId} and reservationId {reservationId}.", traceId, reservation.GameId, jobInfo.ReservationId);
-                            return;
-                        }
-
-                        if (inventory.AvailableCopies < inventory.TotalCopies)
-                            inventory.AvailableCopies++;
-
-                        reservation.IsReservationSuccessful = false;
-                        reservation.IsActive = false;
-
-                        await gameReservationRepository.SaveChangesAsync(cancellationToken);
-
-                        logger.LogInformation("Job {traceId}: Deactivated reservation ID {reservationId}.", traceId, jobInfo.ReservationId);
+                        await this.CleanupGameReservationAsync(scope, reservation, traceId, cancellationToken);
                     }
                 }
                 else
@@ -106,31 +99,7 @@ public class ReservationCleanupService : BackgroundService
             }
             else if (jobInfo.Type == ReservationType.Table)
             {
-                var repository = scope.ServiceProvider.GetRequiredService<IRepository<SpaceTableReservation>>();
-                var reservation = await repository.GetByAsyncWithTracking(x => x.Id == jobInfo.ReservationId, cancellationToken);
-
-                if (reservation == null)
-                {
-                    logger.LogWarning("Job {traceId}: Reservation not found for ID {reservationId}.", traceId, jobInfo.ReservationId);
-                    return;
-                }
-
-                if (DateTime.UtcNow >= reservation.ReservationDate)
-                {
-                    if (reservation.IsActive)
-                    {
-                        reservation.IsActive = false;
-                        reservation.IsReservationSuccessful = false;
-                        await repository.SaveChangesAsync(cancellationToken);
-
-                        logger.LogInformation("Job {traceId}: Deactivated reservation ID {reservationId}.", traceId, jobInfo.ReservationId);
-                    }
-                }
-                else
-                {
-                    logger.LogInformation("Job {traceId}: Reservation ID {reservationId} not yet due for cleanup. Re-queuing.", traceId, jobInfo.ReservationId);
-                    RequeueJob(jobInfo);
-                }
+                await this.CleanupSpaceTableReservationAsync(scope, jobInfo, traceId, cancellationToken);
             }
         }
         catch (Exception ex)
@@ -144,5 +113,56 @@ public class ReservationCleanupService : BackgroundService
     {
         queue.AddReservationCleaningJob(jobInfo.ReservationId, jobInfo.Type, jobInfo.RemovingTime);
         logger.LogInformation("Requeued job for reservation ID {reservationId}.", jobInfo.ReservationId);
+    }
+
+    private async Task CleanupGameReservationAsync(IServiceScope scope, GameReservation reservation, string traceId, CancellationToken cancellationToken)
+    {
+        var gameInventoryRepository = scope.ServiceProvider.GetRequiredService<IRepository<GameInventory>>();
+        var inventory = await gameInventoryRepository.GetByAsyncWithTracking(x => x.GameId == reservation.GameId, cancellationToken);
+
+        if (inventory == null)
+        {
+            logger.LogWarning("Job {traceId}: Game inventory not found for gameId {gameId} and reservationId {reservationId}.", traceId, reservation.GameId, reservation.Id);
+            return;
+        }
+
+        if (inventory.AvailableCopies < inventory.TotalCopies)
+            inventory.AvailableCopies++;
+
+        reservation.IsReservationSuccessful = false;
+        reservation.IsActive = false;
+
+        await gameInventoryRepository.SaveChangesAsync(cancellationToken);
+
+        logger.LogInformation("Job {traceId}: Deactivated reservation ID {reservationId}.", traceId, reservation.Id);
+    }
+
+    private async Task CleanupSpaceTableReservationAsync(IServiceScope scope, JobInfo jobInfo, string traceId, CancellationToken cancellationToken)
+    {
+        var repository = scope.ServiceProvider.GetRequiredService<IRepository<SpaceTableReservation>>();
+        var reservation = await repository.GetByAsyncWithTracking(x => x.Id == jobInfo.ReservationId, cancellationToken);
+
+        if (reservation == null)
+        {
+            logger.LogWarning("Job {traceId}: Reservation not found for ID {reservationId}.", traceId, jobInfo.ReservationId);
+            return;
+        }
+
+        if (DateTime.UtcNow >= reservation.ReservationDate)
+        {
+            if (reservation.IsActive)
+            {
+                reservation.IsActive = false;
+                reservation.IsReservationSuccessful = false;
+                await repository.SaveChangesAsync(cancellationToken);
+
+                logger.LogInformation("Job {traceId}: Deactivated reservation ID {reservationId}.", traceId, jobInfo.ReservationId);
+            }
+        }
+        else
+        {
+            logger.LogInformation("Job {traceId}: Reservation ID {reservationId} not yet due for cleanup. Re-queuing.", traceId, jobInfo.ReservationId);
+            RequeueJob(jobInfo);
+        }
     }
 }

@@ -6,11 +6,21 @@ namespace DH.Domain.Adapters.Reservations;
 public class ReservationCleanupQueue
 {
     // Concurrent queue to store job information.
-    readonly ConcurrentQueue<JobInfo> queue = new();
+    readonly ConcurrentDictionary<int, JobInfo> jobs = new();
 
     public void AddReservationCleaningJob(int reservationId, ReservationType type, DateTime removingTime)
     {
-        queue.Enqueue(new JobInfo(reservationId, type, removingTime));
+        var jobInfo = new JobInfo(reservationId, type, removingTime);
+        jobs.AddOrUpdate(reservationId, jobInfo, (id, existingJob) => jobInfo);
+    }
+
+    public void UpdateReservationCleaningJob(int reservationId, DateTime newRemovingTime)
+    {
+        if (jobs.TryGetValue(reservationId, out var existingJob))
+        {
+            var updatedJobInfo = existingJob with { RemovingTime = newRemovingTime };
+            jobs.TryUpdate(reservationId, updatedJobInfo, existingJob);
+        }
     }
 
     /// <summary>
@@ -20,7 +30,14 @@ public class ReservationCleanupQueue
     /// <returns>True if a job was successfully dequeued; otherwise, false.</returns>
     public virtual bool TryDequeue([MaybeNullWhen(false)] out JobInfo result)
     {
-        return queue.TryDequeue(out result);
+        var nextJob = jobs.Values.OrderBy(j => j.RemovingTime).FirstOrDefault();
+        if (nextJob != null && jobs.TryRemove(nextJob.ReservationId, out result))
+        {
+            return true;
+        }
+        result = null;
+        return false;
+
     }
 
     public record JobInfo(int ReservationId, ReservationType Type, DateTime RemovingTime);

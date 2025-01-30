@@ -49,9 +49,6 @@ internal class CreateGameReservationCommandHandler(IGameService gameService, IRe
 
         await this.gameService.CreateReservation(reservation, cancellationToken);
 
-        //TODO: Delete This logic
-        //await this.jobManager.CreateReservationJob(reservation.Id, reservation.ReservationDate, reservation.ReservedDurationMinutes);
-
         //TODO: Additional minutes can be tenantSettings
         this.queue.AddReservationCleaningJob(reservation.Id, ReservationType.Game, reservation.ReservationDate.AddMinutes(2));
 
