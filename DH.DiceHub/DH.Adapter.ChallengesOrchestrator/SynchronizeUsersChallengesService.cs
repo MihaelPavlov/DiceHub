@@ -1,9 +1,11 @@
 ﻿using DH.Domain.Adapters.ChallengesOrchestrator;
 using DH.Domain.Services;
+using DH.Domain.Services.Queue;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace DH.Adapter.ChallengesOrchestrator;
 
@@ -27,33 +29,37 @@ public class SynchronizeUsersChallengesService : BackgroundService
             if (this.queue.TryDequeue(out var jobInfo))
             {
                 string traceId = Guid.NewGuid().ToString();
+                using var scope = serviceScopeFactory.CreateScope();
+                var queuedJobService = scope.ServiceProvider.GetRequiredService<IQueuedJobService>();
                 try
                 {
                     var jobStartTime = DateTime.UtcNow;
                     logger.LogInformation("Job ID: {jobId} - Started at {startTime} - Job Info: {jobInfo}", traceId, jobStartTime, JsonSerializer.Serialize(jobInfo));
-                    using (var scope = this.serviceScopeFactory.CreateScope())
-                    {
-                        var userChallengesManagementService = scope.ServiceProvider.GetRequiredService<IUserChallengesManagementService>();
-                        switch (jobInfo)
-                        {
-                            case SynchronizeUsersChallengesQueue.SynchronizeNewUserJob newUserJob:
-                                await userChallengesManagementService.InitiateNewUserChallengePeriod(newUserJob.UserId, cancellationToken);
-                                break;
-                            case SynchronizeUsersChallengesQueue.ChallengeInitiationJob challengeJob:
-                                if (challengeJob.ScheduledTime.HasValue && DateTime.UtcNow >= challengeJob.ScheduledTime)
-                                {
-                                    await userChallengesManagementService.AddChallengeToUser(challengeJob.UserId, cancellationToken);
-                                    break;
-                                }
-                                this.queue.AddChallengeInitiationJob(challengeJob.UserId, challengeJob.ScheduledTime.GetValueOrDefault());
-                                logger.LogInformation("Job ID: {jobId} - Requeued at {requeueTime} - Job Info: {jobInfo}", traceId, DateTime.UtcNow, JsonSerializer.Serialize(jobInfo));
-                                break;
-                            default:
-                                logger.LogWarning("Job ID: {jobId} - Unknown job type at {warningTime}: {jobInfo}", traceId, DateTime.UtcNow, JsonSerializer.Serialize(jobInfo));
-                                break;
-                        }
 
+                    var userChallengesManagementService = scope.ServiceProvider.GetRequiredService<IUserChallengesManagementService>();
+                    switch (jobInfo)
+                    {
+                        case SynchronizeUsersChallengesQueue.SynchronizeNewUserJob newUserJob:
+                            await userChallengesManagementService.InitiateNewUserChallengePeriod(newUserJob.UserId, cancellationToken);
+
+                            await queuedJobService.UpdateStatusToCompleted(this.queue.QueueName, jobInfo.JobId);
+                            break;
+                        case SynchronizeUsersChallengesQueue.ChallengeInitiationJob challengeJob:
+                            if (challengeJob.ScheduledTime.HasValue && DateTime.UtcNow >= challengeJob.ScheduledTime)
+                            {
+                                await userChallengesManagementService.AddChallengeToUser(challengeJob.UserId, cancellationToken);
+
+                                await queuedJobService.UpdateStatusToCompleted(this.queue.QueueName, jobInfo.JobId);
+                                break;
+                            }
+                            this.queue.RequeueChallengeInitiationJob(challengeJob);
+                            logger.LogInformation("Job ID: {jobId} - Requeued at {requeueTime} - Job Info: {jobInfo}", traceId, DateTime.UtcNow, JsonSerializer.Serialize(jobInfo));
+                            break;
+                        default:
+                            logger.LogWarning("Job ID: {jobId} - Unknown job type at {warningTime}: {jobInfo}", traceId, DateTime.UtcNow, JsonSerializer.Serialize(jobInfo));
+                            break;
                     }
+
                     DateTime jobEndTime = DateTime.UtcNow;
                     logger.LogInformation("Job ID: {jobId} - Ended at {endTime} - Duration: {duration} - Job Info: {jobInfo}", traceId, jobEndTime, (jobEndTime - jobStartTime).TotalMilliseconds, JsonSerializer.Serialize(jobInfo));
                 }
@@ -64,6 +70,8 @@ public class SynchronizeUsersChallengesService : BackgroundService
                 }
                 catch (Exception ex)
                 {
+                    await queuedJobService.UpdateStatusToFailed(this.queue.QueueName, jobInfo.JobId);
+
                     logger.LogError(ex, "Job ID: {jobId} - Failed at {failureTime}: {jobInfo}", traceId, DateTime.UtcNow, JsonSerializer.Serialize(jobInfo));
                 }
             }

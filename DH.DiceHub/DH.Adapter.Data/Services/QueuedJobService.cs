@@ -62,6 +62,16 @@ public class QueuedJobService : IQueuedJobService
         }
     }
 
+    public async Task UpdateStatusToCancelled(string queueName, Guid jobId)
+    {
+        var isUpdatedSuccesuflly = await this.UpdateJobStatus(queueName, jobId, JobStatus.Cancelled);
+
+        if (!isUpdatedSuccesuflly)
+        {
+            logger.LogError("During UpdateStatusToCancelled Job not found: {queueName} - {jobId}", queueName, jobId);
+        }
+    }
+
     public async Task UpdateStatusToFailed(string queueName, Guid jobId)
     {
         var isUpdatedSuccesuflly = await this.UpdateJobStatus(queueName, jobId, JobStatus.Failed);
