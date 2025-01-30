@@ -12,7 +12,6 @@ public static class SchedulingDIModule
 {
     public static IServiceCollection AddSchedulingAdapter(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddScoped<IJobManager, JobManager>();
         services.AddScoped<IReservationExpirationHandler, ReservationExpirationHandler>();
         services.AddScoped<IUserRewardsExpiryHandler, UserRewardsExpiryHandler>();
         services.AddScoped<IAddUserChallengePeriodHandler, AddUserChallengePeriodHandler>();

@@ -40,5 +40,10 @@ public class ReservationCleanupQueue
 
     }
 
+    public bool RemoveReservationCleaningJob(int reservationId)
+    {
+        return jobs.TryRemove(reservationId, out _);
+    }
+
     public record JobInfo(int ReservationId, ReservationType Type, DateTime RemovingTime);
 }

@@ -23,22 +23,24 @@ public class GameReservationQRCodeState : IQRCodeState
     readonly IRepository<Game> gameRepository;
     readonly IUserService userService;
     readonly ISpaceTableService spaceTableService;
-    readonly SynchronizeGameSessionQueue queue;
-    readonly IJobManager jobManager;
+    readonly SynchronizeGameSessionQueue gameSessionQueue;
     readonly IEventPublisherService eventPublisherService;
-
-    public GameReservationQRCodeState(IUserContext userContext, IRepository<GameReservation> gameReservationRepository, IRepository<SpaceTableReservation> tableReservationRepository,
-        IUserService userService, ISpaceTableService spaceTableService, SynchronizeGameSessionQueue queue, IJobManager jobManager, IRepository<Game> gameRepository, IEventPublisherService eventPublisherService)
+    readonly ReservationCleanupQueue reservationCleanupQueue;
+    public GameReservationQRCodeState(IUserContext userContext, IRepository<GameReservation> gameReservationRepository,
+        IRepository<SpaceTableReservation> tableReservationRepository, IUserService userService,
+        ISpaceTableService spaceTableService, SynchronizeGameSessionQueue gameSessionQueue,
+        IRepository<Game> gameRepository, IEventPublisherService eventPublisherService,
+        ReservationCleanupQueue reservationCleanupQueue)
     {
         this.userContext = userContext;
         this.gameReservationRepository = gameReservationRepository;
         this.tableReservationRepository = tableReservationRepository;
         this.userService = userService;
         this.spaceTableService = spaceTableService;
-        this.queue = queue;
-        this.jobManager = jobManager;
+        this.gameSessionQueue = gameSessionQueue;
         this.gameRepository = gameRepository;
         this.eventPublisherService = eventPublisherService;
+        this.reservationCleanupQueue = reservationCleanupQueue;
     }
 
     public async Task<QrCodeValidationResult> HandleAsync(IQRCodeContext context, QRReaderModel data, CancellationToken cancellationToken)
@@ -85,9 +87,9 @@ public class GameReservationQRCodeState : IQRCodeState
         string? gameNote = string.IsNullOrEmpty(gameReservation.InternalNote) ? null : gameReservation.InternalNote;
         if (gameNote != null)
         {
-            if (!string.IsNullOrEmpty(result.InternalNote)) 
+            if (!string.IsNullOrEmpty(result.InternalNote))
                 result.InternalNote += "; \n\n" + gameNote;
-            else 
+            else
                 result.InternalNote = gameNote;
         }
 
@@ -110,7 +112,7 @@ public class GameReservationQRCodeState : IQRCodeState
         if (game == null)
             return await SetError(context, data, result, $"{traceId}: Table id-{spaceTableId}, was created. But AddUserPlayTimEnforcerJob was not added to the queue, because game with id-{request.GameId} was not founded", traceId, cancellationToken);
 
-        this.queue.AddUserPlayTimEnforcerJob(this.userContext.UserId, game.Id, DateTime.UtcNow.AddMinutes((int)game.AveragePlaytime));
+        this.gameSessionQueue.AddUserPlayTimEnforcerJob(this.userContext.UserId, game.Id, DateTime.UtcNow.AddMinutes((int)game.AveragePlaytime));
 
         await context.TrackScannedQrCode(traceId, data, null, cancellationToken);
 
@@ -118,7 +120,7 @@ public class GameReservationQRCodeState : IQRCodeState
 
         await this.eventPublisherService.PublishReservationProcessingOutcomeMessage(ReservationOutcome.Completed.ToString(), userId, ReservationType.Game.ToString(), gameReservation.Id);
 
-        await this.jobManager.DeleteJob($"ExpireReservationJob-{gameReservation.Id}", "ReservationJobs");
+        this.reservationCleanupQueue.RemoveReservationCleaningJob(gameReservation.Id);
 
         result.IsValid = true;
         return result;

@@ -5,7 +5,7 @@ using DH.Domain.Adapters.Authentication.Services;
 using DH.Domain.Adapters.GameSession;
 using DH.Domain.Adapters.QRManager;
 using DH.Domain.Adapters.QRManager.StateModels;
-using DH.Domain.Adapters.Scheduling;
+using DH.Domain.Adapters.Reservations;
 using DH.Domain.Entities;
 using DH.Domain.Repositories;
 using DH.Domain.Services;
@@ -50,9 +50,9 @@ public class QRCodeManager : IQRCodeManager
                         this.containerService.Resolve<IUserService>(),
                         this.containerService.Resolve<ISpaceTableService>(),
                         this.containerService.Resolve<SynchronizeGameSessionQueue>(),
-                        this.containerService.Resolve<IJobManager>(),
                         this.containerService.Resolve<IRepository<Game>>(),
-                        this.containerService.Resolve<IEventPublisherService>()
+                        this.containerService.Resolve<IEventPublisherService>(),
+                        this.containerService.Resolve<ReservationCleanupQueue>()
                         )
                     );
                 break;

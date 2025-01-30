@@ -4,7 +4,6 @@ using DH.Domain.Adapters.Authentication.Services;
 using DH.Domain.Adapters.PushNotifications;
 using DH.Domain.Adapters.PushNotifications.Messages;
 using DH.Domain.Adapters.Reservations;
-using DH.Domain.Adapters.Scheduling;
 using DH.Domain.Entities;
 using DH.Domain.Enums;
 using DH.Domain.Models.GameModels.Commands;
@@ -17,12 +16,11 @@ namespace DH.Application.Games.Commands;
 
 public record CreateGameReservationCommand(CreateGameReservationModel Reservation) : IRequest;
 
-internal class CreateGameReservationCommandHandler(IGameService gameService, IRepository<GameReservation> repository, IJobManager jobManager, IUserContext userContext, ReservationCleanupQueue queue, IPushNotificationsService pushNotificationsService, IUserService userService, IRepository<Game> gameRepository) : IRequestHandler<CreateGameReservationCommand>
+internal class CreateGameReservationCommandHandler(IGameService gameService, IRepository<GameReservation> repository, IUserContext userContext, ReservationCleanupQueue queue, IPushNotificationsService pushNotificationsService, IUserService userService, IRepository<Game> gameRepository) : IRequestHandler<CreateGameReservationCommand>
 {
     readonly IGameService gameService = gameService;
     readonly IRepository<GameReservation> repository = repository;
     readonly IRepository<Game> gameRepository = gameRepository;
-    readonly IJobManager jobManager = jobManager;
     readonly IUserContext userContext = userContext;
     readonly IPushNotificationsService pushNotificationsService = pushNotificationsService;
     readonly IUserService userService = userService;
