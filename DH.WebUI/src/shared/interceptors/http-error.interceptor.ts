@@ -25,7 +25,7 @@ export class ErrorInterceptor implements HttpInterceptor {
         if (error.error instanceof ErrorEvent) {
           return throwError(() => error);
         } else {
-          // Server-side error
+          // Server-side error          
           switch (error.status) {
             case 400:
               errorMessage = 'Bad Request: ' + error.error.detail;
@@ -39,10 +39,11 @@ export class ErrorInterceptor implements HttpInterceptor {
             case 404:
               this.router.navigate(['/not-found']);
               break;
-            case 0: {
+            case 0:
               this.router.navigate(['/server-error']);
               break;
-            }
+            default:
+              return of();
           }
         }
 

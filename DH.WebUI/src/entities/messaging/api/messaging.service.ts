@@ -1,4 +1,3 @@
-
 import { inject, Injectable } from '@angular/core';
 import { RestApiService } from '../../../shared/services/rest-api.service';
 import { getToken } from 'firebase/messaging';
@@ -13,7 +12,10 @@ export class MessagingService {
   private readonly _messaging: Messaging = inject(Messaging);
   private readonly _env = environment;
 
-  constructor(private readonly api: RestApiService, private readonly authService: AuthService) {}
+  constructor(
+    private readonly api: RestApiService,
+    private readonly authService: AuthService
+  ) {}
 
   /**
    * Retrieve the device token from Firebase Messaging and update the token in the database
@@ -23,11 +25,12 @@ export class MessagingService {
       const token = await getToken(this._messaging, {
         vapidKey: this._env.firebase.vapidKey,
       });
-     
-        console.log('Device token retrieved:', token);
+
+      console.log('Device token retrieved:', token);
+
+      if (this.authService.getUser)
         this.authService.saveToken(token).subscribe();
-      }
-     catch (error) {
+    } catch (error) {
       console.warn('Error retrieving device token', error);
     }
   }
