@@ -1,6 +1,6 @@
 <div class="dialog-container">
   <div class="wrapper">
-    <ng-container>
+    <ng-container *ngIf="this.reservation">
       <h3 class="dialog-container__header">Information:</h3>
       <div class="dialog-container__description">
         <p>people <strong> {{this.reservation.numberOfGuests}}</strong></p>
