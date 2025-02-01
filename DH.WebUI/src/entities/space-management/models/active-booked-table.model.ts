@@ -13,10 +13,10 @@ export interface ActiveBookedTableModel {
 
 export function getKeyFriendlyNames(): Record<string, string> {
   return {
-    username: 'Username',
+    // username: 'Username',
     numberOfGuests: 'Number of Guests',
     reservationDate: 'Reservation Date',
-    createdDate: 'Created Date',
+    // createdDate: 'Created Date',
     isConfirmed: 'Is Confirmed',
   };
 }

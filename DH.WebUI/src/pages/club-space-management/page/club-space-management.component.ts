@@ -152,7 +152,7 @@ export class ClubSpaceManagementComponent implements OnInit {
 
   private getKeyTransformations(): Record<string, (value: any) => any> {
     return {
-      username: (value) => value,
+      // username: (value) => value,
       numberOfGuests: (value) => value,
       reservationDate: (value) => {
         return new Intl.DateTimeFormat('en-GB', {
@@ -164,16 +164,16 @@ export class ClubSpaceManagementComponent implements OnInit {
           hour12: true,
         }).format(new Date(value));
       },
-      createdDate: (value) => {
-        return new Intl.DateTimeFormat('en-GB', {
-          day: '2-digit',
-          month: '2-digit',
-          year: '2-digit',
-          hour: '2-digit',
-          minute: '2-digit',
-          hour12: true,
-        }).format(new Date(value));
-      },
+      // createdDate: (value) => {
+      //   return new Intl.DateTimeFormat('en-GB', {
+      //     day: '2-digit',
+      //     month: '2-digit',
+      //     year: '2-digit',
+      //     hour: '2-digit',
+      //     minute: '2-digit',
+      //     hour12: true,
+      //   }).format(new Date(value));
+      // },
       isConfirmed: (value) => value,
     };
   }
