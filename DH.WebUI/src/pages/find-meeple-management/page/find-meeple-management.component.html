@@ -7,7 +7,7 @@
   (searchExpressionResult)="handleSearchExpression($event)"
 ></app-header>
 
-<div class="wrapper_groups">
+<!-- <div class="wrapper_groups">
   <ng-container *ngIf="roomList$ | async as roomList">
     <div class="no_records" *ngIf="roomList.length === 0">
       <img src="/shared/assets/images/no-rooms-found.png" alt="" />
@@ -19,19 +19,25 @@
       *ngFor="let room of roomList"
       (click)="navigateToDetails(room.id)"
     >
-      <div class="wrapper_group__header">
-        <span> {{ room.name }}</span>
-      </div>
+      <div class="connector">
+        <div class="info">
+          <div class="wrapper_group__header">
+            <span> {{ room.name }}</span>
+          </div>
 
-      <div class="wrapper_group__info">
-        <span>game - {{ room.gameName }}</span>
-      </div>
+          <div class="wrapper_group__info">
+            <span>game - {{ room.gameName }}</span>
+          </div>
+        </div>
 
-      <div class="wrapper_group__image">
-        <img
-          [src]="ImageEntityType.Games | entityImage : room.gameImageId | async"
-          alt=""
-        />
+        <div class="wrapper_group__image">
+          <img
+            [src]="
+              ImageEntityType.Games | entityImage : room.gameImageId | async
+            "
+            alt=""
+          />
+        </div>
       </div>
 
       <div
@@ -54,4 +60,48 @@
       </div>
     </div>
   </ng-container>
-</div>
+</div> -->
+
+<section class="wrapper_library">
+  <ng-container *ngIf="roomList$ | async as roomList">
+    <div class="no_records" *ngIf="roomList.length === 0">
+      <img src="/shared/assets/images/no-rooms-found.png" alt="" />
+      <p class="first-header">No Available Rooms</p>
+    </div>
+    <div class="wrapper_library__border" *ngFor="let room of roomList" (click)="navigateToDetails(room.id)">
+      <div class="wrapper_library__item">
+        <div class="wrapper_image">
+          <img
+            [src]="
+              ImageEntityType.Games | entityImage : room.gameImageId | async
+            "
+            alt="Game Image"
+          />
+        </div>
+        <div class="wrapper_info">
+          <div class="wrapper_title">
+            {{ room.name }}
+            <div class="wrapper_description">Game: {{ room.gameName }}</div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="chips"
+        *ngIf="room.startDate | date : DATE_TIME_FORMAT as date"
+      >
+        <app-chip [color]="'blue'" [text]="date" [size]="'middle'"></app-chip>
+        <app-chip
+          [color]="'orange'"
+          text="{{ room.joinedParticipants }} joined"
+          [size]="'middle'"
+        ></app-chip>
+        <app-chip
+          [color]="'red'"
+          text="{{ room.maxParticipants }} max"
+          [size]="'middle'"
+        ></app-chip>
+      </div>
+    </div>
+  </ng-container>
+</section>
