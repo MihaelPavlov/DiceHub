@@ -130,7 +130,17 @@
       </div>
     </div>
 
-    <div class="btn_container-center" *ngIf="activeBookedTableModel">
+    <div
+      *ngIf="activeBookedTableModel"
+      [ngClass]="{
+        'btn_container':
+          !activeBookedTableModel ||
+          activeBookedTableModel.status === ReservationStatus.None,
+        'btn_container-center':
+          activeBookedTableModel &&
+          activeBookedTableModel.status !== ReservationStatus.None
+      }"
+    >
       <div class="booked-info">
         <span
           >Your Reservation -
@@ -161,16 +171,19 @@
         </span>
       </div>
       <a
-      class="wrapper_qrCode"
-      *ngIf="
+        class="wrapper_qrCode"
+        *ngIf="
           this.activeBookedTableModel.status === ReservationStatus.Approved
         "
         (click)="openDialog()"
-        >
+      >
         <img src="../../../../../shared/assets/images/qr-code.png" alt="" />
       </a>
-      <p class="description-public-message" *ngIf="activeBookedTableModel.publicNote !== '' ">
-        Message from Club: {{activeBookedTableModel.publicNote}}
+      <p
+        class="description-public-message"
+        *ngIf="activeBookedTableModel.publicNote !== ''"
+      >
+        Message from Club: {{ activeBookedTableModel.publicNote }}
       </p>
     </div>
   </div>

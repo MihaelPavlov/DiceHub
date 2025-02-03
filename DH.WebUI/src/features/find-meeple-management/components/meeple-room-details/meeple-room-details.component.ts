@@ -9,6 +9,7 @@ import { AuthService } from '../../../../entities/auth/auth.service';
 import { MeepleRoomMenuComponent } from '../meeple-room-menu/meeple-room-menu.component';
 import { ImageEntityType } from '../../../../shared/pipe/entity-image.pipe';
 import { FULL_ROUTE } from '../../../../shared/configs/route.config';
+import { DateHelper } from '../../../../shared/helpers/date-helper';
 
 @Component({
   selector: 'app-meeple-room-details',
@@ -17,10 +18,14 @@ import { FULL_ROUTE } from '../../../../shared/configs/route.config';
 })
 export class MeepleRoomDetailsComponent implements OnInit, OnDestroy {
   @ViewChild(MeepleRoomMenuComponent) menu!: MeepleRoomMenuComponent;
+  
   public room!: IRoomByIdResult;
   public isCurrentUserParticipateInRoom: boolean = false;
   public roomId!: number;
   public errorMessage: string | null = null;
+
+  public readonly DATE_FORMAT: string = DateHelper.DATE_FORMAT;
+  public readonly TIME_FORMAT: string = DateHelper.TIME_FORMAT;
   public readonly ImageEntityType = ImageEntityType;
 
   constructor(

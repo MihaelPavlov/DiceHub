@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { NotificationsService } from '../../../../entities/common/api/notifications.service';
 import { IUserNotification } from '../../../../entities/common/models/user-notification-model';
+import { DateHelper } from '../../../helpers/date-helper';
 
 @Component({
   selector: 'app-notifications-dialog',
@@ -44,7 +45,9 @@ import { IUserNotification } from '../../../../entities/common/models/user-notif
 export class NotificationsDialog implements OnInit {
   public notificationsUpdated = new EventEmitter<IUserNotification[]>();
   public userNotifications: IUserNotification[] = [];
-  
+
+  public readonly DATE_TIME_FORMAT: string = DateHelper.DATE_TIME_FORMAT;
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<NotificationsDialog>,
@@ -56,7 +59,6 @@ export class NotificationsDialog implements OnInit {
       next: (result) => {
         this.userNotifications = result;
         console.log(this.userNotifications);
-        
       },
     });
   }

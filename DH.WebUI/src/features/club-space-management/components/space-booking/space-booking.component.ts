@@ -106,7 +106,7 @@ export class SpaceBookingComponent extends Form {
     this.tenantSettingsService.get().subscribe({
       next: (result) => {
         if (result) {
-          this.timeSlots = result.reservationHours;
+          this.timeSlots = result.reservationHours;          
         }
       },
     });

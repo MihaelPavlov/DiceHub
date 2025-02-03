@@ -1,6 +1,8 @@
 export class DateHelper {
-  static readonly DATE_FORMAT = 'yyyy-MM-dd';
+  static readonly DATE_FORMAT_FOR_INPUT = 'yyyy-MM-dd';
+  static readonly DATE_FORMAT = 'dd/MMM/yyyy';
   static readonly TIME_FORMAT = 'HH:mm';
+  static readonly DATE_TIME_FORMAT = 'dd/MMM/yyyy HH:mm';
 
   /**
    * Combines a date and time string into an ISO format date-time string.

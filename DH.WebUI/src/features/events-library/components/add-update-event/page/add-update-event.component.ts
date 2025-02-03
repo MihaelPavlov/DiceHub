@@ -231,7 +231,7 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
         if (event) {
           const formattedDate = this.datePipe.transform(
             event.startDate,
-            DateHelper.DATE_FORMAT
+            DateHelper.DATE_FORMAT_FOR_INPUT
           );
           const formattedTime = this.datePipe.transform(
             event.startDate,

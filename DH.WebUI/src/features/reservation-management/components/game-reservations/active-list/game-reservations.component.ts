@@ -11,6 +11,7 @@ import { ReservationStatus } from '../../../../../shared/enums/reservation-statu
 import { ReservationConfirmationDialog } from '../../../dialogs/reservation-status-confirmation/reservation-confirmation.dialog';
 import { ReservationType } from '../../../enums/reservation-type.enum';
 import { ImageEntityType } from '../../../../../shared/pipe/entity-image.pipe';
+import { DateHelper } from '../../../../../shared/helpers/date-helper';
 
 @Component({
   selector: 'app-game-reservations',
@@ -18,15 +19,17 @@ import { ImageEntityType } from '../../../../../shared/pipe/entity-image.pipe';
   styleUrl: 'game-reservations.component.scss',
 })
 export class GameReservations implements OnInit, OnDestroy {
-  private reservationNavigationRef!: ReservationManagementNavigationComponent | null;
-
   public reservedGames$!: Observable<IReservedGame[]>;
   public showFilter: boolean = false;
   public expandedReservationId: number | null = null;
   public leftArrowKey: string = 'arrow_circle_left';
   public rightArrowKey: string = 'arrow_circle_right';
   public activeReservations$!: Observable<ActiveReservedGame[]>;
+
   public readonly ImageEntityType = ImageEntityType;
+  public readonly DATE_TIME_FORMAT: string = DateHelper.DATE_TIME_FORMAT;
+
+  private reservationNavigationRef!: ReservationManagementNavigationComponent | null;
 
   constructor(
     private readonly injector: Injector,

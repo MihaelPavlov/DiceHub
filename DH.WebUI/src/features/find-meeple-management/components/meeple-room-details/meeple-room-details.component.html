@@ -11,7 +11,10 @@
   </div>
 
   <div class="wrapper_image">
-    <img [src]="ImageEntityType.Games | entityImage :  room.gameImageId | async" alt="" />
+    <img
+      [src]="ImageEntityType.Games | entityImage : room.gameImageId | async"
+      alt=""
+    />
   </div>
 
   <div class="wrapper_header">from: {{ room.username }}</div>
@@ -29,7 +32,7 @@
       <app-chip
         size="small"
         color="blue"
-        text="{{ room.startDate | date : 'dd/MM/yyyy' }}"
+        text="{{ room.startDate | date : DATE_FORMAT }}"
       ></app-chip>
       <span>date</span>
     </div>
@@ -45,7 +48,7 @@
       <app-chip
         size="small"
         color="yellow"
-        text="{{ room.startDate | date : 'HH:mm' }}"
+        text="{{ room.startDate | date : TIME_FORMAT }}"
       ></app-chip>
       <span>time</span>
     </div>

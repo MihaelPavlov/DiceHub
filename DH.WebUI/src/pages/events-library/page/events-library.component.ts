@@ -6,6 +6,7 @@ import { NAV_ITEM_LABELS } from '../../../shared/models/nav-items-labels.const';
 import { MenuTabsService } from '../../../shared/services/menu-tabs.service';
 import { FULL_ROUTE } from '../../../shared/configs/route.config';
 import { combineLatest, Observable } from 'rxjs';
+import { DateHelper } from '../../../shared/helpers/date-helper';
 
 @Component({
   selector: 'app-events-library',
@@ -16,6 +17,9 @@ export class EventsLibraryComponent implements OnInit, OnDestroy {
   public todayEvents: IEventListResult[] = [];
   public upcomingEvents: IEventListResult[] = [];
   public userEvents: IEventListResult[] = [];
+
+  public readonly DATE_TIME_FORMAT: string = DateHelper.DATE_TIME_FORMAT;
+  public readonly DATE_FORMAT: string = DateHelper.DATE_FORMAT;
 
   constructor(
     private readonly router: Router,

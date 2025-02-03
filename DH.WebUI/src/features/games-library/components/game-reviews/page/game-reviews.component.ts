@@ -16,6 +16,7 @@ import { GameReviewConfirmDeleteDialog } from '../components/game-review-confirm
 import { MenuTabsService } from '../../../../../shared/services/menu-tabs.service';
 import { NAV_ITEM_LABELS } from '../../../../../shared/models/nav-items-labels.const';
 import { NavigationService } from '../../../../../shared/services/navigation-service';
+import { DateHelper } from '../../../../../shared/helpers/date-helper';
 
 enum ReviewState {
   create,
@@ -48,6 +49,8 @@ export class GameReviewsComponent implements OnInit, OnDestroy {
   public currentReviewIdForUpdate!: number;
   public ReviewState = ReviewState;
   public readonly dialog = inject(MatDialog);
+
+  public readonly DATE_FORMAT: string = DateHelper.DATE_FORMAT;
 
   constructor(
     private readonly fb: FormBuilder,

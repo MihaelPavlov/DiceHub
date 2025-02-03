@@ -14,10 +14,14 @@
     class="wrapper_library__item"
     *ngFor="let event of events"
     (click)="navigateToDetails(event.id)"
-     [ngClass]="{'expired': isEventExpired(event.startDate)}"
+    [ngClass]="{ expired: isEventExpired(event.startDate) }"
   >
     <div class="wrapper_image">
-      <img *ngIf="getImage(event) | async as image" [src]="image" alt="event Image" />
+      <img
+        *ngIf="getImage(event) | async as image"
+        [src]="image"
+        alt="event Image"
+      />
     </div>
     <div class="wrapper_info">
       <div class="wrapper_title">
@@ -37,7 +41,9 @@
         <div class="wrapper_chips">
           <app-chip
             [color]="'blue'"
-            [text]="(event.startDate | date : 'MM/dd/yyyy HH:mm')?.toString() ?? ''"
+            [text]="
+              (event.startDate | date : DATE_TIME_FORMAT)?.toString() ?? ''
+            "
             [size]="'small'"
           ></app-chip>
           <app-chip

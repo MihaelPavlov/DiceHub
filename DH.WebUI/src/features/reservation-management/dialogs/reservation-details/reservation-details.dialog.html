@@ -7,7 +7,7 @@
         <p>
           date
           <strong
-            >{{this.reservation.reservationDate | date : "dd/MM/yy, h:mm a"
+            >{{this.reservation.reservationDate | date : DATE_TIME_FORMAT
             }}</strong
           >
         </p>
@@ -27,8 +27,8 @@
       <div class="input-field">
         <label for="publicNote">Public Note</label>
         <textarea
-        placeholder="Nobody add an public note"
-        type="text"
+          placeholder="Nobody add an public note"
+          type="text"
           id="publicNote"
           formControlName="publicNote"
         ></textarea>
@@ -39,18 +39,18 @@
     <button class="btn btn__small btn-blue" mat-dialog-close>Cancel</button>
 
     <button
-        *ngIf="this.data.action === ReservationDetailsActions.Edit"
-        class="btn btn__small btn-yellow btn-border-yellow"
-        (click)="updateReservation()"
-      >
-        Update
-      </button>
-      <button
-        *ngIf="this.data.action === ReservationDetailsActions.Delete"
-        class="btn btn__small btn-red btn-border-red"
-        (click)="deleteReservation()"
-      >
-        Decline
-      </button>
+      *ngIf="this.data.action === ReservationDetailsActions.Edit"
+      class="btn btn__small btn-yellow btn-border-yellow"
+      (click)="updateReservation()"
+    >
+      Update
+    </button>
+    <button
+      *ngIf="this.data.action === ReservationDetailsActions.Delete"
+      class="btn btn__small btn-red btn-border-red"
+      (click)="deleteReservation()"
+    >
+      Decline
+    </button>
   </mat-dialog-actions>
 </div>

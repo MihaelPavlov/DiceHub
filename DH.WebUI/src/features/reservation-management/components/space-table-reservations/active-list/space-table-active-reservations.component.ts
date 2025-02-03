@@ -8,6 +8,7 @@ import { ReservationType } from '../../../enums/reservation-type.enum';
 import { ReservationStatus } from '../../../../../shared/enums/reservation-status.enum';
 import { IActiveReservedTable } from '../../../../../entities/space-management/models/active-reserved-table.model';
 import { Router } from '@angular/router';
+import { DateHelper } from '../../../../../shared/helpers/date-helper';
 
 @Component({
   selector: 'app-space-table-active-reservations',
@@ -15,15 +16,16 @@ import { Router } from '@angular/router';
   styleUrl: 'space-table-active-reservations.component.scss',
 })
 export class SpaceTableActiveReservations implements OnDestroy {
-  private reservationNavigationRef!: ReservationManagementNavigationComponent | null;
-
   public reservedGames$!: Observable<IActiveReservedTable[]>;
   public showFilter: boolean = false;
   public expandedReservationId: number | null = null;
   public leftArrowKey: string = 'arrow_circle_left';
   public rightArrowKey: string = 'arrow_circle_right';
-  public ReservationStatus = ReservationStatus;
-  
+
+  public readonly ReservationStatus = ReservationStatus;
+  public readonly DATE_TIME_FORMAT: string = DateHelper.DATE_TIME_FORMAT;
+
+  private reservationNavigationRef!: ReservationManagementNavigationComponent | null;
   constructor(
     private readonly injector: Injector,
     private readonly router: Router,

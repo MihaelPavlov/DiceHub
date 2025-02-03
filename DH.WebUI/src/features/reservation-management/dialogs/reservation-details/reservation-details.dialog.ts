@@ -12,6 +12,7 @@ import { ToastType } from '../../../../shared/models/toast.model';
 import { ReservationDetailsActions } from '../enums/reservation-details-actions.enum';
 import { ReservationType } from '../../enums/reservation-type.enum';
 import { GamesService } from '../../../../entities/games/api/games.service';
+import { DateHelper } from '../../../../shared/helpers/date-helper';
 
 @Component({
   selector: 'app-reservation-details',
@@ -20,8 +21,12 @@ import { GamesService } from '../../../../entities/games/api/games.service';
 })
 export class ReservationDetailsDialog extends Form {
   override form: Formify<IReservationConfirmationForm>;
-  public ReservationDetailsActions = ReservationDetailsActions;
+
   public reservation!: IGetReservationById;
+
+  public readonly ReservationDetailsActions = ReservationDetailsActions;
+  public readonly DATE_TIME_FORMAT: string = DateHelper.DATE_TIME_FORMAT;
+
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {

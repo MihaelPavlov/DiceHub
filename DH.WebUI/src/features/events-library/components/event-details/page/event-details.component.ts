@@ -1,6 +1,4 @@
-import {
-  EntityImagePipe,
-} from './../../../../../shared/pipe/entity-image.pipe';
+import { EntityImagePipe } from './../../../../../shared/pipe/entity-image.pipe';
 import { Component } from '@angular/core';
 import { IEventByIdResult } from '../../../../../entities/events/models/event-by-id.mode';
 import { Observable } from 'rxjs';
@@ -11,6 +9,7 @@ import { MenuTabsService } from '../../../../../shared/services/menu-tabs.servic
 import { ToastService } from '../../../../../shared/services/toast.service';
 import { AppToastMessage } from '../../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { ToastType } from '../../../../../shared/models/toast.model';
+import { DateHelper } from '../../../../../shared/helpers/date-helper';
 
 @Component({
   selector: 'app-event-details',
@@ -20,6 +19,8 @@ import { ToastType } from '../../../../../shared/models/toast.model';
 export class EventDetailsComponent {
   public event$!: Observable<IEventByIdResult>;
   public isUserParticipateInEvent!: boolean;
+  public DATE_TIME_FORMAT: string = DateHelper.DATE_TIME_FORMAT;
+  
   private eventId!: number;
 
   constructor(

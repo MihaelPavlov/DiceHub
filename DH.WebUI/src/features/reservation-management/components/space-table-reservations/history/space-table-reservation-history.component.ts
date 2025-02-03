@@ -8,6 +8,7 @@ import { ReservationDetailsDialog } from '../../../dialogs/reservation-details/r
 import { ReservationDetailsActions } from '../../../dialogs/enums/reservation-details-actions.enum';
 import { ReservationType } from '../../../enums/reservation-type.enum';
 import { ITableReservationHistory } from '../../../../../entities/space-management/models/table-reservation-history.model';
+import { DateHelper } from '../../../../../shared/helpers/date-helper';
 
 @Component({
   selector: 'app-space-table-reservation-history',
@@ -15,14 +16,15 @@ import { ITableReservationHistory } from '../../../../../entities/space-manageme
   styleUrl: 'space-table-reservation-history.component.scss',
 })
 export class SpaceTableReservationHistory implements OnDestroy {
-  private reservationNavigationRef!: ReservationManagementNavigationComponent | null;
-
   public reservedTables$!: Observable<ITableReservationHistory[]>;
   public showFilter: boolean = false;
   public expandedReservationId: number | null = null;
-  public leftArrowKey: string = 'arrow_circle_left';
-  public rightArrowKey: string = 'arrow_circle_right';
-  public ReservationStatus = ReservationStatus;
+
+  public readonly ReservationStatus = ReservationStatus;
+  public readonly DATE_TIME_FORMAT: string = DateHelper.DATE_TIME_FORMAT;
+
+  private reservationNavigationRef!: ReservationManagementNavigationComponent | null;
+
   constructor(
     private readonly injector: Injector,
     private readonly dialog: MatDialog,

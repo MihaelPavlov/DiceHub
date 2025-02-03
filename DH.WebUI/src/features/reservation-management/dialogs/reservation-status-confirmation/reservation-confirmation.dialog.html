@@ -10,13 +10,13 @@
         <p *ngIf="!this.data.tableReservationDate">
           date
           <strong
-            >{{this.data.reservationDate | date : "dd/MM/yy, h:mm a" }}</strong
+            >{{this.data.reservationDate | date : DATE_TIME_FORMAT}}</strong
           >
         </p>
         <p *ngIf="this.data.tableReservationDate">
           existing table reservation
           <strong
-            >{{this.data.tableReservationDate | date : "dd/MM/yy, h:mm a"
+            >{{this.data.tableReservationDate | date : DATE_TIME_FORMAT
             }}</strong
           >
         </p>
@@ -32,14 +32,14 @@
         <p *ngIf="!this.data.tableReservationDate">
           date
           <strong
-            >{{this.data.reservationDate | date : "dd/MM/yy, h:mm a" }}</strong
+            >{{this.data.reservationDate | date : DATE_TIME_FORMAT }}</strong
           >
         </p>
 
         <p *ngIf="this.data.tableReservationDate">
           existing table reservation
           <strong
-            >{{this.data.tableReservationDate | date : "dd/MM/yy, h:mm a"
+            >{{this.data.tableReservationDate | date : DATE_TIME_FORMAT
             }}</strong
           >
         </p>

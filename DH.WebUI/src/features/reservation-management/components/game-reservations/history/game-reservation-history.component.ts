@@ -8,6 +8,7 @@ import { ReservationDetailsActions } from '../../../dialogs/enums/reservation-de
 import { ReservationType } from '../../../enums/reservation-type.enum';
 import { ITableReservationHistory } from '../../../../../entities/space-management/models/table-reservation-history.model';
 import { GamesService } from '../../../../../entities/games/api/games.service';
+import { DateHelper } from '../../../../../shared/helpers/date-helper';
 
 @Component({
   selector: 'app-game-reservation-history',
@@ -15,14 +16,17 @@ import { GamesService } from '../../../../../entities/games/api/games.service';
   styleUrl: 'game-reservation-history.component.scss',
 })
 export class GameReservationHistory implements OnDestroy {
-  private reservationNavigationRef!: ReservationManagementNavigationComponent | null;
-
   public reservedGames$!: Observable<ITableReservationHistory[]>;
   public showFilter: boolean = false;
   public expandedReservationId: number | null = null;
   public leftArrowKey: string = 'arrow_circle_left';
   public rightArrowKey: string = 'arrow_circle_right';
-  public ReservationStatus = ReservationStatus;
+
+  public readonly ReservationStatus = ReservationStatus;
+  public readonly DATE_TIME_FORMAT: string = DateHelper.DATE_TIME_FORMAT;
+
+  private reservationNavigationRef!: ReservationManagementNavigationComponent | null;
+
   constructor(
     private readonly injector: Injector,
     private readonly dialog: MatDialog,

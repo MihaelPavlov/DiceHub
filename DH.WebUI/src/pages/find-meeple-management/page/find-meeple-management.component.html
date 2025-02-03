@@ -9,10 +9,9 @@
 
 <div class="wrapper_groups">
   <ng-container *ngIf="roomList$ | async as roomList">
-
     <div class="no_records" *ngIf="roomList.length === 0">
       <img src="/shared/assets/images/no-rooms-found.png" alt="" />
-      <p class="first-header">Rooms was not Found</p>
+      <p class="first-header">No Available Rooms</p>
     </div>
 
     <div
@@ -23,21 +22,21 @@
       <div class="wrapper_group__header">
         <span> {{ room.name }}</span>
       </div>
-  
+
       <div class="wrapper_group__info">
         <span>game - {{ room.gameName }}</span>
       </div>
-  
+
       <div class="wrapper_group__image">
         <img
           [src]="ImageEntityType.Games | entityImage : room.gameImageId | async"
           alt=""
         />
       </div>
-  
+
       <div
         class="wrapper_group__chips"
-        *ngIf="room.startDate | date : 'dd/MM/yyyy HH:mm' as date"
+        *ngIf="room.startDate | date : DATE_TIME_FORMAT as date"
       >
         <app-chip [color]="'blue'" [text]="date" [size]="'small'"></app-chip>
       </div>

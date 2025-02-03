@@ -65,21 +65,17 @@
       </div>
     </div>
   </form>
-<!--           src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIAJQAlAMBIgACEQEDEQH/xAAbAAEAAgMBAQAAAAAAAAAAAAAABQYCAwQBB//EADgQAAIBAwEFBQUFCQEAAAAAAAABAgMEEQUSITFBUQYTUmFxIkKRobEUMoHR8SMzNDVykrLB8BX/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8A+zgAAAAAAAAeiI3UtbtLFuGXVq+CHL1fICSBCT7QUqVlCrNwlcVFtRo03nZ6ZZXaesahTqSqRup5lLacc5XwYF9BX9K7SRrzjRvlGnN7lUX3X69CwAAAAAAAAAAAAAAAAAACO1zUv/OtMww69R4prp1YGntHqX2K17uhNKvU3bnviupS+OTOpOdWpKpUk5zk8uUnlswAJALL4Jv0RlsTx9yXwAxayW3QNZoztadtd1VGvH2Yub3SXLf1KzbWdxc1FCnTfnJrCRjdUo0birTW9Rk456gfRgVvsvqkpy+w3E87s0pPj6FkAAAAAAAAAAAAAABTO1Nd1dVlTz7NKKil839S5lD19NazdZ5z/wBIDkoUZ3FWNOksykWSz0m3tknOKq1PFJbl6I5uzdBKlUuJLfJ7MfJLj/3kTIHiiorEYpLyR6AA5FS1aHd6jXTXGWV6MtpCdorVtRuoL7vsz9OTAh7atK3uaVaHGE1I+jZT3rgfNHwPpNJNUoJ8VFfQDIAAAAAAAAAAAAAKZ2rpd3qzmuFWEZfjwf0LmVXtVT24wreGTi/R/oB1aNHY0yguqcviztObTP4C3/oR0gAAAPJRjNOM1tRaw0z0AVCFvtajG3jw73Y/DOD6EUrT6Xea7Uk+FOUpfl82XOm8wi30AyAAAAAAAAAAAAACH1i2+0UK9CONqW+OevEmDTXo97vW5gR1vT7mjTpLeoRSyjYAAAAAAMDjsrL7PXuamU3WnlY5L9SeisJLojltqD2lUljHJHWAAAAAAAAAAAAAAAABwV47FWW7c96NZ23UFKDlzjvOKLytwAAAAk28JBm+yipylLOXB/MDrjHZil0R6AAAAAAAAAAAAAAAACH1vUu6i7e3l+0a9uS91dF5gbrzU6ca8bWilOUnics7o/maJylR3pbUOnQhbJpXVJvctpFgQGqNxSl72PU9dekuM0a6trGTbj7L6HPK2qr3c+jA21brKapprzZ5ZajCzqd3Vi9ie9zXL8DV3NTwM476LhUjGXHHDoBb4SjOKlFpprKa4HpWNH1GVpU7qq80JP8AtfUs63pNPK6oAAAAAAAAADGpOFKnKdSSjGKy2yvahrVWq3C1zTp+L3n+QE1d31vafvqiz4VvfwIm51+pLda01FeKe9kK22228t82eAb695c3Dfe1pyT5ZwjQAAO+11GdPEK3tw5PmjgAFkp1YVYKdOSlF80ZOSSy9y6sgbK4dvWT92TxJHXq109pUIPCxmWOYGV1qSWYW+G/H09CMnKUpOUm23xbMQAe820bmvQeaNWcPJPd8DUAJi216vDHf041V1W5kra6pa3OEqihPwz3FSAF6BU7HVLi0ajtd5S8EnnHo+RY7K9o3sNqi8NfejLigOkAAV3tFcyncK3T9iCTa6tkOdus/wA0uPVfRHEAAAAAAAAAMpyc5OT4sxAAAAAAAAAA229epbVo1aUsSj8/I1HoF1t6sbihCrDOzOOV5A5NBbel0fJyXzYAhNfSWqVMc1H6EeAAAAAAAAAAAAAAAAAAAAAAAWvQ92l0PPa/yZ6AB//Z" -->
   <div class="wrapper_reviews">
     <div *ngFor="let gameReview of gameReviews" class="wrapper_reviews__item">
       <div class="wrapper_image">
-        <img
-          src="../../../../../shared/assets/images/mpavlov.png"
-          alt=""
-        />
+        <img src="../../../../../shared/assets/images/mpavlov.png" alt="" />
       </div>
       <div class="wrapper_reviews__item__info">
         <div class="details">
           <span>Keney West</span>
           <div>
             <span>
-              {{ gameReview.updatedDate | date: 'dd/MM/yyyy' }}
+              {{ gameReview.updatedDate | date : DATE_FORMAT }}
               <span
                 *ngIf="this.userInfo?.id === gameReview.userId"
                 (click)="startUpdatingComment(gameReview.id, gameReview.review)"

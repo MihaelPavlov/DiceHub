@@ -9,6 +9,7 @@ import { SearchService } from '../../../shared/services/search.service';
 import { ImageEntityType } from '../../../shared/pipe/entity-image.pipe';
 import { FULL_ROUTE } from '../../../shared/configs/route.config';
 import { NavigationService } from '../../../shared/services/navigation-service';
+import { DateHelper } from '../../../shared/helpers/date-helper';
 
 @Component({
   selector: 'app-find-meeple-manager',
@@ -17,7 +18,9 @@ import { NavigationService } from '../../../shared/services/navigation-service';
 })
 export class FindMeepleManagementComponent implements OnInit, OnDestroy {
   public roomList$!: Observable<IRoomListResult[] | null>;
+
   public readonly ImageEntityType = ImageEntityType;
+  public readonly DATE_TIME_FORMAT: string = DateHelper.DATE_TIME_FORMAT;
 
   constructor(
     private readonly router: Router,
@@ -43,7 +46,9 @@ export class FindMeepleManagementComponent implements OnInit, OnDestroy {
   }
 
   public navigateToDetails(id: number): void {
-    this.navigationService.setPreviousUrl(FULL_ROUTE.MEEPLE_ROOM.DETAILS_BY_ID(id));
+    this.navigationService.setPreviousUrl(
+      FULL_ROUTE.MEEPLE_ROOM.DETAILS_BY_ID(id)
+    );
     this.router.navigateByUrl(FULL_ROUTE.MEEPLE_ROOM.DETAILS_BY_ID(id));
   }
 

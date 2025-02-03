@@ -152,28 +152,18 @@ export class ClubSpaceManagementComponent implements OnInit {
 
   private getKeyTransformations(): Record<string, (value: any) => any> {
     return {
-      // username: (value) => value,
       numberOfGuests: (value) => value,
       reservationDate: (value) => {
-        return new Intl.DateTimeFormat('en-GB', {
+        const formattedDate = new Intl.DateTimeFormat('en-GB', {
           day: '2-digit',
-          month: '2-digit',
+          month: 'short',
           year: '2-digit',
           hour: '2-digit',
           minute: '2-digit',
           hour12: true,
         }).format(new Date(value));
+        return formattedDate.replace(/\bam\b/i, 'AM').replace(/\bpm\b/i, 'PM');
       },
-      // createdDate: (value) => {
-      //   return new Intl.DateTimeFormat('en-GB', {
-      //     day: '2-digit',
-      //     month: '2-digit',
-      //     year: '2-digit',
-      //     hour: '2-digit',
-      //     minute: '2-digit',
-      //     hour12: true,
-      //   }).format(new Date(value));
-      // },
       isConfirmed: (value) => value,
     };
   }

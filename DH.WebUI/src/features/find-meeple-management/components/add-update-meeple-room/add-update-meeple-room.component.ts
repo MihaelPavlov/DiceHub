@@ -186,7 +186,7 @@ export class AddUpdateMeepleRoomComponent
         this.gameList = gameList;
         const formattedDate = this.datePipe.transform(
           room.startDate,
-          DateHelper.DATE_FORMAT
+          DateHelper.DATE_FORMAT_FOR_INPUT
         );
         const formattedTime = this.datePipe.transform(
           room.startDate,

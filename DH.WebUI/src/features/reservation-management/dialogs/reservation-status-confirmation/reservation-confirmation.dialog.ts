@@ -12,6 +12,7 @@ import { Formify } from '../../../../shared/models/form.model';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { IReservationConfirmationForm } from '../models/reservation-confirmation-form.model';
 import { GamesService } from '../../../../entities/games/api/games.service';
+import { DateHelper } from '../../../../shared/helpers/date-helper';
 
 @Component({
   selector: 'app-reservation-confirmation',
@@ -21,7 +22,9 @@ import { GamesService } from '../../../../entities/games/api/games.service';
 export class ReservationConfirmationDialog extends Form {
   override form: Formify<IReservationConfirmationForm>;
 
-  public ReservationStatus = ReservationStatus;
+  public readonly ReservationStatus = ReservationStatus;
+  public readonly DATE_TIME_FORMAT: string = DateHelper.DATE_TIME_FORMAT;
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: ReservationConfirmation,
     private dialogRef: MatDialogRef<ReservationConfirmationDialog>,

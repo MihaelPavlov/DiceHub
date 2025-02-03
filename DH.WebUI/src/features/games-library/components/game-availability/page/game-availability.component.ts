@@ -1,6 +1,6 @@
 import { SpaceManagementService } from './../../../../../entities/space-management/api/space-management.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GamesService } from '../../../../../entities/games/api/games.service';
 import { Observable } from 'rxjs';
 import { IGameByIdResult } from '../../../../../entities/games/models/game-by-id.model';
@@ -29,6 +29,7 @@ import { FULL_ROUTE } from '../../../../../shared/configs/route.config';
 import { NavigationService } from '../../../../../shared/services/navigation-service';
 import { IDropdown } from '../../../../../shared/models/dropdown.model';
 import { AvailabilityReservationInfoDialog } from '../../../dialogs/availability-reservation-info-dialog/availability-reservation-info-dialog.component';
+import { DateHelper } from '../../../../../shared/helpers/date-helper';
 
 interface IReservationGameForm {
   reservationPeopleCount: number;
@@ -45,18 +46,21 @@ export class GameAvailabilityComponent
   implements OnInit, OnDestroy
 {
   override form: Formify<IReservationGameForm>;
+
   public game$!: Observable<IGameByIdResult>;
   public gameId!: number;
   public gameInventory$!: Observable<IGameInventory>;
   public gameReservationStatus: IGameReservationStatus | null = null;
   public ReservationStatus = ReservationStatus;
   public availableMinutes = [1, 2, 5, 10, 15, 20, 30, 40, 50, 60];
-  display: string = '00:00';
-  isTimerExpired: boolean = false;
+  public display: string = '00:00';
+  public isTimerExpired: boolean = false;
   public peopleNumber: IDropdown[] = [];
   public reservationMinutes: IDropdown[] = [];
   public activeBookedTableModel: ActiveBookedTableModel | null = null;
   public userActiveSpaceTable: IUserActiveSpaceTableResult | null = null;
+
+  public readonly DATE_TIME_FORMAT: string = DateHelper.DATE_TIME_FORMAT;
 
   constructor(
     private readonly gameService: GamesService,
@@ -85,8 +89,6 @@ export class GameAvailabilityComponent
 
     this.spaceManagementService.getActiveBookedTable().subscribe({
       next: (result) => {
-        console.log('activeBookedTableModel', result);
-
         this.activeBookedTableModel = result;
       },
       error: () => {
@@ -96,8 +98,6 @@ export class GameAvailabilityComponent
 
     this.spaceManagementService.getUserActiveTable().subscribe({
       next: (result) => {
-        console.log('userActiveSpaceTable', result);
-
         this.userActiveSpaceTable = result;
       },
     });

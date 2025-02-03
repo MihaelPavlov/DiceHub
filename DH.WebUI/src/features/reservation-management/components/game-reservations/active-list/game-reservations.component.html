@@ -32,7 +32,7 @@
                 <p>
                   Game reservation:
                   <span class="blue">{{
-                    reservation.reservationDate | date : "dd/MM/yy, h:mm a"
+                    reservation.reservationDate | date : DATE_TIME_FORMAT
                   }}</span>
                 </p>
 
@@ -43,8 +43,7 @@
                     class="blue"
                     *ngIf="reservation.userHaveActiveTableReservation"
                     >{{
-                      reservation.tableReservationTime
-                        | date : "dd/MM/yy, h:mm a"
+                      reservation.tableReservationTime | date : DATE_TIME_FORMAT
                     }}</span
                   >
                   <span *ngIf="!reservation.userHaveActiveTableReservation"

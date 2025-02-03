@@ -20,7 +20,7 @@
               <div class="wrapper_description">
                 <p>
                   Created At:
-                  {{ reservation.createdDate | date : "dd/MM/yy, h:mm a" }}
+                  {{ reservation.createdDate | date : DATE_TIME_FORMAT }}
                 </p>
               </div>
               <span class="blue">{{ reservation.username }}</span> has booked a
@@ -32,7 +32,7 @@
               <div class="wrapper_description">
                 <p>
                   Reservation Date:
-                  {{ reservation.reservationDate | date : "dd/MM/yy, h:mm a" }}
+                  {{ reservation.reservationDate | date : DATE_TIME_FORMAT }}
                 </p>
               </div>
             </div>

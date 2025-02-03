@@ -1,4 +1,4 @@
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { IMenuItem } from '../../../shared/models/menu-item.model';
 import { MenuTabsService } from '../../../shared/services/menu-tabs.service';
 import { NAV_ITEM_LABELS } from '../../../shared/models/nav-items-labels.const';
@@ -9,6 +9,7 @@ import { IEventListResult } from '../../../entities/events/models/event-list.mod
 import { FULL_ROUTE } from '../../../shared/configs/route.config';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ControlsMenuComponent } from '../../../shared/components/menu/controls-menu.component';
+import { DateHelper } from '../../../shared/helpers/date-helper';
 
 @Component({
   selector: 'app-admin-event-management',
@@ -24,6 +25,8 @@ export class AdminEventManagementComponent implements OnInit, OnDestroy {
   >([]);
   public visibleMenuId: number | null = null;
   public events: IEventListResult[] = [];
+
+  public readonly DATE_TIME_FORMAT: string = DateHelper.DATE_TIME_FORMAT;
 
   constructor(
     private readonly menuTabsService: MenuTabsService,
