@@ -1,5 +1,6 @@
 ﻿using DH.Domain.Adapters.Authentication;
 using DH.Domain.Entities;
+using DH.Domain.Enums;
 using DH.Domain.Models.ChallengeModels.Queries;
 using DH.Domain.Services;
 using Microsoft.EntityFrameworkCore;
@@ -70,10 +71,15 @@ public class ChallengeService : IChallengeService
                         })
                 .FirstOrDefaultAsync(cancellationToken);
 
-            if (lastCompletedChallenge != null)
-                return activeChallenges.Union([lastCompletedChallenge]).ToList();
+            var orderedChallenges = activeChallenges
+                .OrderBy(x => x.Status)
+                .ThenBy(x => x.RewardPoints)
+                .ToList();
 
-            return activeChallenges;
+            if (lastCompletedChallenge != null)
+                orderedChallenges.Add(lastCompletedChallenge);
+
+            return orderedChallenges;
         }
     }
 }
