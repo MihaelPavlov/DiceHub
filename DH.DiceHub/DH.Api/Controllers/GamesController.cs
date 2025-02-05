@@ -231,12 +231,12 @@ public class GamesController : ControllerBase
         return Ok();
     }
 
-    [HttpGet("get-reservation-history")]
+    [HttpPost("get-reservation-history")]
     [ActionAuthorize(UserAction.GamesCUD)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetGameReservationHistoryQueryModel>))]
-    public async Task<IActionResult> GetReservationHistory(CancellationToken cancellationToken)
+    public async Task<IActionResult> GetReservationHistory([FromBody] GetGameReservationHistoryQuery query, CancellationToken cancellationToken)
     {
-        var result = await this.mediator.Send(new GetGameReservationHistoryQuery(), cancellationToken);
+        var result = await this.mediator.Send(query, cancellationToken);
         return Ok(result);
     }
 

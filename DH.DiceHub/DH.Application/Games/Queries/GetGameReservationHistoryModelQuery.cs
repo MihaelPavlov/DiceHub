@@ -1,34 +1,21 @@
 ﻿using DH.Domain.Adapters.Authentication.Services;
-using DH.Domain.Entities;
 using DH.Domain.Enums;
 using DH.Domain.Models.GameModels.Queries;
-using DH.Domain.Repositories;
+using DH.Domain.Services;
 using MediatR;
 
 namespace DH.Application.Games.Queries;
 
-public record GetGameReservationHistoryQuery : IRequest<List<GetGameReservationHistoryQueryModel>>;
+public record GetGameReservationHistoryQuery(ReservationStatus? Status) : IRequest<List<GetGameReservationHistoryQueryModel>>;
 
-internal class GetGameReservationHistoryQueryHandler(IRepository<GameReservation> repository, IUserService userService) : IRequestHandler<GetGameReservationHistoryQuery, List<GetGameReservationHistoryQueryModel>>
+internal class GetGameReservationHistoryQueryHandler(IUserService userService, IGameService gameService) : IRequestHandler<GetGameReservationHistoryQuery, List<GetGameReservationHistoryQueryModel>>
 {
-    readonly IRepository<GameReservation> repository = repository;
     readonly IUserService userService = userService;
+    readonly IGameService gameService = gameService;
 
     public async Task<List<GetGameReservationHistoryQueryModel>> Handle(GetGameReservationHistoryQuery request, CancellationToken cancellationToken)
     {
-        var reservations = await this.repository.GetWithPropertiesAsync(
-            x => x.Status != ReservationStatus.None,
-            x => new GetGameReservationHistoryQueryModel
-            {
-                Id = x.Id,
-                UserId = x.UserId,
-                CreatedDate = x.CreatedDate.ToLocalTime(),
-                ReservationDate = x.ReservationDate.ToLocalTime(),
-                NumberOfGuests = x.NumberOfGuests,
-                IsActive = x.IsActive,
-                IsReservationSuccessful = x.IsReservationSuccessful,
-                Status = x.Status,
-            }, cancellationToken);
+        var reservations = await this.gameService.GetGameReservationByStatus(request.Status, cancellationToken);
 
         var userIds = reservations.DistinctBy(x => x.UserId).Select(x => x.UserId).ToArray();
 

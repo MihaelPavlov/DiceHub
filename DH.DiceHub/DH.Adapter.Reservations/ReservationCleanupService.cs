@@ -133,6 +133,7 @@ public class ReservationCleanupService : BackgroundService
 
         reservation.IsReservationSuccessful = false;
         reservation.IsActive = false;
+        reservation.Status = ReservationStatus.Expired;
 
         await gameInventoryRepository.SaveChangesAsync(cancellationToken);
 
@@ -159,6 +160,7 @@ public class ReservationCleanupService : BackgroundService
             {
                 reservation.IsActive = false;
                 reservation.IsReservationSuccessful = false;
+                reservation.Status = ReservationStatus.Expired;
                 await repository.SaveChangesAsync(cancellationToken);
 
                 var queuedJobService = scope.ServiceProvider.GetRequiredService<IQueuedJobService>();

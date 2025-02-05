@@ -11,10 +11,10 @@ import { IGameInventory } from '../models/game-inventory.mode';
 import { ICreateGameReservation } from '../models/create-game-reservation.model';
 import { IReservedGame } from '../models/reserved-game.model';
 import { IGameReservationStatus } from '../models/game-reservation-status.model';
-import { IGameQrCode } from '../models/game-qr-code.model';
 import { ActiveReservedGame } from '../models/active-reserved-game.model';
 import { IGetReservationById } from '../models/get-reservation-by-id.model';
 import { IGameReservationHistory } from '../models/game-reservation-history.model';
+import { ReservationStatus } from '../../../shared/enums/reservation-status.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -39,9 +39,12 @@ export class GamesService {
     );
   }
 
-  public getReservationHistory(): Observable<IGameReservationHistory[]> {
-    return this.api.get<IGameReservationHistory[]>(
-      `/${PATH.GAMES.CORE}/${PATH.GAMES.GET_RESERVATION_HISTORY}`
+  public getReservationHistory(
+    status: ReservationStatus | null = null
+  ): Observable<IGameReservationHistory[] | null> {
+    return this.api.post<IGameReservationHistory[]>(
+      `/${PATH.GAMES.CORE}/${PATH.GAMES.GET_RESERVATION_HISTORY}`,
+      { status }
     );
   }
 
@@ -144,7 +147,7 @@ export class GamesService {
     const formData = new FormData();
     formData.append('game', JSON.stringify(game));
     if (imageFile) formData.append('imageFile', imageFile);
-    
+
     return this.api.put(`/${PATH.GAMES.CORE}`, formData);
   }
 

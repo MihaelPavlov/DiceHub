@@ -37,7 +37,7 @@ internal class CreateSpaceTableReservationCommandHandler(IRepository<SpaceTableR
             IsReservationSuccessful = false,
             IsActive = true,
             NumberOfGuests = request.NumberOfGuests,
-            Status = ReservationStatus.None,
+            Status = ReservationStatus.Pending,
         }, cancellationToken);
 
         var users = await this.userService.GetUserListByRole(Role.Staff, cancellationToken);

@@ -8,9 +8,13 @@ public class GetGameReservationHistoryQueryModel
     public string UserId { get; set; } = string.Empty;
     public string Username { get; set; } = string.Empty;
     public int NumberOfGuests { get; set; }
+    public int GameId { get; set; }
+    public string GameName { get; set; } = string.Empty;
     public DateTime ReservationDate { get; set; }
     public DateTime CreatedDate { get; set; }
     public bool IsActive { get; set; }
     public bool IsReservationSuccessful { get; set; }
     public ReservationStatus Status { get; set; }
+    public bool UserHaveActiveTableReservation { get; set; }
+    public DateTime? TableReservationTime { get; set; }
 }

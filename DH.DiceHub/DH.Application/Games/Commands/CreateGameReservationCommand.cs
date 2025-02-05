@@ -42,7 +42,7 @@ internal class CreateGameReservationCommandHandler(IGameService gameService, IRe
             ReservedDurationMinutes = request.Reservation.DurationInMinutes,
             IsActive = true,
             NumberOfGuests = request.Reservation.PeopleCount,
-            Status = ReservationStatus.None
+            Status = ReservationStatus.Pending
         };
 
         await this.gameService.CreateReservation(reservation, cancellationToken);

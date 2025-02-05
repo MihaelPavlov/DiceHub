@@ -17,13 +17,13 @@ internal class GetSpaceTableReservationHistoryQueryHandler(IRepository<SpaceTabl
     public async Task<List<GetSpaceTableReservationHistoryQueryModel>> Handle(GetSpaceTableReservationHistoryQuery request, CancellationToken cancellationToken)
     {
         var reservations = await this.repository.GetWithPropertiesAsync<GetSpaceTableReservationHistoryQueryModel>(
-            x => x.Status != ReservationStatus.None,
+            x => x.Status != ReservationStatus.Pending,
             x => new GetSpaceTableReservationHistoryQueryModel
             {
                 Id = x.Id,
                 UserId = x.UserId,
-                CreatedDate = x.CreatedDate.ToLocalTime(),
-                ReservationDate = x.ReservationDate.ToLocalTime(),
+                CreatedDate = x.CreatedDate,
+                ReservationDate = x.ReservationDate,
                 NumberOfGuests = x.NumberOfGuests,
                 IsActive = x.IsActive,
                 IsReservationSuccessful = x.IsReservationSuccessful,

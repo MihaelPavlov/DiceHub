@@ -1,9 +1,71 @@
-<section class="wrapper_library">
+<section class="wrapper_filters">
   <div
-    *ngFor="let reservation of reservedGames$ | async"
+    class="filter"
+    [class.active]="selectedFilter === null"
+    (click)="applyFilter()"
+  >
+    <span class="material-symbols-outlined all"> all_inclusive </span>
+    <span class="text">ALL</span>
+  </div>
+  <div
+    class="filter"
+    [class.active]="selectedFilter === ReservationStatus.Expired"
+    (click)="applyFilter(ReservationStatus.Expired)"
+  >
+    <span class="material-symbols-outlined expired">
+      hourglass_arrow_down
+    </span>
+    <span class="text">EXPIRED</span>
+  </div>
+  <div
+    class="filter"
+    [class.active]="selectedFilter === ReservationStatus.Pending"
+    (click)="applyFilter(ReservationStatus.Pending)"
+  >
+    <span class="material-symbols-outlined pending"> pending </span>
+    <span class="text">PENDING</span>
+  </div>
+  <div
+    class="filter"
+    [class.active]="selectedFilter === ReservationStatus.Approved"
+    (click)="applyFilter(ReservationStatus.Approved)"
+  >
+    <span class="material-symbols-outlined accept"> check_circle </span>
+    <span class="text">ACCEPTED</span>
+  </div>
+  <div
+    class="filter"
+    [class.active]="selectedFilter === ReservationStatus.Declined"
+    (click)="applyFilter(ReservationStatus.Declined)"
+  >
+    <span class="material-symbols-outlined decline"> cancel </span>
+    <span class="text">CANCELLED</span>
+  </div>
+</section>
+
+<section
+  class="wrapper_library"
+  *ngIf="reservedGames$ | async as reservedGames"
+>
+  <div class="no_records" *ngIf="reservedGames.length === 0">
+    <img src="/shared/assets/images/no-reservations.png" alt="" />
+    <p class="first-header">
+      No
+      <strong class="blue">
+        {{
+          this.selectedFilter === null
+            ? "Available"
+            : ReservationStatus[this.selectedFilter]
+        }}</strong
+      >
+      reservations found
+    </p>
+  </div>
+  <div
+    *ngFor="let reservation of reservedGames"
     class="wrapper_library__item approve"
     [class.expanded]="isExpanded(reservation.id)"
-    (click)="toggleItem(reservation.id, reservation.status)"
+    (click)="toggleItem(reservation.id, $event)"
   >
     <div class="content">
       <div class="wrapper_info">
@@ -14,7 +76,12 @@
               {{ reservation.createdDate | date : DATE_TIME_FORMAT }}
             </p>
           </div>
-          <span class="blue">{{ reservation.username }}</span> has booked a game
+          Game
+          <strong class="blue">
+            {{ reservation.gameName }}
+          </strong>
+          was booked from
+          <span class="blue">{{ reservation.username }}</span>
           <p>
             <span class="blue">{{ reservation.numberOfGuests }}</span>
             {{ reservation.numberOfGuests === 1 ? "person" : "people" }}
@@ -31,6 +98,20 @@
       </div>
       <div class="circle-btn">
         <span
+          class="material-symbols-outlined expired"
+          *ngIf="reservation.status === ReservationStatus.Expired"
+        >
+          hourglass_arrow_down
+        </span>
+
+        <span
+          class="material-symbols-outlined pending"
+          *ngIf="reservation.status === ReservationStatus.Pending"
+        >
+          pending
+        </span>
+
+        <span
           class="material-symbols-outlined accept"
           *ngIf="reservation.status === ReservationStatus.Approved"
         >
@@ -44,21 +125,81 @@
           cancel
         </span>
       </div>
-      <div class="expanded-buttons">
+      <div
+        class="expanded-buttons"
+        *ngIf="
+          reservation.status === ReservationStatus.Declined ||
+          reservation.status === ReservationStatus.Approved
+        "
+      >
         <button
           type="button"
           class="btnWithIcon"
-          (click)="this.updateReservation(reservation.id)"
+          (click)="this.updateReservation(reservation.id, $event)"
         >
-          <span class="material-symbols-outlined accept"> edit </span>
+          <span class="material-symbols-outlined edit"> edit </span>
           <span class="header">Update</span>
         </button>
         <button
           type="button"
           class="btnWithIcon"
-          (click)="this.deleteReservation(reservation.id)"
+          (click)="this.deleteReservation(reservation.id, $event)"
         >
-          <span class="material-symbols-outlined decline"> delete </span>
+          <span class="material-symbols-outlined delete"> delete </span>
+          <span class="header">Delete</span>
+        </button>
+      </div>
+      <div
+        class="expanded-buttons"
+        *ngIf="reservation.status === ReservationStatus.Pending"
+      >
+        <button
+          type="button"
+          class="btnWithIcon"
+          (click)="
+            this.approveReservation(
+              reservation.reservationDate,
+              reservation.numberOfGuests,
+              reservation.gameName,
+              reservation.tableReservationTime ?? null,
+              $event
+            )
+          "
+        >
+          <span class="material-symbols-outlined approve"> check_circle </span>
+          <span class="header">Approve</span>
+        </button>
+        <button
+          type="button"
+          class="btnWithIcon"
+          (click)="
+            this.declineReservation(
+              reservation.reservationDate,
+              reservation.numberOfGuests,
+              reservation.gameName,
+              reservation.tableReservationTime ?? null,
+              $event
+            )
+          "
+        >
+          <span class="material-symbols-outlined decline"> cancel </span>
+          <span class="header">Decline</span>
+        </button>
+      </div>
+      <div
+        class="expanded-buttons"
+        *ngIf="reservation.status === ReservationStatus.Expired"
+      >
+        <span class="text">
+          The reservation has expired with no response.
+        </span>
+
+        <button
+          type="button"
+          class="btnWithIcon"
+          (click)="this.deleteReservation(reservation.id, $event)"
+        >
+          <span class="material-symbols-outlined delete"> delete </span>
           <span class="header">Delete</span>
         </button>
       </div>

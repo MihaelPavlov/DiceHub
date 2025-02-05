@@ -130,7 +130,7 @@
 
           <strong
             class="waiting"
-            *ngIf="gameReservationStatus.status === ReservationStatus.None"
+            *ngIf="gameReservationStatus.status === ReservationStatus.Pending"
             >Under Review</strong
           >
           <strong
@@ -149,7 +149,7 @@
       <p
         *ngIf="
           isTimerExpired &&
-          gameReservationStatus.status === ReservationStatus.None
+          gameReservationStatus.status === ReservationStatus.Pending
         "
         class="expiry-message"
       >

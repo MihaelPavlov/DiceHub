@@ -104,7 +104,7 @@ export class GameReservations implements OnInit, OnDestroy {
     reservationDate: Date,
     numberOfGuests: number,
     gameName: string,
-    tableReservationDate: Date | null | undefined
+    tableReservationDate: Date | null
   ): void {
     if (this.expandedReservationId) {
       const dialogRef = this.dialog.open(ReservationConfirmationDialog, {

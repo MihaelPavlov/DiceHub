@@ -88,7 +88,7 @@ public class GameService : IGameService
         {
             return await (
                 from gameReservation in context.GameReservations
-                where gameReservation.IsActive && gameReservation.Status == ReservationStatus.None
+                where gameReservation.IsActive && gameReservation.Status == ReservationStatus.Pending
                 orderby gameReservation.ReservationDate descending
                 let tableReservation = context.SpaceTableReservations
                     .Where(t => t.IsActive && t.UserId == gameReservation.UserId && gameReservation.ReservationDate.Date == t.ReservationDate.Date)
@@ -158,7 +158,7 @@ public class GameService : IGameService
                      Likes = likes.Count(),
                      IsLiked = likes.Any(x => x.UserId == userId)
                  })
-                 .OrderBy(x=>x.Name)
+                 .OrderBy(x => x.Name)
                  .ToListAsync(cancellationToken);
         }
     }
@@ -225,6 +225,75 @@ public class GameService : IGameService
             }
 
             await context.SaveChangesAsync(cancellationToken);
+        }
+    }
+
+    public async Task<List<GetGameReservationHistoryQueryModel>> GetGameReservationByStatus(ReservationStatus? status, CancellationToken cancellationToken)
+    {
+        using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
+        {
+            IQueryable<GameReservation> query = context.GameReservations;
+
+            query = status switch
+            {
+                ReservationStatus.Pending => query.Where(x => x.Status == ReservationStatus.Pending),
+                ReservationStatus.Expired => query.Where(x => x.Status == ReservationStatus.Expired),
+                ReservationStatus.Accepted => query.Where(x => x.Status == ReservationStatus.Accepted),
+                ReservationStatus.Declined => query.Where(x => x.Status == ReservationStatus.Declined),
+                _ => query
+            };
+
+            return await (
+                from x in query
+                let tableReservation = context.SpaceTableReservations
+                  .Where(t => t.IsActive && t.UserId == x.UserId && x.ReservationDate.Date == t.ReservationDate.Date)
+                  .FirstOrDefault()
+                select new GetGameReservationHistoryQueryModel
+                {
+                    Id = x.Id,
+                    UserId = x.UserId,
+                    CreatedDate = x.CreatedDate,
+                    GameId = x.Game.Id,
+                    GameName = x.Game.Name,
+                    ReservationDate = x.ReservationDate,
+                    NumberOfGuests = x.NumberOfGuests,
+                    IsActive = x.IsActive,
+                    IsReservationSuccessful = x.IsReservationSuccessful,
+                    Status = x.Status,
+                    UserHaveActiveTableReservation = tableReservation != null,
+                    TableReservationTime = tableReservation != null
+                      ? tableReservation.ReservationDate
+                      : null
+                })
+                .OrderByDescending(x => x.CreatedDate)
+                .ToListAsync(cancellationToken);
+
+
+
+            var rest = await (
+              from gameReservation in context.GameReservations
+              where gameReservation.IsActive && gameReservation.Status == ReservationStatus.Pending
+              orderby gameReservation.ReservationDate descending
+              let tableReservation = context.SpaceTableReservations
+                  .Where(t => t.IsActive && t.UserId == gameReservation.UserId && gameReservation.ReservationDate.Date == t.ReservationDate.Date)
+                  .FirstOrDefault()
+              select new GetActiveGameReservationListQueryModel
+              {
+                  Id = gameReservation.Id,
+                  GameId = gameReservation.Game.Id,
+                  GameName = gameReservation.Game.Name,
+                  GameImageId = gameReservation.Game.Image.Id,
+                  CreatedDate = gameReservation.CreatedDate,
+                  ReservationDate = gameReservation.ReservationDate.ToLocalTime(),
+                  ReservedDurationMinutes = gameReservation.ReservedDurationMinutes,
+                  Status = gameReservation.Status,
+                  UserId = gameReservation.UserId,
+                  NumberOfGuests = gameReservation.NumberOfGuests,
+                  UserHaveActiveTableReservation = tableReservation != null,
+                  TableReservationTime = tableReservation != null
+                      ? tableReservation.ReservationDate.ToLocalTime()
+                      : null
+              }).ToListAsync();
         }
     }
 }

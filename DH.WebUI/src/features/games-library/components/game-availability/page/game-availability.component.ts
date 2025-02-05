@@ -190,7 +190,7 @@ export class GameAvailabilityComponent
     this.dialog.open(AvailabilityReservationInfoDialog, {
       data: {
         publicNote: this.gameReservationStatus?.publicNote ?? '',
-        status: this.gameReservationStatus?.status ?? ReservationStatus.None,
+        status: this.gameReservationStatus?.status ?? ReservationStatus.Pending,
       },
     });
   }
