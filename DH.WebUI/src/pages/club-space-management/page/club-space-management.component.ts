@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SpaceManagementService } from '../../../entities/space-management/api/space-management.service';
@@ -15,6 +16,7 @@ import { ReservationQrCodeDialog } from '../../../shared/dialogs/reservation-qr-
 import { ReservationStatus } from '../../../shared/enums/reservation-status.enum';
 import { GamesService } from '../../../entities/games/api/games.service';
 import { ActiveReservedGame } from '../../../entities/games/models/active-reserved-game.model';
+import { DateHelper } from '../../../shared/helpers/date-helper';
 
 @Component({
   selector: 'app-club-space-management',
@@ -33,7 +35,8 @@ export class ClubSpaceManagementComponent implements OnInit {
     private readonly spaceManagementService: SpaceManagementService,
     public readonly gameService: GamesService,
     private readonly dialog: MatDialog,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly datePipe: DatePipe
   ) {}
 
   public ngOnInit(): void {
@@ -154,15 +157,10 @@ export class ClubSpaceManagementComponent implements OnInit {
     return {
       numberOfGuests: (value) => value,
       reservationDate: (value) => {
-        const formattedDate = new Intl.DateTimeFormat('en-GB', {
-          day: '2-digit',
-          month: 'short',
-          year: '2-digit',
-          hour: '2-digit',
-          minute: '2-digit',
-          hour12: true,
-        }).format(new Date(value));
-        return formattedDate.replace(/\bam\b/i, 'AM').replace(/\bpm\b/i, 'PM');
+        return this.datePipe.transform(
+          new Date(value),
+          DateHelper.DATE_TIME_FORMAT
+        );
       },
       isConfirmed: (value) => value,
     };

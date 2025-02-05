@@ -32,7 +32,9 @@
               <div class="wrapper_description">
                 <p>
                   Reservation Date:
-                  {{ reservation.reservationDate | date : DATE_TIME_FORMAT }}
+                  <strong class="blue">{{
+                    reservation.reservationDate | date : DATE_TIME_FORMAT
+                  }}</strong>
                 </p>
               </div>
             </div>
