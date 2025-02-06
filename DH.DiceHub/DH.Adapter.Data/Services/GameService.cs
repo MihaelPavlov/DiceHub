@@ -267,33 +267,6 @@ public class GameService : IGameService
                 })
                 .OrderByDescending(x => x.CreatedDate)
                 .ToListAsync(cancellationToken);
-
-
-
-            var rest = await (
-              from gameReservation in context.GameReservations
-              where gameReservation.IsActive && gameReservation.Status == ReservationStatus.Pending
-              orderby gameReservation.ReservationDate descending
-              let tableReservation = context.SpaceTableReservations
-                  .Where(t => t.IsActive && t.UserId == gameReservation.UserId && gameReservation.ReservationDate.Date == t.ReservationDate.Date)
-                  .FirstOrDefault()
-              select new GetActiveGameReservationListQueryModel
-              {
-                  Id = gameReservation.Id,
-                  GameId = gameReservation.Game.Id,
-                  GameName = gameReservation.Game.Name,
-                  GameImageId = gameReservation.Game.Image.Id,
-                  CreatedDate = gameReservation.CreatedDate,
-                  ReservationDate = gameReservation.ReservationDate.ToLocalTime(),
-                  ReservedDurationMinutes = gameReservation.ReservedDurationMinutes,
-                  Status = gameReservation.Status,
-                  UserId = gameReservation.UserId,
-                  NumberOfGuests = gameReservation.NumberOfGuests,
-                  UserHaveActiveTableReservation = tableReservation != null,
-                  TableReservationTime = tableReservation != null
-                      ? tableReservation.ReservationDate.ToLocalTime()
-                      : null
-              }).ToListAsync();
         }
     }
 }

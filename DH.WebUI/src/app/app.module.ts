@@ -17,6 +17,7 @@ import { FirebaseModule } from '../shared/firebase.module';
 import { RegisterModule } from '../pages/register/register.module';
 import { AssistiveTouchModule } from '../shared/components/assistive-touch/assistive-touch.module';
 import { LoadingInterceptor } from '../shared/interceptors/loading.interceptor';
+import { ScrollToTopModule } from '../shared/components/scroll-to-top/scroll-to-top.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -51,6 +52,7 @@ import { LoadingInterceptor } from '../shared/interceptors/loading.interceptor';
     JwtModule,
     LoadingIndicatorComponent,
     FirebaseModule,
+    ScrollToTopModule,
   ],
 })
 export class AppModule {}

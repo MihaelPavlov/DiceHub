@@ -10,7 +10,6 @@ import { GamesService } from '../../../../../entities/games/api/games.service';
 import { DateHelper } from '../../../../../shared/helpers/date-helper';
 import { ReservationConfirmationDialog } from '../../../dialogs/reservation-status-confirmation/reservation-confirmation.dialog';
 import { IGameReservationHistory } from '../../../../../entities/games/models/game-reservation-history.model';
-import { LogLevel } from '@microsoft/signalr';
 
 @Component({
   selector: 'app-game-reservation-history',

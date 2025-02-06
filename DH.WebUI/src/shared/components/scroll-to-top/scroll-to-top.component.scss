@@ -1,0 +1,24 @@
+@use "../../../shared/assets/styles/palette";
+
+.scroll-to-top {
+  z-index: 10000;
+  position: fixed;
+  bottom: 5.5rem;
+  right: 1.25rem;
+  font-size: 3.5rem;
+  opacity: 0; /* Initially hidden */
+  transform: translateX(0%); /* Initially off-screen to the left */
+  transition: opacity 0.3s ease, transform 0.3s ease; /* Smooth transition */
+  filter: invert(52%) sepia(100%) saturate(681%) hue-rotate(196deg) brightness(102%) contrast(101%);
+  //Use this filter generator if you want to change the color https://codepen.io/sosuke/pen/Pjoqqp
+}
+
+.scroll-to-top.show {
+  opacity: 1; /* Fade in */
+  transform: translateX(0); /* Slide in from the left */
+}
+
+.scroll-to-top.hide {
+  opacity: 0; /* Fade out */
+  transform: translateX(100%); /* Slide out to the right */
+}

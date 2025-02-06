@@ -1,10 +1,5 @@
-import { AsyncPipe, NgIf, NgTemplateOutlet } from '@angular/common';
-import {
-  Component,
-  ContentChild,
-  Input,
-  TemplateRef,
-} from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { Component, ContentChild, Input, TemplateRef } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LoadingService } from '../../services/loading.service';
 
@@ -12,7 +7,7 @@ import { LoadingService } from '../../services/loading.service';
   selector: 'loading-indicator',
   templateUrl: './loading-indicator.component.html',
   styleUrls: ['./loading-indicator.component.scss'],
-  imports: [AsyncPipe, NgIf, NgTemplateOutlet],
+  imports: [AsyncPipe],
   standalone: true,
 })
 export class LoadingIndicatorComponent {
