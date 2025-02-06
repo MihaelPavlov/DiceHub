@@ -1,5 +1,11 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, ContentChild, Input, TemplateRef } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ContentChild,
+  Input,
+  TemplateRef,
+} from '@angular/core';
 import { Observable } from 'rxjs';
 import { LoadingService } from '../../services/loading.service';
 
@@ -9,6 +15,7 @@ import { LoadingService } from '../../services/loading.service';
   styleUrls: ['./loading-indicator.component.scss'],
   imports: [AsyncPipe],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush, // Improves performance
 })
 export class LoadingIndicatorComponent {
   loading$: Observable<boolean>;
