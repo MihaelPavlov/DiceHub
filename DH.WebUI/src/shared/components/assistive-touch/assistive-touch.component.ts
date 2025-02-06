@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NotificationsDialog } from './notifications/notifications.dialog';
-import { BehaviorSubject, Observable, Subscription, timer } from 'rxjs';
+import { BehaviorSubject, Subscription, timer } from 'rxjs';
 import { AssistiveTouchSettings } from '../../../entities/common/models/assistive-touch-settings.model';
 import { NotificationsService } from '../../../entities/common/api/notifications.service';
 
@@ -28,7 +28,7 @@ export class AssistiveTouchComponent implements OnInit, OnDestroy {
   private assistiveTouchSettings: AssistiveTouchSettings | null = null;
   public positionY = this.assistiveTouchSettings
     ? Number(this.assistiveTouchSettings.positionY)
-    : 256; // Initial Y position of the button
+    : 175; // Initial Y position of the button
   public positionX = 0; // Initial X position of the button (left side)
   public isLeftAligned = this.assistiveTouchSettings
     ? this.assistiveTouchSettings.isLeftAligned
@@ -47,28 +47,28 @@ export class AssistiveTouchComponent implements OnInit, OnDestroy {
   constructor(
     private readonly dialog: MatDialog,
     private readonly tenantUserSettingsService: TenantUserSettingsService,
-    private readonly notificationService: NotificationsService,
+    private readonly notificationService: NotificationsService
   ) {
-    this.tenantUserSettingsService.getAssistiveTouchSettings().subscribe({
-      next: (setting) => {
-        if (setting) {
-          this.assistiveTouchSettings = setting;
-          this.initiatePosition();
-        } else if (!setting) {
-          this.tenantUserSettingsService.updateAssistiveTouchSettings({
-            positionY: this.positionY.toString(),
-            isLeftAligned: this.isLeftAligned,
-          });
-        }
-      },
-    });
-    this.tenantUserSettingsService.assistiveTouchSettings$.subscribe({
-      next: (setting) => {
-        console.log('from assistive touch component ->', setting);
+    // this.tenantUserSettingsService.getAssistiveTouchSettings().subscribe({
+    //   next: (setting) => {
+    //     if (setting) {
+    //       this.assistiveTouchSettings = setting;
+    //       this.initiatePosition();
+    //     } else if (!setting) {
+    //       this.tenantUserSettingsService.updateAssistiveTouchSettings({
+    //         positionY: this.positionY.toString(),
+    //         isLeftAligned: this.isLeftAligned,
+    //       });
+    //     }
+    //   },
+    // });
+    // this.tenantUserSettingsService.assistiveTouchSettings$.subscribe({
+    //   next: (setting) => {
+    //     console.log('from assistive touch component ->', setting);
 
-        this.assistiveTouchSettings = setting;
-      },
-    });
+    //     this.assistiveTouchSettings = setting;
+    //   },
+    // });
     this.resetInactivityTimer();
   }
 
@@ -92,10 +92,10 @@ export class AssistiveTouchComponent implements OnInit, OnDestroy {
   }
 
   public openNotifications(): void {
-    if (!this.canOpenPanel) return;
+    // if (!this.canOpenPanel) return;
 
-    if (this.dialogOpened) return; // Prevent opening if already open
-    this.resetInactivityTimer();
+     if (this.dialogOpened) return; // Prevent opening if already open
+     this.resetInactivityTimer();
 
     this.dialogOpened = true;
     const dialogRef = this.dialog.open(NotificationsDialog);
@@ -153,24 +153,25 @@ export class AssistiveTouchComponent implements OnInit, OnDestroy {
     this.resetInactivityTimer();
   }
 
-  // Track mouse move events
-  @HostListener('window:mousemove', ['$event'])
-  public onMouseMove(event: MouseEvent) {
-    if (this.isDragging) {
-      this.resetInactivityTimer();
-      this.updatePosition(event.clientX, event.clientY);
-    }
-  }
+  // // Track mouse move events
+  // @HostListener('window:mousemove', ['$event'])
+  // public onMouseMove(event: MouseEvent) {
+  //   if (this.isDragging) {
+  //     this.resetInactivityTimer();
+  //     this.updatePosition(event.clientX, event.clientY);
+  //   }
+  // }
 
-  @HostListener('window:touchmove', ['$event'])
-  public onTouchMove(event: TouchEvent) {
-    if (this.isDragging && event.touches.length === 1) {
-      this.resetInactivityTimer();
-      // Check for single touch
-      const touch = event.touches[0];
-      this.updatePosition(touch.clientX, touch.clientY);
-    }
-  }
+  // @HostListener('window:touchmove', ['$event'])
+  // public onTouchMove(event: TouchEvent) {
+  //   if (this.isDragging && event.touches.length === 1) {
+  //     this.resetInactivityTimer();
+  //     // Check for single touch
+  //     const touch = event.touches[0];
+  //     this.updatePosition(touch.clientX, touch.clientY);
+  //   }
+  // }
+
   // Update button position with boundary checks
   private updatePosition(clientX: number, clientY: number): void {
     const buttonWidth = 38.4; // Those 32px are coming from the css padding of the button. This is the actual size of it.

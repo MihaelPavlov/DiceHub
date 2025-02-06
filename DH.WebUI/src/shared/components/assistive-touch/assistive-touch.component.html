@@ -1,12 +1,12 @@
+<!-- This should be on the div if we want to move the assistive-touch -->
+<!-- (mousedown)="startDragging($event)"
+(mouseup)="stopDragging($event)"
+(touchstart)="startDragging($event)"
+(touchend)="stopDragging($event)" -->
 <div
   #assistive_btn
   class="assistive_btn"
   (click)="openNotifications()"
-  (mousedown)="startDragging($event)"
-  (mouseup)="stopDragging($event)"
-  (touchstart)="startDragging($event)"
-  (touchend)="stopDragging($event)"
-  s
   [ngStyle]="{
     top: positionY + 'px',
     left: positionX + 'px',

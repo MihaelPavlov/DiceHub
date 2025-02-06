@@ -1,6 +1,6 @@
 @use "../../../shared/assets/styles/palette";
 .assistive_btn {
-  transition: opacity 0.5s ease-in-out;
+  transition: opacity 0.3s ease-in-out;
   position: fixed;
   padding: 1.2rem;
   background: palette.$main-blue-color;
@@ -34,7 +34,7 @@
     }
   }
   &.open {
-    opacity: 0.9;
+    opacity: 1;
     &::before {
       transform: rotate(45deg);
     }
