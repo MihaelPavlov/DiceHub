@@ -40,6 +40,15 @@
     overflow: auto;
     height: 25rem;
   }
+
+  .links {
+    display: flex;
+    justify-content: space-around;
+    .link {
+      border-bottom: 0.2rem solid palette.$main-blue-color;
+      text-decoration: none;
+    }
+  }
   .item {
     margin: 1rem;
     display: flex;
@@ -47,6 +56,7 @@
     background-color: #505061;
     padding: 1rem;
     border-radius: 1rem;
+
     .text {
       word-wrap: break-word;
     }

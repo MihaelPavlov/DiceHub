@@ -2,7 +2,6 @@ import { TenantUserSettingsService } from './../../../entities/common/api/tenant
 import {
   Component,
   EventEmitter,
-  HostListener,
   Input,
   OnDestroy,
   OnInit,
@@ -94,8 +93,8 @@ export class AssistiveTouchComponent implements OnInit, OnDestroy {
   public openNotifications(): void {
     // if (!this.canOpenPanel) return;
 
-     if (this.dialogOpened) return; // Prevent opening if already open
-     this.resetInactivityTimer();
+    if (this.dialogOpened) return; // Prevent opening if already open
+    this.resetInactivityTimer();
 
     this.dialogOpened = true;
     const dialogRef = this.dialog.open(NotificationsDialog);
