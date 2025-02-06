@@ -37,7 +37,7 @@
       <div class="wrapper_event__chips-date-info">
         <app-chip
           [color]="'blue'"
-          [text]="(event.startDate | date : DATE_FORMAT)?.toString() ?? ''"
+          [text]="(event.startDate | date : DATE_TIME_FORMAT)?.toString() ?? ''"
           [size]="'small'"
         ></app-chip>
         <app-chip
@@ -100,7 +100,7 @@
       <div class="wrapper_event__chips-date-info">
         <app-chip
           [color]="'blue'"
-          [text]="(event.startDate | date : DATE_FORMAT)?.toString() ?? ''"
+          [text]="(event.startDate | date : DATE_TIME_FORMAT)?.toString() ?? ''"
           [size]="'small'"
         ></app-chip>
         <app-chip
