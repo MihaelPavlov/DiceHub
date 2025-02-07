@@ -1,0 +1,44 @@
+<section class="wrapper_filters">
+  <div
+    class="filter"
+    [class.active]="selectedFilter === null"
+    (click)="applyFilter()"
+  >
+    <span class="material-symbols-outlined all"> all_inclusive </span>
+    <span class="text">ALL</span>
+  </div>
+  <div
+    class="filter"
+    [class.active]="selectedFilter === ReservationStatus.Expired"
+    (click)="applyFilter(ReservationStatus.Expired)"
+  >
+    <span class="material-symbols-outlined expired">
+      hourglass_arrow_down
+    </span>
+    <span class="text">EXPIRED</span>
+  </div>
+  <div
+    class="filter"
+    [class.active]="selectedFilter === ReservationStatus.Pending"
+    (click)="applyFilter(ReservationStatus.Pending)"
+  >
+    <span class="material-symbols-outlined pending"> pending </span>
+    <span class="text">PENDING</span>
+  </div>
+  <div
+    class="filter"
+    [class.active]="selectedFilter === ReservationStatus.Approved"
+    (click)="applyFilter(ReservationStatus.Approved)"
+  >
+    <span class="material-symbols-outlined accept"> check_circle </span>
+    <span class="text">ACCEPTED</span>
+  </div>
+  <div
+    class="filter"
+    [class.active]="selectedFilter === ReservationStatus.Declined"
+    (click)="applyFilter(ReservationStatus.Declined)"
+  >
+    <span class="material-symbols-outlined decline"> cancel </span>
+    <span class="text">CANCELLED</span>
+  </div>
+</section>

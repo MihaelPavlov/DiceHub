@@ -1,6 +1,7 @@
+import { IGameReservationHistory } from './../../../../../entities/games/models/game-reservation-history.model';
 import { Component, OnDestroy, Injector } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ReservationManagementNavigationComponent } from '../../../../../pages/reservation-management/page/reservation-management-navigation.component';
 import { ReservationStatus } from '../../../../../shared/enums/reservation-status.enum';
 import { ReservationDetailsDialog } from '../../../dialogs/reservation-details/reservation-details.dialog';
@@ -9,7 +10,6 @@ import { ReservationType } from '../../../enums/reservation-type.enum';
 import { GamesService } from '../../../../../entities/games/api/games.service';
 import { DateHelper } from '../../../../../shared/helpers/date-helper';
 import { ReservationConfirmationDialog } from '../../../dialogs/reservation-status-confirmation/reservation-confirmation.dialog';
-import { IGameReservationHistory } from '../../../../../entities/games/models/game-reservation-history.model';
 
 @Component({
   selector: 'app-game-reservation-history',
@@ -19,11 +19,12 @@ import { IGameReservationHistory } from '../../../../../entities/games/models/ga
 export class GameReservationHistory implements OnDestroy {
   public reservedGames$!: Observable<IGameReservationHistory[] | null>;
   public showFilter: boolean = false;
-  public expandedReservationId: number | null = null;
-  public leftArrowKey: string = 'arrow_circle_left';
-  public rightArrowKey: string = 'arrow_circle_right';
-  public selectedFilter: ReservationStatus | null = null;
+  public expandedReservationId: BehaviorSubject<number | null> =
+    new BehaviorSubject<number | null>(null);
+  public selectedFilter: BehaviorSubject<ReservationStatus | null> =
+    new BehaviorSubject<ReservationStatus | null>(null);
 
+  public readonly ReservationType = ReservationType;
   public readonly ReservationStatus = ReservationStatus;
   public readonly DATE_TIME_FORMAT: string = DateHelper.DATE_TIME_FORMAT;
 
@@ -42,19 +43,13 @@ export class GameReservationHistory implements OnDestroy {
     this.reservationNavigationRef?.header.next('History');
   }
 
-  public applyFilter(filter: ReservationStatus | null = null): void {
-    this.selectedFilter = filter;
-    this.expandedReservationId = null;
+  public updateHistory(filter: ReservationStatus | null): void {
+    this.selectedFilter.next(filter);
     this.reservedGames$ = this.gameService.getReservationHistory(filter);
   }
 
-  public toggleItem(reservationId: number, event: MouseEvent): void {
-    this.expandedReservationId =
-      this.expandedReservationId === reservationId ? null : reservationId;
-  }
-
-  public isExpanded(reservationId: number): boolean {
-    return this.expandedReservationId === reservationId;
+  public expandedReservationIdReset(): void {
+    this.expandedReservationId.next(null);
   }
 
   public ngOnInit(): void {
@@ -66,121 +61,92 @@ export class GameReservationHistory implements OnDestroy {
       this.reservationNavigationRef.removeActiveChildComponent();
   }
 
-  public updateReservation(id: number, event?: MouseEvent): void {
-    if (event) event.stopPropagation();
+  public updateReservation(id: number): void {
+    const dialogRef = this.dialog.open(ReservationDetailsDialog, {
+      width: '17rem',
+      data: {
+        reservationId: id,
+        action: ReservationDetailsActions.Edit,
+        type: ReservationType.Game,
+      },
+    });
 
-    if (this.expandedReservationId) {
-      const dialogRef = this.dialog.open(ReservationDetailsDialog, {
-        width: '17rem',
-        data: {
-          reservationId: id,
-          action: ReservationDetailsActions.Edit,
-          type: ReservationType.Game,
-        },
-      });
-
-      dialogRef.afterClosed().subscribe((result) => {
-        if (result) {
-          this.reservedGames$ = this.gameService.getReservationHistory(
-            this.selectedFilter
-          );
-          this.expandedReservationId = null;
-        }
-      });
-    }
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.reservedGames$ = this.gameService.getReservationHistory(
+          this.selectedFilter.value
+        );
+        this.expandedReservationIdReset();
+      }
+    });
   }
 
-  public deleteReservation(id: number, event?: MouseEvent): void {
-    if (event) event.stopPropagation();
-    if (this.expandedReservationId) {
-      const dialogRef = this.dialog.open(ReservationDetailsDialog, {
-        width: '17rem',
-        data: {
-          reservationId: id,
-          action: ReservationDetailsActions.Delete,
-          type: ReservationType.Game,
-        },
-      });
+  public deleteReservation(id: number): void {
+    const dialogRef = this.dialog.open(ReservationDetailsDialog, {
+      width: '17rem',
+      data: {
+        reservationId: id,
+        action: ReservationDetailsActions.Delete,
+        type: ReservationType.Game,
+      },
+    });
 
-      dialogRef.afterClosed().subscribe((result) => {
-        if (result) {
-          this.reservedGames$ = this.gameService.getReservationHistory(
-            this.selectedFilter
-          );
-          this.expandedReservationId = null;
-        }
-      });
-    }
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.reservedGames$ = this.gameService.getReservationHistory(
+          this.selectedFilter.value
+        );
+        this.expandedReservationIdReset();
+      }
+    });
   }
 
-  public approveReservation(
-    reservationDate: Date,
-    numberOfGuests: number,
-    gameName: string,
-    tableReservationDate: Date | null,
-    event?: MouseEvent
-  ): void {
-    if (event) event.stopPropagation();
+  public approveReservation(record: IGameReservationHistory): void {
+    const dialogRef = this.dialog.open(ReservationConfirmationDialog, {
+      width: '17rem',
+      data: {
+        type: ReservationType.Game,
+        reservationId: record.id,
+        status: ReservationStatus.Approved,
+        reservationDate: record.reservationDate,
+        numberOfGuests: record.numberOfGuests,
+        gameName: record.gameName,
+        tableReservationDate: record.tableReservationTime,
+      },
+    });
 
-    if (this.expandedReservationId) {
-      const dialogRef = this.dialog.open(ReservationConfirmationDialog, {
-        width: '17rem',
-        data: {
-          type: ReservationType.Game,
-          reservationId: this.expandedReservationId,
-          status: ReservationStatus.Approved,
-          reservationDate,
-          numberOfGuests,
-          gameName,
-          tableReservationDate,
-        },
-      });
-
-      dialogRef.afterClosed().subscribe((result) => {
-        if (result) {
-          console.log(result);
-          this.reservedGames$ = this.gameService.getReservationHistory(
-            this.selectedFilter
-          );
-          this.expandedReservationId = null;
-        }
-      });
-    }
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        console.log(result);
+        this.reservedGames$ = this.gameService.getReservationHistory(
+          this.selectedFilter.value
+        );
+        this.expandedReservationIdReset();
+      }
+    });
   }
 
-  public declineReservation(
-    reservationDate: Date,
-    numberOfGuests: number,
-    gameName: string,
-    tableReservationDate: Date | null,
-    event?: MouseEvent
-  ): void {
-    if (event) event.stopPropagation();
+  public declineReservation(record: IGameReservationHistory): void {
+    const dialogRef = this.dialog.open(ReservationConfirmationDialog, {
+      width: '17rem',
+      data: {
+        type: ReservationType.Game,
+        reservationId: record.id,
+        status: ReservationStatus.Declined,
+        reservationDate: record.reservationDate,
+        numberOfGuests: record.numberOfGuests,
+        gameName: record.gameName,
+        tableReservationDate: record.tableReservationTime,
+      },
+    });
 
-    if (this.expandedReservationId) {
-      console.log(gameName);
-
-      const dialogRef = this.dialog.open(ReservationConfirmationDialog, {
-        width: '17rem',
-        data: {
-          type: ReservationType.Game,
-          reservationId: this.expandedReservationId,
-          status: ReservationStatus.Declined,
-          reservationDate,
-          numberOfGuests,
-          gameName,
-          tableReservationDate,
-        },
-      });
-
-      dialogRef.afterClosed().subscribe((result) => {
-        if (result) {
-          this.reservedGames$ = this.gameService.getReservationHistory(
-            this.selectedFilter
-          );
-          this.expandedReservationId = null;
-        }
-      });
-    }
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.reservedGames$ = this.gameService.getReservationHistory(
+          this.selectedFilter.value
+        );
+        this.expandedReservationIdReset();
+      }
+    });
   }
 }

@@ -12,6 +12,8 @@ import { SpaceTableReservationHistory } from '../../features/reservation-managem
 import { ReservationDetailsDialog } from '../../features/reservation-management/dialogs/reservation-details/reservation-details.dialog';
 import { GameReservations } from '../../features/reservation-management/components/game-reservations/active-list/game-reservations.component';
 import { GameReservationHistory } from '../../features/reservation-management/components/game-reservations/history/game-reservation-history.component';
+import { ReservationHistoryFiltersComponent } from '../../features/reservation-management/components/shared/reservation-history-filters/reservation-history-filters.component';
+import { ReservationHistoryActionsComponent } from '../../features/reservation-management/components/shared/reservation-history-actions/reservation-history-actions.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +24,8 @@ import { GameReservationHistory } from '../../features/reservation-management/co
     ReservationDetailsDialog,
     SpaceTableReservationHistory,
     GameReservationHistory,
+    ReservationHistoryFiltersComponent,
+    ReservationHistoryActionsComponent,
   ],
   exports: [],
   providers: [],

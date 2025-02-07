@@ -1,0 +1,121 @@
+<section class="wrapper_library" *ngIf="historyList | async as history">
+  <div class="no_records" *ngIf="history.length === 0">
+    <img src="/shared/assets/images/no-reservations.png" alt="" />
+    <p class="first-header">
+      No
+      <strong class="blue">
+        {{
+          this.selectedFilter === null
+            ? "Available"
+            : ReservationStatus[this.selectedFilter]
+        }}</strong
+      >
+      reservations found
+    </p>
+  </div>
+  <div
+    *ngFor="let reservation of history"
+    class="wrapper_library__item approve"
+    [class.expanded]="isExpanded(reservation.id)"
+    (click)="toggleItem(reservation.id)"
+  >
+    <div class="content">
+        
+      <ng-container
+        *ngTemplateOutlet="contentTemplate; context: { $implicit: reservation }"
+      ></ng-container>
+
+      <div class="circle-btn">
+        <span
+          class="material-symbols-outlined expired"
+          *ngIf="reservation.status === ReservationStatus.Expired"
+        >
+          hourglass_arrow_down
+        </span>
+
+        <span
+          class="material-symbols-outlined pending"
+          *ngIf="reservation.status === ReservationStatus.Pending"
+        >
+          pending
+        </span>
+
+        <span
+          class="material-symbols-outlined accept"
+          *ngIf="reservation.status === ReservationStatus.Approved"
+        >
+          check_circle
+        </span>
+
+        <span
+          class="material-symbols-outlined decline"
+          *ngIf="reservation.status === ReservationStatus.Declined"
+        >
+          cancel
+        </span>
+      </div>
+      <div
+        class="expanded-buttons"
+        *ngIf="
+          reservation.status === ReservationStatus.Declined ||
+          reservation.status === ReservationStatus.Approved
+        "
+      >
+        <button
+          type="button"
+          class="btnWithIcon"
+          (click)="this.updateReservation(reservation.id, $event)"
+        >
+          <span class="material-symbols-outlined edit"> edit </span>
+          <span class="header">Update</span>
+        </button>
+        <button
+          type="button"
+          class="btnWithIcon"
+          (click)="this.deleteReservation(reservation.id, $event)"
+        >
+          <span class="material-symbols-outlined delete"> delete </span>
+          <span class="header">Delete</span>
+        </button>
+      </div>
+      <div
+        class="expanded-buttons"
+        *ngIf="reservation.status === ReservationStatus.Pending"
+      >
+        <button
+          type="button"
+          class="btnWithIcon"
+          (click)="this.approveReservation(reservation, $event)"
+        >
+          <span class="material-symbols-outlined approve"> check_circle </span>
+          <span class="header">Approve</span>
+        </button>
+        <button
+          type="button"
+          class="btnWithIcon"
+          (click)="this.declineReservation(reservation, $event)"
+        >
+          <span class="material-symbols-outlined decline"> cancel </span>
+          <span class="header">Decline</span>
+        </button>
+      </div>
+      <div
+        class="expanded-buttons"
+        *ngIf="reservation.status === ReservationStatus.Expired"
+      >
+        <span class="text">
+          The reservation has expired with no response.
+        </span>
+
+        <button
+          type="button"
+          class="btnWithIcon"
+          (click)="this.deleteReservation(reservation.id, $event)"
+        >
+          <span class="material-symbols-outlined delete"> delete </span>
+          <span class="header">Delete</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
