@@ -88,7 +88,7 @@ public class GameService : IGameService
         {
             return await (
                 from gameReservation in context.GameReservations
-                where gameReservation.IsActive && gameReservation.Status == ReservationStatus.Pending
+                where gameReservation.IsActive
                 orderby gameReservation.ReservationDate descending
                 let tableReservation = context.SpaceTableReservations
                     .Where(t => t.IsActive && t.UserId == gameReservation.UserId && gameReservation.ReservationDate.Date == t.ReservationDate.Date)

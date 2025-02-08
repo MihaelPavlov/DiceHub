@@ -1,5 +1,11 @@
 import { MenuTabsService } from './../../../shared/services/menu-tabs.service';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { IMenuItem } from '../../../shared/models/menu-item.model';
 import { Router } from '@angular/router';
@@ -11,6 +17,7 @@ import { GameReservations } from '../../../features/reservation-management/compo
 import { GamesService } from '../../../entities/games/api/games.service';
 import { SpaceManagementService } from '../../../entities/space-management/api/space-management.service';
 import { FULL_ROUTE } from '../../../shared/configs/route.config';
+import { ControlsMenuComponent } from '../../../shared/components/menu/controls-menu.component';
 
 @Component({
   selector: 'app-reservation-management-navigation',
@@ -20,6 +27,8 @@ import { FULL_ROUTE } from '../../../shared/configs/route.config';
 export class ReservationManagementNavigationComponent
   implements OnInit, OnDestroy
 {
+  @ViewChild('menu') menu!: ControlsMenuComponent;
+
   public activeChildComponent:
     | GameReservations
     | SpaceTableActiveReservations
@@ -66,8 +75,8 @@ export class ReservationManagementNavigationComponent
 
   public ngOnInit(): void {
     this.menuItems.next([
-      { key: 'history-tables', label: 'History Tables' },
       { key: 'history-games', label: 'History Games' },
+      { key: 'history-tables', label: 'History Tables' },
     ]);
 
     combineLatest([
@@ -85,9 +94,9 @@ export class ReservationManagementNavigationComponent
 
   public handleMenuItemClick(key: string): void {
     if (key === 'history-tables') {
-      this.router.navigateByUrl('/reservations/confirmed-tables');
+      this.router.navigateByUrl('/reservations/tables/history');
     } else if (key === 'history-games') {
-      this.router.navigateByUrl('/games/add-existing-game');
+      this.router.navigateByUrl('/reservations/games/history');
     }
   }
 
@@ -96,6 +105,8 @@ export class ReservationManagementNavigationComponent
       try {
         this.activeChildComponent.onHistory();
       } catch (error) {}
+    } else {
+      this.menu.toggleMenu();
     }
   }
 

@@ -87,30 +87,31 @@
       }
     }
 
+    .btnWithIcon {
+      cursor: pointer;
+      padding: 1rem;
+      border: none;
+      background: transparent;
+      color: palette.$main-font-color;
+      border-radius: 0.25rem;
+
+      .accept {
+        color: palette.$main-green-color;
+        font-variation-settings: "FILL" 1;
+        font-size: 3rem;
+      }
+
+      .decline {
+        color: palette.$main-red-color;
+        font-variation-settings: "FILL" 1;
+        font-size: 3rem;
+      }
+    }
+
     .expanded-buttons {
       display: none;
       position: absolute;
       left: 100%;
-      .btnWithIcon {
-        cursor: pointer;
-        padding: 1rem;
-        border: none;
-        background: transparent;
-        color: palette.$main-font-color;
-        border-radius: 0.25rem;
-
-        .accept {
-          color: palette.$main-green-color;
-          font-variation-settings: "FILL" 1;
-          font-size: 3rem;
-        }
-
-        .decline {
-          color: palette.$main-red-color;
-          font-variation-settings: "FILL" 1;
-          font-size: 3rem;
-        }
-      }
     }
     .wrapper_info {
       position: relative;

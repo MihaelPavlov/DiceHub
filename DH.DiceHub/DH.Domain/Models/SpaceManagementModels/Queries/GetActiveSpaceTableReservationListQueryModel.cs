@@ -1,4 +1,6 @@
-﻿namespace DH.Domain.Models.SpaceManagementModels.Queries;
+﻿using DH.Domain.Enums;
+
+namespace DH.Domain.Models.SpaceManagementModels.Queries;
 
 public class GetActiveSpaceTableReservationListQueryModel
 {
@@ -6,6 +8,7 @@ public class GetActiveSpaceTableReservationListQueryModel
     public string UserId { get; set; } = string.Empty;
     public string Username { get; set; } = string.Empty;
     public int NumberOfGuests { get; set; }
+    public ReservationStatus Status { get; set; }
     public DateTime ReservationDate { get; set; }
     public DateTime CreatedDate { get; set; }
     public bool IsActive { get; set; }

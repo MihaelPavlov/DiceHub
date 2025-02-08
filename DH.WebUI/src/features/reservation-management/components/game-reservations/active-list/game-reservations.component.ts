@@ -27,6 +27,7 @@ export class GameReservations implements OnInit, OnDestroy {
   public activeReservations$!: Observable<ActiveReservedGame[]>;
 
   public readonly ImageEntityType = ImageEntityType;
+  public readonly ReservationStatus = ReservationStatus;
   public readonly DATE_TIME_FORMAT: string = DateHelper.DATE_TIME_FORMAT;
 
   private reservationNavigationRef!: ReservationManagementNavigationComponent | null;
