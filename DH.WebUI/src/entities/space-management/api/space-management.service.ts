@@ -13,6 +13,7 @@ import { ActiveBookedTableModel } from '../models/active-booked-table.model';
 import { IActiveReservedTable } from '../models/active-reserved-table.model';
 import { IGetReservationById } from '../models/get-reservation-by-id.model';
 import { ITableReservationHistory } from '../models/table-reservation-history.model';
+import { ReservationStatus } from '../../../shared/enums/reservation-status.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -48,9 +49,12 @@ export class SpaceManagementService {
     );
   }
 
-  public getReservationHistory(): Observable<ITableReservationHistory[]> {
-    return this.api.get<ITableReservationHistory[]>(
-      `/${PATH.SPACE_MANAGEMENT.CORE}/${PATH.SPACE_MANAGEMENT.GET_RESERVATION_HISTORY}`
+  public getReservationHistory(
+    status: ReservationStatus | null = null
+  ): Observable<ITableReservationHistory[] | null> {
+    return this.api.post<ITableReservationHistory[]>(
+      `/${PATH.SPACE_MANAGEMENT.CORE}/${PATH.SPACE_MANAGEMENT.GET_RESERVATION_HISTORY}`,
+      { status }
     );
   }
 

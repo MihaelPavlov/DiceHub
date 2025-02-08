@@ -1,5 +1,7 @@
 ﻿using DH.Domain.Adapters.Authentication;
 using DH.Domain.Entities;
+using DH.Domain.Enums;
+using DH.Domain.Models.SpaceManagementModels.Queries;
 using DH.Domain.Services;
 using DH.OperationResultCore.Exceptions;
 using Microsoft.EntityFrameworkCore;
@@ -72,6 +74,41 @@ public class SpaceTableService : ISpaceTableService
                     throw;
                 }
             }
+        }
+    }
+
+    public async Task<List<GetSpaceTableReservationHistoryQueryModel>> GetSpaceTableReservationListByStatus(ReservationStatus? status, CancellationToken cancellationToken)
+    {
+        using (var context = await dbContextFactory.CreateDbContextAsync(cancellationToken))
+        {
+            IQueryable<SpaceTableReservation> query = context.SpaceTableReservations;
+
+            query = status switch
+            {
+                ReservationStatus.Pending => query.Where(x => x.Status == ReservationStatus.Pending),
+                ReservationStatus.Expired => query.Where(x => x.Status == ReservationStatus.Expired),
+                ReservationStatus.Accepted => query.Where(x => x.Status == ReservationStatus.Accepted),
+                ReservationStatus.Declined => query.Where(x => x.Status == ReservationStatus.Declined),
+                _ => query
+            };
+
+            return await (
+                from x in query
+                select new GetSpaceTableReservationHistoryQueryModel
+                {
+                    Id = x.Id,
+                    UserId = x.UserId,
+                    CreatedDate = x.CreatedDate,
+                    ReservationDate = x.ReservationDate,
+                    NumberOfGuests = x.NumberOfGuests,
+                    IsActive = x.IsActive,
+                    IsReservationSuccessful = x.IsReservationSuccessful,
+                    Status = x.Status,
+                })
+                .OrderByDescending(x => x.CreatedDate)
+                .OrderBy(x => x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Declined)
+                .ThenByDescending(x => x.ReservationDate)
+                .ToListAsync(cancellationToken);
         }
     }
 }

@@ -228,7 +228,7 @@ public class GameService : IGameService
         }
     }
 
-    public async Task<List<GetGameReservationHistoryQueryModel>> GetGameReservationByStatus(ReservationStatus? status, CancellationToken cancellationToken)
+    public async Task<List<GetGameReservationHistoryQueryModel>> GetGameReservationListByStatus(ReservationStatus? status, CancellationToken cancellationToken)
     {
         using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
         {
@@ -266,6 +266,8 @@ public class GameService : IGameService
                       : null
                 })
                 .OrderByDescending(x => x.CreatedDate)
+                .OrderBy(x => x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Declined)
+                .ThenByDescending(x => x.ReservationDate)
                 .ToListAsync(cancellationToken);
         }
     }

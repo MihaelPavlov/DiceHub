@@ -1,6 +1,6 @@
 import { Component, Injector, OnDestroy } from '@angular/core';
 import { ReservationManagementNavigationComponent } from '../../../../../pages/reservation-management/page/reservation-management-navigation.component';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { SpaceManagementService } from '../../../../../entities/space-management/api/space-management.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ReservationStatus } from '../../../../../shared/enums/reservation-status.enum';
@@ -9,6 +9,7 @@ import { ReservationDetailsActions } from '../../../dialogs/enums/reservation-de
 import { ReservationType } from '../../../enums/reservation-type.enum';
 import { ITableReservationHistory } from '../../../../../entities/space-management/models/table-reservation-history.model';
 import { DateHelper } from '../../../../../shared/helpers/date-helper';
+import { ReservationConfirmationDialog } from '../../../dialogs/reservation-status-confirmation/reservation-confirmation.dialog';
 
 @Component({
   selector: 'app-space-table-reservation-history',
@@ -16,9 +17,13 @@ import { DateHelper } from '../../../../../shared/helpers/date-helper';
   styleUrl: 'space-table-reservation-history.component.scss',
 })
 export class SpaceTableReservationHistory implements OnDestroy {
-  public reservedTables$!: Observable<ITableReservationHistory[]>;
+  public reservedTables$!: Observable<ITableReservationHistory[] | null>;
   public showFilter: boolean = false;
-  public expandedReservationId: number | null = null;
+
+  public expandedReservationId: BehaviorSubject<number | null> =
+    new BehaviorSubject<number | null>(null);
+  public selectedFilter: BehaviorSubject<ReservationStatus | null> =
+    new BehaviorSubject<ReservationStatus | null>(null);
 
   public readonly ReservationStatus = ReservationStatus;
   public readonly DATE_TIME_FORMAT: string = DateHelper.DATE_TIME_FORMAT;
@@ -42,59 +47,106 @@ export class SpaceTableReservationHistory implements OnDestroy {
     this.reservedTables$ = this.spaceManagementService.getReservationHistory();
   }
 
+  public updateHistory(filter: ReservationStatus | null): void {
+    this.selectedFilter.next(filter);
+    this.reservedTables$ =
+      this.spaceManagementService.getReservationHistory(filter);
+  }
+
   public ngOnDestroy(): void {
     if (this.reservationNavigationRef)
       this.reservationNavigationRef.removeActiveChildComponent();
   }
 
-  public toggleItem(reservationId: number): void {
-    this.expandedReservationId =
-      this.expandedReservationId === reservationId ? null : reservationId;
-  }
-
-  public isExpanded(reservationId: number): boolean {
-    return this.expandedReservationId === reservationId;
+  public expandedReservationIdReset(): void {
+    this.expandedReservationId.next(null);
   }
 
   public updateReservation(id: number): void {
-    if (this.expandedReservationId) {
-      const dialogRef = this.dialog.open(ReservationDetailsDialog, {
-        width: '17rem',
-        data: {
-          reservationId: id,
-          action: ReservationDetailsActions.Edit,
-          type: ReservationType.Table,
-        },
-      });
+    const dialogRef = this.dialog.open(ReservationDetailsDialog, {
+      width: '17rem',
+      data: {
+        reservationId: id,
+        action: ReservationDetailsActions.Edit,
+        type: ReservationType.Table,
+      },
+    });
 
-      dialogRef.afterClosed().subscribe((result) => {
-        if (result) {
-          this.reservedTables$ =
-            this.spaceManagementService.getReservationHistory();
-          this.expandedReservationId = null;
-        }
-      });
-    }
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.reservedTables$ =
+          this.spaceManagementService.getReservationHistory(
+            this.selectedFilter.value
+          );
+        this.expandedReservationIdReset();
+      }
+    });
   }
 
   public deleteReservation(id: number): void {
-    if (this.expandedReservationId) {
-      const dialogRef = this.dialog.open(ReservationDetailsDialog, {
-        width: '17rem',
-        data: {
-          reservationId: id,
-          action: ReservationDetailsActions.Delete,
-          type: ReservationType.Table,
-        },
-      });
+    const dialogRef = this.dialog.open(ReservationDetailsDialog, {
+      width: '17rem',
+      data: {
+        reservationId: id,
+        action: ReservationDetailsActions.Delete,
+        type: ReservationType.Table,
+      },
+    });
 
-      dialogRef.afterClosed().subscribe((result) => {
-        if (result) {
-          this.reservedTables$ =
-            this.spaceManagementService.getReservationHistory();
-          this.expandedReservationId = null;
-        }
-      });
-    }
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.reservedTables$ =
+          this.spaceManagementService.getReservationHistory(
+            this.selectedFilter.value
+          );
+        this.expandedReservationIdReset();
+      }
+    });
+  }
+
+  public approveReservation(record: ITableReservationHistory): void {
+    const dialogRef = this.dialog.open(ReservationConfirmationDialog, {
+      width: '17rem',
+      data: {
+        type: ReservationType.Table,
+        reservationId: record.id,
+        status: ReservationStatus.Approved,
+        reservationDate: record.reservationDate,
+        numberOfGuests: record.numberOfGuests,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.reservedTables$ =
+          this.spaceManagementService.getReservationHistory(
+            this.selectedFilter.value
+          );
+        this.expandedReservationIdReset();
+      }
+    });
+  }
+
+  public declineReservation(record: ITableReservationHistory): void {
+    const dialogRef = this.dialog.open(ReservationConfirmationDialog, {
+      width: '17rem',
+      data: {
+        type: ReservationType.Table,
+        reservationId: record.id,
+        status: ReservationStatus.Declined,
+        reservationDate: record.reservationDate,
+        numberOfGuests: record.numberOfGuests,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.reservedTables$ =
+          this.spaceManagementService.getReservationHistory(
+            this.selectedFilter.value
+          );
+        this.expandedReservationIdReset();
+      }
+    });
   }
 }

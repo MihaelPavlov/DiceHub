@@ -1,34 +1,21 @@
 ﻿using DH.Domain.Adapters.Authentication.Services;
-using DH.Domain.Entities;
 using DH.Domain.Enums;
 using DH.Domain.Models.SpaceManagementModels.Queries;
-using DH.Domain.Repositories;
+using DH.Domain.Services;
 using MediatR;
 
 namespace DH.Application.SpaceManagement.Queries;
 
-public record GetSpaceTableReservationHistoryQuery : IRequest<List<GetSpaceTableReservationHistoryQueryModel>>;
+public record GetSpaceTableReservationHistoryQuery(ReservationStatus? Status) : IRequest<List<GetSpaceTableReservationHistoryQueryModel>>;
 
-internal class GetSpaceTableReservationHistoryQueryHandler(IRepository<SpaceTableReservation> repository, IUserService userService) : IRequestHandler<GetSpaceTableReservationHistoryQuery, List<GetSpaceTableReservationHistoryQueryModel>>
+internal class GetSpaceTableReservationHistoryQueryHandler(ISpaceTableService spaceTableService, IUserService userService) : IRequestHandler<GetSpaceTableReservationHistoryQuery, List<GetSpaceTableReservationHistoryQueryModel>>
 {
-    readonly IRepository<SpaceTableReservation> repository = repository;
     readonly IUserService userService = userService;
+    readonly ISpaceTableService spaceTableService = spaceTableService;
 
     public async Task<List<GetSpaceTableReservationHistoryQueryModel>> Handle(GetSpaceTableReservationHistoryQuery request, CancellationToken cancellationToken)
     {
-        var reservations = await this.repository.GetWithPropertiesAsync<GetSpaceTableReservationHistoryQueryModel>(
-            x => x.Status != ReservationStatus.Pending,
-            x => new GetSpaceTableReservationHistoryQueryModel
-            {
-                Id = x.Id,
-                UserId = x.UserId,
-                CreatedDate = x.CreatedDate,
-                ReservationDate = x.ReservationDate,
-                NumberOfGuests = x.NumberOfGuests,
-                IsActive = x.IsActive,
-                IsReservationSuccessful = x.IsReservationSuccessful,
-                Status = x.Status,
-            }, cancellationToken);
+        var reservations = await this.spaceTableService.GetSpaceTableReservationListByStatus(request.Status, cancellationToken);
 
         var userIds = reservations.DistinctBy(x => x.UserId).Select(x => x.UserId).ToArray();
 
@@ -42,9 +29,6 @@ internal class GetSpaceTableReservationHistoryQueryHandler(IRepository<SpaceTabl
                 reservation.Username = user.UserName;
         }
 
-        return reservations
-            .OrderBy(x => x.Status == ReservationStatus.Accepted || x.Status == ReservationStatus.Declined)
-            .ThenByDescending(x => x.ReservationDate)
-            .ToList();
+        return reservations;
     }
 }

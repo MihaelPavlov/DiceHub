@@ -159,12 +159,12 @@ public class SpaceManagementController : ControllerBase
         return Ok(result);
     }
 
-    [HttpGet("get-reservation-history")]
+    [HttpPost("get-reservation-history")]
     [ActionAuthorize(UserAction.SpaceManagementReservedTablesRU)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetSpaceTableReservationHistoryQueryModel>))]
-    public async Task<IActionResult> GetSpaceTableReservationHistory(CancellationToken cancellationToken)
+    public async Task<IActionResult> GetSpaceTableReservationHistory([FromBody] GetSpaceTableReservationHistoryQuery query, CancellationToken cancellationToken)
     {
-        var result = await this.mediator.Send(new GetSpaceTableReservationHistoryQuery(), cancellationToken);
+        var result = await this.mediator.Send(query, cancellationToken);
         return Ok(result);
     }
 

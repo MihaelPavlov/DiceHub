@@ -1,11 +1,9 @@
 <app-reservation-history-filters
-  [reservationType]="ReservationType.Game"
   (expandedReservationIdReset)="expandedReservationIdReset()"
   (updateHistory)="updateHistory($event)"
 ></app-reservation-history-filters>
 
 <app-reservation-history-actions
-  [reservationType]="ReservationType.Game"
   [historyList]="reservedGames$"
   [expandedReservationId]="this.expandedReservationId"
   (updateReservationHistoryById)="updateReservation($event)"

@@ -19,6 +19,7 @@ import { ReservationConfirmationDialog } from '../../../dialogs/reservation-stat
 export class GameReservationHistory implements OnDestroy {
   public reservedGames$!: Observable<IGameReservationHistory[] | null>;
   public showFilter: boolean = false;
+
   public expandedReservationId: BehaviorSubject<number | null> =
     new BehaviorSubject<number | null>(null);
   public selectedFilter: BehaviorSubject<ReservationStatus | null> =

@@ -1,6 +1,5 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { ReservationStatus } from '../../../../../shared/enums/reservation-status.enum';
-import { ReservationType } from '../../../enums/reservation-type.enum';
 
 @Component({
   selector: 'app-reservation-history-filters',
@@ -8,8 +7,6 @@ import { ReservationType } from '../../../enums/reservation-type.enum';
   styleUrl: 'reservation-history-filters.component.scss',
 })
 export class ReservationHistoryFiltersComponent {
-  @Input({ required: true }) reservationType!: ReservationType;
-
   @Output() expandedReservationIdReset: EventEmitter<void> =
     new EventEmitter<void>();
   @Output() updateHistory: EventEmitter<ReservationStatus | null> =

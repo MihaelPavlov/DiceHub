@@ -1,68 +1,40 @@
-<section class="wrapper_library">
-  <div
-    *ngFor="let reservation of reservedTables$ | async"
-    class="wrapper_library__item approve"
-    [class.expanded]="isExpanded(reservation.id)"
-    (click)="toggleItem(reservation.id)"
-  >
-    <div class="content">
-      <div class="wrapper_info">
-        <div class="wrapper_title">
-          <div class="wrapper_description">
-            <p>
-              Created At:
-              {{ reservation.createdDate | date : DATE_TIME_FORMAT }}
-            </p>
-          </div>
-          <span class="blue">{{ reservation.username }}</span> has booked a
-          table
+<app-reservation-history-filters
+  (expandedReservationIdReset)="expandedReservationIdReset()"
+  (updateHistory)="updateHistory($event)"
+></app-reservation-history-filters>
+
+<app-reservation-history-actions
+  [historyList]="reservedTables$"
+  [expandedReservationId]="this.expandedReservationId"
+  (updateReservationHistoryById)="updateReservation($event)"
+  (deleteReservationHistoryById)="deleteReservation($event)"
+  (approveReservationHistory)="approveReservation($event)"
+  (declineReservationHistory)="declineReservation($event)"
+  [selectedFilter]="this.selectedFilter.value"
+>
+  <ng-template let-reservation>
+    <div class="wrapper_info">
+      <div class="wrapper_title">
+        <div class="wrapper_description">
           <p>
-            <span class="blue">{{ reservation.numberOfGuests }}</span>
-            {{ reservation.numberOfGuests === 1 ? "person" : "people" }}
+            Created At:
+            {{ reservation.createdDate | date : DATE_TIME_FORMAT }}
           </p>
-          <div class="wrapper_description">
-            <p>
-              Reservation Date:
-              <strong class="blue">{{
-                reservation.reservationDate | date : DATE_TIME_FORMAT
-              }}</strong>
-            </p>
-          </div>
+        </div>
+        <span class="blue">{{ reservation.username }}</span> has booked a table
+        <p>
+          <span class="blue">{{ reservation.numberOfGuests }}</span>
+          {{ reservation.numberOfGuests === 1 ? "person" : "people" }}
+        </p>
+        <div class="wrapper_description">
+          <p>
+            Reservation Date:
+            <strong class="blue">{{
+              reservation.reservationDate | date : DATE_TIME_FORMAT
+            }}</strong>
+          </p>
         </div>
       </div>
-      <div class="circle-btn">
-        <span
-          class="material-symbols-outlined accept"
-          *ngIf="reservation.status === ReservationStatus.Approved"
-        >
-          check_circle
-        </span>
-
-        <span
-          class="material-symbols-outlined decline"
-          *ngIf="reservation.status === ReservationStatus.Declined"
-        >
-          cancel
-        </span>
-      </div>
-      <div class="expanded-buttons">
-        <button
-          type="button"
-          class="btnWithIcon"
-          (click)="this.updateReservation(reservation.id)"
-        >
-          <span class="material-symbols-outlined accept"> edit </span>
-          <span class="header">Update</span>
-        </button>
-        <button
-          type="button"
-          class="btnWithIcon"
-          (click)="this.deleteReservation(reservation.id)"
-        >
-          <span class="material-symbols-outlined decline"> delete </span>
-          <span class="header">Delete</span>
-        </button>
-      </div>
     </div>
-  </div>
-</section>
+  </ng-template>
+</app-reservation-history-actions>

@@ -1,7 +1,6 @@
 import {
   Component,
   ContentChild,
-  Directive,
   EventEmitter,
   Input,
   Output,
@@ -19,8 +18,9 @@ import { ITableReservationHistory } from '../../../../../entities/space-manageme
   templateUrl: 'reservation-history-actions.component.html',
   styleUrl: 'reservation-history-actions.component.scss',
 })
-export class ReservationHistoryActionsComponent<T extends IGameReservationHistory | ITableReservationHistory> {
-  @Input({ required: true }) reservationType!: ReservationType;
+export class ReservationHistoryActionsComponent<
+  T extends IGameReservationHistory | ITableReservationHistory
+> {
   @Input({ required: true }) historyList!: Observable<T[] | null>;
   @Input({ required: true }) expandedReservationId!: BehaviorSubject<
     number | null
@@ -28,7 +28,7 @@ export class ReservationHistoryActionsComponent<T extends IGameReservationHistor
   @Input({ required: true }) selectedFilter: ReservationStatus | null = null;
 
   @ContentChild(TemplateRef) contentTemplate!: TemplateRef<any>;
-  
+
   @Output() updateReservationHistoryById: EventEmitter<number> =
     new EventEmitter<number>();
 
@@ -39,6 +39,7 @@ export class ReservationHistoryActionsComponent<T extends IGameReservationHistor
 
   @Output() declineReservationHistory: EventEmitter<T> = new EventEmitter<T>();
 
+  public isInfoForExpiredRecordVisible: boolean = false;
 
   public readonly ReservationType = ReservationType;
   public readonly ReservationStatus = ReservationStatus;
@@ -48,6 +49,9 @@ export class ReservationHistoryActionsComponent<T extends IGameReservationHistor
     this.expandedReservationId.next(
       this.expandedReservationId.value === reservationId ? null : reservationId
     );
+
+    if (this.expandedReservationId.value === null)
+      this.isInfoForExpiredRecordVisible = false;
   }
 
   public isExpanded(reservationId: number): boolean {
@@ -64,6 +68,12 @@ export class ReservationHistoryActionsComponent<T extends IGameReservationHistor
     if (event) event.stopPropagation();
 
     this.deleteReservationHistoryById.emit(id);
+  }
+
+  public showInfoForExpiredRecord(event?: MouseEvent): void {
+    if (event) event.stopPropagation();
+
+    this.isInfoForExpiredRecordVisible = !this.isInfoForExpiredRecordVisible;
   }
 
   public approveReservation(historyRecord: T, event?: MouseEvent): void {

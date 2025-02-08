@@ -20,7 +20,6 @@
     (click)="toggleItem(reservation.id)"
   >
     <div class="content">
-        
       <ng-container
         *ngTemplateOutlet="contentTemplate; context: { $implicit: reservation }"
       ></ng-container>
@@ -103,10 +102,17 @@
         class="expanded-buttons"
         *ngIf="reservation.status === ReservationStatus.Expired"
       >
-        <span class="text">
-          The reservation has expired with no response.
-        </span>
-
+        <button
+          type="button"
+          class="btnWithIcon"
+          (click)="this.showInfoForExpiredRecord($event)"
+        >
+          <span class="material-symbols-outlined info"> info </span>
+          <span class="header">Info</span>
+          <div class="info_text" *ngIf="isInfoForExpiredRecordVisible">
+            <p>The reservation has expired with no response.</p>
+          </div>
+        </button>
         <button
           type="button"
           class="btnWithIcon"
