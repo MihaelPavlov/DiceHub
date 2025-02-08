@@ -1,7 +1,5 @@
 ﻿using DH.Domain.Adapters.Authentication;
 using DH.Domain.Adapters.Authentication.Models;
-using DH.Domain.Adapters.Authentication.Models.Enums;
-using DH.Domain.Adapters.Authentication.Services;
 using DH.Domain.Adapters.PushNotifications;
 using DH.Domain.Adapters.PushNotifications.Messages.Common;
 using DH.Domain.Adapters.PushNotifications.Messages.Models;
@@ -204,5 +202,24 @@ internal class PushNotificationsService : IPushNotificationsService
                 this.logger.LogError("Message error was catched exception -> {exception}", JsonSerializer.Serialize(ex));
             }
         }
+    }
+
+    public async Task ClearUserAllNotifications(CancellationToken cancellationToken)
+    {
+        var userNotifications = await this.userNotificationRepository.GetWithPropertiesAsTrackingAsync(x => x.UserId == this.userContext.UserId, x => x, cancellationToken);
+
+        await this.userNotificationRepository.RemoveRange(userNotifications, cancellationToken);
+    }
+
+    public async Task MarkedAsViewAllUserNotifications(CancellationToken cancellationToken)
+    {
+        var userNotifications = await this.userNotificationRepository.GetWithPropertiesAsTrackingAsync(x => x.UserId == this.userContext.UserId, x => x, cancellationToken);
+
+        foreach (var item in userNotifications)
+        {
+            item.HasBeenViewed = true;
+        }
+
+        await this.userNotificationRepository.SaveChangesAsync(cancellationToken);
     }
 }

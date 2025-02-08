@@ -20,4 +20,12 @@ export class NotificationsService {
   public markNotificationAsViewed(id: number): Observable<null> {
     return this.api.post('/notifications/marked-as-viewed', id);
   }
+
+  public markedAsViewAllUserNotification(): Observable<null> {
+    return this.api.post('/notifications/mark-all', {});
+  }
+
+  public clearUserAllNotification(): Observable<null> {
+    return this.api.post('/notifications/clear-all', {});
+  }
 }

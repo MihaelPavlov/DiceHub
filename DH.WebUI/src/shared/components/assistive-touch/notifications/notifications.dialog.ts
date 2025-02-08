@@ -63,6 +63,10 @@ export class NotificationsDialog implements OnInit {
     });
   }
 
+  public get isAllMarkedAsViewed(): boolean {
+    return this.userNotifications.every((x) => x.hasBeenViewed);
+  }
+
   public markedAsViewed(id: number, hasBeenViewed: boolean) {
     if (!hasBeenViewed)
       this.notificationService.markNotificationAsViewed(id).subscribe({
@@ -75,6 +79,32 @@ export class NotificationsDialog implements OnInit {
           });
         },
       });
+  }
+
+  public clearAll(): void {
+    this.notificationService.clearUserAllNotification().subscribe({
+      next: () => {
+        this.notificationService.getUserNotificationList().subscribe({
+          next: (result) => {
+            this.userNotifications = result;
+            this.notificationsUpdated.emit();
+          },
+        });
+      },
+    });
+  }
+
+  public markAll(): void {
+    this.notificationService.markedAsViewAllUserNotification().subscribe({
+      next: () => {
+        this.notificationService.getUserNotificationList().subscribe({
+          next: (result) => {
+            this.userNotifications = result;
+            this.notificationsUpdated.emit();
+          },
+        });
+      },
+    });
   }
 
   public closeDialog(): void {

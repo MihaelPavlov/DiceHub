@@ -45,4 +45,22 @@ public class NotificationsController : ControllerBase
         await this.pushNotificationsService.MarkedNotificationAsViewed(id, cancellationToken);
         return Ok();
     }
+
+    [HttpPost("clear-all")]
+    [ActionAuthorize(UserAction.NotificationCRUD)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> ClearUserAllNotification(CancellationToken cancellationToken)
+    {
+        await this.pushNotificationsService.ClearUserAllNotifications(cancellationToken);
+        return Ok();
+    }
+
+    [HttpPost("mark-all")]
+    [ActionAuthorize(UserAction.NotificationCRUD)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> MarkedAsViewAllUserNotification(CancellationToken cancellationToken)
+    {
+        await this.pushNotificationsService.MarkedAsViewAllUserNotifications(cancellationToken);
+        return Ok();
+    }
 }

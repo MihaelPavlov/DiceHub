@@ -48,6 +48,12 @@
       border-bottom: 0.2rem solid palette.$main-blue-color;
       text-decoration: none;
     }
+
+    .disable {
+      pointer-events: none;
+      cursor: default;
+      opacity: 0.5;
+    }
   }
   .item {
     margin: 1rem;

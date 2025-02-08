@@ -16,8 +16,8 @@
     </div>
     <ng-container *ngIf="this.userNotifications.length !== 0">
       <div class="links">
-        <a class="link">Read All</a>
-        <a class="link">Clear</a>
+        <a class="link" [ngClass]="{disable: isAllMarkedAsViewed}" (click)="markAll()">Read All</a>
+        <a class="link" (click)="clearAll()">Clear</a>
       </div>
       <div
         class="item"

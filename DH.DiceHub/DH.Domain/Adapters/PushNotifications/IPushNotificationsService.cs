@@ -30,5 +30,7 @@ public interface IPushNotificationsService
     Task SendNotificationToUsersAsync(List<GetUserByRoleModel> users, MessageRequest message, CancellationToken cancellationToken);
     Task<IEnumerable<GetUserNotificationsModel>> GetNotificationsByUserId(CancellationToken cancellationToken);
     Task MarkedNotificationAsViewed(int notificationId, CancellationToken cancellationToken);
+    Task ClearUserAllNotifications(CancellationToken cancellationToken);
+    Task MarkedAsViewAllUserNotifications(CancellationToken cancellationToken);
     Task<bool> AreAnyActiveNotifcations(CancellationToken cancellationToken);
 }
