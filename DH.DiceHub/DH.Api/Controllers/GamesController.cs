@@ -204,12 +204,20 @@ public class GamesController : ControllerBase
     }
 
     [HttpGet("get-active-reserved-games")]
-    [ActionAuthorize(UserAction.GamesRead)]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = null!)]
+    [ActionAuthorize(UserAction.GamesCUD)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetActiveGameReservationListQueryModel>))]
     public async Task<IActionResult> GetActiveGameReservationList(CancellationToken cancellationToken)
     {
         var result = await this.mediator.Send(new GetActiveGameReservationListQuery(), cancellationToken);
+        return Ok(result);
+    }
+
+    [HttpGet("get-active-reserved-games-count")]
+    [ActionAuthorize(UserAction.GamesCUD)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+    public async Task<IActionResult> GetActiveGameReservationCount(CancellationToken cancellationToken)
+    {
+        var result = await this.mediator.Send(new GetActiveGameReservationCountQuery(), cancellationToken);
         return Ok(result);
     }
 

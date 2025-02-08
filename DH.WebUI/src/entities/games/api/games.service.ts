@@ -94,6 +94,12 @@ export class GamesService {
     );
   }
 
+  public getActiveReservationsCount(): Observable<number> {
+    return this.api.get<number>(
+      `/${PATH.GAMES.CORE}/${PATH.GAMES.GET_ACTIVE_RESERVED_GAMES_COUNT}`
+    );
+  }
+
   public getDropdownList(): Observable<IGameDropdownResult[]> {
     return this.api.get<IGameDropdownResult[]>(
       `/${PATH.GAMES.CORE}/${PATH.GAMES.GET_DROPDOWN_LIST}`

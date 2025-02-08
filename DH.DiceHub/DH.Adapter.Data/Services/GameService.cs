@@ -271,4 +271,12 @@ public class GameService : IGameService
                 .ToListAsync(cancellationToken);
         }
     }
+
+    public async Task<int> GetActiveGameReservationsCount(CancellationToken cancellationToken)
+    {
+        using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
+        {
+            return await context.GameReservations.Where(x => x.IsActive).CountAsync(cancellationToken);
+        }
+    }
 }

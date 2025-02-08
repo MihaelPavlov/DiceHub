@@ -77,6 +77,14 @@ public class SpaceTableService : ISpaceTableService
         }
     }
 
+    public async Task<int> GetActiveSpaceTableReservationsCount(CancellationToken cancellationToken)
+    {
+        using (var context = await dbContextFactory.CreateDbContextAsync(cancellationToken))
+        {
+            return await context.SpaceTableReservations.Where(x => x.IsActive).CountAsync(cancellationToken);
+        }
+    }
+
     public async Task<List<GetSpaceTableReservationHistoryQueryModel>> GetSpaceTableReservationListByStatus(ReservationStatus? status, CancellationToken cancellationToken)
     {
         using (var context = await dbContextFactory.CreateDbContextAsync(cancellationToken))

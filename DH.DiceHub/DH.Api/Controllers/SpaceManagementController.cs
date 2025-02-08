@@ -159,6 +159,15 @@ public class SpaceManagementController : ControllerBase
         return Ok(result);
     }
 
+    [HttpGet("get-active-reserved-tables-count")]
+    [ActionAuthorize(UserAction.SpaceManagementReservedTablesRU)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+    public async Task<IActionResult> GetActiveSpaceTableReservationCount(CancellationToken cancellationToken)
+    {
+        var result = await this.mediator.Send(new GetActiveSpaceTableReservationCountQuery(), cancellationToken);
+        return Ok(result);
+    }
+
     [HttpPost("get-reservation-history")]
     [ActionAuthorize(UserAction.SpaceManagementReservedTablesRU)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetSpaceTableReservationHistoryQueryModel>))]

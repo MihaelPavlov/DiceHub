@@ -9,6 +9,7 @@ export const ROUTE = {
     REVIEWS: 'reviews',
     UPDATE: 'update',
     ADD_EXISTING_GAME: 'add-existing-game',
+    RESERVATIONS:'reservations',
   },
   EVENTS: {
     CORE: 'events',
@@ -40,6 +41,8 @@ export const ROUTE = {
     DETAILS: 'details',
     CREATE: 'create',
     UPDATE: 'update',
+    RESERVATIONS:'reservations',
+    TABLES: 'tables'
   },
   CHAT_HUB_CLIENT: {
     CORE: 'chatHub',
@@ -69,6 +72,7 @@ export const FULL_ROUTE = {
       `/${ROUTE.GAMES.CORE}/${gameId}/${ROUTE.GAMES.UPDATE}`,
     ADD_EXISTING_GAME: (gameId: number) =>
       `/${ROUTE.GAMES.CORE}/${gameId}/${ROUTE.GAMES.ADD_EXISTING_GAME}`,
+    ACTIVE_RESERVATIONS: `${ROUTE.GAMES.RESERVATIONS}/${ROUTE.GAMES.CORE}`,
   },
   EVENTS: {
     HOME: `${ROUTE.EVENTS.CORE}/${ROUTE.EVENTS.HOME}`,
@@ -94,6 +98,7 @@ export const FULL_ROUTE = {
   },
   SPACE_MANAGEMENT: {
     HOME: `${ROUTE.SPACE_MANAGEMENT.CORE}/${ROUTE.SPACE_MANAGEMENT.HOME}`,
+    ACTIVE_RESERVATIONS: `${ROUTE.SPACE_MANAGEMENT.RESERVATIONS}/${ROUTE.SPACE_MANAGEMENT.TABLES}`,
     UPDATE_BY_ID: (tableId: number) =>
       `${ROUTE.SPACE_MANAGEMENT.CORE}/${ROUTE.SPACE_MANAGEMENT.UPDATE}/${tableId}`,
     ROOM_DETAILS: (tableId: number) =>

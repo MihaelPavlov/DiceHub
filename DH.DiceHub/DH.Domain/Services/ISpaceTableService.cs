@@ -8,4 +8,5 @@ public interface ISpaceTableService : IDomainService<SpaceTable>
 {
     Task<int> Create(SpaceTable spaceTable, CancellationToken cancellationToken, bool fromGameReservation = false, string userId = "");
     Task<List<GetSpaceTableReservationHistoryQueryModel>> GetSpaceTableReservationListByStatus(ReservationStatus? status, CancellationToken cancellationToken);
+    Task<int> GetActiveSpaceTableReservationsCount(CancellationToken cancellationToken);
 }

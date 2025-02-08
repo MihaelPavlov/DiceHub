@@ -28,8 +28,8 @@ internal class GetActiveSpaceTableReservationListQueryHandler : IRequestHandler<
             {
                 Id = x.Id,
                 UserId = x.UserId,
-                CreatedDate = x.CreatedDate.ToLocalTime(),
-                ReservationDate = x.ReservationDate.ToLocalTime(),
+                CreatedDate = x.CreatedDate,
+                ReservationDate = x.ReservationDate,
                 IsActive = x.IsActive,
                 NumberOfGuests = x.NumberOfGuests,
             }, cancellationToken);

@@ -33,22 +33,38 @@
 
 <ng-container *ngIf="!this.activeChildComponent">
   <div class="wrapper_tabs">
-    <div class="wrapper_tabs__tab">
+    <div
+      class="wrapper_tabs__tab"
+      (click)="this.navigateToActiveGameReservations()"
+    >
       <span class="wrapper_tabs__tab-header"
         ><strong class="marked">Active</strong> Game Bookings</span
       >
       <div class="info">
         <span class="material-symbols-outlined"> simulation </span>
-        <span class="info__count">12</span>
+        <span class="info__count" *ngIf="this.activeReservationsCounts">{{
+          this.activeReservationsCounts.gameReservationsCount
+        }}</span>
+        <span class="info__count" *ngIf="!this.activeReservationsCounts"
+          >- -</span
+        >
       </div>
     </div>
-    <div class="wrapper_tabs__tab">
+    <div
+      class="wrapper_tabs__tab"
+      (click)="this.navigateToActiveTableReservations()"
+    >
       <span class="wrapper_tabs__tab-header"
         ><strong class="marked">Active</strong> Table Bookings</span
       >
       <div class="info">
         <span class="material-symbols-outlined"> workspaces </span>
-        <span class="info__count">14</span>
+        <span class="info__count" *ngIf="this.activeReservationsCounts">{{
+          this.activeReservationsCounts.tableReservationsCount
+        }}</span>
+        <span class="info__count" *ngIf="!this.activeReservationsCounts"
+          >- -</span
+        >
       </div>
     </div>
   </div>
