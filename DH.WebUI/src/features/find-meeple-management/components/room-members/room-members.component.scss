@@ -1,62 +1,61 @@
 @use "../../../../shared/assets/styles/palette";
 
-
 .guestlist {
-    overflow: hidden;
-    position: relative;
-    padding: 0 1rem;
+  overflow: hidden;
+  position: relative;
+  padding: 0 1rem;
 
-    .attendes {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        margin-bottom: 1rem;
-        overflow-y: auto;
+  .attendes {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 1rem;
+    overflow-y: auto;
 
-        li {
-            float: none;
-            width: 100%;
+    li {
+      float: none;
+      width: 100%;
 
-            &.last {
-                border-bottom: none;
-            }
+      &.last {
+        border-bottom: none;
+      }
 
-            .item {
-                display: block;
-                margin: 0 1rem;
-                padding: 1rem 0;
-                border-bottom: 1px solid #ccc;
+      .item {
+        display: block;
+        margin: 0 1rem;
+        padding: 1rem 0;
+        border-bottom: 1px solid #ccc;
 
-                img {
-                    float: left;
-                    margin-right: 10px;
-                }
-
-                .user-info {
-                    display: block;
-                    margin-top: 5px;
-
-                    .owner {
-                        color: palette.$main-blue-color
-                    }
-
-                    .age {
-                        color: #999;
-                        font-weight: normal;
-                    }
-                }
-
-                .user-actions {
-                    margin-top: 0.75rem;
-                    float: right;
-
-                    .remove {
-                        color: palette.$main-red-color;
-                        font-size: 1.5rem;
-                    }
-                }
-
-            }
+        img {
+          float: left;
+          margin-right: 10px;
         }
+
+        .user-info {
+          display: block;
+          margin-top: 5px;
+
+          .owner {
+            color: palette.$main-blue-color;
+          }
+
+          .age {
+            color: #999;
+            font-weight: normal;
+          }
+        }
+
+        .user-actions {
+          margin-top: 0.75rem;
+          float: right;
+
+          .remove {
+            fill: palette.$main-red-color;
+            width: 1.5rem;
+            height: 1.5rem;
+          }
+        }
+      }
     }
+  }
 }

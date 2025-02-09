@@ -57,6 +57,7 @@ export const ROUTE = {
     FIND: 'find',
     CHAT: 'chat',
   },
+  QR_CODE_SCANNER: 'qr-code-scanner'
 };
 
 export const FULL_ROUTE = {

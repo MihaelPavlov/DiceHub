@@ -41,14 +41,14 @@
     width: 70%;
     text-align: center;
   }
-  
+
   .info-container {
     position: relative;
 
     .info {
-      font-variation-settings: "FILL" 1;
-      font-size: 3rem;
-      color: palette.$main-blue-color;
+      width: 3rem;
+      height: 3rem;
+      fill: palette.$main-blue-color;
     }
   }
 }
@@ -59,7 +59,7 @@
   .container {
     padding: 1rem;
   }
-  
+
   .input-field {
     label {
       text-align: center;
@@ -75,7 +75,9 @@
       font-weight: 700;
     }
     .arrow {
-      font-size: 4rem;
+      width: 4rem;
+      height: 4rem;
+      fill: palette.$main-font-color;
     }
 
     .left {

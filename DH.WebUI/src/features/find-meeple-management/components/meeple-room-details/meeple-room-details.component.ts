@@ -1,3 +1,4 @@
+import { NavigationService } from './../../../../shared/services/navigation-service';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { RoomsService } from '../../../../entities/rooms/api/rooms.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -18,7 +19,7 @@ import { DateHelper } from '../../../../shared/helpers/date-helper';
 })
 export class MeepleRoomDetailsComponent implements OnInit, OnDestroy {
   @ViewChild(MeepleRoomMenuComponent) menu!: MeepleRoomMenuComponent;
-  
+
   public room!: IRoomByIdResult;
   public isCurrentUserParticipateInRoom: boolean = false;
   public roomId!: number;
@@ -33,7 +34,8 @@ export class MeepleRoomDetailsComponent implements OnInit, OnDestroy {
     private readonly activeRoute: ActivatedRoute,
     private readonly authService: AuthService,
     private readonly menuTabsService: MenuTabsService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly navigationService: NavigationService
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.MEEPLE);
   }
@@ -54,6 +56,9 @@ export class MeepleRoomDetailsComponent implements OnInit, OnDestroy {
   }
 
   public navigateToGameDetails(id: number): void {
+    this.navigationService.setPreviousUrl(
+      FULL_ROUTE.MEEPLE_ROOM.DETAILS_BY_ID(this.roomId)
+    );
     this.router.navigateByUrl(FULL_ROUTE.GAMES.DETAILS(id));
   }
 

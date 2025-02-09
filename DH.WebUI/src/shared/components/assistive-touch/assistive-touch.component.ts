@@ -72,6 +72,7 @@ export class AssistiveTouchComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
+    this.refreshForAnyActiveNotifications();
     this.subscriptionRefreshForAnyActiveNotifications = setInterval(
       () => this.refreshForAnyActiveNotifications(),
       10000

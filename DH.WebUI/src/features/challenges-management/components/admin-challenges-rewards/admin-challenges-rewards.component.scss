@@ -1,65 +1,63 @@
 @use "../../../../shared/assets/styles/palette";
 
 .input-field {
-    .ng-touched.ng-invalid {
-        border: none;
-    }
+  .ng-touched.ng-invalid {
+    border: none;
+  }
 }
 
 .container {
+  display: flex;
+  flex-direction: column;
+  width: 85%;
+  margin: 0 auto;
+  margin-bottom: 10rem;
+
+  .buttons {
     display: flex;
-    flex-direction: column;
-    width: 85%;
-    margin: 0 auto;
-    margin-bottom: 10rem;
+    justify-content: space-between;
 
-    .buttons {
-        display: flex;
-        justify-content: space-between;
+    .btn-container {
+      display: flex;
+      align-items: center;
+      margin: 0.75rem 0;
 
-        .btn-container {
-            display: flex;
-            align-items: center;
-            margin: 0.75rem 0;
-
-            .wrapper_add {
-                background: palette.$main-red-color;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: 1.5rem;
-                height: 1.5rem;
-                border-radius: 50%;
-                margin: 0 0.2rem;
-            }
-        }
-    }
-
-    .reward-container {
+      .wrapper_add {
+        background: palette.$main-red-color;
+        fill: palette.$main-font-color;
         display: flex;
         align-items: center;
+        justify-content: center;
+        width: 1.5rem;
+        height: 1.5rem;
+        border-radius: 50%;
+        margin: 0 0.2rem;
+      }
+    }
+  }
+
+  .reward-container {
+    display: flex;
+    align-items: center;
+  }
+
+  .input-group {
+
+    .input-field input {
+      padding: 0.6rem;
     }
 
-    .input-group {
-
-        // .input-field {
-        //     flex: none;
-        // }
-
-        .input-field input {
-            padding: 0.6rem;
-        }
-
-        .input-field label {
-            font-size: 0.7rem;
-            color: palette.$main-font-gray-color;
-        }
-
-        .input-remove {
-            font-weight: bold;
-            font-size: 2rem;
-            display: flex;
-            align-items: center;
-        }
+    .input-field label {
+      font-size: 0.7rem;
+      color: palette.$main-font-gray-color;
     }
+
+    .input-remove {
+      fill: palette.$main-font-color;
+      width: 2rem;
+      height: 2rem;
+      display: flex;
+      align-items: center;
+    }
+  }
 }

@@ -9,7 +9,11 @@ nav {
   background-color: palette.$main-nav-color;
   z-index: 1000;
 }
-
+.menu-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  fill: palette.$main-font-color;
+}
 .wrapper_nav {
   display: flex;
   justify-content: center;
@@ -18,6 +22,7 @@ nav {
     display: flex;
     flex-direction: column;
     text-align: center;
+    align-items: center;
     width: 20%;
     position: relative;
     top: 0.5rem;
@@ -55,7 +60,7 @@ nav {
       }
     }
 
-    span {
+    .wrapper {
       width: 3.5rem;
       height: 3.5rem;
       border-radius: 50px;
@@ -63,6 +68,23 @@ nav {
       box-shadow: 0 0 0 12px var(--background-color);
       transition: height 200ms ease, margin 200ms ease;
       overflow: hidden;
+    }
+
+    .svg_wrapper {
+      display: inline-block;
+      width: 3.5rem;
+      height: 4.5rem;
+      border-radius: 50px;
+      background: palette.$main-blue-color;
+      box-shadow: 0 0 0 12px var(--background-color);
+      transition: height 200ms ease, margin 200ms ease;
+      overflow: hidden;
+
+      svg {
+        width: 1.5rem;
+        height: 1.5rem;
+        fill: palette.$main-font-color;
+      }
     }
 
     .icon {
@@ -113,11 +135,15 @@ nav {
       outline: none;
       color: palette.$main-blue-color;
 
-      span {
+      .wrapper {
         height: calc(2.6 * var(--size));
         margin-top: calc(-1.6 * var(--size));
       }
-
+      .icon__resize {
+        svg {
+          fill: palette.$main-blue-color;
+        }
+      }
       .icons-container {
         .icon {
           transform: translate(-50%, -50%) rotate(0);

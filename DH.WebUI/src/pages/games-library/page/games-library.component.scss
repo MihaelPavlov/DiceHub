@@ -69,18 +69,19 @@
         display: flex;
         position: absolute;
         right: 0;
-        // bottom: 3.75rem;
         font-size: small;
 
         .wrapper_likes {
           color: palette.$main-red-color;
           margin-right: 1rem;
-
+          font-size: large;
           .like-icon {
-            font-size: large;
+            width: 1.5rem;
+            height: 1.5rem;
             position: relative;
             right: 0.2rem;
             top: 0.3rem;
+            fill: palette.$main-red-color;
           }
         }
       }

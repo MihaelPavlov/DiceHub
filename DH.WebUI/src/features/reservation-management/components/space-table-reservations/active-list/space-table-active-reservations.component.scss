@@ -65,25 +65,25 @@
       margin: 0;
 
       .accept {
-        color: palette.$main-green-color;
-        font-variation-settings: "FILL" 1;
-        font-size: 3rem;
+        fill: palette.$main-green-color;
+        width: 3rem;
+        height: 3rem;
       }
 
       .decline {
-        color: palette.$main-red-color;
-        font-variation-settings: "FILL" 1;
-        font-size: 3rem;
+        fill: palette.$main-red-color;
+        width: 3rem;
+        height: 3rem;
       }
 
-      span {
-        margin: 0.5rem;
-        font-variation-settings: "FILL" 1;
-        font-size: 2.5rem;
+      svg {
+        margin: 0.25rem;
       }
 
       .menu {
-        color: palette.$main-blue-color;
+        fill: palette.$main-blue-color;
+        width: 2.5rem;
+        height: 2.5rem;
       }
     }
 
@@ -96,15 +96,15 @@
       border-radius: 0.25rem;
 
       .accept {
-        color: palette.$main-green-color;
-        font-variation-settings: "FILL" 1;
-        font-size: 3rem;
+        fill: palette.$main-green-color;
+        width: 3rem;
+        height: 3rem;
       }
 
       .decline {
-        color: palette.$main-red-color;
-        font-variation-settings: "FILL" 1;
-        font-size: 3rem;
+        fill: palette.$main-red-color;
+        width: 3rem;
+        height: 3rem;
       }
     }
 

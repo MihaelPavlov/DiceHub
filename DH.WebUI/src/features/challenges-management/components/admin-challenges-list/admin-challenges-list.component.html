@@ -3,28 +3,30 @@
     <div class="btn-container" (click)="toggleChallengeForm()">
       <ng-container *ngIf="!editChallengeId">
         <span>Add Challenge</span>
-        <span
+
+        <!-- add -->
+        <svg
           *ngIf="!showChallengeForm"
-          class="material-symbols-outlined wrapper_add"
+          class="wrapper_add"
+          viewBox="0 -960 960 960"
         >
-          add
-        </span>
+          <path d="M447-448H208v-66h239v-239h66v239h239v66H513v239h-66v-239Z" />
+        </svg>
       </ng-container>
       <ng-container *ngIf="editChallengeId">
         <span>Update Challenge</span>
-        <span
-          *ngIf="!showChallengeForm"
-          class="material-symbols-outlined wrapper_add"
-        >
-          edit
-        </span>
       </ng-container>
-      <span
+
+      <!-- close -->
+      <svg
+        class="wrapper_add"
         *ngIf="showChallengeForm"
-        class="material-symbols-outlined wrapper_add"
+        viewBox="0 -960 960 960"
       >
-        close
-      </span>
+        <path
+          d="M252-203.69 205.69-252l227-228-227-230L252-758.31l229 230 227-230L754.31-710l-227 230 227 228L708-203.69l-227-230-229 230Z"
+        />
+      </svg>
     </div>
 
     <div class="btn-container">
@@ -37,15 +39,20 @@
         >Selected Games: {{ filterGameIds.length }}</span
       >
       <span *ngIf="filterGameIds.length === 0">Filter By Game</span>
-      <span
-        *ngIf="!showFilter"
-        class="material-symbols-outlined wrapper_filter"
-      >
-        filter_alt
-      </span>
-      <span *ngIf="showFilter" class="material-symbols-outlined wrapper_filter">
-        close
-      </span>
+
+      <!-- filter_alt -->
+      <svg *ngIf="!showFilter" class="wrapper_filter" viewBox="0 -960 960 960">
+        <path
+          d="M470.77-176q-20.15 0-35.46-14.31Q420-204.62 420-224.77v-221.08L204.15-720.77q-16.07-19.77-5.19-41.5Q209.85-784 234.77-784h490.46q24.92 0 35.81 21.73 10.88 21.73-5.19 41.5L540-445.85v227.08q0 19.15-12.81 30.96Q514.38-176 495.23-176h-24.46ZM480-478l188-240H292l188 240Zm0 0Z"
+        />
+      </svg>
+
+      <!-- close -->
+      <svg class="wrapper_filter" *ngIf="showFilter" viewBox="0 -960 960 960">
+        <path
+          d="M252-203.69 205.69-252l227-228-227-230L252-758.31l229 230 227-230L754.31-710l-227 230 227 228L708-203.69l-227-230-229 230Z"
+        />
+      </svg>
     </div>
   </div>
   <div class="input-field" *ngIf="showFilter">
@@ -66,12 +73,16 @@
   <form [formGroup]="form" *ngIf="showChallengeForm">
     <div class="reward-container">
       <div class="close-container">
-        <span
-          class="material-symbols-outlined input-remove"
+        <!-- close -->
+        <svg
+          class="input-remove"
           (click)="toggleChallengeForm()"
+          viewBox="0 -960 960 960"
         >
-          close
-        </span>
+          <path
+            d="M252-203.69 205.69-252l227-228-227-230L252-758.31l229 230 227-230L754.31-710l-227 230 227 228L708-203.69l-227-230-229 230Z"
+          />
+        </svg>
       </div>
       <div class="wrapper">
         <div class="inputs">
@@ -185,9 +196,20 @@
 </div>
 
 <section class="wrapper_library">
-  <div *ngFor="let challenge of challengeList" class="wrapper_library__item">
+  <div
+    *ngFor="let challenge of challengeList"
+    class="wrapper_library__item"
+    [ngClass]="{
+      'wrapper_library__item-active': editChallengeId === challenge.id
+    }"
+  >
     <div class="wrapper_image">
-      <img [src]="ImageEntityType.Games | entityImage : challenge.gameImageId | async" alt="Game Image" />
+      <img
+        [src]="
+          ImageEntityType.Games | entityImage : challenge.gameImageId | async
+        "
+        alt="Game Image"
+      />
     </div>
     <div class="wrapper_info">
       <div class="wrapper_title">
@@ -204,18 +226,27 @@
         </div>
       </div>
       <div class="wrapper_right">
-        <span
-          class="material-symbols-outlined icon"
+        <!-- edit icon -->
+        <svg
+          class="icon"
+          viewBox="0 -960 960 960"
           (click)="fillEditChallengeForm(challenge.id)"
         >
-          edit
-        </span>
-        <span
-          class="material-symbols-outlined icon"
+          <path
+            d="M194-194h43.92l407.93-407.92-43.93-42.93L194-236.92V-194Zm-66 66v-136.77l557.23-558.77q5.15-5.48 11.57-6.97 6.43-1.49 12.49-1.49 6.06 0 11.12.54 5.05.54 11.44 6.15l92.69 91.93q5.61 6.38 6.54 12 .92 5.63.92 12.25 0 6.13-1.74 12.06-1.74 5.92-6.72 11.07L264.77-128H128Zm626.77-581.31-45.46-44.46 45.46 44.46ZM624.5-623.5l-22.58-21.35 43.93 42.93-21.35-21.58Z"
+          />
+        </svg>
+
+        <!-- delete icon -->
+        <svg
+          class="icon"
           (click)="openDeleteDialog(challenge.id)"
+          viewBox="0 -960 960 960"
         >
-          delete
-        </span>
+          <path
+            d="M300.62-128q-38.85 0-64.74-25.88Q210-179.77 210-218.62V-724h-40v-66h188v-38.77h246V-790h188v66h-40v505.38q0 38.35-26.14 64.48Q699.73-128 661.38-128H300.62ZM686-724H276v505.38q0 10.77 6.92 17.7 6.93 6.92 17.7 6.92h360.76q9.24 0 16.93-7.69 7.69-7.69 7.69-16.93V-724ZM371.31-275h66v-368h-66v368Zm153.38 0h66v-368h-66v368ZM276-724v530-530Z"
+          />
+        </svg>
       </div>
     </div>
   </div>

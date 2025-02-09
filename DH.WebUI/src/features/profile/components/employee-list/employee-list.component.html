@@ -9,7 +9,10 @@
 <section class="wrapper_library">
   <div *ngFor="let user of employees" class="wrapper_library__item">
     <div class="wrapper_image">
-      <img [src]="ImageEntityType.Games | entityImage : 1 | async" alt="User Image" />
+      <img
+        [src]="ImageEntityType.Games | entityImage : 1 | async"
+        alt="User Image"
+      />
     </div>
     <div class="wrapper_info">
       <div class="wrapper_title">
@@ -18,7 +21,11 @@
       </div>
     </div>
     <button type="button" class="btnWithIcon">
-      <span class="material-symbols-outlined decline"> delete </span>
+      <svg class="decline" viewBox="0 -960 960 960">
+        <path
+          d="M300.62-128q-38.35 0-64.48-26.14Q210-180.27 210-218.62V-724h-40v-66h188v-38.77h246V-790h188v66h-40v505.38q0 38.35-26.14 64.48Q699.73-128 661.38-128H300.62Zm70.69-147h66v-368h-66v368Zm153.38 0h66v-368h-66v368Z"
+        />
+      </svg>
     </button>
   </div>
 </section>

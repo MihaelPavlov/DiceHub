@@ -19,8 +19,6 @@ export class SpaceTableActiveReservations implements OnDestroy {
   public reservedGames$!: Observable<IActiveReservedTable[]>;
   public showFilter: boolean = false;
   public expandedReservationId: number | null = null;
-  public leftArrowKey: string = 'arrow_circle_left';
-  public rightArrowKey: string = 'arrow_circle_right';
 
   public readonly ReservationStatus = ReservationStatus;
   public readonly DATE_TIME_FORMAT: string = DateHelper.DATE_TIME_FORMAT;

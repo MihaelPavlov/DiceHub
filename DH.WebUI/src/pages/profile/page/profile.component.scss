@@ -19,8 +19,8 @@
   }
 
   .logout {
-    font-size: 2rem;
-    color: palette.$main-red-color;
+    width: 2rem;
+    fill: palette.$main-red-color;
   }
 }
 
@@ -81,9 +81,6 @@
     display: flex;
     flex-direction: column;
     margin: 0.5rem 2rem;
-
-    &-value {
-    }
     &-header {
       color: palette.$main-icon-color;
     }

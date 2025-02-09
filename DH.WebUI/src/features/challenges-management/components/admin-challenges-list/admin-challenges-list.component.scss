@@ -35,6 +35,7 @@
         height: 1.5rem;
         border-radius: 50%;
         margin: 0 0.2rem;
+        fill: palette.$main-font-color;
       }
 
       .wrapper_filter {
@@ -46,6 +47,7 @@
         height: 1.5rem;
         border-radius: 50%;
         margin: 0 0.2rem;
+        fill: palette.$main-font-color;
       }
     }
   }
@@ -67,7 +69,6 @@
     flex-direction: column;
 
     .input-group {
-
       .input-field input {
         padding: 0.6rem;
       }
@@ -91,7 +92,9 @@
 
     .input-remove {
       font-weight: bold;
-      font-size: 2rem;
+      width: 1.5rem;
+      height: 1.5rem;
+      fill: palette.$main-font-color;
     }
   }
 }
@@ -147,7 +150,9 @@
         align-items: center;
 
         .icon {
-          font-size: 2rem;
+          width: 1.5rem;
+          height: 1.5rem;
+          fill: palette.$main-font-color;
           margin-left: 1rem;
         }
       }
@@ -165,5 +170,9 @@
         object-fit: contain;
       }
     }
+  }
+
+  &__item-active {
+    border: 0.2rem dashed palette.$main-blue-color;
   }
 }

@@ -125,7 +125,7 @@ a:active {
 
 // like animation
 .heart-full {
-  font-variation-settings: "FILL" 1;
+  fill: palette.$main-red-color;
   animation: heartBeat 0.3s ease-in-out;
 }
 

@@ -10,44 +10,11 @@
   position: relative;
 }
 .locked {
-  font-size: 1rem;
+  width: 1rem;
+  height: 1rem;
   position: absolute;
   left: 5.5rem;
-}
-
-.wrapper_icons {
-  display: flex;
-  justify-content: space-between;
-  margin: 1rem;
-  align-items: center;
-
-  .info-container {
-    position: relative;
-
-    .info {
-      font-variation-settings: "FILL" 1;
-      font-size: 3rem;
-      color: palette.$main-blue-color;
-    }
-
-    .qr-code-info {
-      position: absolute;
-      right: 0.5rem;
-      top: 2.25rem;
-      background-color: palette.$main-gray-color;
-      padding: 0.5rem;
-      z-index: 1000;
-      width: 10rem;
-      text-align: center;
-    }
-
-    .qr-code-info span {
-      width: 9rem;
-      text-align: center;
-      line-height: 2rem;
-      font-size: 1.2rem;
-    }
-  }
+  fill: palette.$main-icon-color;
 }
 
 .errors {
@@ -72,6 +39,7 @@
 
       .wrapper_add {
         background: palette.$main-red-color;
+        fill: palette.$main-font-color;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -131,10 +99,6 @@
     }
 
     .input-group {
-      // .input-field {
-      //     flex: none;
-      // }
-
       .input-field input {
         padding: 0.6rem;
       }
@@ -157,8 +121,9 @@
     justify-content: end;
 
     .input-remove {
-      font-weight: bold;
-      font-size: 2rem;
+      width: 1.5rem;
+      height: 1.5rem;
+      fill: palette.$main-font-color;
     }
   }
 }
@@ -214,7 +179,9 @@
         align-items: center;
 
         .icon {
-          font-size: 2rem;
+          width: 1.5rem;
+          height: 1.5rem;
+          fill: palette.$main-font-color;
           margin-left: 1rem;
         }
       }
@@ -232,5 +199,9 @@
         object-fit: contain;
       }
     }
+  }
+
+  &__item-active {
+    border: 0.2rem dashed palette.$main-blue-color;
   }
 }

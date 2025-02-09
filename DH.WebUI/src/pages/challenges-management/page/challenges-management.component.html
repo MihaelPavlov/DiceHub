@@ -4,9 +4,12 @@
 <ng-container *ngIf="periodPerformance && userChallengePeriodRewardList">
   <div class="wrapper_stats">
     <div class="wrapper_scroller">
-      <span class="material-symbols-outlined left" (click)="scrollLeft()"
-        >play_arrow</span
-      >
+      <!-- play_arrow icon -->
+      <svg class="arrow left" (click)="scrollLeft()" viewBox="0 -960 960 960">
+        <path
+          d="M332-234.31v-491.38L720.15-480 332-234.31ZM398-480Zm0 124 197.54-124L398-604v248Z"
+        />
+      </svg>
       <div #scroller class="scroller">
         <div class="wrapper_stats__items">
           <div
@@ -27,9 +30,12 @@
           </div>
         </div>
       </div>
-      <span class="material-symbols-outlined" (click)="scrollRight()"
-        >play_arrow</span
-      >
+      <!-- play_arrow icon -->
+      <svg class="arrow" (click)="scrollRight()" viewBox="0 -960 960 960">
+        <path
+          d="M332-234.31v-491.38L720.15-480 332-234.31ZM398-480Zm0 124 197.54-124L398-604v248Z"
+        />
+      </svg>
     </div>
 
     <div class="wrapper_stats__bar">

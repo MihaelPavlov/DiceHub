@@ -16,14 +16,19 @@
               class="user-actions"
               *ngIf="this.room.createdBy !== member.userId"
             >
-              <span
+              <!-- close icon -->
+              <svg
+                class="remove"
                 (click)="onDelete(member.userId)"
-                class="material-symbols-outlined remove"
+                viewBox="0 -960 960 960"
               >
-                close
-              </span>
+                <path
+                  d="M252-203.69 205.69-252l227-228-227-230L252-758.31l229 230 227-230L754.31-710l-227 230 227 228L708-203.69l-227-230-229 230Z"
+                />
+              </svg>
             </div>
           </ng-container>
+          <!-- user image -->
           <img src="http://placehold.it/50x50" alt="" />
           <div class="user-info">
             <span class="name">

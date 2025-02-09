@@ -16,7 +16,8 @@ import { ImageEntityType } from '../../../../shared/pipe/entity-image.pipe';
 })
 export class ChallengesRewardsComponent implements OnInit {
   public userRewards$!: Observable<IUserReward[]>;
-  public UserRewardStatus = UserRewardStatus;
+  
+  public readonly UserRewardStatus = UserRewardStatus;
   public readonly ImageEntityType = ImageEntityType;
 
   constructor(

@@ -86,7 +86,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   public onHistoryClick(): void {
     console.log('history header');
-    
+
     this.historyClicked.emit();
   }
 
@@ -106,9 +106,18 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     const searchForm = document.getElementById('searchForm') as HTMLElement;
     if (searchForm) {
       searchForm.style.display = 'none';
-      const searchIcon = document.querySelector<HTMLElement>('#search-btn');
+      const searchIcon = document.querySelector<SVGElement>('#search-btn');
+      console.log('searchIcon1', searchIcon);
+
       if (searchIcon) {
-        searchIcon.innerHTML = `<span class="material-symbols-outlined">search</span>`;
+        const pathElement = searchIcon.querySelector('path'); // Select the path inside the SVG
+        if (pathElement) {
+          // Change to search icon
+          pathElement.setAttribute(
+            'd',
+            'M788.38-127.85 535.92-380.31q-30 24.54-73.5 38.04t-83.88 13.5q-106.1 0-179.67-73.53-73.56-73.53-73.56-179.57 0-106.05 73.53-179.71 73.53-73.65 179.57-73.65 106.05 0 179.71 73.56Q631.77-688.1 631.77-582q0 42.69-13.27 83.69t-37.27 70.69l253.46 253.47-46.31 46.3ZM378.54-394.77q79.61 0 133.42-53.81 53.81-53.8 53.81-133.42 0-79.62-53.81-133.42-53.81-53.81-133.42-53.81-79.62 0-133.42 53.81-53.81 53.8-53.81 133.42 0 79.62 53.81 133.42 53.8 53.81 133.42 53.81Z'
+          );
+        }
       }
 
       if (withClean && this.searchForm) {
@@ -159,14 +168,23 @@ export class HeaderComponent implements OnInit, AfterViewInit {
           this.setDisabledScrollEvent(true);
           searchForm.style.display = 'block';
 
-          const searchIcon = document.querySelector<HTMLElement>('#search-btn');
+          const searchIcon = document.querySelector<SVGElement>('#search-btn');
           if (searchIcon) {
-            searchIcon.innerHTML = `<span class="material-symbols-outlined">close</span>`;
+            const pathElement = searchIcon.querySelector('path'); // Select the path inside the SVG
+            if (pathElement) {
+              // Change to x icon
+              pathElement.setAttribute(
+                'd',
+                'M252-203.69 205.69-252l227-228-227-230L252-758.31l229 230 227-230L754.31-710l-227 230 227 228L708-203.69l-227-230-229 230Z'
+              );
+            }
           }
         } else {
           closeFunction(false);
           this.searchExpressionResult.emit('');
-          const searchInput = document.getElementById('search') as HTMLInputElement;
+          const searchInput = document.getElementById(
+            'search'
+          ) as HTMLInputElement;
           searchInput.value = '';
           this.setDisabledScrollEvent(false);
         }

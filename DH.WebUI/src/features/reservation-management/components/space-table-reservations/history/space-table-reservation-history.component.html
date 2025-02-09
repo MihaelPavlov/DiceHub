@@ -22,10 +22,9 @@
           </p>
         </div>
         <span class="blue">{{ reservation.username }}</span> has booked a table
-        <p>
-          <span class="blue">{{ reservation.numberOfGuests }}</span>
-          {{ reservation.numberOfGuests === 1 ? "person" : "people" }}
-        </p>
+        for
+        <span class="blue">{{ reservation.numberOfGuests }}</span>
+        {{ reservation.numberOfGuests === 1 ? "person" : "people" }}
         <div class="wrapper_description">
           <p>
             Reservation Date:

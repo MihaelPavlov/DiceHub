@@ -23,9 +23,11 @@
     .info {
       display: flex;
       justify-content: space-between;
-      .material-symbols-outlined {
-        font-size: 3.5rem;
+      .icon {
+        width: 3.5rem;
+        height: 3.5rem;
         margin: 0.7rem;
+        fill: palette.$main-font-gray-color;
       }
 
       &__count {

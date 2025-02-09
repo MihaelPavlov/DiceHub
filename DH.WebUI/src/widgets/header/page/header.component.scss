@@ -34,6 +34,12 @@
       border-radius: 50%;
       margin: 0 0.2rem;
       margin-bottom: 0.5rem;
+
+      #search-btn {
+        width: 1.5rem;
+        height: 1.5rem;
+        fill: palette.$main-font-color;
+      }
     }
 
     .wrapper_history {
@@ -70,19 +76,13 @@
       border-radius: 50%;
       margin: 0 0.2rem;
       margin-bottom: 0.5rem;
-    }
 
-    // .wrapper_menu {
-    //     background: palette.$main-blue-color;
-    //     display: flex;
-    //     align-items: center;
-    //     justify-content: center;
-    //     width: 3rem;
-    //     height: 3rem;
-    //     border-radius: 50%;
-    //     margin: 0 0.2rem;
-    //     margin-bottom: 0.5rem;
-    // }
+      .widgets_icon {
+        width: 1.5rem;
+        height: 1.5rem;
+        fill: palette.$main-font-color;
+      }
+    }
 
     .wrapper_qrCode {
       display: flex;
@@ -168,9 +168,11 @@
     color: palette.$main-blue-color;
 
     .search-icon {
+      height: 1.3rem;
+      width: 1.3rem;
+      fill: palette.$main-blue-color;
       position: relative;
       top: 0.2rem;
-      font-size: 1.2rem;
       padding-right: 0.2rem;
       margin-top: 0.2rem;
     }

@@ -12,7 +12,12 @@
       *ngIf="!(showCommentInput | async)"
       class="wrapper_info__write-review"
       >write review
-      <span class="material-symbols-outlined"> edit </span>
+      <!-- edit icon -->
+      <svg height="2rem" viewBox="0 -960 960 960" width="2rem" fill="#fafafa">
+        <path
+          d="M194-194h43.92l407.93-407.92-43.93-42.93L194-236.92V-194Zm-66 66v-136.77l557.23-558.77q5.15-5.48 11.57-6.97 6.43-1.49 12.49-1.49 6.06 0 11.12.54 5.05.54 11.44 6.15l92.69 91.93q5.61 6.38 6.54 12 .92 5.63.92 12.25 0 6.13-1.74 12.06-1.74 5.92-6.72 11.07L264.77-128H128Zm626.77-581.31-45.46-44.46 45.46 44.46ZM624.5-623.5l-22.58-21.35 43.93 42.93-21.35-21.58Z"
+        />
+      </svg>
     </span>
 
     <div *ngIf="showCommentInput | async" class="wrapper_info__write-review">
@@ -20,14 +25,25 @@
         {{
           this.currentReviewState === ReviewState.update ? "update" : "create"
         }}
-        <span class="material-symbols-outlined"> add_comment </span>
+        <!-- add_comment icon  -->
+        <svg height="2rem" viewBox="0 -960 960 960" width="2rem" fill="#fafafa">
+          <path
+            d="M447-420h66v-122h122v-66H513v-122h-66v122H325v66h122v122ZM88-114.92v-678.46q0-38.35 26.14-64.48Q140.27-884 178.62-884h602.76q38.35 0 64.48 26.14Q872-831.73 872-793.38v438.76q0 38.35-26.14 64.48Q819.73-264 781.38-264h-544.3L88-114.92ZM210-330h571.38q9.24 0 16.93-7.69 7.69-7.69 7.69-16.93v-438.76q0-9.24-7.69-16.93-7.69-7.69-16.93-7.69H178.62q-9.24 0-16.93 7.69-7.69 7.69-7.69 16.93v520.15L210-330Zm-56 0v-488 488Z"
+          />
+        </svg>
       </span>
-      <span
+      <!-- cancel icon -->
+      <svg
         (click)="toggleReviewTextarea(false)"
-        class="material-symbols-outlined"
+        height="2rem"
+        viewBox="0 -960 960 960"
+        width="2rem"
+        fill="#fafafa"
       >
-        cancel
-      </span>
+        <path
+          d="m334-287.69 146-146 146 146L672.31-334l-146-146 146-146L626-672.31l-146 146-146-146L287.69-626l146 146-146 146L334-287.69ZM480.13-88q-81.31 0-152.89-30.86-71.57-30.86-124.52-83.76-52.95-52.9-83.83-124.42Q88-398.55 88-479.87q0-81.56 30.92-153.37 30.92-71.8 83.92-124.91 53-53.12 124.42-83.48Q398.67-872 479.87-872q81.55 0 153.35 30.34 71.79 30.34 124.92 83.42 53.13 53.08 83.49 124.84Q872-561.64 872-480.05q0 81.59-30.34 152.83-30.34 71.23-83.41 124.28-53.07 53.05-124.81 84Q561.7-88 480.13-88Zm-.13-66q136.51 0 231.26-94.74Q806-343.49 806-480t-94.74-231.26Q616.51-806 480-806t-231.26 94.74Q154-616.51 154-480t94.74 231.26Q343.49-154 480-154Zm0-326Z"
+        />
+      </svg>
     </div>
   </div>
 
@@ -68,7 +84,7 @@
   <div class="wrapper_reviews">
     <div *ngFor="let gameReview of gameReviews" class="wrapper_reviews__item">
       <div class="wrapper_image">
-        <img src="../../../../../shared/assets/images/mpavlov.png" alt="" />
+        <img src="/shared/assets/images/mpavlov.png" alt="" />
       </div>
       <div class="wrapper_reviews__item__info">
         <div class="details">
@@ -76,20 +92,32 @@
           <div>
             <span>
               {{ gameReview.updatedDate | date : DATE_FORMAT }}
-              <span
+
+              <!-- edit icon -->
+              <svg
+                class="my-review"
                 *ngIf="this.userInfo?.id === gameReview.userId"
                 (click)="startUpdatingComment(gameReview.id, gameReview.review)"
-                class="material-symbols-outlined my-review"
+                viewBox="0 -960 960 960"
+                fill="#fafafa"
               >
-                edit
-              </span>
-              <span
+                <path
+                  d="M194-194h43.92l407.93-407.92-43.93-42.93L194-236.92V-194Zm-66 66v-136.77l557.23-558.77q5.15-5.48 11.57-6.97 6.43-1.49 12.49-1.49 6.06 0 11.12.54 5.05.54 11.44 6.15l92.69 91.93q5.61 6.38 6.54 12 .92 5.63.92 12.25 0 6.13-1.74 12.06-1.74 5.92-6.72 11.07L264.77-128H128Zm626.77-581.31-45.46-44.46 45.46 44.46ZM624.5-623.5l-22.58-21.35 43.93 42.93-21.35-21.58Z"
+                />
+              </svg>
+
+              <!-- cancel icon -->
+              <svg
                 *ngIf="canDeleteReview(gameReview.userId)"
                 (click)="openDeleteDialog(gameReview.id)"
-                class="material-symbols-outlined my-review"
+                class="my-review"
+                viewBox="0 -960 960 960"
+                fill="#fafafa"
               >
-                cancel
-              </span>
+                <path
+                  d="m334-287.69 146-146 146 146L672.31-334l-146-146 146-146L626-672.31l-146 146-146-146L287.69-626l146 146-146 146L334-287.69ZM480.13-88q-81.31 0-152.89-30.86-71.57-30.86-124.52-83.76-52.95-52.9-83.83-124.42Q88-398.55 88-479.87q0-81.56 30.92-153.37 30.92-71.8 83.92-124.91 53-53.12 124.42-83.48Q398.67-872 479.87-872q81.55 0 153.35 30.34 71.79 30.34 124.92 83.42 53.13 53.08 83.49 124.84Q872-561.64 872-480.05q0 81.59-30.34 152.83-30.34 71.23-83.41 124.28-53.07 53.05-124.81 84Q561.7-88 480.13-88Zm-.13-66q136.51 0 231.26-94.74Q806-343.49 806-480t-94.74-231.26Q616.51-806 480-806t-231.26 94.74Q154-616.51 154-480t94.74 231.26Q343.49-154 480-154Zm0-326Z"
+                />
+              </svg>
             </span>
           </div>
         </div>

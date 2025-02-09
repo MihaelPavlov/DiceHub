@@ -1,4 +1,9 @@
-<app-header [header]="getHeader" [withBackBtn]="true" (backClicked)="backNavigateBtn()" [withQRcode]="true">
+<app-header
+  [header]="getHeader"
+  [withBackBtn]="true"
+  (backClicked)="backNavigateBtn()"
+  [withQRcode]="true"
+>
 </app-header>
 
 <form [formGroup]="form" class="container">
@@ -13,14 +18,14 @@
       readonly="readonly"
     />
     <a class="qr-code">
-      <img src="../../../../shared/assets/images/qr-code.png" alt="" />
+      <img src="/shared/assets/images/qr-code.png" alt="" />
     </a>
   </div>
 
   <div class="wrapper_image" (click)="showInfoForGame()">
     <img
       [src]="
-        imagePreview || '../../../../../shared/assets/images/upload_img.svg'
+        imagePreview || '/shared/assets/images/upload_img.svg'
       "
       alt=""
     />
@@ -53,12 +58,31 @@
         formControlName="password"
       />
       <div (click)="togglePasswordVisibility()" class="toggle-password">
-        <span *ngIf="showPassword" class="material-symbols-outlined">
-          visibility_off
-        </span>
-        <span *ngIf="!showPassword" class="material-symbols-outlined">
-          visibility
-        </span>
+        <!-- visibility_off icon -->
+        <svg
+          *ngIf="showPassword"
+          height="24px"
+          viewBox="0 -960 960 960"
+          width="24px"
+          fill="#fafafa"
+        >
+          <path
+            d="M637.85-436.15 589-485q8-58.38-32.19-95.19Q516.62-617 465-609l-48.85-48.85q8.08-4.15 27.04-8.23 18.96-4.07 36.81-4.07 72.15 0 121.15 49t49 121.15q0 17.85-3.07 34.58-3.08 16.73-9.23 29.27Zm129.46 127.92L719-355q38-29 69-64.5t52-80.5q-51-103-146.5-163.5T480-724q-29 0-58.5 4T366-708l-52.23-52.23q37.85-15.15 80.42-22.46Q436.77-790 480-790q144.23 0 261.73 80.08Q859.23-629.85 912.92-500q-22.46 55.23-59.34 103.65-36.89 48.43-86.27 88.12Zm29.61 237.77L629.23-237.69q-26.54 11.77-64.88 19.73Q526-210 480-210q-145 0-262.73-80.08Q99.54-370.15 47.08-500q22.3-54 57.96-100.77 35.65-46.77 78.96-81.15l-113.54-115 46.31-46.31 726.46 726.46-46.31 46.31ZM232.31-634.62q-31.39 24.47-62.81 59.31Q138.08-540.46 120-500q51 103 146.5 163.5T480-276q26.62 0 55.27-4.73 28.65-4.73 38.35-10.58L528.38-339q-6.46 4.31-21.38 6.73-14.92 2.42-27 2.42-72.15 0-121.15-49t-49-121.15q0-11.31 2.42-25.35 2.42-14.03 6.73-23.03l-86.69-86.24ZM543-532Zm-139.54 68.54Z"
+          />
+        </svg>
+
+        <!-- visibility icon -->
+        <svg
+          *ngIf="!showPassword"
+          height="24px"
+          viewBox="0 -960 960 960"
+          width="24px"
+          fill="#fafafa"
+        >
+          <path
+            d="M480.18-329.85q70.97 0 120.47-49.68t49.5-120.65q0-70.97-49.68-120.47t-120.65-49.5q-70.97 0-120.47 49.68t-49.5 120.65q0 70.97 49.68 120.47t120.65 49.5Zm-.3-60.15Q434-390 402-422.12q-32-32.12-32-78T402.12-578q32.12-32 78-32T558-577.88q32 32.12 32 78T557.88-422q-32.12 32-78 32Zm.23 180q-143.96 0-260.88-79.23Q102.31-368.46 47.08-500q55.23-131.54 172.04-210.77Q335.93-790 479.89-790q143.96 0 260.88 79.23Q857.69-631.54 912.92-500q-55.23 131.54-172.04 210.77Q624.07-210 480.11-210ZM480-500Zm0 224q115 0 211.87-60.58T840-500q-51.26-102.84-148.13-163.42Q595-724 480-724t-211.87 60.58Q171.26-602.84 120-500q51.26 102.84 148.13 163.42Q365-276 480-276Z"
+          />
+        </svg>
       </div>
     </div>
   </div>

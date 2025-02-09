@@ -1,6 +1,6 @@
 @use "../../../shared/assets/styles/palette";
 
-.expired{
+.expired {
   opacity: 0.5;
 }
 .wrapper_library {
@@ -51,6 +51,8 @@
         font-size: small;
       }
       .wrapper_menu {
+        width: 2rem;
+        fill: palette.$main-font-color;
         background: palette.$main-icon-color;
         padding: 0.2rem;
         border-radius: 20%;

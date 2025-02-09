@@ -17,6 +17,8 @@ import { AuthService } from '../../../../entities/auth/auth.service';
 import { IRoomByIdResult } from '../../../../entities/rooms/models/room-by-id.model';
 import { BehaviorSubject } from 'rxjs';
 import { ControlsMenuComponent } from '../../../../shared/components/menu/controls-menu.component';
+import { NavigationService } from '../../../../shared/services/navigation-service';
+import { FULL_ROUTE } from '../../../../shared/configs/route.config';
 
 @Component({
   selector: 'app-meeple-room-menu',
@@ -37,6 +39,7 @@ export class MeepleRoomMenuComponent implements OnInit {
     private readonly router: Router,
     private readonly dialog: MatDialog,
     private readonly authService: AuthService,
+    private readonly navigationService: NavigationService
   ) {}
 
   public ngOnInit(): void {
@@ -123,6 +126,9 @@ export class MeepleRoomMenuComponent implements OnInit {
   }
 
   public navigateToGameDetails(): void {
+    this.navigationService.setPreviousUrl(
+      FULL_ROUTE.MEEPLE_ROOM.DETAILS_BY_ID(this.room.id)
+    );
     this.router.navigateByUrl(`games/${this.room.gameId}/details`);
   }
 

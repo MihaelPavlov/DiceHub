@@ -22,6 +22,7 @@ import { MenuTabsService } from '../../../shared/services/menu-tabs.service';
 import { AuthService } from '../../../entities/auth/auth.service';
 import { UserRole } from '../../../entities/auth/enums/roles.enum';
 import { GamesService } from '../../../entities/games/api/games.service';
+import { ROUTE } from '../../../shared/configs/route.config';
 
 @Component({
   selector: 'app-navigation-menu',
@@ -128,7 +129,8 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
       isAlertActive: hasActive,
       enabled: true,
       visible: true,
-      icon: 'menu_book',
+      icon: '/shared/assets/images/icons/menu_book-icon.svg',
+      icon_color: '/shared/assets/images/icons/menu_book-icon-blue.svg',
       route: '/reservations',
     });
   }
@@ -177,7 +179,8 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
         isAlertActive: false,
         enabled: true,
         visible: true,
-        icon: 'kid_star',
+        icon: '/shared/assets/images/icons/kid_star-icon.svg',
+        icon_color: '/shared/assets/images/icons/kid_star-icon-blue.svg',
         route: '/games/library',
       },
     ];
@@ -189,7 +192,8 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
         isAlertActive: true,
         enabled: true,
         visible: true,
-        icon: 'menu_book',
+        icon: '/shared/assets/images/icons/menu_book-icon.svg',
+        icon_color: '/shared/assets/images/icons/menu_book-icon-blue.svg',
         route: '/reservations',
       });
     } else {
@@ -199,7 +203,8 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
         isAlertActive: false,
         enabled: true,
         visible: true,
-        icon: 'group',
+        icon: '/shared/assets/images/icons/group-icon.svg',
+        icon_color: '/shared/assets/images/icons/group-icon-blue.svg',
         route: '/meeples/find',
       });
     }
@@ -211,7 +216,8 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
         isAlertActive: false,
         enabled: true,
         visible: true,
-        icon: 'stadium',
+        icon: '/shared/assets/images/icons/stadium-icon.svg',
+        icon_color: '/shared/assets/images/icons/stadium-icon-blue.svg',
         route: '/events/home',
       },
       {
@@ -220,14 +226,15 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
         isAlertActive: false,
         enabled: true,
         visible: true,
-        icon: 'account_circle',
+        icon: '/shared/assets/images/icons/account_circle-icon.svg',
+        icon_color: '/shared/assets/images/icons/account_circle-icon-blue.svg',
         route: '/profile',
       },
     ];
   }
 
   public navigateToQrCodeScanner(): void {
-    this.router.navigateByUrl('qr-code-scanner');
+    this.router.navigateByUrl(ROUTE.QR_CODE_SCANNER);
   }
 
   private updateMenuItems() {

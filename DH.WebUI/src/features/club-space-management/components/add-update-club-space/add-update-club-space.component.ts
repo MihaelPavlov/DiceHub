@@ -23,6 +23,7 @@ import {
   EntityImagePipe,
   ImageEntityType,
 } from '../../../../shared/pipe/entity-image.pipe';
+import { NavigationService } from '../../../../shared/services/navigation-service';
 
 interface ICreateSpaceTableForm {
   gameName: string;
@@ -42,8 +43,8 @@ export class AddUpdateClubSpaceComponent extends Form implements OnInit {
 
   public imagePreview: string | ArrayBuffer | SafeUrl | null = null;
   public editTableId: number | null = null;
-
   public showPassword = false;
+
   private gameId: number | null = null;
 
   constructor(
@@ -55,10 +56,11 @@ export class AddUpdateClubSpaceComponent extends Form implements OnInit {
     private readonly entityImagePipe: EntityImagePipe,
     private readonly router: Router,
     private readonly dialog: MatDialog,
-    private readonly location: Location
+    private readonly navigationService: NavigationService
   ) {
     super(toastService);
     this.form = this.initFormGroup();
+    this.navigationService.setPreviousUrl('space/home');
   }
 
   public ngOnInit(): void {
@@ -89,6 +91,7 @@ export class AddUpdateClubSpaceComponent extends Form implements OnInit {
   }
 
   public showInfoForGame(): void {
+    this.navigationService.setPreviousUrl(`/space/create/${this.gameId}`);
     this.router.navigateByUrl(`games/${this.gameId}/details`);
   }
 
@@ -96,7 +99,7 @@ export class AddUpdateClubSpaceComponent extends Form implements OnInit {
     if (this.editTableId)
       this.router.navigateByUrl(`space/${this.editTableId}/details`);
 
-    this.location.back();
+    this.router.navigateByUrl(this.navigationService.getPreviousUrl());
   }
 
   public togglePasswordVisibility(): void {

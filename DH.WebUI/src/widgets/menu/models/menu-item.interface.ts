@@ -5,6 +5,7 @@ export interface IMenuItemInterface {
   isAlertActive: boolean;
   visible: boolean;
   icon: string;
+  icon_color?: string;
   route: string;
   translatable?: boolean;
   forceActive?: boolean;

@@ -3,7 +3,6 @@
 .dialog-container {
   color: palette.$main-font-color;
   background-color: palette.$main-nav-color;
-  // height: 25rem;
 
   .header {
     margin: 1rem;
@@ -19,6 +18,8 @@
   }
 
   &__close {
+    width: 2rem;
+    fill: palette.$main-font-color;
   }
 
   mat-dialog-actions {

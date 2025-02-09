@@ -8,6 +8,7 @@
   margin: 0 auto;
   padding-top: 1.5rem;
   overflow-y: visible;
+
   .no_records {
     text-align: center;
     margin: 2rem;
@@ -27,6 +28,7 @@
     }
   }
   &__item {
+    position: relative;
     display: flex;
     padding-bottom: 0.3rem;
     padding-top: 0.5rem;
@@ -44,12 +46,15 @@
         font-size: large;
         padding-top: 0.2rem;
         align-self: baseline;
+        word-break: break-all;
+        width: 60%;
 
         .wrapper_description {
           padding-top: 0.5rem;
           width: 100%;
           font-size: 0.6rem;
           color: palette.$main-font-gray-color;
+          word-break: break-all;
         }
 
         @media (min-width: 568px) {
@@ -58,19 +63,24 @@
           }
         }
       }
-
-      .wrapper_likes {
+      .wrapper_right {
+        display: flex;
         position: absolute;
         right: 0;
-        bottom: 3.75rem;
         font-size: small;
-        color: palette.$main-red-color;
 
-        .like-icon {
+        .wrapper_likes {
+          color: palette.$main-red-color;
+          margin-right: 1rem;
           font-size: large;
-          position: relative;
-          right: 0.2rem;
-          top: 0.3rem;
+          .like-icon {
+            width: 1.5rem;
+            height: 1.5rem;
+            position: relative;
+            right: 0.2rem;
+            top: 0.3rem;
+            fill: palette.$main-red-color;
+          }
         }
       }
     }

@@ -1,7 +1,6 @@
 import { Router } from '@angular/router';
 import { Component, Injector, OnDestroy, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-
 import { MatDialog } from '@angular/material/dialog';
 import { GamesService } from '../../../../../entities/games/api/games.service';
 import { ActiveReservedGame } from '../../../../../entities/games/models/active-reserved-game.model';
@@ -22,8 +21,6 @@ export class GameReservations implements OnInit, OnDestroy {
   public reservedGames$!: Observable<IReservedGame[]>;
   public showFilter: boolean = false;
   public expandedReservationId: number | null = null;
-  public leftArrowKey: string = 'arrow_circle_left';
-  public rightArrowKey: string = 'arrow_circle_right';
   public activeReservations$!: Observable<ActiveReservedGame[]>;
 
   public readonly ImageEntityType = ImageEntityType;

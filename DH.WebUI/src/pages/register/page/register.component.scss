@@ -16,27 +16,20 @@
   justify-content: center;
   margin-top: 3rem;
 
-  span {
+  .icon_wrapper {
     width: 5rem;
     height: 5rem;
-    font-size: 3rem;
     border-radius: 50px;
     background: palette.$main-blue-color;
     box-shadow: 0 0 0 12px var(--background-color);
-    transition: height 200ms ease, margin 200ms ease;
-    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
-
   .icon {
-    --icon-size: 24px;
-    cursor: pointer;
-    transition: transform 320ms ease, opacity 200ms ease;
-
-    &__resize {
-      position: relative;
-      top: 1rem;
-      text-align: center;
-    }
+    width: 3rem;
+    height: 3rem;
+    fill: palette.$main-font-color;
   }
 }
 
