@@ -32,7 +32,8 @@ internal class DeclineSpaceTableReservationCommandHandler(IRepository<SpaceTable
         await this.repository.SaveChangesAsync(cancellationToken);
 
         //TODO: Additional minutes can be tenantSettings
-        this.queue.AddReservationCleaningJob(reservation.Id, ReservationType.Table, DateTime.UtcNow.AddMinutes(10));
+        DateTime newCleanupTime = DateTime.UtcNow.AddMinutes(2);
+        this.queue.UpdateReservationCleaningJob(reservation.Id, newCleanupTime);
 
         await eventPublisherService.PublishReservationProcessingOutcomeMessage(ReservationOutcome.Cancelled.ToString(), reservation.UserId, ReservationType.Table.ToString(), reservation.Id);
 
