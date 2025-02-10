@@ -40,20 +40,21 @@
         </div>
         <div class="wrapper_chips">
           <app-chip
+            [color]="'yellow'"
+            [text]="event.startDate | calculateRemainingDays"
+            [size]="'small'"
+          ></app-chip>
+          <app-chip
             [color]="'blue'"
             [text]="
               (event.startDate | date : DATE_TIME_FORMAT)?.toString() ?? ''
             "
             [size]="'small'"
           ></app-chip>
-          <app-chip
-            [color]="'yellow'"
-            [text]="event.startDate | calculateRemainingDays"
-            [size]="'small'"
-          ></app-chip>
         </div>
       </div>
       <div class="wrapper_right">
+        <!-- menu icon -->
         <svg
           class="wrapper_menu"
           (click)="showEventMenu(event.id, $event, menu)"

@@ -1,4 +1,3 @@
-import { EntityImagePipe } from './../../../../../shared/pipe/entity-image.pipe';
 import { Component } from '@angular/core';
 import { IEventByIdResult } from '../../../../../entities/events/models/event-by-id.mode';
 import { Observable } from 'rxjs';
@@ -28,7 +27,6 @@ export class EventDetailsComponent {
     private readonly activeRoute: ActivatedRoute,
     private readonly menuTabsService: MenuTabsService,
     private readonly toastService: ToastService,
-    private readonly entityImagePipe: EntityImagePipe,
     private readonly router: Router
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.EVENTS);

@@ -13,6 +13,14 @@
       class="wrapper_event"
       (click)="navigateToDetails(event.id)"
     >
+      <div class="wrapper_event__image">
+        <img [src]="getImage(event) | async" alt="" />
+      </div>
+      <div class="wrapper_event__header">
+        <p class="event_name">{{ event.name }}</p>
+        <p class="description">{{ event.description | slice : 0 : 100 }}...</p>
+      </div>
+
       <div class="wrapper_event__chips">
         <app-chip
           [color]="'orange'"
@@ -24,17 +32,6 @@
           text="{{ event.maxPeople }} max"
           [size]="'small'"
         ></app-chip>
-      </div>
-
-      <div class="wrapper_event__image">
-        <img [src]="getImage(event) | async" alt="" />
-      </div>
-
-      <div class="wrapper_event__header">
-        <span> {{ event.name }} </span>
-      </div>
-
-      <div class="wrapper_event__chips-date-info">
         <app-chip
           [color]="'blue'"
           [text]="(event.startDate | date : DATE_TIME_FORMAT)?.toString() ?? ''"
@@ -60,7 +57,7 @@
   </app-header>
 
   <div class="no_records" *ngIf="todayEvents.length === 0">
-    <img src="../../../../../shared/assets/images/no-events.png" alt="" />
+    <img src="/shared/assets/images/no-events.png" alt="" />
     <p class="first-header">No events for today</p>
   </div>
   <div class="wrapper_events">
@@ -69,6 +66,14 @@
       class="wrapper_event"
       (click)="navigateToDetails(event.id)"
     >
+      <div class="wrapper_event__image">
+        <img [src]="getImage(event) | async" alt="" />
+      </div>
+      <div class="wrapper_event__header">
+        <p class="event_name">{{ event.name }}</p>
+        <p class="description">{{ event.description | slice : 0 : 100 }}...</p>
+      </div>
+
       <div class="wrapper_event__chips">
         <app-chip
           [color]="'orange'"
@@ -80,24 +85,6 @@
           text="{{ event.maxPeople }} max"
           [size]="'small'"
         ></app-chip>
-
-        <app-chip
-          *ngIf="isUserParticipatedIn(event.id)"
-          [color]="'green'"
-          text="joined"
-          [size]="'small'"
-        ></app-chip>
-      </div>
-
-      <div class="wrapper_event__image">
-        <img [src]="getImage(event) | async" alt="" />
-      </div>
-
-      <div class="wrapper_event__header">
-        <span> {{ event.name }} </span>
-      </div>
-
-      <div class="wrapper_event__chips-date-info">
         <app-chip
           [color]="'blue'"
           [text]="(event.startDate | date : DATE_TIME_FORMAT)?.toString() ?? ''"
@@ -128,6 +115,14 @@
       class="wrapper_event"
       (click)="navigateToDetails(event.id)"
     >
+      <div class="wrapper_event__image">
+        <img [src]="getImage(event) | async" alt="" />
+      </div>
+      <div class="wrapper_event__header">
+        <p class="event_name">{{ event.name }}</p>
+        <p class="description">{{ event.description | slice : 0 : 100 }}...</p>
+      </div>
+
       <div class="wrapper_event__chips">
         <app-chip
           [color]="'orange'"
@@ -139,23 +134,6 @@
           text="{{ event.maxPeople }} max"
           [size]="'small'"
         ></app-chip>
-        <app-chip
-          *ngIf="isUserParticipatedIn(event.id)"
-          [color]="'green'"
-          text="joined"
-          [size]="'small'"
-        ></app-chip>
-      </div>
-
-      <div class="wrapper_event__image">
-        <img [src]="getImage(event) | async" alt="" />
-      </div>
-
-      <div class="wrapper_event__header">
-        <span> {{ event.name }} </span>
-      </div>
-
-      <div class="wrapper_event__chips-date-info">
         <app-chip
           [color]="'blue'"
           [text]="(event.startDate | date : DATE_TIME_FORMAT)?.toString() ?? ''"

@@ -13,6 +13,7 @@
   &__header {
     font-size: 1.25rem;
     margin: 1rem;
+    word-break: break-word;
   }
 
   &__chips {
@@ -94,6 +95,7 @@
     &__text {
       margin-top: 0.4rem;
       font-size: 0.75rem;
+      word-break: break-word;
     }
 
     &__event {
