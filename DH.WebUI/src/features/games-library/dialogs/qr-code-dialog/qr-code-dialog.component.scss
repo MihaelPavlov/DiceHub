@@ -9,19 +9,14 @@
     margin-top: 1rem;
     margin-bottom: 0.5rem;
     text-align: center;
+    padding: 0 1rem;
+    word-break: break-word;
   }
 
-  mat-dialog-actions {
+  .btn_wrapper {
     display: flex;
-    justify-content: end;
-    position: absolute;
-    right: 0;
-
-    .icon {
-      fill: palette.$main-font-color;
-      width: 2.5rem;
-      height: 2.5rem;
-    }
+    justify-content: center;
+    margin-bottom: 1rem;
   }
 }
 
