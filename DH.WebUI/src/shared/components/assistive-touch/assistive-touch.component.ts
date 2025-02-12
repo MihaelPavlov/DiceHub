@@ -19,7 +19,7 @@ import { NotificationsService } from '../../../entities/common/api/notifications
   styleUrl: 'assistive-touch.component.scss',
 })
 export class AssistiveTouchComponent implements OnInit, OnDestroy {
-  public buttonOpacity = 1; // Button opacity (1 = fully visible)
+  public buttonOpacity:number = 1; // Button opacity (1 = fully visible)
   private inactivityTimer!: Subscription;
   @Input() areAnyActiveNotifications!: BehaviorSubject<boolean>;
   @Output() updateUserNotifications: EventEmitter<void> =
@@ -27,7 +27,7 @@ export class AssistiveTouchComponent implements OnInit, OnDestroy {
   private assistiveTouchSettings: AssistiveTouchSettings | null = null;
   public positionY = this.assistiveTouchSettings
     ? Number(this.assistiveTouchSettings.positionY)
-    : 175; // Initial Y position of the button
+    : 235; // Initial Y position of the button
   public positionX = 0; // Initial X position of the button (left side)
   public isLeftAligned = this.assistiveTouchSettings
     ? this.assistiveTouchSettings.isLeftAligned
