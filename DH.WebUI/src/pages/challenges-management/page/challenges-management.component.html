@@ -3,14 +3,42 @@
 ></app-header>
 <ng-container *ngIf="periodPerformance && userChallengePeriodRewardList">
   <div class="wrapper_stats">
+    <div class="wrapper_score">
+      <p class="score" *ngIf="this.periodPerformance">
+        Score: {{ this.periodPerformance.points }}
+      </p>
+      <p class="dates">
+        <span>{{
+          this.periodPerformance.startDate | date : DATE_TIME_FORMAT
+        }}</span>
+        <!-- arrow_range icon -->
+        <svg class="icon" viewBox="0 -960 960 960">
+          <path
+            d="M280-280 80-480l200-200 56 56-103 104h494L624-624l56-56 200 200-200 200-56-56 103-104H233l103 104-56 56Z"
+          />
+        </svg>
+        <span>{{
+          this.periodPerformance.endDate | date : DATE_TIME_FORMAT
+        }}</span>
+      </p>
+    </div>
     <div class="wrapper_scroller">
       <!-- play_arrow icon -->
-      <svg class="arrow left" (click)="scrollLeft()" viewBox="0 -960 960 960">
+      <svg
+        class="arrow left"
+        (click)="rewardsScrollLeft()"
+        [ngStyle]="{
+          opacity: rewardScrollArrowsOpacity,
+          minWidth: rewardScrollArrowsWidth + 'rem',
+          width: rewardScrollArrowsWidth + 'rem',
+        }"
+        viewBox="0 -960 960 960"
+      >
         <path
           d="M332-234.31v-491.38L720.15-480 332-234.31ZM398-480Zm0 124 197.54-124L398-604v248Z"
         />
       </svg>
-      <div #scroller class="scroller">
+      <div #rewardsScroller class="scroller">
         <div class="wrapper_stats__items">
           <div
             class="item"
@@ -31,7 +59,16 @@
         </div>
       </div>
       <!-- play_arrow icon -->
-      <svg class="arrow" (click)="scrollRight()" viewBox="0 -960 960 960">
+      <svg
+        class="arrow"
+        (click)="rewardsScrollRight()"
+        [ngStyle]="{
+          opacity: rewardScrollArrowsOpacity,
+          minWidth: rewardScrollArrowsWidth + 'rem',
+          width: rewardScrollArrowsWidth + 'rem',
+        }"
+        viewBox="0 -960 960 960"
+      >
         <path
           d="M332-234.31v-491.38L720.15-480 332-234.31ZM398-480Zm0 124 197.54-124L398-604v248Z"
         />
@@ -39,19 +76,49 @@
     </div>
 
     <div class="wrapper_stats__bar">
-      <span class="wrapper_stats__bar-score" *ngIf="this.periodPerformance"
-        >Score: {{ this.periodPerformance.points }}</span
-      >
-
-      <div class="progress-container">
-        <div class="progress" id="progress"></div>
-        <div
-          *ngFor="let reward of userChallengePeriodRewardList"
-          class="circle"
-          [ngClass]="{ activated: reward.isCompleted }"
+      <div class="wrapper_progress_scroller">
+        <svg
+          class="arrow left"
+          (click)="pointsScrollLeft()"
+          [ngStyle]="{
+            opacity: pointsScrollArrowsOpacity,
+            minWidth: pointsScrollArrowsWidth + 'rem',
+            width: pointsScrollArrowsWidth + 'rem',
+          }"
+          viewBox="0 -960 960 960"
         >
-          {{ reward.rewardRequiredPoints }}
+          <path
+            d="M332-234.31v-491.38L720.15-480 332-234.31ZM398-480Zm0 124 197.54-124L398-604v248Z"
+          />
+        </svg>
+        <div #pointsScroller class="scroller">
+          <div #progressContainer class="progress-container">
+            <div class="progress" id="progress"></div>
+            <div
+              #circleContainer
+              class="circle_container"
+              *ngFor="let reward of userChallengePeriodRewardList"
+            >
+              <div class="circle" [ngClass]="{ activated: reward.isCompleted }">
+                {{ reward.rewardRequiredPoints }}
+              </div>
+            </div>
+          </div>
         </div>
+        <svg
+          class="arrow"
+          (click)="pointsScrollRight()"
+          [ngStyle]="{
+            opacity: pointsScrollArrowsOpacity,
+            minWidth: pointsScrollArrowsWidth + 'rem',
+            width: pointsScrollArrowsWidth + 'rem',
+          }"
+          viewBox="0 -960 960 960"
+        >
+          <path
+            d="M332-234.31v-491.38L720.15-480 332-234.31ZM398-480Zm0 124 197.54-124L398-604v248Z"
+          />
+        </svg>
       </div>
     </div>
   </div>
