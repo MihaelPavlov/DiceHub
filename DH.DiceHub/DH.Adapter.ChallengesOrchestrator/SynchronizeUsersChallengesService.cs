@@ -5,7 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace DH.Adapter.ChallengesOrchestrator;
 
