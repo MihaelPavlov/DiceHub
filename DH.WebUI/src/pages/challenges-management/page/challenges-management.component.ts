@@ -30,8 +30,8 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
   @ViewChild('rewardsScroller') rewardsScroller!: ElementRef;
   @ViewChild('pointsScroller') pointsScroller!: ElementRef;
 
-  @ViewChild('progressContainer') progressContainer!: ElementRef; // Reference to the container
-  @ViewChildren('circleContainer') circles!: QueryList<any>; // Query list of circles
+  @ViewChild('progressContainer') progressContainer!: ElementRef;
+  @ViewChildren('circleContainer') circles!: QueryList<any>;
 
   private readonly scrollArrowWidth = 2.5;
   public rewardScrollArrowsOpacity: number = 1;
