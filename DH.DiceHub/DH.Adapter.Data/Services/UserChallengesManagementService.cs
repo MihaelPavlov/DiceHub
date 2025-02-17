@@ -109,7 +109,7 @@ public class UserChallengesManagementService : IUserChallengesManagementService
                         UserId = userId,
                         IsPeriodActive = true,
                         Points = 0,
-                        StartDate = DateTime.UtcNow,
+                        StartDate = DateTime.UtcNow.Date.AddHours(12),
                         EndDate = nextResetDate,
                         TimePeriodType = settingPeriod
                     };
