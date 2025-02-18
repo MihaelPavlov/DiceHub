@@ -114,10 +114,12 @@ public class UserChallengesManagementService : IUserChallengesManagementService
                         TimePeriodType = settingPeriod
                     };
 
-                    var userChallengePeriodRewards = await this.GenerateRewardsAsyncV3(tenantSettings.ChallengeRewardsCountForPeriod, userPerformance.Id, context, cancellationToken);
-                    userPerformance.UserChallengePeriodRewards = userChallengePeriodRewards;
                     await context.UserChallengePeriodPerformances.AddAsync(userPerformance, cancellationToken);
+                    await context.SaveChangesAsync(cancellationToken);
 
+                    var userChallengePeriodRewards = await this.GenerateRewardsAsyncV3(tenantSettings.ChallengeRewardsCountForPeriod, userPerformance.Id, context, cancellationToken);
+                    // rewards points and not order correctly
+                    await context.UserChallengePeriodRewards.AddRangeAsync(userChallengePeriodRewards, cancellationToken);
                     await context.SaveChangesAsync(cancellationToken);
                     await transaction.CommitAsync(cancellationToken);
 
@@ -126,7 +128,7 @@ public class UserChallengesManagementService : IUserChallengesManagementService
                 catch (Exception ex)
                 {
                     await transaction.RollbackAsync(cancellationToken);
-                    this.logger.LogError("Error appear while new challenge period was adding for user - {userId}. Ex-> {exception}", userId, JsonSerializer.Serialize(ex));
+                    this.logger.LogError("Error appear while new challenge period was adding for user - {userId}. Ex-> {exception}", userId, ex.Message);
                     return false;
                 }
             }

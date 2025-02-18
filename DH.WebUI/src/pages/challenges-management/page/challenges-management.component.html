@@ -9,7 +9,7 @@
       </p>
       <p class="dates">
         <span>{{
-          this.periodPerformance.startDate | date : DATE_TIME_FORMAT
+          this.periodPerformance.startDate | date : DATE_FORMAT
         }}</span>
         <!-- arrow_range icon -->
         <svg class="icon" viewBox="0 -960 960 960">
@@ -18,7 +18,7 @@
           />
         </svg>
         <span>{{
-          this.periodPerformance.endDate | date : DATE_TIME_FORMAT
+          this.periodPerformance.endDate | date : DATE_FORMAT
         }}</span>
       </p>
     </div>

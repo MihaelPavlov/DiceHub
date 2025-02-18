@@ -27,7 +27,7 @@ export class AssistiveTouchComponent implements OnInit, OnDestroy {
   private assistiveTouchSettings: AssistiveTouchSettings | null = null;
   public positionY = this.assistiveTouchSettings
     ? Number(this.assistiveTouchSettings.positionY)
-    : 235; // Initial Y position of the button
+    : 135; // Initial Y position of the button
   public positionX = 0; // Initial X position of the button (left side)
   public isLeftAligned = this.assistiveTouchSettings
     ? this.assistiveTouchSettings.isLeftAligned

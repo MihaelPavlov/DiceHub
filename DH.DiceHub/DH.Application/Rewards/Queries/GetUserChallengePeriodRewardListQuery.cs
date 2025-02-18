@@ -21,7 +21,7 @@ internal class GetUserChallengePeriodRewardListQueryHandler : IRequestHandler<Ge
 
     public async Task<List<GetUserChallengePeriodRewardListQueryModel>> Handle(GetUserChallengePeriodRewardListQuery request, CancellationToken cancellationToken)
     {
-        return await this.repository.GetWithPropertiesAsync(
+        var rewards= await this.repository.GetWithPropertiesAsync(
               x => x.UserChallengePeriodPerformanceId == request.PeriodPerformanceId &&
               this.userContext.UserId == x.UserChallengePeriodPerformance.UserId &&
               x.UserChallengePeriodPerformance.IsPeriodActive,
@@ -31,5 +31,7 @@ internal class GetUserChallengePeriodRewardListQueryHandler : IRequestHandler<Ge
                   IsCompleted = x.IsCompleted,
                   RewardRequiredPoints = (int)x.ChallengeReward.RequiredPoints
               }, cancellationToken);
+
+        return rewards.OrderBy(x => x.RewardRequiredPoints).ToList();
     }
 }

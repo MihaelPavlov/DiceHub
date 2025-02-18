@@ -43,7 +43,7 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
   public userChallengeList: IUserChallenge[] = [];
   public ChallengeStatus = ChallengeStatus;
   public readonly ImageEntityType = ImageEntityType;
-  public readonly DATE_TIME_FORMAT = DateHelper.DATE_TIME_FORMAT;
+  public readonly DATE_FORMAT = DateHelper.DATE_FORMAT;
 
   public columns: Column[] = [
     // TODO: Update the word weekly based on the settings. Weekly rewards could be monthly

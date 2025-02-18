@@ -29,7 +29,6 @@ internal class ConditionalJobScheduler : IHostedService
             var tenantSettings = await tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
             if (Enum.TryParse<TimePeriodType>(tenantSettings.PeriodOfRewardReset, out var timePeriod))
             {
-
                 if (timePeriod == TimePeriodType.Weekly)
                 {
                     string GetCronDay(WeekDays day) => day switch

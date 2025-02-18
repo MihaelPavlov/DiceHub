@@ -113,7 +113,7 @@ internal class PushNotificationsService : IPushNotificationsService
         }
         catch (Exception ex)
         {
-            this.logger.LogError("Message error was catched exception -> {exception}", JsonSerializer.Serialize(ex));
+            this.logger.LogError("Message error was catched exception -> {exception}", ex.Message);
         }
     }
 
@@ -199,7 +199,7 @@ internal class PushNotificationsService : IPushNotificationsService
             }
             catch (Exception ex)
             {
-                this.logger.LogError("Message error was catched exception -> {exception}", JsonSerializer.Serialize(ex));
+                this.logger.LogError("Message error was catched exception -> {exception}", ex.Message);
             }
         }
     }

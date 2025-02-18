@@ -50,8 +50,7 @@ internal class AddUserChallengePeriodHandler : IAddUserChallengePeriodHandler
                     throw new InvalidOperationException("Unsupported TimePeriodType");
             }
 
-            // Validate the EndDate
-            if (period.EndDate.Date != expectedEndDate.Date)
+            if (period.EndDate.Date > expectedEndDate.Date )
                 continue;
 
             var isInitiationSuccessfully = await this.userChallengesManagementService.InitiateUserChallengePeriod(period.UserId, cancellationToken);
