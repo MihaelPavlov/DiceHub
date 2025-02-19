@@ -23,10 +23,10 @@ export class ChallengeUserAccessGuard {
     _: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | boolean | Promise<boolean> | UrlTree {
-    if (this.authService.getUser?.role === UserRole.User) {
-      return true;
+    if (this.authService.getUser?.role !== UserRole.User) {
+      return this.router.parseUrl(FULL_ROUTE.CHALLENGES.ADMIN_LIST);
     }
 
-    return this.router.parseUrl(FULL_ROUTE.CHALLENGES.ADMIN_LIST);
+    return true;
   }
 }

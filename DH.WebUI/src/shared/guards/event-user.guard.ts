@@ -23,10 +23,10 @@ export class EventUserAccessGuard {
     _: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | boolean | Promise<boolean> | UrlTree {
-    if (this.authService.getUser?.role === UserRole.User) {
-      return true;
+    if (this.authService.getUser?.role !== UserRole.User) {
+      return this.router.parseUrl(FULL_ROUTE.EVENTS.ADMIN.CORE);
     }
-
-    return this.router.parseUrl(FULL_ROUTE.EVENTS.ADMIN.CORE);
+    
+    return true;
   }
 }
