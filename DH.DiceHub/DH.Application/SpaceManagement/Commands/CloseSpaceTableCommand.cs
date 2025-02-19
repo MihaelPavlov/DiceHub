@@ -42,6 +42,9 @@ internal class CloseSpaceTableCommandHandler : IRequestHandler<CloseSpaceTableCo
                 this.queue.CancelUserPlayTimeEnforcerJob(participant.UserId, spaceTable.GameId);
         }
 
+        if (this.queue.Contains(spaceTable.CreatedBy, spaceTable.GameId))
+            this.queue.CancelUserPlayTimeEnforcerJob(spaceTable.CreatedBy, spaceTable.GameId);
+
         await this.spaceTableParticipantRepository.RemoveRange(spaceTableParticipantList, cancellationToken);
 
         spaceTable.IsTableActive = false;
