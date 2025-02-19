@@ -61,7 +61,7 @@ public class QueueDispatcher : IQueueDispatcher
         }
 
         // Determine the specific job type based on the payload
-        if (messagePayload.Contains("ScheduledTime"))
+        if (baseJobInfo.ScheduledTime != null)
         {
             // Deserialize as ChallengeInitiationJob
             var challengeInitiationJob = JsonSerializer.Deserialize<SynchronizeUsersChallengesQueue.ChallengeInitiationJob>(messagePayload);
