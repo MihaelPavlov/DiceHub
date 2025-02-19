@@ -105,8 +105,8 @@ public class SynchronizeGameSessionQueue : QueueBase
     /// </summary>
     /// <param name="UserId">The unique identifier of the user associated with the job.</param>
     /// <param name="GameId">The unique identifier of the game that the job is related to.</param>
-    /// <param name="requiredPlayUntil">The average time that the user must spend playing the game.</param>
-    public record JobInfo(string UserId, int GameId, DateTime requiredPlayUntil) : JobInfoBase;
+    /// <param name="RequiredPlayUntil">The average time that the user must spend playing the game.</param>
+    public record JobInfo(string UserId, int GameId, DateTime RequiredPlayUntil) : JobInfoBase;
 
     /// <summary>
     /// Represents a job specifically for enforcing user playtime requirements for a game.
