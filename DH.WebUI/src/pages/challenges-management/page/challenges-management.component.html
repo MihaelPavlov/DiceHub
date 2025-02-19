@@ -1,6 +1,12 @@
 <app-header header="Challenges" [withQRcode]="true">
   <app-nav-bar [columns]="columns"></app-nav-bar
 ></app-header>
+<ng-container *ngIf="!periodPerformance">
+  <span class="no-period">
+    Your challenges are being generated.<br />
+    Please check back in a few minutes!
+  </span></ng-container
+>
 <ng-container *ngIf="periodPerformance && userChallengePeriodRewardList">
   <div class="wrapper_stats">
     <div class="wrapper_score">
@@ -8,18 +14,14 @@
         Score: {{ this.periodPerformance.points }}
       </p>
       <p class="dates">
-        <span>{{
-          this.periodPerformance.startDate | date : DATE_FORMAT
-        }}</span>
+        <span>{{ this.periodPerformance.startDate | date : DATE_FORMAT }}</span>
         <!-- arrow_range icon -->
         <svg class="icon" viewBox="0 -960 960 960">
           <path
             d="M280-280 80-480l200-200 56 56-103 104h494L624-624l56-56 200 200-200 200-56-56 103-104H233l103 104-56 56Z"
           />
         </svg>
-        <span>{{
-          this.periodPerformance.endDate | date : DATE_FORMAT
-        }}</span>
+        <span>{{ this.periodPerformance.endDate | date : DATE_FORMAT }}</span>
       </p>
     </div>
     <div class="wrapper_scroller">

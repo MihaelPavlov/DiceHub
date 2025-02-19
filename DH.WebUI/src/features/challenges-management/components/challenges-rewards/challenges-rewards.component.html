@@ -8,6 +8,11 @@
 ></app-header>
 
 <div class="wrapper_challenges" *ngIf="userRewards$ | async as userRewards">
+  <div class="no-records" *ngIf="userRewards.length === 0">
+    No rewards yet!<br />  
+    Visit the club and start completing
+    <strong class="blue" (click)="navigateToChallenges()">challenges</strong> to earn them.
+  </div>
   <div
     class="wrapper_challenges__item"
     *ngFor="let reward of userRewards"

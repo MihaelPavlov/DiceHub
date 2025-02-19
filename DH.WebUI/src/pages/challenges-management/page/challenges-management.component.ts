@@ -38,7 +38,7 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
   public rewardScrollArrowsWidth: number = this.scrollArrowWidth;
   public pointsScrollArrowsOpacity: number = 1;
   public pointsScrollArrowsWidth: number = this.scrollArrowWidth;
-  public periodPerformance!: IUserChallengePeriodPerformance;
+  public periodPerformance!: IUserChallengePeriodPerformance | null;
   public userChallengePeriodRewardList!: IUserChallengePeriodReward[];
   public userChallengeList: IUserChallenge[] = [];
   public ChallengeStatus = ChallengeStatus;
@@ -96,59 +96,60 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.challengeService.getUserChallengePeriodPerformance().subscribe({
-      next: (periodPerformance: IUserChallengePeriodPerformance) => {
+      next: (periodPerformance: IUserChallengePeriodPerformance | null) => {
         this.periodPerformance = periodPerformance;
+        if (this.periodPerformance) {
+          combineLatest([
+            this.challengeService.getUserChallengeList(),
+            this.rewardsService.getUserChallengePeriodRewardList(
+              this.periodPerformance.id
+            ),
+          ]).subscribe({
+            next: ([userChallengeList, rewardList]) => {
+              this.userChallengeList = userChallengeList;
+              this.userChallengePeriodRewardList = rewardList;
 
-        combineLatest([
-          this.challengeService.getUserChallengeList(),
-          this.rewardsService.getUserChallengePeriodRewardList(
-            this.periodPerformance.id
-          ),
-        ]).subscribe({
-          next: ([userChallengeList, rewardList]) => {
-            this.userChallengeList = userChallengeList;
-            this.userChallengePeriodRewardList = rewardList;
+              // Required to detect the changes from the api. Otherwise dom is empty
+              // Force the DOM Update Before Querying
+              this.cd.detectChanges();
+              this.updateChallengesProgressBar();
+              this.updateRewardProgressBar();
 
-            // Required to detect the changes from the api. Otherwise dom is empty
-            // Force the DOM Update Before Querying
-            this.cd.detectChanges();
-            this.updateChallengesProgressBar();
-            this.updateRewardProgressBar();
+              this.initProgressContainerWidth();
 
-            this.initProgressContainerWidth();
+              this.resetRewardsInactivityTimer();
+              this.resetPointsInactivityTimer();
 
-            this.resetRewardsInactivityTimer();
-            this.resetPointsInactivityTimer();
-
-            if (this.rewardsScroller) {
-              this.rewardsListener = this.renderer.listen(
-                this.rewardsScroller.nativeElement,
-                'scroll',
-                () => {
-                  if (!this.rewardsScrolling) {
-                    this.rewardsScrolling = true;
-                    this.resetRewardsInactivityTimer();
-                    // Trigger any function here
+              if (this.rewardsScroller) {
+                this.rewardsListener = this.renderer.listen(
+                  this.rewardsScroller.nativeElement,
+                  'scroll',
+                  () => {
+                    if (!this.rewardsScrolling) {
+                      this.rewardsScrolling = true;
+                      this.resetRewardsInactivityTimer();
+                      // Trigger any function here
+                    }
                   }
-                }
-              );
-            }
+                );
+              }
 
-            if (this.pointsScroller) {
-              this.pointsListener = this.renderer.listen(
-                this.pointsScroller.nativeElement,
-                'scroll',
-                () => {
-                  if (!this.pointsScrolling) {
-                    this.pointsScrolling = true;
-                    this.resetPointsInactivityTimer();
-                    // Trigger any function here
+              if (this.pointsScroller) {
+                this.pointsListener = this.renderer.listen(
+                  this.pointsScroller.nativeElement,
+                  'scroll',
+                  () => {
+                    if (!this.pointsScrolling) {
+                      this.pointsScrolling = true;
+                      this.resetPointsInactivityTimer();
+                      // Trigger any function here
+                    }
                   }
-                }
-              );
-            }
-          },
-        });
+                );
+              }
+            },
+          });
+        }
       },
     });
   }

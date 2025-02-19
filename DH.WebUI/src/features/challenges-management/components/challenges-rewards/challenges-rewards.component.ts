@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '../../../../entities/auth/auth.service';
 import { QrCodeType } from '../../../../entities/qr-code-scanner/enums/qr-code-type.enum';
 import { ImageEntityType } from '../../../../shared/pipe/entity-image.pipe';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-challenges-rewards',
@@ -23,11 +24,16 @@ export class ChallengesRewardsComponent implements OnInit {
   constructor(
     private readonly rewardsService: RewardsService,
     private readonly authService: AuthService,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly router: Router
   ) {}
 
   public ngOnInit(): void {
     this.userRewards$ = this.rewardsService.getUserRewardList();
+  }
+
+  public navigateToChallenges():void{
+    this.router.navigateByUrl('challenges/home')
   }
 
   public openDialog(id: number): void {

@@ -36,8 +36,8 @@ export class ChallengesService {
     );
   }
 
-  public getUserChallengePeriodPerformance(): Observable<IUserChallengePeriodPerformance> {
-    return this.api.get<IUserChallengePeriodPerformance>(
+  public getUserChallengePeriodPerformance(): Observable<IUserChallengePeriodPerformance | null> {
+    return this.api.get<IUserChallengePeriodPerformance| null>(
       `/${PATH.CHALLENGES.CORE}/${PATH.CHALLENGES.GET_USER_CHALLENGE_PERIOD_PERFORMANCE}`
     );
   }
