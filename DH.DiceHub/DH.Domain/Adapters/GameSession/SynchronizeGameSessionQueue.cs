@@ -51,8 +51,8 @@ public class SynchronizeGameSessionQueue : QueueBase
     public void AddUserPlayTimEnforcerJob(string userId, int gameId, DateTime requiredPlayUntil)
     {
         var job = new UserPlayTimeEnforcerJob(userId, gameId, requiredPlayUntil);
-        queue.Enqueue(job);
         this.QueuedJobService.Create(this.QueueName, job.JobId, JsonSerializer.Serialize(job));
+        queue.Enqueue(job);
     }
 
     public void RequeueJob(JobInfo jobInfo)

@@ -36,8 +36,8 @@ public class ReservationCleanupQueue : QueueBase
     public void AddReservationCleaningJob(int reservationId, ReservationType type, DateTime removingTime)
     {
         var job = new JobInfo(reservationId, type, removingTime);
-        jobs.AddOrUpdate(reservationId, job, (id, existingJob) => job);
         this.QueuedJobService.Create(this.QueueName, job.JobId, JsonSerializer.Serialize(job));
+        jobs.AddOrUpdate(reservationId, job, (id, existingJob) => job);
     }
 
     public void RequeueJob(JobInfo jobInfo)

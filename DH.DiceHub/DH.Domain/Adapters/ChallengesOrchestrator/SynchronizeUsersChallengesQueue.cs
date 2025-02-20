@@ -45,8 +45,8 @@ public class SynchronizeUsersChallengesQueue : QueueBase
     public void AddSynchronizeNewUserJob(string userId)
     {
         var job = new SynchronizeNewUserJob(userId);
-        queue.Enqueue(job);
         this.QueuedJobService.Create(this.QueueName, job.JobId, JsonSerializer.Serialize(job));
+        queue.Enqueue(job);
     }
 
     /// <summary>
@@ -57,8 +57,8 @@ public class SynchronizeUsersChallengesQueue : QueueBase
     public void AddChallengeInitiationJob(string userId, DateTime scheduledTime)
     {
         var job = new ChallengeInitiationJob(userId, scheduledTime);
-        queue.Enqueue(job);
         this.QueuedJobService.Create(this.QueueName, job.JobId, JsonSerializer.Serialize(job));
+        queue.Enqueue(job);
     }
 
     public void RequeueChallengeInitiationJob(ChallengeInitiationJob job)
