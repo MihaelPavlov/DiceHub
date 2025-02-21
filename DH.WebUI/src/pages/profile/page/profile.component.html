@@ -62,7 +62,7 @@
 
         <span class="item-header"> Settings </span>
       </div>
-      <div class="item-wrapper" (click)="navigateToEmployeeList()">
+      <div *ngIf="isAdmin()" class="item-wrapper" (click)="navigateToEmployeeList()">
         <div class="item">
           <!-- chest_pawn icon -->
           <svg
@@ -97,7 +97,7 @@
         <span class="item-header"> Events </span>
       </div>
 
-      <div class="item-wrapper">
+      <div *ngIf="isAdmin()" class="item-wrapper">
         <div class="item">
           <!-- rocket_launch icon -->
           <svg
@@ -115,7 +115,7 @@
         <span class="item-header"> Jobs </span>
       </div>
 
-      <div class="item-wrapper">
+      <div *ngIf="isAdmin()" class="item-wrapper">
         <div class="item">
           <!-- history icon -->
           <svg
@@ -154,7 +154,7 @@
 
         <span class="item-header"> Challenge Leaderboard </span>
       </div>
-      <div class="item-wrapper" (click)="navigateToVisitorChart()">
+      <div *ngIf="isAdmin()" class="item-wrapper" (click)="navigateToVisitorChart()">
         <div class="item">
           <!-- show_chart icon -->
           <svg
@@ -171,7 +171,7 @@
 
         <span class="item-header"> Visitor Charts </span>
       </div>
-      <div class="item-wrapper" (click)="navigateToReservationsChart()">
+      <div *ngIf="isAdmin()" class="item-wrapper" (click)="navigateToReservationsChart()">
         <div class="item">
           <!-- bar_chart icon -->
           <svg
@@ -188,7 +188,7 @@
 
         <span class="item-header"> Reservation Charts </span>
       </div>
-      <div class="item-wrapper" (click)="navigateToEventCharts()">
+      <div *ngIf="isAdmin()" class="item-wrapper" (click)="navigateToEventCharts()">
         <div class="item">
           <!-- donut_large icon -->
           <svg
@@ -205,7 +205,7 @@
 
         <span class="item-header"> Event Charts </span>
       </div>
-      <div class="item-wrapper" (click)="navigateToRewardCharts()">
+      <div *ngIf="isAdmin()" class="item-wrapper" (click)="navigateToRewardCharts()">
         <div class="item">
           <!-- finance icon -->
           <svg

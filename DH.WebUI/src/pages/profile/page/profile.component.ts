@@ -28,6 +28,10 @@ export class ProfileComponent implements OnDestroy {
     this.router.navigateByUrl('login');
   }
 
+  public isAdmin(): boolean {
+    return this.authService.getUser?.role !== UserRole.User;
+  }
+
   public navigateToSettings(): void {
     if (this.authService.getUser?.role === UserRole.Owner)
       this.router.navigateByUrl('profile/settings');
@@ -40,24 +44,23 @@ export class ProfileComponent implements OnDestroy {
     this.router.navigateByUrl('profile/employees');
   }
 
-  public navigateToVisitorChart():void{
+  public navigateToVisitorChart(): void {
     this.router.navigateByUrl('charts/visitors');
   }
 
-  public navigateToReservationsChart():void{
+  public navigateToReservationsChart(): void {
     this.router.navigateByUrl('charts/reservations');
   }
 
-  public navigateToRewardCharts():void{
+  public navigateToRewardCharts(): void {
     this.router.navigateByUrl('charts/rewards');
   }
-  public navigateToEventCharts():void{
+  public navigateToEventCharts(): void {
     this.router.navigateByUrl('charts/events');
   }
 
-  public navigateToChallengeLeaderboard():void{
+  public navigateToChallengeLeaderboard(): void {
     this.router.navigateByUrl('charts/challenges/leaderboard');
-
   }
 
   public backNavigateBtn() {}
