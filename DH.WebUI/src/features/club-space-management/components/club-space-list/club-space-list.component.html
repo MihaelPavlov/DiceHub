@@ -10,8 +10,10 @@
   class="wrapper_tables"
   *ngIf="spaceAvailableTableList$ | async as spaceAvailableTables"
 >
-  <div *ngIf="spaceAvailableTables.length === 0">
-    <p>No active rooms.</p>
+  <div class="no-records" *ngIf="spaceAvailableTables.length === 0">
+    There are no active game tables at the moment.
+    <br />
+    Check back later or create a new table to start playing!
   </div>
   <div class="wrapper_tables__item" *ngFor="let table of spaceAvailableTables">
     <div class="wrapper_left">
