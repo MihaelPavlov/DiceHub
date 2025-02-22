@@ -25,7 +25,7 @@ export class ClubSpaceListComponent implements OnDestroy {
     private readonly dialog: MatDialog,
     private readonly router: Router,
     private readonly searchService: SearchService,
-        private readonly menuTabsService: MenuTabsService,
+    private readonly menuTabsService: MenuTabsService
   ) {}
 
   public ngOnDestroy(): void {
