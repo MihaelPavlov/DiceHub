@@ -8,6 +8,7 @@ import { JoinTableConfirmDialog } from '../../dialogs/join-table-confirm-dialog/
 import { Router } from '@angular/router';
 import { SearchService } from '../../../../shared/services/search.service';
 import { ImageEntityType } from '../../../../shared/pipe/entity-image.pipe';
+import { MenuTabsService } from '../../../../shared/services/menu-tabs.service';
 
 @Component({
   selector: 'app-club-space-list',
@@ -23,10 +24,12 @@ export class ClubSpaceListComponent implements OnDestroy {
     private readonly authService: AuthService,
     private readonly dialog: MatDialog,
     private readonly router: Router,
-    private readonly searchService: SearchService
+    private readonly searchService: SearchService,
+        private readonly menuTabsService: MenuTabsService,
   ) {}
 
   public ngOnDestroy(): void {
+    this.menuTabsService.resetData();
     this.searchService.hideSearchForm();
   }
 
