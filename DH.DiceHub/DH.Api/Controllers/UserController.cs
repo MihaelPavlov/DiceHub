@@ -12,6 +12,7 @@ using MediatR;
 using DH.Domain.Adapters.PushNotifications.Messages;
 using DH.Domain.Adapters.PushNotifications;
 using DH.Domain.Adapters.Authentication.Models.Enums;
+using DH.Application.Stats.Queries;
 
 namespace DH.Api.Controllers;
 
@@ -153,5 +154,15 @@ public class UserController : ControllerBase
     {
         await this.userService.CreateEmployee(request, cancellationToken);
         return Ok();
+    }
+
+    [Authorize]
+    [HttpGet("get-user-stats")]
+    [ActionAuthorize(UserAction.UsersRead)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetUserStatsQueryModel))]
+    public async Task<IActionResult> GetUserStats(CancellationToken cancellationToken)
+    {
+        var result = await this.mediator.Send(new GetUserStatsQuery(), cancellationToken);
+        return Ok(result);
     }
 }

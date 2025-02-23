@@ -110,6 +110,7 @@ export const PATH = {
     GET_EMPLOYEE_LIST: 'get-employee-list',
     GET_USER_LIST: 'get-user-list',
     CREATE_EMPLOYEE: 'create-employee',
+    GET_USER_STATS: 'get-user-stats',
   },
   STATISTICS: {
     CORE: 'statistic',

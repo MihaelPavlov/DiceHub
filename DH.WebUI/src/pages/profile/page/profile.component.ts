@@ -4,6 +4,9 @@ import { NAV_ITEM_LABELS } from '../../../shared/models/nav-items-labels.const';
 import { AuthService } from '../../../entities/auth/auth.service';
 import { Router } from '@angular/router';
 import { UserRole } from '../../../entities/auth/enums/roles.enum';
+import { UsersService } from '../../../entities/profile/api/user.service';
+import { GetUserStats } from '../../../entities/profile/models/get-user-stats.interface';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -11,12 +14,18 @@ import { UserRole } from '../../../entities/auth/enums/roles.enum';
   styleUrl: 'profile.component.scss',
 })
 export class ProfileComponent implements OnDestroy {
+  public username: string = this.authService.getUser?.username || '';
+  public userStats!: Observable<GetUserStats>;
+  
   constructor(
     private readonly menuTabsService: MenuTabsService,
     private readonly authService: AuthService,
+    private readonly usersService: UsersService,
     private readonly router: Router
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.PROFILE);
+
+    this.userStats = this.usersService.getUserStats();
   }
 
   public ngOnDestroy(): void {

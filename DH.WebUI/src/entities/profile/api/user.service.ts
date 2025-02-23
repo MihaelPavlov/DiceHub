@@ -3,6 +3,7 @@ import { RestApiService } from '../../../shared/services/rest-api.service';
 import { Observable } from 'rxjs';
 import { IUser } from '../models/user.model';
 import { PATH } from '../../../shared/configs/path.config';
+import { GetUserStats } from '../models/get-user-stats.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +20,12 @@ export class UsersService {
   public getUserList(): Observable<IUser[] | null> {
     return this.api.get<IUser[]>(
       `/${PATH.USER.CORE}/${PATH.USER.GET_USER_LIST}`
+    );
+  }
+
+  public getUserStats(): Observable<GetUserStats> {
+    return this.api.get<GetUserStats>(
+      `/${PATH.USER.CORE}/${PATH.USER.GET_USER_STATS}`
     );
   }
 
