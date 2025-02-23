@@ -24,6 +24,42 @@
     display: flex;
     justify-content: end;
 
+    .wrapper_reservation_warning_active {
+      animation: breathe 1s ease-in-out infinite, glow 3s ease-in-out infinite;
+      will-change: transform, filter;
+      @keyframes breathe {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.2);
+        }
+      }
+
+      @keyframes glow {
+        0%,
+        100% {
+          filter: drop-shadow(0 0 5px rgba(0, 123, 255, 0.5));
+        }
+        50% {
+          filter: drop-shadow(0 0 15px rgba(0, 123, 255, 0.8));
+        }
+      }
+    }
+
+    .wrapper_reservation_warning {
+      background: palette.$main-red-color;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      margin: 0 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    
     .wrapper_search {
       background: palette.$main-blue-color;
       display: flex;

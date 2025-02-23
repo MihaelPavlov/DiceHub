@@ -11,6 +11,8 @@ import { BehaviorSubject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { SearchService } from '../../../shared/services/search.service';
 import { IMenuItem } from '../../../shared/models/menu-item.model';
 import { Router } from '@angular/router';
+import { IGameReservationStatus } from '../../../entities/games/models/game-reservation-status.model';
+import { ReservationStatus } from '../../../shared/enums/reservation-status.enum';
 
 @Component({
   selector: 'app-header',
@@ -26,6 +28,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   @Input() withMenu: boolean = false;
   @Input() withQRcode: boolean = false;
   @Input() withBottomLine: boolean = false;
+  @Input() gameReservationStatus: IGameReservationStatus | null = null;
   @Input() menuItems: BehaviorSubject<IMenuItem[]> = new BehaviorSubject<
     IMenuItem[]
   >([]);
@@ -37,8 +40,12 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   @Output() searchExpressionResult: EventEmitter<string> =
     new EventEmitter<string>();
   @Output() headerClicked: EventEmitter<void> = new EventEmitter<void>();
+  @Output() reservationWarningClicked: EventEmitter<void> =
+    new EventEmitter<void>();
 
   public searchForm!: FormGroup;
+
+  public readonly ReservationStatus = ReservationStatus;
 
   constructor(
     private readonly fb: FormBuilder,
@@ -100,6 +107,10 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   private onSearchSubmit(searchExpression: string) {
     this.searchExpressionResult.emit(searchExpression);
+  }
+
+  public onReservationWarning(): void {
+    this.reservationWarningClicked.emit();
   }
 
   private closeSearch(withClean: boolean = false): void {

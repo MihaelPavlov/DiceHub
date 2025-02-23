@@ -7,6 +7,12 @@ import { NewGameListComponent } from '../../new-game-list/page/new-game-list.com
 import { IMenuItem } from '../../../../../shared/models/menu-item.model';
 import { PermissionService } from '../../../../../shared/services/permission.service';
 import { UserAction } from '../../../../../shared/constants/user-action';
+import { SpaceManagementService } from '../../../../../entities/space-management/api/space-management.service';
+import { ActiveBookedTableModel } from '../../../../../entities/space-management/models/active-booked-table.model';
+import { GamesService } from '../../../../../entities/games/api/games.service';
+import { IGameReservationStatus } from '../../../../../entities/games/models/game-reservation-status.model';
+import { FULL_ROUTE } from '../../../../../shared/configs/route.config';
+import { NavigationService } from '../../../../../shared/services/navigation-service';
 
 @Component({
   selector: 'app-game-navigation',
@@ -27,9 +33,13 @@ export class GameNavigationComponent implements OnInit {
   );
 
   public headerSectionName: string = 'Games';
+  public gameReservationStatus: IGameReservationStatus | null = null;
+
   constructor(
     private readonly router: Router,
-    private readonly permissionService: PermissionService
+    private readonly permissionService: PermissionService,
+    private readonly gameService: GamesService,
+    private readonly navigationService: NavigationService
   ) {
     this.handleMenuItemClick = this.handleMenuItemClick.bind(this);
   }
@@ -40,6 +50,15 @@ export class GameNavigationComponent implements OnInit {
       { key: 'add-existing-game', label: 'Add Existing Game' },
       { key: 'reserved-games', label: 'Reserved Games' },
     ]);
+
+    this.gameService.userReservationStatus().subscribe({
+      next: (status: IGameReservationStatus | null) => {
+        this.gameReservationStatus = status;
+      },
+      error: () => {
+        this.gameReservationStatus = null;
+      },
+    });
   }
 
   public handleMenuItemClick(key: string): void {
@@ -66,6 +85,15 @@ export class GameNavigationComponent implements OnInit {
           if (categoryName) this.headerSectionName = categoryName;
           else this.headerSectionName = 'Games';
         }
+      );
+    }
+  }
+
+  public handleReservationWarningClick(): void {
+    if (this.gameReservationStatus) {
+      this.navigationService.setPreviousUrl(this.router.url);
+      this.router.navigateByUrl(
+        FULL_ROUTE.GAMES.AVAILABILITY(this.gameReservationStatus.gameId)
       );
     }
   }

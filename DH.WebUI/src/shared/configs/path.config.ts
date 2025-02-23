@@ -12,6 +12,7 @@ export const PATH = {
     DISLIKE: 'dislike',
     RESERVATION: 'reservation',
     RESERVATION_STATUS: 'reservation-status',
+    USER_RESERVATION_STATUS: 'user-reservation-status',
     GET_ACTIVE_RESERVED_GAME: 'get-active-reserved-game',
     GET_ACTIVE_RESERVED_GAMES: 'get-active-reserved-games',
     GET_ACTIVE_RESERVED_GAMES_COUNT: 'get-active-reserved-games-count',

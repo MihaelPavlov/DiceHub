@@ -186,6 +186,13 @@ export class GamesService {
     );
   }
 
+  public userReservationStatus(): Observable<IGameReservationStatus | null> {
+    return this.api.post(
+      `/${PATH.GAMES.CORE}/${PATH.GAMES.USER_RESERVATION_STATUS}`,
+      {}
+    );
+  }
+
   public approveReservation(
     reservationId: number,
     publicNote: string,
