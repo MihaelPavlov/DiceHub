@@ -63,6 +63,8 @@ export class AuthService {
       'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid';
     const roleClaim: string =
       'http://schemas.microsoft.com/ws/2008/06/identity/claims/role';
+    const usernameClaim: string =
+      'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name';
 
     this.api.get('/user/info').subscribe({
       next: (user: any) => {
@@ -70,6 +72,7 @@ export class AuthService {
           this.userInfoSubject$.next({
             id: user[sidClaim],
             role: user[roleClaim],
+            username: user[usernameClaim],
             permissionString: user['permissions'],
           });
         else {

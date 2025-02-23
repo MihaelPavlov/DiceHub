@@ -205,7 +205,7 @@ public class UserService : IUserService
         if (existingUserByEmail != null)
             throw new ValidationErrorsException("Exist", "Player with that Email, already exist");
 
-        var username = $"{request.FirstName}{request.LastName}";
+        var username = $"{request.FirstName}, {request.LastName}";
         var existingUserByUsername = await this.userManager.FindByNameAsync(username);
         if (existingUserByUsername != null)
             throw new ValidationErrorsException("Exist", "Player with that Username, already exist");
