@@ -83,12 +83,12 @@
   </form>
   <div class="wrapper_reviews">
     <div *ngFor="let gameReview of gameReviews" class="wrapper_reviews__item">
-      <div class="wrapper_image">
+      <!-- <div class="wrapper_image">
         <img src="/shared/assets/images/mpavlov.png" alt="" />
-      </div>
+      </div> -->
       <div class="wrapper_reviews__item__info">
         <div class="details">
-          <span>Keney West</span>
+          <span>{{ gameReview.userFullName }}</span>
           <div>
             <span>
               {{ gameReview.updatedDate | date : DATE_FORMAT }}

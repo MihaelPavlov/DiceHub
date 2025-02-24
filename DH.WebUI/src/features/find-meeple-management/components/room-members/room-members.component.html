@@ -28,14 +28,16 @@
               </svg>
             </div>
           </ng-container>
+
+          <!-- FUTURE IMPROVEMENTS -->
           <!-- user image -->
-          <img src="http://placehold.it/50x50" alt="" />
+          <!-- <img src="http://placehold.it/50x50" alt="" /> -->
           <div class="user-info">
             <span class="name">
               <span class="owner" *ngIf="this.room.createdBy === member.userId"
                 >Owner - </span
-              >{{ member.username }}
-              <span class="age">age - {{ member.age }}</span>
+              >{{ member.username }} -
+              <span class="age"> age {{ member.age }}</span>
             </span>
             <br />
             <small
