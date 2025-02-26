@@ -72,7 +72,7 @@ export class GamesLibraryComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.menuItems.next([
       { key: 'qr-code', label: 'QR Code' },
-      { key: 'history-log', label: 'Last Activities' },
+      // { key: 'history-log', label: 'Last Activities' },
       { key: 'update', label: 'Update' },
       { key: 'copy', label: 'Add Copy' },
       { key: 'delete', label: 'Delete' },
