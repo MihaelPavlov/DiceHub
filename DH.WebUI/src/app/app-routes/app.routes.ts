@@ -86,8 +86,15 @@ export const ROUTES: Routes = [
             (m) => m.ChartAppModule
           ),
         canActivate: [AuthGuard],
-      },
+      }
     ],
+  },
+  {
+    path: 'landing',
+    loadChildren: () =>
+      import('../../pages/landing/landing.module').then(
+        (m) => m.LandingModule
+      ),
   },
   {
     path: 'login',
