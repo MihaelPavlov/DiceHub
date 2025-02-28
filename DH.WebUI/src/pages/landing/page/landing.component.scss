@@ -1,1 +1,69 @@
 @use "../../../shared/assets/styles/palette";
+
+.carousel {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+.carousel__viewport {
+  display: flex;
+  scroll-snap-type: x mandatory;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  white-space: nowrap;
+  height: 400px;
+}
+*::-webkit-scrollbar {
+  width: 0;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: transparent;
+  border: none;
+}
+.carousel__slide {
+  flex: 0 0 100%;
+  text-align: center;
+  position: relative;
+}
+
+.carousel__slide img {
+  width: 100%;
+  height: auto;
+}
+
+.carousel__prev,
+.carousel__next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.carousel__prev {
+  left: 10px;
+}
+
+.carousel__next {
+  right: 10px;
+}
+
+.carousel__navigation {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.carousel__navigation button {
+  margin: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
