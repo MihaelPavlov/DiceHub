@@ -21,7 +21,7 @@ export class LandingComponent {
   @ViewChild('carouselViewport', { static: false })
   carouselViewport!: ElementRef;
 
-  scrollToSlide(index: number) {
+  public scrollToSlide(index: number) {
     if (index < 0 || index >= this.slides.length) return; // Prevent out-of-bounds scrolling
 
     this.currentSlideIndex = index;
@@ -32,7 +32,7 @@ export class LandingComponent {
 
   // Mouse Wheel Scroll (Desktop)
   @HostListener('wheel', ['$event'])
-  onScroll(event: WheelEvent) {
+  public onScroll(event: WheelEvent) {
     event.preventDefault();
 
     if (this.scrollTimeout) {
@@ -50,18 +50,18 @@ export class LandingComponent {
 
   // Touch Start (Mobile)
   @HostListener('touchstart', ['$event'])
-  onTouchStart(event: TouchEvent) {
+  public onTouchStart(event: TouchEvent) {
     this.touchStartX = event.touches[0].clientX;
   }
 
   // Touch End (Mobile)
   @HostListener('touchend', ['$event'])
-  onTouchEnd(event: TouchEvent) {
+  public onTouchEnd(event: TouchEvent) {
     this.touchEndX = event.changedTouches[0].clientX;
     this.handleSwipe(); // Handle swipe direction immediately after touch end
   }
   // Detect Swipe Direction
-  handleSwipe() {
+  public handleSwipe() {
     const swipeThreshold = 30; // Optional: Minimum swipe distance for detection (can be small)
 
     if (this.touchStartX > this.touchEndX + swipeThreshold) {
