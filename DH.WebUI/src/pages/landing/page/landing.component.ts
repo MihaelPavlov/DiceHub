@@ -21,7 +21,7 @@ export class LandingComponent {
   @ViewChild('carouselViewport', { static: false })
   carouselViewport!: ElementRef;
 
-  public scrollToSlide(index: number) {
+  public scrollToSlide(index: number) : void  {
     if (index < 0 || index >= this.slides.length) return; // Prevent out-of-bounds scrolling
 
     this.currentSlideIndex = index;
@@ -61,7 +61,7 @@ export class LandingComponent {
     this.handleSwipe(); // Handle swipe direction immediately after touch end
   }
   // Detect Swipe Direction
-  public handleSwipe() {
+  public handleSwipe() : void {
     const swipeThreshold = 30; // Optional: Minimum swipe distance for detection (can be small)
 
     if (this.touchStartX > this.touchEndX + swipeThreshold) {
