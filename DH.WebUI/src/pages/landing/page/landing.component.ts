@@ -1,11 +1,11 @@
-import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-landing',
   templateUrl: 'landing.component.html',
   styleUrl: 'landing.component.scss',
 })
-export class LandingComponent {
+export class LandingComponent implements AfterViewInit {
   public slides = [
     { id: 1, image: 1 },
     { id: 2, image: 2 },
@@ -21,7 +21,12 @@ export class LandingComponent {
   @ViewChild('carouselViewport', { static: false })
   carouselViewport!: ElementRef;
 
-  public scrollToSlide(index: number) : void  {
+  ngAfterViewInit() {
+    // Ensure snapping after manual scrolls
+    this.carouselViewport.nativeElement.addEventListener('scroll', this.onScrollEnd.bind(this));
+  }
+
+  public scrollToSlide(index: number): void {
     if (index < 0 || index >= this.slides.length) return; // Prevent out-of-bounds scrolling
 
     this.currentSlideIndex = index;
@@ -30,9 +35,24 @@ export class LandingComponent {
     viewport.scrollTo({ left: index * slideWidth, behavior: 'smooth' });
   }
 
+  // Handle manual scrolling and snap to the nearest slide
+  private onScrollEnd(): void {
+    if (this.scrollTimeout) {
+      clearTimeout(this.scrollTimeout);
+    }
+
+    this.scrollTimeout = setTimeout(() => {
+      const viewport = this.carouselViewport.nativeElement;
+      const slideWidth = viewport.clientWidth;
+      const nearestIndex = Math.round(viewport.scrollLeft / slideWidth);
+
+      this.scrollToSlide(nearestIndex);
+    }, 150);
+  }
+
   // Mouse Wheel Scroll (Desktop)
   @HostListener('wheel', ['$event'])
-  public onScroll(event: WheelEvent) {
+  public onMouseWheel(event: WheelEvent) {
     event.preventDefault();
 
     if (this.scrollTimeout) {
@@ -58,18 +78,17 @@ export class LandingComponent {
   @HostListener('touchend', ['$event'])
   public onTouchEnd(event: TouchEvent) {
     this.touchEndX = event.changedTouches[0].clientX;
-    this.handleSwipe(); // Handle swipe direction immediately after touch end
+    this.handleSwipe();
   }
+
   // Detect Swipe Direction
-  public handleSwipe() : void {
-    const swipeThreshold = 30; // Optional: Minimum swipe distance for detection (can be small)
+  public handleSwipe(): void {
+    const swipeThreshold = 100; // Minimum swipe distance for detection
 
     if (this.touchStartX > this.touchEndX + swipeThreshold) {
-      // Swipe Left → Move to Next Slide
-      this.scrollToSlide(this.currentSlideIndex + 1);
+      this.scrollToSlide(this.currentSlideIndex + 1); // Swipe Left → Next Slide
     } else if (this.touchEndX > this.touchStartX + swipeThreshold) {
-      // Swipe Right → Move to Previous Slide
-      this.scrollToSlide(this.currentSlideIndex - 1);
+      this.scrollToSlide(this.currentSlideIndex - 1); // Swipe Right → Previous Slide
     }
   }
 }
