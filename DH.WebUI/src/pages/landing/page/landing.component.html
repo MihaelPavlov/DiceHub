@@ -2,7 +2,7 @@
     <div class="carousel__viewport" #carouselViewport>
       <div *ngFor="let slide of slides; let i = index" class="carousel__slide">
        <span> Instruction {{slide.image}}</span>>
-        <button class="carousel__prev" (click)="scrollToSlide(i - 1)" *ngIf="i > 0">Prev</button>
+        <button class="carousel__prev" (click)="scrollToSlide(i - 1)" *ngIf="i > 0">Previous</button>
         <button class="carousel__next" (click)="scrollToSlide(i + 1)" *ngIf="i < slides.length - 1">Next</button>
       </div>
     </div>
