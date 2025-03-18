@@ -1,3 +1,4 @@
+import { InstructionManagementModule } from './../pages/instruction-management/instruction-management.module';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app-component/app.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
@@ -45,6 +46,7 @@ import { ScrollToTopModule } from '../shared/components/scroll-to-top/scroll-to-
     BrowserModule,
     NavigationMenuModule,
     LoginModule,
+    InstructionManagementModule,
     RegisterModule,
     HeaderModule,
     AssistiveTouchModule,

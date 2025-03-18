@@ -1,0 +1,25 @@
+@use "../../.././shared/assets/styles/palette";
+
+.wrapper {
+  width: 85%;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  margin-top: 1rem;
+  .wrapper_item {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 0.2rem solid palette.$main-gray-color;
+    padding-bottom: 0.3rem;
+    padding-top: 0.5rem;
+
+    .wrapper_title {
+      padding-left: 1rem;
+      font-size: large;
+      padding-top: 0.2rem;
+      align-self: baseline;
+    }
+  }
+}

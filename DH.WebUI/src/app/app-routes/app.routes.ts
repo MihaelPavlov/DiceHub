@@ -3,6 +3,7 @@ import { LoginComponent } from '../../pages/login/page/login.component';
 import { AuthGuard } from '../../shared/guards/auth.guard';
 import { RegisterComponent } from '../../pages/register/page/register.component';
 import { ROUTE } from '../../shared/configs/route.config';
+import { InstructionManagementComponent } from '../../pages/instruction-management/page/instruction-management.component';
 
 export const ROUTES: Routes = [
   {
@@ -86,15 +87,17 @@ export const ROUTES: Routes = [
             (m) => m.ChartAppModule
           ),
         canActivate: [AuthGuard],
-      }
+      },
     ],
   },
   {
     path: 'landing',
     loadChildren: () =>
-      import('../../pages/landing/landing.module').then(
-        (m) => m.LandingModule
-      ),
+      import('../../pages/landing/landing.module').then((m) => m.LandingModule),
+  },
+  {
+    path: 'instructions',
+    component: InstructionManagementComponent,
   },
   {
     path: 'login',

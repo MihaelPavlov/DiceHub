@@ -82,7 +82,9 @@ export class AuthService {
       },
       error: () => {
         this.userInfoSubject$.next(null);
-        this.router.navigateByUrl('login');
+        //TODO: This need to be removed, because it's call on app.component.ts and every time 
+        // when we try to reach different page from register and login we will be redirected to login
+        // this.router.navigateByUrl('login');
       },
     });
   }
