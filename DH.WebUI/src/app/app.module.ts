@@ -46,7 +46,6 @@ import { ScrollToTopModule } from '../shared/components/scroll-to-top/scroll-to-
     BrowserModule,
     NavigationMenuModule,
     LoginModule,
-    InstructionManagementModule,
     RegisterModule,
     HeaderModule,
     AssistiveTouchModule,

@@ -3,7 +3,6 @@ import { LoginComponent } from '../../pages/login/page/login.component';
 import { AuthGuard } from '../../shared/guards/auth.guard';
 import { RegisterComponent } from '../../pages/register/page/register.component';
 import { ROUTE } from '../../shared/configs/route.config';
-import { InstructionManagementComponent } from '../../pages/instruction-management/page/instruction-management.component';
 
 export const ROUTES: Routes = [
   {
@@ -97,7 +96,10 @@ export const ROUTES: Routes = [
   },
   {
     path: 'instructions',
-    component: InstructionManagementComponent,
+    loadChildren: () =>
+      import(
+        '../../pages/instruction-management/instruction-management.module'
+      ).then((m) => m.InstructionManagementModule),
   },
   {
     path: 'login',

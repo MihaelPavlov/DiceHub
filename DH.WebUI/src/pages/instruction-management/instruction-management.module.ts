@@ -3,11 +3,12 @@ import { InstructionManagementComponent } from './page/instruction-management.co
 import { SharedModule } from '../../shared/shared.module';
 import { InstructionManagementRoutingModule } from './instruction-management-routes.module';
 import { HeaderModule } from '../../widgets/header/header.module';
+import { InstructionLinksComponent } from '../../features/instruction-management/components/instruction-links/instruction-links.component';
 
 @NgModule({
-  declarations: [InstructionManagementComponent],
-  exports: [InstructionManagementComponent],
+  declarations: [InstructionManagementComponent, InstructionLinksComponent],
+  exports: [],
   providers: [],
-  imports: [SharedModule, HeaderModule],
+  imports: [SharedModule, InstructionManagementRoutingModule, HeaderModule],
 })
 export class InstructionManagementModule {}

@@ -1,4 +1,4 @@
-@use "../../../shared/assets/styles/palette";
+@use "../../../../shared/assets/styles/palette";
 
 .wrapper {
   width: 85%;
@@ -6,22 +6,43 @@
   flex-direction: column;
   margin: 0 auto;
   margin-top: 1rem;
+
+  .wrapper_image img {
+    width: 5rem;
+    height: 5rem;
+    min-width: 5rem;
+    min-height: 5rem;
+    object-fit: cover;
+    border-radius: 20px;
+    border: 0.1rem solid black;
+  }
   .wrapper_item {
     position: relative;
     width: 100%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     border-bottom: 0.2rem solid palette.$main-gray-color;
     padding-bottom: 0.3rem;
     padding-top: 0.5rem;
-
     .wrapper_title {
+      width: 70%;
       padding-left: 1rem;
       font-size: large;
       padding-top: 0.2rem;
       align-self: baseline;
+      .blue {
+        color: palette.$main-blue-color;
+      }
+      .wrapper_description {
+        padding-top: 0.25rem;
+        width: 100%;
+        font-size: 1rem;
+        color: palette.$main-font-gray-color;
+      }
     }
   }
+
   .arrow {
     width: 2rem;
     height: 2rem;

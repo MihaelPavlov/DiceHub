@@ -5,4 +5,10 @@ import { Component } from '@angular/core';
   templateUrl: 'instruction-management.component.html',
   styleUrl: 'instruction-management.component.scss',
 })
-export class InstructionManagementComponent {}
+export class InstructionManagementComponent {
+  public defaultLinks = [
+    { name: 'Reservations', path: '/instructions/reservation' },
+    { name: 'Events', path: '/instructions/events' },
+    { name: 'Challenges & Rewards', path: '/instructions/challenges-rewards' },
+  ];
+}
