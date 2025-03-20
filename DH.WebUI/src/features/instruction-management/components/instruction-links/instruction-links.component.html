@@ -1,5 +1,17 @@
 <app-header header="Instructions" [withBottomLine]="true"></app-header>
 
+<div class="wrapper_info">
+    <div class="image">
+        <img src="/shared/assets/images/icons/menu_book-icon-blue.svg" alt="">
+    </div>
+  <div class="header blue">
+    {{ currentDescription.header }}
+  </div>
+  <div class="description">
+    {{ currentDescription.description }}
+  </div>
+</div>
+
 <div class="wrapper">
   <div *ngFor="let link of links" class="wrapper_item" [routerLink]="link.path">
     <div class="wrapper_image">
@@ -15,11 +27,7 @@
         omnis...
       </div>
     </div>
-    <svg
-      class="arrow"
-      viewBox="0 -960 960 960"
-      fill="#fafafa"
-    >
+    <svg class="arrow" viewBox="0 -960 960 960" fill="#fafafa">
       <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z" />
     </svg>
   </div>

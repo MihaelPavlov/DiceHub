@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -8,7 +8,13 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class InstructionLinksComponent implements OnInit {
   public links: { name: string; path: string }[] = [];
-
+  public currentDescription!:  { header:string; description: string } ;
+  public linkDescriptionMapping: { [key: string]: { header:string; description: string } } = {
+    reservation: {
+        header: "Reservations",
+      description: 'Reserve a game, table, or a combination of both',
+    },
+  };
   private linkMappings: { [key: string]: { name: string; path: string }[] } = {
     reservation: [
       {
@@ -58,6 +64,7 @@ export class InstructionLinksComponent implements OnInit {
 
       if (currentPath && this.linkMappings[currentPath]) {
         this.links = this.linkMappings[currentPath];
+        this.currentDescription = this.linkDescriptionMapping[currentPath];
       }
     });
   }

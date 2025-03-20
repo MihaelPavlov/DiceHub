@@ -1,5 +1,29 @@
 @use "../../../../shared/assets/styles/palette";
 
+.wrapper_info {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  .image {
+    img {
+      width: 5rem;
+      height: 5rem;
+    }
+  }
+
+  .header {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+
+  .description{
+    font-size: 1rem;
+    font-weight: bold;
+    color: palette.$main-font-gray-color;
+  }
+}
+
 .wrapper {
   width: 85%;
   display: flex;
@@ -31,9 +55,7 @@
       font-size: large;
       padding-top: 0.2rem;
       align-self: baseline;
-      .blue {
-        color: palette.$main-blue-color;
-      }
+
       .wrapper_description {
         padding-top: 0.25rem;
         width: 100%;
@@ -47,4 +69,8 @@
     width: 2rem;
     height: 2rem;
   }
+}
+
+.blue {
+  color: palette.$main-blue-color;
 }
