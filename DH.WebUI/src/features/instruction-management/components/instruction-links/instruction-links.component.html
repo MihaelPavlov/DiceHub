@@ -2,18 +2,18 @@
 
 <div class="wrapper_info">
     <div class="image">
-        <img src="/shared/assets/images/icons/menu_book-icon-blue.svg" alt="">
+        <img [src]="currentLink.imagePath" alt="">
     </div>
   <div class="header blue">
-    {{ currentDescription.header }}
+    {{ currentLink.header }}
   </div>
   <div class="description">
-    {{ currentDescription.description }}
+    {{ currentLink.description }}
   </div>
 </div>
 
 <div class="wrapper">
-  <div *ngFor="let link of links" class="wrapper_item" [routerLink]="link.path">
+  <div *ngFor="let link of currentLink.links" class="wrapper_item" [routerLink]="link.path">
     <div class="wrapper_image">
       <img
         src="../../../../shared/assets/images/instructions/New Project.png"

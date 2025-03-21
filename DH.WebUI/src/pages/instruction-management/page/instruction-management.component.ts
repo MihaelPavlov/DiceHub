@@ -9,6 +9,7 @@ export class InstructionManagementComponent {
   public defaultLinks = [
     { name: 'Reservations', path: '/instructions/reservation' },
     { name: 'Events', path: '/instructions/events' },
-    { name: 'Challenges & Rewards', path: '/instructions/challenges-rewards' },
+    { name: 'Challenges & Rewards', path: '/instructions/challenges' },
+    { name: 'Meeples', path: '/instructions/meeples' },
   ];
 }
