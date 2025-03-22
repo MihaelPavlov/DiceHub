@@ -1,9 +1,9 @@
 <app-header header="Instructions" [withBottomLine]="true"></app-header>
 
 <div class="wrapper_info">
-    <div class="image">
-        <img [src]="currentLink.imagePath" alt="">
-    </div>
+  <div class="image">
+    <img [src]="currentLink.imagePath" alt="" />
+  </div>
   <div class="header blue">
     {{ currentLink.header }}
   </div>
@@ -13,18 +13,21 @@
 </div>
 
 <div class="wrapper">
-  <div *ngFor="let link of currentLink.links" class="wrapper_item" [routerLink]="link.path">
+  <div
+    *ngFor="let link of currentLink.links"
+    class="wrapper_item"
+    [routerLink]="link.path"
+  >
     <div class="wrapper_image">
       <img
-        src="../../../../shared/assets/images/instructions/New Project.png"
+        src="../../../../shared/assets/images/instructions/chrome_GzMHHkfWPn.gif"
         alt="Image"
       />
     </div>
     <div class="wrapper_title">
       <span>{{ link.name }}</span>
       <div class="wrapper_description">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus repellat
-        omnis...
+        {{ link.description }}
       </div>
     </div>
     <svg class="arrow" viewBox="0 -960 960 960" fill="#fafafa">

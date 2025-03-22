@@ -10,6 +10,7 @@ interface LinksDescription {
 interface Link {
   name: string;
   path: string;
+  description: string;
 }
 
 @Component({
@@ -30,14 +31,17 @@ export class InstructionLinksComponent implements OnInit {
         {
           name: 'Game',
           path: '/instructions/reservation/game',
+          description: 'Reserve a game',
         },
         {
           name: 'Table',
           path: '/instructions/reservation/table',
+          description: 'Reserve a table',
         },
         {
           name: 'Combination',
           path: '/instructions/reservation/combination',
+          description: 'Reserve a combination of both',
         },
       ],
     },
@@ -47,9 +51,9 @@ export class InstructionLinksComponent implements OnInit {
         'Events, to join our fun, exciting activities as a community',
       imagePath: '/shared/assets/images/icons/stadium-icon-blue.svg',
       links: [
-        { name: 'All Events', path: '/instructions/events/all' },
-        { name: 'Your Bookings', path: '/instructions/events/bookings' },
-        { name: 'Past Events', path: '/instructions/events/past' },
+        { name: 'All Events', path: '/instructions/events/all' , description: 'Join our events' },
+        { name: 'Your Bookings', path: '/instructions/events/bookings', description: 'Check your bookings' },
+        { name: 'Past Events', path: '/instructions/events/past',description: 'Check past events' },
       ],
     },
     challenges: {
@@ -61,14 +65,17 @@ export class InstructionLinksComponent implements OnInit {
         {
           name: 'Ongoing Challenges',
           path: '/instructions/challenges/ongoing',
+          description : 'Join our ongoing challenges',
         },
         {
           name: 'Rewards History',
           path: '/instructions/challenges/rewards',
+          description : 'Check your rewards history',
         },
         {
           name: 'Leaderboard',
           path: '/instructions/challenges/leaderboard',
+          description : 'Check the leaderboard',
         },
       ],
     },
@@ -78,15 +85,15 @@ export class InstructionLinksComponent implements OnInit {
         'The place where you can join to a group of player, who want to enjoy the game with you.',
       imagePath: '/shared/assets/images/icons/group-icon-blue.svg',
       links: [
-        { name: 'Meeple Groups', path: '/instructions/meeples/groups' },
-        { name: 'Find Players', path: '/instructions/meeples/find' },
+        { name: 'Meeple Groups', path: '/instructions/meeples/groups', description: 'Join a group' },
+        { name: 'Find Players', path: '/instructions/meeples/find', description: 'Find players' },
       ],
     },
   };
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     // Listen for changes in the current route and update the links dynamically
     this.activatedRoute.url.subscribe((urlSegments) => {
       const currentPath = urlSegments[0]?.path; // Extract the first path segment
