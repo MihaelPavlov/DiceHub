@@ -51,9 +51,7 @@ export class InstructionLinksComponent implements OnInit {
         'Events, to join our fun, exciting activities as a community',
       imagePath: '/shared/assets/images/icons/stadium-icon-blue.svg',
       links: [
-        { name: 'All Events', path: '/instructions/events/all' , description: 'Join our events' },
-        { name: 'Your Bookings', path: '/instructions/events/bookings', description: 'Check your bookings' },
-        { name: 'Past Events', path: '/instructions/events/past',description: 'Check past events' },
+        { name: 'Join Event', path: '/instructions/events/all' , description: 'Join our events' },
       ],
     },
     challenges: {
