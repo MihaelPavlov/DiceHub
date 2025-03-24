@@ -20,6 +20,8 @@ interface Link {
 })
 export class InstructionLinksComponent implements OnInit {
   public currentLink!: LinksDescription;
+
+  //TODO: Better descriptions and create short videos for every category
   public linkMappings: {
     [key: string]: LinksDescription;
   } = {
