@@ -1,4 +1,4 @@
-<app-header header="Instructions" [withBottomLine]="true"></app-header>
+<app-header header="Instructions" [withBackBtn]="true" (backClicked)="navigateBack()"></app-header>
 
 <div class="wrapper_info">
   <div class="image">
@@ -16,11 +16,11 @@
   <div
     *ngFor="let link of currentLink.links"
     class="wrapper_item"
-    [routerLink]="link.path"
+    (click)="navigateToLink(link.path)"
   >
     <div class="wrapper_image">
       <img
-        src="../../../../shared/assets/images/instructions/chrome_GzMHHkfWPn.gif"
+        src="../../../../shared/assets/images/instructions/third_try.png"
         alt="Image"
       />
     </div>

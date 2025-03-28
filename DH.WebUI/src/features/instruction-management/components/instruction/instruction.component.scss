@@ -1,0 +1,17 @@
+@use "../../../../shared/assets/styles/palette";
+
+.wrapper_info {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+
+  .header {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+}
+
+.blue {
+  color: palette.$main-blue-color;
+}

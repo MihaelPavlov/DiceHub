@@ -1,14 +1,24 @@
 <app-header header="Instructions" [withBottomLine]="true"></app-header>
 
-  <div class="wrapper">
-    <div class="wrapper_item" *ngFor="let link of defaultLinks" [routerLink]="link.path">
-      <div class="wrapper_title">
-        <span>{{ link.name }}</span>
-      </div>
-      <svg class="arrow" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fafafa">
-        <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z" />
-      </svg>
+<div class="wrapper">
+  <div
+    class="wrapper_item"
+    *ngFor="let link of defaultLinks"
+    (click)="navigateTo(link.path)"
+  >
+    <div class="wrapper_title">
+      <span>{{ link.name }}</span>
     </div>
+    <svg
+      class="arrow"
+      height="24px"
+      viewBox="0 -960 960 960"
+      width="24px"
+      fill="#fafafa"
+    >
+      <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z" />
+    </svg>
   </div>
+</div>
 
 <router-outlet></router-outlet>

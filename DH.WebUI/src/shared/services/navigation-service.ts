@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class NavigationService {
-  private previousUrl: string = '';
+  private previousUrl: string | null = null;
 
   // Set the previous URL manually
   setPreviousUrl(url: string): void {
@@ -12,7 +12,7 @@ export class NavigationService {
   }
 
   // Get the previous URL
-  getPreviousUrl(): string {
+  getPreviousUrl(): string | null {
     return this.previousUrl;
   }
 }

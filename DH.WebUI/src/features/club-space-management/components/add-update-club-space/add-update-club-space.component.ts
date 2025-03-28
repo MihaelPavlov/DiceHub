@@ -99,7 +99,7 @@ export class AddUpdateClubSpaceComponent extends Form implements OnInit {
     if (this.editTableId)
       this.router.navigateByUrl(`space/${this.editTableId}/details`);
 
-    this.router.navigateByUrl(this.navigationService.getPreviousUrl());
+    this.router.navigateByUrl(this.navigationService.getPreviousUrl() ?? '/space/home');
   }
 
   public togglePasswordVisibility(): void {

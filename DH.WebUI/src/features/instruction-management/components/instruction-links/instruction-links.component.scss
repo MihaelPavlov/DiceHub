@@ -35,10 +35,9 @@
 
   .wrapper_image img {
     width: 5rem;
-    height: 5rem;
-    min-width: 5rem;
-    min-height: 5rem;
-    object-fit: cover;
+    height: 6rem;
+    background-color: palette.$main-gray-color;
+    object-fit: contain;
     border-radius: 20px;
     border: 0.1rem solid black;
   }

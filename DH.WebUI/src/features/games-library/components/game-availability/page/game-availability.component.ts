@@ -236,7 +236,9 @@ export class GameAvailabilityComponent
   }
 
   public navigateBack(): void {
-    this.router.navigateByUrl(this.navigationService.getPreviousUrl());
+    this.router.navigateByUrl(
+      this.navigationService.getPreviousUrl() ?? '/games/library'
+    );
   }
 
   public onReservation(gameId: number): void {

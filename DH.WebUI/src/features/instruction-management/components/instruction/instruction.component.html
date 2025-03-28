@@ -1,0 +1,15 @@
+<app-header header="Instructions" [withBackBtn]="true" (backClicked)="navigateBack()"></app-header>
+
+<div class="wrapper_info">
+  <div class="header blue">
+    {{ selectedInstruction?.header }}
+  </div>
+</div>
+
+<div>
+  {{selectedLink?.name}}
+</div>
+
+<div>
+  {{selectedLink?.description}}
+</div>

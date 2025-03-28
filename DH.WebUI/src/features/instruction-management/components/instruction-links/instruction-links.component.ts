@@ -1,17 +1,8 @@
+import { NavigationService } from './../../../../shared/services/navigation-service';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-
-interface LinksDescription {
-  header: string;
-  description: string;
-  imagePath: string;
-  links: Link[];
-}
-interface Link {
-  name: string;
-  path: string;
-  description: string;
-}
+import { Instruction } from '../../../../entities/instruction-management/models/instruction.model';
+import { INSTRUCTION_LINK_MAPPINGS } from '../../../../entities/instruction-management/constants/instruction.constant';
 
 @Component({
   selector: 'app-instruction-links',
@@ -19,88 +10,38 @@ interface Link {
   styleUrl: 'instruction-links.component.scss',
 })
 export class InstructionLinksComponent implements OnInit {
-  public currentLink!: LinksDescription;
+  public currentLink!: Instruction;
 
-  //TODO: Better descriptions and create short videos for every category
-  public linkMappings: {
-    [key: string]: LinksDescription;
-  } = {
-    reservation: {
-      header: 'Reservations',
-      description: 'Reserve a game, table, or a combination of both',
-      imagePath: '/shared/assets/images/icons/menu_book-icon-blue.svg',
-      links: [
-        {
-          name: 'Game',
-          path: '/instructions/reservation/game',
-          description: 'Reserve a game',
-        },
-        {
-          name: 'Table',
-          path: '/instructions/reservation/table',
-          description: 'Reserve a table',
-        },
-        {
-          name: 'Combination',
-          path: '/instructions/reservation/combination',
-          description: 'Reserve a combination of both',
-        },
-      ],
-    },
-    events: {
-      header: 'Events',
-      description:
-        'Events, to join our fun, exciting activities as a community',
-      imagePath: '/shared/assets/images/icons/stadium-icon-blue.svg',
-      links: [
-        { name: 'Join Event', path: '/instructions/events/all' , description: 'Join our events' },
-      ],
-    },
-    challenges: {
-      header: 'Challenge & Rewards',
-      description:
-        'Join our challenges and earn rewards. These place is your go-to for all things challenges and rewards.',
-      imagePath: '/shared/assets/images/icons/swords_icon-blue.svg',
-      links: [
-        {
-          name: 'Ongoing Challenges',
-          path: '/instructions/challenges/ongoing',
-          description : 'Join our ongoing challenges',
-        },
-        {
-          name: 'Rewards History',
-          path: '/instructions/challenges/rewards',
-          description : 'Check your rewards history',
-        },
-        {
-          name: 'Leaderboard',
-          path: '/instructions/challenges/leaderboard',
-          description : 'Check the leaderboard',
-        },
-      ],
-    },
-    meeples: {
-      header: 'Meeples',
-      description:
-        'The place where you can join to a group of player, who want to enjoy the game with you.',
-      imagePath: '/shared/assets/images/icons/group-icon-blue.svg',
-      links: [
-        { name: 'Meeple Groups', path: '/instructions/meeples/groups', description: 'Join a group' },
-        { name: 'Find Players', path: '/instructions/meeples/find', description: 'Find players' },
-      ],
-    },
-  };
-
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
+  constructor(
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private navigationService: NavigationService
+  ) {}
 
   public ngOnInit(): void {
+    this.setBackBtnLink();
     // Listen for changes in the current route and update the links dynamically
     this.activatedRoute.url.subscribe((urlSegments) => {
       const currentPath = urlSegments[0]?.path; // Extract the first path segment
 
-      if (currentPath && this.linkMappings[currentPath]) {
-        this.currentLink = this.linkMappings[currentPath];
+      if (currentPath && INSTRUCTION_LINK_MAPPINGS[currentPath]) {
+        this.currentLink = INSTRUCTION_LINK_MAPPINGS[currentPath];
       }
     });
+  }
+
+  public navigateBack(): void {
+    this.router.navigateByUrl(
+      this.navigationService.getPreviousUrl() ?? 'instructions'
+    );
+  }
+
+  public navigateToLink(path: string) {
+    this.navigationService.setPreviousUrl(this.router.url);
+    this.router.navigate([path]);
+  }
+
+  private setBackBtnLink(): void {
+    this.navigationService.setPreviousUrl('instructions');
   }
 }

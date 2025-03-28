@@ -59,6 +59,15 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       }
     });
   }
+  public hasAdditionalActions(): boolean {
+    return (
+      this.withSearch ||
+      this.withAdd ||
+      this.withMenu ||
+      this.withQRcode ||
+      this.withHistoryBtn
+    );
+  }
 
   public onMenuItemClick(key: string) {
     if (this.menuItemClickFunction) {

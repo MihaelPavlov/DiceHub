@@ -37,8 +37,10 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
-  public navigateBack(): void {        
-    this.router.navigateByUrl(this.navigationService.getPreviousUrl());
+  public navigateBack(): void {
+    this.router.navigateByUrl(
+      this.navigationService.getPreviousUrl() ?? '/games/library'
+    );
   }
 
   public fetchGame(): void {
