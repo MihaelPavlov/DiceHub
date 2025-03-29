@@ -12,6 +12,26 @@
   }
 }
 
+.wrapper_image {
+  display: flex;
+  justify-content: center;
+  img {
+    width: 80%;
+  }
+}
+
+.wrapper_link {
+  margin: 0 2rem;
+  word-break: break-word;
+
+  .name {
+    font-size: 1.4rem;
+    color: palette.$main-blue-color;
+  }
+  .description {
+  }
+}
+
 .blue {
   color: palette.$main-blue-color;
 }

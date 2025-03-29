@@ -1,4 +1,8 @@
-<app-header header="Instructions" [withBackBtn]="true" (backClicked)="navigateBack()"></app-header>
+<app-header
+  header="Instructions"
+  [withBackBtn]="true"
+  (backClicked)="navigateBack()"
+></app-header>
 
 <div class="wrapper_info">
   <div class="header blue">
@@ -6,10 +10,19 @@
   </div>
 </div>
 
-<div>
-  {{selectedLink?.name}}
+<div class="wrapper_image">
+  <img
+    src="../../../../shared/assets/images/instructions/big_first_try.png"
+    alt="Image"
+  />
 </div>
 
-<div>
-  {{selectedLink?.description}}
+<div class="wrapper_link">
+  <div class="name">
+    {{ selectedLink?.name }}
+  </div>
+
+  <div class="description">
+    {{ selectedLink?.description }}
+  </div>
 </div>
