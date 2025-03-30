@@ -5,15 +5,21 @@ import { InstructionManagementRoutingModule } from './instruction-management-rou
 import { HeaderModule } from '../../widgets/header/header.module';
 import { InstructionLinksComponent } from '../../features/instruction-management/components/instruction-links/instruction-links.component';
 import { InstructionComponent } from '../../features/instruction-management/components/instruction/instruction.component';
+import { LandingComponent } from '../landing/page/landing.component';
 
 @NgModule({
   declarations: [
     InstructionManagementComponent,
     InstructionLinksComponent,
     InstructionComponent,
+    LandingComponent
   ],
   exports: [],
   providers: [],
-  imports: [SharedModule, InstructionManagementRoutingModule, HeaderModule],
+  imports: [
+    SharedModule,
+    InstructionManagementRoutingModule,
+    HeaderModule,
+  ],
 })
 export class InstructionManagementModule {}

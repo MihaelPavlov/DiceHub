@@ -90,11 +90,6 @@ export const ROUTES: Routes = [
     ],
   },
   {
-    path: 'landing',
-    loadChildren: () =>
-      import('../../pages/landing/landing.module').then((m) => m.LandingModule),
-  },
-  {
     path: 'instructions',
     loadChildren: () =>
       import(
