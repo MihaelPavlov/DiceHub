@@ -1,16 +1,44 @@
 <section class="carousel" aria-label="Gallery">
-    <div class="carousel__viewport" #carouselViewport>
-      <div *ngFor="let slide of slides; let i = index" class="carousel__slide">
-       <span> Instruction {{slide.image}}</span>>
-        <button class="carousel__prev" (click)="scrollToSlide(i - 1)" *ngIf="i > 0">Previous</button>
-        <button class="carousel__next" (click)="scrollToSlide(i + 1)" *ngIf="i < slides.length - 1">Next</button>
-      </div>
-    </div>
-  
-    <nav class="carousel__navigation">
-      <button *ngFor="let slide of slides; let i = index" (click)="scrollToSlide(i)">
-        {{ i + 1 }}
+  <div class="carousel__viewport" #carouselViewport>
+    <div *ngFor="let slide of slides; let i = index" class="carousel__slide">
+      <button
+        class="carousel__prev"
+        (click)="scrollToSlide(i - 1)"
+        *ngIf="i > 0"
+      >
+        Previous
       </button>
-    </nav>
-  </section>
-  
+      <ng-container>
+        <div class="wrapper">
+          <div class="wrapper_image">
+            <img
+              src="../../../../shared/assets/images/instructions/big_first_try.png"
+              alt="Image"
+            />
+          </div>
+        
+          <div class="wrapper_link">
+            <div class="name">dwdqwdq</div>
+            <div class="description">dwqdwdqdqwdqw</div>
+          </div>
+        </div>
+      </ng-container>
+      <button
+        class="carousel__next"
+        (click)="scrollToSlide(i + 1)"
+        *ngIf="i < slides.length - 1"
+      >
+        Next
+      </button>
+    </div>
+  </div>
+
+  <nav class="carousel__navigation">
+    <button
+      *ngFor="let slide of slides; let i = index"
+      (click)="scrollToSlide(i)"
+      [ngClass]="i === currentSlideIndex ? 'carousel__navigation--current_button' : 'carousel__navigation_button'"
+    >
+    </button>
+  </nav>
+</section>

@@ -1,4 +1,4 @@
-import { Instruction } from '../models/instruction.model';
+import { Instruction, LinkInfoType } from '../models/instruction.model';
 
 export const INSTRUCTION_LINK_MAPPINGS: { [key: string]: Instruction } = {
   reservation: {
@@ -11,18 +11,87 @@ export const INSTRUCTION_LINK_MAPPINGS: { [key: string]: Instruction } = {
         path: '/instructions/reservation/game',
         image: '/shared...',
         description: 'Reserve a game',
+        linkInfo: [
+          {
+            header:"Create Your Reservation",
+            description:"Start by selecting the game you want to play and specifying the number of participants joining you.",
+            link: null,
+            imagePath:"/shared/assets/images/icons/menu_book-icon-blue.svg",
+          },
+          {
+            header:"Wait for Approval",
+            description:"Once you've submitted your reservation, you will need to wait for the club to approve or decline it. The response time may vary depending on the club's workload, so please allow a few minutes for processing.",
+            link: null,
+            imagePath:"/shared/assets/images/icons/menu_book-icon-blue.svg",
+          }
+          // {
+          //   text: 'Create Your Reservation',
+          //   infoType: LinkInfoType.Header,
+          // },
+          // {
+          //   text: 'Start by selecting the game you want to play and specifying the number of participants joining you.',
+          //   infoType: LinkInfoType.Text,
+          // },
+          // {
+          //   text: 'Wait for Approval',
+          //   infoType: LinkInfoType.Header,
+          // },
+          // {
+          //   text: `Once you've submitted your reservation, you will need to wait for the club to approve or decline it. The response time may vary depending on the club's workload, so please allow a few minutes for processing.`,
+          //   infoType: LinkInfoType.Text,
+          // },
+          // { text: 'Reservation Confirmation', infoType: LinkInfoType.Header },
+          // {
+          //   text: 'If there is available space for your group, your reservation will be approved.',
+          //   infoType: LinkInfoType.Text,
+          // },
+          // {
+          //   text: `QR Code & Check-in`,
+          //   infoType: LinkInfoType.Header,
+          // },
+          // {
+          //   text: `After approval, a QR code will be generated for your reservation. You must present this QR code to the club staff, who will scan it to verify its validity.`,
+          //   infoType: LinkInfoType.Text,
+          // },
+          // {
+          //   text: `shared/.....`,
+          //   infoType: LinkInfoType.Image,
+          // },
+          // {
+          //   text: 'Additional Information',
+          //   infoType: LinkInfoType.Header,
+          // },
+          // {
+          //   text: `Under the "Information" tab, you will find any messages from the staff, including important details or special instructions regarding your reservation.`,
+          //   infoType: LinkInfoType.Text,
+          // },
+          // {
+          //   text: ``,
+          //   infoType: LinkInfoType.Empty,
+          // },
+          // {
+          //   text: `For instructions on how to make a table reservation, check the guide here: `,
+          //   infoType: LinkInfoType.Text,
+          // },
+          // {
+          //   text: ``,
+          //   infoType: LinkInfoType.Link,
+          // },
+        ],
       },
       {
         name: 'Table',
         path: '/instructions/reservation/table',
         image: '/shared...',
         description: 'Reserve a table',
+        linkInfo: [],
       },
       {
         name: 'Combination',
         path: '/instructions/reservation/combination',
         image: '/shared...',
         description: 'Reserve a combination of both',
+        linkInfo: [],
       },
     ],
   },
@@ -36,6 +105,7 @@ export const INSTRUCTION_LINK_MAPPINGS: { [key: string]: Instruction } = {
         path: '/instructions/events/all',
         image: '/shared...',
         description: 'Join our events',
+        linkInfo: [],
       },
     ],
   },
@@ -50,18 +120,21 @@ export const INSTRUCTION_LINK_MAPPINGS: { [key: string]: Instruction } = {
         path: '/instructions/challenges/ongoing',
         image: '/shared...',
         description: 'Join our ongoing challenges',
+        linkInfo: [],
       },
       {
         name: 'Rewards History',
         path: '/instructions/challenges/rewards',
         image: '/shared...',
         description: 'Check your rewards history',
+        linkInfo: [],
       },
       {
         name: 'Leaderboard',
         path: '/instructions/challenges/leaderboard',
         image: '/shared...',
         description: 'Check the leaderboard',
+        linkInfo: [],
       },
     ],
   },
@@ -76,12 +149,14 @@ export const INSTRUCTION_LINK_MAPPINGS: { [key: string]: Instruction } = {
         path: '/instructions/meeples/groups',
         image: '/shared...',
         description: 'Join a group',
+        linkInfo: [],
       },
       {
         name: 'Find Players',
         path: '/instructions/meeples/find',
         image: '/shared...',
         description: 'Find players',
+        linkInfo: [],
       },
     ],
   },

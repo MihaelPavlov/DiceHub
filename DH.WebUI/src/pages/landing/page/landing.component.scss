@@ -12,7 +12,6 @@
   overflow-x: auto;
   scroll-behavior: smooth;
   white-space: nowrap;
-  height: 400px;
 }
 *::-webkit-scrollbar {
   width: 0;
@@ -43,7 +42,7 @@
   top: 50%;
   transform: translateY(-50%);
   background: rgba(0, 0, 0, 0.5);
-  color: white;
+  color: palette.$main-font-color;
   border: none;
   padding: 10px;
   cursor: pointer;
@@ -58,12 +57,50 @@
 }
 
 .carousel__navigation {
-  text-align: center;
-  margin-top: 10px;
+  margin: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.carousel__navigation button {
+.carousel__navigation_button {
+  background-color: palette.$main-gray-color;
   margin: 5px;
-  padding: 5px 10px;
+  border-radius: 100%;
+  padding: 0.3rem;
   cursor: pointer;
+}
+
+.carousel__navigation--current_button {
+  background-color: palette.$main-font-color;
+  margin: 5px;
+  border-radius: 100%;
+  padding: 0.3rem;
+  cursor: pointer;
+  transform: scale(1.05);
+  transition: transform 0.3s ease-in-out;
+}
+
+.wrapper_image {
+  display: flex;
+  justify-content: center;
+  img {
+    width: 80%;
+  }
+}
+
+.wrapper_link {
+  margin: 0 2rem;
+  word-break: break-word;
+
+  .name {
+    font-size: 1.4rem;
+    color: palette.$main-blue-color;
+  }
+  .description {
+  }
+}
+
+.blue {
+  color: palette.$main-blue-color;
 }

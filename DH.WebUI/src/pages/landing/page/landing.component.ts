@@ -1,16 +1,24 @@
-import { AfterViewInit, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  HostListener,
+  Input,
+  ViewChild,
+} from '@angular/core';
+import { LinkInfo } from '../../../entities/instruction-management/models/instruction.model';
 
 @Component({
-  selector: 'app-landing',
+  selector: 'app-link-info',
   templateUrl: 'landing.component.html',
   styleUrl: 'landing.component.scss',
 })
 export class LandingComponent implements AfterViewInit {
-  public slides = [
-    { id: 1, image: 1 },
-    { id: 2, image: 2 },
-    { id: 3, image: 3 },
-    { id: 4, image: 4 },
+  @Input({ required: true }) linkInfo!: LinkInfo[];
+  public slides: { id: number }[] = [
+    // { id: 2, image: 2 },
+    // { id: 3, image: 3 },
+    // { id: 4, image: 4 },
   ];
 
   public currentSlideIndex = 0;
@@ -22,8 +30,15 @@ export class LandingComponent implements AfterViewInit {
   carouselViewport!: ElementRef;
 
   ngAfterViewInit() {
+    this.slides = Array.from({ length: this.linkInfo.length }, (_, i) => ({
+      id: i + 1,
+    }));
+    console.log('slides', this.slides);
     // Ensure snapping after manual scrolls
-    this.carouselViewport.nativeElement.addEventListener('scroll', this.onScrollEnd.bind(this));
+    this.carouselViewport.nativeElement.addEventListener(
+      'scroll',
+      this.onScrollEnd.bind(this)
+    );
   }
 
   public scrollToSlide(index: number): void {
