@@ -57,10 +57,16 @@
 }
 
 .carousel__navigation {
-  margin: 1rem;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.8); /* Optional: Add a background for visibility */
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 1rem;
+  z-index: 1000;
 }
 
 .carousel__navigation_button {
