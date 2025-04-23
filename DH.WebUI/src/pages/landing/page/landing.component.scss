@@ -61,8 +61,7 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  background: rgba(255, 255, 255, 0.8); /* Optional: Add a background for visibility */
-  display: flex;
+  display: flex; 
   justify-content: center;
   align-items: center;
   padding: 1rem;
@@ -73,6 +72,7 @@
   background-color: palette.$main-gray-color;
   margin: 5px;
   border-radius: 100%;
+  border-color: palette.$main-font-color;
   padding: 0.3rem;
   cursor: pointer;
 }
