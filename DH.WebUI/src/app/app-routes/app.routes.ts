@@ -95,14 +95,17 @@ export const ROUTES: Routes = [
       import(
         '../../pages/instruction-management/instruction-management.module'
       ).then((m) => m.InstructionManagementModule),
+    data: { hideMenu: true },
   },
   {
     path: 'login',
     component: LoginComponent,
+    data: { hideMenu: true },
   },
   {
     path: 'register',
     component: RegisterComponent,
+    data: { hideMenu: true },
   },
   {
     path: 'unauthorized',

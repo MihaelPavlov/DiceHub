@@ -16,7 +16,11 @@ export class AuthService {
 
   public userInfo$ = this.userInfoSubject$.asObservable();
 
-  constructor(readonly api: RestApiService, private readonly router: Router) {}
+  constructor(readonly api: RestApiService, private readonly router: Router) {
+    if(!this.userInfoSubject$.value){
+       this.userinfo();
+    }
+  }
 
   public get getUser(): IUserInfo | null {
     return this.userInfoSubject$.value;

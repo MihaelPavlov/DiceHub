@@ -2,4 +2,5 @@
 <loading-indicator />
 <app-assistive-touch (updateUserNotifications)="onUpdateUserNotifications()" [areAnyActiveNotifications]="this.areAnyActiveNotificationSubject" *ngIf="this.userInfo | async"></app-assistive-touch>
 <app-scroll-to-top></app-scroll-to-top>
-<app-navigation-menu *ngIf="this.userInfo | async" />
+<app-navigation-menu 
+  *ngIf="(this.userInfo | async) && !hideMenu" />
