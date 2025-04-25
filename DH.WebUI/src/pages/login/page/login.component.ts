@@ -26,7 +26,7 @@ interface ILoginForm {
   templateUrl: 'login.component.html',
   styleUrl: 'login.component.scss',
 })
-export class LoginComponent extends Form implements OnInit {
+export class LoginComponent extends Form {
   override form: Formify<ILoginForm>;
   constructor(
     private readonly router: Router,
@@ -43,8 +43,6 @@ export class LoginComponent extends Form implements OnInit {
       }
     });
   }
-
-  public ngOnInit(): void {}
 
   public navigateToRegister(): void {
     this.router.navigateByUrl(ROUTE.REGISTER);
@@ -105,8 +103,8 @@ export class LoginComponent extends Form implements OnInit {
   loginUser() {
     this.authService
       .login({
-        email: 'rap4obg2@abv.bg',
-        password: '123456789Mm!',
+        email: 'rap4obg@abv.bg',
+        password: '1qaz!QAZ',
       })
       .subscribe({
         next: (response) => {
@@ -132,8 +130,8 @@ export class LoginComponent extends Form implements OnInit {
   loginUser2() {
     this.authService
       .login({
-        email: 'rap4obg3@abv.bg',
-        password: '123456789Mm!',
+        email: 'rap4obg88@abv.bg',
+        password: '1qaz!QAZ',
       })
       .subscribe({
         next: (response) => {

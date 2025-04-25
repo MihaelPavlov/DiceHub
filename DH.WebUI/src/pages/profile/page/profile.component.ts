@@ -53,6 +53,10 @@ export class ProfileComponent implements OnDestroy {
     this.router.navigateByUrl('profile/employees');
   }
 
+  public navigateToInstructions():void{
+    this.router.navigateByUrl('instructions');
+  }
+
   public navigateToVisitorChart(): void {
     this.router.navigateByUrl('charts/visitors');
   }
