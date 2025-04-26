@@ -22,8 +22,10 @@
               | date : DATE_TIME_FORMAT
           }}</strong>
           <br />
-          Game reservation for your table will become available
-          <strong>1 hour </strong>before your reserved time.
+          <span *ngIf="!this.gameReservationStatus">
+            Game reservation for your table will become available
+            <strong>1 hour </strong>before your reserved time.
+          </span>
         </span>
       </ng-container>
     </div>
@@ -165,7 +167,8 @@
         "
         class="expiry-message"
       >
-        We’ve extended your reservation with an additional 5-10 minutes. <br />
+        We’ve extended your reservation with an <br />
+        additional 5-10 minutes. <br />
       </p>
 
       <div class="wrapper">
