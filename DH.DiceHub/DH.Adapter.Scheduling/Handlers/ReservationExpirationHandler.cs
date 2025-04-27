@@ -1,8 +1,8 @@
 using DH.Domain.Adapters.Scheduling;
 using DH.Domain.Adapters.Scheduling.Enums;
 using DH.Domain.Entities;
+using DH.Domain.Enums;
 using DH.Domain.Repositories;
-using DH.OperationResultCore.Exceptions;
 
 namespace DH.Adapter.Scheduling.Handlers;
 
@@ -11,13 +11,15 @@ namespace DH.Adapter.Scheduling.Handlers;
 /// </summary>
 public class ReservationExpirationHandler : IReservationExpirationHandler
 {
-    readonly IRepository<GameReservation> repository;
+    readonly IRepository<GameReservation> gameReservationRepository;
+    readonly IRepository<SpaceTableReservation> tableReservationRepository;
     readonly IRepository<GameInventory> inventoryRepository;
     readonly IRepository<FailedJob> failedJobsRepository;
 
-    public ReservationExpirationHandler(IRepository<GameReservation> repository, IRepository<GameInventory> inventoryRepository, IRepository<FailedJob> failedJobsRepository)
+    public ReservationExpirationHandler(IRepository<GameReservation> gameReservationRepository, IRepository<SpaceTableReservation> tableReservationRepository, IRepository<GameInventory> inventoryRepository, IRepository<FailedJob> failedJobsRepository)
     {
-        this.repository = repository;
+        this.gameReservationRepository = gameReservationRepository;
+        this.tableReservationRepository = tableReservationRepository;
         this.failedJobsRepository = failedJobsRepository;
         this.inventoryRepository = inventoryRepository;
     }
@@ -25,36 +27,59 @@ public class ReservationExpirationHandler : IReservationExpirationHandler
     /// <inheritdoc/>
     public async Task ProcessFailedReservationExpirationAsync(string data, string errorMessage, CancellationToken cancellationToken)
     {
-        await failedJobsRepository.AddAsync(new FailedJob { Data = data, Type = (int)JobType.GameReservationExpiration, FailedAt = DateTime.UtcNow, ErrorMessage = errorMessage }, cancellationToken);
+        await failedJobsRepository.AddAsync(new FailedJob { Data = data, Type = (int)JobType.ReservationExpiration, FailedAt = DateTime.UtcNow, ErrorMessage = errorMessage }, cancellationToken);
     }
 
     /// <inheritdoc/>
-    public async Task<bool> ProcessReservationExpirationAsync(int reservationId, CancellationToken cancellationToken)
+    public async Task ProcessReservationExpirationAsync(CancellationToken cancellationToken)
     {
-        var reservation = await repository.GetByAsyncWithTracking(x => x.Id == reservationId, cancellationToken);
+        var gameReservations = await gameReservationRepository.GetWithPropertiesAsync(x =>
+            x.IsActive == true &&
+            DateTime.UtcNow >= x.ReservationDate,
+            x => x, cancellationToken);
 
-        if (reservation != null && reservation.IsActive && !reservation.IsReservationSuccessful)
+        foreach (var reservation in gameReservations)
         {
-            var actualExpirationTime = reservation.ReservationDate.AddMinutes(reservation.ReservedDurationMinutes);
-
-            if (DateTime.UtcNow >= actualExpirationTime)
-            {
-                var inventory = await inventoryRepository.GetByAsyncWithTracking(x => x.GameId == reservation.GameId, cancellationToken)
-                    ?? throw new NotFoundException(nameof(GameInventory));
-
-                if (inventory.AvailableCopies < inventory.TotalCopies)
-                    inventory.AvailableCopies++;
-
-                reservation.IsActive = false;
-                reservation.IsReservationSuccessful = false;
-
-                await repository.Update(reservation, cancellationToken);
-                await inventoryRepository.Update(inventory, cancellationToken);
-
-                return true;
-            }
+            await ProcessGameReservationExpiration(reservation, cancellationToken);
         }
 
-        return false;
+        var tableReservations = await tableReservationRepository.GetWithPropertiesAsync(x =>
+            x.IsActive == true &&
+            DateTime.UtcNow >= x.ReservationDate,
+            x => x, cancellationToken);
+
+        foreach (var reservation in tableReservations)
+        {
+            await ProcessTableReservationExpiration(reservation, cancellationToken);
+        }
+
+        await gameReservationRepository.SaveChangesAsync(cancellationToken);
+    }
+
+    private async Task ProcessGameReservationExpiration(GameReservation reservation, CancellationToken cancellationToken)
+    {
+        var inventory = await inventoryRepository.GetByAsyncWithTracking(x => x.GameId == reservation.GameId, cancellationToken);
+
+        if (inventory is null)
+            return;
+
+        if (inventory.AvailableCopies < inventory.TotalCopies)
+            inventory.AvailableCopies++;
+
+        reservation.IsActive = false;
+        reservation.IsReservationSuccessful = false;
+        reservation.Status = ReservationStatus.Expired;
+
+        await gameReservationRepository.Update(reservation, cancellationToken, false);
+        await inventoryRepository.Update(inventory, cancellationToken, false);
+    }
+
+    private async Task ProcessTableReservationExpiration(SpaceTableReservation reservation, CancellationToken cancellationToken)
+    {
+        reservation.IsActive = false;
+        reservation.IsReservationSuccessful = false;
+        reservation.Status = ReservationStatus.Expired;
+
+        await tableReservationRepository.Update(reservation, cancellationToken, false);
     }
 }

@@ -92,7 +92,7 @@ public interface IRepository<TEntity>
     /// Updates an existing entity in the repository.
     /// </summary>
     /// <param name="entity">The entity to update.</param>
-    Task Update(TEntity entity, CancellationToken cancellationToken);
+    Task Update(TEntity entity, CancellationToken cancellationToken, bool saveToDb = true);
 
     /// <summary>
     /// Removes an entity from the repository.

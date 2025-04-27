@@ -110,10 +110,12 @@ public class DataRepository<TEntity> : IRepository<TEntity>
     }
 
     /// <inheritdoc/>
-    public async Task Update(TEntity entity, CancellationToken cancellationToken)
+    public async Task Update(TEntity entity, CancellationToken cancellationToken, bool saveToDb = true)
     {
         this.tenantDbContext.Update(entity);
-        await this.SaveChangesAsync(cancellationToken);
+
+        if (saveToDb)
+            await this.SaveChangesAsync(cancellationToken);
     }
 
     /// <inheritdoc/>
