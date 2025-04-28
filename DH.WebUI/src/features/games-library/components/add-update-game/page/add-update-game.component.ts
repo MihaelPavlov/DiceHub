@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -47,6 +47,7 @@ interface ICreateGameForm {
 })
 export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
   override form: Formify<ICreateGameForm>;
+  @ViewChild('descArea') descArea!: ElementRef<HTMLTextAreaElement>;
   public categories!: Observable<IGameCategory[] | null>;
   public imagePreview: string | ArrayBuffer | SafeUrl | null = null;
   public showQRCode = false;
@@ -83,6 +84,10 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
     this.gamAveragePlaytimeValues = Object.entries(GameAveragePlaytime)
       .filter(([key, value]) => typeof value === 'number')
       .map(([key, value]) => ({ id: value as number, name: value.toString() }));
+  }
+  public adjustTextareaHeight(textarea: HTMLTextAreaElement): void {
+    textarea.style.height = 'auto'; // Reset height
+    textarea.style.height = textarea.scrollHeight + 'px'; // Fit to content
   }
   public ngOnDestroy(): void {
     this.menuTabsService.resetData();
@@ -343,6 +348,8 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
             .subscribe((image) => (this.imagePreview = image));
 
           this.fileToUpload = null;
+
+          this.adjustTextareaHeight(this.descArea.nativeElement);
         }
       },
       error: (error) => {

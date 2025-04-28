@@ -42,10 +42,7 @@
       <label for="file-upload">
         <div class="image-preview">
           <img
-            [src]="
-              imagePreview ||
-              '/shared/assets/images/upload_img.svg'
-            "
+            [src]="imagePreview || '/shared/assets/images/upload_img.svg'"
             alt="Selected Image"
           />
         </div>
@@ -131,6 +128,9 @@
         placeholder="what happen in this game"
         id="description"
         formControlName="description"
+        #descArea
+        (input)="adjustTextareaHeight(descArea)"
+        class="expand-textarea-mobile"
       ></textarea>
     </div>
 
