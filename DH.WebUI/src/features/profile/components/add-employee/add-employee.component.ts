@@ -14,6 +14,8 @@ import { Formify } from '../../../../shared/models/form.model';
 import { ToastService } from '../../../../shared/services/toast.service';
 import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { ToastType } from '../../../../shared/models/toast.model';
+import { NavigationService } from '../../../../shared/services/navigation-service';
+import { FULL_ROUTE } from '../../../../shared/configs/route.config';
 
 interface IEmployeeForm {
   email: string;
@@ -34,6 +36,7 @@ export class AddEmployeeComponent extends Form implements OnDestroy {
     private readonly menuTabsService: MenuTabsService,
     public override readonly toastService: ToastService,
     private readonly usersService: UsersService,
+    private readonly navigationService: NavigationService,
     private readonly fb: FormBuilder,
     private readonly router: Router
   ) {
@@ -88,7 +91,9 @@ export class AddEmployeeComponent extends Form implements OnDestroy {
   }
 
   public onBack(): void {
-    this.router.navigateByUrl('profile/employees');
+    let url = this.navigationService.getPreviousUrl();
+    if (url) this.router.navigateByUrl(url);
+    else this.router.navigateByUrl(FULL_ROUTE.PROFILE.EMPLOYEES);
   }
 
   protected override getControlDisplayName(controlName: string): string {

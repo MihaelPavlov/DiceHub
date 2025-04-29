@@ -5,7 +5,7 @@ import { GameCategoriesService } from '../../../../../entities/games/api/game-ca
 import { IGameCategory } from '../../../../../entities/games/models/game-category.model';
 import { Router } from '@angular/router';
 import { SearchService } from '../../../../../shared/services/search.service';
-import { NavigationService } from '../../../../../shared/services/navigation-service';
+import { FULL_ROUTE } from '../../../../../shared/configs/route.config';
 
 @Component({
   selector: 'app-game-categories',
@@ -19,8 +19,7 @@ export class GameCategoriesComponent implements OnInit, OnDestroy {
     private readonly gameCategoriesService: GameCategoriesService,
     private readonly menuTabsService: MenuTabsService,
     private readonly searchService: SearchService,
-    private readonly router: Router,
-    private readonly navigationService: NavigationService
+    private readonly router: Router
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.GAMES);
   }
@@ -39,7 +38,7 @@ export class GameCategoriesComponent implements OnInit, OnDestroy {
   }
 
   public navigateToGameLibrary(id: number): void {
-    this.router.navigateByUrl(`games/library/${id}`);
+    this.router.navigateByUrl(FULL_ROUTE.GAMES.LIBRARY_BY_CATEGORY_ID(id));
   }
 
   private fetchGameList(searchExpression: string = '') {

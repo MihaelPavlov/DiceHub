@@ -1,11 +1,11 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../../../../entities/auth/auth.service';
 import { NAV_ITEM_LABELS } from '../../../../shared/models/nav-items-labels.const';
 import { MenuTabsService } from '../../../../shared/services/menu-tabs.service';
 import { IUser } from '../../../../entities/profile/models/user.model';
 import { UsersService } from '../../../../entities/profile/api/user.service';
 import { ImageEntityType } from '../../../../shared/pipe/entity-image.pipe';
+import { FULL_ROUTE, ROUTE } from '../../../../shared/configs/route.config';
 
 @Component({
   selector: 'app-profile',
@@ -14,11 +14,10 @@ import { ImageEntityType } from '../../../../shared/pipe/entity-image.pipe';
 })
 export class EmployeeListComponent implements OnDestroy {
   public employees: IUser[] = [];
-    public readonly ImageEntityType = ImageEntityType;
-  
+  public readonly ImageEntityType = ImageEntityType;
+
   constructor(
     private readonly menuTabsService: MenuTabsService,
-    private readonly authService: AuthService,
     private readonly usersService: UsersService,
     private readonly router: Router
   ) {
@@ -36,11 +35,10 @@ export class EmployeeListComponent implements OnDestroy {
   }
 
   public onAdd(): void {
-    this.router.navigateByUrl('profile/add-employee');
-
+    this.router.navigateByUrl(FULL_ROUTE.PROFILE.ADD_EMPLOYEE);
   }
 
   public onBack(): void {
-    this.router.navigateByUrl('profile');
+    this.router.navigateByUrl(ROUTE.PROFILE.CORE);
   }
 }

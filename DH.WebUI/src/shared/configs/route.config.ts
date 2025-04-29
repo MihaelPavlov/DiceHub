@@ -9,7 +9,7 @@ export const ROUTE = {
     REVIEWS: 'reviews',
     UPDATE: 'update',
     ADD_EXISTING_GAME: 'add-existing-game',
-    RESERVATIONS:'reservations',
+    RESERVATIONS: 'reservations',
   },
   EVENTS: {
     CORE: 'events',
@@ -41,8 +41,8 @@ export const ROUTE = {
     DETAILS: 'details',
     CREATE: 'create',
     UPDATE: 'update',
-    RESERVATIONS:'reservations',
-    TABLES: 'tables'
+    RESERVATIONS: 'reservations',
+    TABLES: 'tables',
   },
   CHAT_HUB_CLIENT: {
     CORE: 'chatHub',
@@ -57,12 +57,19 @@ export const ROUTE = {
     FIND: 'find',
     CHAT: 'chat',
   },
-  QR_CODE_SCANNER: 'qr-code-scanner'
+  QR_CODE_SCANNER: 'qr-code-scanner',
+  PROFILE: {
+    CORE: 'profile',
+    EMPLOYEES: 'employees',
+    ADD_EMPLOYEE: 'add-employee',
+  },
 };
 
 export const FULL_ROUTE = {
   GAMES: {
     LIBRARY: `${ROUTE.GAMES.CORE}/${ROUTE.GAMES.LIBRARY}`,
+    LIBRARY_BY_CATEGORY_ID: (categoryId: number) =>
+      `${ROUTE.GAMES.CORE}/${ROUTE.GAMES.LIBRARY}/${categoryId}`,
     DETAILS: (gameId: number) =>
       `/${ROUTE.GAMES.CORE}/${gameId}/${ROUTE.GAMES.DETAILS}`,
     AVAILABILITY: (gameId: number) =>
@@ -112,5 +119,9 @@ export const FULL_ROUTE = {
     CHAT_ROOM_BY_ID: (roomId: number) =>
       `${ROUTE.MEEPLE_ROOMS.CORE}/${roomId}/${ROUTE.MEEPLE_ROOMS.CHAT}`,
     CREATE: `${ROUTE.MEEPLE_ROOMS.CORE}/${ROUTE.MEEPLE_ROOMS.CREATE}`,
+  },
+  PROFILE: {
+    EMPLOYEES: `${ROUTE.PROFILE.CORE}/${ROUTE.PROFILE.EMPLOYEES}`,
+    ADD_EMPLOYEE: `${ROUTE.PROFILE.CORE}/${ROUTE.PROFILE.ADD_EMPLOYEE}`,
   },
 };

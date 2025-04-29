@@ -8,12 +8,6 @@
 </app-header>
 <section class="wrapper_library">
   <div *ngFor="let user of employees" class="wrapper_library__item">
-    <div class="wrapper_image">
-      <img
-        [src]="ImageEntityType.Games | entityImage : 12 | async"
-        alt="User Image"
-      />
-    </div>
     <div class="wrapper_info">
       <div class="wrapper_title">
         {{ user.userName }}
