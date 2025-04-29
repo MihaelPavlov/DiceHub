@@ -92,7 +92,7 @@ export class GamesLibraryComponent implements OnInit, OnDestroy {
   }
 
   public navigateToGameDetails(id: number): void {
-    this.NavigationService.setPreviousUrl(FULL_ROUTE.GAMES.LIBRARY);
+    this.NavigationService.setPreviousUrl(this.router.url);
     this.router.navigateByUrl(FULL_ROUTE.GAMES.DETAILS(id));
   }
 

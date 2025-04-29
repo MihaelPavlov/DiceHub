@@ -1,3 +1,4 @@
+import { NavigationService } from './../../../../../shared/services/navigation-service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { IGameListResult } from '../../../../../entities/games/models/game-list.model';
 import { NAV_ITEM_LABELS } from '../../../../../shared/models/nav-items-labels.const';
@@ -21,7 +22,8 @@ export class NewGameListComponent implements OnInit, OnDestroy {
     private readonly router: Router,
     private readonly gameService: GamesService,
     private readonly menuTabsService: MenuTabsService,
-    private readonly searchService: SearchService
+    private readonly searchService: SearchService,
+    private readonly navigationService : NavigationService
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.GAMES);
   }
@@ -36,6 +38,7 @@ export class NewGameListComponent implements OnInit, OnDestroy {
   }
 
   public navigateToGameDetails(id: number): void {
+    this.navigationService.setPreviousUrl(this.router.url);
     this.router.navigateByUrl(FULL_ROUTE.GAMES.DETAILS(id));
   }
 
