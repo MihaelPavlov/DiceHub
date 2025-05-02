@@ -51,15 +51,15 @@ internal class CreateGameReservationCommandHandler(IGameService gameService, IRe
         this.queue.AddReservationCleaningJob(reservation.Id, ReservationType.Game, reservation.ReservationDate.AddMinutes(2));
 
         //TODO: Change to Role.Staff
-        var users = await this.userService.GetUserListByRole(Role.SuperAdmin, cancellationToken);
+        var users = await this.userService.GetUserListByRoles([Role.SuperAdmin, Role.Staff], cancellationToken);
         var getUsers = await this.userService.GetUserListByIds([this.userContext.UserId], cancellationToken);
         var currentUser = getUsers.First();
 
         var game = await this.gameRepository.GetByAsync(x => x.Id == request.Reservation.GameId, cancellationToken);
 
-        DateTime reservationEndTime = reservation.ReservationDate.ToLocalTime();
-
-        await this.pushNotificationsService.SendNotificationToUsersAsync(users, new GameReservationManagementReminder(game!.Name, currentUser.UserName, request.Reservation.PeopleCount, reservationEndTime), cancellationToken);
+        await this.pushNotificationsService.SendNotificationToUsersAsync(users,
+            new
+            GameReservationManagementReminder(game!.Name, currentUser.UserName, request.Reservation.PeopleCount, reservation.ReservationDate), cancellationToken);
     }
 }
 

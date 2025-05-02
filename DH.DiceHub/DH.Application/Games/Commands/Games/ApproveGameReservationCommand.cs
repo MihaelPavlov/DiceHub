@@ -36,7 +36,7 @@ internal class ApproveGameReservationCommandHandler(IRepository<GameReservation>
                 {
                     { new() { Id = reservation.UserId } }
                 },
-                new GameReservationApprovedMessage(reservation.NumberOfGuests, game!.Name, reservation.ReservationDate.ToLocalTime()),
+                new GameReservationApprovedMessage(reservation.NumberOfGuests, game!.Name, reservation.ReservationDate),
                 cancellationToken);
     }
 }

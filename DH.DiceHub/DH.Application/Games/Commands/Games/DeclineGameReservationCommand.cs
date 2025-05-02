@@ -47,7 +47,7 @@ internal class DeclineGameReservationCommandHandler(IRepository<GameReservation>
                 {
                     { new() { Id = reservation.UserId } }
                 },
-                new GameReservationDeclinedMessage(reservation.NumberOfGuests, game!.Name, reservation.ReservationDate.ToLocalTime()),
+                new GameReservationDeclinedMessage(reservation.NumberOfGuests, game!.Name, reservation.ReservationDate),
                 cancellationToken);
     }
 }

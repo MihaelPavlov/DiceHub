@@ -1,4 +1,5 @@
-﻿using DH.Domain.Adapters.PushNotifications.Messages.Common;
+﻿using DH.Domain.Adapters.PushNotifications.Helper;
+using DH.Domain.Adapters.PushNotifications.Messages.Common;
 
 namespace DH.Domain.Adapters.PushNotifications.Messages;
 
@@ -13,6 +14,6 @@ public class GameReservationReminderForUser : MessageRequest
         this.ReservationTime = reservationTime;
 
         Title = "Game Reservation Reminder";
-        Body = $"You have reserved a table for {this.GameName} at {this.ReservationTime.ToShortTimeString()}!";
+        Body = $"You have reserved a table for {this.GameName} at {this.ReservationTime.WrapDateTime()}!";
     }
 }

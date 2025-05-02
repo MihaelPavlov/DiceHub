@@ -29,11 +29,12 @@ internal class CreateSpaceTableReservationCommandHandler(IRepository<SpaceTableR
         if (isUserHaveActiveReservation != null)
             throw new BadRequestException("User already have an active reservation");
 
+        var reservationDate = CombineDateAndTime(request.ReservationDate, request.Time).ToUniversalTime();
         await this.repository.AddAsync(new SpaceTableReservation
         {
             UserId = this.userContext.UserId,
             CreatedDate = DateTime.UtcNow,
-            ReservationDate = CombineDateAndTime(request.ReservationDate, request.Time).ToUniversalTime(),
+            ReservationDate = reservationDate,
             IsReservationSuccessful = false,
             IsActive = true,
             NumberOfGuests = request.NumberOfGuests,
@@ -45,7 +46,7 @@ internal class CreateSpaceTableReservationCommandHandler(IRepository<SpaceTableR
         await this.pushNotificationsService
             .SendNotificationToUsersAsync(
                 users,
-                new SpaceTableReservationManagementReminder(request.NumberOfGuests, CombineDateAndTime(request.ReservationDate, request.Time)),
+                new SpaceTableReservationManagementReminder(request.NumberOfGuests, reservationDate),
                 cancellationToken);
     }
 

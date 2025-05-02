@@ -1,4 +1,5 @@
-﻿using DH.Domain.Adapters.PushNotifications.Messages.Common;
+﻿using DH.Domain.Adapters.PushNotifications.Helper;
+using DH.Domain.Adapters.PushNotifications.Messages.Common;
 
 namespace DH.Domain.Adapters.PushNotifications.Messages;
 
@@ -13,6 +14,6 @@ public class ExpiredRewardReminder : MessageRequest
         this.ExpiryDate = expiryDate;
 
         Title = "Reward Expired Soon. Considiring visiting the club?";
-        Body = $"Your reward: {this.RewardName} expired on {this.ExpiryDate.ToShortTimeString()}!";
+        Body = $"Your reward: {this.RewardName} expired on {this.ExpiryDate.WrapDateTime()}!";
     }
 }

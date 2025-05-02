@@ -8,12 +8,16 @@ import { CalculateRemainingDaysPipe } from './pipe/calculate-remaining-days.pipe
 import { ControlsMenuComponent } from './components/menu/controls-menu.component';
 import { RandomColorDirective } from './directives/random-color/random-color.directive';
 import { EntityImagePipe } from './pipe/entity-image.pipe';
+import { TruncatePipe } from './pipe/truncate.pipe';
+import { ParseDateTagPipe } from './pipe/parse-date-tag.pipe';
 
 @NgModule({
   declarations: [
     ToastComponent,
     CalculateRemainingDaysPipe,
     EntityImagePipe,
+    TruncatePipe,
+    ParseDateTagPipe,
     ControlsMenuComponent,
     RandomColorDirective,
   ],
@@ -23,6 +27,8 @@ import { EntityImagePipe } from './pipe/entity-image.pipe';
     ReactiveFormsModule,
     CalculateRemainingDaysPipe,
     EntityImagePipe,
+    TruncatePipe,
+    ParseDateTagPipe,
     ControlsMenuComponent,
     RandomColorDirective,
     DatePipe,
@@ -31,6 +37,8 @@ import { EntityImagePipe } from './pipe/entity-image.pipe';
     EntityImagePipe,
     CalculateRemainingDaysPipe,
     DatePipe,
+    TruncatePipe,
+    ParseDateTagPipe,
     TOAST_DEFAULT_OPTIONS,
   ],
 })

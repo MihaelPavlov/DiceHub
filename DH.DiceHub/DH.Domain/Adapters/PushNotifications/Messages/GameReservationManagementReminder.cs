@@ -1,4 +1,5 @@
-﻿using DH.Domain.Adapters.PushNotifications.Messages.Common;
+﻿using DH.Domain.Adapters.PushNotifications.Helper;
+using DH.Domain.Adapters.PushNotifications.Messages.Common;
 
 namespace DH.Domain.Adapters.PushNotifications.Messages;
 
@@ -17,6 +18,6 @@ public class GameReservationManagementReminder : MessageRequest
         this.CountPeople = countPeople;
 
         Title = "New Game Reservation Reminder";
-        Body = $"You are having a new reservation user-email {this.Email}. Reserve a table for {this.CountPeople} people and game {this.GameName} at {this.ReservationTime.ToShortTimeString()}!";
+        Body = $"You are having a new reservation user-email {this.Email}. Reserve a table for {this.CountPeople} people and game {this.GameName} at {this.ReservationTime.WrapDateTime()}!";
     }
 }

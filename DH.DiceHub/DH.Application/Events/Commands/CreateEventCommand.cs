@@ -1,5 +1,4 @@
-﻿using DH.Domain.Adapters.Authentication.Models;
-using DH.Domain.Adapters.Authentication.Models.Enums;
+﻿using DH.Domain.Adapters.Authentication.Models.Enums;
 using DH.Domain.Adapters.Authentication.Services;
 using DH.Domain.Adapters.PushNotifications;
 using DH.Domain.Adapters.PushNotifications.Messages;
@@ -54,7 +53,7 @@ internal class CreateEventCommandHandler : IRequestHandler<CreateEventCommand, i
                users,
                new NewEventAddedMessage(
                 request.Event.Name,
-                request.Event.StartDate.ToLocalTime()),
+                request.Event.StartDate),
                cancellationToken);
 
         return eventId;
