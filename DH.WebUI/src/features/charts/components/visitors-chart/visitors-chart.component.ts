@@ -15,7 +15,6 @@ import { Chart, registerables } from 'chart.js';
 import 'chartjs-adapter-date-fns';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { colors } from '../../consts/colors.const';
-import { ControlsMenuComponent } from '../../../../shared/components/menu/controls-menu.component';
 import { ChartActivityType } from '../../../../entities/statistics/enums/chart-activity-type.enum';
 import { OperationResult } from '../../../../shared/models/operation-result.model';
 import { GetActivityChartData } from '../../../../entities/statistics/models/activity-chart.model';
@@ -64,11 +63,6 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
 
   public backNavigateBtn(): void {
     this.router.navigateByUrl('profile');
-  }
-
-  public showMenu(event: MouseEvent, controlMenu: ControlsMenuComponent): void {
-    event.stopPropagation();
-    controlMenu.toggleMenu();
   }
 
   public updateDateRange(direction: 'forward' | 'backward'): void {

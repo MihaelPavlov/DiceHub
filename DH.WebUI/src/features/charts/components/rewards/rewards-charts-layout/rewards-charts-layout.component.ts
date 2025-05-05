@@ -2,7 +2,6 @@ import { Component, OnDestroy } from '@angular/core';
 import { MenuTabsService } from '../../../../../shared/services/menu-tabs.service';
 import { Router } from '@angular/router';
 import { NAV_ITEM_LABELS } from '../../../../../shared/models/nav-items-labels.const';
-import { ControlsMenuComponent } from '../../../../../shared/components/menu/controls-menu.component';
 
 @Component({
   selector: 'rewards-layout-chart',
@@ -23,11 +22,6 @@ export class RewardChartsLayoutComponent implements OnDestroy {
 
   public backNavigateBtn(): void {
     this.router.navigateByUrl('profile');
-  }
-
-  public showMenu(event: MouseEvent, controlMenu: ControlsMenuComponent): void {
-    event.stopPropagation();
-    controlMenu.toggleMenu();
   }
 
   public navigateToExpiredCollectedChart(): void {

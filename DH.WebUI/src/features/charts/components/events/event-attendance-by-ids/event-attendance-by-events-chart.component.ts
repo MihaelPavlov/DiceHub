@@ -72,11 +72,6 @@ export class EventAttendanceByEventsChartComponent implements OnDestroy {
     return item.name;
   }
 
-  public showMenu(event: MouseEvent, controlMenu: ControlsMenuComponent): void {
-    event.stopPropagation();
-    controlMenu.toggleMenu();
-  }
-
   public startDotAnimation(): void {
     this.intervalId = setInterval(() => {
       this.dots = this.dots.length < 3 ? this.dots + '.' : '';

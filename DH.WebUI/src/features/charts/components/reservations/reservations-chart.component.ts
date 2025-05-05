@@ -86,11 +86,6 @@ export class ReservationsChartComponent implements AfterViewInit, OnDestroy {
     this.router.navigateByUrl('profile');
   }
 
-  public showMenu(event: MouseEvent, controlMenu: ControlsMenuComponent): void {
-    event.stopPropagation();
-    controlMenu.toggleMenu();
-  }
-
   private createReservationChartCanvas(colors): void {
     if (this.reservationChart) {
       this.reservationChart.destroy();

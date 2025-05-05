@@ -6,7 +6,6 @@ import { NAV_ITEM_LABELS } from '../../../../../shared/models/nav-items-labels.c
 import { MenuTabsService } from '../../../../../shared/services/menu-tabs.service';
 import { colors } from '../../../consts/colors.const';
 import { FormControl } from '@angular/forms';
-import { ControlsMenuComponent } from '../../../../../shared/components/menu/controls-menu.component';
 import { RewardsService } from '../../../../../entities/rewards/api/rewards.service';
 import { StatisticsService } from '../../../../../entities/statistics/api/statistics.service';
 import { ToastService } from '../../../../../shared/services/toast.service';
@@ -78,11 +77,6 @@ export class RewardsCollectedChartComponent implements OnDestroy {
 
   public backNavigateBtn(): void {
     this.router.navigateByUrl('charts/rewards');
-  }
-
-  public showMenu(event: MouseEvent, controlMenu: ControlsMenuComponent): void {
-    event.stopPropagation();
-    controlMenu.toggleMenu();
   }
 
   public createRewardsStatsChartCanvas(colors): void {

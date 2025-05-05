@@ -22,6 +22,9 @@ import { ToastService } from '../../../../shared/services/toast.service';
 import { TenantSettingsService } from './../../../../entities/common/api/tenant-settings.service';
 import { SpaceManagementService } from './../../../../entities/space-management/api/space-management.service';
 import { DiceRollerComponent } from './components/dice-scroller/dice-roller.component';
+import { BehaviorSubject } from 'rxjs';
+import { IMenuItem } from '../../../../shared/models/menu-item.model';
+import { ControlsMenuComponent } from '../../../../shared/components/menu/controls-menu.component';
 
 interface ICreateSpaceReservation {
   reservationDate: Date;
@@ -87,7 +90,10 @@ export class SpaceBookingComponent extends Form {
   @ViewChild('singleDice') singleDice: DiceRollerComponent | undefined;
   @ViewChild('secondDice') secondDice: DiceRollerComponent | undefined;
 
-  public isMenuVisible: boolean = false;
+  public menuItems: BehaviorSubject<IMenuItem[]> = new BehaviorSubject<
+    IMenuItem[]
+  >([]);
+  // public isMenuVisible: boolean = false;
   public timeSlots: string[] = [];
   public activeSlotIndex: number = 0;
   public guestsFirstSection: number = 1;
@@ -106,10 +112,19 @@ export class SpaceBookingComponent extends Form {
     this.tenantSettingsService.get().subscribe({
       next: (result) => {
         if (result) {
-          this.timeSlots = result.reservationHours;          
+          this.timeSlots = result.reservationHours;
         }
       },
     });
+
+    this.menuItems.next([
+      { key: 'qr-code', label: 'QR Code' },
+      // { key: 'history-log', label: 'Last Activities' },
+      { key: 'update', label: 'Update' },
+      { key: 'copy', label: 'Add Copy' },
+      { key: 'delete', label: 'Delete' },
+    ]);
+
   }
 
   public get isAddButtonActive(): boolean {
@@ -154,8 +169,9 @@ export class SpaceBookingComponent extends Form {
     this.router.navigateByUrl('space/home');
   }
 
-  public showMenu(): void {
-    this.isMenuVisible = !this.isMenuVisible;
+  public showMenu(event: MouseEvent, controlMenu: ControlsMenuComponent): void {
+    event.stopPropagation();
+    controlMenu.toggleMenu();
   }
 
   public bookTable(): void {

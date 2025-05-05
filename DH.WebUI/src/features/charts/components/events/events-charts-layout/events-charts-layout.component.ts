@@ -1,6 +1,5 @@
 import { Component, OnDestroy } from "@angular/core";
 import { Router } from "@angular/router";
-import { ControlsMenuComponent } from "../../../../../shared/components/menu/controls-menu.component";
 import { NAV_ITEM_LABELS } from "../../../../../shared/models/nav-items-labels.const";
 import { MenuTabsService } from "../../../../../shared/services/menu-tabs.service";
 
@@ -23,11 +22,6 @@ export class EventsChartsLayoutComponent implements OnDestroy {
 
   public backNavigateBtn(): void {
     this.router.navigateByUrl('profile');
-  }
-
-  public showMenu(event: MouseEvent, controlMenu: ControlsMenuComponent): void {
-    event.stopPropagation();
-    controlMenu.toggleMenu();
   }
 
   public navigateToEventsByDates(): void {

@@ -2,7 +2,6 @@ import { ToastType } from './../../../../shared/models/toast.model';
 import { StatisticsService } from './../../../../entities/statistics/api/statistics.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ControlsMenuComponent } from '../../../../shared/components/menu/controls-menu.component';
 import { ToastService } from '../../../../shared/services/toast.service';
 import { UsersService } from '../../../../entities/profile/api/user.service';
 import { ChallengeLeaderboardType } from '../../../../entities/statistics/enums/challenge-leaderboard-type.enum';
@@ -38,11 +37,6 @@ export class LeaderboardChallengesComponent implements OnInit {
 
   public backNavigateBtn(): void {
     this.router.navigateByUrl('profile');
-  }
-
-  public showMenu(event: MouseEvent, controlMenu: ControlsMenuComponent): void {
-    event.stopPropagation();
-    controlMenu.toggleMenu();
   }
 
   public fetchLeaderboardData(type: ChallengeLeaderboardType): void {

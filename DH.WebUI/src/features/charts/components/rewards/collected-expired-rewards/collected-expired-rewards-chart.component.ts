@@ -13,7 +13,6 @@ import { NAV_ITEM_LABELS } from '../../../../../shared/models/nav-items-labels.c
 import { MenuTabsService } from '../../../../../shared/services/menu-tabs.service';
 import { colors } from '../../../consts/colors.const';
 import { addYears, format } from 'date-fns';
-import { ControlsMenuComponent } from '../../../../../shared/components/menu/controls-menu.component';
 import { ToastService } from '../../../../../shared/services/toast.service';
 import { AppToastMessage } from '../../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { ToastType } from '../../../../../shared/models/toast.model';
@@ -52,11 +51,6 @@ export class CollectedExpiredRewardsChartComponent
 
   public backNavigateBtn(): void {
     this.router.navigateByUrl('charts/rewards');
-  }
-
-  public showMenu(event: MouseEvent, controlMenu: ControlsMenuComponent): void {
-    event.stopPropagation();
-    controlMenu.toggleMenu();
   }
 
   public updateDateRange(direction: 'forward' | 'backward'): void {

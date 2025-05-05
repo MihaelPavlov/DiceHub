@@ -13,7 +13,6 @@ import { NAV_ITEM_LABELS } from '../../../../shared/models/nav-items-labels.cons
 import { MenuTabsService } from '../../../../shared/services/menu-tabs.service';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { FormControl } from '@angular/forms';
-import { ControlsMenuComponent } from '../../../../shared/components/menu/controls-menu.component';
 import { combineLatest } from 'rxjs';
 import { ToastService } from '../../../../shared/services/toast.service';
 import { ToastType } from '../../../../shared/models/toast.model';
@@ -78,11 +77,6 @@ export class EventAttendanceChartComponent implements AfterViewInit, OnDestroy {
 
   public backNavigateBtn(): void {
     this.router.navigateByUrl('charts/events');
-  }
-
-  public showMenu(event: MouseEvent, controlMenu: ControlsMenuComponent): void {
-    event.stopPropagation();
-    controlMenu.toggleMenu();
   }
 
   public ngAfterViewInit(): void {
