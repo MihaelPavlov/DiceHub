@@ -11,6 +11,7 @@ export interface ActiveReservedGame {
   numberOfGuests: number;
   createdDate: Date;
   username: string;
+  phoneNumber: string;
   userId: string;
   userHaveActiveTableReservation: boolean;
   tableReservationTime?: Date | null;

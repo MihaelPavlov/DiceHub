@@ -8,7 +8,11 @@
       />
     </svg>
     <div class="info__text" *ngIf="isMenuVisible">
-      <p>Information for the settings</p>
+      <p>
+        Configure key settings for your club’s operations, challenges, and
+        reservations. Adjust values to fit your club’s needs and ensure a smooth
+        experience for all users.
+      </p>
     </div>
   </div>
 </div>
@@ -17,7 +21,7 @@
   <div class="input-field">
     <label for="phoneNumber" class="required">Club Phone Number</label>
     <span class="input-info"
-      >The phone number which people will use to contact the club.</span
+      >The main contact number for the club that will be shown to users.</span
     >
 
     <input
@@ -32,7 +36,8 @@
       >Average Max Capacity</label
     >
     <span class="input-info"
-      >Used to have the average capacity of the place.</span
+      >Represents the average number of people the club can accommodate at one
+      time.</span
     >
     <input
       placeholder="0"
@@ -47,7 +52,8 @@
       >Challenge Rewards Count For Period</label
     >
     <span class="input-info"
-      >The rewards that the user can receive in specific time period.</span
+      >Defines how many rewards a user can earn during a single reset
+      period.</span
     >
 
     <input
@@ -63,7 +69,7 @@
       >Period Of Reward Reset</label
     >
     <span class="input-info"
-      >Period of the rewards reset. Weekly or Monthly</span
+      >How often the reward count resets for users — weekly or monthly.</span
     >
     <ng-select
       id="periodOfRewardReset"
@@ -83,8 +89,8 @@
       >Challenge Initiation Delay Hours</label
     >
     <span class="input-info"
-      >Defines the number of hours to delay the initiation of the new
-      challenge.</span
+      >Number of hours to wait before a new challenge becomes active after being
+      triggered.</span
     >
 
     <ng-select
@@ -105,7 +111,8 @@
       >Reset Day For Rewards</label
     >
     <span class="input-info"
-      >The day at 12:00 PM (Example) when rewards will be reset.</span
+      >Day of the week when rewards reset at 12:00 PM (e.g., every Monday at
+      noon).</span
     >
 
     <ng-select
@@ -124,8 +131,8 @@
   <div class="input-field">
     <label for="resetDayForRewards" class="required">Reservation Hours</label>
     <span class="input-info"
-      >These hours should correspond to the operational hours of the facility.
-      You can select multiple slots as needed.</span
+      >Set the available time slots for reservations based on the club’s
+      operating hours. Multiple time slots can be selected.</span
     >
 
     <ng-select
@@ -148,7 +155,8 @@
       >Bonus Time After Reservation Expiration</label
     >
     <span class="input-info"
-      >Grace/Bonus time that we give to each reservation before is closed.</span
+      >Extra grace time (in minutes) after a reservation ends before it is
+      considered expired.</span
     >
 
     <input

@@ -101,8 +101,8 @@ export class UserSettingsComponent extends Form implements OnInit, OnDestroy {
 
   protected override getControlDisplayName(controlName: string): string {
     switch (controlName) {
-      case 'averageMaxCapacity':
-        return 'Average Max Capacity';
+      case 'phoneNumber':
+        return 'Phone Number';
       default:
         return controlName;
     }

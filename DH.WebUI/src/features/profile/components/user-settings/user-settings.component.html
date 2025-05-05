@@ -8,7 +8,10 @@
       />
     </svg>
     <div class="info__text" *ngIf="isMenuVisible">
-      <p>Information for the settings</p>
+      <p>
+        Manage space-related settings such as contact details, visibility, and
+        preferences to ensure accurate and personalized club usage.
+      </p>
     </div>
   </div>
 </div>
@@ -16,8 +19,9 @@
 <form [formGroup]="form" class="container">
   <div class="input-field">
     <label for="phoneNumber" class="required">Phone Number</label>
-    <span class="input-info"
-      >The phone number which club will use to contact you.</span
+    <span class="input-info">
+      Provide a phone number where the club can reach you regarding updates or
+      inquiries.</span
     >
 
     <input

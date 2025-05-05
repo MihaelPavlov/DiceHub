@@ -7,7 +7,7 @@
   padding-top: 1rem;
   align-items: center;
 
-  .qr-code-info {
+  .info-text {
     position: absolute;
     right: 1rem;
     top: 3.25rem;
@@ -16,13 +16,12 @@
     z-index: 1000;
     width: 10rem;
     text-align: center;
-  }
-
-  .qr-code-info span {
-    width: 9rem;
-    text-align: center;
-    line-height: 2rem;
-    font-size: 1.2rem;
+    span {
+      width: 9rem;
+      text-align: center;
+      line-height: 2rem;
+      font-size: 1.2rem;
+    }
   }
 
   .header_name {
@@ -99,7 +98,7 @@
       margin: 0 0.2rem;
     }
 
-    .btn_disabled{
+    .btn_disabled {
       opacity: 0.5;
       pointer-events: none;
     }
@@ -127,7 +126,7 @@
     margin: 1rem 1rem 0.5rem 0.2rem;
   }
 
-  .slot-active{
+  .slot-active {
     box-shadow: #ffffff 0.1px 0.1px 5px 0.1px;
   }
 }

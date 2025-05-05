@@ -152,7 +152,7 @@ public class UserService : IUserService
             .Select(x => new UserModel
             {
                 Id = x.Id,
-                UserName = x.UserName ?? "username_placeholder",
+                UserName = x.UserName ?? "NOT_PROVIDED",
                 ImageUrl = string.Empty
             })
             .ToListAsync(cancellationToken);

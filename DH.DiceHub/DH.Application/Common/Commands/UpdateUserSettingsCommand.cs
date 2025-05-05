@@ -23,6 +23,7 @@ internal class UpdateUserSettingsCommandHandler(IRepository<TenantUserSetting> r
         {
             await this.repository.AddAsync(new TenantUserSetting
             {
+                UserId = this.userContext.UserId,
                 PhoneNumber = request.Settings.PhoneNumber,
             }, cancellationToken);
 

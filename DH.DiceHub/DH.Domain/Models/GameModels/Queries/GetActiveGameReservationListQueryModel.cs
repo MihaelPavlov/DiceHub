@@ -14,6 +14,7 @@ public class GetActiveGameReservationListQueryModel
     public int ReservedDurationMinutes { get; set; }
     public ReservationStatus Status { get; set; }
     public string Username { get; set; } = string.Empty;
+    public string PhoneNumber { get; set; } = string.Empty;
     public string UserId { get; set; } = string.Empty;
     public bool UserHaveActiveTableReservation { get; set; }
     public DateTime? TableReservationTime { get; set; }

@@ -14,12 +14,12 @@
 .dice {
   width: 10rem;
   height: 10rem;
-  background-image: url('../../../shared/assets/images/dice.png');
+  background-image: url("../../../shared/assets/images/dice.png");
   background-size: cover;
   animation: spinLeft 1s infinite linear;
 }
 
-.dice-container{
+.dice-container {
   animation: moveLeftCenterRightCenter 4s linear infinite; /* Smooth, continuous animation */
 }
 
