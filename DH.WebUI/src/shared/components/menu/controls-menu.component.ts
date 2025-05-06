@@ -12,12 +12,16 @@ export class ControlsMenuComponent {
   @Input() menuItems!: Observable<IMenuItem[]>;
   @Input() isInfo: boolean = false;
   @Input() infoDescription: string = '';
-  
+
   @Output() menuItemClick = new EventEmitter<{
     value: string;
     event: MouseEvent;
   }>();
   @Output() visibilityChange = new EventEmitter<boolean>();
+
+  public   get infoDescriptionWithBreaks(): string {
+    return this.infoDescription.replaceAll('\\r\\n', '<br />');
+  }
 
   public onMenuItemClick(key: string, event: MouseEvent): void {
     this.menuItemClick.emit({ value: key, event });

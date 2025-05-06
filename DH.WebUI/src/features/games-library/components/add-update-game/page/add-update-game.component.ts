@@ -56,7 +56,6 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
   public gameList: IGameDropdownResult[] = [];
   public selectedGame: IGameDropdownResult | null = null;
   public addExistingGame: boolean = false;
-  public isMenuVisible: boolean = false;
   public imageError: string | null = null;
   public fileToUpload: File | null = null;
   public gamAveragePlaytimeValues: IDropdown[] = [];
@@ -94,9 +93,6 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
   }
   private clearServerErrorMessage() {
     this.getServerErrorMessage = null;
-  }
-  public showMenu(): void {
-    this.isMenuVisible = !this.isMenuVisible;
   }
 
   public ngOnInit(): void {

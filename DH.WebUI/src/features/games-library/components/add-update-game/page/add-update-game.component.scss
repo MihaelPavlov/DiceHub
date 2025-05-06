@@ -125,24 +125,6 @@
       height: 3rem;
       fill: palette.$main-red-color;
     }
-
-    .qr-code-info {
-      position: absolute;
-      right: 0.5rem;
-      top: 2.25rem;
-      background-color: palette.$main-gray-color;
-      padding: 0.5rem;
-      z-index: 1000;
-      width: 10rem;
-      text-align: center;
-    }
-
-    .qr-code-info span {
-      width: 9rem;
-      text-align: center;
-      line-height: 2rem;
-      font-size: 1.2rem;
-    }
   }
 
   .wrapper_qrCode {

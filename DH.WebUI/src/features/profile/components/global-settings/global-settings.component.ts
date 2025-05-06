@@ -36,7 +36,6 @@ interface ITenantSettingsForm {
 })
 export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
   override form: Formify<ITenantSettingsForm>;
-  public isMenuVisible: boolean = false;
 
   public weekDaysValues: IDropdown[] = [];
   public periodTimeValues: IDropdown[] = [];
@@ -122,10 +121,6 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
         }
       },
     });
-  }
-
-  public showMenu(): void {
-    this.isMenuVisible = !this.isMenuVisible;
   }
 
   private clearServerErrorMessage() {

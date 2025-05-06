@@ -27,7 +27,6 @@ interface IUserSettingsForm {
 export class UserSettingsComponent extends Form implements OnInit, OnDestroy {
   override form: Formify<IUserSettingsForm>;
   public tenantSettingsId: number | null = null;
-  public isMenuVisible: boolean = false;
 
   constructor(
     private readonly fb: FormBuilder,
@@ -89,10 +88,6 @@ export class UserSettingsComponent extends Form implements OnInit, OnDestroy {
           },
         });
     }
-  }
-
-  public showMenu(): void {
-    this.isMenuVisible = !this.isMenuVisible;
   }
 
   public backNavigateBtn() {
