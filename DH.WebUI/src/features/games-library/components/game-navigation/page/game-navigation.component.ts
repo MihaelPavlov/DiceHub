@@ -7,8 +7,6 @@ import { NewGameListComponent } from '../../new-game-list/page/new-game-list.com
 import { IMenuItem } from '../../../../../shared/models/menu-item.model';
 import { PermissionService } from '../../../../../shared/services/permission.service';
 import { UserAction } from '../../../../../shared/constants/user-action';
-import { SpaceManagementService } from '../../../../../entities/space-management/api/space-management.service';
-import { ActiveBookedTableModel } from '../../../../../entities/space-management/models/active-booked-table.model';
 import { GamesService } from '../../../../../entities/games/api/games.service';
 import { IGameReservationStatus } from '../../../../../entities/games/models/game-reservation-status.model';
 import { FULL_ROUTE } from '../../../../../shared/configs/route.config';
@@ -48,7 +46,6 @@ export class GameNavigationComponent implements OnInit {
     this.menuItems.next([
       { key: 'add-game', label: 'Add Game' },
       { key: 'add-existing-game', label: 'Add Existing Game' },
-      { key: 'reserved-games', label: 'Reserved Games' },
     ]);
 
     this.gameService.userReservationStatus().subscribe({
@@ -66,8 +63,6 @@ export class GameNavigationComponent implements OnInit {
       this.router.navigateByUrl('/games/add');
     } else if (key === 'add-existing-game') {
       this.router.navigateByUrl('/games/add-existing-game');
-    } else if (key === 'reserved-games') {
-      this.router.navigateByUrl('/games/reservations');
     }
   }
 
