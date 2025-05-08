@@ -85,6 +85,13 @@ public class TenantDbContext : DbContext, ITenantDbContext
 
     #endregion space
 
+    #region email
+
+    public DbSet<EmailTemplate> EmailTemplates { get; set; } = default!;
+    public DbSet<EmailHistory> EmailHistory { get; set; } = default!;
+
+    #endregion email
+
     #region others
 
     public DbSet<UserDeviceToken> UserDeviceTokens { get; set; } = default!;

@@ -13,6 +13,7 @@ using DH.Domain.Adapters.PushNotifications.Messages;
 using DH.Domain.Adapters.PushNotifications;
 using DH.Domain.Adapters.Authentication.Models.Enums;
 using DH.Application.Stats.Queries;
+using DH.Application.Emails.Commands;
 
 namespace DH.Api.Controllers;
 
@@ -45,9 +46,10 @@ public class UserController : ControllerBase
 
     [AllowAnonymous]
     [HttpPost("register-user")]
-    public async Task<IActionResult> RegisterUser([FromBody] UserRegistrationRequest form)
+    public async Task<IActionResult> RegisterUser([FromBody] UserRegistrationRequest form, CancellationToken cancellationToken)
     {
-        await userService.RegisterUser(form);
+        var userId = await userService.RegisterUser(form);
+        await this.mediator.Send(new SendRegistrationEmailConfirmationCommand(userId), cancellationToken);
         return this.Ok();
     }
 

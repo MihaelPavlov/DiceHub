@@ -93,6 +93,9 @@ public static class AuthenticationDIModule
                 var issuer = configuration.GetValue<string>("TokenIssuer")
                     ?? throw new ArgumentException("TokenIssuer was not specified");
 
+                var frontend_url = configuration.GetValue<string>("Frontend_URL")
+                    ?? throw new ArgumentException("Frontend_URL was not specified");
+
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true,

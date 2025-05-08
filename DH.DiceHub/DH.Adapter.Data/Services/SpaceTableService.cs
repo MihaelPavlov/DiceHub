@@ -68,7 +68,7 @@ public class SpaceTableService : ISpaceTableService
 
                     return createdSpaceTable.Entity.Id;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     await transaction.RollbackAsync(cancellationToken);
                     throw;

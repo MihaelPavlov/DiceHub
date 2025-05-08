@@ -35,6 +35,11 @@ public class DataSeeder : IDataSeeder
                     {
                         await context.AddRangeAsync(SeedData.GAME_CATEGORIES);
                     }
+
+                    var isAnyEmailTemplates = await context.EmailTemplates.AnyAsync();
+                    await context.EmailTemplates.ExecuteDeleteAsync();
+                    await context.AddRangeAsync(SeedData.EMAIL_TEMPLATES);
+
                     await context.SaveChangesAsync();
                     //await context.Database.ExecuteSqlRawAsync("SET IDENTITY_INSERT GameCategories OFF");
 

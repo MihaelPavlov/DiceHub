@@ -22,7 +22,9 @@ public interface IUserService
     /// </summary>
     /// <param name="form">RegisterForm containing new user infromation.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    Task RegisterUser(UserRegistrationRequest form);
+    Task<string> RegisterUser(UserRegistrationRequest form);
+
+    Task<string> GenerateEmailConfirmationTokenAsync(string userId);
 
     Task<UserDeviceToken> GetDeviceTokenByUserEmail(string email);
 
@@ -32,6 +34,8 @@ public interface IUserService
     /// <param name="ids">Ids of user that we want.</param>
     /// <returns>A <see cref="UserModel"/> collection.</returns>
     Task<List<UserModel>> GetUserListByIds(string[] ids, CancellationToken cancellationToken);
+
+    Task<UserModel?> GetUserById(string id, CancellationToken cancellationToken);
 
     /// <summary>
     /// Get user list by role

@@ -22,6 +22,9 @@ using DH.Domain.Services.Publisher;
 using DH.Application.Services;
 using Microsoft.OpenApi.Models;
 using DH.Domain.Queue.Services;
+using DH.Adapter.Email;
+using DH.Domain.Adapters.Data;
+using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -85,6 +88,8 @@ builder.Services.AddSchedulingAdapter(builder.Configuration);
 builder.Services.AddChallengesOrchestratorAdapter();
 builder.Services.AddReservationAdapter();
 builder.Services.AddGameSessionAdapter();
+builder.Services.AddEmailAdapter(builder.Configuration);
+
 var rabbitMqConfig = builder.Configuration.GetSection("RabbitMq").Get<RabbitMqOptions>()
     ?? throw new Exception("Failed to load RabbitMQ configuration. Ensure 'RabbitMq' section exists in appsettings.json.");
 
@@ -128,6 +133,9 @@ using (var scope = app.Services.CreateScope())
 {
     var queueDispatcher = scope.ServiceProvider.GetRequiredService<IQueueDispatcher>();
     queueDispatcher.Dispatch();
+
+    var dataSeeder = scope.ServiceProvider.GetRequiredService<IDataSeeder>();
+    await dataSeeder.SeedAsync();
 }
 
 app.UseSwagger();

@@ -37,7 +37,8 @@ public static class DataDIModule
             .AddScoped<IRoomService, RoomService>()
             .AddScoped<ISpaceTableService, SpaceTableService>()
             .AddScoped<IQueuedJobService, QueuedJobService>()
-            .AddScoped<IDataSeeder, DataSeeder>();
+            .AddScoped<IDataSeeder, DataSeeder>()
+            .AddScoped<IEmailHelperService, EmailHelperService>();
 
         RegisterAssemblyTypesAsClosedGeneric(services, typeof(IDomainService<>), typeof(IDbContextFactory<>));
         return services;
