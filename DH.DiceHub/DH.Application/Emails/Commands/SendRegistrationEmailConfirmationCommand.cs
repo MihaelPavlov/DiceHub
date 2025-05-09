@@ -31,13 +31,20 @@ internal class SendRegistrationEmailConfirmationCommandHandler(
 
         if (user == null)
         {
-            this.logger.LogWarning("User with ID {UserId} not found. {EmailType} was not send",
+            this.logger.LogWarning("User with ID {UserId} was not found. {EmailType} was not send",
                 request.UserId,
                 EmailType.RegistrationEmailConfirmation.ToString());
             return;
         }
 
         var emailTemplate = await this.emailHelperService.GetEmailTemplate(EmailType.RegistrationEmailConfirmation);
+        if (emailTemplate == null)
+        {
+            this.logger.LogWarning("Email Template with Key {EmailType} was not found. {EmailType} was not send",
+                EmailType.RegistrationEmailConfirmation.ToString(),
+                EmailType.RegistrationEmailConfirmation.ToString());
+            return;
+        }
 
         var token = await this.userService.GenerateEmailConfirmationTokenAsync(request.UserId);
         var encodedToken = WebUtility.UrlEncode(token);

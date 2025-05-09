@@ -7,7 +7,9 @@ using System.Net.Mail;
 
 namespace DH.Adapter.Email;
 
-public class SmtpEmailSender(IOptions<EmailSettings> mailSettings, ILogger<SmtpEmailSender> logger) : IEmailSender
+public class SmtpEmailSender(
+    IOptions<EmailSettings> mailSettings,
+    ILogger<SmtpEmailSender> logger) : IEmailSender
 {
     private readonly EmailSettings mailSettings = mailSettings.Value;
     private readonly ILogger<SmtpEmailSender> logger = logger;

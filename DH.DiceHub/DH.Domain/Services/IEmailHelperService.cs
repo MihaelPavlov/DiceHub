@@ -5,7 +5,7 @@ namespace DH.Domain.Services;
 
 public interface IEmailHelperService
 {
-    Task<EmailTemplate> GetEmailTemplate(EmailType emailType);
+    Task<EmailTemplate?> GetEmailTemplate(EmailType emailType);
     string LoadTemplate(string template, Dictionary<string, string> placeholders);
     Task CreateEmailHistory(EmailHistory history);
 }

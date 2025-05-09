@@ -1,19 +1,30 @@
 ﻿using DH.Domain.Adapters.Email;
 using DH.Domain.Entities;
 using DH.Domain.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace DH.Adapter.Data.Services;
 
-internal class EmailHelperService : IEmailHelperService
+internal class EmailHelperService(IDbContextFactory<TenantDbContext> dbContextFactory) : IEmailHelperService
 {
-    public Task CreateEmailHistory(EmailHistory history)
+    readonly IDbContextFactory<TenantDbContext> _contextFactory = dbContextFactory;
+
+    public async Task CreateEmailHistory(EmailHistory history)
     {
-        throw new NotImplementedException();
+        using (var context = await this._contextFactory.CreateDbContextAsync())
+        {
+            context.EmailHistory.Add(history);
+            await context.SaveChangesAsync();
+        }
     }
 
-    public Task<EmailTemplate> GetEmailTemplate(EmailType emailType)
+    public async Task<EmailTemplate?> GetEmailTemplate(EmailType emailType)
     {
-        throw new NotImplementedException();
+        using (var context = await this._contextFactory.CreateDbContextAsync())
+        {
+            return await context.EmailTemplates
+                .FirstOrDefaultAsync(x => x.TemplateName == emailType.ToString());
+        }
     }
 
     public string LoadTemplate(string template, Dictionary<string, string> placeholders)
