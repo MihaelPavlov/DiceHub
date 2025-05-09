@@ -3,6 +3,9 @@ import { LoginComponent } from '../../pages/login/page/login.component';
 import { AuthGuard } from '../../shared/guards/auth.guard';
 import { RegisterComponent } from '../../pages/register/page/register.component';
 import { ROUTE } from '../../shared/configs/route.config';
+import { ForgotPasswordModule } from '../../pages/forgot-password/forgot-password.module';
+import { ForgotPasswordComponent } from '../../pages/forgot-password/page/forgot-password.component';
+import { ConfirmEmailComponent } from '../../pages/confirm-email/page/confirm-email.component';
 
 export const ROUTES: Routes = [
   {
@@ -105,6 +108,16 @@ export const ROUTES: Routes = [
   {
     path: 'register',
     component: RegisterComponent,
+    data: { hideMenu: true },
+  },
+  {
+    path: 'confirm-email',
+    component: ConfirmEmailComponent,
+    data: { hideMenu: true },
+  },
+  {
+    path: 'forgot-password',
+    component: ForgotPasswordComponent,
     data: { hideMenu: true },
   },
   {

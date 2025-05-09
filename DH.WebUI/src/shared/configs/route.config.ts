@@ -1,6 +1,7 @@
 export const ROUTE = {
   LOGIN: 'login',
   REGISTER: 'register',
+  FORGOT_PASSWORD: 'forgot-password',
   GAMES: {
     CORE: 'games',
     LIBRARY: 'library',

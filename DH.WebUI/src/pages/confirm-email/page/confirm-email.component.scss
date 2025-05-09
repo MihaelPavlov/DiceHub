@@ -1,0 +1,76 @@
+@use "../../.././shared/assets/styles/palette";
+
+.confirmation-container {
+    margin-top: 100px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+  }
+  
+  .spinner-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  .success h2 {
+    color: #27ae60;
+  }
+  
+  .error h2 {
+    color: #e74c3c;
+  }
+  
+  .markup {
+    color: palette.$main-blue-color;
+  }
+  
+  .interactive-option {
+    display: flex;
+    justify-content: center;
+    margin-top: 3rem;
+  
+    .icon_wrapper {
+      width: 5rem;
+      height: 5rem;
+      border-radius: 50px;
+      background: palette.$main-blue-color;
+      box-shadow: 0 0 0 12px var(--background-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .icon {
+      width: 3rem;
+      height: 3rem;
+      fill: palette.$main-font-color;
+    }
+  }
+  
+  .header {
+    margin: 1rem;
+    display: flex;
+    justify-content: center;
+    font-size: 1.5rem;
+  }
+  
+  .dot-loader {
+    font-weight: bold;
+    animation: blink 1s step-start infinite;
+  }
+  
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+  
+  .fallback-btn {
+    margin-top: 20px;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }

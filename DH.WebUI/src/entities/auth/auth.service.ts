@@ -17,9 +17,16 @@ export class AuthService {
   public userInfo$ = this.userInfoSubject$.asObservable();
 
   constructor(readonly api: RestApiService, private readonly router: Router) {
-    if(!this.userInfoSubject$.value){
-       this.userinfo();
+    if (!this.userInfoSubject$.value) {
+      this.userinfo();
     }
+  }
+
+  public confirmEmail(
+    email: string,
+    token: string
+  ): Observable<boolean | null> {
+    return this.api.post<boolean>('/user/confirm-email', { email, token });
   }
 
   public get getUser(): IUserInfo | null {
@@ -86,7 +93,7 @@ export class AuthService {
       },
       error: () => {
         this.userInfoSubject$.next(null);
-        //TODO: This need to be removed, because it's call on app.component.ts and every time 
+        //TODO: This need to be removed, because it's call on app.component.ts and every time
         // when we try to reach different page from register and login we will be redirected to login
         // this.router.navigateByUrl('login');
       },

@@ -48,6 +48,10 @@ export class LoginComponent extends Form {
     this.router.navigateByUrl(ROUTE.REGISTER);
   }
 
+  public navigateToForgotPassword(): void {
+    this.router.navigateByUrl(ROUTE.FORGOT_PASSWORD);
+  }
+
   private clearServerErrorMessage() {
     this.getServerErrorMessage = null;
   }

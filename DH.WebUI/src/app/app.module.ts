@@ -1,3 +1,4 @@
+import { ConfirmEmailModule } from './../pages/confirm-email/confirm-email.module';
 import { InstructionManagementModule } from './../pages/instruction-management/instruction-management.module';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app-component/app.component';
@@ -19,6 +20,7 @@ import { RegisterModule } from '../pages/register/register.module';
 import { AssistiveTouchModule } from '../shared/components/assistive-touch/assistive-touch.module';
 import { LoadingInterceptor } from '../shared/interceptors/loading.interceptor';
 import { ScrollToTopModule } from '../shared/components/scroll-to-top/scroll-to-top.module';
+import { ForgotPasswordModule } from '../pages/forgot-password/forgot-password.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -47,6 +49,8 @@ import { ScrollToTopModule } from '../shared/components/scroll-to-top/scroll-to-
     NavigationMenuModule,
     LoginModule,
     RegisterModule,
+    ConfirmEmailModule,
+    ForgotPasswordModule,
     HeaderModule,
     AssistiveTouchModule,
     RouterOutlet,
