@@ -15,6 +15,7 @@ using DH.Domain.Adapters.Authentication.Models.Enums;
 using DH.Application.Stats.Queries;
 using DH.Application.Emails.Commands;
 using System.ComponentModel.DataAnnotations;
+using DH.Domain.Adapters.Email.Models;
 
 namespace DH.Api.Controllers;
 
@@ -57,6 +58,14 @@ public class UserController : ControllerBase
     }
 
     [AllowAnonymous]
+    [HttpPost("confirm-email")]
+    public async Task<IActionResult> ConfirmEmail([FromBody] ConfirmEmailRequest request, CancellationToken cancellationToken)
+    {
+        var result = await this.userService.ConfirmEmail(request.Email, request.Token, cancellationToken);
+        return this.Ok(result);
+    }
+
+    [AllowAnonymous]
     [HttpPost("register-notification")]
     public async Task<IActionResult> RegisterNotification([FromBody] RegistrationNotifcation form)
     {
@@ -78,47 +87,42 @@ public class UserController : ControllerBase
     [HttpGet("info")]
     public IActionResult UserInfo()
     {
-        if (HttpContext.Request.Headers.TryGetValue("Authorization", out var authHeader))
+        if (!HttpContext.Request.Headers.TryGetValue("Authorization", out var authHeader))
+            return BadRequest();
+
+        var accessToken = authHeader.ToString().Split(' ').Last();
+        var tokenHandler = new JwtSecurityTokenHandler();
+
+        if (!tokenHandler.CanReadToken(accessToken))
+            return BadRequest(new { message = "Invalid token format" });
+
+        try
         {
-            var accessToken = authHeader.ToString().Split(' ').Last();
-            try
+            var validationParams = new TokenValidationParameters
             {
-                var apiAudiences = configuration.GetSection("APIs_Audience_URLs").Get<string[]>()
-                    ?? throw new ArgumentException("APIs_Audience_URLs was not specified");
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = configuration["TokenIssuer"],
+                ValidAudiences = configuration.GetSection("APIs_Audience_URLs").Get<string[]>(),
+                IssuerSigningKey = new SymmetricSecurityKey(
+                    Encoding.UTF8.GetBytes(configuration["JWT_SecretKey"]!))
+            };
 
-                var issuer = configuration.GetValue<string>("TokenIssuer")
-                    ?? throw new ArgumentException("TokenIssuer was not specified");
+            tokenHandler.ValidateToken(accessToken, validationParams, out var validatedToken);
 
-                var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetValue<string>("JWT_SecretKey")
-                    ?? throw new ArgumentException("JWT_SecretKey was not specified")));
+            var jwtToken = (JwtSecurityToken)validatedToken;
+            var claims = jwtToken.Claims
+                .DistinctBy(c => c.Type)
+                .ToDictionary(c => c.Type, c => c.Value);
 
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var tokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = issuer,
-                    ValidAudiences = apiAudiences,
-                    IssuerSigningKey = secretKey
-                };
-
-                tokenHandler.ValidateToken(accessToken, tokenValidationParameters, out SecurityToken validatedToken);
-                var jwtToken = (JwtSecurityToken)validatedToken;
-                var claims = jwtToken.Claims.DistinctBy(x => x.Type).ToDictionary(claim => claim.Type, claim => claim.Value);
-
-                // The token is valid
-                return Ok(claims);
-            }
-            catch (SecurityTokenException)
-            {
-                // Token validation failed
-                return Unauthorized(new { message = "Token validation failed" });
-            }
+            return Ok(claims);
         }
-
-        return BadRequest();
+        catch (SecurityTokenException)
+        {
+            return Unauthorized(new { message = "Token validation failed" });
+        }
     }
 
     [Authorize]

@@ -69,11 +69,22 @@ export class RegisterComponent extends Form {
             deviceToken,
           })
           .subscribe({
-            next: () => this.loginAfterSuccessRegistration(),
+            next: () => {
+              this.toastService.success({
+                message:
+                  'Registration successful! Please check your email to confirm your account.',
+                type: ToastType.Success,
+              });
+              setTimeout(() => {
+                this.router.navigate(['/login'], {
+                  queryParams: { fromRegister: 'true' }
+                });
+              }, 5000);
+            },
             error: (error) => this.handleRegistrationError(error),
           });
       } catch (error) {
-        // Handle the case where getting the device token fails
+        // TODO: Handle the case where getting the device token fails
         // this.toastService.error({
         //   message: AppToastMessage.SomethingWrong,
         //   type: ToastType.Error,
@@ -93,35 +104,6 @@ export class RegisterComponent extends Form {
       message: AppToastMessage.FailedToSaveChanges,
       type: ToastType.Error,
     });
-  }
-
-  private loginAfterSuccessRegistration(): void {
-    this.authService
-      .login({
-        email: this.form.controls.email.value,
-        password: this.form.controls.password.value,
-      })
-      .subscribe({
-        next: (response) => {
-          if (response) {
-            this.authService.onnSuccessfullyLogin(
-              response.accessToken,
-              response.refreshToken
-            );
-
-            this.authService.initiateNotifications(
-              this.form.controls.email.value
-            );
-
-            this.router.navigateByUrl(FULL_ROUTE.GAMES.LIBRARY);
-          } else {
-            this.toastService.error({
-              message: AppToastMessage.SomethingWrong,
-              type: ToastType.Error,
-            });
-          }
-        },
-      });
   }
 
   protected override getControlDisplayName(controlName: string): string {

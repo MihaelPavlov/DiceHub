@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../entities/auth/auth.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Form } from '../../../shared/components/form/form.component';
 import { ToastService } from '../../../shared/services/toast.service';
 import { Formify } from '../../../shared/models/form.model';
@@ -33,9 +33,17 @@ export class LoginComponent extends Form {
     readonly authService: AuthService,
     public override readonly toastService: ToastService,
     private readonly messagingService: MessagingService,
-    private readonly fb: FormBuilder
+    private readonly fb: FormBuilder,
+    private readonly route: ActivatedRoute
   ) {
     super(toastService);
+    this.route.queryParams.subscribe((params) => {
+      if (params['fromRegister'] === 'true') {
+        this.getServerErrorMessage =
+          'Registration successful! Please check your email to confirm your account.';
+      }
+    });
+
     this.form = this.initFormGroup();
     this.form.valueChanges.subscribe(() => {
       if (this.getServerErrorMessage) {
@@ -85,7 +93,7 @@ export class LoginComponent extends Form {
         .subscribe({
           next: (response) => {
             if (response) {
-              this.authService.onnSuccessfullyLogin(
+              this.authService.authenticateUser(
                 response.accessToken,
                 response.refreshToken
               );
@@ -94,7 +102,7 @@ export class LoginComponent extends Form {
             }
           },
           error: (error) => {
-            this.getServerErrorMessage = 'Email or Password is invalid';
+            this.getServerErrorMessage = error.error.errors.Email[0];
             this.toastService.error({
               message: AppToastMessage.FailedToSaveChanges,
               type: ToastType.Error,
@@ -113,7 +121,7 @@ export class LoginComponent extends Form {
       .subscribe({
         next: (response) => {
           if (response) {
-            this.authService.onnSuccessfullyLogin(
+            this.authService.authenticateUser(
               response.accessToken,
               response.refreshToken
             );
@@ -140,7 +148,7 @@ export class LoginComponent extends Form {
       .subscribe({
         next: (response) => {
           if (response) {
-            this.authService.onnSuccessfullyLogin(
+            this.authService.authenticateUser(
               response.accessToken,
               response.refreshToken
             );
@@ -167,7 +175,7 @@ export class LoginComponent extends Form {
       .subscribe({
         next: (response) => {
           if (response) {
-            this.authService.onnSuccessfullyLogin(
+            this.authService.authenticateUser(
               response.accessToken,
               response.refreshToken
             );
@@ -193,7 +201,7 @@ export class LoginComponent extends Form {
       .subscribe({
         next: (response) => {
           if (response) {
-            this.authService.onnSuccessfullyLogin(
+            this.authService.authenticateUser(
               response.accessToken,
               response.refreshToken
             );
@@ -220,7 +228,7 @@ export class LoginComponent extends Form {
       .subscribe({
         next: (response) => {
           if (response) {
-            this.authService.onnSuccessfullyLogin(
+            this.authService.authenticateUser(
               response.accessToken,
               response.refreshToken
             );

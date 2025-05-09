@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../entities/auth/auth.service';
+import { FULL_ROUTE } from '../../../shared/configs/route.config';
 
 @Component({
   selector: 'app-confirm-email',
@@ -21,25 +22,26 @@ export class ConfirmEmailComponent implements OnInit {
     this.route.queryParams.subscribe((params) => {
       const email = params['email'];
       const token = params['token'];
-      console.log(email, token);
-      if (email && token) {
+       if (email && token) {
         this.confirmEmail(email, token);
       } else {
         this.message = 'Invalid confirmation link.';
       }
     });
   }
+
   public navigateToLogin(): void {
     this.router.navigateByUrl('login');
   }
+
   confirmEmail(email: string, token: string) {
     this.authService.confirmEmail(email, token).subscribe({
-      next: (isSuccess: boolean | null) => {
-        this.isSuccess = isSuccess ?? false;
+      next: (response) => {
+        this.isSuccess = response ? true : false;
 
         if (!this.isSuccess) this.message = 'Email confirmation failed.';
         else {
-          this.message = `Your email has been confirmed successfully! <br/>You will be redirected to login page in <span class="dot-loader">3</span> seconds...`;
+          this.message = `Your email has been confirmed successfully! <br/>You will be redirected to your account in <span class="dot-loader">3</span> seconds...`;
 
           let countdown = 3;
           const dotLoader = setInterval(() => {
@@ -52,11 +54,20 @@ export class ConfirmEmailComponent implements OnInit {
           }, 1000);
 
           setTimeout(() => {
-            this.navigateToLogin();
+            this.authService.authenticateUser(
+              response!.accessToken,
+              response!.refreshToken
+            );
+
+            this.authService.initiateNotifications(email);
+
+            this.router.navigateByUrl(FULL_ROUTE.GAMES.LIBRARY);
           }, 3000);
         }
       },
-      error: () => {
+      error: (error) => {
+        console.log('error', error);
+
         this.isSuccess = false;
         this.message = 'Email confirmation failed.';
       },

@@ -25,8 +25,8 @@ export class AuthService {
   public confirmEmail(
     email: string,
     token: string
-  ): Observable<boolean | null> {
-    return this.api.post<boolean>('/user/confirm-email', { email, token });
+  ): Observable<ITokenResponse | null> {
+    return this.api.post<ITokenResponse>('/user/confirm-email', { email, token });
   }
 
   public get getUser(): IUserInfo | null {
@@ -37,7 +37,7 @@ export class AuthService {
     return this.api.post<ITokenResponse>('/user', loginForm);
   }
 
-  public onnSuccessfullyLogin(accessToken: string, refreshToken: string): void {
+  public authenticateUser(accessToken: string, refreshToken: string): void {
     localStorage.setItem('jwt', accessToken);
     localStorage.setItem('refreshToken', refreshToken);
     this.userinfo();
