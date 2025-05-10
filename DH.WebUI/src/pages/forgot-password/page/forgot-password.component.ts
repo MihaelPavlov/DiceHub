@@ -7,11 +7,11 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../entities/auth/auth.service';
-import { MessagingService } from '../../../entities/messaging/api/messaging.service';
 import { Form } from '../../../shared/components/form/form.component';
 import { Formify } from '../../../shared/models/form.model';
 import { ToastService } from '../../../shared/services/toast.service';
 import { ROUTE } from '../../../shared/configs/route.config';
+import { ToastType } from '../../../shared/models/toast.model';
 
 interface IForgotPasswordForm {
   email: string;
@@ -26,9 +26,8 @@ export class ForgotPasswordComponent extends Form {
   override form: Formify<IForgotPasswordForm>;
   constructor(
     private readonly router: Router,
-    readonly authService: AuthService,
+    private readonly authService: AuthService,
     public override readonly toastService: ToastService,
-    private readonly messagingService: MessagingService,
     private readonly fb: FormBuilder
   ) {
     super(toastService);
@@ -40,7 +39,33 @@ export class ForgotPasswordComponent extends Form {
     });
   }
 
-  public onSubmit(): void {}
+  public onSubmit(): void {
+    if (this.form.valid) {
+      this.authService
+        .forgotPassword(this.form.controls.email.value)
+        .subscribe({
+          next: () => {
+            this.toastService.success({
+              type: ToastType.Success,
+              message: 'Password reset email sent successfully!',
+            });
+            setTimeout(() => {
+              this.router.navigate([ROUTE.LOGIN], {
+                queryParams: { fromForgotPassword: 'true' },
+              });
+            }, 5000);
+          },
+          error: (error) => {
+            if (error.error.errors.Email)
+              this.getServerErrorMessage = error.error.errors.Email[0];
+            this.toastService.error({
+              type: ToastType.Error,
+              message: 'Password reset email was not successfully!',
+            });
+          },
+        });
+    }
+  }
 
   public navigateToLogin(): void {
     this.router.navigateByUrl(ROUTE.LOGIN);

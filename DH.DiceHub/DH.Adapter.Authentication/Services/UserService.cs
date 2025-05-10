@@ -37,7 +37,9 @@ public class UserService : IUserService
     /// <param name="jwtService"><see cref="IJwtService"/> for accessing application jwt authentication logic.</param>
     public UserService(IHttpContextAccessor httpContextAccessor, IHttpClientFactory httpClientFactory,
         SignInManager<ApplicationUser> signInManager, IJwtService jwtService,
-        UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IPermissionStringBuilder permissionStringBuilder, SynchronizeUsersChallengesQueue queue, IPushNotificationsService pushNotificationsService, IRepository<UserDeviceToken> userDeviceTokenRepository)
+        UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager,
+        IPermissionStringBuilder permissionStringBuilder, SynchronizeUsersChallengesQueue queue,
+        IPushNotificationsService pushNotificationsService, IRepository<UserDeviceToken> userDeviceTokenRepository)
     {
         _httpContextAccessor = httpContextAccessor;
         this.signInManager = signInManager;
@@ -57,8 +59,10 @@ public class UserService : IUserService
         if (user is null)
             throw new ValidationErrorsException("Email", "Email or Password is invalid!");
 
-        var roles = await this.userManager.GetRolesAsync(user);
-        var result = await this.signInManager.PasswordSignInAsync(user, form.Password, form.RememberMe, false);
+        if (!await userManager.IsEmailConfirmedAsync(user))
+            throw new ValidationErrorsException("Email", "Email not confirmed. Please check your inbox.");
+
+        var result = await this.signInManager.PasswordSignInAsync(user, form.Password, form.RememberMe, true);
 
         if (!result.Succeeded)
             throw new ValidationErrorsException("Email", "Email or Password is invalid!");
@@ -74,29 +78,11 @@ public class UserService : IUserService
             }, CancellationToken.None);
         }
 
-        var claims = new List<Claim>
-        {
-            new Claim(ClaimTypes.Sid,user.Id),
-            new Claim(ClaimTypes.Name, user.UserName),
-            new Claim(ClaimTypes.Role, RoleHelper.GetRoleKeyByName(roles.First()).ToString()),
-            new Claim("permissions",_permissionStringBuilder.GetFromCacheOrBuildPermissionsString( RoleHelper.GetRoleKeyByName(roles.First())))
-        };
-
-        var tokenString = this.jwtService.GenerateAccessToken(claims);
-        var refreshToken = this.jwtService.GenerateRefreshToken();
-
-        user.RefreshToken = refreshToken;
-        user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(10);
-
-        await this.userManager.UpdateAsync(user);
-
-        _httpContextAccessor.HttpContext.User = new ClaimsPrincipal(new ClaimsIdentity(claims));
-
-        return new TokenResponseModel { AccessToken = tokenString, RefreshToken = refreshToken };
+        return await IssueUserTokensAsync(user);
     }
 
     /// <inheritdoc />
-    public async Task RegisterUser(UserRegistrationRequest form)
+    public async Task<string> RegisterUser(UserRegistrationRequest form)
     {
         if (!form.FieldsAreValid(out var validationErrors))
             throw new ValidationErrorsException(validationErrors);
@@ -109,7 +95,7 @@ public class UserService : IUserService
         if (existingUserByUsername != null)
             throw new ValidationErrorsException("Exist", "Player with that Username, already exist");
 
-        var user = new ApplicationUser() { UserName = form.Username, Email = form.Email, EmailConfirmed = true };
+        var user = new ApplicationUser() { UserName = form.Username, Email = form.Email };
         var createUserResult = await userManager.CreateAsync(user, form.Password);
         if (!createUserResult.Succeeded)
             throw new BadRequestException("User registration failed!");
@@ -119,18 +105,55 @@ public class UserService : IUserService
 
         await this.userManager.AddToRoleAsync(user, "User");
 
-        var afterRegister = await this.userManager.FindByEmailAsync(form.Email);
-        if (afterRegister is null)
+        user = await this.userManager.FindByEmailAsync(form.Email);
+        if (user is null)
             throw new NotFoundException("User was not created");
 
-        this.queue.AddSynchronizeNewUserJob(afterRegister.Id);
-
+        this.queue.AddSynchronizeNewUserJob(user.Id);
         await this.userDeviceTokenRepository.AddAsync(new UserDeviceToken
         {
             DeviceToken = form.DeviceToken,
             LastUpdated = DateTime.UtcNow,
-            UserId = afterRegister.Id
+            UserId = user.Id
         }, CancellationToken.None);
+
+        return user.Id;
+    }
+
+    public async Task<TokenResponseModel?> ConfirmEmail(string email, string token, CancellationToken cancellationToken)
+    {
+        var user = await this.userManager.FindByEmailAsync(email);
+        if (user is null)
+            throw new NotFoundException("User was not found");
+
+        var result = await this.userManager.ConfirmEmailAsync(user, token);
+
+        if (result.Succeeded)
+        {
+            await this.signInManager.SignInAsync(user, true);
+
+            return await IssueUserTokensAsync(user);
+        }
+
+        return null;
+    }
+
+    public async Task<string> GenerateEmailConfirmationTokenAsync(string userId)
+    {
+        var user = await this.userManager.FindByIdAsync(userId);
+        if (user is null)
+            throw new NotFoundException("User was not found");
+
+        return await userManager.GenerateEmailConfirmationTokenAsync(user);
+    }
+    
+    public async Task<string> GeneratePasswordResetTokenAsync(string email)
+    {
+        var user = await this.userManager.FindByEmailAsync(email);
+        if (user is null)
+            throw new NotFoundException("User was not found");
+
+        return await userManager.GeneratePasswordResetTokenAsync(user);
     }
 
     public async Task<UserDeviceToken> GetDeviceTokenByUserEmail(string email)
@@ -153,9 +176,38 @@ public class UserService : IUserService
             {
                 Id = x.Id,
                 UserName = x.UserName ?? "NOT_PROVIDED",
+                Email = x.Email ?? "NOT_PROVIDED",
                 ImageUrl = string.Empty
             })
             .ToListAsync(cancellationToken);
+    }
+
+    public async Task<UserModel?> GetUserById(string id, CancellationToken cancellationToken)
+    {
+        return await this.userManager.Users
+            .Where(x => x.Id == id)
+            .Select(x => new UserModel
+            {
+                Id = x.Id,
+                UserName = x.UserName ?? "NOT_PROVIDED",
+                Email = x.Email ?? "NOT_PROVIDED",
+            })
+            .FirstOrDefaultAsync(cancellationToken);
+    }
+
+    public async Task<UserModel?> GetUserByEmail(string email)
+    {
+        var user = await this.userManager.FindByEmailAsync(email);
+
+        if (user == null)
+            return null;
+
+        return new UserModel
+        {
+            Id = user.Id,
+            UserName = user.UserName ?? "NOT_PROVIDED",
+            Email = user.Email ?? "NOT_PROVIDED",
+        };
     }
 
     public async Task<List<GetUserByRoleModel>> GetUserListByRole(Role role, CancellationToken cancellationToken)
@@ -211,8 +263,8 @@ public class UserService : IUserService
             throw new ValidationErrorsException("Exist", "Player with that Username, already exist");
 
         var user = new ApplicationUser() { UserName = username, Email = request.Email, EmailConfirmed = true };
-        var generatedRandomPassowrd = GenerateRandomPassword();
-        var createUserResult = await userManager.CreateAsync(user, generatedRandomPassowrd);
+        var generatedRandomPassword = GenerateRandomPassword();
+        var createUserResult = await userManager.CreateAsync(user, generatedRandomPassword);
         if (!createUserResult.Succeeded)
             throw new BadRequestException("User registration failed!");
 
@@ -228,10 +280,30 @@ public class UserService : IUserService
         this.queue.AddSynchronizeNewUserJob(afterRegister.Id);
 
         //TODO: Send email with the generate password
-        /*
-            dotnet add package FluentEmail.Core
-            dotnet add package FluentEmail.Smtp
-         */
+    }
+
+    private async Task<TokenResponseModel?> IssueUserTokensAsync(ApplicationUser user)
+    {
+        var roles = await this.userManager.GetRolesAsync(user);
+        var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Sid,user.Id),
+                new Claim(ClaimTypes.Name, user.UserName!),
+                new Claim(ClaimTypes.Role, RoleHelper.GetRoleKeyByName(roles.First()).ToString()),
+                new Claim("permissions",_permissionStringBuilder.GetFromCacheOrBuildPermissionsString( RoleHelper.GetRoleKeyByName(roles.First())))
+            };
+
+        var tokenString = this.jwtService.GenerateAccessToken(claims);
+        var refreshToken = this.jwtService.GenerateRefreshToken();
+
+        user.RefreshToken = refreshToken;
+        user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(10);
+
+        await this.userManager.UpdateAsync(user);
+
+        _httpContextAccessor.HttpContext!.User = new ClaimsPrincipal(new ClaimsIdentity(claims));
+
+        return new TokenResponseModel { AccessToken = tokenString, RefreshToken = refreshToken };
     }
 
     private static string GenerateRandomPassword()

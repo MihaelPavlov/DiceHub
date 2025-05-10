@@ -26,7 +26,14 @@ export class AuthService {
     email: string,
     token: string
   ): Observable<ITokenResponse | null> {
-    return this.api.post<ITokenResponse>('/user/confirm-email', { email, token });
+    return this.api.post<ITokenResponse>('/user/confirm-email', {
+      email,
+      token,
+    });
+  }
+
+  public forgotPassword(email: string): Observable<any> {
+    return this.api.post(`/user/forgot-password/${email}`,{});
   }
 
   public get getUser(): IUserInfo | null {

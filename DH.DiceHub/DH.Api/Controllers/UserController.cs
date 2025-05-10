@@ -14,7 +14,6 @@ using DH.Domain.Adapters.PushNotifications;
 using DH.Domain.Adapters.Authentication.Models.Enums;
 using DH.Application.Stats.Queries;
 using DH.Application.Emails.Commands;
-using System.ComponentModel.DataAnnotations;
 using DH.Domain.Adapters.Email.Models;
 
 namespace DH.Api.Controllers;
@@ -63,6 +62,14 @@ public class UserController : ControllerBase
     {
         var result = await this.userService.ConfirmEmail(request.Email, request.Token, cancellationToken);
         return this.Ok(result);
+    }
+
+    [AllowAnonymous]
+    [HttpPost("forgot-password/{email}")]
+    public async Task<IActionResult> ForgotPassword(string email, CancellationToken cancellationToken)
+    {
+        await this.mediator.Send(new SendForgotPasswordEmailCommand(email), cancellationToken);
+        return this.Ok();
     }
 
     [AllowAnonymous]

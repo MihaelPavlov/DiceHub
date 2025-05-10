@@ -42,6 +42,11 @@ export class LoginComponent extends Form {
         this.getServerErrorMessage =
           'Registration successful! Please check your email to confirm your account.';
       }
+
+      if (params['fromForgotPassword'] === 'true') {
+        this.getServerErrorMessage =
+          'Password reset email sent successfully! Please check your email.';
+      }
     });
 
     this.form = this.initFormGroup();

@@ -25,6 +25,9 @@ public interface IUserService
     Task<string> RegisterUser(UserRegistrationRequest form);
 
     Task<string> GenerateEmailConfirmationTokenAsync(string userId);
+    Task<string> GeneratePasswordResetTokenAsync(string email);
+
+    Task<TokenResponseModel?> ConfirmEmail(string email, string token, CancellationToken cancellationToken);
 
     Task<UserDeviceToken> GetDeviceTokenByUserEmail(string email);
 
@@ -36,7 +39,7 @@ public interface IUserService
     Task<List<UserModel>> GetUserListByIds(string[] ids, CancellationToken cancellationToken);
 
     Task<UserModel?> GetUserById(string id, CancellationToken cancellationToken);
-
+    Task<UserModel?> GetUserByEmail(string email);
     /// <summary>
     /// Get user list by role
     /// </summary>
