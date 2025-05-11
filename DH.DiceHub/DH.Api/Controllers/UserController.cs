@@ -49,11 +49,22 @@ public class UserController : ControllerBase
     [HttpPost("register-user")]
     public async Task<IActionResult> RegisterUser([FromBody] UserRegistrationRequest form, CancellationToken cancellationToken)
     {
-        var userId = await userService.RegisterUser(form);
-        if (!string.IsNullOrEmpty(userId))
-            await this.mediator.Send(new SendRegistrationEmailConfirmationCommand(userId), cancellationToken);
+        var response = await userService.RegisterUser(form);
 
-        return this.Ok();
+        var isEmailSendedSuccessfully = false;
+        if (response.IsRegistrationSuccessfully)
+            isEmailSendedSuccessfully = await this.mediator.Send(new SendRegistrationEmailConfirmationCommand(ByUserId: response.UserId, null), cancellationToken);
+
+        response.IsEmailConfirmationSendedSuccessfully = isEmailSendedSuccessfully;
+        return this.Ok(response);
+    }
+
+    [AllowAnonymous]
+    [HttpPost("send-email-confirmation-request/{email}")]
+    public async Task<IActionResult> SendEmailConfirmationRequest(string email, CancellationToken cancellationToken)
+    {
+        var isSuccessfully = await this.mediator.Send(new SendRegistrationEmailConfirmationCommand(null, ByEmail: email), cancellationToken);
+        return this.Ok(isSuccessfully);
     }
 
     [AllowAnonymous]
@@ -69,6 +80,14 @@ public class UserController : ControllerBase
     public async Task<IActionResult> ForgotPassword(string email, CancellationToken cancellationToken)
     {
         await this.mediator.Send(new SendForgotPasswordEmailCommand(email), cancellationToken);
+        return this.Ok();
+    }
+
+    [AllowAnonymous]
+    [HttpPost("reset-password")]
+    public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequest request)
+    {
+        await this.userService.ResetPassword(request);
         return this.Ok();
     }
 

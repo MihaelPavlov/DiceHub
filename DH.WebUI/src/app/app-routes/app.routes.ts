@@ -6,6 +6,7 @@ import { ROUTE } from '../../shared/configs/route.config';
 import { ForgotPasswordModule } from '../../pages/forgot-password/forgot-password.module';
 import { ForgotPasswordComponent } from '../../pages/forgot-password/page/forgot-password.component';
 import { ConfirmEmailComponent } from '../../pages/confirm-email/page/confirm-email.component';
+import { ResetPasswordComponent } from '../../pages/reset-password/page/reset-password.component';
 
 export const ROUTES: Routes = [
   {
@@ -118,6 +119,11 @@ export const ROUTES: Routes = [
   {
     path: 'forgot-password',
     component: ForgotPasswordComponent,
+    data: { hideMenu: true },
+  },
+  {
+    path: 'reset-password',
+    component: ResetPasswordComponent,
     data: { hideMenu: true },
   },
   {

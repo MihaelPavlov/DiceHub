@@ -29,7 +29,7 @@ import { ReservationQrCodeDialogModule } from '../../shared/dialogs/reservation-
     SinglePlayerConfirmDialog,
     JoinTableConfirmDialog,
     DiceRollerComponent,
-    SpaceBookingComponent
+    SpaceBookingComponent,
   ],
   exports: [ClubSpaceManagementComponent],
   providers: [],

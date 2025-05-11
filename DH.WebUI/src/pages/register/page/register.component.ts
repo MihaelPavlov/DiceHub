@@ -11,7 +11,7 @@ import { AuthService } from '../../../entities/auth/auth.service';
 import { MessagingService } from '../../../entities/messaging/api/messaging.service';
 import { Formify } from '../../../shared/models/form.model';
 import { ToastService } from '../../../shared/services/toast.service';
-import { FULL_ROUTE, ROUTE } from '../../../shared/configs/route.config';
+import { ROUTE } from '../../../shared/configs/route.config';
 import { AppToastMessage } from '../../../shared/components/toast/constants/app-toast-messages.constant';
 import { ToastType } from '../../../shared/models/toast.model';
 
@@ -29,6 +29,9 @@ interface IRegisterForm {
 })
 export class RegisterComponent extends Form {
   override form: Formify<IRegisterForm>;
+  public showPassword: boolean = false;
+  public showConfirmPassword: boolean = false;
+  public showResend: boolean = false;
 
   constructor(
     private readonly router: Router,
@@ -69,17 +72,41 @@ export class RegisterComponent extends Form {
             deviceToken,
           })
           .subscribe({
-            next: () => {
-              this.toastService.success({
-                message:
-                  'Registration successful! Please check your email to confirm your account.',
-                type: ToastType.Success,
-              });
-              setTimeout(() => {
-                this.router.navigate(['/login'], {
-                  queryParams: { fromRegister: 'true' }
+            next: (response) => {
+              if (
+                response &&
+                response.isEmailConfirmationSendedSuccessfully === true &&
+                response.isRegistrationSuccessfully === true
+              ) {
+                this.toastService.success({
+                  message:
+                    'Registration successful! Please check your email to confirm your account.',
+                  type: ToastType.Success,
                 });
-              }, 5000);
+                setTimeout(() => {
+                  this.router.navigate(['/login'], {
+                    queryParams: { fromRegister: 'true' },
+                  });
+                }, 5000);
+              } else if (
+                response &&
+                response.isRegistrationSuccessfully === true &&
+                response.isEmailConfirmationSendedSuccessfully === false
+              ) {
+                this.toastService.success({
+                  message: `Registration successful, but we couldn't send the confirmation email. 
+                    Please try resending it or contact support.`,
+                  type: ToastType.Success,
+                });
+                this.getServerErrorMessage = `We couldn't send the confirmation email. 
+                    Please try resending it or contact support.`;
+                this.showResend = true;
+              } else {
+                this.toastService.error({
+                  message: 'Registration failed. Please try again.',
+                  type: ToastType.Error,
+                });
+              }
             },
             error: (error) => this.handleRegistrationError(error),
           });
@@ -93,6 +120,39 @@ export class RegisterComponent extends Form {
     }
   }
 
+  public resendConfirmationEmail(): void {
+    if (this.form.controls.email.valid)
+      this.authService
+        .sendEmailConfirmationRequest(this.form.controls.email.value)
+        .subscribe({
+          next: (isSuccessfully) => {
+            if (isSuccessfully && isSuccessfully === true) {
+              this.toastService.success({
+                message: 'Confirmation email sent successfully!',
+                type: ToastType.Success,
+              });
+              this.clearServerErrorMessage();
+              setTimeout(() => {
+                this.router.navigate(['/login'], {
+                  queryParams: { fromRegister: 'true' },
+                });
+              }, 4000);
+            } else {
+              this.toastService.error({
+                message: 'Failed to send confirmation email.',
+                type: ToastType.Error,
+              });
+            }
+          },
+          error: () => {
+            this.toastService.error({
+              message: 'Failed to send confirmation email.',
+              type: ToastType.Error,
+            });
+          },
+        });
+  }
+
   private handleRegistrationError(error: any): void {
     if (error.error?.errors?.Exist) {
       this.getServerErrorMessage = error.error.errors.Exist[0];
@@ -101,7 +161,7 @@ export class RegisterComponent extends Form {
     }
 
     this.toastService.error({
-      message: AppToastMessage.FailedToSaveChanges,
+      message: AppToastMessage.SomethingWrong,
       type: ToastType.Error,
     });
   }

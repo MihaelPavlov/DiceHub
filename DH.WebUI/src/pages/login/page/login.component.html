@@ -21,13 +21,16 @@
       <label for="email" class="required">Email</label>
       <input placeholder="email.." type="text" formControlName="email" />
     </div>
-    <div class="input-field">
+    <div class="input-field password-field">
       <label for="password" class="required">Password</label>
       <input
         placeholder="password.."
-        type="password"
+        [type]="showPassword ? 'text' : 'password'"
         formControlName="password"
       />
+      <app-password-visibility-toggle
+        [(isVisible)]="showPassword"
+      ></app-password-visibility-toggle>
     </div>
     <div class="input-checkbox">
       <input
@@ -46,6 +49,17 @@
 
     <div *ngIf="getFirstErrorMessage()" class="errors">
       {{ getFirstErrorMessage() }}
+
+      <span *ngIf="showResend">
+        Or
+        <a class="resend" (click)="resendConfirmationEmail()"
+          >click here to resend</a
+        >
+      </span>
+    </div>
+
+    <div *ngIf="getMessageFromRedirect" class="redirect-message">
+      {{ getMessageFromRedirect }}
     </div>
 
     <div class="btn-container">

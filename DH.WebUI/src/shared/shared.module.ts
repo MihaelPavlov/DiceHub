@@ -10,6 +10,7 @@ import { RandomColorDirective } from './directives/random-color/random-color.dir
 import { EntityImagePipe } from './pipe/entity-image.pipe';
 import { TruncatePipe } from './pipe/truncate.pipe';
 import { ParseDateTagPipe } from './pipe/parse-date-tag.pipe';
+import { PasswordVisibilityToggleComponent } from './components/password-visibility-toggle/password-visibility-toggle.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { ParseDateTagPipe } from './pipe/parse-date-tag.pipe';
     ParseDateTagPipe,
     ControlsMenuComponent,
     RandomColorDirective,
+    PasswordVisibilityToggleComponent
   ],
   imports: [CommonModule, ReactiveFormsModule, MatProgressBarModule],
   exports: [
@@ -32,6 +34,7 @@ import { ParseDateTagPipe } from './pipe/parse-date-tag.pipe';
     ControlsMenuComponent,
     RandomColorDirective,
     DatePipe,
+    PasswordVisibilityToggleComponent
   ],
   providers: [
     EntityImagePipe,

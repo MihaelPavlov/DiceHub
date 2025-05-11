@@ -28,10 +28,13 @@ interface ILoginForm {
 })
 export class LoginComponent extends Form {
   override form: Formify<ILoginForm>;
+  public showPassword = false;
+  public getMessageFromRedirect: string | null = null;
+  public showResend: boolean = false;
   constructor(
-    private readonly router: Router,
-    readonly authService: AuthService,
     public override readonly toastService: ToastService,
+    private readonly router: Router,
+    private readonly authService: AuthService,
     private readonly messagingService: MessagingService,
     private readonly fb: FormBuilder,
     private readonly route: ActivatedRoute
@@ -39,13 +42,18 @@ export class LoginComponent extends Form {
     super(toastService);
     this.route.queryParams.subscribe((params) => {
       if (params['fromRegister'] === 'true') {
-        this.getServerErrorMessage =
+        this.getMessageFromRedirect =
           'Registration successful! Please check your email to confirm your account.';
       }
 
       if (params['fromForgotPassword'] === 'true') {
-        this.getServerErrorMessage =
+        this.getMessageFromRedirect =
           'Password reset email sent successfully! Please check your email.';
+      }
+
+      if (params['fromResetPassword'] === 'true') {
+        this.getMessageFromRedirect =
+          'Password reset was successfully! Please use your new password to sign in.';
       }
     });
 
@@ -54,6 +62,7 @@ export class LoginComponent extends Form {
       if (this.getServerErrorMessage) {
         this.clearServerErrorMessage();
       }
+      this.getMessageFromRedirect = null;
     });
   }
 
@@ -84,6 +93,35 @@ export class LoginComponent extends Form {
     this.router.navigateByUrl('games/1/details');
   }
 
+  public resendConfirmationEmail(): void {
+    if (this.form.controls.email.valid)
+      this.authService
+        .sendEmailConfirmationRequest(this.form.controls.email.value)
+        .subscribe({
+          next: (isSuccessfully) => {
+            if (isSuccessfully && isSuccessfully === true) {
+              this.toastService.success({
+                message: 'Confirmation email sent successfully!',
+                type: ToastType.Success,
+              });
+              this.clearServerErrorMessage();
+              this.showResend = false;
+            } else {
+              this.toastService.error({
+                message: 'Failed to send confirmation email.',
+                type: ToastType.Error,
+              });
+            }
+          },
+          error: () => {
+            this.toastService.error({
+              message: 'Failed to send confirmation email.',
+              type: ToastType.Error,
+            });
+          },
+        });
+  }
+
   public async onLogin(): Promise<void> {
     if (this.form.valid) {
       const deviceToken =
@@ -107,9 +145,16 @@ export class LoginComponent extends Form {
             }
           },
           error: (error) => {
-            this.getServerErrorMessage = error.error.errors.Email[0];
+            if (error.error.errors.Email)
+              this.getServerErrorMessage = error.error.errors.Email[0];
+            if (error.error.errors.EmailNotConfirmed) {
+              this.getServerErrorMessage =
+                error.error.errors.EmailNotConfirmed[0];
+              this.showResend = true;
+            }
+
             this.toastService.error({
-              message: AppToastMessage.FailedToSaveChanges,
+              message: AppToastMessage.SomethingWrong,
               type: ToastType.Error,
             });
           },

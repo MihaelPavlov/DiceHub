@@ -6,6 +6,8 @@ import { ITokenResponse } from './models/token-response.model';
 import { RestApiService } from '../../shared/services/rest-api.service';
 import { IRegisterRequest } from './models/register.model';
 import { PATH } from '../../shared/configs/path.config';
+import { IResetPasswordRequest } from './models/reset-password-request.model';
+import { IRegisterResponse } from './models/register-response.model';
 
 @Injectable({
   providedIn: 'root',
@@ -33,7 +35,20 @@ export class AuthService {
   }
 
   public forgotPassword(email: string): Observable<any> {
-    return this.api.post(`/user/forgot-password/${email}`,{});
+    return this.api.post(`/user/forgot-password/${email}`, {});
+  }
+
+  public sendEmailConfirmationRequest(
+    email: string
+  ): Observable<boolean | null> {
+    return this.api.post<boolean>(
+      `/user/send-email-confirmation-request/${email}`,
+      {}
+    );
+  }
+
+  public resetPassword(request: IResetPasswordRequest): Observable<any> {
+    return this.api.post(`/user/reset-password`, request);
   }
 
   public get getUser(): IUserInfo | null {
@@ -61,8 +76,13 @@ export class AuthService {
     });
   }
 
-  public register(registerForm: IRegisterRequest): Observable<null> {
-    return this.api.post('/user/register-user', registerForm);
+  public register(
+    registerForm: IRegisterRequest
+  ): Observable<IRegisterResponse | null> {
+    return this.api.post<IRegisterResponse>(
+      '/user/register-user',
+      registerForm
+    );
   }
 
   // For tests

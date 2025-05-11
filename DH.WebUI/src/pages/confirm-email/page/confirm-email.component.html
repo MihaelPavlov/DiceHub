@@ -20,6 +20,12 @@
       [ngClass]="{ success: isSuccess, error: !isSuccess }"
     >
       <h2 [innerHTML]="message"></h2>
+      <a
+        *ngIf="!this.isSuccess"
+        class="resend-link"
+        (click)="resendConfirmationEmail()"
+        >Resend email from here</a
+      >
       <button
         *ngIf="isSuccess"
         class="fallback-btn"

@@ -60,7 +60,7 @@ public class UserService : IUserService
             throw new ValidationErrorsException("Email", "Email or Password is invalid!");
 
         if (!await userManager.IsEmailConfirmedAsync(user))
-            throw new ValidationErrorsException("Email", "Email not confirmed. Please check your inbox.");
+            throw new ValidationErrorsException("EmailNotConfirmed", "Email not confirmed. Please check your inbox.");
 
         var result = await this.signInManager.PasswordSignInAsync(user, form.Password, form.RememberMe, true);
 
@@ -82,7 +82,7 @@ public class UserService : IUserService
     }
 
     /// <inheritdoc />
-    public async Task<string> RegisterUser(UserRegistrationRequest form)
+    public async Task<UserRegistrationResponse> RegisterUser(UserRegistrationRequest form)
     {
         if (!form.FieldsAreValid(out var validationErrors))
             throw new ValidationErrorsException(validationErrors);
@@ -117,7 +117,10 @@ public class UserService : IUserService
             UserId = user.Id
         }, CancellationToken.None);
 
-        return user.Id;
+        return new UserRegistrationResponse
+        {
+            UserId = user.Id,
+        };
     }
 
     public async Task<TokenResponseModel?> ConfirmEmail(string email, string token, CancellationToken cancellationToken)
@@ -135,7 +138,7 @@ public class UserService : IUserService
             return await IssueUserTokensAsync(user);
         }
 
-        return null;
+        throw new ValidationErrorsException("InvalidToken", "Token expired!");
     }
 
     public async Task<string> GenerateEmailConfirmationTokenAsync(string userId)
@@ -146,7 +149,7 @@ public class UserService : IUserService
 
         return await userManager.GenerateEmailConfirmationTokenAsync(user);
     }
-    
+
     public async Task<string> GeneratePasswordResetTokenAsync(string email)
     {
         var user = await this.userManager.FindByEmailAsync(email);
@@ -154,6 +157,22 @@ public class UserService : IUserService
             throw new NotFoundException("User was not found");
 
         return await userManager.GeneratePasswordResetTokenAsync(user);
+    }
+
+    public async Task ResetPassword(ResetPasswordRequest request)
+    {
+        var user = await this.userManager.FindByEmailAsync(request.Email);
+        if (user is null)
+            throw new NotFoundException("User was not found");
+
+        if (!request.NewPassword.Equals(request.ConfirmPassword))
+            throw new ValidationErrorsException("Password", "Password are not identical!");
+
+        var result = await this.userManager.ResetPasswordAsync(user, request.Token, request.NewPassword);
+
+        if (!result.Succeeded)
+            throw new ValidationErrorsException("Password", @"Reseting Password was not succesfully, 
+                try again later, or contact us via email");
     }
 
     public async Task<UserDeviceToken> GetDeviceTokenByUserEmail(string email)

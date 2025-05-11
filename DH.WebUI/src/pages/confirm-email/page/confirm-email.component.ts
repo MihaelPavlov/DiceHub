@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../entities/auth/auth.service';
 import { FULL_ROUTE } from '../../../shared/configs/route.config';
+import { ToastService } from '../../../shared/services/toast.service';
+import { ToastType } from '../../../shared/models/toast.model';
 
 @Component({
   selector: 'app-confirm-email',
@@ -10,20 +12,21 @@ import { FULL_ROUTE } from '../../../shared/configs/route.config';
 })
 export class ConfirmEmailComponent implements OnInit {
   message = 'Confirming...';
-  isSuccess = false;
-
+  public isSuccess = false;
+  private email: string | null = null;
   constructor(
+    private readonly toastService: ToastService,
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly authService: AuthService
   ) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
-      const email = params['email'];
+      this.email = params['email'];
       const token = params['token'];
-       if (email && token) {
-        this.confirmEmail(email, token);
+      if (this.email && token) {
+        this.confirmEmail(this.email, token);
       } else {
         this.message = 'Invalid confirmation link.';
       }
@@ -34,7 +37,34 @@ export class ConfirmEmailComponent implements OnInit {
     this.router.navigateByUrl('login');
   }
 
-  confirmEmail(email: string, token: string) {
+  public resendConfirmationEmail(): void {
+    if (this.email)
+      this.authService.sendEmailConfirmationRequest(this.email).subscribe({
+        next: (isSuccessfully) => {
+          if (isSuccessfully && isSuccessfully === true) {
+            this.toastService.success({
+              message: 'Confirmation email sent successfully!',
+              type: ToastType.Success,
+            });
+            this.message = 'Email sent successfully! Please check your inbox.';
+            this.isSuccess = true;
+          } else {
+            this.toastService.error({
+              message: 'Failed to send confirmation email.',
+              type: ToastType.Error,
+            });
+          }
+        },
+        error: () => {
+          this.toastService.error({
+            message: 'Failed to send confirmation email.',
+            type: ToastType.Error,
+          });
+        },
+      });
+  }
+
+  public confirmEmail(email: string, token: string): void {
     this.authService.confirmEmail(email, token).subscribe({
       next: (response) => {
         this.isSuccess = response ? true : false;

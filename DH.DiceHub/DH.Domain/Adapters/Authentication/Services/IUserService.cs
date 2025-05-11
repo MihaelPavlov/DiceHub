@@ -22,11 +22,11 @@ public interface IUserService
     /// </summary>
     /// <param name="form">RegisterForm containing new user infromation.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    Task<string> RegisterUser(UserRegistrationRequest form);
+    Task<UserRegistrationResponse> RegisterUser(UserRegistrationRequest form);
 
     Task<string> GenerateEmailConfirmationTokenAsync(string userId);
     Task<string> GeneratePasswordResetTokenAsync(string email);
-
+    Task ResetPassword(ResetPasswordRequest request);
     Task<TokenResponseModel?> ConfirmEmail(string email, string token, CancellationToken cancellationToken);
 
     Task<UserDeviceToken> GetDeviceTokenByUserEmail(string email);

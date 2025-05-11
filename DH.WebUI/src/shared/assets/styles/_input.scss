@@ -159,6 +159,19 @@
     }
 }
 
+.password-field {
+    position: relative;
+  
+    input {
+      padding-right: 2.5rem;
+    }
+    .toggle-password {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+    }
+  }  
+
 .errors {
     color: palette.$main-red-color;
     font-size: 1rem;

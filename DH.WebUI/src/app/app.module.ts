@@ -21,6 +21,7 @@ import { AssistiveTouchModule } from '../shared/components/assistive-touch/assis
 import { LoadingInterceptor } from '../shared/interceptors/loading.interceptor';
 import { ScrollToTopModule } from '../shared/components/scroll-to-top/scroll-to-top.module';
 import { ForgotPasswordModule } from '../pages/forgot-password/forgot-password.module';
+import { ResetPasswordModule } from '../pages/reset-password/page/reset-password.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -51,6 +52,7 @@ import { ForgotPasswordModule } from '../pages/forgot-password/forgot-password.m
     RegisterModule,
     ConfirmEmailModule,
     ForgotPasswordModule,
+    ResetPasswordModule,
     HeaderModule,
     AssistiveTouchModule,
     RouterOutlet,

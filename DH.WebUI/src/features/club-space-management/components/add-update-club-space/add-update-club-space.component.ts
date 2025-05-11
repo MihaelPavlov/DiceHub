@@ -18,7 +18,6 @@ import { AppToastMessage } from '../../../../shared/components/toast/constants/a
 import { ToastType } from '../../../../shared/models/toast.model';
 import { MatDialog } from '@angular/material/dialog';
 import { SinglePlayerConfirmDialog } from '../../dialogs/single-player-confirm-dialog/single-player-confirm-dialog.component';
-import { Location } from '@angular/common';
 import {
   EntityImagePipe,
   ImageEntityType,

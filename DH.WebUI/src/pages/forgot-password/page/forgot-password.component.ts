@@ -18,7 +18,7 @@ interface IForgotPasswordForm {
 }
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-forgot-password',
   templateUrl: 'forgot-password.component.html',
   styleUrl: 'forgot-password.component.scss',
 })
@@ -80,7 +80,7 @@ export class ForgotPasswordComponent extends Form {
     }
   }
 
-  private clearServerErrorMessage() {
+  private clearServerErrorMessage(): void {
     this.getServerErrorMessage = null;
   }
 

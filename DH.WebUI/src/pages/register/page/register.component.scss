@@ -72,4 +72,11 @@
   margin-bottom: 0;
   font-size: 1.1rem;
   text-align: center;
+  flex-wrap: wrap;
+}
+
+.resend {
+  font-weight: 600;
+  color: palette.$main-blue-color;
+  border-bottom: 0.15rem solid palette.$main-blue-color;
 }
