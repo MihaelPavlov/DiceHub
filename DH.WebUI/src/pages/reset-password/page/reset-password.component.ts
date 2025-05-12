@@ -56,9 +56,9 @@ export class ResetPasswordComponent extends Form implements OnInit {
       this.email = params['email'];
       this.token = params['token'];
     });
-    this.tenantSettingsService.get().subscribe({
-      next: (settings) => {
-        this.clubName = settings?.clubName;
+    this.tenantSettingsService.getClubName().subscribe({
+      next: (clubName) => {
+        this.clubName = clubName;
       },
     });
   }

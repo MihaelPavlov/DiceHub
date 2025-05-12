@@ -21,6 +21,15 @@ public class TenantSettingsController : ControllerBase
         this.mediator = mediator;
     }
 
+    [HttpGet("get-club-name")]
+    [AllowAnonymous]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
+    public async Task<IActionResult> GetClubName(CancellationToken cancellationToken)
+    {
+        var result = await this.mediator.Send(new GetTenantSettingsQuery(), cancellationToken);
+        return Ok(result.ClubName);
+    }
+
     [HttpGet]
     [ActionAuthorize(UserAction.TenantSettingsR)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TenantSettingDto))]

@@ -7,6 +7,7 @@ import { ForgotPasswordModule } from '../../pages/forgot-password/forgot-passwor
 import { ForgotPasswordComponent } from '../../pages/forgot-password/page/forgot-password.component';
 import { ConfirmEmailComponent } from '../../pages/confirm-email/page/confirm-email.component';
 import { ResetPasswordComponent } from '../../pages/reset-password/page/reset-password.component';
+import { AuthRedirectGuard } from '../../shared/guards/auth-redirect.guard';
 
 export const ROUTES: Routes = [
   {
@@ -104,26 +105,31 @@ export const ROUTES: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+    canActivate: [AuthRedirectGuard],
     data: { hideMenu: true },
   },
   {
     path: 'register',
     component: RegisterComponent,
+    canActivate: [AuthRedirectGuard],
     data: { hideMenu: true },
   },
   {
     path: 'confirm-email',
     component: ConfirmEmailComponent,
+    canActivate: [AuthRedirectGuard],
     data: { hideMenu: true },
   },
   {
     path: 'forgot-password',
     component: ForgotPasswordComponent,
+    canActivate: [AuthRedirectGuard],
     data: { hideMenu: true },
   },
   {
     path: 'reset-password',
     component: ResetPasswordComponent,
+    canActivate: [AuthRedirectGuard],
     data: { hideMenu: true },
   },
   {

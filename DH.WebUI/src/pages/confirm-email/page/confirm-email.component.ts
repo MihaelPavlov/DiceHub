@@ -36,9 +36,9 @@ export class ConfirmEmailComponent implements OnInit {
       }
     });
 
-    this.tenantSettingsService.get().subscribe({
-      next: (settings) => {
-        this.clubName = settings?.clubName;
+    this.tenantSettingsService.getClubName().subscribe({
+      next: (clubName) => {
+        this.clubName = clubName;
       },
     });
   }

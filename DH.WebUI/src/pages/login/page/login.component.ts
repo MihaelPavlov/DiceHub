@@ -71,10 +71,10 @@ export class LoginComponent extends Form implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.tenantSettingsService.get().subscribe({
-      next: (settings) => {
-        this.clubName = settings?.clubName;
-      },
+    this.tenantSettingsService.getClubName().subscribe({
+      next: (clubName) => {
+        this.clubName = clubName;
+      }
     });
   }
 

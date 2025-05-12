@@ -1,5 +1,4 @@
 import { ConfirmEmailModule } from './../pages/confirm-email/confirm-email.module';
-import { InstructionManagementModule } from './../pages/instruction-management/instruction-management.module';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app-component/app.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
@@ -22,12 +21,14 @@ import { LoadingInterceptor } from '../shared/interceptors/loading.interceptor';
 import { ScrollToTopModule } from '../shared/components/scroll-to-top/scroll-to-top.module';
 import { ForgotPasswordModule } from '../pages/forgot-password/forgot-password.module';
 import { ResetPasswordModule } from '../pages/reset-password/reset-password.module';
+import { AuthRedirectGuard } from '../shared/guards/auth-redirect.guard';
 
 @NgModule({
   declarations: [AppComponent],
   exports: [BrowserModule, BrowserAnimationsModule],
   providers: [
     AuthGuard,
+    AuthRedirectGuard,
     { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     {

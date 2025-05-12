@@ -10,6 +10,17 @@ import { PATH } from '../../../shared/configs/path.config';
 export class TenantSettingsService {
   constructor(private readonly api: RestApiService) {}
 
+  public getClubName(): Observable<string> {
+    return this.api.get<string>(
+      `/${PATH.TENANT_SETTINGS.CORE}/${PATH.TENANT_SETTINGS.GET_CLUB_NAME}`,
+      {
+        options: {
+          responseType: 'text',
+        },
+      }
+    );
+  }
+
   public get(): Observable<ITenantSettings> {
     return this.api.get<ITenantSettings>(`/${PATH.TENANT_SETTINGS.CORE}`);
   }
