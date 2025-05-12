@@ -9,6 +9,7 @@ using DH.Domain.Enums;
 using DH.Domain.Models.GameModels.Commands;
 using DH.Domain.Repositories;
 using DH.Domain.Services;
+using DH.Domain.Services.TenantSettingsService;
 using DH.OperationResultCore.Exceptions;
 using MediatR;
 
@@ -16,7 +17,14 @@ namespace DH.Application.Games.Commands;
 
 public record CreateGameReservationCommand(CreateGameReservationModel Reservation) : IRequest;
 
-internal class CreateGameReservationCommandHandler(IGameService gameService, IRepository<GameReservation> repository, IUserContext userContext, ReservationCleanupQueue queue, IPushNotificationsService pushNotificationsService, IUserService userService, IRepository<Game> gameRepository) : IRequestHandler<CreateGameReservationCommand>
+internal class CreateGameReservationCommandHandler(
+    IGameService gameService,
+    IRepository<GameReservation> repository,
+    IUserContext userContext, ReservationCleanupQueue queue,
+    IPushNotificationsService pushNotificationsService,
+    IUserService userService,
+    IRepository<Game> gameRepository,
+    ITenantSettingsCacheService tenantSettingsCacheService) : IRequestHandler<CreateGameReservationCommand>
 {
     readonly IGameService gameService = gameService;
     readonly IRepository<GameReservation> repository = repository;
@@ -24,6 +32,7 @@ internal class CreateGameReservationCommandHandler(IGameService gameService, IRe
     readonly IUserContext userContext = userContext;
     readonly IPushNotificationsService pushNotificationsService = pushNotificationsService;
     readonly IUserService userService = userService;
+    readonly ITenantSettingsCacheService tenantSettingsCacheService = tenantSettingsCacheService;
     readonly ReservationCleanupQueue queue = queue;
 
     public async Task Handle(CreateGameReservationCommand request, CancellationToken cancellationToken)
@@ -47,8 +56,9 @@ internal class CreateGameReservationCommandHandler(IGameService gameService, IRe
 
         await this.gameService.CreateReservation(reservation, cancellationToken);
 
-        //TODO: Additional minutes can be tenantSettings
-        this.queue.AddReservationCleaningJob(reservation.Id, ReservationType.Game, reservation.ReservationDate.AddMinutes(2));
+        var settings = await this.tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
+
+        this.queue.AddReservationCleaningJob(reservation.Id, ReservationType.Game, reservation.ReservationDate.AddMinutes(settings.BonusTimeAfterReservationExpiration));
 
         //TODO: Change to Role.Staff
         var users = await this.userService.GetUserListByRoles([Role.SuperAdmin, Role.Staff], cancellationToken);
@@ -58,8 +68,7 @@ internal class CreateGameReservationCommandHandler(IGameService gameService, IRe
         var game = await this.gameRepository.GetByAsync(x => x.Id == request.Reservation.GameId, cancellationToken);
 
         await this.pushNotificationsService.SendNotificationToUsersAsync(users,
-            new
-            GameReservationManagementReminder(game!.Name, currentUser.UserName, request.Reservation.PeopleCount, reservation.ReservationDate), cancellationToken);
+            new GameReservationManagementReminder(game!.Name, currentUser.UserName, request.Reservation.PeopleCount, reservation.ReservationDate), cancellationToken);
     }
 }
 
