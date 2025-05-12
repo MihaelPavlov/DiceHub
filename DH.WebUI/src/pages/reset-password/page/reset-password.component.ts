@@ -13,6 +13,7 @@ import { ToastService } from '../../../shared/services/toast.service';
 import { ToastType } from '../../../shared/models/toast.model';
 import { ROUTE } from '../../../shared/configs/route.config';
 import { AppToastMessage } from '../../../shared/components/toast/constants/app-toast-messages.constant';
+import { TenantSettingsService } from '../../../entities/common/api/tenant-settings.service';
 
 interface IResetPasswordForm {
   newPassword: string;
@@ -26,18 +27,20 @@ interface IResetPasswordForm {
 })
 export class ResetPasswordComponent extends Form implements OnInit {
   override form: Formify<IResetPasswordForm>;
+
   public showNewPassword = false;
   public showConfirmPassword = false;
-
   public email: string | null = null;
   public token: string | null = null;
+  public clubName: string | null = null;
 
   constructor(
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly authService: AuthService,
     public override readonly toastService: ToastService,
-    private readonly fb: FormBuilder
+    private readonly fb: FormBuilder,
+    private readonly tenantSettingsService: TenantSettingsService
   ) {
     super(toastService);
     this.form = this.initFormGroup();
@@ -47,10 +50,16 @@ export class ResetPasswordComponent extends Form implements OnInit {
       }
     });
   }
+
   public ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.email = params['email'];
       this.token = params['token'];
+    });
+    this.tenantSettingsService.get().subscribe({
+      next: (settings) => {
+        this.clubName = settings?.clubName;
+      },
     });
   }
 

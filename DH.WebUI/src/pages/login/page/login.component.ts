@@ -14,6 +14,7 @@ import { AppToastMessage } from '../../../shared/components/toast/constants/app-
 import { ToastType } from '../../../shared/models/toast.model';
 import { FULL_ROUTE, ROUTE } from '../../../shared/configs/route.config';
 import { MessagingService } from '../../../entities/messaging/api/messaging.service';
+import { TenantSettingsService } from '../../../entities/common/api/tenant-settings.service';
 
 interface ILoginForm {
   email: string;
@@ -26,18 +27,21 @@ interface ILoginForm {
   templateUrl: 'login.component.html',
   styleUrl: 'login.component.scss',
 })
-export class LoginComponent extends Form {
+export class LoginComponent extends Form implements OnInit {
   override form: Formify<ILoginForm>;
   public showPassword = false;
   public getMessageFromRedirect: string | null = null;
   public showResend: boolean = false;
+  public clubName: string | null = null;
+
   constructor(
     public override readonly toastService: ToastService,
     private readonly router: Router,
     private readonly authService: AuthService,
     private readonly messagingService: MessagingService,
     private readonly fb: FormBuilder,
-    private readonly route: ActivatedRoute
+    private readonly route: ActivatedRoute,
+    private readonly tenantSettingsService: TenantSettingsService
   ) {
     super(toastService);
     this.route.queryParams.subscribe((params) => {
@@ -63,6 +67,14 @@ export class LoginComponent extends Form {
         this.clearServerErrorMessage();
       }
       this.getMessageFromRedirect = null;
+    });
+  }
+
+  public ngOnInit(): void {
+    this.tenantSettingsService.get().subscribe({
+      next: (settings) => {
+        this.clubName = settings?.clubName;
+      },
     });
   }
 

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Form } from '../../../shared/components/form/form.component';
 import {
   FormBuilder,
@@ -14,6 +14,7 @@ import { ToastService } from '../../../shared/services/toast.service';
 import { ROUTE } from '../../../shared/configs/route.config';
 import { AppToastMessage } from '../../../shared/components/toast/constants/app-toast-messages.constant';
 import { ToastType } from '../../../shared/models/toast.model';
+import { TenantSettingsService } from '../../../entities/common/api/tenant-settings.service';
 
 interface IRegisterForm {
   username: string;
@@ -27,18 +28,21 @@ interface IRegisterForm {
   templateUrl: 'register.component.html',
   styleUrl: 'register.component.scss',
 })
-export class RegisterComponent extends Form {
+export class RegisterComponent extends Form implements OnInit {
   override form: Formify<IRegisterForm>;
+  
   public showPassword: boolean = false;
   public showConfirmPassword: boolean = false;
   public showResend: boolean = false;
+  public clubName: string | null = null;
 
   constructor(
     private readonly router: Router,
     private readonly authService: AuthService,
     private readonly messagingService: MessagingService,
     public override readonly toastService: ToastService,
-    private readonly fb: FormBuilder
+    private readonly fb: FormBuilder,
+    private readonly tenantSettingsService: TenantSettingsService
   ) {
     super(toastService);
     this.form = this.initFormGroup();
@@ -46,6 +50,13 @@ export class RegisterComponent extends Form {
       if (this.getServerErrorMessage) {
         this.clearServerErrorMessage();
       }
+    });
+  }
+  public ngOnInit(): void {
+    this.tenantSettingsService.get().subscribe({
+      next: (settings) => {
+        this.clubName = settings?.clubName;
+      },
     });
   }
 

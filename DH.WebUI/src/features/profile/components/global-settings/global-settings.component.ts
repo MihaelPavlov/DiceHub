@@ -27,6 +27,7 @@ interface ITenantSettingsForm {
   reservationHours: string[];
   bonusTimeAfterReservationExpiration: number;
   phoneNumber: string;
+  clubName: string;
 }
 
 @Component({
@@ -112,6 +113,7 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
           bonusTimeAfterReservationExpiration:
             res.bonusTimeAfterReservationExpiration,
           phoneNumber: res.phoneNumber,
+          clubName: res.clubName,
         });
 
         if (res.reservationHours.length !== 0) {
@@ -145,6 +147,7 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
           bonusTimeAfterReservationExpiration:
             this.form.controls.bonusTimeAfterReservationExpiration.value,
           phoneNumber: this.form.controls.phoneNumber.value,
+          clubName: this.form.controls.clubName.value,
         })
         .subscribe({
           next: () => {
@@ -186,6 +189,8 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
         return 'Reservation Hours';
       case 'phoneNumber':
         return 'Phone Number';
+      case 'clubName':
+        return 'Club Name';
       case 'bonusTimeAfterReservationExpiration':
         return 'Bonus Time After Reservation Expiration';
       default:
@@ -215,6 +220,7 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
       ]),
       reservationHours: [[]],
       phoneNumber: new FormControl<string | null>('', [Validators.required]),
+      clubName: new FormControl<string | null>('', [Validators.required]),
       bonusTimeAfterReservationExpiration: new FormControl<number | null>(
         null,
         [Validators.required]

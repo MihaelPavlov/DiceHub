@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -12,6 +12,7 @@ import { Formify } from '../../../shared/models/form.model';
 import { ToastService } from '../../../shared/services/toast.service';
 import { ROUTE } from '../../../shared/configs/route.config';
 import { ToastType } from '../../../shared/models/toast.model';
+import { TenantSettingsService } from '../../../entities/common/api/tenant-settings.service';
 
 interface IForgotPasswordForm {
   email: string;
@@ -22,13 +23,17 @@ interface IForgotPasswordForm {
   templateUrl: 'forgot-password.component.html',
   styleUrl: 'forgot-password.component.scss',
 })
-export class ForgotPasswordComponent extends Form {
+export class ForgotPasswordComponent extends Form implements OnInit {
   override form: Formify<IForgotPasswordForm>;
+  
+  public clubName: string | null = null;
+
   constructor(
     private readonly router: Router,
     private readonly authService: AuthService,
     public override readonly toastService: ToastService,
-    private readonly fb: FormBuilder
+    private readonly fb: FormBuilder,
+    private readonly tenantSettingsService: TenantSettingsService
   ) {
     super(toastService);
     this.form = this.initFormGroup();
@@ -36,6 +41,14 @@ export class ForgotPasswordComponent extends Form {
       if (this.getServerErrorMessage) {
         this.clearServerErrorMessage();
       }
+    });
+  }
+
+  public ngOnInit(): void {
+    this.tenantSettingsService.get().subscribe({
+      next: (settings) => {
+        this.clubName = settings?.clubName;
+      },
     });
   }
 

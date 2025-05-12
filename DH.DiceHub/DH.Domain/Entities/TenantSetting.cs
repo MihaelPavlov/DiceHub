@@ -43,4 +43,9 @@ public class TenantSetting
     /// Phone Number
     /// </summary>
     public string PhoneNumber { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Club Name
+    /// </summary>
+    public string ClubName { get; set; } = string.Empty;
 }

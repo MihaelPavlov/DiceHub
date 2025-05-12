@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
-import { ResetPasswordComponent } from './reset-password.component';
-import { SharedModule } from '../../../shared/shared.module';
+import { SharedModule } from '../../shared/shared.module';
+import { ResetPasswordComponent } from './page/reset-password.component';
 
 @NgModule({
   declarations: [ResetPasswordComponent],

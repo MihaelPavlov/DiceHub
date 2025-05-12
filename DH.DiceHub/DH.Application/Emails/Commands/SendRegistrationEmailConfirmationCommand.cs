@@ -4,6 +4,7 @@ using DH.Domain.Adapters.Email;
 using DH.Domain.Adapters.EmailSender;
 using DH.Domain.Entities;
 using DH.Domain.Services;
+using DH.Domain.Services.TenantSettingsService;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -15,12 +16,14 @@ public record SendRegistrationEmailConfirmationCommand(string? ByUserId, string?
 
 internal class SendRegistrationEmailConfirmationCommandHandler(
     ILogger<SendRegistrationEmailConfirmationCommandHandler> logger,
+    ITenantSettingsCacheService tenantSettingsCacheService,
     IUserService userService,
     IEmailHelperService emailHelperService,
     IEmailSender emailSender,
     IConfiguration configuration) : IRequestHandler<SendRegistrationEmailConfirmationCommand, bool>
 {
     readonly ILogger<SendRegistrationEmailConfirmationCommandHandler> logger = logger;
+    readonly ITenantSettingsCacheService tenantSettingsCacheService = tenantSettingsCacheService;
     readonly IUserService userService = userService;
     readonly IEmailHelperService emailHelperService = emailHelperService;
     readonly IEmailSender emailSender = emailSender;
@@ -64,6 +67,8 @@ internal class SendRegistrationEmailConfirmationCommandHandler(
             return false;
         }
 
+        var settings = await tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
+
         var token = await this.userService.GenerateEmailConfirmationTokenAsync(user.Id);
         var encodedToken = WebUtility.UrlEncode(token);
         var frontendUrl = configuration.GetSection("Frontend_URL").Value;
@@ -72,7 +77,7 @@ internal class SendRegistrationEmailConfirmationCommandHandler(
         var body = this.emailHelperService.LoadTemplate(emailTemplate.TemplateHtml, new Dictionary<string, string>
         {
             { RegistrationEmailTemplateKeys.CallbackUrl, callbackUrl },
-            { RegistrationEmailTemplateKeys.ClubName, "DiceHub"  } //TODO: Add club name to global tenant setting
+            { RegistrationEmailTemplateKeys.ClubName, settings.ClubName }
         });
 
         var isEmailSendSuccessfully = this.emailSender.SendEmail(new EmailMessage

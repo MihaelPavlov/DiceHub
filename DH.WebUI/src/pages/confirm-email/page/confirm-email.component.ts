@@ -4,6 +4,7 @@ import { AuthService } from '../../../entities/auth/auth.service';
 import { FULL_ROUTE } from '../../../shared/configs/route.config';
 import { ToastService } from '../../../shared/services/toast.service';
 import { ToastType } from '../../../shared/models/toast.model';
+import { TenantSettingsService } from '../../../entities/common/api/tenant-settings.service';
 
 @Component({
   selector: 'app-confirm-email',
@@ -14,11 +15,14 @@ export class ConfirmEmailComponent implements OnInit {
   message = 'Confirming...';
   public isSuccess = false;
   private email: string | null = null;
+  public clubName: string | null = null;
+
   constructor(
     private readonly toastService: ToastService,
     private readonly route: ActivatedRoute,
     private readonly router: Router,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly tenantSettingsService: TenantSettingsService
   ) {}
 
   public ngOnInit(): void {
@@ -30,6 +34,12 @@ export class ConfirmEmailComponent implements OnInit {
       } else {
         this.message = 'Invalid confirmation link.';
       }
+    });
+
+    this.tenantSettingsService.get().subscribe({
+      next: (settings) => {
+        this.clubName = settings?.clubName;
+      },
     });
   }
 

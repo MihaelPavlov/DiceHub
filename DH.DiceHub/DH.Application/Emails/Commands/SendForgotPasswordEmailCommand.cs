@@ -3,6 +3,7 @@ using DH.Domain.Adapters.Email;
 using DH.Domain.Adapters.EmailSender;
 using DH.Domain.Entities;
 using DH.Domain.Services;
+using DH.Domain.Services.TenantSettingsService;
 using DH.OperationResultCore.Exceptions;
 using MediatR;
 using Microsoft.Extensions.Configuration;
@@ -15,12 +16,14 @@ public record SendForgotPasswordEmailCommand(string Email) : IRequest;
 
 internal class SendForgotPasswordEmailCommandHandler(
     ILogger<SendForgotPasswordEmailCommandHandler> logger,
+    ITenantSettingsCacheService tenantSettingsCacheService,
     IUserService userService,
     IEmailHelperService emailHelperService,
     IEmailSender emailSender,
     IConfiguration configuration) : IRequestHandler<SendForgotPasswordEmailCommand>
 {
     readonly ILogger<SendForgotPasswordEmailCommandHandler> logger = logger;
+    readonly ITenantSettingsCacheService tenantSettingsCacheService = tenantSettingsCacheService;
     readonly IUserService userService = userService;
     readonly IEmailHelperService emailHelperService = emailHelperService;
     readonly IEmailSender emailSender = emailSender;
@@ -47,6 +50,8 @@ internal class SendForgotPasswordEmailCommandHandler(
             return;
         }
 
+        var settings = await tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
+
         var token = await this.userService.GeneratePasswordResetTokenAsync(request.Email);
         var encodedToken = WebUtility.UrlEncode(token);
         var frontendUrl = configuration.GetSection("Frontend_URL").Value;
@@ -55,7 +60,7 @@ internal class SendForgotPasswordEmailCommandHandler(
         var body = this.emailHelperService.LoadTemplate(emailTemplate.TemplateHtml, new Dictionary<string, string>
         {
             { ForgotPasswordResetKeys.CallbackUrl, callbackUrl },
-            { ForgotPasswordResetKeys.ClubName, "DiceHub"  } //TODO: Add club name to global tenant setting
+            { ForgotPasswordResetKeys.ClubName, settings.ClubName }
         });
 
         var isEmailSendSuccessfully = this.emailSender.SendEmail(new EmailMessage

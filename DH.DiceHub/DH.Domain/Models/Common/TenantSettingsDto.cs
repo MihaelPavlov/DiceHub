@@ -48,6 +48,11 @@ public class TenantSettingDto : IValidableFields
     /// </summary>
     public string PhoneNumber { get; set; } = string.Empty;
 
+    /// <summary>
+    /// Club Name
+    /// </summary>
+    public string ClubName { get; set; } = string.Empty;
+
     public bool FieldsAreValid(out List<ValidationError> validationErrors)
     {
         var errors = new List<ValidationError>();
@@ -79,6 +84,10 @@ public class TenantSettingDto : IValidableFields
         if (string.IsNullOrEmpty(PhoneNumber))
             errors.Add(new ValidationError(nameof(PhoneNumber),
                 $"Phone Number is required."));
+
+        if (string.IsNullOrEmpty(ClubName))
+            errors.Add(new ValidationError(nameof(ClubName),
+                $"Club Name is required."));
 
         validationErrors = errors;
 

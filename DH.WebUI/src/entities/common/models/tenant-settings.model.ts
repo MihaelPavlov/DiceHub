@@ -43,4 +43,9 @@ export interface ITenantSettings {
   /// Phone Number
   /// </summary>
   phoneNumber: string;
+
+  /// <summary>
+  /// Club Name
+  /// </summary>
+  clubName: string;
 }
