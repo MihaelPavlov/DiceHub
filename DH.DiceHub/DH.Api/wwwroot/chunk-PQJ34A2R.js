@@ -1,0 +1,1 @@
+var t=(()=>{let e=class e{};e.SomethingWrong="Something wrong!",e.ChangesSaved="Changes have been successfully saved.",e.ChangesApplied="Changes have been successfully applied.",e.FailedToSaveChanges="Changes have not been applied.",e.InternalServerError="The server encountered error and could not complete your request.";let n=e;return n})();export{t as a};

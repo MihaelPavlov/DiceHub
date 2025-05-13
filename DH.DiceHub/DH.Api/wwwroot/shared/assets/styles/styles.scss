@@ -1,0 +1,152 @@
+@use "./palette";
+@import "./palette";
+@import "./input";
+@import "./button";
+@import "./scrollbar";
+@import "./ng-select";
+@import "../../../../node_modules/@ng-select/ng-select/themes/default.theme.css";
+@import "@angular/cdk/overlay-prebuilt.css";
+
+$color-success-20-percent: #cde9d5;
+$color-danger-10-percent: #f6e8eb;
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: $main-background-color;
+  color: $main-font-color;
+  height: 100%;
+}
+
+a {
+  color: #0060b6;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #00a0c6;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+a,
+a:hover,
+a:focus,
+a:active {
+  text-decoration: none;
+  color: inherit;
+}
+
+// Region Toasts: Toast message angular css classes
+.mat-mdc-dialog-container .mdc-dialog__surface {
+  background-color: transparent !important; /* Change as needed */
+  border-radius: 8px; /* Example for a nice corner */
+  box-shadow: none !important;
+  overflow: hidden; /* Prevent overflow */
+}
+
+.mat-mdc-snack-bar-handset {
+  position: fixed !important;
+  bottom: 11vh;
+  left: 50%;
+  transform: translateX(-52.5%);
+  width: 70%;
+  /* This ensures it spans the full width to maintain centering */
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  /* Ensures clicks pass through the empty space */
+}
+
+.mdc-snackbar {
+  border-radius: 0.2rem;
+}
+
+.mat-mdc-snack-bar-container {
+  margin-right: 0;
+  /* Removes the right margin */
+  pointer-events: auto;
+  /* Allows clicks on the snackbar itself */
+}
+
+.toast-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: black;
+  // max-height: 1.25rem;
+  max-width: 20rem;
+  font-size: 0.875rem;
+  line-height: 1.375rem;
+  .close {
+    display: flex;
+  }
+
+  .toast-icon {
+    margin-right: 0.625rem;
+    margin-bottom: 0.25rem;
+  }
+  .toast-message {
+    word-break: break-word;
+  }
+  .spacer {
+    flex-grow: 1;
+    margin-left: 0.4rem;
+  }
+}
+
+.toast-success {
+  background: $color-success-20-percent;
+  --mdc-snackbar-container-color: $color-success-20-percent;
+}
+
+.toast-error {
+  background: $color-danger-10-percent;
+  --mdc-snackbar-container-color: $color-danger-10-percent;
+}
+
+#toast-progress-bar {
+  display: list-item;
+  left: 0px;
+  bottom: -1.15rem;
+  position: absolute;
+}
+
+.mdc-linear-progress__bar-inner {
+  color: gray;
+  height: 20px !important;
+}
+
+// Region Toasts: End
+
+// like animation
+.heart-full {
+  fill: palette.$main-red-color;
+  animation: heartBeat 0.3s ease-in-out;
+}
+
+.cdk-overlay-backdrop {
+  background-color: rgba(0, 0, 0, 0.5); /* Ensure backdrop visibility */
+}
+
+@keyframes heartBeat {
+  0% {
+    transform: scale(1);
+  }
+
+  25% {
+    transform: scale(1.2);
+  }
+
+  50% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}

@@ -3,7 +3,6 @@ import { LoginComponent } from '../../pages/login/page/login.component';
 import { AuthGuard } from '../../shared/guards/auth.guard';
 import { RegisterComponent } from '../../pages/register/page/register.component';
 import { ROUTE } from '../../shared/configs/route.config';
-import { ForgotPasswordModule } from '../../pages/forgot-password/forgot-password.module';
 import { ForgotPasswordComponent } from '../../pages/forgot-password/page/forgot-password.component';
 import { ConfirmEmailComponent } from '../../pages/confirm-email/page/confirm-email.component';
 import { ResetPasswordComponent } from '../../pages/reset-password/page/reset-password.component';

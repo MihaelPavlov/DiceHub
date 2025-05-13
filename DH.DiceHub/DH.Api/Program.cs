@@ -1,4 +1,4 @@
-using DH.Adapter.Authentication;
+﻿using DH.Adapter.Authentication;
 using DH.Adapter.Data;
 using DH.Adapter.Scheduling;
 using DH.Api;
@@ -24,7 +24,6 @@ using Microsoft.OpenApi.Models;
 using DH.Domain.Queue.Services;
 using DH.Adapter.Email;
 using DH.Domain.Adapters.Data;
-using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +31,10 @@ builder.Services.AddControllers(options =>
 {
     options.Filters.Add<ApiExceptionFilterAttribute>();
     options.Filters.Add<ValidationFilterAttribute>();
+});
+builder.Services.AddSpaStaticFiles(configuration =>
+{
+    configuration.RootPath = "wwwroot"; // or "ClientApp/dist" depending on where Angular builds
 });
 builder.Services.AddSingleton<IMemoryCache>(service => new MemoryCache(new MemoryCacheOptions { ExpirationScanFrequency = TimeSpan.FromMinutes(1.0) }));
 builder.Services.AddEndpointsApiExplorer();
@@ -92,7 +95,6 @@ builder.Services.AddEmailAdapter(builder.Configuration);
 
 var rabbitMqConfig = builder.Configuration.GetSection("RabbitMq").Get<RabbitMqOptions>()
     ?? throw new Exception("Failed to load RabbitMQ configuration. Ensure 'RabbitMq' section exists in appsettings.json.");
-
 // Register RabbitMqOptions as a singleton
 builder.Services.AddSingleton(rabbitMqConfig);
 
@@ -144,28 +146,39 @@ app.UseSwaggerUI(c =>
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "[DH] Dice Hub API V1");
 });
 
-//Uncomment if you want to use static file
-/*
-var fileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.WebRootPath, "images"));
-
-app.UseStaticFiles(new StaticFileOptions
-{
-    FileProvider = fileProvider,
-    RequestPath = "/images"
-});
-*/
-
 if (!app.Environment.IsDevelopment())
 {
     app.UseHttpsRedirection();
 }
+
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
 app.UseRouting();
+
 app.UseAuthentication();
 app.UseAuthorization();
+
 app.UseCors("EnableCORS");
+
+#pragma warning disable ASP0014 // Suggest using top level route registrations
 app.UseEndpoints(endpoint =>
 {
     endpoint.MapHub<ChatHubClient>("/chatHub");
+    endpoint.MapControllers();
 });
-app.MapControllers();
+#pragma warning restore ASP0014 // Suggest using top level route registrations
+
+app.MapWhen(context =>
+    context.Request.Method.Equals("GET", StringComparison.OrdinalIgnoreCase)&&
+    !context.Request.Path.StartsWithSegments("/swagger"),
+    spaApp =>
+    {
+        spaApp.UseSpaStaticFiles();
+        spaApp.UseSpa(spa =>
+        {
+            spa.Options.SourcePath = "wwwroot";
+        });
+    });
+
 app.Run();
