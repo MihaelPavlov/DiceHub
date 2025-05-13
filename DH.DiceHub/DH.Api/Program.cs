@@ -14,16 +14,11 @@ using DH.Adapter.PushNotifications;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
 using DH.Adapter.Reservations;
-using DH.Messaging.Publisher;
-using DH.Domain.Adapters.Authentication;
-using DH.Messaging.Publisher.Authentication;
-using DH.Domain.Models.Common;
-using DH.Domain.Services.Publisher;
-using DH.Application.Services;
 using Microsoft.OpenApi.Models;
 using DH.Domain.Queue.Services;
 using DH.Adapter.Email;
 using DH.Domain.Adapters.Data;
+using DH.Api.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,7 +29,7 @@ builder.Services.AddControllers(options =>
 });
 builder.Services.AddSpaStaticFiles(configuration =>
 {
-    configuration.RootPath = "wwwroot"; // or "ClientApp/dist" depending on where Angular builds
+    configuration.RootPath = "wwwroot";
 });
 builder.Services.AddSingleton<IMemoryCache>(service => new MemoryCache(new MemoryCacheOptions { ExpirationScanFrequency = TimeSpan.FromMinutes(1.0) }));
 builder.Services.AddEndpointsApiExplorer();
@@ -75,11 +70,10 @@ builder.Services.AddCors(options =>
         builder.SetIsOriginAllowed(origin => true)
         .AllowAnyHeader()
         .AllowAnyMethod()
-         .AllowCredentials();
+        .AllowCredentials();
     });
 });
 builder.Services.AddScoped<IContainerService, ContainerService>();
-builder.Services.AddScoped<IEventPublisherService, EventPublisherService>();
 
 builder.Services.AddDomain();
 builder.Services.AddApplication();
@@ -92,35 +86,7 @@ builder.Services.AddChallengesOrchestratorAdapter();
 builder.Services.AddReservationAdapter();
 builder.Services.AddGameSessionAdapter();
 builder.Services.AddEmailAdapter(builder.Configuration);
-
-var rabbitMqConfig = builder.Configuration.GetSection("RabbitMq").Get<RabbitMqOptions>()
-    ?? throw new Exception("Failed to load RabbitMQ configuration. Ensure 'RabbitMq' section exists in appsettings.json.");
-// Register RabbitMqOptions as a singleton
-builder.Services.AddSingleton(rabbitMqConfig);
-
-builder.Services.AddScoped<IRabbitMqUserContextFactory, RabbitMqUserContextFactory>();
-
-builder.Services.AddScoped<IRabbitMqClient>(sp =>
-{
-    // Retrieve IUserContextFactory
-    var userContextFactory = sp.GetRequiredService<IUserContextFactory>();
-    var userContext = userContextFactory.GetUserContextForB2b();
-
-    // Retrieve IRabbitMqUserContextFactory
-    var rabbitMqUserContextFactory = sp.GetRequiredService<IRabbitMqUserContextFactory>();
-
-    // Transfer values without direct reference to IUserContext
-    rabbitMqUserContextFactory.SetDefaultUserContext(new RabbitMqUserContext
-    {
-        UserId = userContext.UserId,
-        IsAuthenticated = userContext.IsAuthenticated,
-        RoleKey = userContext.RoleKey,
-        Token = userContext.Token
-    });
-
-    return new RabbitMqClient(rabbitMqConfig.EnableMessageQueue, rabbitMqConfig.HostName, rabbitMqConfig.ExchangeName, rabbitMqUserContextFactory);
-});
-
+builder.Services.AddRabbitMQ(builder.Configuration);
 var test = FirebaseApp.Create(new AppOptions()
 {
     Credential = GoogleCredential.FromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "dicehub-8c63f-firebase-adminsdk-y31l3-6026a82c88.json")),
@@ -166,19 +132,11 @@ app.UseEndpoints(endpoint =>
 {
     endpoint.MapHub<ChatHubClient>("/chatHub");
     endpoint.MapControllers();
+    endpoint.MapFallbackToFile("index.html");
 });
 #pragma warning restore ASP0014 // Suggest using top level route registrations
 
-app.MapWhen(context =>
-    context.Request.Method.Equals("GET", StringComparison.OrdinalIgnoreCase)&&
-    !context.Request.Path.StartsWithSegments("/swagger"),
-    spaApp =>
-    {
-        spaApp.UseSpaStaticFiles();
-        spaApp.UseSpa(spa =>
-        {
-            spa.Options.SourcePath = "wwwroot";
-        });
-    });
+// This should always be after UseEndpoints
+app.UseSpaStaticFiles();
 
 app.Run();

@@ -99,6 +99,7 @@ export const PATH = {
   },
   TENANT_SETTINGS: {
     CORE: 'tenantSettings',
+    GET_CLUB_NAME: 'get-club-name',
   },
   USER_SETTINGS: {
     CORE: 'tenantUserSettings',
