@@ -9,5 +9,6 @@ public class QueuedJob
     public Guid JobId { get; set; }
     public string MessagePayload { get; set; } = string.Empty;
     public JobStatus Status { get; set; } = JobStatus.Pending;
+    public string JobType { get; set; } = string.Empty;
     public DateTime EnqueuedAt { get; set; } = DateTime.UtcNow;
 }
