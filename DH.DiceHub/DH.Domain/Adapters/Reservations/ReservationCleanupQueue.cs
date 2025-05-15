@@ -1,4 +1,5 @@
-﻿using DH.Domain.Queue;
+﻿using DH.Domain.Enums;
+using DH.Domain.Queue;
 using DH.Domain.Services.Queue;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Concurrent;

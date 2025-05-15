@@ -19,6 +19,7 @@ using DH.Domain.Queue.Services;
 using DH.Adapter.Email;
 using DH.Domain.Adapters.Data;
 using DH.Api.Extensions;
+using DH.Adapter.Statistics;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -86,6 +87,7 @@ builder.Services.AddChallengesOrchestratorAdapter();
 builder.Services.AddReservationAdapter();
 builder.Services.AddGameSessionAdapter();
 builder.Services.AddEmailAdapter(builder.Configuration);
+builder.Services.AddStatisticsAdapter();
 builder.Services.AddRabbitMQ(builder.Configuration);
 var test = FirebaseApp.Create(new AppOptions()
 {

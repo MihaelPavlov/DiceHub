@@ -85,6 +85,16 @@ public class TenantDbContext : DbContext, ITenantDbContext
 
     #endregion space
 
+    #region Statistics
+
+    public DbSet<ClubVisitorLog> ClubVisitorLogs { get; set; } = default!;
+    public DbSet<EventAttendanceLog> EventAttendanceLogs { get; set; } = default!;
+    public DbSet<ReservationOutcomeLog> ReservationOutcomeLogs { get; set; } = default!;
+    public DbSet<RewardHistoryLog> RewardHistoryLogs { get; set; } = default!;
+    public DbSet<ChallengeHistoryLog> ChallengeHistoryLogs { get; set; } = default!;
+
+    #endregion Statistics
+
     #region email
 
     public DbSet<EmailTemplate> EmailTemplates { get; set; } = default!;

@@ -17,7 +17,7 @@ public class QueuedJobService : IQueuedJobService
         this.contextFactory = contextFactory;
     }
 
-    public async Task Create(string queueName, Guid jobId, string payload)
+    public async Task Create(string queueName, Guid jobId, string payload, string? jobType = null)
     {
         using (var context = await this.contextFactory.CreateDbContextAsync())
         {
@@ -27,6 +27,7 @@ public class QueuedJobService : IQueuedJobService
                 MessagePayload = payload,
                 Status = JobStatus.Pending,
                 QueueType = queueName,
+                JobType = jobType ?? string.Empty,
                 EnqueuedAt = DateTime.UtcNow
             });
 

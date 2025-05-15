@@ -1,4 +1,4 @@
-﻿namespace DH.Domain.Adapters.Reservations;
+﻿namespace DH.Domain.Enums;
 
 public enum ReservationOutcome
 {
