@@ -1,6 +1,7 @@
 ﻿using DH.Adapter.Data.Repositories;
 using DH.Adapter.Data.Services;
 using DH.Domain.Adapters.Data;
+using DH.Domain.Adapters.Statistics.Services;
 using DH.Domain.Repositories;
 using DH.Domain.Services;
 using DH.Domain.Services.Queue;
@@ -38,7 +39,8 @@ public static class DataDIModule
             .AddScoped<ISpaceTableService, SpaceTableService>()
             .AddScoped<IQueuedJobService, QueuedJobService>()
             .AddScoped<IDataSeeder, DataSeeder>()
-            .AddScoped<IEmailHelperService, EmailHelperService>();
+            .AddScoped<IEmailHelperService, EmailHelperService>()
+            .AddScoped<IStatisticsService, StatisticsService>();
 
         RegisterAssemblyTypesAsClosedGeneric(services, typeof(IDomainService<>), typeof(IDbContextFactory<>));
         return services;

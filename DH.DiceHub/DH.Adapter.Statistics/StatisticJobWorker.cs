@@ -29,11 +29,18 @@ public class StatisticJobWorker : BackgroundService
                 string traceId = Guid.NewGuid().ToString();
                 using var scope = serviceScopeFactory.CreateScope();
                 var queuedJobService = scope.ServiceProvider.GetRequiredService<IQueuedJobService>();
+                var factory = scope.ServiceProvider.GetRequiredService<IStatisticJobFactory>();
 
                 try
                 {
                     Console.WriteLine($"Executing job {jobInfo.JobId}...");
-                    await jobInfo.ExecuteAsync(cancellationToken);
+                    var hadnler = factory.CreateHandler(jobInfo);
+                    var isSuccessfully = await hadnler.ExecuteAsync(cancellationToken);
+
+                    if (isSuccessfully)
+                    {
+                        await queuedJobService.UpdateStatusToCompleted(this.queue.QueueName, jobInfo.JobId);
+                    }
                 }
                 catch (TaskCanceledException)
                 {

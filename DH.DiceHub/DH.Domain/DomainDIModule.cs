@@ -1,4 +1,5 @@
-﻿using DH.Domain.Queue.Services;
+﻿using DH.Domain.Adapters.Statistics.Services;
+using DH.Domain.Queue.Services;
 using DH.Domain.Services.TenantSettingsService;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,5 +11,6 @@ public static class DomainDIModule
         this IServiceCollection services)
         => services
             .AddScoped<ITenantSettingsCacheService, TenantSettingsCacheService>()
+            .AddScoped<IStatisticQueuePublisher, StatisticQueuePublisher>()
             .AddScoped<IQueueDispatcher, QueueDispatcher>();
 }

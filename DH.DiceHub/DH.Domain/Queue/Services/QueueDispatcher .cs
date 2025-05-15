@@ -15,20 +15,18 @@ public class QueueDispatcher : IQueueDispatcher
     readonly ReservationCleanupQueue reservationCleanupQueue;
     readonly StatisticJobQueue statisticsQueue;
     readonly IQueuedJobService queuedJobService;
-    readonly IStatisticJobFactory statiscticFactory;
+
     public QueueDispatcher(
         SynchronizeGameSessionQueue gameSessionQueue,
         SynchronizeUsersChallengesQueue usersChallengesQueue,
         ReservationCleanupQueue reservationCleanupQueue,
         StatisticJobQueue statisticsQueue,
-        IQueuedJobService queuedJobService,
-        IStatisticJobFactory statiscticFactory)
+        IQueuedJobService queuedJobService)
     {
         this.gameSessionQueue = gameSessionQueue;
         this.usersChallengesQueue = usersChallengesQueue;
         this.reservationCleanupQueue = reservationCleanupQueue;
         this.queuedJobService = queuedJobService;
-        this.statiscticFactory = statiscticFactory;
         this.statisticsQueue = statisticsQueue;
     }
 
@@ -40,7 +38,7 @@ public class QueueDispatcher : IQueueDispatcher
             switch (queuedJob.QueueType)
             {
                 case QueueNameKeysConstants.SYNCHRONIZE_GAME_SESSION_QUEUE_NAME:
-                    var gameSessionJob = JsonSerializer.Deserialize<SynchronizeGameSessionQueue.JobInfo>(queuedJob.MessagePayload);
+                    var gameSessionJob = JsonSerializer.Deserialize<SynchronizeGameSessionQueue.UserPlayTimeEnforcerJob>(queuedJob.MessagePayload);
                     if (gameSessionJob != null)
                     {
                         gameSessionQueue.RequeueJob(gameSessionJob);
@@ -76,7 +74,16 @@ public class QueueDispatcher : IQueueDispatcher
                 JsonSerializer.Deserialize<ClubActivityDetectedJob>(messagePayload),
 
             StatisticJobType.ChallengeProcessingOutcome =>
-                JsonSerializer.Deserialize<ChallengeOutcomeJob>(messagePayload),
+                JsonSerializer.Deserialize<ChallengeProcessingOutcomeJob>(messagePayload),
+
+            StatisticJobType.RewardActionDetected =>
+                JsonSerializer.Deserialize<RewardActionDetectedJob>(messagePayload),
+
+            StatisticJobType.EventAttendanceDetected =>
+                JsonSerializer.Deserialize<EventAttendanceDetectedJob>(messagePayload),
+
+            StatisticJobType.ReservationProcessingOutcome =>
+                JsonSerializer.Deserialize<ReservationProcessingOutcomeJob>(messagePayload),
 
             _ => throw new NotSupportedException($"Job type not supported: {parsedType}")
         };
@@ -84,8 +91,7 @@ public class QueueDispatcher : IQueueDispatcher
         if (jobInfo is null)
             throw new InvalidOperationException("Deserialization failed");
 
-        var handler = this.statiscticFactory.CreateHandler(jobInfo);
-        queue.Enqueue(handler);
+        queue.Enqueue(jobInfo);
 
     }
     private void DispatchUsersChallengesJob(SynchronizeUsersChallengesQueue queue, string messagePayload)
