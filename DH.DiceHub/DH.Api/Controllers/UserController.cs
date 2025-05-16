@@ -167,7 +167,7 @@ public class UserController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetUserByRoleModel>))]
     public async Task<IActionResult> GetUserList(CancellationToken cancellationToken)
     {
-        var employees = await this.userService.GetUserListByRoles([Role.User, Role.Staff], cancellationToken);
+        var employees = await this.userService.GetUserListByRoles([Role.User, Role.Staff, Role.Owner], cancellationToken);
         return Ok(employees);
     }
 

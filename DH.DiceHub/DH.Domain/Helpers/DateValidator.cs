@@ -21,6 +21,9 @@ public static class DateValidator
         if (!DateTime.TryParse(toDate, out var toDateUtc))
             return (null, null, "To Date is Missing or Incorrect");
 
+        fromDateUtc = fromDateUtc.ToUniversalTime();
+        toDateUtc = toDateUtc.ToUniversalTime();
+
         return (fromDateUtc, toDateUtc, null);
     }
 

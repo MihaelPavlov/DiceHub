@@ -114,7 +114,7 @@ export const PATH = {
     GET_USER_STATS: 'get-user-stats',
   },
   STATISTICS: {
-    CORE: 'statistic',
+    CORE: 'statistics',
     GET_ACTIVITY_CHART_DATA: 'get-activity-chart-data',
     GET_RESERVATION_CHART_DATA: 'get-reservation-chart-data',
     GET_EVENT_ATTENDANCE_CHART_DATA: 'get-event-attendance-chart-data',

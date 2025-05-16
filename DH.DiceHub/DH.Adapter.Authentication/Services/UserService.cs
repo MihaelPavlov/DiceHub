@@ -201,6 +201,15 @@ public class UserService : IUserService
             .ToListAsync(cancellationToken);
     }
 
+    public async Task<bool> IsUserSuperAdmin(string userId)
+    {
+        var user = await this.userManager.FindByIdAsync(userId);
+        if (user is null)
+            throw new NotFoundException("User was not found");
+
+        return await this.userManager.IsInRoleAsync(user, Role.SuperAdmin.ToString());
+    }
+
     public async Task<UserModel?> GetUserById(string id, CancellationToken cancellationToken)
     {
         return await this.userManager.Users

@@ -1,3 +1,4 @@
+using DH.Domain.Adapters.Authentication.Services;
 using DH.Domain.Adapters.ChallengesOrchestrator;
 using DH.Domain.Adapters.Statistics;
 using DH.Domain.Adapters.Statistics.Services;
@@ -18,17 +19,20 @@ public class GameSessionService : IGameSessionService
     readonly SynchronizeUsersChallengesQueue queue;
     readonly ITenantSettingsCacheService tenantSettingsCacheService;
     readonly IStatisticQueuePublisher statisticQueuePublisher;
+    readonly IUserService userService;
 
     public GameSessionService(
         IDbContextFactory<TenantDbContext> dbContextFactory,
         SynchronizeUsersChallengesQueue queue,
         ITenantSettingsCacheService tenantSettingsCacheService,
-        IStatisticQueuePublisher statisticQueuePublisher)
+        IStatisticQueuePublisher statisticQueuePublisher,
+        IUserService userService)
     {
         this.dbContextFactory = dbContextFactory;
         this.queue = queue;
         this.tenantSettingsCacheService = tenantSettingsCacheService;
         this.statisticQueuePublisher = statisticQueuePublisher;
+        this.userService = userService;
     }
 
     /// <inheritdoc/>
@@ -78,12 +82,15 @@ public class GameSessionService : IGameSessionService
                         challenge.Status = ChallengeStatus.Completed;
                         challenge.IsActive = false;
 
-                        await this.statisticQueuePublisher.PublishAsync(new StatisticJobQueue.ChallengeProcessingOutcomeJob(
-                            userId,
-                            challenge.ChallengeId,
-                            ChallengeOutcome.Completed,
-                            challenge.CompletedDate.Value,
-                            DateTime.UtcNow));
+                        if (!await this.userService.IsUserSuperAdmin(userId))
+                        {
+                            await this.statisticQueuePublisher.PublishAsync(new StatisticJobQueue.ChallengeProcessingOutcomeJob(
+                                userId,
+                                challenge.ChallengeId,
+                                ChallengeOutcome.Completed,
+                                challenge.CompletedDate.Value,
+                                DateTime.UtcNow));
+                        }
 
                         var challengeStats = challengeStatistics.First(x => x.ChallengeId == challenge.ChallengeId);
                         challengeStats.TotalCompletions++;

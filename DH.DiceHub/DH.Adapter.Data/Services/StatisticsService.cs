@@ -120,10 +120,12 @@ internal class StatisticsService(
 
     public async Task<OperationResult<GetActivityChartData>> GetActivityChartData(ChartActivityType type, string rangeStart, string? rangeEnd, CancellationToken cancellationToken)
     {
-        var isRangeStartParsed = DateTime.TryParse(rangeStart, out var rangeStartUtc);
+        var isRangeStartParsed = DateTime.TryParse(rangeStart, out var parsedRangeStartUtc);
 
         if (!isRangeStartParsed)
             return new OperationResult<GetActivityChartData>().ReturnWithBadRequestException("Start Date is Missing or Incorrect");
+
+        var rangeStartUtc = parsedRangeStartUtc.ToUniversalTime();
         DateTime? rangeEndUtc = null;
 
         using (var context = await dbContextFactory.CreateDbContextAsync(cancellationToken))
@@ -143,7 +145,7 @@ internal class StatisticsService(
                 if (string.IsNullOrEmpty(rangeEnd) || !DateTime.TryParse(rangeEnd, out var parsedRangeEndDate))
                     return new OperationResult<GetActivityChartData>().ReturnWithBadRequestException("End Date is Missing or Incorrect");
 
-                rangeEndUtc = parsedRangeEndDate;
+                rangeEndUtc = parsedRangeEndDate.ToUniversalTime();
                 query = query.Where(x => x.LogDate.Date >= rangeStartUtc.Date && x.LogDate <= rangeEndUtc.Value.Date);
             }
 
@@ -256,10 +258,13 @@ internal class StatisticsService(
                     .ReturnWithBadRequestException("Challenge History Log Type was not correct");
         }
 
+        var startDateUtc= startDate.ToUniversalTime();
+        var endDateUtc = endDate.ToUniversalTime();
+
         using (var context = await dbContextFactory.CreateDbContextAsync(cancellationToken))
         {
             var challenges = await context.ChallengeHistoryLogs
-                .Where(x => x.Outcome == ChallengeOutcome.Completed && x.OutcomeDate >= startDate && x.OutcomeDate <= endDate)
+                .Where(x => x.Outcome == ChallengeOutcome.Completed && x.OutcomeDate >= startDateUtc && x.OutcomeDate <= endDateUtc)
                 .GroupBy(x => x.UserId)
                 .Select(x => new GetChallengeHistoryLogQueryResponse
                 {

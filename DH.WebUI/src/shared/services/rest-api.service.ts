@@ -9,7 +9,6 @@ export enum ApiBase {
 }
 export const ApiEndpoints = {
   default: `${environment.defaultAppUrl}`,
-  statistics: `${environment.statisticsAppUrl}`,
 };
 
 interface ApiConfig {

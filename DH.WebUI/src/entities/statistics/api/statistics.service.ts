@@ -1,7 +1,6 @@
 import { GetEventAttendanceChartData } from './../models/event-attendance-chart.model';
 import { Injectable } from '@angular/core';
 import {
-  ApiBase,
   RestApiService,
 } from '../../../shared/services/rest-api.service';
 import { GetActivityChartData } from '../models/activity-chart.model';
@@ -32,9 +31,6 @@ export class StatisticsService {
         type,
         rangeStart,
         rangeEnd,
-      },
-      {
-        base: ApiBase.Statistics,
       }
     );
   }
@@ -48,9 +44,6 @@ export class StatisticsService {
       {
         fromDate,
         toDate,
-      },
-      {
-        base: ApiBase.Statistics,
       }
     );
   }
@@ -64,9 +57,6 @@ export class StatisticsService {
       {
         fromDate,
         toDate,
-      },
-      {
-        base: ApiBase.Statistics,
       }
     );
   }
@@ -78,9 +68,6 @@ export class StatisticsService {
       `/${PATH.STATISTICS.CORE}/${PATH.STATISTICS.GET_EVENT_ATTENDANCE_BY_IDS}`,
       {
         eventIds,
-      },
-      {
-        base: ApiBase.Statistics,
       }
     );
   }
@@ -94,9 +81,6 @@ export class StatisticsService {
       {
         fromDate,
         toDate,
-      },
-      {
-        base: ApiBase.Statistics,
       }
     );
   }
@@ -108,9 +92,6 @@ export class StatisticsService {
       `/${PATH.STATISTICS.CORE}/${PATH.STATISTICS.GET_EXPIRED_COLLECTED_REWARDS_CHART_DATA}`,
       {
         year,
-      },
-      {
-        base: ApiBase.Statistics,
       }
     );
   }
@@ -122,9 +103,6 @@ export class StatisticsService {
       `/${PATH.STATISTICS.CORE}/${PATH.STATISTICS.GET_CHALLENGE_HISTORY_LOG}`,
       {
         type,
-      },
-      {
-        base: ApiBase.Statistics,
       }
     );
   }

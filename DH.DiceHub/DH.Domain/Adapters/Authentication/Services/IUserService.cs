@@ -37,7 +37,7 @@ public interface IUserService
     /// <param name="ids">Ids of user that we want.</param>
     /// <returns>A <see cref="UserModel"/> collection.</returns>
     Task<List<UserModel>> GetUserListByIds(string[] ids, CancellationToken cancellationToken);
-
+    Task<bool> IsUserSuperAdmin(string userId);
     Task<UserModel?> GetUserById(string id, CancellationToken cancellationToken);
     Task<UserModel?> GetUserByEmail(string email);
     /// <summary>
