@@ -5,7 +5,7 @@ namespace DH.Domain.Adapters.Statistics.JobHandlers;
 
 public class RewardActionDetectedJobHandler : IStatisticJob
 {
-    public Guid JobId => job.JobId;
+    public Guid JobId => this.job.JobId;
 
     readonly RewardActionDetectedJob job;
     readonly IStatisticsService statisticsService;
@@ -20,7 +20,7 @@ public class RewardActionDetectedJobHandler : IStatisticJob
     {
         try
         {
-            await statisticsService.RewardActionDetectedMessage(job);
+            await this.statisticsService.RewardActionDetectedMessage(this.job);
         }
         catch (Exception)
         {

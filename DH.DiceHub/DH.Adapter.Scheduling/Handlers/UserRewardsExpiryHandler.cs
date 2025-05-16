@@ -2,22 +2,23 @@
 using DH.Domain.Adapters.PushNotifications.Messages;
 using DH.Domain.Adapters.Scheduling;
 using DH.Domain.Adapters.Scheduling.Enums;
+using DH.Domain.Adapters.Statistics;
+using DH.Domain.Adapters.Statistics.Services;
 using DH.Domain.Entities;
 using DH.Domain.Repositories;
-using DH.Domain.Services.Publisher;
 
 namespace DH.Adapter.Scheduling.Handlers;
 
 /// <summary>
 /// Implementation of <see cref="IUserRewardsExpiryHandler"/>
 /// </summary>
-internal class UserRewardsExpiryHandler(IRepository<UserChallengeReward> repository, IRepository<ChallengeReward> userChallengeRewardsRepository, IEventPublisherService eventPublisherService, IRepository<FailedJob> failedJobsRepository, IPushNotificationsService pushNotificationsService) : IUserRewardsExpiryHandler
+internal class UserRewardsExpiryHandler(IRepository<UserChallengeReward> repository, IRepository<ChallengeReward> userChallengeRewardsRepository, IStatisticQueuePublisher statisticQueuePublisher, IRepository<FailedJob> failedJobsRepository, IPushNotificationsService pushNotificationsService) : IUserRewardsExpiryHandler
 {
     readonly IRepository<UserChallengeReward> repository = repository;
     readonly IRepository<ChallengeReward> userChallengeRewardsRepository = userChallengeRewardsRepository;
     readonly IRepository<FailedJob> failedJobsRepository = failedJobsRepository;
     readonly IPushNotificationsService pushNotificationsService = pushNotificationsService;
-    readonly IEventPublisherService eventPublisherService = eventPublisherService;
+    readonly IStatisticQueuePublisher statisticQueuePublisher = statisticQueuePublisher;
 
     /// <inheritdoc/>
     public async Task EvaluateUserRewardsExpiry(CancellationToken cancellationToken)
@@ -43,7 +44,7 @@ internal class UserRewardsExpiryHandler(IRepository<UserChallengeReward> reposit
             if (currentDate.Date >= reward.ExpiresDate.Date)
             {
                 reward.IsExpired = true;
-                expiredRewards.Add(new ExpiredRewardInfo(reward.UserId, reward.RewardId, dbReward.Name));
+                expiredRewards.Add(new ExpiredRewardInfo(reward.UserId, reward.RewardId, dbReward.Name, reward.ExpiresDate));
             }
         }
 
@@ -51,7 +52,11 @@ internal class UserRewardsExpiryHandler(IRepository<UserChallengeReward> reposit
 
         foreach (var reward in expiredRewards)
         {
-            await this.eventPublisherService.PublishRewardActionDetectedMessage(reward.UserId, reward.RewardId, true, false);
+            await this.statisticQueuePublisher.PublishAsync(
+                new StatisticJobQueue.RewardActionDetectedJob(
+                    reward.UserId, reward.RewardId,
+                    CollectedDate: null, ExpiredDate: reward.ExpiredDate,
+                    IsExpired: true, IsCollected: false));
 
             await this.pushNotificationsService.SendNotificationToUsersAsync(new List<Domain.Adapters.Authentication.Models.GetUserByRoleModel>
             {
@@ -69,5 +74,5 @@ internal class UserRewardsExpiryHandler(IRepository<UserChallengeReward> reposit
         await failedJobsRepository.AddAsync(new FailedJob { Data = data, Type = (int)JobType.UserRewardsExpiry, FailedAt = DateTime.UtcNow, ErrorMessage = errorMessage }, cancellationToken);
     }
 
-    private record ExpiredRewardInfo(string UserId, int RewardId, string Name);
+    private record ExpiredRewardInfo(string UserId, int RewardId, string Name, DateTime ExpiredDate);
 }

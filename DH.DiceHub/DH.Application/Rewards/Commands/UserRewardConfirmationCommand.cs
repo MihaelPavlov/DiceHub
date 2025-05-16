@@ -1,6 +1,7 @@
-﻿using DH.Domain.Entities;
+﻿using DH.Domain.Adapters.Statistics;
+using DH.Domain.Adapters.Statistics.Services;
+using DH.Domain.Entities;
 using DH.Domain.Repositories;
-using DH.Domain.Services.Publisher;
 using DH.OperationResultCore.Exceptions;
 using MediatR;
 
@@ -8,9 +9,11 @@ namespace DH.Application.Rewards.Commands;
 
 public record UserRewardConfirmationCommand(int Id) : IRequest;
 
-internal class UserRewardConfirmationCommandHandler(IEventPublisherService eventPublisherService, IRepository<UserChallengeReward> userChallengeRewardRepository) : IRequestHandler<UserRewardConfirmationCommand>
+internal class UserRewardConfirmationCommandHandler(
+    IStatisticQueuePublisher statisticQueuePublisher,
+    IRepository<UserChallengeReward> userChallengeRewardRepository) : IRequestHandler<UserRewardConfirmationCommand>
 {
-    readonly IEventPublisherService eventPublisherService = eventPublisherService;
+    readonly IStatisticQueuePublisher statisticQueuePublisher = statisticQueuePublisher;
     readonly IRepository<UserChallengeReward> userChallengeRewardRepository = userChallengeRewardRepository;
 
     // We assume based on previous validation that the user reward is valid and the person that is scanning the code is staff or admin.
@@ -23,6 +26,9 @@ internal class UserRewardConfirmationCommandHandler(IEventPublisherService event
 
         await this.userChallengeRewardRepository.SaveChangesAsync(cancellationToken);
 
-        await this.eventPublisherService.PublishRewardActionDetectedMessage(userReward.UserId, userReward.RewardId, false, userReward.IsClaimed);
+        await this.statisticQueuePublisher.PublishAsync(new StatisticJobQueue.RewardActionDetectedJob(
+            userReward.UserId, userReward.RewardId,
+            CollectedDate: DateTime.UtcNow, ExpiredDate: null,
+            IsExpired: false, IsCollected: userReward.IsClaimed));
     }
 }

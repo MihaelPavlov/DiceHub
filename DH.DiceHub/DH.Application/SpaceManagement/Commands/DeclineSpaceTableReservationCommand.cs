@@ -7,18 +7,23 @@ using DH.Domain.Repositories;
 using MediatR;
 using DH.Domain.Adapters.Reservations;
 using DH.OperationResultCore.Exceptions;
-using DH.Domain.Services.Publisher;
+using DH.Domain.Adapters.Statistics.Services;
+using DH.Domain.Adapters.Statistics;
 
 namespace DH.Application.SpaceManagement.Commands;
 
 public record DeclineSpaceTableReservationCommand(int ReservationId, string InternalNote, string PublicNote) : IRequest;
 
-internal class DeclineSpaceTableReservationCommandHandler(IRepository<SpaceTableReservation> repository, ReservationCleanupQueue queue, IEventPublisherService eventPublisherService, IPushNotificationsService pushNotificationsService) : IRequestHandler<DeclineSpaceTableReservationCommand>
+internal class DeclineSpaceTableReservationCommandHandler(
+    IRepository<SpaceTableReservation> repository,
+    ReservationCleanupQueue queue,
+    IStatisticQueuePublisher statisticQueuePublisher,
+    IPushNotificationsService pushNotificationsService) : IRequestHandler<DeclineSpaceTableReservationCommand>
 {
     readonly IRepository<SpaceTableReservation> repository = repository;
     readonly ReservationCleanupQueue queue = queue;
     readonly IPushNotificationsService pushNotificationsService = pushNotificationsService;
-    readonly IEventPublisherService eventPublisherService = eventPublisherService;
+    readonly IStatisticQueuePublisher statisticQueuePublisher = statisticQueuePublisher;
 
     public async Task Handle(DeclineSpaceTableReservationCommand request, CancellationToken cancellationToken)
     {
@@ -35,7 +40,8 @@ internal class DeclineSpaceTableReservationCommandHandler(IRepository<SpaceTable
         DateTime newCleanupTime = DateTime.UtcNow.AddMinutes(2);
         this.queue.UpdateReservationCleaningJob(reservation.Id, newCleanupTime);
 
-        await eventPublisherService.PublishReservationProcessingOutcomeMessage(ReservationOutcome.Cancelled.ToString(), reservation.UserId, ReservationType.Table.ToString(), reservation.Id);
+        await this.statisticQueuePublisher.PublishAsync(new StatisticJobQueue.ReservationProcessingOutcomeJob(
+            reservation.UserId, ReservationOutcome.Cancelled, ReservationType.Table, reservation.Id, DateTime.UtcNow));
 
         await this.pushNotificationsService
             .SendNotificationToUsersAsync(

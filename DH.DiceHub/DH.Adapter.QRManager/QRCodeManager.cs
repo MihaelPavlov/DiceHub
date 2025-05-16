@@ -6,10 +6,10 @@ using DH.Domain.Adapters.GameSession;
 using DH.Domain.Adapters.QRManager;
 using DH.Domain.Adapters.QRManager.StateModels;
 using DH.Domain.Adapters.Reservations;
+using DH.Domain.Adapters.Statistics.Services;
 using DH.Domain.Entities;
 using DH.Domain.Repositories;
 using DH.Domain.Services;
-using DH.Domain.Services.Publisher;
 using DH.OperationResultCore.Exceptions;
 using System.Text.Json;
 
@@ -51,7 +51,7 @@ public class QRCodeManager : IQRCodeManager
                         this.containerService.Resolve<ISpaceTableService>(),
                         this.containerService.Resolve<SynchronizeGameSessionQueue>(),
                         this.containerService.Resolve<IRepository<Game>>(),
-                        this.containerService.Resolve<IEventPublisherService>(),
+                        this.containerService.Resolve<IStatisticQueuePublisher>(),
                         this.containerService.Resolve<ReservationCleanupQueue>()
                         )
                     );
@@ -72,7 +72,7 @@ public class QRCodeManager : IQRCodeManager
                     new TableReservationQRCodeState(
                         this.containerService.Resolve<IUserContext>(),
                         this.containerService.Resolve<IRepository<SpaceTableReservation>>(),
-                        this.containerService.Resolve<IEventPublisherService>()
+                        this.containerService.Resolve<IStatisticQueuePublisher>()
                         )
                     );
                 break;

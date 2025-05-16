@@ -5,11 +5,12 @@ using DH.Domain.Adapters.GameSession;
 using DH.Domain.Adapters.QRManager;
 using DH.Domain.Adapters.QRManager.StateModels;
 using DH.Domain.Adapters.Reservations;
+using DH.Domain.Adapters.Statistics;
+using DH.Domain.Adapters.Statistics.Services;
 using DH.Domain.Entities;
 using DH.Domain.Enums;
 using DH.Domain.Repositories;
 using DH.Domain.Services;
-using DH.Domain.Services.Publisher;
 using DH.OperationResultCore.Exceptions;
 
 namespace DH.Adapter.QRManager.QRCodeStates;
@@ -23,13 +24,13 @@ public class GameReservationQRCodeState : IQRCodeState
     readonly IUserService userService;
     readonly ISpaceTableService spaceTableService;
     readonly SynchronizeGameSessionQueue gameSessionQueue;
-    readonly IEventPublisherService eventPublisherService;
+    readonly IStatisticQueuePublisher statisticQueuePublisher;
     readonly ReservationCleanupQueue reservationCleanupQueue;
 
     public GameReservationQRCodeState(IUserContext userContext, IRepository<GameReservation> gameReservationRepository,
         IRepository<SpaceTableReservation> tableReservationRepository, IUserService userService,
         ISpaceTableService spaceTableService, SynchronizeGameSessionQueue gameSessionQueue,
-        IRepository<Game> gameRepository, IEventPublisherService eventPublisherService,
+        IRepository<Game> gameRepository, IStatisticQueuePublisher statisticQueuePublisher,
         ReservationCleanupQueue reservationCleanupQueue)
     {
         this.userContext = userContext;
@@ -39,7 +40,7 @@ public class GameReservationQRCodeState : IQRCodeState
         this.spaceTableService = spaceTableService;
         this.gameSessionQueue = gameSessionQueue;
         this.gameRepository = gameRepository;
-        this.eventPublisherService = eventPublisherService;
+        this.statisticQueuePublisher = statisticQueuePublisher;
         this.reservationCleanupQueue = reservationCleanupQueue;
     }
 
@@ -116,9 +117,11 @@ public class GameReservationQRCodeState : IQRCodeState
 
         await context.TrackScannedQrCode(traceId, data, null, cancellationToken);
 
-        await this.eventPublisherService.PublishClubActivityDetectedMessage(userId);
+        await this.statisticQueuePublisher.PublishAsync(new StatisticJobQueue.ClubActivityDetectedJob(
+            userId, DateTime.UtcNow));
 
-        await this.eventPublisherService.PublishReservationProcessingOutcomeMessage(ReservationOutcome.Completed.ToString(), userId, ReservationType.Game.ToString(), gameReservation.Id);
+        await this.statisticQueuePublisher.PublishAsync(new StatisticJobQueue.ReservationProcessingOutcomeJob(
+           userId, ReservationOutcome.Completed, ReservationType.Game, gameReservation.Id, DateTime.UtcNow));
 
         this.reservationCleanupQueue.RemoveReservationCleaningJob(gameReservation.Id);
 

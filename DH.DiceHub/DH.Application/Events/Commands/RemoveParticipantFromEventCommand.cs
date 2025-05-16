@@ -1,11 +1,11 @@
 ﻿using DH.Domain.Adapters.Authentication;
+using DH.Domain.Adapters.Statistics;
+using DH.Domain.Adapters.Statistics.Services;
 using DH.Domain.Entities;
+using DH.Domain.Enums;
 using DH.Domain.Repositories;
-using DH.Domain.Services.Publisher;
-using DH.Messaging.Publisher.Messages;
 using DH.OperationResultCore.Exceptions;
 using MediatR;
-using System.ComponentModel.Design;
 
 namespace DH.Application.Events.Commands;
 
@@ -16,17 +16,17 @@ internal class RemoveParticipantFromEventCommandHandler : IRequestHandler<Remove
     readonly IRepository<Event> eventRepository;
     readonly IRepository<EventParticipant> eventParticipantRepository;
     readonly IUserContext userContext;
-    readonly IEventPublisherService eventPublisherService;
+    readonly IStatisticQueuePublisher statisticQueuePublisher;
     public RemoveParticipantFromEventCommandHandler(
         IRepository<Event> eventRepository,
         IRepository<EventParticipant> eventParticipantRepository,
         IUserContext userContext,
-        IEventPublisherService eventPublisherService)
+        IStatisticQueuePublisher statisticQueuePublisher)
     {
         this.eventRepository = eventRepository;
         this.eventParticipantRepository = eventParticipantRepository;
         this.userContext = userContext;
-        this.eventPublisherService = eventPublisherService;
+        this.statisticQueuePublisher = statisticQueuePublisher;
     }
 
     public async Task<bool> Handle(RemoveParticipantFromEventCommand request, CancellationToken cancellationToken)
@@ -42,7 +42,8 @@ internal class RemoveParticipantFromEventCommandHandler : IRequestHandler<Remove
         {
             await this.eventParticipantRepository.Remove(currentUserParticipant, cancellationToken);
 
-            await this.eventPublisherService.PublishEventAttendanceDetectedMessage(AttendanceAction.Leaving.ToString(), eventDb.Id);
+            await this.statisticQueuePublisher.PublishAsync(new StatisticJobQueue.EventAttendanceDetectedJob(
+                this.userContext.UserId, AttendanceAction.Leaving, eventDb.Id, DateTime.UtcNow));
 
             return true;
         }

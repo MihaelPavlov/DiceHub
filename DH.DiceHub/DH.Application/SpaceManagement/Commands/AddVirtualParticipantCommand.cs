@@ -1,6 +1,8 @@
-﻿using DH.Domain.Entities;
+﻿using DH.Domain.Adapters.Authentication;
+using DH.Domain.Adapters.Statistics;
+using DH.Domain.Adapters.Statistics.Services;
+using DH.Domain.Entities;
 using DH.Domain.Repositories;
-using DH.Domain.Services.Publisher;
 using DH.OperationResultCore.Exceptions;
 using MediatR;
 
@@ -8,10 +10,14 @@ namespace DH.Application.SpaceManagement.Commands;
 
 public record AddVirtualParticipantCommand(int SpaceTableId) : IRequest;
 
-internal class AddVirtualParticipantCommandHandler(IRepository<SpaceTable> spaceTableRepository, IEventPublisherService eventPublisherService) : IRequestHandler<AddVirtualParticipantCommand>
+internal class AddVirtualParticipantCommandHandler(
+    IRepository<SpaceTable> spaceTableRepository,
+    IStatisticQueuePublisher statisticQueuePublisher,
+    IUserContext userContext) : IRequestHandler<AddVirtualParticipantCommand>
 {
     readonly IRepository<SpaceTable> spaceTableRepository = spaceTableRepository;
-    readonly IEventPublisherService eventPublisherService = eventPublisherService;
+    readonly IStatisticQueuePublisher statisticQueuePublisher = statisticQueuePublisher;
+    readonly IUserContext userContext = userContext;
 
     public async Task Handle(AddVirtualParticipantCommand request, CancellationToken cancellationToken)
     {
@@ -28,6 +34,7 @@ internal class AddVirtualParticipantCommandHandler(IRepository<SpaceTable> space
 
         await this.spaceTableRepository.SaveChangesAsync(cancellationToken);
 
-        await this.eventPublisherService.PublishClubActivityDetectedMessage();
+        await this.statisticQueuePublisher.PublishAsync(new StatisticJobQueue.ClubActivityDetectedJob(
+            userContext.UserId, DateTime.UtcNow));
     }
 }

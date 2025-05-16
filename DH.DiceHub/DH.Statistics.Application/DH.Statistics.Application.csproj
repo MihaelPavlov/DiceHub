@@ -16,4 +16,8 @@
     <ProjectReference Include="..\DH.OperationResult\DH.OperationResultCore.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Helpers\" />
+  </ItemGroup>
+
 </Project>

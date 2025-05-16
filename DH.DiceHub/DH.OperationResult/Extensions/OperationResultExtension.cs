@@ -1,6 +1,5 @@
 ﻿using DH.OperationResultCore.Utility;
 using System.Net;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DH.OperationResultCore.Extension;
 

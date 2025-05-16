@@ -5,7 +5,7 @@ namespace DH.Domain.Adapters.Statistics.JobHandlers;
 
 public record ClubActivityDetectedJobHandler : IStatisticJob
 {
-    public Guid JobId => job.JobId;
+    public Guid JobId => this.job.JobId;
 
     readonly ClubActivityDetectedJob job;
     readonly IStatisticsService statisticsService;
@@ -20,7 +20,7 @@ public record ClubActivityDetectedJobHandler : IStatisticJob
     {
         try
         {
-            await statisticsService.ClubActivityDetectedMessage(job);
+            await this.statisticsService.ClubActivityDetectedMessage(this.job);
         }
         catch (Exception)
         {

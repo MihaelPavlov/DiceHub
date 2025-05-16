@@ -7,7 +7,9 @@ namespace DH.Application.Games.Queries.Games;
 
 public record GetGameListQuery(string? SearchExpression) : IRequest<List<GetGameListQueryModel>>;
 
-internal class GetGameListQueryHandler(IGameService gameService, IUserContext userContext) : IRequestHandler<GetGameListQuery, List<GetGameListQueryModel>>
+internal class GetGameListQueryHandler(
+    IGameService gameService,
+    IUserContext userContext) : IRequestHandler<GetGameListQuery, List<GetGameListQueryModel>>
 {
     readonly IGameService gameService = gameService;
     readonly IUserContext userContext = userContext;

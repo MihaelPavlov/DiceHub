@@ -3,19 +3,20 @@ using DH.Domain.Adapters.Authentication.Models.Enums;
 using DH.Domain.Adapters.QRManager;
 using DH.Domain.Adapters.QRManager.StateModels;
 using DH.Domain.Adapters.Reservations;
+using DH.Domain.Adapters.Statistics;
+using DH.Domain.Adapters.Statistics.Services;
 using DH.Domain.Entities;
 using DH.Domain.Enums;
 using DH.Domain.Repositories;
-using DH.Domain.Services.Publisher;
 using DH.OperationResultCore.Exceptions;
 
 namespace DH.Adapter.QRManager.QRCodeStates;
 
-public class TableReservationQRCodeState(IUserContext userContext, IRepository<SpaceTableReservation> spaceTableReservationRepository, IEventPublisherService eventPublisherService) : IQRCodeState
+public class TableReservationQRCodeState(IUserContext userContext, IRepository<SpaceTableReservation> spaceTableReservationRepository, IStatisticQueuePublisher statisticQueuePublisher) : IQRCodeState
 {
     readonly IUserContext userContext = userContext;
     readonly IRepository<SpaceTableReservation> spaceTableReservationRepository = spaceTableReservationRepository;
-    readonly IEventPublisherService eventPublisherService = eventPublisherService;
+    readonly IStatisticQueuePublisher statisticQueuePublisher = statisticQueuePublisher;
 
     public async Task<QrCodeValidationResult> HandleAsync(IQRCodeContext context, QRReaderModel data, CancellationToken cancellationToken)
     {
@@ -45,7 +46,12 @@ public class TableReservationQRCodeState(IUserContext userContext, IRepository<S
 
         await context.TrackScannedQrCode(traceId, data, null, cancellationToken);
 
-        await this.eventPublisherService.PublishReservationProcessingOutcomeMessage(ReservationOutcome.Completed.ToString(), userId, ReservationType.Table.ToString(), tableReservation.Id);
+        await this.statisticQueuePublisher.PublishAsync(new StatisticJobQueue.ReservationProcessingOutcomeJob(
+            userId,
+            ReservationOutcome.Completed,
+            ReservationType.Table,
+            tableReservation.Id,
+            DateTime.UtcNow));
 
         result.InternalNote = string.IsNullOrEmpty(tableReservation.InternalNote) ? null : tableReservation.InternalNote;
         result.IsValid = true;

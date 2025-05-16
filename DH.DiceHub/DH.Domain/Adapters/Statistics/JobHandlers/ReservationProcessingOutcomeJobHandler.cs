@@ -5,7 +5,7 @@ namespace DH.Domain.Adapters.Statistics.JobHandlers;
 
 public class ReservationProcessingOutcomeJobHandler : IStatisticJob
 {
-    public Guid JobId => job.JobId;
+    public Guid JobId => this.job.JobId;
 
     readonly ReservationProcessingOutcomeJob job;
     readonly IStatisticsService statisticsService;
@@ -20,7 +20,7 @@ public class ReservationProcessingOutcomeJobHandler : IStatisticJob
     {
         try
         {
-            await statisticsService.ReservationProcessingOutcomeMessage(job);
+            await this.statisticsService.ReservationProcessingOutcomeMessage(this.job);
         }
         catch (Exception)
         {

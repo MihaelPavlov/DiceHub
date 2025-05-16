@@ -5,21 +5,22 @@ namespace DH.Domain.Adapters.Statistics.JobHandlers;
 
 public class ChallengeProcessingOutcomeJobHandler : IStatisticJob
 {
-    readonly ChallengeProcessingOutcomeJob _job;
+    public Guid JobId => this.job.JobId;
+
+    readonly ChallengeProcessingOutcomeJob job;
     readonly IStatisticsService statisticsService;
 
-    public ChallengeProcessingOutcomeJobHandler(ChallengeProcessingOutcomeJob job)
+    public ChallengeProcessingOutcomeJobHandler(ChallengeProcessingOutcomeJob job, IStatisticsService statisticsService)
     {
-        _job = job;
+        this.job = job;
+        this.statisticsService = statisticsService;
     }
-
-    public Guid JobId => _job.JobId;
 
     public async Task<bool> ExecuteAsync(CancellationToken cancellationToken)
     {
         try
         {
-            await statisticsService.ClubActivityDetectedMessage(job);
+            await this.statisticsService.ChallengeProcessingOutcomeMessage(this.job);
         }
         catch (Exception)
         {

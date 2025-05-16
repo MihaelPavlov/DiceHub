@@ -1,9 +1,10 @@
 using DH.Domain.Adapters.ChallengesOrchestrator;
+using DH.Domain.Adapters.Statistics;
+using DH.Domain.Adapters.Statistics.Services;
 using DH.Domain.Entities;
 using DH.Domain.Enums;
 using DH.Domain.Helpers;
 using DH.Domain.Services;
-using DH.Domain.Services.Publisher;
 using DH.Domain.Services.TenantSettingsService;
 using DH.OperationResultCore.Exceptions;
 using Microsoft.EntityFrameworkCore;
@@ -16,14 +17,18 @@ public class GameSessionService : IGameSessionService
     readonly IDbContextFactory<TenantDbContext> dbContextFactory;
     readonly SynchronizeUsersChallengesQueue queue;
     readonly ITenantSettingsCacheService tenantSettingsCacheService;
-    readonly IEventPublisherService eventPublisherService;
+    readonly IStatisticQueuePublisher statisticQueuePublisher;
 
-    public GameSessionService(IDbContextFactory<TenantDbContext> dbContextFactory, SynchronizeUsersChallengesQueue queue, ITenantSettingsCacheService tenantSettingsCacheService, IEventPublisherService eventPublisherService)
+    public GameSessionService(
+        IDbContextFactory<TenantDbContext> dbContextFactory,
+        SynchronizeUsersChallengesQueue queue,
+        ITenantSettingsCacheService tenantSettingsCacheService,
+        IStatisticQueuePublisher statisticQueuePublisher)
     {
         this.dbContextFactory = dbContextFactory;
         this.queue = queue;
         this.tenantSettingsCacheService = tenantSettingsCacheService;
-        this.eventPublisherService = eventPublisherService;
+        this.statisticQueuePublisher = statisticQueuePublisher;
     }
 
     /// <inheritdoc/>
@@ -73,7 +78,13 @@ public class GameSessionService : IGameSessionService
                         challenge.Status = ChallengeStatus.Completed;
                         challenge.IsActive = false;
 
-                        await this.eventPublisherService.PublishChallengeProcessingOutcomeMessage(userId, challenge.ChallengeId, "Completed");
+                        await this.statisticQueuePublisher.PublishAsync(new StatisticJobQueue.ChallengeProcessingOutcomeJob(
+                            userId,
+                            challenge.ChallengeId,
+                            ChallengeOutcome.Completed,
+                            challenge.CompletedDate.Value,
+                            DateTime.UtcNow));
+
                         var challengeStats = challengeStatistics.First(x => x.ChallengeId == challenge.ChallengeId);
                         challengeStats.TotalCompletions++;
                     }

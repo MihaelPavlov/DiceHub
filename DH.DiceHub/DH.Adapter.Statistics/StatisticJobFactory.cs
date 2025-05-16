@@ -22,7 +22,7 @@ public class StatisticJobFactory : IStatisticJobFactory
         return jobInfo switch
         {
             ClubActivityDetectedJob clubJob => new ClubActivityDetectedJobHandler(clubJob, service),
-            ChallengeProcessingOutcomeJob outcomeJob => new ChallengeProcessingOutcomeJobHandler(outcomeJob),
+            ChallengeProcessingOutcomeJob outcomeJob => new ChallengeProcessingOutcomeJobHandler(outcomeJob, service),
             EventAttendanceDetectedJob eventJob => new EventAttendanceDetectedJobHandler(eventJob, service),
             ReservationProcessingOutcomeJob reservationJob => new ReservationProcessingOutcomeJobHandler(reservationJob, service),
             RewardActionDetectedJob rewardJob => new RewardActionDetectedJobHandler(rewardJob, service),

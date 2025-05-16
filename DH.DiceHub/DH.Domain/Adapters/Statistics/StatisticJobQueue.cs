@@ -57,8 +57,7 @@ public class StatisticJobQueue : QueueBase
         ReservationOutcome Outcome,
         ReservationType Type,
         int ReservationId,
-        DateTime OutcomeDate,
-        DateTime LogDate) : JobInfoBase, IStatisticJobInfo
+        DateTime OutcomeDate) : JobInfoBase, IStatisticJobInfo
     {
         public StatisticJobType JobType => StatisticJobType.ReservationProcessingOutcome;
     }

@@ -1,8 +1,9 @@
 ﻿using DH.Domain.Adapters.Authentication;
 using DH.Domain.Adapters.GameSession;
+using DH.Domain.Adapters.Statistics;
+using DH.Domain.Adapters.Statistics.Services;
 using DH.Domain.Entities;
 using DH.Domain.Repositories;
-using DH.Domain.Services.Publisher;
 using DH.OperationResultCore.Exceptions;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -19,7 +20,7 @@ internal class JoinSpaceTableCommandHandler : IRequestHandler<JoinSpaceTableComm
     readonly IUserContext userContext;
     readonly SynchronizeGameSessionQueue queue;
     readonly ILogger<JoinSpaceTableCommandHandler> logger;
-    readonly IEventPublisherService eventPublisherService;
+    readonly IStatisticQueuePublisher statisticQueuePublisher;
 
     public JoinSpaceTableCommandHandler(
         IRepository<SpaceTable> spaceTableRepository,
@@ -28,7 +29,7 @@ internal class JoinSpaceTableCommandHandler : IRequestHandler<JoinSpaceTableComm
         IUserContext userContext,
         SynchronizeGameSessionQueue queue,
         ILogger<JoinSpaceTableCommandHandler> logger,
-        IEventPublisherService eventPublisherService)
+        IStatisticQueuePublisher statisticQueuePublisher)
     {
         this.spaceTableRepository = spaceTableRepository;
         this.spaceTableParticipantRepository = spaceTableParticipantRepository;
@@ -36,7 +37,7 @@ internal class JoinSpaceTableCommandHandler : IRequestHandler<JoinSpaceTableComm
         this.userContext = userContext;
         this.queue = queue;
         this.logger = logger;
-        this.eventPublisherService = eventPublisherService;
+        this.statisticQueuePublisher = statisticQueuePublisher;
     }
 
     public async Task Handle(JoinSpaceTableCommand request, CancellationToken cancellationToken)
@@ -72,6 +73,7 @@ internal class JoinSpaceTableCommandHandler : IRequestHandler<JoinSpaceTableComm
 
         this.queue.AddUserPlayTimEnforcerJob(this.userContext.UserId, game!.Id, DateTime.UtcNow.AddMinutes((int)game.AveragePlaytime));
 
-        await this.eventPublisherService.PublishClubActivityDetectedMessage();
+        await this.statisticQueuePublisher.PublishAsync(new StatisticJobQueue.ClubActivityDetectedJob(
+            this.userContext.UserId, DateTime.UtcNow));
     }
 }

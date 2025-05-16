@@ -5,7 +5,7 @@ namespace DH.Domain.Adapters.Statistics.JobHandlers;
 
 public class EventAttendanceDetectedJobHandler : IStatisticJob
 {
-    public Guid JobId => job.JobId;
+    public Guid JobId => this.job.JobId;
 
     readonly EventAttendanceDetectedJob job;
     readonly IStatisticsService statisticsService;
@@ -20,7 +20,7 @@ public class EventAttendanceDetectedJobHandler : IStatisticJob
     {
         try
         {
-            await statisticsService.EventAttendanceDetectedMessage(job);
+            await this.statisticsService.EventAttendanceDetectedMessage(this.job);
         }
         catch (Exception)
         {
