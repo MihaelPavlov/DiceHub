@@ -29,6 +29,6 @@ export class SettingsOwnerAccessGuard {
       return true;
     }
 
-    return this.router.parseUrl('profile/user-settings');
+    return this.router.parseUrl('profile');
   }
 }

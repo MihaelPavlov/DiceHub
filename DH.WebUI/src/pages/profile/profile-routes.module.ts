@@ -26,12 +26,12 @@ const routes: Routes = [
   {
     path: 'employees',
     component: EmployeeListComponent,
-    // canActivate: [SettingsUserAccessGuard],
+     canActivate: [SettingsOwnerAccessGuard],
   },
   {
     path: 'add-employee',
     component: AddEmployeeComponent,
-    // canActivate: [SettingsUserAccessGuard],
+     canActivate: [SettingsOwnerAccessGuard],
   },
 ];
 
