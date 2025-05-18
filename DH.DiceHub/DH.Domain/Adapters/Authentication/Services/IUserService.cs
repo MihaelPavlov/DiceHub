@@ -37,7 +37,7 @@ public interface IUserService
     /// <param name="ids">Ids of user that we want.</param>
     /// <returns>A <see cref="UserModel"/> collection.</returns>
     Task<List<UserModel>> GetUserListByIds(string[] ids, CancellationToken cancellationToken);
-    Task<bool> IsUserSuperAdmin(string userId);
+    Task<bool> HasUserAnyMatchingRole(string userId, params Role[] roles);
     Task<UserModel?> GetUserById(string id, CancellationToken cancellationToken);
     Task<UserModel?> GetUserByEmail(string email);
     /// <summary>
@@ -59,6 +59,11 @@ public interface IUserService
     /// </summary>
     /// <param name="request"></param>
     /// <param name="cancellationToken"></param>
-    /// <returns></returns>
     Task CreateEmployee(CreateEmployeeRequest request, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Delete employee
+    /// </summary>
+    /// <param name="employeeId"></param>
+    Task DeleteEmployee(string employeeId);
 }

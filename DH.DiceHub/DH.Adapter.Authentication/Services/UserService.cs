@@ -1,4 +1,6 @@
 ﻿using DH.Adapter.Authentication.Entities;
+using DH.Adapter.Authentication.Helper;
+using DH.Domain.Adapters.Authentication;
 using DH.Domain.Adapters.Authentication.Models;
 using DH.Domain.Adapters.Authentication.Models.Enums;
 using DH.Domain.Adapters.Authentication.Services;
@@ -28,18 +30,17 @@ public class UserService : IUserService
     readonly SynchronizeUsersChallengesQueue queue;
     readonly IPushNotificationsService pushNotificationsService;
     readonly IRepository<UserDeviceToken> userDeviceTokenRepository;
+    readonly IUserContext userContext;
 
     /// <summary>
     /// Constructor for UserService to initialize dependencies.
     /// </summary>
-    /// <param name="signInManager"><see cref="SignInManager<T>"/> for managing user sign-in operations.</param>
-    /// <param name="userManager"><see cref="UserManager<T>"/> for managing user-related operations.</param>
-    /// <param name="jwtService"><see cref="IJwtService"/> for accessing application jwt authentication logic.</param>
     public UserService(IHttpContextAccessor httpContextAccessor, IHttpClientFactory httpClientFactory,
         SignInManager<ApplicationUser> signInManager, IJwtService jwtService,
         UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager,
         IPermissionStringBuilder permissionStringBuilder, SynchronizeUsersChallengesQueue queue,
-        IPushNotificationsService pushNotificationsService, IRepository<UserDeviceToken> userDeviceTokenRepository)
+        IPushNotificationsService pushNotificationsService, IRepository<UserDeviceToken> userDeviceTokenRepository,
+        IUserContext userContext)
     {
         _httpContextAccessor = httpContextAccessor;
         this.signInManager = signInManager;
@@ -50,35 +51,37 @@ public class UserService : IUserService
         this.queue = queue;
         this.pushNotificationsService = pushNotificationsService;
         this.userDeviceTokenRepository = userDeviceTokenRepository;
+        this.userContext = userContext;
     }
 
     /// <inheritdoc />
     public async Task<TokenResponseModel?> Login(LoginRequest form)
     {
         var user = await this.userManager.FindByEmailAsync(form.Email);
-        if (user is null)
+
+        if (user.IsInvalid())
             throw new ValidationErrorsException("Email", "Email or Password is invalid!");
 
-        if (!await userManager.IsEmailConfirmedAsync(user))
+        if (!await userManager.IsEmailConfirmedAsync(user!))
             throw new ValidationErrorsException("EmailNotConfirmed", "Email not confirmed. Please check your inbox.");
 
-        var result = await this.signInManager.PasswordSignInAsync(user, form.Password, form.RememberMe, true);
+        var result = await this.signInManager.PasswordSignInAsync(user!, form.Password, form.RememberMe, true);
 
         if (!result.Succeeded)
             throw new ValidationErrorsException("Email", "Email or Password is invalid!");
 
-        var userDiviceToken = await this.userDeviceTokenRepository.GetByAsync(x => x.UserId == user.Id, CancellationToken.None);
+        var userDiviceToken = await this.userDeviceTokenRepository.GetByAsync(x => x.UserId == user!.Id, CancellationToken.None);
         if (userDiviceToken is null)
         {
             await this.userDeviceTokenRepository.AddAsync(new UserDeviceToken
             {
                 DeviceToken = form.DeviceToken,
                 LastUpdated = DateTime.UtcNow,
-                UserId = user.Id
+                UserId = user!.Id
             }, CancellationToken.None);
         }
 
-        return await IssueUserTokensAsync(user);
+        return await IssueUserTokensAsync(user!);
     }
 
     /// <inheritdoc />
@@ -103,7 +106,7 @@ public class UserService : IUserService
         if (!await this.roleManager.Roles.AnyAsync(x => x.Name == "User"))
             throw new BadRequestException("User registration failed!");
 
-        await this.userManager.AddToRoleAsync(user, "User");
+        await this.userManager.AddToRoleAsync(user, Role.User.ToString());
 
         user = await this.userManager.FindByEmailAsync(form.Email);
         if (user is null)
@@ -126,16 +129,16 @@ public class UserService : IUserService
     public async Task<TokenResponseModel?> ConfirmEmail(string email, string token, CancellationToken cancellationToken)
     {
         var user = await this.userManager.FindByEmailAsync(email);
-        if (user is null)
+        if (user.IsInvalid())
             throw new NotFoundException("User was not found");
 
-        var result = await this.userManager.ConfirmEmailAsync(user, token);
+        var result = await this.userManager.ConfirmEmailAsync(user!, token);
 
         if (result.Succeeded)
         {
-            await this.signInManager.SignInAsync(user, true);
+            await this.signInManager.SignInAsync(user!, true);
 
-            return await IssueUserTokensAsync(user);
+            return await IssueUserTokensAsync(user!);
         }
 
         throw new ValidationErrorsException("InvalidToken", "Token expired!");
@@ -144,31 +147,31 @@ public class UserService : IUserService
     public async Task<string> GenerateEmailConfirmationTokenAsync(string userId)
     {
         var user = await this.userManager.FindByIdAsync(userId);
-        if (user is null)
+        if (user.IsInvalid())
             throw new NotFoundException("User was not found");
 
-        return await userManager.GenerateEmailConfirmationTokenAsync(user);
+        return await userManager.GenerateEmailConfirmationTokenAsync(user!);
     }
 
     public async Task<string> GeneratePasswordResetTokenAsync(string email)
     {
         var user = await this.userManager.FindByEmailAsync(email);
-        if (user is null)
+        if (user.IsInvalid())
             throw new NotFoundException("User was not found");
 
-        return await userManager.GeneratePasswordResetTokenAsync(user);
+        return await userManager.GeneratePasswordResetTokenAsync(user!);
     }
 
     public async Task ResetPassword(ResetPasswordRequest request)
     {
         var user = await this.userManager.FindByEmailAsync(request.Email);
-        if (user is null)
+        if (user.IsInvalid())
             throw new NotFoundException("User was not found");
 
         if (!request.NewPassword.Equals(request.ConfirmPassword))
             throw new ValidationErrorsException("Password", "Password are not identical!");
 
-        var result = await this.userManager.ResetPasswordAsync(user, request.Token, request.NewPassword);
+        var result = await this.userManager.ResetPasswordAsync(user!, request.Token, request.NewPassword);
 
         if (!result.Succeeded)
             throw new ValidationErrorsException("Password", @"Reseting Password was not succesfully, 
@@ -178,9 +181,10 @@ public class UserService : IUserService
     public async Task<UserDeviceToken> GetDeviceTokenByUserEmail(string email)
     {
         var user = await this.userManager.FindByEmailAsync(email);
-        if (user is null)
+        if (user.IsInvalid())
             throw new ArgumentNullException("User is not found");
-        var userDeviceToken = await this.userDeviceTokenRepository.GetByAsync(x => x.UserId == user.Id, CancellationToken.None);
+
+        var userDeviceToken = await this.userDeviceTokenRepository.GetByAsync(x => x.UserId == user!.Id, CancellationToken.None);
 
         if (userDeviceToken is null)
             throw new NotFoundException("User Device Token was not found");
@@ -190,7 +194,7 @@ public class UserService : IUserService
     public async Task<List<UserModel>> GetUserListByIds(string[] ids, CancellationToken cancellationToken)
     {
         return await this.userManager.Users
-            .Where(x => ids.Contains(x.Id))
+            .Where(x => !x.IsDeleted && ids.Contains(x.Id))
             .Select(x => new UserModel
             {
                 Id = x.Id,
@@ -201,19 +205,28 @@ public class UserService : IUserService
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<bool> IsUserSuperAdmin(string userId)
+    public async Task<bool> HasUserAnyMatchingRole(string userId, params Role[] roles)
     {
         var user = await this.userManager.FindByIdAsync(userId);
-        if (user is null)
+        if (user.IsInvalid())
             throw new NotFoundException("User was not found");
 
-        return await this.userManager.IsInRoleAsync(user, Role.SuperAdmin.ToString());
+        foreach (var role in roles)
+        {
+            var isInRole = await this.userManager.IsInRoleAsync(user!, role.ToString());
+
+            if (isInRole)
+                return true;
+        }
+
+        return false;
+
     }
 
     public async Task<UserModel?> GetUserById(string id, CancellationToken cancellationToken)
     {
         return await this.userManager.Users
-            .Where(x => x.Id == id)
+            .Where(x => x.Id == id && !x.IsDeleted)
             .Select(x => new UserModel
             {
                 Id = x.Id,
@@ -227,7 +240,7 @@ public class UserService : IUserService
     {
         var user = await this.userManager.FindByEmailAsync(email);
 
-        if (user == null)
+        if (user.IsInvalid())
             return null;
 
         return new UserModel
@@ -247,7 +260,7 @@ public class UserService : IUserService
         // Get users in the specified role
         var usersInRole = await this.userManager.GetUsersInRoleAsync(role.ToString());
 
-        return usersInRole.Select(x => new GetUserByRoleModel
+        return usersInRole.Where(x => !x.IsDeleted).Select(x => new GetUserByRoleModel
         {
             Id = x.Id,
             UserName = x.UserName ?? "username_placeholder",
@@ -266,7 +279,7 @@ public class UserService : IUserService
             // Get users in the specified role
             var usersInRole = await this.userManager.GetUsersInRoleAsync(role.ToString());
 
-            result.AddRange(usersInRole.Select(x => new GetUserByRoleModel
+            result.AddRange(usersInRole.Where(x => !x.IsDeleted).Select(x => new GetUserByRoleModel
             {
                 Id = x.Id,
                 UserName = x.UserName ?? "username_placeholder",
@@ -278,6 +291,9 @@ public class UserService : IUserService
 
     public async Task CreateEmployee(CreateEmployeeRequest request, CancellationToken cancellationToken)
     {
+        if (!await this.HasUserAnyMatchingRole(this.userContext.UserId, Role.SuperAdmin, Role.Owner))
+            throw new BadRequestException("Only owner can create new employees");
+
         if (!request.FieldsAreValid(out var validationErrors))
             throw new ValidationErrorsException(validationErrors);
 
@@ -332,6 +348,15 @@ public class UserService : IUserService
         _httpContextAccessor.HttpContext!.User = new ClaimsPrincipal(new ClaimsIdentity(claims));
 
         return new TokenResponseModel { AccessToken = tokenString, RefreshToken = refreshToken };
+    }
+
+    public async Task DeleteEmployee(string employeeId)
+    {
+        var user = await this.userManager.FindByIdAsync(employeeId)
+            ?? throw new BadRequestException("Employee deletion failed!");
+
+        user.IsDeleted = true;
+        await this.userManager.UpdateAsync(user);
     }
 
     private static string GenerateRandomPassword()
