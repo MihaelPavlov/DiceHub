@@ -36,4 +36,14 @@ internal class EmailHelperService(IDbContextFactory<TenantDbContext> dbContextFa
 
         return template;
     }
+    
+    public string LoadSubject(string subject, Dictionary<string, string> placeholders)
+    {
+        foreach (var kvp in placeholders)
+        {
+            subject = subject.Replace($"{{{{{kvp.Key}}}}}", kvp.Value); // replaces {{Key}} with Value
+        }
+
+        return subject;
+    }
 }

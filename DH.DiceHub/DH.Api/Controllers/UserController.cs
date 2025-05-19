@@ -15,6 +15,8 @@ using DH.Domain.Adapters.Authentication.Models.Enums;
 using DH.Application.Stats.Queries;
 using DH.Application.Emails.Commands;
 using DH.Domain.Adapters.Email.Models;
+using DH.Domain.Entities;
+using DH.Domain.Adapters.Email;
 
 namespace DH.Api.Controllers;
 
@@ -88,6 +90,14 @@ public class UserController : ControllerBase
     public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequest request)
     {
         await this.userService.ResetPassword(request);
+        return this.Ok();
+    }
+
+    [AllowAnonymous]
+    [HttpPost("create-employee-password")]
+    public async Task<IActionResult> CreateEmployeePassword([FromBody] CreateEmployeePasswordRequest request)
+    {
+        await this.userService.CreateEmployeePassword(request);
         return this.Ok();
     }
 
@@ -182,12 +192,49 @@ public class UserController : ControllerBase
     }
 
     [Authorize]
+    [HttpGet("get-employee-by-id/{id}")]
+    [ActionAuthorize(UserAction.EmployeesCRUD)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<UserModel>))]
+    public async Task<IActionResult> GetEmployeeById(string id, CancellationToken cancellationToken)
+    {
+        var employee = await this.userService.GetUserById(id, cancellationToken);
+        return Ok(employee);
+    }
+
+    [Authorize]
     [HttpPost("create-employee")]
     [ActionAuthorize(UserAction.EmployeesCRUD)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> CreateEmployee([FromBody] CreateEmployeeRequest request, CancellationToken cancellationToken)
     {
-        await this.userService.CreateEmployee(request, cancellationToken);
+        var employeeResult = await this.userService.CreateEmployee(request, cancellationToken);
+        await this.mediator.Send(new SendEmployeeCreatePasswordEmailCommand(
+            employeeResult.Email), cancellationToken);
+        return Ok();
+    }
+
+    [Authorize]
+    [HttpPut("update-employee")]
+    [ActionAuthorize(UserAction.EmployeesCRUD)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> UpdateEmployee([FromBody] UpdateEmployeeRequest request, CancellationToken cancellationToken)
+    {
+        var employeeResult = await this.userService.UpdateEmployee(request, cancellationToken);
+        if (employeeResult.IsEmailChanged)
+        {
+            await this.mediator.Send(new SendEmployeeCreatePasswordEmailCommand(
+                employeeResult.Email), cancellationToken);
+        }
+        return Ok();
+    }
+
+    [Authorize]
+    [HttpPost("delete-employee")]
+    [ActionAuthorize(UserAction.EmployeesCRUD)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> DeleteEmployee(string employeeId, CancellationToken cancellationToken)
+    {
+        await this.userService.DeleteEmployee(employeeId);
         return Ok();
     }
 

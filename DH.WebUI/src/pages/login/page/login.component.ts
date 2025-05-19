@@ -59,6 +59,11 @@ export class LoginComponent extends Form implements OnInit {
         this.getMessageFromRedirect =
           'Password reset was successfully! Please use your new password to sign in.';
       }
+
+      if (params['fromCreateEmployeePassword'] === 'true') {
+        this.getMessageFromRedirect =
+          'Welcome to the team! Password creation was successfully! Please use your new password to sign in.';
+      }
     });
 
     this.form = this.initFormGroup();
@@ -74,7 +79,7 @@ export class LoginComponent extends Form implements OnInit {
     this.tenantSettingsService.getClubName().subscribe({
       next: (clubName) => {
         this.clubName = clubName;
-      }
+      },
     });
   }
 

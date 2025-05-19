@@ -22,6 +22,7 @@ import { ScrollToTopModule } from '../shared/components/scroll-to-top/scroll-to-
 import { ForgotPasswordModule } from '../pages/forgot-password/forgot-password.module';
 import { ResetPasswordModule } from '../pages/reset-password/reset-password.module';
 import { AuthRedirectGuard } from '../shared/guards/auth-redirect.guard';
+import { CreateEmployeePasswordModule } from '../pages/create-employee-password/create-employee-password.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -54,6 +55,7 @@ import { AuthRedirectGuard } from '../shared/guards/auth-redirect.guard';
     ConfirmEmailModule,
     ForgotPasswordModule,
     ResetPasswordModule,
+    CreateEmployeePasswordModule,
     HeaderModule,
     AssistiveTouchModule,
     RouterOutlet,

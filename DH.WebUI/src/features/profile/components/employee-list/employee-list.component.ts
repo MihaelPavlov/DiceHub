@@ -6,6 +6,10 @@ import { IUser } from '../../../../entities/profile/models/user.model';
 import { UsersService } from '../../../../entities/profile/api/user.service';
 import { ImageEntityType } from '../../../../shared/pipe/entity-image.pipe';
 import { FULL_ROUTE, ROUTE } from '../../../../shared/configs/route.config';
+import { NavigationService } from '../../../../shared/services/navigation-service';
+import { BehaviorSubject } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { EmployeeConfirmDeleteDialog } from '../../dialogs/employee-confirm-delete/employee-confirm-delete.component';
 
 @Component({
   selector: 'app-profile',
@@ -15,19 +19,40 @@ import { FULL_ROUTE, ROUTE } from '../../../../shared/configs/route.config';
 export class EmployeeListComponent implements OnDestroy {
   public employees: IUser[] = [];
   public readonly ImageEntityType = ImageEntityType;
+  public expandedReservationId: BehaviorSubject<string | null> =
+    new BehaviorSubject<string | null>(null);
+  public isInfoForExpiredRecordVisible: boolean = false;
 
   constructor(
     private readonly menuTabsService: MenuTabsService,
     private readonly usersService: UsersService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly navigationService: NavigationService,
+    private readonly dialog: MatDialog
   ) {
+    this.fetchEmployeeList();
+    this.menuTabsService.setActive(NAV_ITEM_LABELS.PROFILE);
+  }
+
+  public fetchEmployeeList(): void {
     this.usersService.getEmployeeList().subscribe({
       next: (employees) => (this.employees = employees ?? []),
       error: (error) => {
         console.log(error);
       },
     });
-    this.menuTabsService.setActive(NAV_ITEM_LABELS.PROFILE);
+  }
+  public toggleItem(reservationId: string): void {
+    this.expandedReservationId.next(
+      this.expandedReservationId.value === reservationId ? null : reservationId
+    );
+
+    if (this.expandedReservationId.value === null)
+      this.isInfoForExpiredRecordVisible = false;
+  }
+
+  public isExpanded(reservationId: string): boolean {
+    return this.expandedReservationId.value === reservationId;
   }
 
   public ngOnDestroy(): void {
@@ -35,10 +60,34 @@ export class EmployeeListComponent implements OnDestroy {
   }
 
   public onAdd(): void {
+    this.navigationService.setPreviousUrl(FULL_ROUTE.PROFILE.EMPLOYEES);
     this.router.navigateByUrl(FULL_ROUTE.PROFILE.ADD_EMPLOYEE);
   }
 
   public onBack(): void {
     this.router.navigateByUrl(ROUTE.PROFILE.CORE);
+  }
+
+  public onEdit(employeeId: string, event?: TouchEvent | MouseEvent): void {
+    if (event) event.stopPropagation();
+    this.navigationService.setPreviousUrl(FULL_ROUTE.PROFILE.EMPLOYEES);
+    this.router.navigateByUrl(FULL_ROUTE.PROFILE.UPDATE_BY_ID(employeeId));
+  }
+
+  public openDeleteDialog(
+    employeeId: string,
+    event?: TouchEvent | MouseEvent
+  ): void {
+    if (event) event.stopPropagation();
+
+    const dialogRef = this.dialog.open(EmployeeConfirmDeleteDialog, {
+      data: { employeeId },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.fetchEmployeeList();
+      }
+    });
   }
 }

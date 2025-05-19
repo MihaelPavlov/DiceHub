@@ -7,7 +7,9 @@ import { GlobalSettingsComponent } from '../../features/profile/components/globa
 import { NgSelectModule } from '@ng-select/ng-select';
 import { UserSettingsComponent } from '../../features/profile/components/user-settings/user-settings.component';
 import { EmployeeListComponent } from '../../features/profile/components/employee-list/employee-list.component';
-import { AddEmployeeComponent } from '../../features/profile/components/add-employee/add-employee.component';
+import { AddUpdateEmployeeComponent } from '../../features/profile/components/add-employee/add-update-employee.component';
+import { EmployeeConfirmDeleteDialog } from '../../features/profile/dialogs/employee-confirm-delete/employee-confirm-delete.component';
+import { MatDialogActions, MatDialogClose } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -15,10 +17,18 @@ import { AddEmployeeComponent } from '../../features/profile/components/add-empl
     GlobalSettingsComponent,
     UserSettingsComponent,
     EmployeeListComponent,
-    AddEmployeeComponent,
+    AddUpdateEmployeeComponent,
+    EmployeeConfirmDeleteDialog,
   ],
   exports: [],
   providers: [],
-  imports: [SharedModule, HeaderModule, ProfileRoutingModule, NgSelectModule],
+  imports: [
+    SharedModule,
+    HeaderModule,
+    ProfileRoutingModule,
+    MatDialogActions,
+    MatDialogClose,
+    NgSelectModule,
+  ],
 })
 export class ProfileModule {}

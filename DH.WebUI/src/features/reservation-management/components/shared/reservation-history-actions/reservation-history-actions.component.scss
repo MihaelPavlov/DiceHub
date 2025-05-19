@@ -129,19 +129,6 @@
           width: 3rem;
           height: 3rem;
         }
-
-        .info_text {
-          position: absolute;
-          right: 8.5rem;
-          top: 1rem;
-          background-color: palette.$main-gray-color;
-          border-radius: 0.5rem;
-          border: 0.1rem solid palette.$main-blue-color;
-          padding: 0.5rem;
-          z-index: 1000;
-          width: 10rem;
-          text-align: center;
-        }
       }
     }
 

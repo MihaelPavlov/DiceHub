@@ -84,10 +84,12 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
       .filter(([key, value]) => typeof value === 'number')
       .map(([key, value]) => ({ id: value as number, name: value.toString() }));
   }
+  
   public adjustTextareaHeight(textarea: HTMLTextAreaElement): void {
     textarea.style.height = 'auto'; // Reset height
     textarea.style.height = textarea.scrollHeight + 'px'; // Fit to content
   }
+
   public ngOnDestroy(): void {
     this.menuTabsService.resetData();
   }

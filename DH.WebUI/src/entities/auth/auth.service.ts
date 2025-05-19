@@ -8,6 +8,7 @@ import { IRegisterRequest } from './models/register.model';
 import { PATH } from '../../shared/configs/path.config';
 import { IResetPasswordRequest } from './models/reset-password-request.model';
 import { IRegisterResponse } from './models/register-response.model';
+import { ICreateEmployeePasswordRequest } from './models/create-employee-password.model';
 
 @Injectable({
   providedIn: 'root',
@@ -45,6 +46,12 @@ export class AuthService {
       `/user/send-email-confirmation-request/${email}`,
       {}
     );
+  }
+
+  public createEmployeePassword(
+    request: ICreateEmployeePasswordRequest
+  ): Observable<any> {
+    return this.api.post(`/user/create-employee-password`, request);
   }
 
   public resetPassword(request: IResetPasswordRequest): Observable<any> {

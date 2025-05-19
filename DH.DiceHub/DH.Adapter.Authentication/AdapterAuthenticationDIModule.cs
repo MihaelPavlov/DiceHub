@@ -76,6 +76,7 @@ public static class AuthenticationDIModule
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequiredLength = 0;
                 options.SignIn.RequireConfirmedEmail = true;
+                options.User.AllowedUserNameCharacters = new UserOptions().AllowedUserNameCharacters + ", ";
             })
             .AddEntityFrameworkStores<AppIdentityDbContext>()
             .AddDefaultTokenProviders();

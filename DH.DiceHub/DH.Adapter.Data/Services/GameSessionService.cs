@@ -1,3 +1,4 @@
+using DH.Domain.Adapters.Authentication.Models.Enums;
 using DH.Domain.Adapters.Authentication.Services;
 using DH.Domain.Adapters.ChallengesOrchestrator;
 using DH.Domain.Adapters.Statistics;
@@ -82,7 +83,7 @@ public class GameSessionService : IGameSessionService
                         challenge.Status = ChallengeStatus.Completed;
                         challenge.IsActive = false;
 
-                        if (!await this.userService.IsUserSuperAdmin(userId))
+                        if (!await this.userService.HasUserAnyMatchingRole(userId, Role.SuperAdmin))
                         {
                             await this.statisticQueuePublisher.PublishAsync(new StatisticJobQueue.ChallengeProcessingOutcomeJob(
                                 userId,

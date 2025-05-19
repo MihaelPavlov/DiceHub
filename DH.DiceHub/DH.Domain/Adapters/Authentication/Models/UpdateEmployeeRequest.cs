@@ -4,8 +4,9 @@ using static DH.OperationResultCore.Exceptions.ValidationErrorsException;
 
 namespace DH.Domain.Adapters.Authentication.Models;
 
-public class CreateEmployeeRequest : IValidableFields
+public class UpdateEmployeeRequest : IValidableFields
 {
+    public string Id { get; set; } = string.Empty;
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
@@ -14,6 +15,10 @@ public class CreateEmployeeRequest : IValidableFields
     public bool FieldsAreValid(out List<ValidationError> validationErrors)
     {
         var errors = new List<ValidationError>();
+
+        if (string.IsNullOrEmpty(Id))
+            errors.Add(new ValidationError(nameof(Id),
+                "Id was not send."));
 
         if (string.IsNullOrEmpty(Email))
             errors.Add(new ValidationError(nameof(Email),

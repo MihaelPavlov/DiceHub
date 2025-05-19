@@ -15,7 +15,7 @@
   </div>
   <div
     *ngFor="let reservation of history"
-    class="wrapper_library__item approve"
+    class="wrapper_library__item"
     [class.expanded]="isExpanded(reservation.id)"
     (click)="toggleItem(reservation.id)"
   >
@@ -132,7 +132,7 @@
         <button
           type="button"
           class="btnWithIcon"
-          (click)="this.showInfoForExpiredRecord($event)"
+          (click)="controls.toggleMenu($event)"
         >
           <svg class="info" viewBox="0 -960 960 960">
             <path
@@ -140,9 +140,6 @@
             />
           </svg>
           <span class="header">Info</span>
-          <div class="info_text" *ngIf="isInfoForExpiredRecordVisible">
-            <p>The reservation has expired with no response.</p>
-          </div>
         </button>
         <button
           type="button"
@@ -160,3 +157,9 @@
     </div>
   </div>
 </section>
+
+<app-controls-menu
+  #controls
+  [isInfo]="true"
+  infoDescription="The reservation expired without a response"
+></app-controls-menu>

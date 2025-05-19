@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UsersService } from '../../../../entities/profile/api/user.service';
 import { NAV_ITEM_LABELS } from '../../../../shared/models/nav-items-labels.const';
 import { MenuTabsService } from '../../../../shared/services/menu-tabs.service';
@@ -16,27 +16,31 @@ import { AppToastMessage } from '../../../../shared/components/toast/constants/a
 import { ToastType } from '../../../../shared/models/toast.model';
 import { NavigationService } from '../../../../shared/services/navigation-service';
 import { FULL_ROUTE } from '../../../../shared/configs/route.config';
+import { throwError } from 'rxjs';
 
 interface IEmployeeForm {
   email: string;
   lastName: string;
   firstName: string;
+  phoneNumber: string;
 }
 
 @Component({
-  selector: 'app-profile',
-  templateUrl: 'add-employee.component.html',
-  styleUrl: 'add-employee.component.scss',
+  selector: 'app-add-update-employee',
+  templateUrl: 'add-update-employee.component.html',
+  styleUrl: 'add-update-employee.component.scss',
 })
-export class AddEmployeeComponent extends Form implements OnDestroy {
+export class AddUpdateEmployeeComponent extends Form implements OnDestroy {
   override form: Formify<IEmployeeForm>;
   public isMenuVisible: boolean = false;
+  public editEmployeeId: string | null = null;
 
   constructor(
     private readonly menuTabsService: MenuTabsService,
     public override readonly toastService: ToastService,
     private readonly usersService: UsersService,
     private readonly navigationService: NavigationService,
+    private readonly activatedRoute: ActivatedRoute,
     private readonly fb: FormBuilder,
     private readonly router: Router
   ) {
@@ -48,6 +52,14 @@ export class AddEmployeeComponent extends Form implements OnDestroy {
       }
     });
     this.menuTabsService.setActive(NAV_ITEM_LABELS.PROFILE);
+
+    this.activatedRoute.paramMap.subscribe((params) => {
+      const id = params.get('id');
+      if (id) {
+        this.editEmployeeId = id;
+        this.fetchEmployeeById(this.editEmployeeId);
+      }
+    });
   }
 
   public showMenu(): void {
@@ -64,7 +76,8 @@ export class AddEmployeeComponent extends Form implements OnDestroy {
         .createEmployee(
           this.form.controls.firstName.value,
           this.form.controls.lastName.value,
-          this.form.controls.email.value
+          this.form.controls.email.value,
+          this.form.controls.phoneNumber.value
         )
         .subscribe({
           next: () => {
@@ -90,8 +103,61 @@ export class AddEmployeeComponent extends Form implements OnDestroy {
     }
   }
 
+  public onUpdate(): void {
+    if (this.form.valid) {
+      this.usersService
+        .updateEmployee(
+          this.editEmployeeId as string,
+          this.form.controls.firstName.value,
+          this.form.controls.lastName.value,
+          this.form.controls.email.value,
+          this.form.controls.phoneNumber.value
+        )
+        .subscribe({
+          next: () => {
+            this.toastService.success({
+              message: AppToastMessage.ChangesSaved,
+              type: ToastType.Success,
+            });
+
+            this.onBack();
+          },
+          error: (error) => {
+            if (error.error?.errors?.Exist) {
+              this.getServerErrorMessage = error.error.errors.Exist[0];
+            } else {
+              this.handleServerErrors(error);
+            }
+            this.toastService.error({
+              message: AppToastMessage.SomethingWrong,
+              type: ToastType.Error,
+            });
+          },
+        });
+    }
+  }
+
+  private fetchEmployeeById(employeeId: string): void {
+    this.usersService.getEmployeeById(employeeId).subscribe({
+      next: (employee) => {
+        if (employee) {
+          this.form.patchValue({
+            email: employee.email,
+            firstName: employee.firstName,
+            lastName: employee.lastName,
+            phoneNumber: employee.phoneNumber,
+          });
+        }
+      },
+      error: (error) => {
+        throwError(() => error);
+      },
+    });
+  }
+
   public onBack(): void {
     let url = this.navigationService.getPreviousUrl();
+
     if (url) this.router.navigateByUrl(url);
     else this.router.navigateByUrl(FULL_ROUTE.PROFILE.EMPLOYEES);
   }
@@ -104,6 +170,8 @@ export class AddEmployeeComponent extends Form implements OnDestroy {
         return 'First Name';
       case 'lastName':
         return 'Last Name';
+      case 'phoneNumber':
+        return 'Phone Number';
       default:
         return controlName;
     }
@@ -124,6 +192,10 @@ export class AddEmployeeComponent extends Form implements OnDestroy {
         Validators.minLength(3),
       ]),
       lastName: new FormControl<string>('', [
+        Validators.required,
+        Validators.minLength(3),
+      ]),
+      phoneNumber: new FormControl<string>('', [
         Validators.required,
         Validators.minLength(3),
       ]),

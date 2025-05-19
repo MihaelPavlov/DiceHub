@@ -5,8 +5,7 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
-import { filter, map, Observable, of, switchMap, take } from 'rxjs';
-import { AuthService } from '../../entities/auth/auth.service';
+import { Observable, of } from 'rxjs';
 import { FULL_ROUTE } from '../configs/route.config';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
@@ -22,7 +21,11 @@ export class AuthRedirectGuard {
   public canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ):| boolean| UrlTree| Observable<boolean | UrlTree>| Promise<boolean | UrlTree> {
+  ):
+    | boolean
+    | UrlTree
+    | Observable<boolean | UrlTree>
+    | Promise<boolean | UrlTree> {
     const token = localStorage.getItem('jwt');
 
     if (token && !this.jwtHelper.isTokenExpired(token)) {

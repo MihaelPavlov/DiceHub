@@ -7,6 +7,7 @@ import { ForgotPasswordComponent } from '../../pages/forgot-password/page/forgot
 import { ConfirmEmailComponent } from '../../pages/confirm-email/page/confirm-email.component';
 import { ResetPasswordComponent } from '../../pages/reset-password/page/reset-password.component';
 import { AuthRedirectGuard } from '../../shared/guards/auth-redirect.guard';
+import { CreateEmployeePasswordComponent } from '../../pages/create-employee-password/page/create-employee-password.component';
 
 export const ROUTES: Routes = [
   {
@@ -128,6 +129,12 @@ export const ROUTES: Routes = [
   {
     path: 'reset-password',
     component: ResetPasswordComponent,
+    canActivate: [AuthRedirectGuard],
+    data: { hideMenu: true },
+  },
+  {
+    path: 'create-employee-password',
+    component: CreateEmployeePasswordComponent,
     canActivate: [AuthRedirectGuard],
     data: { hideMenu: true },
   },

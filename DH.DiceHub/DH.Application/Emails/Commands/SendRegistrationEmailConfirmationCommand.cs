@@ -31,10 +31,12 @@ internal class SendRegistrationEmailConfirmationCommandHandler(
 
     public async Task<bool> Handle(SendRegistrationEmailConfirmationCommand request, CancellationToken cancellationToken)
     {
+        var emailType = EmailType.RegistrationEmailConfirmation;
+
         if (string.IsNullOrWhiteSpace(request.ByUserId) && string.IsNullOrWhiteSpace(request.ByEmail))
         {
             logger.LogWarning("Neither User ID nor Email was provided. {EmailType} was not sent.",
-                EmailType.RegistrationEmailConfirmation);
+                emailType);
             return false;
         }
 
@@ -54,16 +56,15 @@ internal class SendRegistrationEmailConfirmationCommandHandler(
 
             logger.LogWarning("User with {UserIdentifier} was not found. {EmailType} was not sent.",
                 missingInfo,
-                EmailType.RegistrationEmailConfirmation);
+                emailType);
             return false;
         }
 
-        var emailTemplate = await this.emailHelperService.GetEmailTemplate(EmailType.RegistrationEmailConfirmation);
+        var emailTemplate = await this.emailHelperService.GetEmailTemplate(emailType);
         if (emailTemplate == null)
         {
             this.logger.LogWarning("Email Template with Key {EmailType} was not found. {EmailType} was not send",
-                EmailType.RegistrationEmailConfirmation.ToString(),
-                EmailType.RegistrationEmailConfirmation.ToString());
+                emailType, emailType);
             return false;
         }
 
@@ -94,6 +95,7 @@ internal class SendRegistrationEmailConfirmationCommandHandler(
             SendedOn = DateTime.UtcNow,
             Subject = emailTemplate.Subject,
             TemplateName = emailTemplate.TemplateName,
+            TemplateType = emailType.ToString(),
             To = user.Email,
             UserId = user.Id,
         });

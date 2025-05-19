@@ -17,6 +17,11 @@ export class UsersService {
     );
   }
 
+  public getEmployeeById(employeeId: string): Observable<IUser | null> {
+    return this.api.get<IUser>(
+      `/${PATH.USER.CORE}/${PATH.USER.GET_EMPLOYEE_BY_ID}/${employeeId}`
+    );
+  }
   public getUserList(): Observable<IUser[] | null> {
     return this.api.get<IUser[]>(
       `/${PATH.USER.CORE}/${PATH.USER.GET_USER_LIST}`
@@ -32,12 +37,36 @@ export class UsersService {
   public createEmployee(
     firstName: string,
     lastName: string,
-    email: string
+    email: string,
+    phoneNumber: string
   ): Observable<null> {
     return this.api.post(`/${PATH.USER.CORE}/${PATH.USER.CREATE_EMPLOYEE}`, {
       firstName,
       lastName,
       email,
+      phoneNumber,
     });
+  }
+
+  public updateEmployee(
+    id: string,
+    firstName: string,
+    lastName: string,
+    email: string,
+    phoneNumber: string
+  ): Observable<null> {
+    return this.api.put(`/${PATH.USER.CORE}/${PATH.USER.UPDATE_EMPLOYEE}`, {
+      id,
+      firstName,
+      lastName,
+      email,
+      phoneNumber,
+    });
+  }
+
+  public deleteEmployee(employeeId: string): Observable<null> {
+    return this.api.delete(
+      `/${PATH.USER.CORE}/${PATH.USER.DELETE_EMPLOYEE}/${employeeId}`
+    );
   }
 }

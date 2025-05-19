@@ -7,19 +7,58 @@
 >
 </app-header>
 <section class="wrapper_library">
-  <div *ngFor="let user of employees" class="wrapper_library__item">
-    <div class="wrapper_info">
-      <div class="wrapper_title">
-        {{ user.userName }}
-        <!-- <div class="wrapper_description">Joined At: 2022/14/05</div> -->
+  <div class="no_records" *ngIf="employees.length === 0">
+    <img src="/shared/assets/images/no-reservations.png" alt="" />
+    <p class="first-header">Add your first employee</p>
+  </div>
+
+  <div
+    class="wrapper_library__item"
+    *ngFor="let user of employees"
+    [class.expanded]="isExpanded(user.id)"
+    (click)="toggleItem(user.id)"
+  >
+    <div class="content">
+      <div class="wrapper_info">
+        <div class="wrapper_title">
+          {{ user.userName }}
+          <!-- <div class="wrapper_description">Joined At: 2022/14/05</div> -->
+        </div>
+      </div>
+      <div class="circle-btn">
+        <svg class="info" viewBox="0 -960 960 960">
+          <path
+            d="M507-480 384-357l56 57 180-180-180-180-56 57 123 123ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Z"
+          />
+        </svg>
+      </div>
+      <div class="expanded-buttons">
+        <button type="button" class="btnWithIcon">
+          <svg
+            class="edit"
+            (click)="onEdit(user.id, $event)"
+            viewBox="0 -960 960 960"
+          >
+            <path
+              d="M128-128v-136.77l557.23-558.77q5.15-5.48 11.57-6.97 6.43-1.49 12.49-1.49 6.06 0 11.12.54 5.05.54 11.44 6.15l92.69 91.93q5.61 6.38 6.54 12 .92 5.63.92 12.25 0 6.13-1.74 12.06-1.74 5.92-6.72 11.07L264.77-128H128Zm565.15-520.46L754-708.54 708.54-753l-60.08 59.85 44.69 44.69Z"
+            />
+          </svg>
+          <span class="header">Update</span>
+        </button>
+
+        <button
+          type="button"
+          (click)="openDeleteDialog(user.id, $event)"
+          class="btnWithIcon"
+        >
+          <svg class="delete" viewBox="0 -960 960 960">
+            <path
+              d="M300.62-128q-38.35 0-64.48-26.14Q210-180.27 210-218.62V-724h-40v-66h188v-38.77h246V-790h188v66h-40v505.38q0 38.35-26.14 64.48Q699.73-128 661.38-128H300.62Zm70.69-147h66v-368h-66v368Zm153.38 0h66v-368h-66v368Z"
+            />
+          </svg>
+          <span class="header">Delete</span>
+        </button>
       </div>
     </div>
-    <button type="button" class="btnWithIcon">
-      <svg class="decline" viewBox="0 -960 960 960">
-        <path
-          d="M300.62-128q-38.35 0-64.48-26.14Q210-180.27 210-218.62V-724h-40v-66h188v-38.77h246V-790h188v66h-40v505.38q0 38.35-26.14 64.48Q699.73-128 661.38-128H300.62Zm70.69-147h66v-368h-66v368Zm153.38 0h66v-368h-66v368Z"
-        />
-      </svg>
-    </button>
   </div>
 </section>

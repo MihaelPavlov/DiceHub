@@ -7,5 +7,6 @@ public interface IEmailHelperService
 {
     Task<EmailTemplate?> GetEmailTemplate(EmailType emailType);
     string LoadTemplate(string template, Dictionary<string, string> placeholders);
+    string LoadSubject(string subject, Dictionary<string, string> placeholders);
     Task CreateEmailHistory(EmailHistory history);
 }

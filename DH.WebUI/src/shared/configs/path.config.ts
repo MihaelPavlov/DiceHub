@@ -109,8 +109,11 @@ export const PATH = {
     CORE: 'user',
     SAVE_TOKEN: 'save-token',
     GET_EMPLOYEE_LIST: 'get-employee-list',
+    GET_EMPLOYEE_BY_ID: 'get-employee-by-id',
     GET_USER_LIST: 'get-user-list',
     CREATE_EMPLOYEE: 'create-employee',
+    UPDATE_EMPLOYEE: 'update-employee',
+    DELETE_EMPLOYEE: 'delete-employee',
     GET_USER_STATS: 'get-user-stats',
   },
   STATISTICS: {

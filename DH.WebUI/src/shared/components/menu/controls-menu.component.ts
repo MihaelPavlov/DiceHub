@@ -19,7 +19,7 @@ export class ControlsMenuComponent {
   }>();
   @Output() visibilityChange = new EventEmitter<boolean>();
 
-  public   get infoDescriptionWithBreaks(): string {
+  public get infoDescriptionWithBreaks(): string {
     return this.infoDescription.replaceAll('\\r\\n', '<br />');
   }
 
@@ -30,10 +30,11 @@ export class ControlsMenuComponent {
 
   public closeMenu(): void {
     this.isVisible = false;
-    this.visibilityChange.emit(this.isVisible); // Notify parent if needed
+    this.visibilityChange.emit(this.isVisible);
   }
 
-  public toggleMenu(): void {
+  public toggleMenu(event: MouseEvent | null = null): void {
+    if (event) event.stopPropagation();
     this.isVisible = !this.isVisible;
     this.visibilityChange.emit(this.isVisible);
   }

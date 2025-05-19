@@ -12,6 +12,7 @@ using DH.OperationResultCore.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Security.Claims;
 
 namespace DH.Adapter.Authentication.Services;
@@ -225,15 +226,24 @@ public class UserService : IUserService
 
     public async Task<UserModel?> GetUserById(string id, CancellationToken cancellationToken)
     {
-        return await this.userManager.Users
+        var user = await this.userManager.Users
             .Where(x => x.Id == id && !x.IsDeleted)
             .Select(x => new UserModel
             {
                 Id = x.Id,
                 UserName = x.UserName ?? "NOT_PROVIDED",
                 Email = x.Email ?? "NOT_PROVIDED",
+                PhoneNumber = x.PhoneNumber ?? "NOT_PROVIDED",
             })
             .FirstOrDefaultAsync(cancellationToken);
+
+        if (user != null)
+        {
+            user.FirstName = user.UserName.Split(", ").FirstOrDefault() ?? string.Empty;
+            user.LastName = user.UserName.Split(", ").LastOrDefault() ?? string.Empty;
+        }
+
+        return user;
     }
 
     public async Task<UserModel?> GetUserByEmail(string email)
@@ -289,7 +299,7 @@ public class UserService : IUserService
         return result;
     }
 
-    public async Task CreateEmployee(CreateEmployeeRequest request, CancellationToken cancellationToken)
+    public async Task<EmployeeResult> CreateEmployee(CreateEmployeeRequest request, CancellationToken cancellationToken)
     {
         if (!await this.HasUserAnyMatchingRole(this.userContext.UserId, Role.SuperAdmin, Role.Owner))
             throw new BadRequestException("Only owner can create new employees");
@@ -304,9 +314,15 @@ public class UserService : IUserService
         var username = $"{request.FirstName}, {request.LastName}";
         var existingUserByUsername = await this.userManager.FindByNameAsync(username);
         if (existingUserByUsername != null)
-            throw new ValidationErrorsException("Exist", "Player with that Username, already exist");
+            throw new ValidationErrorsException("Exist", "A player with the same first and last name already exists.");
 
-        var user = new ApplicationUser() { UserName = username, Email = request.Email, EmailConfirmed = true };
+        var user = new ApplicationUser()
+        {
+            UserName = username,
+            Email = request.Email,
+            PhoneNumber = request.PhoneNumber,
+            EmailConfirmed = true
+        };
         var generatedRandomPassword = GenerateRandomPassword();
         var createUserResult = await userManager.CreateAsync(user, generatedRandomPassword);
         if (!createUserResult.Succeeded)
@@ -323,7 +339,29 @@ public class UserService : IUserService
 
         this.queue.AddSynchronizeNewUserJob(afterRegister.Id);
 
-        //TODO: Send email with the generate password
+        return new EmployeeResult
+        {
+            Email = afterRegister.Email!,
+        };
+    }
+
+    public async Task CreateEmployeePassword(CreateEmployeePasswordRequest request)
+    {
+        var user = await this.userManager.FindByEmailAsync(request.Email);
+        if (user.IsInvalid())
+            throw new NotFoundException("User was not found");
+
+        if (!request.PhoneNumber.Equals(request.PhoneNumber))
+            throw new ValidationErrorsException("PhoneNumber", "Provided phone number does not match the one associated with this account");
+
+        if (!request.NewPassword.Equals(request.ConfirmPassword))
+            throw new ValidationErrorsException("Password", "Password are not identical!");
+
+        var result = await this.userManager.ResetPasswordAsync(user!, request.Token, request.NewPassword);
+
+        if (!result.Succeeded)
+            throw new ValidationErrorsException("Password", @"Create Employee Password was not succesfully, 
+                try again later, or contact us via email");
     }
 
     private async Task<TokenResponseModel?> IssueUserTokensAsync(ApplicationUser user)
@@ -367,5 +405,55 @@ public class UserService : IUserService
         return new string(Enumerable.Range(0, passwordLength)
             .Select(_ => chars[new Random().Next(chars.Length)])
             .ToArray());
+    }
+
+    public async Task<EmployeeResult> UpdateEmployee(UpdateEmployeeRequest request, CancellationToken cancellationToken)
+    {
+        if (!await this.HasUserAnyMatchingRole(this.userContext.UserId, Role.SuperAdmin, Role.Owner))
+            throw new BadRequestException("Only owner can update employee");
+
+        if (!request.FieldsAreValid(out var validationErrors))
+            throw new ValidationErrorsException(validationErrors);
+
+        var existingUser = await this.userManager.FindByIdAsync(request.Id);
+        if (existingUser == null)
+            throw new NotFoundException("User was not found");
+
+        var isEmailChanged = false;
+        var oldEmail = string.Empty;
+        if (existingUser.Email != request.Email)
+        {
+            var existingUserByEmail = await this.userManager.FindByEmailAsync(request.Email);
+
+            if (existingUserByEmail != null)
+                throw new ValidationErrorsException("Exist", "Player with that Email, already exist");
+
+            isEmailChanged = true;
+            oldEmail = existingUser.Email;
+            existingUser.Email = request.Email;
+        }
+
+        var newUsername = $"{request.FirstName}, {request.LastName}";
+
+        if (newUsername != existingUser.UserName)
+        {
+            var existingUserByUsername = await this.userManager.FindByNameAsync(newUsername);
+            if (existingUserByUsername != null)
+                throw new ValidationErrorsException("Exist", "A player with the same first and last name already exists.");
+
+            existingUser.UserName = newUsername;
+        }
+
+        existingUser.PhoneNumber = request.PhoneNumber;
+
+        var updatedUserResult = await userManager.UpdateAsync(existingUser);
+        if (!updatedUserResult.Succeeded)
+            throw new BadRequestException("User registration failed!");
+
+        return new EmployeeResult
+        {
+            Email = existingUser.Email!,
+            IsEmailChanged = isEmailChanged,
+        };
     }
 }

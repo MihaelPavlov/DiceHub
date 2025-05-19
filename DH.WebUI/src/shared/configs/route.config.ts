@@ -63,6 +63,7 @@ export const ROUTE = {
     CORE: 'profile',
     EMPLOYEES: 'employees',
     ADD_EMPLOYEE: 'add-employee',
+    UPDATE_EMPLOYEE: 'update-employee',
   },
 };
 
@@ -124,5 +125,6 @@ export const FULL_ROUTE = {
   PROFILE: {
     EMPLOYEES: `${ROUTE.PROFILE.CORE}/${ROUTE.PROFILE.EMPLOYEES}`,
     ADD_EMPLOYEE: `${ROUTE.PROFILE.CORE}/${ROUTE.PROFILE.ADD_EMPLOYEE}`,
+    UPDATE_BY_ID:(employeeId: string) => `${ROUTE.PROFILE.CORE}/${employeeId}/${ROUTE.PROFILE.UPDATE_EMPLOYEE}`,
   },
 };
