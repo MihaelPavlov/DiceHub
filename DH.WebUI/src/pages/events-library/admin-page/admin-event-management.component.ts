@@ -10,6 +10,7 @@ import { FULL_ROUTE } from '../../../shared/configs/route.config';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ControlsMenuComponent } from '../../../shared/components/menu/controls-menu.component';
 import { DateHelper } from '../../../shared/helpers/date-helper';
+import { LogLevel } from '@microsoft/signalr';
 
 @Component({
   selector: 'app-admin-event-management',
@@ -97,7 +98,11 @@ export class AdminEventManagementComponent implements OnInit, OnDestroy {
       //TODO: Add event delete
       this.router.navigateByUrl('/games/add-existing-game');
     } else if (key === 'send-notification') {
-      this.router.navigateByUrl('/games/reservations');
+      this.eventService.sendEventNotifications(this.visibleMenuId!).subscribe({
+        error: (error) => {
+          console.log(error);
+        },
+      });
     }
     this.visibleMenuId = null;
   }

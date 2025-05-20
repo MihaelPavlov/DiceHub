@@ -5,8 +5,8 @@ namespace DH.Adapter.QRManager.QRCodeStates;
 
 internal class UnknownQRCodeState : IQRCodeState
 {
-    public async Task<QrCodeValidationResult> HandleAsync(IQRCodeContext context, QRReaderModel data, CancellationToken cancellationToken)
+    public Task<QrCodeValidationResult> HandleAsync(IQRCodeContext context, QRReaderModel data, CancellationToken cancellationToken)
     {
-        return new QrCodeValidationResult(data.Id, QrCodeType.Unknown);
+        return Task.FromResult(new QrCodeValidationResult(data.Id, QrCodeType.Unknown));
     }
 }

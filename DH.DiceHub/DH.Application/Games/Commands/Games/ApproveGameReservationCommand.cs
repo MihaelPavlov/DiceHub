@@ -1,5 +1,4 @@
-﻿using DH.Domain.Adapters.Authentication.Models;
-using DH.Domain.Adapters.PushNotifications.Messages;
+﻿using DH.Domain.Adapters.PushNotifications.Messages;
 using DH.Domain.Adapters.PushNotifications;
 using DH.Domain.Entities;
 using DH.Domain.Enums;
@@ -32,10 +31,7 @@ internal class ApproveGameReservationCommandHandler(IRepository<GameReservation>
 
         await this.pushNotificationsService
             .SendNotificationToUsersAsync(
-                new List<GetUserByRoleModel>
-                {
-                    { new() { Id = reservation.UserId } }
-                },
+                [reservation.UserId],
                 new GameReservationApprovedMessage(reservation.NumberOfGuests, game!.Name, reservation.ReservationDate),
                 cancellationToken);
     }

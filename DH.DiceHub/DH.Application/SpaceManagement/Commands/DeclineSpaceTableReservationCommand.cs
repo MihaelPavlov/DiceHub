@@ -1,5 +1,4 @@
-﻿using DH.Domain.Adapters.Authentication.Models;
-using DH.Domain.Adapters.PushNotifications.Messages;
+﻿using DH.Domain.Adapters.PushNotifications.Messages;
 using DH.Domain.Adapters.PushNotifications;
 using DH.Domain.Entities;
 using DH.Domain.Enums;
@@ -45,10 +44,7 @@ internal class DeclineSpaceTableReservationCommandHandler(
 
         await this.pushNotificationsService
             .SendNotificationToUsersAsync(
-                new List<GetUserByRoleModel>
-                {
-                    { new() { Id = reservation.UserId } }
-                },
+                [reservation.UserId],
                 new SpaceTableDeclinedMessage(reservation.NumberOfGuests, reservation.ReservationDate),
         cancellationToken);
     }

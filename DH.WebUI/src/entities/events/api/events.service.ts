@@ -40,7 +40,14 @@ export class EventsService {
       `/${PATH.EVENTS.CORE}/${PATH.EVENTS.GET_USER_EVENTS}`
     );
   }
-  
+
+  public sendEventNotifications(eventId: number): Observable<any> {
+    return this.api.post(
+      `/${PATH.EVENTS.CORE}/${PATH.EVENTS.SEND_EVENT_NOTIFICATIONS}/${eventId}`,
+      {}
+    );
+  }
+
   public getListForStaff(
     searchExpression: string
   ): Observable<IEventListResult[] | null> {

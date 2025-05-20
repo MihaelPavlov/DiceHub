@@ -23,11 +23,11 @@ public interface IPushNotificationsService
     /// <summary>
     /// Sends a push notification to a specified list of users.
     /// </summary>
-    /// <param name="users">The list of users with the specified role who should receive the notification.</param>
+    /// <param name="userIds">The list of users with the specified role who should receive the notification.</param>
     /// <param name="message">The message details, including title and body, to be sent to the users.</param>
     /// <param name="cancellationToken">Cancellation Token.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    Task SendNotificationToUsersAsync(List<GetUserByRoleModel> users, MessageRequest message, CancellationToken cancellationToken);
+    Task SendNotificationToUsersAsync(List<string> userIds, MessageRequest message, CancellationToken cancellationToken);
     Task<IEnumerable<GetUserNotificationsModel>> GetNotificationsByUserId(CancellationToken cancellationToken);
     Task MarkedNotificationAsViewed(int notificationId, CancellationToken cancellationToken);
     Task ClearUserAllNotifications(CancellationToken cancellationToken);

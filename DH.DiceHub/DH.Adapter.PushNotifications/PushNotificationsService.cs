@@ -1,5 +1,4 @@
 ﻿using DH.Domain.Adapters.Authentication;
-using DH.Domain.Adapters.Authentication.Models;
 using DH.Domain.Adapters.PushNotifications;
 using DH.Domain.Adapters.PushNotifications.Messages.Common;
 using DH.Domain.Adapters.PushNotifications.Messages.Models;
@@ -7,7 +6,6 @@ using DH.Domain.Entities;
 using DH.Domain.Repositories;
 using FirebaseAdmin.Messaging;
 using Microsoft.Extensions.Logging;
-using System.Text.Json;
 
 namespace DH.Adapter.PushNotifications;
 
@@ -157,13 +155,12 @@ internal class PushNotificationsService : IPushNotificationsService
         this.logger.LogWarning("Sent message from type {TypeOfMessage}: {SuccessCount} successful, {FailureCount} failed.", typeof(MessageRequest), result.SuccessCount, result.FailureCount);
     }
 
-    public async Task SendNotificationToUsersAsync(List<GetUserByRoleModel> users, MessageRequest message, CancellationToken cancellationToken)
+    public async Task SendNotificationToUsersAsync(List<string> userIds, MessageRequest message, CancellationToken cancellationToken)
     {
-        var userIds = users.Select(x => x.Id).ToList();
         var deviceTokens = await this.deviceTokenRepository.GetWithPropertiesAsync(x => userIds.Contains(x.UserId), x => x, CancellationToken.None);
-        foreach (var user in users)
+        foreach (var userId in userIds)
         {
-            var deviceToken = deviceTokens.FirstOrDefault(x => x.UserId == user.Id);
+            var deviceToken = deviceTokens.FirstOrDefault(x => x.UserId == userId);
             if (deviceToken is null)
             {
                 this.logger.LogWarning("Message from type {typeMessage}, was not send", typeof(MessageRequest));
@@ -189,7 +186,7 @@ internal class PushNotificationsService : IPushNotificationsService
 
                 await this.userNotificationRepository.AddAsync(new UserNotification
                 {
-                    UserId = user.Id,
+                    UserId = userId,
                     MessageBody = message.Body,
                     MessageTitle = message.Title,
                     MessageId = responseId.Split("/").Last(),

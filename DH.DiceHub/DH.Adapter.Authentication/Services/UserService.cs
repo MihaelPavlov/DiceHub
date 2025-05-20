@@ -255,7 +255,7 @@ public class UserService : IUserService
 
         return new UserModel
         {
-            Id = user.Id,
+            Id = user!.Id,
             UserName = user.UserName ?? "NOT_PROVIDED",
             Email = user.Email ?? "NOT_PROVIDED",
         };

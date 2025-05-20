@@ -41,6 +41,16 @@ public class EventsController : ControllerBase
         return Ok(result);
     }
 
+    [HttpPost("send-event-notifications/{eventId}")]
+    [ActionAuthorize(UserAction.EventsAdminRead)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> SendEventNotifications(int eventId, CancellationToken cancellationToken)
+    {
+        await this.mediator.Send(
+           new SendEventParticipantsNotificationsCommand(eventId), cancellationToken);
+        return Ok();
+    }
+
     [HttpGet("get-user-events")]
     [ActionAuthorize(UserAction.EventsRead)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetEventListQueryModel>))]

@@ -36,7 +36,7 @@ public class SmtpEmailSender(
 
             return true;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             // Exception Details
 

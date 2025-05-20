@@ -1,5 +1,4 @@
-﻿using DH.Domain.Adapters.Authentication.Models;
-using DH.Domain.Adapters.PushNotifications;
+﻿using DH.Domain.Adapters.PushNotifications;
 using DH.Domain.Adapters.PushNotifications.Messages;
 using DH.Domain.Entities;
 using DH.Domain.Repositories;
@@ -38,10 +37,7 @@ internal class UpdateSpaceTableReservationCommandHandler(IRepository<SpaceTableR
         {
             await this.pushNotificationsService
                 .SendNotificationToUsersAsync(
-                    new List<GetUserByRoleModel>
-                    {
-                    { new() { Id = reservation.UserId } }
-                    },
+                    [reservation.UserId],
                     new SpaceTablePublicNoteUpdatedMessage(reservation.NumberOfGuests, reservation.ReservationDate),
                     cancellationToken);
         }

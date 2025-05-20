@@ -9,8 +9,10 @@ public class Event
     public int MaxPeople { get; set; }
     public int GameId { get; set; }
     public bool IsCustomImage { get; set; } = false;
+    public bool IsDeleted { get; set; }
 
     public virtual Game Game { get; set; } = null!;
     public virtual EventImage? Image { get; set; }
     public virtual ICollection<EventParticipant> Participants { get; set; } = [];
+    public virtual ICollection<EventNotification> Notifications { get; set; } = [];
 }

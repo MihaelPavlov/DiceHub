@@ -1,5 +1,4 @@
-﻿
-using DH.Domain.Adapters.Authentication;
+﻿using DH.Domain.Adapters.Authentication;
 using DH.Domain.Adapters.Authentication.Models.Enums;
 using DH.Domain.Adapters.Authentication.Services;
 using DH.Domain.Adapters.PushNotifications;
@@ -42,10 +41,10 @@ internal class CreateSpaceTableReservationCommandHandler(IRepository<SpaceTableR
         }, cancellationToken);
 
         var users = await this.userService.GetUserListByRole(Role.Staff, cancellationToken);
-
+        var userIds = users.Select(user => user.Id).ToList();
         await this.pushNotificationsService
             .SendNotificationToUsersAsync(
-                users,
+                userIds,
                 new SpaceTableReservationManagementReminder(request.NumberOfGuests, reservationDate),
                 cancellationToken);
     }

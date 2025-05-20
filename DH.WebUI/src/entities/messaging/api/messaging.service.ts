@@ -28,8 +28,11 @@ export class MessagingService {
 
       console.log('Device token retrieved:', token);
 
-      if (this.authService.getUser)
+      if (this.authService.getUser){
+        console.log('User is logged in, saving token to database');
         this.authService.saveToken(token).subscribe();
+
+      }
     } catch (error) {
       console.warn('Error retrieving device token', error);
     }

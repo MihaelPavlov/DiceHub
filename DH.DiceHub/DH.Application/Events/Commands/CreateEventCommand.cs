@@ -46,11 +46,13 @@ internal class CreateEventCommandHandler : IRequestHandler<CreateEventCommand, i
             cancellationToken
         );
 
+        //TODO: Send to all staff and only to the users that have email notification enabled
         var users = await this.userService.GetUserListByRoles([Role.User, Role.Staff], cancellationToken);
 
+        var userIds = users.Select(x => x.Id).ToList();
         await this.pushNotificationsService
            .SendNotificationToUsersAsync(
-               users,
+               userIds,
                new NewEventAddedMessage(
                 request.Event.Name,
                 request.Event.StartDate),
