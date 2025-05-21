@@ -57,7 +57,7 @@ internal class EventService : IEventService
                 join g in context.Games on e.GameId equals g.Id
                 join ei in context.EventImages on e.Id equals ei.EventId into eventImages
                 from ei in eventImages.DefaultIfEmpty()
-                where e.Id == eventId
+                where e.Id == eventId && !e.IsDeleted
                 select new GetEventByIdQueryModel
                 {
                     Id = e.Id,
@@ -89,7 +89,7 @@ internal class EventService : IEventService
                 join g in context.Games on e.GameId equals g.Id
                 join ei in context.EventImages on e.Id equals ei.EventId into eventImages
                 from ei in eventImages.DefaultIfEmpty()
-                where today.Date <= e.StartDate.Date
+                where today.Date <= e.StartDate.Date && !e.IsDeleted
                 select new GetEventListQueryModel
                 {
                     Id = e.Id,
@@ -118,7 +118,7 @@ internal class EventService : IEventService
                 join g in context.Games on e.GameId equals g.Id
                 join ei in context.EventImages on e.Id equals ei.EventId into eventImages
                 from ei in eventImages.DefaultIfEmpty()
-                where e.Name.ToLower().Contains(searchExpression.ToLower())
+                where e.Name.ToLower().Contains(searchExpression.ToLower()) && !e.IsDeleted
                 select new GetEventListQueryModel
                 {
                     Id = e.Id,
@@ -148,7 +148,7 @@ internal class EventService : IEventService
                 join g in context.Games on ep.Event.GameId equals g.Id
                 join ei in context.EventImages on ep.Event.Id equals ei.EventId into eventImages
                 from ei in eventImages.DefaultIfEmpty()
-                where today.Date <= ep.Event.StartDate.Date
+                where today.Date <= ep.Event.StartDate.Date && !ep.Event.IsDeleted
                 select new GetEventListQueryModel
                 {
                     Id = ep.Event.Id,

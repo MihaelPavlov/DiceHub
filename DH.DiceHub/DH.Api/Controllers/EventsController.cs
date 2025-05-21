@@ -112,6 +112,15 @@ public class EventsController : ControllerBase
         return Ok();
     }
 
+    [HttpDelete]
+    [ActionAuthorize(UserAction.EventsCUD)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> DeleteEvent(int eventId, CancellationToken cancellationToken)
+    {
+        await this.mediator.Send(new DeleteEventCommand(eventId), cancellationToken);
+        return Ok();
+    }
+
     [HttpPost("participate")]
     [ActionAuthorize(UserAction.EventsRead)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]

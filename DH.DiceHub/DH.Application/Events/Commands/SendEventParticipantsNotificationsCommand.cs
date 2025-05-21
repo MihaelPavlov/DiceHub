@@ -43,9 +43,7 @@ internal class SendEventParticipantsNotificationsCommandHandler(
         await this.pushNotificationsService
            .SendNotificationToUsersAsync(
                participantIds,
-               new EventReminder(
-               eventDb.Name,
-               eventDb.StartDate),
+               new EventReminder(eventDb.Name, eventDb.StartDate),
                cancellationToken);
     }
 }

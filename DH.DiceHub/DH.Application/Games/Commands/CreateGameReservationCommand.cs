@@ -67,7 +67,8 @@ internal class CreateGameReservationCommandHandler(
 
         var game = await this.gameRepository.GetByAsync(x => x.Id == request.Reservation.GameId, cancellationToken);
 
-        await this.pushNotificationsService.SendNotificationToUsersAsync(users,
+        var userIds = users.Select(users => users.Id).ToList();
+        await this.pushNotificationsService.SendNotificationToUsersAsync(userIds,
             new GameReservationManagementReminder(game!.Name, currentUser.UserName, request.Reservation.PeopleCount, reservation.ReservationDate), cancellationToken);
     }
 }
