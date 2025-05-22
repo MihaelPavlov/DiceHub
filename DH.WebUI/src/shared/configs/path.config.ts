@@ -35,6 +35,7 @@ export const PATH = {
     LIST_FOR_USERS: 'get-list-for-user',
     LIST_FOR_STAFF: 'get-list-for-staff',
     GET_USER_EVENTS: 'get-user-events',
+    SEND_EVENT_NOTIFICATIONS: 'send-event-notifications',
     PARTICIPATE: 'participate',
     REMOVE_PARTICIPANT: 'remove-participant',
     CHECK_USER_PARTICIPATION: 'check-user-participation',

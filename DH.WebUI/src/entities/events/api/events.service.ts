@@ -113,4 +113,8 @@ export class EventsService {
 
     return this.api.put<number>(`/${PATH.EVENTS.CORE}`, formData);
   }
+
+  public delete(id: number): Observable<null> {
+    return this.api.delete(`/${PATH.EVENTS.CORE}/${id}`);
+  }
 }

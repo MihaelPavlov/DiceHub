@@ -10,7 +10,8 @@ import { FULL_ROUTE } from '../../../shared/configs/route.config';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ControlsMenuComponent } from '../../../shared/components/menu/controls-menu.component';
 import { DateHelper } from '../../../shared/helpers/date-helper';
-import { LogLevel } from '@microsoft/signalr';
+import { EventConfirmDeleteDialog } from '../../../features/events-library/dialogs/event-confirm-delete/event-confirm-delete.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-admin-event-management',
@@ -33,7 +34,8 @@ export class AdminEventManagementComponent implements OnInit, OnDestroy {
     private readonly menuTabsService: MenuTabsService,
     private readonly searchService: SearchService,
     private readonly eventService: EventsService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly dialog: MatDialog
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.EVENTS);
     this.handleHeaderMenuItemClick = this.handleHeaderMenuItemClick.bind(this);
@@ -94,9 +96,8 @@ export class AdminEventManagementComponent implements OnInit, OnDestroy {
       this.router.navigateByUrl(
         FULL_ROUTE.EVENTS.ADMIN.UPDATE_BY_ID(this.visibleMenuId)
       );
-    } else if (key === 'delete') {
-      //TODO: Add event delete
-      this.router.navigateByUrl('/games/add-existing-game');
+    } else if (key === 'delete' && this.visibleMenuId) {
+      this.openDeleteDialog(this.visibleMenuId);
     } else if (key === 'send-notification') {
       this.eventService.sendEventNotifications(this.visibleMenuId!).subscribe({
         error: (error) => {
@@ -106,7 +107,17 @@ export class AdminEventManagementComponent implements OnInit, OnDestroy {
     }
     this.visibleMenuId = null;
   }
+  private openDeleteDialog(id: number): void {
+    const dialogRef = this.dialog.open(EventConfirmDeleteDialog, {
+      data: { id: id },
+    });
 
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.fetchEventList();
+      }
+    });
+  }
   public handleHeaderMenuItemClick(key: string): void {
     if (key === 'add') {
       this.router.navigateByUrl(FULL_ROUTE.EVENTS.ADMIN.ADD);

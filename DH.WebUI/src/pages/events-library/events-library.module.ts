@@ -10,6 +10,8 @@ import { AdminEventManagementComponent } from './admin-page/admin-event-manageme
 import { AddUpdateEventComponent } from '../../features/events-library/components/add-update-event/page/add-update-event.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { EventConfirmDeleteDialog } from '../../features/events-library/dialogs/event-confirm-delete/event-confirm-delete.component';
+import { MatDialogActions, MatDialogClose } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -18,6 +20,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     AdminEventManagementComponent,
     AddUpdateEventComponent,
     AdminEventDetailsComponent,
+    EventConfirmDeleteDialog
   ],
   exports: [],
   providers: [],
@@ -29,6 +32,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
     FormsModule,
     ReactiveFormsModule,
     NgSelectModule,
+    MatDialogActions,
+    MatDialogClose
   ],
 })
 export class EventsLibraryModule {}

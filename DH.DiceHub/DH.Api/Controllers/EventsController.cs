@@ -112,7 +112,7 @@ public class EventsController : ControllerBase
         return Ok();
     }
 
-    [HttpDelete]
+    [HttpDelete("{eventId}")]
     [ActionAuthorize(UserAction.EventsCUD)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> DeleteEvent(int eventId, CancellationToken cancellationToken)
