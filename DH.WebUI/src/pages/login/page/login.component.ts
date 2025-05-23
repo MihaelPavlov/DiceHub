@@ -179,11 +179,15 @@ export class LoginComponent extends Form implements OnInit {
     }
   }
 
-  loginUser() {
+  public async loginUser(): Promise<void> {
+    const deviceToken =
+      await this.messagingService.getDeviceTokenForRegistration();
+
     this.authService
       .login({
         email: 'rap4obg@abv.bg',
         password: '1qaz!QAZ',
+        deviceToken,
       })
       .subscribe({
         next: (response) => {
@@ -286,11 +290,15 @@ export class LoginComponent extends Form implements OnInit {
       });
   }
 
-  loginAdmin() {
+  public async loginAdmin() {
+    const deviceToken =
+      await this.messagingService.getDeviceTokenForRegistration();
+
     this.authService
       .login({
         email: 'sa@dicehub.com',
         password: '1qaz!QAZ',
+        deviceToken,
       })
       .subscribe({
         next: (response) => {

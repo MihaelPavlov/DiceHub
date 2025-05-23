@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { getMessaging, provideMessaging } from '@angular/fire/messaging';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';

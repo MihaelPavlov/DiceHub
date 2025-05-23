@@ -71,7 +71,7 @@ public class UserService : IUserService
         if (!result.Succeeded)
             throw new ValidationErrorsException("Email", "Email or Password is invalid!");
 
-        var userDiviceToken = await this.userDeviceTokenRepository.GetByAsync(x => x.UserId == user!.Id, CancellationToken.None);
+        var userDiviceToken = await this.userDeviceTokenRepository.GetByAsyncWithTracking(x => x.UserId == user!.Id, CancellationToken.None);
         if (userDiviceToken is null)
         {
             await this.userDeviceTokenRepository.AddAsync(new UserDeviceToken
@@ -80,6 +80,11 @@ public class UserService : IUserService
                 LastUpdated = DateTime.UtcNow,
                 UserId = user!.Id
             }, CancellationToken.None);
+        }
+        else if (!string.IsNullOrEmpty(form.DeviceToken))
+        {
+            userDiviceToken.DeviceToken = form.DeviceToken;
+            await this.userDeviceTokenRepository.SaveChangesAsync(CancellationToken.None);
         }
 
         return await IssueUserTokensAsync(user!);

@@ -30,7 +30,7 @@ interface IRegisterForm {
 })
 export class RegisterComponent extends Form implements OnInit {
   override form: Formify<IRegisterForm>;
-  
+
   public showPassword: boolean = false;
   public showConfirmPassword: boolean = false;
   public showResend: boolean = false;
@@ -80,7 +80,7 @@ export class RegisterComponent extends Form implements OnInit {
             email: this.form.controls.email.value,
             password: this.form.controls.password.value,
             confirmPassword: this.form.controls.confirmPassword.value,
-            deviceToken,
+            deviceToken: deviceToken ?? '',
           })
           .subscribe({
             next: (response) => {

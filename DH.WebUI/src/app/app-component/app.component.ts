@@ -33,7 +33,7 @@ export class AppComponent implements OnInit {
     private readonly activatedRoute: ActivatedRoute
   ) {
     // TODO: Do i need initialize the user
-    // this._initializeUser();
+     this._initializeUser();
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
       map(() => {
@@ -57,11 +57,11 @@ export class AppComponent implements OnInit {
   /**
    * Initialize the user on component load
    */
-  // private _initializeUser(): void {
-  //   if (!this.authService.getUser) {
-  //      this.authService.userinfo();
-  //   }
-  // }
+  private _initializeUser(): void {
+    if (!this.authService.getUser) {
+       this.authService.userinfo();
+    }
+  }
 
   /**
    * Initialize Firebase Cloud Messaging related tasks
@@ -88,12 +88,16 @@ export class AppComponent implements OnInit {
       next: () => {
         this.notificationService.areAnyActiveNotifications().subscribe({
           next: (result) => {
+            console.log('------------Are any active notifications:', result);
             this.areAnyActiveNotificationSubject.next(result);
             this.cd.detectChanges();
           },
         });
       },
-      error: (error) => {},
+      error: (error) => {
+        console.log('Error receiving message:', error);
+        
+      },
       complete: () => {
         console.log('Done listening for messages.');
       },

@@ -164,7 +164,7 @@ internal class PushNotificationsService : IPushNotificationsService
             if (deviceToken is null)
             {
                 this.logger.LogWarning("Message from type {typeMessage}, was not send", typeof(MessageRequest));
-                return;
+                continue;
             }
             try
             {
@@ -181,7 +181,7 @@ internal class PushNotificationsService : IPushNotificationsService
                 if (string.IsNullOrEmpty(responseId))
                 {
                     this.logger.LogWarning("Message from type {typeMessage}, was not send", typeof(MessageRequest));
-                    return;
+                    continue;
                 }
 
                 await this.userNotificationRepository.AddAsync(new UserNotification

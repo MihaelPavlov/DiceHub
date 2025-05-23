@@ -4,6 +4,8 @@ import { getToken } from 'firebase/messaging';
 import { Messaging } from '@angular/fire/messaging';
 import { environment } from '../../../app/environment';
 import { AuthService } from '../../auth/auth.service';
+import { Subscription } from 'rxjs';
+import { LoadingService } from '../../../shared/services/loading.service';
 
 @Injectable({
   providedIn: 'root',
@@ -14,42 +16,128 @@ export class MessagingService {
 
   constructor(
     private readonly api: RestApiService,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly loadingService: LoadingService
   ) {}
 
-  /**
-   * Retrieve the device token from Firebase Messaging and update the token in the database
-   */
-  public async getDeviceToken(): Promise<void> {
+  private async registerServiceWorker(): Promise<ServiceWorkerRegistration | null> {
+    if (!('serviceWorker' in navigator)) {
+      console.warn('Service Workers not supported in this browser');
+      return null;
+    }
+
     try {
-      const token = await getToken(this._messaging, {
-        vapidKey: this._env.firebase.vapidKey,
-      });
+      this.loadingService.loadingOn();
+      const registration = await navigator.serviceWorker.register(
+        '/firebase-messaging-sw.js',
+        { scope: '/firebase-cloud-messaging-push-scope' }
+      );
 
-      console.log('Device token retrieved:', token);
-
-      if (this.authService.getUser){
-        console.log('User is logged in, saving token to database');
-        this.authService.saveToken(token).subscribe();
-
+      if (!registration.active) {
+        console.debug('Waiting for service worker to activate...');
+        await new Promise<void>((resolve) => {
+          const installingWorker = registration.installing || registration.waiting;
+          if (installingWorker) {
+            installingWorker.addEventListener('statechange', () => {
+              if (installingWorker.state === 'activated') {
+                resolve();
+              }
+            });
+          } else {
+            resolve();
+          }
+        });
       }
-    } catch (error) {
-      console.warn('Error retrieving device token', error);
+      console.info('Service Worker registered successfully:', registration.scope);
+      this.loadingService.loadingOff();
+      return registration;
+    } catch (error: any) {
+      console.error('Service Worker registration failed:', {
+        message: error.message,
+        code: error.code,
+        stack: error.stack,
+      });
+      this.loadingService.loadingOff();
+      return null;
     }
   }
 
-  /**
-   * Retrieve the device token from Firebase Messaging
-   */
-  public async getDeviceTokenForRegistration(): Promise<string> {
+  public async getDeviceToken(): Promise<void> {
     try {
+      this.loadingService.loadingOn();
+      const registration = await navigator.serviceWorker.getRegistration(
+        '/firebase-cloud-messaging-push-scope'
+      );
+      if (registration?.active) {
+        console.debug('Using existing active service worker:', registration.scope);
+      } else {
+        console.warn('No active service worker. Registering...');
+        await this.registerServiceWorker();
+      }
+
       const token = await getToken(this._messaging, {
         vapidKey: this._env.firebase.vapidKey,
+        serviceWorkerRegistration: registration,
       });
-      return token;
-    } catch (error) {
-      console.warn('Error retrieving device token', error);
+
+      const user = this.authService.getUser;
+      console.info(`Device token retrieved for user ${user?.id || 'unknown'}:`, token);
+
+      if (user) {
+        console.debug('Subscribing to save token for user:', user.id);
+        const subscription: Subscription = this.authService.saveToken(token).subscribe({
+          error: (err) => console.error('Failed to save token:', {
+            message: err.message,
+            code: err.code,
+            stack: err.stack,
+          }),
+          complete: () => {
+            console.debug('Token saved successfully');
+            this.loadingService.loadingOff();
+            subscription.unsubscribe();
+          },
+        });
+      } else {
+        this.loadingService.loadingOff();
+      }
+    } catch (error: any) {
+      console.warn('Error retrieving device token:', {
+        message: error.message,
+        code: error.code,
+        stack: error.stack,
+      });
+      this.loadingService.loadingOff();
     }
-    return '';
+  }
+
+  public async getDeviceTokenForRegistration(): Promise<string | null> {
+    try {
+      this.loadingService.loadingOn();
+      const registration = await navigator.serviceWorker.getRegistration(
+        '/firebase-cloud-messaging-push-scope'
+      );
+      if (registration?.active) {
+        console.debug('Using existing active service worker:', registration.scope);
+      } else {
+        console.warn('No active service worker. Registering...');
+        await this.registerServiceWorker();
+      }
+
+      const token = await getToken(this._messaging, {
+        vapidKey: this._env.firebase.vapidKey,
+        serviceWorkerRegistration: registration,
+      });
+      console.info('Device token retrieved:', token);
+      this.loadingService.loadingOff();
+      return token;
+    } catch (error: any) {
+      console.warn('Error retrieving device token:', {
+        message: error.message,
+        code: error.code,
+        stack: error.stack,
+      });
+      this.loadingService.loadingOff();
+      return null;
+    }
   }
 }
