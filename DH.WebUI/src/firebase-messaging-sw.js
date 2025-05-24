@@ -15,13 +15,3 @@ importScripts(
   });
   
   const messaging = firebase.messaging(app);
-
-// messaging.onBackgroundMessage((payload) => {
-//   // Customize notification here, do sth with payload
-//   const notificationTitle = 'Modified Message Title';
-//   const notificationOptions = {
-//     body: 'Modified body.',
-//     icon: '/app-logo.png'
-//   };
-//   self.registration.showNotification(notificationTitle, notificationOptions);
-// });
