@@ -1,4 +1,4 @@
-<button (click)="loginUser()">Login USER</button>
+<button (click)="loginUser() ">Login USER</button>
 <button (click)="loginUser2()">Login user 2</button>
 <button (click)="loginUser3()">Login user 3</button>
 <button (click)="loginUser4()">Login user 4</button>
@@ -19,7 +19,12 @@
   <form [formGroup]="this.form" class="container">
     <div class="input-field">
       <label for="email" class="required">Email</label>
-      <input placeholder="email.." type="text" formControlName="email" />
+      <input
+        placeholder="email.."
+        type="text"
+        autocomplete="email"
+        formControlName="email"
+      />
     </div>
     <div class="input-field password-field">
       <label for="password" class="required">Password</label>
@@ -27,6 +32,7 @@
         placeholder="password.."
         [type]="showPassword ? 'text' : 'password'"
         formControlName="password"
+        autocomplete="current-password"
       />
       <app-password-visibility-toggle
         [(isVisible)]="showPassword"

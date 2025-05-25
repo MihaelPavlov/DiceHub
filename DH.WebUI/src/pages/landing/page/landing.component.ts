@@ -35,10 +35,11 @@ export class LandingComponent implements AfterViewInit {
     }));
     console.log('slides', this.slides);
     // Ensure snapping after manual scrolls
-    this.carouselViewport.nativeElement.addEventListener(
-      'scroll',
-      this.onScrollEnd.bind(this)
-    );
+    if (this.carouselViewport.nativeElement)
+      this.carouselViewport.nativeElement.addEventListener(
+        'scroll',
+        this.onScrollEnd.bind(this)
+      );
   }
 
   public scrollToSlide(index: number): void {

@@ -29,7 +29,6 @@ export class AuthGuard {
     const token = localStorage.getItem('jwt');
 
     if (token && !this.jwtHelper.isTokenExpired(token)) {
-      console.log(this.jwtHelper.decodeToken(token));
       return of(true);
     }
 
@@ -37,7 +36,6 @@ export class AuthGuard {
       take(1),
       tap((isRefreshSuccess) => {
         if (!isRefreshSuccess) {
-          console.log('redirect to login');
           this.authService.logout();
           this.router.navigateByUrl('login');
         } else {
@@ -74,7 +72,7 @@ export class AuthGuard {
         }),
         map(() => true), // Emit true if refresh is successful
         catchError((error) => {
-          console.log(error);
+          console.error(error);
           this.authService.logout();
           return of(false); // Emit false if refresh fails
         })

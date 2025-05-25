@@ -21,9 +21,13 @@ import { PasswordVisibilityToggleComponent } from './components/password-visibil
     ParseDateTagPipe,
     ControlsMenuComponent,
     RandomColorDirective,
-    PasswordVisibilityToggleComponent
+    PasswordVisibilityToggleComponent,
   ],
-  imports: [CommonModule, ReactiveFormsModule, MatProgressBarModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatProgressBarModule
+  ],
   exports: [
     CommonModule,
     ReactiveFormsModule,
@@ -34,7 +38,7 @@ import { PasswordVisibilityToggleComponent } from './components/password-visibil
     ControlsMenuComponent,
     RandomColorDirective,
     DatePipe,
-    PasswordVisibilityToggleComponent
+    PasswordVisibilityToggleComponent,
   ],
   providers: [
     EntityImagePipe,

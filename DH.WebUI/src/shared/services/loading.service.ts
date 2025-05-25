@@ -9,11 +9,11 @@ export class LoadingService {
 
   loading$ = this.loadingSubject.asObservable();
 
-  public loadingOn(): void {
+  public loadingOn(): void {    
     this.loadingSubject.next(true);
   }
 
-  public loadingOff(): void {
+  public loadingOff(): void {    
     this.loadingSubject.next(false);
   }
 }

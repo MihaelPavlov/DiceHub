@@ -28,7 +28,6 @@ export class EntityImagePipe implements PipeTransform {
 
   transform(entityType: ImageEntityType, imageId: number): Observable<string> {
     const cachedImageUrl = this.cacheService.get(entityType, imageId);
-    console.log('cachedImageUrl', cachedImageUrl);
     const imageSharedUrl = 'shared/assets/images/default-no-image.jpg';
 
     if (cachedImageUrl) {

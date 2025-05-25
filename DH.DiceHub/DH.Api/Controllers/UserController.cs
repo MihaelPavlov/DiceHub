@@ -124,13 +124,13 @@ public class UserController : ControllerBase
     public IActionResult UserInfo()
     {
         if (!HttpContext.Request.Headers.TryGetValue("Authorization", out var authHeader))
-            return BadRequest();
+            return Ok(null);
 
         var accessToken = authHeader.ToString().Split(' ').Last();
         var tokenHandler = new JwtSecurityTokenHandler();
 
         if (!tokenHandler.CanReadToken(accessToken))
-            return BadRequest(new { message = "Invalid token format" });
+            return Ok(null);
 
         try
         {

@@ -1,5 +1,4 @@
 import { inject, Injectable } from '@angular/core';
-import { RestApiService } from '../../../shared/services/rest-api.service';
 import { getToken } from 'firebase/messaging';
 import { Messaging } from '@angular/fire/messaging';
 import { environment } from '../../../app/environment';
@@ -15,10 +14,9 @@ export class MessagingService {
   private readonly _env = environment;
 
   constructor(
-    private readonly api: RestApiService,
-    private readonly authService: AuthService,
-    private readonly loadingService: LoadingService
-  ) {}
+    private readonly authService: AuthService
+  ) {
+  }
 
   private async registerServiceWorker(): Promise<ServiceWorkerRegistration | null> {
     if (!('serviceWorker' in navigator)) {
@@ -27,7 +25,6 @@ export class MessagingService {
     }
 
     try {
-      this.loadingService.loadingOn();
       const registration = await navigator.serviceWorker.register(
         '/firebase-messaging-sw.js',
         { scope: '/firebase-cloud-messaging-push-scope' }
@@ -36,7 +33,8 @@ export class MessagingService {
       if (!registration.active) {
         console.debug('Waiting for service worker to activate...');
         await new Promise<void>((resolve) => {
-          const installingWorker = registration.installing || registration.waiting;
+          const installingWorker =
+            registration.installing || registration.waiting;
           if (installingWorker) {
             installingWorker.addEventListener('statechange', () => {
               if (installingWorker.state === 'activated') {
@@ -48,8 +46,10 @@ export class MessagingService {
           }
         });
       }
-      console.info('Service Worker registered successfully:', registration.scope);
-      this.loadingService.loadingOff();
+      console.info(
+        'Service Worker registered successfully:',
+        registration.scope
+      );
       return registration;
     } catch (error: any) {
       console.error('Service Worker registration failed:', {
@@ -57,19 +57,20 @@ export class MessagingService {
         code: error.code,
         stack: error.stack,
       });
-      this.loadingService.loadingOff();
       return null;
     }
   }
 
   public async getDeviceToken(): Promise<void> {
     try {
-      this.loadingService.loadingOn();
       const registration = await navigator.serviceWorker.getRegistration(
         '/firebase-cloud-messaging-push-scope'
       );
       if (registration?.active) {
-        console.debug('Using existing active service worker:', registration.scope);
+        console.debug(
+          'Using existing active service worker:',
+          registration.scope
+        );
       } else {
         console.warn('No active service worker. Registering...');
         await this.registerServiceWorker();
@@ -81,43 +82,48 @@ export class MessagingService {
       });
 
       const user = this.authService.getUser;
-      console.info(`Device token retrieved for user ${user?.id || 'unknown'}:`, token);
+      console.info(
+        `Device token retrieved for user ${user?.id || 'unknown'}:`,
+        token
+      );
 
       if (user) {
         console.debug('Subscribing to save token for user:', user.id);
-        const subscription: Subscription = this.authService.saveToken(token).subscribe({
-          error: (err) => console.error('Failed to save token:', {
-            message: err.message,
-            code: err.code,
-            stack: err.stack,
-          }),
-          complete: () => {
-            console.debug('Token saved successfully');
-            this.loadingService.loadingOff();
-            subscription.unsubscribe();
-          },
-        });
-      } else {
-        this.loadingService.loadingOff();
-      }
+        const subscription: Subscription = this.authService
+          .saveToken(token)
+          .subscribe({
+            error: (err) =>
+              console.error('Failed to save token:', {
+                message: err.message,
+                code: err.code,
+                stack: err.stack,
+              }),
+            complete: () => {
+              console.debug('Token saved successfully');
+              subscription.unsubscribe();
+            },
+          });
+      } 
     } catch (error: any) {
       console.warn('Error retrieving device token:', {
         message: error.message,
         code: error.code,
         stack: error.stack,
       });
-      this.loadingService.loadingOff();
     }
   }
 
   public async getDeviceTokenForRegistration(): Promise<string | null> {
     try {
-      this.loadingService.loadingOn();
+      // this.loadingService.loadingOn();
       const registration = await navigator.serviceWorker.getRegistration(
         '/firebase-cloud-messaging-push-scope'
       );
       if (registration?.active) {
-        console.debug('Using existing active service worker:', registration.scope);
+        console.debug(
+          'Using existing active service worker:',
+          registration.scope
+        );
       } else {
         console.warn('No active service worker. Registering...');
         await this.registerServiceWorker();
@@ -128,7 +134,7 @@ export class MessagingService {
         serviceWorkerRegistration: registration,
       });
       console.info('Device token retrieved:', token);
-      this.loadingService.loadingOff();
+      // this.loadingService.loadingOff();
       return token;
     } catch (error: any) {
       console.warn('Error retrieving device token:', {
@@ -136,7 +142,7 @@ export class MessagingService {
         code: error.code,
         stack: error.stack,
       });
-      this.loadingService.loadingOff();
+      // this.loadingService.loadingOff();
       return null;
     }
   }

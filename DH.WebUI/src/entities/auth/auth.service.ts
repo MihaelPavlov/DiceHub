@@ -9,6 +9,7 @@ import { PATH } from '../../shared/configs/path.config';
 import { IResetPasswordRequest } from './models/reset-password-request.model';
 import { IRegisterResponse } from './models/register-response.model';
 import { ICreateEmployeePasswordRequest } from './models/create-employee-password.model';
+import { AppToastMessage } from '../../shared/components/toast/constants/app-toast-messages.constant';
 
 @Injectable({
   providedIn: 'root',
@@ -122,14 +123,12 @@ export class AuthService {
           });
         else {
           this.userInfoSubject$.next(null);
+          console.warn('User is not sign in');
         }
-        console.log(this.userInfoSubject$.value);
       },
       error: () => {
+        console.error(AppToastMessage.SomethingWrong);
         this.userInfoSubject$.next(null);
-        //TODO: This need to be removed, because it's call on app.component.ts and every time
-        // when we try to reach different page from register and login we will be redirected to login
-        // this.router.navigateByUrl('login');
       },
     });
   }

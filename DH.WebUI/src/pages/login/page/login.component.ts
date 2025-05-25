@@ -15,6 +15,7 @@ import { ToastType } from '../../../shared/models/toast.model';
 import { FULL_ROUTE, ROUTE } from '../../../shared/configs/route.config';
 import { MessagingService } from '../../../entities/messaging/api/messaging.service';
 import { TenantSettingsService } from '../../../entities/common/api/tenant-settings.service';
+import { LoadingService } from '../../../shared/services/loading.service';
 
 interface ILoginForm {
   email: string;
@@ -41,7 +42,8 @@ export class LoginComponent extends Form implements OnInit {
     private readonly messagingService: MessagingService,
     private readonly fb: FormBuilder,
     private readonly route: ActivatedRoute,
-    private readonly tenantSettingsService: TenantSettingsService
+    private readonly tenantSettingsService: TenantSettingsService,
+    private readonly loadingService: LoadingService,
   ) {
     super(toastService);
     this.route.queryParams.subscribe((params) => {
@@ -148,7 +150,7 @@ export class LoginComponent extends Form implements OnInit {
         .login({
           email: this.form.controls.email.value,
           password: this.form.controls.password.value,
-          deviceToken,
+         deviceToken,
         })
         .subscribe({
           next: (response) => {
@@ -180,14 +182,14 @@ export class LoginComponent extends Form implements OnInit {
   }
 
   public async loginUser(): Promise<void> {
+    this.loadingService.loadingOn();
     const deviceToken =
       await this.messagingService.getDeviceTokenForRegistration();
-
     this.authService
       .login({
         email: 'rap4obg@abv.bg',
         password: '1qaz!QAZ',
-        deviceToken,
+         deviceToken,
       })
       .subscribe({
         next: (response) => {
@@ -206,6 +208,9 @@ export class LoginComponent extends Form implements OnInit {
             message: AppToastMessage.FailedToSaveChanges,
             type: ToastType.Error,
           });
+        },
+        complete: () => {          
+          this.loadingService.loadingOff();
         },
       });
   }
@@ -291,6 +296,7 @@ export class LoginComponent extends Form implements OnInit {
   }
 
   public async loginAdmin() {
+    this.loadingService.loadingOn();
     const deviceToken =
       await this.messagingService.getDeviceTokenForRegistration();
 
@@ -298,7 +304,7 @@ export class LoginComponent extends Form implements OnInit {
       .login({
         email: 'sa@dicehub.com',
         password: '1qaz!QAZ',
-        deviceToken,
+         deviceToken,
       })
       .subscribe({
         next: (response) => {
@@ -317,6 +323,9 @@ export class LoginComponent extends Form implements OnInit {
             message: AppToastMessage.FailedToSaveChanges,
             type: ToastType.Error,
           });
+        },
+        complete: () => {
+          this.loadingService.loadingOff();
         },
       });
   }

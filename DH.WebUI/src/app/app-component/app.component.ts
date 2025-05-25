@@ -21,7 +21,7 @@ export class AppComponent implements OnInit {
     this.authService.userInfo$;
   public areAnyActiveNotificationSubject: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
-    hideMenu = false;
+  hideMenu = false;
 
   constructor(
     private readonly authService: AuthService,
@@ -33,20 +33,22 @@ export class AppComponent implements OnInit {
     private readonly activatedRoute: ActivatedRoute
   ) {
     // TODO: Do i need initialize the user
-     this._initializeUser();
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd),
-      map(() => {
-        let route = this.activatedRoute;
-        while (route.firstChild) {
-          route = route.firstChild;
-        }
-        return route;
-      }),
-      map(route => route.snapshot.data['hideMenu'])
-    ).subscribe((hideMenu: boolean) => {
-      this.hideMenu = hideMenu;
-    });
+    this._initializeUser();
+    this.router.events
+      .pipe(
+        filter((event) => event instanceof NavigationEnd),
+        map(() => {
+          let route = this.activatedRoute;
+          while (route.firstChild) {
+            route = route.firstChild;
+          }
+          return route;
+        }),
+        map((route) => route.snapshot.data['hideMenu'])
+      )
+      .subscribe((hideMenu: boolean) => {
+        this.hideMenu = hideMenu;
+      });
   }
 
   // TODO: Check this tread https://chatgpt.com/c/671602c4-266c-800d-8177-2e9b398333ba
@@ -59,7 +61,7 @@ export class AppComponent implements OnInit {
    */
   private _initializeUser(): void {
     if (!this.authService.getUser) {
-       this.authService.userinfo();
+      this.authService.userinfo();
     }
   }
 
@@ -69,8 +71,10 @@ export class AppComponent implements OnInit {
   private _initializeFCM(): void {
     console.log('Initializing Firebase Cloud Messaging...');
     this._requestNotificationPermission();
-    this.messagingService.getDeviceToken();
-    this._listenForMessages();
+    if (this.authService.getUser) {
+      this.messagingService.getDeviceToken();
+      this._listenForMessages();
+    }
   }
 
   public onUpdateUserNotifications() {
@@ -96,7 +100,6 @@ export class AppComponent implements OnInit {
       },
       error: (error) => {
         console.log('Error receiving message:', error);
-        
       },
       complete: () => {
         console.log('Done listening for messages.');

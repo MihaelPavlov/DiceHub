@@ -75,8 +75,6 @@ export class GameNavigationComponent implements OnInit {
     ) {
       this.activeChildComponent.selectedCategoryName$.subscribe(
         (categoryName) => {
-          console.log(categoryName);
-
           if (categoryName) this.headerSectionName = categoryName;
           else this.headerSectionName = 'Games';
         }

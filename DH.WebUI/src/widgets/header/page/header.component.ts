@@ -127,7 +127,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     if (searchForm) {
       searchForm.style.display = 'none';
       const searchIcon = document.querySelector<SVGElement>('#search-btn');
-      console.log('searchIcon1', searchIcon);
 
       if (searchIcon) {
         const pathElement = searchIcon.querySelector('path'); // Select the path inside the SVG
