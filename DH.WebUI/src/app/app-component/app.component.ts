@@ -16,7 +16,6 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 })
 export class AppComponent implements OnInit {
   title = 'DH.WebUI';
-  private readonly _env = environment;
   public readonly userInfo: Observable<IUserInfo | null> =
     this.authService.userInfo$;
   public areAnyActiveNotificationSubject: BehaviorSubject<boolean> =
@@ -32,7 +31,6 @@ export class AppComponent implements OnInit {
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute
   ) {
-    // TODO: Do i need initialize the user
     this._initializeUser();
     this.router.events
       .pipe(
