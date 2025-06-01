@@ -1,3 +1,6 @@
-<h1>Server Down</h1>
-<p>Our servers are currently unavailable. Please try again later.</p>
-<a routerLink="/">Go to Homepage</a>
+<div class="error-wrapper">
+  <img class="error-code-icon" [src]="imgPath" />
+  <button class="btn btn__exception" (click)="redirectTo()">
+    Back to Home
+  </button>
+</div>

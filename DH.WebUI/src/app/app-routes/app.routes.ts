@@ -144,6 +144,7 @@ export const ROUTES: Routes = [
       import('../../shared/exceptions/unauthorized/unauthorized.module').then(
         (m) => m.UnauthorizedModule
       ),
+    data: { hideMenu: true },
   },
   {
     path: 'forbidden',
@@ -151,6 +152,7 @@ export const ROUTES: Routes = [
       import('../../shared/exceptions/forbidden/forbidden.module').then(
         (m) => m.ForbiddenModule
       ),
+    data: { hideMenu: true },
   },
   {
     path: 'server-error',
@@ -158,6 +160,7 @@ export const ROUTES: Routes = [
       import('../../shared/exceptions/server-down/server-error.module').then(
         (m) => m.ServerErrorModule
       ),
+    data: { hideMenu: true },
   },
   {
     path: 'not-found',
@@ -165,5 +168,6 @@ export const ROUTES: Routes = [
       import('../../shared/exceptions/not-found/not-found.module').then(
         (m) => m.NotFoundModule
       ),
+    data: { hideMenu: true },
   },
 ];

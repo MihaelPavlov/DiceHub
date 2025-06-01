@@ -4,13 +4,10 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-forbidden',
   templateUrl: 'forbidden.component.html',
+  styleUrls: ['forbidden.component.scss'],
 })
 export class ForbiddenComponent {
-  public imgPath = 'assets/img/403_error.svg';
-  public details = [
-    'The access to this page is restricted.',
-    'Please go to the Landing Page or refer to your system administrator.',
-  ];
+  public imgPath = 'shared/assets/images/exceptions/forbidden-403.jpg';
 
   constructor(private readonly router: Router) {}
 

@@ -4,13 +4,10 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-not-found',
   templateUrl: 'not-found.component.html',
+  styleUrls: ['not-found.component.scss'],
 })
 export class NotFoundComponent {
-  public imgPath = 'assets/img/404_error.svg';
-  public details = [
-    'The object was not found.',
-    'Please go to the Landing Page or refer to your system administrator.',
-  ];
+  public imgPath = 'shared/assets/images/exceptions/not-found-404.jpg';
 
   constructor(private readonly router: Router) {}
 

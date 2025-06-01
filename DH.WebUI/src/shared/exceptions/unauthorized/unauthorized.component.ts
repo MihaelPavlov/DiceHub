@@ -4,13 +4,10 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-unauthorized',
   templateUrl: 'unauthorized.component.html',
+  styleUrls: ['unauthorized.component.scss'],
 })
 export class UnauthorizedComponent {
-  public imgPath = 'assets/img/401_error.svg';
-  public details = [
-    'The access to this page is restricted.',
-    'Please go to the Landing Page or refer to your system administrator.',
-  ];
+   public imgPath = 'shared/assets/images/exceptions/unauthorized-401.jpg';
 
   constructor(private readonly router: Router) {}
 
