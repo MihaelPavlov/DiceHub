@@ -1,0 +1,23 @@
+services:
+  dh.api:
+    image: ${DOCKER_REGISTRY-}dhapi
+    build:
+      context: .
+      dockerfile: DH.Api/Dockerfile
+    ports:
+      - "5000:5000"
+      - "5001:5001"
+    depends_on:
+      - dicehub.database
+
+  dicehub.database:
+    image: postgres:16
+    container_name: dicehub.database
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: dicehub
+    volumes:
+      - ./.containers/dicehub-db:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
