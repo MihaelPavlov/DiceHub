@@ -4,11 +4,18 @@ services:
     build:
       context: .
       dockerfile: DH.Api/Dockerfile
+    environment:
+      MailSettings__Host: live.smtp.mailtrap.io
+      MailSettings__DefaultCredentials: "false"
+      MailSettings__Port: "587"
+      MailSettings__Name: DiceHub
+      MailSettings__EmailId: noreply@demomailtrap.co
+      MailSettings__UserName: smtp@mailtrap.io
+      MailSettings__Password: 86460bc6a470e5d5eb31acb853b46aed
+      MailSettings__UseSSL: "true"
     ports:
       - "5000:5000"
       - "5001:5001"
-    depends_on:
-      - dicehub.database
 
   dicehub.database:
     image: postgres:16
