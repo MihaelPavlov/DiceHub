@@ -11,7 +11,7 @@ services:
       MailSettings__Name: DiceHub
       MailSettings__EmailId: noreply@demomailtrap.co
       MailSettings__UserName: smtp@mailtrap.io
-      MailSettings__Password: 86460bc6a470e5d5eb31acb853b46aed
+      MailSettings__Password: bc3e40e65ea3d745c48258a9cb565465 
       MailSettings__UseSSL: "true"
     ports:
       - "5000:5000"
