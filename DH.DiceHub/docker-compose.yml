@@ -13,9 +13,10 @@ services:
       MailSettings__UserName: smtp@mailtrap.io
       MailSettings__Password: bc3e40e65ea3d745c48258a9cb565465 
       MailSettings__UseSSL: "true"
+      ASPNETCORE_URLS: "http://+:5000;https://+:5001"
     ports:
-      - "5000:5000"
-      - "5001:5001"
+      - "80:5000"
+      - "443:5001"
 
   dicehub.database:
     image: postgres:16
