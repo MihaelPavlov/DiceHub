@@ -1,4 +1,4 @@
 export const environment = {
     production: false,
-    defaultAppUrl: 'http://localhost:5000',
+    defaultAppUrl: 'http://192.168.0.220/5000',
 };
