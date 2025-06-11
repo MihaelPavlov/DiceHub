@@ -1,27 +1,31 @@
 ﻿using DH.Adapter.Authentication;
+using DH.Adapter.ChallengesOrchestrator;
+using DH.Adapter.ChatHub;
 using DH.Adapter.Data;
+using DH.Adapter.Email;
+using DH.Adapter.GameSession;
+using DH.Adapter.PushNotifications;
+using DH.Adapter.QRManager;
+using DH.Adapter.Reservations;
 using DH.Adapter.Scheduling;
+using DH.Adapter.Statistics;
 using DH.Api;
 using DH.Api.Filters;
-using DH.Domain;
-using Microsoft.Extensions.Caching.Memory;
-using DH.Adapter.ChatHub;
-using DH.Adapter.QRManager;
-using DH.Adapter.ChallengesOrchestrator;
-using DH.Adapter.GameSession;
 using DH.Application;
-using DH.Adapter.PushNotifications;
+using DH.Domain;
+using DH.Domain.Adapters.Data;
+using DH.Domain.Queue.Services;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
-using DH.Adapter.Reservations;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.OpenApi.Models;
-using DH.Domain.Queue.Services;
-using DH.Adapter.Email;
-using DH.Domain.Adapters.Data;
-using DH.Adapter.Statistics;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenAnyIP(80); // Listens on http://0.0.0.0:80
+});
 builder.Services.AddControllers(options =>
 {
     options.Filters.Add<ApiExceptionFilterAttribute>();
