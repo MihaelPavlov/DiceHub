@@ -13,6 +13,7 @@ using DH.OperationResultCore.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Security.Claims;
 
@@ -33,7 +34,7 @@ public class UserService : IUserService
     readonly IPushNotificationsService pushNotificationsService;
     readonly IRepository<UserDeviceToken> userDeviceTokenRepository;
     readonly IUserContext userContext;
-
+    readonly ILogger<UserService> logger;
     /// <summary>
     /// Constructor for UserService to initialize dependencies.
     /// </summary>
@@ -42,7 +43,7 @@ public class UserService : IUserService
         UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager,
         IPermissionStringBuilder permissionStringBuilder, SynchronizeUsersChallengesQueue queue,
         IPushNotificationsService pushNotificationsService, IRepository<UserDeviceToken> userDeviceTokenRepository,
-        IUserContext userContext)
+        IUserContext userContext, ILogger<UserService> logger)
     {
         _httpContextAccessor = httpContextAccessor;
         this.signInManager = signInManager;
@@ -54,6 +55,7 @@ public class UserService : IUserService
         this.pushNotificationsService = pushNotificationsService;
         this.userDeviceTokenRepository = userDeviceTokenRepository;
         this.userContext = userContext;
+        this.logger = logger;
     }
 
     /// <inheritdoc />
@@ -373,14 +375,19 @@ public class UserService : IUserService
     private async Task<TokenResponseModel?> IssueUserTokensAsync(ApplicationUser user)
     {
         var roles = await this.userManager.GetRolesAsync(user);
+        this.logger.LogWarning("Roles ->, {roles}", string.Join(", ", roles));
+        var role = roles.FirstOrDefault();
+
         var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Sid,user.Id),
                 new Claim(ClaimTypes.Name, user.UserName!),
-                new Claim(ClaimTypes.Role, RoleHelper.GetRoleKeyByName(roles.First()).ToString()),
-                new Claim("permissions",_permissionStringBuilder.GetFromCacheOrBuildPermissionsString( RoleHelper.GetRoleKeyByName(roles.First())))
             };
-
+        if (role != null)
+        {
+            claims.Add(new Claim(ClaimTypes.Role, RoleHelper.GetRoleKeyByName(role).ToString()));
+            claims.Add(new Claim("permissions", _permissionStringBuilder.GetFromCacheOrBuildPermissionsString(RoleHelper.GetRoleKeyByName(role))));
+        }
         var tokenString = this.jwtService.GenerateAccessToken(claims);
         var refreshToken = this.jwtService.GenerateRefreshToken();
 
