@@ -3,5 +3,5 @@ export interface IRegisterRequest {
   email: string;
   password: string;
   confirmPassword: string;
-  deviceToken: string;
+  deviceToken: string | null;
 }

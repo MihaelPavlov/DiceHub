@@ -75,7 +75,7 @@ public class UserService : IUserService
             throw new ValidationErrorsException("Email", "Email or Password is invalid!");
 
         var userDiviceToken = await this.userDeviceTokenRepository.GetByAsyncWithTracking(x => x.UserId == user!.Id, CancellationToken.None);
-        if (userDiviceToken is null)
+        if (userDiviceToken is null && form.DeviceToken is not null)
         {
             await this.userDeviceTokenRepository.AddAsync(new UserDeviceToken
             {
@@ -84,7 +84,7 @@ public class UserService : IUserService
                 UserId = user!.Id
             }, CancellationToken.None);
         }
-        else if (!string.IsNullOrEmpty(form.DeviceToken))
+        else if (userDiviceToken is not null && !string.IsNullOrEmpty(form.DeviceToken))
         {
             userDiviceToken.DeviceToken = form.DeviceToken;
             await this.userDeviceTokenRepository.SaveChangesAsync(CancellationToken.None);
@@ -122,12 +122,16 @@ public class UserService : IUserService
             throw new NotFoundException("User was not created");
 
         this.queue.AddSynchronizeNewUserJob(user.Id);
-        await this.userDeviceTokenRepository.AddAsync(new UserDeviceToken
+
+        if (!string.IsNullOrEmpty(form.DeviceToken))
         {
-            DeviceToken = form.DeviceToken,
-            LastUpdated = DateTime.UtcNow,
-            UserId = user.Id
-        }, CancellationToken.None);
+            await this.userDeviceTokenRepository.AddAsync(new UserDeviceToken
+            {
+                DeviceToken = form.DeviceToken,
+                LastUpdated = DateTime.UtcNow,
+                UserId = user.Id
+            }, CancellationToken.None);
+        }
 
         return new UserRegistrationResponse
         {
