@@ -12,7 +12,7 @@ public class UserRegistrationRequest : IValidableFields
     public string Email { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
     public string ConfirmPassword { get; set; } = string.Empty;
-    public string DeviceToken { get; set; } = string.Empty;
+    public string? DeviceToken { get; set; }
 
     public bool FieldsAreValid(out List<ValidationErrorsException.ValidationError> validationErrors)
     {
