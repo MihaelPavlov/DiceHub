@@ -16,7 +16,14 @@ export class FrontEndLogService {
   }
 
   public sendWarning(message: string, stack: string): Observable<any> {
-    return this.api.post(`/frontend0log/warning`, {
+    return this.api.post(`/frontend-log/warning`, {
+      message,
+      stack,
+    });
+  }
+
+  public sendInfo(message: string, stack: string): Observable<any> {
+    return this.api.post(`/frontend-log/info`, {
       message,
       stack,
     });

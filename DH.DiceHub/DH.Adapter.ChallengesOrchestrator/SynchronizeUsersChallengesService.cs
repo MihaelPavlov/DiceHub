@@ -74,7 +74,6 @@ public class SynchronizeUsersChallengesService : BackgroundService
                     logger.LogError(ex, "Job ID: {jobId} - Failed at {failureTime}: {jobInfo}", traceId, DateTime.UtcNow, JsonSerializer.Serialize(jobInfo));
                 }
             }
-
             await Task.Delay(10000, cancellationToken);
         }
     }

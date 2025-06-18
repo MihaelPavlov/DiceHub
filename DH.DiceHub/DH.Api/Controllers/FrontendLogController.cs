@@ -29,5 +29,12 @@ public class FrontendLogController : ControllerBase
         logger.LogWarning("🟠 Frontend Warning: {Message}\n📍 StackTrace: {Stack}", request.Message, request.Stack);
         return Ok();
     }
+
+    [HttpPost("info")]
+    public IActionResult LogInfo([FromBody] ErrorBody request, CancellationToken cancellationToken)
+    {
+        logger.LogInformation("🟠 Frontend Info: {Message}\n📍 StackTrace: {Stack}", request.Message, request.Stack);
+        return Ok();
+    }
 }
 

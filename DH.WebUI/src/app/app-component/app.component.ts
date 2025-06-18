@@ -1,13 +1,15 @@
 import { BehaviorSubject, filter, map, Observable } from 'rxjs';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { AuthService } from '../../entities/auth/auth.service';
-import { environment } from '../environment';
 import { onMessage } from 'firebase/messaging';
 import { Messaging } from '@angular/fire/messaging';
 import { MessagingService } from '../../entities/messaging/api/messaging.service';
 import { IUserInfo } from '../../entities/auth/models/user-info.model';
 import { NotificationsService } from '../../entities/common/api/notifications.service';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { FrontEndLogService } from '../../shared/services/frontend-log.service';
+import { ToastService } from '../../shared/services/toast.service';
+import { ToastType } from '../../shared/models/toast.model';
 
 @Component({
   selector: 'app-root',
@@ -21,7 +23,6 @@ export class AppComponent implements OnInit {
   public areAnyActiveNotificationSubject: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
   hideMenu = false;
-
   constructor(
     private readonly authService: AuthService,
     private readonly _messaging: Messaging,
@@ -29,7 +30,9 @@ export class AppComponent implements OnInit {
     private readonly notificationService: NotificationsService,
     private readonly cd: ChangeDetectorRef,
     private readonly router: Router,
-    private readonly activatedRoute: ActivatedRoute
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly frontEndLogService: FrontEndLogService,
+    private readonly toastService: ToastService
   ) {
     this._initializeUser();
     this.router.events
@@ -67,9 +70,22 @@ export class AppComponent implements OnInit {
    * Initialize Firebase Cloud Messaging related tasks
    */
   private _initializeFCM(): void {
-    console.log('Initializing Firebase Cloud Messaging...');
-    this._requestNotificationPermission();
     if (this.authService.getUser) {
+      if (this.messagingService.isPushUnsupportedIOS()) {
+        this.frontEndLogService
+          .sendWarning(
+            'Push notifications not supported on this iOS version',
+            'none'
+          )
+          .subscribe();
+        return;
+      }
+
+      this.frontEndLogService
+        .sendInfo('Initializing Firebase Cloud Messaging...', 'none')
+        .subscribe();
+
+      this.messagingService.requestNotificationPermission();
       this.messagingService.getDeviceToken();
       this._listenForMessages();
     }
@@ -82,6 +98,7 @@ export class AppComponent implements OnInit {
       },
     });
   }
+
   /**
    * Listen for foreground messages from Firebase Messaging
    */
@@ -103,29 +120,5 @@ export class AppComponent implements OnInit {
         console.log('Done listening for messages.');
       },
     });
-  }
-
-  /**
-   * Request notification permission from the user
-   */
-  private async _requestNotificationPermission(): Promise<void> {
-    try {
-      const permission = await Notification.requestPermission();
-      if (permission === 'granted') {
-        console.log('Notification permission granted.');
-      } else {
-        console.warn('Notification permission denied:', permission);
-      }
-    } catch (error) {
-      this._logError('Notification permission request error', error);
-    }
-  }
-
-  /**
-   * Log errors in a standardized way
-   */
-  private _logError(message: string, error: any): void {
-    console.error(message, error);
-    // You can also send these errors to a logging service if needed
   }
 }

@@ -1,3 +1,5 @@
+import { FrontEndLogService } from './../../../shared/services/frontend-log.service';
+import { ErrorStateService } from './../../../shared/components/global-error-handler';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../entities/auth/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -44,6 +46,7 @@ export class LoginComponent extends Form implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly tenantSettingsService: TenantSettingsService,
     private readonly loadingService: LoadingService,
+    private readonly frontEndLogService: FrontEndLogService
   ) {
     super(toastService);
     this.route.queryParams.subscribe((params) => {
@@ -108,10 +111,6 @@ export class LoginComponent extends Form implements OnInit {
     }
   }
 
-  public navigateToGameDetails(): void {
-    this.router.navigateByUrl('games/1/details');
-  }
-
   public resendConfirmationEmail(): void {
     if (this.form.controls.email.valid)
       this.authService
@@ -143,14 +142,24 @@ export class LoginComponent extends Form implements OnInit {
 
   public async onLogin(): Promise<void> {
     if (this.form.valid) {
-      const deviceToken =
-        await this.messagingService.getDeviceTokenForRegistration();
+      let deviceToken: string | null = null;
+      if (this.messagingService.isPushUnsupportedIOS()) {
+        this.frontEndLogService
+          .sendWarning(
+            'Push notifications not supported on this iOS version',
+            'On LoginComponent.onLogin()'
+          )
+          .subscribe();
+      } else {
+        deviceToken =
+          await this.messagingService.getDeviceTokenForRegistration();
+      }
 
       this.authService
         .login({
           email: this.form.controls.email.value,
           password: this.form.controls.password.value,
-         deviceToken,
+          deviceToken,
         })
         .subscribe({
           next: (response) => {
@@ -164,6 +173,13 @@ export class LoginComponent extends Form implements OnInit {
             }
           },
           error: (error) => {
+            this.frontEndLogService
+              .sendWarning(error.message, error.stack)
+              .subscribe({
+                next: (response) => {
+                  console.log('Error logged successfully:', response);
+                },
+              });
             if (error.error.errors.Email)
               this.getServerErrorMessage = error.error.errors.Email[0];
             if (error.error.errors.EmailNotConfirmed) {
@@ -182,37 +198,53 @@ export class LoginComponent extends Form implements OnInit {
   }
 
   public async loginUser(): Promise<void> {
-    this.loadingService.loadingOn();
-    const deviceToken =
-      await this.messagingService.getDeviceTokenForRegistration();
-    this.authService
-      .login({
-        email: 'rap4obg@abv.bg',
-        password: '1qaz!QAZ',
-         deviceToken,
-      })
-      .subscribe({
-        next: (response) => {
-          if (response) {
-            this.authService.authenticateUser(
-              response.accessToken,
-              response.refreshToken
-            );
+    try {
+      this.loadingService.loadingOn();
+      let deviceToken: string | null = null;
+      if (this.messagingService.isPushUnsupportedIOS()) {
+        this.frontEndLogService
+          .sendWarning(
+            'Push notifications not supported on this iOS version',
+            'On LoginComponent.onLogin()'
+          )
+          .subscribe();
+      } else {
+        deviceToken =
+          await this.messagingService.getDeviceTokenForRegistration();
+      }
+      this.authService
+        .login({
+          email: 'rap4obg@abv.bg',
+          password: '1qaz!QAZ',
+          deviceToken,
+        })
+        .subscribe({
+          next: (response) => {
+            if (response) {
+              this.authService.authenticateUser(
+                response.accessToken,
+                response.refreshToken
+              );
 
-            this.router.navigateByUrl('games/library');
-          }
-        },
-        error: (error) => {
-          this.handleServerErrors(error);
-          this.toastService.error({
-            message: AppToastMessage.FailedToSaveChanges,
-            type: ToastType.Error,
-          });
-        },
-        complete: () => {          
-          this.loadingService.loadingOff();
-        },
-      });
+              this.router.navigateByUrl('games/library');
+            }
+          },
+          error: (error) => {
+            this.handleServerErrors(error);
+            this.toastService.error({
+              message: AppToastMessage.FailedToSaveChanges,
+              type: ToastType.Error,
+            });
+          },
+          complete: () => {
+            this.loadingService.loadingOff();
+          },
+        });
+    } catch (error: any) {
+      console.error('Error during login:', error);
+      alert(error.message);
+      alert(error);
+    }
   }
 
   loginUser2() {
@@ -297,14 +329,32 @@ export class LoginComponent extends Form implements OnInit {
 
   public async loginAdmin() {
     this.loadingService.loadingOn();
-    const deviceToken =
-      await this.messagingService.getDeviceTokenForRegistration();
+    let deviceToken: string | null = null;
+    if (this.messagingService.isPushUnsupportedIOS()) {
+      this.frontEndLogService
+        .sendWarning(
+          'Push notifications not supported on this iOS version',
+          'On LoginComponent.onLogin()'
+        )
+        .subscribe();
+    } else {
+      this.frontEndLogService
+        .sendWarning(
+          'Start Getting device token for registration',
+          'On LoginComponent.onLogin()'
+        )
+        .subscribe();
+      deviceToken = await this.messagingService.getDeviceTokenForRegistration();
+    }
 
+    this.frontEndLogService
+      .sendWarning('login as admin', 'On LoginComponent.onLogin()')
+      .subscribe();
     this.authService
       .login({
         email: 'sa@dicehub.com',
         password: '1qaz!QAZ',
-         deviceToken,
+        deviceToken,
       })
       .subscribe({
         next: (response) => {
