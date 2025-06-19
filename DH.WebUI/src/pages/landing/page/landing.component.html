@@ -1,44 +1,134 @@
-<section class="carousel" aria-label="Gallery">
-  <div class="carousel__viewport" #carouselViewport>
-    <div *ngFor="let slide of slides; let i = index" class="carousel__slide">
-      <button
-        class="carousel__prev"
-        (click)="scrollToSlide(i - 1)"
-        *ngIf="i > 0"
-      >
-        Previous
-      </button>
-      <ng-container>
-        <div class="wrapper">
-          <div class="wrapper_image">
-            <img
-              src="../../../../shared/assets/images/instructions/big_first_try.png"
-              alt="Image"
-            />
-          </div>
-        
-          <div class="wrapper_link">
-            <div class="name">dwdqwdq</div>
-            <div class="description">dwqdwdqdqwdqw</div>
-          </div>
-        </div>
-      </ng-container>
-      <button
-        class="carousel__next"
-        (click)="scrollToSlide(i + 1)"
-        *ngIf="i < slides.length - 1"
-      >
-        Next
-      </button>
+<section class="landing-header">
+  <img src="shared/assets/images/landing_dice.png" />
+  <div class="header">DiceHub</div>
+</section>
+
+<section>
+  <div class="wrapper_library">
+    <h1>Revolutionizing</h1>
+    <h1>Game-Driven Entertainment</h1>
+    <p class="sub-header">
+      The all-in-one platform to streamline operations, boost engagement, and
+      grow your gaming-focused venue.
+    </p>
+  </div>
+  <div class="list">
+    <div class="item">
+      <div class="item-icon">
+        <img src="shared/assets/images/landing_item_1.png" />
+      </div>
+      <div class="item-info">
+        <p class="item-header">Club Game Management</p>
+        <p class="item-sub-header">
+          Effortlessly organize your tables, games, and schedules in one central
+          place.
+        </p>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-icon">
+        <img src="shared/assets/images/landing_item_2.png" />
+      </div>
+      <div class="item-info">
+        <p class="item-header">Challenge & Rewards System</p>
+        <p class="item-sub-header">
+          Keep players coming back with engaging challenges and customizable
+          rewards.
+        </p>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-icon">
+        <img src="shared/assets/images/landing_item_3.png" />
+      </div>
+      <div class="item-info">
+        <p class="item-header">Real-Time Activity Tracking</p>
+        <p class="item-sub-header">
+          Monitor game sessions and user participation with powerful tracking
+          tools.
+        </p>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-icon">
+        <img src="shared/assets/images/landing_item_4.png" />
+      </div>
+      <div class="item-info">
+        <p class="item-header">Event Management</p>
+        <p class="item-sub-header">
+          Create, promote, and manage tournaments, weekly events, or private
+          bookings with ease.
+        </p>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-icon">
+        <img src="shared/assets/images/landing_item_5.png" />
+      </div>
+      <div class="item-info">
+        <p class="item-header">Smart Reservation System</p>
+        <p class="item-sub-header">
+          Simplify your booking process for tables, games, or events — all from
+          one dashboard.
+        </p>
+      </div>
     </div>
   </div>
-
-  <nav class="carousel__navigation">
+  <div class="how-it-works-btn">
     <button
-      *ngFor="let slide of slides; let i = index"
-      (click)="scrollToSlide(i)"
-      [ngClass]="i === currentSlideIndex ? 'carousel__navigation--current_button' : 'carousel__navigation_button'"
+      (click)="onInstructions()"
+      type="button"
+      class="btn btn-gray create-btn btn-font-blue"
     >
+      How it Works
     </button>
-  </nav>
+  </div>
+  <div class="btns-container">
+    <button
+      (click)="onLogin()"
+      type="button"
+      class="btn btn-gray create-btn btn-font-gray btn-border-blue"
+    >
+      Login
+    </button>
+
+    <button
+      (click)="onRegister()"
+      type="button"
+      class="btn btn-blue create-btn btn-font-gray btn-border-blue"
+    >
+      Register
+    </button>
+  </div>
+</section>
+
+<section class="partner-section">
+  <h2>Partner with Us</h2>
+  <p class="partner-text">
+    Looking to modernize your entertainment space? Whether you run a board game
+    cafe, darts bar, billiards lounge, or a hybrid venue, DiceHub helps you
+    elevate the experience and grow your community.
+  </p>
+  <form class="partner-form">
+    <div class="input-field">
+      <input type="text" placeholder="Name" required />
+    </div>
+    <div class="input-field">
+      <input type="email" placeholder="Email address" required />
+    </div>
+    <div class="input-field">
+      <textarea
+        placeholder="Tell us about your venue or questions you have"
+        id="message"
+        formControlName="message"
+      ></textarea>
+    </div>
+  </form>
+
+  <button
+    type="button"
+    class="btn btn-gray create-btn btn-font-gray btn-border-blue"
+  >
+    Submit
+  </button>
 </section>

@@ -8,8 +8,14 @@ import { ConfirmEmailComponent } from '../../pages/confirm-email/page/confirm-em
 import { ResetPasswordComponent } from '../../pages/reset-password/page/reset-password.component';
 import { AuthRedirectGuard } from '../../shared/guards/auth-redirect.guard';
 import { CreateEmployeePasswordComponent } from '../../pages/create-employee-password/page/create-employee-password.component';
+import { LandingComponent } from '../../pages/landing/page/landing.component';
 
 export const ROUTES: Routes = [
+  {
+    path: '',
+    component: LandingComponent,
+    data: { hideMenu: true },
+  },
   {
     path: '',
     children: [

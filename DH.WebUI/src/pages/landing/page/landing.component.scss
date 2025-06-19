@@ -1,112 +1,105 @@
 @use "../../../shared/assets/styles/palette";
 
-.carousel {
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-}
-
-.carousel__viewport {
+.landing-header {
   display: flex;
-  scroll-snap-type: x mandatory;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  white-space: nowrap;
-}
-*::-webkit-scrollbar {
-  width: 0;
-}
-
-*::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-*::-webkit-scrollbar-thumb {
-  background: transparent;
-  border: none;
-}
-.carousel__slide {
-  flex: 0 0 100%;
-  text-align: center;
-  position: relative;
-}
-
-.carousel__slide img {
-  width: 100%;
-  height: auto;
-}
-
-.carousel__prev,
-.carousel__next {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(0, 0, 0, 0.5);
-  color: palette.$main-font-color;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-}
-
-.carousel__prev {
-  left: 10px;
-}
-
-.carousel__next {
-  right: 10px;
-}
-
-.carousel__navigation {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  display: flex; 
-  justify-content: center;
   align-items: center;
-  padding: 1rem;
-  z-index: 1000;
+  justify-content: center;
+  margin-left: 1.5rem;
+  margin-right: 1rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  .header {
+    font-size: 2rem;
+    font-weight: 700;
+  }
+  img {
+    width: 4rem;
+    height: 4rem;
+    object-fit: cover;
+  }
 }
 
-.carousel__navigation_button {
-  background-color: palette.$main-gray-color;
-  margin: 5px;
-  border-radius: 100%;
-  border-color: palette.$main-font-color;
-  padding: 0.3rem;
-  cursor: pointer;
+.wrapper_library {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem;
+  text-align: center;
+
+  .sub-header {
+    margin: 1rem;
+    color: palette.$main-font-gray-color;
+  }
+}
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  .item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .item-icon {
+      width: 6rem;
+      height: 6rem;
+      margin-right: 1rem;
+      background-color: #1c1c1e;
+      border-radius: 1rem;
+      display: flex;
+      align-items: center;
+      img {
+        margin: 0 auto;
+        width: 6rem;
+        object-fit: cover;
+      }
+    }
+    .item-info {
+      width: 12.5rem;
+    }
+    .item-header {
+      text-align: left;
+    }
+    .item-sub-header {
+      color: palette.$main-font-gray-color;
+      margin-top: 0.5rem;
+    }
+  }
 }
 
-.carousel__navigation--current_button {
-  background-color: palette.$main-font-color;
-  margin: 5px;
-  border-radius: 100%;
-  padding: 0.3rem;
-  cursor: pointer;
-  transform: scale(1.05);
-  transition: transform 0.3s ease-in-out;
-}
-
-.wrapper_image {
+.how-it-works-btn {
   display: flex;
   justify-content: center;
-  img {
-    width: 80%;
+  margin: 2rem;
+}
+.btns-container {
+  display: flex;
+  justify-content: space-evenly;
+  .btn {
+    margin: 0.5rem;
+  }
+}
+.partner-section {
+  text-align: center;
+  padding: 2rem;
+  background-color: #1c1c1e;
+  border-radius: 1rem;
+  margin: 2rem;
+  color: #efefef;
+
+  .partner-text {
+    color: palette.$main-font-gray-color;
+    margin-bottom: 1rem;
   }
 }
 
-.wrapper_link {
-  margin: 0 2rem;
-  word-break: break-word;
-
-  .name {
-    font-size: 1.4rem;
-    color: palette.$main-blue-color;
-  }
-  .description {
-  }
+.partner-section h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
 }
 
-.blue {
-  color: palette.$main-blue-color;
+.partner-form {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
