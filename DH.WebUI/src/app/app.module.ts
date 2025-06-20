@@ -1,5 +1,6 @@
+import { GlobalErrorHandler } from './../shared/components/global-error-handler';
 import { ConfirmEmailModule } from './../pages/confirm-email/confirm-email.module';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { AppComponent } from './app-component/app.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
@@ -41,6 +42,10 @@ import { CreateEmployeePasswordModule } from '../pages/create-employee-password/
       provide: HTTP_INTERCEPTORS,
       useClass: LoadingInterceptor,
       multi: true,
+    },
+    {
+      provide: ErrorHandler,
+      useClass: GlobalErrorHandler,
     },
     JwtHelperService,
   ],
