@@ -5,6 +5,7 @@ public enum EmailType
     RegistrationEmailConfirmation,
     EmployeePasswordCreation,
     ForgotPasswordReset,
+    PartnerInquiryRequest,
 }
 
 public static class RegistrationEmailTemplateKeys
@@ -23,4 +24,12 @@ public static class ForgotPasswordResetKeys
 {
     public const string CallbackUrl = "CallbackUrl";
     public const string ClubName = "ClubName";
+}
+
+public static class PartnerInquiryRequest
+{
+    public const string Name = "Name";
+    public const string Email = "Email";
+    public const string Message = "Message";
+    public const string PhoneNumber= "PhoneNumber";
 }

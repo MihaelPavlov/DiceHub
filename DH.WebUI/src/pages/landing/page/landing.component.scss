@@ -6,16 +6,24 @@
   justify-content: center;
   margin-left: 1.5rem;
   margin-right: 1rem;
-  margin-top: 2rem;
+  margin-top: 4rem;
   margin-bottom: 1rem;
   .header {
     font-size: 2rem;
     font-weight: 700;
   }
   img {
-    width: 4rem;
-    height: 4rem;
+    position: absolute;
+    width: 8rem;
+    height: 8rem;
     object-fit: cover;
+  }
+  .img-left {
+    left: 0;
+  }
+  .img-right {
+    right: 0;
+    transform: scaleX(-1);
   }
 }
 

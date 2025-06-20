@@ -111,6 +111,7 @@ public class TenantDbContext : DbContext, ITenantDbContext
     public DbSet<QrCodeScanAudit> QrCodeScanAudits { get; set; } = default!;
     public DbSet<TenantSetting> TenantSettings { get; set; } = default!;
     public DbSet<TenantUserSetting> TenantUserSettings { get; set; } = default!;
+    public DbSet<PartnerInquiry> PartnerInquiries { get; set; } = default!;
     public DbSet<QueuedJob> QueuedJobs { get; set; } = default!;
 
     #endregion others

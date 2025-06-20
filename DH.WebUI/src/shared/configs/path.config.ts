@@ -1,3 +1,5 @@
+import { PartnerInquiriesService } from "../../entities/common/api/partner-inquiries.service";
+
 export const PATH = {
   GAMES: {
     CORE: 'games',
@@ -128,6 +130,9 @@ export const PATH = {
       'get-expired-collected-rewards-chart-data',
     GET_CHALLENGE_HISTORY_LOG: 'get-challenge-history-log',
   },
+  PARTNER_INQUIRIES: {
+    CORE: 'partnerInquiries',
+  }
   // AUTH: {
   //   LOGIN: 'auth/user/login',
   // },

@@ -1,6 +1,7 @@
 <section class="landing-header">
-  <img src="shared/assets/images/landing_dice.png" />
+  <img class="img-left" src="shared/assets/images/dicehub_logo_1.png" />
   <div class="header">DiceHub</div>
+  <img class="img-right" src="shared/assets/images/dicehub_logo_1.png" />
 </section>
 
 <section>
@@ -109,15 +110,29 @@
     cafe, darts bar, billiards lounge, or a hybrid venue, DiceHub helps you
     elevate the experience and grow your community.
   </p>
-  <form class="partner-form">
+  <form [formGroup]="form" class="partner-form">
     <div class="input-field">
-      <input type="text" placeholder="Name" required />
+      <input formControlName="name" type="text" placeholder="Name" required />
     </div>
     <div class="input-field">
-      <input type="email" placeholder="Email address" required />
+      <input
+        formControlName="email"
+        type="email"
+        placeholder="Email address"
+        required
+      />
+    </div>
+    <div class="input-field">
+      <input
+        formControlName="phoneNumber"
+        type="text"
+        placeholder="Phone number"
+        required
+      />
     </div>
     <div class="input-field">
       <textarea
+        formControlName="message"
         placeholder="Tell us about your venue or questions you have"
         id="message"
         formControlName="message"
@@ -125,7 +140,19 @@
     </div>
   </form>
 
+  <div *ngIf="getFirstErrorMessage()" class="errors">
+    {{ getFirstErrorMessage() }}
+  </div>
+
   <button
+    [disabled]="this.form.invalid"
+    (click)="this.onSubmit()"
+    [ngClass]="{
+      'btn-border-green': this.form.valid,
+      'btn-font-green': this.form.valid,
+      'btn-border-red': this.form.invalid,
+      'btn-font-red': this.form.invalid
+    }"
     type="button"
     class="btn btn-gray create-btn btn-font-gray btn-border-blue"
   >

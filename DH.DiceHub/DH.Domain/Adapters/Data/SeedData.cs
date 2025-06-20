@@ -144,7 +144,7 @@ public static class SeedData
 </html>
 "
         },
-         new ()
+        new ()
         {
             Id = 2,
             TemplateName = EmailType.ForgotPasswordReset.ToString(),
@@ -360,6 +360,102 @@ public static class SeedData
         <p class=""link""><a href=""{{CreatePasswordUrl}}"">Set Up Your Password</a></p>
         <p>This link is valid for 24 hours. If it expires, contact your administrator to request a new one.</p>
         <p>Welcome aboard!</p>
+      </div>
+    </div>
+  </body>
+</html>
+"
+        },
+           new ()
+        {
+            Id = 4,
+            TemplateName = EmailType.PartnerInquiryRequest.ToString(),
+            Subject = "Parnet Inquiry Request",
+            TemplateHtml = @"
+<!DOCTYPE html>
+<html lang=""en"">
+  <head>
+    <meta charset=""UTF-8"" />
+    <title>New Partner Inquiry</title>
+    <style>
+      body {
+        background-color: #20232a;
+        margin: 0;
+        padding: 0;
+        color: white;
+      }
+
+      .wrapper {
+        max-width: 500px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin: 2rem auto;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 2, 1, 1);
+      }
+
+      .interactive-option {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 1rem;
+      }
+
+      .icon_wrapper {
+        width: 5rem;
+        height: 5rem;
+        border-radius: 50px;
+        background: #75a0ff;
+        box-shadow: 0 0 0 12px #20232a;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .icon {
+        width: 3rem;
+        height: 3rem;
+        fill: white;
+      }
+
+      .header {
+        text-align: center;
+        font-size: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .content p {
+        font-size: 1rem;
+        line-height: 1.6;
+      }
+
+      .link {
+        text-align: center;
+        margin: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+     <div class=""wrapper"">
+      <div class=""interactive-option"">
+        <div class=""icon_wrapper"">
+          <svg class=""icon"" viewBox=""0 -960 960 960"">
+            <path d=""..."" /> <!-- Keep the icon path as-is -->
+          </svg>
+        </div>
+      </div>
+      <div class=""header"">New Partner Inquiry</div>
+      <div class=""content"">
+        <p>Hello,</p>
+        <p>You have received a new partnership inquiry via the DiceHub platform.</p>
+        <p><strong>From:</strong> {{Name}}</p>
+        <p><strong>Email:</strong> {{Email}}</p>
+        <p><strong>Phone Number:</strong> {{PhoneNumber}}</p>
+        <p><strong>Message:</strong></p>
+        <p>{{Message}}</p>
+        <p>Please reach out to the potential partner to continue the conversation.</p>
+        <p>— The DiceHub System</p>
       </div>
     </div>
   </body>
