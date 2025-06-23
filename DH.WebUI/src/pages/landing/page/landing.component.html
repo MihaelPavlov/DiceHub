@@ -178,8 +178,11 @@
       <span>DiceHub</span>
     </div>
     <div class="auth-buttons">
-      <button class="btn">Login</button>
-      <button class="btn">Register</button>
+      <button class="btn" (click)="onLogin()">Login</button>
+      <button class="btn" (click)="onRegister()">Register</button>
+      <button class="btn instruction" (click)="onInstructions()">
+        How it Works
+      </button>
     </div>
   </header>
 
@@ -193,7 +196,7 @@
   </section>
 
   <section class="dashboard-mockup">
-    <img src="assets/mock/dashboard-mock.png" alt="Dashboard mockup" />
+    <img src="shared/assets/images/dashboard.png" alt="Dashboard mockup" />
   </section>
 
   <section class="features">
@@ -269,7 +272,13 @@
           formControlName="message"
         ></textarea>
       </div>
-      <button type="submit">Send</button>
+      <button
+        [disabled]="this.form.invalid"
+        (click)="this.onSubmit()"
+        type="submit"
+      >
+        Send
+      </button>
     </form>
   </section>
 </div>
