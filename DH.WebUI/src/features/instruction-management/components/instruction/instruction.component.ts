@@ -22,7 +22,7 @@ export class InstructionComponent implements OnInit {
     private readonly navigationService: NavigationService
   ) {}
 
-  public ngOnInit(): void {
+  public ngOnInit(): void {    
     this.route.paramMap.subscribe((params) => {
       const key = params.get('key'); // Get 'key' from the route
       const linkName = params.get('linkName'); // Get 'linkName' from the route

@@ -13,17 +13,45 @@ export const INSTRUCTION_LINK_MAPPINGS: { [key: string]: Instruction } = {
         description: 'Reserve a game',
         linkInfo: [
           {
-            header:"Create Your Reservation",
-            description:"Start by selecting the game you want to play and specifying the number of participants joining you.",
-            link: null,
-            imagePath:"/shared/assets/images/icons/menu_book-icon-blue.svg",
+            header: 'Find the Game that you want to reserve',
+            content: [
+              {
+                description:
+                  'Start by selecting the game library at the bottom left icon of the screen. This will take you to the game library where you can browse available games.',
+                imagePath:
+                  '/shared/assets/images/icons/menu_book-icon-blue.svg',
+              },
+              {
+                description:
+                  'Select the game you want to reserve from the list of available games. You can use the search bar to quickly find a specific game.',
+                imagePath:
+                  '/shared/assets/images/instructions/Reservations/Game/game_reservation.gif',
+              },
+              {
+                description:
+                  'Select after what time you will arrive and how many players will join to you. We will reserve a table for you.',
+                imagePath:
+                  '/shared/assets/images/instructions/Reservations/Game/game_reservation.gif',
+              },
+              {
+                description:
+                  'You will receive a confirmation/notification message once your reservation is successfully approved/declined.',
+                imagePath:
+                  '/shared/assets/images/instructions/Reservations/Game/game_reservation.gif',
+              },
+            ],
           },
-          {
-            header:"Wait for Approval",
-            description:"Once you've submitted your reservation, you will need to wait for the club to approve or decline it. The response time may vary depending on the club's workload, so please allow a few minutes for processing.",
-            link: null,
-            imagePath:"/shared/assets/images/icons/menu_book-icon-blue.svg",
-          }
+           {
+            header: 'Find the Game that you want to reserve',
+            content: [
+              {
+                description:
+                  'Start by selecting the game library at the bottom left icon of the screen. This will take you to the game library where you can browse available games.',
+                imagePath:
+                  '/shared/assets/images/icons/menu_book-icon-blue.svg',
+              }
+            ],
+          },
           // {
           //   text: 'Create Your Reservation',
           //   infoType: LinkInfoType.Header,

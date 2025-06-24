@@ -3,7 +3,6 @@
 .carousel {
   position: relative;
   overflow: hidden;
-  width: 100%;
 }
 
 .carousel__viewport {
@@ -32,13 +31,13 @@
 }
 
 .carousel__slide img {
-  width: 100%;
+  width: 80%;
   height: auto;
 }
 
 .carousel__prev,
 .carousel__next {
-  position: absolute;
+  position: fixed;
   top: 50%;
   transform: translateY(-50%);
   background: rgba(0, 0, 0, 0.5);
@@ -46,6 +45,7 @@
   border: none;
   padding: 10px;
   cursor: pointer;
+  z-index: 1000;
 }
 
 .carousel__prev {
@@ -61,7 +61,7 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  display: flex; 
+  display: flex;
   justify-content: center;
   align-items: center;
   padding: 1rem;
@@ -87,11 +87,14 @@
   transition: transform 0.3s ease-in-out;
 }
 
+.wrapper {
+  white-space: normal;
+}
 .wrapper_image {
   display: flex;
   justify-content: center;
   img {
-    width: 80%;
+    width: 20rem;
   }
 }
 
@@ -102,8 +105,10 @@
   .name {
     font-size: 1.4rem;
     color: palette.$main-blue-color;
+    margin: 2rem;
   }
   .description {
+    white-space: normal;
   }
 }
 

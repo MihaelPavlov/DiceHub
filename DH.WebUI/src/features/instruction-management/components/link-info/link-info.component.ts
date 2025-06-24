@@ -4,6 +4,7 @@ import {
   ElementRef,
   HostListener,
   Input,
+  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { LinkInfo } from '../../../../entities/instruction-management/models/instruction.model';
@@ -30,9 +31,11 @@ export class LinkInfoComponent implements AfterViewInit {
   carouselViewport!: ElementRef;
 
   ngAfterViewInit() {
-    this.slides = Array.from({ length: this.linkInfo.length }, (_, i) => ({
-      id: i + 1,
-    }));
+    console.log('LinkInfoComponent initialized', this.linkInfo);
+
+    // this.slides = Array.from({ length: this.linkInfo.length }, (_, i) => ({
+    //   id: i + 1,
+    // }));
     console.log('slides', this.slides);
     // Ensure snapping after manual scrolls
     if (this.carouselViewport.nativeElement)
@@ -42,6 +45,20 @@ export class LinkInfoComponent implements AfterViewInit {
       );
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['linkInfo'] && this.linkInfo?.length) {
+      this.slides = Array.from({ length: this.linkInfo.length }, (_, i) => ({
+        id: i + 1,
+      }));
+      console.log('slides', this.slides);
+    }
+
+    console.log('slides', this.slides);
+  }
+  public get getCurrentLinkInfo(): LinkInfo {
+    return this.linkInfo[this.currentSlideIndex];
+  }
+
   public scrollToSlide(index: number): void {
     if (index < 0 || index >= this.slides.length) return; // Prevent out-of-bounds scrolling
 
@@ -49,6 +66,8 @@ export class LinkInfoComponent implements AfterViewInit {
     const viewport = this.carouselViewport.nativeElement;
     const slideWidth = viewport.clientWidth;
     viewport.scrollTo({ left: index * slideWidth, behavior: 'smooth' });
+    // Wait 2 seconds before scrolling to top
+      window.scrollTo({ top: 0, behavior: 'instant' });
   }
 
   // Handle manual scrolling and snap to the nearest slide

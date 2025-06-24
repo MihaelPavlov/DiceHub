@@ -15,9 +15,12 @@ export interface Link {
 
 export interface LinkInfo {
   header:string,
-  description:string,
-  link: string | null,
-  imagePath: string,
+  content: LinkInfoContent[]
+}
+
+export interface LinkInfoContent{
+  description: string;
+  imagePath: string | null;
 }
 
 export enum LinkInfoType {
