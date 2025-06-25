@@ -59,13 +59,14 @@
 .carousel__navigation {
   position: fixed;
   bottom: 0;
-  left: 0;
-  width: 100%;
-  display: flex;
-  justify-content: center;
+  left: 50%;
+  width: 90%;
   align-items: center;
   padding: 1rem;
   z-index: 1000;
+  display: flex;
+  justify-content: center;
+  transform: translateX(-50%);
 }
 
 .carousel__navigation_button {
@@ -94,21 +95,23 @@
   display: flex;
   justify-content: center;
   img {
-    width: 20rem;
+    width: 10rem;
   }
 }
 
 .wrapper_link {
   margin: 0 2rem;
   word-break: break-word;
-
+  text-align: start;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
   .name {
     font-size: 1.4rem;
     color: palette.$main-blue-color;
-    margin: 2rem;
+    // margin: 2rem;
   }
   .description {
-    white-space: normal;
+    white-space: pre-line;
   }
 }
 

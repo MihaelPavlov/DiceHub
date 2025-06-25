@@ -30,6 +30,26 @@ export class ClubSpaceManagementComponent implements OnInit {
   public activeGameReservationModel: ActiveReservedGame | null = null;
 
   public ReservationStatus = ReservationStatus;
+
+  private hostMessages = [
+    '🎯 Your Table is Live 🎯',
+    '🕹️ Game in Progress 🕹️',
+    '🎲 You’ve Rolled the Dice 🎲',
+    '🔥 Table’s Hot — You’re Hosting 🔥',
+    '🧩 You’re Running the Show 🧩',
+  ];
+
+  private participantMessages = [
+    '🎮 You’re in the Game 🎮',
+    '🪑 Pulled Up a Seat 🪑',
+    '✨ You’ve Joined the Table ✨',
+    '🧑‍🤝‍🧑 Part of the Crew 🧑‍🤝‍🧑',
+    '🎭 Table Vibes: Active 🎭',
+  ];
+
+  public randomHostMessage: string | null = null;
+  public randomParticipantMessage: string | null = null;
+
   constructor(
     private readonly router: Router,
     private readonly spaceManagementService: SpaceManagementService,
@@ -49,6 +69,16 @@ export class ClubSpaceManagementComponent implements OnInit {
           this.userActiveTableInfo = userActiveTableResult;
 
         if (spaceActivityStats) this.spaceActivityStats = spaceActivityStats;
+
+        if (this.userActiveTableInfo?.isPlayerHaveActiveTable) {
+          this.randomHostMessage = this.getRandom(this.hostMessages);
+        }
+
+        if (this.userActiveTableInfo?.isPlayerParticipateInTable) {
+          this.randomParticipantMessage = this.getRandom(
+            this.participantMessages
+          );
+        }
       },
       error: (errors) => {
         throwError(() => errors);
@@ -164,5 +194,9 @@ export class ClubSpaceManagementComponent implements OnInit {
       },
       isConfirmed: (value) => value,
     };
+  }
+
+  private getRandom(messages: string[]): string {
+    return messages[Math.floor(Math.random() * messages.length)];
   }
 }

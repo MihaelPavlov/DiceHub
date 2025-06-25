@@ -10,17 +10,15 @@
     <div *ngFor="let slide of slides; let i = index" class="carousel__slide">
       <ng-container>
         <div class="wrapper">
-          <div class="wrapper_link">
-            <div class="name">{{ linkInfo[i].header }}</div>
+          <div class="wrapper_image">
+            <img [src]="linkInfo[i].imagePath" alt="Image" />
           </div>
-          <ng-container *ngFor="let content of linkInfo[i].content">
+          <!-- <ng-container *ngFor="let content of linkInfo[i].content"> -->
             <div class="wrapper_link">
-              <div class="descripxtion">{{ content.description }}</div>
+              <div class="name">{{ linkInfo[i].header }}</div>
+              <div class="description">{{ linkInfo[i].description }}</div>
             </div>
-            <div class="wrapper_image">
-              <img [src]="content.imagePath" alt="Image" />
-            </div>
-          </ng-container>
+          <!-- </ng-container> -->
         </div>
       </ng-container>
     </div>

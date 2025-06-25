@@ -35,13 +35,13 @@
     class="wrapper_active_table"
   >
     <p *ngIf="info.isPlayerHaveActiveTable" class="wrapper_active_table--text">
-      Created Active Table
+      {{ randomHostMessage }}
     </p>
     <p
       *ngIf="info.isPlayerParticipateInTable"
       class="wrapper_active_table--text"
     >
-      You're participating in a Table
+      {{ randomParticipantMessage }}
     </p>
 
     <p class="wrapper_active_table--text">{{ info.activeTableName }}</p>

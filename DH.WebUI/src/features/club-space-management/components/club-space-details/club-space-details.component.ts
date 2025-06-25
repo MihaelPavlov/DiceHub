@@ -9,6 +9,7 @@ import { UserRole } from '../../../../entities/auth/enums/roles.enum';
 import { FULL_ROUTE } from '../../../../shared/configs/route.config';
 import { IMenuItem } from '../../../../shared/models/menu-item.model';
 import { ISpaceTableById } from '../../../../entities/space-management/models/get-space-table-by-id.model';
+import { NavigationService } from '../../../../shared/services/navigation-service';
 
 @Component({
   selector: 'app-club-space-details',
@@ -30,7 +31,8 @@ export class ClubSpaceDetailsComponent implements OnInit {
     private readonly router: Router,
     private readonly activeRoute: ActivatedRoute,
     private readonly spaceManagementService: SpaceManagementService,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly navigationService: NavigationService
   ) {}
   public get isUserCreatorOfTable() {
     return this.detailsSpaceTable.createdBy === this.authService.getUser?.id;
@@ -49,6 +51,7 @@ export class ClubSpaceDetailsComponent implements OnInit {
 
   public menuItemClickFunction(key: string): void {
     if (key === 'update') {
+      this.navigationService.setPreviousUrl(this.router.url);
       this.router.navigateByUrl(
         FULL_ROUTE.SPACE_MANAGEMENT.UPDATE_BY_ID(this.tableId)
       );

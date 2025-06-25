@@ -95,10 +95,14 @@ export class AddUpdateClubSpaceComponent extends Form implements OnInit {
   }
 
   public backNavigateBtn(): void {
-    if (this.editTableId)
-      this.router.navigateByUrl(`space/${this.editTableId}/details`);
+    if (this.editTableId) {
+      this.router.navigateByUrl(`/space/${this.editTableId}/details`);
+      return;
+    }
 
-    this.router.navigateByUrl(this.navigationService.getPreviousUrl() ?? '/space/home');
+    this.router.navigateByUrl(
+      this.navigationService.getPreviousUrl() ?? '/space/home'
+    );
   }
 
   public togglePasswordVisibility(): void {
