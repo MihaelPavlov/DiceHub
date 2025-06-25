@@ -15,7 +15,9 @@ export interface Link {
 
 export interface LinkInfo {
   header:string,
-  content: LinkInfoContent[]
+   description: string;
+  imagePath: string | null;
+  // content: LinkInfoContent[]
 }
 
 export interface LinkInfoContent{

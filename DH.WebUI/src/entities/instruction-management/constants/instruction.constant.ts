@@ -10,116 +10,113 @@ export const INSTRUCTION_LINK_MAPPINGS: { [key: string]: Instruction } = {
         name: 'Game',
         path: '/instructions/reservation/game',
         image: '/shared...',
-        description: 'Reserve a game',
+        description: `Learn how to reserve a game step by step.`,
         linkInfo: [
           {
-            header: 'Find the Game that you want to reserve',
-            content: [
-              {
-                description:
-                  'Start by selecting the game library at the bottom left icon of the screen. This will take you to the game library where you can browse available games.',
-                imagePath:
-                  '/shared/assets/images/icons/menu_book-icon-blue.svg',
-              },
-              {
-                description:
-                  'Select the game you want to reserve from the list of available games. You can use the search bar to quickly find a specific game.',
-                imagePath:
-                  '/shared/assets/images/instructions/Reservations/Game/game_reservation.gif',
-              },
-              {
-                description:
-                  'Select after what time you will arrive and how many players will join to you. We will reserve a table for you.',
-                imagePath:
-                  '/shared/assets/images/instructions/Reservations/Game/game_reservation.gif',
-              },
-              {
-                description:
-                  'You will receive a confirmation/notification message once your reservation is successfully approved/declined.',
-                imagePath:
-                  '/shared/assets/images/instructions/Reservations/Game/game_reservation.gif',
-              },
-            ],
+            header: 'How to Reserve a Game',
+            description: `Tap the game library icon in the bottom-left corner. Use the list or search bar to find a game you want to play.
+            After selecting a game, click on Availability 
+            Select your arrival time and number of players — we’ll reserve a table for you. 
+            You’ll be notified when your reservation is approved or declined. 
+            If approved, please arrive 2–10 minutes before the timer ends.`,
+            imagePath:
+              '/shared/assets/images/instructions/Reservations/Game/game_reservation_part_1.gif',
           },
-           {
-            header: 'Find the Game that you want to reserve',
-            content: [
-              {
-                description:
-                  'Start by selecting the game library at the bottom left icon of the screen. This will take you to the game library where you can browse available games.',
-                imagePath:
-                  '/shared/assets/images/icons/menu_book-icon-blue.svg',
-              }
-            ],
+          {
+            header: 'Reservation Approved: What’s Next',
+            description: `Once your reservation is approved, you'll see a QR code and an info panel.
+              You can access this panel anytime from the red Games Tab in the top-right corner (it will glow when updated).
+              This panel shows important details and updates about your reservation.`,
+            imagePath:
+              '/shared/assets/images/instructions/Reservations/Game/game_reservation_part_2.gif',
           },
-          // {
-          //   text: 'Create Your Reservation',
-          //   infoType: LinkInfoType.Header,
-          // },
-          // {
-          //   text: 'Start by selecting the game you want to play and specifying the number of participants joining you.',
-          //   infoType: LinkInfoType.Text,
-          // },
-          // {
-          //   text: 'Wait for Approval',
-          //   infoType: LinkInfoType.Header,
-          // },
-          // {
-          //   text: `Once you've submitted your reservation, you will need to wait for the club to approve or decline it. The response time may vary depending on the club's workload, so please allow a few minutes for processing.`,
-          //   infoType: LinkInfoType.Text,
-          // },
-          // { text: 'Reservation Confirmation', infoType: LinkInfoType.Header },
-          // {
-          //   text: 'If there is available space for your group, your reservation will be approved.',
-          //   infoType: LinkInfoType.Text,
-          // },
-          // {
-          //   text: `QR Code & Check-in`,
-          //   infoType: LinkInfoType.Header,
-          // },
-          // {
-          //   text: `After approval, a QR code will be generated for your reservation. You must present this QR code to the club staff, who will scan it to verify its validity.`,
-          //   infoType: LinkInfoType.Text,
-          // },
-          // {
-          //   text: `shared/.....`,
-          //   infoType: LinkInfoType.Image,
-          // },
-          // {
-          //   text: 'Additional Information',
-          //   infoType: LinkInfoType.Header,
-          // },
-          // {
-          //   text: `Under the "Information" tab, you will find any messages from the staff, including important details or special instructions regarding your reservation.`,
-          //   infoType: LinkInfoType.Text,
-          // },
-          // {
-          //   text: ``,
-          //   infoType: LinkInfoType.Empty,
-          // },
-          // {
-          //   text: `For instructions on how to make a table reservation, check the guide here: `,
-          //   infoType: LinkInfoType.Text,
-          // },
-          // {
-          //   text: ``,
-          //   infoType: LinkInfoType.Link,
-          // },
+          {
+            header: 'Messages from Staff',
+            description: `Your info panel may include notes from staff about your reservation — make sure to read them.`,
+            imagePath:
+              '/shared/assets/images/instructions/Reservations/Game/7.png',
+          },
+          {
+            header: 'Checking In with Your QR Code',
+            description: `Show your QR code to the club staff when you arrive. They’ll scan it to confirm your reservation.`,
+            imagePath:
+              '/shared/assets/images/instructions/Reservations/Game/9.png',
+          },
+          {
+            header: 'If Your Reservation is Declined',
+            description: `If your reservation is not approved, you’ll see a message explaining why it was declined.`,
+            imagePath:
+              '/shared/assets/images/instructions/Reservations/Game/11.png',
+          },
+          {
+            header: 'If No One Responds to Your Reservation',
+            description: `If your reservation isn’t acknowledged in time, you’ll get a additional message.`,
+            imagePath:
+              '/shared/assets/images/instructions/Reservations/Game/13.png',
+          },
         ],
       },
       {
         name: 'Table',
         path: '/instructions/reservation/table',
         image: '/shared...',
-        description: 'Reserve a table',
-        linkInfo: [],
+        description: 'Learn how to reserve a table.',
+        linkInfo: [
+          {
+            header: 'How to Reserve a Table',
+            description: `Tap the circular icon with crossed swords at the bottom center of the screen. 
+            Then, tap the top icon to open the Club Space Management page. 
+            There, you can book a table, choosing your arrival time, and entering the number of players. 
+            You’ll receive a notification once your reservation is approved or declined.`,
+            imagePath:
+              '/shared/assets/images/instructions/Reservations/Table/table_reservation_part_1.gif',
+          },
+          {
+            header: 'Reservation Approved: What’s Next',
+            description: `If your reservation is approved, a QR code and all reservation details will appear in your info panel under Club Space Management page.`,
+            imagePath:
+              '/shared/assets/images/instructions/Reservations/Table/1.png',
+          },
+          {
+            header: 'Message from Staff',
+            description: `Sometimes, staff may leave you a note in the info panel with important information about your reservation.`,
+            imagePath:
+              '/shared/assets/images/instructions/Reservations/Table/3.png',
+          },
+        ],
       },
       {
         name: 'Combination',
         path: '/instructions/reservation/combination',
         image: '/shared...',
         description: 'Reserve a combination of both',
-        linkInfo: [],
+        linkInfo: [
+          {
+            header: 'Manage your reservation room',
+            description: `Start by clicking on the blue circle at the center of the bottom center of the screen. And then click on the first icon at the top.
+               From there you will be navigated to the Club Space Management page, where you can manage your reservation room.
+               You can update your reservation and remove players`,
+            imagePath:
+              '/shared/assets/images/instructions/Reservations/find_my_reservation.gif',
+          },
+        ],
+      },
+      {
+        name: 'Tip #1 Manage Your Room',
+        path: '/instructions/reservation/manage-room',
+        image: '/shared...',
+        description:
+          'Easily manage your reservation room — see who’s in, update players, and adjust your settings.',
+        linkInfo: [
+          {
+            header: 'How to Manage Your Room',
+            description: `Tap the blue circle at the bottom center of the screen. Then tap the first icon at the top.
+              This will take you to the Club Space Management page, where you can view and manage your reservation room.
+              From there, you can update your reservation details or remove players if needed.`,
+            imagePath:
+              '/shared/assets/images/instructions/Reservations/find_my_reservation.gif',
+          },
+        ],
       },
     ],
   },
