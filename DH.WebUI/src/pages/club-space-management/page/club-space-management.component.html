@@ -159,10 +159,23 @@
             >Declined</strong
           >
         </span>
-
-        <span class="description"
-          >Your spot for a future game! Be prepared for the fun.
-        </span>
+        <strong
+          class="description"
+          *ngIf="activeBookedTableModel.status === ReservationStatus.Pending"
+          >Waiting for confirmation — hang tight while we process your
+          request.</strong
+        >
+        <strong
+          class="description"
+          *ngIf="activeBookedTableModel.status === ReservationStatus.Approved"
+          >Your spot for a future game! Be prepared for the fun.</strong
+        >
+        <strong
+          class="description"
+          *ngIf="activeBookedTableModel.status === ReservationStatus.Declined"
+        >
+          Reservation declined — please try booking a different time.</strong
+        >
 
         <span class="description-field" *ngFor="let item of getKeyValuePair()">
           {{ item.key }}: {{ item.value }}

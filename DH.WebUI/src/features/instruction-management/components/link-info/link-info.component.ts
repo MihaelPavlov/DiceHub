@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   HostListener,
@@ -26,37 +27,41 @@ export class LinkInfoComponent implements AfterViewInit {
   public scrollTimeout: any;
   public touchStartX = 0;
   public touchEndX = 0;
-
+  public currentIndex: number = 0;
+  public gifSrcMap: { [index: number]: string } = {};
   @ViewChild('carouselViewport', { static: false })
   carouselViewport!: ElementRef;
 
-  ngAfterViewInit() {
-    console.log('LinkInfoComponent initialized', this.linkInfo);
+  constructor(private cd: ChangeDetectorRef) {}
 
-    // this.slides = Array.from({ length: this.linkInfo.length }, (_, i) => ({
-    //   id: i + 1,
-    // }));
-    console.log('slides', this.slides);
+  public ngAfterViewInit(): void {
     // Ensure snapping after manual scrolls
     if (this.carouselViewport.nativeElement)
       this.carouselViewport.nativeElement.addEventListener(
         'scroll',
         this.onScrollEnd.bind(this)
       );
+
+    setTimeout(() => {
+      this.gifSrcMap[this.currentIndex] =
+        this.linkInfo[this.currentIndex].imagePath + '?t=' + Date.now();
+    });
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  public ngOnChanges(changes: SimpleChanges): void {
     if (changes['linkInfo'] && this.linkInfo?.length) {
       this.slides = Array.from({ length: this.linkInfo.length }, (_, i) => ({
         id: i + 1,
       }));
-      console.log('slides', this.slides);
     }
-
-    console.log('slides', this.slides);
   }
+
   public get getCurrentLinkInfo(): LinkInfo {
     return this.linkInfo[this.currentSlideIndex];
+  }
+
+  public getImagePathWithTimestamp(path: string | null): string {
+    return `${path}?t=${Date.now()}`;
   }
 
   public scrollToSlide(index: number): void {
@@ -67,7 +72,12 @@ export class LinkInfoComponent implements AfterViewInit {
     const slideWidth = viewport.clientWidth;
     viewport.scrollTo({ left: index * slideWidth, behavior: 'smooth' });
     // Wait 2 seconds before scrolling to top
-      window.scrollTo({ top: 0, behavior: 'instant' });
+    window.scrollTo({ top: 0, behavior: 'instant' });
+
+    // Reset the GIF/Image source
+    this.currentIndex = index;
+    const imagePath = this.linkInfo[index].imagePath;
+    this.gifSrcMap[index] = `${imagePath}?t=${Date.now()}`;
   }
 
   // Handle manual scrolling and snap to the nearest slide

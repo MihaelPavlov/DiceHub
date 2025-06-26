@@ -68,6 +68,9 @@ export class RegisterComponent extends Form implements OnInit {
     this.router.navigateByUrl(ROUTE.LOGIN);
   }
 
+  public navigateToLanding(): void {
+    this.router.navigateByUrl(ROUTE.LANDING);
+  }
   public async register(): Promise<void> {
     if (this.form.valid) {
       try {

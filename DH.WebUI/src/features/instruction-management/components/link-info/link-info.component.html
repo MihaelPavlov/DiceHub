@@ -11,14 +11,12 @@
       <ng-container>
         <div class="wrapper">
           <div class="wrapper_image">
-            <img [src]="linkInfo[i].imagePath" alt="Image" />
+            <img [src]="gifSrcMap[i]" alt="Image" />
           </div>
-          <!-- <ng-container *ngFor="let content of linkInfo[i].content"> -->
-            <div class="wrapper_link">
-              <div class="name">{{ linkInfo[i].header }}</div>
-              <div class="description">{{ linkInfo[i].description }}</div>
-            </div>
-          <!-- </ng-container> -->
+          <div class="wrapper_link">
+            <div class="name">{{ linkInfo[i].header }}</div>
+            <div class="description">{{ linkInfo[i].description }}</div>
+          </div>
         </div>
       </ng-container>
     </div>

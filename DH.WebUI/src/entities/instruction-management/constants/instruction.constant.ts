@@ -83,6 +83,12 @@ export const INSTRUCTION_LINK_MAPPINGS: { [key: string]: Instruction } = {
             imagePath:
               '/shared/assets/images/instructions/Reservations/Table/3.png',
           },
+          {
+            header: 'If Your Reservation is Declined',
+            description: `If your reservation is not approved, try selecting a different time or day.`,
+            imagePath:
+              '/shared/assets/images/instructions/Reservations/Table/4.png',
+          },
         ],
       },
       {

@@ -1,5 +1,4 @@
 import { FrontEndLogService } from './../../../shared/services/frontend-log.service';
-import { ErrorStateService } from './../../../shared/components/global-error-handler';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../entities/auth/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -96,6 +95,10 @@ export class LoginComponent extends Form implements OnInit {
     this.router.navigateByUrl(ROUTE.FORGOT_PASSWORD);
   }
 
+  public navigateToLanding():void {
+    this.router.navigateByUrl(ROUTE.LANDING);
+  }
+
   private clearServerErrorMessage() {
     this.getServerErrorMessage = null;
   }
@@ -142,6 +145,7 @@ export class LoginComponent extends Form implements OnInit {
 
   public async onLogin(): Promise<void> {
     if (this.form.valid) {
+      this.loadingService.loadingOn();
       let deviceToken: string | null = null;
       if (this.messagingService.isPushUnsupportedIOS()) {
         this.frontEndLogService
@@ -192,6 +196,9 @@ export class LoginComponent extends Form implements OnInit {
               message: AppToastMessage.SomethingWrong,
               type: ToastType.Error,
             });
+          },
+          complete: () => {
+            this.loadingService.loadingOff();
           },
         });
     }
