@@ -40,7 +40,7 @@ public class UpdateRewardDto : IValidableFields
 
         if (RequiredPoints < MinRequiredPoints)
             errors.Add(new ValidationError(nameof(RequiredPoints),
-                $"RequiredPoints should be bigger then {MinRequiredPoints}."));
+                $"RequiredPoints are required!"));
 
         validationErrors = errors;
 

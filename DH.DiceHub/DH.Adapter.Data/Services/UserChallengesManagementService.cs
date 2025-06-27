@@ -1,11 +1,11 @@
-﻿using DH.Domain.Entities;
+﻿using DH.Domain.Adapters.Authentication.Services;
+using DH.Domain.Entities;
 using DH.Domain.Enums;
 using DH.Domain.Helpers;
 using DH.Domain.Services;
 using DH.Domain.Services.TenantSettingsService;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System.Text.Json;
 
 namespace DH.Adapter.Data.Services;
 
@@ -15,12 +15,18 @@ public class UserChallengesManagementService : IUserChallengesManagementService
     readonly IDbContextFactory<TenantDbContext> dbContextFactory;
     readonly ITenantSettingsCacheService tenantSettingsCacheService;
     readonly ILogger<UserChallengesManagementService> logger;
+    readonly IUserService userService;
 
-    public UserChallengesManagementService(IDbContextFactory<TenantDbContext> dbContextFactory, ITenantSettingsCacheService tenantSettingsCacheService, ILogger<UserChallengesManagementService> logger)
+    public UserChallengesManagementService(
+        IDbContextFactory<TenantDbContext> dbContextFactory,
+        ITenantSettingsCacheService tenantSettingsCacheService,
+        ILogger<UserChallengesManagementService> logger,
+        IUserService userService)
     {
         this.dbContextFactory = dbContextFactory;
         this.tenantSettingsCacheService = tenantSettingsCacheService;
         this.logger = logger;
+        this.userService = userService;
     }
 
     /// <inheritdoc/>
@@ -86,6 +92,69 @@ public class UserChallengesManagementService : IUserChallengesManagementService
                 {
                     await transaction.RollbackAsync(cancellationToken);
                     throw;
+                }
+            }
+        }
+    }
+
+    public async Task EnsureValidUserChallengePeriodsAsync(CancellationToken cancellationToken)
+    {
+        var now = DateTime.UtcNow.Date;
+
+        using (var context = await this.dbContextFactory.CreateDbContextAsync(cancellationToken))
+        {
+            var userIds = await this.userService.GetAllUserIds(cancellationToken);
+            foreach (var userId in userIds)
+            {
+                using (var transaction = await context.Database.BeginTransactionAsync(cancellationToken))
+                {
+                    try
+                    {
+                        var userPerformance = await context.UserChallengePeriodPerformances.AsTracking()
+                            .FirstOrDefaultAsync(x => x.IsPeriodActive == true && x.UserId == userId, cancellationToken);
+
+                        var isInvalid = userPerformance == null || now < userPerformance.StartDate || now > userPerformance.EndDate;
+
+                        if (!isInvalid)
+                        {
+                            // Skip this user — challenge period is valid
+                            continue;
+                        }
+
+                        if (userPerformance != null)
+                        {
+                            userPerformance.IsPeriodActive = false;
+                            context.Update(userPerformance);
+                        }
+
+                        var tenantSettings = await this.tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
+
+                        var settingPeriod = Enum.Parse<TimePeriodType>(tenantSettings.PeriodOfRewardReset);
+                        var nextResetDate = TimePeriodTypeHelper.CalculateNextResetDate(settingPeriod, tenantSettings.ResetDayForRewards);
+
+                        var newUserPerformance = new UserChallengePeriodPerformance
+                        {
+                            UserId = userId,
+                            IsPeriodActive = true,
+                            Points = 0,
+                            StartDate = DateTime.UtcNow.Date,
+                            EndDate = nextResetDate,
+                            TimePeriodType = settingPeriod
+                        };
+
+                        await context.UserChallengePeriodPerformances.AddAsync(newUserPerformance, cancellationToken);
+                        await context.SaveChangesAsync(cancellationToken);
+                        var userChallengePeriodRewards = await this.GenerateRewardsAsyncV3(tenantSettings.ChallengeRewardsCountForPeriod, newUserPerformance.Id, context, cancellationToken);
+                        await context.UserChallengePeriodRewards.AddRangeAsync(userChallengePeriodRewards, cancellationToken);
+                        // rewards points and not order correctly
+                        await context.SaveChangesAsync(cancellationToken);
+                        await transaction.CommitAsync(cancellationToken);
+                    }
+                    catch (Exception ex)
+                    {
+                        await transaction.RollbackAsync(cancellationToken);
+                        this.logger.LogError("Error appear while new challenge period was adding for user - {userId}. Ex-> {exception}", userId, ex.Message);
+                    }
                 }
             }
         }

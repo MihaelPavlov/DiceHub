@@ -29,6 +29,8 @@ internal class ConditionalJobScheduler : IHostedService
             var tenantSettings = await tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
             if (Enum.TryParse<TimePeriodType>(tenantSettings.PeriodOfRewardReset, out var timePeriod))
             {
+                var jobKey = new JobKey(nameof(AddUserChallengePeriodJob));
+
                 if (timePeriod == TimePeriodType.Weekly)
                 {
                     string GetCronDay(WeekDays day) => day switch
@@ -44,12 +46,12 @@ internal class ConditionalJobScheduler : IHostedService
                     };
 
                     var cronDay = GetCronDay(Enum.Parse<WeekDays>(tenantSettings.ResetDayForRewards));
-
-                    if (!await scheduler.CheckExists(new TriggerKey($"WeeklyJobTrigger-{nameof(AddUserChallengePeriodJob)}", "DEFAULT")))
+                    var triggerKey = new TriggerKey($"WeeklyJobTrigger-{jobKey.Name}");
+                    if (!await scheduler.CheckExists(triggerKey))
                     {
                         var weeklyJobTrigger = TriggerBuilder.Create()
-                        .ForJob(nameof(AddUserChallengePeriodJob))
-                        .WithIdentity($"WeeklyJobTrigger-{nameof(AddUserChallengePeriodJob)}")
+                        .ForJob(jobKey)
+                        .WithIdentity(triggerKey)
                         //.WithCronSchedule("0 */2 * * * ?")  // Cron expression for every 10 minutes
                         .WithCronSchedule($"0 0 0 ? * {cronDay}")
                         .Build();
@@ -59,11 +61,13 @@ internal class ConditionalJobScheduler : IHostedService
                 }
                 else if (timePeriod == TimePeriodType.Monthly)
                 {
-                    if (!await scheduler.CheckExists(new TriggerKey($"WeeklyJobTrigger-{nameof(AddUserChallengePeriodJob)}", "DEFAULT")))
+                    var triggerKey = new TriggerKey($"MonthlyJobTrigger-{jobKey.Name}");
+
+                    if (!await scheduler.CheckExists(triggerKey))
                     {
                         var monthlyJobTrigger = TriggerBuilder.Create()
-                        .ForJob(nameof(AddUserChallengePeriodJob))
-                        .WithIdentity($"MonthlyJobTrigger-{nameof(AddUserChallengePeriodJob)}")
+                        .ForJob(jobKey)
+                        .WithIdentity(triggerKey)
                         .WithCronSchedule("0 0 0 L * ?") // Runs at 00:00 on the last day of the month
                         .Build();                        //L: Indicates the last day of the month.
 

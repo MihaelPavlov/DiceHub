@@ -35,11 +35,16 @@ public static class SchedulingDIModule
             });
 
             // Register the job and trigger
-            q.AddJob<ExpireReservationJob>(opts => opts.WithIdentity(nameof(ExpireReservationJob)).StoreDurably());
-
-            q.AddJob<UserRewardsExpiryJob>(opts => opts.WithIdentity(nameof(UserRewardsExpiryJob)));
-            q.AddJob<UserRewardsExpirationReminderJob>(opts => opts.WithIdentity(nameof(UserRewardsExpirationReminderJob)));
-            q.AddJob<AddUserChallengePeriodJob>(opts => opts.WithIdentity(nameof(AddUserChallengePeriodJob)).StoreDurably());
+            q.AddJob<ExpireReservationJob>(opts => opts.WithIdentity(nameof(ExpireReservationJob))
+            .StoreDurably().RequestRecovery());
+            q.AddJob<UserRewardsExpiryJob>(opts => opts.WithIdentity(nameof(UserRewardsExpiryJob))
+            .StoreDurably().RequestRecovery());
+            q.AddJob<UserRewardsExpirationReminderJob>(opts => opts.WithIdentity(nameof(UserRewardsExpirationReminderJob))
+            .StoreDurably().RequestRecovery());
+            q.AddJob<UserChallengeValidationJob>(opts => opts.WithIdentity(nameof(UserChallengeValidationJob))
+            .StoreDurably().RequestRecovery());
+            q.AddJob<AddUserChallengePeriodJob>(opts => opts.WithIdentity(nameof(AddUserChallengePeriodJob))
+            .StoreDurably().RequestRecovery());
 
             TriggerDailyJobs(q, services);
 
@@ -73,5 +78,12 @@ public static class SchedulingDIModule
            .ForJob(nameof(ExpireReservationJob))
            .WithIdentity($"DailyJobTriggers-{nameof(ExpireReservationJob)}")
            .WithCronSchedule("0 0 0 * * ?"));// Every night 00:00 UTC 
+
+        service.AddTrigger(opts => opts
+            .ForJob(nameof(UserChallengeValidationJob))
+            .WithIdentity($"DailyJobTriggers-{nameof(UserChallengeValidationJob)}")
+            .WithSimpleSchedule(x => x
+                .WithInterval(TimeSpan.FromMinutes(24))
+                .RepeatForever()));
     }
 }

@@ -33,4 +33,6 @@ public interface IUserChallengesManagementService
     /// <param name="cancellationToken">Cancellation token for the task.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
     Task AddChallengeToUser(string userId, CancellationToken cancellationToken);
+
+    Task EnsureValidUserChallengePeriodsAsync(CancellationToken cancellationToken);
 }

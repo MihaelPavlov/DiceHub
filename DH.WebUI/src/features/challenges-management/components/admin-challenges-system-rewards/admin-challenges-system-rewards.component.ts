@@ -53,6 +53,7 @@ export class AdminChallengesSystemRewardsComponent extends Form {
   public rewardList: IRewardListResult[] = [];
   public editRewardId: number | null = null;
   public readonly ImageEntityType = ImageEntityType;
+  private skipFirstSelectedLevelChange = true;
 
   constructor(
     public override readonly toastService: ToastService,
@@ -85,6 +86,12 @@ export class AdminChallengesSystemRewardsComponent extends Form {
     } else {
       this.form.controls.requiredPoints.disable();
       this.rewardRequiredPointList = [];
+    }
+    if (this.skipFirstSelectedLevelChange) {
+      this.skipFirstSelectedLevelChange = false;
+      return;
+    } else {
+      this.form.controls.requiredPoints.setValue(0);
     }
   }
 
@@ -197,6 +204,7 @@ export class AdminChallengesSystemRewardsComponent extends Form {
 
   public fillEditRewardForm(id: number) {
     this.editRewardId = id;
+    this.skipFirstSelectedLevelChange = true;
     this.rewardsService.getById(id).subscribe({
       next: (reward: IRewardGetByIdResult) => {
         this.form.patchValue({
