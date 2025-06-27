@@ -72,7 +72,7 @@ public class UserService : IUserService
         var result = await this.signInManager.PasswordSignInAsync(user!, form.Password, form.RememberMe, true);
 
         if (!result.Succeeded)
-            throw new ValidationErrorsException("Email", "Email or Password is invalid!");
+            throw new ValidationErrorsException("Email", "Email or Password is invalid!"); 
 
         var userDiviceToken = await this.userDeviceTokenRepository.GetByAsyncWithTracking(x => x.UserId == user!.Id, CancellationToken.None);
         if (userDiviceToken is null && form.DeviceToken is not null)

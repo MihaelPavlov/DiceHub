@@ -40,6 +40,9 @@ public class ReservationCleanupService : BackgroundService
                     if (DateTime.UtcNow < jobInfo.RemovingTime)
                     {
                         RequeueJob(jobInfo);
+                        //At first glance, the delay might seem unnecessary.
+                        //However, removing it would cause the job to start requeueing immediately when there's only one record,
+                        //which could lead to excessive or unintended processing
                         await Task.Delay(10000, cancellationToken);
                         continue;
                     }

@@ -1,28 +1,28 @@
-export interface Instruction {
+export interface InstructionSection {
+  title: string;
+  summary: string;
+  imageUrl: string;
+  topics: InstructionTopic[];
+}
+
+export interface InstructionTopic {
+  title: string;
+  route: string;
+  thumbnailUrl: string;
+  description: string;
+  steps: InstructionStep[];
+}
+
+export interface InstructionStep {
   header: string;
   description: string;
-  imagePath: string;
-  links: Link[];
+  mediaUrl: string | null;
+  action?: StepActionLink | null;
 }
 
-export interface Link {
-  name: string;
-  path: string;
-  image: string;
-  description: string;
-  linkInfo: LinkInfo[];
-}
-
-export interface LinkInfo {
-  header:string,
-   description: string;
-  imagePath: string | null;
-  // content: LinkInfoContent[]
-}
-
-export interface LinkInfoContent{
-  description: string;
-  imagePath: string | null;
+export interface StepActionLink {
+  label: string;
+  url: string;
 }
 
 export enum LinkInfoType {

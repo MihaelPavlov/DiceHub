@@ -42,25 +42,24 @@ app-header {
     background-color: palette.$main-nav-color;
     margin-bottom: 1.5rem;
     width: 100%;
-    
 
     &__header {
       font-size: 1.25rem;
       margin: 0.5rem 1rem;
       word-break: break-word;
 
-      .event_name{
+      .event_name {
         width: 65%;
       }
-      .description{
+      .description {
         margin-top: 0.5rem;
         font-size: 1rem;
-        color: palette.$main-font-gray-color
+        color: palette.$main-font-gray-color;
       }
     }
 
     &__image {
-        float: right;
+      float: right;
       img {
         width: 7.5rem;
         height: 7.5rem;
@@ -73,9 +72,6 @@ app-header {
       display: flex;
       justify-content: space-between;
       padding: 1rem;
-      > * {
-        margin: 0 0.35rem;
-      }
     }
   }
 }

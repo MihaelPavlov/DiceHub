@@ -8,7 +8,7 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { LinkInfo } from '../../../../entities/instruction-management/models/instruction.model';
+import { InstructionStep } from '../../../../entities/instruction-management/models/instruction.model';
 
 @Component({
   selector: 'app-link-info',
@@ -16,7 +16,7 @@ import { LinkInfo } from '../../../../entities/instruction-management/models/ins
   styleUrl: 'link-info.component.scss',
 })
 export class LinkInfoComponent implements AfterViewInit {
-  @Input({ required: true }) linkInfo!: LinkInfo[];
+  @Input({ required: true }) linkInfo!: InstructionStep[];
   public slides: { id: number }[] = [
     // { id: 2, image: 2 },
     // { id: 3, image: 3 },
@@ -44,7 +44,7 @@ export class LinkInfoComponent implements AfterViewInit {
 
     setTimeout(() => {
       this.gifSrcMap[this.currentIndex] =
-        this.linkInfo[this.currentIndex].imagePath + '?t=' + Date.now();
+        this.linkInfo[this.currentIndex].mediaUrl + '?t=' + Date.now();
     });
   }
 
@@ -56,7 +56,7 @@ export class LinkInfoComponent implements AfterViewInit {
     }
   }
 
-  public get getCurrentLinkInfo(): LinkInfo {
+  public get getCurrentLinkInfo(): InstructionStep {
     return this.linkInfo[this.currentSlideIndex];
   }
 
@@ -76,7 +76,7 @@ export class LinkInfoComponent implements AfterViewInit {
 
     // Reset the GIF/Image source
     this.currentIndex = index;
-    const imagePath = this.linkInfo[index].imagePath;
+    const imagePath = this.linkInfo[index].mediaUrl;
     this.gifSrcMap[index] = `${imagePath}?t=${Date.now()}`;
   }
 

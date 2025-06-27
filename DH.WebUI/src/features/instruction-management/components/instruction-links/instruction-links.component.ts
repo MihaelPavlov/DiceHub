@@ -1,7 +1,7 @@
 import { NavigationService } from './../../../../shared/services/navigation-service';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Instruction } from '../../../../entities/instruction-management/models/instruction.model';
+import { InstructionSection  } from '../../../../entities/instruction-management/models/instruction.model';
 import { INSTRUCTION_LINK_MAPPINGS } from '../../../../entities/instruction-management/constants/instruction.constant';
 
 @Component({
@@ -10,7 +10,7 @@ import { INSTRUCTION_LINK_MAPPINGS } from '../../../../entities/instruction-mana
   styleUrl: 'instruction-links.component.scss',
 })
 export class InstructionLinksComponent implements OnInit {
-  public currentLink!: Instruction;
+  public currentSection!: InstructionSection ;
 
   constructor(
     private router: Router,
@@ -25,7 +25,7 @@ export class InstructionLinksComponent implements OnInit {
       const currentPath = urlSegments[0]?.path; // Extract the first path segment
 
       if (currentPath && INSTRUCTION_LINK_MAPPINGS[currentPath]) {
-        this.currentLink = INSTRUCTION_LINK_MAPPINGS[currentPath];
+        this.currentSection = INSTRUCTION_LINK_MAPPINGS[currentPath];
       }
     });
   }

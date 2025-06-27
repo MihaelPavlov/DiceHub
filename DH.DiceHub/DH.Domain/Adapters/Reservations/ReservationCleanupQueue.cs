@@ -1,4 +1,5 @@
-﻿using DH.Domain.Enums;
+﻿using DH.Domain.Entities;
+using DH.Domain.Enums;
 using DH.Domain.Queue;
 using DH.Domain.Services.Queue;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,8 +11,11 @@ namespace DH.Domain.Adapters.Reservations;
 
 public class ReservationCleanupQueue : QueueBase
 {
-    // Concurrent queue to store job information.
-    readonly ConcurrentDictionary<int, JobInfo> jobs = new();
+    // FIFO queue
+    private readonly ConcurrentQueue<JobInfo> queue = new();
+
+    // Optional dictionary for fast lookups or updates
+    private readonly ConcurrentDictionary<int, JobInfo> jobs = new();
 
     public override string QueueName => QueueNameKeysConstants.RESERVATION_CLEANUP_QUEUE_NAME;
 
@@ -38,12 +42,15 @@ public class ReservationCleanupQueue : QueueBase
     {
         var job = new JobInfo(reservationId, type, removingTime);
         this.QueuedJobService.Create(this.QueueName, job.JobId, JsonSerializer.Serialize(job));
-        jobs.AddOrUpdate(reservationId, job, (id, existingJob) => job);
+
+        jobs[reservationId] = job; // Store for lookup/update
+        queue.Enqueue(job);        // FIFO behavior
     }
 
     public void RequeueJob(JobInfo jobInfo)
     {
-        jobs.AddOrUpdate(jobInfo.ReservationId, jobInfo, (id, existingJob) => jobInfo);
+        queue.Enqueue(jobInfo);   // Add back to end of queue
+        jobs[jobInfo.ReservationId] = jobInfo;
     }
 
     public void UpdateReservationCleaningJob(int reservationId, DateTime newRemovingTime)
@@ -51,10 +58,9 @@ public class ReservationCleanupQueue : QueueBase
         if (jobs.TryGetValue(reservationId, out var existingJob))
         {
             var updatedJobInfo = existingJob with { RemovingTime = newRemovingTime };
-            var isUpdated = jobs.TryUpdate(reservationId, updatedJobInfo, existingJob);
+            jobs[reservationId] = updatedJobInfo;
 
-            if (isUpdated)
-                this.QueuedJobService.UpdatePayload(this.QueueName, updatedJobInfo.JobId, JsonSerializer.Serialize(updatedJobInfo));
+            this.QueuedJobService.UpdatePayload(this.QueueName, updatedJobInfo.JobId, JsonSerializer.Serialize(updatedJobInfo));
         }
     }
 
@@ -63,16 +69,9 @@ public class ReservationCleanupQueue : QueueBase
     /// </summary>
     /// <param name="result">When this method returns, contains the job information if the operation was successful; otherwise, null.</param>
     /// <returns>True if a job was successfully dequeued; otherwise, false.</returns>
-    public virtual bool TryDequeue([MaybeNullWhen(false)] out JobInfo result)
+    public bool TryDequeue([MaybeNullWhen(false)] out JobInfo result)
     {
-        var nextJob = jobs.Values.OrderBy(j => j.RemovingTime).FirstOrDefault();
-        if (nextJob != null && jobs.TryRemove(nextJob.ReservationId, out result))
-        {
-            return true;
-        }
-        result = null;
-        return false;
-
+        return queue.TryDequeue(out result);
     }
 
     public bool RemoveReservationCleaningJob(int reservationId)

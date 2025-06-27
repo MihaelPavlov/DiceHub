@@ -2,22 +2,23 @@
 
 <div class="wrapper_info">
   <div class="image">
-    <img [src]="currentLink.imagePath" alt="" />
+    <img [src]="currentSection.imageUrl" alt="" />
   </div>
   <div class="header blue">
-    {{ currentLink.header }}
+    {{ currentSection.title }}
   </div>
   <div class="description">
-    {{ currentLink.description }}
+    {{ currentSection.summary }}
   </div>
 </div>
 
 <div class="wrapper">
   <div
-    *ngFor="let link of currentLink.links"
+    *ngFor="let link of currentSection.topics"
     class="wrapper_item"
-    (click)="navigateToLink(link.path)"
+    (click)="navigateToLink(link.route)"
   >
+  <!-- TODO: Change this to thumbnailUrl -->
     <div class="wrapper_image">
       <img
         src="../../../../shared/assets/images/instructions/third_try.png"
@@ -25,7 +26,7 @@
       />
     </div>
     <div class="wrapper_title">
-      <span>{{ link.name }}</span>
+      <span>{{ link.title }}</span>
       <div class="wrapper_description">
         {{ link.description }}
       </div>

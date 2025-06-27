@@ -1,8 +1,8 @@
 <app-header
-  [header]="selectedInstruction?.header ?? 'Instruction'"
+  [header]="selectedInstruction?.title ?? 'Instruction'"
   [withBackBtn]="true"
   (backClicked)="navigateBack()"
 ></app-header>
 
-<app-link-info *ngIf="selectedLink" [linkInfo]="selectedLink.linkInfo">
+<app-link-info *ngIf="selectedTopic" [linkInfo]="selectedTopic.steps">
 </app-link-info>

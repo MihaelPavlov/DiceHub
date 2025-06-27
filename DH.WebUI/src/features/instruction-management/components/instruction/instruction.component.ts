@@ -1,8 +1,8 @@
 import { NavigationService } from './../../../../shared/services/navigation-service';
 import { Component, OnInit } from '@angular/core';
 import {
-  Instruction,
-  Link,
+  InstructionSection ,
+  InstructionTopic,
 } from '../../../../entities/instruction-management/models/instruction.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { INSTRUCTION_LINK_MAPPINGS } from '../../../../entities/instruction-management/constants/instruction.constant';
@@ -13,8 +13,8 @@ import { INSTRUCTION_LINK_MAPPINGS } from '../../../../entities/instruction-mana
   styleUrl: 'instruction.component.scss',
 })
 export class InstructionComponent implements OnInit {
-  public selectedInstruction!: Instruction | null;
-  public selectedLink!: Link | null;
+  public selectedInstruction!: InstructionSection  | null;
+  public selectedTopic!: InstructionTopic | null;
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -29,9 +29,9 @@ export class InstructionComponent implements OnInit {
       if (key && INSTRUCTION_LINK_MAPPINGS[key]) {
         // Find the specific link inside the instruction
         this.selectedInstruction = INSTRUCTION_LINK_MAPPINGS[key];
-        this.selectedLink =
-          this.selectedInstruction.links.find(
-            (link) => this.slugify(link.path) === this.router.url
+        this.selectedTopic =
+          this.selectedInstruction.topics.find(
+            (link) => this.slugify(link.route) === this.router.url
           ) || null;
       }
     });
