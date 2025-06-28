@@ -3,7 +3,9 @@ using DH.Domain.Entities;
 using DH.Domain.Enums;
 using DH.Domain.Models.ChallengeModels.Queries;
 using DH.Domain.Services;
+using DH.OperationResultCore.Exceptions;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace DH.Adapter.Data.Services;
 
@@ -31,6 +33,26 @@ public class ChallengeService : IChallengeService
             await context.SaveChangesAsync(cancellationToken);
 
             return challenge.Id;
+        }
+    }
+
+    public async Task Delete(int id, CancellationToken cancellationToken)
+    {
+        using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
+        {
+            var challenge = await context.Challenges
+                .Include(x => x.UserChallenges)
+                .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+
+            if (challenge == null)
+                throw new NotFoundException(nameof(Challenge), id);
+
+            if (challenge.UserChallenges.Count != 0)
+                throw new ValidationErrorsException("UserChallenges", "Challenge has dependencies and cannot be deleted");
+
+            context.Challenges.Remove(challenge);
+
+            await context.SaveChangesAsync(cancellationToken);
         }
     }
 

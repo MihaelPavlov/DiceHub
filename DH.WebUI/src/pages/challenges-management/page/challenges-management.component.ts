@@ -77,21 +77,25 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
     if (this.rewardsListener) this.rewardsListener();
     if (this.pointsListener) this.pointsListener();
   }
+  public getLeftOffset(requiredPoints: number, index: number): number {
+    const rewards = this.userChallengePeriodRewardList;
+    const maxPoints = rewards[rewards.length - 1].rewardRequiredPoints;
 
-  private initProgressContainerWidth(): void {
-    console.log('progressContainer', this.progressContainer);
+    let offset = (requiredPoints / maxPoints) * 100;
 
-    // Get the count of circle elements
-    const numberOfCircles = this.circles.length;
-    console.log('numberOfCircles', numberOfCircles);
+    // Check if previous reward is close
+    if (index > 0) {
+      const prevPoints = rewards[index - 1].rewardRequiredPoints;
+      const prevOffset = (prevPoints / maxPoints) * 100;
 
-    // Calculate the width of each circle
-    if (numberOfCircles > 0) {
-      const circleWidth = 4 * numberOfCircles;
-      console.log('circle width -> ', circleWidth);
+      const minDistance = 10; // Minimum % spacing between circles
 
-      this.progressContainer.nativeElement.style.width = `${circleWidth}rem`;
+      if (offset - prevOffset < minDistance) {
+        offset = prevOffset + minDistance;
+      }
     }
+
+    return offset - 5;
   }
 
   public ngOnInit(): void {
@@ -239,34 +243,52 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
     const progress: HTMLElement | null = document.getElementById('progress');
     const stepCircles: NodeListOf<Element> =
       document.querySelectorAll('.circle');
-    let currentActive: number = this.userChallengePeriodRewardList.filter(
-      (reward) => reward.isCompleted
-    ).length;
 
-    stepCircles.forEach((circle: Element, i: number) => {
-      if (i < currentActive) {
+    const totalPoints = this.periodPerformance?.points ?? 0;
+    const rewards = this.userChallengePeriodRewardList;
+
+    if (!rewards.length) return;
+
+    // ✅ Set progress width based on points (not reward index)
+    const maxPoints = rewards[rewards.length - 1].rewardRequiredPoints;
+    const clampedPoints = Math.min(totalPoints, maxPoints);
+    const width = (clampedPoints / maxPoints) * 100 + 5;
+
+    if (progress) {
+      progress.style.width = `${width}%`;
+      console.log('Points:', totalPoints);
+      console.log('MaxPoints:', maxPoints);
+      console.log('Progress Width:', width);
+    }
+
+    // 🟢 Update reward circles (optional)
+    rewards.forEach((reward, i) => {
+      const circle = stepCircles[i];
+      if (!circle) return;
+
+      if (totalPoints >= reward.rewardRequiredPoints) {
         circle.classList.add('activated');
-        circle.innerHTML = `
-          <img class="_img"
-          src="/shared/assets/images/challenge-complete.png"
-          alt=""
-          />`;
-        circle.classList.add('_img');
+        circle.innerHTML = `<img class="_img" src="/shared/assets/images/challenge-complete.png" alt="" />`;
       } else {
         circle.classList.remove('activated');
+        circle.innerHTML = reward.rewardRequiredPoints.toString();
       }
     });
+  }
 
-    const activeCircles: NodeListOf<Element> =
-      document.querySelectorAll('.activated');
-    console.log('activated circles --- >', activeCircles);
-    if (progress && stepCircles.length > 1) {
-      console.log(
-        ((activeCircles.length - 1) / (stepCircles.length - 1)) * 100 + '%'
-      );
+  private initProgressContainerWidth(): void {
+    console.log('progressContainer', this.progressContainer);
 
-      progress.style.width =
-        ((activeCircles.length - 1) / (stepCircles.length - 1)) * 100 + '%';
+    // Get the count of circle elements
+    const numberOfCircles = this.circles.length;
+    console.log('numberOfCircles', numberOfCircles);
+
+    // Calculate the width of each circle
+    if (numberOfCircles > 0) {
+      const circleWidth = 4 * numberOfCircles;
+      console.log('circle width -> ', circleWidth);
+
+      this.progressContainer.nativeElement.style.width = `${circleWidth}rem`;
     }
   }
 }

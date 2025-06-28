@@ -7,4 +7,5 @@ public interface IChallengeService : IDomainService<Challenge>
 {
     Task<int> Create(Challenge challenge, CancellationToken cancellationToken);
     Task<List<GetUserChallengeListQueryModel>> GetUserChallenges(CancellationToken cancellationToken);
+    Task Delete(int id, CancellationToken cancellationToken);
 }

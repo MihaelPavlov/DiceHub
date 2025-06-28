@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ToastType } from '../../../../shared/models/toast.model';
 import { ToastService } from '../../../../shared/services/toast.service';
 import { ChallengesService } from '../../../../entities/challenges/api/challenges.service';
+import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
 
 @Component({
   selector: 'app-admin-challenges-confirm-delete-dialog',
@@ -17,14 +18,29 @@ export class AdminChallengesConfirmDeleteDialog {
     private readonly toastService: ToastService
   ) {}
 
-  //TODO: Check if you are be able to delete, because of userChallenges
   public delete(): void {
-    this.challengesService.delete(this.data.id).subscribe((_) => {
-      this.toastService.success({
-        message: 'Deleted',
-        type: ToastType.Success,
-      });
-      this.dialogRef.close(true);
+    this.challengesService.delete(this.data.id).subscribe({
+      next: () => {
+        this.toastService.success({
+          message: 'Deleted',
+          type: ToastType.Success,
+        });
+        this.dialogRef.close(true);
+      },
+      error: (error: any) => {
+        if (error.error.errors.UserChallenges) {
+          this.toastService.error({
+            message: error.error.errors.UserChallenges[0],
+            type: ToastType.Error,
+          });
+        } else {
+          this.toastService.error({
+            message: AppToastMessage.SomethingWrong,
+            type: ToastType.Error,
+          });
+        }
+        this.dialogRef.close(false);
+      },
     });
   }
 }

@@ -195,6 +195,13 @@
   </form>
 </div>
 
+<ng-container *ngIf="challengeList.length === 0">
+  <span class="challenge-list-empty">
+    No challenges yet.<br />
+    Start by adding challenges to keep your users engaged and rewarded!
+  </span>
+</ng-container>
+
 <section class="wrapper_library">
   <div
     *ngFor="let challenge of challengeList"

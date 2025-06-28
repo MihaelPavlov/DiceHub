@@ -113,7 +113,7 @@ public class GameReservationQRCodeState : IQRCodeState
         if (game == null)
             return await SetError(context, data, result, $"{traceId}: Table id-{spaceTableId}, was created. But AddUserPlayTimEnforcerJob was not added to the queue, because game with id-{request.GameId} was not founded", traceId, cancellationToken);
 
-        this.gameSessionQueue.AddUserPlayTimEnforcerJob(this.userContext.UserId, game.Id, DateTime.UtcNow.AddMinutes((int)game.AveragePlaytime));
+        this.gameSessionQueue.AddUserPlayTimEnforcerJob(userId, game.Id, DateTime.UtcNow.AddMinutes((int)game.AveragePlaytime));
 
         await context.TrackScannedQrCode(traceId, data, null, cancellationToken);
 

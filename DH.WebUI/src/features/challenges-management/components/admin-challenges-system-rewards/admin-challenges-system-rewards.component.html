@@ -180,6 +180,13 @@
   </form>
 </div>
 
+<ng-container *ngIf="rewardList.length === 0">
+  <span class="reward-list-empty">
+    No rewards to show.<br />
+    <strong>Add a new reward</strong> to get started.
+  </span>
+</ng-container>
+
 <section class="wrapper_library">
   <div
     *ngFor="let reward of rewardList"

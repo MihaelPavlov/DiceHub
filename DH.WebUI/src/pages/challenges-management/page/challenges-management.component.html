@@ -99,7 +99,13 @@
             <div
               #circleContainer
               class="circle_container"
-              *ngFor="let reward of userChallengePeriodRewardList"
+              *ngFor="
+                let reward of userChallengePeriodRewardList;
+                let i = index
+              "
+              [ngStyle]="{
+                left: getLeftOffset(reward.rewardRequiredPoints, i) + '%'
+              }"
             >
               <div class="circle" [ngClass]="{ activated: reward.isCompleted }">
                 {{ reward.rewardRequiredPoints }}
