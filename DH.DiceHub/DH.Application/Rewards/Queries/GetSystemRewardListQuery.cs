@@ -18,8 +18,9 @@ internal class GetSystemRewardListQueryHandler : IRequestHandler<GetSystemReward
 
     public async Task<List<GetSystemRewardListQueryModel>> Handle(GetSystemRewardListQuery request, CancellationToken cancellationToken)
     {
+        var searchExpression = request.SearchExpression ?? string.Empty;
         return await this.challengeRewardRepository.GetWithPropertiesAsync(
-            x => !x.IsDeleted && x.Name.Contains(request.SearchExpression ?? string.Empty),
+            x => !x.IsDeleted && x.Name.ToLower().Contains(searchExpression.ToLower()),
             x => new GetSystemRewardListQueryModel
             {
                 Id = x.Id,
