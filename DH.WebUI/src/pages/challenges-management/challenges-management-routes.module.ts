@@ -4,7 +4,7 @@ import { ChallengesManagementComponent } from './page/challenges-management.comp
 import { ChallengesRewardsComponent } from '../../features/challenges-management/components/challenges-rewards/challenges-rewards.component';
 import { AdminChallengesHistoryLogComponent } from '../../features/challenges-management/components/admin-challenges-history-log/admin-challenges-history-log.component';
 import { AdminChallengesListComponent } from '../../features/challenges-management/components/admin-challenges-list/admin-challenges-list.component';
-import { AdminChallengesRewardsComponent } from '../../features/challenges-management/components/admin-challenges-rewards/admin-challenges-rewards.component';
+import { AdminChallengesCustomPeriodComponent } from '../../features/challenges-management/components/admin-challenges-custom-period/admin-challenges-custom-period.component';
 import { AdminChallengesSystemRewardsComponent } from '../../features/challenges-management/components/admin-challenges-system-rewards/admin-challenges-system-rewards.component';
 import { AdminChallengesNavigationComponent } from './admin-page/admin-challenges-navigation.component';
 import { ChallengeUserAccessGuard } from '../../shared/guards/challenge-user-access.guard';
@@ -28,8 +28,8 @@ const routes: Routes = [
     canActivate: [ChallengeAdminAccessGuard],
     children: [
       {
-        path: ROUTE.CHALLENGES.ADMIN.REWARDS,
-        component: AdminChallengesRewardsComponent,
+        path: ROUTE.CHALLENGES.ADMIN.CUSTOM_PERIOD,
+        component: AdminChallengesCustomPeriodComponent,
       },
       {
         path: ROUTE.CHALLENGES.ADMIN.LIST,
@@ -39,12 +39,11 @@ const routes: Routes = [
         path: ROUTE.CHALLENGES.ADMIN.HISTORY_LOG,
         component: AdminChallengesHistoryLogComponent,
       },
+      {
+        path: `${ROUTE.CHALLENGES.ADMIN.SYSTEM_REWARDS}`,
+        component: AdminChallengesSystemRewardsComponent,
+      },
     ],
-  },
-  {
-    path: `${ROUTE.CHALLENGES.ADMIN.CORE}/${ROUTE.CHALLENGES.ADMIN.SYSTEM_REWARDS}`,
-    component: AdminChallengesSystemRewardsComponent,
-    canActivate: [ChallengeAdminAccessGuard],
   },
 ];
 

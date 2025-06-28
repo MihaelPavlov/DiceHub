@@ -48,4 +48,9 @@ public class TenantSetting
     /// Club Name
     /// </summary>
     public string ClubName { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Is Custom Period On
+    /// </summary>
+    public bool IsCustomPeriodOn { get; set; }
 }

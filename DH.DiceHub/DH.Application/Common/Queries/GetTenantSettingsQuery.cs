@@ -31,6 +31,7 @@ internal class GetTenantSettingsQueryHandler : IRequestHandler<GetTenantSettings
             PhoneNumber = settings.PhoneNumber,
             BonusTimeAfterReservationExpiration = settings.BonusTimeAfterReservationExpiration,
             ClubName = settings.ClubName,
+            IsCustomPeriodOn = settings.IsCustomPeriodOn,
         };
 
         return dto;

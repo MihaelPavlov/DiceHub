@@ -53,6 +53,11 @@ public class TenantSettingDto : IValidableFields
     /// </summary>
     public string ClubName { get; set; } = string.Empty;
 
+    /// <summary>
+    /// Is Custom Period On
+    /// </summary>
+    public bool IsCustomPeriodOn { get; set; }
+
     public bool FieldsAreValid(out List<ValidationError> validationErrors)
     {
         var errors = new List<ValidationError>();

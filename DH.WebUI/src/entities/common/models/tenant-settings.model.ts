@@ -48,4 +48,9 @@ export interface ITenantSettings {
   /// Club Name
   /// </summary>
   clubName: string;
+
+  /// <summary>
+  /// Is Custom Period On
+  /// </summary>
+  isCustomPeriodOn: boolean;
 }

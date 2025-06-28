@@ -7,14 +7,9 @@ namespace DH.Application.Common.Commands;
 
 public record UpdateTenantSettingsCommand(TenantSettingDto Settings) : IRequest;
 
-internal class UpdateTenantSettingsCommandHandler : IRequestHandler<UpdateTenantSettingsCommand>
+internal class UpdateTenantSettingsCommandHandler(IRepository<TenantSetting> repository) : IRequestHandler<UpdateTenantSettingsCommand>
 {
-    readonly IRepository<TenantSetting> repository;
-
-    public UpdateTenantSettingsCommandHandler(IRepository<TenantSetting> repository)
-    {
-        this.repository = repository;
-    }
+    readonly IRepository<TenantSetting> repository = repository;
 
     public async Task Handle(UpdateTenantSettingsCommand request, CancellationToken cancellationToken)
     {
@@ -34,6 +29,7 @@ internal class UpdateTenantSettingsCommandHandler : IRequestHandler<UpdateTenant
                 BonusTimeAfterReservationExpiration = request.Settings.BonusTimeAfterReservationExpiration,
                 PhoneNumber = request.Settings.PhoneNumber,
                 ClubName = request.Settings.ClubName,
+                IsCustomPeriodOn = request.Settings.IsCustomPeriodOn,
             }, cancellationToken);
 
             return;
@@ -84,6 +80,11 @@ internal class UpdateTenantSettingsCommandHandler : IRequestHandler<UpdateTenant
         if (dbSettings.BonusTimeAfterReservationExpiration != request.Settings.BonusTimeAfterReservationExpiration)
         {
             dbSettings.BonusTimeAfterReservationExpiration = request.Settings.BonusTimeAfterReservationExpiration;
+        }
+
+        if (dbSettings.IsCustomPeriodOn != request.Settings.IsCustomPeriodOn)
+        {
+            dbSettings.IsCustomPeriodOn = request.Settings.IsCustomPeriodOn;
         }
 
         await this.repository.SaveChangesAsync(cancellationToken);

@@ -71,26 +71,6 @@
   </div>
 
   <div class="input-field">
-    <label for="periodOfRewardReset" class="required"
-      >Period Of Reward Reset</label
-    >
-    <span class="input-info"
-      >How often the reward count resets for users — weekly or monthly.</span
-    >
-    <ng-select
-      id="periodOfRewardReset"
-      [items]="periodTimeValues"
-      bindValue="name"
-      bindLabel="name"
-      placeholder="0"
-      [searchable]="true"
-      formControlName="periodOfRewardReset"
-      class="app-select-long"
-    >
-    </ng-select>
-  </div>
-
-  <div class="input-field">
     <label for="challengeInitiationDelayHours" class="required"
       >Challenge Initiation Delay Hours</label
     >
@@ -171,6 +151,48 @@
       id="bonusTimeAfterReservationExpiration"
       formControlName="bonusTimeAfterReservationExpiration"
     />
+  </div>
+
+  <div class="input-field">
+    <label for="periodOfRewardReset" class="required"
+      >Period Of Reward Reset</label
+    >
+    <span class="input-info"
+      >How often the reward count resets for users — weekly or monthly.</span
+    >
+    <ng-select
+      id="periodOfRewardReset"
+      [items]="periodTimeValues"
+      bindValue="name"
+      bindLabel="name"
+      placeholder="Weekly or Monthly"
+      [searchable]="true"
+      formControlName="periodOfRewardReset"
+      class="app-select-long"
+    >
+    </ng-select>
+  </div>
+
+  <div class="input-field">
+    <label for="isCustomPeriodOn" class="required">Is Custom Period On</label>
+    <span class="input-info input-warning">
+      ⚠️ Enabling this setting forces the system into custom period mode.<br />
+      If no challenges or rewards are configured under the
+      <strong>Custom Period</strong> tab in Challenge Manager,<br />
+      you will be immediately redirected there and
+      <strong>cannot leave</strong> until the required setup is complete.</span
+    >
+    <ng-select
+      id="isCustomPeriodOn"
+      [items]="toggleStateValues"
+      bindValue="id"
+      bindLabel="name"
+      placeholder="On or Off"
+      [searchable]="true"
+      formControlName="isCustomPeriodOn"
+      class="app-select-long"
+    >
+    </ng-select>
   </div>
 
   <div *ngIf="getFirstErrorMessage()" class="errors">

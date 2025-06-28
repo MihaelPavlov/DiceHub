@@ -17,6 +17,7 @@ import { TenantSettingsService } from '../../../../entities/common/api/tenant-se
 import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { ToastType } from '../../../../shared/models/toast.model';
 import { IDropdown } from '../../../../shared/models/dropdown.model';
+import { ToggleState } from '../../../../entities/common/enum/toggle-state.enum';
 
 interface ITenantSettingsForm {
   averageMaxCapacity: number;
@@ -28,6 +29,7 @@ interface ITenantSettingsForm {
   bonusTimeAfterReservationExpiration: number;
   phoneNumber: string;
   clubName: string;
+  isCustomPeriodOn: number;
 }
 
 @Component({
@@ -40,6 +42,7 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
 
   public weekDaysValues: IDropdown[] = [];
   public periodTimeValues: IDropdown[] = [];
+  public toggleStateValues: IDropdown[] = [];
   public reservationHours: IDropdown[] = [];
 
   public delayHours: IDropdown[] = [
@@ -80,6 +83,10 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
       .filter(([key, value]) => typeof value === 'number')
       .map(([key, value]) => ({ id: value as number, name: key }));
 
+    this.toggleStateValues = Object.entries(ToggleState)
+      .filter(([key, value]) => typeof value === 'number')
+      .map(([key, value]) => ({ id: value as number, name: key }));
+
     let id = 1;
     for (let hour = 8; hour < 22; hour++) {
       for (let minute = 0; minute < 60; minute += 5) {
@@ -114,6 +121,9 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
             res.bonusTimeAfterReservationExpiration,
           phoneNumber: res.phoneNumber,
           clubName: res.clubName,
+          isCustomPeriodOn: res.isCustomPeriodOn
+            ? ToggleState.On
+            : ToggleState.Off,
         });
 
         if (res.reservationHours.length !== 0) {
@@ -148,6 +158,8 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
             this.form.controls.bonusTimeAfterReservationExpiration.value,
           phoneNumber: this.form.controls.phoneNumber.value,
           clubName: this.form.controls.clubName.value,
+          isCustomPeriodOn:
+            this.form.controls.isCustomPeriodOn.value === ToggleState.On,
         })
         .subscribe({
           next: () => {
@@ -155,6 +167,10 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
               message: AppToastMessage.ChangesSaved,
               type: ToastType.Success,
             });
+
+            if (this.form.controls.isCustomPeriodOn.value === ToggleState.On) {
+              //TODO: Navigate to Custom Period Tab
+            }
 
             this.fetchSettings();
           },
@@ -193,6 +209,8 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
         return 'Club Name';
       case 'bonusTimeAfterReservationExpiration':
         return 'Bonus Time After Reservation Expiration';
+      case 'isCustomPeriodOn':
+        return 'Is Custom Period On';
       default:
         return controlName;
     }
@@ -225,6 +243,7 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
         null,
         [Validators.required]
       ),
+      isCustomPeriodOn: new FormControl<number>(0, [Validators.required]),
     });
   }
 }

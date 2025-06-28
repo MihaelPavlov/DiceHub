@@ -6,7 +6,7 @@ namespace DH.Domain.Services.TenantSettingsService;
 internal class TenantSettingsCacheService : ITenantSettingsCacheService
 {
     readonly ReaderWriterLockSlim cacheLock = new();
-    private TenantSetting _cache;
+    private TenantSetting? _cache;
     DateTime _cacheDateTime = DateTime.MinValue;
     IRepository<TenantSetting> repository;
 
@@ -20,6 +20,9 @@ internal class TenantSettingsCacheService : ITenantSettingsCacheService
         if (_cacheDateTime.AddMinutes(3) < DateTime.UtcNow)
         {
             var tenantSettings = await this.repository.GetByAsync(x => x.Id == 1, cancellationToken);
+
+            if (tenantSettings == null)
+                throw new InvalidOperationException("Global tenant settings (Id = 1) not found.");
 
             cacheLock.EnterWriteLock();
             try
@@ -36,7 +39,7 @@ internal class TenantSettingsCacheService : ITenantSettingsCacheService
         cacheLock.EnterReadLock();
         try
         {
-            return _cache;
+            return _cache ?? new TenantSetting();
         }
         finally
         {

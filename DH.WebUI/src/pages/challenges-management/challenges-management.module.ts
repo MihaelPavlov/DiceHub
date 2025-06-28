@@ -12,7 +12,7 @@ import { MatDialogActions, MatDialogClose } from '@angular/material/dialog';
 import { AdminChallengesConfirmDeleteDialog } from '../../features/challenges-management/dialogs/admin-challenges-confirm-delete/admin-challenges-confirm-delete.component';
 import { AdminChallengesHistoryLogComponent } from '../../features/challenges-management/components/admin-challenges-history-log/admin-challenges-history-log.component';
 import { AdminChallengesListComponent } from '../../features/challenges-management/components/admin-challenges-list/admin-challenges-list.component';
-import { AdminChallengesRewardsComponent } from '../../features/challenges-management/components/admin-challenges-rewards/admin-challenges-rewards.component';
+import { AdminChallengesCustomPeriodComponent } from '../../features/challenges-management/components/admin-challenges-custom-period/admin-challenges-custom-period.component';
 import { AdminChallengesSystemRewardsComponent } from '../../features/challenges-management/components/admin-challenges-system-rewards/admin-challenges-system-rewards.component';
 import { AdminChallengesRewardConfirmDeleteDialog } from '../../features/challenges-management/dialogs/admin-challenges-reward-confirm-delete/admin-challenges-reward-confirm-delete.component';
 import { AdminChallengesNavigationComponent } from './admin-page/admin-challenges-navigation.component';
@@ -26,7 +26,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     AdminChallengesNavigationComponent,
     AdminChallengesHistoryLogComponent,
     AdminChallengesListComponent,
-    AdminChallengesRewardsComponent,
+    AdminChallengesCustomPeriodComponent,
     AdminChallengesSystemRewardsComponent,
     AdminChallengesRewardConfirmDeleteDialog,
     AdminChallengesConfirmDeleteDialog,
