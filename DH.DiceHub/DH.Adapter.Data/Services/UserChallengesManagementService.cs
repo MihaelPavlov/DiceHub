@@ -369,6 +369,7 @@ public class UserChallengesManagementService : IUserChallengesManagementService
         // Fetch all rewards from the database
         var systemRewards = await dbContext.ChallengeRewards
             .OrderBy(r => r.RequiredPoints)
+            .Where(x => !x.IsDeleted)
             .ToListAsync(cancellationToken);
 
         // List to store the final rewards for the user
