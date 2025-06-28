@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ToastType } from '../../../../shared/models/toast.model';
 import { ToastService } from '../../../../shared/services/toast.service';
 import { RewardsService } from '../../../../entities/rewards/api/rewards.service';
+import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
 
 @Component({
   selector: 'app-admin-challenges-reward-confirm-delete-dialog',
@@ -17,14 +18,22 @@ export class AdminChallengesRewardConfirmDeleteDialog {
     private readonly toastService: ToastService
   ) {}
 
-  //TODO: Check if you are be able to delete, because of userChallengeRewardRelationships
   public delete(): void {
-    this.rewardService.delete(this.data.id).subscribe((_) => {
-      this.toastService.success({
-        message: 'Deleted',
-        type: ToastType.Success,
-      });
-      this.dialogRef.close(true);
+    this.rewardService.delete(this.data.id).subscribe({
+      next: () => {
+        this.toastService.success({
+          message: 'Deleted',
+          type: ToastType.Success,
+        });
+        this.dialogRef.close(true);
+      },
+      error: () => {
+        this.toastService.error({
+          message: AppToastMessage.SomethingWrong,
+          type: ToastType.Error,
+        });
+        this.dialogRef.close(false);
+      },
     });
   }
 }
