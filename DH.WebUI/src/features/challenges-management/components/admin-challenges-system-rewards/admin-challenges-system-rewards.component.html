@@ -1,12 +1,3 @@
-<app-header
-  header="System Rewards"
-  [withSearch]="true"
-  [withBackBtn]="true"
-  [withBottomLine]="true"
-  (searchExpressionResult)="handleSearchExpression($event)"
-  (backClicked)="backNavigateBtn()"
-></app-header>
-
 <div class="container">
   <div class="buttons">
     <div class="btn-container" (click)="toggleRewardForm()">
@@ -35,6 +26,46 @@
     <div class="btn-container">
       <span>Total: {{ rewardList.length }}</span>
     </div>
+  </div>
+
+  <div class="buttons">
+    <div class="btn-container" (click)="toggleSearch()">
+      <span>Search</span>
+
+      <!-- search icon -->
+
+      <svg *ngIf="!showSearch" class="wrapper_filter" viewBox="0 -960 960 960">
+        <path
+          d="M788.38-127.85 535.92-380.31q-30 24.54-73.5 38.04t-83.88 13.5q-106.1 0-179.67-73.53-73.56-73.53-73.56-179.57 0-106.05 73.53-179.71 73.53-73.65 179.57-73.65 106.05 0 179.71 73.56Q631.77-688.1 631.77-582q0 42.69-13.27 83.69t-37.27 70.69l253.46 253.47-46.31 46.3ZM378.54-394.77q79.61 0 133.42-53.81 53.81-53.8 53.81-133.42 0-79.62-53.81-133.42-53.81-53.81-133.42-53.81-79.62 0-133.42 53.81-53.81 53.8-53.81 133.42 0 79.62 53.81 133.42 53.8 53.81 133.42 53.81Z"
+        />
+      </svg>
+      <!-- close -->
+      <svg class="wrapper_filter" *ngIf="showSearch" viewBox="0 -960 960 960">
+        <path
+          d="M252-203.69 205.69-252l227-228-227-230L252-758.31l229 230 227-230L754.31-710l-227 230 227 228L708-203.69l-227-230-229 230Z"
+        />
+      </svg>
+    </div>
+  </div>
+  <div class="input-field" *ngIf="showSearch">
+    <form [formGroup]="searchForm" class="form__group" id="searchForm">
+      <input
+        type="input"
+        class="form__field"
+        placeholder="search"
+        name="search"
+        formControlName="search"
+        id="search"
+      />
+      <label for="search" class="form__label">
+        <svg class="search-icon" viewBox="0 -960 960 960">
+          <path
+            d="M788.38-127.85 535.92-380.31q-30 24.54-73.5 38.04t-83.88 13.5q-106.1 0-179.67-73.53-73.56-73.53-73.56-179.57 0-106.05 73.53-179.71 73.53-73.65 179.57-73.65 106.05 0 179.71 73.56Q631.77-688.1 631.77-582q0 42.69-13.27 83.69t-37.27 70.69l253.46 253.47-46.31 46.3ZM378.54-394.77q79.61 0 133.42-53.81 53.81-53.8 53.81-133.42 0-79.62-53.81-133.42-53.81-53.81-133.42-53.81-79.62 0-133.42 53.81-53.81 53.8-53.81 133.42 0 79.62 53.81 133.42 53.8 53.81 133.42 53.81Z"
+          />
+        </svg>
+        Search</label
+      >
+    </form>
   </div>
 
   <form [formGroup]="form" *ngIf="showRewardForm">

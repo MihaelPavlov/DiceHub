@@ -16,7 +16,7 @@ import { RewardsService } from '../../../../entities/rewards/api/rewards.service
 import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { ToastType } from '../../../../shared/models/toast.model';
 import { IRewardListResult } from '../../../../entities/rewards/models/reward-list.model';
-import { throwError } from 'rxjs';
+import { debounceTime, distinctUntilChanged, throwError } from 'rxjs';
 import { IRewardGetByIdResult } from '../../../../entities/rewards/models/reward-by-id.model';
 import { AdminChallengesRewardConfirmDeleteDialog } from '../../dialogs/admin-challenges-reward-confirm-delete/admin-challenges-reward-confirm-delete.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -54,6 +54,8 @@ export class AdminChallengesSystemRewardsComponent extends Form {
   public editRewardId: number | null = null;
   public readonly ImageEntityType = ImageEntityType;
   private skipFirstSelectedLevelChange = true;
+  public showSearch: boolean = false;
+  public searchForm!: FormGroup;
 
   constructor(
     public override readonly toastService: ToastService,
@@ -77,6 +79,25 @@ export class AdminChallengesSystemRewardsComponent extends Form {
     this.form.controls.selectedLevel.valueChanges.subscribe((selectedLevel) => {
       this.updateRequiredPoints(selectedLevel);
     });
+
+    this.searchForm = this.fb.group({
+      search: [''],
+    });
+
+    this.searchForm
+      .get('search')!
+      .valueChanges.pipe(debounceTime(1000), distinctUntilChanged())
+      .subscribe((searchExpression: string) => {
+        this.onSearchSubmit(searchExpression);
+      });
+  }
+
+  public toggleSearch(): void {
+    this.showSearch = !this.showSearch;
+  }
+
+  private onSearchSubmit(searchExpression: string) {
+    this.fetchSystemRewardList(searchExpression);
   }
 
   public updateRequiredPoints(selectedLevel: number) {
@@ -111,9 +132,6 @@ export class AdminChallengesSystemRewardsComponent extends Form {
     });
   }
 
-  public handleSearchExpression(searchExpression: string) {
-    this.fetchSystemRewardList(searchExpression);
-  }
   public showMenu(): void {
     this.isMenuVisible = !this.isMenuVisible;
   }
@@ -250,10 +268,6 @@ export class AdminChallengesSystemRewardsComponent extends Form {
       this.imagePreview = null;
       this.form.controls.image.reset();
     }
-  }
-
-  public backNavigateBtn() {
-    this.location.back();
   }
 
   protected override getControlDisplayName(controlName: string): string {

@@ -18,15 +18,17 @@ interface IRewardsForm {
 }
 
 @Component({
-  selector: 'app-admin-challenges-rewards',
-  templateUrl: 'admin-challenges-rewards.component.html',
-  styleUrl: 'admin-challenges-rewards.component.scss',
+  selector: 'app-admin-challenges-custom-period',
+  templateUrl: 'admin-challenges-custom-period.component.html',
+  styleUrl: 'admin-challenges-custom-period.component.scss',
 })
-export class AdminChallengesRewardsComponent extends Form {
+export class AdminChallengesCustomPeriodComponent extends Form {
   override form: Formify<IRewardsForm>;
 
   public gameList: IGameDropdownResult[] = [];
 
+  //TODO: If the user visit this page and the isCustomPeriodOn setting is ON.
+  // Make a guard for not leave the page until everything is setup or turn off the setting
   constructor(
     public override readonly toastService: ToastService,
     private readonly gameService: GamesService,

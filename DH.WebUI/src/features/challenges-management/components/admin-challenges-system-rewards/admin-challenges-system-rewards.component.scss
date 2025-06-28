@@ -9,7 +9,119 @@
 .input-label {
   position: relative;
 }
+.wrapper_search {
+  background: palette.$main-blue-color;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  margin: 0 0.2rem;
+  margin-bottom: 0.5rem;
 
+  #search-btn {
+    width: 1.5rem;
+    height: 1.5rem;
+    fill: palette.$main-font-color;
+  }
+}
+
+.form__group {
+  position: relative;
+
+  margin: 0 auto;
+  width: 90%;
+  padding: 15px 0 0;
+
+  .form__field {
+    width: 100%;
+    border: 0;
+    border-bottom: 2px solid palette.$main-blue-color;
+    outline: 0;
+    font-size: small;
+    color: palette.$main-font-color;
+    padding: 0.6rem 0;
+    background: transparent;
+    transition: border-color 0.2s;
+
+    &::placeholder {
+      color: transparent;
+    }
+
+    &:placeholder-shown ~ .form__label {
+      font-size: 1.3rem;
+      cursor: text;
+      top: 20px;
+    }
+  }
+
+  .form__label {
+    position: absolute;
+    top: 0;
+    display: block;
+    transition: 0.2s;
+    font-size: 1rem;
+    color: palette.$main-blue-color;
+
+    .search-icon {
+      height: 1.3rem;
+      width: 1.3rem;
+      fill: palette.$main-blue-color;
+      position: relative;
+      top: 0.2rem;
+      padding-right: 0.2rem;
+      margin-top: 0.2rem;
+    }
+  }
+
+  .form__field:focus {
+    ~ .form__label {
+      position: absolute;
+      top: 0;
+      display: block;
+      transition: 0.2s;
+      font-size: 1rem;
+      color: palette.$main-blue-color;
+      font-weight: 700;
+    }
+
+    padding-bottom: 0.6rem;
+    font-weight: 700;
+    border-width: 3px;
+    border-bottom: 2px solid palette.$main-blue-color;
+  }
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 85%;
+  margin: 0 auto;
+
+  .buttons {
+    display: flex;
+    justify-content: space-between;
+
+    .btn-container {
+      display: flex;
+      align-items: center;
+      margin: 0.75rem 0;
+
+      .wrapper_filter {
+        background: palette.$main-blue-color;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 1.5rem;
+        height: 1.5rem;
+        border-radius: 50%;
+        margin: 0 0.2rem;
+        padding: 0.1rem;
+        fill: palette.$main-font-color;
+      }
+    }
+  }
+}
 .reward-list-empty {
   display: flex;
   justify-content: center;
@@ -146,7 +258,6 @@
   width: 85%;
   padding-bottom: 7rem;
   margin: 0 auto;
-  padding-top: 1.5rem;
   overflow-y: visible;
 
   &__item {
