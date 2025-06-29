@@ -18,6 +18,7 @@ import { AppToastMessage } from '../../../../shared/components/toast/constants/a
 import { ToastType } from '../../../../shared/models/toast.model';
 import { IDropdown } from '../../../../shared/models/dropdown.model';
 import { ToggleState } from '../../../../entities/common/enum/toggle-state.enum';
+import { FULL_ROUTE } from '../../../../shared/configs/route.config';
 
 interface ITenantSettingsForm {
   averageMaxCapacity: number;
@@ -169,7 +170,7 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
             });
 
             if (this.form.controls.isCustomPeriodOn.value === ToggleState.On) {
-              //TODO: Navigate to Custom Period Tab
+              this.router.navigateByUrl(FULL_ROUTE.CHALLENGES.ADMIN_CUSTOM_PERIOD);
             }
 
             this.fetchSettings();

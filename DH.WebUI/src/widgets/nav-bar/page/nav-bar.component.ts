@@ -26,10 +26,12 @@ export class NavBarComponent implements OnInit {
   }
 
   public toggleActive(item: Column): void {
-    this.columns.forEach((column) => {
-      column.isActive = false;
+    // Don't preemptively mark as active
+    this.router.navigateByUrl(item.link).then((navigated) => {
+      if (navigated) {
+        // If navigation succeeded, update active states
+        this.columns.forEach((column) => (column.isActive = column === item));
+      }
     });
-    item.isActive = true;
-    this.router.navigateByUrl(item.link);
   }
 }

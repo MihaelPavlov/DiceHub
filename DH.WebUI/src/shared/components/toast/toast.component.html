@@ -4,7 +4,7 @@
   [src]="getIconPathByType(toastData.type)"
   alt="toast icon"
   />
-  <div class="toast-message">{{ toastData.message }}</div>
+  <div class="toast-message" [innerHTML]="safeMessage"></div>
   <div class="spacer"></div>
   <div class="close" (click)="close()">
     <img src="../../../shared/assets/images/close_black.svg" alt="close icon" />

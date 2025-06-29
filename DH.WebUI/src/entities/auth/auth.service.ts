@@ -10,6 +10,8 @@ import { IResetPasswordRequest } from './models/reset-password-request.model';
 import { IRegisterResponse } from './models/register-response.model';
 import { ICreateEmployeePasswordRequest } from './models/create-employee-password.model';
 import { AppToastMessage } from '../../shared/components/toast/constants/app-toast-messages.constant';
+import { TenantSettingsService } from '../common/api/tenant-settings.service';
+import { FULL_ROUTE } from '../../shared/configs/route.config';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +22,11 @@ export class AuthService {
 
   public userInfo$ = this.userInfoSubject$.asObservable();
 
-  constructor(readonly api: RestApiService, private readonly router: Router) {
+  constructor(
+    readonly api: RestApiService,
+    private readonly router: Router,
+    private readonly tenantSettingsService: TenantSettingsService
+  ) {
     if (!this.userInfoSubject$.value) {
       this.userinfo();
     }
@@ -114,14 +120,27 @@ export class AuthService {
 
     this.api.get('/user/info').subscribe({
       next: (user: any) => {
-        if (user)
+        if (user) {
           this.userInfoSubject$.next({
             id: user[sidClaim],
             role: user[roleClaim],
             username: user[usernameClaim],
             permissionString: user['permissions'],
           });
-        else {
+
+          this.tenantSettingsService.get().subscribe({
+            next: (settings) => {
+              if (
+                settings &&
+                settings.isCustomPeriodOn &&
+                !settings.isCustomPeriodSetupComplete
+              )
+                this.router.navigateByUrl(
+                  FULL_ROUTE.CHALLENGES.ADMIN_CUSTOM_PERIOD
+                );
+            },
+          });
+        } else {
           this.userInfoSubject$.next(null);
           console.warn('User is not sign in');
         }

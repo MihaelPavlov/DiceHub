@@ -1,4 +1,4 @@
-import { PartnerInquiriesService } from "../../entities/common/api/partner-inquiries.service";
+import { PartnerInquiriesService } from '../../entities/common/api/partner-inquiries.service';
 
 export const PATH = {
   GAMES: {
@@ -61,6 +61,7 @@ export const PATH = {
   REWARDS: {
     CORE: 'rewards',
     SYSTEM_REWARD: 'system-reward',
+    GET_DROPDOWN_LIST: 'get-dropdown-list',
     SYSTEM_REWARD_LIST: 'system-reward-list',
     GET_ALL_SYSTEM_REWARD_LIST: 'get-all-system-rewards-list',
     GET_USER_REWARDS: 'get-user-rewards',
@@ -132,7 +133,7 @@ export const PATH = {
   },
   PARTNER_INQUIRIES: {
     CORE: 'partnerInquiries',
-  }
+  },
   // AUTH: {
   //   LOGIN: 'auth/user/login',
   // },

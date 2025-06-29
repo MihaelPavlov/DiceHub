@@ -8,7 +8,7 @@ import { ChallengesRewardsComponent } from '../../features/challenges-management
 import { ChipModule } from '../../widgets/chip/chip.module';
 import { QRCodeModule } from 'angularx-qrcode';
 import { UserRewardQrCodeDialog } from '../../features/challenges-management/dialogs/user-reward-qr-code-dialog/user-reward-qr-code.component';
-import { MatDialogActions, MatDialogClose } from '@angular/material/dialog';
+import { MatDialogActions, MatDialogClose, MatDialogContent } from '@angular/material/dialog';
 import { AdminChallengesConfirmDeleteDialog } from '../../features/challenges-management/dialogs/admin-challenges-confirm-delete/admin-challenges-confirm-delete.component';
 import { AdminChallengesHistoryLogComponent } from '../../features/challenges-management/components/admin-challenges-history-log/admin-challenges-history-log.component';
 import { AdminChallengesListComponent } from '../../features/challenges-management/components/admin-challenges-list/admin-challenges-list.component';
@@ -18,6 +18,7 @@ import { AdminChallengesRewardConfirmDeleteDialog } from '../../features/challen
 import { AdminChallengesNavigationComponent } from './admin-page/admin-challenges-navigation.component';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { CustomPeriodLeaveConfirmationDialog } from '../../features/challenges-management/dialogs/custom-period-leave-confirmation/custom-period-leave-confirmation.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     AdminChallengesRewardConfirmDeleteDialog,
     AdminChallengesConfirmDeleteDialog,
     UserRewardQrCodeDialog,
+    CustomPeriodLeaveConfirmationDialog
   ],
   exports: [ChallengesManagementComponent],
   providers: [],
@@ -42,6 +44,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     ChipModule,
     QRCodeModule,
     MatDialogActions,
+    MatDialogContent,
     MatDialogClose,
     NgSelectModule,
     FormsModule,

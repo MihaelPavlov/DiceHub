@@ -58,6 +58,11 @@ public class TenantSettingDto : IValidableFields
     /// </summary>
     public bool IsCustomPeriodOn { get; set; }
 
+    /// <summary>
+    /// Is Custom Period Setup Completed
+    /// </summary>
+    public bool IsCustomPeriodSetupComplete { get; set; }
+
     public bool FieldsAreValid(out List<ValidationError> validationErrors)
     {
         var errors = new List<ValidationError>();

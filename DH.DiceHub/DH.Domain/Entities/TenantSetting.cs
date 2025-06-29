@@ -53,4 +53,9 @@ public class TenantSetting
     /// Is Custom Period On
     /// </summary>
     public bool IsCustomPeriodOn { get; set; }
+
+    /// <summary>
+    /// Is Custom Period Setup Completed
+    /// </summary>
+    public bool IsCustomPeriodSetupComplete { get; set; }
 }

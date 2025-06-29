@@ -8,6 +8,7 @@ import { IRewardGetByIdResult } from '../models/reward-by-id.model';
 import { IUpdateRewardDto } from '../models/update-reward.model';
 import { IUserChallengePeriodReward } from '../models/user-period-reward.model';
 import { IUserReward } from '../models/user-reward.model';
+import { IRewardDropdownResult } from '../models/reward-dropdown.model';
 
 @Injectable({
   providedIn: 'root',
@@ -35,6 +36,12 @@ export class RewardsService {
   public getById(id: number): Observable<IRewardGetByIdResult> {
     return this.api.get<IRewardGetByIdResult>(
       `/${PATH.REWARDS.CORE}/${PATH.REWARDS.SYSTEM_REWARD}/${id}`
+    );
+  }
+
+  public getDropdownList(): Observable<IRewardDropdownResult[]> {
+    return this.api.get<IRewardDropdownResult[]>(
+      `/${PATH.REWARDS.CORE}/${PATH.REWARDS.SYSTEM_REWARD}/${PATH.REWARDS.GET_DROPDOWN_LIST}`
     );
   }
 

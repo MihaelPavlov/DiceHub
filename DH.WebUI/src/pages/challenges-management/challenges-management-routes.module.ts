@@ -10,6 +10,7 @@ import { AdminChallengesNavigationComponent } from './admin-page/admin-challenge
 import { ChallengeUserAccessGuard } from '../../shared/guards/challenge-user-access.guard';
 import { ROUTE } from '../../shared/configs/route.config';
 import { ChallengeAdminAccessGuard } from '../../shared/guards/challenge-admin-access.guard';
+import { canDeactivateGuard } from '../../shared/guards/can-deactive.guard';
 
 const routes: Routes = [
   {
@@ -30,6 +31,7 @@ const routes: Routes = [
       {
         path: ROUTE.CHALLENGES.ADMIN.CUSTOM_PERIOD,
         component: AdminChallengesCustomPeriodComponent,
+        canDeactivate:[canDeactivateGuard]
       },
       {
         path: ROUTE.CHALLENGES.ADMIN.LIST,

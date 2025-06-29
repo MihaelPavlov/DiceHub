@@ -53,4 +53,9 @@ export interface ITenantSettings {
   /// Is Custom Period On
   /// </summary>
   isCustomPeriodOn: boolean;
+
+  /// <summary>
+  /// Is Custom Period Setup Completed
+  /// </summary>
+  isCustomPeriodSetupComplete?: boolean | null;
 }

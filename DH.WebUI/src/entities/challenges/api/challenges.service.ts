@@ -8,6 +8,7 @@ import { IChallengeResult } from '../models/challenge-by-id.model';
 import { IUpdateChallengeDto } from '../models/update-challenge.model';
 import { IUserChallenge } from '../models/user-challenge.model';
 import { IUserChallengePeriodPerformance } from '../models/user-challenge-period-performance.model';
+import { IChallengeDropdownResult } from '../models/challenge-dropdown.model';
 
 @Injectable({
   providedIn: 'root',
@@ -37,7 +38,7 @@ export class ChallengesService {
   }
 
   public getUserChallengePeriodPerformance(): Observable<IUserChallengePeriodPerformance | null> {
-    return this.api.get<IUserChallengePeriodPerformance| null>(
+    return this.api.get<IUserChallengePeriodPerformance | null>(
       `/${PATH.CHALLENGES.CORE}/${PATH.CHALLENGES.GET_USER_CHALLENGE_PERIOD_PERFORMANCE}`
     );
   }

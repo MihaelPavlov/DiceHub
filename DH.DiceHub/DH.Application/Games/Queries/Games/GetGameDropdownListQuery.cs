@@ -5,7 +5,7 @@ using MediatR;
 
 namespace DH.Application.Games.Queries.Games;
 
-public record GetGameDropdownListQuery() : IRequest<List<GetGameDropdownListQueryModel>>;
+public record GetGameDropdownListQuery : IRequest<List<GetGameDropdownListQueryModel>>;
 
 internal class GetGameDropdownListQueryHandler : IRequestHandler<GetGameDropdownListQuery, List<GetGameDropdownListQueryModel>>
 {

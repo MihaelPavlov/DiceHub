@@ -1,20 +1,23 @@
 <div class="container">
+  <div class="btn-init" (click)="onSave()">
+    <button
+      class="btn btn-gray"
+      [ngClass]="{
+        'btn-border-green': this.form.valid,
+        'btn-font-green': this.form.valid,
+        'btn-border-red': this.form.invalid,
+        'btn-font-red': this.form.invalid
+      }"
+    >
+      Initialize Custom Period
+    </button>
+  </div>
   <div class="buttons">
     <div class="btn-container" (click)="addReward()">
       <span>Add Reward</span>
       <!-- add icon -->
       <svg class="wrapper_add" viewBox="0 -960 960 960">
         <path d="M447-448H208v-66h239v-239h66v239h239v66H513v239h-66v-239Z" />
-      </svg>
-    </div>
-
-    <div class="btn-container" (click)="onSave()">
-      <span>Save</span>
-      <!-- save icon -->
-      <svg height="24px" viewBox="0 -960 960 960" width="24px" fill="#fafafa">
-        <path
-          d="M832-677.08v458.46q0 38.35-26.14 64.48Q779.73-128 741.38-128H218.62q-38.35 0-64.48-26.14Q128-180.27 128-218.62v-522.76q0-38.35 26.14-64.48Q180.27-832 218.62-832h458.46L832-677.08Zm-66 27.52L649.56-766H218.62q-10.77 0-17.7 6.92-6.92 6.93-6.92 17.7v522.76q0 10.77 6.92 17.7 6.93 6.92 17.7 6.92h522.76q10.77 0 17.7-6.92 6.92-6.93 6.92-17.7v-430.94Zm-285.88 365.1q38.96 0 66.42-27.58T574-378.58q0-38.96-27.58-66.42t-66.54-27.46q-38.96 0-66.42 27.58T386-378.34q0 38.96 27.58 66.42t66.54 27.46ZM256.77-555.23h328.92v-148H256.77v148ZM194-649.56V-194v-572 116.44Z"
-        />
       </svg>
     </div>
   </div>
@@ -30,11 +33,12 @@
           <label for="reward" class="required">Choose Reward</label>
 
           <ng-select
-            [items]="gameList"
+            [items]="rewardList"
             bindLabel="name"
+            bindValue="id"
             placeholder="Select Reward"
             [searchable]="true"
-            formControlName="selectedGame"
+            formControlName="selectedReward"
             class="app-select"
           >
           </ng-select>
@@ -56,6 +60,74 @@
           class="input-remove"
           viewBox="0 -960 960 960"
           (click)="removeReward(i)"
+        >
+          <path
+            d="M252-203.69 205.69-252l227-228-227-230L252-758.31l229 230 227-230L754.31-710l-227 230 227 228L708-203.69l-227-230-229 230Z"
+          />
+        </svg>
+      </div>
+    </div>
+  </form>
+
+  <div class="buttons">
+    <div class="btn-container" (click)="addChallenge()">
+      <span>Add Challenge</span>
+      <!-- add icon -->
+      <svg class="wrapper_add" viewBox="0 -960 960 960">
+        <path d="M447-448H208v-66h239v-239h66v239h239v66H513v239h-66v-239Z" />
+      </svg>
+    </div>
+  </div>
+
+  <form [formGroup]="form">
+    <div formArrayName="challenges">
+      <div
+        class="input-group reward-container"
+        [formGroup]="getFormGroup(challenge)"
+        *ngFor="let challenge of challengeArray.controls; let i = index"
+      >
+        <div class="input-field">
+          <label for="game" class="required">Choose Game</label>
+
+          <ng-select
+            [items]="gameList"
+            bindLabel="name"
+            bindValue="id"
+            placeholder="Select Game"
+            [searchable]="true"
+            formControlName="selectedGame"
+            class="app-select"
+          >
+          </ng-select>
+        </div>
+
+        <div class="input-field">
+          <label for="attempts" class="required">Attempts</label>
+          <input
+            name="attempts"
+            placeholder="attempts"
+            type="number"
+            [id]="i"
+            formControlName="attempts"
+          />
+        </div>
+
+        <div class="input-field">
+          <label for="points" class="required">Points</label>
+          <input
+            name="points"
+            placeholder="points"
+            type="number"
+            [id]="i"
+            formControlName="points"
+          />
+        </div>
+
+        <!-- close icon -->
+        <svg
+          class="input-remove"
+          viewBox="0 -960 960 960"
+          (click)="removeChallenge(i)"
         >
           <path
             d="M252-203.69 205.69-252l227-228-227-230L252-758.31l229 230 227-230L754.31-710l-227 230 227 228L708-203.69l-227-230-229 230Z"

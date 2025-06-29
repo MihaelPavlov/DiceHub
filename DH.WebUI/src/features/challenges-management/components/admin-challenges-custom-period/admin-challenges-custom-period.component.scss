@@ -13,6 +13,12 @@
   margin: 0 auto;
   margin-bottom: 10rem;
 
+  .btn-init {
+    display: flex;
+    justify-content: center;
+    margin: 1rem;
+  }
+  
   .buttons {
     display: flex;
     justify-content: space-between;
@@ -42,7 +48,6 @@
   }
 
   .input-group {
-
     .input-field input {
       padding: 0.6rem;
     }

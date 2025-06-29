@@ -5,6 +5,7 @@ export interface IToast {
   type: ToastType;
   data?: any;
   title?: string;
+  duration?: number;
 }
 
 export const TOAST_DEFAULT_OPTIONS = {

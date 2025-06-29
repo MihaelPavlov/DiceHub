@@ -54,7 +54,7 @@ public class GamesController : ControllerBase
 
     [HttpGet("get-dropdown-list")]
     [ActionAuthorize(UserAction.GamesRead)]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetGameListQueryModel>))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetGameDropdownListQueryModel>))]
     public async Task<IActionResult> GetDropdownList(CancellationToken cancellationToken)
     {
         var result = await this.mediator.Send(new GetGameDropdownListQuery(), cancellationToken);
@@ -63,7 +63,7 @@ public class GamesController : ControllerBase
 
     [HttpPost("get-new-games")]
     [ActionAuthorize(UserAction.GamesRead)]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetGameDropdownListQueryModel>))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetGameListQueryModel>))]
     public async Task<IActionResult> GetNewGameList([FromBody] GetNewGameListQuery request, CancellationToken cancellationToken)
     {
         var result = await this.mediator.Send(request, cancellationToken);

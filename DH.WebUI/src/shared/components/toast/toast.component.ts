@@ -2,6 +2,7 @@ import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { IToast } from '../../models/toast.model';
 import * as snackBar from '@angular/material/snack-bar';
 import { catchError, of, tap } from 'rxjs';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-toast',
@@ -11,9 +12,11 @@ import { catchError, of, tap } from 'rxjs';
 export class ToastComponent {
   progress = 100;
   private currentIntervalId!: any;
+  public safeMessage: SafeHtml;
   constructor(
     @Inject(snackBar.MAT_SNACK_BAR_DATA) public toastData: IToast,
-    public snackBarRef: snackBar.MatSnackBarRef<ToastComponent>
+    public snackBarRef: snackBar.MatSnackBarRef<ToastComponent>,
+    private readonly sanitizer: DomSanitizer
   ) {
     this.snackBarRef
       .afterOpened()
@@ -31,6 +34,8 @@ export class ToastComponent {
         })
       )
       .subscribe();
+
+    this.safeMessage = this.sanitizer.bypassSecurityTrustHtml(toastData.message);
   }
 
   public runProgressBar(duration: number): void {

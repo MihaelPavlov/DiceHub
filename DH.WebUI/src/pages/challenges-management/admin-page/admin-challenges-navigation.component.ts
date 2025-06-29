@@ -18,6 +18,7 @@ export class AdminChallengesNavigationComponent {
   public menuItems: BehaviorSubject<IMenuItem[]> = new BehaviorSubject<
     IMenuItem[]
   >([]);
+
   public ADMIN_CUSTOM_PERIOD= FULL_ROUTE.CHALLENGES.ADMIN_CUSTOM_PERIOD;
   public ADMIN_LIST = FULL_ROUTE.CHALLENGES.ADMIN_LIST;
   public ADMIN_SYSTEM_REWARDS = FULL_ROUTE.CHALLENGES.ADMIN_SYSTEM_REWARDS;
