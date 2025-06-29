@@ -252,8 +252,10 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
     // ✅ Set progress width based on points (not reward index)
     const maxPoints = rewards[rewards.length - 1].rewardRequiredPoints;
     const clampedPoints = Math.min(totalPoints, maxPoints);
-    const width = (clampedPoints / maxPoints) * 100 + 5;
-
+    let width = (clampedPoints / maxPoints) * 100;
+    if (totalPoints !== 0) {
+      width += 5;
+    }
     if (progress) {
       progress.style.width = `${width}%`;
       console.log('Points:', totalPoints);
