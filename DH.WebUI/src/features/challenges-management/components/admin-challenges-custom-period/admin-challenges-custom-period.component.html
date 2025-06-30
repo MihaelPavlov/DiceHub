@@ -9,9 +9,21 @@
         'btn-font-red': this.form.invalid
       }"
     >
-      Initialize Custom Period
+      Save Custom Period
     </button>
   </div>
+  <p class="save-period-message">
+    Custom period initialization will apply on your next scheduled reward reset
+    day.<br />
+    Currently set to
+    <strong>{{ this.tenantSettings?.resetDayForRewards }}</strong> at
+    <strong>12:00 PM</strong>.<br />
+    <br />
+    You can continue editing your settings until the reset occurs. <br />
+    <br />
+    <strong>Note:</strong> The configured challenges and rewards will be the
+    same for all users during the custom period.
+  </p>
   <div class="buttons">
     <div class="btn-container" (click)="addReward()">
       <span>Add Reward</span>
@@ -29,6 +41,8 @@
         [formGroup]="getFormGroup(reward)"
         *ngFor="let reward of rewardArray.controls; let i = index"
       >
+        <input type="hidden" formControlName="id" />
+
         <div class="input-field">
           <label for="reward" class="required">Choose Reward</label>
 
@@ -86,6 +100,8 @@
         [formGroup]="getFormGroup(challenge)"
         *ngFor="let challenge of challengeArray.controls; let i = index"
       >
+        <input type="hidden" formControlName="id" />
+
         <div class="input-field">
           <label for="game" class="required">Choose Game</label>
 

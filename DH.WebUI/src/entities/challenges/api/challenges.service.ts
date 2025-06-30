@@ -9,6 +9,7 @@ import { IUpdateChallengeDto } from '../models/update-challenge.model';
 import { IUserChallenge } from '../models/user-challenge.model';
 import { IUserChallengePeriodPerformance } from '../models/user-challenge-period-performance.model';
 import { IChallengeDropdownResult } from '../models/challenge-dropdown.model';
+import { ICustomPeriod } from '../models/custom-period.model';
 
 @Injectable({
   providedIn: 'root',
@@ -55,5 +56,18 @@ export class ChallengesService {
 
   public delete(id: number): Observable<null> {
     return this.api.delete(`/${PATH.CHALLENGES.CORE}/${id}`);
+  }
+
+  public getCustomPeriod(): Observable<ICustomPeriod> {
+    return this.api.get<ICustomPeriod>(
+      `/${PATH.CHALLENGES.CORE}/${PATH.CHALLENGES.GET_CUSTOM_PERIOD}`
+    );
+  }
+
+  public saveCustomPeriod(customPeriod: ICustomPeriod): Observable<null> {
+    return this.api.post(
+      `/${PATH.CHALLENGES.CORE}/${PATH.CHALLENGES.SAVE_CUSTOM_PERIOD}`,
+      { customPeriod }
+    );
   }
 }
