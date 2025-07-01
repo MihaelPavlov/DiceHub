@@ -38,10 +38,6 @@ const routes: Routes = [
         component: AdminChallengesListComponent,
       },
       {
-        path: ROUTE.CHALLENGES.ADMIN.HISTORY_LOG,
-        component: AdminChallengesHistoryLogComponent,
-      },
-      {
         path: `${ROUTE.CHALLENGES.ADMIN.SYSTEM_REWARDS}`,
         component: AdminChallengesSystemRewardsComponent,
       },

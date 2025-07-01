@@ -1,16 +1,5 @@
-<app-header
-  header="Challenges Manager"
-  [withMenu]="true"
-  [menuItems]="menuItems"
-  [menuItemClickFunction]="handleMenuItemClick"
->
+<app-header header="Challenges Manager">
   <app-nav-bar [columns]="columns"></app-nav-bar
 ></app-header>
-
-<app-controls-menu
-  #menu
-  [menuItems]="menuItems.asObservable()"
-  (menuItemClick)="handleMenuItemClick($event.value)"
-></app-controls-menu>
 
 <router-outlet (activate)="onActivate($event)"></router-outlet>

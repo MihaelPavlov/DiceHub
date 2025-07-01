@@ -40,10 +40,16 @@ function customPeriodValidator(): ValidatorFn {
     const rewards = group.get('rewards') as FormArray;
     const challenges = group.get('challenges') as FormArray;
 
-    const hasRewards = rewards?.length > 0;
-    const hasChallenges = challenges?.length > 0;
+    const hasRewards = rewards && rewards.length > 0;
+    const hasChallenges = challenges && challenges.length > 0;
 
-    return hasRewards && hasChallenges ? null : { customPeriodInvalid: true };
+    // ✅ VALID if:
+    // - both are filled
+    // - or both are empty (intentional clearing)
+    const bothEmpty = !hasRewards && !hasChallenges;
+    const bothFilled = hasRewards && hasChallenges;
+
+    return bothFilled || bothEmpty ? null : { customPeriodInvalid: true };
   };
 }
 @Component({
@@ -56,11 +62,11 @@ export class AdminChallengesCustomPeriodComponent
   implements CanComponentDeactivate
 {
   override form: Formify<ICustomPeriodForm>;
-
+  public errors: string[] = [];
   public rewardList: IRewardDropdownResult[] = [];
   public gameList: IGameDropdownResult[] = [];
   public tenantSettings: ITenantSettings | null = null;
-  public isSaved = false;
+  public isCustomPeriodInitialized = false;
 
   constructor(
     public override readonly toastService: ToastService,
@@ -86,6 +92,12 @@ export class AdminChallengesCustomPeriodComponent
         // Clear existing controls
         this.rewardArray.clear();
         this.challengeArray.clear();
+
+        if (
+          customPeriod.challenges.length !== 0 &&
+          customPeriod.rewards.length !== 0
+        )
+          this.isCustomPeriodInitialized = true;
 
         // Populate rewards
         customPeriod.rewards.forEach((reward) => {
@@ -122,7 +134,7 @@ export class AdminChallengesCustomPeriodComponent
   public canDeactivate(): boolean | Observable<boolean> | Promise<boolean> {
     if (!this.tenantSettings?.isCustomPeriodOn) return true;
 
-    if (this.isSaved) return true;
+    if (this.isCustomPeriodInitialized) return true;
 
     return new Promise<boolean>((resolve) => {
       const dialogRef = this.dialog.open(CustomPeriodLeaveConfirmationDialog);
@@ -181,25 +193,39 @@ export class AdminChallengesCustomPeriodComponent
 
   public onSave() {
     if (this.form.valid) {
-      this.challengesService
-        .saveCustomPeriod(this.parseFormValueToCustomPeriod())
-        .subscribe({
-          next: () => {
-            this.toastService.success({
-              message: AppToastMessage.ChangesSaved,
-              type: ToastType.Success,
-            });
-            this.isSaved = true;
-          },
-          error: (errorResponse) => {
-            console.log('errorResponse', errorResponse);
+      this.errors = [];
+      const customPeriod = this.parseFormValueToCustomPeriod();
+      this.challengesService.saveCustomPeriod(customPeriod).subscribe({
+        next: () => {
+          this.toastService.success({
+            message: AppToastMessage.ChangesSaved,
+            type: ToastType.Success,
+          });
 
-            this.toastService.error({
-              message: AppToastMessage.FailedToSaveChanges,
-              type: ToastType.Error,
-            });
-          },
-        });
+          if (
+            customPeriod.challenges.length !== 0 &&
+            customPeriod.rewards.length !== 0
+          ) {
+            this.isCustomPeriodInitialized = true;
+          }
+        },
+        error: (errorResponse) => {
+          const errors = errorResponse?.error?.errors;
+          if (errors) {
+            for (const key in errors) {
+              if (Array.isArray(errors[key])) {
+                this.errors.push(...errors[key]);
+              }
+            }
+          }
+
+          console.log('All error messages:', this.errors);
+          this.toastService.error({
+            message: AppToastMessage.FailedToSaveChanges,
+            type: ToastType.Error,
+          });
+        },
+      });
     }
   }
 
@@ -257,7 +283,7 @@ export class AdminChallengesCustomPeriodComponent
       (control) => {
         const group = control as FormGroup;
         return {
-          id: Number(group.controls['id'].value),
+          id: group.controls['id'].value ?? null,
           selectedReward: Number(group.controls['selectedReward'].value ?? 0),
           requiredPoints: Number(group.controls['requiredPoints'].value ?? 0),
         };
@@ -268,7 +294,7 @@ export class AdminChallengesCustomPeriodComponent
       this.challengeArray.controls.map((control) => {
         const group = control as FormGroup;
         return {
-          id: Number(group.controls['id'].value),
+          id: group.controls['id'].value ?? null,
           selectedGame: Number(group.controls['selectedGame'].value ?? 0),
           attempts: Number(group.controls['attempts'].value ?? 0),
           points: Number(group.controls['points'].value ?? 0),

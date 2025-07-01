@@ -74,6 +74,8 @@ export const PATH = {
     GET_USER_CHALLENGES: 'get-user-challenges',
     GET_USER_CHALLENGE_PERIOD_PERFORMANCE:
       'get-user-challenge-period-performance',
+    GET_CUSTOM_PERIOD: 'get-custom-period',
+    SAVE_CUSTOM_PERIOD: 'save-custom-period',
   },
   SPACE_MANAGEMENT: {
     CORE: 'spaceManagement',
