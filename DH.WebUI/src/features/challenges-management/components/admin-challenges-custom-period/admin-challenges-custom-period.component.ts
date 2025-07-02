@@ -30,6 +30,7 @@ import {
   ICustomPeriodReward,
 } from '../../../../entities/challenges/models/custom-period.model';
 import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
+import { UnsavedChangesConfirmationDialog } from '../../../../shared/dialogs/unsaved-changes-confirmation/unsaved-changes-confirmation.dialog';
 
 interface ICustomPeriodForm {
   rewards: FormArray;
@@ -67,7 +68,7 @@ export class AdminChallengesCustomPeriodComponent
   public gameList: IGameDropdownResult[] = [];
   public tenantSettings: ITenantSettings | null = null;
   public isCustomPeriodInitialized = false;
-
+  public isUnsavedChanges = false;
   constructor(
     public override readonly toastService: ToastService,
     private readonly rewardsService: RewardsService,
@@ -121,6 +122,8 @@ export class AdminChallengesCustomPeriodComponent
             })
           );
         });
+
+        // this.form.markAsPristine();
       },
       error: (error) => {
         this.toastService.error({
@@ -134,30 +137,44 @@ export class AdminChallengesCustomPeriodComponent
   public canDeactivate(): boolean | Observable<boolean> | Promise<boolean> {
     if (!this.tenantSettings?.isCustomPeriodOn) return true;
 
-    if (this.isCustomPeriodInitialized) return true;
+    if (this.isUnsavedChanges || this.form.dirty) {
+      console.log('hasUnsavedChanges');
 
-    return new Promise<boolean>((resolve) => {
-      const dialogRef = this.dialog.open(CustomPeriodLeaveConfirmationDialog);
-
-      dialogRef.afterClosed().subscribe({
-        next: (confirmed: boolean) => {
-          if (confirmed && this.tenantSettings != null) {
-            this.tenantSettingsService
-              .update({
-                ...this.tenantSettings,
-                isCustomPeriodOn: false,
-              })
-              .subscribe({
-                next: () => resolve(true),
-                error: () => resolve(false),
-              });
-          } else {
-            resolve(false);
-          }
-        },
-        error: () => resolve(false),
+      return new Promise<boolean>((resolve) => {
+        const dialogRef = this.dialog.open(UnsavedChangesConfirmationDialog);
+        dialogRef.afterClosed().subscribe({
+          next: (confirmed: boolean) => resolve(confirmed),
+          error: () => resolve(false),
+        });
       });
-    });
+    }
+
+    if (!this.isCustomPeriodInitialized) {
+      return new Promise<boolean>((resolve) => {
+        const dialogRef = this.dialog.open(CustomPeriodLeaveConfirmationDialog);
+
+        dialogRef.afterClosed().subscribe({
+          next: (confirmed: boolean) => {
+            if (confirmed && this.tenantSettings != null) {
+              this.tenantSettingsService
+                .update({
+                  ...this.tenantSettings,
+                  isCustomPeriodOn: false,
+                })
+                .subscribe({
+                  next: () => resolve(true),
+                  error: () => resolve(false),
+                });
+            } else {
+              resolve(false);
+            }
+          },
+          error: () => resolve(false),
+        });
+      });
+    }
+
+    return true;
   }
 
   get rewardArray(): FormArray {
@@ -207,6 +224,13 @@ export class AdminChallengesCustomPeriodComponent
             customPeriod.rewards.length !== 0
           ) {
             this.isCustomPeriodInitialized = true;
+            this.isUnsavedChanges = false;
+            this.form.markAsPristine();
+          } else if (
+            customPeriod.challenges.length === 0 &&
+            customPeriod.rewards.length === 0
+          ) {
+            this.isCustomPeriodInitialized = false;
           }
         },
         error: (errorResponse) => {
@@ -241,18 +265,23 @@ export class AdminChallengesCustomPeriodComponent
       });
       return;
     }
+    this.isUnsavedChanges = true;
     this.rewardArray.push(this.createReward());
   }
 
   public addChallenge(): void {
+    this.isUnsavedChanges = true;
+
     this.challengeArray.push(this.createChallenge());
   }
 
   public removeReward(index: number): void {
+    this.isUnsavedChanges = true;
     this.rewardArray.removeAt(index);
   }
 
   public removeChallenge(index: number): void {
+    this.isUnsavedChanges = true;
     this.challengeArray.removeAt(index);
   }
 

@@ -8,7 +8,11 @@ import { ChallengesRewardsComponent } from '../../features/challenges-management
 import { ChipModule } from '../../widgets/chip/chip.module';
 import { QRCodeModule } from 'angularx-qrcode';
 import { UserRewardQrCodeDialog } from '../../features/challenges-management/dialogs/user-reward-qr-code-dialog/user-reward-qr-code.component';
-import { MatDialogActions, MatDialogClose, MatDialogContent } from '@angular/material/dialog';
+import {
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+} from '@angular/material/dialog';
 import { AdminChallengesConfirmDeleteDialog } from '../../features/challenges-management/dialogs/admin-challenges-confirm-delete/admin-challenges-confirm-delete.component';
 import { AdminChallengesHistoryLogComponent } from '../../features/challenges-management/components/admin-challenges-history-log/admin-challenges-history-log.component';
 import { AdminChallengesListComponent } from '../../features/challenges-management/components/admin-challenges-list/admin-challenges-list.component';
@@ -19,6 +23,7 @@ import { AdminChallengesNavigationComponent } from './admin-page/admin-challenge
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CustomPeriodLeaveConfirmationDialog } from '../../features/challenges-management/dialogs/custom-period-leave-confirmation/custom-period-leave-confirmation.component';
+import { UnsavedChangesConfirmationDialogModule } from '../../shared/dialogs/unsaved-changes-confirmation/unsaved-changes-confirmation.module';
 
 @NgModule({
   declarations: [
@@ -32,7 +37,7 @@ import { CustomPeriodLeaveConfirmationDialog } from '../../features/challenges-m
     AdminChallengesRewardConfirmDeleteDialog,
     AdminChallengesConfirmDeleteDialog,
     UserRewardQrCodeDialog,
-    CustomPeriodLeaveConfirmationDialog
+    CustomPeriodLeaveConfirmationDialog,
   ],
   exports: [ChallengesManagementComponent],
   providers: [],
@@ -48,6 +53,7 @@ import { CustomPeriodLeaveConfirmationDialog } from '../../features/challenges-m
     MatDialogClose,
     NgSelectModule,
     FormsModule,
+    UnsavedChangesConfirmationDialogModule,
   ],
 })
 export class ChallengesManagementModule {}
