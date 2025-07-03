@@ -2,7 +2,7 @@
 
 public interface IAddUserChallengePeriodHandler
 {   
-    Task InitializeNewPeriod(CancellationToken cancellationToken);
+    Task InitializeNewPeriods(CancellationToken cancellationToken);
 
     Task ProcessFailedReset(string data, string errorMessage, CancellationToken cancellationToken);
 }

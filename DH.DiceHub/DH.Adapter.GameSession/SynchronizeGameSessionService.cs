@@ -6,7 +6,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
 using static DH.Domain.Adapters.GameSession.SynchronizeGameSessionQueue;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace DH.Adapter.GameSession;
 

@@ -1,5 +1,6 @@
 ﻿using DH.Adapter.Scheduling.Jobs;
 using DH.Domain.Enums;
+using DH.Domain.Helpers;
 using DH.Domain.Services.TenantSettingsService;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -22,7 +23,6 @@ internal class ConditionalJobScheduler : IHostedService
     {
         var scheduler = await _schedulerFactory.GetScheduler(cancellationToken);
 
-        // Resolve IJobConditionService to check the condition
         using (var scope = _serviceProvider.CreateScope())
         {
             var tenantSettingsCacheService = scope.ServiceProvider.GetRequiredService<ITenantSettingsCacheService>();
@@ -30,49 +30,23 @@ internal class ConditionalJobScheduler : IHostedService
             if (Enum.TryParse<TimePeriodType>(tenantSettings.PeriodOfRewardReset, out var timePeriod))
             {
                 var jobKey = new JobKey(nameof(AddUserChallengePeriodJob));
+                var triggerKey = new TriggerKey($"WeeklyJobTrigger-{jobKey.Name}");
 
-                if (timePeriod == TimePeriodType.Weekly)
+                if (!await scheduler.CheckExists(jobKey, cancellationToken))
                 {
-                    string GetCronDay(WeekDays day) => day switch
-                    {
-                        WeekDays.Sunday => "SUN",
-                        WeekDays.Monday => "MON",
-                        WeekDays.Tuesday => "TUE",
-                        WeekDays.Wednesday => "WED",
-                        WeekDays.Thursday => "THU",
-                        WeekDays.Friday => "FRI",
-                        WeekDays.Saturday => "SAT",
-                        _ => "SUN"
-                    };
+                    var runAt = TimePeriodTypeHelper.CalculateNextResetDate(timePeriod, tenantSettings.ResetDayForRewards);
 
-                    var cronDay = GetCronDay(Enum.Parse<WeekDays>(tenantSettings.ResetDayForRewards));
-                    var triggerKey = new TriggerKey($"WeeklyJobTrigger-{jobKey.Name}");
-                    if (!await scheduler.CheckExists(triggerKey))
-                    {
-                        var weeklyJobTrigger = TriggerBuilder.Create()
-                        .ForJob(jobKey)
-                        .WithIdentity(triggerKey)
-                        //.WithCronSchedule("0 */2 * * * ?")  // Cron expression for every 10 minutes
-                        .WithCronSchedule($"0 0 0 ? * {cronDay}")
+                    var job = JobBuilder.Create<AddUserChallengePeriodJob>()
+                        .WithIdentity(jobKey)
                         .Build();
 
-                        await scheduler.ScheduleJob(weeklyJobTrigger, cancellationToken);
-                    }
-                }
-                else if (timePeriod == TimePeriodType.Monthly)
-                {
-                    var triggerKey = new TriggerKey($"MonthlyJobTrigger-{jobKey.Name}");
-
-                    if (!await scheduler.CheckExists(triggerKey))
-                    {
-                        var monthlyJobTrigger = TriggerBuilder.Create()
-                        .ForJob(jobKey)
+                    var trigger = TriggerBuilder.Create()
                         .WithIdentity(triggerKey)
-                        .WithCronSchedule("0 0 0 L * ?") // Runs at 00:00 on the last day of the month
-                        .Build();                        //L: Indicates the last day of the month.
+                        .StartAt(runAt)
+                        .ForJob(jobKey)
+                        .Build();
 
-                        await scheduler.ScheduleJob(monthlyJobTrigger, cancellationToken);
-                    }
+                    await scheduler.ScheduleJob(job, trigger, cancellationToken);
                 }
             }
         }

@@ -74,6 +74,10 @@ public class TenantDbContext : DbContext, ITenantDbContext
     public DbSet<UserChallengeReward> UserChallengeRewards { get; set; } = default!;
     public DbSet<UserChallengePeriodReward> UserChallengePeriodRewards { get; set; } = default!;
     public DbSet<UserChallengePeriodPerformance> UserChallengePeriodPerformances { get; set; } = default!;
+    public DbSet<CustomPeriodReward> CustomPeriodRewards { get; set; } = default!;
+    public DbSet<CustomPeriodChallenge> CustomPeriodChallenges { get; set; } = default!;
+    public DbSet<CustomPeriodUserChallenge> CustomPeriodUserChallenges { get; set; } = default!;
+    public DbSet<CustomPeriodUserReward> CustomPeriodUserRewards { get; set; } = default!;
 
     #endregion challenges
 

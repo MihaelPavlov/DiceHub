@@ -5,6 +5,7 @@ using DH.Domain.Enums;
 using DH.Domain.Helpers;
 using DH.Domain.Repositories;
 using DH.Domain.Services;
+using DH.Domain.Services.TenantSettingsService;
 
 namespace DH.Adapter.Scheduling.Handlers;
 
@@ -17,41 +18,35 @@ internal class AddUserChallengePeriodHandler : IAddUserChallengePeriodHandler
     readonly IRepository<UserChallengePeriodPerformance> userChallengePeriodPerformanceRepository;
     readonly IRepository<UserChallenge> userChallengesRepository;
     readonly IUserChallengesManagementService userChallengesManagementService;
+    readonly ITenantSettingsCacheService tenantSettingsService;
 
-    public AddUserChallengePeriodHandler(IRepository<FailedJob> failedJobsRepository, IUserChallengesManagementService userChallengesManagementService, IRepository<UserChallenge> userChallengesRepository, IRepository<UserChallengePeriodPerformance> userChallengePeriodPerformanceRepository)
+    public AddUserChallengePeriodHandler(
+        IRepository<FailedJob> failedJobsRepository,
+        IUserChallengesManagementService userChallengesManagementService,
+        IRepository<UserChallenge> userChallengesRepository,
+        IRepository<UserChallengePeriodPerformance> userChallengePeriodPerformanceRepository,
+        ITenantSettingsCacheService tenantSettingsService)
     {
         this.failedJobsRepository = failedJobsRepository;
         this.userChallengesManagementService = userChallengesManagementService;
         this.userChallengesRepository = userChallengesRepository;
         this.userChallengePeriodPerformanceRepository = userChallengePeriodPerformanceRepository;
+        this.tenantSettingsService = tenantSettingsService;
     }
 
-    public async Task InitializeNewPeriod(CancellationToken cancellationToken)
+    public async Task InitializeNewPeriods(CancellationToken cancellationToken)
     {
         var periods = await this.userChallengePeriodPerformanceRepository.GetWithPropertiesAsTrackingAsync(x => x.IsPeriodActive, x => x, cancellationToken);
+        var tenantSettings = await this.tenantSettingsService.GetGlobalTenantSettingsAsync(CancellationToken.None);
+        Enum.TryParse<TimePeriodType>(tenantSettings.PeriodOfRewardReset, out var timePeriod);
 
         // for every active period
         foreach (var period in periods)
         {
-            // Calculate the expected end date based on the StartDate and TimePeriodType
-            DateTime expectedEndDate;
-            switch (period.TimePeriodType)
-            {
-                case TimePeriodType.Weekly:
-                    expectedEndDate = period.StartDate.AddDays(TimePeriodTypeHelper.GetDays(TimePeriodType.Weekly));
-                    break;
-                case TimePeriodType.Monthly:
-                    int daysInMonth = DateTime.DaysInMonth(period.StartDate.Year, period.StartDate.Month);
-                    expectedEndDate = period.StartDate.AddDays(daysInMonth);
-                    break;
-                case TimePeriodType.Yearly:
-                    throw new NotImplementedException("Functionality for Yearly period is not implemented");
-                default:
-                    throw new InvalidOperationException("Unsupported TimePeriodType");
-            }
+            var expectedEndDate = TimePeriodTypeHelper.CalculateNextResetDate(timePeriod, tenantSettings.ResetDayForRewards);
 
-            if (period.EndDate.Date > expectedEndDate.Date )
-                continue;
+            //if (period.EndDate >= expectedEndDate)
+            //    continue;
 
             var isInitiationSuccessfully = await this.userChallengesManagementService.InitiateUserChallengePeriod(period.UserId, cancellationToken);
 

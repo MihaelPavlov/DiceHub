@@ -7,22 +7,14 @@
 public interface IUserChallengesManagementService
 {
     /// <summary>
-    /// Initiate challenge period for a new user. 
+    /// Initiate challenge period for user. 
     /// The system generates rewards and assigns initial challenges.
     /// </summary>
     /// <param name="userId">The ID of the user for whom to initialize challenges.</param>
+    /// <param name="forNewUser">Is the user new or no.</param>
     /// <param name="cancellationToken">Cancellation token for the task.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    Task InitiateNewUserChallengePeriod(string userId, CancellationToken cancellationToken);
-
-    /// <summary>
-    /// Initiate challenge period
-    /// The system generate user challenge period, with new rewards
-    /// </summary>
-    /// <param name="userId">The ID of the user for whom to initialize challenges.</param>
-    /// <param name="cancellationToken">Cancellation token for the task.</param>
-    /// <returns>A task that represents the asynchronous operation.</returns>
-    Task<bool> InitiateUserChallengePeriod(string userId, CancellationToken cancellationToken);
+    Task<bool> InitiateUserChallengePeriod(string userId, CancellationToken cancellationToken, bool forNewUser = false);
 
     /// <summary>
     /// Adds a new challenge to the user. 
@@ -32,7 +24,20 @@ public interface IUserChallengesManagementService
     /// <param name="userId">The ID of the user to assign a new challenge to.</param>
     /// <param name="cancellationToken">Cancellation token for the task.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    Task AddChallengeToUser(string userId, CancellationToken cancellationToken);
+    Task AssignNextChallengeToUserAsync(string userId, CancellationToken cancellationToken);
 
+    /// <summary>
+    /// Ensures that all users have a valid and active <see cref="UserChallengePeriodPerformance"/>.
+    /// <para>
+    /// This method performs validation for each user in the system. If a user's current challenge period is missing
+    /// or falls outside the valid date range, the method deactivates the existing period (if present)
+    /// and initializes a new valid challenge period based on global tenant settings.
+    /// </para>
+    /// <para>
+    /// Each update is wrapped in its own database transaction per user to ensure data consistency and allow partial progress if errors occur.
+    /// </para>
+    /// </summary>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     Task EnsureValidUserChallengePeriodsAsync(CancellationToken cancellationToken);
 }

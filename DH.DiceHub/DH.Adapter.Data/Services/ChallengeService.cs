@@ -1,11 +1,10 @@
 ﻿using DH.Domain.Adapters.Authentication;
 using DH.Domain.Entities;
-using DH.Domain.Enums;
+using DH.Domain.Models.ChallengeModels.Commands;
 using DH.Domain.Models.ChallengeModels.Queries;
 using DH.Domain.Services;
 using DH.OperationResultCore.Exceptions;
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
 
 namespace DH.Adapter.Data.Services;
 
@@ -103,5 +102,95 @@ public class ChallengeService : IChallengeService
 
             return orderedChallenges;
         }
+    }
+
+    public async Task SaveCustomPeriod(SaveCustomPeriodDto customPeriod, CancellationToken cancellationToken)
+    {
+        using var context = await _contextFactory.CreateDbContextAsync(cancellationToken);
+
+        var rewardIds = customPeriod.Rewards.Select(r => r.SelectedReward).ToHashSet();
+        var gameIds = customPeriod.Challenges.Select(c => c.SelectedGame).ToHashSet();
+
+        // Validate rewards
+        var existingRewardRefs = await context.ChallengeRewards
+            .Where(x => rewardIds.Contains(x.Id))
+            .Select(x => x.Id)
+            .ToListAsync(cancellationToken);
+
+        if (existingRewardRefs.Count != rewardIds.Count)
+            throw new ValidationErrorsException("Rewards", "Something went wrong during the rewards validation");
+
+        // Validate games
+        var existingGameRefs = await context.Games
+            .Where(x => gameIds.Contains(x.Id))
+            .Select(x => x.Id)
+            .ToListAsync(cancellationToken);
+
+        if (existingGameRefs.Count != gameIds.Count)
+            throw new ValidationErrorsException("Challenges", "Something went wrong during the challenges validation");
+
+        // --- Rewards ---
+        var incomingRewardDtos = customPeriod.Rewards;
+        var incomingRewardIds = incomingRewardDtos.Where(r => r.Id.HasValue).Select(r => r.Id!.Value).ToHashSet();
+
+        var existingRewards = await context.CustomPeriodRewards
+            .Where(r => incomingRewardIds.Contains(r.Id))
+            .ToListAsync(cancellationToken);
+
+        foreach (var dto in incomingRewardDtos)
+        {
+            if (dto.Id is null)
+            {
+                await context.CustomPeriodRewards.AddAsync(new CustomPeriodReward
+                {
+                    RewardId = dto.SelectedReward,
+                    RequiredPoints = dto.RequiredPoints,
+                }, cancellationToken);
+            }
+            else if (existingRewards.FirstOrDefault(r => r.Id == dto.Id) is { } entity)
+            {
+                entity.RewardId = dto.SelectedReward;
+                entity.RequiredPoints = dto.RequiredPoints;
+            }
+        }
+
+        // --- Challenges ---
+        var incomingChallengeDtos = customPeriod.Challenges;
+        var incomingChallengeIds = incomingChallengeDtos.Where(c => c.Id.HasValue).Select(c => c.Id!.Value).ToHashSet();
+
+        var existingChallenges = await context.CustomPeriodChallenges
+            .Where(c => incomingChallengeIds.Contains(c.Id))
+            .ToListAsync(cancellationToken);
+
+        foreach (var dto in incomingChallengeDtos)
+        {
+            if (dto.Id is null)
+            {
+                await context.CustomPeriodChallenges.AddAsync(new CustomPeriodChallenge
+                {
+                    GameId = dto.SelectedGame,
+                    Attempts = dto.Attempts,
+                    RewardPoints = dto.Points,
+                }, cancellationToken);
+            }
+            else if (existingChallenges.FirstOrDefault(c => c.Id == dto.Id) is { } entity)
+            {
+                entity.GameId = dto.SelectedGame;
+                entity.Attempts = dto.Attempts;
+                entity.RewardPoints = dto.Points;
+            }
+        }
+
+        // --- Soft Delete Missing Rewards ---
+        var allRewards = await context.CustomPeriodRewards.ToListAsync(cancellationToken);
+        var rewardForDelete = allRewards.Where(r => !incomingRewardIds.Contains(r.Id));
+        context.RemoveRange(rewardForDelete);
+
+        // --- Soft Delete Missing Challenges ---
+        var allChallenges = await context.CustomPeriodChallenges.ToListAsync(cancellationToken);
+        var challengeForDelete = allChallenges.Where(c => !incomingChallengeIds.Contains(c.Id));
+        context.RemoveRange(challengeForDelete);
+
+        await context.SaveChangesAsync(cancellationToken);
     }
 }

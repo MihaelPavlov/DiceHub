@@ -39,14 +39,14 @@ public class SynchronizeUsersChallengesService : BackgroundService
                     switch (jobInfo)
                     {
                         case SynchronizeUsersChallengesQueue.SynchronizeNewUserJob newUserJob:
-                            await userChallengesManagementService.InitiateNewUserChallengePeriod(newUserJob.UserId, cancellationToken);
+                            await userChallengesManagementService.InitiateUserChallengePeriod(newUserJob.UserId, cancellationToken, forNewUser: true);
 
                             await queuedJobService.UpdateStatusToCompleted(this.queue.QueueName, jobInfo.JobId);
                             break;
                         case SynchronizeUsersChallengesQueue.ChallengeInitiationJob challengeJob:
                             if (challengeJob.ScheduledTime.HasValue && DateTime.UtcNow >= challengeJob.ScheduledTime)
                             {
-                                await userChallengesManagementService.AddChallengeToUser(challengeJob.UserId, cancellationToken);
+                                await userChallengesManagementService.AssignNextChallengeToUserAsync(challengeJob.UserId, cancellationToken);
 
                                 await queuedJobService.UpdateStatusToCompleted(this.queue.QueueName, jobInfo.JobId);
                                 break;

@@ -15,7 +15,7 @@ public class TenantSetting
     public int ChallengeRewardsCountForPeriod { get; set; }
 
     /// <summary>
-    /// Period of the rewards reset. Weekyl, Monthly and etc
+    /// Period of the rewards reset. Weekly, Monthly and etc
     /// </summary>
     public string PeriodOfRewardReset { get; set; } = string.Empty;
 

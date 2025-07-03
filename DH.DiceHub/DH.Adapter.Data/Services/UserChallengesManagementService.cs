@@ -1,4 +1,5 @@
 ﻿using DH.Domain.Adapters.Authentication.Services;
+using DH.Domain.Adapters.Scheduling;
 using DH.Domain.Entities;
 using DH.Domain.Enums;
 using DH.Domain.Helpers;
@@ -16,21 +17,24 @@ public class UserChallengesManagementService : IUserChallengesManagementService
     readonly ITenantSettingsCacheService tenantSettingsCacheService;
     readonly ILogger<UserChallengesManagementService> logger;
     readonly IUserService userService;
+    readonly ISchedulerService schedulerService;
 
     public UserChallengesManagementService(
         IDbContextFactory<TenantDbContext> dbContextFactory,
         ITenantSettingsCacheService tenantSettingsCacheService,
         ILogger<UserChallengesManagementService> logger,
-        IUserService userService)
+        IUserService userService,
+        ISchedulerService schedulerService)
     {
         this.dbContextFactory = dbContextFactory;
         this.tenantSettingsCacheService = tenantSettingsCacheService;
         this.logger = logger;
         this.userService = userService;
+        this.schedulerService = schedulerService;
     }
 
     /// <inheritdoc/>
-    public async Task AddChallengeToUser(string userId, CancellationToken cancellationToken)
+    public async Task AssignNextChallengeToUserAsync(string userId, CancellationToken cancellationToken)
     {
         using (var context = await this.dbContextFactory.CreateDbContextAsync(cancellationToken))
         {
@@ -60,8 +64,7 @@ public class UserChallengesManagementService : IUserChallengesManagementService
                     {
                         var lockedChallenge = lockedChallenges.First();
                         lockedChallenge.Status = ChallengeStatus.InProgress;
-                        await context.SaveChangesAsync(cancellationToken);
-                        await transaction.CommitAsync(cancellationToken);
+                        await SaveAndCommitTransaction(context, transaction, cancellationToken);
                         return;
                     }
 
@@ -84,23 +87,26 @@ public class UserChallengesManagementService : IUserChallengesManagementService
                     if (newUserChallenge != null)
                     {
                         await context.UserChallenges.AddAsync(newUserChallenge, cancellationToken);
-                        await context.SaveChangesAsync(cancellationToken);
-                        await transaction.CommitAsync(cancellationToken);
+                        await SaveAndCommitTransaction(context, transaction, cancellationToken);
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     await transaction.RollbackAsync(cancellationToken);
-                    throw;
+                    this.logger.LogError(ex,
+                        "Error during UserChallengesManagementService.AssignNextChallengeToUserAsync for UserId {UserId}. Exception: {Message}",
+                        userId,
+                        ex.Message);
                 }
             }
         }
     }
 
+    /// <inheritdoc/>
     public async Task EnsureValidUserChallengePeriodsAsync(CancellationToken cancellationToken)
     {
-        var now = DateTime.UtcNow.Date;
-
+        var now = DateTime.UtcNow;
+        DateTime? nextResetDate = null;
         using (var context = await this.dbContextFactory.CreateDbContextAsync(cancellationToken))
         {
             var userIds = await this.userService.GetAllUserIds(cancellationToken);
@@ -113,13 +119,17 @@ public class UserChallengesManagementService : IUserChallengesManagementService
                         var userPerformance = await context.UserChallengePeriodPerformances.AsTracking()
                             .FirstOrDefaultAsync(x => x.IsPeriodActive == true && x.UserId == userId, cancellationToken);
 
-                        var isInvalid = userPerformance == null || now < userPerformance.StartDate || now > userPerformance.EndDate;
+                        var isInvalid = userPerformance == null || now > userPerformance.EndDate;
 
                         if (!isInvalid)
                         {
                             // Skip this user — challenge period is valid
                             continue;
                         }
+
+                        this.logger.LogInformation(
+                            "Found invalid UserChallengePeriodPerformance during UserChallengesManagementService.EnsureValidUserChallengePeriodsAsync for UserId {UserId}.",
+                            userId);
 
                         if (userPerformance != null)
                         {
@@ -129,38 +139,48 @@ public class UserChallengesManagementService : IUserChallengesManagementService
 
                         var tenantSettings = await this.tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
 
+                        var startDate = DateTime.UtcNow.Date;
                         var settingPeriod = Enum.Parse<TimePeriodType>(tenantSettings.PeriodOfRewardReset);
-                        var nextResetDate = TimePeriodTypeHelper.CalculateNextResetDate(settingPeriod, tenantSettings.ResetDayForRewards);
+                        nextResetDate = TimePeriodTypeHelper.CalculateNextResetDate(settingPeriod, tenantSettings.ResetDayForRewards);
 
                         var newUserPerformance = new UserChallengePeriodPerformance
                         {
                             UserId = userId,
                             IsPeriodActive = true,
                             Points = 0,
-                            StartDate = DateTime.UtcNow.Date,
-                            EndDate = nextResetDate,
+                            StartDate = startDate,
+                            EndDate = nextResetDate.Value,
                             TimePeriodType = settingPeriod
                         };
 
-                        await context.UserChallengePeriodPerformances.AddAsync(newUserPerformance, cancellationToken);
-                        await context.SaveChangesAsync(cancellationToken);
-                        var userChallengePeriodRewards = await this.GenerateRewardsAsyncV3(tenantSettings.ChallengeRewardsCountForPeriod, newUserPerformance.Id, context, cancellationToken);
-                        await context.UserChallengePeriodRewards.AddRangeAsync(userChallengePeriodRewards, cancellationToken);
-                        // rewards points and not order correctly
-                        await context.SaveChangesAsync(cancellationToken);
-                        await transaction.CommitAsync(cancellationToken);
+                        await SetupPeriod(newUserPerformance, context, userId, tenantSettings, includeChallenges: false, cancellationToken);
+
+                        await SaveAndCommitTransaction(context, transaction, cancellationToken);
+
+                        this.logger.LogInformation(
+                            "Successfully reset of the UserChallengePeriodPerformance during UserChallengesManagementService.EnsureValidUserChallengePeriodsAsync for UserId {UserId}.",
+                            userId);
                     }
                     catch (Exception ex)
                     {
                         await transaction.RollbackAsync(cancellationToken);
-                        this.logger.LogError("Error appear while new challenge period was adding for user - {userId}. Ex-> {exception}", userId, ex.Message);
+                        this.logger.LogError(ex,
+                            "Error during UserChallengesManagementService.EnsureValidUserChallengePeriodsAsync for UserId {UserId}. Exception: {Message}",
+                            userId,
+                            ex.Message);
                     }
                 }
             }
         }
+
+        if (nextResetDate.HasValue)
+            await this.schedulerService.ScheduleAddUserPeriodJob();
     }
 
-    public async Task<bool> InitiateUserChallengePeriod(string userId, CancellationToken cancellationToken)
+    /// <inheritdoc/>
+    //IMPORTANT! Challenge period time will be the same for everybody
+    //IMPORTANT! Every Sunday at 12:00 AM reset all reward for everybody 
+    public async Task<bool> InitiateUserChallengePeriod(string userId, CancellationToken cancellationToken, bool forNewUser = false)
     {
         using (var context = await this.dbContextFactory.CreateDbContextAsync(cancellationToken))
         {
@@ -171,6 +191,7 @@ public class UserChallengesManagementService : IUserChallengesManagementService
                     var tenantSettings = await this.tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
 
                     var settingPeriod = Enum.Parse<TimePeriodType>(tenantSettings.PeriodOfRewardReset);
+                    var startDate = DateTime.UtcNow.Date;
                     var nextResetDate = TimePeriodTypeHelper.CalculateNextResetDate(settingPeriod, tenantSettings.ResetDayForRewards);
 
                     var userPerformance = new UserChallengePeriodPerformance
@@ -178,80 +199,80 @@ public class UserChallengesManagementService : IUserChallengesManagementService
                         UserId = userId,
                         IsPeriodActive = true,
                         Points = 0,
-                        StartDate = DateTime.UtcNow.Date,
+                        StartDate = startDate,
                         EndDate = nextResetDate,
                         TimePeriodType = settingPeriod
                     };
 
-                    await context.UserChallengePeriodPerformances.AddAsync(userPerformance, cancellationToken);
-                    await context.SaveChangesAsync(cancellationToken);
+                    await SetupPeriod(userPerformance, context, userId, tenantSettings, includeChallenges: forNewUser, cancellationToken);
 
-                    var userChallengePeriodRewards = await this.GenerateRewardsAsyncV3(tenantSettings.ChallengeRewardsCountForPeriod, userPerformance.Id, context, cancellationToken);
-                    // rewards points and not order correctly
-                    await context.UserChallengePeriodRewards.AddRangeAsync(userChallengePeriodRewards, cancellationToken);
-                    await context.SaveChangesAsync(cancellationToken);
-                    await transaction.CommitAsync(cancellationToken);
+                    await SaveAndCommitTransaction(context, transaction, cancellationToken);
 
                     return true;
                 }
                 catch (Exception ex)
                 {
                     await transaction.RollbackAsync(cancellationToken);
-                    this.logger.LogError("Error appear while new challenge period was adding for user - {userId}. Ex-> {exception}", userId, ex.Message);
+                    this.logger.LogError(ex,
+                        "Error during UserChallengesManagementService.InitiateUserChallengePeriod for UserId {UserId}. Exception: {Message}",
+                        userId,
+                        ex.Message);
                     return false;
                 }
             }
         }
     }
-
-    /// <inheritdoc/>
-    //IMPORTANT! Challenge period time will be the same for everybody
-    //IMPORTANT! Every Sunday at 12:00 PM reset all reward for everybody 
-    public async Task InitiateNewUserChallengePeriod(string userId, CancellationToken cancellationToken)
+    private static async Task SaveAndCommitTransaction(TenantDbContext context, Microsoft.EntityFrameworkCore.Storage.IDbContextTransaction transaction, CancellationToken cancellationToken)
     {
-        using (var context = await this.dbContextFactory.CreateDbContextAsync(cancellationToken))
+        await context.SaveChangesAsync(cancellationToken);
+        await transaction.CommitAsync(cancellationToken);
+    }
+
+    private async Task SetupPeriod(UserChallengePeriodPerformance userPerformance, TenantDbContext context, string userId, TenantSetting tenantSettings, bool includeChallenges, CancellationToken cancellationToken)
+    {
+        if (tenantSettings.IsCustomPeriodOn)
         {
-            using (var transaction = await context.Database.BeginTransactionAsync(cancellationToken))
+            var rewards = await context.CustomPeriodRewards.ToListAsync(cancellationToken);
+            var challenges = await context.CustomPeriodChallenges.ToListAsync(cancellationToken);
+
+            userPerformance.CustomPeriodUserRewards = rewards.Select(x => new CustomPeriodUserReward
             {
-                try
-                {
-                    var tenantSettings = await this.tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
+                IsCompleted = false,
+                RequiredPoints = x.RequiredPoints,
+                UserChallengePeriodPerformanceId = userPerformance.Id,
+                RewardId = x.RewardId,
+            }).ToArray();
 
-                    var settingPeriod = Enum.Parse<TimePeriodType>(tenantSettings.PeriodOfRewardReset);
-                    var nextResetDate = TimePeriodTypeHelper.CalculateNextResetDate(settingPeriod, tenantSettings.ResetDayForRewards);
+            userPerformance.CustomPeriodUserChallenges = challenges.Select(x => new CustomPeriodUserChallenge
+            {
+                IsCompleted = false,
+                IsRewardCollected = false,
+                ChallengeAttempts = x.Attempts,
+                UserAttempts = 0,
+                RewardPoints = x.RewardPoints,
+                GameId = x.GameId,
+                UserChallengePeriodPerformanceId = userPerformance.Id,
+            }).ToArray();
 
-                    var userPerformance = new UserChallengePeriodPerformance
-                    {
-                        UserId = userId,
-                        IsPeriodActive = true,
-                        Points = 0,
-                        StartDate = DateTime.UtcNow.Date,
-                        EndDate = nextResetDate,
-                        TimePeriodType = settingPeriod
-                    };
+            await context.UserChallengePeriodPerformances.AddAsync(userPerformance, cancellationToken);
+        }
+        else
+        {
+            userPerformance.UserChallengePeriodRewards = await this.GenerateRewardsAsyncV3(tenantSettings.ChallengeRewardsCountForPeriod, userPerformance.Id, context, cancellationToken);
+            await context.UserChallengePeriodPerformances.AddAsync(userPerformance, cancellationToken);
 
-                    var userChallengePeriodRewards = await this.GenerateRewardsAsyncV3(tenantSettings.ChallengeRewardsCountForPeriod, userPerformance.Id, context, cancellationToken);
-                    var userChallenges = await this.GenerateChallengesAsync(userId, context, cancellationToken);
-
-                    userPerformance.UserChallengePeriodRewards = userChallengePeriodRewards;
-                    await context.UserChallengePeriodPerformances.AddAsync(userPerformance, cancellationToken);
-                    await context.UserChallengePeriodRewards.AddRangeAsync(userChallengePeriodRewards, cancellationToken);
-                    await context.UserChallenges.AddRangeAsync(userChallenges, cancellationToken);
-                    await context.UserStatistics.AddAsync(new UserStatistic
-                    {
-                        TotalChallengesCompleted = 0,
-                        UserId = userId,
-                    });
-
-                    await context.SaveChangesAsync(cancellationToken);
-                    await transaction.CommitAsync(cancellationToken);
-                }
-                catch (Exception)
-                {
-                    await transaction.RollbackAsync(cancellationToken);
-                    throw;
-                }
+            if (includeChallenges)
+            {
+                var userChallenges = await this.GenerateChallengesAsync(userId, context, cancellationToken);
+                await context.UserChallenges.AddRangeAsync(userChallenges, cancellationToken);
             }
+
+            //TODO: Check if we are using this type of UserStatistics
+            //await context.UserStatistics.AddAsync(new UserStatistic
+            //{
+            //    TotalChallengesCompleted = 0,
+            //    UserId = userId,
+            //});
         }
     }
 

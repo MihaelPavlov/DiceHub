@@ -24,7 +24,7 @@ public static class TimePeriodTypeHelper
     public static DateTime CalculateNextResetDate(TimePeriodType periodType, string resetDayForRewards)
     {
         DateTime nextResetDate = DateTime.UtcNow;
-        int resetHour = 12; // Default to 12:00 PM
+        int resetHour = 0; // Default to 12:00 PM
 
         if (periodType == TimePeriodType.Weekly)
         {
@@ -33,6 +33,8 @@ public static class TimePeriodTypeHelper
             {
                 // Calculate next occurrence of specified day at 12:00 PM
                 int daysUntilReset = ((int)resetDayOfWeek - (int)DateTime.UtcNow.DayOfWeek + 7) % 7;
+                if (daysUntilReset == 0)
+                    daysUntilReset = 7;
                 nextResetDate = DateTime.UtcNow.Date.AddDays(daysUntilReset).AddHours(resetHour);
             }
         }

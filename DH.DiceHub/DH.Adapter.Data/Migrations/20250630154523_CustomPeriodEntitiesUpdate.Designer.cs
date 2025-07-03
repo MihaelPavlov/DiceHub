@@ -3,6 +3,7 @@ using System;
 using DH.Adapter.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DH.Adapter.Data.Migrations
 {
     [DbContext(typeof(TenantDbContext))]
-    partial class TenantDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250630154523_CustomPeriodEntitiesUpdate")]
+    partial class CustomPeriodEntitiesUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -230,6 +233,12 @@ namespace DH.Adapter.Data.Migrations
                     b.Property<int>("GameId")
                         .HasColumnType("integer");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<int>("RewardPoints")
                         .HasColumnType("integer");
 
@@ -247,6 +256,12 @@ namespace DH.Adapter.Data.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<int>("RequiredPoints")
                         .HasColumnType("integer");
@@ -269,33 +284,24 @@ namespace DH.Adapter.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ChallengeAttempts")
+                    b.Property<int>("AttemptCount")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime?>("CompletedDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("GameId")
+                    b.Property<int>("CustomPeriodChallengeId")
                         .HasColumnType("integer");
 
-                    b.Property<bool>("IsCompleted")
+                    b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
                     b.Property<bool>("IsRewardCollected")
                         .HasColumnType("boolean");
-
-                    b.Property<int>("RewardPoints")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("UserAttempts")
-                        .HasColumnType("integer");
 
                     b.Property<int>("UserChallengePeriodPerformanceId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GameId");
+                    b.HasIndex("CustomPeriodChallengeId");
 
                     b.HasIndex("UserChallengePeriodPerformanceId");
 
@@ -310,21 +316,21 @@ namespace DH.Adapter.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<bool>("IsCompleted")
+                    b.Property<int>("CustomPeriodRewardId")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
-                    b.Property<int>("RequiredPoints")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("RewardId")
-                        .HasColumnType("integer");
+                    b.Property<bool>("IsClaimed")
+                        .HasColumnType("boolean");
 
                     b.Property<int>("UserChallengePeriodPerformanceId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RewardId");
+                    b.HasIndex("CustomPeriodRewardId");
 
                     b.HasIndex("UserChallengePeriodPerformanceId");
 
@@ -1551,9 +1557,9 @@ namespace DH.Adapter.Data.Migrations
 
             modelBuilder.Entity("DH.Domain.Entities.CustomPeriodUserChallenge", b =>
                 {
-                    b.HasOne("DH.Domain.Entities.Game", "Game")
+                    b.HasOne("DH.Domain.Entities.CustomPeriodChallenge", "CustomPeriodChallenge")
                         .WithMany()
-                        .HasForeignKey("GameId")
+                        .HasForeignKey("CustomPeriodChallengeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1563,16 +1569,16 @@ namespace DH.Adapter.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Game");
+                    b.Navigation("CustomPeriodChallenge");
 
                     b.Navigation("UserChallengePeriodPerformance");
                 });
 
             modelBuilder.Entity("DH.Domain.Entities.CustomPeriodUserReward", b =>
                 {
-                    b.HasOne("DH.Domain.Entities.ChallengeReward", "Reward")
+                    b.HasOne("DH.Domain.Entities.CustomPeriodReward", "CustomPeriodReward")
                         .WithMany()
-                        .HasForeignKey("RewardId")
+                        .HasForeignKey("CustomPeriodRewardId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1582,7 +1588,7 @@ namespace DH.Adapter.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Reward");
+                    b.Navigation("CustomPeriodReward");
 
                     b.Navigation("UserChallengePeriodPerformance");
                 });

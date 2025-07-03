@@ -84,4 +84,21 @@ public class ChallengesController : ControllerBase
         await this.mediator.Send(new DeleteChallengeCommand(id), cancellationToken);
         return Ok();
     }
+    [HttpGet("get-custom-period")]
+    [ActionAuthorize(UserAction.ChallengesCUD)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetCustomPeriodQueryModel))]
+    public async Task<IActionResult> GetCustomPeriod(CancellationToken cancellationToken)
+    {
+        var result = await this.mediator.Send(new GetCustomPeriodQuery(), cancellationToken);
+        return Ok(result);
+    }
+
+    [HttpPost("save-custom-period")]
+    [ActionAuthorize(UserAction.ChallengesCUD)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> SaveCustomPeriod([FromBody] SaveCustomPeriodCommand command, CancellationToken cancellationToken)
+    {
+        await this.mediator.Send(command, cancellationToken);
+        return Ok();
+    }
 }

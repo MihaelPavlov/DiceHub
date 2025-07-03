@@ -16,6 +16,7 @@ public static class SchedulingDIModule
         services.AddScoped<IUserRewardsExpiryHandler, UserRewardsExpiryHandler>();
         services.AddScoped<IAddUserChallengePeriodHandler, AddUserChallengePeriodHandler>();
         services.AddScoped<IUserRewardsExpirationReminderHandler, UserRewardsExpirationReminderHandler>();
+        services.AddScoped<ISchedulerService, SchedulerService>();
 
         services.AddQuartz(q =>
         {

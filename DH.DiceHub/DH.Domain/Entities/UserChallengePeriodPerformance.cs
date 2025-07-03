@@ -14,4 +14,7 @@ public class UserChallengePeriodPerformance
     public TimePeriodType TimePeriodType { get; set; }
 
     public virtual ICollection<UserChallengePeriodReward> UserChallengePeriodRewards { get; set; } = [];
+
+    public virtual ICollection<CustomPeriodUserChallenge> CustomPeriodUserChallenges { get; set; } = [];
+    public virtual ICollection<CustomPeriodUserReward> CustomPeriodUserRewards { get; set; } = [];
 }
