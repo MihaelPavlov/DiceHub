@@ -84,7 +84,7 @@
     margin-bottom: 1rem;
 
     .ng-touched.ng-invalid {
-        border: 0.1rem solid palette.$main-red-color;
+        border: 0.1rem solid palette.$main-red-color !important;
     }
 
     // .ng-valid {
