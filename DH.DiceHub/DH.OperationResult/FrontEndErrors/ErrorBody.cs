@@ -2,6 +2,6 @@
 
 public class ErrorBody
 {
-    public string Message { get; set; }
-    public string Stack { get; set; }
+    public string? Message { get; set; }
+    public string? Stack { get; set; }
 }
