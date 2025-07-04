@@ -33,7 +33,7 @@ internal class GetCustomPeriodQueryHandler(
 
         return new GetCustomPeriodQueryModel
         {
-            Rewards = rewards,
+            Rewards = rewards.OrderBy(x => x.RequiredPoints).ToList(),
             Challenges = challenges
         };
     }

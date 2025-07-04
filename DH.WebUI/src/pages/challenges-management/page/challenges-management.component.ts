@@ -1,3 +1,4 @@
+import { TenantSettingsService } from './../../../entities/common/api/tenant-settings.service';
 import { DateHelper } from './../../../shared/helpers/date-helper';
 import { IUserChallengePeriodReward } from './../../../entities/rewards/models/user-period-reward.model';
 import { IUserChallenge } from './../../../entities/challenges/models/user-challenge.model';
@@ -20,6 +21,11 @@ import { ChallengeStatus } from '../../../entities/challenges/enums/challenge-st
 import { Column } from '../../../widgets/nav-bar/page/nav-bar.component';
 import { FULL_ROUTE } from '../../../shared/configs/route.config';
 import { ImageEntityType } from '../../../shared/pipe/entity-image.pipe';
+import { ITenantSettings } from '../../../entities/common/models/tenant-settings.model';
+import {
+  IUserCustomPeriodChallenge,
+  IUserCustomPeriodReward,
+} from '../../../entities/challenges/models/user-custom-period.model';
 
 @Component({
   selector: 'app-challenges-management',
@@ -39,8 +45,13 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
   public pointsScrollArrowsOpacity: number = 1;
   public pointsScrollArrowsWidth: number = this.scrollArrowWidth;
   public periodPerformance!: IUserChallengePeriodPerformance | null;
+  public tenantSettings!: ITenantSettings | null;
   public userChallengePeriodRewardList!: IUserChallengePeriodReward[];
   public userChallengeList: IUserChallenge[] = [];
+
+  public userCustomPeriodChallengesList: IUserCustomPeriodChallenge[] = [];
+  public userCustomPeriodRewardsList: IUserCustomPeriodReward[] = [];
+
   public ChallengeStatus = ChallengeStatus;
   public readonly ImageEntityType = ImageEntityType;
   public readonly DATE_FORMAT = DateHelper.DATE_FORMAT;
@@ -69,6 +80,7 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
   constructor(
     private readonly rewardsService: RewardsService,
     private readonly challengeService: ChallengesService,
+    private readonly tenantSettingsService: TenantSettingsService,
     private readonly cd: ChangeDetectorRef,
     private renderer: Renderer2
   ) {}
@@ -77,8 +89,11 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
     if (this.rewardsListener) this.rewardsListener();
     if (this.pointsListener) this.pointsListener();
   }
+
   public getLeftOffset(requiredPoints: number, index: number): number {
-    const rewards = this.userChallengePeriodRewardList;
+    const rewards = this.tenantSettings?.isCustomPeriodOn
+      ? this.userCustomPeriodRewardsList
+      : this.userChallengePeriodRewardList;
     const maxPoints = rewards[rewards.length - 1].rewardRequiredPoints;
 
     let offset = (requiredPoints / maxPoints) * 100;
@@ -99,10 +114,14 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.challengeService.getUserChallengePeriodPerformance().subscribe({
-      next: (periodPerformance: IUserChallengePeriodPerformance | null) => {
+    combineLatest([
+      this.challengeService.getUserChallengePeriodPerformance(),
+      this.tenantSettingsService.get(),
+    ]).subscribe({
+      next: ([periodPerformance, tenantSettings]) => {
         this.periodPerformance = periodPerformance;
-        if (this.periodPerformance) {
+        this.tenantSettings = tenantSettings;
+        if (this.periodPerformance && !this.tenantSettings.isCustomPeriodOn) {
           combineLatest([
             this.challengeService.getUserChallengeList(),
             this.rewardsService.getUserChallengePeriodRewardList(
@@ -150,6 +169,57 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
                     }
                   }
                 );
+              }
+            },
+          });
+        } else if (
+          this.periodPerformance &&
+          this.tenantSettings.isCustomPeriodOn
+        ) {
+          this.challengeService.getUserCustomPeriod().subscribe({
+            next: (customPeriod) => {
+              if (customPeriod) {
+                this.userCustomPeriodChallengesList = customPeriod.challenges;
+                this.userCustomPeriodRewardsList = customPeriod.rewards;
+
+                // Required to detect the changes from the api. Otherwise dom is empty
+                // Force the DOM Update Before Querying
+                this.cd.detectChanges();
+                this.updateChallengesProgressBar();
+                this.updateRewardProgressBar();
+
+                this.initProgressContainerWidth();
+
+                this.resetRewardsInactivityTimer();
+                this.resetPointsInactivityTimer();
+
+                if (this.rewardsScroller) {
+                  this.rewardsListener = this.renderer.listen(
+                    this.rewardsScroller.nativeElement,
+                    'scroll',
+                    () => {
+                      if (!this.rewardsScrolling) {
+                        this.rewardsScrolling = true;
+                        this.resetRewardsInactivityTimer();
+                        // Trigger any function here
+                      }
+                    }
+                  );
+                }
+
+                if (this.pointsScroller) {
+                  this.pointsListener = this.renderer.listen(
+                    this.pointsScroller.nativeElement,
+                    'scroll',
+                    () => {
+                      if (!this.pointsScrolling) {
+                        this.pointsScrolling = true;
+                        this.resetPointsInactivityTimer();
+                        // Trigger any function here
+                      }
+                    }
+                  );
+                }
               }
             },
           });
@@ -213,30 +283,57 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
   }
 
   private updateChallengesProgressBar(): void {
-    this.userChallengeList.forEach((challenge, index) => {
-      const progressPercentage =
-        (challenge.currentAttempts / challenge.maxAttempts) * 100;
+    if (this.tenantSettings?.isCustomPeriodOn) {
+      this.userCustomPeriodChallengesList.forEach((challenge, index) => {
+        const progressPercentage =
+          (challenge.currentAttempts / challenge.challengeAttempts) * 100;
 
-      const barValue = document.getElementById(
-        `progress-bar-${index}`
-      ) as HTMLElement;
+        const barValue = document.getElementById(
+          `progress-bar-${index}`
+        ) as HTMLElement;
 
-      const style = document.createElement('style');
-      style.textContent = `
-        @keyframes custom-load-${index} {
-          0% {
-            width: 0%;
+        const style = document.createElement('style');
+        style.textContent = `
+          @keyframes custom-load-${index} {
+            0% {
+              width: 0%;
+            }
+            100% {
+              width: ${progressPercentage}%;
+            }
           }
-          100% {
-            width: ${progressPercentage}%;
+        `;
+
+        document.head.appendChild(style);
+
+        barValue.style.animation = `custom-load-${index} 3s normal forwards`;
+      });
+    } else {
+      this.userChallengeList.forEach((challenge, index) => {
+        const progressPercentage =
+          (challenge.currentAttempts / challenge.maxAttempts) * 100;
+
+        const barValue = document.getElementById(
+          `progress-bar-${index}`
+        ) as HTMLElement;
+
+        const style = document.createElement('style');
+        style.textContent = `
+          @keyframes custom-load-${index} {
+            0% {
+              width: 0%;
+            }
+            100% {
+              width: ${progressPercentage}%;
+            }
           }
-        }
-      `;
+        `;
 
-      document.head.appendChild(style);
+        document.head.appendChild(style);
 
-      barValue.style.animation = `custom-load-${index} 3s normal forwards`;
-    });
+        barValue.style.animation = `custom-load-${index} 3s normal forwards`;
+      });
+    }
   }
 
   private updateRewardProgressBar() {
@@ -245,7 +342,9 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
       document.querySelectorAll('.circle');
 
     const totalPoints = this.periodPerformance?.points ?? 0;
-    const rewards = this.userChallengePeriodRewardList;
+    let rewards = this.tenantSettings?.isCustomPeriodOn
+      ? this.userCustomPeriodRewardsList
+      : this.userChallengePeriodRewardList;
 
     if (!rewards.length) return;
 
@@ -258,9 +357,6 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
     }
     if (progress) {
       progress.style.width = `${width}%`;
-      console.log('Points:', totalPoints);
-      console.log('MaxPoints:', maxPoints);
-      console.log('Progress Width:', width);
     }
 
     // 🟢 Update reward circles (optional)

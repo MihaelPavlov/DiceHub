@@ -10,4 +10,5 @@ public interface IChallengeService : IDomainService<Challenge>
     Task<List<GetUserChallengeListQueryModel>> GetUserChallenges(CancellationToken cancellationToken);
     Task Delete(int id, CancellationToken cancellationToken);
     Task SaveCustomPeriod(SaveCustomPeriodDto customPeriod, CancellationToken cancellationToken);
+    Task<GetUserCustomPeriodQueryModel> GetUserCustomPeriodData(CancellationToken cancellationToken);
 }

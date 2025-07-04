@@ -1,7 +1,9 @@
 ﻿using DH.Adapter.Authentication.Filters;
 using DH.Application.Challenges.Commands;
 using DH.Application.Challenges.Qureies;
+using DH.Domain.Adapters.Authentication;
 using DH.Domain.Adapters.Authentication.Enums;
+using DH.Domain.Adapters.Scheduling;
 using DH.Domain.Models.ChallengeModels.Commands;
 using DH.Domain.Models.ChallengeModels.Queries;
 using MediatR;
@@ -93,6 +95,14 @@ public class ChallengesController : ControllerBase
         return Ok(result);
     }
 
+    [HttpGet("get-user-custom-period")]
+    [ActionAuthorize(UserAction.ChallengesRead)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetUserCustomPeriodQueryModel))]
+    public async Task<IActionResult> GetUserCustomPeriod(CancellationToken cancellationToken)
+    {
+        var result = await this.mediator.Send(new GetUserCustomPeriodQuery(), cancellationToken);
+        return Ok(result);
+    }
     [HttpPost("save-custom-period")]
     [ActionAuthorize(UserAction.ChallengesCUD)]
     [ProducesResponseType(StatusCodes.Status200OK)]

@@ -7,7 +7,13 @@
     Please check back in a few minutes!
   </span></ng-container
 >
-<ng-container *ngIf="periodPerformance && userChallengePeriodRewardList">
+<ng-container
+  *ngIf="
+    periodPerformance &&
+    !tenantSettings?.isCustomPeriodOn &&
+    userChallengePeriodRewardList
+  "
+>
   <div class="wrapper_stats">
     <div class="wrapper_score">
       <p class="score" *ngIf="this.periodPerformance">
@@ -173,6 +179,184 @@
             challenge.status === ChallengeStatus.InProgress
               ? '/shared/assets/images/challenge-inprogress.png'
               : challenge.status === ChallengeStatus.Completed
+              ? '/shared/assets/images/challenge-complete.png'
+              : '/shared/assets/images/locked.png'
+          "
+          alt=""
+        />
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-container
+  *ngIf="
+    periodPerformance &&
+    tenantSettings?.isCustomPeriodOn &&
+    userCustomPeriodChallengesList
+  "
+>
+  <div class="wrapper_stats">
+    <div class="wrapper_score">
+      <p class="score" *ngIf="this.periodPerformance">
+        Score: {{ this.periodPerformance.points }}
+      </p>
+      <p class="dates">
+        <span>{{ this.periodPerformance.startDate | date : DATE_FORMAT }}</span>
+        <!-- arrow_range icon -->
+        <svg class="icon" viewBox="0 -960 960 960">
+          <path
+            d="M280-280 80-480l200-200 56 56-103 104h494L624-624l56-56 200 200-200 200-56-56 103-104H233l103 104-56 56Z"
+          />
+        </svg>
+        <span>{{ this.periodPerformance.endDate | date : DATE_FORMAT }}</span>
+      </p>
+    </div>
+    <div class="wrapper_scroller">
+      <!-- play_arrow icon -->
+      <svg
+        class="arrow left"
+        (click)="rewardsScrollLeft()"
+        [ngStyle]="{
+          opacity: rewardScrollArrowsOpacity,
+          minWidth: rewardScrollArrowsWidth + 'rem',
+          width: rewardScrollArrowsWidth + 'rem',
+        }"
+        viewBox="0 -960 960 960"
+      >
+        <path
+          d="M332-234.31v-491.38L720.15-480 332-234.31ZM398-480Zm0 124 197.54-124L398-604v248Z"
+        />
+      </svg>
+      <div #rewardsScroller class="scroller">
+        <div class="wrapper_stats__items">
+          <div
+            class="item"
+            *ngFor="let reward of userCustomPeriodRewardsList"
+            [ngClass]="{
+              'completed-img': reward.isCompleted
+            }"
+          >
+            <img
+              [src]="
+                ImageEntityType.Rewards
+                  | entityImage : reward.rewardImageId
+                  | async
+              "
+              alt=""
+            />
+          </div>
+        </div>
+      </div>
+      <!-- play_arrow icon -->
+      <svg
+        class="arrow"
+        (click)="rewardsScrollRight()"
+        [ngStyle]="{
+          opacity: rewardScrollArrowsOpacity,
+          minWidth: rewardScrollArrowsWidth + 'rem',
+          width: rewardScrollArrowsWidth + 'rem',
+        }"
+        viewBox="0 -960 960 960"
+      >
+        <path
+          d="M332-234.31v-491.38L720.15-480 332-234.31ZM398-480Zm0 124 197.54-124L398-604v248Z"
+        />
+      </svg>
+    </div>
+
+    <div class="wrapper_stats__bar">
+      <div class="wrapper_progress_scroller">
+        <svg
+          class="arrow left"
+          (click)="pointsScrollLeft()"
+          [ngStyle]="{
+            opacity: pointsScrollArrowsOpacity,
+            minWidth: pointsScrollArrowsWidth + 'rem',
+            width: pointsScrollArrowsWidth + 'rem',
+          }"
+          viewBox="0 -960 960 960"
+        >
+          <path
+            d="M332-234.31v-491.38L720.15-480 332-234.31ZM398-480Zm0 124 197.54-124L398-604v248Z"
+          />
+        </svg>
+        <div #pointsScroller class="scroller">
+          <div #progressContainer class="progress-container">
+            <div class="progress" id="progress"></div>
+            <div
+              #circleContainer
+              class="circle_container"
+              *ngFor="let reward of userCustomPeriodRewardsList; let i = index"
+              [ngStyle]="{
+                left: getLeftOffset(reward.rewardRequiredPoints, i) + '%'
+              }"
+            >
+              <div class="circle" [ngClass]="{ activated: reward.isCompleted }">
+                {{ reward.rewardRequiredPoints }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <svg
+          class="arrow"
+          (click)="pointsScrollRight()"
+          [ngStyle]="{
+            opacity: pointsScrollArrowsOpacity,
+            minWidth: pointsScrollArrowsWidth + 'rem',
+            width: pointsScrollArrowsWidth + 'rem',
+          }"
+          viewBox="0 -960 960 960"
+        >
+          <path
+            d="M332-234.31v-491.38L720.15-480 332-234.31ZM398-480Zm0 124 197.54-124L398-604v248Z"
+          />
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrapper_challenges">
+    <div
+      class="wrapper_challenges__item"
+      *ngFor="let challenge of userCustomPeriodChallengesList; let i = index"
+      [ngClass]="{
+        'in-progress': !challenge.isCompleted,
+        completed: challenge.isCompleted,
+      }"
+    >
+      <div class="image_info_container">
+        <div class="image">
+          <img
+            [src]="
+              ImageEntityType.Games
+                | entityImage : challenge.gameImageId
+                | async
+            "
+            alt=""
+          />
+        </div>
+        <div class="info">
+          <span class="header">
+            Play <strong>{{ challenge.gameName }}</strong>
+            {{ challenge.challengeAttempts }} times
+          </span>
+          <div class="bar-2">
+            <span class="bar-2-span"
+              >{{ challenge.currentAttempts }} /
+              {{ challenge.challengeAttempts }}</span
+            >
+            <div class="bar-2-value" id="progress-bar-{{ i }}"></div>
+            <span class="points">{{ challenge.rewardPoints }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="status-image">
+        <img
+          [src]="
+            !challenge.isCompleted
+              ? '/shared/assets/images/challenge-inprogress.png'
+              : challenge.isCompleted
               ? '/shared/assets/images/challenge-complete.png'
               : '/shared/assets/images/locked.png'
           "

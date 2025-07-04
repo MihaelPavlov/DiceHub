@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ChallengesManagementComponent } from './page/challenges-management.component';
 import { ChallengesRewardsComponent } from '../../features/challenges-management/components/challenges-rewards/challenges-rewards.component';
-import { AdminChallengesHistoryLogComponent } from '../../features/challenges-management/components/admin-challenges-history-log/admin-challenges-history-log.component';
 import { AdminChallengesListComponent } from '../../features/challenges-management/components/admin-challenges-list/admin-challenges-list.component';
 import { AdminChallengesCustomPeriodComponent } from '../../features/challenges-management/components/admin-challenges-custom-period/admin-challenges-custom-period.component';
 import { AdminChallengesSystemRewardsComponent } from '../../features/challenges-management/components/admin-challenges-system-rewards/admin-challenges-system-rewards.component';

@@ -191,6 +191,53 @@ public class ChallengeService : IChallengeService
         var challengeForDelete = allChallenges.Where(c => !incomingChallengeIds.Contains(c.Id));
         context.RemoveRange(challengeForDelete);
 
+        if (customPeriod.Rewards.Count != 0 && customPeriod.Challenges.Count != 0)
+        {
+            var settings = await context.TenantSettings.AsTracking().FirstAsync(x => x.Id == 1, cancellationToken);
+            settings.IsCustomPeriodSetupComplete = true;
+        }
+
         await context.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task<GetUserCustomPeriodQueryModel> GetUserCustomPeriodData(CancellationToken cancellationToken)
+    {
+        using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
+        {
+            var period = await context.UserChallengePeriodPerformances
+                .Include(x => x.CustomPeriodUserChallenges)
+                .ThenInclude(x => x.Game)
+                .ThenInclude(x => x.Image)
+                .Include(x => x.CustomPeriodUserRewards)
+                .ThenInclude(x => x.Reward)
+                .ThenInclude(x => x.Image)
+                .FirstOrDefaultAsync(x => x.UserId == this.userContext.UserId && x.IsPeriodActive, cancellationToken);
+
+            if (period == null)
+                throw new NotFoundException(nameof(period), this.userContext.UserId);
+
+            var challenges = period.CustomPeriodUserChallenges.Select(x => new GetUserCustomPeriodChallengeQueryModel
+            {
+                ChallengeAttempts = x.ChallengeAttempts,
+                CurrentAttempts = x.UserAttempts,
+                GameImageId = x.Game.Image.Id,
+                GameName = x.Game.Name,
+                IsCompleted = x.IsCompleted,
+                RewardPoints = x.RewardPoints,
+            }).ToList();
+
+            var rewards = period.CustomPeriodUserRewards.OrderBy(x => x.RequiredPoints).Select(x => new GetUserCustomPeriodRewardQueryModel
+            {
+                IsCompleted = x.IsCompleted,
+                RewardRequiredPoints = x.RequiredPoints,
+                RewardImageId = x.Reward.Image.Id,
+            }).ToList();
+
+            return new GetUserCustomPeriodQueryModel
+            {
+                Rewards = rewards,
+                Challenges = challenges
+            };
+        }
     }
 }

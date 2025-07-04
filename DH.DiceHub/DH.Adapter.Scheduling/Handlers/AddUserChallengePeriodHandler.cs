@@ -2,7 +2,6 @@ using DH.Domain.Adapters.Scheduling;
 using DH.Domain.Adapters.Scheduling.Enums;
 using DH.Domain.Entities;
 using DH.Domain.Enums;
-using DH.Domain.Helpers;
 using DH.Domain.Repositories;
 using DH.Domain.Services;
 using DH.Domain.Services.TenantSettingsService;
@@ -16,20 +15,17 @@ internal class AddUserChallengePeriodHandler : IAddUserChallengePeriodHandler
 {
     readonly IRepository<FailedJob> failedJobsRepository;
     readonly IRepository<UserChallengePeriodPerformance> userChallengePeriodPerformanceRepository;
-    readonly IRepository<UserChallenge> userChallengesRepository;
     readonly IUserChallengesManagementService userChallengesManagementService;
     readonly ITenantSettingsCacheService tenantSettingsService;
 
     public AddUserChallengePeriodHandler(
         IRepository<FailedJob> failedJobsRepository,
         IUserChallengesManagementService userChallengesManagementService,
-        IRepository<UserChallenge> userChallengesRepository,
         IRepository<UserChallengePeriodPerformance> userChallengePeriodPerformanceRepository,
         ITenantSettingsCacheService tenantSettingsService)
     {
         this.failedJobsRepository = failedJobsRepository;
         this.userChallengesManagementService = userChallengesManagementService;
-        this.userChallengesRepository = userChallengesRepository;
         this.userChallengePeriodPerformanceRepository = userChallengePeriodPerformanceRepository;
         this.tenantSettingsService = tenantSettingsService;
     }
@@ -43,11 +39,6 @@ internal class AddUserChallengePeriodHandler : IAddUserChallengePeriodHandler
         // for every active period
         foreach (var period in periods)
         {
-            var expectedEndDate = TimePeriodTypeHelper.CalculateNextResetDate(timePeriod, tenantSettings.ResetDayForRewards);
-
-            //if (period.EndDate >= expectedEndDate)
-            //    continue;
-
             var isInitiationSuccessfully = await this.userChallengesManagementService.InitiateUserChallengePeriod(period.UserId, cancellationToken);
 
             if (isInitiationSuccessfully)

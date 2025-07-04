@@ -232,7 +232,7 @@ public class UserChallengesManagementService : IUserChallengesManagementService
     {
         if (tenantSettings.IsCustomPeriodOn)
         {
-            var rewards = await context.CustomPeriodRewards.ToListAsync(cancellationToken);
+            var rewards = await context.CustomPeriodRewards.OrderBy(x => x.RequiredPoints).ToListAsync(cancellationToken);
             var challenges = await context.CustomPeriodChallenges.ToListAsync(cancellationToken);
 
             userPerformance.CustomPeriodUserRewards = rewards.Select(x => new CustomPeriodUserReward

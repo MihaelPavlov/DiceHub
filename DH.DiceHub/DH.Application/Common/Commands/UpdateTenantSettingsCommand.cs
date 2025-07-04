@@ -7,9 +7,14 @@ namespace DH.Application.Common.Commands;
 
 public record UpdateTenantSettingsCommand(TenantSettingDto Settings) : IRequest;
 
-internal class UpdateTenantSettingsCommandHandler(IRepository<TenantSetting> repository) : IRequestHandler<UpdateTenantSettingsCommand>
+internal class UpdateTenantSettingsCommandHandler(
+    IRepository<TenantSetting> repository,
+    IRepository<CustomPeriodChallenge> customPeridoChallengesRepository,
+     IRepository<CustomPeriodReward> customPeridoRewardsRepository) : IRequestHandler<UpdateTenantSettingsCommand>
 {
     readonly IRepository<TenantSetting> repository = repository;
+    readonly IRepository<CustomPeriodChallenge> customPeridoChallengesRepository = customPeridoChallengesRepository;
+    readonly IRepository<CustomPeriodReward> customPeridoRewardsRepository = customPeridoRewardsRepository;
 
     public async Task Handle(UpdateTenantSettingsCommand request, CancellationToken cancellationToken)
     {
@@ -85,6 +90,17 @@ internal class UpdateTenantSettingsCommandHandler(IRepository<TenantSetting> rep
         if (dbSettings.IsCustomPeriodOn != request.Settings.IsCustomPeriodOn)
         {
             dbSettings.IsCustomPeriodOn = request.Settings.IsCustomPeriodOn;
+
+            if (dbSettings.IsCustomPeriodOn)
+            {
+                var rewards = await this.customPeridoRewardsRepository.GetWithPropertiesAsync(x => x.Id != 0, x => x.Id, cancellationToken);
+                var challenges = await this.customPeridoChallengesRepository.GetWithPropertiesAsync(x => x.Id != 0, x => x.Id, cancellationToken);
+
+                if (rewards.Count != 0 && challenges.Count != 0)
+                    dbSettings.IsCustomPeriodSetupComplete = true;
+                else
+                    dbSettings.IsCustomPeriodSetupComplete = false;
+            }
         }
 
         await this.repository.SaveChangesAsync(cancellationToken);
