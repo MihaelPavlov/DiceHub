@@ -7,6 +7,7 @@ import { UserRole } from '../../../entities/auth/enums/roles.enum';
 import { UsersService } from '../../../entities/profile/api/user.service';
 import { GetUserStats } from '../../../entities/profile/models/get-user-stats.interface';
 import { Observable } from 'rxjs';
+import { NavigationService } from '../../../shared/services/navigation-service';
 
 @Component({
   selector: 'app-profile',
@@ -16,9 +17,10 @@ import { Observable } from 'rxjs';
 export class ProfileComponent implements OnDestroy {
   public username: string = this.authService.getUser?.username || '';
   public userStats!: Observable<GetUserStats>;
-  
+
   constructor(
     private readonly menuTabsService: MenuTabsService,
+    private readonly navigationService: NavigationService,
     private readonly authService: AuthService,
     private readonly usersService: UsersService,
     private readonly router: Router
@@ -53,7 +55,8 @@ export class ProfileComponent implements OnDestroy {
     this.router.navigateByUrl('profile/employees');
   }
 
-  public navigateToInstructions():void{
+  public navigateToInstructions(): void {
+    this.navigationService.setPreviousUrl(this.router.url);
     this.router.navigateByUrl('instructions');
   }
 

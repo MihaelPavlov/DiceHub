@@ -52,6 +52,10 @@ export class ForgotPasswordComponent extends Form implements OnInit {
     });
   }
 
+  public navigateToLanding(): void {
+    this.router.navigateByUrl(ROUTE.LANDING);
+  }
+
   public onSubmit(): void {
     if (this.form.valid) {
       this.authService

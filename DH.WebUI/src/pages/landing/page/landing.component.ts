@@ -13,6 +13,7 @@ import {
 import { PartnerInquiriesService } from '../../../entities/common/api/partner-inquiries.service';
 import { ToastType } from '../../../shared/models/toast.model';
 import { AppToastMessage } from '../../../shared/components/toast/constants/app-toast-messages.constant';
+import { NavigationService } from '../../../shared/services/navigation-service';
 
 interface IPartnerInquiryForm {
   name: string;
@@ -33,7 +34,8 @@ export class LandingComponent extends Form {
     private readonly fb: FormBuilder,
     private readonly router: Router,
     private readonly partnerInquiriesService: PartnerInquiriesService,
-    public override readonly toastService: ToastService
+    public override readonly toastService: ToastService,
+    private readonly navigationService: NavigationService
   ) {
     super(toastService);
 
@@ -56,6 +58,7 @@ export class LandingComponent extends Form {
   }
 
   public onInstructions(): void {
+    this.navigationService.setPreviousUrl(this.router.url);
     this.router.navigateByUrl(ROUTE.INSTRUCTIONS);
   }
   public onSubmit(): void {

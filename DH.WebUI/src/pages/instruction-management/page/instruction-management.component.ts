@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavigationService } from '../../../shared/services/navigation-service';
 import { AuthService } from '../../../entities/auth/auth.service';
+import { ROUTE } from '../../../shared/configs/route.config';
 
 @Component({
   selector: 'app-instruction-management',
@@ -32,6 +33,10 @@ export class InstructionManagementComponent {
   }
 
   public backNavigateBtn() {
-    this.router.navigateByUrl('profile');
+    if (this.isUserAuthenticated) {
+      this.router.navigateByUrl(ROUTE.PROFILE.CORE);
+    } else {
+      this.router.navigateByUrl(ROUTE.LANDING);
+    }
   }
 }

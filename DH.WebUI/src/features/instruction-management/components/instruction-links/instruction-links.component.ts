@@ -1,7 +1,7 @@
 import { NavigationService } from './../../../../shared/services/navigation-service';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { InstructionSection  } from '../../../../entities/instruction-management/models/instruction.model';
+import { InstructionSection } from '../../../../entities/instruction-management/models/instruction.model';
 import { INSTRUCTION_LINK_MAPPINGS } from '../../../../entities/instruction-management/constants/instruction.constant';
 
 @Component({
@@ -10,7 +10,7 @@ import { INSTRUCTION_LINK_MAPPINGS } from '../../../../entities/instruction-mana
   styleUrl: 'instruction-links.component.scss',
 })
 export class InstructionLinksComponent implements OnInit {
-  public currentSection!: InstructionSection ;
+  public currentSection!: InstructionSection;
 
   constructor(
     private router: Router,
@@ -19,7 +19,6 @@ export class InstructionLinksComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.setBackBtnLink();
     // Listen for changes in the current route and update the links dynamically
     this.activatedRoute.url.subscribe((urlSegments) => {
       const currentPath = urlSegments[0]?.path; // Extract the first path segment
@@ -31,17 +30,11 @@ export class InstructionLinksComponent implements OnInit {
   }
 
   public navigateBack(): void {
-    this.router.navigateByUrl(
-      this.navigationService.getPreviousUrl() ?? 'instructions'
-    );
+    this.router.navigateByUrl('instructions');
   }
 
   public navigateToLink(path: string) {
     this.navigationService.setPreviousUrl(this.router.url);
     this.router.navigate([path]);
-  }
-
-  private setBackBtnLink(): void {
-    this.navigationService.setPreviousUrl('instructions');
   }
 }

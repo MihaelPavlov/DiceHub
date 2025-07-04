@@ -1,4 +1,4 @@
-<div *ngIf="isUserAuthenticated" class="wrapper_icons">
+<div class="wrapper_icons">
   <span (click)="backNavigateBtn()" class="arrow left"></span>
   <span class="header_name">Instructions</span>
   <div class="info-container">
@@ -9,12 +9,6 @@
     </svg>
   </div>
 </div>
-
-<app-header
-  *ngIf="!isUserAuthenticated"
-  header="Instructions"
-  [withBottomLine]="true"
-></app-header>
 
 <div class="wrapper">
   <div
