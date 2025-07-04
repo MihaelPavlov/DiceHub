@@ -45,6 +45,7 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
   public periodTimeValues: IDropdown[] = [];
   public toggleStateValues: IDropdown[] = [];
   public reservationHours: IDropdown[] = [];
+  public oldCustomPeriodValue: ToggleState | null = null;
 
   public delayHours: IDropdown[] = [
     { id: 2, name: '2' },
@@ -112,6 +113,11 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
     this.tenantSettingsService.get().subscribe({
       next: (res) => {
         this.tenantSettingsId = res.id ?? null;
+
+        this.oldCustomPeriodValue = res.isCustomPeriodOn
+          ? ToggleState.On
+          : ToggleState.Off;
+
         this.form.patchValue({
           averageMaxCapacity: res.averageMaxCapacity,
           challengeRewardsCountForPeriod: res.challengeRewardsCountForPeriod,
@@ -122,9 +128,7 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
             res.bonusTimeAfterReservationExpiration,
           phoneNumber: res.phoneNumber,
           clubName: res.clubName,
-          isCustomPeriodOn: res.isCustomPeriodOn
-            ? ToggleState.On
-            : ToggleState.Off,
+          isCustomPeriodOn: this.oldCustomPeriodValue,
         });
 
         if (res.reservationHours.length !== 0) {
@@ -168,9 +172,15 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
               message: AppToastMessage.ChangesSaved,
               type: ToastType.Success,
             });
-
-            if (this.form.controls.isCustomPeriodOn.value === ToggleState.On) {
-              this.router.navigateByUrl(FULL_ROUTE.CHALLENGES.ADMIN_CUSTOM_PERIOD);
+            const newCustomPeriodValue =
+              this.form.controls.isCustomPeriodOn.value;
+            if (
+              this.oldCustomPeriodValue != newCustomPeriodValue &&
+              newCustomPeriodValue === ToggleState.On
+            ) {
+              this.router.navigateByUrl(
+                FULL_ROUTE.CHALLENGES.ADMIN_CUSTOM_PERIOD
+              );
             }
 
             this.fetchSettings();

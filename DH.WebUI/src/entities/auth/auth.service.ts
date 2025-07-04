@@ -12,6 +12,7 @@ import { ICreateEmployeePasswordRequest } from './models/create-employee-passwor
 import { AppToastMessage } from '../../shared/components/toast/constants/app-toast-messages.constant';
 import { TenantSettingsService } from '../common/api/tenant-settings.service';
 import { FULL_ROUTE } from '../../shared/configs/route.config';
+import { UserRole } from './enums/roles.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -133,7 +134,8 @@ export class AuthService {
               if (
                 settings &&
                 settings.isCustomPeriodOn &&
-                !settings.isCustomPeriodSetupComplete
+                !settings.isCustomPeriodSetupComplete &&
+                this.userInfoSubject$.value?.role != UserRole.User
               )
                 this.router.navigateByUrl(
                   FULL_ROUTE.CHALLENGES.ADMIN_CUSTOM_PERIOD
