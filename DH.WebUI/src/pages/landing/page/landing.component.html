@@ -114,6 +114,8 @@
       </p>
       <form [formGroup]="form" class="">
         <div class="input-field">
+          <label for="name" class="required">Name</label>
+
           <input
             formControlName="name"
             type="text"
@@ -122,6 +124,8 @@
           />
         </div>
         <div class="input-field">
+          <label for="email" class="required">Email</label>
+
           <input
             formControlName="email"
             type="email"
@@ -130,6 +134,8 @@
           />
         </div>
         <div class="input-field">
+          <label for="phoneNumber" class="required">Phone Number</label>
+
           <input
             formControlName="phoneNumber"
             type="text"
@@ -138,6 +144,8 @@
           />
         </div>
         <div class="input-field">
+          <label for="message" class="required">Message</label>
+
           <textarea
             formControlName="message"
             placeholder="Tell us about your venue or questions you have"
@@ -160,7 +168,7 @@
           type="button"
           class="submit btn btn-gray create-btn btn-font-gray btn-border-blue"
         >
-          Submit
+          Send
         </button>
       </form>
     </section>
@@ -246,9 +254,13 @@
     </p>
     <form [formGroup]="form" class="partner-form">
       <div class="input-field">
+        <label for="name" class="required">Name</label>
+
         <input formControlName="name" type="text" placeholder="Name" required />
       </div>
       <div class="input-field">
+        <label for="email" class="required">Email</label>
+
         <input
           formControlName="email"
           type="email"
@@ -257,6 +269,8 @@
         />
       </div>
       <div class="input-field">
+        <label for="phoneNumber" class="required">Phone Number</label>
+
         <input
           formControlName="phoneNumber"
           type="text"
@@ -265,6 +279,8 @@
         />
       </div>
       <div class="input-field">
+        <label for="message" class="required">Message</label>
+
         <textarea
           formControlName="message"
           placeholder="Tell us about your venue or questions you have"
@@ -272,6 +288,11 @@
           formControlName="message"
         ></textarea>
       </div>
+
+      <div *ngIf="getFirstErrorMessage()" class="errors">
+        {{ getFirstErrorMessage() }}
+      </div>
+
       <button
         [disabled]="this.form.invalid"
         (click)="this.onSubmit()"

@@ -12,6 +12,7 @@ import {
 } from '@angular/forms';
 import { PartnerInquiriesService } from '../../../entities/common/api/partner-inquiries.service';
 import { ToastType } from '../../../shared/models/toast.model';
+import { AppToastMessage } from '../../../shared/components/toast/constants/app-toast-messages.constant';
 
 interface IPartnerInquiryForm {
   name: string;
@@ -73,6 +74,13 @@ export class LandingComponent extends Form {
               type: ToastType.Success,
             });
             this.form.reset();
+          },
+          error: (error) => {
+            this.handleServerErrors(error);
+            this.toastService.error({
+              message: AppToastMessage.FailedToSaveChanges,
+              type: ToastType.Error,
+            });
           },
         });
     }
