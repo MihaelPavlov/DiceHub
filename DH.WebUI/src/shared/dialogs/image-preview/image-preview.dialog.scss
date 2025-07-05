@@ -1,0 +1,39 @@
+@use "../../../shared/assets/styles/palette";
+
+.dialog-container {
+  color: palette.$main-font-color;
+  background-color: palette.$main-nav-color;
+  position: relative;
+
+  &__header {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    text-align: center;
+  }
+
+  mat-dialog-actions {
+    display: flex;
+    justify-content: end;
+    position: absolute;
+    right: 0;
+
+    .close-icon {
+      fill: palette.$main-font-color;
+      width: 2rem;
+      height: 2rem;
+    }
+  }
+}
+
+.image {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 1rem;
+
+  img {
+    object-fit: contain;
+    width: 15rem;
+    height: 15rem;
+  }
+}

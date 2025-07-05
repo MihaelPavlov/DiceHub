@@ -1,4 +1,3 @@
-import { REWARD_POINTS } from './../../../../entities/rewards/enums/reward-required-point.enum';
 import {
   AfterViewInit,
   Component,

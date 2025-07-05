@@ -9,6 +9,10 @@ import { AuthService } from '../../../../entities/auth/auth.service';
 import { QrCodeType } from '../../../../entities/qr-code-scanner/enums/qr-code-type.enum';
 import { ImageEntityType } from '../../../../shared/pipe/entity-image.pipe';
 import { Router } from '@angular/router';
+import {
+  ImagePreviewDialog,
+  ImagePreviewData,
+} from '../../../../shared/dialogs/image-preview/image-preview.dialog';
 
 @Component({
   selector: 'app-challenges-rewards',
@@ -17,7 +21,7 @@ import { Router } from '@angular/router';
 })
 export class ChallengesRewardsComponent implements OnInit {
   public userRewards$!: Observable<IUserReward[]>;
-  
+
   public readonly UserRewardStatus = UserRewardStatus;
   public readonly ImageEntityType = ImageEntityType;
 
@@ -32,8 +36,18 @@ export class ChallengesRewardsComponent implements OnInit {
     this.userRewards$ = this.rewardsService.getUserRewardList();
   }
 
-  public navigateToChallenges():void{
-    this.router.navigateByUrl('challenges/home')
+  public openImagePreview(imageUrl: string) {
+    this.dialog.open<ImagePreviewDialog, ImagePreviewData>(ImagePreviewDialog, {
+      data: {
+        imageUrl,
+        title: 'Image',
+      },
+      width: '17rem',
+    });
+  }
+
+  public navigateToChallenges(): void {
+    this.router.navigateByUrl('challenges/home');
   }
 
   public openDialog(id: number): void {

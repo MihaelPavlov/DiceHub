@@ -34,16 +34,25 @@ internal class GetUserRewardListQueryHandler : IRequestHandler<GetUserRewardList
                     x.IsExpired ? UserRewardStatus.Expired : UserRewardStatus.NotExpired
             }, cancellationToken);
 
-        return rewards.OrderBy(x => x.Status != UserRewardStatus.NotExpired) 
-            .ThenBy(x => x.AvailableMoreForDays) 
-            .ThenBy(x =>
+        return rewards
+            .OrderBy(r =>
             {
-                return x.Status switch
+                // Primary sort: Group by status priority: NotExpired (0), Used (1), Expired (2)
+                return r.Status switch
                 {
+                    UserRewardStatus.NotExpired => 0,
                     UserRewardStatus.Used => 1,
                     UserRewardStatus.Expired => 2,
-                    _ => 3 
+                    _ => 3
                 };
-            }).ToList();
+            })
+            .ThenBy(r =>
+            {
+                // Secondary sort: For NotExpired, sort by days left (ascending)
+                return r.Status == UserRewardStatus.NotExpired
+                    ? r.AvailableMoreForDays
+                    : int.MaxValue;
+            })
+            .ToList();
     }
 }

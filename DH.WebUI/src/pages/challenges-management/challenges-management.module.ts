@@ -24,6 +24,7 @@ import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CustomPeriodLeaveConfirmationDialog } from '../../features/challenges-management/dialogs/custom-period-leave-confirmation/custom-period-leave-confirmation.component';
 import { UnsavedChangesConfirmationDialogModule } from '../../shared/dialogs/unsaved-changes-confirmation/unsaved-changes-confirmation.module';
+import { ImagePreviewDialogModule } from '../../shared/dialogs/image-preview/image-preview.module';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { UnsavedChangesConfirmationDialogModule } from '../../shared/dialogs/uns
     NgSelectModule,
     FormsModule,
     UnsavedChangesConfirmationDialogModule,
+    ImagePreviewDialogModule,
   ],
 })
 export class ChallengesManagementModule {}

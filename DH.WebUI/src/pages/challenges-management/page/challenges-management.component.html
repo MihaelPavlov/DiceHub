@@ -7,6 +7,7 @@
     Please check back in a few minutes!
   </span></ng-container
 >
+<!-- Auto Period -->
 <ng-container
   *ngIf="
     periodPerformance &&
@@ -56,12 +57,15 @@
             }"
           >
             <img
-              [src]="
+              *ngIf="
                 ImageEntityType.Rewards
                   | entityImage : reward.rewardImageId
-                  | async
+                  | async as imageUrl
               "
-              alt=""
+              (click)="openImagePreview(imageUrl)"
+              [src]="imageUrl"
+              alt="Reward"
+              class="clickable"
             />
           </div>
         </div>
@@ -148,15 +152,16 @@
       }"
     >
       <div class="image_info_container">
-        <div class="image">
-          <img
-            [src]="
-              ImageEntityType.Games
-                | entityImage : challenge.gameImageId
-                | async
-            "
-            alt=""
-          />
+        <div
+          class="image clickable"
+          (click)="openImagePreview(imageUrl)"
+          *ngIf="
+            ImageEntityType.Games
+              | entityImage : challenge.gameImageId
+              | async as imageUrl
+          "
+        >
+          <img [src]="imageUrl" alt="" />
         </div>
         <div class="info">
           <span class="header">
@@ -189,6 +194,7 @@
   </div>
 </ng-container>
 
+<!-- Custom Period -->
 <ng-container
   *ngIf="
     periodPerformance &&
@@ -230,22 +236,22 @@
       </svg>
       <div #rewardsScroller class="scroller">
         <div class="wrapper_stats__items">
-          <div
-            class="item"
-            *ngFor="let reward of userCustomPeriodRewardsList"
-            [ngClass]="{
-              'completed-img': reward.isCompleted
-            }"
-          >
-            <img
-              [src]="
+          <ng-container *ngFor="let reward of userCustomPeriodRewardsList">
+            <div
+              class="item clickable"
+              (click)="openImagePreview(imageUrl)"
+              *ngIf="
                 ImageEntityType.Rewards
                   | entityImage : reward.rewardImageId
-                  | async
+                  | async as imageUrl
               "
-              alt=""
-            />
-          </div>
+              [ngClass]="{
+                'completed-img': reward.isCompleted
+              }"
+            >
+              <img [src]="imageUrl" alt="Reward" />
+            </div>
+          </ng-container>
         </div>
       </div>
       <!-- play_arrow icon -->
@@ -326,15 +332,16 @@
       }"
     >
       <div class="image_info_container">
-        <div class="image">
-          <img
-            [src]="
-              ImageEntityType.Games
-                | entityImage : challenge.gameImageId
-                | async
-            "
-            alt=""
-          />
+        <div
+          class="image clickable"
+          (click)="openImagePreview(imageUrl)"
+          *ngIf="
+            ImageEntityType.Games
+              | entityImage : challenge.gameImageId
+              | async as imageUrl
+          "
+        >
+          <img [src]="imageUrl" alt="" />
         </div>
         <div class="info">
           <span class="header">

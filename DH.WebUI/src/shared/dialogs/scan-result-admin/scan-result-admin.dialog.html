@@ -11,9 +11,9 @@
   </ng-container>
 
   <mat-dialog-actions>
-    <button class="btn btn__small btn-blue" mat-dialog-close>Close</button>
+    <button class="btn btn__small btn-border-red btn-red" mat-dialog-close>Close</button>
     <button
-      class="btn btn__small btn-red btn-border-red"
+      class="btn btn-border-blue btn-blue"
       *ngIf="this.data.isValid"
       (click)="confirm()"
     >

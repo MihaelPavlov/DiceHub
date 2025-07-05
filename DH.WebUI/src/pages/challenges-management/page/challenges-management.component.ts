@@ -26,6 +26,12 @@ import {
   IUserCustomPeriodChallenge,
   IUserCustomPeriodReward,
 } from '../../../entities/challenges/models/user-custom-period.model';
+import {
+  ImagePreviewDialog,
+  ImagePreviewData,
+} from '../../../shared/dialogs/image-preview/image-preview.dialog';
+import { MatDialog } from '@angular/material/dialog';
+import { LoadingService } from '../../../shared/services/loading.service';
 
 @Component({
   selector: 'app-challenges-management',
@@ -80,14 +86,26 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
   constructor(
     private readonly rewardsService: RewardsService,
     private readonly challengeService: ChallengesService,
+    private readonly loadingService: LoadingService,
     private readonly tenantSettingsService: TenantSettingsService,
     private readonly cd: ChangeDetectorRef,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private readonly dialog: MatDialog
   ) {}
 
   public ngOnDestroy(): void {
     if (this.rewardsListener) this.rewardsListener();
     if (this.pointsListener) this.pointsListener();
+  }
+
+  public openImagePreview(imageUrl: string) {
+    this.dialog.open<ImagePreviewDialog, ImagePreviewData>(ImagePreviewDialog, {
+      data: {
+        imageUrl,
+        title: 'Image',
+      },
+      width: '17rem',
+    });
   }
 
   public getLeftOffset(requiredPoints: number, index: number): number {
@@ -375,16 +393,12 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
   }
 
   private initProgressContainerWidth(): void {
-    console.log('progressContainer', this.progressContainer);
-
     // Get the count of circle elements
     const numberOfCircles = this.circles.length;
-    console.log('numberOfCircles', numberOfCircles);
 
     // Calculate the width of each circle
     if (numberOfCircles > 0) {
       const circleWidth = 4 * numberOfCircles;
-      console.log('circle width -> ', circleWidth);
 
       this.progressContainer.nativeElement.style.width = `${circleWidth}rem`;
     }
