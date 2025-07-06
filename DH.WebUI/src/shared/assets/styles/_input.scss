@@ -184,3 +184,7 @@
     display: inline;
     color: red;
 }
+
+.clickable:hover {
+  transform: scale(1.05);
+}
