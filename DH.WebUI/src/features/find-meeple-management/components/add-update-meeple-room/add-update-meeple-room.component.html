@@ -141,6 +141,13 @@
     <div *ngIf="getFirstErrorMessage()" class="errors">
       {{ getFirstErrorMessage() }}
     </div>
+
+    <div
+      *ngIf="form.get('startDate')?.errors?.['cannotBeToday']"
+      class="errors"
+    >
+      You cannot set the start date to today.<br/> Please choose a future date.
+    </div>
   </div>
 
   <div class="btn-container">

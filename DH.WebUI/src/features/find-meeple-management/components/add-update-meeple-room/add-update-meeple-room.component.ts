@@ -6,9 +6,11 @@ import { GamesService } from '../../../../entities/games/api/games.service';
 import { RoomsService } from '../../../../entities/rooms/api/rooms.service';
 import { MenuTabsService } from '../../../../shared/services/menu-tabs.service';
 import {
+  AbstractControl,
   FormBuilder,
   FormControl,
   FormGroup,
+  ValidationErrors,
   Validators,
 } from '@angular/forms';
 import { NAV_ITEM_LABELS } from '../../../../shared/models/nav-items-labels.const';
@@ -285,7 +287,10 @@ export class AddUpdateMeepleRoomComponent
         Validators.required,
         Validators.minLength(3),
       ]),
-      startDate: new FormControl<Date | null>(null, [Validators.required]),
+      startDate: new FormControl<Date | null>(null, [
+        Validators.required,
+        this.notTodayValidator,
+      ]),
       startTime: new FormControl<Date | null>(null, [Validators.required]),
       maxParticipants: new FormControl<number | null>(null, [
         Validators.required,
@@ -296,5 +301,18 @@ export class AddUpdateMeepleRoomComponent
 
   private clearServerErrorMessage(): void {
     this.getServerErrorMessage = null;
+  }
+
+  private notTodayValidator(control: AbstractControl): ValidationErrors | null {
+    const inputDate = new Date(control.value);
+    const today = new Date();
+
+    // Normalize both dates to ignore time
+    inputDate.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
+
+    return inputDate.getTime() === today.getTime()
+      ? { cannotBeToday: true }
+      : null;
   }
 }

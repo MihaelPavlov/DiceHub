@@ -21,7 +21,7 @@ import { PasswordVisibilityToggleComponent } from './components/password-visibil
     ParseDateTagPipe,
     ControlsMenuComponent,
     RandomColorDirective,
-    PasswordVisibilityToggleComponent,
+    PasswordVisibilityToggleComponent
   ],
   imports: [
     CommonModule,
