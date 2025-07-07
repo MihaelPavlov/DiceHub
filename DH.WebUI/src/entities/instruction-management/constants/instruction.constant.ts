@@ -214,52 +214,139 @@ export const INSTRUCTION_LINK_MAPPINGS: { [key: string]: InstructionSection } =
     },
     challenges: {
       title: 'Challenge & Rewards',
-      summary:
-        'Join our challenges and earn rewards. These place is your go-to for all things challenges and rewards.',
+      summary: `Take part in exciting challenges and earn awesome rewards! 
+        This is your main hub for everything related to challenges, rewards, and friendly competition.`,
       imageUrl: '/shared/assets/images/icons/swords_icon-blue.svg',
       topics: [
         {
-          title: 'Ongoing Challenges',
-          route: '/instructions/challenges/ongoing',
+          title: 'Challenges',
+          route: '/instructions/challenges/info',
           thumbnailUrl: '/shared...',
-          description: 'Join our ongoing challenges',
-          steps: [],
+          description: 'Learn where, when, and how to complete challenges.',
+          steps: [
+            {
+              header: 'Where to Find Challenges',
+              description: `Tap the blue circle at the bottom center of the screen, then tap the middle icon.
+
+              This will open your Challenge Page, where you can view both your current challenges and earned rewards.
+
+              The first tab (top left) will show whether you're participating in a weekly or monthly challenge period.`,
+              mediaUrl: '/shared/assets/images/instructions/Challenges/1.png',
+            },
+            {
+              header: 'How to Complete a Challenge',
+              description: `Each challenge tells you which game to play, how many times to play it, and how many points you’ll earn.
+              
+              These points are added to your total period score.
+              
+              To successfully complete a challenge, you must start the required game and play it for at least the average game time.
+              
+              For example: if the average play time for Ghost Stories is 55 minutes, you must play it for at least 55 minutes to get the reward.`,
+              mediaUrl: '/shared/assets/images/instructions/Challenges/1.png',
+            },
+            {
+              header: 'When Do I Get New Challenges?',
+              description: `A new challenge is usually generated a few hours after you complete the previous one.
+              Occasionally, you’ll receive special or time-limited challenges too.`,
+              mediaUrl: '/shared/assets/images/instructions/Challenges/1.png',
+            },
+          ],
         },
         {
-          title: 'Rewards History',
+          title: 'Rewards',
           route: '/instructions/challenges/rewards',
           thumbnailUrl: '/shared...',
-          description: 'Check your rewards history',
-          steps: [],
+          description: 'Find out how to earn and redeem your rewards.',
+          steps: [
+            {
+              header: 'Where to See Your Rewards',
+              description: `Tap the blue circle at the bottom center, then the middle icon to open the Challenge Page.
+              Switch to the second tab (top left) to view all the rewards you’ve earned.`,
+              mediaUrl: '/shared/assets/images/instructions/Challenges/2.png',
+            },
+            {
+              header: 'How to Claim Your Reward',
+              description: `Once you earn a reward, you’ll have a limited number of days to claim it before it expires.
+
+              To redeem it, visit the club and press the “Use” button inside the app.
+
+              Show the generated QR code to a staff member to receive your reward.`,
+              mediaUrl: '/shared/assets/images/instructions/Challenges/3.png',
+            },
+          ],
         },
         {
           title: 'Leaderboard',
           route: '/instructions/challenges/leaderboard',
           thumbnailUrl: '/shared...',
           description: 'Check the leaderboard',
-          steps: [],
+          steps: [
+            {
+              header: 'Where to View the Leaderboard?',
+              description: `Go to your Profile page, then find and tap the Challenge Leaderboard section.
+
+              You can view your ranking along with the scores of other players.`,
+              mediaUrl: '/shared/assets/images/instructions/Challenges/4.png',
+            },
+          ],
         },
       ],
     },
     meeples: {
       title: 'Meeples',
       summary:
-        'The place where you can join to a group of player, who want to enjoy the game with you.',
+        `Looking for people to play with? 
+        The Meeples section helps you find or create a group of players who want to enjoy the same game as you. Meet new people, connect, and have fun together!`,
       imageUrl: '/shared/assets/images/icons/group-icon-blue.svg',
       topics: [
         {
-          title: 'Meeple Groups',
+          title: 'Meeple Groups / Find Players',
           route: '/instructions/meeples/groups',
           thumbnailUrl: '/shared...',
-          description: 'Join a group',
-          steps: [],
+          description:
+            'Browse and join available groups where players are looking for others to play games with.',
+          steps: [
+            {
+              header: 'View Available Groups & Rooms',
+              description: `Head to your Meeple page to see a list of open rooms created by other players.
+You can browse these and join any group that matches your interest.`,
+              mediaUrl: '/shared/assets/images/instructions/Meeple/2.png',
+            },
+          ],
         },
         {
-          title: 'Find Players',
+          title: 'Create a Room',
           route: '/instructions/meeples/find',
           thumbnailUrl: '/shared...',
-          description: 'Find players',
-          steps: [],
+          description: 'Set up your own room and wait for others to join you for a game session.',
+          steps: [
+            {
+              header: 'Create a Meeple Room',
+              description: `On the Meeple page, tap the green plus (+) button at the top right.
+You’ll be taken to the room creation page, where you can set the game, time, and number of players.`,
+              mediaUrl: '/shared/assets/images/instructions/Meeple/1.png',
+            },
+          ],
+        },
+        {
+          title: 'Join Room',
+          route: '/instructions/meeples/find',
+          thumbnailUrl: '/shared...',
+          description: 'Join room and meet the new people',
+          steps: [
+            {
+              header: 'Join an Existing Room',
+              description: `Browse the list of rooms on the Meeple page. 
+              Tap on a room you’re interested in to view more details and join it.`,
+              mediaUrl: '/shared/assets/images/instructions/Meeple/3.png',
+            },
+            {
+              header: 'Room Info & Chat',
+              description: `Inside each room, you’ll find details about the selected game, scheduled time, and players.
+You can also open the chat to talk to other participants, coordinate, or get updates.`,
+              mediaUrl: '/shared/assets/images/instructions/Meeple/4.png',
+            },
+          ],
         },
       ],
     },
