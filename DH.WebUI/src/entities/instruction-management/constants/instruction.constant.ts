@@ -10,7 +10,7 @@ export const INSTRUCTION_LINK_MAPPINGS: { [key: string]: InstructionSection } =
         {
           title: 'Game',
           route: '/instructions/reservation/game',
-          thumbnailUrl: '/shared...',
+          thumbnailUrl: '/shared/assets/images/instructions/Reservations/Game/3.png',
           description: `Learn how to reserve a game step by step.`,
           steps: [
             {
@@ -60,7 +60,7 @@ export const INSTRUCTION_LINK_MAPPINGS: { [key: string]: InstructionSection } =
         {
           title: 'Table',
           route: '/instructions/reservation/table',
-          thumbnailUrl: '/shared...',
+          thumbnailUrl: '/shared/assets/images/instructions/Reservations/Table/1.png',
           description: 'Learn how to reserve a table.',
           steps: [
             {
@@ -95,7 +95,7 @@ export const INSTRUCTION_LINK_MAPPINGS: { [key: string]: InstructionSection } =
         {
           title: 'Combination',
           route: '/instructions/reservation/combination',
-          thumbnailUrl: '/shared...',
+          thumbnailUrl: '/shared/assets/images/instructions/Reservations/Combination/2.png',
           description:
             'Learn how to combine both a table and a game reservation into one seamless experience.',
           steps: [
@@ -139,7 +139,7 @@ export const INSTRUCTION_LINK_MAPPINGS: { [key: string]: InstructionSection } =
         {
           title: 'Tip #1 Manage Your Room',
           route: '/instructions/reservation/manage-room',
-          thumbnailUrl: '/shared...',
+          thumbnailUrl: '/shared/assets/images/instructions/Reservations/find_my_reservation.gif',
           description:
             'Easily manage your reservation room — see who’s in, update players, and adjust your settings.',
           steps: [
@@ -164,7 +164,7 @@ export const INSTRUCTION_LINK_MAPPINGS: { [key: string]: InstructionSection } =
         {
           title: 'How to Join an Event',
           route: '/instructions/events/all',
-          thumbnailUrl: '/shared...',
+          thumbnailUrl: '/shared/assets/images/instructions/Events/join_event.gif',
           description:
             'Find and join upcoming community events directly from your app.',
           steps: [
@@ -182,7 +182,7 @@ export const INSTRUCTION_LINK_MAPPINGS: { [key: string]: InstructionSection } =
         {
           title: 'How to Leave an Event',
           route: '/instructions/events/all',
-          thumbnailUrl: '/shared...',
+          thumbnailUrl: '/shared/assets/images/instructions/Events/leave_event.gif',
           description: 'Can’t make it? Easily leave an event you’ve joined.',
           steps: [
             {
@@ -199,7 +199,7 @@ export const INSTRUCTION_LINK_MAPPINGS: { [key: string]: InstructionSection } =
         {
           title: 'Stay Informed with Notifications',
           route: '/instructions/events/all',
-          thumbnailUrl: '/shared...',
+          thumbnailUrl: '/shared/assets/images/instructions/Events/2.png',
           description: 'Get notified when new events are created.',
           steps: [
             {
@@ -221,7 +221,7 @@ export const INSTRUCTION_LINK_MAPPINGS: { [key: string]: InstructionSection } =
         {
           title: 'Challenges',
           route: '/instructions/challenges/info',
-          thumbnailUrl: '/shared...',
+          thumbnailUrl: '/shared/assets/images/instructions/Challenges/1.png',
           description: 'Learn where, when, and how to complete challenges.',
           steps: [
             {
@@ -255,7 +255,7 @@ export const INSTRUCTION_LINK_MAPPINGS: { [key: string]: InstructionSection } =
         {
           title: 'Rewards',
           route: '/instructions/challenges/rewards',
-          thumbnailUrl: '/shared...',
+          thumbnailUrl: '/shared/assets/images/instructions/Challenges/2.png',
           description: 'Find out how to earn and redeem your rewards.',
           steps: [
             {
@@ -278,7 +278,7 @@ export const INSTRUCTION_LINK_MAPPINGS: { [key: string]: InstructionSection } =
         {
           title: 'Leaderboard',
           route: '/instructions/challenges/leaderboard',
-          thumbnailUrl: '/shared...',
+          thumbnailUrl: '/shared/assets/images/instructions/Challenges/4.png',
           description: 'Check the leaderboard',
           steps: [
             {
@@ -302,7 +302,7 @@ export const INSTRUCTION_LINK_MAPPINGS: { [key: string]: InstructionSection } =
         {
           title: 'Meeple Groups / Find Players',
           route: '/instructions/meeples/groups',
-          thumbnailUrl: '/shared...',
+          thumbnailUrl: '/shared/assets/images/instructions/Meeples/2.png',
           description:
             'Browse and join available groups where players are looking for others to play games with.',
           steps: [
@@ -310,41 +310,41 @@ export const INSTRUCTION_LINK_MAPPINGS: { [key: string]: InstructionSection } =
               header: 'View Available Groups & Rooms',
               description: `Head to your Meeple page to see a list of open rooms created by other players.
 You can browse these and join any group that matches your interest.`,
-              mediaUrl: '/shared/assets/images/instructions/Meeple/2.png',
+              mediaUrl: '/shared/assets/images/instructions/Meeples/2.png',
             },
           ],
         },
         {
           title: 'Create a Room',
           route: '/instructions/meeples/find',
-          thumbnailUrl: '/shared...',
+          thumbnailUrl: '/shared/assets/images/instructions/Meeples/1.png',
           description: 'Set up your own room and wait for others to join you for a game session.',
           steps: [
             {
               header: 'Create a Meeple Room',
               description: `On the Meeple page, tap the green plus (+) button at the top right.
 You’ll be taken to the room creation page, where you can set the game, time, and number of players.`,
-              mediaUrl: '/shared/assets/images/instructions/Meeple/1.png',
+              mediaUrl: '/shared/assets/images/instructions/Meeples/1.png',
             },
           ],
         },
         {
           title: 'Join Room',
           route: '/instructions/meeples/find',
-          thumbnailUrl: '/shared...',
+          thumbnailUrl: '/shared/assets/images/instructions/Meeples/3.png',
           description: 'Join room and meet the new people',
           steps: [
             {
               header: 'Join an Existing Room',
               description: `Browse the list of rooms on the Meeple page. 
               Tap on a room you’re interested in to view more details and join it.`,
-              mediaUrl: '/shared/assets/images/instructions/Meeple/3.png',
+              mediaUrl: '/shared/assets/images/instructions/Meeples/3.png',
             },
             {
               header: 'Room Info & Chat',
               description: `Inside each room, you’ll find details about the selected game, scheduled time, and players.
 You can also open the chat to talk to other participants, coordinate, or get updates.`,
-              mediaUrl: '/shared/assets/images/instructions/Meeple/4.png',
+              mediaUrl: '/shared/assets/images/instructions/Meeples/4.png', 
             },
           ],
         },

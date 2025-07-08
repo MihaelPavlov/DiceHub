@@ -1,4 +1,8 @@
-<app-header header="Instructions" [withBackBtn]="true" (backClicked)="navigateBack()"></app-header>
+<app-header
+  header="Instructions"
+  [withBackBtn]="true"
+  (backClicked)="navigateBack()"
+></app-header>
 
 <div class="wrapper_info">
   <div class="image">
@@ -18,12 +22,8 @@
     class="wrapper_item"
     (click)="navigateToLink(link.route)"
   >
-  <!-- TODO: Change this to thumbnailUrl -->
     <div class="wrapper_image">
-      <img
-        src="../../../../shared/assets/images/instructions/third_try.png"
-        alt="Image"
-      />
+      <img [src]="link.thumbnailUrl" alt="Image" />
     </div>
     <div class="wrapper_title">
       <span>{{ link.title }}</span>
