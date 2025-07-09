@@ -11,7 +11,12 @@
       <ng-container>
         <div class="wrapper">
           <div class="wrapper_image">
-            <img [src]="gifSrcMap[i]" alt="Image" />
+            <img
+              class="clickable"
+              (click)="openImagePreview(gifSrcMap[i])"
+              [src]="gifSrcMap[i]"
+              alt="Image"
+            />
           </div>
           <div class="wrapper_link">
             <div class="name">{{ linkInfo[i].header }}</div>

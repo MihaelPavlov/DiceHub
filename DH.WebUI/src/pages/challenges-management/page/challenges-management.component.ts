@@ -31,7 +31,6 @@ import {
   ImagePreviewData,
 } from '../../../shared/dialogs/image-preview/image-preview.dialog';
 import { MatDialog } from '@angular/material/dialog';
-import { LoadingService } from '../../../shared/services/loading.service';
 
 @Component({
   selector: 'app-challenges-management',
@@ -86,7 +85,6 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
   constructor(
     private readonly rewardsService: RewardsService,
     private readonly challengeService: ChallengesService,
-    private readonly loadingService: LoadingService,
     private readonly tenantSettingsService: TenantSettingsService,
     private readonly cd: ChangeDetectorRef,
     private renderer: Renderer2,

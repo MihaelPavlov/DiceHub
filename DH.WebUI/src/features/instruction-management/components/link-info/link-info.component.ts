@@ -9,6 +9,11 @@ import {
   ViewChild,
 } from '@angular/core';
 import { InstructionStep } from '../../../../entities/instruction-management/models/instruction.model';
+import {
+  ImagePreviewDialog,
+  ImagePreviewData,
+} from '../../../../shared/dialogs/image-preview/image-preview.dialog';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-link-info',
@@ -32,7 +37,10 @@ export class LinkInfoComponent implements AfterViewInit {
   @ViewChild('carouselViewport', { static: false })
   carouselViewport!: ElementRef;
 
-  constructor(private cd: ChangeDetectorRef) {}
+  constructor(
+    private cd: ChangeDetectorRef,
+    private readonly dialog: MatDialog
+  ) {}
 
   public ngAfterViewInit(): void {
     // Ensure snapping after manual scrolls
@@ -54,6 +62,17 @@ export class LinkInfoComponent implements AfterViewInit {
         id: i + 1,
       }));
     }
+  }
+
+  public openImagePreview(imageUrl: string) {
+    this.dialog.open<ImagePreviewDialog, ImagePreviewData>(ImagePreviewDialog, {
+      data: {
+        imageUrl,
+        title: 'Image',
+        removeHeight: true
+      },
+      width: '17rem',
+    });
   }
 
   public get getCurrentLinkInfo(): InstructionStep {
