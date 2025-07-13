@@ -1,5 +1,4 @@
-﻿
-using DH.Adapter.Authentication.Entities;
+﻿using DH.Adapter.Authentication.Entities;
 using DH.Adapter.Authentication.Helper;
 using DH.Domain.Adapters.Authentication;
 using DH.Domain.Adapters.Authentication.Models;
@@ -14,7 +13,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Security.Claims;
 
 namespace DH.Adapter.Authentication.Services;
@@ -35,6 +33,8 @@ public class UserService : IUserService
     readonly IRepository<UserDeviceToken> userDeviceTokenRepository;
     readonly IUserContext userContext;
     readonly ILogger<UserService> logger;
+    readonly IRepository<TenantSetting> tenantSettingsRepository;
+
     /// <summary>
     /// Constructor for UserService to initialize dependencies.
     /// </summary>
@@ -43,7 +43,7 @@ public class UserService : IUserService
         UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager,
         IPermissionStringBuilder permissionStringBuilder, SynchronizeUsersChallengesQueue queue,
         IPushNotificationsService pushNotificationsService, IRepository<UserDeviceToken> userDeviceTokenRepository,
-        IUserContext userContext, ILogger<UserService> logger)
+        IUserContext userContext, ILogger<UserService> logger, IRepository<TenantSetting> tenantSettingsRepository)
     {
         _httpContextAccessor = httpContextAccessor;
         this.signInManager = signInManager;
@@ -56,6 +56,7 @@ public class UserService : IUserService
         this.userDeviceTokenRepository = userDeviceTokenRepository;
         this.userContext = userContext;
         this.logger = logger;
+        this.tenantSettingsRepository = tenantSettingsRepository;
     }
 
     /// <inheritdoc />
@@ -357,6 +358,62 @@ public class UserService : IUserService
         };
     }
 
+    public async Task<OwnerResult> CreateOwner(CreateOwnerRequest request, CancellationToken cancellationToken)
+    {
+        if (!await this.HasUserAnyMatchingRole(this.userContext.UserId, Role.SuperAdmin))
+            throw new BadRequestException("Only SuperAdmin can add owner");
+
+        if (!request.FieldsAreValid(out var validationErrors))
+            throw new ValidationErrorsException(validationErrors);
+
+        var owner = await this.userManager.GetUsersInRoleAsync(Role.Owner.ToString());
+        if (owner.Count > 1)
+            throw new ValidationErrorsException("Owner", "Owner already exist, already exist");
+
+        var existingUserByEmail = await this.userManager.FindByEmailAsync(request.Email);
+        if (existingUserByEmail != null)
+            throw new ValidationErrorsException("Exist", "Player with that Email, already exist");
+
+        var username = request.Email;
+        var existingUserByUsername = await this.userManager.FindByNameAsync(username);
+        if (existingUserByUsername != null)
+            throw new ValidationErrorsException("Exist", "A player with the same first and last name already exists.");
+
+        var user = new ApplicationUser()
+        {
+            UserName = username,
+            Email = request.Email,
+            PhoneNumber = request.ClubPhoneNumber,
+            EmailConfirmed = true
+        };
+        var generatedRandomPassword = GenerateRandomPassword();
+        var createUserResult = await userManager.CreateAsync(user, generatedRandomPassword);
+        if (!createUserResult.Succeeded)
+            throw new BadRequestException("User registration failed!");
+
+        if (!await this.roleManager.Roles.AnyAsync(x => x.Name == Role.Owner.ToString()))
+            throw new BadRequestException("User registration failed!");
+
+        await this.userManager.AddToRoleAsync(user, Role.Owner.ToString());
+
+        var afterRegister = await this.userManager.FindByEmailAsync(request.Email);
+        if (afterRegister is null)
+            throw new NotFoundException("User was not created");
+
+        var dbSettings = await this.tenantSettingsRepository.GetByAsyncWithTracking(x => x.Id == 1, cancellationToken);
+        if (dbSettings != null)
+        {
+            dbSettings.ClubName = request.ClubName;
+            dbSettings.PhoneNumber = request.ClubPhoneNumber;
+            await this.tenantSettingsRepository.SaveChangesAsync(cancellationToken);
+        }
+
+        return new OwnerResult
+        {
+            Email = afterRegister.Email!,
+        };
+    }
+
     public async Task CreateEmployeePassword(CreateEmployeePasswordRequest request)
     {
         var user = await this.userManager.FindByEmailAsync(request.Email);
@@ -372,7 +429,27 @@ public class UserService : IUserService
         var result = await this.userManager.ResetPasswordAsync(user!, request.Token, request.NewPassword);
 
         if (!result.Succeeded)
-            throw new ValidationErrorsException("Password", @"Create Employee Password was not succesfully, 
+            throw new ValidationErrorsException("Password", @"Create Employee Password was not successfully, 
+                try again later, or contact us via email");
+    }
+
+
+    public async Task CreateOwnerPassword(CreateOwnerPasswordRequest request)
+    {
+        var user = await this.userManager.FindByEmailAsync(request.Email);
+        if (user.IsInvalid())
+            throw new NotFoundException("User was not found");
+
+        if (!request.ClubPhoneNumber.Equals(request.ClubPhoneNumber))
+            throw new ValidationErrorsException("ClubPhoneNumber", "Provided club phone number does not match the one associated with this account");
+
+        if (!request.NewPassword.Equals(request.ConfirmPassword))
+            throw new ValidationErrorsException("Password", "Password are not identical!");
+
+        var result = await this.userManager.ResetPasswordAsync(user!, request.Token, request.NewPassword);
+
+        if (!result.Succeeded)
+            throw new ValidationErrorsException("Password", @"Create Owner Password was not successfully, 
                 try again later, or contact us via email");
     }
 

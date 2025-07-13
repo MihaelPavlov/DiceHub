@@ -102,6 +102,14 @@ public class UserController : ControllerBase
     }
 
     [AllowAnonymous]
+    [HttpPost("create-owner-password")]
+    public async Task<IActionResult> CreateOwnerPassword([FromBody] CreateOwnerPasswordRequest request)
+    {
+        await this.userService.CreateOwnerPassword(request);
+        return this.Ok();
+    }
+
+    [AllowAnonymous]
     [HttpPost("register-notification")]
     public async Task<IActionResult> RegisterNotification([FromBody] RegistrationNotifcation form)
     {
@@ -235,6 +243,20 @@ public class UserController : ControllerBase
     public async Task<IActionResult> DeleteEmployee(string employeeId, CancellationToken cancellationToken)
     {
         await this.userService.DeleteEmployee(employeeId);
+        return Ok();
+    }
+
+    [Authorize]
+    [HttpPost("create-owner")]
+    [ActionAuthorize(UserAction.OwnerCRUD)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> CreateOwner([FromBody] CreateOwnerRequest request, CancellationToken cancellationToken)
+    {
+        var ownerResult = await this.userService.CreateOwner(request, cancellationToken);
+
+        await this.mediator.Send(new SendOwnerCreatePasswordEmailCommand(
+            ownerResult.Email), cancellationToken);
+
         return Ok();
     }
 

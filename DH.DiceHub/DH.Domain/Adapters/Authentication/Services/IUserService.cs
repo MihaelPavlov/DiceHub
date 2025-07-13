@@ -62,8 +62,10 @@ public interface IUserService
     /// <param name="cancellationToken"></param>
     Task<EmployeeResult> CreateEmployee(CreateEmployeeRequest request, CancellationToken cancellationToken);
     Task CreateEmployeePassword(CreateEmployeePasswordRequest request);
+    Task CreateOwnerPassword(CreateOwnerPasswordRequest request);
     Task<EmployeeResult> UpdateEmployee(UpdateEmployeeRequest request, CancellationToken cancellationToken);
 
+    Task<OwnerResult> CreateOwner(CreateOwnerRequest request, CancellationToken cancellationToken);
     /// <summary>
     /// Delete employee
     /// </summary>

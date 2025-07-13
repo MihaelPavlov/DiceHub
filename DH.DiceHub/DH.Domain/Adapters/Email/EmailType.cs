@@ -6,6 +6,7 @@ public enum EmailType
     EmployeePasswordCreation,
     ForgotPasswordReset,
     PartnerInquiryRequest,
+    OwnerPasswordCreation,
 }
 
 public static class RegistrationEmailTemplateKeys
@@ -32,4 +33,10 @@ public static class PartnerInquiryRequest
     public const string Email = "Email";
     public const string Message = "Message";
     public const string PhoneNumber= "PhoneNumber";
+}
+
+public static class OwnerPasswordCreation
+{
+    public const string ClubName = "ClubName";
+    public const string CreatePasswordUrl = "CreatePasswordUrl";
 }

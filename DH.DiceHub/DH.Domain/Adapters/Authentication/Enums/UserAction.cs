@@ -32,4 +32,5 @@ public enum UserAction
     EmployeesCRUD = 22,
     EventsAdminRead = 23,
     UsersRead = 24,
+    OwnerCRUD = 25
 }

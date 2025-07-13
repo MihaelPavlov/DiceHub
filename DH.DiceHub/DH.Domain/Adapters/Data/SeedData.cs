@@ -366,7 +366,7 @@ public static class SeedData
 </html>
 "
         },
-           new ()
+        new ()
         {
             Id = 4,
             TemplateName = EmailType.PartnerInquiryRequest.ToString(),
@@ -461,7 +461,119 @@ public static class SeedData
   </body>
 </html>
 "
-        }
+        },
+        new ()
+        {
+            Id = 5,
+            TemplateName = EmailType.OwnerPasswordCreation.ToString(),
+            Subject = "Welcome Owner of {{ClubName}} – Create Your Account Password",
+            TemplateHtml = @"
+<!DOCTYPE html>
+<html lang=""en"">
+  <head>
+    <meta charset=""UTF-8"" />
+    <title>Confirm Your Email</title>
+    <style>
+      body {
+        background-color: #20232a;
+        margin: 0;
+        padding: 0;
+        color: white;
+      }
+
+      .wrapper {
+        max-width: 500px;
+        max-height: 700px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin: 2rem auto;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 2, 1, 1);
+      }
+
+      .interactive-option {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 1rem;
+      }
+
+      .icon_wrapper {
+        width: 5rem;
+        height: 5rem;
+        border-radius: 50px;
+        background: #75a0ff;
+        box-shadow: 0 0 0 12px #20232a;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .icon {
+        width: 3rem;
+        height: 3rem;
+        fill: white;
+      }
+
+      .header {
+        text-align: center;
+        font-size: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .content p {
+        font-size: 1rem;
+        line-height: 1.6;
+      }
+
+      .link {
+        text-align: center;
+        margin: 1rem;
+      }
+
+      .link a {
+        appearance: none;
+        text-decoration: none;
+        border: none;
+        border-radius: 2rem;
+        color: white;
+        cursor: pointer;
+        font-weight: 600;
+        padding: 0.65rem 1rem;
+        font-size: 1rem;
+        background-color: #75a0ff;
+        display: flex;
+        justify-content: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class=""wrapper"">
+        <div class=""interactive-option"">
+          <div class=""icon_wrapper"">
+            <svg class=""icon"" viewBox=""0 -960 960 960"">
+              <path
+                d=""M750.54-116.15 638.15-229.31l-88 88-11.07-11.07q-26.39-26.39-26.39-63.47 0-37.07 26.39-63.46l145.61-145.61q26.39-26.39 63.46-26.39 37.08 0 63.47 26.39l11.07 11.07-88 88 113.16 113.39q13.69 13.69 13.69 31.61 0 17.93-13.69 31.62l-33.08 33.08q-13.69 13.69-32.12 13.69-18.42 0-32.11-13.69ZM853-735.92 408.31-290.46l24.61 25.38q16.39 26.39 13.39 57.46-3 31.08-26.39 54.47l-11.07 11.07-88-88-113.39 114.16q-13.69 13.69-31.61 13.69-17.93 0-31.62-13.69L110.15-150q-13.69-13.69-13.69-31.62 0-17.92 13.69-31.61l114.16-113.39-88-88 11.07-11.07q23.39-23.39 54.97-26.39 31.57-3 57.96 14.39l26.15 25.38L731.92-857H853v121.08ZM333-601l14.23-15.77 14-14-14 14L333-601Zm-46.31 45.54L107-735.92V-857h121.08L407-677.31l-45.77 46.54L201-791h-28v28l160 162-46.31 45.54ZM363-337l424-426v-28h-28L334-366l29 29Zm0 0-13.23-15.77L334-366l15.77 13.23L363-337Z""
+              />
+            </svg>
+          </div>
+        </div>
+        <div class=""header"">{{ClubName}}</div>
+      <div class=""content"">
+         <p>Hello and welcome!</p>
+            <p>Your owner account for <strong>{{ClubName}}</strong> has been successfully created.</p>
+            <p>To get started, you'll need to set your password and verify your identity.</p>
+            <p>Please click the button below to begin the setup process. As part of the setup, we’ll confirm your phone number to ensure it matches your registration details.</p>
+            <p class=""link""><a href=""{{CreatePasswordUrl}}"">Set Up Your Password</a></p>
+            <p>This link is valid for 24 hours. If it expires, please contact support to request a new one.</p>
+            <p>We’re excited to have you on board and look forward to supporting your club!</p>
+      </div>
+    </div>
+  </body>
+</html>
+"
+        },
     };
 
     public static readonly List<CreateGameDto> GAME_LIST_DTOS = new List<CreateGameDto>
