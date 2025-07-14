@@ -102,6 +102,19 @@
       margin-bottom: 0.5rem;
     }
 
+    .wrapper_remove {
+      background: palette.$main-red-color;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      margin: 0 0.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+
     .wrapper_menu_btn {
       background: palette.$main-icon-color;
       display: flex;

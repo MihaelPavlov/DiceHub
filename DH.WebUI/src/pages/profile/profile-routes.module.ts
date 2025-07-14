@@ -7,6 +7,8 @@ import { SettingsUserAccessGuard } from './guards/settings-user-access.guard';
 import { SettingsOwnerAccessGuard } from './guards/settings-owner-access.guard';
 import { EmployeeListComponent } from '../../features/profile/components/employee-list/employee-list.component';
 import { AddUpdateEmployeeComponent } from '../../features/profile/components/add-employee/add-update-employee.component';
+import { OwnerDetailsComponent } from '../../features/profile/components/owner-details/owner-details.component';
+import { SettingsSuperAdminAccessGuard } from './guards/settings-super-admin-access.guard';
 
 const routes: Routes = [
   {
@@ -38,6 +40,16 @@ const routes: Routes = [
     component: AddUpdateEmployeeComponent,
     canActivate: [SettingsOwnerAccessGuard],
   },
+  {
+    path: 'owner-details',
+    component: OwnerDetailsComponent,
+    canActivate: [SettingsSuperAdminAccessGuard],
+  },
+  // {
+  //   path: 'add-owner',
+  //   component: AddOwnerComponent,
+  //   canActivate: [SettingsSuperAdminAccessGuard],
+  // },
 ];
 
 @NgModule({

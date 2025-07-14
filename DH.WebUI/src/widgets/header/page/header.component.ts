@@ -25,6 +25,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   @Input() withHistoryBtn: boolean = false;
   @Input() withSearch: boolean = false;
   @Input() withAdd: boolean = false;
+  @Input() withRemove: boolean = false;
   @Input() withMenu: boolean = false;
   @Input() withQRcode: boolean = false;
   @Input() withBottomLine: boolean = false;
@@ -35,6 +36,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   @Input() withScrollAnimation: boolean = true;
   @Input() menuItemClickFunction!: (option: string) => void;
   @Output() addClicked: EventEmitter<void> = new EventEmitter<void>();
+  @Output() removeClicked: EventEmitter<void> = new EventEmitter<void>();
   @Output() backClicked: EventEmitter<void> = new EventEmitter<void>();
   @Output() historyClicked: EventEmitter<void> = new EventEmitter<void>();
   @Output() searchExpressionResult: EventEmitter<string> =
@@ -63,6 +65,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     return (
       this.withSearch ||
       this.withAdd ||
+      this.withRemove ||
       this.withMenu ||
       this.withQRcode ||
       this.withHistoryBtn
@@ -94,6 +97,10 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   public onAddClick(): void {
     this.addClicked.emit();
+  }
+
+  public onRemoveClick(): void {
+    this.removeClicked.emit();
   }
 
   public onBackClick(): void {

@@ -247,6 +247,16 @@ public class UserController : ControllerBase
     }
 
     [Authorize]
+    [HttpGet("get-owner")]
+    [ActionAuthorize(UserAction.OwnerCRUD)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OwnerResult))]
+    public async Task<IActionResult> GetOwner(CancellationToken cancellationToken)
+    {
+        var owner = await this.userService.GetOwner(cancellationToken);
+        return Ok(owner);
+    }
+
+    [Authorize]
     [HttpPost("create-owner")]
     [ActionAuthorize(UserAction.OwnerCRUD)]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -256,6 +266,17 @@ public class UserController : ControllerBase
 
         await this.mediator.Send(new SendOwnerCreatePasswordEmailCommand(
             ownerResult.Email), cancellationToken);
+
+        return Ok();
+    }
+
+    [Authorize]
+    [HttpDelete("delete-owner")]
+    [ActionAuthorize(UserAction.OwnerCRUD)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> DeleteOwner(CancellationToken cancellationToken)
+    {
+        await this.userService.DeleteOwner(cancellationToken);
 
         return Ok();
     }

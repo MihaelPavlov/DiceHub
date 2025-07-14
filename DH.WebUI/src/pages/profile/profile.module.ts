@@ -10,6 +10,7 @@ import { EmployeeListComponent } from '../../features/profile/components/employe
 import { AddUpdateEmployeeComponent } from '../../features/profile/components/add-employee/add-update-employee.component';
 import { EmployeeConfirmDeleteDialog } from '../../features/profile/dialogs/employee-confirm-delete/employee-confirm-delete.component';
 import { MatDialogActions, MatDialogClose } from '@angular/material/dialog';
+import { OwnerDetailsComponent } from '../../features/profile/components/owner-details/owner-details.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { MatDialogActions, MatDialogClose } from '@angular/material/dialog';
     EmployeeListComponent,
     AddUpdateEmployeeComponent,
     EmployeeConfirmDeleteDialog,
+    OwnerDetailsComponent,
   ],
   exports: [],
   providers: [],

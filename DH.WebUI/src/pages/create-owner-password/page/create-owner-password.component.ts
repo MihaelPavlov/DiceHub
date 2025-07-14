@@ -15,19 +15,19 @@ import { ToastType } from '../../../shared/models/toast.model';
 import { ToastService } from '../../../shared/services/toast.service';
 import { ROUTE } from '../../../shared/configs/route.config';
 
-interface ICreateEmployeePasswordForm {
-  phoneNumber: string;
+interface ICreateOwnerPasswordForm {
+  clubPhoneNumber: string;
   newPassword: string;
   confirmPassword: string;
 }
 
 @Component({
-  selector: 'app-create-employee-password',
-  templateUrl: 'create-employee-password.component.html',
-  styleUrl: 'create-employee-password.component.scss',
+  selector: 'app-create-owner-password',
+  templateUrl: 'create-owner-password.component.html',
+  styleUrl: 'create-owner-password.component.scss',
 })
-export class CreateEmployeePasswordComponent extends Form implements OnInit {
-  override form: Formify<ICreateEmployeePasswordForm>;
+export class CreateOwnerPasswordComponent extends Form implements OnInit {
+  override form: Formify<ICreateOwnerPasswordForm>;
 
   public showNewPassword = false;
   public showConfirmPassword = false;
@@ -43,6 +43,8 @@ export class CreateEmployeePasswordComponent extends Form implements OnInit {
     private readonly fb: FormBuilder,
     private readonly tenantSettingsService: TenantSettingsService
   ) {
+    console.log('---------CREATE OWNER PASSWORD------------');
+    
     super(toastService);
     this.form = this.initFormGroup();
     this.form.valueChanges.subscribe(() => {
@@ -75,9 +77,9 @@ export class CreateEmployeePasswordComponent extends Form implements OnInit {
   public onSubmit(): void {
     if (this.form.valid && this.email && this.token) {
       this.authService
-        .createEmployeePassword({
+        .createOwnerPassword({
           email: this.email,
-          phoneNumber: this.form.controls.phoneNumber.value,
+          clubPhoneNumber: this.form.controls.clubPhoneNumber.value,
           newPassword: this.form.controls.newPassword.value,
           confirmPassword: this.form.controls.confirmPassword.value,
           token: this.token,
@@ -90,7 +92,7 @@ export class CreateEmployeePasswordComponent extends Form implements OnInit {
             });
             setTimeout(() => {
               this.router.navigate([ROUTE.LOGIN], {
-                queryParams: { fromCreateEmployeePassword: 'true' },
+                queryParams: { fromResetPassword: 'true' },
               });
             }, 4000);
           },
@@ -98,8 +100,9 @@ export class CreateEmployeePasswordComponent extends Form implements OnInit {
             if (error.error.errors.Password)
               this.getServerErrorMessage = error.error.errors.Password[0];
 
-            if (error.error.errors.PhoneNumber)
-              this.getServerErrorMessage = error.error.errors.PhoneNumber[0];
+            if (error.error.errors.ClubPhoneNumber)
+              this.getServerErrorMessage =
+                error.error.errors.ClubPhoneNumber[0];
 
             this.toastService.error({
               type: ToastType.Error,
@@ -117,8 +120,8 @@ export class CreateEmployeePasswordComponent extends Form implements OnInit {
 
   protected override getControlDisplayName(controlName: string): string {
     switch (controlName) {
-      case 'phoneNumber':
-        return 'Phone Number';
+      case 'clubPhoneNumber':
+        return 'Club Phone Number';
       case 'newPassword':
         return 'New Password';
       case 'confirmPassword':
@@ -134,7 +137,7 @@ export class CreateEmployeePasswordComponent extends Form implements OnInit {
 
   private initFormGroup(): FormGroup {
     return this.fb.group({
-      phoneNumber: new FormControl<string>('', [Validators.required]),
+      clubPhoneNumber: new FormControl<string>('', [Validators.required]),
       newPassword: new FormControl<string>('', [Validators.required]),
       confirmPassword: new FormControl<string>('', [Validators.required]),
     });

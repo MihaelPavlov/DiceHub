@@ -1,0 +1,72 @@
+@use "../../../../shared/assets/styles/palette";
+
+.wrapper_library {
+  display: flex;
+  flex-direction: column;
+  width: 85%;
+  padding-bottom: 7rem;
+  margin: 0 auto;
+  padding-top: 1.5rem;
+  overflow-y: visible;
+  .wrapper_info {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+
+    .wrapper_title {
+      padding-left: 1rem;
+      font-size: large;
+      padding-top: 0.2rem;
+      align-self: baseline;
+      word-break: break-all;
+      width: 80%;
+    }
+  }
+}
+
+ .reward-container {
+    border: 0.2rem dashed palette.$main-nav-color;
+    border-radius: 1rem;
+    padding: 0rem 1rem;
+    padding-top: 0.7rem;
+    margin:1rem;
+  }
+
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .inputs {
+    display: flex;
+    flex-direction: column;
+
+    .input-group {
+      .input-field input {
+        padding: 0.6rem;
+      }
+
+      .input-field label {
+        color: palette.$main-font-gray-color;
+      }
+    }
+  }
+
+  .create-btn {
+    display: flex;
+    margin: 0 auto;
+    margin-bottom: 1rem;
+  }
+
+  .close-container {
+    display: flex;
+    justify-content: end;
+
+    .input-remove {
+      font-weight: bold;
+      width: 1.5rem;
+      height: 1.5rem;
+      fill: palette.$main-font-color;
+    }
+  }

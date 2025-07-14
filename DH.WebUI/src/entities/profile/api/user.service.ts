@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { IUser } from '../models/user.model';
 import { PATH } from '../../../shared/configs/path.config';
 import { GetUserStats } from '../models/get-user-stats.interface';
+import { IOwnerResult } from '../models/owner-result.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +23,17 @@ export class UsersService {
       `/${PATH.USER.CORE}/${PATH.USER.GET_EMPLOYEE_BY_ID}/${employeeId}`
     );
   }
+
+  public getOwner(): Observable<IOwnerResult | null> {
+    return this.api.get<IOwnerResult>(
+      `/${PATH.USER.CORE}/${PATH.USER.GET_OWNER}`
+    );
+  }
+
+  public deleteOwner(): Observable<null> {
+    return this.api.delete(`/${PATH.USER.CORE}/${PATH.USER.DELETE_OWNER}`);
+  }
+
   public getUserList(): Observable<IUser[] | null> {
     return this.api.get<IUser[]>(
       `/${PATH.USER.CORE}/${PATH.USER.GET_USER_LIST}`
@@ -45,6 +57,18 @@ export class UsersService {
       lastName,
       email,
       phoneNumber,
+    });
+  }
+
+  public createOwner(
+    email: string,
+    clubPhoneNumber: string,
+    clubName: string
+  ): Observable<null> {
+    return this.api.post(`/${PATH.USER.CORE}/${PATH.USER.CREATE_OWNER}`, {
+      email,
+      clubPhoneNumber,
+      clubName,
     });
   }
 

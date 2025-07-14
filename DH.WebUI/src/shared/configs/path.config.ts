@@ -121,6 +121,9 @@ export const PATH = {
     CREATE_EMPLOYEE: 'create-employee',
     UPDATE_EMPLOYEE: 'update-employee',
     DELETE_EMPLOYEE: 'delete-employee',
+    CREATE_OWNER: 'create-owner',
+    GET_OWNER: 'get-owner',
+    DELETE_OWNER: 'delete-owner',
     GET_USER_STATS: 'get-user-stats',
   },
   STATISTICS: {

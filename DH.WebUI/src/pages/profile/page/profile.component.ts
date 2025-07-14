@@ -43,6 +43,10 @@ export class ProfileComponent implements OnDestroy {
     return this.authService.getUser?.role !== UserRole.User;
   }
 
+   public isSuperAdmin(): boolean {
+    return this.authService.getUser?.role === UserRole.SuperAdmin;
+  }
+
   public navigateToSettings(): void {
     if (this.authService.getUser?.role === UserRole.Owner)
       this.router.navigateByUrl('profile/settings');
@@ -53,6 +57,10 @@ export class ProfileComponent implements OnDestroy {
 
   public navigateToEmployeeList(): void {
     this.router.navigateByUrl('profile/employees');
+  }
+
+  public navigateToOwnerDetails(): void {
+    this.router.navigateByUrl('profile/owner-details');
   }
 
   public navigateToInstructions(): void {

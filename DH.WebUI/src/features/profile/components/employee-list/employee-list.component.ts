@@ -19,9 +19,8 @@ import { EmployeeConfirmDeleteDialog } from '../../dialogs/employee-confirm-dele
 export class EmployeeListComponent implements OnDestroy {
   public employees: IUser[] = [];
   public readonly ImageEntityType = ImageEntityType;
-  public expandedReservationId: BehaviorSubject<string | null> =
+  public expandedEmployeeId: BehaviorSubject<string | null> =
     new BehaviorSubject<string | null>(null);
-  public isInfoForExpiredRecordVisible: boolean = false;
 
   constructor(
     private readonly menuTabsService: MenuTabsService,
@@ -43,16 +42,13 @@ export class EmployeeListComponent implements OnDestroy {
     });
   }
   public toggleItem(reservationId: string): void {
-    this.expandedReservationId.next(
-      this.expandedReservationId.value === reservationId ? null : reservationId
+    this.expandedEmployeeId.next(
+      this.expandedEmployeeId.value === reservationId ? null : reservationId
     );
-
-    if (this.expandedReservationId.value === null)
-      this.isInfoForExpiredRecordVisible = false;
   }
 
   public isExpanded(reservationId: string): boolean {
-    return this.expandedReservationId.value === reservationId;
+    return this.expandedEmployeeId.value === reservationId;
   }
 
   public ngOnDestroy(): void {

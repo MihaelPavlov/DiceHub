@@ -24,6 +24,7 @@ import { ForgotPasswordModule } from '../pages/forgot-password/forgot-password.m
 import { ResetPasswordModule } from '../pages/reset-password/reset-password.module';
 import { AuthRedirectGuard } from '../shared/guards/auth-redirect.guard';
 import { CreateEmployeePasswordModule } from '../pages/create-employee-password/create-employee-password.module';
+import { CreateOwnerPasswordModule } from '../pages/create-owner-password/create-owner-password.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -61,6 +62,7 @@ import { CreateEmployeePasswordModule } from '../pages/create-employee-password/
     ForgotPasswordModule,
     ResetPasswordModule,
     CreateEmployeePasswordModule,
+    CreateOwnerPasswordModule,
     HeaderModule,
     AssistiveTouchModule,
     RouterOutlet,

@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Security.Claims;
+using System.Threading;
 
 namespace DH.Adapter.Authentication.Services;
 
@@ -433,15 +434,20 @@ public class UserService : IUserService
                 try again later, or contact us via email");
     }
 
-
     public async Task CreateOwnerPassword(CreateOwnerPasswordRequest request)
     {
         var user = await this.userManager.FindByEmailAsync(request.Email);
         if (user.IsInvalid())
             throw new NotFoundException("User was not found");
 
-        if (!request.ClubPhoneNumber.Equals(request.ClubPhoneNumber))
-            throw new ValidationErrorsException("ClubPhoneNumber", "Provided club phone number does not match the one associated with this account");
+        var dbSettings = await this.tenantSettingsRepository.GetByAsync(x => x.Id == 1, CancellationToken.None);
+        if (dbSettings != null)
+        {
+            if (!request.ClubPhoneNumber.Equals(dbSettings.PhoneNumber))
+                throw new ValidationErrorsException(
+                    "ClubPhoneNumber",
+                    "Provided club phone number does not match the one associated with this account");
+        }
 
         if (!request.NewPassword.Equals(request.ConfirmPassword))
             throw new ValidationErrorsException("Password", "Password are not identical!");
@@ -554,5 +560,44 @@ public class UserService : IUserService
     public async Task<string[]> GetAllUserIds(CancellationToken cancellationToken)
     {
         return await this.userManager.Users.Select(x => x.Id).ToArrayAsync(cancellationToken);
+    }
+
+    public async Task<OwnerResult?> GetOwner(CancellationToken cancellationToken)
+    {
+        // Check if the role exists
+        if (!await this.roleManager.RoleExistsAsync(Role.Owner.ToString()))
+            throw new InfrastructureException("Role Owner does not exist.");
+
+        // Get users in the specified role
+        var usersInRole = await this.userManager.GetUsersInRoleAsync(Role.Owner.ToString());
+
+        if (usersInRole == null)
+            return null;
+
+        if (usersInRole.Count() > 1)
+            throw new InfrastructureException("More then one Owner are founded.");
+
+        return new OwnerResult
+        {
+            Email = usersInRole.First().Email!
+        };
+    }
+
+    public async Task DeleteOwner(CancellationToken cancellationToken)
+    {
+        // Check if the role exists
+        if (!await this.roleManager.RoleExistsAsync(Role.Owner.ToString()))
+            throw new InfrastructureException("Role Owner does not exist.");
+
+        // Get users in the specified role
+        var usersInRole = await this.userManager.GetUsersInRoleAsync(Role.Owner.ToString());
+
+        if (usersInRole == null)
+            throw new InfrastructureException("Owner for deletion not found.");
+
+        if (usersInRole.Count() > 1)
+            throw new InfrastructureException("More then one Owner are founded.");
+
+        await this.userManager.DeleteAsync(usersInRole.First());
     }
 }

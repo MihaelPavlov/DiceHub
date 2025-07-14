@@ -9,6 +9,7 @@ import { ResetPasswordComponent } from '../../pages/reset-password/page/reset-pa
 import { AuthRedirectGuard } from '../../shared/guards/auth-redirect.guard';
 import { CreateEmployeePasswordComponent } from '../../pages/create-employee-password/page/create-employee-password.component';
 import { LandingComponent } from '../../pages/landing/page/landing.component';
+import { CreateOwnerPasswordComponent } from '../../pages/create-owner-password/page/create-owner-password.component';
 
 export const ROUTES: Routes = [
   {
@@ -141,6 +142,12 @@ export const ROUTES: Routes = [
   {
     path: 'create-employee-password',
     component: CreateEmployeePasswordComponent,
+    canActivate: [AuthRedirectGuard],
+    data: { hideMenu: true },
+  },
+  {
+    path: 'create-owner-password',
+    component: CreateOwnerPasswordComponent,
     canActivate: [AuthRedirectGuard],
     data: { hideMenu: true },
   },

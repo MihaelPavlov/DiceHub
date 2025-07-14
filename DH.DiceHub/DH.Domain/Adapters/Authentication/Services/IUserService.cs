@@ -66,6 +66,9 @@ public interface IUserService
     Task<EmployeeResult> UpdateEmployee(UpdateEmployeeRequest request, CancellationToken cancellationToken);
 
     Task<OwnerResult> CreateOwner(CreateOwnerRequest request, CancellationToken cancellationToken);
+    Task<OwnerResult?> GetOwner(CancellationToken cancellationToken);
+    Task DeleteOwner(CancellationToken cancellationToken);
+
     /// <summary>
     /// Delete employee
     /// </summary>

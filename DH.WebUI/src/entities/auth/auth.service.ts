@@ -13,6 +13,7 @@ import { AppToastMessage } from '../../shared/components/toast/constants/app-toa
 import { TenantSettingsService } from '../common/api/tenant-settings.service';
 import { FULL_ROUTE } from '../../shared/configs/route.config';
 import { UserRole } from './enums/roles.enum';
+import { ICreateOwnerPasswordRequest } from './models/create-owner-password.model';
 
 @Injectable({
   providedIn: 'root',
@@ -60,6 +61,12 @@ export class AuthService {
     request: ICreateEmployeePasswordRequest
   ): Observable<any> {
     return this.api.post(`/user/create-employee-password`, request);
+  }
+
+    public createOwnerPassword(
+    request: ICreateOwnerPasswordRequest
+  ): Observable<any> {
+    return this.api.post(`/user/create-owner-password`, request);
   }
 
   public resetPassword(request: IResetPasswordRequest): Observable<any> {

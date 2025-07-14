@@ -1,0 +1,91 @@
+<app-header
+  header="Owner"
+  [withAdd]="!owner"
+  [withRemove]="owner != null"
+  [withBackBtn]="true"
+  (backClicked)="onBack()"
+  (addClicked)="onAdd()"
+  (removeClicked)="onRemove()"
+>
+</app-header>
+
+<form [formGroup]="form" *ngIf="showOwnerForm">
+  <div class="reward-container">
+    <div class="close-container">
+      <!-- close -->
+      <svg
+        class="input-remove"
+        (click)="toggleOwnerForm()"
+        viewBox="0 -960 960 960"
+      >
+        <path
+          d="M252-203.69 205.69-252l227-228-227-230L252-758.31l229 230 227-230L754.31-710l-227 230 227 228L708-203.69l-227-230-229 230Z"
+        />
+      </svg>
+    </div>
+    <div class="wrapper">
+      <div class="inputs">
+        <div class="input-field">
+          <label for="email" class="required">Email</label>
+          <input
+            name="email"
+            placeholder="email"
+            type="text"
+            formControlName="email"
+          />
+        </div>
+        <div class="input-field">
+          <label for="clubName" class="required">Club Name</label>
+          <input
+            name="clubName"
+            placeholder="clubName"
+            type="text"
+            formControlName="clubName"
+          />
+        </div>
+        <div class="input-field">
+          <label for="clubPhoneNumber" class="required"
+            >Club Phone Number</label
+          >
+          <input
+            name="clubPhoneNumber"
+            placeholder="clubPhoneNumber"
+            type="text"
+            formControlName="clubPhoneNumber"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="getFirstErrorMessage()" class="errors">
+      {{ getFirstErrorMessage() }}
+    </div>
+
+    <button
+      [disabled]="this.form.invalid"
+      type="button"
+      class="btn btn-gray create-btn"
+      (click)="onAddOwner()"
+      [ngClass]="{
+        'btn-border-green': this.form.valid,
+        'btn-font-green': this.form.valid,
+        'btn-border-red': this.form.invalid,
+        'btn-font-red': this.form.invalid
+      }"
+    >
+      Create
+    </button>
+  </div>
+</form>
+
+<section class="wrapper_library">
+  <div class="wrapper_library__item" *ngIf="owner">
+    <div class="content">
+      <div class="wrapper_info">
+        <div class="wrapper_title">
+          {{ owner.email }}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
