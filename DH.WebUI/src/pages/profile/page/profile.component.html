@@ -108,7 +108,7 @@
         <span class="item-header"> Instructions </span>
       </div>
       <div
-        *ngIf="isAdmin()"
+        *ngIf="isOwner()"
         class="item-wrapper"
         (click)="navigateToEmployeeList()"
       >
@@ -201,7 +201,7 @@
         <span class="item-header"> Challenge Leaderboard </span>
       </div>
       <div
-        *ngIf="isAdmin()"
+        *ngIf="isDifferentFromUser()"
         class="item-wrapper"
         (click)="navigateToVisitorChart()"
       >
@@ -222,7 +222,7 @@
         <span class="item-header"> Visitor Charts </span>
       </div>
       <div
-        *ngIf="isAdmin()"
+        *ngIf="isDifferentFromUser()"
         class="item-wrapper"
         (click)="navigateToReservationsChart()"
       >
@@ -243,7 +243,7 @@
         <span class="item-header"> Reservation Charts </span>
       </div>
       <div
-        *ngIf="isAdmin()"
+        *ngIf="isDifferentFromUser()"
         class="item-wrapper"
         (click)="navigateToEventCharts()"
       >
@@ -264,7 +264,7 @@
         <span class="item-header"> Event Charts </span>
       </div>
       <div
-        *ngIf="isAdmin()"
+        *ngIf="isDifferentFromUser()"
         class="item-wrapper"
         (click)="navigateToRewardCharts()"
       >

@@ -39,11 +39,15 @@ export class ProfileComponent implements OnDestroy {
     this.router.navigateByUrl('login');
   }
 
-  public isAdmin(): boolean {
+  public isDifferentFromUser(): boolean {
     return this.authService.getUser?.role !== UserRole.User;
   }
 
-   public isSuperAdmin(): boolean {
+  public isOwner(): boolean {
+    return this.authService.getUser?.role === UserRole.Owner;
+  }
+
+  public isSuperAdmin(): boolean {
     return this.authService.getUser?.role === UserRole.SuperAdmin;
   }
 

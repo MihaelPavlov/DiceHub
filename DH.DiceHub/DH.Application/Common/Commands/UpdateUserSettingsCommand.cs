@@ -7,7 +7,7 @@ using MediatR;
 
 namespace DH.Application.Common.Commands;
 
-public record UpdateUserSettingsCommand(UserSettingsDto Settings) : IRequest;
+public record UpdateUserSettingsCommand(UserSettingsDto Settings, string? UserId = null) : IRequest;
 
 internal class UpdateUserSettingsCommandHandler(IRepository<TenantUserSetting> repository, IUserContext userContext) : IRequestHandler<UpdateUserSettingsCommand>
 {
@@ -30,7 +30,20 @@ internal class UpdateUserSettingsCommandHandler(IRepository<TenantUserSetting> r
             return;
         }
 
-        var dbSettings = await this.repository.GetByAsyncWithTracking(x => x.Id == request.Settings.Id && this.userContext.UserId == x.UserId, cancellationToken);
+        var currentUserId = request.UserId != null ? request.UserId : this.userContext.UserId;
+
+        var dbSettings = await this.repository.GetByAsyncWithTracking(x => x.Id == request.Settings.Id && currentUserId == x.UserId, cancellationToken);
+
+        if (dbSettings == null)
+        {
+            await this.repository.AddAsync(new TenantUserSetting
+            {
+                UserId = currentUserId,
+                PhoneNumber = request.Settings.PhoneNumber,
+            }, cancellationToken);
+
+            return;
+        }
 
         if (dbSettings!.PhoneNumber != request.Settings.PhoneNumber)
         {

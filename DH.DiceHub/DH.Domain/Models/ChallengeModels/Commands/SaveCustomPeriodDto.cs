@@ -46,7 +46,7 @@ public class SaveCustomPeriodDto : IValidableFields
 
         // --- Validate Totals Match ---
         int totalChallengePoints = Challenges.Sum(c => c.Points);
-        int totalRewardRequiredPoints = Rewards.Sum(r => r.RequiredPoints);
+        int totalRewardRequiredPoints = Rewards.Max(r => r.RequiredPoints);
 
         if (totalRewardRequiredPoints != totalChallengePoints)
         {

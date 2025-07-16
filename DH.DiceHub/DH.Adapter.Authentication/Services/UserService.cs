@@ -35,6 +35,7 @@ public class UserService : IUserService
     readonly IUserContext userContext;
     readonly ILogger<UserService> logger;
     readonly IRepository<TenantSetting> tenantSettingsRepository;
+    readonly IRepository<TenantUserSetting> tenantUserSettingsRepository;
 
     /// <summary>
     /// Constructor for UserService to initialize dependencies.
@@ -44,7 +45,7 @@ public class UserService : IUserService
         UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager,
         IPermissionStringBuilder permissionStringBuilder, SynchronizeUsersChallengesQueue queue,
         IPushNotificationsService pushNotificationsService, IRepository<UserDeviceToken> userDeviceTokenRepository,
-        IUserContext userContext, ILogger<UserService> logger, IRepository<TenantSetting> tenantSettingsRepository)
+        IUserContext userContext, ILogger<UserService> logger, IRepository<TenantSetting> tenantSettingsRepository, IRepository<TenantUserSetting> tenantUserSettingsRepository)
     {
         _httpContextAccessor = httpContextAccessor;
         this.signInManager = signInManager;
@@ -58,6 +59,7 @@ public class UserService : IUserService
         this.userContext = userContext;
         this.logger = logger;
         this.tenantSettingsRepository = tenantSettingsRepository;
+        this.tenantUserSettingsRepository = tenantUserSettingsRepository;
     }
 
     /// <inheritdoc />
@@ -355,6 +357,7 @@ public class UserService : IUserService
 
         return new EmployeeResult
         {
+            UserId = afterRegister.Id,
             Email = afterRegister.Email!,
         };
     }
@@ -552,6 +555,7 @@ public class UserService : IUserService
 
         return new EmployeeResult
         {
+            UserId = existingUser.Id,
             Email = existingUser.Email!,
             IsEmailChanged = isEmailChanged,
         };

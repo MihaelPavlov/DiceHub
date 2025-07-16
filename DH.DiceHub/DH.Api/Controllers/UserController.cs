@@ -17,6 +17,7 @@ using DH.Application.Emails.Commands;
 using DH.Domain.Adapters.Email.Models;
 using DH.Domain.Entities;
 using DH.Domain.Adapters.Email;
+using DH.Domain.Models.Common;
 
 namespace DH.Api.Controllers;
 
@@ -218,6 +219,12 @@ public class UserController : ControllerBase
         var employeeResult = await this.userService.CreateEmployee(request, cancellationToken);
         await this.mediator.Send(new SendEmployeeCreatePasswordEmailCommand(
             employeeResult.Email), cancellationToken);
+
+        await this.mediator.Send(new UpdateUserSettingsCommand(new UserSettingsDto
+        {
+            PhoneNumber = request.PhoneNumber,
+        }, employeeResult.UserId), cancellationToken);
+
         return Ok();
     }
 
@@ -233,6 +240,12 @@ public class UserController : ControllerBase
             await this.mediator.Send(new SendEmployeeCreatePasswordEmailCommand(
                 employeeResult.Email), cancellationToken);
         }
+
+        await this.mediator.Send(new UpdateUserSettingsCommand(new UserSettingsDto
+        {
+            PhoneNumber = request.PhoneNumber,
+        }, employeeResult.UserId), cancellationToken);
+
         return Ok();
     }
 
@@ -243,6 +256,7 @@ public class UserController : ControllerBase
     public async Task<IActionResult> DeleteEmployee(string employeeId, CancellationToken cancellationToken)
     {
         await this.userService.DeleteEmployee(employeeId);
+        //TODO: ON Delete employee we should delete the TenantUserSettings for the deleted user
         return Ok();
     }
 
