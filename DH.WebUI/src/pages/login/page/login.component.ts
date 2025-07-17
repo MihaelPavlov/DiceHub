@@ -239,7 +239,7 @@ export class LoginComponent extends Form implements OnInit {
           error: (error) => {
             this.handleServerErrors(error);
             this.toastService.error({
-              message: AppToastMessage.FailedToSaveChanges,
+              message: AppToastMessage.SomethingWrong,
               type: ToastType.Error,
             });
           },
@@ -377,7 +377,7 @@ export class LoginComponent extends Form implements OnInit {
         error: (error) => {
           this.handleServerErrors(error);
           this.toastService.error({
-            message: AppToastMessage.FailedToSaveChanges,
+            message: AppToastMessage.SomethingWrong,
             type: ToastType.Error,
           });
         },

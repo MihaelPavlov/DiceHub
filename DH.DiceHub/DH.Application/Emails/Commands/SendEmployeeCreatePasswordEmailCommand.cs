@@ -12,7 +12,7 @@ using DH.Domain.Entities;
 
 namespace DH.Application.Emails.Commands;
 
-public record SendEmployeeCreatePasswordEmailCommand(string Email) : IRequest;
+public record SendEmployeeCreatePasswordEmailCommand(string Email) : IRequest<bool>;
 
 internal class SendEmployeeCreatePasswordEmailCommandHandler(
     ILogger<SendEmployeeCreatePasswordEmailCommandHandler> logger,
@@ -20,7 +20,7 @@ internal class SendEmployeeCreatePasswordEmailCommandHandler(
     IUserService userService,
     IEmailHelperService emailHelperService,
     IEmailSender emailSender,
-    IConfiguration configuration) : IRequestHandler<SendEmployeeCreatePasswordEmailCommand>
+    IConfiguration configuration) : IRequestHandler<SendEmployeeCreatePasswordEmailCommand, bool>
 {
     readonly ILogger<SendEmployeeCreatePasswordEmailCommandHandler> logger = logger;
     readonly ITenantSettingsCacheService tenantSettingsCacheService = tenantSettingsCacheService;
@@ -29,7 +29,7 @@ internal class SendEmployeeCreatePasswordEmailCommandHandler(
     readonly IEmailSender emailSender = emailSender;
     readonly IConfiguration configuration = configuration;
 
-    public async Task Handle(SendEmployeeCreatePasswordEmailCommand request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(SendEmployeeCreatePasswordEmailCommand request, CancellationToken cancellationToken)
     {
         var user = await this.userService.GetUserByEmail(request.Email);
         var emailType = EmailType.EmployeePasswordCreation;
@@ -46,7 +46,7 @@ internal class SendEmployeeCreatePasswordEmailCommandHandler(
         {
             this.logger.LogWarning("Email Template with Key {EmailType} was not found. {EmailType} was not send",
                 emailType, emailType);
-            return;
+            return false;
         }
 
         var settings = await tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
@@ -85,5 +85,7 @@ internal class SendEmployeeCreatePasswordEmailCommandHandler(
             To = user.Email,
             UserId = user.Id,
         });
+
+        return isEmailSendSuccessfully;
     }
 }

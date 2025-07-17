@@ -434,6 +434,15 @@ public class UserService : IUserService
 
         if (!result.Succeeded)
         {
+            var isTokenInvalid = result.Errors.Select(x => x.Description).Any(x => x.Contains("Invalid token"));
+
+            if (isTokenInvalid)
+            {
+                throw new ValidationErrorsException(
+                    "InvalidToken",
+                    "The password reset link is either invalid or has expired. Please request a new one or contact support if the issue persists.");
+            }
+
             this.logger.LogError(
                 "CreateEmployeePassword failed for user with email: {Email}. Errors: {Errors}",
                 request.Email,
@@ -465,15 +474,25 @@ public class UserService : IUserService
 
         if (!result.Succeeded)
         {
+            var isTokenInvalid = result.Errors.Select(x => x.Description).Any(x => x.Contains("Invalid token"));
+
+            if (isTokenInvalid)
+            {
+                throw new ValidationErrorsException(
+                    "InvalidToken",
+                    "The password reset link is either invalid or has expired. Please request a new one or contact support if the issue persists.");
+            }
+
             this.logger.LogError(
-               "CreateEmployeePassword failed for user with email: {Email}. Errors: {Errors}",
+               "CreateOwnerPassword failed for user with email: {Email}. Errors: {Errors}",
                request.Email,
                string.Join("; ", result.Errors.Select(x => x.Description))
            );
 
-            throw new ValidationErrorsException("Password", @"Oops! Something went wrong while setting the password. Please try again, or reach out to our support team via email if the problem continues.");
+            throw new ValidationErrorsException(
+                "Password",
+                @"Oops! Something went wrong while setting the password. Please try again, or reach out to our support team via email if the problem continues.");
         }
-
     }
 
     private async Task<TokenResponseModel?> IssueUserTokensAsync(ApplicationUser user)

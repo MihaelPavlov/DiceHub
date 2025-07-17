@@ -34,6 +34,7 @@ export class CreateEmployeePasswordComponent extends Form implements OnInit {
   public email: string | null = null;
   public token: string | null = null;
   public clubName: string | null = null;
+  public showResend: boolean = false;
 
   constructor(
     private readonly router: Router,
@@ -64,6 +65,9 @@ export class CreateEmployeePasswordComponent extends Form implements OnInit {
     });
   }
 
+  public navigateToLanding(): void {
+    this.router.navigateByUrl(ROUTE.LANDING);
+  }
   public toggleNewPasswordVisibility(): void {
     this.showNewPassword = !this.showNewPassword;
   }
@@ -101,9 +105,14 @@ export class CreateEmployeePasswordComponent extends Form implements OnInit {
             if (error.error.errors.PhoneNumber)
               this.getServerErrorMessage = error.error.errors.PhoneNumber[0];
 
+            if (error.error.errors.InvalidToken) {
+              this.getServerErrorMessage = error.error.errors.InvalidToken[0];
+              this.showResend = true;
+            }
+
             this.toastService.error({
               type: ToastType.Error,
-              message: 'Password creation was unsuccessfully!',
+              message: 'Password creation was unsuccessful!',
             });
           },
         });
@@ -113,6 +122,34 @@ export class CreateEmployeePasswordComponent extends Form implements OnInit {
         message: AppToastMessage.SomethingWrong,
       });
     }
+  }
+
+  public resendPasswordEmail(): void {
+    if (this.email)
+      this.authService.sendEmployeePasswordResetRequest(this.email).subscribe({
+        next: (isSuccessfully) => {
+          if (isSuccessfully && isSuccessfully === true) {
+            this.toastService.success({
+              message:
+                'Email sent! Please allow a few minutes for it to arrive in your inbox.',
+              type: ToastType.Success,
+            });
+            this.clearServerErrorMessage();
+            this.showResend = false;
+          } else {
+            this.toastService.error({
+              message: 'Failed to send email. Please try again later.',
+              type: ToastType.Error,
+            });
+          }
+        },
+        error: () => {
+          this.toastService.error({
+            message: 'Failed to send email. Please try again later.',
+            type: ToastType.Error,
+          });
+        },
+      });
   }
 
   protected override getControlDisplayName(controlName: string): string {

@@ -12,7 +12,7 @@ using System.Net;
 
 namespace DH.Application.Emails.Commands;
 
-public record SendOwnerCreatePasswordEmailCommand(string Email) : IRequest;
+public record SendOwnerCreatePasswordEmailCommand(string Email) : IRequest<bool>;
 
 internal class SendOwnerCreatePasswordEmailCommandHandler(
     ILogger<SendOwnerCreatePasswordEmailCommandHandler> logger,
@@ -20,7 +20,7 @@ internal class SendOwnerCreatePasswordEmailCommandHandler(
     IUserService userService,
     IEmailHelperService emailHelperService,
     IEmailSender emailSender,
-    IConfiguration configuration) : IRequestHandler<SendOwnerCreatePasswordEmailCommand>
+    IConfiguration configuration) : IRequestHandler<SendOwnerCreatePasswordEmailCommand, bool>
 {
     readonly ILogger<SendOwnerCreatePasswordEmailCommandHandler> logger = logger;
     readonly ITenantSettingsCacheService tenantSettingsCacheService = tenantSettingsCacheService;
@@ -29,7 +29,7 @@ internal class SendOwnerCreatePasswordEmailCommandHandler(
     readonly IEmailSender emailSender = emailSender;
     readonly IConfiguration configuration = configuration;
 
-    public async Task Handle(SendOwnerCreatePasswordEmailCommand request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(SendOwnerCreatePasswordEmailCommand request, CancellationToken cancellationToken)
     {
         var user = await this.userService.GetUserByEmail(request.Email);
         var emailType = EmailType.OwnerPasswordCreation;
@@ -46,7 +46,7 @@ internal class SendOwnerCreatePasswordEmailCommandHandler(
         {
             this.logger.LogWarning("Email Template with Key {EmailType} was not found. {EmailType} was not send",
                 emailType, emailType);
-            return;
+            return false;
         }
 
         var settings = await tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
@@ -85,5 +85,7 @@ internal class SendOwnerCreatePasswordEmailCommandHandler(
             To = user.Email,
             UserId = user.Id,
         });
+
+        return isEmailSendSuccessfully;
     }
 }

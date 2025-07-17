@@ -57,13 +57,31 @@ export class AuthService {
     );
   }
 
+  public sendEmployeePasswordResetRequest(
+    email: string
+  ): Observable<boolean | null> {
+    return this.api.post<boolean>(
+      `/user/send-employee-password-reset-request/${email}`,
+      {}
+    );
+  }
+
+  public sendOwnerPasswordResetRequest(
+    email: string
+  ): Observable<boolean | null> {
+    return this.api.post<boolean>(
+      `/user/send-owner-password-reset-request/${email}`,
+      {}
+    );
+  }
+
   public createEmployeePassword(
     request: ICreateEmployeePasswordRequest
   ): Observable<any> {
     return this.api.post(`/user/create-employee-password`, request);
   }
 
-    public createOwnerPassword(
+  public createOwnerPassword(
     request: ICreateOwnerPasswordRequest
   ): Observable<any> {
     return this.api.post(`/user/create-owner-password`, request);

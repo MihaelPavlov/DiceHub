@@ -71,6 +71,22 @@ public class UserController : ControllerBase
     }
 
     [AllowAnonymous]
+    [HttpPost("send-employee-password-reset-request/{email}")]
+    public async Task<IActionResult> SendEmployeePasswordResetRequest(string email, CancellationToken cancellationToken)
+    {
+        var isSuccessfully = await this.mediator.Send(new SendEmployeeCreatePasswordEmailCommand(email), cancellationToken);
+        return this.Ok(isSuccessfully);
+    }
+
+    [AllowAnonymous]
+    [HttpPost("send-owner-password-reset-request/{email}")]
+    public async Task<IActionResult> SendOwnerPasswordResetRequest(string email, CancellationToken cancellationToken)
+    {
+        var isSuccessfully = await this.mediator.Send(new SendOwnerCreatePasswordEmailCommand(email), cancellationToken);
+        return this.Ok(isSuccessfully);
+    }
+
+    [AllowAnonymous]
     [HttpPost("confirm-email")]
     public async Task<IActionResult> ConfirmEmail([FromBody] ConfirmEmailRequest request, CancellationToken cancellationToken)
     {
