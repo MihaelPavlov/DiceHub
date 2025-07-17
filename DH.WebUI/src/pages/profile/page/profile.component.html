@@ -108,7 +108,7 @@
         <span class="item-header"> Instructions </span>
       </div>
       <div
-        *ngIf="isOwner()"
+        *ngIf="isOwner() || isSuperAdmin()"
         class="item-wrapper"
         (click)="navigateToEmployeeList()"
       >

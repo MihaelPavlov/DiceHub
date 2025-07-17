@@ -433,8 +433,14 @@ public class UserService : IUserService
         var result = await this.userManager.ResetPasswordAsync(user!, request.Token, request.NewPassword);
 
         if (!result.Succeeded)
-            throw new ValidationErrorsException("Password", @"Create Employee Password was not successfully, 
-                try again later, or contact us via email");
+        {
+            this.logger.LogError(
+                "CreateEmployeePassword failed for user with email: {Email}. Errors: {Errors}",
+                request.Email,
+                string.Join("; ", result.Errors.Select(x => x.Description))
+            );
+            throw new ValidationErrorsException("Password", @"Oops! Something went wrong while setting the password. Please try again, or reach out to our support team via email if the problem continues.");
+        }
     }
 
     public async Task CreateOwnerPassword(CreateOwnerPasswordRequest request)
@@ -458,8 +464,16 @@ public class UserService : IUserService
         var result = await this.userManager.ResetPasswordAsync(user!, request.Token, request.NewPassword);
 
         if (!result.Succeeded)
-            throw new ValidationErrorsException("Password", @"Create Owner Password was not successfully, 
-                try again later, or contact us via email");
+        {
+            this.logger.LogError(
+               "CreateEmployeePassword failed for user with email: {Email}. Errors: {Errors}",
+               request.Email,
+               string.Join("; ", result.Errors.Select(x => x.Description))
+           );
+
+            throw new ValidationErrorsException("Password", @"Oops! Something went wrong while setting the password. Please try again, or reach out to our support team via email if the problem continues.");
+        }
+
     }
 
     private async Task<TokenResponseModel?> IssueUserTokensAsync(ApplicationUser user)

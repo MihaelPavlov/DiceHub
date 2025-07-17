@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../entities/auth/auth.service';
 
 @Component({
   selector: 'app-server-error',
@@ -7,11 +8,15 @@ import { Router } from '@angular/router';
   styleUrls: ['server-error.component.scss'],
 })
 export class ServerErrorComponent {
-   public imgPath = 'shared/assets/images/exceptions/server-error-500.jpg';
+  public imgPath = 'shared/assets/images/exceptions/server-error-500.jpg';
 
-  constructor(private readonly router: Router) {}
+  constructor(
+    private readonly router: Router,
+    private readonly authService: AuthService
+  ) {}
 
   public redirectTo() {
-    this.router.navigateByUrl('/games/library');
+    if (this.authService.getUser) this.router.navigateByUrl('/games/library');
+    else this.router.navigateByUrl('/login');
   }
 }

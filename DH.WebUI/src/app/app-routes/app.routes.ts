@@ -100,6 +100,8 @@ export const ROUTES: Routes = [
         canActivate: [AuthGuard],
       },
     ],
+    data: { hideMenu: false },
+
   },
   {
     path: 'instructions',

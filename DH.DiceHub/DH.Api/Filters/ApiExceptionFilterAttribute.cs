@@ -32,6 +32,9 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     private void HandleException(ExceptionContext context)
     {
         Type type = context.Exception.GetType();
+
+        _logger.LogError(context.Exception, "Exception occurred: {ExceptionType}", type.Name);
+
         if (_exceptionHandlers.ContainsKey(type))
         {
             _exceptionHandlers[type].Invoke(context);
@@ -50,6 +53,8 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     private void HandleValidationException(ExceptionContext context)
     {
         var exception = (ValidationErrorsException)context.Exception;
+        _logger.LogWarning("Validation error occurred:\n{ValidationDetails}", exception.ToString());
+
         context.Result = new UnprocessableEntityObjectResult(new ValidationProblemDetails(exception.Errors));
         context.ExceptionHandled = true;
     }
@@ -62,6 +67,8 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
 
     private void HandleNotFoundException(ExceptionContext context)
     {
+        _logger.LogWarning("Resource not found: {Message}", context.Exception.Message);
+
         context.Result = new NotFoundObjectResult(new ProblemDetails()
         {
             Title = "The specified resource was not found.",
@@ -72,6 +79,8 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
 
     private void HandleUnauthorizedAccessException(ExceptionContext context)
     {
+        _logger.LogWarning("Unauthorized access: {Message}", context.Exception.Message);
+
         var details = new ProblemDetails
         {
             Status = StatusCodes.Status401Unauthorized,
@@ -86,6 +95,8 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
 
     private void HandleForbiddenAccessException(ExceptionContext context)
     {
+        _logger.LogWarning("Forbidden access: {Message}", context.Exception.Message);
+
         var details = new ProblemDetails
         {
             Status = StatusCodes.Status403Forbidden,
@@ -101,6 +112,8 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
 
     private void HandleInfrastructureException(ExceptionContext context)
     {
+        _logger.LogError(context.Exception, "Infrastructure exception occurred");
+
         var details = new ProblemDetails
         {
             Status = StatusCodes.Status500InternalServerError,
@@ -116,6 +129,8 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
 
     private void HandleBadRequestException(ExceptionContext context)
     {
+        _logger.LogWarning("Bad request: {Message}", context.Exception.Message);
+
         context.Result = new BadRequestObjectResult(new ProblemDetails
         {
             Detail = context.Exception.Message
@@ -125,7 +140,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
 
     private void HandleUnknownException(ExceptionContext context)
     {
-        _logger.LogError(context.Exception, "Handle Unknown Exception");
+        _logger.LogError(context.Exception, "Unhandled exception occurred");
 
         var details = new ProblemDetails
         {
