@@ -8,18 +8,22 @@ import {
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { LoadingService } from '../services/loading.service';
+import { LoadingInterceptorContextService } from '../services/loading-context.service';
 
 @Injectable()
 export class LoadingInterceptor implements HttpInterceptor {
-  constructor(private loadingService: LoadingService) {}
+  constructor(
+    private loadingService: LoadingService,
+    private context: LoadingInterceptorContextService
+  ) {}
 
   intercept(
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    const isBackgroundRequest = request.headers.get('X-Background-Request');
+    const isBackground = request.headers.get('X-Background-Request') === 'true';
 
-    if (isBackgroundRequest && isBackgroundRequest === 'true') {
+    if (this.context.isManualMode() || isBackground) {
       return next.handle(request);
     }
 

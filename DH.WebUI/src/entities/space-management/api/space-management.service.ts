@@ -50,8 +50,7 @@ export class SpaceManagementService {
   > {
     return this.api.get<IActiveReservedTable[]>(
       `/${PATH.SPACE_MANAGEMENT.CORE}/${PATH.SPACE_MANAGEMENT.GET_ACTIVE_RESERVED_TABLES}`,
-      {},
-      true
+      { backgroundRequest: true }
     );
   }
 

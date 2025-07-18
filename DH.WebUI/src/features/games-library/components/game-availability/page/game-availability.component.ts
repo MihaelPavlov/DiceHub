@@ -158,12 +158,12 @@ export class GameAvailabilityComponent
         this.activeBookedTableModel.reservationDate
       );
       const timeDifference = reservationDate.getTime() - now.getTime();
-      if (
-        this.activeBookedTableModel.status === ReservationStatus.Approved &&
-        timeDifference <= 3600000 // 1 hour in milliseconds
-      ) {
-        console.log('one hour left');
 
+      const isApproved =
+        this.activeBookedTableModel.status === ReservationStatus.Approved;
+      const isWithinOneHour = timeDifference > 0 && timeDifference <= 3600000;
+      if (isApproved && isWithinOneHour) {
+        console.log('one hour left');
         return true;
       }
 

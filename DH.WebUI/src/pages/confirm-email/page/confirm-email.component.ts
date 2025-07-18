@@ -98,7 +98,6 @@ export class ConfirmEmailComponent implements OnInit {
               response!.accessToken,
               response!.refreshToken
             );
-
             this.authService.initiateNotifications(email);
 
             this.router.navigateByUrl(FULL_ROUTE.GAMES.LIBRARY);

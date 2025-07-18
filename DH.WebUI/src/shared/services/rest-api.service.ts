@@ -12,8 +12,12 @@ export const ApiEndpoints = {
 };
 
 interface ApiConfig {
-  options?: object;
+  options?: {
+    headers?: HttpHeaders;
+    [key: string]: any;
+  };
   base?: ApiBase;
+  backgroundRequest?: boolean;
 }
 
 @Injectable({
@@ -30,23 +34,9 @@ export class RestApiService {
     return `${this.getBaseUrl(base)}${path}`;
   }
 
-  public get<T>(
-    path: string,
-    config: ApiConfig = {},
-    backgroundRequest: boolean = false
-  ): Observable<T> {
-    let { options = {}, base = ApiBase.Default } = config;
-
-    if (backgroundRequest) {
-      const updatedHeaders = new HttpHeaders().set(
-        'X-Background-Request',
-        'true'
-      );
-      options = {
-        ...options,
-        headers: updatedHeaders,
-      };
-    }
+  public get<T>(path: string, config: ApiConfig = {}): Observable<T> {
+    const { base = ApiBase.Default } = config;
+    const options = this.buildRequestOptions(config);
 
     return this.http
       .get<T>(this.buildUrl(base, path), options)
@@ -58,7 +48,8 @@ export class RestApiService {
     body: object | string | number,
     config: ApiConfig = {}
   ): Observable<T | null> {
-    const { options = {}, base = ApiBase.Default } = config;
+    const { base = ApiBase.Default } = config;
+    const options = this.buildRequestOptions(config);
 
     return this.http
       .post<T>(this.buildUrl(base, path), body, options)
@@ -70,7 +61,8 @@ export class RestApiService {
     body: object | string,
     config: ApiConfig = {}
   ): Observable<T | null> {
-    const { options = {}, base = ApiBase.Default } = config;
+    const { base = ApiBase.Default } = config;
+    const options = this.buildRequestOptions(config);
 
     return this.http
       .put<T>(this.buildUrl(base, path), body, options)
@@ -78,10 +70,24 @@ export class RestApiService {
   }
 
   public delete<T>(path: string, config: ApiConfig = {}): Observable<any> {
-    const { options = {}, base = ApiBase.Default } = config;
+    const { base = ApiBase.Default } = config;
+    const options = this.buildRequestOptions(config);
 
     return this.http
       .delete<T>(this.buildUrl(base, path), options)
       .pipe(map((res: any) => res as T));
+  }
+
+  private buildRequestOptions(config: ApiConfig): any {
+    let headers = config.options?.headers || new HttpHeaders();
+
+    if (config.backgroundRequest) {
+      headers = headers.set('X-Background-Request', 'true');
+    }
+
+    return {
+      ...config.options,
+      headers,
+    };
   }
 }

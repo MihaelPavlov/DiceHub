@@ -100,14 +100,14 @@ public class GameService : IGameService
                     GameName = gameReservation.Game.Name,
                     GameImageId = gameReservation.Game.Image.Id,
                     CreatedDate = gameReservation.CreatedDate,
-                    ReservationDate = gameReservation.ReservationDate.ToLocalTime(),
+                    ReservationDate = gameReservation.ReservationDate,
                     ReservedDurationMinutes = gameReservation.ReservedDurationMinutes,
                     Status = gameReservation.Status,
                     UserId = gameReservation.UserId,
                     NumberOfGuests = gameReservation.NumberOfGuests,
                     UserHaveActiveTableReservation = tableReservation != null,
                     TableReservationTime = tableReservation != null
-                        ? tableReservation.ReservationDate.ToLocalTime()
+                        ? tableReservation.ReservationDate
                         : null
                 }).ToListAsync();
         }

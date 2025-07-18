@@ -28,7 +28,7 @@ internal class GetActiveReservedGameQueryHandler : IRequestHandler<GetActiveRese
         if (activeUserReservation == null)
             return null;
 
-        activeUserReservation.ReservationDate = activeUserReservation.ReservationDate.ToLocalTime();
+        activeUserReservation.ReservationDate = activeUserReservation.ReservationDate;
         return activeUserReservation.Adapt<GetActiveReservedGameQueryModel>();
     }
 }

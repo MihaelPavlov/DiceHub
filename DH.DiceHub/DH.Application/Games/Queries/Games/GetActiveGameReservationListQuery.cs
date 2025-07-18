@@ -33,7 +33,7 @@ internal class GetActiveGameReservationListQueryHandler(IGameService gameService
 
                 var tenantUserSettings = await this.repository.GetByAsync(x => x.UserId == reservation.UserId, cancellationToken);
 
-                reservation.PhoneNumber = tenantUserSettings?.PhoneNumber ?? "NOT_PROVIDED";
+                reservation.PhoneNumber = tenantUserSettings?.PhoneNumber ?? "Not Provided";
             }
 
         }

@@ -27,8 +27,8 @@ internal class GetSpaceTableReservationByIdQueryHandler : IRequestHandler<GetSpa
             ?? throw new NotFoundException(nameof(SpaceTableReservation), request.Id);
 
         var users = await this.userService.GetUserListByIds([reservationDb.UserId], cancellationToken);
-        reservationDb.ReservationDate = reservationDb.ReservationDate.ToLocalTime();
-        reservationDb.CreatedDate = reservationDb.CreatedDate.ToLocalTime();
+        reservationDb.ReservationDate = reservationDb.ReservationDate;
+        reservationDb.CreatedDate = reservationDb.CreatedDate;
 
         var reservation = reservationDb.Adapt<GetSpaceTableReservationByIdQueryModel>();
         var user = users.FirstOrDefault(x => x.Id == reservationDb.UserId);

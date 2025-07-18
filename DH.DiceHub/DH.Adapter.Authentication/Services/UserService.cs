@@ -195,17 +195,13 @@ public class UserService : IUserService
                 try again later, or contact us via email");
     }
 
-    public async Task<UserDeviceToken> GetDeviceTokenByUserEmail(string email)
+    public async Task<UserDeviceToken?> GetDeviceTokenByUserEmail(string email)
     {
         var user = await this.userManager.FindByEmailAsync(email);
         if (user.IsInvalid())
-            throw new ArgumentNullException("User is not found");
+            throw new NotFoundException("User is not found");
 
-        var userDeviceToken = await this.userDeviceTokenRepository.GetByAsync(x => x.UserId == user!.Id, CancellationToken.None);
-
-        if (userDeviceToken is null)
-            throw new NotFoundException("User Device Token was not found");
-        return userDeviceToken;
+        return await this.userDeviceTokenRepository.GetByAsync(x => x.UserId == user!.Id, CancellationToken.None);
     }
 
     public async Task<List<UserModel>> GetUserListByIds(string[] ids, CancellationToken cancellationToken)
@@ -215,8 +211,8 @@ public class UserService : IUserService
             .Select(x => new UserModel
             {
                 Id = x.Id,
-                UserName = x.UserName ?? "NOT_PROVIDED",
-                Email = x.Email ?? "NOT_PROVIDED",
+                UserName = x.UserName ?? "Not Provided",
+                Email = x.Email ?? "Not Provided",
                 ImageUrl = string.Empty
             })
             .ToListAsync(cancellationToken);
@@ -247,9 +243,9 @@ public class UserService : IUserService
             .Select(x => new UserModel
             {
                 Id = x.Id,
-                UserName = x.UserName ?? "NOT_PROVIDED",
-                Email = x.Email ?? "NOT_PROVIDED",
-                PhoneNumber = x.PhoneNumber ?? "NOT_PROVIDED",
+                UserName = x.UserName ?? "Not Provided",
+                Email = x.Email ?? "Not Provided",
+                PhoneNumber = x.PhoneNumber ?? "Not Provided",
             })
             .FirstOrDefaultAsync(cancellationToken);
 
@@ -272,8 +268,8 @@ public class UserService : IUserService
         return new UserModel
         {
             Id = user!.Id,
-            UserName = user.UserName ?? "NOT_PROVIDED",
-            Email = user.Email ?? "NOT_PROVIDED",
+            UserName = user.UserName ?? "Not Provided",
+            Email = user.Email ?? "Not Provided",
         };
     }
 

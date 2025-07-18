@@ -21,8 +21,8 @@ internal class GetGameReservationByIdQueryHandler(IRepository<GameReservation> r
             ?? throw new NotFoundException(nameof(GameReservation), request.Id);
 
         var users = await this.userService.GetUserListByIds([reservationDb.UserId], cancellationToken);
-        reservationDb.ReservationDate = reservationDb.ReservationDate.ToLocalTime();
-        reservationDb.CreatedDate = reservationDb.CreatedDate.ToLocalTime();
+        reservationDb.ReservationDate = reservationDb.ReservationDate;
+        reservationDb.CreatedDate = reservationDb.CreatedDate;
 
         var reservation = reservationDb.Adapt<GetGameReservationByIdQueryModel>();
         var user = users.FirstOrDefault(x => x.Id == reservationDb.UserId);

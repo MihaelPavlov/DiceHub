@@ -29,7 +29,7 @@ public interface IUserService
     Task ResetPassword(ResetPasswordRequest request);
     Task<TokenResponseModel?> ConfirmEmail(string email, string token, CancellationToken cancellationToken);
 
-    Task<UserDeviceToken> GetDeviceTokenByUserEmail(string email);
+    Task<UserDeviceToken?> GetDeviceTokenByUserEmail(string email);
 
     /// <summary>
     /// Get user list only if the id is presented in the ids array.

@@ -131,7 +131,9 @@ public class UserController : ControllerBase
     public async Task<IActionResult> RegisterNotification([FromBody] RegistrationNotifcation form)
     {
         var userDeviceToken = await userService.GetDeviceTokenByUserEmail(form.Email);
-        await this.pushNotificationsService.SendUserNotificationAsync(new RegistrationMessage(form.Email) { DeviceToken = userDeviceToken.DeviceToken });
+
+        if (userDeviceToken != null)
+            await this.pushNotificationsService.SendUserNotificationAsync(new RegistrationMessage(form.Email) { DeviceToken = userDeviceToken.DeviceToken });
 
         return this.Ok();
     }
