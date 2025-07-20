@@ -17,6 +17,7 @@ import { FULL_ROUTE, ROUTE } from '../../../shared/configs/route.config';
 import { MessagingService } from '../../../entities/messaging/api/messaging.service';
 import { TenantSettingsService } from '../../../entities/common/api/tenant-settings.service';
 import { LoadingService } from '../../../shared/services/loading.service';
+import { LoadingInterceptorContextService } from '../../../shared/services/loading-context.service';
 
 interface ILoginForm {
   email: string;
@@ -45,7 +46,8 @@ export class LoginComponent extends Form implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly tenantSettingsService: TenantSettingsService,
     private readonly loadingService: LoadingService,
-    private readonly frontEndLogService: FrontEndLogService
+    private readonly frontEndLogService: FrontEndLogService,
+    private readonly loadingContext: LoadingInterceptorContextService
   ) {
     super(toastService);
     this.route.queryParams.subscribe((params) => {
@@ -95,7 +97,7 @@ export class LoginComponent extends Form implements OnInit {
     this.router.navigateByUrl(ROUTE.FORGOT_PASSWORD);
   }
 
-  public navigateToLanding():void {
+  public navigateToLanding(): void {
     this.router.navigateByUrl(ROUTE.LANDING);
   }
 
@@ -145,9 +147,12 @@ export class LoginComponent extends Form implements OnInit {
 
   public async onLogin(): Promise<void> {
     if (this.form.valid) {
+      this.loadingContext.enableManualMode();
       this.loadingService.loadingOn();
       let deviceToken: string | null = null;
       if (this.messagingService.isPushUnsupportedIOS()) {
+        console.log('Not supported on this iOS version');
+
         this.frontEndLogService
           .sendWarning(
             'Push notifications not supported on this iOS version',
@@ -155,8 +160,11 @@ export class LoginComponent extends Form implements OnInit {
           )
           .subscribe();
       } else {
+        console.log('Start Getting device token for login');
+
         deviceToken =
           await this.messagingService.getDeviceTokenForRegistration();
+        console.log('device-token', deviceToken);
       }
 
       this.authService
@@ -199,6 +207,7 @@ export class LoginComponent extends Form implements OnInit {
           },
           complete: () => {
             this.loadingService.loadingOff();
+            this.loadingContext.disableManualMode();
           },
         });
     }
@@ -335,6 +344,7 @@ export class LoginComponent extends Form implements OnInit {
   }
 
   public async loginAdmin() {
+    this.loadingContext.enableManualMode();
     this.loadingService.loadingOn();
     let deviceToken: string | null = null;
     if (this.messagingService.isPushUnsupportedIOS()) {
@@ -383,6 +393,7 @@ export class LoginComponent extends Form implements OnInit {
         },
         complete: () => {
           this.loadingService.loadingOff();
+          this.loadingContext.disableManualMode();
         },
       });
   }

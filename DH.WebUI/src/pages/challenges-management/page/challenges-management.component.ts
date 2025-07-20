@@ -31,6 +31,8 @@ import {
   ImagePreviewData,
 } from '../../../shared/dialogs/image-preview/image-preview.dialog';
 import { MatDialog } from '@angular/material/dialog';
+import { LoadingInterceptorContextService } from '../../../shared/services/loading-context.service';
+import { LoadingService } from '../../../shared/services/loading.service';
 
 @Component({
   selector: 'app-challenges-management',
@@ -88,7 +90,9 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
     private readonly tenantSettingsService: TenantSettingsService,
     private readonly cd: ChangeDetectorRef,
     private renderer: Renderer2,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly loadingContext: LoadingInterceptorContextService,
+    private readonly loadingService: LoadingService
   ) {}
 
   public ngOnDestroy(): void {
@@ -130,6 +134,8 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
+    this.loadingContext.enableManualMode();
+    this.loadingService.loadingOn();
     combineLatest([
       this.challengeService.getUserChallengePeriodPerformance(),
       this.tenantSettingsService.get(),
@@ -186,6 +192,9 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
                   }
                 );
               }
+
+              this.loadingContext.disableManualMode();
+              this.loadingService.loadingOff();
             },
           });
         } else if (
@@ -236,6 +245,9 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
                     }
                   );
                 }
+
+                this.loadingContext.disableManualMode();
+                this.loadingService.loadingOff();
               }
             },
           });
