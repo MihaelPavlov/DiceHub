@@ -3,23 +3,32 @@ using DH.Domain.Adapters.Authentication.Models.Enums;
 using DH.Domain.Adapters.Authentication.Services;
 using DH.Domain.Adapters.PushNotifications;
 using DH.Domain.Adapters.PushNotifications.Messages;
+using DH.Domain.Adapters.Reservations;
 using DH.Domain.Entities;
 using DH.Domain.Enums;
 using DH.Domain.Repositories;
+using DH.Domain.Services.TenantSettingsService;
 using DH.OperationResultCore.Exceptions;
 using MediatR;
-using System.Globalization;
 
 namespace DH.Application.SpaceManagement.Commands;
 
-public record CreateSpaceTableReservationCommand(int NumberOfGuests, DateTime ReservationDate, string Time) : IRequest;
+public record CreateSpaceTableReservationCommand(int NumberOfGuests, DateTime ReservationDate) : IRequest;
 
-internal class CreateSpaceTableReservationCommandHandler(IRepository<SpaceTableReservation> repository, IUserContext userContext, IPushNotificationsService pushNotificationsService, IUserService userService) : IRequestHandler<CreateSpaceTableReservationCommand>
+internal class CreateSpaceTableReservationCommandHandler(
+    IRepository<SpaceTableReservation> repository,
+    IUserContext userContext,
+    IPushNotificationsService pushNotificationsService,
+    IUserService userService,
+    ITenantSettingsCacheService tenantSettingsCacheService,
+    ReservationCleanupQueue queue) : IRequestHandler<CreateSpaceTableReservationCommand>
 {
     readonly IRepository<SpaceTableReservation> repository = repository;
     readonly IUserContext userContext = userContext;
     readonly IPushNotificationsService pushNotificationsService = pushNotificationsService;
     readonly IUserService userService = userService;
+    readonly ITenantSettingsCacheService tenantSettingsCacheService = tenantSettingsCacheService;
+    readonly ReservationCleanupQueue queue = queue;
 
     public async Task Handle(CreateSpaceTableReservationCommand request, CancellationToken cancellationToken)
     {
@@ -28,8 +37,8 @@ internal class CreateSpaceTableReservationCommandHandler(IRepository<SpaceTableR
         if (isUserHaveActiveReservation != null)
             throw new BadRequestException("User already have an active reservation");
 
-        var reservationDate = CombineDateAndTime(request.ReservationDate, request.Time).ToUniversalTime();
-        await this.repository.AddAsync(new SpaceTableReservation
+        DateTime reservationDate = TimeZoneInfo.ConvertTimeFromUtc(request.ReservationDate, TimeZoneInfo.Local).ToUniversalTime();
+        var reservation = await this.repository.AddAsync(new SpaceTableReservation
         {
             UserId = this.userContext.UserId,
             CreatedDate = DateTime.UtcNow,
@@ -40,6 +49,10 @@ internal class CreateSpaceTableReservationCommandHandler(IRepository<SpaceTableR
             Status = ReservationStatus.Pending,
         }, cancellationToken);
 
+        var settings = await this.tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
+
+        this.queue.AddReservationCleaningJob(reservation.Id, ReservationType.Table, reservationDate.AddMinutes(settings.BonusTimeAfterReservationExpiration));
+
         var users = await this.userService.GetUserListByRole(Role.Staff, cancellationToken);
         var userIds = users.Select(user => user.Id).ToList();
         await this.pushNotificationsService
@@ -47,15 +60,5 @@ internal class CreateSpaceTableReservationCommandHandler(IRepository<SpaceTableR
                 userIds,
                 new SpaceTableReservationManagementReminder(request.NumberOfGuests, reservationDate),
                 cancellationToken);
-    }
-
-    public DateTime CombineDateAndTime(DateTime reservationDate, string time)
-    {
-        // Parse the time string into a TimeSpan
-        if (!TimeSpan.TryParseExact(time, "hh\\:mm", CultureInfo.InvariantCulture, out var parsedTime))
-            throw new FormatException("Time format is invalid. Expected format is 'HH:mm'.");
-
-        // Combine the date and time
-        return reservationDate.Date.Add(parsedTime);
     }
 }

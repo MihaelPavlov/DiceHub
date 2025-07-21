@@ -60,8 +60,7 @@ internal class CreateGameReservationCommandHandler(
 
         this.queue.AddReservationCleaningJob(reservation.Id, ReservationType.Game, reservation.ReservationDate.AddMinutes(settings.BonusTimeAfterReservationExpiration));
 
-        //TODO: Change to Role.Staff
-        var users = await this.userService.GetUserListByRoles([Role.SuperAdmin, Role.Staff], cancellationToken);
+        var users = await this.userService.GetUserListByRoles([Role.Staff], cancellationToken);
         var getUsers = await this.userService.GetUserListByIds([this.userContext.UserId], cancellationToken);
         var currentUser = getUsers.First();
 

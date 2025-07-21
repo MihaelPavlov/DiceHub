@@ -194,6 +194,20 @@ public class UserChallengesManagementService : IUserChallengesManagementService
                     var startDate = DateTime.UtcNow.Date;
                     var nextResetDate = TimePeriodTypeHelper.CalculateNextResetDate(settingPeriod, tenantSettings.ResetDayForRewards);
 
+                    var existingPeriod = await context.UserChallengePeriodPerformances
+                        .AnyAsync(x =>
+                            x.UserId == userId &&
+                            x.IsPeriodActive &&
+                            x.StartDate == startDate &&
+                            x.EndDate == nextResetDate,
+                            cancellationToken);
+
+                    if (existingPeriod)
+                    {
+                        this.logger.LogWarning("Active UserChallengePeriodPerformance already exists for UserId {UserId} from {StartDate} to {EndDate}", userId, startDate, nextResetDate);
+                        return false;
+                    }
+
                     var userPerformance = new UserChallengePeriodPerformance
                     {
                         UserId = userId,

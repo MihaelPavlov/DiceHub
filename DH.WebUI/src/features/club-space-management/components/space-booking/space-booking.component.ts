@@ -124,7 +124,6 @@ export class SpaceBookingComponent extends Form {
       { key: 'copy', label: 'Add Copy' },
       { key: 'delete', label: 'Delete' },
     ]);
-
   }
 
   public get isAddButtonActive(): boolean {
@@ -176,11 +175,14 @@ export class SpaceBookingComponent extends Form {
 
   public bookTable(): void {
     if (this.form.valid) {
+      const date: Date = new Date(this.form.controls.reservationDate.value);
+      const time: string = this.timeSlots[this.activeSlotIndex];
+
+      const combinedUtc = this.combineDateAndTimeToUtc(date, time);
       this.spaceManagementService
         .bookTable(
           this.guestsFirstSection + this.guestsSecondSection,
-          this.form.controls.reservationDate.value,
-          this.timeSlots[this.activeSlotIndex]
+          combinedUtc
         )
         .subscribe({
           next: () => {
@@ -208,6 +210,19 @@ export class SpaceBookingComponent extends Form {
           },
         });
     }
+  }
+
+  private combineDateAndTimeToUtc(date: Date, time: string): Date {
+    const [hours, minutes] = time.split(':').map(Number);
+
+    return new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate(),
+      hours,
+      minutes,
+      0
+    );
   }
 
   protected override getControlDisplayName(controlName: string): string {

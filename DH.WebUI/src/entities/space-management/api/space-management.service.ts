@@ -175,15 +175,13 @@ export class SpaceManagementService {
 
   public bookTable(
     numberOfGuests: number,
-    reservationDate: Date,
-    time: string
+    reservationDate: Date
   ): Observable<null> {
     return this.api.post(
       `/${PATH.SPACE_MANAGEMENT.CORE}/${PATH.SPACE_MANAGEMENT.BOOK_TABLE}`,
       {
         numberOfGuests,
         reservationDate,
-        time,
       }
     );
   }
