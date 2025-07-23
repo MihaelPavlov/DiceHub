@@ -109,13 +109,13 @@
         .edit {
           fill: palette.$chip-yellow-color;
           width: 2.5rem;
-          height:2.5rem;
+          height: 2.5rem;
         }
 
         .delete {
           fill: palette.$main-red-color;
           width: 2.5rem;
-          height:2.5rem;
+          height: 2.5rem;
         }
       }
     }
@@ -131,7 +131,7 @@
         font-size: large;
         padding-top: 0.2rem;
         align-self: baseline;
-        word-break: break-all;
+        word-break: break-word;
         width: 80%;
 
         .wrapper_description {
@@ -139,7 +139,7 @@
           width: 100%;
           font-size: 0.6rem;
           color: palette.$main-font-gray-color;
-          word-break: break-all;
+          word-break: break-word;
         }
 
         @media (min-width: 568px) {
