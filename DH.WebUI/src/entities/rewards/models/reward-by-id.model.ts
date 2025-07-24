@@ -5,6 +5,7 @@ export interface IRewardGetByIdResult {
   id: number;
   name: string;
   description: string;
+  cashEquivalent: number;
   requiredPoints: RewardRequiredPoint;
   level: RewardLevel;
   imageId: number;

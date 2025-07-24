@@ -18,6 +18,9 @@ public class UpdateRewardDto : IValidableFields
     [JsonPropertyName("description")]
     public string Description { get; set; } = string.Empty;
 
+    [JsonPropertyName("cashEquivalent")]
+    public decimal CashEquivalent { get; set; }
+
     [JsonPropertyName("requiredPoints")]
     public int RequiredPoints { get; set; }
 
@@ -41,6 +44,9 @@ public class UpdateRewardDto : IValidableFields
         if (RequiredPoints < MinRequiredPoints)
             errors.Add(new ValidationError(nameof(RequiredPoints),
                 $"RequiredPoints are required!"));
+
+        if (CashEquivalent < 0 && CashEquivalent >= 1000)
+            errors.Add(new ValidationError(nameof(CashEquivalent), "Cash Equivalent should be bigger then zero and smaller then one thousand."));
 
         validationErrors = errors;
 

@@ -32,6 +32,7 @@ interface ISystemRewardsForm {
   requiredPoints: number;
   name: string;
   description: string;
+  cashEquivalent: number;
   image: string;
 }
 
@@ -60,7 +61,6 @@ export class AdminChallengesSystemRewardsComponent extends Form {
   constructor(
     public override readonly toastService: ToastService,
     private readonly fb: FormBuilder,
-    private readonly location: Location,
     private readonly rewardsService: RewardsService,
     private readonly entityImagePipe: EntityImagePipe,
     private readonly dialog: MatDialog,
@@ -157,6 +157,7 @@ export class AdminChallengesSystemRewardsComponent extends Form {
           {
             level: this.form.controls.selectedLevel.value,
             name: this.form.controls.name.value,
+            cashEquivalent: this.form.controls.cashEquivalent.value,
             description: this.form.controls.description.value,
             requiredPoints: this.form.controls.requiredPoints.value,
           },
@@ -192,6 +193,7 @@ export class AdminChallengesSystemRewardsComponent extends Form {
             level: this.form.controls.selectedLevel.value,
             name: this.form.controls.name.value,
             description: this.form.controls.description.value,
+            cashEquivalent: this.form.controls.cashEquivalent.value,
             requiredPoints: this.form.controls.requiredPoints.value,
             imageId: !this.fileToUpload
               ? +this.form.controls.image.value
@@ -229,6 +231,7 @@ export class AdminChallengesSystemRewardsComponent extends Form {
           name: reward.name,
           description: reward.description,
           requiredPoints: reward.requiredPoints,
+          cashEquivalent: reward.cashEquivalent,
           selectedLevel: reward.level,
           image: reward.imageId.toString(),
         });
@@ -282,6 +285,8 @@ export class AdminChallengesSystemRewardsComponent extends Form {
         return 'Required Points';
       case 'image':
         return 'Image';
+      case 'cashEquivalent':
+        return 'Cash Equivalent';
       default:
         return controlName;
     }
@@ -307,7 +312,7 @@ export class AdminChallengesSystemRewardsComponent extends Form {
         Validators.required,
       ]),
       name: new FormControl<string>('', [Validators.required]),
-
+      cashEquivalent: new FormControl<number>(0, [Validators.required]),
       description: new FormControl<string>('', [Validators.required]),
       image: new FormControl<string | null>('', [Validators.required]),
     });

@@ -7,10 +7,12 @@ namespace DH.Domain.Models.RewardModels.Commands;
 public class CreateRewardDto : IValidableFields
 {
     const int MinNameLength = 3;
-    const int MinRequiredPoints = 3;
 
     [JsonPropertyName("name")]
     public string Name { get; set; } = string.Empty;
+
+    [JsonPropertyName("cashEquivalent")]
+    public decimal CashEquivalent { get; set; }
 
     [JsonPropertyName("description")]
     public string Description { get; set; } = string.Empty;
@@ -31,6 +33,9 @@ public class CreateRewardDto : IValidableFields
 
         if (!Enum.IsDefined(typeof(RewardRequiredPoint), RequiredPoints))
             errors.Add(new ValidationError(nameof(RequiredPoints), "Invalid reward points value."));
+
+        if (CashEquivalent < 0 && CashEquivalent >= 1000)
+            errors.Add(new ValidationError(nameof(CashEquivalent), "Cash Equivalent should be bigger then zero and smaller then one thousand."));
 
         validationErrors = errors;
 

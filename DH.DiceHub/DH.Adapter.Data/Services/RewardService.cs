@@ -66,6 +66,7 @@ public class RewardService : IRewardService
 
             dbReward.Name = reward.Name;
             dbReward.Description = reward.Description;
+            dbReward.CashEquivalent = reward.CashEquivalent;
             dbReward.RequiredPoints = reward.RequiredPoints;
             dbReward.Level = reward.Level;
             dbReward.UpdatedDate = DateTime.UtcNow;

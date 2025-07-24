@@ -25,6 +25,7 @@ internal class GetSystemRewardListQueryHandler : IRequestHandler<GetSystemReward
             {
                 Id = x.Id,
                 Name = x.Name,
+                CashEquivalent = x.CashEquivalent,
                 Description = x.Description,
                 ImageId = x.Image.Id
             }, cancellationToken);

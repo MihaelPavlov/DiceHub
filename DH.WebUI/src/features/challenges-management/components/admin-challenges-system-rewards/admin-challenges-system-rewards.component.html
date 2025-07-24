@@ -159,15 +159,28 @@
             </div>
 
             <div class="input-field">
-              <label for="description" class="required">Description</label>
+              <label for="cashEquivalent" class="required"
+                >Cash Equivalent</label
+              >
               <input
-                name="description"
-                placeholder="description"
-                type="text"
-                id="description"
-                formControlName="description"
+                name="cashEquivalent"
+                placeholder="cash equivalent"
+                type="number"
+                id="cashEquivalent"
+                formControlName="cashEquivalent"
               />
             </div>
+          </div>
+
+          <div class="input-field">
+            <label for="description" class="required">Description</label>
+            <input
+              name="description"
+              placeholder="description"
+              type="text"
+              id="description"
+              formControlName="description"
+            />
           </div>
         </div>
       </div>
@@ -235,6 +248,9 @@
         {{ reward.name }}
         <div class="wrapper_description">
           {{ reward.description }}
+        </div>
+        <div class="wrapper_description">
+          {{ reward.cashEquivalent | currency : "BGN " }}
         </div>
       </div>
       <div class="wrapper_right">
