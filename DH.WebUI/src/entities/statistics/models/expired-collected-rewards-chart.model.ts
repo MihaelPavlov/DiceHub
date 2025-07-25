@@ -6,4 +6,5 @@ export interface GetExpiredCollectedRewardsChart {
 export interface RewardsStats {
   month: number;
   countRewards: number;
+  totalCashEquivalent: number;
 }

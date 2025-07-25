@@ -97,6 +97,7 @@ export class RewardsCollectedChartComponent implements OnDestroy {
           ) {
             const rewardsData = operation.relatedObject.map((x) => ({
               collectionCount: x.collectedCount,
+              totalCashEquivalent: x.totalCashEquivalent,
               rewardName:
                 rewards.find((e) => e.id == x.rewardId)?.name ||
                 'Reward Deleted',
@@ -135,7 +136,6 @@ export class RewardsCollectedChartComponent implements OnDestroy {
                         borderWidth: 2,
                         hoverBackgroundColor: gradientPurple,
                         borderRadius: 5,
-
                         barThickness: 15,
                         barPercentage: 30,
                       },
@@ -148,7 +148,16 @@ export class RewardsCollectedChartComponent implements OnDestroy {
                     plugins: {
                       datalabels: {
                         display: true,
+                        font: {
+                          weight: 'bold',
+                          size: 12,
+                        },
                         color: 'white',
+                        formatter: function (value, context) {
+                          const index = context.dataIndex;
+                          const reward = rewardsData[index];
+                          return `${reward.collectionCount} / ${reward.totalCashEquivalent.toFixed(2)} BGN`;
+                        },
                       },
                       legend: {
                         display: false, // Hide legend for simplicity
@@ -156,8 +165,13 @@ export class RewardsCollectedChartComponent implements OnDestroy {
                       tooltip: {
                         callbacks: {
                           label: (tooltipItem) => {
-                            const value = tooltipItem.raw;
-                            return `Collections: ${value}`;
+                            const index = tooltipItem.dataIndex;
+                            const reward = rewardsData[index];
+                            return `Collections: ${
+                              reward.collectionCount
+                            } | Total Cash: ${reward.totalCashEquivalent.toFixed(
+                              2
+                            )} BGN`;
                           },
                         },
                       },

@@ -1,3 +1,4 @@
+import { map } from 'rxjs';
 import { StatisticsService } from './../../../../../entities/statistics/api/statistics.service';
 import {
   Component,
@@ -16,6 +17,7 @@ import { addYears, format } from 'date-fns';
 import { ToastService } from '../../../../../shared/services/toast.service';
 import { AppToastMessage } from '../../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { ToastType } from '../../../../../shared/models/toast.model';
+import { RewardsStats } from '../../../../../entities/statistics/models/expired-collected-rewards-chart.model';
 
 @Component({
   selector: 'collected-expired-rewards-chart',
@@ -29,7 +31,27 @@ export class CollectedExpiredRewardsChartComponent
   private rewardsChartCanvas!: ElementRef<HTMLCanvasElement>;
   private rewardsChart: any;
   public currentRangeStart: Date = new Date();
+  allMonths = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ];
 
+  public selectedMonths: string[] = [];
+  collectedRewards: RewardsStats[] = [];
+  uncollectedRewards: RewardsStats[] = [];
+
+  filteredCollected: RewardsStats[] = [];
+  filteredUncollected: RewardsStats[] = [];
   constructor(
     private readonly router: Router,
     private readonly menuTabsService: MenuTabsService,
@@ -80,15 +102,8 @@ export class CollectedExpiredRewardsChartComponent
       .subscribe({
         next: (operation) => {
           if (operation && operation.success && operation.relatedObject) {
-            console.log(operation.relatedObject.collected);
-
-            const collectedRewards = operation.relatedObject.collected.map(
-              (x) => x.countRewards || 0
-            );
-            const uncollectedRewards = operation.relatedObject.expired.map(
-              (x) => x.countRewards || 0
-            );
-            console.log(collectedRewards);
+            this.collectedRewards = operation.relatedObject.collected;
+            this.uncollectedRewards = operation.relatedObject.expired;
 
             if (this.rewardsChartCanvas) {
               const ctx4 =
@@ -100,28 +115,18 @@ export class CollectedExpiredRewardsChartComponent
                 let gradientPurple = ctx4.createLinearGradient(0, 25, 50, 300);
                 gradientPurple.addColorStop(0, colors.purple2.half);
 
+                const { labels, collected, uncollected } =
+                  this.getFilteredChartData();
+
                 this.rewardsChart = new Chart(ctx4, {
                   type: 'bar',
                   data: {
-                    labels: [
-                      'Jan',
-                      'Feb',
-                      'Mar',
-                      'Apr',
-                      'May',
-                      'Jun',
-                      'Jul',
-                      'Aug',
-                      'Sep',
-                      'Oct',
-                      'Nov',
-                      'Dec',
-                    ],
+                    labels: labels,
                     datasets: [
                       {
                         barThickness: 15,
                         label: 'Collected Rewards',
-                        data: collectedRewards,
+                        data: collected,
                         backgroundColor: gradientPeach, // Green
                         borderColor: colors.peach.default,
                         borderWidth: 2,
@@ -131,7 +136,7 @@ export class CollectedExpiredRewardsChartComponent
                       {
                         barThickness: 15,
                         label: 'Expired Rewards',
-                        data: uncollectedRewards,
+                        data: uncollected,
                         backgroundColor: gradientPurple, // Purple
                         borderColor: colors.purple2.default,
                         borderWidth: 1,
@@ -150,7 +155,46 @@ export class CollectedExpiredRewardsChartComponent
                         position: 'top',
                       },
                       datalabels: {
-                        display: false,
+                        display: true,
+                        anchor: 'center', // attach to the top of the bar
+                        align: 'center', // place label above the bar
+                        color: '#ffffff',
+                        font: {
+                          weight: 'bold',
+                          size: 12,
+                        },
+                        formatter: (value, context) => {
+                          const index = context.dataIndex;
+                          const datasetIndex = context.datasetIndex;
+                          const data =
+                            datasetIndex === 0
+                              ? this.filteredCollected
+                              : this.filteredUncollected;
+                          const item = data[index];
+                          return item && item.countRewards > 0
+                            ? `${
+                                item.countRewards
+                              } / ${item.countRewards.toFixed(2)} BGN`
+                            : '';
+                        },
+                      },
+                      tooltip: {
+                        callbacks: {
+                          label: (tooltipItem) => {
+                            const index = tooltipItem.dataIndex;
+                            const datasetIndex = tooltipItem.datasetIndex;
+                            const isCollected = datasetIndex === 0;
+                            const data = isCollected
+                              ? this.filteredCollected
+                              : this.filteredUncollected;
+                            const item = data[index];
+                            return item
+                              ? `Count: ${
+                                  item.countRewards
+                                } | Cash: ${item.countRewards.toFixed(2)} BGN`
+                              : '';
+                          },
+                        },
                       },
                     },
                     scales: {
@@ -195,5 +239,53 @@ export class CollectedExpiredRewardsChartComponent
           });
         },
       });
+  }
+
+  private getFilteredChartData(): {
+    labels: string[];
+    collected: number[];
+    uncollected: number[];
+  } {
+    const labels: string[] = [];
+    const collected: number[] = [];
+    const uncollected: number[] = [];
+
+    this.filteredCollected = [];
+    this.filteredUncollected = [];
+
+    this.allMonths.forEach((month, index) => {
+      const shouldInclude =
+        !this.selectedMonths?.length || this.selectedMonths.includes(month);
+
+      if (shouldInclude) {
+        const collectedItem = this.collectedRewards[index] || {
+          countRewards: 0,
+        };
+        const uncollectedItem = this.uncollectedRewards[index] || {
+          countRewards: 0,
+        };
+
+        labels.push(month);
+        collected.push(collectedItem.countRewards);
+        uncollected.push(uncollectedItem.countRewards);
+
+        this.filteredCollected.push(collectedItem);
+        this.filteredUncollected.push(uncollectedItem);
+      }
+    });
+
+    return { labels, collected, uncollected };
+  }
+
+  public updateChartByMonth(): void {
+    if (!this.collectedRewards.length || !this.uncollectedRewards.length)
+      return;
+
+    const { labels, collected, uncollected } = this.getFilteredChartData();
+    this.rewardsChart.data.labels = labels;
+    this.rewardsChart.data.datasets[0].data = collected;
+    this.rewardsChart.data.datasets[1].data = uncollected;
+
+    this.rewardsChart.update();
   }
 }

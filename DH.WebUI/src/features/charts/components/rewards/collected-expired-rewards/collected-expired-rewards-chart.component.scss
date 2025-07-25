@@ -53,6 +53,14 @@
   }
 }
 
+.month_filter {
+  display: flex;
+  justify-content: center;
+  color: palette.$main-font-gray-color;
+  font-size: 1.2rem;
+  margin: 1rem;
+}
+
 .wrapper {
   margin: 1rem;
   margin-bottom: 10rem;
