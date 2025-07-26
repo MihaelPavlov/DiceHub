@@ -258,7 +258,7 @@ internal class StatisticsService(
                     .ReturnWithBadRequestException("Challenge History Log Type was not correct");
         }
 
-        var startDateUtc= startDate.ToUniversalTime();
+        var startDateUtc = startDate.ToUniversalTime();
         var endDateUtc = endDate.ToUniversalTime();
 
         using (var context = await dbContextFactory.CreateDbContextAsync(cancellationToken))
@@ -286,25 +286,43 @@ internal class StatisticsService(
             return new OperationResult<List<GetCollectedRewardByDatesModel>>()
                 .ReturnWithBadRequestException(errorMessage);
 
+
         using (var context = await dbContextFactory.CreateDbContextAsync(cancellationToken))
         {
-            var rewards = await context.RewardHistoryLogs
+            var systemRewards = await context.ChallengeRewards
+                .Select(x => new Test(x.Id, x.CashEquivalent))
+                .ToListAsync(cancellationToken);
+
+            var groupedRewards = await context.RewardHistoryLogs
                 .Where(x =>
                     x.IsCollected &&
                     x.CollectedDate != null &&
                     x.CollectedDate.Value.Date >= fromDateUtc!.Value.Date &&
                     x.CollectedDate.Value.Date <= toDateUtc!.Value.Date)
                 .GroupBy(x => x.RewardId)
-                .Select(x => new GetCollectedRewardByDatesModel
-                {
-                    RewardId = x.Key,
-                    CollectedCount = x.Count(),
-                })
                 .ToListAsync(cancellationToken);
 
+            var rewards = groupedRewards
+                .Select(group =>
+                {
+                    var count = group.Count();
+                    var rewardId = group.Key;
+
+                    var reward = systemRewards.FirstOrDefault(sr => sr.Id == rewardId);
+                    var cashEquivalent = reward?.CashEquivalent ?? 0;
+
+                    return new GetCollectedRewardByDatesModel
+                    {
+                        RewardId = rewardId,
+                        CollectedCount = count,
+                        TotalCashEquivalent = cashEquivalent * count
+                    };
+                })
+                .ToList();
             return new OperationResult<List<GetCollectedRewardByDatesModel>>(rewards);
         }
     }
+    public record Test(int Id, decimal CashEquivalent);
 
     public async Task<OperationResult<GetEventAttendanceChartData>> GetEventAttendanceByIds(int[] eventIds, CancellationToken cancellationToken)
     {
@@ -357,41 +375,62 @@ internal class StatisticsService(
     {
         using (var context = await dbContextFactory.CreateDbContextAsync(cancellationToken))
         {
-            var collectedRewards = await context.RewardHistoryLogs
-                  .Where(x => x.IsCollected && x.CollectedDate != null && x.CollectedDate.Value.Year == year)
-                  .GroupBy(x => new { x.CollectedDate!.Value.Year, x.CollectedDate.Value.Month })
-                  .Select(g => new RewardsStats
-                  {
-                      Month = g.Key.Month,
-                      CountRewards = g.Count()
-                  })
-                  .ToListAsync(cancellationToken);
+            var allMonths = Enumerable.Range(1, 12)
+             .Select(month => new RewardsStats
+             {
+                 Month = month,
+                 CountRewards = 0,
+                 TotalCashEquivalent = 0m
+             })
+             .ToList();
 
-            var expiredRewards = await context.RewardHistoryLogs
-                .Where(x => x.IsExpired && x.ExpiredDate != null && x.ExpiredDate.Value.Year == year)
-                .GroupBy(x => new { x.ExpiredDate!.Value.Year, x.ExpiredDate.Value.Month })
+            var collectedRewards = await context.RewardHistoryLogs
+                .Where(x => x.IsCollected && x.CollectedDate != null && x.CollectedDate.Value.Year == year)
+                .Join(context.ChallengeRewards,
+                    rhl => rhl.RewardId,
+                    cr => cr.Id,
+                    (rhl, cr) => new { rhl.CollectedDate, cr.CashEquivalent })
+                .GroupBy(x => x.CollectedDate!.Value.Month)
                 .Select(g => new RewardsStats
                 {
-                    Month = g.Key.Month,
-                    CountRewards = g.Count()
+                    Month = g.Key,
+                    CountRewards = g.Count(),
+                    TotalCashEquivalent = g.Sum(x => x.CashEquivalent)
                 })
                 .ToListAsync(cancellationToken);
 
-            var allMonths = Enumerable.Range(1, 12).Select(month => new RewardsStats
-            {
-                Month = month,
-                CountRewards = 0
-            }).ToList();
+            var expiredRewards = await context.RewardHistoryLogs
+                .Where(x => x.IsExpired && x.ExpiredDate != null && x.ExpiredDate.Value.Year == year)
+                .Join(context.ChallengeRewards,
+                    rhl => rhl.RewardId,
+                    cr => cr.Id,
+                    (rhl, cr) => new { rhl.ExpiredDate, cr.CashEquivalent })
+                .GroupBy(x => x.ExpiredDate!.Value.Month)
+                .Select(g => new RewardsStats
+                {
+                    Month = g.Key,
+                    CountRewards = g.Count(),
+                    TotalCashEquivalent = g.Sum(x => x.CashEquivalent)
+                })
+                .ToListAsync(cancellationToken);
 
             var completeCollectedRewards = allMonths
-              .GroupJoin(collectedRewards, m => m.Month, r => r.Month, (m, r) => new { Month = m.Month, CountRewards = r.Sum(x => x.CountRewards) })
-              .Select(grp => new RewardsStats { Month = grp.Month, CountRewards = grp.CountRewards })
+              .GroupJoin(collectedRewards,
+                m => m.Month,
+                r => r.Month,
+                (m, r) => r.DefaultIfEmpty(new RewardsStats { Month = m.Month, CountRewards = 0, TotalCashEquivalent = 0m }))
+              .SelectMany(grp => grp)
+              .OrderBy(x => x.Month)
               .ToList();
 
             var completeExpiredRewards = allMonths
-                .GroupJoin(expiredRewards, m => m.Month, r => r.Month, (m, r) => new { Month = m.Month, CountRewards = r.Sum(x => x.CountRewards) })
-                .Select(grp => new RewardsStats { Month = grp.Month, CountRewards = grp.CountRewards })
-                .ToList();
+              .GroupJoin(expiredRewards,
+                m => m.Month,
+                r => r.Month,
+                (m, r) => r.DefaultIfEmpty(new RewardsStats { Month = m.Month, CountRewards = 0, TotalCashEquivalent = 0m }))
+              .SelectMany(grp => grp)
+              .OrderBy(x => x.Month)
+              .ToList();
 
             var result = new GetExpiredCollectedRewardsChartDataModel
             {

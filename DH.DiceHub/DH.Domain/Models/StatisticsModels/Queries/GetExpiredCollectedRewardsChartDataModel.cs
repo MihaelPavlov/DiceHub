@@ -10,4 +10,5 @@ public class RewardsStats
 {
     public int Month { get; set; }
     public int CountRewards { get; set; }
+    public decimal TotalCashEquivalent { get; set; }
 }
