@@ -59,7 +59,7 @@
       margin: 0 0.5rem;
       margin-bottom: 0.5rem;
     }
-    
+
     .wrapper_search {
       background: palette.$main-blue-color;
       display: flex;
@@ -114,7 +114,6 @@
       margin-bottom: 0.5rem;
     }
 
-
     .wrapper_menu_btn {
       background: palette.$main-icon-color;
       display: flex;
@@ -149,7 +148,7 @@
       }
     }
 
-    .back_btn_placeholder{
+    .back_btn_placeholder {
       width: 3rem;
       margin: 0 0.2rem;
       margin-bottom: 0.5rem;
@@ -277,6 +276,8 @@
   width: 100%;
   transition: top 0.5s ease-in;
   padding-top: 1rem;
+  background-color: palette.$main-background-color;
+  z-index: 10;
 }
 
 #navbar.hidden {
