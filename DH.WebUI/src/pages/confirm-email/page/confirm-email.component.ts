@@ -75,7 +75,9 @@ export class ConfirmEmailComponent implements OnInit {
   }
 
   public confirmEmail(email: string, token: string): void {
-    this.authService.confirmEmail(email, token).subscribe({
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+    this.authService.confirmEmail(email, token, timeZone).subscribe({
       next: (response) => {
         this.isSuccess = response ? true : false;
 

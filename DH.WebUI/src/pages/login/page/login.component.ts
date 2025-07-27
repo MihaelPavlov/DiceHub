@@ -167,11 +167,14 @@ export class LoginComponent extends Form implements OnInit {
         console.log('device-token', deviceToken);
       }
 
+      const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
       this.authService
         .login({
           email: this.form.controls.email.value,
           password: this.form.controls.password.value,
           deviceToken,
+          timeZone,
         })
         .subscribe({
           next: (response) => {
@@ -204,6 +207,9 @@ export class LoginComponent extends Form implements OnInit {
               message: AppToastMessage.SomethingWrong,
               type: ToastType.Error,
             });
+
+            this.loadingService.loadingOff();
+            this.loadingContext.disableManualMode();
           },
           complete: () => {
             this.loadingService.loadingOff();
@@ -228,11 +234,14 @@ export class LoginComponent extends Form implements OnInit {
         deviceToken =
           await this.messagingService.getDeviceTokenForRegistration();
       }
+      const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
       this.authService
         .login({
           email: 'rap4obg@abv.bg',
           password: '1qaz!QAZ',
           deviceToken,
+          timeZone,
         })
         .subscribe({
           next: (response) => {
@@ -263,86 +272,6 @@ export class LoginComponent extends Form implements OnInit {
     }
   }
 
-  loginUser2() {
-    this.authService
-      .login({
-        email: 'rap4obg88@abv.bg',
-        password: '1qaz!QAZ',
-      })
-      .subscribe({
-        next: (response) => {
-          if (response) {
-            this.authService.authenticateUser(
-              response.accessToken,
-              response.refreshToken
-            );
-
-            this.router.navigateByUrl('games/library');
-          }
-        },
-        error: (error) => {
-          this.handleServerErrors(error);
-          this.toastService.error({
-            message: AppToastMessage.FailedToSaveChanges,
-            type: ToastType.Error,
-          });
-        },
-      });
-  }
-
-  loginUser3() {
-    this.authService
-      .login({
-        email: 'rap4obg4@abv.bg',
-        password: '123456789Mm!',
-      })
-      .subscribe({
-        next: (response) => {
-          if (response) {
-            this.authService.authenticateUser(
-              response.accessToken,
-              response.refreshToken
-            );
-
-            this.router.navigateByUrl('games/library');
-          }
-        },
-        error: (error) => {
-          this.handleServerErrors(error);
-          this.toastService.error({
-            message: AppToastMessage.FailedToSaveChanges,
-            type: ToastType.Error,
-          });
-        },
-      });
-  }
-  loginUser4() {
-    this.authService
-      .login({
-        email: 'rap4obg17@abv.bg',
-        password: '123456789Mm!',
-      })
-      .subscribe({
-        next: (response) => {
-          if (response) {
-            this.authService.authenticateUser(
-              response.accessToken,
-              response.refreshToken
-            );
-
-            this.router.navigateByUrl('games/library');
-          }
-        },
-        error: (error) => {
-          this.handleServerErrors(error);
-          this.toastService.error({
-            message: AppToastMessage.FailedToSaveChanges,
-            type: ToastType.Error,
-          });
-        },
-      });
-  }
-
   public async loginAdmin() {
     this.loadingContext.enableManualMode();
     this.loadingService.loadingOn();
@@ -363,6 +292,7 @@ export class LoginComponent extends Form implements OnInit {
         .subscribe();
       deviceToken = await this.messagingService.getDeviceTokenForRegistration();
     }
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
     this.frontEndLogService
       .sendWarning('login as admin', 'On LoginComponent.onLogin()')
@@ -372,6 +302,7 @@ export class LoginComponent extends Form implements OnInit {
         email: 'sa@dicehub.com',
         password: '1qaz!QAZ',
         deviceToken,
+        timeZone,
       })
       .subscribe({
         next: (response) => {

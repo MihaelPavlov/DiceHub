@@ -11,6 +11,11 @@ public interface IUserContext
     string UserId { get; }
 
     /// <summary>
+    /// Gets the time zone of the current user.
+    /// </summary>
+    string TimeZone { get; }
+
+    /// <summary>
     /// Gets a value indicating whether the current user is authenticated.
     /// </summary>
     bool IsAuthenticated { get; }

@@ -14,7 +14,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Security.Claims;
-using System.Threading;
 
 namespace DH.Adapter.Authentication.Services;
 
@@ -30,12 +29,10 @@ public class UserService : IUserService
     readonly IHttpContextAccessor _httpContextAccessor;
     readonly IPermissionStringBuilder _permissionStringBuilder;
     readonly SynchronizeUsersChallengesQueue queue;
-    readonly IPushNotificationsService pushNotificationsService;
     readonly IRepository<UserDeviceToken> userDeviceTokenRepository;
     readonly IUserContext userContext;
     readonly ILogger<UserService> logger;
     readonly IRepository<TenantSetting> tenantSettingsRepository;
-    readonly IRepository<TenantUserSetting> tenantUserSettingsRepository;
 
     /// <summary>
     /// Constructor for UserService to initialize dependencies.
@@ -43,9 +40,8 @@ public class UserService : IUserService
     public UserService(IHttpContextAccessor httpContextAccessor, IHttpClientFactory httpClientFactory,
         SignInManager<ApplicationUser> signInManager, IJwtService jwtService,
         UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager,
-        IPermissionStringBuilder permissionStringBuilder, SynchronizeUsersChallengesQueue queue,
-        IPushNotificationsService pushNotificationsService, IRepository<UserDeviceToken> userDeviceTokenRepository,
-        IUserContext userContext, ILogger<UserService> logger, IRepository<TenantSetting> tenantSettingsRepository, IRepository<TenantUserSetting> tenantUserSettingsRepository)
+        IPermissionStringBuilder permissionStringBuilder, SynchronizeUsersChallengesQueue queue, IRepository<UserDeviceToken> userDeviceTokenRepository,
+        IUserContext userContext, ILogger<UserService> logger, IRepository<TenantSetting> tenantSettingsRepository)
     {
         _httpContextAccessor = httpContextAccessor;
         this.signInManager = signInManager;
@@ -54,12 +50,10 @@ public class UserService : IUserService
         this.roleManager = roleManager;
         this._permissionStringBuilder = permissionStringBuilder;
         this.queue = queue;
-        this.pushNotificationsService = pushNotificationsService;
         this.userDeviceTokenRepository = userDeviceTokenRepository;
         this.userContext = userContext;
         this.logger = logger;
         this.tenantSettingsRepository = tenantSettingsRepository;
-        this.tenantUserSettingsRepository = tenantUserSettingsRepository;
     }
 
     /// <inheritdoc />
@@ -77,6 +71,11 @@ public class UserService : IUserService
 
         if (!result.Succeeded)
             throw new ValidationErrorsException("Email", "Email or Password is invalid!");
+
+        if (!string.IsNullOrEmpty(form.TimeZone) && form.TimeZone != user!.TimeZone)
+        {
+            user.TimeZone = form.TimeZone!;
+        }
 
         var userDiviceToken = await this.userDeviceTokenRepository.GetByAsyncWithTracking(x => x.UserId == user!.Id, CancellationToken.None);
         if (userDiviceToken is null && form.DeviceToken is not null)
@@ -498,10 +497,11 @@ public class UserService : IUserService
         var role = roles.FirstOrDefault();
 
         var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Sid,user.Id),
-                new Claim(ClaimTypes.Name, user.UserName!),
-            };
+        {
+            new Claim(ClaimTypes.Sid,user.Id),
+            new Claim(ClaimTypes.Name, user.UserName!),
+            new Claim("TimeZone", user.TimeZone!),
+        };
         if (role != null)
         {
             claims.Add(new Claim(ClaimTypes.Role, RoleHelper.GetRoleKeyByName(role).ToString()));

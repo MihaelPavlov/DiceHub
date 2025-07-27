@@ -1,4 +1,5 @@
-﻿using DH.Domain.Adapters.Authentication;
+﻿
+using DH.Domain.Adapters.Authentication;
 using DH.Domain.Adapters.Authentication.Models.Enums;
 using DH.Domain.Adapters.Authentication.Services;
 using DH.Domain.Adapters.PushNotifications;
@@ -6,12 +7,15 @@ using DH.Domain.Adapters.PushNotifications.Messages;
 using DH.Domain.Adapters.Reservations;
 using DH.Domain.Entities;
 using DH.Domain.Enums;
+using DH.Domain.Helpers;
 using DH.Domain.Models.GameModels.Commands;
 using DH.Domain.Repositories;
 using DH.Domain.Services;
 using DH.Domain.Services.TenantSettingsService;
 using DH.OperationResultCore.Exceptions;
 using MediatR;
+using Microsoft.Extensions.Logging;
+using NodaTime;
 
 namespace DH.Application.Games.Commands;
 
@@ -24,7 +28,8 @@ internal class CreateGameReservationCommandHandler(
     IPushNotificationsService pushNotificationsService,
     IUserService userService,
     IRepository<Game> gameRepository,
-    ITenantSettingsCacheService tenantSettingsCacheService) : IRequestHandler<CreateGameReservationCommand>
+    ITenantSettingsCacheService tenantSettingsCacheService,
+    ILogger<CreateGameReservationCommandHandler> logger) : IRequestHandler<CreateGameReservationCommand>
 {
     readonly IGameService gameService = gameService;
     readonly IRepository<GameReservation> repository = repository;
@@ -34,6 +39,7 @@ internal class CreateGameReservationCommandHandler(
     readonly IUserService userService = userService;
     readonly ITenantSettingsCacheService tenantSettingsCacheService = tenantSettingsCacheService;
     readonly ReservationCleanupQueue queue = queue;
+    readonly ILogger<CreateGameReservationCommandHandler> logger = logger;
 
     public async Task Handle(CreateGameReservationCommand request, CancellationToken cancellationToken)
     {
@@ -67,8 +73,23 @@ internal class CreateGameReservationCommandHandler(
         var game = await this.gameRepository.GetByAsync(x => x.Id == request.Reservation.GameId, cancellationToken);
 
         var userIds = users.Select(users => users.Id).ToList();
+
+        var (userLocalReservationDate, isUtcFallback) =
+            TimeZoneHelper.GetUserLocalOrUtcTime(reservation.ReservationDate, this.userContext.TimeZone);
+
+        if (isUtcFallback)
+        {
+            this.logger.LogWarning(
+                "User local game reservation date could not be calculated for reservation ID: {ReservationId}, time zone: {TimeZone}. Falling back to UTC.",
+                reservation.Id,
+                this.userContext.TimeZone);
+        }
+
         await this.pushNotificationsService.SendNotificationToUsersAsync(userIds,
-            new GameReservationManagementReminder(game!.Name, currentUser.UserName, request.Reservation.PeopleCount, reservation.ReservationDate), cancellationToken);
+            new GameReservationManagementReminder(
+                game!.Name, currentUser.UserName,
+                request.Reservation.PeopleCount,
+                userLocalReservationDate, isUtcFallback), cancellationToken);
     }
 }
 

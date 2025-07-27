@@ -3,6 +3,7 @@ using DH.Domain.Adapters.Scheduling;
 using DH.Domain.Enums;
 using DH.Domain.Helpers;
 using DH.Domain.Services.TenantSettingsService;
+using Microsoft.Extensions.Logging;
 using Quartz;
 
 namespace DH.Adapter.Scheduling;
@@ -11,13 +12,15 @@ internal class SchedulerService : ISchedulerService
 {
     private readonly ISchedulerFactory schedulerFactory;
     private readonly ITenantSettingsCacheService tenantSettingsService;
-
+    private readonly ILogger<SchedulerService> logger;
     public SchedulerService(
         ISchedulerFactory schedulerFactory,
-        ITenantSettingsCacheService tenantSettingsService)
+        ITenantSettingsCacheService tenantSettingsService,
+        ILogger<SchedulerService> logger)
     {
         this.schedulerFactory = schedulerFactory;
         this.tenantSettingsService = tenantSettingsService;
+        this.logger = logger;
     }
 
     public async Task ScheduleAddUserPeriodJob()
@@ -35,7 +38,7 @@ internal class SchedulerService : ISchedulerService
             }
 
             var triggerKey = new TriggerKey($"WeeklyJobTrigger-{jobKey.Name}");
-            
+
             Enum.TryParse<TimePeriodType>(tenantSettings.PeriodOfRewardReset, out var timePeriod);
 
             var runAt = TimePeriodTypeHelper.CalculateNextResetDate(timePeriod, tenantSettings.ResetDayForRewards);
@@ -51,9 +54,12 @@ internal class SchedulerService : ISchedulerService
                 .Build();
 
             await scheduler.ScheduleJob(job, trigger);
+
+            logger.LogInformation("Scheduled AddUserChallengePeriodJob to run at {RunAt}", runAt);
         }
-        catch (Exception EX)
+        catch (Exception ex)
         {
+            logger.LogError(ex, "Failed to schedule AddUserChallengePeriodJob");
         }
     }
 }

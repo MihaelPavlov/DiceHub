@@ -64,6 +64,7 @@ public static class TimePeriodTypeHelper
             throw new NotImplementedException("Functionality for Yearly period is not implemented");
         }
 
-        return nextResetDate;
+        // ✅ Move to end of day: 23:59:59
+        return nextResetDate.Date.AddDays(1).AddSeconds(-1);
     }
 }

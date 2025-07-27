@@ -4,6 +4,7 @@ using DH.Domain.Helpers;
 using DH.Domain.Services.TenantSettingsService;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Quartz;
 
 namespace DH.Adapter.Scheduling;
@@ -12,11 +13,16 @@ internal class ConditionalJobScheduler : IHostedService
 {
     readonly ISchedulerFactory _schedulerFactory;
     readonly IServiceProvider _serviceProvider;
+    readonly ILogger<ConditionalJobScheduler> logger;
 
-    public ConditionalJobScheduler(ISchedulerFactory schedulerFactory, IServiceProvider serviceProvider)
+    public ConditionalJobScheduler(
+        ISchedulerFactory schedulerFactory,
+        IServiceProvider serviceProvider,
+        ILogger<ConditionalJobScheduler> logger)
     {
         _schedulerFactory = schedulerFactory;
         _serviceProvider = serviceProvider;
+        this.logger = logger;
     }
 
     public async Task StartAsync(CancellationToken cancellationToken)
@@ -47,7 +53,11 @@ internal class ConditionalJobScheduler : IHostedService
                         .Build();
 
                     await scheduler.ScheduleJob(job, trigger, cancellationToken);
+                    logger.LogInformation("Scheduled job {JobName} with trigger {TriggerName} to run at {RunAt}", jobKey.Name, triggerKey.Name, runAt);
                 }
+                else
+                    logger.LogInformation("Job {JobName} already exists, skipping scheduling.", jobKey.Name);
+
             }
         }
     }

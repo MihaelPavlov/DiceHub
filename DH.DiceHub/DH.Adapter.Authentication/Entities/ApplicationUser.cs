@@ -7,4 +7,5 @@ public class ApplicationUser : IdentityUser
     public string? RefreshToken { get; set; }
     public bool IsDeleted { get; set; }
     public DateTime RefreshTokenExpiryTime { get; set; }
+    public string TimeZone { get; set; } = string.Empty;
 }

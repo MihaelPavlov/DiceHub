@@ -2,6 +2,8 @@
 
 public static class DateValidator
 {
+    public const string DATE_TIME_FORMAT = "dd/MMM/yyyy HH:mm";
+
     /// <summary>
     /// Validates and parses the FromDate and ToDate properties of an IRequest object.
     /// </summary>

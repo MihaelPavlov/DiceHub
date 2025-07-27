@@ -1,3 +1,4 @@
 ﻿namespace DH.Domain.Models.GameModels.Commands;
 
-public record CreateGameReservationModel(int GameId, int DurationInMinutes, int PeopleCount);
+public record CreateGameReservationModel(
+    int GameId, int DurationInMinutes, int PeopleCount);

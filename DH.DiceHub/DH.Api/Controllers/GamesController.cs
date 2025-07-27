@@ -178,7 +178,7 @@ public class GamesController : ControllerBase
 
     [HttpPost("reservation")]
     [ActionAuthorize(UserAction.GamesRead)]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetGameListQueryModel>))]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> CreateGameReservation([FromBody] CreateGameReservationCommand command, CancellationToken cancellationToken)
     {
         await this.mediator.Send(command, cancellationToken);

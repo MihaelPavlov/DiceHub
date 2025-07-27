@@ -1,5 +1,4 @@
 ﻿using DH.Domain.Adapters.Scheduling;
-using DH.Domain.Entities;
 using DH.Domain.Enums;
 using DH.Domain.Helpers;
 using DH.Domain.Services.TenantSettingsService;
@@ -8,6 +7,8 @@ using Quartz;
 
 namespace DH.Adapter.Scheduling.Jobs;
 
+// The job responsible to create the new Challenge Period Performance for all users
+// And rescheduled the next one
 public class AddUserChallengePeriodJob : IJob
 {
     readonly IAddUserChallengePeriodHandler addUserChallengePeriodHandler;
@@ -44,7 +45,7 @@ public class AddUserChallengePeriodJob : IJob
 
             Enum.TryParse<TimePeriodType>(tenantSettings.PeriodOfRewardReset, out var timePeriod);
 
-            var runAt = TimePeriodTypeHelper.CalculateNextResetDate(timePeriod, tenantSettings.ResetDayForRewards).AddDays(7); // use the same logic as above
+            var runAt = TimePeriodTypeHelper.CalculateNextResetDate(timePeriod, tenantSettings.ResetDayForRewards);
 
             var nextTrigger = TriggerBuilder.Create()
                 .ForJob(jobKey)

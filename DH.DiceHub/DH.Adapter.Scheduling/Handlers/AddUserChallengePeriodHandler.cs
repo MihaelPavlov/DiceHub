@@ -16,25 +16,20 @@ internal class AddUserChallengePeriodHandler : IAddUserChallengePeriodHandler
     readonly IRepository<FailedJob> failedJobsRepository;
     readonly IRepository<UserChallengePeriodPerformance> userChallengePeriodPerformanceRepository;
     readonly IUserChallengesManagementService userChallengesManagementService;
-    readonly ITenantSettingsCacheService tenantSettingsService;
 
     public AddUserChallengePeriodHandler(
         IRepository<FailedJob> failedJobsRepository,
         IUserChallengesManagementService userChallengesManagementService,
-        IRepository<UserChallengePeriodPerformance> userChallengePeriodPerformanceRepository,
-        ITenantSettingsCacheService tenantSettingsService)
+        IRepository<UserChallengePeriodPerformance> userChallengePeriodPerformanceRepository)
     {
         this.failedJobsRepository = failedJobsRepository;
         this.userChallengesManagementService = userChallengesManagementService;
         this.userChallengePeriodPerformanceRepository = userChallengePeriodPerformanceRepository;
-        this.tenantSettingsService = tenantSettingsService;
     }
 
     public async Task InitializeNewPeriods(CancellationToken cancellationToken)
     {
         var periods = await this.userChallengePeriodPerformanceRepository.GetWithPropertiesAsTrackingAsync(x => x.IsPeriodActive, x => x, cancellationToken);
-        var tenantSettings = await this.tenantSettingsService.GetGlobalTenantSettingsAsync(CancellationToken.None);
-        Enum.TryParse<TimePeriodType>(tenantSettings.PeriodOfRewardReset, out var timePeriod);
 
         // for every active period
         foreach (var period in periods)

@@ -15,8 +15,6 @@ using DH.Domain.Adapters.Authentication.Models.Enums;
 using DH.Application.Stats.Queries;
 using DH.Application.Emails.Commands;
 using DH.Domain.Adapters.Email.Models;
-using DH.Domain.Entities;
-using DH.Domain.Adapters.Email;
 using DH.Domain.Models.Common;
 
 namespace DH.Api.Controllers;

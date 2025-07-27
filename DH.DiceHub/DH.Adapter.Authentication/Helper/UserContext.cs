@@ -11,16 +11,18 @@ public class UserContext : IUserContext
     readonly string? _userId;
     readonly int? _roleKey;
     readonly string? _token;
+    readonly string? _timeZone;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="UserContext"/> class with the specified user ID.
     /// </summary>
     /// <param name="userId">The unique identifier of the current user.</param>
-    public UserContext(string? userId, int? roleKey, string? token)
+    public UserContext(string? userId, int? roleKey, string? token, string? timeZone)
     {
         _userId = userId;
         _roleKey = roleKey;
         _token = token;
+        _timeZone = timeZone;
     }
 
     /// <inheritdoc/>
@@ -46,6 +48,17 @@ public class UserContext : IUserContext
                 return _roleKey.Value;
 
             throw new Exception("Can not find current role.");
+        }
+    }
+
+    public string TimeZone
+    {
+        get
+        {
+            if (_timeZone != null)
+                return _timeZone;
+
+            throw new Exception("Can not find time zone.");
         }
     }
 

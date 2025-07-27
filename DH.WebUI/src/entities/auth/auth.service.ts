@@ -36,11 +36,13 @@ export class AuthService {
 
   public confirmEmail(
     email: string,
-    token: string
+    token: string,
+    timeZone: string
   ): Observable<ITokenResponse | null> {
     return this.api.post<ITokenResponse>('/user/confirm-email', {
       email,
       token,
+      timeZone,
     });
   }
 

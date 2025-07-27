@@ -28,7 +28,9 @@
             d="M280-280 80-480l200-200 56 56-103 104h494L624-624l56-56 200 200-200 200-56-56 103-104H233l103 104-56 56Z"
           />
         </svg>
-        <span>{{ this.periodPerformance.endDate | date : DATE_FORMAT }}</span>
+        <span>{{
+          this.periodPerformance.endDate | date : DATE_FORMAT : "UTC"
+        }}</span>
       </p>
     </div>
     <div class="wrapper_scroller">
@@ -215,7 +217,9 @@
             d="M280-280 80-480l200-200 56 56-103 104h494L624-624l56-56 200 200-200 200-56-56 103-104H233l103 104-56 56Z"
           />
         </svg>
-        <span>{{ this.periodPerformance.endDate | date : DATE_FORMAT }}</span>
+        <span>{{
+          this.periodPerformance.endDate | date : DATE_FORMAT : "UTC"
+        }}</span>
       </p>
     </div>
     <div class="wrapper_scroller">

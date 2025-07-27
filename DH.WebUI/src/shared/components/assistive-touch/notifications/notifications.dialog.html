@@ -37,7 +37,7 @@
         <p class="type">{{item.messageTitle}}</p>
 
         <span class="date">{{item.createdDate| date: DATE_TIME_FORMAT }}</span>
-        <span class="text">{{item.messageBody| parseDateTag}}</span>
+        <span class="text" [innerHTML]="item.messageBody"></span>
       </div>
     </ng-container>
   </div>
