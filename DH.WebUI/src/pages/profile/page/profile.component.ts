@@ -59,6 +59,10 @@ export class ProfileComponent implements OnDestroy {
     }
   }
 
+  public navigateToJobList(): void {
+    this.router.navigateByUrl('profile/jobs');
+  }
+
   public navigateToEmployeeList(): void {
     this.router.navigateByUrl('profile/employees');
   }

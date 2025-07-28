@@ -145,7 +145,11 @@
         <span class="item-header"> Events </span>
       </div> -->
 
-      <!-- <div *ngIf="isAdmin()" class="item-wrapper">
+      <div
+        *ngIf="isSuperAdmin()"
+        class="item-wrapper"
+        (click)="navigateToJobList()"
+      >
         <div class="item">
           <svg
             height="24px"
@@ -160,7 +164,7 @@
         </div>
 
         <span class="item-header"> Jobs </span>
-      </div> -->
+      </div>
 
       <!-- <div *ngIf="isAdmin()" class="item-wrapper">
         <div class="item">

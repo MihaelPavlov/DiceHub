@@ -9,6 +9,7 @@ import { EmployeeListComponent } from '../../features/profile/components/employe
 import { AddUpdateEmployeeComponent } from '../../features/profile/components/add-employee/add-update-employee.component';
 import { OwnerDetailsComponent } from '../../features/profile/components/owner-details/owner-details.component';
 import { SettingsSuperAdminAccessGuard } from './guards/settings-super-admin-access.guard';
+import { JobsComponent } from '../../features/profile/components/jobs/jobs.component';
 
 const routes: Routes = [
   {
@@ -43,6 +44,11 @@ const routes: Routes = [
   {
     path: 'owner-details',
     component: OwnerDetailsComponent,
+    canActivate: [SettingsSuperAdminAccessGuard],
+  },
+  {
+    path: 'jobs',
+    component: JobsComponent,
     canActivate: [SettingsSuperAdminAccessGuard],
   },
   // {

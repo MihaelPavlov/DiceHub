@@ -1,10 +1,12 @@
 ﻿using DH.Adapter.Scheduling.Jobs;
 using DH.Domain.Adapters.Scheduling;
+using DH.Domain.Adapters.Scheduling.Models;
 using DH.Domain.Enums;
 using DH.Domain.Helpers;
 using DH.Domain.Services.TenantSettingsService;
 using Microsoft.Extensions.Logging;
 using Quartz;
+using Quartz.Impl.Matchers;
 
 namespace DH.Adapter.Scheduling;
 
@@ -21,6 +23,36 @@ internal class SchedulerService : ISchedulerService
         this.schedulerFactory = schedulerFactory;
         this.tenantSettingsService = tenantSettingsService;
         this.logger = logger;
+    }
+
+    public async Task<List<ScheduleJobInfo>> GetScheduleJobs()
+    {
+        var scheduler = await schedulerFactory.GetScheduler();
+
+        var jobGroups = await scheduler.GetJobGroupNames();
+        var result = new List<ScheduleJobInfo>();
+        foreach (var group in jobGroups)
+        {
+            var jobKeys = await scheduler.GetJobKeys(GroupMatcher<JobKey>.GroupEquals(group));
+
+            foreach (var jobKey in jobKeys)
+            {
+                var triggers = await scheduler.GetTriggersOfJob(jobKey);
+
+                foreach (var trigger in triggers)
+                {
+                    result.Add(new ScheduleJobInfo
+                    {
+                        JobKeyName = jobKey.Name,
+                        TriggerKeyName = trigger.Key.Name,
+                        NextFireTime = trigger.GetNextFireTimeUtc()?.DateTime,
+                        PreviousFireTime = trigger.GetPreviousFireTimeUtc()?.DateTime
+                    });
+                }
+            }
+        }
+
+        return result;
     }
 
     public async Task ScheduleAddUserPeriodJob()

@@ -140,6 +140,10 @@ export const PATH = {
   PARTNER_INQUIRIES: {
     CORE: 'partnerInquiries',
   },
+  SCHEDULER:{
+    CORE: 'scheduler',
+    GET_SCHEDULE_JOBS: 'get-schedule-jobs',
+  }
   // AUTH: {
   //   LOGIN: 'auth/user/login',
   // },

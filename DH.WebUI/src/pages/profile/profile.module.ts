@@ -11,6 +11,7 @@ import { AddUpdateEmployeeComponent } from '../../features/profile/components/ad
 import { EmployeeConfirmDeleteDialog } from '../../features/profile/dialogs/employee-confirm-delete/employee-confirm-delete.component';
 import { MatDialogActions, MatDialogClose } from '@angular/material/dialog';
 import { OwnerDetailsComponent } from '../../features/profile/components/owner-details/owner-details.component';
+import { JobsComponent } from '../../features/profile/components/jobs/jobs.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { OwnerDetailsComponent } from '../../features/profile/components/owner-d
     AddUpdateEmployeeComponent,
     EmployeeConfirmDeleteDialog,
     OwnerDetailsComponent,
+    JobsComponent
   ],
   exports: [],
   providers: [],

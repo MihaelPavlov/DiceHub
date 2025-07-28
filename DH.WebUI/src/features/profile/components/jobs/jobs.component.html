@@ -1,0 +1,17 @@
+<div>
+  <div class="header">
+    <span class="title">Jobs</span>
+  </div>
+
+  <div *ngFor="let item of jobs">
+    <br />
+
+    <p>Job Key Name - {{ item.jobKeyName }}</p>
+    <p>Trigger Key Name - {{ item.triggerKeyName }}</p>
+
+    <p>Next Fire Time - {{ item.nextFireTime | date : DATE_FORMAT }}</p>
+    <p>Previous Fire Time - {{ item.previousFireTime | date : DATE_FORMAT }}</p>
+
+    <br />
+  </div>
+</div>
