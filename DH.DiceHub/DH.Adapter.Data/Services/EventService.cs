@@ -148,7 +148,7 @@ internal class EventService : IEventService
                 join g in context.Games on ep.Event.GameId equals g.Id
                 join ei in context.EventImages on ep.Event.Id equals ei.EventId into eventImages
                 from ei in eventImages.DefaultIfEmpty()
-                where today.Date <= ep.Event.StartDate.Date && !ep.Event.IsDeleted
+                where ep.UserId == this.userContext.UserId && today.Date <= ep.Event.StartDate.Date && !ep.Event.IsDeleted
                 select new GetEventListQueryModel
                 {
                     Id = ep.Event.Id,
