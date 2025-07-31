@@ -117,7 +117,7 @@ public class UserChallengesManagementService : IUserChallengesManagementService
                     try
                     {
                         var userPerformance = await context.UserChallengePeriodPerformances.AsTracking()
-                            .FirstOrDefaultAsync(x => x.IsPeriodActive == true && x.UserId == userId, cancellationToken);
+                            .FirstOrDefaultAsync(x => x.IsPeriodActive && x.UserId == userId, cancellationToken);
 
                         var isInvalid = userPerformance == null || now > userPerformance.EndDate;
 
@@ -173,7 +173,8 @@ public class UserChallengesManagementService : IUserChallengesManagementService
             }
         }
 
-        if (nextResetDate.HasValue)
+        var doesAddUserChallengePeriodJobExists = await this.schedulerService.DoesAddUserChallengePeriodJobExists();
+        if (nextResetDate.HasValue && !doesAddUserChallengePeriodJobExists)
             await this.schedulerService.ScheduleAddUserPeriodJob();
     }
 
@@ -198,8 +199,8 @@ public class UserChallengesManagementService : IUserChallengesManagementService
                         .AnyAsync(x =>
                             x.UserId == userId &&
                             x.IsPeriodActive &&
-                            x.StartDate == startDate &&
-                            x.EndDate == nextResetDate,
+                            x.StartDate.Date == startDate &&
+                            x.EndDate.Date == nextResetDate.Date,
                             cancellationToken);
 
                     if (existingPeriod)

@@ -6,4 +6,5 @@ public interface ISchedulerService
 {
     Task ScheduleAddUserPeriodJob();
     Task<List<ScheduleJobInfo>> GetScheduleJobs();
+    Task<bool> DoesAddUserChallengePeriodJobExists();
 }

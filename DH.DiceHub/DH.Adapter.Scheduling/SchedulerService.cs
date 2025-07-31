@@ -55,6 +55,25 @@ internal class SchedulerService : ISchedulerService
         return result;
     }
 
+    public async Task<bool> DoesAddUserChallengePeriodJobExists()
+    {
+
+        try
+        {
+            var scheduler = await schedulerFactory.GetScheduler();
+            var tenantSettings = await tenantSettingsService.GetGlobalTenantSettingsAsync(CancellationToken.None);
+
+            var jobKey = new JobKey(nameof(AddUserChallengePeriodJob));
+
+            return await scheduler.CheckExists(jobKey);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to check if AddUserChallengePeriodJob exists");
+        }
+        return false;
+    }
+
     public async Task ScheduleAddUserPeriodJob()
     {
         try

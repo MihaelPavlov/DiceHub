@@ -1,10 +1,8 @@
 using DH.Domain.Adapters.Scheduling;
 using DH.Domain.Adapters.Scheduling.Enums;
 using DH.Domain.Entities;
-using DH.Domain.Enums;
 using DH.Domain.Repositories;
 using DH.Domain.Services;
-using DH.Domain.Services.TenantSettingsService;
 
 namespace DH.Adapter.Scheduling.Handlers;
 

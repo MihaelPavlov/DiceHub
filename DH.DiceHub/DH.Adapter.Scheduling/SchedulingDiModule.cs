@@ -67,7 +67,6 @@ public static class SchedulingDIModule
             .WithIdentity($"DailyJobTriggers-{nameof(UserRewardsExpiryJob)}")
             .WithCronSchedule("0 0/2 * * * ?")); // Every two mins
                                                  //.WithCronSchedule("0 0 0 * * ?"));// Every night 00:00 UTC 
-
         service.AddTrigger(opts => opts
            .ForJob(nameof(UserRewardsExpirationReminderJob))
            .WithIdentity($"DailyJobTriggers-{nameof(UserRewardsExpirationReminderJob)}")
@@ -84,7 +83,7 @@ public static class SchedulingDIModule
             .ForJob(nameof(UserChallengeValidationJob))
             .WithIdentity($"DailyJobTriggers-{nameof(UserChallengeValidationJob)}")
             .WithSimpleSchedule(x => x
-                .WithInterval(TimeSpan.FromMinutes(24))
+                .WithInterval(TimeSpan.FromHours(24))
                 .RepeatForever()));
     }
 }
