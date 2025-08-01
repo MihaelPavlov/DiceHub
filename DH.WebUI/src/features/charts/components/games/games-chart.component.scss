@@ -1,0 +1,155 @@
+@use "../../../../shared/assets/styles/palette";
+
+.wrapper_icons {
+  display: flex;
+  justify-content: space-between;
+  margin: 1rem;
+  align-items: center;
+  .arrow {
+    width: 3rem;
+    height: 3rem;
+    display: inline-block;
+    position: relative;
+    border: 0.1rem solid palette.$main-icon-color;
+    border-radius: 2.5rem;
+
+    &::before {
+      content: "";
+      display: block;
+      width: 0.75rem;
+      height: 0.75rem;
+      top: 65%;
+      left: 63%;
+      border-style: solid;
+      border-color: palette.$main-icon-color;
+      border-width: 0.2rem 0.2rem 0 0;
+      position: absolute;
+      transform-origin: 50% 50%;
+    }
+
+    &.left::before {
+      transform: rotate(-135deg);
+      margin: -0.9rem 0 0 -0.6rem;
+    }
+  }
+
+  .header_name {
+    font-size: 1.5rem;
+    padding-top: 1rem;
+    padding-bottom: 0.5rem;
+    word-wrap: break-word;
+    width: 70%;
+    text-align: center;
+  }
+
+  .info-container {
+    position: relative;
+
+    .info {
+      width: 3rem;
+      height: 3rem;
+      fill: palette.$main-blue-color;
+    }
+
+    .info-description {
+      position: absolute;
+      right: 0.5rem;
+      top: 2.25rem;
+      background-color: palette.$main-gray-color;
+      padding: 0.5rem;
+      z-index: 1000;
+      width: 15rem;
+      text-align: center;
+    }
+
+    .info-description span {
+      width: 9rem;
+      text-align: center;
+      line-height: 2rem;
+      font-size: 1.2rem;
+    }
+  }
+}
+
+.wrapper {
+  margin: 1rem;
+  .container {
+    padding: 1rem;
+  }
+
+  .input-field {
+    label {
+      text-align: center;
+    }
+  }
+  .date_stepper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .date {
+      font-weight: 700;
+    }
+    .arrow {
+      width: 4rem;
+      height: 4rem;
+      fill: palette.$main-font-color;
+    }
+
+    .left {
+      transform: rotate(180deg);
+    }
+
+    .blue {
+      color: palette.$main-blue-color;
+    }
+  }
+}
+
+.wrapper_users {
+  margin-top: 1rem;
+  margin-bottom: 10rem;
+
+  &__item {
+    display: flex;
+    margin: 1rem 0.5rem;
+    background-color: palette.$main-nav-color;
+    border-radius: 1rem;
+    padding: 0.75rem;
+    align-items: center;
+    &__info {
+      display: flex;
+      width: 80%;
+      align-items: center;
+      justify-content: space-between;
+
+      .name {
+        margin: 0 1rem;
+        word-break: break-word;
+      }
+
+      .value {
+        margin-right: 1rem;
+      }
+    }
+    .number {
+      display: flex;
+      align-items: center;
+      margin: 0 1rem;
+    }
+
+    .wrapper_image {
+      text-align: center;
+      width: 2rem;
+      height: 2rem;
+
+      img {
+        width: 2rem;
+        height: 2rem;
+        object-fit: cover;
+        border-radius: 100%;
+        border: 0.1rem solid black;
+      }
+    }
+  }
+}
