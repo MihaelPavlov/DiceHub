@@ -1,8 +1,6 @@
 import { GetEventAttendanceChartData } from './../models/event-attendance-chart.model';
 import { Injectable } from '@angular/core';
-import {
-  RestApiService,
-} from '../../../shared/services/rest-api.service';
+import { RestApiService } from '../../../shared/services/rest-api.service';
 import { GetActivityChartData } from '../models/activity-chart.model';
 import { Observable } from 'rxjs';
 import { PATH } from '../../../shared/configs/path.config';
@@ -13,6 +11,9 @@ import { GetCollectedRewardsByDates } from '../models/collected-rewards-by-dates
 import { GetExpiredCollectedRewardsChart } from '../models/expired-collected-rewards-chart.model';
 import { IChallengeLeaderboard } from '../models/challenge-leaderboard.model';
 import { ChallengeLeaderboardType } from '../enums/challenge-leaderboard-type.enum';
+import { GamesActivityType } from '../enums/games-activity-type.enum';
+import { GetGameActivityChartData } from '../models/game-activity-chart.model';
+import { GetUsersWhoPlayedGameData } from '../models/game-user-activity.model';
 
 @Injectable({
   providedIn: 'root',
@@ -103,6 +104,38 @@ export class StatisticsService {
       `/${PATH.STATISTICS.CORE}/${PATH.STATISTICS.GET_CHALLENGE_HISTORY_LOG}`,
       {
         type,
+      }
+    );
+  }
+
+  public getGameActivityChartData(
+    type: GamesActivityType,
+    rangeStart?: string | null,
+    rangeEnd?: string | null
+  ): Observable<OperationResult<GetGameActivityChartData> | null> {
+    return this.api.post<OperationResult<GetGameActivityChartData>>(
+      `/${PATH.STATISTICS.CORE}/${PATH.STATISTICS.GET_GAME_ENGAGEMENT_CHART_DATA}`,
+      {
+        type,
+        rangeStart,
+        rangeEnd,
+      }
+    );
+  }
+
+  public getGameUserActivityChartData(
+    gameId: number,
+    type: GamesActivityType,
+    rangeStart?: string | null,
+    rangeEnd?: string | null
+  ): Observable<OperationResult<GetUsersWhoPlayedGameData> | null> {
+    return this.api.post<OperationResult<GetUsersWhoPlayedGameData>>(
+      `/${PATH.STATISTICS.CORE}/${PATH.STATISTICS.GET_GAME_USER_ENGAGEMENT_CHART_DATA}`,
+      {
+        gameId,
+        type,
+        rangeStart,
+        rangeEnd,
       }
     );
   }
