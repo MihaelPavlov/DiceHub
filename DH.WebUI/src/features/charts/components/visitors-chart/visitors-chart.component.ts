@@ -485,49 +485,46 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
       });
   }
 
-private aggregateDataByDay(data: any[]): { labels: any[]; values: number[] } {
-  const timeCounts: { [key: string]: number } = {};
+  private aggregateDataByDay(data: any[]): { labels: any[]; values: number[] } {
+    const timeCounts: { [key: string]: number } = {};
 
-  // Step 1: Parse and normalize each log's date
-  data.forEach((log) => {
-    const utcDate = new Date(log.date);
-    const localDate = new Date(
-      utcDate.getFullYear(),
-      utcDate.getMonth(),
-      utcDate.getDate()
-    ); // local midnight
-    const dateKey = localDate.toDateString(); // e.g. "Mon Jul 28 2025"
-    timeCounts[dateKey] = log.userCount;
-  });
+    // Step 1: Parse and normalize each log's date
+    data.forEach((log) => {
+      const utcDate = new Date(log.date);
+      const localDate = new Date(
+        utcDate.getFullYear(),
+        utcDate.getMonth(),
+        utcDate.getDate()
+      ); // local midnight
+      const dateKey = localDate.toDateString(); // e.g. "Mon Jul 28 2025"
+      timeCounts[dateKey] = log.userCount;
+    });
 
-  // Step 2: Generate all days from currentRangeStart to currentRangeEnd
-  const labels: Date[] = [];
-  const values: number[] = [];
+    // Step 2: Generate all days from currentRangeStart to currentRangeEnd
+    const labels: Date[] = [];
+    const values: number[] = [];
 
-  let current = new Date(
-    this.currentRangeStart.getFullYear(),
-    this.currentRangeStart.getMonth(),
-    this.currentRangeStart.getDate()
-  );
+    let current = new Date(
+      this.currentRangeStart.getFullYear(),
+      this.currentRangeStart.getMonth(),
+      this.currentRangeStart.getDate()
+    );
 
-  const end = new Date(
-    this.currentRangeEnd.getFullYear(),
-    this.currentRangeEnd.getMonth(),
-    this.currentRangeEnd.getDate()
-  );
+    const end = new Date(
+      this.currentRangeEnd.getFullYear(),
+      this.currentRangeEnd.getMonth(),
+      this.currentRangeEnd.getDate()
+    );
 
-  while (current <= end) {
-    const key = current.toDateString(); // same format as above
-    labels.push(new Date(current)); // push a copy
-    values.push(timeCounts[key] ?? 0); // fill 0 if missing
-    current.setDate(current.getDate() + 1);
+    while (current <= end) {
+      const key = current.toDateString(); // same format as above
+      labels.push(new Date(current)); // push a copy
+      values.push(timeCounts[key] ?? 0); // fill 0 if missing
+      current.setDate(current.getDate() + 1);
+    }
+
+    return { labels, values };
   }
-
-  console.log('Aggregated Daily Data:', { labels, values });
-
-  return { labels, values };
-}
-
 
   private aggregateDataByMonth(data: any[]): {
     labels: any[];

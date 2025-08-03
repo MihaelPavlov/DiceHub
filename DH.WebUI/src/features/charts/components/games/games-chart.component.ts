@@ -3,7 +3,12 @@ import {
   GameActivityStats,
   GetGameActivityChartData,
 } from './../../../../entities/statistics/models/game-activity-chart.model';
-import { Component, AfterViewInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  AfterViewInit,
+  OnDestroy,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { StatisticsService } from '../../../../entities/statistics/api/statistics.service';
 import { NAV_ITEM_LABELS } from '../../../../shared/models/nav-items-labels.const';
@@ -15,31 +20,59 @@ import { addDays, addMonths, addYears, format } from 'date-fns';
 import { GamesActivityType } from '../../../../entities/statistics/enums/games-activity-type.enum';
 import { OperationResult } from '../../../../shared/models/operation-result.model';
 import { ImageEntityType } from '../../../../shared/pipe/entity-image.pipe';
-import { GetUsersWhoPlayedGameData } from '../../../../entities/statistics/models/game-user-activity.model';
+import {
+  GameUserActivity,
+  GetUsersWhoPlayedGameData,
+} from '../../../../entities/statistics/models/game-user-activity.model';
 import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { ToastType } from '../../../../shared/models/toast.model';
+import {
+  trigger,
+  state,
+  style,
+  transition,
+  animate,
+} from '@angular/animations';
+import { DateHelper } from '../../../../shared/helpers/date-helper';
 
 @Component({
   selector: 'games-chart',
   templateUrl: 'games-chart.component.html',
   styleUrl: 'games-chart.component.scss',
+  animations: [
+    trigger('slideToggle', [
+      transition(':enter', [
+        style({ height: 0, opacity: 0 }),
+        animate('300ms ease-out', style({ height: '*', opacity: 1 })),
+      ]),
+      transition(':leave', [
+        animate('300ms ease-in', style({ height: 0, opacity: 0 })),
+      ]),
+    ]),
+  ],
 })
 export class GamesChartComponent implements AfterViewInit, OnDestroy {
   public chartType: IDropdown[] = [];
-  public gamesChartType = new FormControl(0);
+  public gamesChartType = new FormControl<number | null>(0);
   public currentRangeStart?: Date | null = null;
   public currentRangeEnd?: Date | null = null;
   public readonly GamesActivityType = GamesActivityType;
   public readonly ImageEntityType = ImageEntityType;
+  public selectedGameId: number | null = null;
+  public readonly DATE_TIME_FORMAT: string = DateHelper.DATE_TIME_FORMAT;
 
   public gamesActivityDataSubject: BehaviorSubject<GameActivityStats[]> =
     new BehaviorSubject<GameActivityStats[]>([]);
+
+  public selectedGameUsers: BehaviorSubject<GameUserActivity[]> =
+    new BehaviorSubject<GameUserActivity[]>([]);
 
   constructor(
     private readonly menuTabsService: MenuTabsService,
     private readonly toastService: ToastService,
     private readonly router: Router,
-    private readonly statisticsService: StatisticsService
+    private readonly statisticsService: StatisticsService,
+    private readonly cd: ChangeDetectorRef
   ) {
     this.chartType = Object.entries(GamesActivityType)
       .filter(([key, value]) => typeof value === 'number')
@@ -63,9 +96,17 @@ export class GamesChartComponent implements AfterViewInit, OnDestroy {
   }
 
   public onClickGame(gameId: number): void {
+    if (this.selectedGameId === gameId) {
+      // Toggle off
+      this.selectedGameId = null;
+      this.selectedGameUsers.next([]);
+      return;
+    }
+    this.selectedGameId = gameId;
+
     this.statisticsService
       .getGameUserActivityChartData(
-        gameId,
+        this.selectedGameId,
         this.gamesChartType.value as GamesActivityType,
         this.currentRangeStart,
         this.currentRangeEnd
@@ -79,6 +120,8 @@ export class GamesChartComponent implements AfterViewInit, OnDestroy {
               'Game User Activity Data:',
               operation.relatedObject.users
             );
+
+            this.selectedGameUsers.next(operation.relatedObject.users);
           }
         },
         error: (error) => {
@@ -113,7 +156,11 @@ export class GamesChartComponent implements AfterViewInit, OnDestroy {
   }
 
   private resetDateRange(): void {
-    const selectedType = this.gamesChartType.value as GamesActivityType;
+    const selectedType = this.gamesChartType.value as GamesActivityType | null;
+    console.log(`Selected Type: ${this.gamesChartType.value}`);
+
+    // Toggle off
+    this.selectedGameId = null;
 
     if (selectedType === GamesActivityType.Weekly) {
       this.currentRangeStart = this.getStartOfWeek();
@@ -127,13 +174,18 @@ export class GamesChartComponent implements AfterViewInit, OnDestroy {
     } else if (selectedType === GamesActivityType.AllTime) {
       this.currentRangeStart = null;
       this.currentRangeEnd = null;
+    } else {
+      this.gamesActivityDataSubject.next([]);
+      return;
     }
 
     this.getGameActivityData(selectedType);
   }
+
   public getFormattedRange(): string {
     let date;
     const selectedType = this.gamesChartType.value;
+
     if (
       selectedType === (GamesActivityType.Weekly as number) &&
       this.currentRangeStart &&
@@ -159,7 +211,8 @@ export class GamesChartComponent implements AfterViewInit, OnDestroy {
   }
   public updateDateRange(direction: 'forward' | 'backward'): void {
     const selectedType = this.gamesChartType.value as GamesActivityType;
-
+    // Toggle off
+    this.selectedGameId = null;
     let adjustmentValue = 0;
     if (selectedType === GamesActivityType.Weekly)
       adjustmentValue = 7; // Weekly
@@ -196,6 +249,8 @@ export class GamesChartComponent implements AfterViewInit, OnDestroy {
         adjustmentValue
       );
       this.currentRangeEnd = null;
+    } else {
+      return;
     }
 
     this.getGameActivityData(selectedType);

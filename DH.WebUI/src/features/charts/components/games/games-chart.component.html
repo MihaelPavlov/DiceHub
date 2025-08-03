@@ -11,11 +11,11 @@
 </div>
 <div class="wrapper outer-container">
   <div class="input-field">
-    <label for="approx-time">Chart Type</label>
+    <label for="type">Chart Type</label>
 
     <ng-select
       [items]="chartType"
-      id="approx-time"
+      id="type"
       bindValue="id"
       bindLabel="name"
       class="app-select-long"
@@ -54,31 +54,71 @@
       />
     </svg>
   </div>
-  <ng-container *ngIf="gamesActivityDataSubject.asObservable() | async as games">
-  <div *ngIf="games.length === 0" class="no-games-message">
-    <p>No games were played during this period.</p>
-    <p>Try selecting a different date range or chart type to view activity.</p>
-  </div>
-
-  <div
-    *ngFor="let game of games; let i = index"
-    class="wrapper_users__item"
-    (click)="onClickGame(game.gameId)"
+  <ng-container
+    *ngIf="gamesActivityDataSubject.asObservable()| async as games"
   >
-    <span class="number" [randomColor]="i">{{ i + 1 }}</span>
-    <div class="wrapper_image">
-      <img
-        [src]="ImageEntityType.Games | entityImage : game.gameImageId | async"
-        alt="Game Image"
-      />
+    <div
+      *ngIf="this.gamesChartType.value !== null && games.length === 0"
+      class="no-games-message"
+    >
+      <p>No games were played during this period.</p>
+      <p>
+        Try selecting a different date range or chart type to view activity.
+      </p>
     </div>
-    <div class="wrapper_users__item__info">
-      <span class="name">{{ game.gameName }}</span>
-      <span class="value">{{ game.timesPlayed }}</span>
-    </div>
-  </div>
-</ng-container>
 
+    <div
+      *ngFor="let game of games; let i = index"
+      class="wrapper_data"
+      (click)="onClickGame(game.gameId)"
+    >
+      <div class="wrapper_users__item">
+        <span class="number" [randomColor]="i">{{ i + 1 }}</span>
+        <div class="wrapper_image">
+          <img
+            [src]="
+              ImageEntityType.Games | entityImage : game.gameImageId | async
+            "
+            alt="Game Image"
+          />
+        </div>
+        <div class="wrapper_users__item__info">
+          <span class="name">{{ game.gameName }}</span>
+          <span class="value">{{ game.timesPlayed }}</span>
+        </div>
+      </div>
+      <ng-container
+        *ngIf="
+          selectedGameId === game.gameId &&
+          (selectedGameUsers.asObservable() | async) as users
+        "
+      >
+        <div class="user-cards" @slideToggle>
+          <div *ngFor="let user of users; let idx = index" class="user-card">
+            <div class="user-card__header">
+              <span class="user-index">#{{ idx + 1 }}</span>
+              <span
+                class="user-name"
+                [title]="user.userDisplayName || 'Anonymous'"
+              >
+                {{ user.userDisplayName || "Anonymous" }}
+              </span>
+            </div>
+            <div class="user-card__details">
+              <span class="label">Last Played At:</span>
+              <span class="value">{{
+                user.lastPlayedAt | date : DATE_TIME_FORMAT
+              }}</span>
+            </div>
+            <div class="user-card__details">
+              <span class="label">Times Played:</span>
+              <span class="value">{{ user.timesPlayedFromUser }}</span>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </ng-container>
 </div>
 
 <app-controls-menu
@@ -86,5 +126,7 @@
   [isInfo]="true"
   infoDescription="This chart shows how frequently each game was played within the selected time range. 
 You can explore weekly, monthly, or yearly trends by adjusting the chart type. 
-Only games with recorded activity will appear."
+Only games with recorded activity will appear.
+
+Tap on a game to see which users played it during the selected period."
 ></app-controls-menu>

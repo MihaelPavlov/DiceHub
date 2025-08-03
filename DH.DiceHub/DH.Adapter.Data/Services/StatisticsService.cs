@@ -614,31 +614,21 @@ internal class StatisticsService(
                 query = query.Where(log => log.DetectedOn >= rangeStartUtc.Value &&
                                            log.DetectedOn <= rangeEndUtc.Value);
             }
-            // No filter for AlTime
-
-            var userPlayCounts = await query
-                .GroupBy(x => x.UserId)
-                .Select(g => new
-                {
-                    UserId = g.Key,
-                    TimesPlayed = g.Count()
-                })
-                .ToDictionaryAsync(g => g.UserId, g => g.TimesPlayed, cancellationToken);
-
 
             var result = await query
-                .OrderByDescending(x => x.DetectedOn)
-                .Select(log => new GameUserActivity
+                .GroupBy(x => x.UserId)
+                .Select(g => new GameUserActivity
                 {
-                    UserId = log.UserId,
+                    UserId = g.Key,
                     UserDisplayName = string.Empty,
-                    PlayedAt = log.DetectedOn,
-                    TimesPlayedFromUser = userPlayCounts.ContainsKey(log.UserId) ? userPlayCounts[log.UserId] : 0
+                    LastPlayedAt = g.Max(x => x.DetectedOn), // last played
+                    TimesPlayedFromUser = g.Count()
                 })
+                .OrderByDescending(x => x.LastPlayedAt)
                 .ToListAsync(cancellationToken);
 
             return new OperationResult<GetUsersWhoPlayedGameData>(
-                new GetUsersWhoPlayedGameData { Users = result.DistinctBy(x => x.UserId).ToList() });
+                new GetUsersWhoPlayedGameData { Users = result });
         }
     }
 }

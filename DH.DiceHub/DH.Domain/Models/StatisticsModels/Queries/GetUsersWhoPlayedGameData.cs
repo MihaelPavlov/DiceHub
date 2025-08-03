@@ -9,6 +9,6 @@ public class GameUserActivity
 {
     public string UserId { get; set; } = string.Empty;
     public string UserDisplayName { get; set; } = string.Empty;
-    public DateTime PlayedAt { get; set; }
+    public DateTime LastPlayedAt { get; set; }
     public int TimesPlayedFromUser { get; set; }
 }

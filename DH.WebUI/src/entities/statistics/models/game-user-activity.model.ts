@@ -5,6 +5,6 @@ export interface GetUsersWhoPlayedGameData {
 export interface GameUserActivity {
   userId: string;
   userDisplayName: string;
-  playedAt: Date;
+  lastPlayedAt: Date;
   timesPlayedFromUser: number;
 }

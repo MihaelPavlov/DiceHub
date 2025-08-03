@@ -154,9 +154,57 @@
     }
   }
 }
+
 .no-games-message {
   text-align: center;
   margin-top: 2rem;
   font-size: 1.1rem;
   line-height: 1.6;
+}
+
+.user-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin: 1rem 0.5rem;
+}
+
+.user-card {
+  border: 1px solid palette.$main-icon-color;
+  border-radius: 1rem;
+  padding: 0.8rem 1rem;
+  transition: background-color 0.3s;
+  background-color: #31313b;
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+
+    .user-index {
+      font-weight: bold;
+    }
+
+    .user-name {
+      font-weight: 500;
+      max-width: 70%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  &__details {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+
+    .label {
+      font-weight: 500;
+    }
+
+    .value {
+      font-weight: 400;
+    }
+  }
 }
