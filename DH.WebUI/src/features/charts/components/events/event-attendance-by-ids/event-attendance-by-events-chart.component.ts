@@ -7,7 +7,6 @@ import { Router } from '@angular/router';
 import { NAV_ITEM_LABELS } from '../../../../../shared/models/nav-items-labels.const';
 import { MenuTabsService } from '../../../../../shared/services/menu-tabs.service';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import { ControlsMenuComponent } from '../../../../../shared/components/menu/controls-menu.component';
 import { AppToastMessage } from '../../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { ToastType } from '../../../../../shared/models/toast.model';
 import { combineLatest, debounceTime, Subject, tap } from 'rxjs';
@@ -140,9 +139,12 @@ export class EventAttendanceByEventsChartComponent implements OnDestroy {
                     const centerY = top + height / 2;
 
                     // You can adjust this value or pass a dynamic value for the number
-                    const numberToDisplay = `${attendanceData.length} ${
-                      attendanceData.length === 1 ? 'Event' : 'Events'
-                    }`; // Example number
+                    const count = attendanceData.length;
+
+                    const numberToDisplay =
+                      count > 0
+                        ? `${count} ${count === 1 ? 'Event' : 'Events'}`
+                        : 'No Events';
 
                     // Set text style
                     ctx.save();

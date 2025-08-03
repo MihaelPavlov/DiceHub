@@ -34,10 +34,11 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
   private visitorActivityChartCanvas!: ElementRef<HTMLCanvasElement>;
   private visitorActivityChart!: Chart;
   public chartType: IDropdown[] = [];
-  public visitorsChartType = new FormControl(0);
+  public visitorsChartType = new FormControl<number | null>(0);
   public currentRangeStart: Date = this.getStartOfWeek();
   public currentRangeEnd: Date = addDays(this.currentRangeStart, 6);
-
+  public isVisitorDataAvailable = false;
+  public readonly ChartActivityType = ChartActivityType;
   constructor(
     private readonly menuTabsService: MenuTabsService,
     private readonly toastService: ToastService,
@@ -68,7 +69,8 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
   }
 
   public updateDateRange(direction: 'forward' | 'backward'): void {
-    const selectedType = this.visitorsChartType.value;
+    const selectedType = this.visitorsChartType
+      .value as ChartActivityType | null;
     if (this.visitorActivityChart) {
       this.visitorActivityChart.destroy();
     }
@@ -137,7 +139,7 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
             // Visitors by week
             const ctx2 =
               this.visitorActivityChartCanvas.nativeElement.getContext('2d');
-            if (ctx2) {
+            if (ctx2 && this.isVisitorDataAvailable) {
               ctx2.canvas.height = 100;
 
               let gradient = ctx2.createLinearGradient(0, 25, 0, 300);
@@ -247,38 +249,61 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
       .subscribe({
         next: (operation: OperationResult<GetActivityChartData> | null) => {
           if (operation && operation.success && operation.relatedObject) {
-            const activityDataByDay = operation.relatedObject?.logs;
+            const activityDataByDay = operation.relatedObject.logs;
             const dailyData = this.aggregateDataByDay(activityDataByDay);
 
-            // Visitors by week or 10 days
-            const ctx2 =
+            const ctx =
               this.visitorActivityChartCanvas.nativeElement.getContext('2d');
-            if (ctx2) {
-              ctx2.canvas.height = 100;
+            if (
+              ctx &&
+              this.visitorActivityChartCanvas.nativeElement.parentElement &&
+              this.isVisitorDataAvailable
+            ) {
+              const barHeight = 30; // Customize this value
+              const minHeight = 300; // Minimum height to ensure reasonable display
 
-              let gradient = ctx2.createLinearGradient(0, 25, 0, 300);
+              // Dynamically calculate the container height based on data length
+              const computedHeight = Math.max(
+                dailyData.labels.length * barHeight,
+                minHeight
+              );
+
+              this.visitorActivityChartCanvas.nativeElement.parentElement.style.height = `${computedHeight}px`;
+              let gradient = ctx.createLinearGradient(0, 25, 0, 300);
               gradient.addColorStop(0, colors.yellow.half);
-              gradient.addColorStop(0.35, colors.yellow.quarter);
+              gradient.addColorStop(0.35, colors.yellow.default);
               gradient.addColorStop(1, colors.yellow.zero);
-              this.visitorActivityChart = new Chart(ctx2, {
-                type: 'line',
+              this.visitorActivityChart = new Chart(ctx, {
+                type: 'bar',
                 data: {
-                  labels: dailyData.labels, // X-axis labels for daily data
+                  labels: dailyData.labels,
                   datasets: [
                     {
-                      label: 'Daily Visitor Activity',
-                      data: dailyData.values,
-                      fill: true,
-                      backgroundColor: gradient,
-                      tension: 0.5,
-                      borderColor: colors.yellow.quarter,
-                      pointBackgroundColor: colors.yellow.default,
+                      label: 'Visitor Activity',
+                      data: dailyData.values.map((v) => (v === 0 ? null : v)),
+                      backgroundColor: colors.yellow.half,
+                      borderColor: colors.yellow.default,
+                      borderWidth: 2,
+                      hoverBackgroundColor: colors.yellow.quarter,
+                      borderRadius: 5,
+                      barThickness: 15,
+                      barPercentage: 30,
                     },
                   ],
                 },
                 options: {
+                  indexAxis: 'y',
+                  responsive: true,
                   maintainAspectRatio: false,
                   plugins: {
+                    datalabels: {
+                      display: true,
+                      font: {
+                        weight: 'bold',
+                        size: 12,
+                      },
+                      color: 'white',
+                    },
                     legend: {
                       display: false,
                     },
@@ -310,33 +335,9 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
                         },
                       },
                     },
-                    datalabels: {
-                      display: false,
-                    },
                   },
-                  responsive: true,
-
                   scales: {
                     x: {
-                      bounds: 'ticks',
-                      grid: {
-                        display: false,
-                      },
-                      type: 'time',
-                      time: {
-                        round: 'day', // Use 'day' for daily data
-                      },
-                      ticks: {
-                        // autoSkip: false,
-                        maxTicksLimit: activityDataByDay.length / 2,
-                        callback: (value, index, ticks) => {
-                          const date = new Date(value);
-
-                          return date.getDate(); // Show the day of the month
-                        },
-                      },
-                    },
-                    y: {
                       max:
                         Math.max(
                           ...activityDataByDay.map((item) => item.userCount)
@@ -346,6 +347,20 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
                       },
                       border: {
                         color: '#31313b',
+                      },
+                    },
+                    y: {
+                      type: 'time',
+                      reverse: true,
+                      time: {
+                        unit: 'day',
+                        tooltipFormat: 'MMM dd yyyy',
+                        displayFormats: {
+                          day: 'MMM dd',
+                        },
+                      },
+                      grid: {
+                        display: false,
                       },
                     },
                   },
@@ -377,7 +392,7 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
               const ctx1 =
                 this.visitorActivityChartCanvas.nativeElement.getContext('2d');
               // Monthly visitor activity
-              if (ctx1) {
+              if (ctx1 && this.isVisitorDataAvailable) {
                 ctx1.canvas.height = 100;
 
                 let gradient = ctx1.createLinearGradient(0, 25, 0, 300);
@@ -486,6 +501,7 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
   }
 
   private aggregateDataByDay(data: any[]): { labels: any[]; values: number[] } {
+    this.isVisitorDataAvailable = false;
     const timeCounts: { [key: string]: number } = {};
 
     // Step 1: Parse and normalize each log's date
@@ -499,22 +515,41 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
       const dateKey = localDate.toDateString(); // e.g. "Mon Jul 28 2025"
       timeCounts[dateKey] = log.userCount;
     });
+    // Determine range
+    let start: Date;
+    let end: Date;
 
-    // Step 2: Generate all days from currentRangeStart to currentRangeEnd
+    if (this.visitorsChartType.value === ChartActivityType.Monthly) {
+      // Use range from backend data
+      const dates = data.map((log) => new Date(log.date));
+      dates.sort((a, b) => a.getTime() - b.getTime());
+      start = new Date(
+        dates[0].getFullYear(),
+        dates[0].getMonth(),
+        dates[0].getDate()
+      );
+      end = new Date(
+        dates[dates.length - 1].getFullYear(),
+        dates[dates.length - 1].getMonth(),
+        dates[dates.length - 1].getDate()
+      );
+    } else {
+      // Use predefined range
+      start = new Date(
+        this.currentRangeStart.getFullYear(),
+        this.currentRangeStart.getMonth(),
+        this.currentRangeStart.getDate()
+      );
+      end = new Date(
+        this.currentRangeEnd.getFullYear(),
+        this.currentRangeEnd.getMonth(),
+        this.currentRangeEnd.getDate()
+      );
+    }
     const labels: Date[] = [];
     const values: number[] = [];
 
-    let current = new Date(
-      this.currentRangeStart.getFullYear(),
-      this.currentRangeStart.getMonth(),
-      this.currentRangeStart.getDate()
-    );
-
-    const end = new Date(
-      this.currentRangeEnd.getFullYear(),
-      this.currentRangeEnd.getMonth(),
-      this.currentRangeEnd.getDate()
-    );
+    const current = new Date(start);
 
     while (current <= end) {
       const key = current.toDateString(); // same format as above
@@ -522,6 +557,8 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
       values.push(timeCounts[key] ?? 0); // fill 0 if missing
       current.setDate(current.getDate() + 1);
     }
+
+    if (values.find((v) => v > 0)) this.isVisitorDataAvailable = true;
 
     return { labels, values };
   }
@@ -544,11 +581,13 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
     const labels = Object.keys(timeCounts).map((month) => month);
     const values = Object.values(timeCounts).map((set) => set);
 
+    if (values.find((v) => v > 0)) this.isVisitorDataAvailable = true;
     return { labels, values };
   }
 
   private resetDateRange(): void {
-    const selectedType = this.visitorsChartType.value;
+    const selectedType = this.visitorsChartType
+      .value as ChartActivityType | null;
 
     if (this.visitorActivityChart) {
       this.visitorActivityChart.destroy();
@@ -561,7 +600,6 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
     } else if (selectedType === ChartActivityType.Monthly) {
       this.currentRangeStart = new Date();
       this.currentRangeEnd = addMonths(this.currentRangeStart, 1);
-
       this.createVisitorMonthActivityChartCanvas(colors);
     } else if (selectedType === ChartActivityType.Yearly) {
       this.currentRangeStart = new Date(new Date().getFullYear(), 1, 1);

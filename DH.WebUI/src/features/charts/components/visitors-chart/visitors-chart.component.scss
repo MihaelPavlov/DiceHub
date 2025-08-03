@@ -75,6 +75,7 @@
   margin: 1rem;
   .container {
     padding: 1rem;
+    margin-bottom: 10rem;
   }
 
   .input-field {
@@ -104,4 +105,12 @@
       color: palette.$main-blue-color;
     }
   }
+}
+
+.no-visitors-message {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin: 1rem;
 }

@@ -129,9 +129,12 @@ export class EventAttendanceChartComponent implements AfterViewInit, OnDestroy {
                     const centerY = top + height / 2;
 
                     // You can adjust this value or pass a dynamic value for the number
-                    const numberToDisplay = `${attendanceData.length} ${
-                      attendanceData.length === 1 ? 'Event' : 'Events'
-                    }`; // Example number
+                    const count = attendanceData.length;
+
+                    const numberToDisplay =
+                      count > 0
+                        ? `${count} ${count === 1 ? 'Event' : 'Events'}`
+                        : 'No Events';
 
                     // Set text style
                     ctx.save();
@@ -202,7 +205,7 @@ export class EventAttendanceChartComponent implements AfterViewInit, OnDestroy {
             message: AppToastMessage.SomethingWrong,
             type: ToastType.Error,
           });
-        }
+        },
       });
     }
     // const attendanceData = [
