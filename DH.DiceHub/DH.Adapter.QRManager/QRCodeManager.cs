@@ -49,6 +49,7 @@ public class QRCodeManager : IQRCodeManager
                         this.containerService.Resolve<IRepository<SpaceTableReservation>>(),
                         this.containerService.Resolve<IUserService>(),
                         this.containerService.Resolve<ISpaceTableService>(),
+                        this.containerService.Resolve<IRepository<SpaceTable>>(),
                         this.containerService.Resolve<SynchronizeGameSessionQueue>(),
                         this.containerService.Resolve<IRepository<Game>>(),
                         this.containerService.Resolve<IStatisticQueuePublisher>(),
@@ -72,6 +73,7 @@ public class QRCodeManager : IQRCodeManager
                     new TableReservationQRCodeState(
                         this.containerService.Resolve<IUserContext>(),
                         this.containerService.Resolve<IRepository<SpaceTableReservation>>(),
+                        this.containerService.Resolve<IRepository<SpaceTable>>(),
                         this.containerService.Resolve<IStatisticQueuePublisher>()
                         )
                     );

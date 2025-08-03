@@ -20,6 +20,7 @@ public class GameReservationQRCodeState : IQRCodeState
     readonly IUserContext userContext;
     readonly IRepository<GameReservation> gameReservationRepository;
     readonly IRepository<SpaceTableReservation> tableReservationRepository;
+    readonly IRepository<SpaceTable> tableRepository;
     readonly IRepository<Game> gameRepository;
     readonly IUserService userService;
     readonly ISpaceTableService spaceTableService;
@@ -29,13 +30,14 @@ public class GameReservationQRCodeState : IQRCodeState
 
     public GameReservationQRCodeState(IUserContext userContext, IRepository<GameReservation> gameReservationRepository,
         IRepository<SpaceTableReservation> tableReservationRepository, IUserService userService,
-        ISpaceTableService spaceTableService, SynchronizeGameSessionQueue gameSessionQueue,
+        ISpaceTableService spaceTableService, IRepository<SpaceTable> tableRepository, SynchronizeGameSessionQueue gameSessionQueue,
         IRepository<Game> gameRepository, IStatisticQueuePublisher statisticQueuePublisher,
         ReservationCleanupQueue reservationCleanupQueue)
     {
         this.userContext = userContext;
         this.gameReservationRepository = gameReservationRepository;
         this.tableReservationRepository = tableReservationRepository;
+        this.tableRepository = tableRepository;
         this.userService = userService;
         this.spaceTableService = spaceTableService;
         this.gameSessionQueue = gameSessionQueue;
@@ -67,6 +69,22 @@ public class GameReservationQRCodeState : IQRCodeState
 
         if (gameReservation.Status != ReservationStatus.Accepted)
             return await SetError(context, data, result, "This game reservation is not approved from staff", traceId, cancellationToken);
+
+        var activeTable = await this.tableRepository
+            .GetByAsync(x => x.IsTableActive && x.CreatedBy == userId,
+            cancellationToken);
+
+        if (activeTable != null)
+        {
+            var message = string.Empty;
+
+            if (activeTable.GameId == gameReservation.GameId)
+                message = "User already have an active table for this game";
+            else
+                message = "User already have an active table for different game";
+
+            return await SetError(context, data, result, message, traceId, cancellationToken);
+        }
 
         gameReservation.IsReservationSuccessful = true;
         gameReservation.IsActive = false;

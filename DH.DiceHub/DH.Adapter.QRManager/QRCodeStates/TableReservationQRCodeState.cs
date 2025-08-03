@@ -2,7 +2,6 @@
 using DH.Domain.Adapters.Authentication.Models.Enums;
 using DH.Domain.Adapters.QRManager;
 using DH.Domain.Adapters.QRManager.StateModels;
-using DH.Domain.Adapters.Reservations;
 using DH.Domain.Adapters.Statistics;
 using DH.Domain.Adapters.Statistics.Services;
 using DH.Domain.Entities;
@@ -12,10 +11,12 @@ using DH.OperationResultCore.Exceptions;
 
 namespace DH.Adapter.QRManager.QRCodeStates;
 
-public class TableReservationQRCodeState(IUserContext userContext, IRepository<SpaceTableReservation> spaceTableReservationRepository, IStatisticQueuePublisher statisticQueuePublisher) : IQRCodeState
+public class TableReservationQRCodeState(
+    IUserContext userContext, IRepository<SpaceTableReservation> spaceTableReservationRepository, IRepository<SpaceTable> spaceTableRepository, IStatisticQueuePublisher statisticQueuePublisher) : IQRCodeState
 {
     readonly IUserContext userContext = userContext;
     readonly IRepository<SpaceTableReservation> spaceTableReservationRepository = spaceTableReservationRepository;
+    readonly IRepository<SpaceTable> spaceTableRepository = spaceTableRepository;
     readonly IStatisticQueuePublisher statisticQueuePublisher = statisticQueuePublisher;
 
     public async Task<QrCodeValidationResult> HandleAsync(IQRCodeContext context, QRReaderModel data, CancellationToken cancellationToken)
@@ -38,6 +39,13 @@ public class TableReservationQRCodeState(IUserContext userContext, IRepository<S
 
         if (tableReservation.Status != ReservationStatus.Accepted)
             return await SetError(context, data, result, "This table reservation is not approved from staff", traceId, cancellationToken);
+
+        var activeTable = await this.spaceTableRepository
+           .GetByAsync(x => x.IsTableActive && x.CreatedBy == userId,
+           cancellationToken);
+
+        if (activeTable != null)
+            return await SetError(context, data, result, "User already have an active table", traceId, cancellationToken);
 
         tableReservation.IsReservationSuccessful = true;
         tableReservation.IsActive = false;
