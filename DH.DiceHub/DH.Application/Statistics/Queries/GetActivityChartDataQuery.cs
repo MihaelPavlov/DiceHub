@@ -6,7 +6,7 @@ using MediatR;
 
 namespace DH.Application.Statistics.Queries;
 
-public record GetActivityChartDataQuery(ChartActivityType Type, string RangeStart, string? RangeEnd) : IRequest<OperationResult<GetActivityChartData>>;
+public record GetActivityChartDataQuery(ChartActivityType Type, DateTime RangeStart, DateTime? RangeEnd) : IRequest<OperationResult<GetActivityChartData>>;
 
 internal class GetActivityChartDataQueryHandler(IStatisticsService statisticsService) : IRequestHandler<GetActivityChartDataQuery, OperationResult<GetActivityChartData>>
 {
