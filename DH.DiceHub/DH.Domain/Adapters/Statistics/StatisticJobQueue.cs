@@ -72,4 +72,12 @@ public class StatisticJobQueue : QueueBase
     {
         public StatisticJobType JobType => StatisticJobType.RewardActionDetected;
     }
+
+    public record GameEngagementDetectedJob(
+        string UserId,
+        int GameId,
+        DateTime DetectedOn) : JobInfoBase, IStatisticJobInfo
+    {
+        public StatisticJobType JobType => StatisticJobType.GameEngagementDetected;
+    }
 }

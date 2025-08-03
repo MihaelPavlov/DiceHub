@@ -13,6 +13,7 @@ import { EventAttendanceChartComponent } from '../../features/charts/components/
 import { LeaderboardChallengesComponent } from '../../features/charts/components/challenges/leaderboard-challenges.component';
 import { EventAttendanceByEventsChartComponent } from '../../features/charts/components/events/event-attendance-by-ids/event-attendance-by-events-chart.component';
 import { EventsChartsLayoutComponent } from '../../features/charts/components/events/events-charts-layout/events-charts-layout.component';
+import { GamesChartComponent } from '../../features/charts/components/games/games-chart.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { EventsChartsLayoutComponent } from '../../features/charts/components/ev
     EventAttendanceChartComponent,
     LeaderboardChallengesComponent,
     EventAttendanceByEventsChartComponent,
-    EventsChartsLayoutComponent
+    EventsChartsLayoutComponent,
+    GamesChartComponent
   ],
   exports: [],
   providers: [],

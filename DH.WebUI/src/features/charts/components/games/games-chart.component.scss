@@ -73,6 +73,7 @@
 
 .wrapper {
   margin: 1rem;
+  margin-bottom: 10rem;
   .container {
     padding: 1rem;
   }
@@ -152,4 +153,10 @@
       }
     }
   }
+}
+.no-games-message {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 1.1rem;
+  line-height: 1.6;
 }

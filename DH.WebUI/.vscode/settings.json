@@ -1,5 +1,6 @@
 {
     "cSpell.words": [
+        "Catan",
         "chartjs",
         "datalabels",
         "dinamicly",
@@ -11,6 +12,8 @@
         "qrdata",
         "registerables",
         "scroller",
-        "signalr"
+        "signalr",
+        "treemap",
+        "Treemap"
     ]
 }

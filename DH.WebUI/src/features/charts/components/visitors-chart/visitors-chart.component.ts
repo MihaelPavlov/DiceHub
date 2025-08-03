@@ -22,6 +22,7 @@ import { ToastService } from '../../../../shared/services/toast.service';
 import { ToastType } from '../../../../shared/models/toast.model';
 import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { IDropdown } from '../../../../shared/models/dropdown.model';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'visitors-chart',
@@ -41,7 +42,8 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
     private readonly menuTabsService: MenuTabsService,
     private readonly toastService: ToastService,
     private readonly router: Router,
-    private readonly statisticsService: StatisticsService
+    private readonly statisticsService: StatisticsService,
+    private datePipe: DatePipe
   ) {
     Chart.register(ChartDataLabels, ...registerables);
 
@@ -122,8 +124,8 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
     this.statisticsService
       .getActivityChartData(
         ChartActivityType.Weekly,
-        this.currentRangeStart.toISOString(),
-        this.currentRangeEnd.toISOString()
+        this.currentRangeStart,
+        this.currentRangeEnd
       )
       .subscribe({
         next: (operation: OperationResult<GetActivityChartData> | null) => {
@@ -132,7 +134,7 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
 
             const dailyData = this.aggregateDataByDay(activityDataByWeek);
 
-            // Visitors by week or 10 days
+            // Visitors by week
             const ctx2 =
               this.visitorActivityChartCanvas.nativeElement.getContext('2d');
             if (ctx2) {
@@ -205,7 +207,11 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
                       },
                       type: 'time',
                       time: {
-                        round: 'day', // Use 'day' for daily data
+                        unit: 'day',
+                        tooltipFormat: 'MMM dd yyyy',
+                        displayFormats: {
+                          day: 'MMM dd', // e.g., "Jul 28"
+                        },
                       },
                     },
                     y: {
@@ -237,10 +243,7 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
 
   private createVisitorMonthActivityChartCanvas(colors): void {
     this.statisticsService
-      .getActivityChartData(
-        ChartActivityType.Monthly,
-        this.currentRangeStart.toISOString()
-      )
+      .getActivityChartData(ChartActivityType.Monthly, this.currentRangeStart)
       .subscribe({
         next: (operation: OperationResult<GetActivityChartData> | null) => {
           if (operation && operation.success && operation.relatedObject) {
@@ -362,10 +365,7 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
 
   private createVisitorYearlyActivityChartCanvas(colors): void {
     this.statisticsService
-      .getActivityChartData(
-        ChartActivityType.Yearly,
-        this.currentRangeStart.toISOString()
-      )
+      .getActivityChartData(ChartActivityType.Yearly, this.currentRangeStart)
       .subscribe({
         next: (operation: OperationResult<GetActivityChartData> | null) => {
           if (operation && operation.success && operation.relatedObject) {
@@ -485,21 +485,49 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
       });
   }
 
-  private aggregateDataByDay(data: any[]): { labels: any[]; values: number[] } {
-    const timeCounts: { [key: string]: number } = {};
+private aggregateDataByDay(data: any[]): { labels: any[]; values: number[] } {
+  const timeCounts: { [key: string]: number } = {};
 
-    data.forEach((log) => {
-      const date = log.date.split('T')[0];
-      if (!timeCounts[date]) {
-        timeCounts[date] = log.userCount;
-      }
-    });
+  // Step 1: Parse and normalize each log's date
+  data.forEach((log) => {
+    const utcDate = new Date(log.date);
+    const localDate = new Date(
+      utcDate.getFullYear(),
+      utcDate.getMonth(),
+      utcDate.getDate()
+    ); // local midnight
+    const dateKey = localDate.toDateString(); // e.g. "Mon Jul 28 2025"
+    timeCounts[dateKey] = log.userCount;
+  });
 
-    const labels = Object.keys(timeCounts).map((date) => new Date(date));
-    const values = Object.values(timeCounts).map((set) => set);
+  // Step 2: Generate all days from currentRangeStart to currentRangeEnd
+  const labels: Date[] = [];
+  const values: number[] = [];
 
-    return { labels, values };
+  let current = new Date(
+    this.currentRangeStart.getFullYear(),
+    this.currentRangeStart.getMonth(),
+    this.currentRangeStart.getDate()
+  );
+
+  const end = new Date(
+    this.currentRangeEnd.getFullYear(),
+    this.currentRangeEnd.getMonth(),
+    this.currentRangeEnd.getDate()
+  );
+
+  while (current <= end) {
+    const key = current.toDateString(); // same format as above
+    labels.push(new Date(current)); // push a copy
+    values.push(timeCounts[key] ?? 0); // fill 0 if missing
+    current.setDate(current.getDate() + 1);
   }
+
+  console.log('Aggregated Daily Data:', { labels, values });
+
+  return { labels, values };
+}
+
 
   private aggregateDataByMonth(data: any[]): {
     labels: any[];
@@ -539,7 +567,7 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
 
       this.createVisitorMonthActivityChartCanvas(colors);
     } else if (selectedType === ChartActivityType.Yearly) {
-      this.currentRangeStart = new Date();
+      this.currentRangeStart = new Date(new Date().getFullYear(), 1, 1);
       this.currentRangeEnd = addYears(this.currentRangeStart, 1);
 
       this.createVisitorYearlyActivityChartCanvas(colors);

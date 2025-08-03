@@ -54,24 +54,37 @@
       />
     </svg>
   </div>
+  <ng-container *ngIf="gamesActivityDataSubject.asObservable() | async as games">
+  <div *ngIf="games.length === 0" class="no-games-message">
+    <p>No games were played during this period.</p>
+    <p>Try selecting a different date range or chart type to view activity.</p>
+  </div>
 
-  <div *ngFor="let game of games; let i = index" class="wrapper_users__item">
+  <div
+    *ngFor="let game of games; let i = index"
+    class="wrapper_users__item"
+    (click)="onClickGame(game.gameId)"
+  >
     <span class="number" [randomColor]="i">{{ i + 1 }}</span>
     <div class="wrapper_image">
-      <img src="/shared/assets/images/mpavlov.png" alt="" />
+      <img
+        [src]="ImageEntityType.Games | entityImage : game.gameImageId | async"
+        alt="Game Image"
+      />
     </div>
     <div class="wrapper_users__item__info">
-      <span class="name">{{ game.name }}</span>
-      <span class="value">{{ game.value }}</span>
+      <span class="name">{{ game.gameName }}</span>
+      <span class="value">{{ game.timesPlayed }}</span>
     </div>
   </div>
+</ng-container>
+
 </div>
 
 <app-controls-menu
   #controls
   [isInfo]="true"
-  infoDescription="This chart displays the overall club activity, summarizing all actions
-  triggered by app users.
-  You can view the data weekly, monthly, or yearly
-  based on your selected chart type."
+  infoDescription="This chart shows how frequently each game was played within the selected time range. 
+You can explore weekly, monthly, or yearly trends by adjusting the chart type. 
+Only games with recorded activity will appear."
 ></app-controls-menu>

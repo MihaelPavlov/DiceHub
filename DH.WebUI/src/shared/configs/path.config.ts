@@ -136,14 +136,16 @@ export const PATH = {
     GET_EXPIRED_COLLECTED_REWARDS_CHART_DATA:
       'get-expired-collected-rewards-chart-data',
     GET_CHALLENGE_HISTORY_LOG: 'get-challenge-history-log',
+    GET_GAME_ENGAGEMENT_CHART_DATA: 'get-game-engagement-chart-data',
+    GET_GAME_USER_ENGAGEMENT_CHART_DATA: 'get-game-user-engagement-chart-data',
   },
   PARTNER_INQUIRIES: {
     CORE: 'partnerInquiries',
   },
-  SCHEDULER:{
+  SCHEDULER: {
     CORE: 'scheduler',
     GET_SCHEDULE_JOBS: 'get-schedule-jobs',
-  }
+  },
   // AUTH: {
   //   LOGIN: 'auth/user/login',
   // },

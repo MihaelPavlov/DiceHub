@@ -1,22 +1,23 @@
+import { BehaviorSubject, Observable } from 'rxjs';
 import {
-  Component,
-  AfterViewInit,
-  OnDestroy,
-  ViewChild,
-  ElementRef,
-} from '@angular/core';
+  GameActivityStats,
+  GetGameActivityChartData,
+} from './../../../../entities/statistics/models/game-activity-chart.model';
+import { Component, AfterViewInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { Chart, registerables } from 'chart.js';
 import { StatisticsService } from '../../../../entities/statistics/api/statistics.service';
 import { NAV_ITEM_LABELS } from '../../../../shared/models/nav-items-labels.const';
 import { MenuTabsService } from '../../../../shared/services/menu-tabs.service';
 import { ToastService } from '../../../../shared/services/toast.service';
-import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { FormControl } from '@angular/forms';
 import { IDropdown } from '../../../../shared/models/dropdown.model';
 import { addDays, addMonths, addYears, format } from 'date-fns';
 import { GamesActivityType } from '../../../../entities/statistics/enums/games-activity-type.enum';
-type Game = { name: string; value: number; image?: string | null };
+import { OperationResult } from '../../../../shared/models/operation-result.model';
+import { ImageEntityType } from '../../../../shared/pipe/entity-image.pipe';
+import { GetUsersWhoPlayedGameData } from '../../../../entities/statistics/models/game-user-activity.model';
+import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
+import { ToastType } from '../../../../shared/models/toast.model';
 
 @Component({
   selector: 'games-chart',
@@ -26,62 +27,13 @@ type Game = { name: string; value: number; image?: string | null };
 export class GamesChartComponent implements AfterViewInit, OnDestroy {
   public chartType: IDropdown[] = [];
   public gamesChartType = new FormControl(0);
-  public currentRangeStart: Date = this.getStartOfWeek();
-  public currentRangeEnd: Date = addDays(this.currentRangeStart, 6);
-  public GamesActivityType = GamesActivityType;
+  public currentRangeStart?: Date | null = null;
+  public currentRangeEnd?: Date | null = null;
+  public readonly GamesActivityType = GamesActivityType;
+  public readonly ImageEntityType = ImageEntityType;
 
-  public games: Game[] = [
-    {
-      name: 'Exploding Kittens',
-      value: 20,
-      image: 'shared/assets/images/landing_image_1.png',
-    },
-    { name: 'Monopoly', value: 30 },
-    { name: 'Chess', value: 25 },
-    { name: 'Scrabble', value: 20 },
-    { name: 'Uno', value: 15 },
-    { name: 'Settlers of Catan', value: 10 },
-    { name: 'Ticket to Ride', value: 5 },
-    {
-      name: 'Pandemic',
-      value: 43,
-      image: 'shared/assets/images/landing_image_1.png',
-    },
-    { name: 'Carcassonne', value: 22 },
-    { name: 'Codenames', value: 51 },
-    { name: 'Risk', value: 14 },
-    { name: 'Clue', value: 32 },
-    { name: 'Battleship', value: 1 },
-    { name: 'Jenga', value: 23 },
-    { name: 'Pictionary', value: 1 },
-    { name: 'Twilight Struggle', value: 1 },
-    { name: '7 Wonders', value: 1 },
-    { name: 'Dominion', value: 1 },
-    { name: 'Azul', value: 1 },
-    { name: 'Terraforming Mars', value: 1 },
-    { name: 'Gloomhaven', value: 1 },
-    { name: 'Wingspan', value: 1 },
-    { name: 'Root', value: 1 },
-    { name: 'Star Realms', value: 1 },
-    { name: 'Magic: The Gathering', value: 1 },
-    { name: 'Dungeons & Dragons', value: 1 },
-    { name: 'Pokemon TCG', value: 1 },
-    { name: 'Yu-Gi-Oh!', value: 1 },
-    { name: 'Hearthstone', value: 1 },
-    { name: 'League of Legends', value: 1 },
-    { name: 'Counter-Strike', value: 1 },
-    { name: 'Fortnite', value: 1 },
-    { name: 'Call of Duty', value: 1 },
-    { name: 'Apex Legends', value: 1 },
-    { name: 'Valorant', value: 1 },
-    { name: 'Overwatch', value: 1 },
-    { name: 'World of Warcraft', value: 1 },
-    { name: 'Final Fantasy XIV', value: 1 },
-    { name: 'Minecraft', value: 1 },
-    { name: 'Roblox', value: 1 },
-    // ...more games
-  ];
-  public myImage = new Image();
+  public gamesActivityDataSubject: BehaviorSubject<GameActivityStats[]> =
+    new BehaviorSubject<GameActivityStats[]>([]);
 
   constructor(
     private readonly menuTabsService: MenuTabsService,
@@ -89,7 +41,6 @@ export class GamesChartComponent implements AfterViewInit, OnDestroy {
     private readonly router: Router,
     private readonly statisticsService: StatisticsService
   ) {
-
     this.chartType = Object.entries(GamesActivityType)
       .filter(([key, value]) => typeof value === 'number')
       .map(([key, value]) => ({ id: value as number, name: key }));
@@ -97,8 +48,10 @@ export class GamesChartComponent implements AfterViewInit, OnDestroy {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.PROFILE);
     this.gamesChartType.valueChanges.subscribe(() => this.resetDateRange());
   }
-  public async ngAfterViewInit(): Promise<void> {
-
+  public ngAfterViewInit(): void {
+    this.currentRangeStart = this.getStartOfWeek();
+    this.currentRangeEnd = addDays(this.currentRangeStart, 6);
+    this.getGameActivityData(GamesActivityType.Weekly);
   }
 
   public ngOnDestroy(): void {
@@ -109,55 +62,104 @@ export class GamesChartComponent implements AfterViewInit, OnDestroy {
     this.router.navigateByUrl('profile');
   }
 
+  public onClickGame(gameId: number): void {
+    this.statisticsService
+      .getGameUserActivityChartData(
+        gameId,
+        this.gamesChartType.value as GamesActivityType,
+        this.currentRangeStart,
+        this.currentRangeEnd
+      )
+      .subscribe({
+        next: (
+          operation: OperationResult<GetUsersWhoPlayedGameData> | null
+        ) => {
+          if (operation && operation.success && operation.relatedObject) {
+            console.log(
+              'Game User Activity Data:',
+              operation.relatedObject.users
+            );
+          }
+        },
+        error: (error) => {
+          this.toastService.error({
+            message: AppToastMessage.SomethingWrong,
+            type: ToastType.Error,
+          });
+        },
+      });
+  }
 
+  private getGameActivityData(type: GamesActivityType): void {
+    this.statisticsService
+      .getGameActivityChartData(
+        type,
+        this.currentRangeStart,
+        this.currentRangeEnd
+      )
+      .subscribe({
+        next: (operation: OperationResult<GetGameActivityChartData> | null) => {
+          if (operation && operation.success && operation.relatedObject) {
+            this.gamesActivityDataSubject.next(operation.relatedObject.games);
+          }
+        },
+        error: (error) => {
+          this.toastService.error({
+            message: AppToastMessage.SomethingWrong,
+            type: ToastType.Error,
+          });
+        },
+      });
+  }
 
   private resetDateRange(): void {
-    const selectedType = this.gamesChartType.value;
+    const selectedType = this.gamesChartType.value as GamesActivityType;
 
-    // reset games
-    // if (this.gamesActivityChart) {
-    //   this.gamesActivityChart.destroy();
-    // }
     if (selectedType === GamesActivityType.Weekly) {
       this.currentRangeStart = this.getStartOfWeek();
       this.currentRangeEnd = addDays(this.currentRangeStart, 6);
-
-      // this.createVisitorWeekActivityChartCanvas(colors);
     } else if (selectedType === GamesActivityType.Monthly) {
       this.currentRangeStart = new Date();
       this.currentRangeEnd = addMonths(this.currentRangeStart, 1);
-
-      // this.createVisitorMonthActivityChartCanvas(colors);
     } else if (selectedType === GamesActivityType.Yearly) {
       this.currentRangeStart = new Date();
       this.currentRangeEnd = addYears(this.currentRangeStart, 1);
-
-      // this.createVisitorYearlyActivityChartCanvas(colors);
+    } else if (selectedType === GamesActivityType.AllTime) {
+      this.currentRangeStart = null;
+      this.currentRangeEnd = null;
     }
+
+    this.getGameActivityData(selectedType);
   }
   public getFormattedRange(): string {
     let date;
     const selectedType = this.gamesChartType.value;
-
-    if (selectedType === (GamesActivityType.Weekly as number)) {
+    if (
+      selectedType === (GamesActivityType.Weekly as number) &&
+      this.currentRangeStart &&
+      this.currentRangeEnd
+    ) {
       date = `${format(this.currentRangeStart, 'MMM dd yyyy')} - ${format(
         this.currentRangeEnd,
         'MMM dd yyyy'
       )}`;
-    } else if (selectedType === GamesActivityType.Monthly) {
+    } else if (
+      selectedType === GamesActivityType.Monthly &&
+      this.currentRangeStart
+    ) {
       date = `${format(this.currentRangeStart, 'MMM yyyy')}`;
-    } else if (selectedType === GamesActivityType.Yearly) {
+    } else if (
+      selectedType === GamesActivityType.Yearly &&
+      this.currentRangeStart
+    ) {
       date = `${format(this.currentRangeStart, 'yyyy')}`;
     }
 
     return date;
   }
   public updateDateRange(direction: 'forward' | 'backward'): void {
-    const selectedType = this.gamesChartType.value;
-   //TODO: Reset games
-    // if (this.gamesActivityChart) {
-    //   this.gamesActivityChart.destroy();
-    // }
+    const selectedType = this.gamesChartType.value as GamesActivityType;
+
     let adjustmentValue = 0;
     if (selectedType === GamesActivityType.Weekly)
       adjustmentValue = 7; // Weekly
@@ -169,29 +171,36 @@ export class GamesChartComponent implements AfterViewInit, OnDestroy {
 
     if (direction === 'backward') adjustmentValue *= -1;
 
-    if (selectedType === GamesActivityType.Weekly) {
+    if (
+      selectedType === GamesActivityType.Weekly &&
+      this.currentRangeStart &&
+      this.currentRangeEnd
+    ) {
       this.currentRangeStart = addDays(this.currentRangeStart, adjustmentValue);
       this.currentRangeEnd = addDays(this.currentRangeEnd, adjustmentValue);
-
-      //   this.createVisitorWeekActivityChartCanvas(colors);
-    } else if (selectedType === GamesActivityType.Monthly) {
+    } else if (
+      selectedType === GamesActivityType.Monthly &&
+      this.currentRangeStart
+    ) {
       this.currentRangeStart = addMonths(
         this.currentRangeStart,
         adjustmentValue
       );
-
-      //   this.createVisitorMonthActivityChartCanvas(colors);
-    } else if (selectedType === GamesActivityType.Yearly) {
+      this.currentRangeEnd = null;
+    } else if (
+      selectedType === GamesActivityType.Yearly &&
+      this.currentRangeStart
+    ) {
       this.currentRangeStart = addYears(
         this.currentRangeStart,
         adjustmentValue
       );
-
-      //   this.createVisitorYearlyActivityChartCanvas(colors);
-    } else if (selectedType === GamesActivityType.AllTime) {
-      //   this.createVisitorYearlyActivityChartCanvas(colors);
+      this.currentRangeEnd = null;
     }
+
+    this.getGameActivityData(selectedType);
   }
+
   private getStartOfWeek(): Date {
     const date = new Date();
     const day = date.getDay();

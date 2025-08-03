@@ -1,5 +1,4 @@
-﻿using Azure.Core;
-using DH.Domain.Adapters.Statistics.Enums;
+﻿using DH.Domain.Adapters.Statistics.Enums;
 using DH.Domain.Adapters.Statistics.Services;
 using DH.Domain.Entities;
 using DH.Domain.Enums;
@@ -8,9 +7,7 @@ using DH.Domain.Models.StatisticsModels.Queries;
 using DH.OperationResultCore.Exceptions;
 using DH.OperationResultCore.Extension;
 using DH.OperationResultCore.Utility;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System.Threading;
 using static DH.Domain.Adapters.Statistics.StatisticJobQueue;
 
 namespace DH.Adapter.Data.Services;
@@ -118,14 +115,25 @@ internal class StatisticsService(
         }
     }
 
-    public async Task<OperationResult<GetActivityChartData>> GetActivityChartData(ChartActivityType type, string rangeStart, string? rangeEnd, CancellationToken cancellationToken)
+    public async Task GameEngagementDetectedMessage(GameEngagementDetectedJob job)
     {
-        var isRangeStartParsed = DateTime.TryParse(rangeStart, out var parsedRangeStartUtc);
+        using (var context = await dbContextFactory.CreateDbContextAsync())
+        {
+            await context.GameEngagementLogs.AddAsync(new GameEngagementLog
+            {
+                UserId = job.UserId,
+                GameId = job.GameId,
+                DetectedOn = job.DetectedOn,
+                CreatedDate = DateTime.UtcNow,
+            });
 
-        if (!isRangeStartParsed)
-            return new OperationResult<GetActivityChartData>().ReturnWithBadRequestException("Start Date is Missing or Incorrect");
+            await context.SaveChangesAsync();
+        }
+    }
 
-        var rangeStartUtc = parsedRangeStartUtc.ToUniversalTime();
+    public async Task<OperationResult<GetActivityChartData>> GetActivityChartData(ChartActivityType type, DateTime rangeStart, DateTime? rangeEnd, CancellationToken cancellationToken)
+    {
+        var rangeStartUtc = rangeStart;
         DateTime? rangeEndUtc = null;
 
         using (var context = await dbContextFactory.CreateDbContextAsync(cancellationToken))
@@ -142,11 +150,11 @@ internal class StatisticsService(
             }
             else
             {
-                if (string.IsNullOrEmpty(rangeEnd) || !DateTime.TryParse(rangeEnd, out var parsedRangeEndDate))
-                    return new OperationResult<GetActivityChartData>().ReturnWithBadRequestException("End Date is Missing or Incorrect");
+                if (rangeEnd == null)
+                    return new OperationResult<GetActivityChartData>().ReturnWithBadRequestException("End Date is Missing");
 
-                rangeEndUtc = parsedRangeEndDate.ToUniversalTime();
-                query = query.Where(x => x.LogDate.Date >= rangeStartUtc.Date && x.LogDate <= rangeEndUtc.Value.Date);
+                rangeEndUtc = rangeEnd;
+                query = query.Where(x => x.LogDate >= rangeStartUtc && x.LogDate <= rangeEndUtc.Value);
             }
 
             var logs = await query.ToListAsync(cancellationToken);
@@ -184,12 +192,12 @@ internal class StatisticsService(
         if (type == ChartActivityType.Weekly)
         {
             var endDate = rangeEnd ?? rangeStart;
-            while (currentDate.Date <= endDate.Date)
+            while (currentDate <= endDate)
             {
                 var log = logs.FirstOrDefault(l => l.Date == currentDate.Date);
                 if (log == null)
                 {
-                    completeLogs.Add(new ActivityLog { UserCount = 0, Date = currentDate.Date });
+                    completeLogs.Add(new ActivityLog { UserCount = 0, Date = currentDate });
                 }
                 else
                 {
@@ -495,6 +503,142 @@ internal class StatisticsService(
             };
 
             return new OperationResult<GetReservationChartData>(result);
+        }
+    }
+
+    public async Task<OperationResult<GetGameActivityChartData>> GetGameActivitydData(ChartGameActivityType type, DateTime? rangeStart, DateTime? rangeEnd, CancellationToken cancellationToken)
+    {
+        DateTime? rangeStartUtc = null;
+        DateTime? rangeEndUtc = null;
+
+        // Only parse rangeStart if type is not AllTime
+        if (type != ChartGameActivityType.AlTime)
+        {
+            if (rangeStart == null)
+                return new OperationResult<GetGameActivityChartData>()
+                    .ReturnWithBadRequestException("Start Date is Missing");
+
+            rangeStartUtc = rangeStart;
+        }
+
+        if (type == ChartGameActivityType.Weekly)
+        {
+            if (rangeEnd == null)
+                return new OperationResult<GetGameActivityChartData>()
+                    .ReturnWithBadRequestException("End Date is Missing");
+
+            rangeEndUtc = rangeEnd;
+        }
+
+        using var context = await dbContextFactory.CreateDbContextAsync(cancellationToken);
+        var logs = await context.GameEngagementLogs.ToListAsync(cancellationToken);
+        var stats = await (
+            from log in context.GameEngagementLogs
+            join game in context.Games on log.GameId equals game.Id
+            where
+            (type == ChartGameActivityType.Monthly &&
+                rangeStartUtc != null &&
+                log.DetectedOn.Year == rangeStartUtc.Value.Year &&
+                log.DetectedOn.Month == rangeStartUtc.Value.Month)
+            ||
+            (type == ChartGameActivityType.Yearly &&
+                rangeStartUtc != null &&
+                log.DetectedOn.Year == rangeStartUtc.Value.Year)
+            ||
+            (type == ChartGameActivityType.Weekly &&
+                rangeStartUtc != null && rangeEndUtc != null &&
+                log.DetectedOn >= rangeStartUtc.Value &&
+                log.DetectedOn <= rangeEndUtc.Value)
+            ||
+            (type == ChartGameActivityType.AlTime)
+            group log by new { game.Id, game.Name, ImageId = game.Image.Id } into g
+            select new GameActivityStats
+            {
+                GameId = g.Key.Id,
+                GameName = g.Key.Name,
+                TimesPlayed = g.Count(),
+                GameImageId = g.Key.ImageId
+            }
+        )
+        .OrderByDescending(x => x.TimesPlayed)
+        .ToListAsync(cancellationToken);
+
+        return new OperationResult<GetGameActivityChartData>(
+            new GetGameActivityChartData { Games = stats }
+        );
+    }
+
+    public async Task<OperationResult<GetUsersWhoPlayedGameData>> GetGameActivityUsersData(int gameId, ChartGameActivityType type, DateTime? rangeStart, DateTime? rangeEnd, CancellationToken cancellationToken)
+    {
+        DateTime? rangeStartUtc = null;
+        DateTime? rangeEndUtc = null;
+
+        // Only parse rangeStart if type is not AllTime
+        if (type != ChartGameActivityType.AlTime)
+        {
+            if (rangeStart == null)
+                return new OperationResult<GetUsersWhoPlayedGameData>()
+                    .ReturnWithBadRequestException("Start Date is Missing");
+
+            rangeStartUtc = rangeStart;
+        }
+
+        if (type == ChartGameActivityType.Weekly)
+        {
+            if (rangeEnd == null)
+                return new OperationResult<GetUsersWhoPlayedGameData>()
+                    .ReturnWithBadRequestException("End Date is Missing");
+
+            rangeEndUtc = rangeEnd;
+        }
+
+        using (var context = await dbContextFactory.CreateDbContextAsync(cancellationToken))
+        {
+            var query = from log in context.GameEngagementLogs
+                        where log.GameId == gameId
+                        select log;
+
+            // Apply filtering conditionally based on chart type
+            if (type == ChartGameActivityType.Monthly && rangeStartUtc != null)
+            {
+                query = query.Where(log =>
+                    log.DetectedOn.Year == rangeStartUtc.Value.Year &&
+                    log.DetectedOn.Month == rangeStartUtc.Value.Month);
+            }
+            else if (type == ChartGameActivityType.Yearly && rangeStartUtc != null)
+            {
+                query = query.Where(log => log.DetectedOn.Year == rangeStartUtc.Value.Year);
+            }
+            else if (type == ChartGameActivityType.Weekly && rangeStartUtc != null && rangeEndUtc != null)
+            {
+                query = query.Where(log => log.DetectedOn >= rangeStartUtc.Value &&
+                                           log.DetectedOn <= rangeEndUtc.Value);
+            }
+            // No filter for AlTime
+
+            var userPlayCounts = await query
+                .GroupBy(x => x.UserId)
+                .Select(g => new
+                {
+                    UserId = g.Key,
+                    TimesPlayed = g.Count()
+                })
+                .ToDictionaryAsync(g => g.UserId, g => g.TimesPlayed, cancellationToken);
+
+
+            var result = await query
+                .OrderByDescending(x => x.DetectedOn)
+                .Select(log => new GameUserActivity
+                {
+                    UserId = log.UserId,
+                    UserDisplayName = string.Empty,
+                    PlayedAt = log.DetectedOn,
+                    TimesPlayedFromUser = userPlayCounts.ContainsKey(log.UserId) ? userPlayCounts[log.UserId] : 0
+                })
+                .ToListAsync(cancellationToken);
+
+            return new OperationResult<GetUsersWhoPlayedGameData>(
+                new GetUsersWhoPlayedGameData { Users = result.DistinctBy(x => x.UserId).ToList() });
         }
     }
 }

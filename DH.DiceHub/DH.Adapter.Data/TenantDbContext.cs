@@ -96,6 +96,7 @@ public class TenantDbContext : DbContext, ITenantDbContext
     public DbSet<ReservationOutcomeLog> ReservationOutcomeLogs { get; set; } = default!;
     public DbSet<RewardHistoryLog> RewardHistoryLogs { get; set; } = default!;
     public DbSet<ChallengeHistoryLog> ChallengeHistoryLogs { get; set; } = default!;
+    public DbSet<GameEngagementLog> GameEngagementLogs { get; set; } = default!;
 
     #endregion Statistics
 

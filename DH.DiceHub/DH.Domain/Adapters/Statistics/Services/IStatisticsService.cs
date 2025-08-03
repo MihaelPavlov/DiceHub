@@ -18,7 +18,10 @@ public interface IStatisticsService
 
     Task ChallengeProcessingOutcomeMessage(ChallengeProcessingOutcomeJob job);
 
-    Task<OperationResult<GetActivityChartData>> GetActivityChartData(ChartActivityType type, string rangeStart, string? rangeEnd, CancellationToken cancellationToken);
+
+    Task GameEngagementDetectedMessage(GameEngagementDetectedJob job);
+
+    Task<OperationResult<GetActivityChartData>> GetActivityChartData(ChartActivityType type, DateTime rangeStart, DateTime? rangeEnd, CancellationToken cancellationToken);
 
     Task<OperationResult<List<GetChallengeHistoryLogQueryResponse>>> GetChallengeHistoryLogs(ChallengeHistoryLogType type, CancellationToken cancellationToken);
 
@@ -31,4 +34,6 @@ public interface IStatisticsService
     Task<OperationResult<GetExpiredCollectedRewardsChartDataModel>> GetExpiredCollectedRewardsChartData(int year, CancellationToken cancellationToken);
 
     Task<OperationResult<GetReservationChartData>> GetReservationChartData(string fromDate, string toDate, CancellationToken cancellationToken);
+    Task<OperationResult<GetGameActivityChartData>> GetGameActivitydData(ChartGameActivityType type, DateTime? rangeStart, DateTime? rangeEnd, CancellationToken cancellationToken);
+    Task<OperationResult<GetUsersWhoPlayedGameData>> GetGameActivityUsersData(int gameId, ChartGameActivityType type, DateTime? rangeStart, DateTime? rangeEnd, CancellationToken cancellationToken);
 }

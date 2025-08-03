@@ -6,5 +6,6 @@ public enum StatisticJobType
     ChallengeProcessingOutcome,
     EventAttendanceDetected,
     ReservationProcessingOutcome,
-    RewardActionDetected
+    RewardActionDetected,
+    GameEngagementDetected,
 }

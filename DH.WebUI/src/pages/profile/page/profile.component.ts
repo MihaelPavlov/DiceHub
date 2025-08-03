@@ -80,6 +80,10 @@ export class ProfileComponent implements OnDestroy {
     this.router.navigateByUrl('charts/visitors');
   }
 
+  public navigateToGameChart(): void {
+    this.router.navigateByUrl('charts/games');
+  }
+
   public navigateToReservationsChart(): void {
     this.router.navigateByUrl('charts/reservations');
   }

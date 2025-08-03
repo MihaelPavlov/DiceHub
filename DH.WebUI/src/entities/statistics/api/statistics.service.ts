@@ -23,8 +23,8 @@ export class StatisticsService {
 
   public getActivityChartData(
     type: ChartActivityType,
-    rangeStart: string,
-    rangeEnd?: string
+    rangeStart: Date,
+    rangeEnd?: Date | null
   ): Observable<OperationResult<GetActivityChartData> | null> {
     return this.api.post<OperationResult<GetActivityChartData>>(
       `/${PATH.STATISTICS.CORE}/${PATH.STATISTICS.GET_ACTIVITY_CHART_DATA}`,
@@ -110,8 +110,8 @@ export class StatisticsService {
 
   public getGameActivityChartData(
     type: GamesActivityType,
-    rangeStart?: string | null,
-    rangeEnd?: string | null
+    rangeStart?: Date | null,
+    rangeEnd?: Date | null
   ): Observable<OperationResult<GetGameActivityChartData> | null> {
     return this.api.post<OperationResult<GetGameActivityChartData>>(
       `/${PATH.STATISTICS.CORE}/${PATH.STATISTICS.GET_GAME_ENGAGEMENT_CHART_DATA}`,
@@ -126,8 +126,8 @@ export class StatisticsService {
   public getGameUserActivityChartData(
     gameId: number,
     type: GamesActivityType,
-    rangeStart?: string | null,
-    rangeEnd?: string | null
+    rangeStart?: Date | null,
+    rangeEnd?: Date | null
   ): Observable<OperationResult<GetUsersWhoPlayedGameData> | null> {
     return this.api.post<OperationResult<GetUsersWhoPlayedGameData>>(
       `/${PATH.STATISTICS.CORE}/${PATH.STATISTICS.GET_GAME_USER_ENGAGEMENT_CHART_DATA}`,

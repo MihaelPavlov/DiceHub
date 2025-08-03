@@ -26,7 +26,8 @@ public class StatisticJobFactory : IStatisticJobFactory
             EventAttendanceDetectedJob eventJob => new EventAttendanceDetectedJobHandler(eventJob, service),
             ReservationProcessingOutcomeJob reservationJob => new ReservationProcessingOutcomeJobHandler(reservationJob, service),
             RewardActionDetectedJob rewardJob => new RewardActionDetectedJobHandler(rewardJob, service),
+            GameEngagementDetectedJob gameEngagementJob => new GameEngagementDetectedJobHandler(gameEngagementJob, service),
             _ => throw new NotSupportedException($"Unknown job info type: {jobInfo.GetType().Name}")
         };
     }
-}
+} 

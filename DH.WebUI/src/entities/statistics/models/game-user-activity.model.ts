@@ -6,4 +6,5 @@ export interface GameUserActivity {
   userId: string;
   userDisplayName: string;
   playedAt: Date;
+  timesPlayedFromUser: number;
 }

@@ -1,4 +1,5 @@
 ﻿using DH.Application.Statistics.Queries;
+using DH.Domain.Adapters.Statistics.JobHandlers;
 using DH.Domain.Models.StatisticsModels.Queries;
 using DH.OperationResultCore.Utility;
 using MediatR;
@@ -71,6 +72,22 @@ public class StatisticsController : ControllerBase
     [HttpPost("get-expired-collected-rewards-chart-data")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OperationResult<GetExpiredCollectedRewardsChartDataModel>))]
     public async Task<IActionResult> GetExpiredCollectedRewardsChartData([FromBody] GetExpiredCollectedRewardsChartDataQuery request, CancellationToken cancellationToken)
+    {
+        var result = await this.mediator.Send(request, cancellationToken);
+        return Ok(result);
+    }
+
+    [HttpPost("get-game-engagement-chart-data")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OperationResult<GetGameActivityChartData>))]
+    public async Task<IActionResult> GetGameEngagementChartData([FromBody] GetGameActivityChartDataQuery request, CancellationToken cancellationToken)
+    {
+        var result = await this.mediator.Send(request, cancellationToken);
+        return Ok(result);
+    }
+
+    [HttpPost("get-game-user-engagement-chart-data")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OperationResult<GetUsersWhoPlayedGameData>))]
+    public async Task<IActionResult> GetGameUserEngagementChartData([FromBody] GetUserWhoPlayedGameChartDataQuery request, CancellationToken cancellationToken)
     {
         var result = await this.mediator.Send(request, cancellationToken);
         return Ok(result);
