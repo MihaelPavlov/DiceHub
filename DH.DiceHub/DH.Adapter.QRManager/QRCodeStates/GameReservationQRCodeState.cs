@@ -128,8 +128,11 @@ public class GameReservationQRCodeState : IQRCodeState
         var spaceTableId = await this.spaceTableService.Create(request, cancellationToken, fromGameReservation: true, gameReservation.UserId);
 
         var game = await this.gameRepository.GetByAsync(x => x.Id == gameReservation.GameId, cancellationToken);
-        if (game == null)
-            return await SetError(context, data, result, $"{traceId}: Table id-{spaceTableId}, was created. But AddUserPlayTimEnforcerJob was not added to the queue, because game with id-{request.GameId} was not founded", traceId, cancellationToken);
+        if (game == null || game.IsDeleted)
+            return await SetError(
+                context, data, result,
+                $"{traceId}: Table (ID: {spaceTableId}) was created, but the game (ID: {request.GameId}) is missing or deleted. The average play time won't be tracked, and challenge points can't be earned for this game.",
+                traceId, cancellationToken);
 
         this.gameSessionQueue.AddUserPlayTimEnforcerJob(userId, game.Id, DateTime.UtcNow.AddMinutes((int)game.AveragePlaytime));
 
@@ -140,6 +143,9 @@ public class GameReservationQRCodeState : IQRCodeState
 
         await this.statisticQueuePublisher.PublishAsync(new StatisticJobQueue.ReservationProcessingOutcomeJob(
            userId, ReservationOutcome.Completed, ReservationType.Game, gameReservation.Id, DateTime.UtcNow));
+
+        await this.statisticQueuePublisher.PublishAsync(new StatisticJobQueue.GameEngagementDetectedJob(
+           userId, game.Id, DateTime.UtcNow));
 
         this.reservationCleanupQueue.RemoveReservationCleaningJob(gameReservation.Id);
 

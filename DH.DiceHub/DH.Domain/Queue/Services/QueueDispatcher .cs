@@ -85,6 +85,9 @@ public class QueueDispatcher : IQueueDispatcher
             StatisticJobType.ReservationProcessingOutcome =>
                 JsonSerializer.Deserialize<ReservationProcessingOutcomeJob>(messagePayload),
 
+            StatisticJobType.GameEngagementDetected =>
+                JsonSerializer.Deserialize<GameEngagementDetectedJob>(messagePayload),
+
             _ => throw new NotSupportedException($"Job type not supported: {parsedType}")
         };
 
