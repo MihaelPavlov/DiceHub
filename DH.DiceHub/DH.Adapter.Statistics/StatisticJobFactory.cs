@@ -9,7 +9,8 @@ namespace DH.Adapter.Statistics;
 public class StatisticJobFactory : IStatisticJobFactory
 {
     readonly IServiceScopeFactory serviceScopeFactory;
-    public StatisticJobFactory(IServiceScopeFactory serviceScopeFactory)
+    public StatisticJobFactory(
+        IServiceScopeFactory serviceScopeFactory)
     {
         this.serviceScopeFactory = serviceScopeFactory;
     }
@@ -18,7 +19,6 @@ public class StatisticJobFactory : IStatisticJobFactory
     {
         using var scope = serviceScopeFactory.CreateScope();
         var service = scope.ServiceProvider.GetRequiredService<IStatisticsService>();
-
         return jobInfo switch
         {
             ClubActivityDetectedJob clubJob => new ClubActivityDetectedJobHandler(clubJob, service),
@@ -30,4 +30,4 @@ public class StatisticJobFactory : IStatisticJobFactory
             _ => throw new NotSupportedException($"Unknown job info type: {jobInfo.GetType().Name}")
         };
     }
-} 
+}

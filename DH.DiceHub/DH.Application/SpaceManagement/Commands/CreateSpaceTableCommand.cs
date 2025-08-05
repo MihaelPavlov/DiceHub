@@ -48,6 +48,9 @@ internal class CreateSpaceTableCommandHandler : IRequestHandler<CreateSpaceTable
 
         var spaceTableId = await this.spaceTableService.Create(request.SpaceTable.Adapt<SpaceTable>(), cancellationToken);
 
+        await this.statisticQueuePublisher.PublishAsync(new StatisticJobQueue.ClubActivityDetectedJob(
+            this.userContext.UserId, DateTime.UtcNow));
+
         var traceId = Guid.NewGuid().ToString();
         var game = await this.gameRepostory.GetByAsync(x => x.Id == request.SpaceTable.GameId, cancellationToken);
 
@@ -59,8 +62,8 @@ internal class CreateSpaceTableCommandHandler : IRequestHandler<CreateSpaceTable
 
         this.queue.AddUserPlayTimEnforcerJob(this.userContext.UserId, game!.Id, DateTime.UtcNow.AddMinutes((int)game.AveragePlaytime));
 
-        await this.statisticQueuePublisher.PublishAsync(new StatisticJobQueue.ClubActivityDetectedJob(
-            this.userContext.UserId, DateTime.UtcNow));
+        await this.statisticQueuePublisher.PublishAsync(new StatisticJobQueue.GameEngagementDetectedJob(
+           this.userContext.UserId, game.Id, DateTime.UtcNow));
 
         return spaceTableId;
     }

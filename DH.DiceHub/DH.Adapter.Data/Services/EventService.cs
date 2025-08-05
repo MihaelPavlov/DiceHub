@@ -1,5 +1,6 @@
 ﻿using DH.Domain.Adapters.Authentication;
 using DH.Domain.Entities;
+using DH.Domain.Models.EventModels.Command;
 using DH.Domain.Models.EventModels.Queries;
 using DH.Domain.Services;
 using DH.OperationResultCore.Exceptions;
@@ -166,7 +167,7 @@ internal class EventService : IEventService
         }
     }
 
-    public async Task UpdateEvent(Event eventModel, string? fileName, string? contentType, MemoryStream? imageStream, CancellationToken cancellationToken)
+    public async Task<UpdateEventResponseModel> UpdateEvent(Event eventModel, string? fileName, string? contentType, MemoryStream? imageStream, CancellationToken cancellationToken)
     {
         using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
         {
@@ -176,8 +177,17 @@ internal class EventService : IEventService
             var game = await context.Games.FirstOrDefaultAsync(x => x.Id == eventModel.GameId)
                 ?? throw new NotFoundException(nameof(Game), eventModel.GameId);
 
+            var response = new UpdateEventResponseModel()
+            {
+                ShouldSendStarDateUpdatedNotification = false,
+            };
+
             eventDb.Name = eventModel.Name;
             eventDb.Description = eventModel.Description;
+            if (eventDb.StartDate != eventModel.StartDate)
+            {
+                response.ShouldSendStarDateUpdatedNotification = true;
+            }
             eventDb.StartDate = eventModel.StartDate;
             eventDb.MaxPeople = eventModel.MaxPeople;
             eventDb.GameId = eventModel.GameId;
@@ -210,6 +220,8 @@ internal class EventService : IEventService
             eventDb.IsCustomImage = eventModel.IsCustomImage;
 
             await context.SaveChangesAsync(cancellationToken);
+
+            return response;
         }
     }
 }

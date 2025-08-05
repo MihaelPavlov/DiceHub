@@ -59,7 +59,6 @@ internal class CreateEventCommandHandler : IRequestHandler<CreateEventCommand, i
 
         var userIds = users.Select(x => x.Id).ToList();
 
-
         var (userLocalEventStartDate, isUtcFallback) =
             TimeZoneHelper.GetUserLocalOrUtcTime(request.Event.StartDate, this.userContext.TimeZone);
 

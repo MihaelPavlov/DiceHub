@@ -26,32 +26,35 @@ public class StatisticJobWorker : BackgroundService
         {
             if (this.queue.TryDequeue(out var jobInfo))
             {
-                string traceId = Guid.NewGuid().ToString();
                 using var scope = serviceScopeFactory.CreateScope();
                 var queuedJobService = scope.ServiceProvider.GetRequiredService<IQueuedJobService>();
                 var factory = scope.ServiceProvider.GetRequiredService<IStatisticJobFactory>();
 
                 try
                 {
-                    Console.WriteLine($"Executing job {jobInfo.JobId}...");
-                    var hadnler = factory.CreateHandler(jobInfo);
-                    var isSuccessfully = await hadnler.ExecuteAsync(cancellationToken);
+                    var handler = factory.CreateHandler(jobInfo);
+                    await handler.ExecuteAsync(cancellationToken);
 
-                    if (isSuccessfully)
-                    {
-                        await queuedJobService.UpdateStatusToCompleted(this.queue.QueueName, jobInfo.JobId);
-                    }
+                    await queuedJobService.UpdateStatusToCompleted(this.queue.QueueName, jobInfo.JobId);
                 }
                 catch (TaskCanceledException)
                 {
                     // Application is stopping, just ignore
-                    logger.LogInformation("Job ID: {jobId} - Canceled at {cancelTime}.", traceId, DateTime.UtcNow);
+                    this.logger.LogInformation("Job ID: {jobId} - Canceled at {cancelTime}.", jobInfo.JobId, DateTime.UtcNow);
+                }
+                catch (NotSupportedException ex)
+                {
+                    this.logger.LogCritical(
+                        ex, "Job ID: {jobId} - Failed at {failureTime}; Error: {error}; JobInfo: {jobInfo}",
+                        jobInfo.JobId, DateTime.UtcNow, ex.Message, JsonSerializer.Serialize(jobInfo));
                 }
                 catch (Exception ex)
                 {
                     await queuedJobService.UpdateStatusToFailed(this.queue.QueueName, jobInfo.JobId);
 
-                    logger.LogError(ex, "Job ID: {jobId} - Failed at {failureTime}: {jobInfo}", traceId, DateTime.UtcNow, JsonSerializer.Serialize(jobInfo));
+                    this.logger.LogError(ex,
+                        "Job ID: {jobId} - Failed at {failureTime}; Handler was not processed successfully; JobInfo: {jobInfo}",
+                        jobInfo.JobId, DateTime.UtcNow, JsonSerializer.Serialize(jobInfo));
                 }
             }
 

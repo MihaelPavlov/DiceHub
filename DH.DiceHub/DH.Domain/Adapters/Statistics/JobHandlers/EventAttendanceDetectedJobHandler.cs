@@ -16,16 +16,8 @@ public class EventAttendanceDetectedJobHandler : IStatisticJob
         this.statisticsService = statisticsService;
     }
 
-    public async Task<bool> ExecuteAsync(CancellationToken cancellationToken)
+    public async Task ExecuteAsync(CancellationToken cancellationToken)
     {
-        try
-        {
-            await this.statisticsService.EventAttendanceDetectedMessage(this.job);
-        }
-        catch (Exception)
-        {
-            return false;
-        }
-        return true;
+        await this.statisticsService.EventAttendanceDetectedMessage(this.job);
     }
 }

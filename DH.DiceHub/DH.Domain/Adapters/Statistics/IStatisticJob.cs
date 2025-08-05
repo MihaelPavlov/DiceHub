@@ -3,7 +3,7 @@
 public interface IStatisticJob
 {
     Guid JobId { get; }
-    Task<bool> ExecuteAsync(CancellationToken cancellationToken);
+    Task ExecuteAsync(CancellationToken cancellationToken);
 }
 
 public interface IStatisticJobInfo

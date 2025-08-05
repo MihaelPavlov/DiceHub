@@ -62,6 +62,9 @@ internal class JoinSpaceTableCommandHandler : IRequestHandler<JoinSpaceTableComm
 
         await this.spaceTableRepository.SaveChangesAsync(cancellationToken);
 
+        await this.statisticQueuePublisher.PublishAsync(new StatisticJobQueue.ClubActivityDetectedJob(
+            this.userContext.UserId, DateTime.UtcNow));
+
         var traceId = Guid.NewGuid().ToString();
         var game = await this.gameRepository.GetByAsync(x => x.Id == spaceTable.GameId, cancellationToken);
 
@@ -73,7 +76,7 @@ internal class JoinSpaceTableCommandHandler : IRequestHandler<JoinSpaceTableComm
 
         this.queue.AddUserPlayTimEnforcerJob(this.userContext.UserId, game!.Id, DateTime.UtcNow.AddMinutes((int)game.AveragePlaytime));
 
-        await this.statisticQueuePublisher.PublishAsync(new StatisticJobQueue.ClubActivityDetectedJob(
-            this.userContext.UserId, DateTime.UtcNow));
+        await this.statisticQueuePublisher.PublishAsync(new StatisticJobQueue.GameEngagementDetectedJob(
+           this.userContext.UserId, game.Id, DateTime.UtcNow));
     }
 }
