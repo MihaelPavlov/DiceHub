@@ -135,7 +135,7 @@ public class UserChallengesManagementService : IUserChallengesManagementService
                             await context.SaveChangesAsync(cancellationToken);
                         }
 
-                        var userPerformance = userPerformances.FirstOrDefault();
+                        var userPerformance = userPerformances.FirstOrDefault(x => x.IsPeriodActive);
                         isInvalid = userPerformance == null || now > userPerformance.EndDate;
 
                         if (!isInvalid)

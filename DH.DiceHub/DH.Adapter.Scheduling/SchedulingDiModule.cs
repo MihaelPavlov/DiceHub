@@ -65,24 +65,27 @@ public static class SchedulingDIModule
         service.AddTrigger(opts => opts
             .ForJob(nameof(UserRewardsExpiryJob))
             .WithIdentity($"DailyJobTriggers-{nameof(UserRewardsExpiryJob)}")
-            .WithCronSchedule("0 0 0 * * ?"));// Every night 00:00 UTC 
-                                             //.WithCronSchedule("0 0 0 * * ?"));// Every night 00:00 UTC 
+            .WithCronSchedule("0 0 0 * * ?", cronScheduleBuilder =>
+                cronScheduleBuilder.InTimeZone(TimeZoneInfo.Utc)));// Every night 00:00 UTC 
+
         service.AddTrigger(opts => opts
             .ForJob(nameof(UserRewardsExpirationReminderJob))
             .WithIdentity($"DailyJobTriggers-{nameof(UserRewardsExpirationReminderJob)}")
-            .WithCronSchedule("0 0 0 * * ?"));// Every night 00:00 UTC 
+            .WithCronSchedule("0 0 0 * * ?", cronScheduleBuilder =>
+                cronScheduleBuilder.InTimeZone(TimeZoneInfo.Utc)));// Every night 00:00 UTC 
 
         // .WithCronSchedule("0 0/2 * * * ?")); // Every two mins
 
         service.AddTrigger(opts => opts
             .ForJob(nameof(ExpireReservationJob))
             .WithIdentity($"DailyJobTriggers-{nameof(ExpireReservationJob)}")
-            .WithCronSchedule("0 0 0 * * ?"));// Every night 00:00 UTC 
+            .WithCronSchedule("0 0 0 * * ?", cronScheduleBuilder =>
+                cronScheduleBuilder.InTimeZone(TimeZoneInfo.Utc)));// Every night 00:00 UTC 
 
         service.AddTrigger(opts => opts
             .ForJob(nameof(UserChallengeValidationJob))
             .WithIdentity($"DailyJobTriggers-{nameof(UserChallengeValidationJob)}")
-            .WithCronSchedule("0 0 0 * * ?"));// Every night 00:00 UTC 
-
+            .WithCronSchedule("0 0 0 * * ?", cronScheduleBuilder =>
+                cronScheduleBuilder.InTimeZone(TimeZoneInfo.Utc)));// Every night 00:00 UTC 
     }
 }
