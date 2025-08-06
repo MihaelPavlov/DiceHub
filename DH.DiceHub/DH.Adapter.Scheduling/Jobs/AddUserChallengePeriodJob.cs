@@ -46,6 +46,8 @@ public class AddUserChallengePeriodJob : IJob
             Enum.TryParse<TimePeriodType>(tenantSettings.PeriodOfRewardReset, out var timePeriod);
 
             var runAt = TimePeriodTypeHelper.CalculateNextResetDate(timePeriod, tenantSettings.ResetDayForRewards);
+            var offset = TimeZoneHelper.GetOffsetForTimeZone(runAt, "Europe/Sofia");
+            runAt = runAt.AddHours(-offset?.TotalHours ?? 0);
 
             var nextTrigger = TriggerBuilder.Create()
                 .ForJob(jobKey)

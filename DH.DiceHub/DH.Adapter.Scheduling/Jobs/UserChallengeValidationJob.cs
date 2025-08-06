@@ -8,7 +8,7 @@ namespace DH.Adapter.Scheduling.Jobs;
 /// A job responsible for handling the validation of the user challenge period. 
 /// </summary>
 [DisallowConcurrentExecution]
-internal class UserChallengeValidationJob : IJob
+public class UserChallengeValidationJob : IJob
 {
     readonly IUserChallengesManagementService userChallengesManagementService;
     readonly ILogger<UserChallengeValidationJob> logger;
@@ -25,7 +25,7 @@ internal class UserChallengeValidationJob : IJob
     {
         try
         {
-            await this.userChallengesManagementService.EnsureValidUserChallengePeriodsAsync(context.CancellationToken);
+            await this.userChallengesManagementService.EnsureValidUserChallengePeriodsAsync(context?.CancellationToken ?? CancellationToken.None);
             this.logger.LogInformation("User Challenge Period Validation check completed.");
         }
         catch (Exception ex)

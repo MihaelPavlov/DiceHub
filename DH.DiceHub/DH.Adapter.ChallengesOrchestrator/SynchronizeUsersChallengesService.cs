@@ -33,7 +33,7 @@ public class SynchronizeUsersChallengesService : BackgroundService
                 try
                 {
                     var jobStartTime = DateTime.UtcNow;
-                    logger.LogInformation("Job ID: {jobId} - Started at {startTime} - Job Info: {jobInfo}", traceId, jobStartTime, JsonSerializer.Serialize(jobInfo));
+                    logger.LogInformation("Trace Id: {traceId}; Job Id: {jobId} - Started at {startTime} - Job Info: {jobInfo}", traceId, jobInfo.JobId, jobStartTime, JsonSerializer.Serialize(jobInfo));
 
                     var userChallengesManagementService = scope.ServiceProvider.GetRequiredService<IUserChallengesManagementService>();
                     switch (jobInfo)
@@ -52,28 +52,32 @@ public class SynchronizeUsersChallengesService : BackgroundService
                                 break;
                             }
                             this.queue.RequeueChallengeInitiationJob(challengeJob);
-                            logger.LogInformation("Job ID: {jobId} - Requeued at {requeueTime} - Job Info: {jobInfo}", traceId, DateTime.UtcNow, JsonSerializer.Serialize(jobInfo));
+                            logger.LogInformation("Trace Id: {traceId}; Job Id: {jobId} - Requeued at {requeueTime} - Job Info: {jobInfo}",
+                                traceId, jobInfo.JobId, DateTime.UtcNow, JsonSerializer.Serialize(jobInfo));
                             break;
                         default:
-                            logger.LogWarning("Job ID: {jobId} - Unknown job type at {warningTime}: {jobInfo}", traceId, DateTime.UtcNow, JsonSerializer.Serialize(jobInfo));
+                            logger.LogWarning("Trace Id: {traceId}; Job Id: {jobId} - Unknown job type at {warningTime}: {jobInfo}",
+                                traceId, jobInfo.JobId, DateTime.UtcNow, JsonSerializer.Serialize(jobInfo));
                             break;
                     }
 
                     DateTime jobEndTime = DateTime.UtcNow;
-                    logger.LogInformation("Job ID: {jobId} - Ended at {endTime} - Duration: {duration} - Job Info: {jobInfo}", traceId, jobEndTime, (jobEndTime - jobStartTime).TotalMilliseconds, JsonSerializer.Serialize(jobInfo));
+                    logger.LogInformation("Trace Id: {traceId}; Job Id: {jobId} - Ended at {endTime} - Duration: {duration} - Job Info: {jobInfo}",
+                        traceId, jobInfo.JobId, jobEndTime, (jobEndTime - jobStartTime).TotalMilliseconds, JsonSerializer.Serialize(jobInfo));
                 }
                 catch (TaskCanceledException)
                 {
                     // Application is stopping, just ignore
-                    logger.LogInformation("Job ID: {jobId} - Canceled at {cancelTime}.", traceId, DateTime.UtcNow);
+                    logger.LogInformation("Trace Id: {traceId}; Job Id: {jobId} - Canceled at {cancelTime}.", traceId, jobInfo.JobId, DateTime.UtcNow);
                 }
                 catch (Exception ex)
                 {
                     await queuedJobService.UpdateStatusToFailed(this.queue.QueueName, jobInfo.JobId);
 
-                    logger.LogError(ex, "Job ID: {jobId} - Failed at {failureTime}: {jobInfo}", traceId, DateTime.UtcNow, JsonSerializer.Serialize(jobInfo));
+                    logger.LogError(ex, "Trace Id: {traceId}; Job Id: {jobId} - Failed at {failureTime}: {jobInfo}", traceId, jobInfo.JobId, DateTime.UtcNow, JsonSerializer.Serialize(jobInfo));
                 }
             }
+
             await Task.Delay(10000, cancellationToken);
         }
     }

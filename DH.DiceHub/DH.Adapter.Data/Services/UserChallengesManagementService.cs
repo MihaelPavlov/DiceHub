@@ -7,6 +7,7 @@ using DH.Domain.Services;
 using DH.Domain.Services.TenantSettingsService;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Npgsql;
 
 namespace DH.Adapter.Data.Services;
 
@@ -116,10 +117,26 @@ public class UserChallengesManagementService : IUserChallengesManagementService
                 {
                     try
                     {
-                        var userPerformance = await context.UserChallengePeriodPerformances.AsTracking()
-                            .FirstOrDefaultAsync(x => x.IsPeriodActive && x.UserId == userId, cancellationToken);
+                        var userPerformances = await context.UserChallengePeriodPerformances.AsTracking()
+                            .Where(x => x.IsPeriodActive && x.UserId == userId)
+                            .ToListAsync(cancellationToken);
 
-                        var isInvalid = userPerformance == null || now > userPerformance.EndDate;
+                        var isInvalid = userPerformances.Count > 1;
+                        if (isInvalid)
+                        {
+                            this.logger.LogInformation(
+                                "Found user with more then one UserChallengePeriodPerformance during UserChallengesManagementService.EnsureValidUserChallengePeriodsAsync for UserId {UserId}.",
+                                userId);
+
+                            foreach (var performance in userPerformances)
+                            {
+                                performance.IsPeriodActive = false;
+                            }
+                            await context.SaveChangesAsync(cancellationToken);
+                        }
+
+                        var userPerformance = userPerformances.FirstOrDefault();
+                        isInvalid = userPerformance == null || now > userPerformance.EndDate;
 
                         if (!isInvalid)
                         {
@@ -134,7 +151,7 @@ public class UserChallengesManagementService : IUserChallengesManagementService
                         if (userPerformance != null)
                         {
                             userPerformance.IsPeriodActive = false;
-                            context.Update(userPerformance);
+                            await context.SaveChangesAsync(cancellationToken);
                         }
 
                         var tenantSettings = await this.tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
@@ -142,6 +159,23 @@ public class UserChallengesManagementService : IUserChallengesManagementService
                         var startDate = DateTime.UtcNow.Date;
                         var settingPeriod = Enum.Parse<TimePeriodType>(tenantSettings.PeriodOfRewardReset);
                         nextResetDate = TimePeriodTypeHelper.CalculateNextResetDate(settingPeriod, tenantSettings.ResetDayForRewards);
+
+                        var alreadyExists = await context.UserChallengePeriodPerformances
+                            .AnyAsync(x =>
+                                x.UserId == userId &&
+                                x.StartDate.Date == startDate &&
+                                x.EndDate.Date == nextResetDate &&
+                                x.IsPeriodActive,
+                                cancellationToken);
+
+                        if (alreadyExists)
+                        {
+                            this.logger.LogWarning(
+                                "Concurrent insert avoided. Active UserChallengePeriodPerformance already exists for UserId {UserId} from {StartDate} to {EndDate}",
+                                userId, startDate, nextResetDate);
+                            await transaction.CommitAsync(cancellationToken);
+                            continue;
+                        }
 
                         var newUserPerformance = new UserChallengePeriodPerformance
                         {
@@ -225,6 +259,12 @@ public class UserChallengesManagementService : IUserChallengesManagementService
 
                     return true;
                 }
+                catch (DbUpdateException ex) when (IsUniqueConstraintViolation(ex))
+                {
+                    logger.LogWarning("Concurrent insert conflict prevented for UserId {UserId}", userId);
+                    await transaction.RollbackAsync(cancellationToken);
+                    return false;
+                }
                 catch (Exception ex)
                 {
                     await transaction.RollbackAsync(cancellationToken);
@@ -237,6 +277,13 @@ public class UserChallengesManagementService : IUserChallengesManagementService
             }
         }
     }
+
+    private bool IsUniqueConstraintViolation(DbUpdateException ex)
+    {
+        // PostgreSQL error code for unique_violation is 23505
+        return ex.InnerException is PostgresException pgEx && pgEx.SqlState == "23505";
+    }
+
     private static async Task SaveAndCommitTransaction(TenantDbContext context, Microsoft.EntityFrameworkCore.Storage.IDbContextTransaction transaction, CancellationToken cancellationToken)
     {
         await context.SaveChangesAsync(cancellationToken);

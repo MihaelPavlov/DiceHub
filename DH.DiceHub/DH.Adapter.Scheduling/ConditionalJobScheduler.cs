@@ -28,9 +28,9 @@ internal class ConditionalJobScheduler : IHostedService
     public async Task StartAsync(CancellationToken cancellationToken)
     {
         var scheduler = await _schedulerFactory.GetScheduler(cancellationToken);
-
         using (var scope = _serviceProvider.CreateScope())
         {
+
             var tenantSettingsCacheService = scope.ServiceProvider.GetRequiredService<ITenantSettingsCacheService>();
             var tenantSettings = await tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
             if (Enum.TryParse<TimePeriodType>(tenantSettings.PeriodOfRewardReset, out var timePeriod))
@@ -41,6 +41,8 @@ internal class ConditionalJobScheduler : IHostedService
                 if (!await scheduler.CheckExists(jobKey, cancellationToken))
                 {
                     var runAt = TimePeriodTypeHelper.CalculateNextResetDate(timePeriod, tenantSettings.ResetDayForRewards);
+                    var offset = TimeZoneHelper.GetOffsetForTimeZone(runAt, "Europe/Sofia");
+                    runAt = runAt.AddHours(-offset?.TotalHours ?? 0);
 
                     var job = JobBuilder.Create<AddUserChallengePeriodJob>()
                         .WithIdentity(jobKey)

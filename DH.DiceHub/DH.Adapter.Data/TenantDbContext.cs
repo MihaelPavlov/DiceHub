@@ -130,9 +130,15 @@ public class TenantDbContext : DbContext, ITenantDbContext
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
-        ////TODO: Check if we ened to configure the mapping manually or the 24 line is working 
-        //CommonMapping.Configure(builder);
-
+      
         base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<UserChallengePeriodPerformance>()
+            .HasIndex(x => new { x.UserId, x.Id })
+            .HasDatabaseName("IX_Unique_User_Per_Active_Period")
+            .IsUnique();
+
+        modelBuilder.Entity<UserChallengePeriodPerformance>()
+            .HasAnnotation("Relational:IndexFilter", "\"IsPeriodActive\" = true");
     }
 }

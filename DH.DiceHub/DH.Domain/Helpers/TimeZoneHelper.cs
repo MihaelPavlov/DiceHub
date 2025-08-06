@@ -26,4 +26,16 @@ public static class TimeZoneHelper
             ? (localTime.Value, false)
             : (utcTime, true);
     }
+
+    public static TimeSpan? GetOffsetForTimeZone(DateTime utcDateTime, string timeZoneId)
+    {
+        var instant = Instant.FromDateTimeUtc(utcDateTime);
+        var tzdb = DateTimeZoneProviders.Tzdb;
+        var userZone = tzdb.GetZoneOrNull(timeZoneId);
+        if (userZone == null)
+            return null;
+
+        var zonedDateTime = instant.InZone(userZone);
+        return zonedDateTime.Offset.ToTimeSpan();
+    }
 }
