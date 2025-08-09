@@ -19,7 +19,7 @@ import { NotificationsService } from '../../../entities/common/api/notifications
   styleUrl: 'assistive-touch.component.scss',
 })
 export class AssistiveTouchComponent implements OnInit, OnDestroy {
-  public buttonOpacity:number = 1; // Button opacity (1 = fully visible)
+  public buttonOpacity: number = 1; // Button opacity (1 = fully visible)
   private inactivityTimer!: Subscription;
   @Input() areAnyActiveNotifications!: BehaviorSubject<boolean>;
   @Output() updateUserNotifications: EventEmitter<void> =
@@ -43,11 +43,15 @@ export class AssistiveTouchComponent implements OnInit, OnDestroy {
   private initialY = 0; // Initial Y position when drag starts
   private canOpenPanel = false;
   public subscriptionRefreshForAnyActiveNotifications!: any;
+
+  public notificationsAllowed: boolean = false;
   constructor(
     private readonly dialog: MatDialog,
     private readonly tenantUserSettingsService: TenantUserSettingsService,
     private readonly notificationService: NotificationsService
   ) {
+    this.notificationsAllowed = Notification.permission === 'granted';
+
     // this.tenantUserSettingsService.getAssistiveTouchSettings().subscribe({
     //   next: (setting) => {
     //     if (setting) {

@@ -1,4 +1,29 @@
 <div class="dialog-container" @dialogAnimation>
+  <div *ngIf="pushUnsupported  && showWarning" class="notification-warning">
+    ⚠️ Unfortunately, your device or browser doesn’t support notifications when
+    the app is closed or in the background. You will still receive alerts inside
+    the app while you’re using it.
+
+    <button
+      class="dismiss-btn-pill"
+      (click)="dismissWarning()"
+      aria-label="Dismiss notification warning"
+    >
+      Got it ✓
+    </button>
+  </div>
+
+  <div
+    *ngIf="!pushUnsupported && notificationPermission !== 'granted'"
+    class="notification-permission-warning"
+  >
+    ⚠️ You will still receive notifications inside the app, but since browser
+    notifications are disabled, we cannot guarantee you’ll get alerts when
+    you’re outside the app.
+    <a (click)="navigateToEnableBrowserNotificationInstruction()"
+      >Learn how to enable notifications</a
+    >.
+  </div>
   <div class="header">
     <span class="dialog-container__header">Notifications</span>
     <svg

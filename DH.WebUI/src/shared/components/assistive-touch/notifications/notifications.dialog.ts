@@ -4,6 +4,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
 import { NotificationsService } from '../../../../entities/common/api/notifications.service';
 import { IUserNotification } from '../../../../entities/common/models/user-notification-model';
 import { DateHelper } from '../../../helpers/date-helper';
+import { MessagingService } from '../../../../entities/messaging/api/messaging.service';
 
 @Component({
   selector: 'app-notifications-dialog',
@@ -47,21 +48,30 @@ export class NotificationsDialog implements OnInit {
   public userNotifications: IUserNotification[] = [];
 
   public readonly DATE_TIME_FORMAT: string = DateHelper.DATE_TIME_FORMAT;
+  public notificationPermission: NotificationPermission = 'default';
+  public pushUnsupported: boolean = false;
+  public showWarning = true;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<NotificationsDialog>,
-    private readonly notificationService: NotificationsService
+    private readonly notificationService: NotificationsService,
+    private readonly messagingService: MessagingService
   ) {}
 
   public ngOnInit(): void {
-    this.notificationService.getUserNotificationList().subscribe({
-      next: (result) => {
-        this.userNotifications = result;
-        console.log(this.userNotifications);
-      },
-    });
+    this.notificationPermission = Notification.permission;
+    this.pushUnsupported = this.messagingService.isPushUnsupportedIOS();
+    const dismissed = localStorage.getItem('pushUnsupportedWarningDismissed');
+    this.showWarning = !dismissed;
   }
+
+  public dismissWarning() {
+    localStorage.setItem('pushUnsupportedWarningDismissed', 'true');
+    this.showWarning = false;
+  }
+
+  public navigateToEnableBrowserNotificationInstruction(): void {}
 
   public get isAllMarkedAsViewed(): boolean {
     return this.userNotifications.every((x) => x.hasBeenViewed);

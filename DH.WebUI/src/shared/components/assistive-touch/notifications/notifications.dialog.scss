@@ -1,5 +1,50 @@
 @use "../../../../shared/assets/styles/palette";
 
+.notification-warning {
+  background-color: #ffe6e6;
+  color: #a33a3a;
+  padding: 12px 16px;
+  border: 1px solid #f5a9a9;
+  border-radius: 6px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.notification-permission-warning {
+  background-color: #fff4e5;
+  color: #663c00;
+  padding: 12px 16px;
+  border: 1px solid #ffcc80;
+  border-radius: 6px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.notification-permission-warning a {
+  text-decoration: underline;
+  color: #663c00;
+  font-weight: 700;
+}
+.dismiss-btn-pill {
+  background-color: #ffd966;
+  color: #663c00;
+  border: none;
+  border-radius: 20px;
+  padding: 6px 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-left: 12px;
+}
+
+.dismiss-btn-pill:hover,
+.dismiss-btn-pill:focus {
+  background-color: #ffca2c;
+  outline: none;
+}
+
 .dialog-container {
   color: palette.$main-font-color;
   background-color: palette.$main-nav-color;
@@ -27,9 +72,6 @@
     justify-content: end;
   }
 
-  button {
-    margin: 0.4rem;
-  }
   .no-items {
     margin: 1rem;
     display: flex;
