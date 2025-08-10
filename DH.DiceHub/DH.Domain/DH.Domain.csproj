@@ -15,4 +15,28 @@
     <ProjectReference Include="..\DH.OperationResult\DH.OperationResultCore.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Adapters\Localization\SharedResource.bg.Designer.cs">
+      <DependentUpon>SharedResource.bg.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Adapters\Localization\SharedResource.en.Designer.cs">
+      <DependentUpon>SharedResource.en.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Adapters\Localization\SharedResource.bg.resx">
+      <LastGenOutput>SharedResource.bg.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Adapters\Localization\SharedResource.en.resx">
+      <LastGenOutput>SharedResource.en.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>

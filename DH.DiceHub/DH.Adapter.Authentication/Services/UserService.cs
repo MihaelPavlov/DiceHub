@@ -5,6 +5,7 @@ using DH.Domain.Adapters.Authentication.Models;
 using DH.Domain.Adapters.Authentication.Models.Enums;
 using DH.Domain.Adapters.Authentication.Services;
 using DH.Domain.Adapters.ChallengesOrchestrator;
+using DH.Domain.Adapters.Localization;
 using DH.Domain.Adapters.PushNotifications;
 using DH.Domain.Entities;
 using DH.Domain.Repositories;
@@ -33,6 +34,7 @@ public class UserService : IUserService
     readonly IUserContext userContext;
     readonly ILogger<UserService> logger;
     readonly IRepository<TenantSetting> tenantSettingsRepository;
+    readonly ILocalizationService localizer;
 
     /// <summary>
     /// Constructor for UserService to initialize dependencies.
@@ -41,7 +43,7 @@ public class UserService : IUserService
         SignInManager<ApplicationUser> signInManager, IJwtService jwtService,
         UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager,
         IPermissionStringBuilder permissionStringBuilder, SynchronizeUsersChallengesQueue queue, IRepository<UserDeviceToken> userDeviceTokenRepository,
-        IUserContext userContext, ILogger<UserService> logger, IRepository<TenantSetting> tenantSettingsRepository)
+        IUserContext userContext, ILogger<UserService> logger, IRepository<TenantSetting> tenantSettingsRepository, ILocalizationService localizer)
     {
         _httpContextAccessor = httpContextAccessor;
         this.signInManager = signInManager;
@@ -54,6 +56,7 @@ public class UserService : IUserService
         this.userContext = userContext;
         this.logger = logger;
         this.tenantSettingsRepository = tenantSettingsRepository;
+        this.localizer = localizer;
     }
 
     /// <inheritdoc />
@@ -62,15 +65,15 @@ public class UserService : IUserService
         var user = await this.userManager.FindByEmailAsync(form.Email);
 
         if (user.IsInvalid())
-            throw new ValidationErrorsException("Email", "Email or Password is invalid!");
+            throw new ValidationErrorsException("Email", this.localizer["InvalidEmailOrPass"]);
 
         if (!await userManager.IsEmailConfirmedAsync(user!))
-            throw new ValidationErrorsException("EmailNotConfirmed", "Email not confirmed. Please check your inbox.");
+            throw new ValidationErrorsException("EmailNotConfirmed", this.localizer["EmailNotConfirmed"]);
 
         var result = await this.signInManager.PasswordSignInAsync(user!, form.Password, form.RememberMe, true);
 
         if (!result.Succeeded)
-            throw new ValidationErrorsException("Email", "Email or Password is invalid!");
+            throw new ValidationErrorsException("Email", this.localizer["InvalidEmailOrPass"]);
 
         if (!string.IsNullOrEmpty(form.TimeZone) && form.TimeZone != user!.TimeZone)
         {
@@ -104,25 +107,31 @@ public class UserService : IUserService
 
         var existingUserByEmail = await this.userManager.FindByEmailAsync(form.Email);
         if (existingUserByEmail != null)
-            throw new ValidationErrorsException("Exist", "Player with that Email, already exist");
+            throw new ValidationErrorsException("Exist", this.localizer["UserExistEmail"]);
 
         var existingUserByUsername = await this.userManager.FindByNameAsync(form.Username);
         if (existingUserByUsername != null)
-            throw new ValidationErrorsException("Exist", "Player with that Username, already exist");
+            throw new ValidationErrorsException("Exist", this.localizer["UserExistUsername"]);
 
         var user = new ApplicationUser() { UserName = form.Username, Email = form.Email };
         var createUserResult = await userManager.CreateAsync(user, form.Password);
-        if (!createUserResult.Succeeded)
-            throw new BadRequestException("User registration failed!");
 
-        if (!await this.roleManager.Roles.AnyAsync(x => x.Name == "User"))
-            throw new BadRequestException("User registration failed!");
+        //TODO: Handle validation errors from createUserResult if any
+        if (!createUserResult.Succeeded)
+            throw new BadRequestException(this.localizer["UserRegistrationFailed"]);
+
+        if (!await this.roleManager.Roles.AnyAsync(x => x.Name == Role.User.ToString()))
+        {
+            this.logger.LogCritical("User role was not found during registration of user.");
+            throw new BadRequestException(this.localizer["UserRegistrationFailed"]);
+        }
+
 
         await this.userManager.AddToRoleAsync(user, Role.User.ToString());
 
         user = await this.userManager.FindByEmailAsync(form.Email);
         if (user is null)
-            throw new NotFoundException("User was not created");
+            throw new NotFoundException(this.localizer["UserNotCreated"]);
 
         this.queue.AddSynchronizeNewUserJob(user.Id);
 
@@ -146,7 +155,7 @@ public class UserService : IUserService
     {
         var user = await this.userManager.FindByEmailAsync(email);
         if (user.IsInvalid())
-            throw new NotFoundException("User was not found");
+            throw new NotFoundException(this.localizer["UserByEmailNotFound"]);
 
         var result = await this.userManager.ConfirmEmailAsync(user!, token);
 
@@ -157,14 +166,14 @@ public class UserService : IUserService
             return await IssueUserTokensAsync(user!);
         }
 
-        throw new ValidationErrorsException("InvalidToken", "Token expired!");
+        throw new ValidationErrorsException("InvalidToken", this.localizer["ConfirmEmailInvalidToken"]);
     }
 
     public async Task<string> GenerateEmailConfirmationTokenAsync(string userId)
     {
         var user = await this.userManager.FindByIdAsync(userId);
         if (user.IsInvalid())
-            throw new NotFoundException("User was not found");
+            throw new NotFoundException(this.localizer["UserNotFound"]);
 
         return await userManager.GenerateEmailConfirmationTokenAsync(user!);
     }
@@ -173,7 +182,7 @@ public class UserService : IUserService
     {
         var user = await this.userManager.FindByEmailAsync(email);
         if (user.IsInvalid())
-            throw new NotFoundException("User was not found");
+            throw new NotFoundException(this.localizer["UserNotFound"]);
 
         return await userManager.GeneratePasswordResetTokenAsync(user!);
     }
@@ -182,23 +191,22 @@ public class UserService : IUserService
     {
         var user = await this.userManager.FindByEmailAsync(request.Email);
         if (user.IsInvalid())
-            throw new NotFoundException("User was not found");
+            throw new NotFoundException(this.localizer["UserNotFound"]);
 
         if (!request.NewPassword.Equals(request.ConfirmPassword))
-            throw new ValidationErrorsException("Password", "Password are not identical!");
+            throw new ValidationErrorsException("Password", this.localizer["PasswordMismatch"]);
 
         var result = await this.userManager.ResetPasswordAsync(user!, request.Token, request.NewPassword);
 
         if (!result.Succeeded)
-            throw new ValidationErrorsException("Password", @"Reseting Password was not succesfully, 
-                try again later, or contact us via email");
+            throw new ValidationErrorsException("Password", this.localizer["PasswordResetFailed"]);
     }
 
     public async Task<UserDeviceToken?> GetDeviceTokenByUserEmail(string email)
     {
         var user = await this.userManager.FindByEmailAsync(email);
         if (user.IsInvalid())
-            throw new NotFoundException("User is not found");
+            throw new NotFoundException(this.localizer["UserNotFound"]);
 
         return await this.userDeviceTokenRepository.GetByAsync(x => x.UserId == user!.Id, CancellationToken.None);
     }
@@ -210,8 +218,8 @@ public class UserService : IUserService
             .Select(x => new UserModel
             {
                 Id = x.Id,
-                UserName = x.UserName ?? "Not Provided",
-                Email = x.Email ?? "Not Provided",
+                UserName = x.UserName ?? this.localizer["NotProvided"],
+                Email = x.Email ?? this.localizer["NotProvided"],
                 ImageUrl = string.Empty
             })
             .ToListAsync(cancellationToken);
@@ -221,7 +229,7 @@ public class UserService : IUserService
     {
         var user = await this.userManager.FindByIdAsync(userId);
         if (user.IsInvalid())
-            throw new NotFoundException("User was not found");
+            throw new NotFoundException(this.localizer["UserNotFound"]);
 
         foreach (var role in roles)
         {
@@ -232,7 +240,6 @@ public class UserService : IUserService
         }
 
         return false;
-
     }
 
     public async Task<UserModel?> GetUserById(string id, CancellationToken cancellationToken)
@@ -242,9 +249,9 @@ public class UserService : IUserService
             .Select(x => new UserModel
             {
                 Id = x.Id,
-                UserName = x.UserName ?? "Not Provided",
-                Email = x.Email ?? "Not Provided",
-                PhoneNumber = x.PhoneNumber ?? "Not Provided",
+                UserName = x.UserName ?? this.localizer["NotProvided"],
+                Email = x.Email ?? this.localizer["NotProvided"],
+                PhoneNumber = x.PhoneNumber ?? this.localizer["NotProvided"],
             })
             .FirstOrDefaultAsync(cancellationToken);
 
@@ -267,8 +274,8 @@ public class UserService : IUserService
         return new UserModel
         {
             Id = user!.Id,
-            UserName = user.UserName ?? "Not Provided",
-            Email = user.Email ?? "Not Provided",
+            UserName = user.UserName ?? this.localizer["NotProvided"],
+            Email = user.Email ?? this.localizer["NotProvided"],
         };
     }
 
@@ -276,7 +283,10 @@ public class UserService : IUserService
     {
         // Check if the role exists
         if (!await this.roleManager.RoleExistsAsync(role.ToString()))
-            throw new ArgumentException("Role does not exist.");
+        {
+            this.logger.LogCritical("Request with Role that doesn't exists was initiated! Role: {Role}", role.ToString());
+            return [];
+        }
 
         // Get users in the specified role
         var usersInRole = await this.userManager.GetUsersInRoleAsync(role.ToString());
@@ -284,7 +294,7 @@ public class UserService : IUserService
         return usersInRole.Where(x => !x.IsDeleted).Select(x => new GetUserByRoleModel
         {
             Id = x.Id,
-            UserName = x.UserName ?? "username_placeholder",
+            UserName = x.UserName ?? this.localizer["UsernameNotProvided"]
         }).ToList();
     }
 
@@ -295,15 +305,17 @@ public class UserService : IUserService
         {
             // Check if the role exists
             if (!await this.roleManager.RoleExistsAsync(role.ToString()))
-                throw new ArgumentException("Role does not exist.");
-
+            {
+                this.logger.LogCritical("Request with Role that doesn't exists was initiated! Role: {Role}", role.ToString());
+                return [];
+            }
             // Get users in the specified role
             var usersInRole = await this.userManager.GetUsersInRoleAsync(role.ToString());
 
             result.AddRange(usersInRole.Where(x => !x.IsDeleted).Select(x => new GetUserByRoleModel
             {
                 Id = x.Id,
-                UserName = x.UserName ?? "username_placeholder",
+                UserName = x.UserName ?? this.localizer["UsernameNotProvided"]
             }).ToList());
         }
 
@@ -313,19 +325,19 @@ public class UserService : IUserService
     public async Task<EmployeeResult> CreateEmployee(CreateEmployeeRequest request, CancellationToken cancellationToken)
     {
         if (!await this.HasUserAnyMatchingRole(this.userContext.UserId, Role.SuperAdmin, Role.Owner))
-            throw new BadRequestException("Only owner can create new employees");
+            throw new BadRequestException(this.localizer["OnlyOwnerCreateEmployees"]);
 
         if (!request.FieldsAreValid(out var validationErrors))
             throw new ValidationErrorsException(validationErrors);
 
         var existingUserByEmail = await this.userManager.FindByEmailAsync(request.Email);
         if (existingUserByEmail != null)
-            throw new ValidationErrorsException("Exist", "Player with that Email, already exist");
+            throw new ValidationErrorsException("Exist", this.localizer["UserExistEmail"]);
 
         var username = $"{request.FirstName}, {request.LastName}";
         var existingUserByUsername = await this.userManager.FindByNameAsync(username);
         if (existingUserByUsername != null)
-            throw new ValidationErrorsException("Exist", "A player with the same first and last name already exists.");
+            throw new ValidationErrorsException("Exist", this.localizer["UserFirstLastNamesExists"]);
 
         var user = new ApplicationUser()
         {
@@ -337,16 +349,19 @@ public class UserService : IUserService
         var generatedRandomPassword = GenerateRandomPassword();
         var createUserResult = await userManager.CreateAsync(user, generatedRandomPassword);
         if (!createUserResult.Succeeded)
-            throw new BadRequestException("User registration failed!");
+            throw new BadRequestException(this.localizer["UserRegistrationFailed"]);
 
         if (!await this.roleManager.Roles.AnyAsync(x => x.Name == Role.Staff.ToString()))
-            throw new BadRequestException("User registration failed!");
+        {
+            this.logger.LogCritical("Role {Role} was not found", Role.Staff.ToString());
+            throw new BadRequestException(this.localizer["UserRegistrationFailedDuringRoleAssignment"]);
+        }
 
         await this.userManager.AddToRoleAsync(user, Role.Staff.ToString());
 
         var afterRegister = await this.userManager.FindByEmailAsync(request.Email);
         if (afterRegister is null)
-            throw new NotFoundException("User was not created");
+            throw new NotFoundException(this.localizer["UserNotCreated"]);
 
         this.queue.AddSynchronizeNewUserJob(afterRegister.Id);
 
@@ -360,23 +375,23 @@ public class UserService : IUserService
     public async Task<OwnerResult> CreateOwner(CreateOwnerRequest request, CancellationToken cancellationToken)
     {
         if (!await this.HasUserAnyMatchingRole(this.userContext.UserId, Role.SuperAdmin))
-            throw new BadRequestException("Only SuperAdmin can add owner");
+            throw new BadRequestException(this.localizer["OnlySuperAdminCreateOwner"]);
 
         if (!request.FieldsAreValid(out var validationErrors))
             throw new ValidationErrorsException(validationErrors);
 
         var owner = await this.userManager.GetUsersInRoleAsync(Role.Owner.ToString());
         if (owner.Count > 1)
-            throw new ValidationErrorsException("Owner", "Owner already exist, already exist");
+            throw new ValidationErrorsException("Owner", this.localizer["OwnerAlreadyExists"]);
 
         var existingUserByEmail = await this.userManager.FindByEmailAsync(request.Email);
         if (existingUserByEmail != null)
-            throw new ValidationErrorsException("Exist", "Player with that Email, already exist");
+            throw new ValidationErrorsException("Exist", this.localizer["UserExistEmail"]);
 
         var username = request.Email;
         var existingUserByUsername = await this.userManager.FindByNameAsync(username);
         if (existingUserByUsername != null)
-            throw new ValidationErrorsException("Exist", "A player with the same first and last name already exists.");
+            throw new ValidationErrorsException("Exist", this.localizer["UserFirstLastNamesExists"]);
 
         var user = new ApplicationUser()
         {
@@ -388,16 +403,19 @@ public class UserService : IUserService
         var generatedRandomPassword = GenerateRandomPassword();
         var createUserResult = await userManager.CreateAsync(user, generatedRandomPassword);
         if (!createUserResult.Succeeded)
-            throw new BadRequestException("User registration failed!");
+            throw new BadRequestException(this.localizer["UserRegistrationFailed"]);
 
         if (!await this.roleManager.Roles.AnyAsync(x => x.Name == Role.Owner.ToString()))
-            throw new BadRequestException("User registration failed!");
+        {
+            this.logger.LogCritical("Role {Role} was not found", Role.Owner.ToString());
+            throw new BadRequestException(this.localizer["UserRegistrationFailedDuringRoleAssignment"]);
+        }
 
         await this.userManager.AddToRoleAsync(user, Role.Owner.ToString());
 
         var afterRegister = await this.userManager.FindByEmailAsync(request.Email);
         if (afterRegister is null)
-            throw new NotFoundException("User was not created");
+            throw new NotFoundException(this.localizer["UserNotCreated"]);
 
         var dbSettings = await this.tenantSettingsRepository.GetByAsyncWithTracking(x => x.Id == 1, cancellationToken);
         if (dbSettings != null)
@@ -417,13 +435,13 @@ public class UserService : IUserService
     {
         var user = await this.userManager.FindByEmailAsync(request.Email);
         if (user.IsInvalid())
-            throw new NotFoundException("User was not found");
+            throw new NotFoundException(this.localizer["UserByEmailNotFound"]);
 
         if (!request.PhoneNumber.Equals(request.PhoneNumber))
-            throw new ValidationErrorsException("PhoneNumber", "Provided phone number does not match the one associated with this account");
+            throw new ValidationErrorsException("PhoneNumber", this.localizer["PhoneNumberMismatch"]);
 
         if (!request.NewPassword.Equals(request.ConfirmPassword))
-            throw new ValidationErrorsException("Password", "Password are not identical!");
+            throw new ValidationErrorsException("Password", this.localizer["PasswordMismatch"]);
 
         var result = await this.userManager.ResetPasswordAsync(user!, request.Token, request.NewPassword);
 
@@ -435,7 +453,7 @@ public class UserService : IUserService
             {
                 throw new ValidationErrorsException(
                     "InvalidToken",
-                    "The password reset link is either invalid or has expired. Please request a new one or contact support if the issue persists.");
+                    this.localizer["PasswordResetLinkInvalidOrExpired"]);
             }
 
             this.logger.LogError(
@@ -443,7 +461,7 @@ public class UserService : IUserService
                 request.Email,
                 string.Join("; ", result.Errors.Select(x => x.Description))
             );
-            throw new ValidationErrorsException("Password", @"Oops! Something went wrong while setting the password. Please try again, or reach out to our support team via email if the problem continues.");
+            throw new ValidationErrorsException("Password", this.localizer["PasswordSetError"]);
         }
     }
 
@@ -451,7 +469,7 @@ public class UserService : IUserService
     {
         var user = await this.userManager.FindByEmailAsync(request.Email);
         if (user.IsInvalid())
-            throw new NotFoundException("User was not found");
+            throw new NotFoundException(this.localizer["UserByEmailNotFound"]);
 
         var dbSettings = await this.tenantSettingsRepository.GetByAsync(x => x.Id == 1, CancellationToken.None);
         if (dbSettings != null)
@@ -459,11 +477,11 @@ public class UserService : IUserService
             if (!request.ClubPhoneNumber.Equals(dbSettings.PhoneNumber))
                 throw new ValidationErrorsException(
                     "ClubPhoneNumber",
-                    "Provided club phone number does not match the one associated with this account");
+                    this.localizer["PhoneNumberMismatch"]);
         }
 
         if (!request.NewPassword.Equals(request.ConfirmPassword))
-            throw new ValidationErrorsException("Password", "Password are not identical!");
+            throw new ValidationErrorsException("Password", this.localizer["PasswordMismatch"]);
 
         var result = await this.userManager.ResetPasswordAsync(user!, request.Token, request.NewPassword);
 
@@ -475,7 +493,7 @@ public class UserService : IUserService
             {
                 throw new ValidationErrorsException(
                     "InvalidToken",
-                    "The password reset link is either invalid or has expired. Please request a new one or contact support if the issue persists.");
+                    this.localizer["PasswordResetLinkInvalidOrExpired"]);
             }
 
             this.logger.LogError(
@@ -486,14 +504,14 @@ public class UserService : IUserService
 
             throw new ValidationErrorsException(
                 "Password",
-                @"Oops! Something went wrong while setting the password. Please try again, or reach out to our support team via email if the problem continues.");
+                this.localizer["PasswordSetError"]);
         }
     }
 
     private async Task<TokenResponseModel?> IssueUserTokensAsync(ApplicationUser user)
     {
         var roles = await this.userManager.GetRolesAsync(user);
-        this.logger.LogWarning("Roles ->, {roles}", string.Join(", ", roles));
+        this.logger.LogDebug("Roles ->, {roles}", string.Join(", ", roles));
         var role = roles.FirstOrDefault();
 
         var claims = new List<Claim>
@@ -523,7 +541,7 @@ public class UserService : IUserService
     public async Task DeleteEmployee(string employeeId)
     {
         var user = await this.userManager.FindByIdAsync(employeeId)
-            ?? throw new BadRequestException("Employee deletion failed!");
+            ?? throw new BadRequestException(this.localizer["EmployeeDeletionFailed"]);
 
         user.IsDeleted = true;
         await this.userManager.UpdateAsync(user);
@@ -542,14 +560,14 @@ public class UserService : IUserService
     public async Task<EmployeeResult> UpdateEmployee(UpdateEmployeeRequest request, CancellationToken cancellationToken)
     {
         if (!await this.HasUserAnyMatchingRole(this.userContext.UserId, Role.SuperAdmin, Role.Owner))
-            throw new BadRequestException("Only owner can update employee");
+            throw new BadRequestException(this.localizer["OnlyOwnerCanUpdateEmployee"]);
 
         if (!request.FieldsAreValid(out var validationErrors))
             throw new ValidationErrorsException(validationErrors);
 
         var existingUser = await this.userManager.FindByIdAsync(request.Id);
         if (existingUser == null)
-            throw new NotFoundException("User was not found");
+            throw new NotFoundException(this.localizer["UserNotFound"]);
 
         var isEmailChanged = false;
         var oldEmail = string.Empty;
@@ -558,7 +576,7 @@ public class UserService : IUserService
             var existingUserByEmail = await this.userManager.FindByEmailAsync(request.Email);
 
             if (existingUserByEmail != null)
-                throw new ValidationErrorsException("Exist", "Player with that Email, already exist");
+                throw new ValidationErrorsException("Exist", this.localizer["UserExistEmail"]);
 
             isEmailChanged = true;
             oldEmail = existingUser.Email;
@@ -571,7 +589,7 @@ public class UserService : IUserService
         {
             var existingUserByUsername = await this.userManager.FindByNameAsync(newUsername);
             if (existingUserByUsername != null)
-                throw new ValidationErrorsException("Exist", "A player with the same first and last name already exists.");
+                throw new ValidationErrorsException("Exist", this.localizer["UserFirstLastNamesExists"]);
 
             existingUser.UserName = newUsername;
         }
@@ -580,7 +598,7 @@ public class UserService : IUserService
 
         var updatedUserResult = await userManager.UpdateAsync(existingUser);
         if (!updatedUserResult.Succeeded)
-            throw new BadRequestException("User registration failed!");
+            throw new BadRequestException(this.localizer["UserRegistrationFailed"]);
 
         return new EmployeeResult
         {
@@ -597,18 +615,22 @@ public class UserService : IUserService
 
     public async Task<OwnerResult?> GetOwner(CancellationToken cancellationToken)
     {
-        // Check if the role exists
         if (!await this.roleManager.RoleExistsAsync(Role.Owner.ToString()))
+        {
+            this.logger.LogCritical("Owner role was not found during get owner operation.");
             throw new InfrastructureException("Role Owner does not exist.");
+        }
 
-        // Get users in the specified role
         var usersInRole = await this.userManager.GetUsersInRoleAsync(Role.Owner.ToString());
 
         if (usersInRole == null)
             return null;
 
         if (usersInRole.Count() > 1)
-            throw new InfrastructureException("More then one Owner are founded.");
+        {
+            this.logger.LogCritical("More then one user with role Owner were found");
+            throw new InfrastructureException("More than one owner was found. This violates the system constraints");
+        }
 
         return new OwnerResult
         {
@@ -618,18 +640,25 @@ public class UserService : IUserService
 
     public async Task DeleteOwner(CancellationToken cancellationToken)
     {
-        // Check if the role exists
         if (!await this.roleManager.RoleExistsAsync(Role.Owner.ToString()))
+        {
+            this.logger.LogCritical("Owner roles was not found during deleting owner operation");
             throw new InfrastructureException("Role Owner does not exist.");
+        }
 
-        // Get users in the specified role
         var usersInRole = await this.userManager.GetUsersInRoleAsync(Role.Owner.ToString());
 
         if (usersInRole == null)
-            throw new InfrastructureException("Owner for deletion not found.");
+        {
+            this.logger.LogCritical("Owner for deletion was not found.");
+            throw new InfrastructureException("Owner for deletion was not found.");
+        }
 
         if (usersInRole.Count() > 1)
-            throw new InfrastructureException("More then one Owner are founded.");
+        {
+            this.logger.LogCritical("More then one user with role Owner were found");
+            throw new InfrastructureException("More than one owner was found. This violates the system constraints");
+        }
 
         await this.userManager.DeleteAsync(usersInRole.First());
     }

@@ -1,4 +1,5 @@
-﻿using DH.Adapter.Authentication;
+﻿using DH.Adapater.Localization;
+using DH.Adapter.Authentication;
 using DH.Adapter.ChallengesOrchestrator;
 using DH.Adapter.ChatHub;
 using DH.Adapter.Data;
@@ -19,6 +20,7 @@ using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Quartz;
 using Quartz.Impl.Matchers;
@@ -101,6 +103,7 @@ Console.WriteLine(test.Options.ProjectId);
 
 builder.Services.AddFirebaseMessaging();
 builder.Services.AddHealthChecks();
+builder.Services.AddLocalizationAdapter();
 
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
@@ -149,6 +152,8 @@ using (var scope = app.Services.CreateScope())
     //TODO: Better way to seed eveyrthing maybe ???
     await ApplicationDbContextSeeder.SeedUsers(scope.ServiceProvider);
 }
+var locOptions = app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>();
+app.UseRequestLocalization(locOptions.Value);
 
 app.UseSwagger();
 app.UseSwaggerUI(c =>
