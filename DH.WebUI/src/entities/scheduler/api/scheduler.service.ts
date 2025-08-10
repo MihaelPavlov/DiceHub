@@ -15,4 +15,10 @@ export class SchedulerService {
       `/${PATH.SCHEDULER.CORE}/${PATH.SCHEDULER.GET_SCHEDULE_JOBS}`
     );
   }
+
+   public runJobsForPeriod(): Observable<null> {
+    return this.api.get(
+      `/${PATH.SCHEDULER.CORE}/run-concurrent`
+    );
+  }
 }

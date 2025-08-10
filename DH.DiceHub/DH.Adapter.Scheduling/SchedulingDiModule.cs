@@ -18,6 +18,10 @@ public static class SchedulingDIModule
         services.AddScoped<IUserRewardsExpirationReminderHandler, UserRewardsExpirationReminderHandler>();
         services.AddScoped<ISchedulerService, SchedulerService>();
 
+        // For testing 
+        services.AddTransient<AddUserChallengePeriodJob>();
+        services.AddTransient<UserChallengeValidationJob>();
+
         services.AddQuartz(q =>
         {
             // Configure the job store for persistence

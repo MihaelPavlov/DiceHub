@@ -35,7 +35,7 @@ export class EntityImagePipe implements PipeTransform {
     }
 
     return this.http
-      .get(`${environment.defaultAppUrl}/${entityType}/get-image/${imageId}`, {
+      .get(`${environment.defaultAppUrl}/api/${entityType}/get-image/${imageId}`, {
         headers: new HttpHeaders().set(
           'Authorization',
           `Bearer ${this.authService.getToken()}`

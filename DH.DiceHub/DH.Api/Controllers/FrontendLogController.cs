@@ -6,7 +6,7 @@ namespace DH.Api.Controllers;
 
 [ApiController]
 [AllowAnonymous]
-[Route("frontend-log")]
+[Route("api/frontend-log")]
 public class FrontendLogController : ControllerBase
 {
     private readonly ILogger<FrontendLogController> logger;

@@ -21,6 +21,11 @@ internal class GetAssistiveTouchSettingsQueryHandler(IUserContext userContext, I
         if (userSettings == null)
             return new AssistiveTouchSettings();
 
+        if (string.IsNullOrEmpty(userSettings.AssistiveTouchSettings))
+        {
+            return new AssistiveTouchSettings();
+        }
+
         return JsonSerializer.Deserialize<AssistiveTouchSettings>(userSettings.AssistiveTouchSettings)
                 ?? throw new Exception("Couldn't load your assistive touch settings. Please ensure your settings are correctly set up");
     }

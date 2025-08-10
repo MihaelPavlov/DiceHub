@@ -1,4 +1,15 @@
 @use "../../../shared/assets/styles/palette";
+.freeze-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: transparent;
+  z-index: 9999;
+  touch-action: none;  /* block touch gestures */
+  user-select: none;
+  pointer-events: none; /* <-- make overlay transparent to pointer events */
+}
+
 .assistive_btn {
   transition: opacity 0.3s ease-in-out;
   position: fixed;

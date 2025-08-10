@@ -23,7 +23,12 @@
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "assets": ["src/favicon.ico", "src/shared/assets","src/shared/assets/images","src/firebase-messaging-sw.js"],
+            "assets": [
+              "src/favicon.ico",
+               "src/shared/assets",
+               "src/shared/assets/images",
+               "src/firebase-messaging-sw.js",
+               "src/manifest.json"],
             "styles": ["src/shared/assets/styles/styles.scss"],
             "scripts": []
           },
@@ -33,7 +38,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumError": "2mb"
                 },
                 {
                   "type": "anyComponentStyle",

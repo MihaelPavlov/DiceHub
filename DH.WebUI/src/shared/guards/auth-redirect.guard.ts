@@ -27,7 +27,7 @@ export class AuthRedirectGuard {
     | Observable<boolean | UrlTree>
     | Promise<boolean | UrlTree> {
     const token = localStorage.getItem('jwt');
-
+      
     if (token && !this.jwtHelper.isTokenExpired(token)) {
       console.log(this.jwtHelper.decodeToken(token));
       return this.router.parseUrl(FULL_ROUTE.GAMES.LIBRARY);

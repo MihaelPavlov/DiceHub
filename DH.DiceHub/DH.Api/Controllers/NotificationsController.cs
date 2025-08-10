@@ -9,7 +9,7 @@ namespace DH.Api.Controllers;
 
 [Authorize]
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class NotificationsController : ControllerBase
 {
     readonly IPushNotificationsService pushNotificationsService;

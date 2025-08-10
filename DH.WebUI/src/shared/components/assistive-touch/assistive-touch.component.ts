@@ -2,6 +2,7 @@ import { TenantUserSettingsService } from './../../../entities/common/api/tenant
 import {
   Component,
   EventEmitter,
+  HostListener,
   Input,
   OnDestroy,
   OnInit,
@@ -37,6 +38,7 @@ export class AssistiveTouchComponent implements OnInit, OnDestroy {
   private dragOffsetX = 0; // To store the x offset from where the drag started
   private dragOffsetY = 0; // To store the y offset from where the drag started
   private dialogOpened = false;
+  public isScreenFrozen = false;
 
   private readonly dragThreshold = 1; // Distance threshold to differentiate click vs. drag
   private initialX = 0; // Initial X position when drag starts
@@ -52,26 +54,28 @@ export class AssistiveTouchComponent implements OnInit, OnDestroy {
   ) {
     this.notificationsAllowed = Notification.permission === 'granted';
 
-    // this.tenantUserSettingsService.getAssistiveTouchSettings().subscribe({
-    //   next: (setting) => {
-    //     if (setting) {
-    //       this.assistiveTouchSettings = setting;
-    //       this.initiatePosition();
-    //     } else if (!setting) {
-    //       this.tenantUserSettingsService.updateAssistiveTouchSettings({
-    //         positionY: this.positionY.toString(),
-    //         isLeftAligned: this.isLeftAligned,
-    //       });
-    //     }
-    //   },
-    // });
-    // this.tenantUserSettingsService.assistiveTouchSettings$.subscribe({
-    //   next: (setting) => {
-    //     console.log('from assistive touch component ->', setting);
+    this.tenantUserSettingsService.getAssistiveTouchSettings().subscribe({
+      next: (setting) => {
+        if (setting) {
+          this.assistiveTouchSettings = setting;
+          console.log('assistive touch settings ar ehere ->', setting);
 
-    //     this.assistiveTouchSettings = setting;
-    //   },
-    // });
+          this.initiatePosition();
+        } else if (!setting) {
+          this.tenantUserSettingsService.updateAssistiveTouchSettings({
+            positionY: this.positionY.toString(),
+            isLeftAligned: this.isLeftAligned,
+          });
+        }
+      },
+    });
+    this.tenantUserSettingsService.assistiveTouchSettings$.subscribe({
+      next: (setting) => {
+        console.log('from assistive touch component ->', setting);
+
+        this.assistiveTouchSettings = setting;
+      },
+    });
     this.resetInactivityTimer();
   }
 
@@ -96,7 +100,7 @@ export class AssistiveTouchComponent implements OnInit, OnDestroy {
   }
 
   public openNotifications(): void {
-    // if (!this.canOpenPanel) return;
+    if (!this.canOpenPanel) return;
 
     if (this.dialogOpened) return; // Prevent opening if already open
     this.resetInactivityTimer();
@@ -116,6 +120,8 @@ export class AssistiveTouchComponent implements OnInit, OnDestroy {
 
   // Start dragging on mouse or touch start
   public startDragging(event: MouseEvent | TouchEvent): void {
+    this.isScreenFrozen = true;
+
     this.canOpenPanel = false;
     this.isDragging = true;
     // Calculate the offsets
@@ -134,55 +140,93 @@ export class AssistiveTouchComponent implements OnInit, OnDestroy {
   }
 
   // Stop dragging on mouse or touch end
-  public stopDragging(event: any): void {
+  public stopDragging(event:  MouseEvent | TouchEvent): void {
     if (!this.isDragging) return;
+    this.isScreenFrozen = false;
 
     this.isDragging = false;
-    const distanceMoved = Math.sqrt(
-      Math.pow(event.clientX - this.initialX, 2) +
-        Math.pow(event.clientY - this.initialY, 2)
-    );
+  let currentX: number;
+  let currentY: number;
 
-    // Only snap to edge if drag threshold is met
-    if (distanceMoved > this.dragThreshold) {
-      this.snapToEdge();
-      timer(400).subscribe(() => {
-        this.canOpenPanel = true;
-      });
-    } else {
-      this.canOpenPanel = true;
-      this.openNotifications(); // Treat as a click if below threshold
-    }
-
-    this.resetInactivityTimer();
+  if (event instanceof MouseEvent) {
+    currentX = event.clientX;
+    currentY = event.clientY;
+  } else if (event instanceof TouchEvent) {
+    // touchend event's touches may be empty, use changedTouches instead
+    const touch = event.changedTouches[0];
+    currentX = touch.clientX;
+    currentY = touch.clientY;
+  } else {
+    // fallback to initial positions if unknown event
+    currentX = this.initialX;
+    currentY = this.initialY;
   }
 
-  // // Track mouse move events
-  // @HostListener('window:mousemove', ['$event'])
-  // public onMouseMove(event: MouseEvent) {
-  //   if (this.isDragging) {
-  //     this.resetInactivityTimer();
-  //     this.updatePosition(event.clientX, event.clientY);
-  //   }
-  // }
+  const distanceMoved = Math.sqrt(
+    Math.pow(currentX - this.initialX, 2) + Math.pow(currentY - this.initialY, 2)
+  );
 
-  // @HostListener('window:touchmove', ['$event'])
-  // public onTouchMove(event: TouchEvent) {
-  //   if (this.isDragging && event.touches.length === 1) {
-  //     this.resetInactivityTimer();
-  //     // Check for single touch
-  //     const touch = event.touches[0];
-  //     this.updatePosition(touch.clientX, touch.clientY);
-  //   }
-  // }
+  console.log('distanceMoved > this.dragThreshold', distanceMoved, this.dragThreshold);
+
+  if (distanceMoved > this.dragThreshold) {
+    this.snapToEdge();
+    timer(400).subscribe(() => {
+      this.canOpenPanel = true;
+    });
+  } else {
+    this.canOpenPanel = true;
+    this.openNotifications(); // Treat as a click if below threshold
+  }
+
+  this.resetInactivityTimer();
+  }
+
+  // Track mouse move events
+  @HostListener('window:mousemove', ['$event'])
+  public onMouseMove(event: MouseEvent) {
+    if (this.isDragging) {
+      this.resetInactivityTimer();
+      this.updatePosition(event.clientX, event.clientY);
+    }
+  }
+
+  @HostListener('window:touchmove', ['$event'])
+  public onTouchMove(event: TouchEvent) {
+    if (this.isDragging && event.touches.length === 1) {
+      event.preventDefault();
+
+      this.resetInactivityTimer();
+      // Check for single touch
+      const touch = event.touches[0];
+      this.updatePosition(touch.clientX, touch.clientY);
+    }
+  }
+
+  @HostListener('window:touchstart', ['$event'])
+public onTouchStart(event: TouchEvent) {
+  if (this.isDragging) {
+    event.preventDefault();
+  }
+}
+
+@HostListener('window:touchend', ['$event'])
+public onTouchEnd(event: TouchEvent) {
+  if (this.isDragging) {
+    event.preventDefault();
+  }
+}
 
   // Update button position with boundary checks
   private updatePosition(clientX: number, clientY: number): void {
     const buttonWidth = 38.4; // Those 32px are coming from the css padding of the button. This is the actual size of it.
     // check class .assistive_btn -> padding: 1rem
     const buttonHeight = 38.4; // Assuming button height is 50px
-    const screenWidth = window.innerWidth;
-    const screenHeight = window.innerHeight;
+    const screenWidth = window.visualViewport
+      ? window.visualViewport.width
+      : window.innerWidth;
+    const screenHeight = window.visualViewport
+      ? window.visualViewport.height
+      : window.innerHeight;
     const bottomBoundary = screenHeight - buttonHeight - 76.8; // e.g., 60px from the bottom
     const topBoundary = 76.8; // e.g., 60px from the top
 
@@ -214,7 +258,9 @@ export class AssistiveTouchComponent implements OnInit, OnDestroy {
 
   // Snap to the nearest edge
   private snapToEdge(): void {
-    const screenWidth = window.innerWidth;
+    const screenWidth = window.visualViewport
+      ? window.visualViewport.width
+      : window.innerWidth;
     const halfScreenWidth = screenWidth / 2;
 
     if (this.positionX < halfScreenWidth) {
@@ -238,9 +284,13 @@ export class AssistiveTouchComponent implements OnInit, OnDestroy {
   }
 
   private initiatePosition(): void {
-    const screenWidth = window.innerWidth;
+    const screenWidth = window.visualViewport
+      ? window.visualViewport.width
+      : window.innerWidth;
     const buttonHeight = 38.4; // Assuming button height is 50px
-    const screenHeight = window.innerHeight;
+    const screenHeight = window.visualViewport
+      ? window.visualViewport.height
+      : window.innerHeight;
     const bottomBoundary = screenHeight - buttonHeight - 76.8; // e.g., 60px from the bottom
     const topBoundary = 76.8; // e.g., 60px from the top
     if (this.assistiveTouchSettings)

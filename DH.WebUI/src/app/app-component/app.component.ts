@@ -53,17 +53,18 @@ export class AppComponent implements OnInit {
   }
 
   // TODO: Check this tread https://chatgpt.com/c/671602c4-266c-800d-8177-2e9b398333ba
-  public ngOnInit(): void {
-    this._initializeFCM();
+  public async ngOnInit(): Promise<void> {
+    await this._initializeUser();
   }
 
   /**
    * Initialize the user on component load
    */
-  private _initializeUser(): void {
+  private async _initializeUser(): Promise<void> {
     if (!this.authService.getUser) {
-      this.authService.userinfo();
+      await this.authService.userinfo$();
     }
+    this._initializeFCM();
   }
 
   /**

@@ -4,6 +4,14 @@
 (touchstart)="startDragging($event)"
 (touchend)="stopDragging($event)" -->
 <div
+  class="freeze-overlay"
+  *ngIf="isScreenFrozen"
+  (touchmove)="$event.preventDefault()"
+  (wheel)="$event.preventDefault()"
+  (touchend)="stopDragging($event)"
+  (mouseup)="stopDragging($event)"
+></div>
+<div
   #assistive_btn
   class="assistive_btn"
   (click)="openNotifications()"
@@ -12,6 +20,10 @@
     left: positionX + 'px',
     opacity: buttonOpacity
   }"
+  (mousedown)="startDragging($event)"
+  (mouseup)="stopDragging($event)"
+  (touchstart)="startDragging($event)"
+  (touchend)="stopDragging($event)"
 >
   <svg
     *ngIf="!notificationsAllowed"

@@ -20,7 +20,7 @@ using DH.Domain.Models.Common;
 namespace DH.Api.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class UserController : ControllerBase
 {
     readonly IConfiguration configuration;

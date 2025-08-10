@@ -14,7 +14,7 @@ namespace DH.Api.Controllers;
 
 [Authorize]
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class RewardsController : ControllerBase
 {
     readonly IMediator mediator;

@@ -27,7 +27,7 @@ export class AuthGuard {
     state: RouterStateSnapshot
   ): Observable<boolean> | boolean | Promise<boolean> {
     const token = localStorage.getItem('jwt');
-
+    
     if (token && !this.jwtHelper.isTokenExpired(token)) {
       return of(true);
     }
@@ -57,7 +57,7 @@ export class AuthGuard {
     };
 
     return this.api
-      .post<ITokenResponse>(`/user/refresh`, credentials, {
+      .post<ITokenResponse>(`/api/user/refresh`, credentials, {
         options: {
           headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
         },

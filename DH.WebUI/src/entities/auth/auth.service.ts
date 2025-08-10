@@ -19,7 +19,7 @@ import { ICreateOwnerPasswordRequest } from './models/create-owner-password.mode
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly userInfoSubject$: BehaviorSubject<IUserInfo | null> =
+  public readonly userInfoSubject$: BehaviorSubject<IUserInfo | null> =
     new BehaviorSubject<IUserInfo | null>(null);
 
   public userInfo$ = this.userInfoSubject$.asObservable();
@@ -39,7 +39,7 @@ export class AuthService {
     token: string,
     timeZone: string
   ): Observable<ITokenResponse | null> {
-    return this.api.post<ITokenResponse>('/user/confirm-email', {
+    return this.api.post<ITokenResponse>('/api/user/confirm-email', {
       email,
       token,
       timeZone,
@@ -47,14 +47,14 @@ export class AuthService {
   }
 
   public forgotPassword(email: string): Observable<any> {
-    return this.api.post(`/user/forgot-password/${email}`, {});
+    return this.api.post(`/api/user/forgot-password/${email}`, {});
   }
 
   public sendEmailConfirmationRequest(
     email: string
   ): Observable<boolean | null> {
     return this.api.post<boolean>(
-      `/user/send-email-confirmation-request/${email}`,
+      `/api/user/send-email-confirmation-request/${email}`,
       {}
     );
   }
@@ -63,7 +63,7 @@ export class AuthService {
     email: string
   ): Observable<boolean | null> {
     return this.api.post<boolean>(
-      `/user/send-employee-password-reset-request/${email}`,
+      `/api/user/send-employee-password-reset-request/${email}`,
       {}
     );
   }
@@ -72,7 +72,7 @@ export class AuthService {
     email: string
   ): Observable<boolean | null> {
     return this.api.post<boolean>(
-      `/user/send-owner-password-reset-request/${email}`,
+      `/api/user/send-owner-password-reset-request/${email}`,
       {}
     );
   }
@@ -80,17 +80,17 @@ export class AuthService {
   public createEmployeePassword(
     request: ICreateEmployeePasswordRequest
   ): Observable<any> {
-    return this.api.post(`/user/create-employee-password`, request);
+    return this.api.post(`/api/user/create-employee-password`, request);
   }
 
   public createOwnerPassword(
     request: ICreateOwnerPasswordRequest
   ): Observable<any> {
-    return this.api.post(`/user/create-owner-password`, request);
+    return this.api.post(`/api/user/create-owner-password`, request);
   }
 
   public resetPassword(request: IResetPasswordRequest): Observable<any> {
-    return this.api.post(`/user/reset-password`, request);
+    return this.api.post(`/api/user/reset-password`, request);
   }
 
   public get getUser(): IUserInfo | null {
@@ -98,7 +98,7 @@ export class AuthService {
   }
 
   public login(loginForm: any): Observable<ITokenResponse | null> {
-    return this.api.post<ITokenResponse>('/user', loginForm);
+    return this.api.post<ITokenResponse>('/api/user', loginForm);
   }
 
   public authenticateUser(accessToken: string, refreshToken: string): void {
@@ -122,20 +122,13 @@ export class AuthService {
     registerForm: IRegisterRequest
   ): Observable<IRegisterResponse | null> {
     return this.api.post<IRegisterResponse>(
-      '/user/register-user',
+      '/api/user/register-user',
       registerForm
     );
   }
 
-  // For tests
-  game(gameForm: any) {
-    return this.api.post<any>('/games', gameForm).subscribe((response) => {
-      console.log(response);
-    });
-  }
-
   public registerNotification(email: any): Observable<null> {
-    return this.api.post<any>('/user/register-notification', { email });
+    return this.api.post<any>('/api/user/register-notification', { email });
   }
 
   public userinfo(): void {
@@ -146,7 +139,7 @@ export class AuthService {
     const usernameClaim: string =
       'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name';
 
-    this.api.get('/user/info').subscribe({
+    this.api.get('/api/user/info').subscribe({
       next: (user: any) => {
         if (user) {
           this.userInfoSubject$.next({
@@ -155,6 +148,7 @@ export class AuthService {
             username: user[usernameClaim],
             permissionString: user['permissions'],
           });
+          console.log('user logged', this.userInfoSubject$.value);
 
           this.tenantSettingsService.get().subscribe({
             next: (settings) => {
@@ -178,6 +172,56 @@ export class AuthService {
         console.error(AppToastMessage.SomethingWrong);
         this.userInfoSubject$.next(null);
       },
+    });
+  }
+
+  public userinfo$(): Promise<void> {
+    const sidClaim: string =
+      'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid';
+    const roleClaim: string =
+      'http://schemas.microsoft.com/ws/2008/06/identity/claims/role';
+    const usernameClaim: string =
+      'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name';
+
+    return new Promise((resolve) => {
+      this.api.get('/api/user/info').subscribe({
+        next: (user: any) => {
+          if (user) {
+            this.userInfoSubject$.next({
+              id: user[sidClaim],
+              role: user[roleClaim],
+              username: user[usernameClaim],
+              permissionString: user['permissions'],
+            });
+            console.log('user logged', this.userInfoSubject$.value);
+
+            this.tenantSettingsService.get().subscribe({
+              next: (settings) => {
+                if (
+                  settings &&
+                  settings.isCustomPeriodOn &&
+                  !settings.isCustomPeriodSetupComplete &&
+                  this.userInfoSubject$.value?.role != UserRole.User
+                )
+                  this.router.navigateByUrl(
+                    FULL_ROUTE.CHALLENGES.ADMIN_CUSTOM_PERIOD
+                  );
+
+                resolve();
+              },
+            });
+          } else {
+            this.userInfoSubject$.next(null);
+            console.warn('User is not sign in');
+            resolve();
+          }
+        },
+        error: () => {
+          console.error(AppToastMessage.SomethingWrong);
+          this.userInfoSubject$.next(null);
+          resolve();
+        },
+      });
     });
   }
 

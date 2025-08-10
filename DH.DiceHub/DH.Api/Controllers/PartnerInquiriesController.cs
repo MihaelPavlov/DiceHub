@@ -8,7 +8,7 @@ namespace DH.Api.Controllers;
 
 [ApiController]
 [AllowAnonymous]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class PartnerInquiriesController : ControllerBase
 {
     readonly IMediator mediator;

@@ -1,6 +1,13 @@
-<div>
+<div>iphone version -> {{ iphoneVersion }}</div>
+<br />
+<div>native platform -> {{ nativePlatform }}</div>
+<div class="wrapper">
   <div class="header">
     <span class="title">Jobs</span>
+    <br />
+    <button (click)="executePeriodJobs()" class="title">
+      Execute Period Jobs
+    </button>
   </div>
 
   <div *ngFor="let item of jobs">
@@ -9,8 +16,8 @@
     <p>Job Key Name - {{ item.jobKeyName }}</p>
     <p>Trigger Key Name - {{ item.triggerKeyName }}</p>
 
-    <p>Next Fire Time - {{ item.nextFireTime | date : DATE_FORMAT }}</p>
-    <p>Previous Fire Time - {{ item.previousFireTime | date : DATE_FORMAT }}</p>
+    <p>Next Fire Time - {{ item.nextFireTime }}</p>
+    <p>Previous Fire Time - {{ item.previousFireTime }}</p>
 
     <br />
   </div>

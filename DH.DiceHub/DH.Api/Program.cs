@@ -20,16 +20,16 @@ using Google.Apis.Auth.OAuth2;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.OpenApi.Models;
+using Quartz;
+using Quartz.Impl.Matchers;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.WebHost.ConfigureKestrel(options =>
-{
-    options.ListenAnyIP(80); // Listens on http://0.0.0.0:80
-});
+
 builder.Services.AddControllers(options =>
 {
     options.Filters.Add<ApiExceptionFilterAttribute>();
     options.Filters.Add<ValidationFilterAttribute>();
+
 });
 builder.Services.AddSpaStaticFiles(configuration =>
 {
@@ -37,6 +37,7 @@ builder.Services.AddSpaStaticFiles(configuration =>
 });
 builder.Services.AddSingleton<IMemoryCache>(service => new MemoryCache(new MemoryCacheOptions { ExpirationScanFrequency = TimeSpan.FromMinutes(1.0) }));
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerGen(c =>
 {
     // Define the Bearer token security scheme
@@ -97,9 +98,45 @@ var test = FirebaseApp.Create(new AppOptions()
 });
 
 Console.WriteLine(test.Options.ProjectId);
+
 builder.Services.AddFirebaseMessaging();
+builder.Services.AddHealthChecks();
 
 var app = builder.Build();
+using (var scope = app.Services.CreateScope())
+{
+    var tenantDatabase = scope.ServiceProvider.GetRequiredService<TenantDbContext>();
+    var appIdentityDatabase = scope.ServiceProvider.GetRequiredService<AppIdentityDbContext>();
+    tenantDatabase.Database.Migrate();
+    appIdentityDatabase.Database.Migrate();
+
+    #region Testing Purposes
+    var schedulerFactory = scope.ServiceProvider.GetRequiredService<ISchedulerFactory>();
+    var scheduler = await schedulerFactory.GetScheduler();
+
+    var jobGroups = await scheduler.GetJobGroupNames();
+
+    foreach (var group in jobGroups)
+    {
+        var jobKeys = await scheduler.GetJobKeys(GroupMatcher<JobKey>.GroupEquals(group));
+
+        foreach (var jobKey in jobKeys)
+        {
+            var triggers = await scheduler.GetTriggersOfJob(jobKey);
+
+            foreach (var trigger in triggers)
+            {
+                var nextFireTime = trigger.GetNextFireTimeUtc();
+                var previousFireTime = trigger.GetPreviousFireTimeUtc();
+
+                Console.WriteLine($"Job: {jobKey.Name}, Trigger: {trigger.Key.Name}");
+                Console.WriteLine($"Next Fire Time: {nextFireTime}");
+                Console.WriteLine($"Previous Fire Time: {previousFireTime}");
+            }
+        }
+    }
+    #endregion Testing Purposes
+}
 
 using (var scope = app.Services.CreateScope())
 {
@@ -108,6 +145,9 @@ using (var scope = app.Services.CreateScope())
 
     var dataSeeder = scope.ServiceProvider.GetRequiredService<IDataSeeder>();
     await dataSeeder.SeedAsync();
+
+    //TODO: Better way to seed eveyrthing maybe ???
+    await ApplicationDbContextSeeder.SeedUsers(scope.ServiceProvider);
 }
 
 app.UseSwagger();
@@ -121,8 +161,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHttpsRedirection();
 }
 
-app.UseDefaultFiles();
-app.UseStaticFiles();
+app.UseSpaStaticFiles();
 
 app.UseRouting();
 
@@ -132,15 +171,35 @@ app.UseAuthorization();
 app.UseCors("EnableCORS");
 
 #pragma warning disable ASP0014 // Suggest using top level route registrations
-app.UseEndpoints(endpoint =>
+app.Use(async (context, next) =>
 {
-    endpoint.MapHub<ChatHubClient>("/chatHub");
-    endpoint.MapControllers();
-    endpoint.MapFallbackToFile("index.html");
+    // If request path doesn't start with /api, /health, /chatHub etc (your protected endpoints)
+    // and the request is not for a static file, let it pass without auth
+    var path = context.Request.Path.Value ?? string.Empty;
+
+    if (!path.StartsWith("/api") &&
+        !path.StartsWith("/health") &&
+        !path.StartsWith("/chatHub") &&
+        !System.IO.Path.HasExtension(path)) // no extension means probably frontend route
+    {
+        // Remove authentication headers so authorization middleware won't block
+        context.Items["AllowAnonymous"] = true;
+    }
+
+    await next.Invoke();
+});
+
+// Then map endpoints
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapHealthChecks("/health");
+    endpoints.MapHub<ChatHubClient>("/chatHub");
+    endpoints.MapControllers();
+
+    // This fallback serves index.html for SPA routes
+    endpoints.MapFallbackToFile("index.html");
 });
 #pragma warning restore ASP0014 // Suggest using top level route registrations
 
 // This should always be after UseEndpoints
-app.UseSpaStaticFiles();
-
 app.Run();

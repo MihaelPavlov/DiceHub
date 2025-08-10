@@ -29,15 +29,17 @@ export class TenantUserSettingsService {
 
   public getAssistiveTouchSettings(): Observable<AssistiveTouchSettings> {
     return this.api.get<AssistiveTouchSettings>(
-      `${PATH.USER_SETTINGS.CORE}/${PATH.USER_SETTINGS.ASSISTIVE_TOUCH_SETTINGS}`
+      `/${PATH.USER_SETTINGS.CORE}/${PATH.USER_SETTINGS.ASSISTIVE_TOUCH_SETTINGS}`,
+      { backgroundRequest: true }
     );
   }
 
   public updateAssistiveTouchSettings(settings: AssistiveTouchSettings): void {
     this.api
       .post(
-        `${PATH.USER_SETTINGS.CORE}/${PATH.USER_SETTINGS.ASSISTIVE_TOUCH_SETTINGS}`,
-        { payload: settings }
+        `/${PATH.USER_SETTINGS.CORE}/${PATH.USER_SETTINGS.ASSISTIVE_TOUCH_SETTINGS}`,
+        { payload: settings },
+        { backgroundRequest: true }
       )
       .subscribe({
         next: () => {

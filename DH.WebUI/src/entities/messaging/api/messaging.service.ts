@@ -69,9 +69,9 @@ export class MessagingService {
 
   public async getDeviceToken(): Promise<void> {
     try {
-      this.requestNotificationPermission();
-
-      const registration = await navigator.serviceWorker.getRegistration(
+        await this.requestNotificationPermission();
+     
+      let registration = await navigator.serviceWorker.getRegistration(
         '/firebase-cloud-messaging-push-scope'
       );
       if (registration?.active) {
@@ -81,7 +81,9 @@ export class MessagingService {
         );
       } else {
         console.warn('No active service worker. Registering...');
-        await this.registerServiceWorker();
+        let newRegistration = await this.registerServiceWorker();
+
+        if (newRegistration) registration = newRegistration;
       }
 
       const token = await getToken(this._messaging, {
@@ -123,7 +125,7 @@ export class MessagingService {
 
   public async getDeviceTokenForRegistration(): Promise<string | null> {
     try {
-      this.requestNotificationPermission();
+      await this.requestNotificationPermission();
 
       if (this.isNativePlatform()) {
         // Native mobile: use Capacitor plugin
@@ -153,7 +155,7 @@ export class MessagingService {
           serviceWorkerRegistration: registration!,
         });
 
-        console.error('[FCM Web] Token:', token);
+        console.info('[FCM Web] Token:', token);
         return token;
       }
     } catch (error: any) {
@@ -171,15 +173,60 @@ export class MessagingService {
     }
   }
 
+  // 90% I think is working, but need to test on iOS 16.4 and higher
   public isPushUnsupportedIOS(): boolean {
     const ua = navigator.userAgent.toLowerCase();
-    const isIOS = /iphone|ipad|ipod/.test(ua);
-    const versionMatch = ua.match(/os (\d+)_/i); // e.g., "OS 16_3" becomes ["os 16_", "16"]
-    const iosVersion = versionMatch ? parseFloat(versionMatch[1]) : 0;
+    console.log('User Agent:', ua);
 
-    return isIOS && iosVersion < 16.4;
+    const isIOS = /iphone|ipad|ipod/.test(ua);
+    if (!isIOS) return false;
+
+    // Match major and minor version: e.g., "os 16_3" -> ["os 16_3", "16", "3"]
+    const versionMatch = ua.match(/os (\d+)_?(\d+)?/i);
+    if (!versionMatch) return false;
+
+    const major = parseInt(versionMatch[1], 10);
+    const minor = versionMatch[2] ? parseInt(versionMatch[2], 10) : 0;
+    const iosVersion = major + minor / 10;
+
+    console.log('Is iOS:', isIOS, 'iOS Version:', iosVersion);
+
+    return iosVersion < 16.4;
   }
 
+  public getIOSVersion(): number {
+    const ua = navigator.userAgent.toLowerCase();
+    console.log('User Agent:', ua);
+
+    const isIOS = /iphone|ipad|ipod/.test(ua);
+    if (!isIOS) return 0;
+
+    // Match major and minor version: e.g., "os 16_3" -> ["os 16_3", "16", "3"]
+    const versionMatch = ua.match(/os (\d+)_?(\d+)?/i);
+    if (!versionMatch) return 0;
+
+    const major = parseInt(versionMatch[1], 10);
+    const minor = versionMatch[2] ? parseInt(versionMatch[2], 10) : 0;
+    const iosVersion = major + minor / 10;
+
+    console.log('Is iOS:', isIOS, 'iOS Version:', iosVersion);
+
+    return iosVersion;
+  }
+
+  public getNativePlatform(): string {
+    if (!this.platform.IOS && !this.platform.ANDROID) {
+      return 'not native platform';
+    }
+
+    const isNative = (window as any)?.Capacitor?.isNativePlatform?.();
+
+    if (isNative === undefined) {
+      return 'unknown native status';
+    }
+
+    return isNative ? 'native platform' : 'not native platform';
+  }
   private isNativePlatform(): boolean {
     return !this.platform.IOS && !this.platform.ANDROID
       ? false
@@ -188,20 +235,43 @@ export class MessagingService {
 
   public async requestNotificationPermission(): Promise<void> {
     try {
+      if (Notification.permission === 'granted') {
+        this.frontEndLogService
+          .sendInfo(
+            'Notification permission already granted',
+            'app.component.ts'
+          )
+          .subscribe();
+        return;
+      }
+
       const permission = await Notification.requestPermission();
+
       if (permission === 'granted') {
         this.frontEndLogService
           .sendInfo('Notification permission granted', 'app.component.ts')
           .subscribe();
-      } else {
+      } else if (permission === 'denied') {
+        // Notifications are blocked
         this.frontEndLogService
           .sendInfo(
-            `Notification permission are not granted - ${permission}`,
+            'Notification permission denied (blocked)',
             'app.component.ts'
           )
           .subscribe();
+
+        this.showNotificationBlockedMessage();
+      } else {
+        // Permission was dismissed (default)
+        this.frontEndLogService
+          .sendInfo(
+            'Notification permission dismissed (default)',
+            'app.component.ts'
+          )
+          .subscribe();
+
         this.toastService.error({
-          message: `Permissions ${permission} for notifications are not granted.`,
+          message: `You dismissed the notification permission request.`,
           type: ToastType.Error,
         });
       }
@@ -210,5 +280,16 @@ export class MessagingService {
         .sendError('Notification permission request error', 'app.component.ts')
         .subscribe();
     }
+  }
+
+  private showNotificationBlockedMessage(): void {
+    const helpUrl = 'https://support.google.com/chrome/answer/3220216'; // or your own help page
+
+    this.toastService.error({
+      message: `Notifications are <b>blocked</b> in your browser settings. 
+              <a href="${helpUrl}" target="_blank"><strong style="text-decoration: underline;">Learn how to enable them</strong></a>.`,
+      type: ToastType.Error,
+      duration: 10000,
+    });
   }
 }

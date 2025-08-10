@@ -1,6 +1,6 @@
 import { GlobalErrorHandler } from './../shared/components/global-error-handler';
 import { ConfirmEmailModule } from './../pages/confirm-email/confirm-email.module';
-import { NgModule, ErrorHandler } from '@angular/core';
+import { NgModule, ErrorHandler, APP_INITIALIZER } from '@angular/core';
 import { AppComponent } from './app-component/app.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
@@ -25,13 +25,24 @@ import { ResetPasswordModule } from '../pages/reset-password/reset-password.modu
 import { AuthRedirectGuard } from '../shared/guards/auth-redirect.guard';
 import { CreateEmployeePasswordModule } from '../pages/create-employee-password/create-employee-password.module';
 import { CreateOwnerPasswordModule } from '../pages/create-owner-password/create-owner-password.module';
+import { AuthService } from '../entities/auth/auth.service';
+export function initializeUserFactory(authService: AuthService): () => void {
+  console.log('INITIALIZE USER FACTORY FROM APP.COMPONENT');
 
+  return () => authService.userinfo$();
+}
 @NgModule({
   declarations: [AppComponent],
   exports: [BrowserModule, BrowserAnimationsModule],
   providers: [
     AuthGuard,
     AuthRedirectGuard,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeUserFactory,
+      deps: [AuthService],
+      multi: true,
+    },
     { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     {

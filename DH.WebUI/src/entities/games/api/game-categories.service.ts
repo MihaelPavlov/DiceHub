@@ -13,7 +13,7 @@ export class GameCategoriesService {
   public getList(
     searchExpression: string = ''
   ): Observable<IGameCategory[] | null> {
-    return this.api.post<IGameCategory[]>(`/${PATH.GAME_CATEGORIES.LIST}`, {
+    return this.api.post<IGameCategory[]>(`/${PATH.GAME_CATEGORIES.CORE}/${PATH.GAME_CATEGORIES.LIST}`, {
       searchExpression,
     });
   }

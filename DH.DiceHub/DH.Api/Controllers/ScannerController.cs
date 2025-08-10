@@ -10,7 +10,7 @@ namespace DH.Api.Controllers;
 
 [Authorize]
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class ScannerController : ControllerBase
 {
     readonly IQRCodeManager qRCodeManager;
