@@ -3,6 +3,7 @@ using System;
 using DH.Adapter.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DH.Adapter.Data.Migrations
 {
     [DbContext(typeof(TenantDbContext))]
-    partial class TenantDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250811113714_UpdateSettings")]
+    partial class UpdateSettings
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1257,6 +1260,9 @@ namespace DH.Adapter.Data.Migrations
                     b.Property<bool>("IsCustomPeriodSetupComplete")
                         .HasColumnType("boolean");
 
+                    b.Property<int>("Language")
+                        .HasColumnType("integer");
+
                     b.Property<string>("PeriodOfRewardReset")
                         .IsRequired()
                         .HasColumnType("text");
@@ -1290,9 +1296,8 @@ namespace DH.Adapter.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Language")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("Language")
+                        .HasColumnType("integer");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()

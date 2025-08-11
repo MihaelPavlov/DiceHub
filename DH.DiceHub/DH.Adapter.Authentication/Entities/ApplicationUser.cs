@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using DH.Domain.Enums;
+using Microsoft.AspNetCore.Identity;
 
 namespace DH.Adapter.Authentication.Entities;
 

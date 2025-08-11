@@ -26,8 +26,6 @@ public class AppIdentityDbContext : IdentityDbContext<ApplicationUser>, IIdentit
         this._containerService = _containerService;
     }
 
-    public DbSet<Test> Tests { get; set; }
-
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
 #if DEBUG

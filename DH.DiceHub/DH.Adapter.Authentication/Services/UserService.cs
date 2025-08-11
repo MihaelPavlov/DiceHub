@@ -8,6 +8,7 @@ using DH.Domain.Adapters.ChallengesOrchestrator;
 using DH.Domain.Adapters.Localization;
 using DH.Domain.Adapters.PushNotifications;
 using DH.Domain.Entities;
+using DH.Domain.Enums;
 using DH.Domain.Repositories;
 using DH.OperationResultCore.Exceptions;
 using Microsoft.AspNetCore.Http;
