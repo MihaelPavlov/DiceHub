@@ -5,6 +5,7 @@ using DH.Domain.Adapters.Statistics.Services;
 using DH.Domain.Repositories;
 using DH.Domain.Services;
 using DH.Domain.Services.Queue;
+using DH.Domain.Services.TenantUserSettingsService;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -41,6 +42,9 @@ public static class DataDIModule
             .AddScoped<IDataSeeder, DataSeeder>()
             .AddScoped<IEmailHelperService, EmailHelperService>()
             .AddScoped<IStatisticsService, StatisticsService>();
+
+        services.AddMemoryCache();
+        services.AddScoped<IUserSettingsCache, UserSettingsCache>();
 
         RegisterAssemblyTypesAsClosedGeneric(services, typeof(IDomainService<>), typeof(IDbContextFactory<>));
         return services;

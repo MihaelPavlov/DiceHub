@@ -4,6 +4,7 @@ using DH.Domain.Adapters.Authentication.Services;
 using DH.Domain.Entities;
 using DH.Domain.Enums;
 using DH.Domain.Repositories;
+using DH.Domain.Services.TenantUserSettingsService;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 
@@ -16,14 +17,14 @@ public class UserContextFactory : IUserContextFactory
     readonly IHttpContextAccessor _httpContextAccessor;
     readonly HttpClient client;
     readonly IJwtService jwtService;
-    readonly IRepository<TenantUserSetting> tenantUserSettingsRepository;
+    readonly IUserSettingsCache userSettingsCache;
 
-    public UserContextFactory(IHttpContextAccessor httpContextAccessor, IHttpClientFactory httpClientFactory, IJwtService jwtService, IRepository<TenantUserSetting> tenantUserSettingsRepository)
+    public UserContextFactory(IHttpContextAccessor httpContextAccessor, IHttpClientFactory httpClientFactory, IJwtService jwtService, IUserSettingsCache userSettingsCache)
     {
         client = httpClientFactory.CreateClient();
         _httpContextAccessor = httpContextAccessor;
         this.jwtService = jwtService;
-        this.tenantUserSettingsRepository = tenantUserSettingsRepository;
+        this.userSettingsCache = userSettingsCache;
         _defaultUserContext = new UserContext(null, null, null, null, null);
     }
 
@@ -43,15 +44,8 @@ public class UserContextFactory : IUserContextFactory
             var userIdClaim = user.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid);
             string language = SupportLanguages.EN.ToString();
             if (userIdClaim != null)
-            {
-                //TODO: Create cach per user? with Updated flag is update flag is tru fetch it again and set up flag to false
-                // change the flag for this user settings on UpdateUserSettings
-                var tenantUserSettings = tenantUserSettingsRepository
-                    .GetByAsync(x => x.UserId == userIdClaim.Value, CancellationToken.None)
-                    .GetAwaiter().GetResult();
+                language = this.userSettingsCache.GetLanguageAsync(userIdClaim.Value).GetAwaiter().GetResult();
 
-                language = tenantUserSettings?.Language ?? language;
-            }
 
             var userRoleClaim = user.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role);
             var userTimeZone = user.Claims.FirstOrDefault(x => x.Type == "TimeZone");

@@ -16,6 +16,11 @@ public interface IUserContext
     string TimeZone { get; }
 
     /// <summary>
+    /// Preferred Language from the user
+    /// </summary>
+    string Language { get; }
+
+    /// <summary>
     /// Gets a value indicating whether the current user is authenticated.
     /// </summary>
     bool IsAuthenticated { get; }
