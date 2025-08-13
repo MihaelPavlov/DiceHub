@@ -14,8 +14,11 @@ public class CreateGameDto : IValidableFields
     [JsonPropertyName("name")]
     public string Name { get; set; } = string.Empty;
 
-    [JsonPropertyName("description")]
-    public string Description { get; set; } = string.Empty;
+    [JsonPropertyName("description_EN")]
+    public string Description_EN { get; set; } = string.Empty;
+
+    [JsonPropertyName("description_BG")]
+    public string Description_BG { get; set; } = string.Empty;
 
     [JsonPropertyName("minAge")]
     public int MinAge { get; set; }

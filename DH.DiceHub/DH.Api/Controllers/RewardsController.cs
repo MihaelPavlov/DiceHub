@@ -26,7 +26,7 @@ public class RewardsController : ControllerBase
 
     [HttpGet("system-reward/{id}")]
     [ActionAuthorize(UserAction.SystemRewardsCRUD)]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetSystemRewardByIdQueryModel))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetRewardByIdQueryModel))]
     public async Task<IActionResult> GetSystemRewardById(int id, CancellationToken cancellationToken)
     {
         var result = await this.mediator.Send(new GetSystemRewardByIdQuery(id), cancellationToken);
@@ -35,7 +35,7 @@ public class RewardsController : ControllerBase
 
     [HttpGet("system-reward/get-dropdown-list")]
     [ActionAuthorize(UserAction.SystemRewardsCRUD)]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetSystemRewardByIdQueryModel>))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetRewardByIdQueryModel>))]
     public async Task<IActionResult> GetSystemRewardsDropDownList(CancellationToken cancellationToken)
     {
         var result = await this.mediator.Send(new GetSystemRewardDropdownListQuery(), cancellationToken);

@@ -86,10 +86,35 @@ internal class PushNotificationsService : IPushNotificationsService
             var responseId = await FirebaseMessaging.DefaultInstance.SendAsync(new Message
             {
                 Token = message.DeviceToken,
-                Notification = new Notification
+                //Notification = new Notification
+                //{
+                //    Title = message.Title,
+                //    Body = message.Body,
+                //},
+                //Android = new AndroidConfig
+                //{
+                //    Notification = new AndroidNotification
+                //    {
+                //        Title = message.Title,
+                //        Body = message.Body,
+                //        ImageUrl = "https://dicehub.online/shared/assets/images/dicehub_favicon_2.png", // ✅ icon shown in web push
+                //        ClickAction = "https://dicehub.online/login"
+                //    }
+                //},
+                Data = new Dictionary<string, string>
                 {
-                    Title = message.Title,
-                    Body = message.Body
+                    { "title", message.Title },
+                    { "body", message.Body },
+                    { "icon", "https://dicehub.online/shared/assets/images/dicehub_favicon_2.png" },
+                    { "click_action", "https://dicehub.online/login" },
+                },
+
+                Webpush = new WebpushConfig
+                {
+                    Headers = new Dictionary<string, string>
+                    {
+                        { "Urgency", "high" }
+                    }
                 }
             });
 
@@ -122,10 +147,35 @@ internal class PushNotificationsService : IPushNotificationsService
         var notificationMessage = new MulticastMessage
         {
             Tokens = message.Tokens,
-            Notification = new Notification
+            //Notification = new Notification
+            //{
+            //    Title = message.Title,
+            //    Body = message.Body
+            //},
+            //Android = new AndroidConfig
+            //{
+            //    Notification = new AndroidNotification
+            //    {
+            //        Title = message.Title,
+            //        Body = message.Body,
+            //        ImageUrl = "https://dicehub.online/shared/assets/images/dicehub_favicon_2.png", // ✅ icon shown in web push
+            //        ClickAction = "https://dicehub.online/login"
+            //    }
+            //},
+            Data = new Dictionary<string, string>
+                {
+                    { "title", message.Title },
+                    { "body", message.Body },
+                    { "icon", "https://dicehub.online/shared/assets/images/dicehub_favicon_2.png" },
+                    { "click_action", "https://dicehub.online/login" }
+                },
+
+            Webpush = new WebpushConfig
             {
-                Title = message.Title,
-                Body = message.Body
+                Headers = new Dictionary<string, string>
+                    {
+                        { "Urgency", "high" }
+                    }
             }
         };
 
@@ -171,10 +221,35 @@ internal class PushNotificationsService : IPushNotificationsService
                 var responseId = await FirebaseMessaging.DefaultInstance.SendAsync(new Message
                 {
                     Token = deviceToken.DeviceToken,
-                    Notification = new Notification
+                    //Notification = new Notification
+                    //{
+                    //    Title = message.Title,
+                    //    Body = message.Body
+                    //},
+                    //Android = new AndroidConfig
+                    //{
+                    //    Notification = new AndroidNotification
+                    //    {
+                    //        Title = message.Title,
+                    //        Body = message.Body,
+                    //        ImageUrl = "https://dicehub.online/shared/assets/images/dicehub_favicon_2.png", // ✅ icon shown in web push
+                    //        ClickAction = "https://dicehub.online/login"
+                    //    }
+                    //},
+                    Data = new Dictionary<string, string>
                     {
-                        Title = message.Title,
-                        Body = message.Body
+                        { "title", message.Title },
+                        { "body", message.Body },
+                        { "icon", "https://dicehub.online/shared/assets/images/dicehub_favicon_2.png" },
+                        { "click_action", "https://dicehub.online/login" }
+                    },
+
+                    Webpush = new WebpushConfig
+                    {
+                        Headers = new Dictionary<string, string>
+                    {
+                        { "Urgency", "high" }
+                    }
                     }
                 });
 

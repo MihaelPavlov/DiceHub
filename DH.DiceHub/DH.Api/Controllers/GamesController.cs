@@ -1,15 +1,16 @@
+
 using DH.Adapter.Authentication.Filters;
 using DH.Application.Games.Commands;
 using DH.Application.Games.Commands.Games;
+using DH.Application.Games.Queries;
 using DH.Application.Games.Queries.Games;
 using DH.Domain.Adapters.Authentication.Enums;
 using DH.Domain.Models.GameModels.Commands;
 using DH.Domain.Models.GameModels.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
-using DH.Application.Games.Queries;
-using Microsoft.AspNetCore.Authorization;
 
 namespace DH.Api.Controllers;
 
@@ -20,7 +21,7 @@ public class GamesController : ControllerBase
 {
     readonly IMediator mediator;
 
-    public GamesController(IMediator mediator)
+    public GamesController(IMediator mediator )
     {
         this.mediator = mediator;
     }
@@ -31,6 +32,7 @@ public class GamesController : ControllerBase
     public async Task<IActionResult> GetGameList([FromBody] GetGameListQuery request, CancellationToken cancellationToken)
     {
         var result = await this.mediator.Send(request, cancellationToken);
+
         return Ok(result);
     }
 
@@ -81,7 +83,7 @@ public class GamesController : ControllerBase
 
     [HttpGet("{id}")]
     [ActionAuthorize(UserAction.GamesRead)]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetSystemRewardByIdQueryModel))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetGameByIdQueryModel))]
     public async Task<IActionResult> GetGameById(int id, CancellationToken cancellationToken)
     {
         var result = await this.mediator.Send(new GetGameByIdQuery(id), cancellationToken);
