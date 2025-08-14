@@ -1,3 +1,5 @@
+import { TranslateService } from '@ngx-translate/core';
+import { SupportLanguages } from './../../../entities/common/models/support-languages.enum';
 import { NavigationService } from './../../../shared/services/navigation-service';
 import { IGameCategory } from './../../../entities/games/models/game-category.model';
 import { Component, OnDestroy, OnInit } from '@angular/core';
@@ -19,6 +21,7 @@ import { QrCodeType } from '../../../entities/qr-code-scanner/enums/qr-code-type
 import { ImageEntityType } from '../../../shared/pipe/entity-image.pipe';
 import { GameCategoriesService } from '../../../entities/games/api/game-categories.service';
 import { FULL_ROUTE } from '../../../shared/configs/route.config';
+import { LanguageService } from '../../../shared/services/language.service';
 
 @Component({
   selector: 'app-games-library',
@@ -36,6 +39,7 @@ export class GamesLibraryComponent implements OnInit, OnDestroy {
     UserAction.GamesCUD
   );
   public readonly ImageEntityType = ImageEntityType;
+  public readonly SupportLanguages = SupportLanguages;
   public selectedCategoryName$ = new BehaviorSubject<string | null>(null);
   public categoryList: IGameCategory[] = [];
   constructor(
@@ -47,7 +51,9 @@ export class GamesLibraryComponent implements OnInit, OnDestroy {
     private readonly permissionService: PermissionService,
     private readonly dialog: MatDialog,
     private readonly gameCategoriesService: GameCategoriesService,
-    private readonly NavigationService: NavigationService
+    private readonly navigationService: NavigationService,
+    private readonly languageService: LanguageService,
+    private readonly translateService: TranslateService
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.GAMES);
   }
@@ -57,6 +63,10 @@ export class GamesLibraryComponent implements OnInit, OnDestroy {
     this.searchService.hideSearchForm();
 
     this.selectedCategoryName$.next(null);
+  }
+
+  public get currentLanguage(): SupportLanguages {
+    return this.languageService.getCurrentLanguage();
   }
 
   public showMenu(
@@ -71,11 +81,26 @@ export class GamesLibraryComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.menuItems.next([
-      { key: 'qr-code', label: 'QR Code' },
-      // { key: 'history-log', label: 'Last Activities' },
-      { key: 'update', label: 'Update' },
-      { key: 'copy', label: 'Add Copy' },
-      { key: 'delete', label: 'Delete' },
+      {
+        key: 'qr-code',
+        label: this.translateService.instant(
+          'games.library.menu_items.qr_code'
+        ),
+      },
+      {
+        key: 'update',
+        label: this.translateService.instant('games.library.menu_items.update'),
+      },
+      {
+        key: 'copy',
+        label: this.translateService.instant(
+          'games.library.menu_items.add_copy'
+        ),
+      },
+      {
+        key: 'delete',
+        label: this.translateService.instant('games.library.menu_items.delete'),
+      },
     ]);
 
     this.activeRoute.params.subscribe((params: Params) => {
@@ -92,7 +117,7 @@ export class GamesLibraryComponent implements OnInit, OnDestroy {
   }
 
   public navigateToGameDetails(id: number): void {
-    this.NavigationService.setPreviousUrl(this.router.url);
+    this.navigationService.setPreviousUrl(this.router.url);
     this.router.navigateByUrl(FULL_ROUTE.GAMES.DETAILS(id));
   }
 
@@ -121,7 +146,9 @@ export class GamesLibraryComponent implements OnInit, OnDestroy {
           Id: this.visibleMenuId,
           Name:
             this.games.find((x) => x.id === this.visibleMenuId)?.name ??
-            'Game Qr Code',
+            this.translateService.instant(
+              'games.library.missing_name_for_qr_code'
+            ),
           Type: QrCodeType.Game,
         },
       });

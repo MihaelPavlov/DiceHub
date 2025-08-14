@@ -1,7 +1,7 @@
 <section class="wrapper_library">
   <div class="no_records" *ngIf="games.length === 0">
     <img src="/shared/assets/images/no-games-found.png" alt="" />
-    <p class="first-header">No Games Found</p>
+    <p class="first-header">{{ "games.not_found" | translate }}</p>
   </div>
   <div
     *ngFor="let game of games"
@@ -11,14 +11,19 @@
     <div class="wrapper_image">
       <img
         [src]="ImageEntityType.Games | entityImage : game.imageId | async"
-        alt="Game Image"
+        [alt]="'games.library.game_image' | translate"
       />
     </div>
     <div class="wrapper_info">
       <div class="wrapper_title">
         {{ game.name }}
         <div class="wrapper_description">
-          {{ game.description | truncate }}
+          {{
+            (currentLanguage === SupportLanguages.EN
+              ? game.description_EN
+              : game.description_BG
+            ) | truncate
+          }}
         </div>
       </div>
       <div class="wrapper_right">

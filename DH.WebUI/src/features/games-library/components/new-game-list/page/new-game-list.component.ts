@@ -8,6 +8,8 @@ import { GamesService } from '../../../../../entities/games/api/games.service';
 import { Router } from '@angular/router';
 import { ImageEntityType } from '../../../../../shared/pipe/entity-image.pipe';
 import { FULL_ROUTE } from '../../../../../shared/configs/route.config';
+import { LanguageService } from '../../../../../shared/services/language.service';
+import { SupportLanguages } from '../../../../../entities/common/models/support-languages.enum';
 
 @Component({
   selector: 'app-new-game-list',
@@ -17,15 +19,21 @@ import { FULL_ROUTE } from '../../../../../shared/configs/route.config';
 export class NewGameListComponent implements OnInit, OnDestroy {
   public games: IGameListResult[] = [];
   public readonly ImageEntityType = ImageEntityType;
+  public readonly SupportLanguages = SupportLanguages;
 
   constructor(
     private readonly router: Router,
     private readonly gameService: GamesService,
     private readonly menuTabsService: MenuTabsService,
     private readonly searchService: SearchService,
-    private readonly navigationService : NavigationService
+    private readonly navigationService: NavigationService,
+    private readonly languageService: LanguageService
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.GAMES);
+  }
+
+  public get currentLanguage(): SupportLanguages {
+    return this.languageService.getCurrentLanguage();
   }
 
   public ngOnDestroy(): void {

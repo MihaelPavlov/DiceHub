@@ -7,7 +7,7 @@
     *ngIf="!userActiveSpaceTable || !userActiveSpaceTable.activeTableId"
   >
     <div class="header">
-      <p>Reserve Your Seat and Get Ready to Play!</p>
+      <p>{{ "games.game.availability.reserve_your_seat" | translate }}</p>
       <ng-container *ngIf="this.activeBookedTableModel">
         <span
           class="header__information"
@@ -15,16 +15,22 @@
             isShowingActiveReservationTableMessage(this.activeBookedTableModel)
           "
         >
-          You have table reservation for today
+          {{
+            "games.game.availability.table_reservation_for_today" | translate
+          }}
           <br />
           <strong>{{
             this.activeBookedTableModel.reservationDate
-              | date : DATE_TIME_FORMAT
+              | date : DATE_TIME_FORMAT : undefined : this.currentLanguage
           }}</strong>
           <br />
-          <span *ngIf="!this.gameReservationStatus">
-            Game reservation for your table will become available
-            <strong>1 hour </strong>before your reserved time.
+          <span
+            *ngIf="!this.gameReservationStatus"
+            [innerHTML]="
+              'games.game.availability.game_reservation_availability_info'
+                | translate
+            "
+          >
           </span>
         </span>
       </ng-container>
@@ -40,14 +46,21 @@
         *ngIf="this.gameInventory$ | async as inventory"
       >
         <p *ngIf="inventory.availableCopies !== 0" class="info__status">
-          AVAILABLE
+          {{ "games.game.availability.available" | translate }}
         </p>
         <p *ngIf="inventory.availableCopies === 0" class="info__status">
-          UNAVAILABLE
+          {{ "games.game.availability.unavailable" | translate }}
         </p>
-        <p>
-          units {{ inventory.availableCopies }} / {{ inventory.totalCopies }}
-        </p>
+        <p
+          [innerHTML]="
+            'games.game.availability.units'
+              | translate
+                : {
+                    availableCopies: inventory.availableCopies,
+                    totalCopies: inventory.totalCopies
+                  }
+          "
+        ></p>
       </div>
 
       <form [formGroup]="form" class="field-inputs" form>
@@ -59,14 +72,21 @@
         >
           <div class="reservation-indicator">
             <p class="info-message">
-              These details are prefilled from your table reservation.
+              {{
+                "games.game.availability.details_prefilled_message" | translate
+              }}
             </p>
           </div>
           <div class="input-field">
-            <label for="min-age" class="required">Your Crew?</label>
+            <label for="min-age" class="required">
+              {{ "games.game.availability.your_crew" | translate }}</label
+            >
             <ng-select
               id="reservationPeopleCount"
-              placeholder="How much people in your crew?"
+              [placeholder]="
+                'games.game.availability.how_many_people_in_your_crew'
+                  | translate
+              "
               [disabled]="true"
               [readonly]="true"
               [ngModel]="this.activeBookedTableModel.numberOfGuests.toString()"
@@ -76,14 +96,17 @@
             </ng-select>
           </div>
           <div class="input-field">
-            <label for="approx-time" class="required">Arrival Time:</label>
-
+            <label for="approx-time" class="required">
+              {{ "games.game.availability.arrival_time" | translate }}</label
+            >
             <ng-select
               id="reservationInMinutes"
               [disabled]="true"
               [readonly]="true"
               [ngModel]="populateReservationMinutes()"
-              placeholder="When will you arrive?"
+              [placeholder]="
+                'games.game.availability.when_will_you_arrive' | translate
+              "
               [searchable]="true"
               formControlName="reservationInMinutes"
               class="app-select-long prefilled-field"
@@ -93,13 +116,18 @@
         </ng-container>
         <ng-container *ngIf="!isOneHourLeftTillTheTableReservation()">
           <div class="input-field">
-            <label for="min-age" class="required">Your Crew?</label>
+            <label for="min-age" class="required">
+              {{ "games.game.availability.your_crew" | translate }}</label
+            >
             <ng-select
               [items]="peopleNumber"
               id="reservationPeopleCount"
               bindValue="id"
               bindLabel="name"
-              placeholder="How much people in your crew?"
+              [placeholder]="
+                'games.game.availability.how_many_people_in_your_crew'
+                  | translate
+              "
               [searchable]="true"
               formControlName="reservationPeopleCount"
               class="app-select-long"
@@ -107,14 +135,17 @@
             </ng-select>
           </div>
           <div class="input-field">
-            <label for="approx-time" class="required">Arrival Time:</label>
-
+            <label for="approx-time" class="required">
+              {{ "games.game.availability.arrival_time" | translate }}</label
+            >
             <ng-select
               [items]="reservationMinutes"
               id="reservationInMinutes"
               bindValue="id"
               bindLabel="name"
-              placeholder="When will you arrive?"
+              [placeholder]="
+                'games.game.availability.when_will_you_arrive' | translate
+              "
               [searchable]="true"
               formControlName="reservationInMinutes"
               class="app-select-long"
@@ -128,22 +159,25 @@
     <ng-container *ngIf="gameReservationStatus">
       <div class="info">
         <p>
-          Your current game reservation -
+          {{ "games.game.availability.current_game_reservation" | translate }}
 
           <strong
             class="waiting"
             *ngIf="gameReservationStatus.status === ReservationStatus.Pending"
-            >Under Review</strong
           >
+            {{ "games.game.availability.under_review" | translate }}
+          </strong>
           <strong
             class="approved"
             *ngIf="gameReservationStatus.status === ReservationStatus.Approved"
-            >Approved</strong
           >
+            {{ "games.game.availability.approved" | translate }}
+          </strong>
           <strong
             class="declined"
             *ngIf="gameReservationStatus.status === ReservationStatus.Declined"
-            >Declined</strong
+          >
+            {{ "games.game.availability.declined" | translate }}</strong
           >
         </p>
       </div>
@@ -154,11 +188,10 @@
           gameReservationStatus.status === ReservationStatus.Pending
         "
         class="expiry-message"
-      >
-        Your reservation hasn’t been acknowledged by our staff. <br />
-        We’ve extended it for an additional 5-10 minutes. <br />
-        If no one approves or declines your reservation, please contact us.
-      </p>
+        [innerHtml]="
+          'games.game.availability.reservation_not_acknowledged' | translate
+        "
+      ></p>
 
       <p
         *ngIf="
@@ -166,9 +199,9 @@
           gameReservationStatus.status === ReservationStatus.Approved
         "
         class="expiry-message"
+        [innerHtml]="'games.game.availability.reservation_extended' | translate"
       >
-        We’ve extended your reservation with an <br />
-        additional 5-10 minutes. <br />
+        <br />
       </p>
 
       <div class="wrapper">
@@ -179,12 +212,7 @@
             gameReservationStatus.status === ReservationStatus.Approved
           "
         >
-          <svg
-            class="info"
-            (click)="openInfo()"
-            aria-label="More information"
-            viewBox="0 -960 960 960"
-          >
+          <svg class="info" (click)="openInfo()" viewBox="0 -960 960 960">
             <path
               d="M448-284h66v-236h-66v236Zm31.82-308.92q14.64 0 24.72-9.9 10.08-9.91 10.08-24.54 0-14.64-9.91-24.72-9.9-10.07-24.53-10.07-14.64 0-24.72 9.9-10.08 9.9-10.08 24.54 0 14.63 9.91 24.71 9.9 10.08 24.53 10.08ZM480.13-88q-81.31 0-152.89-30.86-71.57-30.86-124.52-83.76-52.95-52.9-83.83-124.42Q88-398.55 88-479.87q0-81.56 30.92-153.37 30.92-71.8 83.92-124.91 53-53.12 124.42-83.48Q398.67-872 479.87-872q81.55 0 153.35 30.34 71.79 30.34 124.92 83.42 53.13 53.08 83.49 124.84Q872-561.64 872-480.05q0 81.59-30.34 152.83-30.34 71.23-83.41 124.28-53.07 53.05-124.81 84Q561.7-88 480.13-88Zm-.13-66q136.51 0 231.26-94.74Q806-343.49 806-480t-94.74-231.26Q616.51-806 480-806t-231.26 94.74Q154-616.51 154-480t94.74 231.26Q343.49-154 480-154Zm0-326Z"
             />
@@ -220,11 +248,12 @@
             'btn-border-green btn-font-green':
               this.form.valid || inventory.availableCopies !== 0
           }"
-        >
-          Prepare to arrive in
-          <strong>{{ this.form.controls.reservationInMinutes.value }}</strong>
-          mins
-        </button>
+          [innerHTML]="
+            'games.game.availability.prepare_to_arrive_in'
+              | translate
+                : { minutes: this.form.controls.reservationInMinutes.value }
+          "
+        ></button>
       </div>
     </ng-container>
   </ng-container>
@@ -233,24 +262,32 @@
     *ngIf="userActiveSpaceTable && userActiveSpaceTable.activeTableId"
   >
     <div class="header">
-      <p>Reserve Your Seat and Get Ready to Play!</p>
+      <p>{{ "games.game.availability.reserve_your_seat" | translate }}</p>
     </div>
 
     <div class="info info__unavailable">
-      <p class="info__status">GAME RESERVATION UNAVAILABLE</p>
+      <p class="info__status">
+        {{ "games.game.availability.game_reservation_unavailable" | translate }}
+      </p>
     </div>
 
     <div class="info">
-      Reservation of game will be available after
-      <strong class="blue-font">closing</strong> or
-      <strong class="blue-font">leaving</strong> the current active table
+      {{ "games.game.availability.reservation.before_action" | translate }}
+      <strong class="blue-font">{{
+        "games.game.availability.reservation.closing" | translate
+      }}</strong>
+      {{ "games.game.availability.reservation.or" | translate }}
+      <strong class="blue-font">{{
+        "games.game.availability.reservation.leaving" | translate
+      }}</strong>
+      {{ "games.game.availability.reservation.after_action" | translate }}
     </div>
     <div class="wrapper_btn">
       <button
         class="btn btn-gray btn-border-blue btn-font-blue"
         (click)="navigateToActiveTable(userActiveSpaceTable.activeTableId)"
       >
-        Active table
+        {{ "games.game.availability.active_table_button" | translate }}
       </button>
     </div>
   </ng-container>

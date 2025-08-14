@@ -26,7 +26,7 @@ export class TenantUserSettingsService {
       ...command,
     });
   }
-
+  
   public getAssistiveTouchSettings(): Observable<AssistiveTouchSettings> {
     return this.api.get<AssistiveTouchSettings>(
       `/${PATH.USER_SETTINGS.CORE}/${PATH.USER_SETTINGS.ASSISTIVE_TOUCH_SETTINGS}`,

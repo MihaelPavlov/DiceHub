@@ -29,6 +29,7 @@ import { GameQrCodeDialog } from '../../features/games-library/dialogs/qr-code-d
 import { ReservationQrCodeDialogModule } from '../../shared/dialogs/reservation-qr-code/reservation-qr-code.module';
 import { QRCodeModule } from 'angularx-qrcode';
 import { AvailabilityReservationInfoDialog } from '../../features/games-library/dialogs/availability-reservation-info-dialog/availability-reservation-info-dialog.component';
+import { ImagePreviewDialogModule } from '../../shared/dialogs/image-preview/image-preview.module';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,7 @@ import { AvailabilityReservationInfoDialog } from '../../features/games-library/
     GameConfirmDeleteDialog,
     QrCodeComponent,
     GameQrCodeDialog,
-    AvailabilityReservationInfoDialog
+    AvailabilityReservationInfoDialog,
   ],
   exports: [GamesLibraryComponent],
   providers: [],
@@ -64,7 +65,8 @@ import { AvailabilityReservationInfoDialog } from '../../features/games-library/
     FormsModule,
     NgSelectModule,
     QRCodeModule,
-    ReservationQrCodeDialogModule
+    ReservationQrCodeDialogModule,
+    ImagePreviewDialogModule,
   ],
 })
 export class GamesLibraryModule {}

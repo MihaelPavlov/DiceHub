@@ -1,4 +1,11 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -32,7 +39,8 @@ import { IDropdown } from '../../../../../shared/models/dropdown.model';
 interface ICreateGameForm {
   categoryId: number;
   name: string;
-  description: string;
+  description_en: string;
+  description_bg: string;
   minAge: number;
   minPlayers: number;
   maxPlayers: number;
@@ -47,7 +55,10 @@ interface ICreateGameForm {
 })
 export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
   override form: Formify<ICreateGameForm>;
-  @ViewChild('descArea') descArea!: ElementRef<HTMLTextAreaElement>;
+  @ViewChild('descAreaEn', { static: false })
+  descAreaEn?: ElementRef<HTMLTextAreaElement>;
+  @ViewChild('descAreaBg', { static: false })
+  descAreaBg?: ElementRef<HTMLTextAreaElement>;
   public categories!: Observable<IGameCategory[] | null>;
   public imagePreview: string | ArrayBuffer | SafeUrl | null = null;
   public showQRCode = false;
@@ -59,6 +70,7 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
   public imageError: string | null = null;
   public fileToUpload: File | null = null;
   public gamAveragePlaytimeValues: IDropdown[] = [];
+  currentLang: 'EN' | 'BG' = 'EN';
 
   constructor(
     private readonly fb: FormBuilder,
@@ -69,9 +81,10 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
     private readonly dialog: MatDialog,
     private readonly activatedRoute: ActivatedRoute,
     private readonly entityImagePipe: EntityImagePipe,
-    public override readonly toastService: ToastService
+    public override readonly toastService: ToastService,
+    public override translateService: TranslateService
   ) {
-    super(toastService);
+    super(toastService, translateService);
     this.form = this.initFormGroup();
     this.form.valueChanges.subscribe(() => {
       if (this.getServerErrorMessage) {
@@ -84,10 +97,29 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
       .filter(([key, value]) => typeof value === 'number')
       .map(([key, value]) => ({ id: value as number, name: value.toString() }));
   }
-  
+
+  public ngAfterViewChecked(): void {
+    this.adjustCurrentTextareaHeight();
+  }
+
+  public adjustCurrentTextareaHeight(): void {
+    if (this.currentLang === 'EN' && this.descAreaEn) {
+      this.adjustTextareaHeight(this.descAreaEn.nativeElement);
+    } else if (this.currentLang === 'BG' && this.descAreaBg) {
+      this.adjustTextareaHeight(this.descAreaBg.nativeElement);
+    }
+  }
+
   public adjustTextareaHeight(textarea: HTMLTextAreaElement): void {
-    textarea.style.height = 'auto'; // Reset height
-    textarea.style.height = textarea.scrollHeight + 'px'; // Fit to content
+    textarea.style.height = textarea.scrollHeight + 'px';
+  }
+
+  public setLang(lang: 'EN' | 'BG') {
+    this.currentLang = lang;
+
+    setTimeout(() => {
+      this.adjustCurrentTextareaHeight();
+    });
   }
 
   public ngOnDestroy(): void {
@@ -139,7 +171,8 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
     });
     this.form.controls.categoryId.disable();
     this.form.controls.name.disable();
-    this.form.controls.description.disable();
+    this.form.controls.description_en.disable();
+    this.form.controls.description_bg.disable();
     this.form.controls.averagePlaytime.disable();
     this.form.controls.minAge.disable();
     this.form.controls.maxPlayers.disable();
@@ -172,7 +205,9 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
       };
       reader.readAsDataURL(file);
     } else {
-      this.imageError = 'Image is required.';
+      this.imageError = this.translateService.instant(
+        'games.game.add_update.controls_display_name.image_required'
+      );
       this.fileToUpload = null;
       this.imagePreview = null;
       this.form.controls.image.reset();
@@ -181,7 +216,9 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
 
   public onAdd(): void {
     if (!this.fileToUpload) {
-      this.imageError = 'Image is required.';
+      this.imageError = this.translateService.instant(
+        'games.game.add_update.controls_display_name.image_required'
+      );
       return;
     }
     if (this.form.valid && this.fileToUpload) {
@@ -190,7 +227,8 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
           {
             categoryId: parseInt(this.form.controls.categoryId.value as any),
             name: this.form.controls.name.value,
-            description: this.form.controls.description.value,
+            description_EN: this.form.controls.description_en.value,
+            description_BG: this.form.controls.description_bg.value,
             minAge: this.form.controls.minAge.value,
             minPlayers: this.form.controls.minPlayers.value,
             maxPlayers: this.form.controls.maxPlayers.value,
@@ -201,17 +239,20 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
         .subscribe({
           next: (_) => {
             this.toastService.success({
-              message: AppToastMessage.ChangesSaved,
+              message: this.translateService.instant(
+                AppToastMessage.ChangesSaved
+              ),
               type: ToastType.Success,
             });
 
-            //TODO: Just an idea maybe show qr after redirect from creating ?
             this.router.navigateByUrl('/games/library');
           },
           error: (error) => {
             this.handleServerErrors(error);
             this.toastService.error({
-              message: AppToastMessage.FailedToSaveChanges,
+              message: this.translateService.instant(
+                AppToastMessage.FailedToSaveChanges
+              ),
               type: ToastType.Error,
             });
           },
@@ -227,7 +268,8 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
             id: this.editGameId,
             categoryId: parseInt(this.form.controls.categoryId.value as any),
             name: this.form.controls.name.value,
-            description: this.form.controls.description.value,
+            description_EN: this.form.controls.description_en.value,
+            description_BG: this.form.controls.description_bg.value,
             minAge: this.form.controls.minAge.value,
             minPlayers: this.form.controls.minPlayers.value,
             maxPlayers: this.form.controls.maxPlayers.value,
@@ -241,17 +283,20 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
         .subscribe({
           next: (_) => {
             this.toastService.success({
-              message: AppToastMessage.ChangesApplied,
+              message: this.translateService.instant(
+                AppToastMessage.ChangesApplied
+              ),
               type: ToastType.Success,
             });
 
             this.router.navigateByUrl(`/games/${this.editGameId}/details`);
           },
           error: (error) => {
-            console.log('errors--->', error);
             this.handleServerErrors(error);
             this.toastService.error({
-              message: AppToastMessage.FailedToSaveChanges,
+              message: this.translateService.instant(
+                AppToastMessage.FailedToSaveChanges
+              ),
               type: ToastType.Error,
             });
           },
@@ -264,7 +309,9 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
       this.gameService.addCopy(this.selectedGame.id).subscribe({
         next: (_) => {
           this.toastService.success({
-            message: AppToastMessage.ChangesSaved,
+            message: this.translateService.instant(
+              AppToastMessage.ChangesSaved
+            ),
             type: ToastType.Success,
           });
           this.router.navigateByUrl(`/games/library`);
@@ -272,7 +319,9 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
         error: (error) => {
           this.handleServerErrors(error);
           this.toastService.error({
-            message: AppToastMessage.FailedToSaveChanges,
+            message: this.translateService.instant(
+              AppToastMessage.FailedToSaveChanges
+            ),
             type: ToastType.Error,
           });
         },
@@ -288,21 +337,41 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
   protected override getControlDisplayName(controlName: string): string {
     switch (controlName) {
       case 'categoryId':
-        return 'Category';
+        return this.translateService.instant(
+          'games.game.add_update.controls_display_name.category'
+        );
       case 'name':
-        return 'Name';
-      case 'description':
-        return 'Description';
+        return this.translateService.instant(
+          'games.game.add_update.controls_display_name.name'
+        );
+      case 'description_en':
+        return this.translateService.instant(
+          'games.game.add_update.controls_display_name.description_en'
+        );
+      case 'description_bg':
+        return this.translateService.instant(
+          'games.game.add_update.controls_display_name.description_bg'
+        );
       case 'minAge':
-        return 'Minimum Age';
+        return this.translateService.instant(
+          'games.game.add_update.controls_display_name.min_age'
+        );
       case 'minPlayers':
-        return 'Minimum Players';
+        return this.translateService.instant(
+          'games.game.add_update.controls_display_name.min_players'
+        );
       case 'maxPlayers':
-        return 'Maximum Players';
+        return this.translateService.instant(
+          'games.game.add_update.controls_display_name.max_players'
+        );
       case 'averagePlaytime':
-        return 'Average Playtime';
+        return this.translateService.instant(
+          'games.game.add_update.controls_display_name.average_playtime'
+        );
       case 'image':
-        return 'Image';
+        return this.translateService.instant(
+          'games.game.add_update.controls_display_name.image'
+        );
       default:
         return controlName;
     }
@@ -332,7 +401,8 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
           this.form.patchValue({
             categoryId: game.categoryId,
             name: game.name,
-            description: game.description,
+            description_en: game.description_EN,
+            description_bg: game.description_BG,
             minAge: game.minAge,
             minPlayers: game.minPlayers,
             maxPlayers: game.maxPlayers,
@@ -347,7 +417,9 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
 
           this.fileToUpload = null;
 
-          this.adjustTextareaHeight(this.descArea.nativeElement);
+          setTimeout(() => {
+            this.adjustCurrentTextareaHeight();
+          });
         }
       },
       error: (error) => {
@@ -363,7 +435,8 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
         Validators.required,
         Validators.minLength(3),
       ]),
-      description: new FormControl<string | null>('', Validators.required),
+      description_en: new FormControl<string | null>('', Validators.required),
+      description_bg: new FormControl<string | null>('', Validators.required),
       minAge: new FormControl<number>(12, [Validators.required]),
       minPlayers: new FormControl<number | null>(null, [
         Validators.required,

@@ -30,6 +30,8 @@ import { NavigationService } from '../../../../../shared/services/navigation-ser
 import { IDropdown } from '../../../../../shared/models/dropdown.model';
 import { AvailabilityReservationInfoDialog } from '../../../dialogs/availability-reservation-info-dialog/availability-reservation-info-dialog.component';
 import { DateHelper } from '../../../../../shared/helpers/date-helper';
+import { LanguageService } from '../../../../../shared/services/language.service';
+import { TranslateService } from '@ngx-translate/core';
 
 interface IReservationGameForm {
   reservationPeopleCount: number;
@@ -72,11 +74,12 @@ export class GameAvailabilityComponent
     private readonly authService: AuthService,
     private readonly spaceManagementService: SpaceManagementService,
     private readonly dialog: MatDialog,
-    private readonly navigationService: NavigationService
+    private readonly navigationService: NavigationService,
+    private readonly languageService: LanguageService,
+    public override translateService: TranslateService
   ) {
-    super(toastService);
+    super(toastService, translateService);
     this.form = this.initFormGroup();
-
     this.menuTabsService.setActive(NAV_ITEM_LABELS.GAMES);
 
     this.peopleNumber = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((key) => ({
@@ -101,6 +104,12 @@ export class GameAvailabilityComponent
         this.userActiveSpaceTable = result;
       },
     });
+  }
+
+  public get currentLanguage(): string {
+    return this.languageService.getLanguageCode(
+      this.languageService.getCurrentLanguage()
+    );
   }
 
   public navigateToActiveTable(tableId: number): void {

@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { GameReviewsService } from '../../../../../../entities/games/api/game-reviews.service';
 import { ToastService } from '../../../../../../shared/services/toast.service';
 import { ToastType } from '../../../../../../shared/models/toast.model';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-game-review-confirm-delete-dialog',
@@ -14,13 +15,14 @@ export class GameReviewConfirmDeleteDialog {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<GameReviewConfirmDeleteDialog>,
     private readonly gameReviewService: GameReviewsService,
-    private readonly toastService: ToastService
+    private readonly toastService: ToastService,
+    private readonly translateService: TranslateService
   ) {}
 
   public deleteComment() {
     this.gameReviewService.delete(this.data.id).subscribe((_) => {
       this.toastService.success({
-        message: 'Deleted',
+        message: this.translateService.instant('games.game.reviews.review_deleted'),
         type: ToastType.Success,
       });
       this.dialogRef.close(true);

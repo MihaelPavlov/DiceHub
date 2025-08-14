@@ -11,6 +11,7 @@ import { EntityImagePipe } from './pipe/entity-image.pipe';
 import { TruncatePipe } from './pipe/truncate.pipe';
 import { ParseDateTagPipe } from './pipe/parse-date-tag.pipe';
 import { PasswordVisibilityToggleComponent } from './components/password-visibility-toggle/password-visibility-toggle.component';
+import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -21,14 +22,16 @@ import { PasswordVisibilityToggleComponent } from './components/password-visibil
     ParseDateTagPipe,
     ControlsMenuComponent,
     RandomColorDirective,
-    PasswordVisibilityToggleComponent
+    PasswordVisibilityToggleComponent,
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    TranslateModule,
   ],
   exports: [
+    TranslateModule,
     CommonModule,
     ReactiveFormsModule,
     CalculateRemainingDaysPipe,
@@ -46,6 +49,7 @@ import { PasswordVisibilityToggleComponent } from './components/password-visibil
     DatePipe,
     TruncatePipe,
     ParseDateTagPipe,
+    TranslatePipe,
     TOAST_DEFAULT_OPTIONS,
   ],
 })

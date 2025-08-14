@@ -1,5 +1,5 @@
 <app-header
-  [header]="headerSectionName"
+  [header]="'games.categories.' + headerSectionName | translate"
   [withSearch]="true"
   [withMenu]="(isAdmin$ | async) ?? false"
   [menuItems]="menuItems"
@@ -11,16 +11,20 @@
   <app-nav-bar
     [columns]="[
       {
-        name: 'Popular',
+        name: 'games.navbar.items.popular' | translate,
         link: 'games/library',
         isActive: isActiveLink('/games/library', null, true)
       },
       {
-        name: 'Categories',
+        name: 'games.navbar.items.categories' | translate,
         link: 'games/categories',
         isActive: isActiveLink('/games/categories', '/games/library/')
       },
-      { name: 'New', link: 'games/new', isActive: isActiveLink('/games/new') }
+      {
+        name: 'games.navbar.items.new' | translate,
+        link: 'games/new',
+        isActive: isActiveLink('/games/new')
+      }
     ]"
   ></app-nav-bar>
 </app-header>

@@ -17,6 +17,7 @@ import { MenuTabsService } from '../../../../../shared/services/menu-tabs.servic
 import { NAV_ITEM_LABELS } from '../../../../../shared/models/nav-items-labels.const';
 import { NavigationService } from '../../../../../shared/services/navigation-service';
 import { DateHelper } from '../../../../../shared/helpers/date-helper';
+import { LanguageService } from '../../../../../shared/services/language.service';
 
 enum ReviewState {
   create,
@@ -61,11 +62,16 @@ export class GameReviewsComponent implements OnInit, OnDestroy {
     private readonly activeRoute: ActivatedRoute,
     private readonly menuTabsService: MenuTabsService,
     private readonly navigationService: NavigationService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly languageService: LanguageService
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.GAMES);
   }
-
+  public get currentLanguage(): string {
+    return this.languageService.getLanguageCode(
+      this.languageService.getCurrentLanguage()
+    );
+  }
   public ngOnDestroy(): void {
     this.menuTabsService.resetData();
   }

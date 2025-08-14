@@ -38,9 +38,15 @@
     </ng-container>
   </div>
 
-  <div class="wrapper_image">
+  <div
+    class="wrapper_image"
+    *ngIf="
+      ImageEntityType.Games | entityImage : game.imageId | async as imageUrl
+    "
+  >
     <img
-      [src]="ImageEntityType.Games | entityImage : game.imageId | async"
+      [src]="imageUrl"
+      (click)="openImagePreview(imageUrl)"
       alt="Game Image"
     />
   </div>

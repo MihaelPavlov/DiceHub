@@ -13,19 +13,27 @@
     </svg>
   </mat-dialog-actions>
   <h3 *ngIf="this.data" class="dialog-container__header m-4">
-    Reservation Information
+    {{ "games.game.availability.reservation_info.information" | translate }}
   </h3>
   <div class="info">
-    <p *ngIf="this.data.publicNote.length !== 0">
-      Message from Staff: {{ this.data.publicNote }}
-    </p>
+    <p
+      *ngIf="this.data.publicNote.length !== 0"
+      [innerHtml]="
+        'games.game.availability.reservation_info.message_from_staff'
+          | translate : { publicNote: this.data.publicNote }
+      "
+    ></p>
+  <br/>
     <p *ngIf="this.data.status === ReservationStatus.Approved">
-      Don't forget to show the QR code to the Staff when you arrive in our space
+      {{
+        "games.game.availability.reservation_info.approved_reminder" | translate
+      }}
     </p>
-    <p *ngIf="this.data.status === ReservationStatus.Declined">
-      We're sorry, but your reservation couldn't be approved this time due to
-      high demand. Please try again later or check out other available time
-      slots. Thank you for understanding!
-    </p>
+    <p
+      *ngIf="this.data.status === ReservationStatus.Declined"
+      [innerHtml]="
+        'games.game.availability.reservation_info.declined_message' | translate
+      "
+    ></p>
   </div>
 </div>

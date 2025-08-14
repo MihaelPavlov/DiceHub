@@ -5,13 +5,17 @@
   [backNavigateBtn]="navigateBack.bind(this)"
 >
   <div class="wrapper_info">
-    <span *ngIf="gameReviews">{{ gameReviews.length }} reviews</span>
+    <span *ngIf="gameReviews"
+      >{{ gameReviews.length }}
+      {{ "games.game.reviews.reviews" | translate }}</span
+    >
 
     <span
       (click)="toggleReviewTextarea(true)"
       *ngIf="!(showCommentInput | async)"
       class="wrapper_info__write-review"
-      >write review
+    >
+      {{ "games.game.reviews.write_review" | translate }}
       <!-- edit icon -->
       <svg height="2rem" viewBox="0 -960 960 960" width="2rem" fill="#fafafa">
         <path
@@ -23,7 +27,9 @@
     <div *ngIf="showCommentInput | async" class="wrapper_info__write-review">
       <span (click)="toggleReviewTextarea(false, true)">
         {{
-          this.currentReviewState === ReviewState.update ? "update" : "create"
+          this.currentReviewState === ReviewState.update
+            ? ("games.game.reviews.update" | translate)
+            : ("games.game.reviews.create" | translate)
         }}
         <!-- add_comment icon  -->
         <svg height="2rem" viewBox="0 -960 960 960" width="2rem" fill="#fafafa">
@@ -61,7 +67,9 @@
       placeholder="review"
       name="review"
     ></textarea>
-    <label for="review" class="form__label"> Write Your Review</label>
+    <label for="review" class="form__label">
+      {{ "games.game.reviews.write_your_review" | translate }}</label
+    >
     <div
       *ngIf="
         reviewForm.controls['review'].invalid &&
@@ -71,27 +79,27 @@
       class="form__field__errors"
     >
       <div *ngIf="reviewForm.controls['review'].errors?.['required']">
-        Review is required.
+        {{ "games.game.reviews.review_is_required" | translate }}
       </div>
       <div *ngIf="reviewForm.controls['review'].errors?.['maxlength'] ">
-        Review cannot exceed 100 characters.
+        {{ "games.game.reviews.review_cannot_exceed" | translate }}
       </div>
       <div *ngIf="reviewForm.controls['review'].errors?.['minlength']">
-        Review must be at least 10 characters long.
+        {{ "games.game.reviews.review_must_be_at_least" | translate }}
       </div>
     </div>
   </form>
   <div class="wrapper_reviews">
     <div *ngFor="let gameReview of gameReviews" class="wrapper_reviews__item">
-      <!-- <div class="wrapper_image">
-        <img src="/shared/assets/images/mpavlov.png" alt="" />
-      </div> -->
       <div class="wrapper_reviews__item__info">
         <div class="details">
           <span>{{ gameReview.userFullName }}</span>
           <div>
             <span>
-              {{ gameReview.updatedDate | date : DATE_FORMAT }}
+              {{
+                gameReview.updatedDate
+                  | date : DATE_FORMAT : undefined : this.currentLanguage
+              }}
 
               <!-- edit icon -->
               <svg

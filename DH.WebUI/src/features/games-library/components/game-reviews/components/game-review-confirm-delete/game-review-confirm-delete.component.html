@@ -1,12 +1,16 @@
 <div class="dialog-container">
-  <h3 class="dialog-container__header m-4">Delete Review?</h3>
+  <h3 class="dialog-container__header m-4">
+    {{ "games.game.reviews.delete_review" | translate }}
+  </h3>
   <mat-dialog-actions>
-    <button class="btn btn__small btn-blue" mat-dialog-close>Cancel</button>
+    <button class="btn btn__small btn-blue" mat-dialog-close>
+      {{ "games.game.reviews.cancel" | translate }}
+    </button>
     <button
       class="btn btn__small btn-red btn-border-red"
       (click)="deleteComment()"
     >
-      Delete
+      {{ "games.game.reviews.delete" | translate }}
     </button>
   </mat-dialog-actions>
 </div>
