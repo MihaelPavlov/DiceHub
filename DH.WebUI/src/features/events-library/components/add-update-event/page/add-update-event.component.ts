@@ -24,6 +24,7 @@ import {
   ImageEntityType,
 } from '../../../../../shared/pipe/entity-image.pipe';
 import { DateHelper } from '../../../../../shared/helpers/date-helper';
+import { TranslateService } from '@ngx-translate/core';
 
 interface ICreateEventForm {
   name: string;
@@ -60,9 +61,10 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
     private readonly entityImagePipe: EntityImagePipe,
     private readonly cd: ChangeDetectorRef,
     public override readonly toastService: ToastService,
-    private readonly datePipe: DatePipe
+    private readonly datePipe: DatePipe,
+    public override translateService: TranslateService
   ) {
-    super(toastService);
+    super(toastService, translateService);
     this.form = this.initFormGroup();
     this.form.valueChanges.subscribe((x) => {
       if (this.getServerErrorMessage) {
@@ -312,7 +314,7 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
     this.getServerErrorMessage = null;
   }
 
-  private initFormValueChanges(imageIsPopulated:boolean = false): void {
+  private initFormValueChanges(imageIsPopulated: boolean = false): void {
     this.form.controls.gameId.valueChanges.subscribe((x) => {
       this.fetchGameById(x);
     });

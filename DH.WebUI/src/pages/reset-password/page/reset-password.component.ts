@@ -14,6 +14,7 @@ import { ToastType } from '../../../shared/models/toast.model';
 import { ROUTE } from '../../../shared/configs/route.config';
 import { AppToastMessage } from '../../../shared/components/toast/constants/app-toast-messages.constant';
 import { TenantSettingsService } from '../../../entities/common/api/tenant-settings.service';
+import { TranslateService } from '@ngx-translate/core';
 
 interface IResetPasswordForm {
   newPassword: string;
@@ -40,9 +41,10 @@ export class ResetPasswordComponent extends Form implements OnInit {
     private readonly authService: AuthService,
     public override readonly toastService: ToastService,
     private readonly fb: FormBuilder,
-    private readonly tenantSettingsService: TenantSettingsService
+    private readonly tenantSettingsService: TenantSettingsService,
+    public override translateService: TranslateService
   ) {
-    super(toastService);
+    super(toastService, translateService);
     this.form = this.initFormGroup();
     this.form.valueChanges.subscribe(() => {
       if (this.getServerErrorMessage) {

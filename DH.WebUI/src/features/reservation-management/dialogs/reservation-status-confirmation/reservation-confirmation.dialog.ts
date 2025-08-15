@@ -13,6 +13,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { IReservationConfirmationForm } from '../models/reservation-confirmation-form.model';
 import { GamesService } from '../../../../entities/games/api/games.service';
 import { DateHelper } from '../../../../shared/helpers/date-helper';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-reservation-confirmation',
@@ -31,9 +32,10 @@ export class ReservationConfirmationDialog extends Form {
     private readonly spaceManagementService: SpaceManagementService,
     private readonly gameService: GamesService,
     public override readonly toastService: ToastService,
-    private readonly fb: FormBuilder
+    private readonly fb: FormBuilder,
+    public override translateService: TranslateService
   ) {
-    super(toastService);
+    super(toastService, translateService);
     this.form = this.initFormGroup();
   }
 

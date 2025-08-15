@@ -13,6 +13,7 @@ import { ReservationDetailsActions } from '../enums/reservation-details-actions.
 import { ReservationType } from '../../enums/reservation-type.enum';
 import { GamesService } from '../../../../entities/games/api/games.service';
 import { DateHelper } from '../../../../shared/helpers/date-helper';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-reservation-details',
@@ -38,9 +39,10 @@ export class ReservationDetailsDialog extends Form {
     private readonly gameService: GamesService,
     private readonly dialogRef: MatDialogRef<ReservationDetailsDialog>,
     public override readonly toastService: ToastService,
-    private readonly fb: FormBuilder
+    private readonly fb: FormBuilder,
+    public override translateService: TranslateService
   ) {
-    super(toastService);
+    super(toastService, translateService);
     this.form = this.initFormGroup();
 
     if (data.type === ReservationType.Table) {

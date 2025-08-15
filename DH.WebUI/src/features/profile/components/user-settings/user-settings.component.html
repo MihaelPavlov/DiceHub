@@ -26,6 +26,25 @@
     />
   </div>
 
+   <div class="input-field">
+    <label for="language" class="required">Language</label>
+    <span class="input-info">
+      Application Language for you</span
+    >
+
+     <ng-select
+      id="language"
+      [items]="languagesValues"
+      bindValue="name"
+      bindLabel="name"
+      placeholder="EN"
+      [searchable]="true"
+      formControlName="language"
+      class="app-select-long"
+    >
+    </ng-select>
+  </div>
+
   <div *ngIf="getFirstErrorMessage()" class="errors">
     {{ getFirstErrorMessage() }}
   </div>

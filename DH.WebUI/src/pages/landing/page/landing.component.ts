@@ -14,6 +14,7 @@ import { PartnerInquiriesService } from '../../../entities/common/api/partner-in
 import { ToastType } from '../../../shared/models/toast.model';
 import { AppToastMessage } from '../../../shared/components/toast/constants/app-toast-messages.constant';
 import { NavigationService } from '../../../shared/services/navigation-service';
+import { TranslateService } from '@ngx-translate/core';
 
 interface IPartnerInquiryForm {
   name: string;
@@ -35,9 +36,10 @@ export class LandingComponent extends Form {
     private readonly router: Router,
     private readonly partnerInquiriesService: PartnerInquiriesService,
     public override readonly toastService: ToastService,
-    private readonly navigationService: NavigationService
+    private readonly navigationService: NavigationService,
+    public override translateService: TranslateService
   ) {
-    super(toastService);
+    super(toastService, translateService);
 
     this.form = this.initFormGroup();
     this.form.valueChanges.subscribe(() => {

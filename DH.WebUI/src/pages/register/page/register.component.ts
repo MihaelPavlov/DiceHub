@@ -1,3 +1,4 @@
+import { FrontEndLogService } from './../../../shared/services/frontend-log.service';
 import { Component, OnInit } from '@angular/core';
 import { Form } from '../../../shared/components/form/form.component';
 import {
@@ -15,6 +16,9 @@ import { ROUTE } from '../../../shared/configs/route.config';
 import { AppToastMessage } from '../../../shared/components/toast/constants/app-toast-messages.constant';
 import { ToastType } from '../../../shared/models/toast.model';
 import { TenantSettingsService } from '../../../entities/common/api/tenant-settings.service';
+import { LoadingService } from '../../../shared/services/loading.service';
+import { LoadingInterceptorContextService } from '../../../shared/services/loading-context.service';
+import { TranslateService } from '@ngx-translate/core';
 
 interface IRegisterForm {
   username: string;
@@ -42,9 +46,13 @@ export class RegisterComponent extends Form implements OnInit {
     private readonly messagingService: MessagingService,
     public override readonly toastService: ToastService,
     private readonly fb: FormBuilder,
-    private readonly tenantSettingsService: TenantSettingsService
+    private readonly loadingService: LoadingService,
+    private readonly tenantSettingsService: TenantSettingsService,
+    private readonly frontEndLogService: FrontEndLogService,
+    private readonly loadingContext: LoadingInterceptorContextService,
+    public override translateService: TranslateService
   ) {
-    super(toastService);
+    super(toastService, translateService);
     this.form = this.initFormGroup();
     this.form.valueChanges.subscribe(() => {
       if (this.getServerErrorMessage) {
@@ -71,19 +79,40 @@ export class RegisterComponent extends Form implements OnInit {
   public navigateToLanding(): void {
     this.router.navigateByUrl(ROUTE.LANDING);
   }
+
+  private isPushUnsupportedIOS(): boolean {
+    const ua = navigator.userAgent.toLowerCase();
+    const isIOS = /iphone|ipad|ipod/.test(ua);
+    const versionMatch = ua.match(/os (\d+)_/i); // e.g., "OS 16_3" becomes ["os 16_", "16"]
+    const iosVersion = versionMatch ? parseFloat(versionMatch[1]) : 0;
+
+    return isIOS && iosVersion < 16.4;
+  }
   public async register(): Promise<void> {
     if (this.form.valid) {
-      try {
-        const deviceToken =
-          await this.messagingService.getDeviceTokenForRegistration();
+      this.loadingContext.enableManualMode();
+      this.loadingService.loadingOn();
 
+      try {
+        let deviceToken: string | null = null;
+        if (this.isPushUnsupportedIOS()) {
+          this.frontEndLogService
+            .sendWarning(
+              'Push notifications not supported on this iOS version',
+              'On Register Page'
+            )
+            .subscribe();
+        } else {
+          deviceToken =
+            await this.messagingService.getDeviceTokenForRegistration();
+        }
         this.authService
           .register({
             username: this.form.controls.username.value,
             email: this.form.controls.email.value,
             password: this.form.controls.password.value,
             confirmPassword: this.form.controls.confirmPassword.value,
-            deviceToken: deviceToken ?? '',
+            deviceToken: deviceToken,
           })
           .subscribe({
             next: (response) => {
@@ -123,13 +152,21 @@ export class RegisterComponent extends Form implements OnInit {
               }
             },
             error: (error) => this.handleRegistrationError(error),
+            complete: () => {
+              this.loadingService.loadingOff();
+              this.loadingContext.disableManualMode();
+            },
           });
-      } catch (error) {
-        // TODO: Handle the case where getting the device token fails
-        // this.toastService.error({
-        //   message: AppToastMessage.SomethingWrong,
-        //   type: ToastType.Error,
-        // });
+      } catch (error: any) {
+        this.loadingService.loadingOff();
+        this.loadingContext.disableManualMode();
+        this.frontEndLogService
+          .sendError(error.message, 'On Register Page')
+          .subscribe();
+        this.toastService.error({
+          message: AppToastMessage.SomethingWrong,
+          type: ToastType.Error,
+        });
       }
     }
   }

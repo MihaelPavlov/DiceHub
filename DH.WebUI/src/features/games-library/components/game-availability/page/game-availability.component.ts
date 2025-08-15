@@ -172,7 +172,6 @@ export class GameAvailabilityComponent
         this.activeBookedTableModel.status === ReservationStatus.Approved;
       const isWithinOneHour = timeDifference > 0 && timeDifference <= 3600000;
       if (isApproved && isWithinOneHour) {
-        console.log('one hour left');
         return true;
       }
 
@@ -207,9 +206,13 @@ export class GameAvailabilityComponent
   protected override getControlDisplayName(controlName: string): string {
     switch (controlName) {
       case 'reservationPeopleCount':
-        return 'People';
+        return this.translateService.instant(
+          'games.game.availability.controls_display_name.people'
+        );
       case 'reservationInMinutes':
-        return 'Arrive Time';
+        return this.translateService.instant(
+          'games.game.availability.controls_display_name.arrive_time'
+        );
       default:
         return controlName;
     }
@@ -223,9 +226,6 @@ export class GameAvailabilityComponent
           const secondsLeft = this.calculateSecondsLeft(
             new Date(status.reservationDate)
           );
-          console.log('status', status);
-
-          console.log('secondsLeft', secondsLeft);
 
           if (secondsLeft > 0) {
             this.startTimer(secondsLeft);
@@ -246,7 +246,7 @@ export class GameAvailabilityComponent
 
   public navigateBack(): void {
     this.router.navigateByUrl(
-      this.navigationService.getPreviousUrl() ?? '/games/library'
+      this.navigationService.getPreviousUrl() ?? FULL_ROUTE.GAMES.LIBRARY
     );
   }
 
@@ -262,7 +262,9 @@ export class GameAvailabilityComponent
           next: (x) => {
             this.gameInventory$ = this.gameService.getInventory(gameId);
             this.toastService.success({
-              message: 'Reservation is successfully',
+              message: this.translateService.instant(
+                'games.game.availability.reservation_successfully'
+              ),
               type: ToastType.Success,
             });
 
@@ -278,7 +280,9 @@ export class GameAvailabilityComponent
               });
             } else {
               this.toastService.error({
-                message: 'Reservation was not successfully',
+                message: this.translateService.instant(
+                  'games.game.availability.reservation_not_successfully'
+                ),
                 type: ToastType.Error,
               });
             }

@@ -23,6 +23,7 @@ import {
   ImageEntityType,
 } from '../../../../shared/pipe/entity-image.pipe';
 import { NavigationService } from '../../../../shared/services/navigation-service';
+import { TranslateService } from '@ngx-translate/core';
 
 interface ICreateSpaceTableForm {
   gameName: string;
@@ -55,9 +56,10 @@ export class AddUpdateClubSpaceComponent extends Form implements OnInit {
     private readonly entityImagePipe: EntityImagePipe,
     private readonly router: Router,
     private readonly dialog: MatDialog,
-    private readonly navigationService: NavigationService
+    private readonly navigationService: NavigationService,
+    public override translateService: TranslateService
   ) {
-    super(toastService);
+    super(toastService, translateService);
     this.form = this.initFormGroup();
     this.navigationService.setPreviousUrl('space/home');
   }

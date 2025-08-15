@@ -13,6 +13,7 @@ import { ToastService } from '../../../shared/services/toast.service';
 import { ROUTE } from '../../../shared/configs/route.config';
 import { ToastType } from '../../../shared/models/toast.model';
 import { TenantSettingsService } from '../../../entities/common/api/tenant-settings.service';
+import { TranslateService } from '@ngx-translate/core';
 
 interface IForgotPasswordForm {
   email: string;
@@ -25,7 +26,7 @@ interface IForgotPasswordForm {
 })
 export class ForgotPasswordComponent extends Form implements OnInit {
   override form: Formify<IForgotPasswordForm>;
-  
+
   public clubName: string | null = null;
 
   constructor(
@@ -33,9 +34,10 @@ export class ForgotPasswordComponent extends Form implements OnInit {
     private readonly authService: AuthService,
     public override readonly toastService: ToastService,
     private readonly fb: FormBuilder,
-    private readonly tenantSettingsService: TenantSettingsService
+    private readonly tenantSettingsService: TenantSettingsService,
+    public override translateService: TranslateService
   ) {
-    super(toastService);
+    super(toastService, translateService);
     this.form = this.initFormGroup();
     this.form.valueChanges.subscribe(() => {
       if (this.getServerErrorMessage) {

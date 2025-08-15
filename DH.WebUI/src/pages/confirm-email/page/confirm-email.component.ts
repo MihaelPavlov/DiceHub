@@ -107,10 +107,12 @@ export class ConfirmEmailComponent implements OnInit {
         }
       },
       error: (error) => {
-        console.log('error', error);
-
+        if (error.error.errors.InvalidToken) {
+          this.message = error.error.errors.InvalidToken[0];
+        } else {
+          this.message = 'Email confirmation failed.';
+        }
         this.isSuccess = false;
-        this.message = 'Email confirmation failed.';
       },
     });
   }

@@ -17,6 +17,7 @@ import { ToastType } from '../../../../shared/models/toast.model';
 import { NavigationService } from '../../../../shared/services/navigation-service';
 import { FULL_ROUTE } from '../../../../shared/configs/route.config';
 import { throwError } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 interface IEmployeeForm {
   email: string;
@@ -42,9 +43,10 @@ export class AddUpdateEmployeeComponent extends Form implements OnDestroy {
     private readonly navigationService: NavigationService,
     private readonly activatedRoute: ActivatedRoute,
     private readonly fb: FormBuilder,
-    private readonly router: Router
+    private readonly router: Router,
+    public override translateService: TranslateService
   ) {
-    super(toastService);
+    super(toastService, translateService);
     this.form = this.initFormGroup();
     this.form.valueChanges.subscribe(() => {
       if (this.getServerErrorMessage) {

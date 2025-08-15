@@ -25,6 +25,7 @@ import { DiceRollerComponent } from './components/dice-scroller/dice-roller.comp
 import { BehaviorSubject } from 'rxjs';
 import { IMenuItem } from '../../../../shared/models/menu-item.model';
 import { ControlsMenuComponent } from '../../../../shared/components/menu/controls-menu.component';
+import { TranslateService } from '@ngx-translate/core';
 
 interface ICreateSpaceReservation {
   reservationDate: Date;
@@ -105,9 +106,10 @@ export class SpaceBookingComponent extends Form {
     private readonly fb: FormBuilder,
     private readonly router: Router,
     private readonly spaceManagementService: SpaceManagementService,
-    private readonly tenantSettingsService: TenantSettingsService
+    private readonly tenantSettingsService: TenantSettingsService,
+    public override translateService: TranslateService
   ) {
-    super(toastService);
+    super(toastService, translateService);
     this.form = this.initFormGroup();
     this.tenantSettingsService.get().subscribe({
       next: (result) => {

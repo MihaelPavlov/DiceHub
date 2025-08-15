@@ -26,6 +26,7 @@ import {
   ImageEntityType,
 } from '../../../../shared/pipe/entity-image.pipe';
 import { IDropdown } from '../../../../shared/models/dropdown.model';
+import { TranslateService } from '@ngx-translate/core';
 
 interface ISystemRewardsForm {
   selectedLevel: number;
@@ -64,9 +65,10 @@ export class AdminChallengesSystemRewardsComponent extends Form {
     private readonly rewardsService: RewardsService,
     private readonly entityImagePipe: EntityImagePipe,
     private readonly dialog: MatDialog,
-    private readonly scrollService: ScrollService
+    private readonly scrollService: ScrollService,
+    public override translateService: TranslateService
   ) {
-    super(toastService);
+    super(toastService, translateService);
 
     this.rewardLevels = Object.entries(RewardLevel)
       .filter(([key, value]) => typeof value === 'number')

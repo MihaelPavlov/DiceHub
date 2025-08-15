@@ -28,7 +28,7 @@
         <ng-template #defaultIcon>
           <img [src]="item.icon" alt="{{ item.label }}" class="menu-icon" />
         </ng-template>
-        <span> {{ item.label }} </span>
+        <span> {{ "navigation_menu." + item.label | translate }} </span>
         <span *ngIf="item.isAlertActive" class="icon-button__badge"> </span>
       </a>
     </ng-container>
@@ -159,7 +159,7 @@
         <ng-template #defaultIcon>
           <img [src]="item.icon" alt="{{ item.label }}" class="menu-icon" />
         </ng-template>
-        <span> {{ item.label }} </span>
+        <span> {{ "navigation_menu." + item.label | translate }} </span>
       </a>
     </ng-container>
   </div>

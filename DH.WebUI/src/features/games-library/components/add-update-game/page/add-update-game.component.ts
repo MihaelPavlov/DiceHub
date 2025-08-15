@@ -70,7 +70,8 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
   public imageError: string | null = null;
   public fileToUpload: File | null = null;
   public gamAveragePlaytimeValues: IDropdown[] = [];
-  currentLang: 'EN' | 'BG' = 'EN';
+  public currentLang: 'EN' | 'BG' = 'EN';
+  private lastValue = '';
 
   constructor(
     private readonly fb: FormBuilder,
@@ -103,14 +104,19 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
   }
 
   public adjustCurrentTextareaHeight(): void {
-    if (this.currentLang === 'EN' && this.descAreaEn) {
-      this.adjustTextareaHeight(this.descAreaEn.nativeElement);
-    } else if (this.currentLang === 'BG' && this.descAreaBg) {
-      this.adjustTextareaHeight(this.descAreaBg.nativeElement);
+    const textarea =
+      this.currentLang === 'EN'
+        ? this.descAreaEn?.nativeElement
+        : this.descAreaBg?.nativeElement;
+
+    if (textarea && textarea.value !== this.lastValue) {
+      this.lastValue = textarea.value;
+      this.adjustTextareaHeight(textarea);
     }
   }
 
   public adjustTextareaHeight(textarea: HTMLTextAreaElement): void {
+    textarea.style.height = 'auto';
     textarea.style.height = textarea.scrollHeight + 'px';
   }
 

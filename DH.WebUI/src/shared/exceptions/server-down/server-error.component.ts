@@ -1,22 +1,22 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../entities/auth/auth.service';
+import { LanguageService } from '../../services/language.service';
+import { ExceptionBaseComponent } from '../base/exception-base.component';
 
 @Component({
   selector: 'app-server-error',
   templateUrl: 'server-error.component.html',
   styleUrls: ['server-error.component.scss'],
 })
-export class ServerErrorComponent {
-  public imgPath = 'shared/assets/images/exceptions/server-error-500.jpg';
+export class ServerErrorComponent extends ExceptionBaseComponent {
+  protected imageCode = '500';
 
   constructor(
-    private readonly router: Router,
-    private readonly authService: AuthService
-  ) {}
-
-  public redirectTo() {
-    if (this.authService.getUser) this.router.navigateByUrl('/games/library');
-    else this.router.navigateByUrl('/login');
+    router: Router,
+    authService: AuthService,
+    languageService: LanguageService
+  ) {
+    super(router, authService, languageService);
   }
 }

@@ -14,6 +14,7 @@ import {
   Validators,
   FormBuilder,
 } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 
 interface IOwnerForm {
   email: string;
@@ -37,9 +38,10 @@ export class OwnerDetailsComponent extends Form implements OnDestroy {
     private readonly menuTabsService: MenuTabsService,
     private readonly usersService: UsersService,
     private readonly router: Router,
-    private readonly fb: FormBuilder
+    private readonly fb: FormBuilder,
+    public override translateService: TranslateService
   ) {
-    super(toastService);
+    super(toastService, translateService);
 
     console.log(this.showOwnerForm);
 

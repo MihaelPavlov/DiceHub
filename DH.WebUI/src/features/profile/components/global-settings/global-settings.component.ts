@@ -19,9 +19,16 @@ import { ToastType } from '../../../../shared/models/toast.model';
 import { IDropdown } from '../../../../shared/models/dropdown.model';
 import { ToggleState } from '../../../../entities/common/enum/toggle-state.enum';
 import { FULL_ROUTE } from '../../../../shared/configs/route.config';
+import { SupportLanguages } from '../../../../entities/common/models/support-languages.enum';
+import { TenantUserSettingsService } from '../../../../entities/common/api/tenant-user-settings.service';
+import { combineLatest } from 'rxjs';
+import { IUserSettings } from '../../../../entities/common/models/user-settings.model';
+import { LanguageService } from '../../../../shared/services/language.service';
+import { TranslateService } from '@ngx-translate/core';
 
 interface ITenantSettingsForm {
   averageMaxCapacity: number;
+  language: string;
   challengeRewardsCountForPeriod: number;
   periodOfRewardReset: string;
   resetDayForRewards: string;
@@ -41,10 +48,12 @@ interface ITenantSettingsForm {
 export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
   override form: Formify<ITenantSettingsForm>;
 
+  public userSettings: IUserSettings | null = null;
   public weekDaysValues: IDropdown[] = [];
   public periodTimeValues: IDropdown[] = [];
   public toggleStateValues: IDropdown[] = [];
   public reservationHours: IDropdown[] = [];
+  public languagesValues: IDropdown[] = [];
   public oldCustomPeriodValue: ToggleState | null = null;
 
   public delayHours: IDropdown[] = [
@@ -66,9 +75,12 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
     public override readonly toastService: ToastService,
     private readonly menuTabsService: MenuTabsService,
     private readonly router: Router,
-    private readonly tenantSettingsService: TenantSettingsService
+    private readonly tenantSettingsService: TenantSettingsService,
+    private readonly tenantUserSettingsService: TenantUserSettingsService,
+    private readonly languageService: LanguageService,
+    public override translateService: TranslateService
   ) {
-    super(toastService);
+    super(toastService, translateService);
     this.form = this.initFormGroup();
     this.form.valueChanges.subscribe(() => {
       if (this.getServerErrorMessage) {
@@ -88,6 +100,13 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
     this.toggleStateValues = Object.entries(ToggleState)
       .filter(([key, value]) => typeof value === 'number')
       .map(([key, value]) => ({ id: value as number, name: key }));
+
+    this.languagesValues = Object.keys(SupportLanguages)
+      .filter((key) => isNaN(Number(key)))
+      .map((name) => ({
+        id: SupportLanguages[name as keyof typeof SupportLanguages],
+        name,
+      })) as unknown as IDropdown[];
 
     let id = 1;
     for (let hour = 8; hour < 22; hour++) {
@@ -110,32 +129,42 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
   }
 
   public fetchSettings(): void {
-    this.tenantSettingsService.get().subscribe({
-      next: (res) => {
-        this.tenantSettingsId = res.id ?? null;
+    combineLatest([
+      this.tenantSettingsService.get(),
+      this.tenantUserSettingsService.get(),
+    ]).subscribe({
+      next: ([tenantSettings, userSettings]) => {
+        this.tenantSettingsId = tenantSettings.id ?? null;
 
-        this.oldCustomPeriodValue = res.isCustomPeriodOn
+        this.oldCustomPeriodValue = tenantSettings.isCustomPeriodOn
           ? ToggleState.On
           : ToggleState.Off;
 
         this.form.patchValue({
-          averageMaxCapacity: res.averageMaxCapacity,
-          challengeRewardsCountForPeriod: res.challengeRewardsCountForPeriod,
-          periodOfRewardReset: res.periodOfRewardReset.toString(),
-          resetDayForRewards: res.resetDayForRewards.toString(),
-          challengeInitiationDelayHours: res.challengeInitiationDelayHours,
+          averageMaxCapacity: tenantSettings.averageMaxCapacity,
+          challengeRewardsCountForPeriod:
+            tenantSettings.challengeRewardsCountForPeriod,
+          periodOfRewardReset: tenantSettings.periodOfRewardReset.toString(),
+          resetDayForRewards: tenantSettings.resetDayForRewards.toString(),
+          language: userSettings.language.toString(),
+          challengeInitiationDelayHours:
+            tenantSettings.challengeInitiationDelayHours,
           bonusTimeAfterReservationExpiration:
-            res.bonusTimeAfterReservationExpiration,
-          phoneNumber: res.phoneNumber,
-          clubName: res.clubName,
+            tenantSettings.bonusTimeAfterReservationExpiration,
+          phoneNumber: tenantSettings.phoneNumber,
+          clubName: tenantSettings.clubName,
           isCustomPeriodOn: this.oldCustomPeriodValue,
         });
 
-        if (res.reservationHours.length !== 0) {
+        if (tenantSettings.reservationHours.length !== 0) {
           this.form.patchValue({
-            reservationHours: res.reservationHours,
+            reservationHours: tenantSettings.reservationHours,
           });
         }
+
+        this.userSettings = userSettings;
+
+        this.languageService.setLanguage(userSettings.language);
       },
     });
   }
@@ -145,9 +174,15 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
   }
 
   public onSave(): void {
-    if (this.form.valid) {
-      this.tenantSettingsService
-        .update({
+    if (this.form.valid && this.userSettings) {
+      const newLanguage = this.form.controls.language
+        .value as unknown as SupportLanguages;
+      const updatedSettings = {
+        ...this.userSettings,
+        language: newLanguage,
+      };
+      combineLatest([
+        this.tenantSettingsService.update({
           id: this.tenantSettingsId,
           averageMaxCapacity: this.form.controls.averageMaxCapacity.value,
           challengeRewardsCountForPeriod:
@@ -165,34 +200,42 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
           clubName: this.form.controls.clubName.value,
           isCustomPeriodOn:
             this.form.controls.isCustomPeriodOn.value === ToggleState.On,
-        })
-        .subscribe({
-          next: () => {
-            this.toastService.success({
-              message: AppToastMessage.ChangesSaved,
-              type: ToastType.Success,
-            });
-            const newCustomPeriodValue =
-              this.form.controls.isCustomPeriodOn.value;
-            if (
-              this.oldCustomPeriodValue != newCustomPeriodValue &&
-              newCustomPeriodValue === ToggleState.On
-            ) {
-              this.router.navigateByUrl(
-                FULL_ROUTE.CHALLENGES.ADMIN_CUSTOM_PERIOD
-              );
-            }
+        }),
+        this.tenantUserSettingsService.update(updatedSettings),
+      ]).subscribe({
+        next: () => {
+          this.toastService.success({
+            message: AppToastMessage.ChangesSaved,
+            type: ToastType.Success,
+          });
 
-            this.fetchSettings();
-          },
-          error: (error) => {
-            this.handleServerErrors(error);
-            this.toastService.error({
-              message: AppToastMessage.FailedToSaveChanges,
-              type: ToastType.Error,
-            });
-          },
-        });
+          if (this.userSettings?.language != newLanguage) {
+            console.log('newLanguage', newLanguage);
+
+            this.languageService.setLanguage(newLanguage);
+          }
+
+          const newCustomPeriodValue =
+            this.form.controls.isCustomPeriodOn.value;
+          if (
+            this.oldCustomPeriodValue != newCustomPeriodValue &&
+            newCustomPeriodValue === ToggleState.On
+          ) {
+            this.router.navigateByUrl(
+              FULL_ROUTE.CHALLENGES.ADMIN_CUSTOM_PERIOD
+            );
+          }
+
+          this.fetchSettings();
+        },
+        error: (error) => {
+          this.handleServerErrors(error);
+          this.toastService.error({
+            message: AppToastMessage.FailedToSaveChanges,
+            type: ToastType.Error,
+          });
+        },
+      });
     }
   }
 
@@ -204,6 +247,8 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
     switch (controlName) {
       case 'averageMaxCapacity':
         return 'Average Max Capacity';
+      case 'language':
+        return 'Language';
       case 'challengeRewardsCountForPeriod':
         return 'Challenge Rewards Count For Period';
       case 'periodOfRewardReset':
@@ -233,6 +278,7 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
       averageMaxCapacity: new FormControl<number | null>(null, [
         Validators.required,
       ]),
+      language: new FormControl<string | null>('EN', Validators.required),
       challengeRewardsCountForPeriod: new FormControl<number | null>(null, [
         Validators.required,
       ]),

@@ -31,6 +31,7 @@ import {
 } from '../../../../entities/challenges/models/custom-period.model';
 import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { UnsavedChangesConfirmationDialog } from '../../../../shared/dialogs/unsaved-changes-confirmation/unsaved-changes-confirmation.dialog';
+import { TranslateService } from '@ngx-translate/core';
 
 interface ICustomPeriodForm {
   rewards: FormArray;
@@ -76,9 +77,10 @@ export class AdminChallengesCustomPeriodComponent
     private readonly challengesService: ChallengesService,
     private readonly tenantSettingsService: TenantSettingsService,
     private readonly dialog: MatDialog,
-    private readonly fb: FormBuilder
+    private readonly fb: FormBuilder,
+    public override translateService: TranslateService
   ) {
-    super(toastService);
+    super(toastService, translateService);
 
     this.fetchRewardList();
     this.fetchGameList();

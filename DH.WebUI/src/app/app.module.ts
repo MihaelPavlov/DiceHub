@@ -1,6 +1,11 @@
 import { GlobalErrorHandler } from './../shared/components/global-error-handler';
 import { ConfirmEmailModule } from './../pages/confirm-email/confirm-email.module';
-import { NgModule, ErrorHandler, APP_INITIALIZER } from '@angular/core';
+import {
+  NgModule,
+  ErrorHandler,
+  APP_INITIALIZER,
+  LOCALE_ID,
+} from '@angular/core';
 import { AppComponent } from './app-component/app.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
@@ -26,11 +31,18 @@ import { AuthRedirectGuard } from '../shared/guards/auth-redirect.guard';
 import { CreateEmployeePasswordModule } from '../pages/create-employee-password/create-employee-password.module';
 import { CreateOwnerPasswordModule } from '../pages/create-owner-password/create-owner-password.module';
 import { AuthService } from '../entities/auth/auth.service';
-export function initializeUserFactory(authService: AuthService): () => void {
-  console.log('INITIALIZE USER FACTORY FROM APP.COMPONENT');
+import { TranslateModule } from '@ngx-translate/core';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
+import { registerLocaleData } from '@angular/common';
+import localeBg from '@angular/common/locales/bg';
+import localeEn from '@angular/common/locales/en';
 
+export function initializeUserFactory(authService: AuthService): () => void {
   return () => authService.userinfo$();
 }
+registerLocaleData(localeBg, 'bg');
+registerLocaleData(localeEn, 'en');
+
 @NgModule({
   declarations: [AppComponent],
   exports: [BrowserModule, BrowserAnimationsModule],
@@ -43,6 +55,10 @@ export function initializeUserFactory(authService: AuthService): () => void {
       deps: [AuthService],
       multi: true,
     },
+    ...provideTranslateHttpLoader({
+      prefix: 'shared/assets/i18n/',
+      suffix: '.json',
+    }),
     { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     {
@@ -63,6 +79,7 @@ export function initializeUserFactory(authService: AuthService): () => void {
   ],
   bootstrap: [AppComponent],
   imports: [
+    TranslateModule.forRoot(),
     HttpClientModule,
     AppRoutingModule,
     BrowserModule,

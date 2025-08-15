@@ -1,3 +1,5 @@
+import { LandingComponent } from './../../pages/landing/page/landing.component';
+import { LanguageService } from './../../shared/services/language.service';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import { IUserInfo } from './models/user-info.model';
@@ -27,7 +29,8 @@ export class AuthService {
   constructor(
     readonly api: RestApiService,
     private readonly router: Router,
-    private readonly tenantSettingsService: TenantSettingsService
+    private readonly tenantSettingsService: TenantSettingsService,
+    private readonly languageService: LanguageService
   ) {
     if (!this.userInfoSubject$.value) {
       this.userinfo();
@@ -148,7 +151,8 @@ export class AuthService {
             username: user[usernameClaim],
             permissionString: user['permissions'],
           });
-          console.log('user logged', this.userInfoSubject$.value);
+
+          this.languageService.loadUserLanguage();
 
           this.tenantSettingsService.get().subscribe({
             next: (settings) => {
@@ -165,7 +169,6 @@ export class AuthService {
           });
         } else {
           this.userInfoSubject$.next(null);
-          console.warn('User is not sign in');
         }
       },
       error: () => {
@@ -193,7 +196,8 @@ export class AuthService {
               username: user[usernameClaim],
               permissionString: user['permissions'],
             });
-            console.log('user logged', this.userInfoSubject$.value);
+
+            this.languageService.loadUserLanguage();
 
             this.tenantSettingsService.get().subscribe({
               next: (settings) => {

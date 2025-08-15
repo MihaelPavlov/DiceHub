@@ -1,8 +1,8 @@
 export class AppToastMessage {
-  static SomethingWrong: string = 'Something wrong!';
-  static ChangesSaved: string = 'Changes have been successfully saved.';
-  static ChangesApplied: string = 'Changes have been successfully applied.';
-  static FailedToSaveChanges: string = 'Changes have not been applied.';
+  static SomethingWrong: string = 'toast_messages.something_wrong';
+  static ChangesSaved: string = 'toast_messages.changes_saved';
+  static ChangesApplied: string = 'toast_messages.changes_applied';
+  static FailedToSaveChanges: string = 'toast_messages.failed_to_save_changes';
   static InternalServerError: string =
-    'The server encountered error and could not complete your request.';
+    'toast_messages.internal_server_error';
 }

@@ -123,7 +123,7 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
     );
 
     this.leftMenuItems.push({
-      label: NAV_ITEM_LABELS.RESERVATIONS,
+      label: NAV_ITEM_LABELS.RESERVATIONS.toLowerCase(),
       class: isReservationsPage ? 'active' : '',
       forceActive: isReservationsPage,
       isAlertActive: hasActive,
@@ -174,7 +174,7 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
   public updateMenuItemsWithPage(page: string) {
     this.leftMenuItems = [
       {
-        label: NAV_ITEM_LABELS.GAMES,
+        label: NAV_ITEM_LABELS.GAMES.toLowerCase(),
         class: page === '/games/library' ? 'active' : '',
         isAlertActive: false,
         enabled: true,
@@ -187,7 +187,7 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
 
     if (this.authService.getUser?.role !== UserRole.User) {
       this.leftMenuItems.push({
-        label: NAV_ITEM_LABELS.RESERVATIONS,
+        label: NAV_ITEM_LABELS.RESERVATIONS.toLowerCase(),
         class: page === '/reservations' ? 'active' : '',
         isAlertActive: true,
         enabled: true,
@@ -198,7 +198,7 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
       });
     } else {
       this.leftMenuItems.push({
-        label: NAV_ITEM_LABELS.MEEPLE,
+        label: NAV_ITEM_LABELS.MEEPLE.toLowerCase(),
         class: page === '/meeples/find' ? 'active' : '',
         isAlertActive: false,
         enabled: true,
@@ -211,7 +211,7 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
 
     this.rightMenuItems = [
       {
-        label: NAV_ITEM_LABELS.EVENTS,
+        label: NAV_ITEM_LABELS.EVENTS.toLowerCase(),
         class: page === '/events/home' ? 'active' : '',
         isAlertActive: false,
         enabled: true,
@@ -221,7 +221,7 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
         route: '/events/home',
       },
       {
-        label: NAV_ITEM_LABELS.PROFILE,
+        label: NAV_ITEM_LABELS.PROFILE.toLowerCase(),
         class: page === '/profile' ? 'active' : '',
         isAlertActive: false,
         enabled: true,

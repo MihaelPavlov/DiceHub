@@ -3,6 +3,7 @@ import { IScheduleJobInfo } from '../../../../entities/scheduler/models/schedule
 import { DateHelper } from '../../../../shared/helpers/date-helper';
 import { SchedulerService } from './../../../../entities/scheduler/api/scheduler.service';
 import { Component } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-jobs',
@@ -16,8 +17,12 @@ export class JobsComponent {
   public jobs: IScheduleJobInfo[] = [];
   constructor(
     private readonly schedulerService: SchedulerService,
-    private readonly messagingService: MessagingService
+    private readonly messagingService: MessagingService,
+    private translate: TranslateService
   ) {
+    translate.addLangs(['en', 'bg']);
+    translate.setFallbackLang('en');
+
     this.iphoneVersion = this.messagingService.getIOSVersion();
     this.nativePlatform = this.messagingService.getNativePlatform();
     this.schedulerService.getScheduleJobs().subscribe({
@@ -28,7 +33,9 @@ export class JobsComponent {
       },
     });
   }
-
+ public setLanguage(lang: string) {
+    this.translate.use(lang);
+  }
   public executePeriodJobs(): void {
     this.schedulerService.runJobsForPeriod().subscribe();
   }

@@ -18,6 +18,7 @@ import { MessagingService } from '../../../entities/messaging/api/messaging.serv
 import { TenantSettingsService } from '../../../entities/common/api/tenant-settings.service';
 import { LoadingService } from '../../../shared/services/loading.service';
 import { LoadingInterceptorContextService } from '../../../shared/services/loading-context.service';
+import { TranslateService } from '@ngx-translate/core';
 
 interface ILoginForm {
   email: string;
@@ -47,9 +48,10 @@ export class LoginComponent extends Form implements OnInit {
     private readonly tenantSettingsService: TenantSettingsService,
     private readonly loadingService: LoadingService,
     private readonly frontEndLogService: FrontEndLogService,
-    private readonly loadingContext: LoadingInterceptorContextService
+    private readonly loadingContext: LoadingInterceptorContextService,
+    public override translateService: TranslateService
   ) {
-    super(toastService);
+    super(toastService, translateService);
     this.route.queryParams.subscribe((params) => {
       if (params['fromRegister'] === 'true') {
         this.getMessageFromRedirect =

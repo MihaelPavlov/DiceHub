@@ -28,6 +28,7 @@ import {
 } from '../../../../shared/pipe/entity-image.pipe';
 import { DateHelper } from '../../../../shared/helpers/date-helper';
 import { DatePipe } from '@angular/common';
+import { TranslateService } from '@ngx-translate/core';
 
 interface IAddUpdateRoomForm {
   name: string;
@@ -65,9 +66,10 @@ export class AddUpdateMeepleRoomComponent
     private readonly entityImagePipe: EntityImagePipe,
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute,
-    private readonly datePipe: DatePipe
+    private readonly datePipe: DatePipe,
+    public override translateService: TranslateService
   ) {
-    super(toastService);
+    super(toastService, translateService);
     this.form = this.initFormGroup();
     this.form.valueChanges.subscribe(() => {
       if (this.getServerErrorMessage) {

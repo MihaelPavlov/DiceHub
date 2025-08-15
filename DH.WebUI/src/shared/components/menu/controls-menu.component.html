@@ -9,7 +9,9 @@
       <li class="menu_li info" [innerHTML]="infoDescriptionWithBreaks"></li>
     </ul>
     <ul class="last_menu_ul last_menu_item">
-      <li class="last_menu_li" (click)="closeMenu()">Close</li>
+      <li class="last_menu_li" (click)="closeMenu()">
+        {{ "close" | translate }}
+      </li>
     </ul>
   </div>
 
@@ -33,7 +35,9 @@
       </ng-container>
     </ul>
     <ul class="last_menu_ul last_menu_item">
-      <li class="last_menu_li" (click)="closeMenu()">Cancel</li>
+      <li class="last_menu_li" (click)="closeMenu()">
+        {{ "close" | translate }}
+      </li>
     </ul>
   </div>
 </div>

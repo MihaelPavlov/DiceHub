@@ -6,7 +6,9 @@
       />
     </svg>
   </mat-dialog-actions>
-  <h3 class="dialog-container__header m-4">{{ data.title || 'Preview' }}</h3>
+  <h3 class="dialog-container__header m-4">
+    {{ data.title || ('preview'|translate) }}
+  </h3>
 
   <div class="image">
     <img

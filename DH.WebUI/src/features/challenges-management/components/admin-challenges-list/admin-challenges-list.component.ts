@@ -25,6 +25,7 @@ import { ChallengeRewardPoint } from '../../../../entities/challenges/enums/chal
 import { ScrollService } from '../../../../shared/services/scroll.service';
 import { ImageEntityType } from '../../../../shared/pipe/entity-image.pipe';
 import { IDropdown } from '../../../../shared/models/dropdown.model';
+import { TranslateService } from '@ngx-translate/core';
 
 interface IChallengeForm {
   selectedGame: number;
@@ -60,9 +61,10 @@ export class AdminChallengesListComponent extends Form {
     private readonly fb: FormBuilder,
     private readonly location: Location,
     private readonly dialog: MatDialog,
-    private readonly scrollService: ScrollService
+    private readonly scrollService: ScrollService,
+    public override translateService: TranslateService
   ) {
-    super(toastService);
+    super(toastService, translateService);
 
     this.fetchGameList();
     this.fetchChallengeList();

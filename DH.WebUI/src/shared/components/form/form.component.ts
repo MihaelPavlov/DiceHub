@@ -5,6 +5,7 @@ import memoizeOne from 'memoize-one';
 import { ToastType } from '../../models/toast.model';
 import { ToastService } from '../../services/toast.service';
 import { AppToastMessage } from '../toast/constants/app-toast-messages.constant';
+import { TranslateService } from '@ngx-translate/core';
 
 interface IValidationError {
   [key: string]: any;
@@ -16,8 +17,10 @@ interface IValidationError {
 export abstract class Form {
   public form!: UntypedFormGroup;
   public getServerErrorMessage: string | null = null;
-  constructor(public toastService: ToastService) {
-  }
+  constructor(
+    public toastService: ToastService,
+    public translateService: TranslateService
+  ) {}
 
   public getFieldByName = memoizeOne(this.getFieldByNameUnmemoized);
 
@@ -26,7 +29,7 @@ export abstract class Form {
     for (const controlName in controls) {
       if (controls.hasOwnProperty(controlName)) {
         const errorMessage = this.handleFormErrors(controlName);
-        
+
         if (errorMessage) {
           return errorMessage;
         }
@@ -68,24 +71,27 @@ export abstract class Form {
 
   private handleFormErrors(controlName: string): string {
     const control = this.form.get(controlName);
-    
+    const field = this.getControlDisplayName(controlName);
+
     if (control && control.errors && (control.touched || control.dirty)) {
       if (control.errors['required']) {
-        return `${this.getControlDisplayName(controlName)} is required.`;
+        return this.translateService.instant('form_errors.required', { field });
       } else if (control.errors['minlength']) {
         const requiredLength = control.errors['minlength'].requiredLength;
-        return `${this.getControlDisplayName(
-          controlName
-        )} must be at least ${requiredLength} characters long.`;
+        return this.translateService.instant('form_errors.min_length', {
+          field,
+          requiredLength,
+        });
       } else if (control.errors['maxlength']) {
         const requiredLength = control.errors['maxlength'].requiredLength;
-        return `${this.getControlDisplayName(
-          controlName
-        )} cannot exceed ${requiredLength} characters.`;
+        return this.translateService.instant('form_errors.max_length', {
+          field,
+          requiredLength,
+        });
       } else if (control.errors['min']) {
-        return `${this.getControlDisplayName(controlName)} must be at least ${
-          control.errors['min'].min
-        }.`;
+        const min = control.errors['min'].min;
+
+        return this.translateService.instant('form_errors.min', { field, min });
       }
     }
 
@@ -122,7 +128,7 @@ export abstract class Form {
               invalid: controlErrors[0].includes('invalid'),
               message: controlErrors[0],
             });
-            this.form.get(controlName)?.markAsTouched()
+            this.form.get(controlName)?.markAsTouched();
           }
         }
       }
