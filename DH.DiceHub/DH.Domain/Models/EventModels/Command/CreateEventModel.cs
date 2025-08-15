@@ -1,4 +1,5 @@
-﻿using DH.OperationResultCore.Exceptions;
+﻿using DH.Domain.Adapters.Localization;
+using DH.OperationResultCore.Exceptions;
 using System.Text.Json.Serialization;
 using static DH.OperationResultCore.Exceptions.ValidationErrorsException;
 
@@ -24,7 +25,7 @@ public class CreateEventModel : IValidableFields
     [JsonPropertyName("isCustomImage")]
     public bool IsCustomImage { get; set; }
 
-    public bool FieldsAreValid(out List<ValidationErrorsException.ValidationError> validationErrors)
+    public bool FieldsAreValid(out List<ValidationErrorsException.ValidationError> validationErrors, ILocalizationService localizationService)
     {
         var errors = new List<ValidationError>();
 

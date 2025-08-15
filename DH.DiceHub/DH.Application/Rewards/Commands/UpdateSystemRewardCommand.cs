@@ -1,4 +1,5 @@
-﻿using DH.Domain.Entities;
+﻿using DH.Domain.Adapters.Localization;
+using DH.Domain.Entities;
 using DH.Domain.Models.RewardModels.Commands;
 using DH.Domain.Repositories;
 using DH.Domain.Services;
@@ -14,16 +15,18 @@ internal class UpdateSystemRewardCommandHandler : IRequestHandler<UpdateSystemRe
 {
     readonly IRewardService rewardService;
     readonly IRepository<ChallengeReward> repository;
+    readonly ILocalizationService localizer;
 
-    public UpdateSystemRewardCommandHandler(IRewardService rewardService, IRepository<ChallengeReward> repository)
+    public UpdateSystemRewardCommandHandler(IRewardService rewardService, IRepository<ChallengeReward> repository, ILocalizationService localizer)
     {
         this.rewardService = rewardService;
         this.repository = repository;
+        this.localizer = localizer;
     }
 
     public async Task Handle(UpdateSystemRewardCommand request, CancellationToken cancellationToken)
     {
-        if (!request.Reward.FieldsAreValid(out var validationErrors))
+        if (!request.Reward.FieldsAreValid(out var validationErrors, localizer))
             throw new ValidationErrorsException(validationErrors);
 
         if (request.Reward.ImageId == null &&

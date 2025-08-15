@@ -1,4 +1,5 @@
-﻿using static DH.OperationResultCore.Exceptions.ValidationErrorsException;
+﻿using DH.Domain.Adapters.Localization;
+using static DH.OperationResultCore.Exceptions.ValidationErrorsException;
 
 namespace DH.Domain.Models.RoomModels.Commands
 {
@@ -10,7 +11,7 @@ namespace DH.Domain.Models.RoomModels.Commands
         public int MaxParticipants { get; set; }
         public int GameId { get; set; }
 
-        public bool FieldsAreValid(out List<ValidationError> validationErrors)
+        public bool FieldsAreValid(out List<ValidationError> validationErrors, ILocalizationService localizationService)
         {
             var errors = new List<ValidationError>();
 

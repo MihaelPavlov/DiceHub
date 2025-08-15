@@ -1,4 +1,6 @@
-﻿using DH.Domain.Enums;
+﻿
+using DH.Domain.Adapters.Localization;
+using DH.Domain.Enums;
 using System.Text.Json.Serialization;
 using static DH.OperationResultCore.Exceptions.ValidationErrorsException;
 
@@ -32,17 +34,15 @@ public class CreateGameDto : IValidableFields
     [JsonPropertyName("averagePlaytime")]
     public GameAveragePlaytime AveragePlaytime { get; set; }
 
-    public bool FieldsAreValid(out List<ValidationError> validationErrors)
+    public bool FieldsAreValid(out List<ValidationError> validationErrors, ILocalizationService localizationService)
     {
         var errors = new List<ValidationError>();
 
         if (MaxPlayers < MinPlayers)
-            errors.Add(new ValidationError(nameof(MaxPlayers),
-                "Max players cannot be less than the min players."));
+            errors.Add(new ValidationError(nameof(MaxPlayers), localizationService["MaxPlayersCannotBeLessThanMinPlayers"]));
 
         if (Name.Trim().Length < MinNameLength)
-            errors.Add(new ValidationError(nameof(Name),
-                $"Name should be at least {MinNameLength} characters long."));
+            errors.Add(new ValidationError(nameof(Name), localizationService["NameShouldBeAtLeast3CharactersLong"]));
 
         validationErrors = errors;
 

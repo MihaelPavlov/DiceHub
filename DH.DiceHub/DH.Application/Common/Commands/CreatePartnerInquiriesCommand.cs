@@ -1,5 +1,6 @@
 ﻿using DH.Domain.Adapters.Email;
 using DH.Domain.Adapters.EmailSender;
+using DH.Domain.Adapters.Localization;
 using DH.Domain.Entities;
 using DH.Domain.Models.Common;
 using DH.Domain.Repositories;
@@ -18,17 +19,19 @@ internal class CreatePartnerInquiriesCommandHandle(
     IRepository<PartnerInquiry> repository,
     IEmailHelperService emailHelperService,
     IEmailSender emailSender,
-    IConfiguration configuration) : IRequestHandler<CreatePartnerInquiriesCommand>
+    IConfiguration configuration,
+    ILocalizationService localizer) : IRequestHandler<CreatePartnerInquiriesCommand>
 {
     readonly ILogger<CreatePartnerInquiriesCommand> logger = logger;
     readonly IRepository<PartnerInquiry> repository = repository;
     readonly IEmailHelperService emailHelperService = emailHelperService;
     readonly IEmailSender emailSender = emailSender;
     readonly IConfiguration configuration = configuration;
+    readonly ILocalizationService localizer = localizer;
 
     public async Task Handle(CreatePartnerInquiriesCommand request, CancellationToken cancellationToken)
     {
-        if (!request.PartnerInquiry.FieldsAreValid(out var validationErrors))
+        if (!request.PartnerInquiry.FieldsAreValid(out var validationErrors, localizer))
             throw new ValidationErrorsException(validationErrors);
 
         try

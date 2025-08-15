@@ -1,4 +1,5 @@
 ﻿using DH.Domain.Adapters.Authentication;
+using DH.Domain.Adapters.Localization;
 using DH.Domain.Entities;
 using DH.Domain.Models.Common;
 using DH.Domain.Repositories;
@@ -11,16 +12,17 @@ namespace DH.Application.Common.Commands;
 public record UpdateUserSettingsCommand(UserSettingsDto Settings, string? UserId = null) : IRequest;
 
 internal class UpdateUserSettingsCommandHandler(
-    IRepository<TenantUserSetting> repository, IUserContext userContext, IUserSettingsCache userSettingsCache)
+    IRepository<TenantUserSetting> repository, IUserContext userContext, IUserSettingsCache userSettingsCache, ILocalizationService localizer)
     : IRequestHandler<UpdateUserSettingsCommand>
 {
     readonly IRepository<TenantUserSetting> repository = repository;
     readonly IUserContext userContext = userContext;
     readonly IUserSettingsCache userSettingsCache = userSettingsCache;
+    readonly ILocalizationService localizer = localizer;
 
     public async Task Handle(UpdateUserSettingsCommand request, CancellationToken cancellationToken)
     {
-        if (!request.Settings.FieldsAreValid(out var validationErrors))
+        if (!request.Settings.FieldsAreValid(out var validationErrors, localizer))
             throw new ValidationErrorsException(validationErrors);
 
         if (request.Settings.Id == null)

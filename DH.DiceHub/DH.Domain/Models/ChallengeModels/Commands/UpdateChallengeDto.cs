@@ -1,4 +1,5 @@
-﻿using DH.Domain.Enums;
+﻿using DH.Domain.Adapters.Localization;
+using DH.Domain.Enums;
 using DH.OperationResultCore.Exceptions;
 using static DH.OperationResultCore.Exceptions.ValidationErrorsException;
 
@@ -16,7 +17,7 @@ public class UpdateChallengeDto : IValidableFields
     public ChallengeType Type { get; set; }
     public int GameId { get; set; }
 
-    public bool FieldsAreValid(out List<ValidationErrorsException.ValidationError> validationErrors)
+    public bool FieldsAreValid(out List<ValidationErrorsException.ValidationError> validationErrors, ILocalizationService localizationService)
     {
         var errors = new List<ValidationError>();
         if (Description.Trim().Length < MinDescriptionLength || Description.Trim().Length > MaxDescriptionLength)

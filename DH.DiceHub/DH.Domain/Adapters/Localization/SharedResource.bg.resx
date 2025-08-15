@@ -186,4 +186,10 @@
   <data name="OnlyOwnerCanUpdateEmployee" xml:space="preserve">
     <value>Само собственикът може да актуализира данните на служителя.</value>
   </data>
+  <data name="MaxPlayersCannotBeLessThanMinPlayers" xml:space="preserve">
+    <value>Максималният брой играчи не може да бъде по-малък от минималния брой играчи.</value>
+  </data>
+  <data name="NameShouldBeAtLeast3CharactersLong" xml:space="preserve">
+    <value>Името трябва да е поне 3 символа.</value>
+  </data>
 </root>

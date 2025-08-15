@@ -103,7 +103,7 @@ public class UserService : IUserService
     /// <inheritdoc />
     public async Task<UserRegistrationResponse> RegisterUser(UserRegistrationRequest form)
     {
-        if (!form.FieldsAreValid(out var validationErrors))
+        if (!form.FieldsAreValid(out var validationErrors, this.localizer))
             throw new ValidationErrorsException(validationErrors);
 
         var existingUserByEmail = await this.userManager.FindByEmailAsync(form.Email);
@@ -328,7 +328,7 @@ public class UserService : IUserService
         if (!await this.HasUserAnyMatchingRole(this.userContext.UserId, Role.SuperAdmin, Role.Owner))
             throw new BadRequestException(this.localizer["OnlyOwnerCreateEmployees"]);
 
-        if (!request.FieldsAreValid(out var validationErrors))
+        if (!request.FieldsAreValid(out var validationErrors, this.localizer))
             throw new ValidationErrorsException(validationErrors);
 
         var existingUserByEmail = await this.userManager.FindByEmailAsync(request.Email);
@@ -378,7 +378,7 @@ public class UserService : IUserService
         if (!await this.HasUserAnyMatchingRole(this.userContext.UserId, Role.SuperAdmin))
             throw new BadRequestException(this.localizer["OnlySuperAdminCreateOwner"]);
 
-        if (!request.FieldsAreValid(out var validationErrors))
+        if (!request.FieldsAreValid(out var validationErrors, this.localizer))
             throw new ValidationErrorsException(validationErrors);
 
         var owner = await this.userManager.GetUsersInRoleAsync(Role.Owner.ToString());
@@ -563,7 +563,7 @@ public class UserService : IUserService
         if (!await this.HasUserAnyMatchingRole(this.userContext.UserId, Role.SuperAdmin, Role.Owner))
             throw new BadRequestException(this.localizer["OnlyOwnerCanUpdateEmployee"]);
 
-        if (!request.FieldsAreValid(out var validationErrors))
+        if (!request.FieldsAreValid(out var validationErrors, this.localizer))
             throw new ValidationErrorsException(validationErrors);
 
         var existingUser = await this.userManager.FindByIdAsync(request.Id);

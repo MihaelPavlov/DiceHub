@@ -1,4 +1,5 @@
-﻿using static DH.OperationResultCore.Exceptions.ValidationErrorsException;
+﻿using DH.Domain.Adapters.Localization;
+using static DH.OperationResultCore.Exceptions.ValidationErrorsException;
 
 namespace DH.Domain.Models.GameModels.Commands;
 
@@ -10,7 +11,7 @@ public class UpdateGameReviewDto : IValidableFields
     public int Id { get; set; }
     public string Review { get; set; } = string.Empty;
 
-    public bool FieldsAreValid(out List<ValidationError> validationErrors)
+    public bool FieldsAreValid(out List<ValidationError> validationErrors, ILocalizationService localizationService)
     {
         var errors = new List<ValidationError>();
 

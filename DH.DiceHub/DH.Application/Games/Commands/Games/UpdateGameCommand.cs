@@ -1,4 +1,5 @@
-﻿using DH.Domain.Entities;
+﻿using DH.Domain.Adapters.Localization;
+using DH.Domain.Entities;
 using DH.Domain.Models.GameModels.Commands;
 using DH.Domain.Repositories;
 using DH.Domain.Services;
@@ -14,16 +15,18 @@ internal class UpdateGameCommandHandler : IRequestHandler<UpdateGameCommand>
 {
     readonly IGameService gameService;
     readonly IRepository<Game> repository;
+    readonly ILocalizationService localizer;
 
-    public UpdateGameCommandHandler(IGameService gameService, IRepository<Game> repository)
+    public UpdateGameCommandHandler(IGameService gameService, IRepository<Game> repository, ILocalizationService localizer)
     {
         this.gameService = gameService;
         this.repository = repository;
+        this.localizer = localizer;
     }
 
     public async Task Handle(UpdateGameCommand request, CancellationToken cancellationToken)
     {
-        if (!request.Game.FieldsAreValid(out var validationErrors))
+        if (!request.Game.FieldsAreValid(out var validationErrors, localizer))
             throw new ValidationErrorsException(validationErrors);
 
         if (request.Game.ImageId == null &&

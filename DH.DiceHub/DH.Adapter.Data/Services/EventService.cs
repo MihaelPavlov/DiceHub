@@ -71,7 +71,7 @@ internal class EventService : IEventService
                     ImageId = e.IsCustomImage ? ei.Id : g.Image.Id,
                     GameId = g.Id,
                     GameName = g.Name,
-                    GameDescription = g.Description,
+                    GameDescription = g.Description_EN,
                     GameAveragePlaytime = g.AveragePlaytime,
                     GameMinAge = g.MinAge,
                     GameMaxPlayers = g.MaxPlayers,

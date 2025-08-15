@@ -1,4 +1,5 @@
-﻿using DH.OperationResultCore.Exceptions;
+﻿using DH.Domain.Adapters.Localization;
+using DH.OperationResultCore.Exceptions;
 using static DH.OperationResultCore.Exceptions.ValidationErrorsException;
 
 namespace DH.Domain.Models.SpaceManagementModels.Commands;
@@ -11,7 +12,7 @@ public class CreateSpaceTableDto : IValidableFields
     public int GameId { get; set; }
     public bool IsSoloModeActive { get; set; }
 
-    public bool FieldsAreValid(out List<ValidationErrorsException.ValidationError> validationErrors)
+    public bool FieldsAreValid(out List<ValidationErrorsException.ValidationError> validationErrors, ILocalizationService localizationService)
     {
         var errors = new List<ValidationError>();
 

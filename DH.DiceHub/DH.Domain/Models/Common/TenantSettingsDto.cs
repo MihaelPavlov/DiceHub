@@ -1,5 +1,6 @@
-using DH.Domain.Models;
+using DH.Domain.Adapters.Localization;
 using DH.Domain.Enums;
+using DH.Domain.Models;
 using static DH.OperationResultCore.Exceptions.ValidationErrorsException;
 
 namespace DH.Domain.Entities;
@@ -63,7 +64,7 @@ public class TenantSettingDto : IValidableFields
     /// </summary>
     public bool IsCustomPeriodSetupComplete { get; set; }
 
-    public bool FieldsAreValid(out List<ValidationError> validationErrors)
+    public bool FieldsAreValid(out List<ValidationError> validationErrors, ILocalizationService localizationService)
     {
         var errors = new List<ValidationError>();
 

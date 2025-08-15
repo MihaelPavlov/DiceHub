@@ -1,4 +1,5 @@
 ﻿using DH.Domain.Adapters.Authentication;
+using DH.Domain.Adapters.Localization;
 using DH.Domain.Entities;
 using DH.Domain.Models.RoomModels.Commands;
 using DH.Domain.Repositories;
@@ -15,17 +16,20 @@ internal class CreateRoomCommandHanler : IRequestHandler<CreateRoomCommand, int>
     readonly IRepository<Room> roomRepository;
     readonly IRepository<Game> gameRepository;
     readonly IUserContext userContext;
-
-    public CreateRoomCommandHanler(IRepository<Room> roomRepository, IRepository<Game> gameRepository, IUserContext userContext)
+    readonly ILocalizationService localizer;
+    public CreateRoomCommandHanler(
+        IRepository<Room> roomRepository, IRepository<Game> gameRepository,
+        IUserContext userContext, ILocalizationService localizer)
     {
         this.roomRepository = roomRepository;
         this.gameRepository = gameRepository;
         this.userContext = userContext;
+        this.localizer = localizer;
     }
 
     public async Task<int> Handle(CreateRoomCommand request, CancellationToken cancellationToken)
     {
-        if (!request.Room.FieldsAreValid(out var validationErrors))
+        if (!request.Room.FieldsAreValid(out var validationErrors, localizer))
             throw new ValidationErrorsException(validationErrors);
 
         var game = await this.gameRepository.GetByAsync(x => x.Id == request.Room.GameId, cancellationToken)

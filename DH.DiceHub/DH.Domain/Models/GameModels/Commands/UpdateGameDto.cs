@@ -1,4 +1,5 @@
-﻿using DH.Domain.Enums;
+﻿using DH.Domain.Adapters.Localization;
+using DH.Domain.Enums;
 using System.Text.Json.Serialization;
 using static DH.OperationResultCore.Exceptions.ValidationErrorsException;
 
@@ -41,7 +42,7 @@ public class UpdateGameDto : IValidableFields
     [JsonPropertyName("userId")]
     public string UserId { get; set; } = string.Empty;
 
-    public bool FieldsAreValid(out List<ValidationError> validationErrors)
+    public bool FieldsAreValid(out List<ValidationError> validationErrors, ILocalizationService localizationService)
     {
         var errors = new List<ValidationError>();
 

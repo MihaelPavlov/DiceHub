@@ -186,4 +186,10 @@
   <data name="OnlyOwnerCanUpdateEmployee" xml:space="preserve">
     <value>Only owner can update employee.</value>
   </data>
+  <data name="MaxPlayersCannotBeLessThanMinPlayers" xml:space="preserve">
+    <value>Max players cannot be less than the min players.</value>
+  </data>
+  <data name="NameShouldBeAtLeast3CharactersLong" xml:space="preserve">
+    <value>Name should be at least 3 characters long.</value>
+  </data>
 </root>

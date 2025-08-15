@@ -1,4 +1,5 @@
-﻿using DH.Domain.Enums;
+﻿using DH.Domain.Adapters.Localization;
+using DH.Domain.Enums;
 using System.Text.Json.Serialization;
 using static DH.OperationResultCore.Exceptions.ValidationErrorsException;
 
@@ -23,7 +24,7 @@ public class CreateRewardDto : IValidableFields
     [JsonPropertyName("level")]
     public RewardLevel Level { get; set; }
 
-    public bool FieldsAreValid(out List<ValidationError> validationErrors)
+    public bool FieldsAreValid(out List<ValidationError> validationErrors, ILocalizationService localizationService)
     {
         var errors = new List<ValidationError>();
 

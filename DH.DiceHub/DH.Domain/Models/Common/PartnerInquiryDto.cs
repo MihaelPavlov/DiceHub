@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using DH.Domain.Adapters.Localization;
+using System.Text.RegularExpressions;
 using static DH.OperationResultCore.Exceptions.ValidationErrorsException;
 
 namespace DH.Domain.Models.Common;
@@ -25,7 +26,7 @@ public class PartnerInquiryDto : IValidableFields
     public string Message { get; set; } = string.Empty;
     public string PhoneNumber { get; set; } = string.Empty;
 
-    public bool FieldsAreValid(out List<ValidationError> validationErrors)
+    public bool FieldsAreValid(out List<ValidationError> validationErrors, ILocalizationService localizationService)
     {
         var errors = new List<ValidationError>();
 

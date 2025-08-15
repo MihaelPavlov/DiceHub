@@ -1,5 +1,6 @@
 ﻿using DH.Domain.Adapters.Authentication;
 using DH.Domain.Adapters.GameSession;
+using DH.Domain.Adapters.Localization;
 using DH.Domain.Adapters.Statistics;
 using DH.Domain.Adapters.Statistics.Services;
 using DH.Domain.Entities;
@@ -23,6 +24,7 @@ internal class CreateSpaceTableCommandHandler : IRequestHandler<CreateSpaceTable
     readonly ILogger<CreateSpaceTableCommandHandler> logger;
     readonly SynchronizeGameSessionQueue queue;
     readonly IStatisticQueuePublisher statisticQueuePublisher;
+    readonly ILocalizationService localizer;
 
     public CreateSpaceTableCommandHandler(
         ISpaceTableService spaceTableService,
@@ -30,7 +32,8 @@ internal class CreateSpaceTableCommandHandler : IRequestHandler<CreateSpaceTable
         SynchronizeGameSessionQueue queue,
         IUserContext userContext,
         IStatisticQueuePublisher statisticQueuePublisher,
-        ILogger<CreateSpaceTableCommandHandler> logger)
+        ILogger<CreateSpaceTableCommandHandler> logger,
+        ILocalizationService localizer)
     {
         this.spaceTableService = spaceTableService;
         this.queue = queue;
@@ -39,11 +42,12 @@ internal class CreateSpaceTableCommandHandler : IRequestHandler<CreateSpaceTable
         this.userContext = userContext;
         this.logger = logger;
         this.statisticQueuePublisher = statisticQueuePublisher;
+        this.localizer = localizer;
     }
 
     public async Task<int> Handle(CreateSpaceTableCommand request, CancellationToken cancellationToken)
     {
-        if (!request.SpaceTable.FieldsAreValid(out var validationErrors))
+        if (!request.SpaceTable.FieldsAreValid(out var validationErrors, localizer))
             throw new ValidationErrorsException(validationErrors);
 
         var spaceTableId = await this.spaceTableService.Create(request.SpaceTable.Adapt<SpaceTable>(), cancellationToken);

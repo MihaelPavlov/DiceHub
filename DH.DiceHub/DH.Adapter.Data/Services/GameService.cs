@@ -10,7 +10,6 @@ namespace DH.Adapter.Data.Services;
 public class GameService : IGameService
 {
     readonly IDbContextFactory<TenantDbContext> _contextFactory;
-
     public GameService(IDbContextFactory<TenantDbContext> _contextFactory)
     {
         this._contextFactory = _contextFactory;
@@ -58,7 +57,8 @@ public class GameService : IGameService
             var oldImage = dbGame.Image;
 
             dbGame.Name = game.Name;
-            dbGame.Description = game.Description;
+            dbGame.Description_EN = game.Description_EN;
+            dbGame.Description_BG = game.Description_BG;
             dbGame.MinAge = game.MinAge;
             dbGame.MinPlayers = game.MinPlayers;
             dbGame.MaxPlayers = game.MaxPlayers;
@@ -113,8 +113,7 @@ public class GameService : IGameService
         }
     }
 
-
-    public async Task<GetSystemRewardByIdQueryModel?> GetGameByIdAsync(int gameId, string userId, CancellationToken cancellationToken)
+    public async Task<GetGameByIdQueryModel?> GetGameByIdAsync(int gameId, string userId, CancellationToken cancellationToken)
     {
         using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
         {
@@ -122,12 +121,13 @@ public class GameService : IGameService
                 from g in context.Games
                 join gi in context.GameImages on g.Id equals gi.GameId
                 where g.Id == gameId && !g.IsDeleted
-                select new GetSystemRewardByIdQueryModel
+                select new GetGameByIdQueryModel
                 {
                     Id = g.Id,
                     CategoryId = g.CategoryId,
                     Name = g.Name,
-                    Description = g.Description,
+                    Description_EN = g.Description_EN,
+                    Description_BG = g.Description_BG,
                     AveragePlaytime = g.AveragePlaytime,
                     ImageId = gi.Id,
                     Likes = g.Likes.Count(),
@@ -153,7 +153,8 @@ public class GameService : IGameService
                      Id = g.Id,
                      CategoryId = g.CategoryId,
                      Name = g.Name,
-                     Description = g.Description,
+                     Description_EN = g.Description_EN,
+                     Description_BG = g.Description_BG,
                      ImageId = gi.Id,
                      Likes = likes.Count(),
                      IsLiked = likes.Any(x => x.UserId == userId)
@@ -177,7 +178,8 @@ public class GameService : IGameService
                      Id = g.Id,
                      CategoryId = g.CategoryId,
                      Name = g.Name,
-                     Description = g.Description,
+                     Description_EN = g.Description_EN,
+                     Description_BG = g.Description_BG,
                      ImageId = gi.Id,
                      Likes = likes.Count(),
                      IsLiked = likes.Any(x => x.UserId == userId)
@@ -201,7 +203,8 @@ public class GameService : IGameService
                      Id = g.Id,
                      CategoryId = g.CategoryId,
                      Name = g.Name,
-                     Description = g.Description,
+                     Description_EN = g.Description_EN,
+                     Description_BG = g.Description_BG,
                      ImageId = gi.Id,
                      Likes = likes.Count(),
                      IsLiked = likes.Any(x => x.UserId == userId)

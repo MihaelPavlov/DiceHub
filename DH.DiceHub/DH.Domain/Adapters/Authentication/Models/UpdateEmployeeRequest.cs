@@ -1,4 +1,5 @@
-﻿using DH.Domain.Models;
+﻿using DH.Domain.Adapters.Localization;
+using DH.Domain.Models;
 using System.ComponentModel.DataAnnotations;
 using static DH.OperationResultCore.Exceptions.ValidationErrorsException;
 
@@ -12,7 +13,7 @@ public class UpdateEmployeeRequest : IValidableFields
     public string Email { get; set; } = string.Empty;
     public string PhoneNumber { get; set; } = string.Empty;
 
-    public bool FieldsAreValid(out List<ValidationError> validationErrors)
+    public bool FieldsAreValid(out List<ValidationError> validationErrors, ILocalizationService localizationService)
     {
         var errors = new List<ValidationError>();
 

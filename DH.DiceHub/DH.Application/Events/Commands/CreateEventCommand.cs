@@ -1,6 +1,7 @@
 ﻿using DH.Domain.Adapters.Authentication;
 using DH.Domain.Adapters.Authentication.Models.Enums;
 using DH.Domain.Adapters.Authentication.Services;
+using DH.Domain.Adapters.Localization;
 using DH.Domain.Adapters.PushNotifications;
 using DH.Domain.Adapters.PushNotifications.Messages;
 using DH.Domain.Entities;
@@ -27,23 +28,27 @@ internal class CreateEventCommandHandler : IRequestHandler<CreateEventCommand, i
     readonly IPushNotificationsService pushNotificationsService;
     readonly ILogger<CreateEventCommandHandler> logger;
     readonly IUserContext userContext;
+    readonly ILocalizationService localizer;
+
     public CreateEventCommandHandler(
         IEventService eventService,
         IUserService userService,
         IPushNotificationsService pushNotificationsService,
         IUserContext userContext,
-        ILogger<CreateEventCommandHandler> logger)
+        ILogger<CreateEventCommandHandler> logger,
+        ILocalizationService localizer)
     {
         this.eventService = eventService;
         this.userService = userService;
         this.pushNotificationsService = pushNotificationsService;
         this.logger = logger;
         this.userContext = userContext;
+        this.localizer = localizer;
     }
 
     public async Task<int> Handle(CreateEventCommand request, CancellationToken cancellationToken)
     {
-        if (!request.Event.FieldsAreValid(out var validationErrors))
+        if (!request.Event.FieldsAreValid(out var validationErrors, localizer))
             throw new ValidationErrorsException(validationErrors);
 
         var eventId = await this.eventService.CreateEvent(

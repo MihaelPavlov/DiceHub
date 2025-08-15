@@ -1,4 +1,5 @@
-﻿using DH.Domain.Entities;
+﻿using DH.Domain.Adapters.Localization;
+using DH.Domain.Entities;
 using DH.Domain.Repositories;
 using DH.OperationResultCore.Exceptions;
 using MediatR;
@@ -10,15 +11,17 @@ public record UpdateTenantSettingsCommand(TenantSettingDto Settings) : IRequest;
 internal class UpdateTenantSettingsCommandHandler(
     IRepository<TenantSetting> repository,
     IRepository<CustomPeriodChallenge> customPeridoChallengesRepository,
-     IRepository<CustomPeriodReward> customPeridoRewardsRepository) : IRequestHandler<UpdateTenantSettingsCommand>
+    IRepository<CustomPeriodReward> customPeridoRewardsRepository,
+    ILocalizationService localizer) : IRequestHandler<UpdateTenantSettingsCommand>
 {
     readonly IRepository<TenantSetting> repository = repository;
     readonly IRepository<CustomPeriodChallenge> customPeridoChallengesRepository = customPeridoChallengesRepository;
     readonly IRepository<CustomPeriodReward> customPeridoRewardsRepository = customPeridoRewardsRepository;
+    readonly ILocalizationService localizer = localizer;
 
     public async Task Handle(UpdateTenantSettingsCommand request, CancellationToken cancellationToken)
     {
-        if (!request.Settings.FieldsAreValid(out var validationErrors))
+        if (!request.Settings.FieldsAreValid(out var validationErrors, localizer))
             throw new ValidationErrorsException(validationErrors);
 
         if (request.Settings.Id == null)

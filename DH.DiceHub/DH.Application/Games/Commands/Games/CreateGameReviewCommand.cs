@@ -1,5 +1,6 @@
 ﻿using DH.Domain.Adapters.Authentication;
 using DH.Domain.Adapters.Data;
+using DH.Domain.Adapters.Localization;
 using DH.Domain.Entities;
 using DH.Domain.Models.GameModels.Commands;
 using DH.Domain.Repositories;
@@ -15,16 +16,18 @@ internal class CreateGameReviewCommandHandler : IRequestHandler<CreateGameReview
 {
     readonly ITenantDbContext dbContext;
     readonly IUserContext userContext;
+    readonly ILocalizationService localizer;
 
-    public CreateGameReviewCommandHandler(ITenantDbContext dbContext, IUserContext userContext)
+    public CreateGameReviewCommandHandler(ITenantDbContext dbContext, IUserContext userContext, ILocalizationService localizer)
     {
         this.dbContext = dbContext;
         this.userContext = userContext;
+        this.localizer = localizer;
     }
 
     public async Task<int> Handle(CreateGameReviewCommand request, CancellationToken cancellationToken)
     {
-        if (!request.GameReview.FieldsAreValid(out var validationErrors))
+        if (!request.GameReview.FieldsAreValid(out var validationErrors, localizer))
             throw new ValidationErrorsException(validationErrors);
 
         var gameReviewRepository = dbContext.AcquireRepository<IRepository<GameReview>>();

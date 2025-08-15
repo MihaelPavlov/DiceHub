@@ -1,4 +1,5 @@
 ﻿using DH.Domain.Adapters.Data;
+using DH.Domain.Adapters.Localization;
 using DH.Domain.Entities;
 using DH.Domain.Models.GameModels.Commands;
 using DH.Domain.Repositories;
@@ -12,15 +13,17 @@ public record UpdateGameReviewCommand(UpdateGameReviewDto UpdateGameReviewDto) :
 internal class UpdateGameReviewCommandHandler : IRequestHandler<UpdateGameReviewCommand>
 {
     readonly ITenantDbContext dbContext;
+    readonly ILocalizationService localizer;
 
-    public UpdateGameReviewCommandHandler(ITenantDbContext dbContext)
+    public UpdateGameReviewCommandHandler(ITenantDbContext dbContext, ILocalizationService localizer)
     {
         this.dbContext = dbContext;
+        this.localizer = localizer;
     }
 
     public async Task Handle(UpdateGameReviewCommand request, CancellationToken cancellationToken)
     {
-        if (!request.UpdateGameReviewDto.FieldsAreValid(out var validationErrors))
+        if (!request.UpdateGameReviewDto.FieldsAreValid(out var validationErrors, localizer))
             throw new ValidationErrorsException(validationErrors);
 
         var gameReviewRepository = dbContext.AcquireRepository<IRepository<GameReview>>();

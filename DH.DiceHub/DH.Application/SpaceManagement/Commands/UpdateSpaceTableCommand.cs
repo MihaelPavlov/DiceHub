@@ -1,4 +1,5 @@
 ﻿using DH.Domain.Adapters.Authentication;
+using DH.Domain.Adapters.Localization;
 using DH.Domain.Entities;
 using DH.Domain.Models.SpaceManagementModels.Commands;
 using DH.Domain.Repositories;
@@ -9,14 +10,18 @@ namespace DH.Application.SpaceManagement.Commands;
 
 public record UpdateSpaceTableCommand(UpdateSpaceTableDto SpaceTable) : IRequest;
 
-internal class UpdateSpaceTableCommandHandler(IRepository<SpaceTable> repository, IUserContext userContext) : IRequestHandler<UpdateSpaceTableCommand>
+internal class UpdateSpaceTableCommandHandler(
+    IRepository<SpaceTable> repository,
+    IUserContext userContext,
+    ILocalizationService localizer) : IRequestHandler<UpdateSpaceTableCommand>
 {
     readonly IRepository<SpaceTable> repository = repository;
     readonly IUserContext userContext = userContext;
+    readonly ILocalizationService localizer = localizer;
 
     public async Task Handle(UpdateSpaceTableCommand request, CancellationToken cancellationToken)
     {
-        if (!request.SpaceTable.FieldsAreValid(out var validationErrors))
+        if (!request.SpaceTable.FieldsAreValid(out var validationErrors, localizer))
             throw new ValidationErrorsException(validationErrors);
 
         var spaceTable = await this.repository.GetByAsyncWithTracking(x => x.Id == request.SpaceTable.Id, cancellationToken)

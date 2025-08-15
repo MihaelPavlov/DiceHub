@@ -1,4 +1,5 @@
-﻿using DH.Domain.Enums;
+﻿using DH.Domain.Adapters.Localization;
+using DH.Domain.Enums;
 using System.Text.Json.Serialization;
 using static DH.OperationResultCore.Exceptions.ValidationErrorsException;
 
@@ -30,7 +31,7 @@ public class UpdateRewardDto : IValidableFields
     [JsonPropertyName("imageId")]
     public int? ImageId { get; set; }
 
-    public bool FieldsAreValid(out List<ValidationError> validationErrors)
+    public bool FieldsAreValid(out List<ValidationError> validationErrors, ILocalizationService localizationService)
     {
         var errors = new List<ValidationError>();
         if (Id == 0)

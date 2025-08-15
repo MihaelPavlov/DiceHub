@@ -1,4 +1,5 @@
-﻿using DH.Domain.Models;
+﻿using DH.Domain.Adapters.Localization;
+using DH.Domain.Models;
 using DH.OperationResultCore.Exceptions;
 using System.Text.RegularExpressions;
 using static DH.OperationResultCore.Exceptions.ValidationErrorsException;
@@ -14,7 +15,7 @@ public class UserRegistrationRequest : IValidableFields
     public string ConfirmPassword { get; set; } = string.Empty;
     public string? DeviceToken { get; set; }
 
-    public bool FieldsAreValid(out List<ValidationErrorsException.ValidationError> validationErrors)
+    public bool FieldsAreValid(out List<ValidationErrorsException.ValidationError> validationErrors, ILocalizationService localizationService)
     {
         var errors = new List<ValidationError>();
 

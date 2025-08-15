@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using DH.Domain.Adapters.Localization;
+using System.Text.Json.Serialization;
 using static DH.OperationResultCore.Exceptions.ValidationErrorsException;
 
 namespace DH.Domain.Models.EventModels.Command;
@@ -26,7 +27,7 @@ public class UpdateEventModel : IValidableFields
     [JsonPropertyName("isCustomImage")]
     public bool IsCustomImage { get; set; }
 
-    public bool FieldsAreValid(out List<ValidationError> validationErrors)
+    public bool FieldsAreValid(out List<ValidationError> validationErrors, ILocalizationService localizationService)
     {
         var errors = new List<ValidationError>();
 

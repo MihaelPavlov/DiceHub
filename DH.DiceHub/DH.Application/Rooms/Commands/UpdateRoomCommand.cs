@@ -1,7 +1,6 @@
-﻿using DH.Domain.Adapters.Authentication;
+﻿using DH.Domain.Adapters.Localization;
 using DH.Domain.Entities;
 using DH.Domain.Models.RoomModels.Commands;
-using DH.Domain.Repositories;
 using DH.Domain.Services;
 using DH.OperationResultCore.Exceptions;
 using Mapster;
@@ -13,24 +12,19 @@ public record UpdateRoomCommand(UpdateRoomCommandDto Room) : IRequest;
 
 internal class UpdateRoomCommandHanler : IRequestHandler<UpdateRoomCommand>
 {
-    readonly IRepository<Room> roomRepository;
-    readonly IRepository<RoomInfoMessage> roomInfoMessagesRepository;
-    readonly IRepository<Game> gameRepository;
-    readonly IUserContext userContext;
     readonly IRoomService roomService;
+    readonly ILocalizationService localizer;
 
-    public UpdateRoomCommandHanler(IRepository<Room> roomRepository, IRepository<RoomInfoMessage> roomInfoMessagesRepository, IRepository<Game> gameRepository, IUserContext userContext, IRoomService roomService)
+    public UpdateRoomCommandHanler(
+        IRoomService roomService, ILocalizationService localizer)
     {
-        this.roomRepository = roomRepository;
-        this.roomInfoMessagesRepository = roomInfoMessagesRepository;
-        this.gameRepository = gameRepository;
-        this.userContext = userContext;
         this.roomService = roomService;
+        this.localizer = localizer;
     }
 
     public async Task Handle(UpdateRoomCommand request, CancellationToken cancellationToken)
     {
-        if (!request.Room.FieldsAreValid(out var validationErrors))
+        if (!request.Room.FieldsAreValid(out var validationErrors, localizer))
             throw new ValidationErrorsException(validationErrors);
 
         await this.roomService.Update(request.Room.Adapt<Room>(), cancellationToken);       

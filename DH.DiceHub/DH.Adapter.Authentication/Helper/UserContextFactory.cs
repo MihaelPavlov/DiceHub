@@ -46,7 +46,6 @@ public class UserContextFactory : IUserContextFactory
             if (userIdClaim != null)
                 language = this.userSettingsCache.GetLanguageAsync(userIdClaim.Value).GetAwaiter().GetResult();
 
-
             var userRoleClaim = user.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role);
             var userTimeZone = user.Claims.FirstOrDefault(x => x.Type == "TimeZone");
 

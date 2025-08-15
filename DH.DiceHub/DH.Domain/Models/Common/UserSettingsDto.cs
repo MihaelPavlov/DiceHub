@@ -1,4 +1,5 @@
-﻿using DH.Domain.Enums;
+﻿using DH.Domain.Adapters.Localization;
+using DH.Domain.Enums;
 using static DH.OperationResultCore.Exceptions.ValidationErrorsException;
 
 namespace DH.Domain.Models.Common;
@@ -9,7 +10,7 @@ public class UserSettingsDto : IValidableFields
     public string PhoneNumber { get; set; } = string.Empty;
     public string Language { get; set; } = string.Empty;
 
-    public bool FieldsAreValid(out List<ValidationError> validationErrors)
+    public bool FieldsAreValid(out List<ValidationError> validationErrors, ILocalizationService localizationService)
     {
         var errors = new List<ValidationError>();
 
