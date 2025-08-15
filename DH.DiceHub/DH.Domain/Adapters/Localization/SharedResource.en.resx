@@ -189,7 +189,43 @@
   <data name="MaxPlayersCannotBeLessThanMinPlayers" xml:space="preserve">
     <value>Max players cannot be less than the min players.</value>
   </data>
-  <data name="NameShouldBeAtLeast3CharactersLong" xml:space="preserve">
-    <value>Name should be at least 3 characters long.</value>
+  <data name="NameShouldBeAtLeastXCharactersLong" xml:space="preserve">
+    <value>Name should be at least {0} characters long.</value>
+  </data>
+  <data name="ReservationAlreadyExists" xml:space="preserve">
+    <value>You already have an active reservation.</value>
+  </data>
+  <data name="UtcFallbackNotice" xml:space="preserve">
+    <value>UTC (local time unavailable)</value>
+  </data>
+  <data name="NewGameReservationReminderTitle" xml:space="preserve">
+    <value>New Game Reservation Reminder</value>
+  </data>
+  <data name="NewGameReservationReminderBody" xml:space="preserve">
+    <value>User {0} made a new reservation. Reserve a table for {1} {2} to play **{3}** at {4}.</value>
+  </data>
+  <data name="W_Person" xml:space="preserve">
+    <value>person</value>
+  </data>
+  <data name="W_People" xml:space="preserve">
+    <value>people</value>
+  </data>
+  <data name="GameReservationApprovedTitle" xml:space="preserve">
+    <value>Game Reservation Approved</value>
+  </data>
+  <data name="GameReservationApprovedBody" xml:space="preserve">
+    <value>Your reservation for game **{0}** for {1} {2} at {3} is CONFIRMED!</value>
+  </data>
+  <data name="GameReservationDeclinedTitle" xml:space="preserve">
+    <value>Game Reservation Declined</value>
+  </data>
+  <data name="GameReservationDeclinedBody" xml:space="preserve">
+    <value>Your reservation for game **{0}** for {1} {2} at {3} has been DECLINED.</value>
+  </data>
+  <data name="GameReservationNoteChangedTitle" xml:space="preserve">
+    <value>Game Reservation Note Changed!</value>
+  </data>
+  <data name="GameReservationNoteChangedBody" xml:space="preserve">
+    <value>Your game reservation for {0} {1} at {2} has a new note, please review it!</value>
   </data>
 </root>

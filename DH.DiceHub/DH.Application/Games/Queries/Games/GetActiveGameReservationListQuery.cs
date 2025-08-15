@@ -1,4 +1,5 @@
 ﻿using DH.Domain.Adapters.Authentication.Services;
+using DH.Domain.Adapters.Localization;
 using DH.Domain.Entities;
 using DH.Domain.Models.GameModels.Queries;
 using DH.Domain.Repositories;
@@ -9,11 +10,14 @@ namespace DH.Application.Games.Queries.Games;
 
 public record GetActiveGameReservationListQuery : IRequest<List<GetActiveGameReservationListQueryModel>>;
 
-internal class GetActiveGameReservationListQueryHandler(IGameService gameService, IUserService userService, IRepository<TenantUserSetting> repository) : IRequestHandler<GetActiveGameReservationListQuery, List<GetActiveGameReservationListQueryModel>>
+internal class GetActiveGameReservationListQueryHandler(
+    IGameService gameService, IUserService userService,
+    IRepository<TenantUserSetting> repository, ILocalizationService localizer) : IRequestHandler<GetActiveGameReservationListQuery, List<GetActiveGameReservationListQueryModel>>
 {
     readonly IGameService gameService = gameService;
     readonly IUserService userService = userService;
     readonly IRepository<TenantUserSetting> repository = repository;
+    readonly ILocalizationService localizer = localizer;
 
     public async Task<List<GetActiveGameReservationListQueryModel>> Handle(GetActiveGameReservationListQuery request, CancellationToken cancellationToken)
     {
@@ -33,7 +37,7 @@ internal class GetActiveGameReservationListQueryHandler(IGameService gameService
 
                 var tenantUserSettings = await this.repository.GetByAsync(x => x.UserId == reservation.UserId, cancellationToken);
 
-                reservation.PhoneNumber = tenantUserSettings?.PhoneNumber ?? "Not Provided";
+                reservation.PhoneNumber = tenantUserSettings?.PhoneNumber ?? this.localizer["NotProvided"];
             }
 
         }

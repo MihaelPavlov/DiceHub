@@ -1,4 +1,5 @@
-﻿using DH.Domain.Adapters.PushNotifications.Messages.Common;
+﻿using DH.Domain.Adapters.Localization;
+using DH.Domain.Adapters.PushNotifications.Messages.Common;
 using DH.Domain.Helpers;
 using System.Globalization;
 
@@ -14,7 +15,7 @@ public class GameReservationManagementReminder : MessageRequest
     public GameReservationManagementReminder(
         string gameName, string userEmail,
         int countPeople, DateTime reservationTime,
-        bool isUtcFallback)
+        bool isUtcFallback, ILocalizationService localizer)
     {
         this.GameName = gameName;
         this.ReservationTime = reservationTime;
@@ -23,9 +24,11 @@ public class GameReservationManagementReminder : MessageRequest
 
         var formattedTime = reservationTime.ToString(DateValidator.DATE_TIME_FORMAT, CultureInfo.InvariantCulture);
         if (isUtcFallback)
-            formattedTime += " UTC (local time unavailable)";
+            formattedTime += localizer["UtcFallbackNotice"];
 
-        Title = "New Game Reservation Reminder";
-        Body = $"User {this.Email} made a new reservation. Reserve a table for {this.CountPeople} people to play **{this.GameName}** at {formattedTime}.";
+        var peopleWord = CountPeople == 1 ? localizer["W_Person"] : localizer["W_People"];
+
+        Title = localizer["NewGameReservationReminderTitle"];
+        Body = string.Format(localizer["NewGameReservationReminderBody"], this.Email, this.CountPeople, peopleWord, this.GameName, formattedTime);
     }
 }

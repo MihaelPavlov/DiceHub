@@ -1,4 +1,5 @@
 ﻿using DH.Domain.Adapters.Authentication;
+using DH.Domain.Adapters.Localization;
 using DH.Domain.Adapters.PushNotifications;
 using DH.Domain.Adapters.PushNotifications.Messages;
 using DH.Domain.Entities;
@@ -16,13 +17,14 @@ public record ApproveGameReservationCommand(int Id, string InternalNote, string 
 internal class ApproveGameReservationCommandHandler(
     IRepository<GameReservation> repository, IRepository<Game> gameRepository,
     IPushNotificationsService pushNotificationsService, IUserContext userContext,
-    ILogger<ApproveGameReservationCommandHandler> logger) : IRequestHandler<ApproveGameReservationCommand>
+    ILogger<ApproveGameReservationCommandHandler> logger, ILocalizationService localizer) : IRequestHandler<ApproveGameReservationCommand>
 {
     readonly IRepository<GameReservation> repository = repository;
     readonly IRepository<Game> gameRepository = gameRepository;
     readonly IPushNotificationsService pushNotificationsService = pushNotificationsService;
     readonly IUserContext userContext = userContext;
     readonly ILogger<ApproveGameReservationCommandHandler> logger = logger;
+    readonly ILocalizationService localizer = localizer;
 
     public async Task Handle(ApproveGameReservationCommand request, CancellationToken cancellationToken)
     {
@@ -51,7 +53,7 @@ internal class ApproveGameReservationCommandHandler(
         await this.pushNotificationsService
             .SendNotificationToUsersAsync(
                 [reservation.UserId],
-                new GameReservationApprovedMessage(reservation.NumberOfGuests, game!.Name, userLocalReservationDate, isUtcFallback),
+                new GameReservationApprovedMessage(reservation.NumberOfGuests, game!.Name, userLocalReservationDate, isUtcFallback, localizer),
                 cancellationToken);
     }
 }

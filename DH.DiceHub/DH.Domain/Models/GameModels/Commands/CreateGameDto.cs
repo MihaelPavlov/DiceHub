@@ -42,7 +42,10 @@ public class CreateGameDto : IValidableFields
             errors.Add(new ValidationError(nameof(MaxPlayers), localizationService["MaxPlayersCannotBeLessThanMinPlayers"]));
 
         if (Name.Trim().Length < MinNameLength)
-            errors.Add(new ValidationError(nameof(Name), localizationService["NameShouldBeAtLeast3CharactersLong"]));
+        {
+            var message = string.Format(localizationService["NameShouldBeAtLeastXCharactersLong"], MinNameLength);
+            errors.Add(new ValidationError(nameof(Name), message));
+        }
 
         validationErrors = errors;
 

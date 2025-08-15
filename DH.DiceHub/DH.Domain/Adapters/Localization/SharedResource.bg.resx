@@ -189,7 +189,43 @@
   <data name="MaxPlayersCannotBeLessThanMinPlayers" xml:space="preserve">
     <value>Максималният брой играчи не може да бъде по-малък от минималния брой играчи.</value>
   </data>
-  <data name="NameShouldBeAtLeast3CharactersLong" xml:space="preserve">
-    <value>Името трябва да е поне 3 символа.</value>
+  <data name="NameShouldBeAtLeastXCharactersLong" xml:space="preserve">
+    <value>Името трябва да е поне {0} символа.</value>
+  </data>
+  <data name="ReservationAlreadyExists" xml:space="preserve">
+    <value>Вече имате активна резервация.</value>
+  </data>
+  <data name="UtcFallbackNotice" xml:space="preserve">
+    <value>UTC (локалното време не е налично)</value>
+  </data>
+  <data name="NewGameReservationReminderTitle" xml:space="preserve">
+    <value>Напомняне за нова резервация на игра</value>
+  </data>
+  <data name="NewGameReservationReminderBody" xml:space="preserve">
+    <value>Потребителят {0} направи нова резервация. Запазете маса за {1} {2}, и играта **{3}** за {4} часа.</value>
+  </data>
+  <data name="W_Person" xml:space="preserve">
+    <value>човек</value>
+  </data>
+  <data name="W_People" xml:space="preserve">
+    <value>души</value>
+  </data>
+  <data name="GameReservationApprovedTitle" xml:space="preserve">
+    <value>Резервацията за играта е потвърдена</value>
+  </data>
+  <data name="GameReservationApprovedBody" xml:space="preserve">
+    <value>Вашата резервация за игра **{0}** за {1} {2} в {3} е ПОТВЪРДЕНА!</value>
+  </data>
+  <data name="GameReservationDeclinedTitle" xml:space="preserve">
+    <value>Резервацията за играта е отказана</value>
+  </data>
+  <data name="GameReservationDeclinedBody" xml:space="preserve">
+    <value>Вашата резервация за игра **{0}** за {1} {2} в {3} е ОТКАЗАНА.</value>
+  </data>
+  <data name="GameReservationNoteChangedTitle" xml:space="preserve">
+    <value>Бележката за резервацията на играта е променена!</value>
+  </data>
+  <data name="GameReservationNoteChangedBody" xml:space="preserve">
+    <value>Вашата резервация за игра за {0} {1} в {2} има нова бележка, моля, прегледайте я!</value>
   </data>
 </root>

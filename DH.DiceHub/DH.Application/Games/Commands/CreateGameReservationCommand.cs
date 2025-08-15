@@ -1,7 +1,7 @@
-﻿
-using DH.Domain.Adapters.Authentication;
+﻿using DH.Domain.Adapters.Authentication;
 using DH.Domain.Adapters.Authentication.Models.Enums;
 using DH.Domain.Adapters.Authentication.Services;
+using DH.Domain.Adapters.Localization;
 using DH.Domain.Adapters.PushNotifications;
 using DH.Domain.Adapters.PushNotifications.Messages;
 using DH.Domain.Adapters.Reservations;
@@ -15,7 +15,6 @@ using DH.Domain.Services.TenantSettingsService;
 using DH.OperationResultCore.Exceptions;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using NodaTime;
 
 namespace DH.Application.Games.Commands;
 
@@ -29,7 +28,8 @@ internal class CreateGameReservationCommandHandler(
     IUserService userService,
     IRepository<Game> gameRepository,
     ITenantSettingsCacheService tenantSettingsCacheService,
-    ILogger<CreateGameReservationCommandHandler> logger) : IRequestHandler<CreateGameReservationCommand>
+    ILogger<CreateGameReservationCommandHandler> logger,
+    ILocalizationService localizer) : IRequestHandler<CreateGameReservationCommand>
 {
     readonly IGameService gameService = gameService;
     readonly IRepository<GameReservation> repository = repository;
@@ -40,13 +40,14 @@ internal class CreateGameReservationCommandHandler(
     readonly ITenantSettingsCacheService tenantSettingsCacheService = tenantSettingsCacheService;
     readonly ReservationCleanupQueue queue = queue;
     readonly ILogger<CreateGameReservationCommandHandler> logger = logger;
+    readonly ILocalizationService localizer = localizer;
 
     public async Task Handle(CreateGameReservationCommand request, CancellationToken cancellationToken)
     {
         var activeReservationOfCurrentUser = await this.repository.GetByAsync(x => x.UserId == this.userContext.UserId && x.IsActive, cancellationToken);
 
         if (activeReservationOfCurrentUser != null)
-            throw new ValidationErrorsException("reservationExist", "There is already one reservation");
+            throw new ValidationErrorsException("reservationExist", this.localizer["ReservationAlreadyExists"]);
 
         var reservation = new GameReservation
         {
@@ -89,7 +90,7 @@ internal class CreateGameReservationCommandHandler(
             new GameReservationManagementReminder(
                 game!.Name, currentUser.UserName,
                 request.Reservation.PeopleCount,
-                userLocalReservationDate, isUtcFallback), cancellationToken);
+                userLocalReservationDate, isUtcFallback, this.localizer), cancellationToken);
     }
 }
 
