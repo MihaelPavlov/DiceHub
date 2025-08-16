@@ -2,15 +2,15 @@
 
 namespace DH.Domain.Adapters.PushNotifications.Messages;
 
-internal class ChallengeCompletionReminder : MessageRequest
+internal class ChallengeCompletionReminder : RenderableNotification
 {
     public string ChallengeName { get; set; }
 
-    public ChallengeCompletionReminder(string challengeName)
-    {
-        this.ChallengeName = challengeName;
+    //public ChallengeCompletionReminder(string challengeName)
+    //{
+    //    this.ChallengeName = challengeName;
 
-        Title = "Completed Challenge";
-        Body = $"Challenge: {this.ChallengeName} is completed. Visit your challenge page!";
-    }
+    //    Title = "Completed Challenge";
+    //    Body = $"Challenge: {this.ChallengeName} is completed. Visit your challenge page!";
+    //}
 }

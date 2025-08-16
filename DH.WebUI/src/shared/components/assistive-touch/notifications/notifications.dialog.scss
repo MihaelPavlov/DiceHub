@@ -28,6 +28,8 @@
   font-weight: 700;
 }
 .dismiss-btn-pill {
+  display: flex;
+  margin: 0.5rem auto 0 auto;
   background-color: #ffd966;
   color: #663c00;
   border: none;
@@ -36,7 +38,6 @@
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  margin-left: 12px;
 }
 
 .dismiss-btn-pill:hover,

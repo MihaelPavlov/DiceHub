@@ -1,7 +1,9 @@
+import { TranslateService } from '@ngx-translate/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { environment } from '../environments/environment.development';
+import { LanguageService } from './language.service';
 
 export enum ApiBase {
   Default = 'default',
@@ -24,7 +26,10 @@ interface ApiConfig {
   providedIn: 'root',
 })
 export class RestApiService {
-  constructor(private readonly http: HttpClient) {}
+  constructor(
+    private readonly http: HttpClient,
+    private readonly translateService: TranslateService
+  ) {}
 
   private getBaseUrl(base: ApiBase): string {
     return ApiEndpoints[base] || ApiEndpoints.default;
@@ -84,6 +89,9 @@ export class RestApiService {
     if (config.backgroundRequest) {
       headers = headers.set('X-Background-Request', 'true');
     }
+
+    if (this.translateService.getCurrentLang())
+      headers = headers.set('Accept-Language', this.translateService.getCurrentLang());
 
     return {
       ...config.options,

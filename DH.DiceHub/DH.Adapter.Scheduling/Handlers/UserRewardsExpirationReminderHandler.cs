@@ -34,10 +34,14 @@ internal class UserRewardsExpirationReminderHandler(IRepository<UserChallengeRew
             {
                 try
                 {
-                    await this.pushNotificationsService.SendNotificationToUsersAsync(
-                        [reward.UserId],
-                        new RewardExpirationReminderMessage(reward.Reward.Name, days),
-                        cancellationToken);
+                    var payload = new RewardExpirationReminderNotification
+                    {
+                        RewardName = reward.Reward.Name,
+                        Days = days
+                    };
+
+                    await this.pushNotificationsService
+                        .SendNotificationToUsersAsync([reward.UserId], payload, cancellationToken);
                 }
                 catch (Exception ex)
                 {

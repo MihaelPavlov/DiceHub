@@ -58,8 +58,10 @@ internal class UserRewardsExpiryHandler(IRepository<UserChallengeReward> reposit
                     CollectedDate: null, ExpiredDate: reward.ExpiredDate,
                     IsExpired: true, IsCollected: false));
 
-            await this.pushNotificationsService.SendNotificationToUsersAsync(
-                [reward.UserId], new RewardExpiredMessage(reward.Name), cancellationToken);
+            var payload = new RewardExpiredNotification { RewardName = reward.Name };
+
+            await this.pushNotificationsService
+                .SendNotificationToUsersAsync([reward.UserId], payload, cancellationToken);
         }
     }
 

@@ -4,7 +4,6 @@ using DH.Domain.Adapters.Authentication.Services;
 using DH.Domain.Adapters.PushNotifications;
 using DH.Domain.Adapters.PushNotifications.Messages;
 using DH.Domain.Entities;
-using DH.Domain.Helpers;
 using DH.Domain.Models.EventModels.Command;
 using DH.Domain.Services;
 using Mapster;
@@ -47,26 +46,15 @@ internal class UpdateEventCommandHandler : IRequestHandler<UpdateEventCommand>
 
             var userIds = users.Select(x => x.Id).ToList();
 
-            var (userLocalEventStartDate, isUtcFallback) =
-                TimeZoneHelper.GetUserLocalOrUtcTime(request.Event.StartDate, this.userContext.TimeZone);
-
-            if (isUtcFallback)
+            var payload = new EventStartDateUpdatedNotification
             {
-                this.logger.LogWarning(
-                    "User local event date could not be calculated for event ID: {EventId}, time zone: {TimeZone}. Falling back to UTC.",
-                    request.Event.Id,
-                    this.userContext.TimeZone);
-            }
+                EventDate = request.Event.StartDate,
+                EventName = request.Event.Name,
+            };
 
             await this.pushNotificationsService
                .SendNotificationToUsersAsync(
-                   userIds,
-                   new EventStartDateUpdateMessage(
-                    request.Event.Name,
-                    userLocalEventStartDate,
-                    isUtcFallback),
-                   cancellationToken);
-
+                   userIds, payload, cancellationToken);
         }
     }
 }

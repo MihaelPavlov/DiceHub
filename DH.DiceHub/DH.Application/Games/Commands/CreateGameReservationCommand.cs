@@ -67,7 +67,7 @@ internal class CreateGameReservationCommandHandler(
 
         this.queue.AddReservationCleaningJob(reservation.Id, ReservationType.Game, reservation.ReservationDate.AddMinutes(settings.BonusTimeAfterReservationExpiration));
 
-        var users = await this.userService.GetUserListByRoles([Role.Staff], cancellationToken);
+        var users = await this.userService.GetUserListByRoles([Role.Staff,Role.SuperAdmin], cancellationToken);
         var getUsers = await this.userService.GetUserListByIds([this.userContext.UserId], cancellationToken);
         var currentUser = getUsers.First();
 
@@ -75,22 +75,15 @@ internal class CreateGameReservationCommandHandler(
 
         var userIds = users.Select(users => users.Id).ToList();
 
-        var (userLocalReservationDate, isUtcFallback) =
-            TimeZoneHelper.GetUserLocalOrUtcTime(reservation.ReservationDate, this.userContext.TimeZone);
-
-        if (isUtcFallback)
+        var payload = new GameReservationReminderNotification
         {
-            this.logger.LogWarning(
-                "User local game reservation date could not be calculated for reservation ID: {ReservationId}, time zone: {TimeZone}. Falling back to UTC.",
-                reservation.Id,
-                this.userContext.TimeZone);
-        }
+            GameName = game!.Name,
+            Email = currentUser.UserName,
+            CountPeople = request.Reservation.PeopleCount,
+            ReservationTime = reservation.ReservationDate,
+        };
 
-        await this.pushNotificationsService.SendNotificationToUsersAsync(userIds,
-            new GameReservationManagementReminder(
-                game!.Name, currentUser.UserName,
-                request.Reservation.PeopleCount,
-                userLocalReservationDate, isUtcFallback, this.localizer), cancellationToken);
+        await this.pushNotificationsService.SendNotificationToUsersAsync(userIds, payload, cancellationToken);
     }
 }
 

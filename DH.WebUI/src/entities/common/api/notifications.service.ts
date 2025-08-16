@@ -9,8 +9,13 @@ import { Observable } from 'rxjs';
 export class NotificationsService {
   constructor(private readonly api: RestApiService) {}
 
-  public getUserNotificationList(): Observable<IUserNotification[]> {
-    return this.api.get<IUserNotification[]>('/api/notifications');
+  public getUserNotificationList(
+    page: number,
+    pageSize: number
+  ): Observable<IUserNotification[]> {
+    return this.api.get<IUserNotification[]>(
+      `/api/notifications?page=${page}&pageSize=${pageSize}`
+    );
   }
 
   public areAnyActiveNotifications(): Observable<boolean> {

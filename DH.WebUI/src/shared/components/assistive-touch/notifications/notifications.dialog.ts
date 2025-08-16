@@ -1,10 +1,18 @@
-import { Component, EventEmitter, Inject, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Inject,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { NotificationsService } from '../../../../entities/common/api/notifications.service';
 import { IUserNotification } from '../../../../entities/common/models/user-notification-model';
 import { DateHelper } from '../../../helpers/date-helper';
 import { MessagingService } from '../../../../entities/messaging/api/messaging.service';
+import { resolveTypeReferenceDirective } from 'typescript';
 
 @Component({
   selector: 'app-notifications-dialog',
@@ -46,7 +54,10 @@ import { MessagingService } from '../../../../entities/messaging/api/messaging.s
 export class NotificationsDialog implements OnInit {
   public notificationsUpdated = new EventEmitter<IUserNotification[]>();
   public userNotifications: IUserNotification[] = [];
-
+  public page = 1;
+  public pageSize = 20;
+  public loading = false;
+  public allLoaded = false;
   public readonly DATE_TIME_FORMAT: string = DateHelper.DATE_TIME_FORMAT;
   public notificationPermission: NotificationPermission = 'default';
   public pushUnsupported: boolean = false;
@@ -60,10 +71,57 @@ export class NotificationsDialog implements OnInit {
   ) {}
 
   public ngOnInit(): void {
+    this.loadNotifications();
     this.notificationPermission = Notification.permission;
     this.pushUnsupported = this.messagingService.isPushUnsupportedIOS();
     const dismissed = localStorage.getItem('pushUnsupportedWarningDismissed');
     this.showWarning = !dismissed;
+  }
+
+  @ViewChild('infiniteScrollTrigger', { static: false })
+  infiniteScrollTrigger!: ElementRef;
+
+  public ngAfterViewInit() {
+    if (!this.infiniteScrollTrigger) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        this.loadNotifications();
+      }
+    });
+    observer.observe(this.infiniteScrollTrigger.nativeElement);
+  }
+
+  public loadNotifications(refresh: boolean = false): void {
+    // Reset if refreshing
+    if (refresh) {
+      this.page = 1;
+      this.allLoaded = false; // <-- reset this so it can load again
+      this.userNotifications.length = 0;
+    }
+    // Prevent further calls if we already loaded everything
+    if (this.allLoaded) {
+      return;
+    }
+    this.loading = true;
+
+    this.notificationService
+      .getUserNotificationList(this.page, this.pageSize)
+      .subscribe({
+        next: (result) => {
+          if (result.length < this.pageSize) {
+            this.allLoaded = true; // no more data
+          }
+          this.userNotifications.push(...result);
+          this.page++;
+          this.loading = false;
+
+          if (refresh) this.notificationsUpdated.emit();
+        },
+        error: () => {
+          this.loading = false;
+        },
+      });
   }
 
   public dismissWarning() {
@@ -71,22 +129,24 @@ export class NotificationsDialog implements OnInit {
     this.showWarning = false;
   }
 
-  public navigateToEnableBrowserNotificationInstruction(): void {}
+  public navigateToEnableBrowserNotificationInstruction(): //todo: add instructions on pwa if the decline the notification when you need to go in
+  //  the settings find you app icon and enable the notifications from this place
+  void {}
 
   public get isAllMarkedAsViewed(): boolean {
     return this.userNotifications.every((x) => x.hasBeenViewed);
+  }
+
+  public trackByNotification(index: number, item: IUserNotification) {
+    return item.id; // or unique key
   }
 
   public markedAsViewed(id: number, hasBeenViewed: boolean) {
     if (!hasBeenViewed)
       this.notificationService.markNotificationAsViewed(id).subscribe({
         next: () => {
-          this.notificationService.getUserNotificationList().subscribe({
-            next: (result) => {
-              this.userNotifications = result;
-              this.notificationsUpdated.emit();
-            },
-          });
+          const notification = this.userNotifications.find((n) => n.id === id);
+          if (notification) notification.hasBeenViewed = true; // update locally
         },
       });
   }
@@ -94,12 +154,7 @@ export class NotificationsDialog implements OnInit {
   public clearAll(): void {
     this.notificationService.clearUserAllNotification().subscribe({
       next: () => {
-        this.notificationService.getUserNotificationList().subscribe({
-          next: (result) => {
-            this.userNotifications = result;
-            this.notificationsUpdated.emit();
-          },
-        });
+        this.loadNotifications(true);
       },
     });
   }
@@ -107,12 +162,7 @@ export class NotificationsDialog implements OnInit {
   public markAll(): void {
     this.notificationService.markedAsViewAllUserNotification().subscribe({
       next: () => {
-        this.notificationService.getUserNotificationList().subscribe({
-          next: (result) => {
-            this.userNotifications = result;
-            this.notificationsUpdated.emit();
-          },
-        });
+        this.loadNotifications(true);
       },
     });
   }

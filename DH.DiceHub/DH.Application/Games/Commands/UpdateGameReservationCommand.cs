@@ -1,25 +1,20 @@
-﻿using DH.Domain.Adapters.Authentication;
-using DH.Domain.Adapters.PushNotifications;
+﻿using DH.Domain.Adapters.PushNotifications;
 using DH.Domain.Adapters.PushNotifications.Messages;
 using DH.Domain.Entities;
-using DH.Domain.Helpers;
 using DH.Domain.Repositories;
 using DH.OperationResultCore.Exceptions;
 using MediatR;
-using Microsoft.Extensions.Logging;
 
 namespace DH.Application.Games.Commands;
 
 public record UpdateGameReservationCommand(int Id, string PublicNote, string InternalNote) : IRequest;
 
 internal class UpdateGameReservationCommandHandler(
-    IRepository<GameReservation> repository, IPushNotificationsService pushNotificationsService,
-    IUserContext userContext, ILogger<UpdateGameReservationCommandHandler> logger) : IRequestHandler<UpdateGameReservationCommand>
+    IRepository<GameReservation> repository,
+    IPushNotificationsService pushNotificationsService) : IRequestHandler<UpdateGameReservationCommand>
 {
     readonly IRepository<GameReservation> repository = repository;
     readonly IPushNotificationsService pushNotificationsService = pushNotificationsService;
-    readonly IUserContext userContext = userContext;
-    readonly ILogger<UpdateGameReservationCommandHandler> logger = logger;
 
     public async Task Handle(UpdateGameReservationCommand request, CancellationToken cancellationToken)
     {
@@ -42,22 +37,14 @@ internal class UpdateGameReservationCommandHandler(
 
         if (isPublicNoteUpdated && reservation.IsActive)
         {
-            var (userLocalReservationDate, isUtcFallback) =
-               TimeZoneHelper.GetUserLocalOrUtcTime(reservation.ReservationDate, this.userContext.TimeZone);
-
-            if (isUtcFallback)
+            var payload = new GameReservationPublicNoteUpdatedNotification
             {
-                this.logger.LogWarning(
-                    "User local game reservation date could not be calculated for reservation ID: {EventId}, time zone: {TimeZone}. Falling back to UTC.",
-                    reservation.Id,
-                    this.userContext.TimeZone);
-            }
+                ReservationDate = reservation.ReservationDate,
+                NumberOfGuests = reservation.NumberOfGuests
+            };
 
             await this.pushNotificationsService
-                .SendNotificationToUsersAsync(
-                    [reservation.UserId],
-                    new GameReservationPublicNoteUpdatedMessage(reservation.NumberOfGuests, userLocalReservationDate, isUtcFallback),
-                    cancellationToken);
+                .SendNotificationToUsersAsync([reservation.UserId], payload, cancellationToken);
         }
     }
 }

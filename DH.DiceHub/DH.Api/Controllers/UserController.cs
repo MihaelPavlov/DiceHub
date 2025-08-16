@@ -16,6 +16,7 @@ using DH.Application.Stats.Queries;
 using DH.Application.Emails.Commands;
 using DH.Domain.Adapters.Email.Models;
 using DH.Domain.Models.Common;
+using DH.Domain.Services.TenantSettingsService;
 
 namespace DH.Api.Controllers;
 
@@ -28,14 +29,19 @@ public class UserController : ControllerBase
     readonly IJwtService jwtService;
     readonly IMediator mediator;
     readonly IPushNotificationsService pushNotificationsService;
+    readonly ITenantSettingsCacheService tenantSettingsCacheService;
 
-    public UserController(IConfiguration configuration, IJwtService jwtService, IUserService userService, IMediator mediator, IPushNotificationsService pushNotificationsService)
+    public UserController(
+        IConfiguration configuration, IJwtService jwtService,
+        IUserService userService, IMediator mediator,
+        IPushNotificationsService pushNotificationsService, ITenantSettingsCacheService tenantSettingsCacheService)
     {
         this.configuration = configuration;
         this.userService = userService;
         this.jwtService = jwtService;
         this.mediator = mediator;
         this.pushNotificationsService = pushNotificationsService;
+        this.tenantSettingsCacheService = tenantSettingsCacheService;
     }
 
     [AllowAnonymous]
@@ -126,12 +132,13 @@ public class UserController : ControllerBase
 
     [AllowAnonymous]
     [HttpPost("register-notification")]
-    public async Task<IActionResult> RegisterNotification([FromBody] RegistrationNotifcation form)
+    public async Task<IActionResult> RegisterNotification([FromBody] RegistrationNotifcation form, CancellationToken cancellationToken)
     {
         var userDeviceToken = await userService.GetDeviceTokenByUserEmail(form.Email);
+        var tenantSettings = await this.tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
 
-        if (userDeviceToken != null)
-            await this.pushNotificationsService.SendUserNotificationAsync(new RegistrationMessage(form.Email) { DeviceToken = userDeviceToken.DeviceToken });
+        if (userDeviceToken != null && tenantSettings != null)
+            await this.pushNotificationsService.SendUserNotificationAsync(new RegistrationNotification { Username = form.Email, ClubName = tenantSettings.ClubName, DeviceToken = userDeviceToken.DeviceToken });
 
         return this.Ok();
     }

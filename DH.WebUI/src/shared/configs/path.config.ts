@@ -99,9 +99,6 @@ export const PATH = {
     UPDATE_RESERVATION: 'update-reservation',
     DELETE_RESERVATION: 'delete-reservation',
   },
-  MESSAGING: {
-    CORE: 'api/message',
-  },
   TENANT_SETTINGS: {
     CORE: 'api/tenantSettings',
     GET_CLUB_NAME: 'get-club-name',

@@ -1,26 +1,20 @@
-﻿using DH.Domain.Adapters.Authentication;
-using DH.Domain.Adapters.PushNotifications;
+﻿using DH.Domain.Adapters.PushNotifications;
 using DH.Domain.Adapters.PushNotifications.Messages;
 using DH.Domain.Entities;
-using DH.Domain.Helpers;
 using DH.Domain.Repositories;
 using DH.OperationResultCore.Exceptions;
 using MediatR;
-using Microsoft.Extensions.Logging;
 
 namespace DH.Application.SpaceManagement.Commands;
 
 public record UpdateSpaceTableReservationCommand(int Id, string PublicNote, string InternalNote) : IRequest;
 
 internal class UpdateSpaceTableReservationCommandHandler(
-    IRepository<SpaceTableReservation> repository, IPushNotificationsService pushNotificationsService,
-    IUserContext userContext, ILogger<UpdateSpaceTableReservationCommandHandler> logger
+    IRepository<SpaceTableReservation> repository, IPushNotificationsService pushNotificationsService
     ) : IRequestHandler<UpdateSpaceTableReservationCommand>
 {
     readonly IRepository<SpaceTableReservation> repository = repository;
     readonly IPushNotificationsService pushNotificationsService = pushNotificationsService;
-    readonly IUserContext userContext = userContext;
-    readonly ILogger<UpdateSpaceTableReservationCommandHandler> logger = logger;
 
     public async Task Handle(UpdateSpaceTableReservationCommand request, CancellationToken cancellationToken)
     {
@@ -43,22 +37,14 @@ internal class UpdateSpaceTableReservationCommandHandler(
 
         if (isPublicNoteUpdated && reservation.IsActive)
         {
-            var (userLocalReservationDate, isUtcFallback) =
-               TimeZoneHelper.GetUserLocalOrUtcTime(reservation.ReservationDate, this.userContext.TimeZone);
-
-            if (isUtcFallback)
+            var payload = new SpaceTablePublicNoteUpdatedNotification
             {
-                this.logger.LogWarning(
-                    "User local table reservation date could not be calculated for reservation ID: {ReservationId}, time zone: {TimeZone}. Falling back to UTC.",
-                    reservation.Id,
-                    this.userContext.TimeZone);
-            }
+                ReservationDate = reservation.ReservationDate,
+                NumberOfGuests = reservation.NumberOfGuests
+            };
 
             await this.pushNotificationsService
-                .SendNotificationToUsersAsync(
-                    [reservation.UserId],
-                    new SpaceTablePublicNoteUpdatedMessage(reservation.NumberOfGuests, userLocalReservationDate, isUtcFallback),
-                    cancellationToken);
+                .SendNotificationToUsersAsync([reservation.UserId], payload, cancellationToken);
         }
     }
 }

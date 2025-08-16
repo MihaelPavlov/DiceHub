@@ -1,4 +1,5 @@
-﻿using DH.Adapter.Authentication.Entities;
+﻿using Azure.Core;
+using DH.Adapter.Authentication.Entities;
 using DH.Adapter.Authentication.Helper;
 using DH.Domain.Adapters.Authentication;
 using DH.Domain.Adapters.Authentication.Models;
@@ -662,5 +663,14 @@ public class UserService : IUserService
         }
 
         await this.userManager.DeleteAsync(usersInRole.First());
+    }
+
+    public async Task<string> GetUserTimeZone(string userId)
+    {
+        var user = await this.userManager.FindByIdAsync(userId);
+        if (user.IsInvalid())
+            throw new NotFoundException(this.localizer["UserByEmailNotFound"]);
+
+        return user!.TimeZone;
     }
 }

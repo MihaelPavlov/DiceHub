@@ -2,11 +2,9 @@
 using DH.Domain.Adapters.PushNotifications;
 using DH.Domain.Adapters.PushNotifications.Messages;
 using DH.Domain.Entities;
-using DH.Domain.Helpers;
 using DH.Domain.Repositories;
 using DH.OperationResultCore.Exceptions;
 using MediatR;
-using Microsoft.Extensions.Logging;
 
 namespace DH.Application.Events.Commands;
 
@@ -16,14 +14,12 @@ internal class DeleteEventCommandHandler(
     IRepository<Event> eventRepository,
     IRepository<EventParticipant> eventParticipantRepository,
     IPushNotificationsService pushNotificationsService,
-    IUserContext userContext,
-    ILogger<DeleteEventCommand> logger) : IRequestHandler<DeleteEventCommand>
+    IUserContext userContext) : IRequestHandler<DeleteEventCommand>
 {
     readonly IRepository<Event> eventRepository = eventRepository;
     readonly IRepository<EventParticipant> eventParticipantRepository = eventParticipantRepository;
     readonly IPushNotificationsService pushNotificationsService = pushNotificationsService;
     readonly IUserContext userContext = userContext;
-    readonly ILogger<DeleteEventCommand> logger = logger;
 
     public async Task Handle(DeleteEventCommand request, CancellationToken cancellationToken)
     {
@@ -41,24 +37,15 @@ internal class DeleteEventCommandHandler(
 
             var userIds = eventParticipants.Select(x => x.UserId).ToList();
 
-            var (userLocalEventStartDate, isUtcFallback) =
-                TimeZoneHelper.GetUserLocalOrUtcTime(eventDb.StartDate, this.userContext.TimeZone);
-
-            if (isUtcFallback)
+            var payload = new EventDeletedNotification
             {
-                this.logger.LogWarning(
-                    "User local event date could not be calculated for event ID: {EventId}, time zone: {TimeZone}. Falling back to UTC.",
-                    eventDb.Id,
-                    this.userContext.TimeZone);
-            }
+                EventDate = eventDb.StartDate,
+                EventName = eventDb.Name,
+            };
 
             await this.pushNotificationsService
                 .SendNotificationToUsersAsync(
-                    userIds,
-                    new EventDeletedMessage(eventDb.Name, userLocalEventStartDate, isUtcFallback),
-                    cancellationToken);
-
-            return;
+                    userIds, payload, cancellationToken);
         }
 
         await this.eventRepository.SaveChangesAsync(cancellationToken);

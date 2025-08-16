@@ -5,13 +5,11 @@ using DH.Domain.Adapters.Localization;
 using DH.Domain.Adapters.PushNotifications;
 using DH.Domain.Adapters.PushNotifications.Messages;
 using DH.Domain.Entities;
-using DH.Domain.Helpers;
 using DH.Domain.Models.EventModels.Command;
 using DH.Domain.Services;
 using DH.OperationResultCore.Exceptions;
 using Mapster;
 using MediatR;
-using Microsoft.Extensions.Logging;
 
 namespace DH.Application.Events.Commands;
 
@@ -26,23 +24,17 @@ internal class CreateEventCommandHandler : IRequestHandler<CreateEventCommand, i
     readonly IEventService eventService;
     readonly IUserService userService;
     readonly IPushNotificationsService pushNotificationsService;
-    readonly ILogger<CreateEventCommandHandler> logger;
-    readonly IUserContext userContext;
     readonly ILocalizationService localizer;
 
     public CreateEventCommandHandler(
         IEventService eventService,
         IUserService userService,
         IPushNotificationsService pushNotificationsService,
-        IUserContext userContext,
-        ILogger<CreateEventCommandHandler> logger,
         ILocalizationService localizer)
     {
         this.eventService = eventService;
         this.userService = userService;
         this.pushNotificationsService = pushNotificationsService;
-        this.logger = logger;
-        this.userContext = userContext;
         this.localizer = localizer;
     }
 
@@ -64,25 +56,14 @@ internal class CreateEventCommandHandler : IRequestHandler<CreateEventCommand, i
 
         var userIds = users.Select(x => x.Id).ToList();
 
-        var (userLocalEventStartDate, isUtcFallback) =
-            TimeZoneHelper.GetUserLocalOrUtcTime(request.Event.StartDate, this.userContext.TimeZone);
-
-        if (isUtcFallback)
+        var payload = new NewEventAddedNotification
         {
-            this.logger.LogWarning(
-                "User local event date could not be calculated for event ID: {EventId}, time zone: {TimeZone}. Falling back to UTC.",
-                eventId,
-                this.userContext.TimeZone);
-        }
+            EventName = request.Event.Name,
+            EventDate = request.Event.StartDate
+        };
 
         await this.pushNotificationsService
-           .SendNotificationToUsersAsync(
-               userIds,
-               new NewEventAddedMessage(
-                request.Event.Name,
-                userLocalEventStartDate,
-                isUtcFallback),
-               cancellationToken);
+           .SendNotificationToUsersAsync(userIds, payload, cancellationToken);
 
         return eventId;
     }

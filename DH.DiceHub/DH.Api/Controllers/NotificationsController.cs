@@ -22,9 +22,11 @@ public class NotificationsController : ControllerBase
     [HttpGet]
     [ActionAuthorize(UserAction.NotificationCRUD)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<GetUserNotificationsModel>))]
-    public async Task<IActionResult> GetNotificationList(int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetNotificationList(
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 20, CancellationToken cancellationToken = default)
     {
-        var result = await this.pushNotificationsService.GetNotificationsByUserId(cancellationToken);
+        var result = await this.pushNotificationsService.GetNotificationsByUserId(page, pageSize,  cancellationToken);
         return Ok(result);
     }
 

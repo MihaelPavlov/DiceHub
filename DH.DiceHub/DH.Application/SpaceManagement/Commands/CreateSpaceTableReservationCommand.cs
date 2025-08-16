@@ -6,7 +6,6 @@ using DH.Domain.Adapters.PushNotifications.Messages;
 using DH.Domain.Adapters.Reservations;
 using DH.Domain.Entities;
 using DH.Domain.Enums;
-using DH.Domain.Helpers;
 using DH.Domain.Repositories;
 using DH.Domain.Services.TenantSettingsService;
 using DH.OperationResultCore.Exceptions;
@@ -23,8 +22,7 @@ internal class CreateSpaceTableReservationCommandHandler(
     IPushNotificationsService pushNotificationsService,
     IUserService userService,
     ITenantSettingsCacheService tenantSettingsCacheService,
-    ReservationCleanupQueue queue,
-    ILogger<CreateSpaceTableReservationCommandHandler> logger) : IRequestHandler<CreateSpaceTableReservationCommand>
+    ReservationCleanupQueue queue) : IRequestHandler<CreateSpaceTableReservationCommand>
 {
     readonly IRepository<SpaceTableReservation> repository = repository;
     readonly IUserContext userContext = userContext;
@@ -32,7 +30,6 @@ internal class CreateSpaceTableReservationCommandHandler(
     readonly IUserService userService = userService;
     readonly ITenantSettingsCacheService tenantSettingsCacheService = tenantSettingsCacheService;
     readonly ReservationCleanupQueue queue = queue;
-    readonly ILogger<CreateSpaceTableReservationCommandHandler> logger = logger;
 
     public async Task Handle(CreateSpaceTableReservationCommand request, CancellationToken cancellationToken)
     {
@@ -60,21 +57,13 @@ internal class CreateSpaceTableReservationCommandHandler(
         var users = await this.userService.GetUserListByRole(Role.Staff, cancellationToken);
         var userIds = users.Select(user => user.Id).ToList();
 
-        var (userLocalReservationDate, isUtcFallback) =
-              TimeZoneHelper.GetUserLocalOrUtcTime(reservation.ReservationDate, this.userContext.TimeZone);
-
-        if (isUtcFallback)
+        var payload = new SpaceTableReservationManagementNotification
         {
-            this.logger.LogWarning(
-                "User local table reservation date could not be calculated for reservation ID: {ReservationId}, time zone: {TimeZone}. Falling back to UTC.",
-                reservation.Id,
-                this.userContext.TimeZone);
-        }
+            CountPeople = request.NumberOfGuests,
+            ReservationDate = reservation.ReservationDate
+        };
 
         await this.pushNotificationsService
-            .SendNotificationToUsersAsync(
-                userIds,
-                new SpaceTableReservationManagementReminder(request.NumberOfGuests, userLocalReservationDate, isUtcFallback),
-                cancellationToken);
+            .SendNotificationToUsersAsync(userIds, payload, cancellationToken);
     }
 }

@@ -57,7 +57,7 @@
         [ngClass]="
         item.hasBeenViewed ? 'item-viewed' : ''"
         (click)="markedAsViewed(item.id, item.hasBeenViewed)"
-        *ngFor="let item of userNotifications"
+        *ngFor="let item of userNotifications;  trackBy: trackByNotification"
       >
         <p class="type">{{item.messageTitle}}</p>
 
@@ -65,5 +65,7 @@
         <span class="text" [innerHTML]="item.messageBody"></span>
       </div>
     </ng-container>
+
+    <div #infiniteScrollTrigger [hidden]="userNotifications.length === 0"></div>
   </div>
 </div>

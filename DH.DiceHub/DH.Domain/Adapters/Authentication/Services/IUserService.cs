@@ -55,6 +55,8 @@ public interface IUserService
     /// <returns>A <see cref="GetUserByRoleModel"/> collection.</returns>
     Task<List<GetUserByRoleModel>> GetUserListByRoles(Role[] roles, CancellationToken cancellationToken);
 
+    Task<string> GetUserTimeZone(string userId);
+
     /// <summary>
     /// Create employee
     /// </summary>

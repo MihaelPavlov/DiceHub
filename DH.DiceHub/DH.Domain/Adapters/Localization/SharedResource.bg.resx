@@ -228,4 +228,76 @@
   <data name="GameReservationNoteChangedBody" xml:space="preserve">
     <value>Вашата резервация за игра за {0} {1} в {2} има нова бележка, моля, прегледайте я!</value>
   </data>
+  <data name="EventDeletedTitle" xml:space="preserve">
+    <value>Съобщение: Събитието е отменено</value>
+  </data>
+  <data name="EventDeletedBody" xml:space="preserve">
+    <value>Съжаляваме да Ви уведомим, че събитието **{0}**, първоначално насрочено за **{1}**, беше отменено. Извиняваме се за неудобството и благодарим за разбирането.</value>
+  </data>
+  <data name="EventReminderTitle" xml:space="preserve">
+    <value>Напомняне: Предстоящо събитие</value>
+  </data>
+  <data name="EventReminderBody" xml:space="preserve">
+    <value>Не забравяйте! Регистрирани сте за събитието {0}, което ще се проведе на {1}. Очакваме ви с нетърпение!</value>
+  </data>
+  <data name="EventStartDateUpdatedTitle" xml:space="preserve">
+    <value>Началната дата на събитието е актуализирана</value>
+  </data>
+  <data name="EventStartDateUpdateBody" xml:space="preserve">
+    <value>Началната дата за **{0}** беше актуализирана на **{1}**. Очакваме с нетърпение да ви видим там!</value>
+  </data>
+  <data name="NewEventAddedTitle" xml:space="preserve">
+    <value>Добавено е ново събитие</value>
+  </data>
+  <data name="NewEventAddedBody" xml:space="preserve">
+    <value>Ново събитие **{0}** е насрочено за **{1}**. Присъединете се и се насладете на преживяването!</value>
+  </data>
+  <data name="RegistrationMessageTitle" xml:space="preserve">
+    <value>Добре дошли в {0}!</value>
+  </data>
+  <data name="RegistrationMessageBody" xml:space="preserve">
+    <value>Здравейте {0}, добре дошли! Благодарим Ви за регистрацията. За да започнете, вижте нашите инструкции за повече подробности.</value>
+  </data>
+  <data name="RewardExpirationReminderTitle" xml:space="preserve">
+    <value>Вашата награда ще изтече след {0} {1}!</value>
+  </data>
+  <data name="RewardExpirationReminderBody" xml:space="preserve">
+    <value>Не изпускайте възможността! Вашата награда **{0}** ще изтече след {1} {2}. Посетете клуба скоро, за да я вземете преди да изчезне!</value>
+  </data>
+  <data name="Day_Singular" xml:space="preserve">
+    <value>ден</value>
+  </data>
+  <data name="Day_Plural" xml:space="preserve">
+    <value>дни</value>
+  </data>
+  <data name="RewardExpiredTitle" xml:space="preserve">
+    <value>Изтекла награда. Не се притеснявайте, посетете клуба за още страхотни награди!</value>
+  </data>
+  <data name="RewardExpiredBody" xml:space="preserve">
+    <value>За съжаление вашата награда е изтекла: {0}!</value>
+  </data>
+  <data name="SpaceTableApprovedTitle" xml:space="preserve">
+    <value>Резервация на маса одобрена</value>
+  </data>
+  <data name="SpaceTableApprovedBody" xml:space="preserve">
+    <value>Вашата резервация за {0} {1} в {2} е ПОТВЪРДЕНА!</value>
+  </data>
+  <data name="SpaceTableDeclinedTitle" xml:space="preserve">
+    <value>Резервация на маса отказана</value>
+  </data>
+  <data name="SpaceTableDeclinedBody" xml:space="preserve">
+    <value>Вашата резервация за {0} {1} в {2} е ОТКАЗАНА!</value>
+  </data>
+  <data name="SpaceTableNoteUpdatedTitle" xml:space="preserve">
+    <value>Промяна на бележката за резервация на маса!</value>
+  </data>
+  <data name="SpaceTableNoteUpdatedBody" xml:space="preserve">
+    <value>Вашата резервация за {0} {1} в {2} има нова бележка, моля, прегледайте я!</value>
+  </data>
+  <data name="SpaceTableReservationReminderTitle" xml:space="preserve">
+    <value>Напомняне за резервация на маса</value>
+  </data>
+  <data name="SpaceTableReservationReminderBody" xml:space="preserve">
+    <value>Имате нова резервация за маса. Резервирайте маса за {0} {1} в {2}!</value>
+  </data>
 </root>

@@ -11,7 +11,7 @@ public interface IPushNotificationsService
     /// </summary>
     /// <param name="message">The message details including title, body, and device token.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    Task SendUserNotificationAsync(MessageRequest message);
+    Task SendUserNotificationAsync(RenderableNotification message);
 
     /// <summary>
     /// Sends a push notification to multiple specified device tokens.
@@ -27,8 +27,11 @@ public interface IPushNotificationsService
     /// <param name="message">The message details, including title and body, to be sent to the users.</param>
     /// <param name="cancellationToken">Cancellation Token.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    Task SendNotificationToUsersAsync(List<string> userIds, MessageRequest message, CancellationToken cancellationToken);
-    Task<IEnumerable<GetUserNotificationsModel>> GetNotificationsByUserId(CancellationToken cancellationToken);
+    Task SendNotificationToUsersAsync<TPayload>(
+          List<string> userIds, TPayload payload, CancellationToken cancellationToken)
+              where TPayload : RenderableNotification;
+
+    Task<IEnumerable<GetUserNotificationsModel>> GetNotificationsByUserId(int page, int pageSize, CancellationToken cancellationToken);
     Task MarkedNotificationAsViewed(int notificationId, CancellationToken cancellationToken);
     Task ClearUserAllNotifications(CancellationToken cancellationToken);
     Task MarkedAsViewAllUserNotifications(CancellationToken cancellationToken);

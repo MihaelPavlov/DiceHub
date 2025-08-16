@@ -2,7 +2,6 @@
 using DH.Domain.Adapters.PushNotifications;
 using DH.Domain.Adapters.PushNotifications.Messages;
 using DH.Domain.Entities;
-using DH.Domain.Helpers;
 using DH.Domain.Repositories;
 using DH.Domain.Services.TenantSettingsService;
 using DH.OperationResultCore.Exceptions;
@@ -15,18 +14,14 @@ public record SendEventParticipantsNotificationsCommand(int EventId) : IRequest;
 
 internal class SendEventParticipantsNotificationsCommandHandler(
     ILogger<SendEventParticipantsNotificationsCommand> logger,
-    ITenantSettingsCacheService tenantSettingsCacheService,
     IRepository<Event> eventRepository,
     IRepository<EventParticipant> eventParticipantsRepository,
-    IPushNotificationsService pushNotificationsService,
-    IUserContext userContext) : IRequestHandler<SendEventParticipantsNotificationsCommand>
+    IPushNotificationsService pushNotificationsService) : IRequestHandler<SendEventParticipantsNotificationsCommand>
 {
     readonly ILogger<SendEventParticipantsNotificationsCommand> logger = logger;
-    readonly ITenantSettingsCacheService tenantSettingsCacheService = tenantSettingsCacheService;
     readonly IRepository<Event> eventRepository = eventRepository;
     readonly IRepository<EventParticipant> eventParticipantsRepository = eventParticipantsRepository;
     readonly IPushNotificationsService pushNotificationsService = pushNotificationsService;
-    readonly IUserContext userContext = userContext;
 
     public async Task Handle(SendEventParticipantsNotificationsCommand request, CancellationToken cancellationToken)
     {
@@ -45,21 +40,15 @@ internal class SendEventParticipantsNotificationsCommandHandler(
             x => x.UserId,
             cancellationToken);
 
-        var (userLocalEventStartDate, isUtcFallback) =
-                TimeZoneHelper.GetUserLocalOrUtcTime(eventDb.StartDate, this.userContext.TimeZone);
 
-        if (isUtcFallback)
+        var payload = new EventReminderNotification
         {
-            this.logger.LogWarning(
-                "User local event date could not be calculated for event ID: {EventId}, time zone: {TimeZone}. Falling back to UTC.",
-                eventDb.Id,
-                this.userContext.TimeZone);
-        }
+            EventName = eventDb.Name,
+            EventDate = eventDb.StartDate
+        };
 
         await this.pushNotificationsService
            .SendNotificationToUsersAsync(
-               participantIds,
-               new EventReminder(eventDb.Name, userLocalEventStartDate, isUtcFallback),
-               cancellationToken);
+               participantIds, payload, cancellationToken);
     }
 }
