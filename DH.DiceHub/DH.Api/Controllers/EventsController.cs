@@ -1,5 +1,4 @@
-﻿
-using DH.Adapter.Authentication.Filters;
+﻿using DH.Adapter.Authentication.Filters;
 using DH.Application.Events.Commands;
 using DH.Application.Events.Queries;
 using DH.Domain.Adapters.Authentication.Enums;

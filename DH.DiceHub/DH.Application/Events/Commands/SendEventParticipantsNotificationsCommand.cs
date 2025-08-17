@@ -1,9 +1,7 @@
-﻿using DH.Domain.Adapters.Authentication;
-using DH.Domain.Adapters.PushNotifications;
+﻿using DH.Domain.Adapters.PushNotifications;
 using DH.Domain.Adapters.PushNotifications.Messages;
 using DH.Domain.Entities;
 using DH.Domain.Repositories;
-using DH.Domain.Services.TenantSettingsService;
 using DH.OperationResultCore.Exceptions;
 using MediatR;
 using Microsoft.Extensions.Logging;

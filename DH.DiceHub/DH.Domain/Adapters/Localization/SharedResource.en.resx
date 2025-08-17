@@ -300,4 +300,7 @@
   <data name="SpaceTableReservationReminderBody" xml:space="preserve">
     <value>You have a new table reservation. Reserve a table for {0} {1} at {2}!</value>
   </data>
+  <data name="EventMaxPeopleCapacity" xml:space="preserve">
+    <value>This event has reached its maximum capacity for online sign-ins</value>
+  </data>
 </root>

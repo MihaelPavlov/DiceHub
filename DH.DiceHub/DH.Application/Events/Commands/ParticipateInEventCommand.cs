@@ -1,4 +1,5 @@
 ﻿using DH.Domain.Adapters.Authentication;
+using DH.Domain.Adapters.Localization;
 using DH.Domain.Adapters.Statistics;
 using DH.Domain.Adapters.Statistics.Services;
 using DH.Domain.Entities;
@@ -17,16 +18,19 @@ internal class ParticipateInEventCommandHandler : IRequestHandler<ParticipateInE
     readonly IRepository<EventParticipant> eventParticipantRepository;
     readonly IUserContext userContext;
     readonly IStatisticQueuePublisher statisticQueuePublisher;
+    readonly ILocalizationService localizer;
 
     public ParticipateInEventCommandHandler(
         IRepository<Event> eventRepository,
         IRepository<EventParticipant> eventParticipantRepository,
-        IUserContext userContext, IStatisticQueuePublisher statisticQueuePublisher)
+        IUserContext userContext, IStatisticQueuePublisher statisticQueuePublisher,
+         ILocalizationService localizer)
     {
         this.eventRepository = eventRepository;
         this.eventParticipantRepository = eventParticipantRepository;
         this.userContext = userContext;
         this.statisticQueuePublisher = statisticQueuePublisher;
+        this.localizer = localizer;
     }
 
     public async Task<bool> Handle(ParticipateInEventCommand request, CancellationToken cancellationToken)
@@ -35,11 +39,14 @@ internal class ParticipateInEventCommandHandler : IRequestHandler<ParticipateInE
             .GetByAsync(x => x.Id == request.Id, cancellationToken)
                 ?? throw new NotFoundException(nameof(Event), request.Id);
 
+        var eventParticipants = await this.eventParticipantRepository
+            .GetWithPropertiesAsync(x => x.EventId == request.Id, x => x, cancellationToken);
+
         var currentUserParticipant = await this.eventParticipantRepository
             .GetByAsync(x => x.EventId == request.Id && x.UserId == this.userContext.UserId, cancellationToken);
 
-        if (eventDb.MaxPeople == eventDb.Participants.Count)
-            throw new ValidationErrorsException("maxPeople", "This event has reached its maximum capacity for online sign-ins");
+        if (eventDb.MaxPeople == eventParticipants.Count)
+            throw new ValidationErrorsException("maxPeople", this.localizer["EventMaxPeopleCapacity"]);
 
         if (currentUserParticipant is null)
         {

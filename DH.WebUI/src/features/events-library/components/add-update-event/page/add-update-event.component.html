@@ -183,9 +183,7 @@
 
     <div
       *ngIf="
-        getFirstErrorMessage() ||
-        form.get('startDate')?.hasError('notFutureDate')
-      "
+        getFirstErrorMessage()"
       class="errors"
     >
       {{ getFirstErrorMessage() }}

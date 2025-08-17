@@ -300,4 +300,7 @@
   <data name="SpaceTableReservationReminderBody" xml:space="preserve">
     <value>Имате нова резервация за маса. Резервирайте маса за {0} {1} в {2}!</value>
   </data>
+  <data name="EventMaxPeopleCapacity" xml:space="preserve">
+    <value>Това събитие е достигнало максималния брой участници за онлайн записване</value>
+  </data>
 </root>
