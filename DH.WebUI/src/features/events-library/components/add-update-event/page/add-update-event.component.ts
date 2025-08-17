@@ -9,9 +9,12 @@ import {
 import { Form } from '../../../../../shared/components/form/form.component';
 import { Formify } from '../../../../../shared/models/form.model';
 import {
+  AbstractControl,
   FormBuilder,
   FormControl,
   FormGroup,
+  ValidationErrors,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { MenuTabsService } from '../../../../../shared/services/menu-tabs.service';
@@ -44,6 +47,21 @@ interface ICreateEventForm {
   gameId: number;
   image: string | null;
   isCustomImage: boolean;
+}
+
+function futureDateValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    if (!control.value) return null;
+
+    const selectedDate = new Date(control.value);
+    const today = new Date();
+
+    // Reset times (we only compare dates, not hours)
+    today.setHours(0, 0, 0, 0);
+    selectedDate.setHours(0, 0, 0, 0);
+
+    return selectedDate > today ? null : { notFutureDate: true };
+  };
 }
 
 @Component({
@@ -258,6 +276,21 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
   public backNavigateBtn() {
     this.location.back();
   }
+  
+  protected override handleAdditionalErrors(): string | null {
+    const startDate = this.form.get('startDate')?.value;
+
+    if (
+      startDate &&
+      new Date(startDate).getTime() < new Date().setHours(0, 0, 0, 0)
+    ) {
+      return this.translateService.instant(
+        'events.add_update.start_date_validation'
+      );
+    }
+
+    return null;
+  }
 
   protected override getControlDisplayName(controlName: string): string {
     switch (controlName) {
@@ -421,7 +454,10 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
       ]),
       description_en: new FormControl<string | null>('', Validators.required),
       description_bg: new FormControl<string | null>('', Validators.required),
-      startDate: new FormControl<Date | null>(null, [Validators.required]),
+      startDate: new FormControl<Date | null>(null, [
+        Validators.required,
+        futureDateValidator(),
+      ]),
       startTime: new FormControl<Date | null>(null, [Validators.required]),
       maxPeople: new FormControl<number | null>(null, [
         Validators.required,

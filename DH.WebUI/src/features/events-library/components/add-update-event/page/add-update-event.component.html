@@ -181,7 +181,13 @@
       ></textarea>
     </div>
 
-    <div *ngIf="getFirstErrorMessage()" class="errors">
+    <div
+      *ngIf="
+        getFirstErrorMessage() ||
+        form.get('startDate')?.hasError('notFutureDate')
+      "
+      class="errors"
+    >
       {{ getFirstErrorMessage() }}
     </div>
 

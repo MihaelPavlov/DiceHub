@@ -243,7 +243,7 @@
   <data name="EventStartDateUpdatedTitle" xml:space="preserve">
     <value>Началната дата на събитието е актуализирана</value>
   </data>
-  <data name="EventStartDateUpdateBody" xml:space="preserve">
+  <data name="EventStartDateUpdatedBody" xml:space="preserve">
     <value>Началната дата за **{0}** беше актуализирана на **{1}**. Очакваме с нетърпение да ви видим там!</value>
   </data>
   <data name="NewEventAddedTitle" xml:space="preserve">

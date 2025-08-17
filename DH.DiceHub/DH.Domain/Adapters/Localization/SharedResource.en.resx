@@ -243,7 +243,7 @@
   <data name="EventStartDateUpdatedTitle" xml:space="preserve">
     <value>Event Start Date Updated</value>
   </data>
-  <data name="EventStartDateUpdateBody" xml:space="preserve">
+  <data name="EventStartDateUpdatedBody" xml:space="preserve">
     <value>The start date for **{0}** has been updated to **{1}**. We look forward to seeing you there!</value>
   </data>
   <data name="NewEventAddedTitle" xml:space="preserve">
