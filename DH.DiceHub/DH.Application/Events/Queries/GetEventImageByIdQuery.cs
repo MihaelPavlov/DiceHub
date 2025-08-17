@@ -5,9 +5,9 @@ using MediatR;
 
 namespace DH.Application.Events.Queries;
 
-public record GetEventImageByIdQuery(int Id) : IRequest<GameImageResult>;
+public record GetEventImageByIdQuery(int Id) : IRequest<EventImageResult>;
 
-internal class GetEventImageByIdQueryHandler : IRequestHandler<GetEventImageByIdQuery, GameImageResult>
+internal class GetEventImageByIdQueryHandler : IRequestHandler<GetEventImageByIdQuery, EventImageResult>
 {
     readonly IRepository<EventImage> repository;
 
@@ -16,13 +16,13 @@ internal class GetEventImageByIdQueryHandler : IRequestHandler<GetEventImageById
         this.repository = repository;
     }
 
-    public async Task<GameImageResult> Handle(GetEventImageByIdQuery request, CancellationToken cancellationToken)
+    public async Task<EventImageResult> Handle(GetEventImageByIdQuery request, CancellationToken cancellationToken)
     {
-        var gameImage = await this.repository.GetByAsync(x => x.Id == request.Id, cancellationToken)
-            ?? throw new NotFoundException(nameof(GameImage));
+        var eventImage = await this.repository.GetByAsync(x => x.Id == request.Id, cancellationToken)
+            ?? throw new NotFoundException(nameof(EventImage));
 
-        return new GameImageResult(gameImage.FileName, gameImage.ContentType, gameImage.Data);
+        return new EventImageResult(eventImage.FileName, eventImage.ContentType, eventImage.Data);
     }
 }
 
-public record GameImageResult(string FileName, string ContentType, byte[] Data);
+public record EventImageResult(string FileName, string ContentType, byte[] Data);

@@ -1,5 +1,5 @@
 <app-header
-  header="Event Management"
+  [header]="'events.management_header' | translate"
   [withBottomLine]="true"
   [withSearch]="true"
   [withMenu]="true"
@@ -17,11 +17,7 @@
     [ngClass]="{ expired: isEventExpired(event.startDate) }"
   >
     <div class="wrapper_image">
-      <img
-        *ngIf="getImage(event) | async as image"
-        [src]="image"
-        alt="event Image"
-      />
+      <img *ngIf="getImage(event) | async as image" [src]="image" />
     </div>
     <div class="wrapper_info">
       <div class="wrapper_title">
@@ -29,12 +25,17 @@
         <div class="wrapper_chips">
           <app-chip
             [color]="'orange'"
-            text="{{ event.peopleJoined }} joined"
+            [text]="
+              'events.chip_joined'
+                | translate : { peopleJoined: event.peopleJoined }
+            "
             [size]="'small'"
           ></app-chip>
           <app-chip
             [color]="'red'"
-            text="{{ event.maxPeople }} max"
+            [text]="
+              'events.chip_max' | translate : { maxPeople: event.maxPeople }
+            "
             [size]="'small'"
           ></app-chip>
         </div>
@@ -47,7 +48,10 @@
           <app-chip
             [color]="'blue'"
             [text]="
-              (event.startDate | date : DATE_TIME_FORMAT)?.toString() ?? ''
+              (
+                event.startDate
+                | date : DATE_TIME_FORMAT : undefined : this.currentLanguage
+              )?.toString() ?? ''
             "
             [size]="'small'"
           ></app-chip>

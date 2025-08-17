@@ -7,6 +7,8 @@ import { MenuTabsService } from '../../../shared/services/menu-tabs.service';
 import { FULL_ROUTE } from '../../../shared/configs/route.config';
 import { combineLatest, Observable } from 'rxjs';
 import { DateHelper } from '../../../shared/helpers/date-helper';
+import { LanguageService } from '../../../shared/services/language.service';
+import { SupportLanguages } from '../../../entities/common/models/support-languages.enum';
 
 @Component({
   selector: 'app-events-library',
@@ -20,17 +22,23 @@ export class EventsLibraryComponent implements OnInit, OnDestroy {
 
   public readonly DATE_TIME_FORMAT: string = DateHelper.DATE_TIME_FORMAT;
   public readonly DATE_FORMAT: string = DateHelper.DATE_FORMAT;
+  public readonly SupportLanguages = SupportLanguages;
 
   constructor(
     private readonly router: Router,
     private readonly menuTabsService: MenuTabsService,
-    private readonly eventService: EventsService
+    private readonly eventService: EventsService,
+    private readonly languageService: LanguageService
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.EVENTS);
   }
 
   public ngOnInit(): void {
     this.fetchEventList();
+  }
+
+  public get currentLanguage(): SupportLanguages {
+    return this.languageService.getCurrentLanguage();
   }
 
   public ngOnDestroy(): void {

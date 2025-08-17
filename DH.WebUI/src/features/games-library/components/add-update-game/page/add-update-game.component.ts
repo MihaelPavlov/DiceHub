@@ -35,6 +35,7 @@ import {
   ImageEntityType,
 } from '../../../../../shared/pipe/entity-image.pipe';
 import { IDropdown } from '../../../../../shared/models/dropdown.model';
+import { FULL_ROUTE } from '../../../../../shared/configs/route.config';
 
 interface ICreateGameForm {
   categoryId: number;
@@ -191,7 +192,7 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
   }
 
   public backNavigateBtn() {
-    this.router.navigateByUrl('games/library');
+    this.router.navigateByUrl(FULL_ROUTE.GAMES.LIBRARY);
   }
 
   public onFileSelected(event: Event): void {
@@ -251,7 +252,7 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
               type: ToastType.Success,
             });
 
-            this.router.navigateByUrl('/games/library');
+            this.router.navigateByUrl(FULL_ROUTE.GAMES.LIBRARY);
           },
           error: (error) => {
             this.handleServerErrors(error);
@@ -295,7 +296,10 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
               type: ToastType.Success,
             });
 
-            this.router.navigateByUrl(`/games/${this.editGameId}/details`);
+            if (this.editGameId)
+              this.router.navigateByUrl(
+                FULL_ROUTE.GAMES.DETAILS(this.editGameId)
+              );
           },
           error: (error) => {
             this.handleServerErrors(error);
@@ -320,7 +324,7 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
             ),
             type: ToastType.Success,
           });
-          this.router.navigateByUrl(`/games/library`);
+          this.router.navigateByUrl(FULL_ROUTE.GAMES.LIBRARY);
         },
         error: (error) => {
           this.handleServerErrors(error);

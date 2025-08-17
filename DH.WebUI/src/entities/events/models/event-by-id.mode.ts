@@ -1,7 +1,8 @@
 export interface IEventByIdResult {
   id: number;
   name: string;
-  description: string;
+  description_EN: string;
+  description_BG: string;
   startDate: Date;
   peopleJoined: number;
   maxPeople: number;
@@ -10,7 +11,8 @@ export interface IEventByIdResult {
 
   gameId: number;
   gameName: string;
-  gameDescription: string;
+  gameDescription_EN: string;
+  gameDescription_BG: string;
   gameMinAge: number;
   gameMinPlayers: number;
   gameMaxPlayers: number;

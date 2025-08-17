@@ -18,14 +18,19 @@
               imagePreview ||
               '../../../../../shared/assets/images/upload_img.svg'
             "
-            alt="Selected Image"
           />
         </div>
       </label>
     </div>
 
+    <div class="statistics">
+      <span>{{ "events.add_update.event_info" | translate }}</span>
+    </div>
+
     <div class="input-field">
-      <label for="is-custom-image">Use Custom Image</label>
+      <label for="is-custom-image">{{
+        "events.add_update.labels.use_custom_image" | translate
+      }}</label>
       <input
         type="checkbox"
         id="is-custom-image"
@@ -34,12 +39,14 @@
     </div>
 
     <div class="input-field">
-      <label for="game" class="required">Game</label>
+      <label for="game" class="required">{{
+        "events.add_update.labels.game" | translate
+      }}</label>
       <ng-select
         [items]="gameList"
         bindLabel="name"
         bindValue="id"
-        placeholder="Choose Game"
+        [placeholder]="'events.add_update.placeholders.select_game' | translate"
         [searchable]="true"
         class="app-select-long"
         [closeOnSelect]="true"
@@ -50,18 +57,26 @@
 
     <div class="input-group">
       <div class="input-field">
-        <label for="start-date" class="required">Start Date</label>
+        <label for="start-date" class="required">{{
+          "events.add_update.labels.start_date" | translate
+        }}</label>
         <input
-          placeholder="start date"
+          [placeholder]="
+            'events.add_update.placeholders.start_date' | translate
+          "
           type="date"
           id="start-date"
           formControlName="startDate"
         />
       </div>
       <div class="input-field">
-        <label for="start-time" class="required">Start Time</label>
+        <label for="start-time" class="required">{{
+          "events.add_update.labels.start_time" | translate
+        }}</label>
         <input
-          placeholder="start time"
+          [placeholder]="
+            'events.add_update.placeholders.start_time' | translate
+          "
           type="time"
           id="start-time"
           formControlName="startTime"
@@ -70,18 +85,24 @@
     </div>
     <div class="input-group">
       <div class="input-field">
-        <label for="name" class="required">Name</label>
+        <label for="name" class="required">{{
+          "events.add_update.labels.name" | translate
+        }}</label>
         <input
-          placeholder="name of the game ?"
+          [placeholder]="'events.add_update.placeholders.name' | translate"
           type="text"
           id="name"
           formControlName="name"
         />
       </div>
       <div class="input-field">
-        <label for="max-people" class="required">Max People</label>
+        <label for="max-people" class="required">{{
+          "events.add_update.labels.max_people" | translate
+        }}</label>
         <input
-          placeholder="max people"
+          [placeholder]="
+            'events.add_update.placeholders.max_people' | translate
+          "
           type="number"
           id="max-people"
           formControlName="maxPeople"
@@ -89,11 +110,74 @@
       </div>
     </div>
     <div class="input-field">
-      <label for="description" class="required">Description</label>
+      <div class="label-row">
+        <label for="description" class="required">{{
+          "events.add_update.labels.description" | translate
+        }}</label>
+        <div class="lang-buttons">
+          <button
+            type="button"
+            [class.active]="currentLang === 'EN'"
+            (click)="setLang('EN')"
+            [class.missing]="!form.get('description_en')?.value"
+          >
+            <svg
+              viewBox="0 0 24 16"
+              xmlns="http://www.w3.org/2000/svg"
+              role="img"
+            >
+              <rect width="24" height="16" fill="#012169" />
+              <path d="M0 0L24 16M24 0L0 16" stroke="#FFF" stroke-width="2" />
+              <path
+                d="M0 0L24 16M24 0L0 16"
+                stroke="#C8102E"
+                stroke-width="1"
+              />
+              <rect x="10" width="4" height="16" fill="#FFF" />
+              <rect y="6" width="24" height="4" fill="#FFF" />
+              <rect x="11" width="2" height="16" fill="#C8102E" />
+              <rect y="7" width="24" height="2" fill="#C8102E" />
+            </svg>
+          </button>
+          <button
+            type="button"
+            [class.active]="currentLang === 'BG'"
+            (click)="setLang('BG')"
+            [class.missing]="!form.get('description_bg')?.value"
+          >
+            <svg
+              viewBox="0 0 24 16"
+              xmlns="http://www.w3.org/2000/svg"
+              role="img"
+            >
+              <rect width="24" height="5.33" fill="#fff" />
+              <rect y="5.33" width="24" height="5.33" fill="#00966e" />
+              <rect y="10.66" width="24" height="5.34" fill="#d62612" />
+            </svg>
+          </button>
+        </div>
+      </div>
       <textarea
-        placeholder="what happen in this game"
-        id="description"
-        formControlName="description"
+        *ngIf="currentLang === 'EN'"
+        [placeholder]="
+          'events.add_update.placeholders.description_en' | translate
+        "
+        formControlName="description_en"
+        #descAreaEn
+        (input)="adjustTextareaHeight(descAreaEn)"
+        class="expand-textarea-mobile"
+      ></textarea>
+
+      <!-- BG Textarea -->
+      <textarea
+        *ngIf="currentLang === 'BG'"
+        [placeholder]="
+          'events.add_update.placeholders.description_bg' | translate
+        "
+        formControlName="description_bg"
+        #descAreaBg
+        (input)="adjustTextareaHeight(descAreaBg)"
+        class="expand-textarea-mobile"
       ></textarea>
     </div>
 
@@ -114,7 +198,7 @@
         'btn-font-red': this.form.invalid
       }"
     >
-      Create
+      {{ "events.add_update.buttons.create" | translate }}
     </button>
 
     <button
@@ -130,7 +214,7 @@
         'btn-font-red': this.form.invalid
       }"
     >
-      Update
+      {{ "events.add_update.buttons.update" | translate }}
     </button>
   </div>
 </form>

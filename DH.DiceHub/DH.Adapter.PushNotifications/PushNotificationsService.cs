@@ -63,7 +63,6 @@ internal class PushNotificationsService : IPushNotificationsService
 
             if (payload != null)
             {
-                // Render the body using your notificationRenderer
                 notificationRenderResult = await this.notificationRenderer.RenderMessageBody(payload, n.UserId);
             }
 

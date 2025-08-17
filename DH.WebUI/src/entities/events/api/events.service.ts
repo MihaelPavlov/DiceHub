@@ -26,6 +26,7 @@ export class EventsService {
     if (isCustomImage) {
       type = ImageEntityType.Events;
     }
+
     return this.entityImagePipe.transform(type, imageId);
   }
 

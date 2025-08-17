@@ -63,7 +63,8 @@ internal class EventService : IEventService
                 {
                     Id = e.Id,
                     Name = e.Name,
-                    Description = e.Description,
+                    Description_EN = e.Description_EN,
+                    Description_BG = e.Description_BG,
                     StartDate = e.StartDate,
                     IsCustomImage = e.IsCustomImage,
                     MaxPeople = e.MaxPeople,
@@ -71,7 +72,8 @@ internal class EventService : IEventService
                     ImageId = e.IsCustomImage ? ei.Id : g.Image.Id,
                     GameId = g.Id,
                     GameName = g.Name,
-                    GameDescription = g.Description_EN,
+                    GameDescription_EN = g.Description_EN,
+                    GameDescription_BG = g.Description_BG,
                     GameAveragePlaytime = g.AveragePlaytime,
                     GameMinAge = g.MinAge,
                     GameMaxPlayers = g.MaxPlayers,
@@ -96,7 +98,8 @@ internal class EventService : IEventService
                     Id = e.Id,
                     GameId = g.Id,
                     Name = e.Name,
-                    Description = e.Description,
+                    Description_EN = e.Description_EN,
+                    Description_BG = e.Description_BG,
                     StartDate = e.StartDate,
                     IsCustomImage = e.IsCustomImage,
                     MaxPeople = e.MaxPeople,
@@ -155,7 +158,8 @@ internal class EventService : IEventService
                     Id = ep.Event.Id,
                     GameId = g.Id,
                     Name = ep.Event.Name,
-                    Description = ep.Event.Description,
+                    Description_EN = ep.Event.Description_EN,
+                    Description_BG = ep.Event.Description_BG,
                     StartDate = ep.Event.StartDate,
                     IsCustomImage = ep.Event.IsCustomImage,
                     MaxPeople = ep.Event.MaxPeople,
@@ -183,7 +187,8 @@ internal class EventService : IEventService
             };
 
             eventDb.Name = eventModel.Name;
-            eventDb.Description = eventModel.Description;
+            eventDb.Description_BG = eventModel.Description_BG;
+            eventDb.Description_EN = eventModel.Description_EN;
             if (eventDb.StartDate != eventModel.StartDate)
             {
                 response.ShouldSendStarDateUpdatedNotification = true;

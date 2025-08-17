@@ -1,4 +1,5 @@
-﻿using DH.Adapter.Authentication.Filters;
+﻿
+using DH.Adapter.Authentication.Filters;
 using DH.Application.Events.Commands;
 using DH.Application.Events.Queries;
 using DH.Domain.Adapters.Authentication.Enums;
@@ -150,13 +151,13 @@ public class EventsController : ControllerBase
 
     [HttpGet("get-image/{id}")]
     public async Task<IActionResult> GetEventImage(int id, CancellationToken cancellationToken)
-    {
-        var gameFile = await this.mediator.Send(new GetEventImageByIdQuery(id), cancellationToken);
-        if (gameFile == null)
+    { 
+        var eventFile = await this.mediator.Send(new GetEventImageByIdQuery(id), cancellationToken);
+        if (eventFile == null)
         {
             return NotFound();
         }
 
-        return File(gameFile.Data, gameFile.ContentType, gameFile.FileName);
+        return File(eventFile.Data, eventFile.ContentType, eventFile.FileName);
     }
 }

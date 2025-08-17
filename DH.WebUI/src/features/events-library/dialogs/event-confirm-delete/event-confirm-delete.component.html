@@ -1,14 +1,16 @@
 <div class="dialog-container">
   <h3 class="dialog-container__header m-4">
-    Are you sure you want to delete this event?
+    {{ "events.delete_event.message" | translate }}
   </h3>
   <p class="m-4">
-    This action will remove all participant registrations and send a cancellation notification to everyone who registered.
+    {{ "events.delete_event.message_dependencies" | translate }}
   </p>
   <mat-dialog-actions>
-    <button class="btn btn__small btn-blue" mat-dialog-close>Cancel</button>
+    <button class="btn btn__small btn-blue" mat-dialog-close>
+      {{ "cancel" | translate }}
+    </button>
     <button class="btn btn__small btn-red btn-border-red" (click)="delete()">
-      Delete Event
+      {{ "delete" | translate }}
     </button>
   </mat-dialog-actions>
 </div>

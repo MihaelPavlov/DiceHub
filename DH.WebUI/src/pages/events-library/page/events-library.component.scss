@@ -70,8 +70,12 @@ app-header {
     &__chips {
       width: 100%;
       display: flex;
-      justify-content: space-between;
-      padding: 1rem;
+      justify-content: space-evenly;
+      padding: 0.2rem;
+      flex-wrap: wrap;
+      app-chip {
+        margin: 0 1rem;
+      }
     }
   }
 }

@@ -1,7 +1,8 @@
 export interface IEventListResult {
   id: number;
   name: string;
-  description:string;
+  description_EN: string;
+  description_BG: string;
   startDate: Date;
   peopleJoined: number;
   maxPeople: number;

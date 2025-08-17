@@ -7,6 +7,8 @@ import { NAV_ITEM_LABELS } from '../../../../../shared/models/nav-items-labels.c
 import { MenuTabsService } from '../../../../../shared/services/menu-tabs.service';
 import { FULL_ROUTE } from '../../../../../shared/configs/route.config';
 import { DateHelper } from '../../../../../shared/helpers/date-helper';
+import { LanguageService } from '../../../../../shared/services/language.service';
+import { SupportLanguages } from '../../../../../entities/common/models/support-languages.enum';
 
 @Component({
   selector: 'app-admin-event-details',
@@ -17,14 +19,15 @@ export class AdminEventDetailsComponent implements OnInit, OnDestroy {
   public event$!: Observable<IEventByIdResult>;
 
   public readonly DATE_TIME_FORMAT: string = DateHelper.DATE_TIME_FORMAT;
-
+  public readonly SupportLanguages = SupportLanguages;
   private eventId!: number;
 
   constructor(
     private readonly eventService: EventsService,
     private readonly activeRoute: ActivatedRoute,
     private readonly menuTabsService: MenuTabsService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly languageService: LanguageService
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.EVENTS);
   }
@@ -33,10 +36,13 @@ export class AdminEventDetailsComponent implements OnInit, OnDestroy {
     this.menuTabsService.resetData();
   }
 
+  public get currentLanguage(): SupportLanguages {
+    return this.languageService.getCurrentLanguage();
+  }
+
   public ngOnInit(): void {
     this.activeRoute.params.subscribe((params: Params) => {
       this.eventId = params['id'];
-      console.log(this.eventId);
 
       this.fetchEvent();
     });

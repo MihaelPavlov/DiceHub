@@ -4,6 +4,7 @@ import { ToastType } from '../../../../shared/models/toast.model';
 import { ToastService } from '../../../../shared/services/toast.service';
 import { EventsService } from '../../../../entities/events/api/events.service';
 import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-event-confirm-delete-dialog',
@@ -15,21 +16,24 @@ export class EventConfirmDeleteDialog {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<EventConfirmDeleteDialog>,
     private readonly eventsService: EventsService,
-    private readonly toastService: ToastService
+    private readonly toastService: ToastService,
+    private readonly translateService: TranslateService
   ) {}
 
   public delete(): void {
     this.eventsService.delete(this.data.id).subscribe({
       next: () => {
         this.toastService.success({
-          message: 'Deleted',
+          message: this.translateService.instant('deleted'),
           type: ToastType.Success,
         });
         this.dialogRef.close(true);
       },
       error: () => {
         this.toastService.error({
-          message: AppToastMessage.SomethingWrong,
+          message: this.translateService.instant(
+            AppToastMessage.SomethingWrong
+          ),
           type: ToastType.Error,
         });
       },

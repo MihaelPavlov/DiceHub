@@ -1,4 +1,11 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Form } from '../../../../../shared/components/form/form.component';
 import { Formify } from '../../../../../shared/models/form.model';
 import {
@@ -25,10 +32,12 @@ import {
 } from '../../../../../shared/pipe/entity-image.pipe';
 import { DateHelper } from '../../../../../shared/helpers/date-helper';
 import { TranslateService } from '@ngx-translate/core';
+import { FULL_ROUTE } from '../../../../../shared/configs/route.config';
 
 interface ICreateEventForm {
   name: string;
-  description: string;
+  description_en: string;
+  description_bg: string;
   startDate: string;
   startTime: string;
   maxPeople: number;
@@ -44,11 +53,18 @@ interface ICreateEventForm {
 })
 export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
   override form: Formify<ICreateEventForm>;
+  @ViewChild('descAreaEn', { static: false })
+  descAreaEn?: ElementRef<HTMLTextAreaElement>;
+  @ViewChild('descAreaBg', { static: false })
+  descAreaBg?: ElementRef<HTMLTextAreaElement>;
+
   public editEventId!: number;
   public gameList: IGameDropdownResult[] = [];
   public fileToUpload: File | null = null;
   public imagePreview: string | ArrayBuffer | SafeUrl | null = null;
   public isMenuVisible: boolean = false;
+  public currentLang: 'EN' | 'BG' = 'EN';
+  private lastValue = '';
 
   constructor(
     private readonly fb: FormBuilder,
@@ -78,6 +94,35 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
       }
     });
     this.menuTabsService.setActive(NAV_ITEM_LABELS.EVENTS);
+  }
+
+  public ngAfterViewChecked(): void {
+    this.adjustCurrentTextareaHeight();
+  }
+
+  public adjustCurrentTextareaHeight(): void {
+    const textarea =
+      this.currentLang === 'EN'
+        ? this.descAreaEn?.nativeElement
+        : this.descAreaBg?.nativeElement;
+
+    if (textarea && textarea.value !== this.lastValue) {
+      this.lastValue = textarea.value;
+      this.adjustTextareaHeight(textarea);
+    }
+  }
+
+  public adjustTextareaHeight(textarea: HTMLTextAreaElement): void {
+    textarea.style.height = 'auto';
+    textarea.style.height = textarea.scrollHeight + 'px';
+  }
+
+  public setLang(lang: 'EN' | 'BG') {
+    this.currentLang = lang;
+
+    setTimeout(() => {
+      this.adjustCurrentTextareaHeight();
+    });
   }
 
   public ngOnInit(): void {
@@ -111,7 +156,8 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
         .add(
           {
             name: this.form.controls.name.value,
-            description: this.form.controls.description.value,
+            description_EN: this.form.controls.description_en.value,
+            description_BG: this.form.controls.description_bg.value,
             gameId: parseInt(this.form.controls.gameId.value as any),
             startDate: combinedDateTime,
             maxPeople: this.form.controls.maxPeople.value,
@@ -122,16 +168,20 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
         .subscribe({
           next: (_) => {
             this.toastService.success({
-              message: AppToastMessage.ChangesSaved,
+              message: this.translateService.instant(
+                AppToastMessage.ChangesSaved
+              ),
               type: ToastType.Success,
             });
 
-            this.router.navigateByUrl('/events/home');
+            this.router.navigateByUrl(FULL_ROUTE.EVENTS.HOME);
           },
           error: (error) => {
             this.handleServerErrors(error);
             this.toastService.error({
-              message: AppToastMessage.FailedToSaveChanges,
+              message: this.translateService.instant(
+                AppToastMessage.FailedToSaveChanges
+              ),
               type: ToastType.Error,
             });
           },
@@ -153,7 +203,8 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
           {
             id: this.editEventId,
             name: this.form.controls.name.value,
-            description: this.form.controls.description.value,
+            description_EN: this.form.controls.description_en.value,
+            description_BG: this.form.controls.description_bg.value,
             gameId: parseInt(this.form.controls.gameId.value as any),
             startDate: combinedDateTime,
             maxPeople: this.form.controls.maxPeople.value,
@@ -164,16 +215,20 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
         .subscribe({
           next: (_) => {
             this.toastService.success({
-              message: AppToastMessage.ChangesSaved,
+              message: this.translateService.instant(
+                AppToastMessage.ChangesSaved
+              ),
               type: ToastType.Success,
             });
 
-            this.router.navigateByUrl('/events/home');
+            this.router.navigateByUrl(FULL_ROUTE.EVENTS.HOME);
           },
           error: (error) => {
             this.handleServerErrors(error);
             this.toastService.error({
-              message: AppToastMessage.FailedToSaveChanges,
+              message: this.translateService.instant(
+                AppToastMessage.FailedToSaveChanges
+              ),
               type: ToastType.Error,
             });
           },
@@ -183,8 +238,6 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
 
   public onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
-    console.log(input.files);
-
     const file = input.files?.[0];
 
     if (file) {
@@ -209,19 +262,37 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
   protected override getControlDisplayName(controlName: string): string {
     switch (controlName) {
       case 'gameId':
-        return 'Game';
+        return this.translateService.instant(
+          'events.add_update.controls_display_name.game'
+        );
       case 'name':
-        return 'Name';
-      case 'description':
-        return 'Description';
+        return this.translateService.instant(
+          'events.add_update.controls_display_name.name'
+        );
+      case 'description_en':
+        return this.translateService.instant(
+          'events.add_update.controls_display_name.description_en'
+        );
+      case 'description_bg':
+        return this.translateService.instant(
+          'events.add_update.controls_display_name.description_bg'
+        );
       case 'startDate':
-        return 'Start Date';
+        return this.translateService.instant(
+          'events.add_update.controls_display_name.start_date'
+        );
       case 'startTime':
-        return 'Start Time';
+        return this.translateService.instant(
+          'events.add_update.controls_display_name.start_time'
+        );
       case 'maxPeople':
-        return 'Max People';
+        return this.translateService.instant(
+          'events.add_update.controls_display_name.max_people'
+        );
       case 'image':
-        return 'Image';
+        return this.translateService.instant(
+          'events.add_update.controls_display_name.image'
+        );
       default:
         return controlName;
     }
@@ -241,7 +312,8 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
           );
           this.form.patchValue({
             name: event.name,
-            description: event.description,
+            description_en: event.description_EN,
+            description_bg: event.description_BG,
             gameId: event.gameId,
             startDate: formattedDate?.toString(),
             startTime: formattedTime?.toString(),
@@ -252,7 +324,9 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
 
           this.eventService
             .getImage(event.isCustomImage, event.imageId)
-            .subscribe((image) => (this.imagePreview = image));
+            .subscribe((image) => {
+              this.imagePreview = image;
+            });
           this.fileToUpload = null;
 
           this.initFormValueChanges(true);
@@ -279,8 +353,13 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
           }
         }
       },
-      error: (error) => {
-        console.log(error);
+      error: () => {
+        this.toastService.error({
+          message: this.translateService.instant(
+            AppToastMessage.SomethingWrong
+          ),
+          type: ToastType.Error,
+        });
       },
     });
   }
@@ -289,19 +368,20 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
     this.gameService.getById(id).subscribe({
       next: (game) => {
         if (game) {
-          console.log(game);
-
-          this.form.patchValue({
-            image: game.imageId.toString(),
-          });
-          this.entityImagePipe
-            .transform(ImageEntityType.Games, game.imageId)
-            .subscribe((image) => {
-              this.imagePreview = image;
-              this.cd.detectChanges();
+          if (!this.form.controls.isCustomImage.value) {
+            this.form.patchValue({
+              image: game.imageId.toString(),
             });
 
-          this.fileToUpload = null;
+            this.entityImagePipe
+              .transform(ImageEntityType.Games, game.imageId)
+              .subscribe((image) => {
+                this.imagePreview = image;
+                this.cd.detectChanges();
+              });
+
+            this.fileToUpload = null;
+          }
         }
       },
       error: (error) => {
@@ -339,7 +419,8 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
         Validators.required,
         Validators.minLength(3),
       ]),
-      description: new FormControl<string | null>(null, Validators.required),
+      description_en: new FormControl<string | null>('', Validators.required),
+      description_bg: new FormControl<string | null>('', Validators.required),
       startDate: new FormControl<Date | null>(null, [Validators.required]),
       startTime: new FormControl<Date | null>(null, [Validators.required]),
       maxPeople: new FormControl<number | null>(null, [

@@ -1,3 +1,4 @@
+import { FrontEndLogService } from './../../../shared/services/frontend-log.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { IMenuItem } from '../../../shared/models/menu-item.model';
 import { MenuTabsService } from '../../../shared/services/menu-tabs.service';
@@ -12,6 +13,12 @@ import { ControlsMenuComponent } from '../../../shared/components/menu/controls-
 import { DateHelper } from '../../../shared/helpers/date-helper';
 import { EventConfirmDeleteDialog } from '../../../features/events-library/dialogs/event-confirm-delete/event-confirm-delete.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ToastService } from '../../../shared/services/toast.service';
+import { TranslateService } from '@ngx-translate/core';
+import { AppToastMessage } from '../../../shared/components/toast/constants/app-toast-messages.constant';
+import { ToastType } from '../../../shared/models/toast.model';
+import { SupportLanguages } from '../../../entities/common/models/support-languages.enum';
+import { LanguageService } from '../../../shared/services/language.service';
 
 @Component({
   selector: 'app-admin-event-management',
@@ -35,7 +42,11 @@ export class AdminEventManagementComponent implements OnInit, OnDestroy {
     private readonly searchService: SearchService,
     private readonly eventService: EventsService,
     private readonly router: Router,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly toastService: ToastService,
+    private readonly translateService: TranslateService,
+    private readonly frontEndLogService: FrontEndLogService,
+    private readonly languageService: LanguageService
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.EVENTS);
     this.handleHeaderMenuItemClick = this.handleHeaderMenuItemClick.bind(this);
@@ -51,14 +62,34 @@ export class AdminEventManagementComponent implements OnInit, OnDestroy {
     menu.toggleMenu();
   }
 
+  public get currentLanguage(): SupportLanguages {
+    return this.languageService.getCurrentLanguage();
+  }
+
   public ngOnInit(): void {
     this.itemMenuItems.next([
-      { key: 'update', label: 'Update' },
-      { key: 'delete', label: 'Delete' },
-      { key: 'send-notification', label: 'Send Notification' },
+      {
+        key: 'update',
+        label: this.translateService.instant('events.menu_items.update'),
+      },
+      {
+        key: 'delete',
+        label: this.translateService.instant('events.menu_items.delete'),
+      },
+      {
+        key: 'send-notification',
+        label: this.translateService.instant(
+          'events.menu_items.send_notification'
+        ),
+      },
     ]);
 
-    this.headerMenuItems.next([{ key: 'add', label: 'Add Event' }]);
+    this.headerMenuItems.next([
+      {
+        key: 'add',
+        label: this.translateService.instant('events.menu_items.add'),
+      },
+    ]);
 
     this.fetchEventList();
   }
@@ -100,8 +131,30 @@ export class AdminEventManagementComponent implements OnInit, OnDestroy {
       this.openDeleteDialog(this.visibleMenuId);
     } else if (key === 'send-notification') {
       this.eventService.sendEventNotifications(this.visibleMenuId!).subscribe({
+        next: () => {
+          this.toastService.success({
+            message: this.translateService.instant(
+              'events.send_notifications_for_event'
+            ),
+            type: ToastType.Success,
+          });
+        },
         error: (error) => {
-          console.log(error);
+          this.frontEndLogService
+            .sendError(
+              `Sending notifications for event with id ${
+                this.visibleMenuId
+              } failed. Error ${JSON.stringify(error)}`,
+              'admin-event-management.component.ts'
+            )
+            .subscribe();
+
+          this.toastService.error({
+            message: this.translateService.instant(
+              AppToastMessage.SomethingWrong
+            ),
+            type: ToastType.Error,
+          });
         },
       });
     }
@@ -118,6 +171,7 @@ export class AdminEventManagementComponent implements OnInit, OnDestroy {
       }
     });
   }
+
   public handleHeaderMenuItemClick(key: string): void {
     if (key === 'add') {
       this.router.navigateByUrl(FULL_ROUTE.EVENTS.ADMIN.ADD);
@@ -138,9 +192,14 @@ export class AdminEventManagementComponent implements OnInit, OnDestroy {
 
   private fetchEventList(searchExpression: string = ''): void {
     this.eventService.getListForStaff(searchExpression).subscribe({
-      next: (gameList) => (this.events = gameList ?? []),
-      error: (error) => {
-        console.log(error);
+      next: (eventList) => (this.events = eventList ?? []),
+      error: () => {
+        this.toastService.error({
+          message: this.translateService.instant(
+            AppToastMessage.SomethingWrong
+          ),
+          type: ToastType.Error,
+        });
       },
     });
   }
