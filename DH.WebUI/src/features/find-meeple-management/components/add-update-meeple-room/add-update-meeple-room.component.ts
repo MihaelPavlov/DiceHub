@@ -31,6 +31,11 @@ import { DateHelper } from '../../../../shared/helpers/date-helper';
 import { DatePipe } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
 import { FULL_ROUTE } from '../../../../shared/configs/route.config';
+import {
+  ImagePreviewDialog,
+  ImagePreviewData,
+} from '../../../../shared/dialogs/image-preview/image-preview.dialog';
+import { MatDialog } from '@angular/material/dialog';
 
 interface IAddUpdateRoomForm {
   name: string;
@@ -72,6 +77,7 @@ export class AddUpdateMeepleRoomComponent
   public gameInventory!: IGameInventory;
   public imagePreview: string | ArrayBuffer | SafeUrl | null = null;
   public editRoomId: number | null = null;
+  public readonly ImageEntityType = ImageEntityType;
 
   constructor(
     public override readonly toastService: ToastService,
@@ -83,7 +89,8 @@ export class AddUpdateMeepleRoomComponent
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute,
     private readonly datePipe: DatePipe,
-    public override translateService: TranslateService
+    public override translateService: TranslateService,
+    private readonly dialog: MatDialog
   ) {
     super(toastService, translateService);
     this.form = this.initFormGroup();
@@ -120,6 +127,16 @@ export class AddUpdateMeepleRoomComponent
     if (this.selectedGame?.id) {
       this.fetchGameById(this.selectedGame.id);
     }
+  }
+
+  public openImagePreview(imageUrl: string) {
+    this.dialog.open<ImagePreviewDialog, ImagePreviewData>(ImagePreviewDialog, {
+      data: {
+        imageUrl,
+        title: this.translateService.instant('image'),
+      },
+      width: '17rem',
+    });
   }
 
   public backNavigateBtn() {

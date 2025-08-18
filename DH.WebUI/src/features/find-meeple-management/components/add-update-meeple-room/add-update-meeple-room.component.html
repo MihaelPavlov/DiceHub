@@ -58,12 +58,16 @@
       </div>
     </div>
 
-    <div class="wrapper_image">
+    <div
+      class="wrapper_image"
+      *ngIf="
+        ImageEntityType.Games | entityImage : game?.imageId! | async as imageUrl
+      "
+    >
       <img
-        [ngClass]="this.imagePreview ? 'green' : 'red'"
-        [src]="
-          this.imagePreview || '/shared/assets/images/default-no-image.jpg'
-        "
+        [ngClass]="imageUrl ? 'green' : 'red'"
+        (click)="openImagePreview(imageUrl)"
+        [src]="imageUrl || '/shared/assets/images/default-no-image.jpg'"
       />
     </div>
 
