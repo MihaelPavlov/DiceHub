@@ -3,7 +3,7 @@
     <ng-container *ngIf="this.room">
       <div class="wrapper_icons">
         <span (click)="backNavigateBtn()" class="arrow left"></span>
-        <span class="header">Lobby</span>
+        <span class="header">{{ "meeple.room.lobby" | translate }}</span>
         <app-meeple-room-menu
           *ngIf="this.room"
           [room]="this.room"
@@ -90,7 +90,9 @@
       name="search"
       id="search"
     />
-    <label for="search" class="form__label"> Write your message here</label>
+    <label for="search" class="form__label">
+      {{ "meeple.room.write_your_message_placeholder" | translate }}</label
+    >
     <!-- arrow_forward_ios icon -->
     <svg
       (click)="addMessage()"

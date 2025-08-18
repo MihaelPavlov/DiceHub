@@ -26,13 +26,11 @@
     />
   </div>
 
-   <div class="input-field">
+  <div class="input-field">
     <label for="language" class="required">Language</label>
-    <span class="input-info">
-      Application Language for you</span
-    >
+    <span class="input-info"> Application Language for you</span>
 
-     <ng-select
+    <ng-select
       id="language"
       [items]="languagesValues"
       bindValue="name"
@@ -50,9 +48,16 @@
   </div>
 
   <button
+    [disabled]="this.form.invalid"
     type="button"
     (click)="onSave()"
-    class="btn btn-gray btn-border-green btn-font-green"
+    class="btn btn-gray"
+    [ngClass]="{
+      'btn-border-green': this.form.valid,
+      'btn-font-green': this.form.valid,
+      'btn-border-red': this.form.invalid,
+      'btn-font-red': this.form.invalid
+    }"
   >
     Save
   </button>

@@ -181,11 +181,7 @@
       ></textarea>
     </div>
 
-    <div
-      *ngIf="
-        getFirstErrorMessage()"
-      class="errors"
-    >
+    <div *ngIf="getFirstErrorMessage()" class="errors">
       {{ getFirstErrorMessage() }}
     </div>
 

@@ -10,18 +10,22 @@
     ></app-meeple-room-menu>
   </div>
 
-  <div class="wrapper_image">
-    <img
-      [src]="ImageEntityType.Games | entityImage : room.gameImageId | async"
-      alt=""
-    />
+  <div
+    class="wrapper_image"
+    *ngIf="
+      ImageEntityType.Games | entityImage : room.gameImageId | async as imageUrl
+    "
+  >
+    <img [src]="imageUrl" (click)="openImagePreview(imageUrl)" />
   </div>
 
-  <div class="wrapper_header">from: {{ room.username }}</div>
+  <div class="wrapper_header">
+    {{ "meeple.room.from" | translate : { username: room.username } }}
+  </div>
 
   <div class="wrapper_chips">
     <div class="wrapper_chips__detail">
-      <span>joined</span>
+      <span>{{ "meeple.room.joined" | translate }}</span>
       <app-chip
         size="small"
         color="orange"
@@ -32,12 +36,14 @@
       <app-chip
         size="small"
         color="blue"
-        text="{{ room.startDate | date : DATE_FORMAT }}"
+        text="{{
+          room.startDate | date : DATE_FORMAT : undefined : this.currentLanguage
+        }}"
       ></app-chip>
-      <span>date</span>
+      <span>{{ "meeple.room.date" | translate }}</span>
     </div>
     <div class="wrapper_chips__detail">
-      <span>max</span>
+      <span>{{ "meeple.room.max" | translate }}</span>
       <app-chip
         size="small"
         color="red"
@@ -50,7 +56,7 @@
         color="yellow"
         text="{{ room.startDate | date : TIME_FORMAT }}"
       ></app-chip>
-      <span>time</span>
+      <span>{{ "meeple.room.time" | translate }}</span>
     </div>
   </div>
 
@@ -65,7 +71,9 @@
             />
           </svg>
         </div>
-        <span class="wrapper_tabs__tab-header">Open Chat</span>
+        <span class="wrapper_tabs__tab-header">
+          {{ "meeple.room.open_chat" | translate }}</span
+        >
       </div>
       <div
         class="wrapper_tabs__tab"
@@ -79,7 +87,9 @@
             />
           </svg>
         </div>
-        <span class="wrapper_tabs__tab-header">See Game Details</span>
+        <span class="wrapper_tabs__tab-header">{{
+          "meeple.room.see_game_details" | translate
+        }}</span>
       </div>
     </div>
   </ng-container>
@@ -90,7 +100,7 @@
         class="btn btn-green"
         (click)="onJoinRoom()"
       >
-        Join the Room
+        {{ "meeple.room.join_room" | translate }}
       </button>
       <span
         class="full_room_message"
@@ -98,7 +108,7 @@
           !errorMessage && room.joinedParticipants === room.maxParticipants
         "
       >
-        Sorry, the room is full!
+        {{ "meeple.room.room_is_full" | translate }}
       </span>
       <span class="errors" *ngIf="errorMessage">
         {{ errorMessage }}

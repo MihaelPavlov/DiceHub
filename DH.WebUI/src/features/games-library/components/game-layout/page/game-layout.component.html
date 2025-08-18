@@ -44,11 +44,7 @@
       ImageEntityType.Games | entityImage : game.imageId | async as imageUrl
     "
   >
-    <img
-      [src]="imageUrl"
-      (click)="openImagePreview(imageUrl)"
-      alt="Game Image"
-    />
+    <img [src]="imageUrl" (click)="openImagePreview(imageUrl)" />
   </div>
 
   <div class="wrapper_navigation">

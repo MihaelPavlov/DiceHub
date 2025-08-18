@@ -57,9 +57,11 @@ export const ROUTE = {
   MEEPLE_ROOMS: {
     CORE: 'meeples',
     CREATE: 'create',
+    UPDATE: 'update',
     DETAILS: 'details',
     FIND: 'find',
     CHAT: 'chat',
+    MEMBERS: 'members',
   },
   QR_CODE_SCANNER: 'qr-code-scanner',
   PROFILE: {
@@ -126,6 +128,10 @@ export const FULL_ROUTE = {
     CHAT_ROOM_BY_ID: (roomId: number) =>
       `${ROUTE.MEEPLE_ROOMS.CORE}/${roomId}/${ROUTE.MEEPLE_ROOMS.CHAT}`,
     CREATE: `${ROUTE.MEEPLE_ROOMS.CORE}/${ROUTE.MEEPLE_ROOMS.CREATE}`,
+    UPDATE: (roomId: number) =>
+      `${ROUTE.MEEPLE_ROOMS.CORE}/${roomId}/${ROUTE.MEEPLE_ROOMS.UPDATE}`,
+    CHAT_MEMBERS: (roomId: number) =>
+      `${ROUTE.MEEPLE_ROOMS.CORE}/${roomId}/${ROUTE.MEEPLE_ROOMS.CHAT}/${ROUTE.MEEPLE_ROOMS.MEMBERS}`,
   },
   PROFILE: {
     EMPLOYEES: `${ROUTE.PROFILE.CORE}/${ROUTE.PROFILE.EMPLOYEES}`,

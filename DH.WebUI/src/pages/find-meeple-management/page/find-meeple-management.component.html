@@ -1,7 +1,7 @@
 <app-header
   [withSearch]="true"
   [withAdd]="true"
-  header="Find Meeple"
+  [header]="'meeple.header' | translate"
   [withBottomLine]="true"
   (addClicked)="navigateToCreateMeepleRoom()"
   (searchExpressionResult)="handleSearchExpression($event)"
@@ -11,6 +11,7 @@
   <ng-container *ngIf="roomList$ | async as roomList">
     <div class="no_records" *ngIf="roomList.length === 0">
       <img src="/shared/assets/images/no-rooms-found.png" alt="" />
+      <p class="first-header">{{ "meeple.no_rooms_available" | translate }}</p>
     </div>
     <div
       class="wrapper_library__border"
@@ -23,31 +24,48 @@
             [src]="
               ImageEntityType.Games | entityImage : room.gameImageId | async
             "
-            alt="Game Image"
+            [alt]="'meeple.game_image_alt' | translate"
           />
         </div>
         <div class="wrapper_info">
           <div class="wrapper_title">
             {{ room.name }}
-            <div class="wrapper_description">Game: {{ room.gameName }}</div>
+            <div class="wrapper_description">
+              {{ "meeple.game" | translate : { gameName: room.gameName } }}
+            </div>
           </div>
         </div>
       </div>
 
-      <div
-        class="chips"
-        *ngIf="room.startDate | date : DATE_TIME_FORMAT as date"
-      >
-        <app-chip [color]="'blue'" [text]="date" [size]="'middle'"></app-chip>
+      <div class="chips">
         <app-chip
           [color]="'orange'"
-          text="{{ room.joinedParticipants }} joined"
-          [size]="'middle'"
+          [text]="
+            'events.chip_joined'
+              | translate : { peopleJoined: room.joinedParticipants }
+          "
+          [size]="'small'"
         ></app-chip>
         <app-chip
           [color]="'red'"
-          text="{{ room.maxParticipants }} max"
-          [size]="'middle'"
+          [text]="
+            'events.chip_max' | translate : { maxPeople: room.maxParticipants }
+          "
+          [size]="'small'"
+        ></app-chip>
+      </div>
+      <div
+        class="chips"
+        *ngIf="
+          room.startDate
+            | date : DATE_TIME_FORMAT : undefined : this.currentLanguage as date
+        "
+      >
+        <app-chip [color]="'blue'" [text]="date" [size]="'middle'"></app-chip>
+        <app-chip
+          [color]="'yellow'"
+          [text]="room.startDate | calculateRemainingDays"
+          [size]="'small'"
         ></app-chip>
       </div>
     </div>

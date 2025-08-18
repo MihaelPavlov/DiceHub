@@ -1,13 +1,13 @@
 <div class="dialog-container">
-    <h3 class="dialog-container__header m-4">Remove Member?</h3>
-    <mat-dialog-actions>
-      <button class="btn btn__small btn-blue" mat-dialog-close>Cancel</button>
-      <button
-        class="btn btn__small btn-red btn-border-red"
-        (click)="onRemove()"
-      >
-        Remove
-      </button>
-    </mat-dialog-actions>
-  </div>
-  
+  <h3 class="dialog-container__header m-4">
+    {{ "meeple.room.remove_member_question" | translate }}
+  </h3>
+  <mat-dialog-actions>
+    <button class="btn btn__small btn-blue" mat-dialog-close>
+      {{ "cancel" | translate }}
+    </button>
+    <button class="btn btn__small btn-red btn-border-red" (click)="onRemove()">
+      {{ "remove" | translate }}
+    </button>
+  </mat-dialog-actions>
+</div>

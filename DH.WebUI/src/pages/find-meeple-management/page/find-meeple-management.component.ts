@@ -10,6 +10,8 @@ import { ImageEntityType } from '../../../shared/pipe/entity-image.pipe';
 import { FULL_ROUTE } from '../../../shared/configs/route.config';
 import { NavigationService } from '../../../shared/services/navigation-service';
 import { DateHelper } from '../../../shared/helpers/date-helper';
+import { LanguageService } from '../../../shared/services/language.service';
+import { SupportLanguages } from '../../../entities/common/models/support-languages.enum';
 
 @Component({
   selector: 'app-find-meeple-manager',
@@ -27,9 +29,14 @@ export class FindMeepleManagementComponent implements OnInit, OnDestroy {
     private readonly menuTabsService: MenuTabsService,
     private readonly roomService: RoomsService,
     private readonly searchService: SearchService,
-    private readonly navigationService: NavigationService
+    private readonly navigationService: NavigationService,
+    private readonly languageService: LanguageService
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.MEEPLE);
+  }
+
+  public get currentLanguage(): SupportLanguages {
+    return this.languageService.getCurrentLanguage();
   }
 
   public ngOnInit(): void {

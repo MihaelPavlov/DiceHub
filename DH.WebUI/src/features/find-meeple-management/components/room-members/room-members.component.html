@@ -1,5 +1,5 @@
 <app-header
-  header="Room Members"
+  [header]="'meeple.room.room_members' | translate"
   [withSearch]="true"
   [withBackBtn]="true"
   [withBottomLine]="true"
@@ -34,14 +34,25 @@
           <!-- <img src="http://placehold.it/50x50" alt="" /> -->
           <div class="user-info">
             <span class="name">
-              <span class="owner" *ngIf="this.room.createdBy === member.userId"
-                >Owner - </span
+              <span
+                class="owner"
+                *ngIf="this.room.createdBy === member.userId"
+                >{{ "meeple.room.room_owner" | translate }}</span
               >{{ member.username }} -
-              <span class="age"> age {{ member.age }}</span>
+              <span class="age">
+                {{
+                  "meeple.room.room_person_age"
+                    | translate : { age: member.age }
+                }}</span
+              >
             </span>
             <br />
             <small
-              >Joined at {{ member.joinedAt | date : "MMMM d, yyyy" }}</small
+              >{{ "meeple.room.room_person_joined_at" | translate }}
+              {{
+                member.joinedAt
+                  | date : DATE_FORMAT : undefined : this.currentLanguage
+              }}</small
             >
           </div>
         </div>

@@ -11,6 +11,7 @@ import {
   FormControl,
   FormGroup,
   ValidationErrors,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { NAV_ITEM_LABELS } from '../../../../shared/models/nav-items-labels.const';
@@ -19,7 +20,7 @@ import { combineLatest, throwError } from 'rxjs';
 import { IGameByIdResult } from '../../../../entities/games/models/game-by-id.model';
 import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { ToastType } from '../../../../shared/models/toast.model';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, CanActivate } from '@angular/router';
 import { IGameInventory } from '../../../../entities/games/models/game-inventory.mode';
 import { SafeUrl } from '@angular/platform-browser';
 import {
@@ -29,6 +30,7 @@ import {
 import { DateHelper } from '../../../../shared/helpers/date-helper';
 import { DatePipe } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
+import { FULL_ROUTE } from '../../../../shared/configs/route.config';
 
 interface IAddUpdateRoomForm {
   name: string;
@@ -36,6 +38,21 @@ interface IAddUpdateRoomForm {
   startTime: string;
   maxParticipants: number;
   gameId: number;
+}
+
+function futureDateValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    if (!control.value) return null;
+
+    const selectedDate = new Date(control.value);
+    const today = new Date();
+
+    // Reset times (we only compare dates, not hours)
+    today.setHours(0, 0, 0, 0);
+    selectedDate.setHours(0, 0, 0, 0);
+
+    return selectedDate > today ? null : { cannotBeToday: true };
+  };
 }
 
 @Component({
@@ -54,7 +71,6 @@ export class AddUpdateMeepleRoomComponent
   public game: IGameByIdResult | null = null;
   public gameInventory!: IGameInventory;
   public imagePreview: string | ArrayBuffer | SafeUrl | null = null;
-  public isMenuVisible: boolean = false;
   public editRoomId: number | null = null;
 
   constructor(
@@ -106,14 +122,12 @@ export class AddUpdateMeepleRoomComponent
     }
   }
 
-  public showMenu(): void {
-    this.isMenuVisible = !this.isMenuVisible;
-  }
-
   public backNavigateBtn() {
     if (this.editRoomId)
-      this.router.navigateByUrl(`meeples/${this.editRoomId}/details`);
-    else this.router.navigateByUrl('meeples/find');
+      this.router.navigateByUrl(
+        FULL_ROUTE.MEEPLE_ROOM.DETAILS_BY_ID(this.editRoomId)
+      );
+    else this.router.navigateByUrl(FULL_ROUTE.MEEPLE_ROOM.FIND);
   }
 
   public onSubmit(): void {
@@ -137,16 +151,23 @@ export class AddUpdateMeepleRoomComponent
           .subscribe({
             next: (_) => {
               this.toastService.success({
-                message: AppToastMessage.ChangesSaved,
+                message: this.translateService.instant(
+                  AppToastMessage.ChangesSaved
+                ),
                 type: ToastType.Success,
               });
 
-              this.router.navigateByUrl(`/meeples/${this.editRoomId}/details`);
+              if (this.editRoomId)
+                this.router.navigateByUrl(
+                  FULL_ROUTE.MEEPLE_ROOM.DETAILS_BY_ID(this.editRoomId)
+                );
             },
             error: (error) => {
               this.handleServerErrors(error);
               this.toastService.error({
-                message: AppToastMessage.FailedToSaveChanges,
+                message: this.translateService.instant(
+                  AppToastMessage.FailedToSaveChanges
+                ),
                 type: ToastType.Error,
               });
             },
@@ -162,16 +183,20 @@ export class AddUpdateMeepleRoomComponent
           .subscribe({
             next: (_) => {
               this.toastService.success({
-                message: AppToastMessage.ChangesSaved,
+                message: this.translateService.instant(
+                  AppToastMessage.ChangesSaved
+                ),
                 type: ToastType.Success,
               });
 
-              this.router.navigateByUrl('/meeples/find');
+              this.router.navigateByUrl(FULL_ROUTE.MEEPLE_ROOM.FIND);
             },
             error: (error) => {
               this.handleServerErrors(error);
               this.toastService.error({
-                message: AppToastMessage.FailedToSaveChanges,
+                message: this.translateService.instant(
+                  AppToastMessage.FailedToSaveChanges
+                ),
                 type: ToastType.Error,
               });
             },
@@ -203,10 +228,8 @@ export class AddUpdateMeepleRoomComponent
           startTime: formattedTime?.toString(),
           maxParticipants: room.maxParticipants,
         });
-        console.log('gameId', parseInt(room.gameId as any));
 
         const selectGame = this.gameList.find((x) => x.id == room.gameId);
-        console.log('select game ', selectGame);
 
         if (selectGame) {
           this.selectedGame = selectGame;
@@ -229,7 +252,9 @@ export class AddUpdateMeepleRoomComponent
       },
       error: (error) => {
         this.toastService.error({
-          message: AppToastMessage.SomethingWrong,
+          message: this.translateService.instant(
+            AppToastMessage.SomethingWrong
+          ),
           type: ToastType.Error,
         });
         throwError(() => error);
@@ -257,7 +282,9 @@ export class AddUpdateMeepleRoomComponent
       },
       error: (error) => {
         this.toastService.error({
-          message: AppToastMessage.SomethingWrong,
+          message: this.translateService.instant(
+            AppToastMessage.SomethingWrong
+          ),
           type: ToastType.Error,
         });
         throwError(() => error);
@@ -268,18 +295,43 @@ export class AddUpdateMeepleRoomComponent
   protected override getControlDisplayName(controlName: string): string {
     switch (controlName) {
       case 'name':
-        return 'Name';
+        return this.translateService.instant(
+          'meeple.add_update.controls_display_name.name'
+        );
       case 'startDate':
-        return 'Start date';
+        return this.translateService.instant(
+          'meeple.add_update.controls_display_name.start_date'
+        );
       case 'startTime':
-        return 'Start time';
+        return this.translateService.instant(
+          'meeple.add_update.controls_display_name.start_time'
+        );
       case 'maxParticipants':
-        return 'Max participants';
+        return this.translateService.instant(
+          'meeple.add_update.controls_display_name.max_participants'
+        );
       case 'gameId':
-        return 'Game';
+        return this.translateService.instant(
+          'meeple.add_update.controls_display_name.game'
+        );
       default:
         return controlName;
     }
+  }
+
+  protected override handleAdditionalErrors(): string | null {
+    const startDate = this.form.get('startDate')?.value;
+
+    if (
+      startDate &&
+      new Date(startDate).getTime() < new Date().setHours(0, 0, 0, 0)
+    ) {
+      return this.translateService.instant(
+        'meeple.add_update.validation_message_cannot_be_today'
+      );
+    }
+
+    return null;
   }
 
   private initFormGroup(): FormGroup {
@@ -291,7 +343,7 @@ export class AddUpdateMeepleRoomComponent
       ]),
       startDate: new FormControl<Date | null>(null, [
         Validators.required,
-        this.notTodayValidator,
+        futureDateValidator(),
       ]),
       startTime: new FormControl<Date | null>(null, [Validators.required]),
       maxParticipants: new FormControl<number | null>(null, [
@@ -303,18 +355,5 @@ export class AddUpdateMeepleRoomComponent
 
   private clearServerErrorMessage(): void {
     this.getServerErrorMessage = null;
-  }
-
-  private notTodayValidator(control: AbstractControl): ValidationErrors | null {
-    const inputDate = new Date(control.value);
-    const today = new Date();
-
-    // Normalize both dates to ignore time
-    inputDate.setHours(0, 0, 0, 0);
-    today.setHours(0, 0, 0, 0);
-
-    return inputDate.getTime() === today.getTime()
-      ? { cannotBeToday: true }
-      : null;
   }
 }

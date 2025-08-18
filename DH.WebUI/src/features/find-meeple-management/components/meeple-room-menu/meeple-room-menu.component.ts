@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   Component,
   EventEmitter,
   HostListener,
@@ -18,6 +17,7 @@ import { BehaviorSubject } from 'rxjs';
 import { ControlsMenuComponent } from '../../../../shared/components/menu/controls-menu.component';
 import { NavigationService } from '../../../../shared/services/navigation-service';
 import { FULL_ROUTE } from '../../../../shared/configs/route.config';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-meeple-room-menu',
@@ -38,7 +38,8 @@ export class MeepleRoomMenuComponent implements OnInit {
     private readonly router: Router,
     private readonly dialog: MatDialog,
     private readonly authService: AuthService,
-    private readonly navigationService: NavigationService
+    private readonly navigationService: NavigationService,
+    private readonly translateService: TranslateService
   ) {}
 
   public ngOnInit(): void {
@@ -54,16 +55,20 @@ export class MeepleRoomMenuComponent implements OnInit {
     this.menuItems.next([
       {
         key: 'update',
-        label: 'Update',
+        label: this.translateService.instant('meeple.room.menu.update'),
         isVisible:
           this.room &&
           this.room.createdBy === this.currentUserId() &&
           this.isCurrentUserParticipateInRoom,
       },
-      { key: 'group-members', label: 'Group Members', isVisible: true },
+      {
+        key: 'group-members',
+        label: this.translateService.instant('meeple.room.menu.group_members'),
+        isVisible: true,
+      },
       {
         key: 'leave-room',
-        label: 'Leave Room',
+        label: this.translateService.instant('meeple.room.menu.leave_room'),
         isVisible:
           this.room &&
           this.room.createdBy !== this.currentUserId() &&
@@ -72,7 +77,7 @@ export class MeepleRoomMenuComponent implements OnInit {
       },
       {
         key: 'delete-room',
-        label: 'Delete Room',
+        label: this.translateService.instant('meeple.room.menu.delete_room'),
         isVisible:
           this.room &&
           this.room.createdBy === this.currentUserId() &&
@@ -88,9 +93,11 @@ export class MeepleRoomMenuComponent implements OnInit {
 
   public onMenuOption(key: string, event: MouseEvent): void {
     if (key === 'group-members') {
-      this.router.navigateByUrl(`/meeples/${this.room.id}/chat/members`);
+      this.router.navigateByUrl(
+        FULL_ROUTE.MEEPLE_ROOM.CHAT_MEMBERS(this.room.id)
+      );
     } else if (key === 'update') {
-      this.router.navigateByUrl(`/meeples/${this.room.id}/update`);
+      this.router.navigateByUrl(FULL_ROUTE.MEEPLE_ROOM.UPDATE(this.room.id));
     } else if (key === 'leave-room') {
       this.openLeaveRoomDialog();
     } else if (key === 'delete-room') {
@@ -107,7 +114,7 @@ export class MeepleRoomMenuComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.router.navigateByUrl(`/meeples/find`);
+        this.router.navigateByUrl(FULL_ROUTE.MEEPLE_ROOM.FIND);
       }
     });
   }
@@ -128,7 +135,7 @@ export class MeepleRoomMenuComponent implements OnInit {
     this.navigationService.setPreviousUrl(
       FULL_ROUTE.MEEPLE_ROOM.DETAILS_BY_ID(this.room.id)
     );
-    this.router.navigateByUrl(`games/${this.room.gameId}/details`);
+    this.router.navigateByUrl(FULL_ROUTE.GAMES.DETAILS(this.room.gameId));
   }
 
   @HostListener('document:click', ['$event'])

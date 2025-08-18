@@ -1,24 +1,23 @@
 <div class="wrapper_icons">
   <span (click)="backNavigateBtn()" class="arrow left"></span>
   <span class="header_name">{{
-    this.editRoomId ? "Update Game Camp" : "Create Game Camp"
+    this.editRoomId
+      ? ("meeple.add_update.update_header" | translate)
+      : ("meeple.add_update.create_header" | translate)
   }}</span>
   <div class="info-container">
-    <svg class="info" (click)="showMenu()" viewBox="0 -960 960 960">
+    <svg class="info" (click)="controls.toggleMenu()" viewBox="0 -960 960 960">
       <path
         d="M448-284h66v-236h-66v236Zm31.82-308.92q14.64 0 24.72-9.9 10.08-9.91 10.08-24.54 0-14.64-9.91-24.72-9.9-10.07-24.53-10.07-14.64 0-24.72 9.9-10.08 9.9-10.08 24.54 0 14.63 9.91 24.71 9.9 10.08 24.53 10.08ZM480.13-88q-81.31 0-152.89-30.86-71.57-30.86-124.52-83.76-52.95-52.9-83.83-124.42Q88-398.55 88-479.87q0-81.56 30.92-153.37 30.92-71.8 83.92-124.91 53-53.12 124.42-83.48Q398.67-872 479.87-872q81.55 0 153.35 30.34 71.79 30.34 124.92 83.42 53.13 53.08 83.49 124.84Q872-561.64 872-480.05q0 81.59-30.34 152.83-30.34 71.23-83.41 124.28-53.07 53.05-124.81 84Q561.7-88 480.13-88Z"
       />
     </svg>
-    <div class="info__text" *ngIf="isMenuVisible">
-      <p>The room will be available until the selected date.</p>
-    </div>
   </div>
 </div>
 <div class="select-container">
   <ng-select
     [items]="this.gameList"
     bindLabel="name"
-    placeholder="Select Game"
+    [placeholder]="'meeple.add_update.placeholders.select_game' | translate"
     [(ngModel)]="this.selectedGame"
     (change)="handleSelectGame()"
     class="app-select"
@@ -31,7 +30,12 @@
     <div class="wrapper_stats__chips-left">
       <div class="chip">
         <span
-          >{{ getGame("averagePlaytime") }} {{ this.game ? "m" : "" }}
+          >{{ getGame("averagePlaytime") }}
+          {{
+            this.game
+              ? ("meeple.add_update.placeholders.minutes" | translate)
+              : ""
+          }}
         </span>
         <!-- schedule icon -->
         <svg height="24px" viewBox="0 -960 960 960" width="24px" fill="#fafafa">
@@ -113,41 +117,52 @@
 
   <div class="wrapper_inputs">
     <div class="wrapper_inputs__input">
-      <label class="required" for="startDate">Choose Date</label>
+      <label class="required" for="startDate">{{
+        "meeple.add_update.labels.choose_date" | translate
+      }}</label>
       <input formControlName="startDate" type="date" name="startDate" />
     </div>
     <div class="wrapper_inputs__time">
-      <label class="required" for="startTime">Choose Time</label>
+      <label class="required" for="startTime">{{
+        "meeple.add_update.labels.choose_time" | translate
+      }}</label>
       <input type="time" name="startTime" formControlName="startTime" />
     </div>
   </div>
   <br />
   <div class="wrapper_inputs">
     <div class="wrapper_inputs__input">
-      <label class="required" for="name">Name</label>
-      <input formControlName="name" type="text" name="name" />
+      <label class="required" for="name">{{
+        "meeple.add_update.labels.name" | translate
+      }}</label>
+      <input
+        formControlName="name"
+        [placeholder]="'meeple.add_update.placeholders.name' | translate"
+        type="text"
+        name="name"
+      />
     </div>
     <div class="wrapper_inputs__time">
-      <label class="required" for="maxParticipants">Max people</label>
+      <label class="required" for="maxParticipants">{{
+        "meeple.add_update.labels.max_participants" | translate
+      }}</label>
       <input
         type="number"
         name="maxParticipants"
+        [placeholder]="
+          'meeple.add_update.placeholders.max_participants' | translate
+        "
         formControlName="maxParticipants"
       />
     </div>
   </div>
 
   <div class="container-errors">
-    <div *ngIf="getFirstErrorMessage()" class="errors">
-      {{ getFirstErrorMessage() }}
-    </div>
-
     <div
-      *ngIf="form.get('startDate')?.errors?.['cannotBeToday']"
+      *ngIf="getFirstErrorMessage()"
+      [innerHtml]="getFirstErrorMessage()"
       class="errors"
-    >
-      You cannot set the start date to today.<br/> Please choose a future date.
-    </div>
+    ></div>
   </div>
 
   <div class="btn-container">
@@ -161,7 +176,13 @@
           d="M253-400q0 57.92 30.27 107.08 30.27 49.15 79.35 74-6.93-6.93-10.77-15.77Q348-243.54 348-252q2-21.54 11.81-41.62 9.81-20.07 26.65-35.92L480-421.85l95.31 92.31q15.84 15.85 25.27 35.92Q610-273.54 612-252q0 8.46-3.85 17.31-3.84 8.84-10.77 15.77 49.08-24.85 79.35-74Q707-342.08 707-400q0-44-16-84.5T646-557q-19.54 11-41.03 16.5-21.5 5.5-43.97 5.5-63.77 0-109.27-36.5-45.5-36.5-59.73-95.04-34 30.23-60 62.73t-43.5 67.27Q271-501.77 262-467.8q-9 33.96-9 67.8Zm227 70-48 47q-10 9-14.5 20.72Q413-250.56 413-238q0 26.67 19.68 45.83Q452.36-173 480-173t47.32-19.09Q547-211.17 547-237.72q0-13.28-5.03-24.63-5.02-11.34-14.23-20.59L480-330Zm-27-459.46V-708q0 45.4 31.27 76.2Q515.53-601 561-601q14.77 0 30.08-5.35 15.3-5.34 30.15-14.27l24.23-22.53q59.46 43.92 93.5 108.42T773-399.83q0 121.91-85.24 207.37Q602.52-107 480-107t-207.76-85.24Q187-277.48 187-400q0-107.85 71.08-213.65Q329.15-719.46 453-789.46Z"
         />
       </svg>
-      <span> {{ this.editRoomId ? "Update the Camp" : "Fire the Camp" }} </span>
+      <span>
+        {{
+          this.editRoomId
+            ? ("meeple.add_update.btn_update" | translate)
+            : ("meeple.add_update.btn_create" | translate)
+        }}
+      </span>
 
       <!-- local_fire_department icon -->
       <svg
@@ -175,3 +196,9 @@
     </div>
   </div>
 </form>
+
+<app-controls-menu
+  #controls
+  [isInfo]="true"
+  [infoDescription]="'meeple.add_update.info_message' | translate"
+></app-controls-menu>

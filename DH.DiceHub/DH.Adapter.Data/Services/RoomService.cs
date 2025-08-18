@@ -1,4 +1,7 @@
 ﻿using DH.Domain.Adapters.Authentication;
+using DH.Domain.Adapters.Localization;
+using DH.Domain.Adapters.PushNotifications;
+using DH.Domain.Adapters.PushNotifications.Messages;
 using DH.Domain.Entities;
 using DH.Domain.Models.RoomModels.Queries;
 using DH.Domain.Services;
@@ -11,11 +14,15 @@ public class RoomService : IRoomService
 {
     readonly IDbContextFactory<TenantDbContext> _contextFactory;
     readonly IUserContext userContext;
+    readonly IPushNotificationsService pushNotificationsService;
 
-    public RoomService(IDbContextFactory<TenantDbContext> _contextFactory, IUserContext userContext)
+    public RoomService(
+        IDbContextFactory<TenantDbContext> _contextFactory,
+        IUserContext userContext, IPushNotificationsService pushNotificationsService)
     {
         this._contextFactory = _contextFactory;
         this.userContext = userContext;
+        this.pushNotificationsService = pushNotificationsService;
     }
 
     public async Task Delete(int id, CancellationToken cancellationToken)
@@ -117,11 +124,17 @@ public class RoomService : IRoomService
                     var game = await context.Games.FirstOrDefaultAsync(x => x.Id == updatedRoom.GameId, cancellationToken)
                         ?? throw new NotFoundException(nameof(Game), updatedRoom.GameId);
 
-                    var room = await context.Rooms.AsTracking().FirstOrDefaultAsync(g => g.Id == updatedRoom.Id, cancellationToken)
-                        ?? throw new NotFoundException(nameof(Room), updatedRoom.Id);
+                    var room = await context.Rooms
+                        .Include(x => x.Participants)
+                        .Include(x => x.Game)
+                        .AsTracking()
+                        .FirstOrDefaultAsync(g => g.Id == updatedRoom.Id, cancellationToken)
+                            ?? throw new NotFoundException(nameof(Room), updatedRoom.Id);
 
                     if (room.UserId != this.userContext.UserId)
                         throw new BadRequestException("Cannot delete room if you are not the creator of it");
+
+                    var userIdsForNotification = room.Participants.Select(x => x.UserId).ToList();
 
                     if (room.GameId != updatedRoom.GameId)
                     {
@@ -129,9 +142,20 @@ public class RoomService : IRoomService
                         {
                             CreatedBy = this.userContext.UserId,
                             CreatedDate = DateTime.UtcNow,
-                            MessageContent = "Game has been changed. Please check the new game rules",
+                            MessageContentKey = "RoomGameChanged",
                             RoomId = room.Id,
                         }, cancellationToken);
+
+                        var payload = new RoomGameChangedNotification
+                        {
+                            NewGameName = game.Name,
+                            OldGameName = room.Game.Name,
+                            RoomName = room.Name
+                        };
+
+                        await this.pushNotificationsService
+                            .SendNotificationToUsersAsync(userIdsForNotification, payload, cancellationToken);
+
                     }
                     if (room.StartDate != updatedRoom.StartDate)
                     {
@@ -139,9 +163,20 @@ public class RoomService : IRoomService
                         {
                             CreatedBy = this.userContext.UserId,
                             CreatedDate = DateTime.UtcNow,
-                            MessageContent = "The start date of the room has been changed",
+                            MessageContentKey = "RoomStartDateChanged",
                             RoomId = room.Id,
                         }, cancellationToken);
+
+
+                        var payload = new RoomStartDateChangedNotification
+                        {
+                            NewDate = updatedRoom.StartDate,
+                            OldDate = room.StartDate,
+                            RoomName = room.Name
+                        }; ;
+
+                        await this.pushNotificationsService
+                            .SendNotificationToUsersAsync(userIdsForNotification, payload, cancellationToken);
                     }
 
                     room.StartDate = updatedRoom.StartDate;

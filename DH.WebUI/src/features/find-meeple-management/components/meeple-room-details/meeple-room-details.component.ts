@@ -11,6 +11,17 @@ import { MeepleRoomMenuComponent } from '../meeple-room-menu/meeple-room-menu.co
 import { ImageEntityType } from '../../../../shared/pipe/entity-image.pipe';
 import { FULL_ROUTE } from '../../../../shared/configs/route.config';
 import { DateHelper } from '../../../../shared/helpers/date-helper';
+import {
+  ImagePreviewDialog,
+  ImagePreviewData,
+} from '../../../../shared/dialogs/image-preview/image-preview.dialog';
+import { MatDialog } from '@angular/material/dialog';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastService } from '../../../../shared/services/toast.service';
+import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
+import { ToastType } from '../../../../shared/models/toast.model';
+import { LanguageService } from '../../../../shared/services/language.service';
+import { SupportLanguages } from '../../../../entities/common/models/support-languages.enum';
 
 @Component({
   selector: 'app-meeple-room-details',
@@ -35,7 +46,11 @@ export class MeepleRoomDetailsComponent implements OnInit, OnDestroy {
     private readonly authService: AuthService,
     private readonly menuTabsService: MenuTabsService,
     private readonly router: Router,
-    private readonly navigationService: NavigationService
+    private readonly navigationService: NavigationService,
+    private readonly dialog: MatDialog,
+    private readonly translateService: TranslateService,
+    private readonly toastService: ToastService,
+    private readonly languageService: LanguageService
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.MEEPLE);
   }
@@ -44,10 +59,24 @@ export class MeepleRoomDetailsComponent implements OnInit, OnDestroy {
     this.menuTabsService.resetData();
   }
 
+  public get currentLanguage(): SupportLanguages {
+    return this.languageService.getCurrentLanguage();
+  }
+
   public ngOnInit(): void {
     this.activeRoute.params.subscribe((params: Params) => {
       this.roomId = params['id'];
       this.fetchData();
+    });
+  }
+
+  public openImagePreview(imageUrl: string) {
+    this.dialog.open<ImagePreviewDialog, ImagePreviewData>(ImagePreviewDialog, {
+      data: {
+        imageUrl,
+        title: this.translateService.instant('image'),
+      },
+      width: '17rem',
     });
   }
 
@@ -70,7 +99,21 @@ export class MeepleRoomDetailsComponent implements OnInit, OnDestroy {
     this.roomService.join(this.roomId).subscribe({
       next: () => this.fetchData(),
       error: (error) => {
-        if (error.error.detail) this.errorMessage = error.error.detail;
+        const errorMessage = error.error.errors['maxPeople'][0];
+        if (errorMessage) {
+          this.errorMessage = errorMessage;
+
+          this.toastService.error({
+            message: errorMessage,
+            type: ToastType.Error,
+          });
+        } else
+          this.toastService.error({
+            message: this.translateService.instant(
+              AppToastMessage.SomethingWrong
+            ),
+            type: ToastType.Error,
+          });
       },
     });
   }

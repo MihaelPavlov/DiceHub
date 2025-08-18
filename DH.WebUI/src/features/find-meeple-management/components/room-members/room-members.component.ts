@@ -11,6 +11,9 @@ import { AuthService } from '../../../../entities/auth/auth.service';
 import { Location } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { RoomMemberConfirmDeleteDialog } from '../../dialogs/room-member-confirm-delete/room-member-confirm-delete.component';
+import { LanguageService } from '../../../../shared/services/language.service';
+import { SupportLanguages } from '../../../../entities/common/models/support-languages.enum';
+import { DateHelper } from '../../../../shared/helpers/date-helper';
 
 @Component({
   selector: 'app-room-members',
@@ -21,6 +24,7 @@ export class RoomMembersComponent implements OnInit, OnDestroy {
   public roomId!: number;
   public room!: IRoomByIdResult;
   public members: IRoomMemberResult[] = [];
+  public readonly DATE_FORMAT: string = DateHelper.DATE_FORMAT;
 
   constructor(
     private readonly menuTabsService: MenuTabsService,
@@ -29,7 +33,8 @@ export class RoomMembersComponent implements OnInit, OnDestroy {
     private readonly activeRoute: ActivatedRoute,
     private readonly authService: AuthService,
     private readonly location: Location,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly languageService: LanguageService
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.MEEPLE);
   }
@@ -39,6 +44,10 @@ export class RoomMembersComponent implements OnInit, OnDestroy {
       this.roomId = +params['id'];
       this.fetchMembers();
     });
+  }
+
+  public get currentLanguage(): SupportLanguages {
+    return this.languageService.getCurrentLanguage();
   }
 
   public ngOnDestroy(): void {

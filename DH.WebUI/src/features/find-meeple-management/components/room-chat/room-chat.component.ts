@@ -1,3 +1,4 @@
+import { FrontEndLogService } from './../../../../shared/services/frontend-log.service';
 import {
   AfterViewChecked,
   ChangeDetectorRef,
@@ -24,6 +25,7 @@ import { GroupedChatMessage } from './models/grouped-chat-messages.model';
 import { IRoomInfoMessageResult } from '../../../../entities/rooms/models/room-info-message.model';
 import { environment } from '../../../../shared/environments/environment.development';
 import { FULL_ROUTE, ROUTE } from '../../../../shared/configs/route.config';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-room-chat',
@@ -51,7 +53,9 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     private readonly cdRef: ChangeDetectorRef,
     private readonly router: Router,
     private readonly activeRoute: ActivatedRoute,
-    private readonly toastService: ToastService
+    private readonly toastService: ToastService,
+    private readonly translateService: TranslateService,
+    private readonly frontEndLogService: FrontEndLogService
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.MEEPLE);
   }
@@ -84,7 +88,18 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.message
       )
       .then(() => (this.message = ''))
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        this.frontEndLogService.sendError(
+          JSON.stringify(err),
+          'room-chat.component.ts - addMessage()'
+        );
+        this.toastService.error({
+          message: this.translateService.instant(
+            AppToastMessage.SomethingWrong
+          ),
+          type: ToastType.Error,
+        });
+      });
   }
 
   public getActiveUserIdFromChat(): string {
@@ -133,7 +148,9 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
       },
       error: (error) => {
         this.toastService.error({
-          message: AppToastMessage.SomethingWrong,
+          message: this.translateService.instant(
+            AppToastMessage.SomethingWrong
+          ),
           type: ToastType.Error,
         });
         throwError(() => error);
@@ -190,7 +207,18 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
           }
         );
       })
-      .catch((err) => console.log('Error while starting connection: ' + err));
+      .catch((err) => {
+        this.frontEndLogService.sendError(
+          JSON.stringify(err),
+          'room-chat.component.ts - startConnection()'
+        );
+        this.toastService.error({
+          message: this.translateService.instant(
+            AppToastMessage.SomethingWrong
+          ),
+          type: ToastType.Error,
+        });
+      });
   }
 
   public getPreviousSenderUsername(currentIndex: number): string {
