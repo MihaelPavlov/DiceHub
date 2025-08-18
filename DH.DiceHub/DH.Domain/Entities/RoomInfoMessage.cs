@@ -4,7 +4,7 @@ public class RoomInfoMessage
 {
     public int Id { get; set; }
     public string CreatedBy { get; set; } = string.Empty;
-    public string MessageContent { get; set; } = string.Empty;
+    public string MessageContentKey { get; set; } = string.Empty;
     public DateTime CreatedDate { get; set; }
     public int RoomId { get; set; }
 

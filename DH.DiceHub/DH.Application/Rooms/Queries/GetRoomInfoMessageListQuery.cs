@@ -1,5 +1,6 @@
 using DH.Domain.Adapters.Authentication;
 using DH.Domain.Adapters.Authentication.Services;
+using DH.Domain.Adapters.Localization;
 using DH.Domain.Entities;
 using DH.Domain.Models.RoomModels.Queries;
 using DH.Domain.Repositories;
@@ -16,13 +17,20 @@ internal class GetRoomInfoMessageListQueryHandler : IRequestHandler<GetRoomInfoM
     readonly IRepository<Room> roomsRepository;
     readonly IUserService userService;
     readonly IUserContext userContext;
+    readonly ILocalizationService localizer;
 
-    public GetRoomInfoMessageListQueryHandler(IRepository<RoomInfoMessage> roomInfoMessagesRepository, IRepository<Room> roomsRepository, IUserService userService, IUserContext userContext)
+    public GetRoomInfoMessageListQueryHandler(
+        IRepository<RoomInfoMessage> roomInfoMessagesRepository,
+        IRepository<Room> roomsRepository,
+        IUserService userService,
+        IUserContext userContext,
+        ILocalizationService localizer)
     {
         this.roomInfoMessagesRepository = roomInfoMessagesRepository;
         this.roomsRepository = roomsRepository;
         this.userService = userService;
         this.userContext = userContext;
+        this.localizer = localizer;
     }
 
     public async Task<List<GetRoomInfoMessageListQueryModel>> Handle(GetRoomInfoMessageListQuery request, CancellationToken cancellationToken)
@@ -35,7 +43,7 @@ internal class GetRoomInfoMessageListQueryHandler : IRequestHandler<GetRoomInfoM
             m => new GetRoomInfoMessageListQueryModel
             {
                 Id = m.Id,
-                Message = m.MessageContent,
+                Message = this.localizer[m.MessageContentKey],
                 CreatedDate = m.CreatedDate,
             }, CancellationToken.None);
 

@@ -41,7 +41,7 @@ internal class RemoveRoomMemberCommandHandler : IRequestHandler<RemoveRoomMember
 
         var participantForDeletion = roomParticipantList.FirstOrDefault(x => x.UserId == request.UserId);
         if (participantForDeletion is null)
-            throw new BadRequestException("Participant not found");
+            throw new NotFoundException($"Participant with UserId {request.UserId} for Room with ID {room.Id} was not found");
 
         participantForDeletion.IsDeleted = true;
 

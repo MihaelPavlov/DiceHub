@@ -33,8 +33,10 @@ public static class TimePeriodTypeHelper
             {
                 // Calculate next occurrence of specified day at 12:00 PM
                 int daysUntilReset = ((int)resetDayOfWeek - (int)DateTime.UtcNow.DayOfWeek + 7) % 7;
-                if (daysUntilReset == 0)
-                    daysUntilReset = 7;
+               
+                // Not needed if we have day on monday, and today is monday and we will create period till the end of the day . 
+                //if (daysUntilReset == 0)
+                //    daysUntilReset = 7;
                 nextResetDate = DateTime.UtcNow.Date.AddDays(daysUntilReset).AddHours(resetHour);
             }
         }

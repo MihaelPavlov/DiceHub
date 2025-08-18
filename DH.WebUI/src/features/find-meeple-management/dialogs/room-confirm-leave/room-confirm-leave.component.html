@@ -1,13 +1,13 @@
 <div class="dialog-container">
-    <h3 class="dialog-container__header m-4">Leave Room?</h3>
-    <mat-dialog-actions>
-      <button class="btn btn__small btn-blue" mat-dialog-close>Cancel</button>
-      <button
-        class="btn btn__small btn-red btn-border-red"
-        (click)="onLeave()"
-      >
-        Leave
-      </button>
-    </mat-dialog-actions>
-  </div>
-  
+  <h3 class="dialog-container__header m-4">
+    {{ "meeple.room.leave_room_question" | translate }}
+  </h3>
+  <mat-dialog-actions>
+    <button class="btn btn__small btn-blue" mat-dialog-close>
+      {{ "cancel" | translate }}
+    </button>
+    <button class="btn btn__small btn-red btn-border-red" (click)="onLeave()">
+      {{ "leave" | translate }}
+    </button>
+  </mat-dialog-actions>
+</div>

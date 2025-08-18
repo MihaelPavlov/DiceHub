@@ -22,7 +22,10 @@ public static class NotificationTypeRegistry
         { nameof(SpaceTableApprovedNotification), typeof(SpaceTableApprovedNotification) },
         { nameof(SpaceTableDeclinedNotification), typeof(SpaceTableDeclinedNotification) },
         { nameof(SpaceTablePublicNoteUpdatedNotification), typeof(SpaceTablePublicNoteUpdatedNotification) },
-        { nameof(SpaceTableReservationManagementNotification), typeof(SpaceTableReservationManagementNotification) }
+        { nameof(SpaceTableReservationManagementNotification), typeof(SpaceTableReservationManagementNotification) },
+        { nameof(RoomGameChangedNotification), typeof(RoomGameChangedNotification) },
+        { nameof(RoomStartDateChangedNotification), typeof(RoomStartDateChangedNotification) },
+        { nameof(RoomParticipantJoinedNotification), typeof(RoomParticipantJoinedNotification) }
     };
 
     public static bool TryGetType(string messageType, out Type type) => Types.TryGetValue(messageType, out type!);

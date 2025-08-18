@@ -303,4 +303,31 @@
   <data name="EventMaxPeopleCapacity" xml:space="preserve">
     <value>This event has reached its maximum capacity for online sign-ins</value>
   </data>
+  <data name="RoomGameChanged" xml:space="preserve">
+    <value>Game has been changed. Please check the new game rules</value>
+  </data>
+  <data name="RoomStartDateChanged" xml:space="preserve">
+    <value>The start date of the room has been changed</value>
+  </data>
+  <data name="RoomGameChangedTitle" xml:space="preserve">
+    <value>Game Changed in {0}</value>
+  </data>
+  <data name="RoomGameChangedBody" xml:space="preserve">
+    <value>The game in room {0} has been updated from {1} to {2}. Check out the new rules!</value>
+  </data>
+  <data name="RoomStartDateChangedTitle" xml:space="preserve">
+    <value>Room Date Updated in {0}</value>
+  </data>
+  <data name="RoomStartDateChangedBody" xml:space="preserve">
+    <value>The start date of room {0} has been changed from {1} to {2}.</value>
+  </data>
+  <data name="RoomParticipantJoinedTitle" xml:space="preserve">
+    <value>New Participant Joined in Room {0}</value>
+  </data>
+  <data name="RoomParticipantJoinedBody" xml:space="preserve">
+    <value>{0} has joined your room \"{1}\".</value>
+  </data>
+  <data name="RoomMaxPeople" xml:space="preserve">
+    <value>Maximum number of participants reached.</value>
+  </data>
 </root>
