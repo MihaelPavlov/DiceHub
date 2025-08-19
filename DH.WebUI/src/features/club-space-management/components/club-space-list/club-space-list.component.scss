@@ -15,37 +15,37 @@
   }
 
   &__item {
-    display: flex;
-
     width: 90%;
     border-bottom: 0.2rem solid palette.$main-nav-color;
-    justify-content: space-between;
     padding: 0.5rem;
+    word-break: break-word;
 
+    .item_top_part {
+      display: flex;
+
+      .image {
+        img {
+          width: 7rem;
+
+          object-fit: cover;
+          border-radius: 20px;
+          border: 0.1rem solid palette.$main-background-color;
+        }
+      }
+    }
     .wrapper_left {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      width: 80%;
     }
 
     .chips {
       display: flex;
       align-items: center;
-
+      margin: 0.5rem 0;
       app-chip {
         margin-right: 0.4rem;
-      }
-
-      .image {
-        margin: 0 0.2rem;
-
-        img {
-          width: 2rem;
-          height: 2rem;
-          object-fit: cover;
-          border-radius: 5rem;
-          border: 0.1rem solid palette.$main-background-color;
-        }
       }
     }
 
@@ -57,19 +57,10 @@
 
     .info-btn {
       display: flex;
-      flex-direction: column;
-      justify-content: end;
-      align-items: end;
 
-      .image {
+      .image_locked {
         display: flex;
-        justify-content: start;
-        margin: 0.5rem 0;
-        margin-left: 1rem;
-        margin-right: 0.75rem;
-        text-align: center;
-        align-items: center;
-
+        margin-left: 0.3rem;
         img {
           width: 2rem;
           height: 2rem;

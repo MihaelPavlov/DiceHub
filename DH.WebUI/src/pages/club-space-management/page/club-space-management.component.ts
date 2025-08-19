@@ -17,6 +17,9 @@ import { ReservationStatus } from '../../../shared/enums/reservation-status.enum
 import { GamesService } from '../../../entities/games/api/games.service';
 import { ActiveReservedGame } from '../../../entities/games/models/active-reserved-game.model';
 import { DateHelper } from '../../../shared/helpers/date-helper';
+import { FULL_ROUTE, ROUTE } from '../../../shared/configs/route.config';
+import { LanguageService } from '../../../shared/services/language.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-club-space-management',
@@ -32,19 +35,19 @@ export class ClubSpaceManagementComponent implements OnInit {
   public ReservationStatus = ReservationStatus;
 
   private hostMessages = [
-    '🎯 Your Table is Live 🎯',
-    '🕹️ Game in Progress 🕹️',
-    '🎲 You’ve Rolled the Dice 🎲',
-    '🔥 Table’s Hot — You’re Hosting 🔥',
-    '🧩 You’re Running the Show 🧩',
+    'space_management.table_messages.host.live',
+    'space_management.table_messages.host.in_progress',
+    'space_management.table_messages.host.rolled_dice',
+    'space_management.table_messages.host.hot_table',
+    'space_management.table_messages.host.running_show',
   ];
 
   private participantMessages = [
-    '🎮 You’re in the Game 🎮',
-    '🪑 Pulled Up a Seat 🪑',
-    '✨ You’ve Joined the Table ✨',
-    '🧑‍🤝‍🧑 Part of the Crew 🧑‍🤝‍🧑',
-    '🎭 Table Vibes: Active 🎭',
+    'space_management.table_messages.participant.in_game',
+    'space_management.table_messages.participant.seat_taken',
+    'space_management.table_messages.participant.joined_table',
+    'space_management.table_messages.participant.part_of_crew',
+    'space_management.table_messages.participant.table_vibes',
   ];
 
   public randomHostMessage: string | null = null;
@@ -56,7 +59,9 @@ export class ClubSpaceManagementComponent implements OnInit {
     public readonly gameService: GamesService,
     private readonly dialog: MatDialog,
     private readonly authService: AuthService,
-    private readonly datePipe: DatePipe
+    private readonly datePipe: DatePipe,
+    private readonly languageService: LanguageService,
+    private readonly translateService: TranslateService
   ) {}
 
   public ngOnInit(): void {
@@ -101,10 +106,8 @@ export class ClubSpaceManagementComponent implements OnInit {
       this.activeGameReservationModel?.reservationDate,
       this.activeBookedTableModel?.reservationDate
     );
-    console.log('isSameReservationDate', isSameReservationDate);
 
     const dialogData = this.getDialogData(isSameReservationDate);
-    console.log('dialogData', dialogData);
 
     this.dialog.open(ReservationQrCodeDialog, {
       width: '17rem',
@@ -151,19 +154,20 @@ export class ClubSpaceManagementComponent implements OnInit {
   }
 
   public navigateSpaceTableList(): void {
-    this.router.navigateByUrl('/space/list');
+    this.router.navigateByUrl(FULL_ROUTE.SPACE_MANAGEMENT.LIST);
   }
 
   public navigateSpaceTableBooking(): void {
-    this.router.navigateByUrl('/space/booking');
+    this.router.navigateByUrl(FULL_ROUTE.SPACE_MANAGEMENT.BOOKING);
   }
 
   public navigateToCreateTable(): void {
-    this.router.navigateByUrl('/qr-code-scanner');
+    this.router.navigateByUrl(ROUTE.QR_CODE_SCANNER);
   }
 
   public navigateToSpaceClubDetails(id: number | null | undefined): void {
-    if (id) this.router.navigateByUrl(`/space/${id}/details`);
+    if (id)
+      this.router.navigateByUrl(FULL_ROUTE.SPACE_MANAGEMENT.ROOM_DETAILS(id));
   }
 
   public getKeyValuePair(): { key: string; value: any }[] {
@@ -189,7 +193,9 @@ export class ClubSpaceManagementComponent implements OnInit {
       reservationDate: (value) => {
         return this.datePipe.transform(
           new Date(value),
-          DateHelper.DATE_TIME_FORMAT
+          DateHelper.DATE_TIME_FORMAT,
+          undefined,
+          this.languageService.getCurrentLanguage()
         );
       },
       isConfirmed: (value) => value,
@@ -197,6 +203,8 @@ export class ClubSpaceManagementComponent implements OnInit {
   }
 
   private getRandom(messages: string[]): string {
-    return messages[Math.floor(Math.random() * messages.length)];
+    return this.translateService.instant(
+      messages[Math.floor(Math.random() * messages.length)]
+    );
   }
 }

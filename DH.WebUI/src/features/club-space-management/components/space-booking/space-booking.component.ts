@@ -26,6 +26,7 @@ import { BehaviorSubject } from 'rxjs';
 import { IMenuItem } from '../../../../shared/models/menu-item.model';
 import { ControlsMenuComponent } from '../../../../shared/components/menu/controls-menu.component';
 import { TranslateService } from '@ngx-translate/core';
+import { FULL_ROUTE } from '../../../../shared/configs/route.config';
 
 interface ICreateSpaceReservation {
   reservationDate: Date;
@@ -94,7 +95,6 @@ export class SpaceBookingComponent extends Form {
   public menuItems: BehaviorSubject<IMenuItem[]> = new BehaviorSubject<
     IMenuItem[]
   >([]);
-  // public isMenuVisible: boolean = false;
   public timeSlots: string[] = [];
   public activeSlotIndex: number = 0;
   public guestsFirstSection: number = 1;
@@ -120,11 +120,31 @@ export class SpaceBookingComponent extends Form {
     });
 
     this.menuItems.next([
-      { key: 'qr-code', label: 'QR Code' },
+      {
+        key: 'qr-code',
+        label: this.translateService.instant(
+          'space_management.booking.menu_items.qr_code'
+        ),
+      },
       // { key: 'history-log', label: 'Last Activities' },
-      { key: 'update', label: 'Update' },
-      { key: 'copy', label: 'Add Copy' },
-      { key: 'delete', label: 'Delete' },
+      {
+        key: 'update',
+        label: this.translateService.instant(
+          'space_management.booking.menu_items.update'
+        ),
+      },
+      {
+        key: 'copy',
+        label: this.translateService.instant(
+          'space_management.booking.menu_items.add_copy'
+        ),
+      },
+      {
+        key: 'delete',
+        label: this.translateService.instant(
+          'space_management.booking.menu_items.delete'
+        ),
+      },
     ]);
   }
 
@@ -167,7 +187,7 @@ export class SpaceBookingComponent extends Form {
   }
 
   public backNavigateBtn(): void {
-    this.router.navigateByUrl('space/home');
+    this.router.navigateByUrl(FULL_ROUTE.SPACE_MANAGEMENT.HOME);
   }
 
   public showMenu(event: MouseEvent, controlMenu: ControlsMenuComponent): void {
@@ -192,20 +212,27 @@ export class SpaceBookingComponent extends Form {
               message: AppToastMessage.ChangesApplied,
               type: ToastType.Success,
             });
-            this.router.navigateByUrl('space/home');
+            this.router.navigateByUrl(FULL_ROUTE.SPACE_MANAGEMENT.HOME);
           },
           error: (error) => {
             if (
-              error.error.detail === 'User already have an active reservation'
+              error.error.detail ===
+              this.translateService.instant(
+                'space_management.booking.user_have_active_reservation'
+              )
             ) {
               this.toastService.error({
-                message: 'This account already have an active reservation',
+                message: this.translateService.instant(
+                  'space_management.booking.account_have_active_reservation'
+                ),
                 type: ToastType.Error,
               });
             } else {
               this.handleServerErrors(error);
               this.toastService.error({
-                message: AppToastMessage.SomethingWrong,
+                message: this.translateService.instant(
+                  AppToastMessage.SomethingWrong
+                ),
                 type: ToastType.Error,
               });
             }

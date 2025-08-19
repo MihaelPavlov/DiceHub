@@ -23,13 +23,13 @@ public class CreateSpaceTableDto : IValidableFields
         }
 
         if (string.IsNullOrEmpty(Name))
-            errors.Add(new ValidationError(nameof(Name), "Name should not be empty."));
+            errors.Add(new ValidationError(nameof(Name), localizationService["RoomValidationNameRequired"]));
 
         if (MaxPeople <= 1)
-            errors.Add(new ValidationError(nameof(MaxPeople), "Max People should not be less or equal to 1."));
+            errors.Add(new ValidationError(nameof(MaxPeople), localizationService["RoomValidationMaxPeople"]));
 
         if (GameId <= 0)
-            errors.Add(new ValidationError(nameof(GameId), "Scanned game is invalid. Contact the staff"));
+            errors.Add(new ValidationError(nameof(GameId), localizationService["RoomValidationInvalidGame"]));
 
         validationErrors = errors;
 

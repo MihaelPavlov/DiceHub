@@ -19,7 +19,12 @@ internal class GetSpaceAvailableTableListQueryHandler : IRequestHandler<GetSpace
     public async Task<List<GetSpaceAvailableTableListQueryModel>> Handle(GetSpaceAvailableTableListQuery request, CancellationToken cancellationToken)
     {
         return await this.repository.GetWithPropertiesAsync(
-            x => x.Name.ToLower().Contains(request.searchExpressionName.ToLower()) && x.IsTableActive && !x.IsSoloModeActive,
+            x =>
+                (
+                x.Name.ToLower().Contains(request.searchExpressionName.ToLower()) ||
+                x.Game.Name.ToLower().Contains(request.searchExpressionName.ToLower())
+                )&&
+                x.IsTableActive && !x.IsSoloModeActive,
             x => new GetSpaceAvailableTableListQueryModel
             {
                 Id = x.Id,

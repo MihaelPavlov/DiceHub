@@ -21,7 +21,6 @@ export class JoinTableConfirmDialog {
     private dialogRef: MatDialogRef<JoinTableConfirmDialog>,
     private readonly spaceManagementService: SpaceManagementService
   ) {
-    console.log('data->',this.data);
     
   }
 

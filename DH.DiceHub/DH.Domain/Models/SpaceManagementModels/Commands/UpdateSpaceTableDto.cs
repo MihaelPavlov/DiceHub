@@ -15,10 +15,10 @@ public class UpdateSpaceTableDto : IValidableFields
         var errors = new List<ValidationError>();
 
         if (string.IsNullOrEmpty(Name))
-            errors.Add(new ValidationError(nameof(Name), "Name should not be empty."));
+            errors.Add(new ValidationError(nameof(Name), localizationService["RoomValidationNameRequired"]));
 
         if (MaxPeople <= 1)
-            errors.Add(new ValidationError(nameof(MaxPeople), "Max People should not be less or equal to 1."));
+            errors.Add(new ValidationError(nameof(MaxPeople), localizationService["RoomValidationMaxPeople"]));
 
         validationErrors = errors;
 

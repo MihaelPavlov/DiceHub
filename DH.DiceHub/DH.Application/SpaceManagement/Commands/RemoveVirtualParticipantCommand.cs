@@ -25,7 +25,7 @@ internal class RemoveVirtualParticipantCommandHandler : IRequestHandler<RemoveVi
     public async Task Handle(RemoveVirtualParticipantCommand request, CancellationToken cancellationToken)
     {
         var spaceTable = await this.spaceTableRepository.GetByAsyncWithTracking(x => x.Id == request.SpaceTableId && x.IsTableActive, cancellationToken)
-                         ?? throw new NotFoundException(nameof(SpaceTable), request.SpaceTableId);
+            ?? throw new NotFoundException(nameof(SpaceTable), request.SpaceTableId);
 
         if (this.userContext.RoleKey != (int)Role.User)
             throw new BadRequestException("Only staff can add virtual users");

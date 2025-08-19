@@ -330,4 +330,28 @@
   <data name="RoomMaxPeople" xml:space="preserve">
     <value>Достигнат е максималният брой участници.</value>
   </data>
+  <data name="RoomVirtualUserUsername" xml:space="preserve">
+    <value>Виртуален Потребител #{0}</value>
+  </data>
+  <data name="RoomValidationNameRequired" xml:space="preserve">
+    <value>Името не трябва да е празно.</value>
+  </data>
+  <data name="RoomValidationMaxPeople" xml:space="preserve">
+    <value>Максималният брой хора трябва да е по-голям от 1.</value>
+  </data>
+  <data name="RoomValidationInvalidGame" xml:space="preserve">
+    <value>Сканираната игра е невалидна. Свържете се с персонала.</value>
+  </data>
+  <data name="RoomInvalidPassword" xml:space="preserve">
+    <value>Грешна парола. Моля, опитайте отново.</value>
+  </data>
+  <data name="RoomUserHaveActiveTable" xml:space="preserve">
+    <value>Вече имате активна маса</value>
+  </data>
+  <data name="RoomUserAlreadyParticipateInRoom" xml:space="preserve">
+    <value>Вече участвате в активна маса</value>
+  </data>
+  <data name="RoomNoAvailableGameCopies" xml:space="preserve">
+    <value>Няма налични копия от тази игра.</value>
+  </data>
 </root>

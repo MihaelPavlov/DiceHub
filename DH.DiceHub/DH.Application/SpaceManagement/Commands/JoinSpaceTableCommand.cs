@@ -1,5 +1,6 @@
 ﻿using DH.Domain.Adapters.Authentication;
 using DH.Domain.Adapters.GameSession;
+using DH.Domain.Adapters.Localization;
 using DH.Domain.Adapters.Statistics;
 using DH.Domain.Adapters.Statistics.Services;
 using DH.Domain.Entities;
@@ -21,6 +22,7 @@ internal class JoinSpaceTableCommandHandler : IRequestHandler<JoinSpaceTableComm
     readonly SynchronizeGameSessionQueue queue;
     readonly ILogger<JoinSpaceTableCommandHandler> logger;
     readonly IStatisticQueuePublisher statisticQueuePublisher;
+    readonly ILocalizationService localizer;
 
     public JoinSpaceTableCommandHandler(
         IRepository<SpaceTable> spaceTableRepository,
@@ -29,7 +31,8 @@ internal class JoinSpaceTableCommandHandler : IRequestHandler<JoinSpaceTableComm
         IUserContext userContext,
         SynchronizeGameSessionQueue queue,
         ILogger<JoinSpaceTableCommandHandler> logger,
-        IStatisticQueuePublisher statisticQueuePublisher)
+        IStatisticQueuePublisher statisticQueuePublisher,
+        ILocalizationService localizer)
     {
         this.spaceTableRepository = spaceTableRepository;
         this.spaceTableParticipantRepository = spaceTableParticipantRepository;
@@ -38,6 +41,7 @@ internal class JoinSpaceTableCommandHandler : IRequestHandler<JoinSpaceTableComm
         this.queue = queue;
         this.logger = logger;
         this.statisticQueuePublisher = statisticQueuePublisher;
+        this.localizer = localizer;
     }
 
     public async Task Handle(JoinSpaceTableCommand request, CancellationToken cancellationToken)
@@ -46,12 +50,12 @@ internal class JoinSpaceTableCommandHandler : IRequestHandler<JoinSpaceTableComm
             ?? throw new NotFoundException(nameof(SpaceTable), request.Id);
 
         if (spaceTable.IsLocked && !spaceTable.Password.Equals(request.Password))
-            throw new ValidationErrorsException("Password", "Password doesn't match");
+            throw new ValidationErrorsException("Password", this.localizer["RoomInvalidPassword"]);
 
         var spaceTableParticipations = await this.spaceTableParticipantRepository.GetWithPropertiesAsTrackingAsync(x => x.SpaceTableId == spaceTable.Id, x => x, cancellationToken);
 
         if (spaceTableParticipations.Count >= spaceTable.MaxPeople)
-            throw new ValidationErrorsException("MaxPeople", "Max People was reached for this room");
+            throw new ValidationErrorsException("MaxPeople", this.localizer["RoomMaxPeople"]);
 
         spaceTable.SpaceTableParticipants.Add(new SpaceTableParticipant
         {

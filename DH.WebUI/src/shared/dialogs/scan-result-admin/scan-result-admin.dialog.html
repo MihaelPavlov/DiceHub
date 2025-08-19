@@ -1,23 +1,32 @@
 <div class="dialog-container">
   <ng-container *ngIf="!this.data.isValid">
-    <h3 class="dialog-container__header m-4">Problem with the {{getTypeOfQrCode}}!</h3>
+    <h3 class="dialog-container__header m-4">
+      {{'qr_scanner.problem_with_qr_code' | translate : {qrCode:getTypeOfQrCode}
+      }}
+    </h3>
     <h4 class="dialog-container__header error">{{this.data.errorMessage}}</h4>
   </ng-container>
-  <ng-container *ngIf="this.data.isValid && this.data.type === QrCodeType.Reward" >
-    <h3 class="dialog-container__header m-4">Reward is valid!</h3>
+  <ng-container
+    *ngIf="this.data.isValid && this.data.type === QrCodeType.Reward"
+  >
+    <h3 class="dialog-container__header m-4">
+      {{'qr_scanner.reward_is_valid' | translate}}
+    </h3>
     <h4 class="dialog-container__header m-4">
-      Please confirm when you give the reward to the customer!
+      {{'qr_scanner.please_confirm_giving_reward' | translate}}
     </h4>
   </ng-container>
 
   <mat-dialog-actions>
-    <button class="btn btn__small btn-border-red btn-red" mat-dialog-close>Close</button>
+    <button class="btn btn__small btn-border-red btn-red" mat-dialog-close>
+      {{'close'| translate}}
+    </button>
     <button
       class="btn btn-border-blue btn-blue"
       *ngIf="this.data.isValid"
       (click)="confirm()"
     >
-      Confirm
+      {{'confirm'| translate}}
     </button>
   </mat-dialog-actions>
 </div>

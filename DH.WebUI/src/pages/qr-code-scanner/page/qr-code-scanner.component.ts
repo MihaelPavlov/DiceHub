@@ -14,6 +14,8 @@ import { Router } from '@angular/router';
 import { IQrCodeValidationResult } from '../../../entities/qr-code-scanner/models/qr-code-validation-result.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ScanResultAdminDialog } from '../../../shared/dialogs/scan-result-admin/scan-result-admin.dialog';
+import { FULL_ROUTE } from '../../../shared/configs/route.config';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-qr-code-scanner',
@@ -22,7 +24,6 @@ import { ScanResultAdminDialog } from '../../../shared/dialogs/scan-result-admin
 })
 export class QrCodeScannerComponent implements OnInit, AfterViewInit {
   @ViewChild('video') videoElement!: ElementRef<HTMLVideoElement>;
-  private currentStream: MediaStream | null = null;
   private readonly KEY_AFTER_SCAN_SUCCESS_MESSAGE = 'afterScanSuccessMessage';
   public imageSrc: string | null = null;
   public canvas!: HTMLCanvasElement;
@@ -34,7 +35,8 @@ export class QrCodeScannerComponent implements OnInit, AfterViewInit {
   constructor(
     private readonly scannerService: ScannerService,
     private readonly router: Router,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly translateService: TranslateService
   ) {}
 
   public ngOnInit(): void {
@@ -47,7 +49,7 @@ export class QrCodeScannerComponent implements OnInit, AfterViewInit {
     this.startCamera();
   }
 
-  startCamera() {
+  private startCamera(): void {
     navigator.mediaDevices
       .getUserMedia({ video: { facingMode: 'environment' } })
       .then((stream) => {
@@ -65,7 +67,7 @@ export class QrCodeScannerComponent implements OnInit, AfterViewInit {
       });
   }
 
-  tick() {
+  private tick(): void {
     if (!this.videoElement) {
       return;
     }
@@ -90,12 +92,9 @@ export class QrCodeScannerComponent implements OnInit, AfterViewInit {
         const code = jsQR(imageData.data, imageData.width, imageData.height);
 
         if (code) {
-          console.log('QR Code detected:', code.data);
           this.afterScanSuccessfulMessage = null;
           video.pause();
           if (!this.isQrCodeValid(code.data)) {
-            console.log('Invalid QR Code detected:', code.data);
-
             this.invalidQrCode = true;
             video.play();
           } else {
@@ -113,7 +112,7 @@ export class QrCodeScannerComponent implements OnInit, AfterViewInit {
                       case QrCodeType.Game:
                         if (res.isValid) {
                           this.router.navigateByUrl(
-                            `space/create/${res.objectId}`
+                            FULL_ROUTE.SPACE_MANAGEMENT.CREATE(res.objectId)
                           );
                         }
                         break;
@@ -121,7 +120,16 @@ export class QrCodeScannerComponent implements OnInit, AfterViewInit {
                       case QrCodeType.GameReservation:
                         if (res.isValid) {
                           this.setLocalStorageSuccessMessage(
-                            `Game Reservation is VALID \n\n ${res.internalNote ?? 'No Note From Staff'}`
+                            this.translateService.instant(
+                              'qr_scanner.game_reservation_valid',
+                              {
+                                note:
+                                  res.internalNote ??
+                                  this.translateService.instant(
+                                    'qr_scanner.no_staff_note'
+                                  ),
+                              }
+                            )
                           );
                           window.location.reload();
                         } else {
@@ -142,7 +150,16 @@ export class QrCodeScannerComponent implements OnInit, AfterViewInit {
                       case QrCodeType.TableReservation:
                         if (res.isValid) {
                           this.setLocalStorageSuccessMessage(
-                            `Table Reservation is VALID \n\n ${res.internalNote ?? 'No Note From Staff'}`
+                            this.translateService.instant(
+                              'qr_scanner.table_reservation_valid',
+                              {
+                                note:
+                                  res.internalNote ??
+                                  this.translateService.instant(
+                                    'qr_scanner.no_staff_note'
+                                  ),
+                              }
+                            )
                           );
                           window.location.reload();
                         } else {
@@ -176,11 +193,8 @@ export class QrCodeScannerComponent implements OnInit, AfterViewInit {
                         break;
                     }
                   }
-                  // video.remove();
                 },
                 error: (err) => {
-                  console.log(err, 'error');
-
                   this.invalidQrCode = true;
                   this.isValidQrScanned = false;
                   this.startCamera();

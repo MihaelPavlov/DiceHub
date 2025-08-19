@@ -24,6 +24,7 @@ import {
 } from '../../../../shared/pipe/entity-image.pipe';
 import { NavigationService } from '../../../../shared/services/navigation-service';
 import { TranslateService } from '@ngx-translate/core';
+import { FULL_ROUTE } from '../../../../shared/configs/route.config';
 
 interface ICreateSpaceTableForm {
   gameName: string;
@@ -61,7 +62,7 @@ export class AddUpdateClubSpaceComponent extends Form implements OnInit {
   ) {
     super(toastService, translateService);
     this.form = this.initFormGroup();
-    this.navigationService.setPreviousUrl('space/home');
+    this.navigationService.setPreviousUrl(FULL_ROUTE.SPACE_MANAGEMENT.HOME);
   }
 
   public ngOnInit(): void {
@@ -88,22 +89,36 @@ export class AddUpdateClubSpaceComponent extends Form implements OnInit {
   }
 
   public get getHeader(): string {
-    return this.editTableId ? 'Update Game Table' : 'Create Game Table ';
+    return this.editTableId
+      ? this.translateService.instant(
+          'space_management.add_update.update_header'
+        )
+      : this.translateService.instant(
+          'space_management.add_update.create_header'
+        );
   }
 
   public showInfoForGame(): void {
-    this.navigationService.setPreviousUrl(`/space/create/${this.gameId}`);
-    this.router.navigateByUrl(`games/${this.gameId}/details`);
+    if (this.gameId) {
+      this.navigationService.setPreviousUrl(
+        FULL_ROUTE.SPACE_MANAGEMENT.CREATE(this.gameId)
+      );
+
+      this.router.navigateByUrl(FULL_ROUTE.GAMES.DETAILS(this.gameId));
+    }
   }
 
   public backNavigateBtn(): void {
     if (this.editTableId) {
-      this.router.navigateByUrl(`/space/${this.editTableId}/details`);
+      this.router.navigateByUrl(
+        FULL_ROUTE.SPACE_MANAGEMENT.ROOM_DETAILS(this.editTableId)
+      );
       return;
     }
 
     this.router.navigateByUrl(
-      this.navigationService.getPreviousUrl() ?? '/space/home'
+      this.navigationService.getPreviousUrl() ??
+        FULL_ROUTE.SPACE_MANAGEMENT.HOME
     );
   }
 
@@ -124,15 +139,19 @@ export class AddUpdateClubSpaceComponent extends Form implements OnInit {
         .subscribe({
           next: () => {
             this.toastService.success({
-              message: AppToastMessage.ChangesSaved,
+              message: this.translateService.instant(
+                AppToastMessage.ChangesSaved
+              ),
               type: ToastType.Success,
             });
-            this.router.navigateByUrl('/space/home');
+            this.router.navigateByUrl(FULL_ROUTE.SPACE_MANAGEMENT.HOME);
           },
           error: (error) => {
             this.handleServerErrors(error);
             this.toastService.error({
-              message: AppToastMessage.FailedToSaveChanges,
+              message: this.translateService.instant(
+                AppToastMessage.FailedToSaveChanges
+              ),
               type: ToastType.Error,
             });
           },
@@ -152,15 +171,23 @@ export class AddUpdateClubSpaceComponent extends Form implements OnInit {
         .subscribe({
           next: () => {
             this.toastService.success({
-              message: AppToastMessage.ChangesSaved,
+              message: this.translateService.instant(
+                AppToastMessage.ChangesSaved
+              ),
               type: ToastType.Success,
             });
-            this.router.navigateByUrl(`/space/${this.editTableId}/details`);
+
+            if (this.editTableId)
+              this.router.navigateByUrl(
+                FULL_ROUTE.SPACE_MANAGEMENT.ROOM_DETAILS(this.editTableId)
+              );
           },
           error: (error) => {
             this.handleServerErrors(error);
             this.toastService.error({
-              message: AppToastMessage.FailedToSaveChanges,
+              message: this.translateService.instant(
+                AppToastMessage.FailedToSaveChanges
+              ),
               type: ToastType.Error,
             });
           },
@@ -171,13 +198,21 @@ export class AddUpdateClubSpaceComponent extends Form implements OnInit {
   protected override getControlDisplayName(controlName: string): string {
     switch (controlName) {
       case 'gameName':
-        return 'Scanned Game';
+        return this.translateService.instant(
+          'space_management.add_update.controls_display_names.scanned_game'
+        );
       case 'tableName':
-        return 'Table Name';
+        return this.translateService.instant(
+          'space_management.add_update.controls_display_names.table_name'
+        );
       case 'maxPeople':
-        return 'Max People';
+        return this.translateService.instant(
+          'space_management.add_update.controls_display_names.max_people'
+        );
       case 'password':
-        return 'Password';
+        return this.translateService.instant(
+          'space_management.add_update.controls_display_names.password'
+        );
       default:
         return controlName;
     }
@@ -230,15 +265,21 @@ export class AddUpdateClubSpaceComponent extends Form implements OnInit {
                   .subscribe({
                     next: () => {
                       this.toastService.success({
-                        message: AppToastMessage.ChangesSaved,
+                        message: this.translateService.instant(
+                          AppToastMessage.ChangesSaved
+                        ),
                         type: ToastType.Success,
                       });
-                      this.router.navigateByUrl('/space/home');
+                      this.router.navigateByUrl(
+                        FULL_ROUTE.SPACE_MANAGEMENT.HOME
+                      );
                     },
                     error: (error) => {
                       this.handleServerErrors(error);
                       this.toastService.error({
-                        message: AppToastMessage.FailedToSaveChanges,
+                        message: this.translateService.instant(
+                          AppToastMessage.FailedToSaveChanges
+                        ),
                         type: ToastType.Error,
                       });
                     },

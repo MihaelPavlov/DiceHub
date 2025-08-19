@@ -1,8 +1,14 @@
-<app-header header="Club Space" [withBottomLine]="true"> </app-header>
+<app-header
+  [header]="'space_management.header' | translate"
+  [withBottomLine]="true"
+>
+</app-header>
 
 <div class="wrapper_tabs" *ngIf="spaceActivityStats">
   <div class="wrapper_tabs__tab">
-    <span class="wrapper_tabs__tab-header">People In Club</span>
+    <span class="wrapper_tabs__tab-header">{{
+      "space_management.people_in_club" | translate
+    }}</span>
     <div class="info">
       <svg class="icon" viewBox="0 -960 960 960">
         <path
@@ -15,7 +21,9 @@
     </div>
   </div>
   <div class="wrapper_tabs__tab">
-    <span class="wrapper_tabs__tab-header">Online tables</span>
+    <span class="wrapper_tabs__tab-header">{{
+      "space_management.online_tables" | translate
+    }}</span>
     <div class="info">
       <svg class="icon" viewBox="0 -960 960 960">
         <path
@@ -49,17 +57,16 @@
       (click)="navigateToSpaceClubDetails(info.activeTableId)"
       class="btn btn__small btn-gray btn-font-blue btn-border-blue"
     >
-      View Table
+      {{ "space_management.view_table" | translate }}
     </button>
   </div>
 
   <div class="wrapper_btns">
     <div class="btn_container">
       <div class="info">
-        <span>Create Table</span>
+        <span>{{ "space_management.create_table" | translate }}</span>
         <span class="description"
-          >Begin your adventure. Create a table if you're free and you are in
-          the club!
+          >{{ "space_management.create_table_description" | translate }}
         </span>
       </div>
       <div class="button">
@@ -77,18 +84,17 @@
               info.isPlayerHaveActiveTable || info.isPlayerParticipateInTable
           }"
         >
-          Create
+          {{ "space_management.create_table_btn" | translate }}
         </button>
       </div>
     </div>
 
     <div class="btn_container">
       <div class="info">
-        <span>Join Table</span>
-        <span class="description"
-          >Jump into an ongoing game! Join a table if you're free and ready to
-          play.</span
-        >
+        <span>{{ "space_management.join_table" | translate }}</span>
+        <span class="description">{{
+          "space_management.join_table_description" | translate
+        }}</span>
       </div>
       <div class="button">
         <button
@@ -105,17 +111,16 @@
               info.isPlayerHaveActiveTable || info.isPlayerParticipateInTable
           }"
         >
-          Join
+          {{ "space_management.join_table_btn" | translate }}
         </button>
       </div>
     </div>
 
     <div class="btn_container" *ngIf="!activeBookedTableModel">
       <div class="info">
-        <span>Book Table</span>
+        <span>{{ "space_management.book_table" | translate }}</span>
         <span class="description"
-          >Reserve your spot for a future game! Book a table and prepare for the
-          fun.
+          >{{ "space_management.book_table_description" | translate }}
         </span>
       </div>
       <div class="button">
@@ -133,48 +138,57 @@
               info.isPlayerHaveActiveTable || info.isPlayerParticipateInTable
           }"
         >
-          Book
+          {{ "space_management.book_table_btn" | translate }}
         </button>
       </div>
     </div>
 
     <div class="btn_container-center" *ngIf="activeBookedTableModel">
       <div class="booked-info">
-        <span
-          >Your Reservation -
+        <span>
+          {{ "space_management.your_reservation" | translate }} -
 
           <strong
             class="waiting"
             *ngIf="activeBookedTableModel.status === ReservationStatus.Pending"
-            >Waiting</strong
+          >
+            {{ "space_management.table_status.waiting" | translate }}</strong
           >
           <strong
             class="approved"
             *ngIf="activeBookedTableModel.status === ReservationStatus.Approved"
-            >Approved</strong
+          >
+            {{ "space_management.table_status.approved" | translate }}</strong
           >
           <strong
             class="declined"
             *ngIf="activeBookedTableModel.status === ReservationStatus.Declined"
-            >Declined</strong
+          >
+            {{ "space_management.table_status.declined" | translate }}</strong
           >
         </span>
         <strong
           class="description"
           *ngIf="activeBookedTableModel.status === ReservationStatus.Pending"
-          >Waiting for confirmation — hang tight while we process your
-          request.</strong
+        >
+          {{
+            "space_management.table_status_description.waiting" | translate
+          }}</strong
         >
         <strong
           class="description"
           *ngIf="activeBookedTableModel.status === ReservationStatus.Approved"
-          >Your spot for a future game! Be prepared for the fun.</strong
+          >{{
+            "space_management.table_status_description.approved" | translate
+          }}</strong
         >
         <strong
           class="description"
           *ngIf="activeBookedTableModel.status === ReservationStatus.Declined"
         >
-          Reservation declined — please try booking a different time.</strong
+          {{
+            "space_management.table_status_description.declined" | translate
+          }}</strong
         >
 
         <span class="description-field" *ngFor="let item of getKeyValuePair()">
@@ -195,7 +209,10 @@
           class="description-public-message"
           *ngIf="activeBookedTableModel.publicNote !== ''"
         >
-          Message from Club: {{ activeBookedTableModel.publicNote }}
+          {{
+            "space_management.message_from_club"
+              | translate : { publicNote: activeBookedTableModel.publicNote }
+          }}
         </p>
       </div>
     </div>

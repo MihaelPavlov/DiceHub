@@ -1,4 +1,5 @@
 ﻿using DH.Domain.Adapters.Authentication;
+using DH.Domain.Adapters.Localization;
 using DH.Domain.Adapters.Statistics;
 using DH.Domain.Adapters.Statistics.Services;
 using DH.Domain.Entities;
@@ -12,17 +13,26 @@ public record AddVirtualParticipantCommand(int SpaceTableId) : IRequest;
 
 internal class AddVirtualParticipantCommandHandler(
     IRepository<SpaceTable> spaceTableRepository,
+    IRepository<SpaceTableParticipant> tableParticipantsepository,
     IStatisticQueuePublisher statisticQueuePublisher,
-    IUserContext userContext) : IRequestHandler<AddVirtualParticipantCommand>
+    IUserContext userContext,
+    ILocalizationService localizer) : IRequestHandler<AddVirtualParticipantCommand>
 {
     readonly IRepository<SpaceTable> spaceTableRepository = spaceTableRepository;
+    readonly IRepository<SpaceTableParticipant> tableParticipantsepository = tableParticipantsepository;
     readonly IStatisticQueuePublisher statisticQueuePublisher = statisticQueuePublisher;
     readonly IUserContext userContext = userContext;
+    readonly ILocalizationService localizer = localizer;
 
     public async Task Handle(AddVirtualParticipantCommand request, CancellationToken cancellationToken)
     {
         var spaceTable = await this.spaceTableRepository.GetByAsyncWithTracking(x => x.Id == request.SpaceTableId, cancellationToken)
             ?? throw new NotFoundException(nameof(SpaceTable), request.SpaceTableId);
+
+        var participants = await this.tableParticipantsepository.GetWithPropertiesAsync(x => x.SpaceTableId == request.SpaceTableId, x => x.Id, cancellationToken);
+
+        if (participants.Count >= spaceTable.MaxPeople)
+            throw new ValidationErrorsException("MaxPeople", this.localizer["RoomMaxPeople"]);
 
         spaceTable.SpaceTableParticipants.Add(new SpaceTableParticipant
         {

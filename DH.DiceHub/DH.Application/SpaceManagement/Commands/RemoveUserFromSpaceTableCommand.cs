@@ -27,7 +27,7 @@ internal class RemoveUserFromSpaceTableCommandHandler : IRequestHandler<RemoveUs
     public async Task Handle(RemoveUserFromSpaceTableCommand request, CancellationToken cancellationToken)
     {
         var spaceTable = await this.spaceTableRepository.GetByAsyncWithTracking(x => x.Id == request.Id && x.IsTableActive, cancellationToken)
-                         ?? throw new NotFoundException(nameof(SpaceTable), request.Id);
+            ?? throw new NotFoundException(nameof(SpaceTable), request.Id);
 
         if (this.userContext.UserId != spaceTable.CreatedBy)
             throw new BadRequestException("Only creator of the table can remove participants from it");

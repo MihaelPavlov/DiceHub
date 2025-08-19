@@ -1,4 +1,5 @@
 ﻿using DH.Domain.Adapters.Authentication;
+using DH.Domain.Adapters.Localization;
 using DH.Domain.Entities;
 using DH.Domain.Enums;
 using DH.Domain.Models.SpaceManagementModels.Queries;
@@ -12,11 +13,13 @@ public class SpaceTableService : ISpaceTableService
 {
     readonly IUserContext userContext;
     readonly IDbContextFactory<TenantDbContext> dbContextFactory;
+    readonly ILocalizationService localizer;
 
-    public SpaceTableService(IUserContext userContext, IDbContextFactory<TenantDbContext> dbContextFactory)
+    public SpaceTableService(IUserContext userContext, IDbContextFactory<TenantDbContext> dbContextFactory, ILocalizationService localizer)
     {
         this.userContext = userContext;
         this.dbContextFactory = dbContextFactory;
+        this.localizer = localizer;
     }
 
     public async Task<int> Create(SpaceTable spaceTable, CancellationToken cancellationToken, bool fromGameReservation = false, string userId = "")
@@ -40,10 +43,10 @@ public class SpaceTableService : ISpaceTableService
                         ).ToListAsync(cancellationToken);
 
                     if (doesUserHaveActiveTable)
-                        throw new ValidationErrorsException("UserHaveActiveTable", "You already have an active table");
+                        throw new ValidationErrorsException("UserHaveActiveTable", this.localizer["RoomUserHaveActiveTable"]);
 
                     if (userParticipateInAnyActiveTables.Count != 0)
-                        throw new ValidationErrorsException("UserParticipateInActiveTable", "You already participate in table");
+                        throw new ValidationErrorsException("UserParticipateInActiveTable", this.localizer["RoomUserAlreadyParticipateInRoom"]);
 
                     if (!fromGameReservation)
                     {
@@ -51,7 +54,7 @@ public class SpaceTableService : ISpaceTableService
                             .FirstOrDefaultAsync(x => x.GameId == spaceTable.GameId, cancellationToken);
 
                         if (gameInvetory == null || gameInvetory.AvailableCopies <= 0)
-                            throw new ValidationErrorsException("NoAvailableCopies", "No Available copies of this game.");
+                            throw new ValidationErrorsException("NoAvailableCopies", this.localizer["RoomNoAvailableGameCopies"]);
 
                         gameInvetory.AvailableCopies--;
                     }

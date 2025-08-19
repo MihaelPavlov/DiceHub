@@ -8,10 +8,14 @@
 
 <form [formGroup]="form" class="container">
   <div class="input-field qr-code-field">
-    <label for="gameName" class="required">Scanned Game</label>
+    <label for="gameName" class="required">{{
+      "space_management.add_update.labels.scanned_game" | translate
+    }}</label>
     <input
       type="text"
-      placeholder="scanned game"
+      [placeholder]="
+        'space_management.add_update.placeholders.scanned_game' | translate
+      "
       name="gameName"
       id="gameName"
       formControlName="gameName"
@@ -29,9 +33,13 @@
     />
   </div>
   <div class="input-field">
-    <label for="tableName" class="required">Table Name</label>
+    <label for="tableName" class="required">{{
+      "space_management.add_update.labels.table_name" | translate
+    }}</label>
     <input
-      placeholder="table Name"
+      [placeholder]="
+        'space_management.add_update.placeholders.table_name' | translate
+      "
       type="text"
       id="tableName"
       formControlName="tableName"
@@ -39,18 +47,26 @@
   </div>
   <div class="input-group">
     <div class="input-field">
-      <label for="max-people" class="required">Max People</label>
+      <label for="max-people" class="required">{{
+        "space_management.add_update.labels.max_people" | translate
+      }}</label>
       <input
-        placeholder="max people"
+        [placeholder]="
+          'space_management.add_update.placeholders.max_people' | translate
+        "
         type="number"
         id="max-people"
         formControlName="maxPeople"
       />
     </div>
     <div class="input-field password-field">
-      <label for="password">Password</label>
+      <label for="password">{{
+        "space_management.add_update.labels.password" | translate
+      }}</label>
       <input
-        placeholder="password"
+        [placeholder]="
+          'space_management.add_update.placeholders.password' | translate
+        "
         [type]="showPassword ? 'text' : 'password'"
         id="password"
         formControlName="password"
@@ -61,10 +77,10 @@
     </div>
   </div>
 
-  <span class="info-message"
-    >If no password is set, anyone can join the session until the maximum
-    participant limit is reached.</span
-  >
+  <span class="info-message">{{
+    "space_management.add_update.password_info_message" | translate
+  }}</span>
+
   <div *ngIf="getFirstErrorMessage()" class="errors">
     {{ getFirstErrorMessage() }}
   </div>
@@ -82,7 +98,7 @@
         'btn-font-red': this.form.invalid
       }"
     >
-      Create
+      {{ "space_management.add_update.create_btn" | translate }}
     </button>
     <button
       *ngIf="this.editTableId"
@@ -97,7 +113,7 @@
         'btn-font-red': this.form.invalid
       }"
     >
-      Update
+      {{ "space_management.add_update.update_btn" | translate }}
     </button>
   </div>
 </form>

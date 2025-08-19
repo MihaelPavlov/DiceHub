@@ -1,5 +1,5 @@
 <app-header
-  header="Room"
+  [header]="'space_management.details.room' | translate"
   [withSearch]="true"
   (searchExpressionResult)="handleSearchExpression($event)"
   [withBackBtn]="true"
@@ -10,11 +10,21 @@
 <ng-container *ngIf="this.userActiveTable as info">
   <div class="wrapper_helper">
     <div class="info" *ngIf="this.detailsSpaceTable as details">
-      <span> <strong>Name:</strong> {{ details.name }}</span>
-      <span> <strong>Game:</strong> {{ details.gameName }}</span>
-      <span> <strong>Max People:</strong> {{ details.maxPeople }} </span>
+      <span>
+        <strong>{{ "space_management.details.name" | translate }}</strong>
+        {{ details.name }}</span
+      >
+      <span>
+        <strong>{{ "space_management.details.game" | translate }}</strong>
+        {{ details.gameName }}</span
+      >
+      <span>
+        <strong>{{ "space_management.details.max_people" | translate }}</strong>
+        {{ details.maxPeople }}
+      </span>
       <span *ngIf="isUserCreatorOfTable">
-        <strong>Password:</strong> {{ detailsSpaceTable.password }}
+        <strong>{{ "space_management.details.password" | translate }}</strong>
+        {{ detailsSpaceTable.password }}
       </span>
     </div>
     <a class="wrapper_menu">
@@ -47,7 +57,10 @@
           <div class="wrapper_title">
             {{ item.userName }}
             <div class="wrapper_description">
-              joined before: {{ item.joinedBefore }} mins
+              {{
+                "space_management.details.joined_before"
+                  | translate : { joinedBefore: item.joinedBefore }
+              }}
             </div>
           </div>
         </div>

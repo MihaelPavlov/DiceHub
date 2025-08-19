@@ -1,5 +1,5 @@
 <app-header
-  header="Join Game Table"
+  [header]="'space_management.join_game_table_header' | translate"
   [withBottomLine]="true"
   [withSearch]="true"
   (searchExpressionResult)="this.handleSearchExpression($event)"
@@ -11,45 +11,66 @@
   *ngIf="spaceAvailableTableList$ | async as spaceAvailableTables"
 >
   <div class="no-records" *ngIf="spaceAvailableTables.length === 0">
-    There are no active game tables at the moment.
+    {{ "space_management.no_active_game_tables" | translate }}
     <br />
-    Check back later or create a new table to start playing!
+    {{ "space_management.check_back_again" | translate }}
   </div>
   <div class="wrapper_tables__item" *ngFor="let table of spaceAvailableTables">
-    <div class="wrapper_left">
-      <div class="text">
-        <span>{{ table.tableName }} Room </span>
-        <span>Playing {{ table.gameName }} </span>
-      </div>
-      <div class="chips">
-        <app-chip
-          [size]="'small'"
-          [color]="'orange'"
-          [text]="table.peopleJoined + ' joined'"
-        ></app-chip>
-        <app-chip
-          [size]="'small'"
-          [color]="'red'"
-          [text]="table.maxPeople + ' max'"
-        ></app-chip>
-        <div class="image">
-          <img
-            [src]="
-              ImageEntityType.Games | entityImage : table.gameImageId | async
-            "
-            alt=""
-          />
+    <div class="item_top_part">
+      <div class="wrapper_left">
+        <div class="text">
+          <span>{{
+            "space_management.table.name"
+              | translate : { tableName: table.tableName }
+          }}</span>
+          <span>{{
+            "space_management.table.playing"
+              | translate : { gameName: table.gameName }
+          }}</span>
         </div>
+        <div class="chips">
+          <app-chip
+            [size]="'small'"
+            [color]="'orange'"
+            [text]="
+              'space_management.table.chip_joined'
+                | translate : { peopleJoined: table.peopleJoined }
+            "
+          ></app-chip>
+          <app-chip
+            [size]="'small'"
+            [color]="'red'"
+            [text]="
+              'space_management.table.chip_max'
+                | translate : { maxPeople: table.maxPeople }
+            "
+          ></app-chip>
+        </div>
+      </div>
+
+      <div
+        class="image"
+        *ngIf="
+          ImageEntityType.Games
+            | entityImage : table.gameImageId
+            | async as imageUrl
+        "
+      >
+        <img [src]="imageUrl" (click)="openImagePreview(imageUrl)" />
       </div>
     </div>
 
     <div class="info-btn" *ngIf="getCurrentUserId !== table.createdBy">
-      <div class="image" *ngIf="table.isLocked">
+      <button
+        class="btn btn__small btn-yellow"
+        (click)="onJoin(table.id, table.isLocked)"
+      >
+        {{ "space_management.join_the_table_btn" | translate }}
+      </button>
+
+      <div class="image_locked" *ngIf="table.isLocked  ">
         <img src="../../../../shared/assets/images/locked.png" alt="" />
       </div>
-      <button class="btn btn-yellow" (click)="onJoin(table.id, table.isLocked)">
-        Join
-      </button>
     </div>
   </div>
 </div>

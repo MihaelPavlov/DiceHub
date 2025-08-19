@@ -5,6 +5,8 @@ import { RewardsService } from '../../../entities/rewards/api/rewards.service';
 import { ToastService } from '../../services/toast.service';
 import { ToastType } from '../../models/toast.model';
 import { QrCodeType } from '../../../entities/qr-code-scanner/enums/qr-code-type.enum';
+import { TranslateService } from '@ngx-translate/core';
+import { AppToastMessage } from '../../components/toast/constants/app-toast-messages.constant';
 
 @Component({
   selector: 'scan-result-admin-dialog',
@@ -17,23 +19,24 @@ export class ScanResultAdminDialog {
     @Inject(MAT_DIALOG_DATA) public data: IQrCodeValidationResult,
     private dialogRef: MatDialogRef<ScanResultAdminDialog>,
     private readonly rewardsService: RewardsService,
-    private readonly toastService: ToastService
-  ) {
-    console.log('user reward data -> ', data);
-  }
+    private readonly toastService: ToastService,
+    private readonly translateService: TranslateService
+  ) {}
 
   public get getTypeOfQrCode(): string {
     switch (this.data.type) {
       case QrCodeType.Reward:
-        return 'Reward';
+        return this.translateService.instant('qr_scanner.qr_code_type.reward');
       case QrCodeType.GameReservation:
-        return 'Game Reservation';
+        return this.translateService.instant(
+          'qr_scanner.qr_code_type.game_reservation'
+        );
       case QrCodeType.Game:
-        return 'Game';
+        return this.translateService.instant('qr_scanner.qr_code_type.game');
       case QrCodeType.Event:
-        return 'Event';
+        return this.translateService.instant('qr_scanner.qr_code_type.event');
       default:
-        return 'Qr-Code';
+        return this.translateService.instant('qr_scanner.qr_code_type.qr_code');
     }
   }
 
@@ -41,7 +44,7 @@ export class ScanResultAdminDialog {
     this.rewardsService.userRewardConfirmation(this.data.objectId).subscribe({
       next: () => {
         this.toastService.success({
-          message: 'Successfully claimed',
+          message: this.translateService.instant('qr_scanner.reward_claimed'),
           type: ToastType.Success,
         });
 
@@ -49,7 +52,9 @@ export class ScanResultAdminDialog {
       },
       error: () => {
         this.toastService.success({
-          message: 'Something went wrong',
+          message: this.translateService.instant(
+            AppToastMessage.SomethingWrong
+          ),
           type: ToastType.Error,
         });
 

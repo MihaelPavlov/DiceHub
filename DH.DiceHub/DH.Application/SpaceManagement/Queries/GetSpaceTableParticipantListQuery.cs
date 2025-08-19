@@ -1,4 +1,5 @@
 ﻿using DH.Domain.Adapters.Authentication.Services;
+using DH.Domain.Adapters.Localization;
 using DH.Domain.Entities;
 using DH.Domain.Models.SpaceManagementModels.Queries;
 using DH.Domain.Repositories;
@@ -12,11 +13,13 @@ internal class GetSpaceTableParticipantListQueryHandler : IRequestHandler<GetSpa
 {
     readonly IRepository<SpaceTableParticipant> repository;
     readonly IUserService userService;
+    readonly ILocalizationService localizer;
 
-    public GetSpaceTableParticipantListQueryHandler(IRepository<SpaceTableParticipant> repository, IUserService userService)
+    public GetSpaceTableParticipantListQueryHandler(IRepository<SpaceTableParticipant> repository, IUserService userService, ILocalizationService localizer)
     {
         this.repository = repository;
         this.userService = userService;
+        this.localizer = localizer;
     }
 
     public async Task<List<GetSpaceTableParticipantListQueryModel>> Handle(GetSpaceTableParticipantListQuery request, CancellationToken cancellationToken)
@@ -42,7 +45,7 @@ internal class GetSpaceTableParticipantListQueryHandler : IRequestHandler<GetSpa
         {
             if (participant.IsVirtualParticipant)
             {
-                participant.UserName = $"Virtual User #{virtualUserCount}";
+                participant.UserName = string.Format(this.localizer["RoomVirtualUserUsername"], virtualUserCount);
                 virtualUserCount++;
             }
             else
