@@ -1,8 +1,8 @@
-import { TranslateService } from '@ngx-translate/core';
+import { InterpolatableTranslationObject, TranslateService } from '@ngx-translate/core';
 import { Injectable } from '@angular/core';
 import { TenantUserSettingsService } from '../../entities/common/api/tenant-user-settings.service';
 import { SupportLanguages } from '../../entities/common/models/support-languages.enum';
-import { BehaviorSubject, tap } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class LanguageService {
@@ -45,8 +45,11 @@ export class LanguageService {
 
   public setLanguage(lang: SupportLanguages) {
     const currentLang = this.getLanguageCode(lang);
-
+    console.log(`Setting language to: ${currentLang}`);
+    
     if (this.translate.getLangs().includes(currentLang)) {
+      console.log(`Language ${currentLang} is supported, switching...`);
+      
       this.translate.use(currentLang);
       this.language$.next(lang);
     } else {
@@ -54,6 +57,25 @@ export class LanguageService {
       this.language$.next(SupportLanguages.EN);
     }
   }
+
+  public setLanguage$(lang: SupportLanguages): Observable<InterpolatableTranslationObject> {
+  const currentLang = this.getLanguageCode(lang);
+  console.log(`Setting language to: ${currentLang}`);
+
+  let useLang$: Observable<InterpolatableTranslationObject>;
+
+  if (this.translate.getLangs().includes(currentLang)) {
+    console.log(`Language ${currentLang} is supported, switching...`);
+    useLang$ = this.translate.use(currentLang);
+  } else {
+    useLang$ = this.translate.use(this.getLanguageCode(SupportLanguages.EN));
+    lang = SupportLanguages.EN;
+  }
+
+  return useLang$.pipe(
+    tap(() => this.language$.next(lang))
+  );
+}
 
   public instant(key: string): string {
     return this.translate.instant(key);

@@ -68,10 +68,23 @@ export const ROUTE = {
   QR_CODE_SCANNER: 'qr-code-scanner',
   PROFILE: {
     CORE: 'profile',
+    SETTINGS: 'settings',
+    USER_SETTINGS: 'user-settings',
+    JOBS: 'jobs',
     EMPLOYEES: 'employees',
+    OWNER_DETAILS: 'owner-details',
     ADD_EMPLOYEE: 'add-employee',
     UPDATE_EMPLOYEE: 'update-employee',
-    OWNER_DETAILS: 'owner-details',
+  },
+  CHART: {
+    CORE: 'charts',
+    VISITORS: 'visitors',
+    GAMES: 'games',
+    RESERVATIONS: 'reservations',
+    REWARDS: 'rewards',
+    EVENTS: 'events',
+    CHALLENGES: 'challenges',
+    LEADERBOARD: 'leaderboard',
   },
 };
 
@@ -140,10 +153,21 @@ export const FULL_ROUTE = {
       `${ROUTE.MEEPLE_ROOMS.CORE}/${roomId}/${ROUTE.MEEPLE_ROOMS.CHAT}/${ROUTE.MEEPLE_ROOMS.MEMBERS}`,
   },
   PROFILE: {
+    SETTINGS: `${ROUTE.PROFILE.CORE}/${ROUTE.PROFILE.SETTINGS}`,
+    USER_SETTINGS: `${ROUTE.PROFILE.CORE}/${ROUTE.PROFILE.USER_SETTINGS}`,
+    JOBS: `${ROUTE.PROFILE.CORE}/${ROUTE.PROFILE.JOBS}`,
     EMPLOYEES: `${ROUTE.PROFILE.CORE}/${ROUTE.PROFILE.EMPLOYEES}`,
     ADD_EMPLOYEE: `${ROUTE.PROFILE.CORE}/${ROUTE.PROFILE.ADD_EMPLOYEE}`,
     UPDATE_BY_ID: (employeeId: string) =>
       `${ROUTE.PROFILE.CORE}/${employeeId}/${ROUTE.PROFILE.UPDATE_EMPLOYEE}`,
     OWNER_DETAILS: `${ROUTE.PROFILE.CORE}/${ROUTE.PROFILE.OWNER_DETAILS}`,
   },
+  CHARTS:{
+    VISITORS: `${ROUTE.CHART.CORE}/${ROUTE.CHART.VISITORS}`,
+    GAMES: `${ROUTE.CHART.CORE}/${ROUTE.CHART.GAMES}`,
+    RESERVATIONS: `${ROUTE.CHART.CORE}/${ROUTE.CHART.RESERVATIONS}`,
+    REWARDS: `${ROUTE.CHART.CORE}/${ROUTE.CHART.REWARDS}`,
+    EVENTS: `${ROUTE.CHART.CORE}/${ROUTE.CHART.EVENTS}`,
+    CHALLENGES_LEADERBOARD: `${ROUTE.CHART.CORE}/${ROUTE.CHART.CHALLENGES}/${ROUTE.CHART.LEADERBOARD}`,
+  }
 };

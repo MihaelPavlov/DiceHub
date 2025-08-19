@@ -18,13 +18,14 @@ import { AppToastMessage } from '../../../../shared/components/toast/constants/a
 import { ToastType } from '../../../../shared/models/toast.model';
 import { IDropdown } from '../../../../shared/models/dropdown.model';
 import { ToggleState } from '../../../../entities/common/enum/toggle-state.enum';
-import { FULL_ROUTE } from '../../../../shared/configs/route.config';
+import { FULL_ROUTE, ROUTE } from '../../../../shared/configs/route.config';
 import { SupportLanguages } from '../../../../entities/common/models/support-languages.enum';
 import { TenantUserSettingsService } from '../../../../entities/common/api/tenant-user-settings.service';
-import { combineLatest } from 'rxjs';
+import { combineLatest, forkJoin, switchMap, tap } from 'rxjs';
 import { IUserSettings } from '../../../../entities/common/models/user-settings.model';
 import { LanguageService } from '../../../../shared/services/language.service';
 import { TranslateService } from '@ngx-translate/core';
+import { TranslateInPipe } from '../../../../shared/pipe/translate-in.pipe';
 
 interface ITenantSettingsForm {
   averageMaxCapacity: number;
@@ -78,7 +79,8 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
     private readonly tenantSettingsService: TenantSettingsService,
     private readonly tenantUserSettingsService: TenantUserSettingsService,
     private readonly languageService: LanguageService,
-    public override translateService: TranslateService
+    public override translateService: TranslateService,
+    private readonly translateInPipe: TranslateInPipe
   ) {
     super(toastService, translateService);
     this.form = this.initFormGroup();
@@ -88,26 +90,7 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
       }
     });
     this.menuTabsService.setActive(NAV_ITEM_LABELS.PROFILE);
-
-    this.weekDaysValues = Object.entries(WeekDay)
-      .filter(([key, value]) => typeof value === 'number')
-      .map(([key, value]) => ({ id: value as number, name: key }));
-
-    this.periodTimeValues = Object.entries(TimePeriodType)
-      .filter(([key, value]) => typeof value === 'number')
-      .map(([key, value]) => ({ id: value as number, name: key }));
-
-    this.toggleStateValues = Object.entries(ToggleState)
-      .filter(([key, value]) => typeof value === 'number')
-      .map(([key, value]) => ({ id: value as number, name: key }));
-
-    this.languagesValues = Object.keys(SupportLanguages)
-      .filter((key) => isNaN(Number(key)))
-      .map((name) => ({
-        id: SupportLanguages[name as keyof typeof SupportLanguages],
-        name,
-      })) as unknown as IDropdown[];
-
+    this.initSelectValues();
     let id = 1;
     for (let hour = 8; hour < 22; hour++) {
       for (let minute = 0; minute < 60; minute += 5) {
@@ -144,9 +127,10 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
           averageMaxCapacity: tenantSettings.averageMaxCapacity,
           challengeRewardsCountForPeriod:
             tenantSettings.challengeRewardsCountForPeriod,
-          periodOfRewardReset: tenantSettings.periodOfRewardReset.toString(),
-          resetDayForRewards: tenantSettings.resetDayForRewards.toString(),
-          language: userSettings.language.toString(),
+          periodOfRewardReset:
+            TimePeriodType[tenantSettings.periodOfRewardReset],
+          resetDayForRewards: WeekDay[tenantSettings.resetDayForRewards],
+          language: SupportLanguages[userSettings.language],
           challengeInitiationDelayHours:
             tenantSettings.challengeInitiationDelayHours,
           bonusTimeAfterReservationExpiration:
@@ -175,101 +159,190 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
 
   public onSave(): void {
     if (this.form.valid && this.userSettings) {
-      const newLanguage = this.form.controls.language
-        .value as unknown as SupportLanguages;
-      const updatedSettings = {
-        ...this.userSettings,
-        language: newLanguage,
-      };
-      combineLatest([
-        this.tenantSettingsService.update({
-          id: this.tenantSettingsId,
-          averageMaxCapacity: this.form.controls.averageMaxCapacity.value,
-          challengeRewardsCountForPeriod:
-            this.form.controls.challengeRewardsCountForPeriod.value,
-          periodOfRewardReset: this.form.controls.periodOfRewardReset
-            .value as unknown as TimePeriodType,
-          resetDayForRewards: this.form.controls.resetDayForRewards
-            .value as unknown as WeekDay,
-          challengeInitiationDelayHours:
-            this.form.controls.challengeInitiationDelayHours.value,
-          reservationHours: this.form.controls.reservationHours.value,
-          bonusTimeAfterReservationExpiration:
-            this.form.controls.bonusTimeAfterReservationExpiration.value,
-          phoneNumber: this.form.controls.phoneNumber.value,
-          clubName: this.form.controls.clubName.value,
-          isCustomPeriodOn:
-            this.form.controls.isCustomPeriodOn.value === ToggleState.On,
-        }),
-        this.tenantUserSettingsService.update(updatedSettings),
-      ]).subscribe({
-        next: () => {
-          this.toastService.success({
-            message: AppToastMessage.ChangesSaved,
-            type: ToastType.Success,
-          });
+      let oldLanguage;
+      let newLanguage;
+      const periodTranslation$ = this.translateInPipe.transform(
+        `period_time_names.${
+          TimePeriodType[this.form.controls.periodOfRewardReset.value]
+        }`,
+        SupportLanguages.EN.toString().toLowerCase()
+      );
 
-          if (this.userSettings?.language != newLanguage) {
-            console.log('newLanguage', newLanguage);
+      const weekDayTranslation$ = this.translateInPipe.transform(
+        `week_days_names.${
+          WeekDay[this.form.controls.resetDayForRewards.value]
+        }`,
+        SupportLanguages.EN.toString().toLowerCase()
+      );
 
-            this.languageService.setLanguage(newLanguage);
-          }
+      const languageTranslation$ = this.translateInPipe.transform(
+        `languages_names.${
+          SupportLanguages[this.form.controls.language.value]
+        }`,
+        SupportLanguages.EN.toLowerCase()
+      );
 
-          const newCustomPeriodValue =
-            this.form.controls.isCustomPeriodOn.value;
-          if (
-            this.oldCustomPeriodValue != newCustomPeriodValue &&
-            newCustomPeriodValue === ToggleState.On
-          ) {
-            this.router.navigateByUrl(
-              FULL_ROUTE.CHALLENGES.ADMIN_CUSTOM_PERIOD
-            );
-          }
+      forkJoin([periodTranslation$, weekDayTranslation$, languageTranslation$])
+        .pipe(
+          switchMap(([periodName, weekDayName, language]) => {
+            oldLanguage = this.languageService.getCurrentLanguage();
+            newLanguage = language as unknown as SupportLanguages;
+            const updatedSettings = {
+              ...this.userSettings,
+              language: newLanguage,
+            };
+            return combineLatest([
+              this.tenantSettingsService.update({
+                id: this.tenantSettingsId,
+                averageMaxCapacity: this.form.controls.averageMaxCapacity.value,
+                challengeRewardsCountForPeriod:
+                  this.form.controls.challengeRewardsCountForPeriod.value,
+                periodOfRewardReset: periodName as unknown as TimePeriodType,
+                resetDayForRewards: weekDayName as unknown as WeekDay,
+                challengeInitiationDelayHours:
+                  this.form.controls.challengeInitiationDelayHours.value,
+                reservationHours: this.form.controls.reservationHours.value,
+                bonusTimeAfterReservationExpiration:
+                  this.form.controls.bonusTimeAfterReservationExpiration.value,
+                phoneNumber: this.form.controls.phoneNumber.value,
+                clubName: this.form.controls.clubName.value,
+                isCustomPeriodOn:
+                  this.form.controls.isCustomPeriodOn.value === ToggleState.On,
+              }),
+              this.tenantUserSettingsService.update(
+                updatedSettings as IUserSettings
+              ),
+            ]);
+          })
+        )
+        .subscribe({
+          next: () => {
+            if (newLanguage != oldLanguage) {
+              this.languageService
+                .setLanguage$(newLanguage as SupportLanguages)
+                .subscribe({
+                  next: () => {
+                    this.initSelectValues();
+                  },
+                });
+            }
 
-          this.fetchSettings();
-        },
-        error: (error) => {
-          this.handleServerErrors(error);
-          this.toastService.error({
-            message: AppToastMessage.FailedToSaveChanges,
-            type: ToastType.Error,
-          });
-        },
-      });
+            const newCustomPeriodValue =
+              this.form.controls.isCustomPeriodOn.value;
+            if (
+              this.oldCustomPeriodValue != newCustomPeriodValue &&
+              newCustomPeriodValue === ToggleState.On
+            ) {
+              this.router.navigateByUrl(
+                FULL_ROUTE.CHALLENGES.ADMIN_CUSTOM_PERIOD
+              );
+            }
+
+            this.fetchSettings();
+
+            this.toastService.success({
+              message: this.translateService.instant(
+                AppToastMessage.ChangesSaved
+              ),
+              type: ToastType.Success,
+            });
+          },
+          error: (error) => {
+            this.handleServerErrors(error);
+            this.toastService.error({
+              message: this.translateService.instant(
+                AppToastMessage.FailedToSaveChanges
+              ),
+              type: ToastType.Error,
+            });
+          },
+        });
     }
   }
 
   public backNavigateBtn() {
-    this.router.navigateByUrl('profile');
+    this.router.navigateByUrl(ROUTE.PROFILE.CORE);
   }
 
   protected override getControlDisplayName(controlName: string): string {
     switch (controlName) {
       case 'averageMaxCapacity':
-        return 'Average Max Capacity';
+        return this.translateService.instant(
+          'space_settings.control_display_names.average_max_capacity'
+        );
       case 'language':
-        return 'Language';
+        return this.translateService.instant(
+          'space_settings.control_display_names.language'
+        );
       case 'challengeRewardsCountForPeriod':
-        return 'Challenge Rewards Count For Period';
+        return this.translateService.instant(
+          'space_settings.control_display_names.challenge_rewards_count_for_period'
+        );
       case 'periodOfRewardReset':
-        return 'Period Of Reward Reset';
+        return this.translateService.instant(
+          'space_settings.control_display_names.period_of_reward_reset'
+        );
       case 'resetDayForRewards':
-        return 'Reset Day For Rewards';
+        return this.translateService.instant(
+          'space_settings.control_display_names.reset_day_for_rewards'
+        );
       case 'challengeInitiationDelayHours':
-        return 'Challenge Initiation Delay Hours';
+        return this.translateService.instant(
+          'space_settings.control_display_names.challenge_initiation_delay_hours'
+        );
       case 'reservationHours':
-        return 'Reservation Hours';
+        return this.translateService.instant(
+          'space_settings.control_display_names.reservation_hours'
+        );
       case 'phoneNumber':
-        return 'Phone Number';
+        return this.translateService.instant(
+          'space_settings.control_display_names.phone_number'
+        );
       case 'clubName':
-        return 'Club Name';
+        return this.translateService.instant(
+          'space_settings.control_display_names.club_name'
+        );
       case 'bonusTimeAfterReservationExpiration':
-        return 'Bonus Time After Reservation Expiration';
+        return this.translateService.instant(
+          'space_settings.control_display_names.bonus_time_after_reservation_expiration'
+        );
       case 'isCustomPeriodOn':
-        return 'Is Custom Period On';
+        return this.translateService.instant(
+          'space_settings.control_display_names.is_custom_period_on'
+        );
       default:
         return controlName;
     }
+  }
+
+  private initSelectValues(): void {
+    this.weekDaysValues = Object.entries(WeekDay)
+      .filter(([key, value]) => typeof value === 'number')
+      .map(([key, value]) => ({
+        id: value as number,
+        name: this.translateService.instant(`week_days_names.${key}`),
+      }));
+
+    this.periodTimeValues = Object.entries(TimePeriodType)
+      .filter(([key, value]) => typeof value === 'number')
+      .map(([key, value]) => ({
+        id: value as number,
+        name: this.translateService.instant(`period_time_names.${key}`),
+      }));
+
+    this.toggleStateValues = Object.entries(ToggleState)
+      .filter(([key, value]) => typeof value === 'number')
+      .map(([key, value]) => ({
+        id: value as number,
+        name: this.translateService.instant(`toggle_state_names.${key}`),
+      }));
+
+    this.languagesValues = Object.keys(SupportLanguages)
+      .filter((key) => isNaN(Number(key)))
+      .map((name) => ({
+        id: SupportLanguages[name as keyof typeof SupportLanguages],
+        name: this.translateService.instant(`languages_names.${name}`),
+      })) as unknown as IDropdown[];
   }
 
   private initFormGroup(): FormGroup {
@@ -278,16 +351,16 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
       averageMaxCapacity: new FormControl<number | null>(null, [
         Validators.required,
       ]),
-      language: new FormControl<string | null>('EN', Validators.required),
+      language: new FormControl<string | null>('0', Validators.required),
       challengeRewardsCountForPeriod: new FormControl<number | null>(null, [
         Validators.required,
       ]),
       periodOfRewardReset: new FormControl<string | null>(
-        'Weekly',
+        '0',
         Validators.required
       ),
       resetDayForRewards: new FormControl<string | null>(
-        'Sunday',
+        '0',
         Validators.required
       ),
       challengeInitiationDelayHours: new FormControl<string | null>('2', [

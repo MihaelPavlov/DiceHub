@@ -27,6 +27,6 @@ internal class GetAssistiveTouchSettingsQueryHandler(IUserContext userContext, I
         }
 
         return JsonSerializer.Deserialize<AssistiveTouchSettings>(userSettings.AssistiveTouchSettings)
-                ?? throw new Exception("Couldn't load your assistive touch settings. Please ensure your settings are correctly set up");
+            ?? throw new Exception("Couldn't load your assistive touch settings. Please ensure your settings are correctly set up");
     }
 }

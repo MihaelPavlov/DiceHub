@@ -8,6 +8,7 @@ import { UsersService } from '../../../entities/profile/api/user.service';
 import { GetUserStats } from '../../../entities/profile/models/get-user-stats.interface';
 import { Observable } from 'rxjs';
 import { NavigationService } from '../../../shared/services/navigation-service';
+import { FULL_ROUTE, ROUTE } from '../../../shared/configs/route.config';
 
 @Component({
   selector: 'app-profile',
@@ -36,7 +37,7 @@ export class ProfileComponent implements OnDestroy {
 
   public onLogout(): void {
     this.authService.logout();
-    this.router.navigateByUrl('login');
+    this.router.navigateByUrl(ROUTE.LOGIN);
   }
 
   public isDifferentFromUser(): boolean {
@@ -53,51 +54,49 @@ export class ProfileComponent implements OnDestroy {
 
   public navigateToSettings(): void {
     if (this.authService.getUser?.role === UserRole.Owner)
-      this.router.navigateByUrl('profile/settings');
+      this.router.navigateByUrl(FULL_ROUTE.PROFILE.SETTINGS);
     else {
-      this.router.navigateByUrl('profile/user-settings');
+      this.router.navigateByUrl(FULL_ROUTE.PROFILE.USER_SETTINGS);
     }
   }
 
   public navigateToJobList(): void {
-    this.router.navigateByUrl('profile/jobs');
+    this.router.navigateByUrl(FULL_ROUTE.PROFILE.JOBS);
   }
 
   public navigateToEmployeeList(): void {
-    this.router.navigateByUrl('profile/employees');
+    this.router.navigateByUrl(FULL_ROUTE.PROFILE.EMPLOYEES);
   }
 
   public navigateToOwnerDetails(): void {
-    this.router.navigateByUrl('profile/owner-details');
+    this.router.navigateByUrl(FULL_ROUTE.PROFILE.OWNER_DETAILS);
   }
 
   public navigateToInstructions(): void {
     this.navigationService.setPreviousUrl(this.router.url);
-    this.router.navigateByUrl('instructions');
+    this.router.navigateByUrl(ROUTE.INSTRUCTIONS);
   }
 
   public navigateToVisitorChart(): void {
-    this.router.navigateByUrl('charts/visitors');
+    this.router.navigateByUrl(FULL_ROUTE.CHARTS.VISITORS);
   }
 
   public navigateToGameChart(): void {
-    this.router.navigateByUrl('charts/games');
+    this.router.navigateByUrl(FULL_ROUTE.CHARTS.GAMES);
   }
 
   public navigateToReservationsChart(): void {
-    this.router.navigateByUrl('charts/reservations');
+    this.router.navigateByUrl(FULL_ROUTE.CHARTS.RESERVATIONS);
   }
 
   public navigateToRewardCharts(): void {
-    this.router.navigateByUrl('charts/rewards');
+    this.router.navigateByUrl(FULL_ROUTE.CHARTS.REWARDS);
   }
   public navigateToEventCharts(): void {
-    this.router.navigateByUrl('charts/events');
+    this.router.navigateByUrl(FULL_ROUTE.CHARTS.EVENTS);
   }
 
   public navigateToChallengeLeaderboard(): void {
-    this.router.navigateByUrl('charts/challenges/leaderboard');
+    this.router.navigateByUrl(FULL_ROUTE.CHARTS.CHALLENGES_LEADERBOARD);
   }
-
-  public backNavigateBtn() {}
 }

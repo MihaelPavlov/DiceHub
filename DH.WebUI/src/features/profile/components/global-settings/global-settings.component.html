@@ -1,6 +1,8 @@
 <div class="wrapper_icons">
   <span (click)="backNavigateBtn()" class="arrow left"></span>
-  <span class="header_name">Space Settings</span>
+  <span class="header_name">{{
+    "space_settings.header_name" | translate
+  }}</span>
   <div class="info-container">
     <svg (click)="controls.toggleMenu()" class="info" viewBox="0 -960 960 960">
       <path
@@ -12,15 +14,19 @@
 
 <form [formGroup]="form" class="container">
   <div class="input-field">
-    <label for="language" class="required">Language</label>
-    <span class="input-info"> Application Language for you</span>
+    <label for="language" class="required">{{
+      "space_settings.language.label" | translate
+    }}</label>
+    <span class="input-info">{{
+      "space_settings.language.info" | translate
+    }}</span>
 
     <ng-select
       id="language"
       [items]="languagesValues"
-      bindValue="name"
+      bindValue="id"
       bindLabel="name"
-      placeholder="EN"
+      [placeholder]="'space_settings.language.placeholder' | translate"
       [searchable]="true"
       formControlName="language"
       class="app-select-long"
@@ -29,13 +35,15 @@
   </div>
 
   <div class="input-field">
-    <label for="phoneNumber" class="required">Club Phone Number</label>
-    <span class="input-info"
-      >The main contact number for the club that will be shown to users.</span
-    >
+    <label for="phoneNumber" class="required">{{
+      "space_settings.phone_number.label" | translate
+    }}</label>
+    <span class="input-info">{{
+      "space_settings.phone_number.info" | translate
+    }}</span>
 
     <input
-      placeholder="+359 ....."
+      placeholder="{{ 'space_settings.phone_number.placeholder' | translate }}"
       type="text"
       id="phoneNumber"
       formControlName="phoneNumber"
@@ -43,27 +51,33 @@
   </div>
 
   <div class="input-field">
-    <label for="clubName" class="required">Club Name</label>
-    <span class="input-info"
-      >The name of the club that will be displayed to users.</span
-    >
+    <label for="clubName" class="required">{{
+      "space_settings.club_name.label" | translate
+    }}</label>
+    <span class="input-info">{{
+      "space_settings.club_name.info" | translate
+    }}</span>
+
     <input
-      placeholder="Write your club name"
+      placeholder="{{ 'space_settings.club_name.placeholder' | translate }}"
       type="text"
       id="clubName"
       formControlName="clubName"
     />
   </div>
+
   <div class="input-field">
-    <label for="averageMaxCapacity" class="required"
-      >Average Max Capacity</label
-    >
-    <span class="input-info"
-      >Represents the average number of people the club can accommodate at one
-      time.</span
-    >
+    <label for="averageMaxCapacity" class="required">{{
+      "space_settings.average_max_capacity.label" | translate
+    }}</label>
+    <span class="input-info">{{
+      "space_settings.average_max_capacity.info" | translate
+    }}</span>
+
     <input
-      placeholder="0"
+      placeholder="{{
+        'space_settings.average_max_capacity.placeholder' | translate
+      }}"
       type="number"
       id="averageMaxCapacity"
       formControlName="averageMaxCapacity"
@@ -71,16 +85,18 @@
   </div>
 
   <div class="input-field">
-    <label for="challengeRewardsCountForPeriod" class="required"
-      >Challenge Rewards Count For Period</label
-    >
-    <span class="input-info"
-      >Defines how many rewards a user can earn during a single reset
-      period.</span
-    >
+    <label for="challengeRewardsCountForPeriod" class="required">{{
+      "space_settings.challenge_rewards_count_for_period.label" | translate
+    }}</label>
+    <span class="input-info">{{
+      "space_settings.challenge_rewards_count_for_period.info" | translate
+    }}</span>
 
     <input
-      placeholder="0"
+      placeholder="{{
+        'space_settings.challenge_rewards_count_for_period.placeholder'
+          | translate
+      }}"
       type="number"
       id="challengeRewardsCountForPeriod"
       formControlName="challengeRewardsCountForPeriod"
@@ -88,20 +104,22 @@
   </div>
 
   <div class="input-field">
-    <label for="challengeInitiationDelayHours" class="required"
-      >Challenge Initiation Delay Hours</label
-    >
-    <span class="input-info"
-      >Number of hours to wait before a new challenge becomes active after being
-      triggered.</span
-    >
+    <label for="challengeInitiationDelayHours" class="required">{{
+      "space_settings.challenge_initiation_delay_hours.label" | translate
+    }}</label>
+    <span class="input-info">{{
+      "space_settings.challenge_initiation_delay_hours.info" | translate
+    }}</span>
 
     <ng-select
       id="challengeInitiationDelayHours"
       [items]="delayHours"
       bindValue="name"
       bindLabel="name"
-      placeholder="0"
+      [placeholder]="
+        'space_settings.challenge_initiation_delay_hours.placeholder'
+          | translate
+      "
       [searchable]="true"
       formControlName="challengeInitiationDelayHours"
       class="app-select-long"
@@ -110,20 +128,21 @@
   </div>
 
   <div class="input-field">
-    <label for="resetDayForRewards" class="required"
-      >Reset Day For Rewards</label
-    >
-    <span class="input-info"
-      >Day of the week when rewards reset at 12:00 PM (e.g., every Monday at
-      noon).</span
-    >
+    <label for="resetDayForRewards" class="required">{{
+      "space_settings.reset_day_for_rewards.label" | translate
+    }}</label>
+    <span class="input-info">{{
+      "space_settings.reset_day_for_rewards.info" | translate
+    }}</span>
 
     <ng-select
       id="resetDayForRewards"
       [items]="weekDaysValues"
-      bindValue="name"
+      bindValue="id"
       bindLabel="name"
-      placeholder="0"
+      [placeholder]="
+        'space_settings.reset_day_for_rewards.placeholder' | translate
+      "
       [searchable]="true"
       formControlName="resetDayForRewards"
       class="app-select-long"
@@ -132,18 +151,19 @@
   </div>
 
   <div class="input-field">
-    <label for="resetDayForRewards" class="required">Reservation Hours</label>
-    <span class="input-info"
-      >Set the available time slots for reservations based on the club’s
-      operating hours. Multiple time slots can be selected.</span
-    >
+    <label for="reservationHours" class="required">{{
+      "space_settings.reservation_hours.label" | translate
+    }}</label>
+    <span class="input-info">{{
+      "space_settings.reservation_hours.info" | translate
+    }}</span>
 
     <ng-select
       id="reservationHours"
       [items]="reservationHours"
       bindValue="name"
       bindLabel="name"
-      placeholder="Select your hours"
+      [placeholder]="'space_settings.reservation_hours.placeholder' | translate"
       [multiple]="true"
       [closeOnSelect]="false"
       [searchable]="true"
@@ -154,16 +174,18 @@
   </div>
 
   <div class="input-field">
-    <label for="bonusTimeAfterReservationExpiration" class="required"
-      >Bonus Time After Reservation Expiration</label
-    >
-    <span class="input-info"
-      >Extra grace time (in minutes) after a reservation ends before it is
-      considered expired.</span
-    >
+    <label for="bonusTimeAfterReservationExpiration" class="required">{{
+      "space_settings.bonus_time_after_reservation_expiration.label" | translate
+    }}</label>
+    <span class="input-info">{{
+      "space_settings.bonus_time_after_reservation_expiration.info" | translate
+    }}</span>
 
     <input
-      placeholder="15 minutes"
+      placeholder="{{
+        'space_settings.bonus_time_after_reservation_expiration.placeholder'
+          | translate
+      }}"
       type="number"
       id="bonusTimeAfterReservationExpiration"
       formControlName="bonusTimeAfterReservationExpiration"
@@ -171,18 +193,21 @@
   </div>
 
   <div class="input-field">
-    <label for="periodOfRewardReset" class="required"
-      >Period Of Reward Reset</label
-    >
-    <span class="input-info"
-      >How often the reward count resets for users — weekly or monthly.</span
-    >
+    <label for="periodOfRewardReset" class="required">{{
+      "space_settings.period_of_reward_reset.label" | translate
+    }}</label>
+    <span class="input-info">{{
+      "space_settings.period_of_reward_reset.info" | translate
+    }}</span>
+
     <ng-select
       id="periodOfRewardReset"
       [items]="periodTimeValues"
-      bindValue="name"
+      bindValue="id"
       bindLabel="name"
-      placeholder="Weekly or Monthly"
+      [placeholder]="
+        'space_settings.period_of_reward_reset.placeholder' | translate
+      "
       [searchable]="true"
       formControlName="periodOfRewardReset"
       class="app-select-long"
@@ -191,20 +216,21 @@
   </div>
 
   <div class="input-field">
-    <label for="isCustomPeriodOn" class="required">Is Custom Period On</label>
-    <span class="input-info input-warning">
-      ⚠️ Enabling this setting forces the system into custom period mode.<br />
-      If no challenges or rewards are configured under the
-      <strong>Custom Period</strong> tab in Challenge Manager,<br />
-      you will be immediately redirected there and
-      <strong>cannot leave</strong> until the required setup is complete.</span
-    >
+    <label for="isCustomPeriodOn" class="required">{{
+      "space_settings.is_custom_period_on.label" | translate
+    }}</label>
+    <span class="input-info input-warning">{{
+      "space_settings.is_custom_period_on.info" | translate
+    }}</span>
+
     <ng-select
       id="isCustomPeriodOn"
       [items]="toggleStateValues"
       bindValue="id"
       bindLabel="name"
-      placeholder="On or Off"
+      [placeholder]="
+        'space_settings.is_custom_period_on.placeholder' | translate
+      "
       [searchable]="true"
       formControlName="isCustomPeriodOn"
       class="app-select-long"
@@ -228,14 +254,14 @@
       'btn-font-red': this.form.invalid
     }"
   >
-    Save
+    {{ "space_settings.save_button" | translate }}
   </button>
 </form>
 
 <app-controls-menu
   #controls
   [isInfo]="true"
-  infoDescription="Configure key settings for your club’s operations, challenges, and
-  reservations. \r\n \r\n Adjust values to fit your club’s needs and ensure a smooth
-  experience for all users."
+  [infoDescription]="
+    'space_settings.controls_menu.info_description' | translate
+  "
 ></app-controls-menu>

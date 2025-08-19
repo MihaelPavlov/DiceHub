@@ -1,7 +1,7 @@
 <div class="container">
   <div class="header">
     <div class="welcome">
-      <span>Hello,</span>
+      <span>{{ "profile.hello" | translate }}</span>
       <span>{{ username }}</span>
     </div>
 
@@ -30,7 +30,7 @@
   <div class="wrapper_stats_2" *ngIf="userStats | async as stats">
     <div class="item">
       <span class="item-value"> {{ stats.uniquePlayedGames }} </span>
-      <span class="item-header"> Games </span>
+      <span class="item-header"> {{ "profile.games" | translate }} </span>
     </div>
     <span class="border-right"></span>
 
@@ -41,12 +41,14 @@
     </div> -->
     <div class="item">
       <span class="item-value"> {{ stats.reservations }} </span>
-      <span class="item-header"> Reservations </span>
+      <span class="item-header">
+        {{ "profile.reservations" | translate }}
+      </span>
     </div>
     <span class="border-right"></span>
     <div class="item">
       <span class="item-value"> {{ stats.events }} </span>
-      <span class="item-header"> Events </span>
+      <span class="item-header"> {{ "profile.events" | translate }} </span>
     </div>
   </div>
 
@@ -71,7 +73,7 @@
           </svg>
         </div>
 
-        <span class="item-header"> Owner </span>
+        <span class="item-header"> {{ "profile.owner" | translate }} </span>
       </div>
       <div class="item-wrapper" (click)="navigateToSettings()">
         <div class="item">
@@ -88,7 +90,7 @@
           </svg>
         </div>
 
-        <span class="item-header"> Settings </span>
+        <span class="item-header"> {{ "profile.settings" | translate }} </span>
       </div>
       <div class="item-wrapper" (click)="navigateToInstructions()">
         <div class="item">
@@ -105,7 +107,9 @@
           </svg>
         </div>
 
-        <span class="item-header"> Instructions </span>
+        <span class="item-header">
+          {{ "profile.instructions" | translate }}
+        </span>
       </div>
       <div
         *ngIf="isOwner() || isSuperAdmin()"
@@ -126,7 +130,7 @@
           </svg>
         </div>
 
-        <span class="item-header"> Employees </span>
+        <span class="item-header"> {{ "profile.employees" | translate }} </span>
       </div>
       <!-- <div class="item-wrapper">
         <div class="item">
@@ -163,7 +167,7 @@
           </svg>
         </div>
 
-        <span class="item-header"> Jobs </span>
+        <span class="item-header"> {{ "profile.jobs" | translate }} </span>
       </div>
 
       <!-- <div *ngIf="isAdmin()" class="item-wrapper">
@@ -202,7 +206,9 @@
           </svg>
         </div>
 
-        <span class="item-header"> Challenge Leaderboard </span>
+        <span class="item-header">
+          {{ "profile.charts.challenge_leaderboard" | translate }}
+        </span>
       </div>
       <div
         class="item-wrapper"
@@ -213,7 +219,7 @@
           <!-- new stands icon -->
 
           <svg
-           height="24px"
+            height="24px"
             viewBox="0 -960 960 960"
             width="24px"
             fill="#fafafa"
@@ -224,7 +230,9 @@
           </svg>
         </div>
 
-        <span class="item-header"> Games Charts </span>
+        <span class="item-header">
+          {{ "profile.charts.games" | translate }}
+        </span>
       </div>
       <div
         *ngIf="isDifferentFromUser()"
@@ -245,7 +253,9 @@
           </svg>
         </div>
 
-        <span class="item-header"> Visitor Charts </span>
+        <span class="item-header">
+          {{ "profile.charts.visitors" | translate }}
+        </span>
       </div>
       <div
         *ngIf="isDifferentFromUser()"
@@ -266,7 +276,9 @@
           </svg>
         </div>
 
-        <span class="item-header"> Reservation Charts </span>
+        <span class="item-header">
+          {{ "profile.charts.reservations" | translate }}
+        </span>
       </div>
       <div
         *ngIf="isDifferentFromUser()"
@@ -287,7 +299,9 @@
           </svg>
         </div>
 
-        <span class="item-header"> Event Charts </span>
+        <span class="item-header">
+          {{ "profile.charts.events" | translate }}
+        </span>
       </div>
       <div
         *ngIf="isDifferentFromUser()"
@@ -308,7 +322,9 @@
           </svg>
         </div>
 
-        <span class="item-header"> Reward Charts </span>
+        <span class="item-header">
+          {{ "profile.charts.rewards" | translate }}
+        </span>
       </div>
     </div>
   </div>

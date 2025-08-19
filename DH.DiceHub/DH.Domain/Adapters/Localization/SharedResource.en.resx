@@ -354,4 +354,31 @@
   <data name="RoomNoAvailableGameCopies" xml:space="preserve">
     <value>No Available copies of this game.</value>
   </data>
+  <data name="TenantSettingsAverageMaxCapacity" xml:space="preserve">
+    <value>Average Max Capacity of the place should be more than zero.</value>
+  </data>
+  <data name="TenantSettingsChallengeRewardsCountForPeriod" xml:space="preserve">
+    <value>Challenge Rewards Count For Period should be between 4 and 8 rewards.</value>
+  </data>
+  <data name="TenantSettingsPeriodOfRewardReset" xml:space="preserve">
+    <value>Period Of Reward Reset is not a valid value.</value>
+  </data>
+  <data name="TenantSettingsResetDayForRewards" xml:space="preserve">
+    <value>Reset Day For Rewards is not a valid value.</value>
+  </data>
+  <data name="TenantSettingsChallengeInitiationDelayHours" xml:space="preserve">
+    <value>Available hours should be between 2 and 12.</value>
+  </data>
+  <data name="TenantSettingsReservationHours" xml:space="preserve">
+    <value>Reservation hours should have at least 3 values.</value>
+  </data>
+  <data name="TenantSettingsPhoneNumber" xml:space="preserve">
+    <value>Phone Number is required.</value>
+  </data>
+  <data name="TenantSettingsClubName" xml:space="preserve">
+    <value>Club Name is required.</value>
+  </data>
+  <data name="UserSettingsLanguage" xml:space="preserve">
+    <value>Provided Language is not a valid value.</value>
+  </data>
 </root>

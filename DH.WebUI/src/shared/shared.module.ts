@@ -12,6 +12,7 @@ import { TruncatePipe } from './pipe/truncate.pipe';
 import { ParseDateTagPipe } from './pipe/parse-date-tag.pipe';
 import { PasswordVisibilityToggleComponent } from './components/password-visibility-toggle/password-visibility-toggle.component';
 import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
+import { TranslateInPipe } from './pipe/translate-in.pipe';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
     EntityImagePipe,
     TruncatePipe,
     ParseDateTagPipe,
+    TranslateInPipe,
     ControlsMenuComponent,
     RandomColorDirective,
     PasswordVisibilityToggleComponent,
@@ -38,6 +40,7 @@ import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
     EntityImagePipe,
     TruncatePipe,
     ParseDateTagPipe,
+    TranslateInPipe,
     ControlsMenuComponent,
     RandomColorDirective,
     DatePipe,
@@ -50,6 +53,7 @@ import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
     TruncatePipe,
     ParseDateTagPipe,
     TranslatePipe,
+    TranslateInPipe,
     TOAST_DEFAULT_OPTIONS,
   ],
 })

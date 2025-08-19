@@ -69,36 +69,28 @@ public class TenantSettingDto : IValidableFields
         var errors = new List<ValidationError>();
 
         if (AverageMaxCapacity <= 0)
-            errors.Add(new ValidationError(nameof(AverageMaxCapacity),
-                "Average Max Capacity of the place should be more then zero."));
+            errors.Add(new ValidationError(nameof(AverageMaxCapacity), localizationService["TenantSettingsAverageMaxCapacity"]));
 
         if (ChallengeRewardsCountForPeriod < 4 || ChallengeRewardsCountForPeriod > 8)
-            errors.Add(new ValidationError(nameof(ChallengeRewardsCountForPeriod),
-                $"Challenge Rewards Count For Period should be between 4 and 8 rewards."));
+            errors.Add(new ValidationError(nameof(ChallengeRewardsCountForPeriod), localizationService["TenantSettingsChallengeRewardsCountForPeriod"]));
 
         if (!Enum.TryParse<TimePeriodType>(PeriodOfRewardReset, out var parsedPeriodOfRewardReset))
-            errors.Add(new ValidationError(nameof(PeriodOfRewardReset),
-                $"{parsedPeriodOfRewardReset} is not a valid value."));
+            errors.Add(new ValidationError(nameof(PeriodOfRewardReset), localizationService["TenantSettingsPeriodOfRewardReset"]));
 
         if (!Enum.TryParse<WeekDays>(ResetDayForRewards, out var parsedResetDayForRewards))
-            errors.Add(new ValidationError(nameof(ResetDayForRewards),
-                $"{parsedResetDayForRewards} is not a valid value."));
+            errors.Add(new ValidationError(nameof(ResetDayForRewards), localizationService["TenantSettingsResetDayForRewards"]));
 
         if (ChallengeInitiationDelayHours <= 1 || ChallengeInitiationDelayHours > 12)
-            errors.Add(new ValidationError(nameof(ChallengeInitiationDelayHours),
-                $"Available hours should be between 2 and 12."));
+            errors.Add(new ValidationError(nameof(ChallengeInitiationDelayHours), localizationService["TenantSettingsChallengeInitiationDelayHours"]));
 
         if (ReservationHours.Length < 3)
-            errors.Add(new ValidationError(nameof(ReservationHours),
-                $"Reservation hours should have atleast 3 values."));
+            errors.Add(new ValidationError(nameof(ReservationHours), localizationService["TenantSettingsReservationHours"]));
 
         if (string.IsNullOrEmpty(PhoneNumber))
-            errors.Add(new ValidationError(nameof(PhoneNumber),
-                $"Phone Number is required."));
+            errors.Add(new ValidationError(nameof(PhoneNumber), localizationService["TenantSettingsPhoneNumber"]));
 
         if (string.IsNullOrEmpty(ClubName))
-            errors.Add(new ValidationError(nameof(ClubName),
-                $"Club Name is required."));
+            errors.Add(new ValidationError(nameof(ClubName), localizationService["TenantSettingsClubName"]));
 
         validationErrors = errors;
 

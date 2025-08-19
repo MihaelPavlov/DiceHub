@@ -18,6 +18,10 @@ import { SupportLanguages } from '../../../../entities/common/models/support-lan
 import { IDropdown } from '../../../../shared/models/dropdown.model';
 import { LanguageService } from '../../../../shared/services/language.service';
 import { TranslateService } from '@ngx-translate/core';
+import { ROUTE } from '../../../../shared/configs/route.config';
+import { TranslateInPipe } from '../../../../shared/pipe/translate-in.pipe';
+import { forkJoin, switchMap } from 'rxjs';
+import { IUserSettings } from '../../../../entities/common/models/user-settings.model';
 
 interface IUserSettingsForm {
   phoneNumber: string;
@@ -33,6 +37,7 @@ export class UserSettingsComponent extends Form implements OnInit, OnDestroy {
   override form: Formify<IUserSettingsForm>;
   public tenantSettingsId: number | null = null;
   public languagesValues: IDropdown[] = [];
+  public userSettings: IUserSettings | null = null;
 
   constructor(
     private readonly fb: FormBuilder,
@@ -41,7 +46,8 @@ export class UserSettingsComponent extends Form implements OnInit, OnDestroy {
     private readonly userSettingService: TenantUserSettingsService,
     private readonly router: Router,
     private readonly languageService: LanguageService,
-    public override translateService: TranslateService
+    public override translateService: TranslateService,
+    private readonly translateInPipe: TranslateInPipe
   ) {
     super(toastService, translateService);
     this.form = this.initFormGroup();
@@ -52,13 +58,18 @@ export class UserSettingsComponent extends Form implements OnInit, OnDestroy {
     });
     this.menuTabsService.setActive(NAV_ITEM_LABELS.PROFILE);
 
+    this.initDropdownValues();
+  }
+
+  private initDropdownValues(): void {
     this.languagesValues = Object.keys(SupportLanguages)
-      .filter((key) => isNaN(Number(key))) // keep only the names
+      .filter((key) => isNaN(Number(key)))
       .map((name) => ({
         id: SupportLanguages[name as keyof typeof SupportLanguages],
-        name,
+        name: this.translateService.instant(`languages_names.${name}`),
       })) as unknown as IDropdown[];
   }
+
   public ngOnDestroy(): void {
     this.menuTabsService.resetData();
   }
@@ -69,42 +80,69 @@ export class UserSettingsComponent extends Form implements OnInit, OnDestroy {
 
   public fetchSettings(): void {
     this.userSettingService.get().subscribe({
-      next: (res) => {
-        this.tenantSettingsId = res.id ?? null;
+      next: (userSettings) => {
+        this.tenantSettingsId = userSettings.id ?? null;
         this.form.patchValue({
-          phoneNumber: res.phoneNumber,
-          language: res.language.toString(),
+          phoneNumber: userSettings.phoneNumber,
+          language: SupportLanguages[userSettings.language]
         });
+
+        this.userSettings = userSettings;
       },
     });
   }
 
   public onSave(): void {
     if (this.form.valid) {
-      const newLanguage = this.form.controls.language
-        .value as unknown as SupportLanguages;
-      this.userSettingService
-        .update({
-          id: this.tenantSettingsId,
-          phoneNumber: this.form.controls.phoneNumber.value,
-          language: this.form.controls.language
-            .value as unknown as SupportLanguages,
-        })
+      let oldLanguage;
+      let newLanguage;
+
+      const languageTranslation$ = this.translateInPipe.transform(
+        `languages_names.${
+          SupportLanguages[this.form.controls.language.value]
+        }`,
+        SupportLanguages.EN.toLowerCase()
+      );
+
+      forkJoin([languageTranslation$])
+        .pipe(
+          switchMap(([language]) => {
+            oldLanguage = this.languageService.getCurrentLanguage();            
+            newLanguage = language as unknown as SupportLanguages;
+            
+            return this.userSettingService.update({
+              id: this.tenantSettingsId,
+              phoneNumber: this.form.controls.phoneNumber.value,
+              language: newLanguage,
+            });
+          })
+        )
         .subscribe({
           next: () => {
-            this.toastService.success({
-              message: AppToastMessage.ChangesSaved,
-              type: ToastType.Success,
-            });
-
-            this.languageService.setLanguage(newLanguage);
+            if (newLanguage != oldLanguage) {
+              this.languageService
+                .setLanguage$(newLanguage as SupportLanguages)
+                .subscribe({
+                  next: () => {
+                    this.initDropdownValues();
+                  },
+                });
+            }
 
             this.fetchSettings();
+            this.toastService.success({
+              message: this.translateService.instant(
+                AppToastMessage.ChangesSaved
+              ),
+              type: ToastType.Success,
+            });
           },
           error: (error) => {
             this.handleServerErrors(error);
             this.toastService.error({
-              message: AppToastMessage.FailedToSaveChanges,
+              message: this.translateService.instant(
+                AppToastMessage.FailedToSaveChanges
+              ),
               type: ToastType.Error,
             });
           },
@@ -113,15 +151,19 @@ export class UserSettingsComponent extends Form implements OnInit, OnDestroy {
   }
 
   public backNavigateBtn() {
-    this.router.navigateByUrl('profile');
+    this.router.navigateByUrl(ROUTE.PROFILE.CORE);
   }
 
   protected override getControlDisplayName(controlName: string): string {
     switch (controlName) {
       case 'phoneNumber':
-        return 'Phone Number';
+        return this.translateService.instant(
+          'user_settings.controls_display_names.phone_number'
+        );
       case 'language':
-        return 'Language';
+        return this.translateService.instant(
+          'user_settings.controls_display_names.language'
+        );
       default:
         return controlName;
     }
@@ -135,9 +177,7 @@ export class UserSettingsComponent extends Form implements OnInit, OnDestroy {
     return this.fb.group({
       id: new FormControl<number | null>(null),
       phoneNumber: new FormControl<string | null>('', [Validators.required]),
-      language: new FormControl<string | null>(SupportLanguages.EN.toString(), [
-        Validators.required,
-      ]),
+      language: new FormControl<string | null>('0', [Validators.required]),
     });
   }
 }

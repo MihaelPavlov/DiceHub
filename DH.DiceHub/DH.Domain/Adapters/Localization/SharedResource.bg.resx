@@ -354,4 +354,31 @@
   <data name="RoomNoAvailableGameCopies" xml:space="preserve">
     <value>Няма налични копия от тази игра.</value>
   </data>
+  <data name="TenantSettingsAverageMaxCapacity" xml:space="preserve">
+    <value>Средният максимален капацитет на мястото трябва да е повече от нула.</value>
+  </data>
+  <data name="TenantSettingsChallengeRewardsCountForPeriod" xml:space="preserve">
+    <value>Броят на наградите за периода трябва да бъде между 4 и 8.</value>
+  </data>
+  <data name="TenantSettingsPeriodOfRewardReset" xml:space="preserve">
+    <value>Посоченият период за нулиране на наградите не е валидна стойност.</value>
+  </data>
+  <data name="TenantSettingsResetDayForRewards" xml:space="preserve">
+    <value>Посоченият ден за нулиране на наградите не е валидна стойност.</value>
+  </data>
+  <data name="TenantSettingsChallengeInitiationDelayHours" xml:space="preserve">
+    <value>Часовете за стартиране на предизвикателствата трябва да бъдат между 2 и 12.</value>
+  </data>
+  <data name="TenantSettingsReservationHours" xml:space="preserve">
+    <value>Часовете за резервация трябва да имат поне 3 стойности.</value>
+  </data>
+  <data name="TenantSettingsPhoneNumber" xml:space="preserve">
+    <value>Телефонният номер е задължителен.</value>
+  </data>
+  <data name="TenantSettingsClubName" xml:space="preserve">
+    <value>Името на клуба е задължително.</value>
+  </data>
+  <data name="UserSettingsLanguage" xml:space="preserve">
+    <value>Посочения език не е валидна стойност.</value>
+  </data>
 </root>

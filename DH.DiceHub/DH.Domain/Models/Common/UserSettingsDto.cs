@@ -15,12 +15,10 @@ public class UserSettingsDto : IValidableFields
         var errors = new List<ValidationError>();
 
         if (string.IsNullOrEmpty(PhoneNumber))
-            errors.Add(new ValidationError(nameof(PhoneNumber),
-                $"Phone Number is required."));
+            errors.Add(new ValidationError(nameof(PhoneNumber), localizationService["TenantSettingsPhoneNumber"]));
 
         if (!Enum.TryParse<SupportLanguages>(Language, out var parsedLanguage))
-            errors.Add(new ValidationError(nameof(Language),
-                $"{parsedLanguage} is not a valid value."));
+            errors.Add(new ValidationError(nameof(Language), localizationService["UserSettingsLanguage"]));
 
         validationErrors = errors;
 

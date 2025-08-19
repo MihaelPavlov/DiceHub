@@ -1,6 +1,6 @@
 <div class="wrapper_icons">
   <span (click)="backNavigateBtn()" class="arrow left"></span>
-  <span class="header_name">Space Settings</span>
+  <span class="header_name">{{ "user_settings.header_name" | translate }}</span>
   <div class="info-container">
     <svg (click)="controls.toggleMenu()" class="info" viewBox="0 -960 960 960">
       <path
@@ -12,14 +12,15 @@
 
 <form [formGroup]="form" class="container">
   <div class="input-field">
-    <label for="phoneNumber" class="required">Phone Number</label>
+    <label for="phoneNumber" class="required">{{
+      "user_settings.phone_number.label" | translate
+    }}</label>
     <span class="input-info">
-      Provide a phone number where the club can reach you regarding updates or
-      inquiries.</span
+      {{ "user_settings.phone_number.info" | translate }}</span
     >
 
     <input
-      placeholder="+359 ....."
+      [placeholder]="'user_settings.phone_number.placeholder' | translate"
       type="text"
       id="phoneNumber"
       formControlName="phoneNumber"
@@ -27,15 +28,19 @@
   </div>
 
   <div class="input-field">
-    <label for="language" class="required">Language</label>
-    <span class="input-info"> Application Language for you</span>
+    <label for="language" class="required">{{
+      "user_settings.language.label" | translate
+    }}</label>
+    <span class="input-info">
+      {{ "user_settings.language.info" | translate }}
+    </span>
 
     <ng-select
       id="language"
       [items]="languagesValues"
-      bindValue="name"
+      bindValue="id"
       bindLabel="name"
-      placeholder="EN"
+      [placeholder]="'user_settings.language.placeholder' | translate"
       [searchable]="true"
       formControlName="language"
       class="app-select-long"
@@ -59,13 +64,12 @@
       'btn-font-red': this.form.invalid
     }"
   >
-    Save
+    {{ "user_settings.save_button" | translate }}
   </button>
 </form>
 
 <app-controls-menu
   #controls
   [isInfo]="true"
-  infoDescription="Manage space-related settings such as contact details, visibility, and
-  preferences to ensure accurate and personalized club usage."
+  [infoDescription]="'user_settings.controls_menu.info_description' | translate"
 ></app-controls-menu>
