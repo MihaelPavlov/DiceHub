@@ -1,4 +1,8 @@
 <div class="landing-mobile mobile-screen">
+  <div class="language-switch">
+    <button (click)="changeLang('EN')">EN</button>
+    <button (click)="changeLang('BG')">BG</button>
+  </div>
   <section class="landing-header">
     <img class="img-left" src="shared/assets/images/dicehub_logo_1.png" />
     <div class="header">DiceHub</div>
@@ -186,6 +190,10 @@
       <span>DiceHub</span>
     </div>
     <div class="auth-buttons">
+      <div class="language-switch">
+        <button (click)="changeLang('EN')">EN</button>
+        <button (click)="changeLang('BG')">BG</button>
+      </div>
       <button class="btn" (click)="onLogin()">Login</button>
       <button class="btn" (click)="onRegister()">Register</button>
       <button class="btn instruction" (click)="onInstructions()">

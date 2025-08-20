@@ -8,6 +8,39 @@ $card-background: #1a1f2e;
 $button-bg: #1e2333;
 $button-hover: #2a3150;
 
+.language-switch {
+  display: flex;
+  justify-content: center; // center on mobile
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+
+  button {
+    background: $button-bg;
+    border: 1px solid $secondary-color;
+    border-radius: 0.5rem; // slightly bigger tap area
+    padding: 0.3rem 0.6rem;
+    min-width: 2rem; 
+    color: $primary-color;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
+    box-shadow: 0 0 12px rgba(137, 160, 255, 0.5);
+
+    &:hover {
+      background: $button-hover;
+      box-shadow: 0 0 18px rgba(137, 160, 255, 0.7);
+      transform: scale(1.05);
+    }
+
+    &.active {
+      background: $secondary-color;
+      color: $background-color;
+      box-shadow: 0 0 20px rgba(137, 160, 255, 0.8);
+    }
+  }
+}
+
 .mobile-screen {
   display: none;
 }
