@@ -1,5 +1,5 @@
 <div class="landing-mobile mobile-screen">
-  <div class="language-switch">
+  <div class="language-switch-phone-screen">
     <button (click)="changeLang('EN')">EN</button>
     <button (click)="changeLang('BG')">BG</button>
   </div>
@@ -11,11 +11,10 @@
 
   <section>
     <div class="wrapper_library">
-      <h1>Revolutionizing</h1>
-      <h1>Game-Driven Entertainment</h1>
+      <h1>{{ "landing.revolutionizing" | translate }}</h1>
+      <h1>{{ "landing.game_driven_entertainment" | translate }}</h1>
       <p class="sub-header">
-        The all-in-one platform to streamline operations, boost engagement, and
-        grow your gaming-focused venue.
+        {{ "landing.info" | translate }}
       </p>
     </div>
     <div class="list">
@@ -190,7 +189,7 @@
       <span>DiceHub</span>
     </div>
     <div class="auth-buttons">
-      <div class="language-switch">
+      <div class="language-switch-big-screen">
         <button (click)="changeLang('EN')">EN</button>
         <button (click)="changeLang('BG')">BG</button>
       </div>
