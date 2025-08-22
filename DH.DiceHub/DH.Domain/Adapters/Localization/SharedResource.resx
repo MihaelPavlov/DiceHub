@@ -1,0 +1,384 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="InvalidEmailOrPass" xml:space="preserve">
+    <value>Имейлът или паролата са невалидни!</value>
+  </data>
+  <data name="EmailNotConfirmed" xml:space="preserve">
+    <value>Имейлът не е потвърден. Моля, проверете пощата си.</value>
+  </data>
+  <data name="UserExistUsername" xml:space="preserve">
+    <value>Потребител с това потребителско име вече съществува</value>
+  </data>
+  <data name="UserRegistrationFailed" xml:space="preserve">
+    <value>Регистрацията на потребителя не беше успешна</value>
+  </data>
+  <data name="UserNotCreated" xml:space="preserve">
+    <value>Потребителят не беше създаден</value>
+  </data>
+  <data name="UserByEmailNotFound" xml:space="preserve">
+    <value>Не успяхме да намерим потребител с този имейл адрес.</value>
+  </data>
+  <data name="UserExistEmail" xml:space="preserve">
+    <value>Потребител с този имейл вече съществува</value>
+  </data>
+  <data name="ConfirmEmailInvalidToken" xml:space="preserve">
+    <value>Линкът за потвърждение е невалиден или е изтекъл. Моля, поискайте нов.</value>
+  </data>
+  <data name="UserNotFound" xml:space="preserve">
+    <value>Потребителят не беше намерен</value>
+  </data>
+  <data name="PasswordMismatch" xml:space="preserve">
+    <value>Паролите не съвпадат!</value>
+  </data>
+  <data name="PasswordResetFailed" xml:space="preserve">
+    <value>Възстановяването на паролата не беше успешно. Моля, опитайте по-късно или се свържете с нас по имейл.</value>
+  </data>
+  <data name="NotProvided" xml:space="preserve">
+    <value>Не е предоставено</value>
+  </data>
+  <data name="UsernameNotProvided" xml:space="preserve">
+    <value>Потребителското име липсва</value>
+  </data>
+  <data name="OnlyOwnerCreateEmployees" xml:space="preserve">
+    <value>Само собственикът може да създава нови служители.</value>
+  </data>
+  <data name="UserFirstLastNamesExists" xml:space="preserve">
+    <value>Потребител със същото име и фамилия вече съществува.</value>
+  </data>
+  <data name="UserRegistrationFailedDuringRoleAssignment" xml:space="preserve">
+    <value>Регистрацията на потребителя не беше завършена поради липсващи задължителни роли. Моля, свържете се с нас по имейл.</value>
+  </data>
+  <data name="OnlySuperAdminCreateOwner" xml:space="preserve">
+    <value>Само СуперАдмин може да добавя собственик.</value>
+  </data>
+  <data name="OwnerAlreadyExists" xml:space="preserve">
+    <value>Собственик вече съществува.</value>
+  </data>
+  <data name="PhoneNumberMismatch" xml:space="preserve">
+    <value>Въведеният телефонен номер не съвпада с номера, свързан с този акаунт</value>
+  </data>
+  <data name="PasswordResetLinkInvalidOrExpired" xml:space="preserve">
+    <value>Линкът за създаване на паролата е невалиден или е изтекъл. Моля, поискайте нов или се свържете с поддръжката, ако проблемът продължава.</value>
+  </data>
+  <data name="PasswordSetError" xml:space="preserve">
+    <value>Възникна проблем при задаването на паролата. Моля, опитайте отново или се свържете с нашия екип за поддръжка по имейл, ако проблемът продължава.</value>
+  </data>
+  <data name="EmployeeDeletionFailed" xml:space="preserve">
+    <value>Изтриването на служителя не беше успешно!</value>
+  </data>
+  <data name="OnlyOwnerCanUpdateEmployee" xml:space="preserve">
+    <value>Само собственикът може да актуализира данните на служителя.</value>
+  </data>
+  <data name="MaxPlayersCannotBeLessThanMinPlayers" xml:space="preserve">
+    <value>Максималният брой играчи не може да бъде по-малък от минималния брой играчи.</value>
+  </data>
+  <data name="NameShouldBeAtLeastXCharactersLong" xml:space="preserve">
+    <value>Името трябва да е поне {0} символа.</value>
+  </data>
+  <data name="ReservationAlreadyExists" xml:space="preserve">
+    <value>Вече имате активна резервация.</value>
+  </data>
+  <data name="UtcFallbackNotice" xml:space="preserve">
+    <value>UTC (локалното време не е налично)</value>
+  </data>
+  <data name="NewGameReservationReminderTitle" xml:space="preserve">
+    <value>Напомняне за нова резервация на игра</value>
+  </data>
+  <data name="NewGameReservationReminderBody" xml:space="preserve">
+    <value>Потребителят {0} направи нова резервация. Запазете маса за {1} {2}, и играта **{3}** за {4} часа.</value>
+  </data>
+  <data name="W_Person" xml:space="preserve">
+    <value>човек</value>
+  </data>
+  <data name="W_People" xml:space="preserve">
+    <value>души</value>
+  </data>
+  <data name="GameReservationApprovedTitle" xml:space="preserve">
+    <value>Резервацията за играта е потвърдена</value>
+  </data>
+  <data name="GameReservationApprovedBody" xml:space="preserve">
+    <value>Вашата резервация за игра **{0}** за {1} {2} в {3} е ПОТВЪРДЕНА!</value>
+  </data>
+  <data name="GameReservationDeclinedTitle" xml:space="preserve">
+    <value>Резервацията за играта е отказана</value>
+  </data>
+  <data name="GameReservationDeclinedBody" xml:space="preserve">
+    <value>Вашата резервация за игра **{0}** за {1} {2} в {3} е ОТКАЗАНА.</value>
+  </data>
+  <data name="GameReservationNoteChangedTitle" xml:space="preserve">
+    <value>Бележката за резервацията на играта е променена!</value>
+  </data>
+  <data name="GameReservationNoteChangedBody" xml:space="preserve">
+    <value>Вашата резервация за игра за {0} {1} в {2} има нова бележка, моля, прегледайте я!</value>
+  </data>
+  <data name="EventDeletedTitle" xml:space="preserve">
+    <value>Съобщение: Събитието е отменено</value>
+  </data>
+  <data name="EventDeletedBody" xml:space="preserve">
+    <value>Съжаляваме да Ви уведомим, че събитието **{0}**, първоначално насрочено за **{1}**, беше отменено. Извиняваме се за неудобството и благодарим за разбирането.</value>
+  </data>
+  <data name="EventReminderTitle" xml:space="preserve">
+    <value>Напомняне: Предстоящо събитие</value>
+  </data>
+  <data name="EventReminderBody" xml:space="preserve">
+    <value>Не забравяйте! Регистрирани сте за събитието {0}, което ще се проведе на {1}. Очакваме ви с нетърпение!</value>
+  </data>
+  <data name="EventStartDateUpdatedTitle" xml:space="preserve">
+    <value>Началната дата на събитието е актуализирана</value>
+  </data>
+  <data name="EventStartDateUpdatedBody" xml:space="preserve">
+    <value>Началната дата за **{0}** беше актуализирана на **{1}**. Очакваме с нетърпение да ви видим там!</value>
+  </data>
+  <data name="NewEventAddedTitle" xml:space="preserve">
+    <value>Добавено е ново събитие</value>
+  </data>
+  <data name="NewEventAddedBody" xml:space="preserve">
+    <value>Ново събитие **{0}** е насрочено за **{1}**. Присъединете се и се насладете на преживяването!</value>
+  </data>
+  <data name="RegistrationMessageTitle" xml:space="preserve">
+    <value>Добре дошли в {0}!</value>
+  </data>
+  <data name="RegistrationMessageBody" xml:space="preserve">
+    <value>Здравейте {0}, добре дошли! Благодарим Ви за регистрацията. За да започнете, вижте нашите инструкции за повече подробности.</value>
+  </data>
+  <data name="RewardExpirationReminderTitle" xml:space="preserve">
+    <value>Вашата награда ще изтече след {0} {1}!</value>
+  </data>
+  <data name="RewardExpirationReminderBody" xml:space="preserve">
+    <value>Не изпускайте възможността! Вашата награда **{0}** ще изтече след {1} {2}. Посетете клуба скоро, за да я вземете преди да изчезне!</value>
+  </data>
+  <data name="Day_Singular" xml:space="preserve">
+    <value>ден</value>
+  </data>
+  <data name="Day_Plural" xml:space="preserve">
+    <value>дни</value>
+  </data>
+  <data name="RewardExpiredTitle" xml:space="preserve">
+    <value>Изтекла награда. Не се притеснявайте, посетете клуба за още страхотни награди!</value>
+  </data>
+  <data name="RewardExpiredBody" xml:space="preserve">
+    <value>За съжаление вашата награда е изтекла: {0}!</value>
+  </data>
+  <data name="SpaceTableApprovedTitle" xml:space="preserve">
+    <value>Резервация на маса одобрена</value>
+  </data>
+  <data name="SpaceTableApprovedBody" xml:space="preserve">
+    <value>Вашата резервация за {0} {1} в {2} е ПОТВЪРДЕНА!</value>
+  </data>
+  <data name="SpaceTableDeclinedTitle" xml:space="preserve">
+    <value>Резервация на маса отказана</value>
+  </data>
+  <data name="SpaceTableDeclinedBody" xml:space="preserve">
+    <value>Вашата резервация за {0} {1} в {2} е ОТКАЗАНА!</value>
+  </data>
+  <data name="SpaceTableNoteUpdatedTitle" xml:space="preserve">
+    <value>Промяна на бележката за резервация на маса!</value>
+  </data>
+  <data name="SpaceTableNoteUpdatedBody" xml:space="preserve">
+    <value>Вашата резервация за {0} {1} в {2} има нова бележка, моля, прегледайте я!</value>
+  </data>
+  <data name="SpaceTableReservationReminderTitle" xml:space="preserve">
+    <value>Напомняне за резервация на маса</value>
+  </data>
+  <data name="SpaceTableReservationReminderBody" xml:space="preserve">
+    <value>Имате нова резервация за маса. Резервирайте маса за {0} {1} в {2}!</value>
+  </data>
+  <data name="EventMaxPeopleCapacity" xml:space="preserve">
+    <value>Това събитие е достигнало максималния брой участници за онлайн записване</value>
+  </data>
+  <data name="RoomGameChanged" xml:space="preserve">
+    <value>Играта беше променена. Моля, прегледайте новите правила на играта</value>
+  </data>
+  <data name="RoomStartDateChanged" xml:space="preserve">
+    <value>Началната дата на стаята беше променена</value>
+  </data>
+  <data name="RoomGameChangedTitle" xml:space="preserve">
+    <value>Смяна на игра в {0}</value>
+  </data>
+  <data name="RoomGameChangedBody" xml:space="preserve">
+    <value>Играта в стая {0} беше променена от {1} на {2}. Вижте новите правила!</value>
+  </data>
+  <data name="RoomStartDateChangedTitle" xml:space="preserve">
+    <value>Актуализирана дата в {0}</value>
+  </data>
+  <data name="RoomStartDateChangedBody" xml:space="preserve">
+    <value>Началната дата на стая {0} беше променена от {1} на {2}.</value>
+  </data>
+  <data name="RoomParticipantJoinedTitle" xml:space="preserve">
+    <value>Нов участник се присъедини към Стая {0}</value>
+  </data>
+  <data name="RoomParticipantJoinedBody" xml:space="preserve">
+    <value>{0} се присъедини към вашата стая „{1}“.</value>
+  </data>
+  <data name="RoomMaxPeople" xml:space="preserve">
+    <value>Достигнат е максималният брой участници.</value>
+  </data>
+  <data name="RoomVirtualUserUsername" xml:space="preserve">
+    <value>Виртуален Потребител #{0}</value>
+  </data>
+  <data name="RoomValidationNameRequired" xml:space="preserve">
+    <value>Името не трябва да е празно.</value>
+  </data>
+  <data name="RoomValidationMaxPeople" xml:space="preserve">
+    <value>Максималният брой хора трябва да е по-голям от 1.</value>
+  </data>
+  <data name="RoomValidationInvalidGame" xml:space="preserve">
+    <value>Сканираната игра е невалидна. Свържете се с персонала.</value>
+  </data>
+  <data name="RoomInvalidPassword" xml:space="preserve">
+    <value>Грешна парола. Моля, опитайте отново.</value>
+  </data>
+  <data name="RoomUserHaveActiveTable" xml:space="preserve">
+    <value>Вече имате активна маса</value>
+  </data>
+  <data name="RoomUserAlreadyParticipateInRoom" xml:space="preserve">
+    <value>Вече участвате в активна маса</value>
+  </data>
+  <data name="RoomNoAvailableGameCopies" xml:space="preserve">
+    <value>Няма налични копия от тази игра.</value>
+  </data>
+  <data name="TenantSettingsAverageMaxCapacity" xml:space="preserve">
+    <value>Средният максимален капацитет на мястото трябва да е повече от нула.</value>
+  </data>
+  <data name="TenantSettingsChallengeRewardsCountForPeriod" xml:space="preserve">
+    <value>Броят на наградите за периода трябва да бъде между 4 и 8.</value>
+  </data>
+  <data name="TenantSettingsPeriodOfRewardReset" xml:space="preserve">
+    <value>Посоченият период за нулиране на наградите не е валидна стойност.</value>
+  </data>
+  <data name="TenantSettingsResetDayForRewards" xml:space="preserve">
+    <value>Посоченият ден за нулиране на наградите не е валидна стойност.</value>
+  </data>
+  <data name="TenantSettingsChallengeInitiationDelayHours" xml:space="preserve">
+    <value>Часовете за стартиране на предизвикателствата трябва да бъдат между 2 и 12.</value>
+  </data>
+  <data name="TenantSettingsReservationHours" xml:space="preserve">
+    <value>Часовете за резервация трябва да имат поне 3 стойности.</value>
+  </data>
+  <data name="TenantSettingsPhoneNumber" xml:space="preserve">
+    <value>Телефонният номер е задължителен.</value>
+  </data>
+  <data name="TenantSettingsClubName" xml:space="preserve">
+    <value>Името на клуба е задължително.</value>
+  </data>
+  <data name="UserSettingsLanguage" xml:space="preserve">
+    <value>Посочения език не е валидна стойност.</value>
+  </data>
+</root>
