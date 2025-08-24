@@ -23,10 +23,11 @@
           <img src="shared/assets/images/landing_item_1.png" />
         </div>
         <div class="item-info">
-          <p class="item-header">Club Game Management</p>
+          <p class="item-header">
+            {{ "landing.club_game_management_title" | translate }}
+          </p>
           <p class="item-sub-header">
-            Effortlessly organize your tables, games, and schedules in one
-            central place.
+            {{ "landing.club_game_management_desc" | translate }}
           </p>
         </div>
       </div>
@@ -35,10 +36,11 @@
           <img src="shared/assets/images/landing_item_2.png" />
         </div>
         <div class="item-info">
-          <p class="item-header">Challenge & Rewards System</p>
+          <p class="item-header">
+            {{ "landing.challenge_rewards_title" | translate }}
+          </p>
           <p class="item-sub-header">
-            Keep players coming back with engaging challenges and customizable
-            rewards.
+            {{ "landing.challenge_rewards_desc" | translate }}
           </p>
         </div>
       </div>
@@ -47,10 +49,11 @@
           <img src="shared/assets/images/landing_item_3.png" />
         </div>
         <div class="item-info">
-          <p class="item-header">Real-Time Activity Tracking</p>
+          <p class="item-header">
+            {{ "landing.activity_tracking_title" | translate }}
+          </p>
           <p class="item-sub-header">
-            Monitor game sessions and user participation with powerful tracking
-            tools.
+            {{ "landing.activity_tracking_desc" | translate }}
           </p>
         </div>
       </div>
@@ -59,10 +62,11 @@
           <img src="shared/assets/images/landing_item_4.png" />
         </div>
         <div class="item-info">
-          <p class="item-header">Event Management</p>
+          <p class="item-header">
+            {{ "landing.event_management_title" | translate }}
+          </p>
           <p class="item-sub-header">
-            Create, promote, and manage tournaments, weekly events, or private
-            bookings with ease.
+            {{ "landing.event_management_desc" | translate }}
           </p>
         </div>
       </div>
@@ -71,10 +75,11 @@
           <img src="shared/assets/images/landing_item_5.png" />
         </div>
         <div class="item-info">
-          <p class="item-header">Smart Reservation System</p>
+          <p class="item-header">
+            {{ "landing.reservation_system_title" | translate }}
+          </p>
           <p class="item-sub-header">
-            Simplify your booking process for tables, games, or events — all
-            from one dashboard.
+            {{ "landing.reservation_system_desc" | translate }}
           </p>
         </div>
       </div>
@@ -85,7 +90,7 @@
         type="button"
         class="btn btn-gray create-btn btn-font-blue"
       >
-        How it Works
+        {{ "landing.how_it_works" | translate }}
       </button>
     </div>
     <div class="btns-container">
@@ -94,7 +99,7 @@
         type="button"
         class="btn btn-gray create-btn btn-font-gray btn-border-blue"
       >
-        Login
+        {{ "landing.login" | translate }}
       </button>
 
       <button
@@ -102,56 +107,62 @@
         type="button"
         class="btn btn-blue create-btn btn-font-gray btn-border-blue"
       >
-        Register
+        {{ "landing.register" | translate }}
       </button>
     </div>
   </section>
 
   <div class="partner-container">
     <section class="partner-form">
-      <h2>Partner with Us</h2>
+      <h2>{{ "landing.partner_with_us_title" | translate }}</h2>
       <p class="partner-text">
-        Looking to modernize your entertainment space? Whether you run a board
-        game cafe, darts bar, billiards lounge, or a hybrid venue, DiceHub helps
-        you elevate the experience and grow your community.
+        {{ "landing.partner_with_us_text" | translate }}
       </p>
       <form [formGroup]="form" class="">
         <div class="input-field">
-          <label for="name" class="required">Name</label>
+          <label for="name" class="required">{{
+            "landing.form.labels.name" | translate
+          }}</label>
 
           <input
             formControlName="name"
             type="text"
-            placeholder="Name"
+            [placeholder]="'landing.form.placeholders.name' | translate"
             required
           />
         </div>
         <div class="input-field">
-          <label for="email" class="required">Email</label>
+          <label for="email" class="required">{{
+            "landing.form.labels.email" | translate
+          }}</label>
 
           <input
             formControlName="email"
             type="email"
-            placeholder="Email address"
+            [placeholder]="'landing.form.placeholders.email' | translate"
             required
           />
         </div>
         <div class="input-field">
-          <label for="phoneNumber" class="required">Phone Number</label>
+          <label for="phoneNumber" class="required">{{
+            "landing.form.labels.phone_number" | translate
+          }}</label>
 
           <input
             formControlName="phoneNumber"
             type="text"
-            placeholder="Phone number"
+            [placeholder]="'landing.form.placeholders.phone_number' | translate"
             required
           />
         </div>
         <div class="input-field">
-          <label for="message" class="required">Message</label>
+          <label for="message" class="required">{{
+            "landing.form.labels.message" | translate
+          }}</label>
 
           <textarea
             formControlName="message"
-            placeholder="Tell us about your venue or questions you have"
+            [placeholder]="'landing.form.placeholders.message' | translate"
             id="message"
             formControlName="message"
           ></textarea>
@@ -171,7 +182,7 @@
           type="button"
           class="submit btn btn-gray create-btn btn-font-gray btn-border-blue"
         >
-          Send
+          {{ "landing.form.send_btn" | translate }}
         </button>
       </form>
     </section>
@@ -193,20 +204,27 @@
         <button (click)="changeLang('EN')">EN</button>
         <button (click)="changeLang('BG')">BG</button>
       </div>
-      <button class="btn" (click)="onLogin()">Login</button>
-      <button class="btn" (click)="onRegister()">Register</button>
+      <button class="btn" (click)="onLogin()">
+        {{ "landing.login" | translate }}
+      </button>
+      <button class="btn" (click)="onRegister()">
+        {{ "landing.register" | translate }}
+      </button>
       <button class="btn instruction" (click)="onInstructions()">
-        How it Works
+        {{ "landing.how_it_works" | translate }}
       </button>
     </div>
   </header>
 
   <section class="headline">
-    <h1>Revolutionizing <br />Game-Driven Entertainment</h1>
+    <h1>
+      {{ "landing.revolutionizing" | translate }} <br />{{
+        "landing.game_driven_entertainment" | translate
+      }}
+    </h1>
     <br />
     <h3>
-      The all-in-one platform to streamline operations, boost engagement, and
-      grow your gaming-focused venue.
+      {{ "landing.info" | translate }}
     </h3>
   </section>
 
@@ -218,79 +236,89 @@
     <div class="feature">
       <img
         src="shared/assets/images/landing_item_1.png"
-        alt="Club Game Management"
+        [alt]="'landing.club_game_management_title' | translate"
       />
-      <span>Club Game Management</span>
+      <span>{{ "landing.club_game_management_title" | translate }}</span>
     </div>
     <div class="feature">
       <img
         src="shared/assets/images/landing_item_2.png"
-        alt="Challenge & Rewards System"
+        [alt]="'challenge_rewards_title' | translate"
       />
-      <span>Challenge & Rewards System</span>
+      <span>{{ "landing.challenge_rewards_title" | translate }}</span>
     </div>
     <div class="feature">
       <img
         src="shared/assets/images/landing_item_3.png"
-        alt="QR Code Game Tracking"
+        [alt]="'landing.qr_code_game_tracking_title' | translate"
       />
-      <span>QR Code Game Tracking</span>
+      <span>{{ "landing.qr_code_game_tracking_title" | translate }}</span>
     </div>
     <div class="feature">
       <img
         src="shared/assets/images/landing_item_4.png"
-        alt="Event Management"
+        [alt]="'landing.event_management_title' | translate"
       />
-      <span>Event Management</span>
+      <span>{{ "landing.event_management_title" | translate }}</span>
     </div>
     <div class="feature">
       <img
         src="shared/assets/images/landing_item_5.png"
-        alt="Smart Reservation System"
+        [alt]="'landing.reservation_system_title' | translate"
       />
-      <span>Smart Reservation System</span>
+      <span>{{ "landing.reservation_system_title" | translate }}</span>
     </div>
   </section>
-
   <section class="partner-form">
-    <h2>Partner with Us</h2>
+    <h2>{{ "landing.partner_with_us_title" | translate }}</h2>
     <p class="partner-text">
-      Looking to modernize your entertainment space? Whether you run a board
-      game cafe, darts bar, billiards lounge, or a hybrid venue, DiceHub helps
-      you elevate the experience and grow your community.
+      {{ "landing.partner_with_us_text" | translate }}
     </p>
     <form [formGroup]="form" class="partner-form">
       <div class="input-field">
-        <label for="name" class="required">Name</label>
+        <label for="name" class="required">{{
+          "landing.form.labels.name" | translate
+        }}</label>
 
-        <input formControlName="name" type="text" placeholder="Name" required />
+        <input
+          formControlName="name"
+          type="text"
+          [placeholder]="'landing.form.placeholders.name' | translate"
+          required
+        />
       </div>
       <div class="input-field">
-        <label for="email" class="required">Email</label>
+        <label for="email" class="required">{{
+          "landing.form.labels.email" | translate
+        }}</label>
 
         <input
           formControlName="email"
           type="email"
-          placeholder="Email address"
+          [placeholder]="'landing.form.placeholders.email' | translate"
           required
         />
       </div>
       <div class="input-field">
-        <label for="phoneNumber" class="required">Phone Number</label>
+        <label for="phoneNumber" class="required">{{
+          "landing.form.labels.phone_number" | translate
+        }}</label>
 
         <input
           formControlName="phoneNumber"
           type="text"
-          placeholder="Phone number"
+          [placeholder]="'landing.form.placeholders.phone_number' | translate"
           required
         />
       </div>
       <div class="input-field">
-        <label for="message" class="required">Message</label>
+        <label for="message" class="required">{{
+          "landing.form.labels.message" | translate
+        }}</label>
 
         <textarea
           formControlName="message"
-          placeholder="Tell us about your venue or questions you have"
+          [placeholder]="'landing.form.placeholders.message' | translate"
           id="message"
           formControlName="message"
         ></textarea>
@@ -303,9 +331,15 @@
       <button
         [disabled]="this.form.invalid"
         (click)="this.onSubmit()"
+        [ngClass]="{
+          'btn-border-green': this.form.valid,
+          'btn-font-green': this.form.valid,
+          'btn-border-red': this.form.invalid,
+          'btn-font-red': this.form.invalid
+        }"
         type="submit"
       >
-        Send
+        {{ "landing.form.send_btn" | translate }}
       </button>
     </form>
   </section>
