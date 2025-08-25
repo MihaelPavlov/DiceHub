@@ -1,7 +1,11 @@
 <div class="landing-mobile mobile-screen">
   <div class="language-switch-phone-screen">
-    <button (click)="changeLang('EN')">EN</button>
-    <button (click)="changeLang('BG')">BG</button>
+    <button (click)="changeLang('EN')">
+      {{ "languages_names_short.EN" | translate }}
+    </button>
+    <button (click)="changeLang('BG')">
+      {{ "languages_names_short.BG" | translate }}
+    </button>
   </div>
   <section class="landing-header">
     <img class="img-left" src="shared/assets/images/dicehub_logo_1.png" />
@@ -201,8 +205,12 @@
     </div>
     <div class="auth-buttons">
       <div class="language-switch-big-screen">
-        <button (click)="changeLang('EN')">EN</button>
-        <button (click)="changeLang('BG')">BG</button>
+        <button (click)="changeLang('EN')">
+          {{ "languages_names_short.EN" | translate }}
+        </button>
+        <button (click)="changeLang('BG')">
+          {{ "languages_names_short.BG" | translate }}
+        </button>
       </div>
       <button class="btn" (click)="onLogin()">
         {{ "landing.login" | translate }}

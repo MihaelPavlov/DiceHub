@@ -11,22 +11,26 @@
       </svg>
     </div>
   </div>
-  <span class="header">{{ this.clubName ?? "Club" }}</span>
+  <span class="header">{{ this.clubName ?? ("login.club" | translate) }}</span>
 
   <form [formGroup]="this.form" class="container">
     <div class="input-field">
-      <label for="email" class="required">Email</label>
+      <label for="email" class="required">{{
+        "login.labels.email" | translate
+      }}</label>
       <input
-        placeholder="email"
+        [placeholder]="'login.placeholders.email' | translate"
         type="text"
         autocomplete="email"
         formControlName="email"
       />
     </div>
     <div class="input-field password-field">
-      <label for="password" class="required">Password</label>
+      <label for="password" class="required">{{
+        "login.labels.password" | translate
+      }}</label>
       <input
-        placeholder="password"
+        [placeholder]="'login.placeholders.password' | translate"
         [type]="showPassword ? 'text' : 'password'"
         formControlName="password"
         autocomplete="current-password"
@@ -43,10 +47,12 @@
         formControlName="rememberMe"
       />
       <div class="remember-label">
-        <label for="rememberMe">Remember me</label>
-        <span class="markup" (click)="navigateToForgotPassword()"
-          >Lost your way?</span
-        >
+        <label for="rememberMe">{{
+          "login.labels.remember_me" | translate
+        }}</label>
+        <span class="markup" (click)="navigateToForgotPassword()">{{
+          "login.labels.lost_your_way" | translate
+        }}</span>
       </div>
     </div>
 
@@ -54,10 +60,10 @@
       {{ getFirstErrorMessage() }}
 
       <span *ngIf="showResend">
-        Or
-        <a class="resend" (click)="resendConfirmationEmail()"
-          >click here to resend</a
-        >
+        {{ "login.show_resend.or" | translate }}
+        <a class="resend" (click)="resendConfirmationEmail()">{{
+          "login.show_resend.click_to_resend" | translate
+        }}</a>
       </span>
     </div>
 
@@ -72,14 +78,16 @@
         (click)="onLogin()"
         class="btn btn-gray btn-border-blue btn-font-blue"
       >
-        Login
+        {{ "login.login_btn" | translate }}
       </button>
     </div>
     <div class="additional-link">
-      <p>Still a stranger to this realm?</p>
+      <p>{{ "login.no_account" | translate }}</p>
       <p>
-        <strong class="markup" (click)="navigateToRegister()">Sign up</strong>
-        and embark on your journey!
+        <strong class="markup" (click)="navigateToRegister()">{{
+          "login.sign_up" | translate
+        }}</strong>
+        {{ "login.enjoy_journey" | translate }}
       </p>
     </div>
   </form>

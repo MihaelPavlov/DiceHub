@@ -54,23 +54,27 @@ export class LoginComponent extends Form implements OnInit {
     super(toastService, translateService);
     this.route.queryParams.subscribe((params) => {
       if (params['fromRegister'] === 'true') {
-        this.getMessageFromRedirect =
-          'Registration successful! Please check your email to confirm your account.';
+        this.getMessageFromRedirect = this.translateService.instant(
+          'login.from_message.register'
+        );
       }
 
       if (params['fromForgotPassword'] === 'true') {
-        this.getMessageFromRedirect =
-          'Password reset email sent successfully! Please check your email.';
+        this.getMessageFromRedirect = this.translateService.instant(
+          'login.from_message.forgot_password'
+        );
       }
 
       if (params['fromResetPassword'] === 'true') {
-        this.getMessageFromRedirect =
-          'Password reset was successfully! Please use your new password to sign in.';
+        this.getMessageFromRedirect = this.translateService.instant(
+          'login.from_message.reset_password'
+        );
       }
 
       if (params['fromCreateEmployeePassword'] === 'true') {
-        this.getMessageFromRedirect =
-          'Welcome to the team! Password creation was successfully! Please use your new password to sign in.';
+        this.getMessageFromRedirect = this.translateService.instant(
+          'login.from_message.create_employee_password'
+        );
       }
     });
 
@@ -110,9 +114,13 @@ export class LoginComponent extends Form implements OnInit {
   protected override getControlDisplayName(controlName: string): string {
     switch (controlName) {
       case 'email':
-        return 'Email';
+        return this.translateService.instant(
+          'login.control_display_names.email'
+        );
       case 'password':
-        return 'Password';
+        return this.translateService.instant(
+          'login.control_display_names.password'
+        );
       default:
         return controlName;
     }
@@ -126,21 +134,27 @@ export class LoginComponent extends Form implements OnInit {
           next: (isSuccessfully) => {
             if (isSuccessfully && isSuccessfully === true) {
               this.toastService.success({
-                message: 'Confirmation email sent successfully!',
+                message: this.translateService.instant(
+                  'login.toast_messages.resend_successfully'
+                ),
                 type: ToastType.Success,
               });
               this.clearServerErrorMessage();
               this.showResend = false;
             } else {
               this.toastService.error({
-                message: 'Failed to send confirmation email.',
+                message: this.translateService.instant(
+                  'login.toast_messages.resend_not_successfully'
+                ),
                 type: ToastType.Error,
               });
             }
           },
           error: () => {
             this.toastService.error({
-              message: 'Failed to send confirmation email.',
+              message: this.translateService.instant(
+                'login.toast_messages.resend_not_successfully'
+              ),
               type: ToastType.Error,
             });
           },
@@ -192,11 +206,7 @@ export class LoginComponent extends Form implements OnInit {
           error: (error) => {
             this.frontEndLogService
               .sendWarning(error.message, error.stack)
-              .subscribe({
-                next: (response) => {
-                  console.log('Error logged successfully:', response);
-                },
-              });
+              .subscribe();
             if (error.error.errors.Email)
               this.getServerErrorMessage = error.error.errors.Email[0];
             if (error.error.errors.EmailNotConfirmed) {
