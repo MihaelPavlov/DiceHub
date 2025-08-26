@@ -15,6 +15,8 @@ import { ROUTE } from '../../../shared/configs/route.config';
 import { AppToastMessage } from '../../../shared/components/toast/constants/app-toast-messages.constant';
 import { TenantSettingsService } from '../../../entities/common/api/tenant-settings.service';
 import { TranslateService } from '@ngx-translate/core';
+import { LanguageService } from '../../../shared/services/language.service';
+import { SupportLanguages } from '../../../entities/common/models/support-languages.enum';
 
 interface IResetPasswordForm {
   newPassword: string;
@@ -42,7 +44,8 @@ export class ResetPasswordComponent extends Form implements OnInit {
     public override readonly toastService: ToastService,
     private readonly fb: FormBuilder,
     private readonly tenantSettingsService: TenantSettingsService,
-    public override translateService: TranslateService
+    public override translateService: TranslateService,
+    private readonly languageService: LanguageService
   ) {
     super(toastService, translateService);
     this.form = this.initFormGroup();
@@ -63,6 +66,10 @@ export class ResetPasswordComponent extends Form implements OnInit {
         this.clubName = clubName;
       },
     });
+  }
+
+  public changeLang(lang: string) {
+    this.languageService.setLanguage(lang as SupportLanguages);
   }
 
   public toggleNewPasswordVisibility(): void {
@@ -86,7 +93,9 @@ export class ResetPasswordComponent extends Form implements OnInit {
           next: () => {
             this.toastService.success({
               type: ToastType.Success,
-              message: 'Password reset was successfully!',
+              message: this.translateService.instant(
+                'reset_password.reset_was_successfully'
+              ),
             });
             setTimeout(() => {
               this.router.navigate([ROUTE.LOGIN], {
@@ -100,7 +109,9 @@ export class ResetPasswordComponent extends Form implements OnInit {
 
             this.toastService.error({
               type: ToastType.Error,
-              message: 'Password reset was unsuccessfully!',
+              message: this.translateService.instant(
+                'reset_password.reset_was_unsuccessfully'
+              ),
             });
           },
         });
@@ -115,9 +126,13 @@ export class ResetPasswordComponent extends Form implements OnInit {
   protected override getControlDisplayName(controlName: string): string {
     switch (controlName) {
       case 'newPassword':
-        return 'New Password';
+        return this.translateService.instant(
+          'reset_password.control_display_names.new_password'
+        );
       case 'confirmPassword':
-        return 'Confirm Password';
+        return this.translateService.instant(
+          'reset_password.control_display_names.confirm_password'
+        );
       default:
         return controlName;
     }

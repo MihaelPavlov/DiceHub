@@ -8,21 +8,35 @@
       </svg>
     </div>
   </div>
-  <span class="header">{{this.clubName ?? "Club"}}</span>
+  <span class="header">{{ this.clubName ?? ("club" | translate) }}</span>
 
   <form [formGroup]="this.form" class="container">
     <div class="input-field">
-      <label for="username" class="required">Username</label>
-      <input placeholder="username" type="text" formControlName="username" />
+      <label for="username" class="required">{{
+        "register.labels.username" | translate
+      }}</label>
+      <input
+        [placeholder]="'register.placeholders.username' | translate"
+        type="text"
+        formControlName="username"
+      />
     </div>
     <div class="input-field">
-      <label for="email" class="required">Email</label>
-      <input placeholder="email.." type="text" formControlName="email" />
+      <label for="email" class="required">{{
+        "register.labels.email" | translate
+      }}</label>
+      <input
+        [placeholder]="'register.placeholders.email' | translate"
+        type="text"
+        formControlName="email"
+      />
     </div>
     <div class="input-field password-field">
-      <label for="password" class="required">Password</label>
+      <label for="password" class="required">{{
+        "register.labels.password" | translate
+      }}</label>
       <input
-        placeholder="password"
+        [placeholder]="'register.placeholders.password' | translate"
         [type]="showPassword ? 'text' : 'password'"
         formControlName="password"
       />
@@ -31,9 +45,11 @@
       ></app-password-visibility-toggle>
     </div>
     <div class="input-field password-field">
-      <label for="confirmPassword" class="required">Confirm Password</label>
+      <label for="confirmPassword" class="required">{{
+        "register.labels.confirm_password" | translate
+      }}</label>
       <input
-        placeholder="confirm your password"
+        [placeholder]="'register.placeholders.confirm_password' | translate"
         [type]="showConfirmPassword ? 'text' : 'password'"
         formControlName="confirmPassword"
       />
@@ -45,9 +61,9 @@
     <div *ngIf="getFirstErrorMessage()" class="errors">
       {{ getFirstErrorMessage() }}
       <span *ngIf="showResend">
-        <a class="resend" (click)="resendConfirmationEmail()"
-          >click here to resend</a
-        >
+        <a class="resend" (click)="resendConfirmationEmail()">{{
+          "register.click_to_resend" | translate
+        }}</a>
       </span>
     </div>
 
@@ -58,14 +74,16 @@
         type="button"
         class="btn btn-gray btn-border-blue btn-font-blue"
       >
-        Register
+        {{ "register.register_btn" | translate }}
       </button>
     </div>
     <div class="additional-link">
-      <p>You're already part of the guild!</p>
+      <p>{{ "register.you_have_registration" | translate }}</p>
       <p>
-        <strong class="markup" (click)="navigateToLogin()">Sign in</strong> to
-        jump back into the action!
+        <strong class="markup" (click)="navigateToLogin()">{{
+          "register.sign_in_1" | translate
+        }}</strong>
+        {{ "register.sign_in_2" | translate }}
       </p>
     </div>
   </form>

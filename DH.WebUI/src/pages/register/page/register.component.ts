@@ -122,12 +122,13 @@ export class RegisterComponent extends Form implements OnInit {
                 response.isRegistrationSuccessfully === true
               ) {
                 this.toastService.success({
-                  message:
-                    'Registration successful! Please check your email to confirm your account.',
+                  message: this.translateService.instant(
+                    'register.successfully_message'
+                  ),
                   type: ToastType.Success,
                 });
                 setTimeout(() => {
-                  this.router.navigate(['/login'], {
+                  this.router.navigate([ROUTE.LOGIN], {
                     queryParams: { fromRegister: 'true' },
                   });
                 }, 5000);
@@ -137,16 +138,20 @@ export class RegisterComponent extends Form implements OnInit {
                 response.isEmailConfirmationSendedSuccessfully === false
               ) {
                 this.toastService.success({
-                  message: `Registration successful, but we couldn't send the confirmation email. 
-                    Please try resending it or contact support.`,
+                  message: this.translateService.instant(
+                    'register.successfully_with_email_failed'
+                  ),
                   type: ToastType.Success,
                 });
-                this.getServerErrorMessage = `We couldn't send the confirmation email. 
-                    Please try resending it or contact support.`;
-                this.showResend = true;
+                (this.getServerErrorMessage = this.translateService.instant(
+                  'register.register_error_message'
+                )),
+                  (this.showResend = true);
               } else {
                 this.toastService.error({
-                  message: 'Registration failed. Please try again.',
+                  message: this.translateService.instant(
+                    'register.registration_failed'
+                  ),
                   type: ToastType.Error,
                 });
               }
@@ -164,7 +169,9 @@ export class RegisterComponent extends Form implements OnInit {
           .sendError(error.message, 'On Register Page')
           .subscribe();
         this.toastService.error({
-          message: AppToastMessage.SomethingWrong,
+          message: this.translateService.instant(
+            AppToastMessage.SomethingWrong
+          ),
           type: ToastType.Error,
         });
       }
@@ -179,25 +186,31 @@ export class RegisterComponent extends Form implements OnInit {
           next: (isSuccessfully) => {
             if (isSuccessfully && isSuccessfully === true) {
               this.toastService.success({
-                message: 'Confirmation email sent successfully!',
+                message: this.translateService.instant(
+                  'register.confirmation_email_sent'
+                ),
                 type: ToastType.Success,
               });
               this.clearServerErrorMessage();
               setTimeout(() => {
-                this.router.navigate(['/login'], {
+                this.router.navigate([ROUTE.LOGIN], {
                   queryParams: { fromRegister: 'true' },
                 });
               }, 4000);
             } else {
               this.toastService.error({
-                message: 'Failed to send confirmation email.',
+                message: this.translateService.instant(
+                  'register.failed_email_send'
+                ),
                 type: ToastType.Error,
               });
             }
           },
           error: () => {
             this.toastService.error({
-              message: 'Failed to send confirmation email.',
+              message: this.translateService.instant(
+                'register.failed_email_send'
+              ),
               type: ToastType.Error,
             });
           },
@@ -212,7 +225,7 @@ export class RegisterComponent extends Form implements OnInit {
     }
 
     this.toastService.error({
-      message: AppToastMessage.SomethingWrong,
+      message: this.translateService.instant(AppToastMessage.SomethingWrong),
       type: ToastType.Error,
     });
   }
@@ -220,13 +233,21 @@ export class RegisterComponent extends Form implements OnInit {
   protected override getControlDisplayName(controlName: string): string {
     switch (controlName) {
       case 'email':
-        return 'Email';
+        return this.translateService.instant(
+          'register.control_display_names.email'
+        );
       case 'password':
-        return 'Password';
+        return this.translateService.instant(
+          'register.control_display_names.password'
+        );
       case 'username':
-        return 'Username';
+        return this.translateService.instant(
+          'register.control_display_names.username'
+        );
       case 'confirmPassword':
-        return 'Confirm Password';
+        return this.translateService.instant(
+          'register.control_display_names.confirm_password'
+        );
       default:
         return controlName;
     }

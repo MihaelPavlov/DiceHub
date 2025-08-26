@@ -216,7 +216,9 @@ export class LoginComponent extends Form implements OnInit {
             }
 
             this.toastService.error({
-              message: AppToastMessage.SomethingWrong,
+              message: this.translateService.instant(
+                AppToastMessage.SomethingWrong
+              ),
               type: ToastType.Error,
             });
 
