@@ -36,6 +36,7 @@ import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { registerLocaleData } from '@angular/common';
 import localeBg from '@angular/common/locales/bg';
 import localeEn from '@angular/common/locales/en';
+import { LanguageSwitchModule } from '../shared/components/language-switch/language-switch.module';
 
 export function initializeUserFactory(authService: AuthService): () => void {
   return () => authService.userinfo$();
@@ -98,6 +99,7 @@ registerLocaleData(localeEn, 'en');
     LoadingIndicatorComponent,
     FirebaseModule,
     ScrollToTopModule,
+    LanguageSwitchModule,
   ],
 })
 export class AppModule {}

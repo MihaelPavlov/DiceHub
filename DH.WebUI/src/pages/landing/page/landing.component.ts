@@ -15,8 +15,6 @@ import { ToastType } from '../../../shared/models/toast.model';
 import { AppToastMessage } from '../../../shared/components/toast/constants/app-toast-messages.constant';
 import { NavigationService } from '../../../shared/services/navigation-service';
 import { TranslateService } from '@ngx-translate/core';
-import { SupportLanguages } from '../../../entities/common/models/support-languages.enum';
-import { LanguageService } from '../../../shared/services/language.service';
 
 interface IPartnerInquiryForm {
   name: string;
@@ -39,8 +37,7 @@ export class LandingComponent extends Form {
     private readonly partnerInquiriesService: PartnerInquiriesService,
     public override readonly toastService: ToastService,
     private readonly navigationService: NavigationService,
-    public override translateService: TranslateService,
-    private readonly languageService: LanguageService
+    public override translateService: TranslateService
   ) {
     super(toastService, translateService);
 
@@ -50,10 +47,6 @@ export class LandingComponent extends Form {
         this.clearServerErrorMessage();
       }
     });
-  }
-
-  public changeLang(lang: string) {
-    this.languageService.setLanguage(lang as SupportLanguages);
   }
 
   private clearServerErrorMessage() {
@@ -110,7 +103,7 @@ export class LandingComponent extends Form {
       case 'phoneNumber':
         return 'Phone Number';
       default:
-        return controlName
+        return controlName;
     }
   }
   private initFormGroup(): FormGroup {

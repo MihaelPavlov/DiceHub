@@ -15,8 +15,6 @@ import { ROUTE } from '../../../shared/configs/route.config';
 import { AppToastMessage } from '../../../shared/components/toast/constants/app-toast-messages.constant';
 import { TenantSettingsService } from '../../../entities/common/api/tenant-settings.service';
 import { TranslateService } from '@ngx-translate/core';
-import { LanguageService } from '../../../shared/services/language.service';
-import { SupportLanguages } from '../../../entities/common/models/support-languages.enum';
 
 interface IResetPasswordForm {
   newPassword: string;
@@ -45,7 +43,6 @@ export class ResetPasswordComponent extends Form implements OnInit {
     private readonly fb: FormBuilder,
     private readonly tenantSettingsService: TenantSettingsService,
     public override translateService: TranslateService,
-    private readonly languageService: LanguageService
   ) {
     super(toastService, translateService);
     this.form = this.initFormGroup();
@@ -66,10 +63,6 @@ export class ResetPasswordComponent extends Form implements OnInit {
         this.clubName = clubName;
       },
     });
-  }
-
-  public changeLang(lang: string) {
-    this.languageService.setLanguage(lang as SupportLanguages);
   }
 
   public toggleNewPasswordVisibility(): void {

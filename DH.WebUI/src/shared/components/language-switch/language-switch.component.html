@@ -1,0 +1,12 @@
+<div class="language-switch-screen">
+  <button 
+    [class.active]="isActive('EN')" 
+    (click)="changeLang('EN')">
+    {{ "languages_names_short.EN" | translate }}
+  </button>
+  <button 
+    [class.active]="isActive('BG')" 
+    (click)="changeLang('BG')">
+    {{ "languages_names_short.BG" | translate }}
+  </button>
+</div>

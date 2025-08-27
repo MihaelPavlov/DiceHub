@@ -7,6 +7,7 @@ import { InstructionLinksComponent } from '../../features/instruction-management
 import { InstructionComponent } from '../../features/instruction-management/components/instruction/instruction.component';
 import { LandingComponent } from '../landing/page/landing.component';
 import { LinkInfoComponent } from '../../features/instruction-management/components/link-info/link-info.component';
+import { LanguageSwitchModule } from '../../shared/components/language-switch/language-switch.module';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,11 @@ import { LinkInfoComponent } from '../../features/instruction-management/compone
   ],
   exports: [],
   providers: [],
-  imports: [SharedModule, InstructionManagementRoutingModule, HeaderModule],
+  imports: [
+    SharedModule,
+    InstructionManagementRoutingModule,
+    HeaderModule,
+    LanguageSwitchModule,
+  ],
 })
 export class InstructionManagementModule {}
