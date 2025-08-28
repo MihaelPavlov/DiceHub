@@ -3,6 +3,7 @@ using DH.Domain.Adapters.Authentication.Services;
 using DH.Domain.Adapters.Email;
 using DH.Domain.Adapters.EmailSender;
 using DH.Domain.Entities;
+using DH.Domain.Enums;
 using DH.Domain.Services;
 using DH.Domain.Services.TenantSettingsService;
 using MediatR;
@@ -12,7 +13,7 @@ using System.Net;
 
 namespace DH.Application.Emails.Commands;
 
-public record SendRegistrationEmailConfirmationCommand(string? ByUserId, string? ByEmail) : IRequest<bool>;
+public record SendRegistrationEmailConfirmationCommand(string? ByUserId, string? ByEmail, string? Language) : IRequest<bool>;
 
 internal class SendRegistrationEmailConfirmationCommandHandler(
     ILogger<SendRegistrationEmailConfirmationCommandHandler> logger,
@@ -73,7 +74,7 @@ internal class SendRegistrationEmailConfirmationCommandHandler(
         var token = await this.userService.GenerateEmailConfirmationTokenAsync(user.Id);
         var encodedToken = WebUtility.UrlEncode(token);
         var frontendUrl = configuration.GetSection("Frontend_URL").Value;
-        var callbackUrl = $"{frontendUrl}/confirm-email?email={WebUtility.UrlEncode(user.Email)}&token={encodedToken}";
+        var callbackUrl = $"{frontendUrl}/confirm-email?email={WebUtility.UrlEncode(user.Email)}&token={encodedToken}&language={request.Language ?? SupportLanguages.EN.ToString()}";
 
         var body = this.emailHelperService.LoadTemplate(emailTemplate.TemplateHtml, new Dictionary<string, string>
         {

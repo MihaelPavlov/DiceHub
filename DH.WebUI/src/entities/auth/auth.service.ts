@@ -54,10 +54,11 @@ export class AuthService {
   }
 
   public sendEmailConfirmationRequest(
-    email: string
+    email: string,
+    language:string,
   ): Observable<boolean | null> {
     return this.api.post<boolean>(
-      `/api/user/send-email-confirmation-request/${email}`,
+      `/api/user/send-email-confirmation-request/${email}/${language}`,
       {}
     );
   }

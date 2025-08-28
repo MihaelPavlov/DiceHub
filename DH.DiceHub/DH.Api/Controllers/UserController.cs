@@ -60,17 +60,17 @@ public class UserController : ControllerBase
 
         var isEmailSendedSuccessfully = false;
         if (response.IsRegistrationSuccessfully)
-            isEmailSendedSuccessfully = await this.mediator.Send(new SendRegistrationEmailConfirmationCommand(ByUserId: response.UserId, null), cancellationToken);
+            isEmailSendedSuccessfully = await this.mediator.Send(new SendRegistrationEmailConfirmationCommand(ByUserId: response.UserId, null, form.Language), cancellationToken);
 
         response.IsEmailConfirmationSendedSuccessfully = isEmailSendedSuccessfully;
         return this.Ok(response);
     }
 
     [AllowAnonymous]
-    [HttpPost("send-email-confirmation-request/{email}")]
-    public async Task<IActionResult> SendEmailConfirmationRequest(string email, CancellationToken cancellationToken)
+    [HttpPost("send-email-confirmation-request/{email}/{language}")]
+    public async Task<IActionResult> SendEmailConfirmationRequest(string email, string language, CancellationToken cancellationToken)
     {
-        var isSuccessfully = await this.mediator.Send(new SendRegistrationEmailConfirmationCommand(null, ByEmail: email), cancellationToken);
+        var isSuccessfully = await this.mediator.Send(new SendRegistrationEmailConfirmationCommand(null, ByEmail: email, language), cancellationToken);
         return this.Ok(isSuccessfully);
     }
 

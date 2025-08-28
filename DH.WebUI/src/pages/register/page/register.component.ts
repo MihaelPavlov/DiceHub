@@ -19,6 +19,7 @@ import { TenantSettingsService } from '../../../entities/common/api/tenant-setti
 import { LoadingService } from '../../../shared/services/loading.service';
 import { LoadingInterceptorContextService } from '../../../shared/services/loading-context.service';
 import { TranslateService } from '@ngx-translate/core';
+import { LanguageService } from '../../../shared/services/language.service';
 
 interface IRegisterForm {
   username: string;
@@ -50,7 +51,8 @@ export class RegisterComponent extends Form implements OnInit {
     private readonly tenantSettingsService: TenantSettingsService,
     private readonly frontEndLogService: FrontEndLogService,
     private readonly loadingContext: LoadingInterceptorContextService,
-    public override translateService: TranslateService
+    public override translateService: TranslateService,
+    private readonly languageService: LanguageService
   ) {
     super(toastService, translateService);
     this.form = this.initFormGroup();
@@ -113,6 +115,7 @@ export class RegisterComponent extends Form implements OnInit {
             password: this.form.controls.password.value,
             confirmPassword: this.form.controls.confirmPassword.value,
             deviceToken: deviceToken,
+            language: this.languageService.getCurrentLanguage(),
           })
           .subscribe({
             next: (response) => {
@@ -181,7 +184,10 @@ export class RegisterComponent extends Form implements OnInit {
   public resendConfirmationEmail(): void {
     if (this.form.controls.email.valid)
       this.authService
-        .sendEmailConfirmationRequest(this.form.controls.email.value)
+        .sendEmailConfirmationRequest(
+          this.form.controls.email.value,
+          this.languageService.getCurrentLanguage()
+        )
         .subscribe({
           next: (isSuccessfully) => {
             if (isSuccessfully && isSuccessfully === true) {

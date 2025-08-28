@@ -9,15 +9,15 @@
       </svg>
     </div>
   </div>
-  <span class="header">{{ this.clubName ?? "Club" }}</span>
+  <span class="header">{{ this.clubName ?? ("club" | translate) }}</span>
 
   <div class="confirmation-container">
-    <div *ngIf="message === 'Confirming...'" class="spinner-wrapper">
-      <p>Confirming your email, please wait...</p>
+    <div *ngIf="message === confirming" class="spinner-wrapper">
+      <p>{{ "confirm_email.confirming_email_please_wait" | translate }}</p>
     </div>
 
     <div
-      *ngIf="message !== 'Confirming...'"
+      *ngIf="message !== confirming"
       [ngClass]="{ success: isSuccess, error: !isSuccess }"
     >
       <h2 [innerHTML]="message"></h2>
@@ -25,14 +25,14 @@
         *ngIf="!this.isSuccess"
         class="resend-link"
         (click)="resendConfirmationEmail()"
-        >Resend email from here</a
+        >{{ "confirm_email.resend_email" | translate }}</a
       >
       <button
         *ngIf="isSuccess"
         class="fallback-btn"
         (click)="navigateToLogin()"
       >
-        Click here if you are not redirected automatically
+        {{ "confirm_email.click_if_not_redirected" | translate }}
       </button>
     </div>
   </div>

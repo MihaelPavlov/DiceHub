@@ -19,6 +19,7 @@ import { TenantSettingsService } from '../../../entities/common/api/tenant-setti
 import { LoadingService } from '../../../shared/services/loading.service';
 import { LoadingInterceptorContextService } from '../../../shared/services/loading-context.service';
 import { TranslateService } from '@ngx-translate/core';
+import { LanguageService } from '../../../shared/services/language.service';
 
 interface ILoginForm {
   email: string;
@@ -49,7 +50,8 @@ export class LoginComponent extends Form implements OnInit {
     private readonly loadingService: LoadingService,
     private readonly frontEndLogService: FrontEndLogService,
     private readonly loadingContext: LoadingInterceptorContextService,
-    public override translateService: TranslateService
+    public override translateService: TranslateService,
+    private readonly languageService: LanguageService
   ) {
     super(toastService, translateService);
     this.route.queryParams.subscribe((params) => {
@@ -129,7 +131,10 @@ export class LoginComponent extends Form implements OnInit {
   public resendConfirmationEmail(): void {
     if (this.form.controls.email.valid)
       this.authService
-        .sendEmailConfirmationRequest(this.form.controls.email.value)
+        .sendEmailConfirmationRequest(
+          this.form.controls.email.value,
+          this.languageService.getCurrentLanguage()
+        )
         .subscribe({
           next: (isSuccessfully) => {
             if (isSuccessfully && isSuccessfully === true) {
