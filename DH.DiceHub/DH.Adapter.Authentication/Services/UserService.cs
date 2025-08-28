@@ -36,6 +36,7 @@ public class UserService : IUserService
     readonly IUserContext userContext;
     readonly ILogger<UserService> logger;
     readonly IRepository<TenantSetting> tenantSettingsRepository;
+    readonly IRepository<TenantUserSetting> tenantUserSettingRepository;
     readonly ILocalizationService localizer;
 
     /// <summary>
@@ -45,7 +46,7 @@ public class UserService : IUserService
         SignInManager<ApplicationUser> signInManager, IJwtService jwtService,
         UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager,
         IPermissionStringBuilder permissionStringBuilder, SynchronizeUsersChallengesQueue queue, IRepository<UserDeviceToken> userDeviceTokenRepository,
-        IUserContext userContext, ILogger<UserService> logger, IRepository<TenantSetting> tenantSettingsRepository, ILocalizationService localizer)
+        IUserContext userContext, ILogger<UserService> logger, IRepository<TenantSetting> tenantSettingsRepository, IRepository<TenantUserSetting> tenantUserSettingRepository, ILocalizationService localizer)
     {
         _httpContextAccessor = httpContextAccessor;
         this.signInManager = signInManager;
@@ -58,6 +59,7 @@ public class UserService : IUserService
         this.userContext = userContext;
         this.logger = logger;
         this.tenantSettingsRepository = tenantSettingsRepository;
+        this.tenantUserSettingRepository = tenantUserSettingRepository;
         this.localizer = localizer;
     }
 
@@ -128,7 +130,6 @@ public class UserService : IUserService
             throw new BadRequestException(this.localizer["UserRegistrationFailed"]);
         }
 
-
         await this.userManager.AddToRoleAsync(user, Role.User.ToString());
 
         user = await this.userManager.FindByEmailAsync(form.Email);
@@ -146,6 +147,12 @@ public class UserService : IUserService
                 UserId = user.Id
             }, CancellationToken.None);
         }
+
+        await this.tenantUserSettingRepository.AddAsync(new TenantUserSetting
+        {
+            UserId = user.Id,
+            Language = form.Language ?? SupportLanguages.EN.ToString(),
+        }, CancellationToken.None);
 
         return new UserRegistrationResponse
         {
