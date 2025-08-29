@@ -33,6 +33,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { LoadingInterceptorContextService } from '../../../shared/services/loading-context.service';
 import { LoadingService } from '../../../shared/services/loading.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-challenges-management',
@@ -66,12 +67,16 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
   public columns: Column[] = [
     // TODO: Update the word weekly based on the settings. Weekly rewards could be monthly
     {
-      name: 'Weekly',
+      name: this.translateService.instant(
+        'challenge_management.columns.weekly'
+      ),
       link: FULL_ROUTE.CHALLENGES.CHALLENGES_HOME,
       isActive: true,
     },
     {
-      name: 'Rewards',
+      name: this.translateService.instant(
+        'challenge_management.columns.rewards'
+      ),
       link: FULL_ROUTE.CHALLENGES.CHALLENGES_REWARDS,
       isActive: false,
     },
@@ -92,7 +97,8 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
     private renderer: Renderer2,
     private readonly dialog: MatDialog,
     private readonly loadingContext: LoadingInterceptorContextService,
-    private readonly loadingService: LoadingService
+    private readonly loadingService: LoadingService,
+    private readonly translateService: TranslateService
   ) {}
 
   public ngOnDestroy(): void {

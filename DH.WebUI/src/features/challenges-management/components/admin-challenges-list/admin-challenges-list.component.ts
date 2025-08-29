@@ -32,7 +32,6 @@ interface IChallengeForm {
   rewardPoints: number;
   attempts: number;
   type: number;
-  description: string;
 }
 
 @Component({
@@ -65,7 +64,6 @@ export class AdminChallengesListComponent extends Form {
     public override translateService: TranslateService
   ) {
     super(toastService, translateService);
-
     this.fetchGameList();
     this.fetchChallengeList();
 
@@ -121,7 +119,6 @@ export class AdminChallengesListComponent extends Form {
     this.challengesService.getById(id).subscribe({
       next: (challenge: IChallengeResult) => {
         this.form.patchValue({
-          description: challenge.description,
           selectedGame: challenge.gameId,
           attempts: challenge.attempts,
           rewardPoints: challenge.rewardPoints,
@@ -143,7 +140,6 @@ export class AdminChallengesListComponent extends Form {
         .add({
           gameId: this.form.controls.selectedGame.value,
           rewardPoints: this.form.controls.rewardPoints.value,
-          description: this.form.controls.description.value,
           attempts: this.form.controls.attempts.value,
           type: this.form.controls.type.value,
         })
@@ -175,7 +171,6 @@ export class AdminChallengesListComponent extends Form {
           id: this.editChallengeId,
           gameId: this.form.controls.selectedGame.value,
           rewardPoints: this.form.controls.rewardPoints.value,
-          description: this.form.controls.description.value,
           attempts: this.form.controls.attempts.value,
           type: this.form.controls.type.value,
         })
@@ -217,8 +212,6 @@ export class AdminChallengesListComponent extends Form {
     switch (controlName) {
       case 'selectedGame':
         return 'Game';
-      case 'description':
-        return 'Description';
       case 'attempts':
         return 'Attempts';
       case 'rewardPoints':
@@ -247,11 +240,6 @@ export class AdminChallengesListComponent extends Form {
       rewardPoints: new FormControl<number>(0, [Validators.required]),
       attempts: new FormControl<number>(0, [Validators.required]),
       type: new FormControl<number | null>(null, [Validators.required]),
-      description: new FormControl<string>('', [
-        Validators.required,
-        Validators.minLength(5),
-        Validators.maxLength(50),
-      ]),
     });
   }
 }

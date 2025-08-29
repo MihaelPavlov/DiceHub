@@ -1,10 +1,13 @@
-<app-header header="Challenges" [withQRcode]="true">
+<app-header
+  [header]="'challenge_management.challenges_header' | translate"
+  [withQRcode]="true"
+>
   <app-nav-bar [columns]="columns"></app-nav-bar
 ></app-header>
 <ng-container *ngIf="!periodPerformance">
   <span class="no-period">
-    Your challenges are being generated.<br />
-    Please check back in a few minutes!
+    {{ "challenge_management.challenge_are_being_generated" | translate }}<br />
+    {{ "challenge_management.check_back" | translate }}
   </span></ng-container
 >
 <!-- Auto Period -->
@@ -18,7 +21,10 @@
   <div class="wrapper_stats">
     <div class="wrapper_score">
       <p class="score" *ngIf="this.periodPerformance">
-        Score: {{ this.periodPerformance.points }}
+        {{
+          "challenge_management.score"
+            | translate : { points: this.periodPerformance.points }
+        }}
       </p>
       <p class="dates">
         <span>{{ this.periodPerformance.startDate | date : DATE_FORMAT }}</span>
@@ -167,8 +173,10 @@
         </div>
         <div class="info">
           <span class="header">
-            Play <strong>{{ challenge.gameName }}</strong>
-            {{ challenge.maxAttempts }} times
+            {{ "challenge_management.play" | translate }}
+            <strong>{{ challenge.gameName }}</strong>
+            {{ challenge.maxAttempts }}
+            {{ "challenge_management.times" | translate }}
           </span>
           <div class="bar-2">
             <span class="bar-2-span"
@@ -349,8 +357,10 @@
         </div>
         <div class="info">
           <span class="header">
-            Play <strong>{{ challenge.gameName }}</strong>
-            {{ challenge.challengeAttempts }} times
+            {{ "challenge_management.play" | translate }}
+            <strong>{{ challenge.gameName }}</strong>
+            {{ challenge.challengeAttempts }}
+            {{ "challenge_management.times" | translate }}
           </span>
           <div class="bar-2">
             <span class="bar-2-span"

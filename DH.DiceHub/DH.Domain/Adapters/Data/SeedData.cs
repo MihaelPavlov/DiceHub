@@ -650,58 +650,364 @@ public static class SeedData
     };
 
 
-    public static readonly List<CreateChallengeDto> CHALLENGE_LIST_DTOS = new List<CreateChallengeDto>
+    public static readonly List<CreateChallengeDto> CHALLENGE_LIST_DTOS = new()
     {
-        new CreateChallengeDto { Description = "Win 3 games in a row without losing your mind!", RewardPoints = ChallengeRewardPoint.Five, Attempts = 1, Type = ChallengeType.Weekly, GameId = 1 },
-        new CreateChallengeDto { Description = "Try a new board game and pretend you're an expert!", RewardPoints = ChallengeRewardPoint.Ten, Attempts = 2, Type = ChallengeType.Weekly, GameId = 2 },
-        new CreateChallengeDto { Description = "Play with at least 4 different players—make new friends or annoy old ones!", RewardPoints = ChallengeRewardPoint.Fifteen, Attempts = 3, Type = ChallengeType.Weekly, GameId = 3 },
-        new CreateChallengeDto { Description = "Win the game night tournament and brag about it for a month!", RewardPoints = ChallengeRewardPoint.Twenty, Attempts = 4, Type = ChallengeType.Weekly, GameId = 4 },
-        new CreateChallengeDto { Description = "Complete 5 challenges this month—sounds easy, right?", RewardPoints = ChallengeRewardPoint.Five, Attempts = 1, Type = ChallengeType.Weekly, GameId = 5 },
-        new CreateChallengeDto { Description = "Share your favorite game strategy and make everyone roll their eyes!", RewardPoints = ChallengeRewardPoint.Ten, Attempts = 2, Type = ChallengeType.Weekly, GameId = 1 },
-        new CreateChallengeDto { Description = "Organize a game night and make sure snacks are the real MVP!", RewardPoints = ChallengeRewardPoint.Fifteen, Attempts = 3, Type = ChallengeType.Weekly, GameId = 2 },
-        new CreateChallengeDto { Description = "Attend a board game club event this week—free snacks included!", RewardPoints = ChallengeRewardPoint.Twenty, Attempts = 4, Type = ChallengeType.Weekly, GameId = 3 },
-        new CreateChallengeDto { Description = "Win a game with a score difference of 20 points or more—easy peasy!", RewardPoints = ChallengeRewardPoint.Five, Attempts = 1, Type = ChallengeType.Weekly, GameId = 4 },
-        new CreateChallengeDto { Description = "Teach someone how to play, and act like a game guru!", RewardPoints = ChallengeRewardPoint.Ten, Attempts = 2, Type = ChallengeType.Weekly, GameId = 5 },
-        new CreateChallengeDto { Description = "Play 3 different games this week—variety is the spice of life!", RewardPoints = ChallengeRewardPoint.Fifteen, Attempts = 3, Type = ChallengeType.Weekly, GameId = 1 },
-        new CreateChallengeDto { Description = "Create a unique game night theme—mandatory costumes encouraged!", RewardPoints = ChallengeRewardPoint.Twenty, Attempts = 4, Type = ChallengeType.Weekly, GameId = 2 },
-        new CreateChallengeDto { Description = "Record a video playing your favorite game—go viral or go home!", RewardPoints = ChallengeRewardPoint.Five, Attempts = 1, Type = ChallengeType.Weekly, GameId = 3 },
-        new CreateChallengeDto { Description = "Participate in a game night charity event—play for a cause!", RewardPoints = ChallengeRewardPoint.Ten, Attempts = 2, Type = ChallengeType.Weekly, GameId = 4 },
-        new CreateChallengeDto { Description = "Host a game night for friends and family—may the odds be ever in your favor!", RewardPoints = ChallengeRewardPoint.Fifteen, Attempts = 3, Type = ChallengeType.Weekly, GameId = 5 },
-        new CreateChallengeDto { Description = "Play a game without using any strategy guide—risk it for the biscuit!", RewardPoints = ChallengeRewardPoint.Twenty, Attempts = 4, Type = ChallengeType.Weekly, GameId = 1 },
-        new CreateChallengeDto { Description = "Bring a new player to the club—bonus points if they're confused!", RewardPoints = ChallengeRewardPoint.Five, Attempts = 1, Type = ChallengeType.Weekly, GameId = 2 },
-        new CreateChallengeDto { Description = "Complete a game within a set time limit—time's ticking!", RewardPoints = ChallengeRewardPoint.Ten, Attempts = 2, Type = ChallengeType.Weekly, GameId = 3 },
-        new CreateChallengeDto { Description = "Win a game with a special condition—play it like a pro!", RewardPoints = ChallengeRewardPoint.Fifteen, Attempts = 3, Type = ChallengeType.Weekly, GameId = 4 },
-        new CreateChallengeDto { Description = "Attend a game review session and pretend you know everything!", RewardPoints = ChallengeRewardPoint.Twenty, Attempts = 4, Type = ChallengeType.Weekly, GameId = 5 },
-        new CreateChallengeDto { Description = "Score the most points in a single game this week—no pressure!", RewardPoints = ChallengeRewardPoint.Five, Attempts = 1, Type = ChallengeType.Weekly, GameId = 1 },
-        new CreateChallengeDto { Description = "Beat your own high score while wearing a silly hat!", RewardPoints = ChallengeRewardPoint.Five, Attempts = 1, Type = ChallengeType.Weekly, GameId = 1 },
-        new CreateChallengeDto { Description = "Play a game while using only one hand—extra challenge mode!", RewardPoints = ChallengeRewardPoint.Ten, Attempts = 2, Type = ChallengeType.Weekly, GameId = 2 },
-        new CreateChallengeDto { Description = "Teach someone a new game and pretend you're a game master!", RewardPoints = ChallengeRewardPoint.Fifteen, Attempts = 3, Type = ChallengeType.Weekly, GameId = 3 },
-        new CreateChallengeDto { Description = "Create your own board game rule—let the chaos begin!", RewardPoints = ChallengeRewardPoint.Twenty, Attempts = 4, Type = ChallengeType.Weekly, GameId = 4 },
-        new CreateChallengeDto { Description = "Lose a game on purpose and still act like you won!", RewardPoints = ChallengeRewardPoint.Five, Attempts = 1, Type = ChallengeType.Weekly, GameId = 5 },
-        new CreateChallengeDto { Description = "Dress up as your favorite game character for game night!", RewardPoints = ChallengeRewardPoint.Ten, Attempts = 2, Type = ChallengeType.Weekly, GameId = 6 },
-        new CreateChallengeDto { Description = "Play a game in a different language—confusion guaranteed!", RewardPoints = ChallengeRewardPoint.Fifteen, Attempts = 3, Type = ChallengeType.Weekly, GameId = 7 },
-        new CreateChallengeDto { Description = "Finish a game without laughing—even if it's hilarious!", RewardPoints = ChallengeRewardPoint.Twenty, Attempts = 4, Type = ChallengeType.Weekly, GameId = 8 },
-        new CreateChallengeDto { Description = "Create a game-themed snack for your next game night!", RewardPoints = ChallengeRewardPoint.Five, Attempts = 1, Type = ChallengeType.Weekly, GameId = 9 },
-        new CreateChallengeDto { Description = "Play a game blindfolded—trust your instincts!", RewardPoints = ChallengeRewardPoint.Ten, Attempts = 2, Type = ChallengeType.Weekly, GameId = 10 },
-        new CreateChallengeDto { Description = "Use a random rule generator for your next game night!", RewardPoints = ChallengeRewardPoint.Fifteen, Attempts = 3, Type = ChallengeType.Weekly, GameId = 11 },
-        new CreateChallengeDto { Description = "Bring a mystery item to the game and make it part of the game!", RewardPoints = ChallengeRewardPoint.Twenty, Attempts = 4, Type = ChallengeType.Weekly, GameId = 12 },
-        new CreateChallengeDto { Description = "Host a game night with a twist—every player must speak in accents!", RewardPoints = ChallengeRewardPoint.Five, Attempts = 1, Type = ChallengeType.Weekly, GameId = 13 },
-        new CreateChallengeDto { Description = "Win a game while having a ridiculous debate with another player!", RewardPoints = ChallengeRewardPoint.Ten, Attempts = 2, Type = ChallengeType.Weekly, GameId = 14 },
-        new CreateChallengeDto { Description = "Complete a game with someone who has never played it before!", RewardPoints = ChallengeRewardPoint.Fifteen, Attempts = 3, Type = ChallengeType.Weekly, GameId = 15 },
-        new CreateChallengeDto { Description = "Play the game while standing on one leg—balance is key!", RewardPoints = ChallengeRewardPoint.Twenty, Attempts = 4, Type = ChallengeType.Weekly, GameId = 16 },
-        new CreateChallengeDto { Description = "Make a trophy for the winner of your next game night!", RewardPoints = ChallengeRewardPoint.Five, Attempts = 1, Type = ChallengeType.Weekly, GameId = 17 },
-        new CreateChallengeDto { Description = "Create a rap about your favorite game—bonus points for style!", RewardPoints = ChallengeRewardPoint.Ten, Attempts = 2, Type = ChallengeType.Weekly, GameId = 18 },
-        new CreateChallengeDto { Description = "Play a game using only emojis to describe your moves!", RewardPoints = ChallengeRewardPoint.Fifteen, Attempts = 3, Type = ChallengeType.Weekly, GameId = 19 },
-        new CreateChallengeDto { Description = "Film yourself playing and narrating like a sports commentator!", RewardPoints = ChallengeRewardPoint.Twenty, Attempts = 4, Type = ChallengeType.Weekly, GameId = 20 },
-        new CreateChallengeDto { Description = "Try to win while enforcing a silly rule—like no smiling!", RewardPoints = ChallengeRewardPoint.Five, Attempts = 1, Type = ChallengeType.Weekly, GameId = 21 },
-        new CreateChallengeDto { Description = "Create a game night playlist to set the mood!", RewardPoints = ChallengeRewardPoint.Ten, Attempts = 2, Type = ChallengeType.Weekly, GameId = 22 },
-        new CreateChallengeDto { Description = "Participate in a game without using any strategy—just go with the flow!", RewardPoints = ChallengeRewardPoint.Fifteen, Attempts = 3, Type = ChallengeType.Weekly, GameId = 23 },
-        new CreateChallengeDto { Description = "Win a game while explaining the rules as if you’re on a cooking show!", RewardPoints = ChallengeRewardPoint.Twenty, Attempts = 4, Type = ChallengeType.Weekly, GameId = 24 },
-        new CreateChallengeDto { Description = "Bring a friend who doesn’t like board games—can you convert them?", RewardPoints = ChallengeRewardPoint.Five, Attempts = 1, Type = ChallengeType.Weekly, GameId = 25 },
-        new CreateChallengeDto { Description = "Play a game using only your non-dominant hand—good luck!", RewardPoints = ChallengeRewardPoint.Ten, Attempts = 2, Type = ChallengeType.Weekly, GameId = 1 },
-        new CreateChallengeDto { Description = "Make a game night rule that everyone must follow—no exceptions!", RewardPoints = ChallengeRewardPoint.Fifteen, Attempts = 3, Type = ChallengeType.Weekly, GameId = 2 },
-        new CreateChallengeDto { Description = "Finish a game without any snacks—can you survive?", RewardPoints = ChallengeRewardPoint.Twenty, Attempts = 4, Type = ChallengeType.Weekly, GameId = 3 },
-        new CreateChallengeDto { Description = "Create a fun challenge for the next game night—get creative!", RewardPoints = ChallengeRewardPoint.Five, Attempts = 1, Type = ChallengeType.Weekly, GameId = 4 },
-        new CreateChallengeDto { Description = "Challenge another player to a best-of-three duel in your favorite game!", RewardPoints = ChallengeRewardPoint.Ten, Attempts = 2, Type = ChallengeType.Weekly, GameId = 5 },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Five,
+            Attempts = 1,
+            Type = ChallengeType.Weekly,
+            GameId = 1
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Ten,
+            Attempts = 2,
+            Type = ChallengeType.Weekly,
+            GameId = 2
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Fifteen,
+            Attempts = 3,
+            Type = ChallengeType.Weekly,
+            GameId = 3
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Twenty,
+            Attempts = 4,
+            Type = ChallengeType.Weekly,
+            GameId = 4
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Five,
+            Attempts = 1,
+            Type = ChallengeType.Weekly,
+            GameId = 5
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Ten,
+            Attempts = 2,
+            Type = ChallengeType.Weekly,
+            GameId = 1
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Fifteen,
+            Attempts = 3,
+            Type = ChallengeType.Weekly,
+            GameId = 2
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Twenty,
+            Attempts = 4,
+            Type = ChallengeType.Weekly,
+            GameId = 3
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Five,
+            Attempts = 1,
+            Type = ChallengeType.Weekly,
+            GameId = 4
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Ten,
+            Attempts = 2,
+            Type = ChallengeType.Weekly,
+            GameId = 5
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Fifteen,
+            Attempts = 3,
+            Type = ChallengeType.Weekly,
+            GameId = 1
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Twenty,
+            Attempts = 4,
+            Type = ChallengeType.Weekly,
+            GameId = 2
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Five,
+            Attempts = 1,
+            Type = ChallengeType.Weekly,
+            GameId = 3
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Ten,
+            Attempts = 2,
+            Type = ChallengeType.Weekly,
+            GameId = 4
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Fifteen,
+            Attempts = 3,
+            Type = ChallengeType.Weekly,
+            GameId = 5
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Twenty,
+            Attempts = 4,
+            Type = ChallengeType.Weekly,
+            GameId = 1
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Five,
+            Attempts = 1,
+            Type = ChallengeType.Weekly,
+            GameId = 2
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Ten,
+            Attempts = 2,
+            Type = ChallengeType.Weekly,
+            GameId = 3
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Fifteen,
+            Attempts = 3,
+            Type = ChallengeType.Weekly,
+            GameId = 4
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Twenty,
+            Attempts = 4,
+            Type = ChallengeType.Weekly,
+            GameId = 5
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Five,
+            Attempts = 1,
+            Type = ChallengeType.Weekly,
+            GameId = 1
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Five,
+            Attempts = 1,
+            Type = ChallengeType.Weekly,
+            GameId = 1
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Ten,
+            Attempts = 2,
+            Type = ChallengeType.Weekly,
+            GameId = 2
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Fifteen,
+            Attempts = 3,
+            Type = ChallengeType.Weekly,
+            GameId = 3
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Twenty,
+            Attempts = 4,
+            Type = ChallengeType.Weekly,
+            GameId = 4
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Five,
+            Attempts = 1,
+            Type = ChallengeType.Weekly,
+            GameId = 5
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Ten,
+            Attempts = 2,
+            Type = ChallengeType.Weekly,
+            GameId = 6
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Fifteen,
+            Attempts = 3,
+            Type = ChallengeType.Weekly,
+            GameId = 7
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Twenty,
+            Attempts = 4,
+            Type = ChallengeType.Weekly,
+            GameId = 8
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Five,
+            Attempts = 1,
+            Type = ChallengeType.Weekly,
+            GameId = 9
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Ten,
+            Attempts = 2,
+            Type = ChallengeType.Weekly,
+            GameId = 10
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Fifteen,
+            Attempts = 3,
+            Type = ChallengeType.Weekly,
+            GameId = 11
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Twenty,
+            Attempts = 4,
+            Type = ChallengeType.Weekly,
+            GameId = 12
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Five,
+            Attempts = 1,
+            Type = ChallengeType.Weekly,
+            GameId = 13
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Ten,
+            Attempts = 2,
+            Type = ChallengeType.Weekly,
+            GameId = 14
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Fifteen,
+            Attempts = 3,
+            Type = ChallengeType.Weekly,
+            GameId = 15
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Twenty,
+            Attempts = 4,
+            Type = ChallengeType.Weekly,
+            GameId = 16
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Five,
+            Attempts = 1,
+            Type = ChallengeType.Weekly,
+            GameId = 17
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Ten,
+            Attempts = 2,
+            Type = ChallengeType.Weekly,
+            GameId = 18
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Fifteen,
+            Attempts = 3,
+            Type = ChallengeType.Weekly,
+            GameId = 19
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Twenty,
+            Attempts = 4,
+            Type = ChallengeType.Weekly,
+            GameId = 20
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Five,
+            Attempts = 1,
+            Type = ChallengeType.Weekly,
+            GameId = 21
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Ten,
+            Attempts = 2,
+            Type = ChallengeType.Weekly,
+            GameId = 22
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Fifteen,
+            Attempts = 3,
+            Type = ChallengeType.Weekly,
+            GameId = 23
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Twenty,
+            Attempts = 4,
+            Type = ChallengeType.Weekly,
+            GameId = 24
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Five,
+            Attempts = 1,
+            Type = ChallengeType.Weekly,
+            GameId = 25
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Ten,
+            Attempts = 2,
+            Type = ChallengeType.Weekly,
+            GameId = 1
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Fifteen,
+            Attempts = 3,
+            Type = ChallengeType.Weekly,
+            GameId = 2
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Twenty,
+            Attempts = 4,
+            Type = ChallengeType.Weekly,
+            GameId = 3
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Five,
+            Attempts = 1,
+            Type = ChallengeType.Weekly,
+            GameId = 4
+        },
+        new()
+        {
+            RewardPoints = ChallengeRewardPoint.Ten,
+            Attempts = 2,
+            Type = ChallengeType.Weekly,
+            GameId = 5
+        }
     };
 }

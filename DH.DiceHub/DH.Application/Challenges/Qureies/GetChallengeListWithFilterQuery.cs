@@ -25,7 +25,6 @@ internal class GetChallengeListWithFilterQueryHandler : IRequestHandler<GetChall
                 x => new GetChallengeListWithFilterQueryModel
                 {
                     Id = x.Id,
-                    Description = x.Description,
                     RewardPoints = x.RewardPoints,
                     GameImageId = x.Game.Image.Id,
                     Attempts = x.Attempts,
@@ -35,7 +34,6 @@ internal class GetChallengeListWithFilterQueryHandler : IRequestHandler<GetChall
             x => new GetChallengeListWithFilterQueryModel
             {
                 Id = x.Id,
-                Description = x.Description,
                 RewardPoints = x.RewardPoints,
                 GameImageId = x.Game.Image.Id,
                 Attempts = x.Attempts,

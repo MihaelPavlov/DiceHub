@@ -3,7 +3,6 @@ import { ChallengeStatus } from '../enums/challenge-status.enum';
 
 export interface IUserChallenge {
   id: number;
-  description: string;
   rewardPoints: ChallengeRewardPoint;
   maxAttempts: number;
   currentAttempts: number;

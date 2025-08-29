@@ -13,6 +13,8 @@ import {
   ImagePreviewDialog,
   ImagePreviewData,
 } from '../../../../shared/dialogs/image-preview/image-preview.dialog';
+import { FULL_ROUTE } from '../../../../shared/configs/route.config';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-challenges-rewards',
@@ -29,7 +31,8 @@ export class ChallengesRewardsComponent implements OnInit {
     private readonly rewardsService: RewardsService,
     private readonly authService: AuthService,
     private readonly dialog: MatDialog,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly translateService: TranslateService
   ) {}
 
   public ngOnInit(): void {
@@ -40,14 +43,14 @@ export class ChallengesRewardsComponent implements OnInit {
     this.dialog.open<ImagePreviewDialog, ImagePreviewData>(ImagePreviewDialog, {
       data: {
         imageUrl,
-        title: 'Image',
+        title: this.translateService.instant('image'),
       },
       width: '17rem',
     });
   }
 
   public navigateToChallenges(): void {
-    this.router.navigateByUrl('challenges/home');
+    this.router.navigateByUrl(FULL_ROUTE.CHALLENGES.CHALLENGES_HOME);
   }
 
   public openDialog(id: number): void {

@@ -5,7 +5,6 @@ namespace DH.Domain.Entities;
 public class Challenge
 {
     public int Id { get; set; }
-    public string Description { get; set; } = string.Empty;
     public ChallengeRewardPoint RewardPoints { get; set; }
     public int Attempts { get; set; }
     public ChallengeType Type { get; set; }

@@ -1,18 +1,31 @@
-<app-header header="Challenges" [withQRcode]="true">
+<app-header
+  [header]="'challenge_management.challenges_header' | translate"
+  [withQRcode]="true"
+>
   <app-nav-bar
     [columns]="[
-      { name: 'Weekly', link: 'challenges/home', isActive: false },
-      { name: 'Rewards', link: 'challenges/rewards', isActive: true }
+      {
+        name: ('challenge_management.columns.weekly' | translate),
+        link: 'challenges/home',
+        isActive: false
+      },
+      {
+        name: ('challenge_management.columns.rewards' | translate),
+        link: 'challenges/rewards',
+        isActive: true
+      }
     ]"
   ></app-nav-bar
 ></app-header>
 
 <div class="wrapper_challenges" *ngIf="userRewards$ | async as userRewards">
   <div class="no-records" *ngIf="userRewards.length === 0">
-    No rewards yet!<br />
-    Visit the club and start completing
-    <strong class="blue" (click)="navigateToChallenges()">challenges</strong> to
-    earn them.
+    {{ "challenge_management.no_rewards" | translate }}<br />
+    {{ "challenge_management.visit_club" | translate }}
+    <strong class="blue" (click)="navigateToChallenges()">{{
+      "challenge_management.challenges" | translate
+    }}</strong>
+    {{ "challenge_management.to_earn" | translate }}
   </div>
   <div
     class="wrapper_challenges__item"
@@ -36,10 +49,14 @@
       <span class="header">{{ reward.rewardName }}</span>
       <span>{{ reward.rewardDescription }}</span>
       <span class="header"
-        >Available more:
+        >{{ "challenge_management.available_more" | translate }}
         <app-chip
           [size]="'small'"
-          text="{{ reward.availableMoreForDays }} DAYS"
+          [text]="
+            'challenge_management.days'
+              | translate
+                : { availableMoreForDays: reward.availableMoreForDays }
+          "
           [color]="'blue'"
         ></app-chip
       ></span>
@@ -49,18 +66,22 @@
       *ngIf="reward.status === UserRewardStatus.NotExpired"
     >
       <button class="btn btn__small btn-blue" (click)="openDialog(reward.id)">
-        Use
+        {{ "challenge_management.use" | translate }}
       </button>
     </div>
     <div class="btn-container" *ngIf="reward.status === UserRewardStatus.Used">
-      <button class="btn btn__extra-small btn-green">Used</button>
+      <button class="btn btn__extra-small btn-green">
+        {{ "challenge_management.used" | translate }}
+      </button>
     </div>
 
     <div
       class="btn-container"
       *ngIf="reward.status === UserRewardStatus.Expired"
     >
-      <button class="btn btn__extra-small btn-red">Expired</button>
+      <button class="btn btn__extra-small btn-red">
+        {{ "challenge_management.expired" | translate }}
+      </button>
     </div>
   </div>
 </div>

@@ -24,7 +24,6 @@ internal class GetChallengeByIdQueryHandler : IRequestHandler<GetChallengeByIdQu
         x => new GetChallengeByIdQueryModel
         {
             Id = x.Id,
-            Description = x.Description,
             RewardPoints = x.RewardPoints,
             GameId = x.GameId,
             Attempts = x.Attempts,

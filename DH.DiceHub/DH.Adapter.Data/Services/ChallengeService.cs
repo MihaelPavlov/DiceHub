@@ -65,7 +65,6 @@ public class ChallengeService : IChallengeService
                     new GetUserChallengeListQueryModel
                     {
                         Id = x.Id,
-                        Description = x.Challenge.Description,
                         RewardPoints = x.Challenge.RewardPoints,
                         Status = x.Status,
                         GameImageId = x.Challenge.Game.Image.Id,
@@ -82,7 +81,6 @@ public class ChallengeService : IChallengeService
                         new GetUserChallengeListQueryModel
                         {
                             Id = x.Id,
-                            Description = x.Challenge.Description,
                             RewardPoints = x.Challenge.RewardPoints,
                             Status = x.Status,
                             GameImageId = x.Challenge.Game.Image.Id,
