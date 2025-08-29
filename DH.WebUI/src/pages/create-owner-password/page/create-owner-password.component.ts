@@ -93,7 +93,9 @@ export class CreateOwnerPasswordComponent extends Form implements OnInit {
           next: () => {
             this.toastService.success({
               type: ToastType.Success,
-              message: 'Password creation was successfully!',
+              message: this.translateService.instant(
+                'create_owner_password.was_successfully'
+              ),
             });
             setTimeout(() => {
               this.router.navigate([ROUTE.LOGIN], {
@@ -116,14 +118,16 @@ export class CreateOwnerPasswordComponent extends Form implements OnInit {
 
             this.toastService.error({
               type: ToastType.Error,
-              message: 'Password creation was unsuccessfully!',
+              message: this.translateService.instant(
+                'create_owner_password.was_unsuccessfully'
+              ),
             });
           },
         });
     } else {
       this.toastService.error({
         type: ToastType.Error,
-        message: AppToastMessage.SomethingWrong,
+        message: this.translateService.instant(AppToastMessage.SomethingWrong),
       });
     }
   }
@@ -134,22 +138,27 @@ export class CreateOwnerPasswordComponent extends Form implements OnInit {
         next: (isSuccessfully) => {
           if (isSuccessfully && isSuccessfully === true) {
             this.toastService.success({
-              message:
-                'Email sent! Please allow a few minutes for it to arrive in your inbox.',
+              message: this.translateService.instant(
+                'create_owner_password.resend_password_email_was_resend'
+              ),
               type: ToastType.Success,
             });
             this.clearServerErrorMessage();
             this.showResend = false;
           } else {
             this.toastService.error({
-              message: 'Failed to send email. Please try again later.',
+              message: this.translateService.instant(
+                'create_owner_password.resend_password_email_was_not_resend'
+              ),
               type: ToastType.Error,
             });
           }
         },
         error: () => {
           this.toastService.error({
-            message: 'Failed to send email. Please try again later.',
+            message: this.translateService.instant(
+              'create_owner_password.resend_password_email_was_not_resend'
+            ),
             type: ToastType.Error,
           });
         },
@@ -159,11 +168,17 @@ export class CreateOwnerPasswordComponent extends Form implements OnInit {
   protected override getControlDisplayName(controlName: string): string {
     switch (controlName) {
       case 'clubPhoneNumber':
-        return 'Club Phone Number';
+        return this.translateService.instant(
+          'create_owner_password.control_display_names.club_phone_number'
+        );
       case 'newPassword':
-        return 'New Password';
+        return this.translateService.instant(
+          'create_owner_password.control_display_names.new_password'
+        );
       case 'confirmPassword':
-        return 'Confirm Password';
+        return this.translateService.instant(
+          'create_owner_password.control_display_names.confirm_password'
+        );
       default:
         return controlName;
     }

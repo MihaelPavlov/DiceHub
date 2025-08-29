@@ -66,7 +66,9 @@ export class ForgotPasswordComponent extends Form implements OnInit {
           next: () => {
             this.toastService.success({
               type: ToastType.Success,
-              message: 'Password reset email sent successfully!',
+              message: this.translateService.instant(
+                'forgot_password.send_was_successfully'
+              ),
             });
             setTimeout(() => {
               this.router.navigate([ROUTE.LOGIN], {
@@ -79,7 +81,9 @@ export class ForgotPasswordComponent extends Form implements OnInit {
               this.getServerErrorMessage = error.error.errors.Email[0];
             this.toastService.error({
               type: ToastType.Error,
-              message: 'Password reset email was not successfully!',
+              message: this.translateService.instant(
+                'forgot_password.send_was_unsuccessfully'
+              ),
             });
           },
         });
@@ -93,7 +97,9 @@ export class ForgotPasswordComponent extends Form implements OnInit {
   protected override getControlDisplayName(controlName: string): string {
     switch (controlName) {
       case 'email':
-        return 'Email';
+        return this.translateService.instant(
+          'forgot_password.control_display_names.email'
+        );
       default:
         return controlName;
     }
