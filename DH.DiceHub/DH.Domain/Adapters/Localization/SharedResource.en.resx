@@ -381,4 +381,19 @@
   <data name="UserSettingsLanguage" xml:space="preserve">
     <value>Provided Language is not a valid value.</value>
   </data>
+  <data name="RewardNameValidation_En" xml:space="preserve">
+    <value>English name should be at least {0} characters long.</value>
+  </data>
+  <data name="RewardNameValidation_Bg" xml:space="preserve">
+    <value>Bulgarian name should be at least {0} characters long</value>
+  </data>
+  <data name="RewardRequiredPointsValidation" xml:space="preserve">
+    <value>Invalid reward points value.</value>
+  </data>
+  <data name="RewardCashEquivalentValidation" xml:space="preserve">
+    <value>Cash Equivalent should be greater than zero and smaller than one thousand.</value>
+  </data>
+  <data name="UpdateRewardMissingId" xml:space="preserve">
+    <value>Id is required when update is requested.</value>
+  </data>
 </root>

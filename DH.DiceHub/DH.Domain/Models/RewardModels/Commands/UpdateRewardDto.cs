@@ -43,22 +43,19 @@ public class UpdateRewardDto : IValidableFields
 
         if (Id == 0)
             errors.Add(new ValidationError(nameof(Id),
-                $"Id is required."));
+               localizationService["UpdateRewardMissingId"]));
 
         if (Name_EN.Trim().Length < MinNameLength)
-            errors.Add(new ValidationError(nameof(Name_EN),
-                $"English Name should be at least {MinNameLength} characters long."));
+            errors.Add(new ValidationError(nameof(Name_EN), string.Format(localizationService["RewardNameValidation_En"], MinNameLength)));
 
         if (Name_BG.Trim().Length < MinNameLength)
-            errors.Add(new ValidationError(nameof(Name_BG),
-                $"Bulgarian Name should be at least {MinNameLength} characters long."));
+            errors.Add(new ValidationError(nameof(Name_BG), string.Format(localizationService["RewardNameValidation_Bg"], MinNameLength)));
 
-        if (RequiredPoints < MinRequiredPoints)
-            errors.Add(new ValidationError(nameof(RequiredPoints),
-                $"RequiredPoints are required!"));
+        if (!Enum.IsDefined(typeof(RewardRequiredPoint), RequiredPoints))
+            errors.Add(new ValidationError(nameof(RequiredPoints), localizationService["RewardRequiredPointsValidation"]));
 
         if (CashEquivalent < 0 && CashEquivalent >= 1000)
-            errors.Add(new ValidationError(nameof(CashEquivalent), "Cash Equivalent should be bigger then zero and smaller then one thousand."));
+            errors.Add(new ValidationError(nameof(CashEquivalent), localizationService["RewardCashEquivalentValidation"]));
 
         validationErrors = errors;
 

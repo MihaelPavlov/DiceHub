@@ -381,4 +381,19 @@
   <data name="UserSettingsLanguage" xml:space="preserve">
     <value>Посочения език не е валидна стойност.</value>
   </data>
+  <data name="RewardNameValidation_En" xml:space="preserve">
+    <value>Английското име трябва да е поне {0} символа дълго.</value>
+  </data>
+  <data name="RewardNameValidation_Bg" xml:space="preserve">
+    <value>Българското име трябва да е поне {0} символа дълго.</value>
+  </data>
+  <data name="RewardRequiredPointsValidation" xml:space="preserve">
+    <value>Невалидна стойност за наградни точки.</value>
+  </data>
+  <data name="RewardCashEquivalentValidation" xml:space="preserve">
+    <value>Паричният еквивалент трябва да е по-голям от нула и по-малък от хиляда.</value>
+  </data>
+  <data name="UpdateRewardMissingId" xml:space="preserve">
+    <value>Идентификациония номер е задължителен, когато се извършва актуализация</value>
+  </data>
 </root>
