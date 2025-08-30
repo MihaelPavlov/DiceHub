@@ -69,13 +69,6 @@ export const ROUTES: Routes = [
         canActivate: [AuthGuard],
       },
       {
-        path: 'admin-space',
-        loadChildren: () =>
-          import('../../pages/admin-space/admin-space.module').then(
-            (m) => m.AdminSpaceModule
-          ),
-      },
-      {
         path: 'qr-code-scanner',
         loadChildren: () =>
           import('../../pages/qr-code-scanner/qr-code-scanner.module').then(
