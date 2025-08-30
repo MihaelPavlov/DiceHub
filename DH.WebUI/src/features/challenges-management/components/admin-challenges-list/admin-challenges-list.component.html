@@ -2,7 +2,7 @@
   <div class="buttons">
     <div class="btn-container" (click)="toggleChallengeForm()">
       <ng-container *ngIf="!editChallengeId">
-        <span>Add Challenge</span>
+        <span>{{ "admin_challenge.add_challenge" | translate }}</span>
 
         <!-- add -->
         <svg
@@ -14,7 +14,7 @@
         </svg>
       </ng-container>
       <ng-container *ngIf="editChallengeId">
-        <span>Update Challenge</span>
+        <span>{{ "admin_challenge.update_challenge" | translate }}</span>
       </ng-container>
 
       <!-- close -->
@@ -30,15 +30,23 @@
     </div>
 
     <div class="btn-container">
-      <span>Total: {{ challengeList.length }}</span>
+      <span>{{
+        "admin_challenge.total_challenges"
+          | translate : { totalChallenges: challengeList.length }
+      }}</span>
     </div>
   </div>
   <div class="buttons">
     <div class="btn-container" (click)="toggleFilter()">
-      <span *ngIf="filterGameIds.length !== 0"
-        >Selected Games: {{ filterGameIds.length }}</span
-      >
-      <span *ngIf="filterGameIds.length === 0">Filter By Game</span>
+      <span *ngIf="filterGameIds.length !== 0">
+        {{
+          "admin_challenge.selected_games"
+            | translate : { filterGamesCount: filterGameIds.length }
+        }}
+      </span>
+      <span *ngIf="filterGameIds.length === 0">{{
+        "admin_challenge.filter_by_game" | translate
+      }}</span>
 
       <!-- filter_alt -->
       <svg *ngIf="!showFilter" class="wrapper_filter" viewBox="0 -960 960 960">
@@ -59,7 +67,7 @@
     <ng-select
       [items]="gameList"
       bindLabel="name"
-      placeholder="Select Game"
+      [placeholder]="'admin_challenge.placeholders.select_game' | translate"
       [searchable]="true"
       class="app-select-long"
       [multiple]="true"
@@ -86,29 +94,54 @@
       </div>
       <div class="wrapper">
         <div class="inputs">
+          <div class="input-field">
+            <label for="game" class="required">{{
+              "admin_challenge.labels.select_game" | translate
+            }}</label>
+
+            <ng-select
+              [items]="gameList"
+              bindLabel="name"
+              bindValue="id"
+              [placeholder]="
+                'admin_challenge.placeholders.select_game' | translate
+              "
+              [searchable]="true"
+              formControlName="selectedGame"
+              class="app-select-long"
+            >
+            </ng-select>
+          </div>
           <div class="input-group">
             <div class="input-field">
-              <label for="game" class="required">Choose Game</label>
-
+              <label for="rewardPoints" class="required">{{
+                "admin_challenge.labels.points" | translate
+              }}</label>
               <ng-select
-                [items]="gameList"
+                [items]="challengeRewardPointList"
                 bindLabel="name"
                 bindValue="id"
-                placeholder="Select Game"
+                [placeholder]="
+                  'admin_challenge.placeholders.points' | translate
+                "
                 [searchable]="true"
-                formControlName="selectedGame"
+                formControlName="rewardPoints"
                 class="app-select"
               >
               </ng-select>
             </div>
 
             <div class="input-field">
-              <label for="rewardPoints" class="required">Points</label>
+              <label for="rewardPoints" class="required">{{
+                "admin_challenge.labels.points" | translate
+              }}</label>
               <ng-select
                 [items]="challengeRewardPointList"
                 bindLabel="name"
                 bindValue="id"
-                placeholder="..."
+                [placeholder]="
+                  'admin_challenge.placeholders.points' | translate
+                "
                 [searchable]="true"
                 formControlName="rewardPoints"
                 class="app-select-long"
@@ -116,34 +149,6 @@
               </ng-select>
             </div>
           </div>
-
-          <div class="input-group">
-            <div class="input-field">
-              <label for="attempts" class="required">Attempts</label>
-              <input
-                name="attempts"
-                placeholder="..."
-                type="number"
-                formControlName="attempts"
-              />
-            </div>
-
-            <div class="input-field">
-              <label for="type" class="required">Type</label>
-
-              <ng-select
-                [items]="challengeTypeList"
-                bindValue="id"
-                bindLabel="name"
-                placeholder="Type"
-                [searchable]="true"
-                formControlName="type"
-                class="app-select"
-              >
-              </ng-select>
-            </div>
-          </div>
-
         </div>
       </div>
 
@@ -164,7 +169,7 @@
           'btn-font-red': this.form.invalid
         }"
       >
-        Create
+        {{ "admin_challenge.create_btn" | translate }}
       </button>
 
       <button
@@ -180,7 +185,7 @@
           'btn-font-red': this.form.invalid
         }"
       >
-        Update
+        {{ "admin_challenge.update_btn" | translate }}
       </button>
     </div>
   </form>
@@ -188,8 +193,9 @@
 
 <ng-container *ngIf="challengeList.length === 0">
   <span class="challenge-list-empty">
-    No challenges yet.<br />
-    Start by adding challenges to keep your users engaged and rewarded!
+    {{ "admin_challenge.no_challenges" | translate }}
+    <br />
+    {{ "admin_challenge.no_challenges_desc" | translate }}
   </span>
 </ng-container>
 
@@ -211,13 +217,17 @@
     </div>
     <div class="wrapper_info">
       <div class="wrapper_title">
-        {{ challenge.type }}
-
         <div class="wrapper_description">
-          Attempts: {{ challenge.attempts }}
+          {{
+            "admin_challenge.attempts"
+              | translate : { attempts: challenge.attempts }
+          }}
         </div>
         <div class="wrapper_description">
-          Reward: {{ challenge.rewardPoints }}
+          {{
+            "admin_challenge.reward"
+              | translate : { rewardPoints: challenge.rewardPoints }
+          }}
         </div>
       </div>
       <div class="wrapper_right">

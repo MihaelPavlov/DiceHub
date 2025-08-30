@@ -18,7 +18,6 @@ import { ChallengesService } from '../../../../entities/challenges/api/challenge
 import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { ToastType } from '../../../../shared/models/toast.model';
 import { IChallengeListResult } from '../../../../entities/challenges/models/challenge-list.model';
-import { ChallengeType } from '../../../../entities/challenges/enums/challenge-type.enum';
 import { MatDialog } from '@angular/material/dialog';
 import { throwError } from 'rxjs';
 import { ChallengeRewardPoint } from '../../../../entities/challenges/enums/challenge-reward-point.enum';
@@ -49,7 +48,6 @@ export class AdminChallengesListComponent extends Form {
   public editChallengeId: number | null = null;
   public challengeList: IChallengeListResult[] = [];
   public filterGameIds: IGameDropdownResult[] = [];
-  public challengeTypeList: IDropdown[] = [];
   public challengeRewardPointList: IDropdown[] = [];
   public readonly ImageEntityType = ImageEntityType;
 
@@ -66,10 +64,6 @@ export class AdminChallengesListComponent extends Form {
     super(toastService, translateService);
     this.fetchGameList();
     this.fetchChallengeList();
-
-    this.challengeTypeList = Object.entries(ChallengeType)
-      .filter(([key, value]) => typeof value === 'number')
-      .map(([key, value]) => ({ id: value as number, name: key }));
 
     this.challengeRewardPointList = Object.entries(ChallengeRewardPoint)
       .filter(([key, value]) => typeof value === 'number')
@@ -122,7 +116,6 @@ export class AdminChallengesListComponent extends Form {
           selectedGame: challenge.gameId,
           attempts: challenge.attempts,
           rewardPoints: challenge.rewardPoints,
-          type: challenge.type,
         });
         this.showChallengeForm = true;
         this.scrollService.scrollToTop();
@@ -141,12 +134,13 @@ export class AdminChallengesListComponent extends Form {
           gameId: this.form.controls.selectedGame.value,
           rewardPoints: this.form.controls.rewardPoints.value,
           attempts: this.form.controls.attempts.value,
-          type: this.form.controls.type.value,
         })
         .subscribe({
           next: (_) => {
             this.toastService.success({
-              message: AppToastMessage.ChangesSaved,
+              message: this.translateService.instant(
+                AppToastMessage.ChangesSaved
+              ),
               type: ToastType.Success,
             });
 
@@ -156,7 +150,9 @@ export class AdminChallengesListComponent extends Form {
           error: (error) => {
             this.handleServerErrors(error);
             this.toastService.error({
-              message: AppToastMessage.FailedToSaveChanges,
+              message: this.translateService.instant(
+                AppToastMessage.FailedToSaveChanges
+              ),
               type: ToastType.Error,
             });
           },
@@ -172,12 +168,13 @@ export class AdminChallengesListComponent extends Form {
           gameId: this.form.controls.selectedGame.value,
           rewardPoints: this.form.controls.rewardPoints.value,
           attempts: this.form.controls.attempts.value,
-          type: this.form.controls.type.value,
         })
         .subscribe({
           next: (_) => {
             this.toastService.success({
-              message: AppToastMessage.ChangesSaved,
+              message: this.translateService.instant(
+                AppToastMessage.ChangesSaved
+              ),
               type: ToastType.Success,
             });
 
@@ -187,7 +184,9 @@ export class AdminChallengesListComponent extends Form {
           error: (error) => {
             this.handleServerErrors(error);
             this.toastService.error({
-              message: AppToastMessage.FailedToSaveChanges,
+              message: this.translateService.instant(
+                AppToastMessage.FailedToSaveChanges
+              ),
               type: ToastType.Error,
             });
           },
@@ -211,13 +210,17 @@ export class AdminChallengesListComponent extends Form {
   protected override getControlDisplayName(controlName: string): string {
     switch (controlName) {
       case 'selectedGame':
-        return 'Game';
+        return this.translateService.instant(
+          'admin_challenge.control_display_names.game'
+        );
       case 'attempts':
-        return 'Attempts';
+        return this.translateService.instant(
+          'admin_challenge.control_display_names.attempts'
+        );
       case 'rewardPoints':
-        return 'Reward Points';
-      case 'type':
-        return 'Type';
+        return this.translateService.instant(
+          'admin_challenge.control_display_names.points'
+        );
       default:
         return controlName;
     }
@@ -239,7 +242,6 @@ export class AdminChallengesListComponent extends Form {
       selectedGame: new FormControl<number | null>(null, [Validators.required]),
       rewardPoints: new FormControl<number>(0, [Validators.required]),
       attempts: new FormControl<number>(0, [Validators.required]),
-      type: new FormControl<number | null>(null, [Validators.required]),
     });
   }
 }

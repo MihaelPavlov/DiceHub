@@ -24,12 +24,14 @@ internal class GetSystemRewardByIdQueryHandler : IRequestHandler<GetSystemReward
             x => new GetRewardByIdQueryModel
             {
                 Id = x.Id,
-                Description = x.Description,
+                Description_EN = x.Description_EN,
+                Description_BG = x.Description_BG,
                 CashEquivalent = x.CashEquivalent,
                 ImageId = x.Image.Id,
                 RequiredPoints = x.RequiredPoints,
                 Level = x.Level,
-                Name = x.Name
+                Name_EN = x.Name_EN,
+                Name_BG = x.Name_BG
             }, cancellationToken);
 
         return rewards.FirstOrDefault()

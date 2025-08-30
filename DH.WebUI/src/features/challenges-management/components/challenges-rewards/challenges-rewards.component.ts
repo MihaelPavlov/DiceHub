@@ -15,6 +15,8 @@ import {
 } from '../../../../shared/dialogs/image-preview/image-preview.dialog';
 import { FULL_ROUTE } from '../../../../shared/configs/route.config';
 import { TranslateService } from '@ngx-translate/core';
+import { LanguageService } from '../../../../shared/services/language.service';
+import { SupportLanguages } from '../../../../entities/common/models/support-languages.enum';
 
 @Component({
   selector: 'app-challenges-rewards',
@@ -26,17 +28,23 @@ export class ChallengesRewardsComponent implements OnInit {
 
   public readonly UserRewardStatus = UserRewardStatus;
   public readonly ImageEntityType = ImageEntityType;
+  public readonly SupportLanguages = SupportLanguages;
 
   constructor(
     private readonly rewardsService: RewardsService,
     private readonly authService: AuthService,
     private readonly dialog: MatDialog,
     private readonly router: Router,
-    private readonly translateService: TranslateService
+    private readonly translateService: TranslateService,
+    private readonly languageService: LanguageService
   ) {}
 
   public ngOnInit(): void {
     this.userRewards$ = this.rewardsService.getUserRewardList();
+  }
+
+  public get currentLanguage(): SupportLanguages {
+    return this.languageService.getCurrentLanguage();
   }
 
   public openImagePreview(imageUrl: string) {

@@ -95,11 +95,12 @@ export class RewardsCollectedChartComponent implements OnDestroy {
             operation.success &&
             operation.relatedObject
           ) {
+            // TODO: LOCALIZATION name_en
             const rewardsData = operation.relatedObject.map((x) => ({
               collectionCount: x.collectedCount,
               totalCashEquivalent: x.totalCashEquivalent,
               rewardName:
-                rewards.find((e) => e.id == x.rewardId)?.name ||
+                rewards.find((e) => e.id == x.rewardId)?.name_EN ||
                 'Reward Deleted',
             }));
 

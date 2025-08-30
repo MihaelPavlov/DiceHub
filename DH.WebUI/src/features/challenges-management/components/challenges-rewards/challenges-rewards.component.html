@@ -46,8 +46,16 @@
       <img [src]="imageUrl" alt="" />
     </div>
     <div class="info">
-      <span class="header">{{ reward.rewardName }}</span>
-      <span>{{ reward.rewardDescription }}</span>
+      <span class="header">{{
+        currentLanguage === SupportLanguages.EN
+          ? reward.rewardName_EN
+          : reward.rewardName_BG
+      }}</span>
+      <span>{{
+        currentLanguage === SupportLanguages.EN
+          ? reward.rewardDescription_EN
+          : reward.rewardDescription_BG
+      }}</span>
       <span class="header"
         >{{ "challenge_management.available_more" | translate }}
         <app-chip

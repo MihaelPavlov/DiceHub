@@ -27,8 +27,10 @@ internal class GetUserRewardListQueryHandler : IRequestHandler<GetUserRewardList
             {
                 Id = x.Id,
                 RewardImageId = x.Reward.Image.Id,
-                RewardName = x.Reward.Name,
-                RewardDescription = x.Reward.Description,
+                RewardName_EN = x.Reward.Name_EN,
+                RewardName_BG = x.Reward.Name_BG,
+                RewardDescription_EN = x.Reward.Description_EN,
+                RewardDescription_BG = x.Reward.Description_BG,
                 AvailableMoreForDays = (x.ExpiresDate - DateTime.UtcNow).Days,
                 Status = x.IsClaimed ? UserRewardStatus.Used :
                     x.IsExpired ? UserRewardStatus.Expired : UserRewardStatus.NotExpired

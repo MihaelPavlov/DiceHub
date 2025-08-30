@@ -607,407 +607,48 @@ public static class SeedData
 
     public static readonly List<CreateRewardDto> REWARD_LIST_DTOS = new List<CreateRewardDto>
     {
-        new CreateRewardDto { Name = "Free Pass", Description = "A free pass for your next game night.", RequiredPoints = RewardRequiredPoint.Five, Level = RewardLevel.Bronze },
-        new CreateRewardDto { Name = "Coca-Cola", Description = "A refreshing Coca-Cola drink.", RequiredPoints = RewardRequiredPoint.Ten, Level = RewardLevel.Bronze },
-        new CreateRewardDto { Name = "Sandwich", Description = "A delicious sandwich of your choice.", RequiredPoints = RewardRequiredPoint.Fifteen, Level = RewardLevel.Bronze },
-        new CreateRewardDto { Name = "Cake Slice", Description = "A slice of our special homemade cake.", RequiredPoints = RewardRequiredPoint.Twenty, Level = RewardLevel.Bronze },
-        new CreateRewardDto { Name = "Chips", Description = "A bag of chips to munch on while you play.", RequiredPoints = RewardRequiredPoint.TwentyFive, Level = RewardLevel.Silver },
-        new CreateRewardDto { Name = "Draft Beer", Description = "A refreshing draft beer to enjoy.", RequiredPoints = RewardRequiredPoint.Thirty, Level = RewardLevel.Silver },
-        new CreateRewardDto { Name = "Ice Cream", Description = "A scoop of ice cream in your favorite flavor.", RequiredPoints = RewardRequiredPoint.ThirtyFive, Level = RewardLevel.Silver },
-        new CreateRewardDto { Name = "Soft Drink", Description = "Your choice of a soft drink.", RequiredPoints = RewardRequiredPoint.Forty, Level = RewardLevel.Silver },
-        new CreateRewardDto { Name = "Pizza Slice", Description = "A delicious slice of pizza.", RequiredPoints = RewardRequiredPoint.FortyFive, Level = RewardLevel.Gold },
-        new CreateRewardDto { Name = "Free Game Rental", Description = "Rent a game for free for your next visit.", RequiredPoints = RewardRequiredPoint.Fifty, Level = RewardLevel.Gold },
-        new CreateRewardDto { Name = "Homemade Cookies", Description = "A pack of freshly baked cookies.", RequiredPoints = RewardRequiredPoint.FiftyFive, Level = RewardLevel.Gold },
-        new CreateRewardDto { Name = "Gourmet Popcorn", Description = "A serving of gourmet popcorn.", RequiredPoints = RewardRequiredPoint.Sixty, Level = RewardLevel.Gold },
-        new CreateRewardDto { Name = "Board Game Discount", Description = "A discount on your next board game purchase.", RequiredPoints = RewardRequiredPoint.SixtyFive, Level = RewardLevel.Gold },
-        new CreateRewardDto { Name = "Game Night Special", Description = "A special dish for game night.", RequiredPoints = RewardRequiredPoint.Seventy, Level = RewardLevel.Gold },
-        new CreateRewardDto { Name = "T-shirt", Description = "A cool board game club T-shirt.", RequiredPoints = RewardRequiredPoint.SeventyFive, Level = RewardLevel.Gold },
-        new CreateRewardDto { Name = "Ultimate Snack Pack", Description = "A variety of snacks to enjoy.", RequiredPoints = RewardRequiredPoint.Eighty, Level = RewardLevel.Gold },
-        new CreateRewardDto { Name = "Coffee or Tea", Description = "A warm cup of coffee or tea.", RequiredPoints = RewardRequiredPoint.EightyFive, Level = RewardLevel.Gold },
-        new CreateRewardDto { Name = "Board Game Night Voucher", Description = "A voucher for a board game night with friends.", RequiredPoints = RewardRequiredPoint.Ninety, Level = RewardLevel.Gold },
-        new CreateRewardDto { Name = "Beverage of Choice", Description = "Your choice of any beverage.", RequiredPoints = RewardRequiredPoint.NinetyFive, Level = RewardLevel.Gold },
-        new CreateRewardDto { Name = "Party Platter", Description = "A platter of snacks for your game night.", RequiredPoints = RewardRequiredPoint.OneHundred, Level = RewardLevel.Platinum },
-        new CreateRewardDto { Name = "Hot Dog", Description = "Enjoy a classic hot dog.", RequiredPoints = RewardRequiredPoint.Five, Level = RewardLevel.Bronze },
-        new CreateRewardDto { Name = "Fruit Juice", Description = "A refreshing fruit juice of your choice.", RequiredPoints = RewardRequiredPoint.Ten, Level = RewardLevel.Bronze },
-        new CreateRewardDto { Name = "Pretzel", Description = "A warm, soft pretzel.", RequiredPoints = RewardRequiredPoint.Fifteen, Level = RewardLevel.Bronze },
-        new CreateRewardDto { Name = "Cheeseburger", Description = "A juicy cheeseburger to satisfy your hunger.", RequiredPoints = RewardRequiredPoint.Twenty, Level = RewardLevel.Bronze },
-        new CreateRewardDto { Name = "Vegetarian Wrap", Description = "A delicious wrap filled with fresh veggies.", RequiredPoints = RewardRequiredPoint.TwentyFive, Level = RewardLevel.Silver },
-        new CreateRewardDto { Name = "Energy Drink", Description = "A boost of energy with an energy drink.", RequiredPoints = RewardRequiredPoint.Thirty, Level = RewardLevel.Silver },
-        new CreateRewardDto { Name = "Brownie", Description = "A rich and fudgy brownie.", RequiredPoints = RewardRequiredPoint.ThirtyFive, Level = RewardLevel.Silver },
-        new CreateRewardDto { Name = "Nachos", Description = "A plate of cheesy nachos with toppings.", RequiredPoints = RewardRequiredPoint.Forty, Level = RewardLevel.Silver },
-        new CreateRewardDto { Name = "Smoothie", Description = "A healthy fruit smoothie.", RequiredPoints = RewardRequiredPoint.FortyFive, Level = RewardLevel.Gold },
-        new CreateRewardDto { Name = "Chocolate Bar", Description = "A sweet chocolate bar.", RequiredPoints = RewardRequiredPoint.Fifty, Level = RewardLevel.Gold },
-        new CreateRewardDto { Name = "Fried Chicken", Description = "Crispy fried chicken pieces.", RequiredPoints = RewardRequiredPoint.FiftyFive, Level = RewardLevel.Gold },
-        new CreateRewardDto { Name = "Mini Tacos", Description = "A serving of mini tacos with salsa.", RequiredPoints = RewardRequiredPoint.Sixty, Level = RewardLevel.Gold },
-        new CreateRewardDto { Name = "Gourmet Sandwich", Description = "A gourmet sandwich with premium ingredients.", RequiredPoints = RewardRequiredPoint.SixtyFive, Level = RewardLevel.Gold },
-        new CreateRewardDto { Name = "Chili Cheese Fries", Description = "Fries topped with chili and cheese.", RequiredPoints = RewardRequiredPoint.Seventy, Level = RewardLevel.Gold },
-        new CreateRewardDto { Name = "Sushi Roll", Description = "A fresh sushi roll of your choice.", RequiredPoints = RewardRequiredPoint.SeventyFive, Level = RewardLevel.Gold },
-        new CreateRewardDto { Name = "Cheese Platter", Description = "An assorted cheese platter.", RequiredPoints = RewardRequiredPoint.Eighty, Level = RewardLevel.Gold },
-        new CreateRewardDto { Name = "Fruit Salad", Description = "A healthy fruit salad mix.", RequiredPoints = RewardRequiredPoint.EightyFive, Level = RewardLevel.Gold },
-        new CreateRewardDto { Name = "Loyalty Card", Description = "Get points towards free games.", RequiredPoints = RewardRequiredPoint.Ninety, Level = RewardLevel.Gold },
-        new CreateRewardDto { Name = "Game Night Host", Description = "Host a game night with friends for free.", RequiredPoints = RewardRequiredPoint.NinetyFive, Level = RewardLevel.Gold },
-        new CreateRewardDto { Name = "Party Package", Description = "A party package including games and snacks.", RequiredPoints = RewardRequiredPoint.OneHundred, Level = RewardLevel.Platinum }
+        new CreateRewardDto { Name_EN = "Free Pass", Description_EN = "A free pass for your next game night.", RequiredPoints = RewardRequiredPoint.Five, Level = RewardLevel.Bronze },
+        new CreateRewardDto { Name_EN = "Coca-Cola", Description_EN = "A refreshing Coca-Cola drink.", RequiredPoints = RewardRequiredPoint.Ten, Level = RewardLevel.Bronze },
+        new CreateRewardDto { Name_EN = "Sandwich", Description_EN = "A delicious sandwich of your choice.", RequiredPoints = RewardRequiredPoint.Fifteen, Level = RewardLevel.Bronze },
+        new CreateRewardDto { Name_EN = "Cake Slice", Description_EN = "A slice of our special homemade cake.", RequiredPoints = RewardRequiredPoint.Twenty, Level = RewardLevel.Bronze },
+        new CreateRewardDto { Name_EN = "Chips", Description_EN = "A bag of chips to munch on while you play.", RequiredPoints = RewardRequiredPoint.TwentyFive, Level = RewardLevel.Silver },
+        new CreateRewardDto { Name_EN = "Draft Beer", Description_EN = "A refreshing draft beer to enjoy.", RequiredPoints = RewardRequiredPoint.Thirty, Level = RewardLevel.Silver },
+        new CreateRewardDto { Name_EN = "Ice Cream", Description_EN = "A scoop of ice cream in your favorite flavor.", RequiredPoints = RewardRequiredPoint.ThirtyFive, Level = RewardLevel.Silver },
+        new CreateRewardDto { Name_EN = "Soft Drink", Description_EN = "Your choice of a soft drink.", RequiredPoints = RewardRequiredPoint.Forty, Level = RewardLevel.Silver },
+        new CreateRewardDto { Name_EN = "Pizza Slice", Description_EN = "A delicious slice of pizza.", RequiredPoints = RewardRequiredPoint.FortyFive, Level = RewardLevel.Gold },
+        new CreateRewardDto { Name_EN = "Free Game Rental", Description_EN = "Rent a game for free for your next visit.", RequiredPoints = RewardRequiredPoint.Fifty, Level = RewardLevel.Gold },
+        new CreateRewardDto { Name_EN = "Homemade Cookies", Description_EN = "A pack of freshly baked cookies.", RequiredPoints = RewardRequiredPoint.FiftyFive, Level = RewardLevel.Gold },
+        new CreateRewardDto { Name_EN = "Gourmet Popcorn", Description_EN = "A serving of gourmet popcorn.", RequiredPoints = RewardRequiredPoint.Sixty, Level = RewardLevel.Gold },
+        new CreateRewardDto { Name_EN = "Board Game Discount", Description_EN = "A discount on your next board game purchase.", RequiredPoints = RewardRequiredPoint.SixtyFive, Level = RewardLevel.Gold },
+        new CreateRewardDto { Name_EN = "Game Night Special", Description_EN = "A special dish for game night.", RequiredPoints = RewardRequiredPoint.Seventy, Level = RewardLevel.Gold },
+        new CreateRewardDto { Name_EN = "T-shirt", Description_EN = "A cool board game club T-shirt.", RequiredPoints = RewardRequiredPoint.SeventyFive, Level = RewardLevel.Gold },
+        new CreateRewardDto { Name_EN = "Ultimate Snack Pack", Description_EN = "A variety of snacks to enjoy.", RequiredPoints = RewardRequiredPoint.Eighty, Level = RewardLevel.Gold },
+        new CreateRewardDto { Name_EN = "Coffee or Tea", Description_EN = "A warm cup of coffee or tea.", RequiredPoints = RewardRequiredPoint.EightyFive, Level = RewardLevel.Gold },
+        new CreateRewardDto { Name_EN = "Board Game Night Voucher", Description_EN = "A voucher for a board game night with friends.", RequiredPoints = RewardRequiredPoint.Ninety, Level = RewardLevel.Gold },
+        new CreateRewardDto { Name_EN = "Beverage of Choice", Description_EN = "Your choice of any beverage.", RequiredPoints = RewardRequiredPoint.NinetyFive, Level = RewardLevel.Gold },
+        new CreateRewardDto { Name_EN = "Party Platter", Description_EN = "A platter of snacks for your game night.", RequiredPoints = RewardRequiredPoint.OneHundred, Level = RewardLevel.Platinum },
+        new CreateRewardDto { Name_EN = "Hot Dog", Description_EN = "Enjoy a classic hot dog.", RequiredPoints = RewardRequiredPoint.Five, Level = RewardLevel.Bronze },
+        new CreateRewardDto { Name_EN = "Fruit Juice", Description_EN = "A refreshing fruit juice of your choice.", RequiredPoints = RewardRequiredPoint.Ten, Level = RewardLevel.Bronze },
+        new CreateRewardDto { Name_EN = "Pretzel", Description_EN = "A warm, soft pretzel.", RequiredPoints = RewardRequiredPoint.Fifteen, Level = RewardLevel.Bronze },
+        new CreateRewardDto { Name_EN = "Cheeseburger", Description_EN = "A juicy cheeseburger to satisfy your hunger.", RequiredPoints = RewardRequiredPoint.Twenty, Level = RewardLevel.Bronze },
+        new CreateRewardDto { Name_EN = "Vegetarian Wrap", Description_EN = "A delicious wrap filled with fresh veggies.", RequiredPoints = RewardRequiredPoint.TwentyFive, Level = RewardLevel.Silver },
+        new CreateRewardDto { Name_EN = "Energy Drink", Description_EN = "A boost of energy with an energy drink.", RequiredPoints = RewardRequiredPoint.Thirty, Level = RewardLevel.Silver },
+        new CreateRewardDto { Name_EN = "Brownie", Description_EN = "A rich and fudgy brownie.", RequiredPoints = RewardRequiredPoint.ThirtyFive, Level = RewardLevel.Silver },
+        new CreateRewardDto { Name_EN = "Nachos", Description_EN = "A plate of cheesy nachos with toppings.", RequiredPoints = RewardRequiredPoint.Forty, Level = RewardLevel.Silver },
+        new CreateRewardDto { Name_EN = "Smoothie", Description_EN = "A healthy fruit smoothie.", RequiredPoints = RewardRequiredPoint.FortyFive, Level = RewardLevel.Gold },
+        new CreateRewardDto { Name_EN = "Chocolate Bar", Description_EN = "A sweet chocolate bar.", RequiredPoints = RewardRequiredPoint.Fifty, Level = RewardLevel.Gold },
+        new CreateRewardDto { Name_EN = "Fried Chicken", Description_EN = "Crispy fried chicken pieces.", RequiredPoints = RewardRequiredPoint.FiftyFive, Level = RewardLevel.Gold },
+        new CreateRewardDto { Name_EN = "Mini Tacos", Description_EN = "A serving of mini tacos with salsa.", RequiredPoints = RewardRequiredPoint.Sixty, Level = RewardLevel.Gold },
+        new CreateRewardDto { Name_EN = "Gourmet Sandwich", Description_EN = "A gourmet sandwich with premium ingredients.", RequiredPoints = RewardRequiredPoint.SixtyFive, Level = RewardLevel.Gold },
+        new CreateRewardDto { Name_EN = "Chili Cheese Fries", Description_EN = "Fries topped with chili and cheese.", RequiredPoints = RewardRequiredPoint.Seventy, Level = RewardLevel.Gold },
+        new CreateRewardDto { Name_EN = "Sushi Roll", Description_EN = "A fresh sushi roll of your choice.", RequiredPoints = RewardRequiredPoint.SeventyFive, Level = RewardLevel.Gold },
+        new CreateRewardDto { Name_EN = "Cheese Platter", Description_EN = "An assorted cheese platter.", RequiredPoints = RewardRequiredPoint.Eighty, Level = RewardLevel.Gold },
+        new CreateRewardDto { Name_EN = "Fruit Salad", Description_EN = "A healthy fruit salad mix.", RequiredPoints = RewardRequiredPoint.EightyFive, Level = RewardLevel.Gold },
+        new CreateRewardDto { Name_EN = "Loyalty Card", Description_EN = "Get points towards free games.", RequiredPoints = RewardRequiredPoint.Ninety, Level = RewardLevel.Gold },
+        new CreateRewardDto { Name_EN = "Game Night Host", Description_EN = "Host a game night with friends for free.", RequiredPoints = RewardRequiredPoint.NinetyFive, Level = RewardLevel.Gold },
+        new CreateRewardDto { Name_EN = "Party Package", Description_EN = "A party package including games and snacks.", RequiredPoints = RewardRequiredPoint.OneHundred, Level = RewardLevel.Platinum }
     };
 
 
-    public static readonly List<CreateChallengeDto> CHALLENGE_LIST_DTOS = new()
-    {
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Five,
-            Attempts = 1,
-            Type = ChallengeType.Weekly,
-            GameId = 1
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Ten,
-            Attempts = 2,
-            Type = ChallengeType.Weekly,
-            GameId = 2
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Fifteen,
-            Attempts = 3,
-            Type = ChallengeType.Weekly,
-            GameId = 3
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Twenty,
-            Attempts = 4,
-            Type = ChallengeType.Weekly,
-            GameId = 4
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Five,
-            Attempts = 1,
-            Type = ChallengeType.Weekly,
-            GameId = 5
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Ten,
-            Attempts = 2,
-            Type = ChallengeType.Weekly,
-            GameId = 1
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Fifteen,
-            Attempts = 3,
-            Type = ChallengeType.Weekly,
-            GameId = 2
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Twenty,
-            Attempts = 4,
-            Type = ChallengeType.Weekly,
-            GameId = 3
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Five,
-            Attempts = 1,
-            Type = ChallengeType.Weekly,
-            GameId = 4
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Ten,
-            Attempts = 2,
-            Type = ChallengeType.Weekly,
-            GameId = 5
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Fifteen,
-            Attempts = 3,
-            Type = ChallengeType.Weekly,
-            GameId = 1
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Twenty,
-            Attempts = 4,
-            Type = ChallengeType.Weekly,
-            GameId = 2
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Five,
-            Attempts = 1,
-            Type = ChallengeType.Weekly,
-            GameId = 3
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Ten,
-            Attempts = 2,
-            Type = ChallengeType.Weekly,
-            GameId = 4
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Fifteen,
-            Attempts = 3,
-            Type = ChallengeType.Weekly,
-            GameId = 5
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Twenty,
-            Attempts = 4,
-            Type = ChallengeType.Weekly,
-            GameId = 1
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Five,
-            Attempts = 1,
-            Type = ChallengeType.Weekly,
-            GameId = 2
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Ten,
-            Attempts = 2,
-            Type = ChallengeType.Weekly,
-            GameId = 3
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Fifteen,
-            Attempts = 3,
-            Type = ChallengeType.Weekly,
-            GameId = 4
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Twenty,
-            Attempts = 4,
-            Type = ChallengeType.Weekly,
-            GameId = 5
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Five,
-            Attempts = 1,
-            Type = ChallengeType.Weekly,
-            GameId = 1
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Five,
-            Attempts = 1,
-            Type = ChallengeType.Weekly,
-            GameId = 1
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Ten,
-            Attempts = 2,
-            Type = ChallengeType.Weekly,
-            GameId = 2
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Fifteen,
-            Attempts = 3,
-            Type = ChallengeType.Weekly,
-            GameId = 3
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Twenty,
-            Attempts = 4,
-            Type = ChallengeType.Weekly,
-            GameId = 4
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Five,
-            Attempts = 1,
-            Type = ChallengeType.Weekly,
-            GameId = 5
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Ten,
-            Attempts = 2,
-            Type = ChallengeType.Weekly,
-            GameId = 6
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Fifteen,
-            Attempts = 3,
-            Type = ChallengeType.Weekly,
-            GameId = 7
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Twenty,
-            Attempts = 4,
-            Type = ChallengeType.Weekly,
-            GameId = 8
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Five,
-            Attempts = 1,
-            Type = ChallengeType.Weekly,
-            GameId = 9
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Ten,
-            Attempts = 2,
-            Type = ChallengeType.Weekly,
-            GameId = 10
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Fifteen,
-            Attempts = 3,
-            Type = ChallengeType.Weekly,
-            GameId = 11
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Twenty,
-            Attempts = 4,
-            Type = ChallengeType.Weekly,
-            GameId = 12
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Five,
-            Attempts = 1,
-            Type = ChallengeType.Weekly,
-            GameId = 13
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Ten,
-            Attempts = 2,
-            Type = ChallengeType.Weekly,
-            GameId = 14
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Fifteen,
-            Attempts = 3,
-            Type = ChallengeType.Weekly,
-            GameId = 15
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Twenty,
-            Attempts = 4,
-            Type = ChallengeType.Weekly,
-            GameId = 16
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Five,
-            Attempts = 1,
-            Type = ChallengeType.Weekly,
-            GameId = 17
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Ten,
-            Attempts = 2,
-            Type = ChallengeType.Weekly,
-            GameId = 18
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Fifteen,
-            Attempts = 3,
-            Type = ChallengeType.Weekly,
-            GameId = 19
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Twenty,
-            Attempts = 4,
-            Type = ChallengeType.Weekly,
-            GameId = 20
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Five,
-            Attempts = 1,
-            Type = ChallengeType.Weekly,
-            GameId = 21
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Ten,
-            Attempts = 2,
-            Type = ChallengeType.Weekly,
-            GameId = 22
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Fifteen,
-            Attempts = 3,
-            Type = ChallengeType.Weekly,
-            GameId = 23
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Twenty,
-            Attempts = 4,
-            Type = ChallengeType.Weekly,
-            GameId = 24
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Five,
-            Attempts = 1,
-            Type = ChallengeType.Weekly,
-            GameId = 25
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Ten,
-            Attempts = 2,
-            Type = ChallengeType.Weekly,
-            GameId = 1
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Fifteen,
-            Attempts = 3,
-            Type = ChallengeType.Weekly,
-            GameId = 2
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Twenty,
-            Attempts = 4,
-            Type = ChallengeType.Weekly,
-            GameId = 3
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Five,
-            Attempts = 1,
-            Type = ChallengeType.Weekly,
-            GameId = 4
-        },
-        new()
-        {
-            RewardPoints = ChallengeRewardPoint.Ten,
-            Attempts = 2,
-            Type = ChallengeType.Weekly,
-            GameId = 5
-        }
-    };
+    public static readonly List<CreateChallengeDto> CHALLENGE_LIST_DTOS = new();
 }

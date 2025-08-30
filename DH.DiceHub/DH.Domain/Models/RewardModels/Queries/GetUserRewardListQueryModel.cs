@@ -5,8 +5,10 @@ public class GetUserRewardListQueryModel
     public int Id { get; set; }
     public int AvailableMoreForDays { get; set; }
     public int RewardImageId { get; set; }
-    public string RewardName { get; set; } = string.Empty;
-    public string RewardDescription { get; set; } = string.Empty;
+    public string RewardName_EN { get; set; } = string.Empty;
+    public string RewardName_BG { get; set; } = string.Empty;
+    public string RewardDescription_EN { get; set; } = string.Empty;
+    public string RewardDescription_BG { get; set; } = string.Empty;
 
     public UserRewardStatus Status { get;set; }
 }

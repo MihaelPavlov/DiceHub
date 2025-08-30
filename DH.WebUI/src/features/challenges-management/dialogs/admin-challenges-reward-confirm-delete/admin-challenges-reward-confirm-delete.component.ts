@@ -4,6 +4,7 @@ import { ToastType } from '../../../../shared/models/toast.model';
 import { ToastService } from '../../../../shared/services/toast.service';
 import { RewardsService } from '../../../../entities/rewards/api/rewards.service';
 import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-admin-challenges-reward-confirm-delete-dialog',
@@ -15,21 +16,22 @@ export class AdminChallengesRewardConfirmDeleteDialog {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<AdminChallengesRewardConfirmDeleteDialog>,
     private readonly rewardService: RewardsService,
-    private readonly toastService: ToastService
+    private readonly toastService: ToastService,
+    private readonly ts: TranslateService
   ) {}
 
   public delete(): void {
     this.rewardService.delete(this.data.id).subscribe({
       next: () => {
         this.toastService.success({
-          message: 'Deleted',
+          message: this.ts.instant('deleted'),
           type: ToastType.Success,
         });
         this.dialogRef.close(true);
       },
       error: () => {
         this.toastService.error({
-          message: AppToastMessage.SomethingWrong,
+          message: this.ts.instant(AppToastMessage.SomethingWrong),
           type: ToastType.Error,
         });
         this.dialogRef.close(false);

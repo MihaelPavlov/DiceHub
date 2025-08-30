@@ -2,7 +2,7 @@
   <div class="buttons">
     <div class="btn-container" (click)="toggleRewardForm()">
       <ng-container *ngIf="!editRewardId">
-        <span>Add Reward</span>
+        <span>{{ "admin_rewards.add_reward" | translate }}</span>
         <!-- add icon -->
         <svg
           class="wrapper_add"
@@ -13,7 +13,7 @@
         </svg>
       </ng-container>
       <ng-container *ngIf="editRewardId">
-        <span>Update Reward</span>
+        <span>{{ "admin_rewards.update_reward" | translate }}</span>
       </ng-container>
       <!-- close icon -->
       <svg class="wrapper_add" viewBox="0 -960 960 960" *ngIf="showRewardForm">
@@ -24,13 +24,18 @@
     </div>
 
     <div class="btn-container">
-      <span>Total: {{ rewardList.length }}</span>
+      <span
+        >{{
+          "admin_rewards.total_rewards"
+            | translate : { totalRewards: rewardList.length }
+        }}
+      </span>
     </div>
   </div>
 
   <div class="buttons">
     <div class="btn-container" (click)="toggleSearch()">
-      <span>Search</span>
+      <span>{{ "admin_rewards.search_btn" | translate }}</span>
 
       <!-- search icon -->
 
@@ -52,7 +57,7 @@
       <input
         type="input"
         class="form__field"
-        placeholder="search"
+        [placeholder]="'admin_rewards.placeholders.search' | translate"
         name="search"
         formControlName="search"
         id="search"
@@ -63,7 +68,7 @@
             d="M788.38-127.85 535.92-380.31q-30 24.54-73.5 38.04t-83.88 13.5q-106.1 0-179.67-73.53-73.56-73.53-73.56-179.57 0-106.05 73.53-179.71 73.53-73.65 179.57-73.65 106.05 0 179.71 73.56Q631.77-688.1 631.77-582q0 42.69-13.27 83.69t-37.27 70.69l253.46 253.47-46.31 46.3ZM378.54-394.77q79.61 0 133.42-53.81 53.81-53.8 53.81-133.42 0-79.62-53.81-133.42-53.81-53.81-133.42-53.81-79.62 0-133.42 53.81-53.81 53.8-53.81 133.42 0 79.62 53.81 133.42 53.8 53.81 133.42 53.81Z"
           />
         </svg>
-        Search</label
+        {{ "admin_rewards.labels.search" | translate }}</label
       >
     </form>
   </div>
@@ -101,25 +106,28 @@
               </div>
             </label>
           </div>
+          <div class="input-field">
+            <label for="level" class="required">
+              {{ "admin_rewards.labels.select_level" | translate }}</label
+            >
+
+            <ng-select
+              [items]="rewardLevels"
+              bindValue="id"
+              bindLabel="name"
+              [placeholder]="
+                'admin_rewards.placeholders.select_level' | translate
+              "
+              [searchable]="true"
+              formControlName="selectedLevel"
+              class="app-select-long"
+            >
+            </ng-select>
+          </div>
           <div class="input-group">
             <div class="input-field">
-              <label for="level" class="required">Choose Level</label>
-
-              <ng-select
-                [items]="rewardLevels"
-                bindValue="id"
-                bindLabel="name"
-                placeholder="Select Level"
-                [searchable]="true"
-                formControlName="selectedLevel"
-                class="app-select"
-              >
-              </ng-select>
-            </div>
-
-            <div class="input-field">
               <label for="requiredPoints input-label" class="required">
-                Required Points
+                {{ "admin_rewards.labels.required_points" | translate }}
                 <!-- lock icon -->
                 <svg
                   *ngIf="form.controls.requiredPoints.disabled"
@@ -136,7 +144,7 @@
                 [items]="rewardRequiredPointList"
                 bindValue="id"
                 bindLabel="name"
-                placeholder="points"
+                [placeholder]="'admin_rewards.placeholders.required_points' | translate"
                 [searchable]="true"
                 formControlName="requiredPoints"
                 [disabled]="form.controls.requiredPoints.disabled"
@@ -144,27 +152,15 @@
               >
               </ng-select>
             </div>
-          </div>
-
-          <div class="input-group">
             <div class="input-field">
-              <label for="Name" class="required">Name</label>
-              <input
-                name="name"
-                placeholder="name"
-                type="text"
-                id="name"
-                formControlName="name"
-              />
-            </div>
-
-            <div class="input-field">
-              <label for="cashEquivalent" class="required"
-                >Cash Equivalent</label
-              >
+              <label for="cashEquivalent" class="required">{{
+                "admin_rewards.labels.cash_equivalent" | translate
+              }}</label>
               <input
                 name="cashEquivalent"
-                placeholder="cash equivalent"
+                [placeholder]="
+                  'admin_rewards.placeholders.cash_equivalent' | translate
+                "
                 type="number"
                 id="cashEquivalent"
                 formControlName="cashEquivalent"
@@ -173,14 +169,148 @@
           </div>
 
           <div class="input-field">
-            <label for="description" class="required">Description</label>
+            <div class="label-row">
+              <label for="description" class="required">{{
+                "admin_rewards.labels.name" | translate
+              }}</label>
+              <div class="lang-buttons">
+                <button
+                  type="button"
+                  [class.active]="currentLangName === 'EN'"
+                  (click)="setLangName('EN')"
+                  [class.missing]="!form.get('name_en')?.value"
+                >
+                  <svg
+                    viewBox="0 0 24 16"
+                    xmlns="http://www.w3.org/2000/svg"
+                    role="img"
+                  >
+                    <rect width="24" height="16" fill="#012169" />
+                    <path
+                      d="M0 0L24 16M24 0L0 16"
+                      stroke="#FFF"
+                      stroke-width="2"
+                    />
+                    <path
+                      d="M0 0L24 16M24 0L0 16"
+                      stroke="#C8102E"
+                      stroke-width="1"
+                    />
+                    <rect x="10" width="4" height="16" fill="#FFF" />
+                    <rect y="6" width="24" height="4" fill="#FFF" />
+                    <rect x="11" width="2" height="16" fill="#C8102E" />
+                    <rect y="7" width="24" height="2" fill="#C8102E" />
+                  </svg>
+                </button>
+                <button
+                  type="button"
+                  [class.active]="currentLangName === 'BG'"
+                  (click)="setLangName('BG')"
+                  [class.missing]="!form.get('name_bg')?.value"
+                >
+                  <svg
+                    viewBox="0 0 24 16"
+                    xmlns="http://www.w3.org/2000/svg"
+                    role="img"
+                  >
+                    <rect width="24" height="5.33" fill="#fff" />
+                    <rect y="5.33" width="24" height="5.33" fill="#00966e" />
+                    <rect y="10.66" width="24" height="5.34" fill="#d62612" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
             <input
-              name="description"
-              placeholder="description"
+              *ngIf="currentLangName === 'EN'"
+              name="name"
+              [placeholder]="'admin_rewards.placeholders.name_en' | translate"
               type="text"
-              id="description"
-              formControlName="description"
+              id="name"
+              formControlName="name_en"
             />
+            <input
+              *ngIf="currentLangName === 'BG'"
+              name="name"
+              [placeholder]="'admin_rewards.placeholders.name_bg' | translate"
+              type="text"
+              id="name"
+              formControlName="name_bg"
+            />
+          </div>
+
+          <div class="input-field">
+            <div class="label-row">
+              <label for="description" class="required">{{
+                "admin_rewards.labels.description" | translate
+              }}</label>
+              <div class="lang-buttons">
+                <button
+                  type="button"
+                  [class.active]="currentLangDescription === 'EN'"
+                  (click)="setLangDescription('EN')"
+                  [class.missing]="!form.get('description_en')?.value"
+                >
+                  <svg
+                    viewBox="0 0 24 16"
+                    xmlns="http://www.w3.org/2000/svg"
+                    role="img"
+                  >
+                    <rect width="24" height="16" fill="#012169" />
+                    <path
+                      d="M0 0L24 16M24 0L0 16"
+                      stroke="#FFF"
+                      stroke-width="2"
+                    />
+                    <path
+                      d="M0 0L24 16M24 0L0 16"
+                      stroke="#C8102E"
+                      stroke-width="1"
+                    />
+                    <rect x="10" width="4" height="16" fill="#FFF" />
+                    <rect y="6" width="24" height="4" fill="#FFF" />
+                    <rect x="11" width="2" height="16" fill="#C8102E" />
+                    <rect y="7" width="24" height="2" fill="#C8102E" />
+                  </svg>
+                </button>
+                <button
+                  type="button"
+                  [class.active]="currentLangDescription === 'BG'"
+                  (click)="setLangDescription('BG')"
+                  [class.missing]="!form.get('description_bg')?.value"
+                >
+                  <svg
+                    viewBox="0 0 24 16"
+                    xmlns="http://www.w3.org/2000/svg"
+                    role="img"
+                  >
+                    <rect width="24" height="5.33" fill="#fff" />
+                    <rect y="5.33" width="24" height="5.33" fill="#00966e" />
+                    <rect y="10.66" width="24" height="5.34" fill="#d62612" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <textarea
+              *ngIf="currentLangDescription === 'EN'"
+              [placeholder]="
+                'admin_rewards.placeholders.description_en' | translate
+              "
+              formControlName="description_en"
+              #descAreaEn
+              class="expand-textarea-mobile"
+            ></textarea>
+
+            <!-- BG Textarea -->
+            <textarea
+              *ngIf="currentLangDescription === 'BG'"
+              [placeholder]="
+                'admin_rewards.placeholders.description_bg' | translate
+              "
+              formControlName="description_bg"
+              #descAreaBg
+              class="expand-textarea-mobile"
+            ></textarea>
           </div>
         </div>
       </div>
@@ -202,7 +332,7 @@
           'btn-font-red': this.form.invalid
         }"
       >
-        Create
+        {{ "admin_rewards.create_btn" | translate }}
       </button>
 
       <button
@@ -218,7 +348,7 @@
           'btn-font-red': this.form.invalid
         }"
       >
-        Update
+        {{ "admin_rewards.update_btn" | translate }}
       </button>
     </div>
   </form>
@@ -226,8 +356,9 @@
 
 <ng-container *ngIf="rewardList.length === 0">
   <span class="reward-list-empty">
-    No rewards to show.<br />
-    <strong>Add a new reward</strong> to get started.
+    {{ "admin_rewards.no_rewards" | translate }}<br />
+    <strong>{{ "admin_rewards.no_rewards_desc_1" | translate }}</strong
+    >{{ "admin_rewards.no_rewards_desc_2" | translate }}
   </span>
 </ng-container>
 
@@ -245,12 +376,23 @@
     </div>
     <div class="wrapper_info">
       <div class="wrapper_title">
-        {{ reward.name }}
+        {{
+          currentLanguage === SupportLanguages.EN
+            ? reward.name_EN
+            : reward.name_BG
+        }}
         <div class="wrapper_description">
-          {{ reward.description }}
+          {{
+            currentLanguage === SupportLanguages.EN
+              ? reward.description_EN
+              : reward.description_BG
+          }}
         </div>
         <div class="wrapper_description">
-          {{ reward.cashEquivalent | currency : "BGN " }}
+          {{
+            reward.cashEquivalent
+              | currency : ("admin_rewards.currency" | translate)
+          }}
         </div>
       </div>
       <div class="wrapper_right">

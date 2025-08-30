@@ -10,7 +10,9 @@ namespace DH.Adapter.Scheduling.Handlers;
 /// <summary>
 /// Implementation of <see cref="IUserRewardsExpirationReminderHandler"/>
 /// </summary>
-internal class UserRewardsExpirationReminderHandler(IRepository<UserChallengeReward> repository, IRepository<FailedJob> failedJobsRepository, IPushNotificationsService pushNotificationsService) : IUserRewardsExpirationReminderHandler
+internal class UserRewardsExpirationReminderHandler(
+    IRepository<UserChallengeReward> repository, IRepository<FailedJob> failedJobsRepository,
+    IPushNotificationsService pushNotificationsService) : IUserRewardsExpirationReminderHandler
 {
     readonly IRepository<UserChallengeReward> repository = repository;
     readonly IRepository<FailedJob> failedJobsRepository = failedJobsRepository;
@@ -36,7 +38,8 @@ internal class UserRewardsExpirationReminderHandler(IRepository<UserChallengeRew
                 {
                     var payload = new RewardExpirationReminderNotification
                     {
-                        RewardName = reward.Reward.Name,
+                        RewardName_EN = reward.Reward.Name_EN,
+                        RewardName_BG = reward.Reward.Name_BG,
                         Days = days
                     };
 

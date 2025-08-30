@@ -27,7 +27,6 @@ internal class GetChallengeByIdQueryHandler : IRequestHandler<GetChallengeByIdQu
             RewardPoints = x.RewardPoints,
             GameId = x.GameId,
             Attempts = x.Attempts,
-            Type = x.Type
         }, cancellationToken);
 
         return challenge.FirstOrDefault()

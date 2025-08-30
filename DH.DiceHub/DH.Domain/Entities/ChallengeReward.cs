@@ -5,9 +5,11 @@ namespace DH.Domain.Entities;
 public class ChallengeReward
 {
     public int Id { get; set; }
-    public string Name { get; set; } = string.Empty;
+    public string Name_EN { get; set; } = string.Empty;
+    public string Name_BG { get; set; } = string.Empty;
     public decimal CashEquivalent { get; set; }
-    public string Description { get; set; } = string.Empty;
+    public string Description_EN { get; set; } = string.Empty;
+    public string Description_BG { get; set; } = string.Empty;
     public RewardRequiredPoint RequiredPoints { get; set; }
     public RewardLevel Level { get; set; }
     public string CreatedBy { get; set; } = string.Empty;

@@ -1,17 +1,22 @@
 <div class="dialog-container">
-  <h3 class="dialog-container__header m-4">Are you Sure?</h3>
+  <h3 class="dialog-container__header m-4">{{ "are_you_sure" | translate }}</h3>
 
-  <p class="dialog-container__important">!Important Note</p>
+  <p class="dialog-container__important">
+    {{ "admin_rewards.delete_dialog.important_note" | translate }}
+  </p>
   <p class="dialog-container__message">
-    This reward will no longer appear in future challenge periods.<br />
-    However, it will remain visible to users who have already earned it and will
-    still be shown in the current challenge period.
+    {{ "admin_rewards.delete_dialog.important_note_desc_1" | translate
+    }}<br />{{
+      "admin_rewards.delete_dialog.important_note_desc_2" | translate
+    }}
   </p>
 
   <mat-dialog-actions>
-    <button class="btn btn__small btn-blue" mat-dialog-close>Cancel</button>
+    <button class="btn btn__small btn-blue" mat-dialog-close>
+      {{ "cancel" | translate }}
+    </button>
     <button class="btn btn__small btn-red btn-border-red" (click)="delete()">
-      Delete
+      {{ "delete" | translate }}
     </button>
   </mat-dialog-actions>
 </div>

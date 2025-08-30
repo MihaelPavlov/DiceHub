@@ -3,6 +3,7 @@ using System;
 using DH.Adapter.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DH.Adapter.Data.Migrations
 {
     [DbContext(typeof(TenantDbContext))]
-    partial class TenantDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250830042140_RemoveChallengeType")]
+    partial class RemoveChallengeType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -107,11 +110,7 @@ namespace DH.Adapter.Data.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Description_BG")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Description_EN")
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -121,11 +120,7 @@ namespace DH.Adapter.Data.Migrations
                     b.Property<int>("Level")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Name_BG")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name_EN")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 

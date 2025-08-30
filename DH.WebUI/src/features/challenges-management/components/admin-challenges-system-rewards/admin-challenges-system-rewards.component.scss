@@ -137,7 +137,7 @@
   width: 1rem;
   height: 1rem;
   position: absolute;
-  left: 5.5rem;
+  left: 7.5rem;
   fill: palette.$main-icon-color;
 }
 
@@ -225,11 +225,6 @@
     .input-group {
       .input-field input {
         padding: 0.6rem;
-      }
-
-      .input-field label {
-        font-size: 0.7rem;
-        color: palette.$main-font-gray-color;
       }
     }
   }
@@ -326,5 +321,45 @@
 
   &__item-active {
     border: 0.2rem dashed palette.$main-blue-color;
+  }
+}
+
+.input-field {
+  .label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.3rem;
+
+    .lang-buttons {
+      display: flex;
+      gap: 0.4rem;
+
+      button {
+        background-color: palette.$main-nav-color;
+        color: palette.$main-font-color;
+        border: 0.1rem solid palette.$main-blue-color;
+        border-radius: 0.3rem;
+        padding: 0.2rem;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: background-color 0.2s ease, color 0.2s ease;
+
+        svg {
+          display: flex;
+          width: 2rem;
+          height: 1.25rem;
+        }
+        &.active {
+          background-color: palette.$main-blue-color;
+          color: white;
+        }
+
+        &.missing {
+          border-color: palette.$main-red-color;
+          color: palette.$main-red-color;
+        }
+      }
+    }
   }
 }

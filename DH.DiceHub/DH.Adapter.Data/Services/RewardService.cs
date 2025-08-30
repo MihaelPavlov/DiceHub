@@ -64,8 +64,10 @@ public class RewardService : IRewardService
 
             var oldImage = dbReward.Image;
 
-            dbReward.Name = reward.Name;
-            dbReward.Description = reward.Description;
+            dbReward.Name_EN = reward.Name_EN;
+            dbReward.Name_BG = reward.Name_BG;
+            dbReward.Description_EN = reward.Description_EN;
+            dbReward.Description_BG = reward.Description_BG;
             dbReward.CashEquivalent = reward.CashEquivalent;
             dbReward.RequiredPoints = reward.RequiredPoints;
             dbReward.Level = reward.Level;

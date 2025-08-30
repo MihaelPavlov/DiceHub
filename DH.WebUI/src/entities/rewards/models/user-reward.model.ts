@@ -2,8 +2,10 @@ export interface IUserReward {
   id: number;
   availableMoreForDays: number;
   rewardImageId: number;
-  rewardName: string;
-  rewardDescription: string;
+  rewardName_EN: string;
+  rewardName_BG: string;
+  rewardDescription_EN: string;
+  rewardDescription_BG: string;
   status: UserRewardStatus;
 }
 

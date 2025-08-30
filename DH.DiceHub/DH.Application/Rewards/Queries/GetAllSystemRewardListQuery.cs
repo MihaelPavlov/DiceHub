@@ -17,9 +17,11 @@ internal class GetAllSystemRewardListQueryHandler(IRepository<ChallengeReward> c
            x => new GetSystemRewardListQueryModel
            {
                Id = x.Id,
-               Name = x.Name,
+               Name_EN = x.Name_EN,
+               Name_BG = x.Name_BG,
                CashEquivalent = x.CashEquivalent,
-               Description = x.Description,
+               Description_EN = x.Description_EN,
+               Description_BG = x.Description_BG,
                ImageId = x.Image.Id
            }, cancellationToken);
     }

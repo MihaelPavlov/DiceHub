@@ -44,7 +44,7 @@ internal class UserRewardsExpiryHandler(IRepository<UserChallengeReward> reposit
             if (currentDate.Date >= reward.ExpiresDate.Date)
             {
                 reward.IsExpired = true;
-                expiredRewards.Add(new ExpiredRewardInfo(reward.UserId, reward.RewardId, dbReward.Name, reward.ExpiresDate));
+                expiredRewards.Add(new ExpiredRewardInfo(reward.UserId, reward.RewardId, dbReward.Name_EN, dbReward.Name_BG, reward.ExpiresDate));
             }
         }
 
@@ -58,7 +58,7 @@ internal class UserRewardsExpiryHandler(IRepository<UserChallengeReward> reposit
                     CollectedDate: null, ExpiredDate: reward.ExpiredDate,
                     IsExpired: true, IsCollected: false));
 
-            var payload = new RewardExpiredNotification { RewardName = reward.Name };
+            var payload = new RewardExpiredNotification { RewardName_EN = reward.Name_EN, RewardName_BG = reward.Name_BG };
 
             await this.pushNotificationsService
                 .SendNotificationToUsersAsync([reward.UserId], payload, cancellationToken);
@@ -71,5 +71,5 @@ internal class UserRewardsExpiryHandler(IRepository<UserChallengeReward> reposit
         await failedJobsRepository.AddAsync(new FailedJob { Data = data, Type = (int)JobType.UserRewardsExpiry, FailedAt = DateTime.UtcNow, ErrorMessage = errorMessage }, cancellationToken);
     }
 
-    private record ExpiredRewardInfo(string UserId, int RewardId, string Name, DateTime ExpiredDate);
+    private record ExpiredRewardInfo(string UserId, int RewardId, string Name_EN, string Name_BG, DateTime ExpiredDate);
 }

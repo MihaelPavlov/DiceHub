@@ -14,9 +14,7 @@ internal class LocalizationService : ILocalizationService
 
     public string this[string key] => _localizer[key].Value;
 
-    /// <summary>
-    /// Change the current culture for this request/context
-    /// </summary>
+    /// <inheritdoc/>
     public void SetLanguage(string cultureName)
     {
         if (string.IsNullOrWhiteSpace(cultureName))

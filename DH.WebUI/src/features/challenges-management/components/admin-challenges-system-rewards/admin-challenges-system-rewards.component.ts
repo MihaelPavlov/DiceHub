@@ -10,7 +10,6 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Location } from '@angular/common';
 import { RewardLevel } from '../../../../entities/rewards/enums/reward-level.enum';
 import { RewardsService } from '../../../../entities/rewards/api/rewards.service';
 import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
@@ -27,12 +26,16 @@ import {
 } from '../../../../shared/pipe/entity-image.pipe';
 import { IDropdown } from '../../../../shared/models/dropdown.model';
 import { TranslateService } from '@ngx-translate/core';
+import { SupportLanguages } from '../../../../entities/common/models/support-languages.enum';
+import { LanguageService } from '../../../../shared/services/language.service';
 
 interface ISystemRewardsForm {
   selectedLevel: number;
   requiredPoints: number;
-  name: string;
-  description: string;
+  name_en: string;
+  name_bg: string;
+  description_en: string;
+  description_bg: string;
   cashEquivalent: number;
   image: string;
 }
@@ -58,6 +61,9 @@ export class AdminChallengesSystemRewardsComponent extends Form {
   private skipFirstSelectedLevelChange = true;
   public showSearch: boolean = false;
   public searchForm!: FormGroup;
+  public currentLangDescription: 'EN' | 'BG' = 'EN';
+  public currentLangName: 'EN' | 'BG' = 'EN';
+  public readonly SupportLanguages = SupportLanguages;
 
   constructor(
     public override readonly toastService: ToastService,
@@ -66,13 +72,17 @@ export class AdminChallengesSystemRewardsComponent extends Form {
     private readonly entityImagePipe: EntityImagePipe,
     private readonly dialog: MatDialog,
     private readonly scrollService: ScrollService,
-    public override translateService: TranslateService
+    public override translateService: TranslateService,
+    private readonly languageService: LanguageService
   ) {
     super(toastService, translateService);
 
     this.rewardLevels = Object.entries(RewardLevel)
       .filter(([key, value]) => typeof value === 'number')
-      .map(([key, value]) => ({ id: value as number, name: key }));
+      .map(([key, value]) => ({
+        id: value as number,
+        name: this.translateService.instant('reward_level.' + key),
+      }));
 
     this.fetchSystemRewardList();
 
@@ -92,6 +102,18 @@ export class AdminChallengesSystemRewardsComponent extends Form {
       .subscribe((searchExpression: string) => {
         this.onSearchSubmit(searchExpression);
       });
+  }
+
+  public get currentLanguage(): SupportLanguages {
+    return this.languageService.getCurrentLanguage();
+  }
+
+  public setLangDescription(lang: 'EN' | 'BG') {
+    this.currentLangDescription = lang;
+  }
+
+  public setLangName(lang: 'EN' | 'BG') {
+    this.currentLangName = lang;
   }
 
   public toggleSearch(): void {
@@ -114,7 +136,7 @@ export class AdminChallengesSystemRewardsComponent extends Form {
       this.skipFirstSelectedLevelChange = false;
       return;
     } else {
-      this.form.controls.requiredPoints.setValue(0);
+      this.form.controls.requiredPoints.reset();
     }
   }
 
@@ -158,9 +180,11 @@ export class AdminChallengesSystemRewardsComponent extends Form {
         .add(
           {
             level: this.form.controls.selectedLevel.value,
-            name: this.form.controls.name.value,
+            name_EN: this.form.controls.name_en.value,
+            name_BG: this.form.controls.name_bg.value,
             cashEquivalent: this.form.controls.cashEquivalent.value,
-            description: this.form.controls.description.value,
+            description_EN: this.form.controls.description_en.value,
+            description_BG: this.form.controls.description_bg.value,
             requiredPoints: this.form.controls.requiredPoints.value,
           },
           this.fileToUpload
@@ -168,7 +192,9 @@ export class AdminChallengesSystemRewardsComponent extends Form {
         .subscribe({
           next: (_) => {
             this.toastService.success({
-              message: AppToastMessage.ChangesSaved,
+              message: this.translateService.instant(
+                AppToastMessage.ChangesSaved
+              ),
               type: ToastType.Success,
             });
 
@@ -178,7 +204,9 @@ export class AdminChallengesSystemRewardsComponent extends Form {
           error: (error) => {
             this.handleServerErrors(error);
             this.toastService.error({
-              message: AppToastMessage.FailedToSaveChanges,
+              message: this.translateService.instant(
+                AppToastMessage.FailedToSaveChanges
+              ),
               type: ToastType.Error,
             });
           },
@@ -193,8 +221,10 @@ export class AdminChallengesSystemRewardsComponent extends Form {
           {
             id: this.editRewardId,
             level: this.form.controls.selectedLevel.value,
-            name: this.form.controls.name.value,
-            description: this.form.controls.description.value,
+            name_EN: this.form.controls.name_en.value,
+            name_BG: this.form.controls.name_bg.value,
+            description_EN: this.form.controls.description_en.value,
+            description_BG: this.form.controls.description_bg.value,
             cashEquivalent: this.form.controls.cashEquivalent.value,
             requiredPoints: this.form.controls.requiredPoints.value,
             imageId: !this.fileToUpload
@@ -206,7 +236,9 @@ export class AdminChallengesSystemRewardsComponent extends Form {
         .subscribe({
           next: (_) => {
             this.toastService.success({
-              message: AppToastMessage.ChangesSaved,
+              message: this.translateService.instant(
+                AppToastMessage.ChangesSaved
+              ),
               type: ToastType.Success,
             });
 
@@ -216,7 +248,9 @@ export class AdminChallengesSystemRewardsComponent extends Form {
           error: (error) => {
             this.handleServerErrors(error);
             this.toastService.error({
-              message: AppToastMessage.FailedToSaveChanges,
+              message: this.translateService.instant(
+                AppToastMessage.FailedToSaveChanges
+              ),
               type: ToastType.Error,
             });
           },
@@ -230,8 +264,10 @@ export class AdminChallengesSystemRewardsComponent extends Form {
     this.rewardsService.getById(id).subscribe({
       next: (reward: IRewardGetByIdResult) => {
         this.form.patchValue({
-          name: reward.name,
-          description: reward.description,
+          name_en: reward.name_EN,
+          name_bg: reward.name_BG,
+          description_en: reward.description_EN,
+          description_bg: reward.description_BG,
           requiredPoints: reward.requiredPoints,
           cashEquivalent: reward.cashEquivalent,
           selectedLevel: reward.level,
@@ -253,8 +289,6 @@ export class AdminChallengesSystemRewardsComponent extends Form {
 
   public onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
-    console.log(input.files);
-
     const file = input.files?.[0];
 
     if (file) {
@@ -264,11 +298,12 @@ export class AdminChallengesSystemRewardsComponent extends Form {
         this.form.controls.image.patchValue(file.name);
         this.fileToUpload = file;
         this.imageError = null;
-        console.log(this.form.controls);
       };
       reader.readAsDataURL(file);
     } else {
-      this.imageError = 'Image is required.';
+      this.imageError = this.translateService.instant(
+        'admin_rewards.image_required'
+      );
       this.fileToUpload = null;
       this.imagePreview = null;
       this.form.controls.image.reset();
@@ -278,17 +313,37 @@ export class AdminChallengesSystemRewardsComponent extends Form {
   protected override getControlDisplayName(controlName: string): string {
     switch (controlName) {
       case 'selectedLevel':
-        return 'Level';
-      case 'name':
-        return 'Name';
-      case 'description':
-        return 'Description';
+        return this.translateService.instant(
+          'admin_rewards.control_display_names.selected_level'
+        );
+      case 'name_en':
+        return this.translateService.instant(
+          'admin_rewards.control_display_names.name_en'
+        );
+      case 'name_bg':
+        return this.translateService.instant(
+          'admin_rewards.control_display_names.name_bg'
+        );
+      case 'description_en':
+        return this.translateService.instant(
+          'admin_rewards.control_display_names.description_en'
+        );
+      case 'description_bg':
+        return this.translateService.instant(
+          'admin_rewards.control_display_names.description_bg'
+        );
       case 'requiredPoints':
-        return 'Required Points';
+        return this.translateService.instant(
+          'admin_rewards.control_display_names.required_points'
+        );
       case 'image':
-        return 'Image';
+        return this.translateService.instant(
+          'admin_rewards.control_display_names.image'
+        );
       case 'cashEquivalent':
-        return 'Cash Equivalent';
+        return this.translateService.instant(
+          'admin_rewards.control_display_names.cash_equivalent'
+        );
       default:
         return controlName;
     }
@@ -299,8 +354,13 @@ export class AdminChallengesSystemRewardsComponent extends Form {
       next: (rewardList) => {
         this.rewardList = rewardList ?? [];
       },
-      error: (error) => {
-        console.log(error);
+      error: () => {
+        this.toastService.error({
+          message: this.translateService.instant(
+            AppToastMessage.SomethingWrong
+          ),
+          type: ToastType.Error,
+        });
       },
     });
   }
@@ -313,9 +373,11 @@ export class AdminChallengesSystemRewardsComponent extends Form {
       requiredPoints: new FormControl<number>({ value: 0, disabled: true }, [
         Validators.required,
       ]),
-      name: new FormControl<string>('', [Validators.required]),
+      name_en: new FormControl<string>('', [Validators.required]),
+      name_bg: new FormControl<string>('', [Validators.required]),
       cashEquivalent: new FormControl<number>(0, [Validators.required]),
-      description: new FormControl<string>('', [Validators.required]),
+      description_en: new FormControl<string>('', [Validators.required]),
+      description_bg: new FormControl<string>('', [Validators.required]),
       image: new FormControl<string | null>('', [Validators.required]),
     });
   }

@@ -6,6 +6,7 @@ import { FULL_ROUTE } from '../../../shared/configs/route.config';
 import { Column } from '../../../widgets/nav-bar/page/nav-bar.component';
 import { AdminChallengesSystemRewardsComponent } from '../../../features/challenges-management/components/admin-challenges-system-rewards/admin-challenges-system-rewards.component';
 import { AdminChallengesCustomPeriodComponent } from '../../../features/challenges-management/components/admin-challenges-custom-period/admin-challenges-custom-period.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-admin-challenges-navigation',
@@ -19,17 +20,19 @@ export class AdminChallengesNavigationComponent {
 
   public columns: Column[] = [
     {
-      name: 'Challenges',
+      name: this.translateService.instant('admin_challenge.columns.challenges'),
       link: this.ADMIN_LIST,
       isActive: this.isActiveLink(this.ADMIN_LIST),
     },
     {
-      name: 'Rewards',
+      name: this.translateService.instant('admin_challenge.columns.rewards'),
       link: this.ADMIN_SYSTEM_REWARDS,
       isActive: this.isActiveLink(this.ADMIN_SYSTEM_REWARDS),
     },
     {
-      name: 'Custom Period',
+      name: this.translateService.instant(
+        'admin_challenge.columns.custom_period'
+      ),
       link: this.ADMIN_CUSTOM_PERIOD,
       isActive: this.isActiveLink(this.ADMIN_CUSTOM_PERIOD),
     },
@@ -41,7 +44,10 @@ export class AdminChallengesNavigationComponent {
     | AdminChallengesHistoryLogComponent
     | AdminChallengesSystemRewardsComponent;
 
-  constructor(private readonly router: Router) {}
+  constructor(
+    private readonly router: Router,
+    private readonly translateService: TranslateService
+  ) {}
 
   public isActiveLink(link: string): boolean {
     return this.router.url.includes(link);
