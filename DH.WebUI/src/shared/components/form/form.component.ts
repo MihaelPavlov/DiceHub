@@ -62,7 +62,7 @@ export abstract class Form {
       return this.setValidationError(error.error.errors as IValidationError);
     } else if (error.status === HttpStatusCode.InternalServerError) {
       this.toastService.error({
-        message: AppToastMessage.SomethingWrong,
+        message: this.translateService.instant(AppToastMessage.SomethingWrong),
         type: ToastType.Error,
       });
     }

@@ -1,15 +1,12 @@
 <div class="dialog-container" @dialogAnimation>
   <div *ngIf="pushUnsupported  && showWarning" class="notification-warning">
-    ⚠️ Unfortunately, your device or browser doesn’t support notifications when
-    the app is closed or in the background. You will still receive alerts inside
-    the app while you’re using it.
-
+    {{'notification_dialog.push_unsupported'|translate}}
     <button
       class="dismiss-btn-pill"
       (click)="dismissWarning()"
       aria-label="Dismiss notification warning"
     >
-      Got it ✓
+      {{'notification_dialog.push_unsupported_dismiss'|translate}}
     </button>
   </div>
 
@@ -17,15 +14,15 @@
     *ngIf="!pushUnsupported && notificationPermission !== 'granted'"
     class="notification-permission-warning"
   >
-    ⚠️ You will still receive notifications inside the app, but since browser
-    notifications are disabled, we cannot guarantee you’ll get alerts when
-    you’re outside the app.
+    {{'notification_dialog.notification_permissions_not_granted'|translate}}
     <a (click)="navigateToEnableBrowserNotificationInstruction()"
-      >Learn how to enable notifications</a
+      >{{'notification_dialog.learn_how_to_enable_notification'|translate}}</a
     >.
   </div>
   <div class="header">
-    <span class="dialog-container__header">Notifications</span>
+    <span class="dialog-container__header">
+      {{'notification_dialog.notifications_header'|translate}}</span
+    >
     <svg
       mat-dialog-close
       class="dialog-container__close"
@@ -38,9 +35,8 @@
   </div>
   <div class="items">
     <div class="no-items" *ngIf="this.userNotifications.length === 0">
-      <p>🎉 "You’re all caught up, Champion! 🎉</p>
-      No new notifications for now — stay sharp, the next challenge could be
-      just around the corner!" 🏆✨
+      <p>🎉 {{'notification_dialog.no_notifications_1'|translate}} 🎉</p>
+      {{'notification_dialog.no_notifications_2'|translate}} 🏆✨
     </div>
     <ng-container *ngIf="this.userNotifications.length !== 0">
       <div class="links">
@@ -48,9 +44,11 @@
           class="link"
           [ngClass]="{disable: isAllMarkedAsViewed}"
           (click)="markAll()"
-          >Read All</a
+          >{{'notification_dialog.read_all'|translate}}</a
         >
-        <a class="link" (click)="clearAll()">Clear</a>
+        <a class="link" (click)="clearAll()"
+          >{{'notification_dialog.clear'|translate}}</a
+        >
       </div>
       <div
         class="item"
@@ -61,7 +59,10 @@
       >
         <p class="type">{{item.messageTitle}}</p>
 
-        <span class="date">{{item.createdDate| date: DATE_TIME_FORMAT }}</span>
+        <span class="date"
+          >{{item.createdDate| date: DATE_TIME_FORMAT : undefined :
+          this.currentLanguage }}</span
+        >
         <span class="text" [innerHTML]="item.messageBody"></span>
       </div>
     </ng-container>

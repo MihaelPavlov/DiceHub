@@ -12,7 +12,8 @@ import { NotificationsService } from '../../../../entities/common/api/notificati
 import { IUserNotification } from '../../../../entities/common/models/user-notification-model';
 import { DateHelper } from '../../../helpers/date-helper';
 import { MessagingService } from '../../../../entities/messaging/api/messaging.service';
-import { resolveTypeReferenceDirective } from 'typescript';
+import { LanguageService } from '../../../services/language.service';
+import { SupportLanguages } from '../../../../entities/common/models/support-languages.enum';
 
 @Component({
   selector: 'app-notifications-dialog',
@@ -67,7 +68,8 @@ export class NotificationsDialog implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<NotificationsDialog>,
     private readonly notificationService: NotificationsService,
-    private readonly messagingService: MessagingService
+    private readonly messagingService: MessagingService,
+    private readonly languageService: LanguageService
   ) {}
 
   public ngOnInit(): void {
@@ -80,6 +82,10 @@ export class NotificationsDialog implements OnInit {
 
   @ViewChild('infiniteScrollTrigger', { static: false })
   infiniteScrollTrigger!: ElementRef;
+
+  public get currentLanguage(): SupportLanguages {
+    return this.languageService.getCurrentLanguage();
+  }
 
   public ngAfterViewInit() {
     if (!this.infiniteScrollTrigger) return;
