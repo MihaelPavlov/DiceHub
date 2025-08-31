@@ -31,7 +31,6 @@ export class ToastService {
       duration: data.duration ?? this.defaultSnackBarOptions.duration,
       panelClass: TOAST_CLASS.ERROR,
     });
-    console.error(`Error: ${data.message}`, data || '');
   }
 
   public closeSnackbar = () => {

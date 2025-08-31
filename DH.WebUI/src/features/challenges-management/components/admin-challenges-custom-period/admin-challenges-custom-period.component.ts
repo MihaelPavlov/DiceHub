@@ -1,3 +1,5 @@
+import { SupportLanguages } from './../../../../entities/common/models/support-languages.enum';
+import { LanguageService } from './../../../../shared/services/language.service';
 import { CustomPeriodLeaveConfirmationDialog } from './../../dialogs/custom-period-leave-confirmation/custom-period-leave-confirmation.component';
 import { ITenantSettings } from './../../../../entities/common/models/tenant-settings.model';
 import { Component } from '@angular/core';
@@ -37,6 +39,12 @@ interface ICustomPeriodForm {
   rewards: FormArray;
   challenges: FormArray;
 }
+
+enum PeriodDataAction {
+  Save = 'Save',
+  Leave = 'Leave',
+}
+
 function customPeriodValidator(): ValidatorFn {
   return (group: AbstractControl): ValidationErrors | null => {
     const rewards = group.get('rewards') as FormArray;
@@ -70,6 +78,8 @@ export class AdminChallengesCustomPeriodComponent
   public tenantSettings: ITenantSettings | null = null;
   public isCustomPeriodInitialized = false;
   public isUnsavedChanges = false;
+  public SupportLanguages = SupportLanguages;
+  private hasDeletedDataChangedButUnsaved: boolean = false;
   constructor(
     public override readonly toastService: ToastService,
     private readonly rewardsService: RewardsService,
@@ -78,7 +88,8 @@ export class AdminChallengesCustomPeriodComponent
     private readonly tenantSettingsService: TenantSettingsService,
     private readonly dialog: MatDialog,
     private readonly fb: FormBuilder,
-    public override translateService: TranslateService
+    public override translateService: TranslateService,
+    private readonly languageService: LanguageService
   ) {
     super(toastService, translateService);
 
@@ -87,6 +98,10 @@ export class AdminChallengesCustomPeriodComponent
     this.fetchSettings();
     this.fetchCustomPeriod();
     this.form = this.initFormGroup();
+  }
+
+  public get getCurrentLanguage(): SupportLanguages {
+    return this.languageService.getCurrentLanguage();
   }
 
   private fetchCustomPeriod(): void {
@@ -125,11 +140,14 @@ export class AdminChallengesCustomPeriodComponent
           );
         });
 
-        // this.form.markAsPristine();
+        this.initDeletedGames();
+        this.initDeletedRewards();
       },
       error: (error) => {
         this.toastService.error({
-          message: 'Failed to load custom period',
+          message: this.translateService.instant(
+            'custom_period.failed_to_load_period'
+          ),
           type: ToastType.Error,
         });
       },
@@ -139,13 +157,25 @@ export class AdminChallengesCustomPeriodComponent
   public canDeactivate(): boolean | Observable<boolean> | Promise<boolean> {
     if (!this.tenantSettings?.isCustomPeriodOn) return true;
 
-    if (this.isUnsavedChanges || this.form.dirty) {
-      console.log('hasUnsavedChanges');
+    if (!this.checkValidityOfPeriodData(PeriodDataAction.Leave)) return false;
 
+    if (this.isUnsavedChanges || this.form.dirty) {
       return new Promise<boolean>((resolve) => {
         const dialogRef = this.dialog.open(UnsavedChangesConfirmationDialog);
         dialogRef.afterClosed().subscribe({
-          next: (confirmed: boolean) => resolve(confirmed),
+          next: (confirmed: boolean) => {
+            if (this.hasDeletedDataChangedButUnsaved) {
+              this.toastService.error({
+                message: this.translateService.instant(
+                  'custom_period.has_deleted_data_changed_but_unsaved'
+                ),
+                type: ToastType.Error,
+              });
+              return resolve(false);
+            }
+
+            resolve(confirmed);
+          },
           error: () => resolve(false),
         });
       });
@@ -210,14 +240,73 @@ export class AdminChallengesCustomPeriodComponent
     });
   }
 
+  private checkValidityOfPeriodData(action: PeriodDataAction): boolean {
+    const hasGames = this.hasDeletedGames();
+    const hasRewards = this.hasDeletedRewards();
+    if (hasGames || hasRewards) {
+      this.hasDeletedDataChangedButUnsaved = true;
+    }
+    if (hasGames && hasRewards) {
+      this.toastService.error({
+        message:
+          action === PeriodDataAction.Save
+            ? this.translateService.instant(
+                'custom_period.validity_period_on_save.challenges_rewards_deleted'
+              )
+            : this.translateService.instant(
+                'custom_period.validity_period_on_leave.challenges_rewards_deleted'
+              ),
+        type: ToastType.Error,
+      });
+      return false;
+    }
+
+    if (hasRewards) {
+      this.toastService.error({
+        message:
+          action === PeriodDataAction.Save
+            ? this.translateService.instant(
+                'custom_period.validity_period_on_save.rewards_deleted'
+              )
+            : this.translateService.instant(
+                'custom_period.validity_period_on_leave.rewards_deleted'
+              ),
+        type: ToastType.Error,
+      });
+
+      return false;
+    }
+
+    if (hasGames) {
+      this.toastService.error({
+        message:
+          action === PeriodDataAction.Save
+            ? this.translateService.instant(
+                'custom_period.validity_period_on_save.games_deleted'
+              )
+            : this.translateService.instant(
+                'custom_period.validity_period_on_leave.games_deleted'
+              ),
+        type: ToastType.Error,
+      });
+      return false;
+    }
+
+    return true;
+  }
+
   public onSave() {
+    if (!this.checkValidityOfPeriodData(PeriodDataAction.Save)) return;
+
     if (this.form.valid) {
       this.errors = [];
       const customPeriod = this.parseFormValueToCustomPeriod();
       this.challengesService.saveCustomPeriod(customPeriod).subscribe({
         next: () => {
           this.toastService.success({
-            message: AppToastMessage.ChangesSaved,
+            message: this.translateService.instant(
+              AppToastMessage.ChangesSaved
+            ),
             type: ToastType.Success,
           });
 
@@ -227,6 +316,7 @@ export class AdminChallengesCustomPeriodComponent
           ) {
             this.isCustomPeriodInitialized = true;
             this.isUnsavedChanges = false;
+            this.hasDeletedDataChangedButUnsaved = false;
             this.form.markAsPristine();
           } else if (
             customPeriod.challenges.length === 0 &&
@@ -245,9 +335,10 @@ export class AdminChallengesCustomPeriodComponent
             }
           }
 
-          console.log('All error messages:', this.errors);
           this.toastService.error({
-            message: AppToastMessage.FailedToSaveChanges,
+            message: this.translateService.instant(
+              AppToastMessage.FailedToSaveChanges
+            ),
             type: ToastType.Error,
           });
         },
@@ -261,8 +352,10 @@ export class AdminChallengesCustomPeriodComponent
 
     if (currentCount >= maxRewards) {
       this.toastService.error({
-        message: `You have reached the maximum allowed rewards (${maxRewards}).
-        To add more, adjust the global settings.`,
+        message: this.translateService.instant(
+          'custom_period.max_rewards_reached',
+          { maxRewards: maxRewards }
+        ),
         type: ToastType.Error,
       });
       return;
@@ -288,7 +381,7 @@ export class AdminChallengesCustomPeriodComponent
   }
 
   protected override getControlDisplayName(controlName: string): string {
-    throw new Error('Method not implemented.');
+    return controlName;
   }
 
   public fetchSettings(): void {
@@ -296,6 +389,83 @@ export class AdminChallengesCustomPeriodComponent
       next: (res) => {
         this.tenantSettings = res;
       },
+    });
+  }
+  get selectableGames(): IGameDropdownResult[] {
+    return this.gameList.filter((g) => !g.isDeleted);
+  }
+  private initDeletedGames(): void {
+    const challengesArray = this.form.get('challenges') as unknown as FormArray;
+
+    if (challengesArray && challengesArray.controls.length > 0) {
+      challengesArray.controls.forEach((ctrl) => {
+        const selectedId = ctrl.get('selectedGame')?.value;
+
+        if (selectedId && !this.gameList.some((g) => g.id === selectedId)) {
+          this.gameList = [
+            ...this.gameList,
+            {
+              id: selectedId,
+              name: this.translateService.instant(
+                'custom_period.deleted_placeholder'
+              ),
+              isDeleted: true,
+            },
+          ];
+        }
+      });
+    }
+  }
+
+  private initDeletedRewards(): void {
+    const rewardsArray = this.form.get('rewards') as unknown as FormArray;
+
+    if (rewardsArray && rewardsArray.controls.length > 0) {
+      rewardsArray.controls.forEach((ctrl) => {
+        const selectedId = ctrl.get('selectedReward')?.value;
+
+        if (selectedId && !this.rewardList.some((g) => g.id === selectedId)) {
+          this.rewardList = [
+            ...this.rewardList,
+            {
+              id: selectedId,
+              name_EN: this.translateService.instant(
+                'custom_period.deleted_placeholder'
+              ),
+              name_BG: this.translateService.instant(
+                'custom_period.deleted_placeholder'
+              ),
+              isDeleted: true,
+            },
+          ];
+        }
+      });
+    }
+  }
+
+  private hasDeletedGames(): boolean {
+    const challengesArray = this.form.get('challenges') as unknown as FormArray;
+    if (!challengesArray) return false;
+
+    return challengesArray.controls.some((ctrl) => {
+      const selectedId = ctrl.get('selectedGame')?.value;
+      if (!selectedId) return false;
+
+      const game = this.gameList.find((g) => g.id === selectedId);
+      return !game || game.isDeleted === true;
+    });
+  }
+
+  private hasDeletedRewards(): boolean {
+    const rewardsArray = this.form.get('rewards') as unknown as FormArray;
+    if (!rewardsArray) return false;
+
+    return rewardsArray.controls.some((ctrl) => {
+      const selectedId = ctrl.get('selectedReward')?.value;
+      if (!selectedId) return false;
+
+      const reward = this.rewardList.find((g) => g.id === selectedId);
+      return !reward || reward.isDeleted === true;
     });
   }
 
@@ -340,8 +510,13 @@ export class AdminChallengesCustomPeriodComponent
       next: (rewardList) => {
         this.rewardList = rewardList ?? [];
       },
-      error: (error) => {
-        console.log(error);
+      error: () => {
+        this.toastService.error({
+          message: this.translateService.instant(
+            AppToastMessage.SomethingWrong
+          ),
+          type: ToastType.Error,
+        });
       },
     });
   }
@@ -351,8 +526,13 @@ export class AdminChallengesCustomPeriodComponent
       next: (gameList) => {
         this.gameList = gameList ?? [];
       },
-      error: (error) => {
-        console.log(error);
+      error: () => {
+        this.toastService.error({
+          message: this.translateService.instant(
+            AppToastMessage.SomethingWrong
+          ),
+          type: ToastType.Error,
+        });
       },
     });
   }

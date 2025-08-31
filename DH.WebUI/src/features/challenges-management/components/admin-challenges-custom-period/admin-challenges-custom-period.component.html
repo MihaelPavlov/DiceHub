@@ -9,24 +9,21 @@
         'btn-font-red': this.form.invalid
       }"
     >
-      Save Custom Period
+      {{ "custom_period.save_custom_period" | translate }}
     </button>
   </div>
-  <p class="save-period-message">
-    Custom period initialization will apply on your next scheduled reward reset
-    day.<br />
-    Currently set to
-    <strong>{{ this.tenantSettings?.resetDayForRewards }}</strong> at
-    <strong>12:00 PM</strong>.<br />
-    <br />
-    You can continue editing your settings until the reset occurs. <br />
-    <br />
-    <strong>Note:</strong> The configured challenges and rewards will be the
-    same for all users during the custom period.
-  </p>
+  <p
+    class="save-period-message"
+    [innerHTML]="
+      'custom_period.period_warning_messages'
+        | translate
+          : { resetDayForRewards: this.tenantSettings?.resetDayForRewards }
+    "
+  ></p>
+
   <div class="buttons">
     <div class="btn-container" (click)="addReward()">
-      <span>Add Reward</span>
+      <span>{{ "custom_period.add_reward" | translate }}</span>
       <!-- add icon -->
       <svg class="wrapper_add" viewBox="0 -960 960 960">
         <path d="M447-448H208v-66h239v-239h66v239h239v66H513v239h-66v-239Z" />
@@ -50,13 +47,19 @@
         <input type="hidden" formControlName="id" />
 
         <div class="input-field">
-          <label for="reward" class="required">Choose Reward</label>
+          <label for="reward" class="required">{{
+            "custom_period.labels.select_reward" | translate
+          }}</label>
 
           <ng-select
             [items]="rewardList"
-            bindLabel="name"
+            [bindLabel]="
+              getCurrentLanguage === SupportLanguages.EN ? 'name_EN' : 'name_BG'
+            "
             bindValue="id"
-            placeholder="Select Reward"
+            [placeholder]="
+              'custom_period.placeholders.select_reward' | translate
+            "
             [searchable]="true"
             formControlName="selectedReward"
             class="app-select"
@@ -65,10 +68,14 @@
         </div>
 
         <div class="input-field">
-          <label for="requiredPoints" class="required">Required Points</label>
+          <label for="requiredPoints" class="required">{{
+            "custom_period.labels.required_points" | translate
+          }}</label>
           <input
             name="requiredPoints"
-            placeholder="points"
+            [placeholder]="
+              'custom_period.placeholders.required_points' | translate
+            "
             type="number"
             [id]="i"
             formControlName="requiredPoints"
@@ -91,7 +98,7 @@
 
   <div class="buttons">
     <div class="btn-container" (click)="addChallenge()">
-      <span>Add Challenge</span>
+      <span>{{ "custom_period.add_challenge" | translate }}</span>
       <!-- add icon -->
       <svg class="wrapper_add" viewBox="0 -960 960 960">
         <path d="M447-448H208v-66h239v-239h66v239h239v66H513v239h-66v-239Z" />
@@ -109,25 +116,30 @@
         <input type="hidden" formControlName="id" />
 
         <div class="input-field">
-          <label for="game" class="required">Choose Game</label>
+          <label for="game" class="required">{{
+            "custom_period.labels.select_game" | translate
+          }}</label>
 
           <ng-select
             [items]="gameList"
             bindLabel="name"
             bindValue="id"
-            placeholder="Select Game"
+            [placeholder]="'custom_period.placeholders.select_game' | translate"
             [searchable]="true"
             formControlName="selectedGame"
             class="app-select"
           >
+
           </ng-select>
         </div>
 
         <div class="input-field">
-          <label for="attempts" class="required">Attempts</label>
+          <label for="attempts" class="required">{{
+            "custom_period.labels.attempts" | translate
+          }}</label>
           <input
             name="attempts"
-            placeholder="attempts"
+            [placeholder]="'custom_period.placeholders.attempts' | translate"
             type="number"
             [id]="i"
             formControlName="attempts"
@@ -135,10 +147,12 @@
         </div>
 
         <div class="input-field">
-          <label for="points" class="required">Points</label>
+          <label for="points" class="required">{{
+            "custom_period.labels.points" | translate
+          }}</label>
           <input
             name="points"
-            placeholder="points"
+            [placeholder]="'custom_period.placeholders.points' | translate"
             type="number"
             [id]="i"
             formControlName="points"
