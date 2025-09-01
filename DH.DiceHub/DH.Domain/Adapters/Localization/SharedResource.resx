@@ -396,4 +396,28 @@
   <data name="UpdateRewardMissingId" xml:space="preserve">
     <value>Идентификациония номер е задължителен, когато се извършва актуализация</value>
   </data>
+  <data name="CustomPeriodAttemptsMustBeGreaterThanZero" xml:space="preserve">
+    <value>Опитите трябва да бъдат повече от нула.</value>
+  </data>
+  <data name="CustomPeriodPointsMustBeGreaterThanZero" xml:space="preserve">
+    <value>Точките трябва да бъдат повече от нула.</value>
+  </data>
+  <data name="CustomPeriodRewardsOrderInvalid" xml:space="preserve">
+    <value>Наградите трябва да бъдат подредени по необходимите точки във възходящ ред.</value>
+  </data>
+  <data name="CustomPeriodTotalPointsMismatch" xml:space="preserve">
+    <value>Общият брой необходими точки за награди ({0}) трябва да е равен на общия брой точки от предизвикателства ({1}).</value>
+  </data>
+  <data name="SaveCustomPeriodRewardsError" xml:space="preserve">
+    <value>Възникна проблем по време на валидирането на наградите.</value>
+  </data>
+  <data name="SaveCustomPeriodChallengesError" xml:space="preserve">
+    <value>Възникна проблем по време на валидирането на предизвикателствата.</value>
+  </data>
+  <data name="DeleteChallengeDependenciesError" xml:space="preserve">
+    <value>Предизвикателството има зависимости и не може да бъде изтрито.</value>
+  </data>
+  <data name="CreateChallengeRewardPointsValidation" xml:space="preserve">
+    <value>Стойността на точките на наградата е Невалидна.</value>
+  </data>
 </root>

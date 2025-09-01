@@ -1,4 +1,5 @@
 ﻿using DH.Domain.Adapters.Authentication;
+using DH.Domain.Adapters.Localization;
 using DH.Domain.Entities;
 using DH.Domain.Models.ChallengeModels.Commands;
 using DH.Domain.Models.ChallengeModels.Queries;
@@ -12,11 +13,13 @@ public class ChallengeService : IChallengeService
 {
     readonly IDbContextFactory<TenantDbContext> _contextFactory;
     readonly IUserContext userContext;
+    readonly ILocalizationService localizer;
 
-    public ChallengeService(IDbContextFactory<TenantDbContext> _contextFactory, IUserContext userContext)
+    public ChallengeService(IDbContextFactory<TenantDbContext> _contextFactory, IUserContext userContext, ILocalizationService localizer)
     {
         this._contextFactory = _contextFactory;
         this.userContext = userContext;
+        this.localizer = localizer;
     }
 
     public async Task<int> Create(Challenge challenge, CancellationToken cancellationToken)
@@ -47,7 +50,7 @@ public class ChallengeService : IChallengeService
                 throw new NotFoundException(nameof(Challenge), id);
 
             if (challenge.UserChallenges.Count != 0)
-                throw new ValidationErrorsException("UserChallenges", "Challenge has dependencies and cannot be deleted");
+                throw new ValidationErrorsException("UserChallenges", this.localizer["DeleteChallengeDependenciesError"]);
 
             context.Challenges.Remove(challenge);
 
@@ -116,7 +119,7 @@ public class ChallengeService : IChallengeService
             .ToListAsync(cancellationToken);
 
         if (existingRewardRefs.Count != rewardIds.Count)
-            throw new ValidationErrorsException("Rewards", "Something went wrong during the rewards validation");
+            throw new ValidationErrorsException("Rewards", this.localizer["SaveCustomPeriodRewardsError"]);
 
         // Validate games
         var existingGameRefs = await context.Games
@@ -125,7 +128,7 @@ public class ChallengeService : IChallengeService
             .ToListAsync(cancellationToken);
 
         if (existingGameRefs.Count != gameIds.Count)
-            throw new ValidationErrorsException("Challenges", "Something went wrong during the challenges validation");
+            throw new ValidationErrorsException("Challenges", this.localizer["SaveCustomPeriodChallengesError"]);
 
         // --- Rewards ---
         var incomingRewardDtos = customPeriod.Rewards;

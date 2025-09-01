@@ -1,19 +1,21 @@
 <div class="dialog-container">
-  <h2 class="dialog-container__header m-4">Unsaved Changes</h2>
+  <h2 class="dialog-container__header m-4">
+    {{'unsaved_changes_dialog.unsaved_changes'|translate}}
+  </h2>
   <p class="dialog-container__description">
-    You have unsaved changes. Are you sure you want to leave?
+    {{'unsaved_changes_dialog.message'|translate}}
   </p>
 
   <mat-dialog-actions>
     <button class="btn btn__small btn-red" mat-button [mat-dialog-close]="true">
-      Leave
+      {{'unsaved_changes_dialog.leave'|translate}}
     </button>
     <button
       class="btn btn__small btn-blue"
       mat-button
       [mat-dialog-close]="false"
     >
-      Stay
+      {{'unsaved_changes_dialog.stay'|translate}}
     </button>
   </mat-dialog-actions>
 </div>

@@ -17,7 +17,9 @@
     [innerHTML]="
       'custom_period.period_warning_messages'
         | translate
-          : { resetDayForRewards: this.tenantSettings?.resetDayForRewards }
+          : {
+              resetDayForRewards: getCurrentResetDayForRewards
+            }
     "
   ></p>
 
@@ -129,7 +131,6 @@
             formControlName="selectedGame"
             class="app-select"
           >
-
           </ng-select>
         </div>
 

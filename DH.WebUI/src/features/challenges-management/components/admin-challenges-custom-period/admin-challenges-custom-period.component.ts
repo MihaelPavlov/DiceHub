@@ -104,6 +104,12 @@ export class AdminChallengesCustomPeriodComponent
     return this.languageService.getCurrentLanguage();
   }
 
+  public get getCurrentResetDayForRewards(): string {
+    return this.translateService.instant(
+      `week_days_names.${this.tenantSettings?.resetDayForRewards.toString()}`
+    );
+  }
+
   private fetchCustomPeriod(): void {
     this.challengesService.getCustomPeriod().subscribe({
       next: (customPeriod) => {

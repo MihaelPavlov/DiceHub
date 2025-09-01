@@ -16,7 +16,7 @@ public class CreateChallengeDto : IValidableFields
         var errors = new List<ValidationError>();
 
         if (!Enum.IsDefined(typeof(ChallengeRewardPoint), RewardPoints))
-            errors.Add(new ValidationError(nameof(RewardPoints), "Invalid reward points value."));
+            errors.Add(new ValidationError(nameof(RewardPoints), localizationService["CreateChallengeRewardPointsValidation"]));
 
         validationErrors = errors;
 

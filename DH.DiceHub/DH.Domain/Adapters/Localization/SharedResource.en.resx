@@ -396,4 +396,28 @@
   <data name="UpdateRewardMissingId" xml:space="preserve">
     <value>Id is required when update is requested.</value>
   </data>
+  <data name="CustomPeriodAttemptsMustBeGreaterThanZero" xml:space="preserve">
+    <value>Attempts must be greater than zero.</value>
+  </data>
+  <data name="CustomPeriodPointsMustBeGreaterThanZero" xml:space="preserve">
+    <value>Points must be greater than zero.</value>
+  </data>
+  <data name="CustomPeriodRewardsOrderInvalid" xml:space="preserve">
+    <value>Rewards must be ordered by Required Points in ascending order.</value>
+  </data>
+  <data name="CustomPeriodTotalPointsMismatch" xml:space="preserve">
+    <value>Total reward required points ({0}) must equal total challenge points ({1}).</value>
+  </data>
+  <data name="SaveCustomPeriodRewardsError" xml:space="preserve">
+    <value>Something went wrong during the rewards validation</value>
+  </data>
+  <data name="SaveCustomPeriodChallengesError" xml:space="preserve">
+    <value>Something went wrong during the challenges validation</value>
+  </data>
+  <data name="DeleteChallengeDependenciesError" xml:space="preserve">
+    <value>Challenge has dependencies and cannot be deleted</value>
+  </data>
+  <data name="CreateChallengeRewardPointsValidation" xml:space="preserve">
+    <value>Invalid reward points value.</value>
+  </data>
 </root>

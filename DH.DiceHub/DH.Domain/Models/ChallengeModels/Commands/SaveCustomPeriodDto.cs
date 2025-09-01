@@ -20,15 +20,13 @@ public class SaveCustomPeriodDto : IValidableFields
             if (challenge.Attempts <= 0)
             {
                 errors.Add(new ValidationErrorsException.ValidationError(
-                    $"Challenges[{i}].Attempts",
-                    "Attempts must be greater than zero."));
+                    $"Challenges[{i}].Attempts", localizationService["CustomPeriodAttemptsMustBeGreaterThanZero"]));
             }
 
             if (challenge.Points <= 0)
             {
                 errors.Add(new ValidationErrorsException.ValidationError(
-                    $"Challenges[{i}].Points",
-                    "Points must be greater than zero."));
+                    $"Challenges[{i}].Points", localizationService["CustomPeriodPointsMustBeGreaterThanZero"]));
             }
         }
 
@@ -39,8 +37,7 @@ public class SaveCustomPeriodDto : IValidableFields
             if (Rewards[i].RequiredPoints > Rewards[i + 1].RequiredPoints)
             {
                 errors.Add(new ValidationErrorsException.ValidationError(
-                    $"Rewards[{i}].RequiredPoints",
-                    "Rewards must be ordered by Required Points in ascending order."));
+                    $"Rewards[{i}].RequiredPoints", localizationService["CustomPeriodRewardsOrderInvalid"]));
                 break; // one misorder is enough to fail the sort rule
             }
         }
@@ -52,8 +49,7 @@ public class SaveCustomPeriodDto : IValidableFields
         if (totalRewardRequiredPoints != totalChallengePoints)
         {
             errors.Add(new ValidationErrorsException.ValidationError(
-                "Rewards",
-                $"Total reward required points ({totalRewardRequiredPoints}) must equal total challenge points ({totalChallengePoints})."));
+                "Rewards", string.Format(localizationService["CustomPeriodTotalPointsMismatch"], totalRewardRequiredPoints, totalChallengePoints)));
         }
 
         validationErrors = errors;
@@ -70,7 +66,7 @@ public class SaveCustomPeriodRewardDto
 
 public class SaveCustomPeriodChallengeDto
 {
-    public int? Id { get; set; } 
+    public int? Id { get; set; }
     public int SelectedGame { get; set; }
     public int Attempts { get; set; }
     public int Points { get; set; }
