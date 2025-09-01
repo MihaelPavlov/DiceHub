@@ -80,6 +80,7 @@ export class AdminChallengesCustomPeriodComponent
   public isUnsavedChanges = false;
   public SupportLanguages = SupportLanguages;
   private hasDeletedDataChangedButUnsaved: boolean = false;
+
   constructor(
     public override readonly toastService: ToastService,
     private readonly rewardsService: RewardsService,
