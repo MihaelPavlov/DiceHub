@@ -14,6 +14,8 @@ import { ReservationType } from '../../enums/reservation-type.enum';
 import { GamesService } from '../../../../entities/games/api/games.service';
 import { DateHelper } from '../../../../shared/helpers/date-helper';
 import { TranslateService } from '@ngx-translate/core';
+import { LanguageService } from '../../../../shared/services/language.service';
+import { SupportLanguages } from '../../../../entities/common/models/support-languages.enum';
 
 @Component({
   selector: 'app-reservation-details',
@@ -40,7 +42,8 @@ export class ReservationDetailsDialog extends Form {
     private readonly dialogRef: MatDialogRef<ReservationDetailsDialog>,
     public override readonly toastService: ToastService,
     private readonly fb: FormBuilder,
-    public override translateService: TranslateService
+    public override translateService: TranslateService,
+    private readonly languageService: LanguageService
   ) {
     super(toastService, translateService);
     this.form = this.initFormGroup();
@@ -50,7 +53,6 @@ export class ReservationDetailsDialog extends Form {
         .getReservationById(this.data.reservationId)
         .subscribe({
           next: (reservation) => {
-            console.log(reservation);
             this.reservation = reservation;
             this.form.patchValue({
               internalNote: reservation.internalNote,
@@ -61,7 +63,6 @@ export class ReservationDetailsDialog extends Form {
     } else if (data.type === ReservationType.Game) {
       this.gameService.getReservationById(this.data.reservationId).subscribe({
         next: (reservation) => {
-          console.log(reservation);
           this.reservation = reservation;
           this.form.patchValue({
             internalNote: reservation.internalNote,
@@ -70,6 +71,10 @@ export class ReservationDetailsDialog extends Form {
         },
       });
     }
+  }
+
+  public get getCurrentLanguage(): SupportLanguages {
+    return this.languageService.getCurrentLanguage();
   }
 
   public updateReservation(): void {
@@ -83,7 +88,9 @@ export class ReservationDetailsDialog extends Form {
         .subscribe({
           next: () => {
             this.toastService.success({
-              message: AppToastMessage.ChangesSaved,
+              message: this.translateService.instant(
+                AppToastMessage.ChangesSaved
+              ),
               type: ToastType.Success,
             });
 
@@ -91,7 +98,9 @@ export class ReservationDetailsDialog extends Form {
           },
           error: () => {
             this.toastService.error({
-              message: AppToastMessage.SomethingWrong,
+              message: this.translateService.instant(
+                AppToastMessage.SomethingWrong
+              ),
               type: ToastType.Error,
             });
           },
@@ -106,7 +115,9 @@ export class ReservationDetailsDialog extends Form {
         .subscribe({
           next: () => {
             this.toastService.success({
-              message: AppToastMessage.ChangesSaved,
+              message: this.translateService.instant(
+                AppToastMessage.ChangesSaved
+              ),
               type: ToastType.Success,
             });
 
@@ -114,7 +125,9 @@ export class ReservationDetailsDialog extends Form {
           },
           error: () => {
             this.toastService.error({
-              message: AppToastMessage.SomethingWrong,
+              message: this.translateService.instant(
+                AppToastMessage.SomethingWrong
+              ),
               type: ToastType.Error,
             });
           },
@@ -129,7 +142,9 @@ export class ReservationDetailsDialog extends Form {
         .subscribe({
           next: () => {
             this.toastService.success({
-              message: AppToastMessage.ChangesApplied,
+              message: this.translateService.instant(
+                AppToastMessage.ChangesApplied
+              ),
               type: ToastType.Success,
             });
 
@@ -137,7 +152,9 @@ export class ReservationDetailsDialog extends Form {
           },
           error: () => {
             this.toastService.error({
-              message: AppToastMessage.SomethingWrong,
+              message: this.translateService.instant(
+                AppToastMessage.SomethingWrong
+              ),
               type: ToastType.Error,
             });
           },
@@ -146,7 +163,9 @@ export class ReservationDetailsDialog extends Form {
       this.gameService.deleteReservation(this.data.reservationId).subscribe({
         next: () => {
           this.toastService.success({
-            message: AppToastMessage.ChangesApplied,
+            message: this.translateService.instant(
+              AppToastMessage.ChangesApplied
+            ),
             type: ToastType.Success,
           });
 
@@ -154,7 +173,9 @@ export class ReservationDetailsDialog extends Form {
         },
         error: () => {
           this.toastService.error({
-            message: AppToastMessage.SomethingWrong,
+            message: this.translateService.instant(
+              AppToastMessage.SomethingWrong
+            ),
             type: ToastType.Error,
           });
         },

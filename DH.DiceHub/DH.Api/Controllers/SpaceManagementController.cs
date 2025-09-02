@@ -7,7 +7,6 @@ using DH.Domain.Models.SpaceManagementModels.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 
 namespace DH.Api.Controllers;
 

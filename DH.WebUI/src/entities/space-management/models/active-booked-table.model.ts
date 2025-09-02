@@ -1,3 +1,4 @@
+import { TranslateService } from '@ngx-translate/core';
 import { ReservationStatus } from '../../../shared/enums/reservation-status.enum';
 
 export interface ActiveBookedTableModel {
@@ -11,10 +12,16 @@ export interface ActiveBookedTableModel {
   publicNote: string;
 }
 
-export function getKeyFriendlyNames(): Record<string, string> {
+export function getKeyFriendlyNames(
+  ts: TranslateService
+): Record<string, string> {
   return {
-    numberOfGuests: 'Number of Guests',
-    reservationDate: 'Reservation Date',
-    isConfirmed: 'Is Confirmed',
+    numberOfGuests: ts.instant(
+      'space_management.reservation_keys.number_of_guests'
+    ),
+    reservationDate: ts.instant(
+      'space_management.reservation_keys.reservation_date'
+    ),
+    isConfirmed: ts.instant('space_management.reservation_keys.is_confirmed'),
   };
 }

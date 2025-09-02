@@ -11,6 +11,10 @@ import { ReservationConfirmationDialog } from '../../../dialogs/reservation-stat
 import { ReservationType } from '../../../enums/reservation-type.enum';
 import { ImageEntityType } from '../../../../../shared/pipe/entity-image.pipe';
 import { DateHelper } from '../../../../../shared/helpers/date-helper';
+import { TranslateService } from '@ngx-translate/core';
+import { FULL_ROUTE } from '../../../../../shared/configs/route.config';
+import { LanguageService } from '../../../../../shared/services/language.service';
+import { SupportLanguages } from '../../../../../entities/common/models/support-languages.enum';
 
 @Component({
   selector: 'app-game-reservations',
@@ -33,7 +37,9 @@ export class GameReservations implements OnInit, OnDestroy {
     private readonly injector: Injector,
     private readonly gameService: GamesService,
     private readonly router: Router,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly translateService: TranslateService,
+    private readonly languageService: LanguageService
   ) {
     this.reservationNavigationRef = this.injector.get(
       ReservationManagementNavigationComponent,
@@ -41,10 +47,16 @@ export class GameReservations implements OnInit, OnDestroy {
     );
 
     if (this.reservationNavigationRef)
-      this.reservationNavigationRef.header.next('Reservations');
+      this.reservationNavigationRef.header.next(
+        this.translateService.instant('reservation_management.reservations')
+      );
 
     this.activeReservations$ = this.gameService.getActiveReservations();
   }
+  public get getCurrentLanguage(): SupportLanguages {
+    return this.languageService.getCurrentLanguage();
+  }
+
   public toggleItem(reservationId: number): void {
     this.expandedReservationId =
       this.expandedReservationId === reservationId ? null : reservationId;
@@ -64,13 +76,15 @@ export class GameReservations implements OnInit, OnDestroy {
   }
 
   public onHistory(): void {
-    this.router.navigateByUrl('reservations/games/history');
+    this.router.navigateByUrl(FULL_ROUTE.RESERVATION_MANAGEMENT.GAME_HISTORY);
   }
 
   public approveReservation(
     reservationDate: Date,
     numberOfGuests: number,
     gameName: string,
+    phoneNumber: string,
+    userLanguage: string,
     tableReservationDate: Date | null
   ): void {
     if (this.expandedReservationId) {
@@ -85,6 +99,8 @@ export class GameReservations implements OnInit, OnDestroy {
           reservationDate,
           numberOfGuests,
           gameName,
+          phoneNumber,
+          userLanguage,
           tableReservationDate,
         },
       });
@@ -102,6 +118,8 @@ export class GameReservations implements OnInit, OnDestroy {
     reservationDate: Date,
     numberOfGuests: number,
     gameName: string,
+    phoneNumber: string,
+    userLanguage: string,
     tableReservationDate: Date | null
   ): void {
     if (this.expandedReservationId) {
@@ -114,6 +132,8 @@ export class GameReservations implements OnInit, OnDestroy {
           reservationDate,
           numberOfGuests,
           gameName,
+          phoneNumber,
+          userLanguage,
           tableReservationDate,
         },
       });

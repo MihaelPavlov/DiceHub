@@ -172,7 +172,7 @@ export class ClubSpaceManagementComponent implements OnInit {
 
   public getKeyValuePair(): { key: string; value: any }[] {
     if (this.activeBookedTableModel) {
-      const keyFriendlyNames = getKeyFriendlyNames();
+      const keyFriendlyNames = getKeyFriendlyNames(this.translateService);
       const keyTransformations = this.getKeyTransformations();
 
       return Object.entries(this.activeBookedTableModel)

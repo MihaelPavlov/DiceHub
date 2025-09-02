@@ -12,6 +12,7 @@ export interface ActiveReservedGame {
   createdDate: Date;
   username: string;
   phoneNumber: string;
+  userLanguage: string;
   userId: string;
   userHaveActiveTableReservation: boolean;
   tableReservationTime?: Date | null;

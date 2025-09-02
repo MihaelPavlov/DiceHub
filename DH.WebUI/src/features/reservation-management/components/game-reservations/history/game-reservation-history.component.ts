@@ -10,6 +10,9 @@ import { ReservationType } from '../../../enums/reservation-type.enum';
 import { GamesService } from '../../../../../entities/games/api/games.service';
 import { DateHelper } from '../../../../../shared/helpers/date-helper';
 import { ReservationConfirmationDialog } from '../../../dialogs/reservation-status-confirmation/reservation-confirmation.dialog';
+import { LanguageService } from '../../../../../shared/services/language.service';
+import { TranslateService } from '@ngx-translate/core';
+import { SupportLanguages } from '../../../../../entities/common/models/support-languages.enum';
 
 @Component({
   selector: 'app-game-reservation-history',
@@ -34,14 +37,22 @@ export class GameReservationHistory implements OnDestroy {
   constructor(
     private readonly injector: Injector,
     private readonly dialog: MatDialog,
-    private readonly gameService: GamesService
+    private readonly gameService: GamesService,
+    private readonly translateService: TranslateService,
+    private readonly languageService: LanguageService
   ) {
     this.reservationNavigationRef = this.injector.get(
       ReservationManagementNavigationComponent,
       null
     );
 
-    this.reservationNavigationRef?.header.next('History');
+    this.reservationNavigationRef?.header.next(
+      this.translateService.instant('reservation_management.history.header')
+    );
+  }
+
+  public get getCurrentLanguage(): SupportLanguages {
+    return this.languageService.getCurrentLanguage();
   }
 
   public updateHistory(filter: ReservationStatus | null): void {
@@ -118,7 +129,6 @@ export class GameReservationHistory implements OnDestroy {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        console.log(result);
         this.reservedGames$ = this.gameService.getReservationHistory(
           this.selectedFilter.value
         );

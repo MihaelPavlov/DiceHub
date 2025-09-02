@@ -16,8 +16,9 @@ import { SpaceTableActiveReservations } from '../../../features/reservation-mana
 import { GameReservations } from '../../../features/reservation-management/components/game-reservations/active-list/game-reservations.component';
 import { GamesService } from '../../../entities/games/api/games.service';
 import { SpaceManagementService } from '../../../entities/space-management/api/space-management.service';
-import { FULL_ROUTE } from '../../../shared/configs/route.config';
+import { FULL_ROUTE, ROUTE } from '../../../shared/configs/route.config';
 import { ControlsMenuComponent } from '../../../shared/components/menu/controls-menu.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-reservation-management-navigation',
@@ -47,7 +48,7 @@ export class ReservationManagementNavigationComponent
   };
 
   public header: BehaviorSubject<string> = new BehaviorSubject<string>(
-    'Reservations'
+    this.translateService.instant('reservation_management.reservations')
   );
 
   constructor(
@@ -55,7 +56,8 @@ export class ReservationManagementNavigationComponent
     private readonly permissionService: PermissionService,
     private readonly menuTabsService: MenuTabsService,
     private readonly gameService: GamesService,
-    private readonly spaceManagementService: SpaceManagementService
+    private readonly spaceManagementService: SpaceManagementService,
+    private readonly translateService: TranslateService
   ) {
     this.handleMenuItemClick = this.handleMenuItemClick.bind(this);
     this.menuTabsService.setActive(NAV_ITEM_LABELS.RESERVATIONS);
@@ -75,8 +77,18 @@ export class ReservationManagementNavigationComponent
 
   public ngOnInit(): void {
     this.menuItems.next([
-      { key: 'history-games', label: 'History Games' },
-      { key: 'history-tables', label: 'History Tables' },
+      {
+        key: 'history-games',
+        label: this.translateService.instant(
+          'reservation_management.history_games'
+        ),
+      },
+      {
+        key: 'history-tables',
+        label: this.translateService.instant(
+          'reservation_management.history_tables'
+        ),
+      },
     ]);
 
     combineLatest([
@@ -94,9 +106,11 @@ export class ReservationManagementNavigationComponent
 
   public handleMenuItemClick(key: string): void {
     if (key === 'history-tables') {
-      this.router.navigateByUrl('/reservations/tables/history');
+      this.router.navigateByUrl(
+        FULL_ROUTE.RESERVATION_MANAGEMENT.TABLE_HISTORY
+      );
     } else if (key === 'history-games') {
-      this.router.navigateByUrl('/reservations/games/history');
+      this.router.navigateByUrl(FULL_ROUTE.RESERVATION_MANAGEMENT.GAME_HISTORY);
     }
   }
 
@@ -120,12 +134,16 @@ export class ReservationManagementNavigationComponent
 
   public onHeader(): void {
     this.activeChildComponent = null;
-    this.header.next('Reservations');
-    this.router.navigateByUrl('reservations');
+    this.header.next(
+      this.translateService.instant('reservation_management.reservations')
+    );
+    this.router.navigateByUrl(ROUTE.RESERVATION_MANAGEMENT.CORE);
   }
 
   public removeActiveChildComponent(): void {
     this.activeChildComponent = null;
-    this.header.next('Reservations');
+    this.header.next(
+      this.translateService.instant('reservation_management.reservations')
+    );
   }
 }

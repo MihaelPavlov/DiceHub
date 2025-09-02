@@ -17,25 +17,40 @@
       <div class="wrapper_title">
         <div class="wrapper_description">
           <p>
-            Created At:
-            {{ reservation.createdDate | date : DATE_TIME_FORMAT }}
+            {{
+              "reservation_management.history.created_date"
+                | translate
+                  : {
+                      createdDate:
+                        reservation.createdDate
+                        | date
+                          : DATE_TIME_FORMAT
+                          : undefined
+                          : getCurrentLanguage
+                    }
+            }}
           </p>
         </div>
-        Game
+        {{ "reservation_management.history.game" | translate }}
         <strong class="blue">
           {{ reservation.gameName }}
         </strong>
-        was booked from
+        {{ "reservation_management.history.was_booked_from" | translate }}
         <span class="blue">{{ reservation.username }}</span>
         <p>
           <span class="blue">{{ reservation.numberOfGuests }}</span>
-          {{ reservation.numberOfGuests === 1 ? "person" : "people" }}
+          {{
+            reservation.numberOfGuests === 1
+              ? ("reservation_management.history.person" | translate)
+              : ("reservation_management.history.people" | translate)
+          }}
         </p>
         <div class="wrapper_description">
           <p>
-            Reservation Date:
+            {{ "reservation_management.history.reservation_date" | translate }}
             <strong class="blue">{{
-              reservation.reservationDate | date : DATE_TIME_FORMAT
+              reservation.reservationDate
+                | date : DATE_TIME_FORMAT : undefined : getCurrentLanguage
             }}</strong>
           </p>
         </div>

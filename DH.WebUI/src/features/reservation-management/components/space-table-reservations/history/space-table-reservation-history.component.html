@@ -17,19 +17,34 @@
       <div class="wrapper_title">
         <div class="wrapper_description">
           <p>
-            Created At:
-            {{ reservation.createdDate | date : DATE_TIME_FORMAT }}
+            {{
+              "reservation_management.history.created_date"
+                | translate
+                  : {
+                      createdDate:
+                        reservation.createdDate
+                        | date
+                          : DATE_TIME_FORMAT
+                          : undefined
+                          : getCurrentLanguage
+                    }
+            }}
           </p>
         </div>
-        <span class="blue">{{ reservation.username }}</span> has booked a table
-        for
+        <span class="blue">{{ reservation.username }}</span>
+        {{ "reservation_management.history.has_booked_table" | translate }}
         <span class="blue">{{ reservation.numberOfGuests }}</span>
-        {{ reservation.numberOfGuests === 1 ? "person" : "people" }}
+        {{
+          reservation.numberOfGuests === 1
+            ? ("reservation_management.history.person" | translate)
+            : ("reservation_management.history.people" | translate)
+        }}
         <div class="wrapper_description">
           <p>
-            Reservation Date:
+            {{ "reservation_management.history.reservation_date" | translate }}
             <strong class="blue">{{
-              reservation.reservationDate | date : DATE_TIME_FORMAT
+              reservation.reservationDate
+                | date : DATE_TIME_FORMAT : undefined : getCurrentLanguage
             }}</strong>
           </p>
         </div>

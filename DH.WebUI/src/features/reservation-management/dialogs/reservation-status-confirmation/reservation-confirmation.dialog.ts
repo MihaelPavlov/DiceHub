@@ -14,6 +14,8 @@ import { IReservationConfirmationForm } from '../models/reservation-confirmation
 import { GamesService } from '../../../../entities/games/api/games.service';
 import { DateHelper } from '../../../../shared/helpers/date-helper';
 import { TranslateService } from '@ngx-translate/core';
+import { LanguageService } from '../../../../shared/services/language.service';
+import { SupportLanguages } from '../../../../entities/common/models/support-languages.enum';
 
 @Component({
   selector: 'app-reservation-confirmation',
@@ -33,10 +35,25 @@ export class ReservationConfirmationDialog extends Form {
     private readonly gameService: GamesService,
     public override readonly toastService: ToastService,
     private readonly fb: FormBuilder,
-    public override translateService: TranslateService
+    public override translateService: TranslateService,
+    private readonly languageService: LanguageService
   ) {
     super(toastService, translateService);
     this.form = this.initFormGroup();
+  }
+
+  public getUserLanguage(userLanguage: string): string {
+    if (
+      userLanguage !== SupportLanguages.EN.toString() &&
+      userLanguage !== SupportLanguages.BG.toString()
+    )
+      return userLanguage;
+
+    return this.translateService.instant(`languages_names.${userLanguage}`);
+  }
+
+  public get getCurrentLanguage(): SupportLanguages {
+    return this.languageService.getCurrentLanguage();
   }
 
   public declineReservation(): void {
@@ -50,7 +67,9 @@ export class ReservationConfirmationDialog extends Form {
         .subscribe({
           next: () => {
             this.toastService.success({
-              message: 'Reservation is declined',
+              message: this.translateService.instant(
+                'reservation_management.confirm_dialog.successfully_declined'
+              ),
               type: ToastType.Success,
             });
 
@@ -58,7 +77,9 @@ export class ReservationConfirmationDialog extends Form {
           },
           error: () => {
             this.toastService.error({
-              message: AppToastMessage.SomethingWrong,
+              message: this.translateService.instant(
+                AppToastMessage.SomethingWrong
+              ),
               type: ToastType.Error,
             });
           },
@@ -73,7 +94,9 @@ export class ReservationConfirmationDialog extends Form {
         .subscribe({
           next: () => {
             this.toastService.success({
-              message: 'Reservation is declined',
+              message: this.translateService.instant(
+                'reservation_management.confirm_dialog.successfully_declined'
+              ),
               type: ToastType.Success,
             });
 
@@ -81,7 +104,9 @@ export class ReservationConfirmationDialog extends Form {
           },
           error: () => {
             this.toastService.error({
-              message: AppToastMessage.SomethingWrong,
+              message: this.translateService.instant(
+                AppToastMessage.SomethingWrong
+              ),
               type: ToastType.Error,
             });
           },
@@ -100,7 +125,9 @@ export class ReservationConfirmationDialog extends Form {
         .subscribe({
           next: () => {
             this.toastService.success({
-              message: 'Reservation is approved',
+              message: this.translateService.instant(
+                'reservation_management.confirm_dialog.successfully_approved'
+              ),
               type: ToastType.Success,
             });
 
@@ -108,7 +135,9 @@ export class ReservationConfirmationDialog extends Form {
           },
           error: () => {
             this.toastService.error({
-              message: AppToastMessage.SomethingWrong,
+              message: this.translateService.instant(
+                AppToastMessage.SomethingWrong
+              ),
               type: ToastType.Error,
             });
           },
@@ -123,7 +152,9 @@ export class ReservationConfirmationDialog extends Form {
         .subscribe({
           next: () => {
             this.toastService.success({
-              message: 'Reservation is approved',
+              message: this.translateService.instant(
+                'reservation_management.confirm_dialog.successfully_approved'
+              ),
               type: ToastType.Success,
             });
 
@@ -131,7 +162,9 @@ export class ReservationConfirmationDialog extends Form {
           },
           error: () => {
             this.toastService.error({
-              message: AppToastMessage.SomethingWrong,
+              message: this.translateService.instant(
+                AppToastMessage.SomethingWrong
+              ),
               type: ToastType.Error,
             });
           },

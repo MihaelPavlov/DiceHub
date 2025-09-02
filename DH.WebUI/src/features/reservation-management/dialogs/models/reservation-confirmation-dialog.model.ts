@@ -8,5 +8,7 @@ export interface ReservationConfirmation {
   reservationDate: Date;
   numberOfGuests: number;
   gameName?: string | null;
+  phoneNumber: string;
+  userLanguage: string;
   tableReservationDate?: Date | null;
 }

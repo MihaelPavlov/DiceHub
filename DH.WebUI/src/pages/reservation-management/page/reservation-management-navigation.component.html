@@ -9,12 +9,12 @@
     <app-nav-bar
       [columns]="[
         {
-          name: 'Games',
+          name: 'reservation_management.navbar_columns.games' | translate,
           link: 'reservations/games',
           isActive: isActiveLink('/reservations/games')
         },
         {
-          name: 'Tables',
+          name: 'reservation_management.navbar_columns.tables' | translate,
           link: 'reservations/tables',
           isActive: isActiveLink('/reservations/tables')
         }
@@ -36,7 +36,10 @@
       (click)="this.navigateToActiveGameReservations()"
     >
       <span class="wrapper_tabs__tab-header"
-        ><strong class="marked">Active</strong> Game Bookings</span
+        ><strong class="marked">{{
+          "reservation_management.active" | translate
+        }}</strong>
+        {{ "reservation_management.game_bookings" | translate }}</span
       >
       <div class="info">
         <svg class="icon" viewBox="0 -960 960 960">
@@ -57,7 +60,10 @@
       (click)="this.navigateToActiveTableReservations()"
     >
       <span class="wrapper_tabs__tab-header"
-        ><strong class="marked">Active</strong> Table Bookings</span
+        ><strong class="marked">{{
+          "reservation_management.active" | translate
+        }}</strong>
+        {{ "reservation_management.table_bookings" | translate }}</span
       >
       <div class="info">
         <svg class="icon" viewBox="0 -960 960 960">

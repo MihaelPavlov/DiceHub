@@ -10,6 +10,9 @@ import { ReservationType } from '../../../enums/reservation-type.enum';
 import { ITableReservationHistory } from '../../../../../entities/space-management/models/table-reservation-history.model';
 import { DateHelper } from '../../../../../shared/helpers/date-helper';
 import { ReservationConfirmationDialog } from '../../../dialogs/reservation-status-confirmation/reservation-confirmation.dialog';
+import { TranslateService } from '@ngx-translate/core';
+import { LanguageService } from '../../../../../shared/services/language.service';
+import { SupportLanguages } from '../../../../../entities/common/models/support-languages.enum';
 
 @Component({
   selector: 'app-space-table-reservation-history',
@@ -33,14 +36,22 @@ export class SpaceTableReservationHistory implements OnDestroy {
   constructor(
     private readonly injector: Injector,
     private readonly dialog: MatDialog,
-    private readonly spaceManagementService: SpaceManagementService
+    private readonly spaceManagementService: SpaceManagementService,
+    private readonly translateService: TranslateService,
+    private readonly languageService: LanguageService
   ) {
     this.reservationNavigationRef = this.injector.get(
       ReservationManagementNavigationComponent,
       null
     );
 
-    this.reservationNavigationRef?.header.next('History');
+    this.reservationNavigationRef?.header.next(
+      this.translateService.instant('reservation_management.history.header')
+    );
+  }
+
+  public get getCurrentLanguage():SupportLanguages{
+    return this.languageService.getCurrentLanguage();
   }
 
   public ngOnInit(): void {

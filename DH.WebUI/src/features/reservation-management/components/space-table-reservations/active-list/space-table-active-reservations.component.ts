@@ -9,6 +9,11 @@ import { ReservationStatus } from '../../../../../shared/enums/reservation-statu
 import { IActiveReservedTable } from '../../../../../entities/space-management/models/active-reserved-table.model';
 import { Router } from '@angular/router';
 import { DateHelper } from '../../../../../shared/helpers/date-helper';
+import { TranslateService } from '@ngx-translate/core';
+import { FULL_ROUTE } from '../../../../../shared/configs/route.config';
+import { LanguageService } from '../../../../../shared/services/language.service';
+import { SupportLanguages } from '../../../../../entities/common/models/support-languages.enum';
+import { user } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-space-table-active-reservations',
@@ -28,7 +33,9 @@ export class SpaceTableActiveReservations implements OnDestroy {
     private readonly injector: Injector,
     private readonly router: Router,
     private readonly dialog: MatDialog,
-    private readonly spaceManagementService: SpaceManagementService
+    private readonly spaceManagementService: SpaceManagementService,
+    private readonly translateService: TranslateService,
+    private readonly languageService: LanguageService
   ) {
     this.reservationNavigationRef = this.injector.get(
       ReservationManagementNavigationComponent,
@@ -36,7 +43,13 @@ export class SpaceTableActiveReservations implements OnDestroy {
     );
 
     if (this.reservationNavigationRef)
-      this.reservationNavigationRef.header.next('Reservations');
+      this.reservationNavigationRef.header.next(
+        this.translateService.instant('reservation_management.reservations')
+      );
+  }
+
+  public get getCurrentLanguage(): SupportLanguages {
+    return this.languageService.getCurrentLanguage();
   }
 
   public ngOnInit(): void {
@@ -60,7 +73,9 @@ export class SpaceTableActiveReservations implements OnDestroy {
 
   public approveReservation(
     reservationDate: Date,
-    numberOfGuests: number
+    numberOfGuests: number,
+    phoneNumber: string,
+    userLanguage: string
   ): void {
     if (this.expandedReservationId) {
       const dialogRef = this.dialog.open(ReservationConfirmationDialog, {
@@ -71,6 +86,8 @@ export class SpaceTableActiveReservations implements OnDestroy {
           status: ReservationStatus.Approved,
           reservationDate,
           numberOfGuests,
+          phoneNumber,
+          userLanguage,
         },
       });
 
@@ -86,7 +103,9 @@ export class SpaceTableActiveReservations implements OnDestroy {
 
   public declineReservation(
     reservationDate: Date,
-    numberOfGuests: number
+    numberOfGuests: number,
+    phoneNumber: string,
+    userLanguage: string
   ): void {
     if (this.expandedReservationId) {
       const dialogRef = this.dialog.open(ReservationConfirmationDialog, {
@@ -96,6 +115,8 @@ export class SpaceTableActiveReservations implements OnDestroy {
           reservationId: this.expandedReservationId,
           status: ReservationStatus.Declined,
           reservationDate,
+          phoneNumber,
+          userLanguage,
           numberOfGuests,
         },
       });
@@ -111,6 +132,6 @@ export class SpaceTableActiveReservations implements OnDestroy {
   }
 
   public onHistory(): void {
-    this.router.navigateByUrl('reservations/tables/history');
+    this.router.navigateByUrl(FULL_ROUTE.RESERVATION_MANAGEMENT.TABLE_HISTORY);
   }
 }

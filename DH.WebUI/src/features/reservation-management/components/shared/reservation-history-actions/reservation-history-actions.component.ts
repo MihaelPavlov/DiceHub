@@ -8,10 +8,10 @@ import {
 } from '@angular/core';
 import { ReservationStatus } from '../../../../../shared/enums/reservation-status.enum';
 import { ReservationType } from '../../../enums/reservation-type.enum';
-import { DateHelper } from '../../../../../shared/helpers/date-helper';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { IGameReservationHistory } from '../../../../../entities/games/models/game-reservation-history.model';
 import { ITableReservationHistory } from '../../../../../entities/space-management/models/table-reservation-history.model';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-reservation-history-actions',
@@ -43,7 +43,13 @@ export class ReservationHistoryActionsComponent<
 
   public readonly ReservationType = ReservationType;
   public readonly ReservationStatus = ReservationStatus;
-  public readonly DATE_TIME_FORMAT: string = DateHelper.DATE_TIME_FORMAT;
+
+  constructor(private readonly translateService: TranslateService) {
+  }
+
+  public getReservationStatusTranslated(reservationStatus:string):string{
+return this.translateService.instant(`reservation_status.${reservationStatus}`)
+  }
 
   public toggleItem(reservationId: number): void {
     this.expandedReservationId.next(

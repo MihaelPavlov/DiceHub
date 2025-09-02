@@ -1,23 +1,30 @@
 <div class="dialog-container">
   <div class="wrapper">
     <ng-container *ngIf="this.reservation">
-      <h3 class="dialog-container__header">Information:</h3>
+      <h3 class="dialog-container__header">
+        {{'reservation_management.details.information'|translate}}
+      </h3>
       <div class="dialog-container__description">
-        <p>people <strong> {{this.reservation.numberOfGuests}}</strong></p>
         <p>
-          date
+          {{'reservation_management.details.people'|translate}}
+          <strong> {{this.reservation.numberOfGuests}}</strong>
+        </p>
+        <p>
+          {{'reservation_management.details.date'|translate}}
           <strong
-            >{{this.reservation.reservationDate | date : DATE_TIME_FORMAT
-            }}</strong
+            >{{this.reservation.reservationDate | date : DATE_TIME_FORMAT :
+            undefined : getCurrentLanguage }}</strong
           >
         </p>
       </div>
     </ng-container>
     <form [formGroup]="form">
       <div class="input-field">
-        <label for="internalNote">Internal Note</label>
+        <label for="internalNote"
+          >{{'reservation_management.details.internal_note'|translate}}</label
+        >
         <textarea
-          placeholder="Nobody add an internal note"
+          [placeholder]="'reservation_management.details.placeholders.internal_note'|translate"
           type="text"
           id="internalNote"
           formControlName="internalNote"
@@ -25,9 +32,11 @@
       </div>
 
       <div class="input-field">
-        <label for="publicNote">Public Note</label>
+        <label for="publicNote"
+          >{{'reservation_management.details.public_note'|translate}}</label
+        >
         <textarea
-          placeholder="Nobody add an public note"
+          [placeholder]="'reservation_management.details.placeholders.public_note'|translate"
           type="text"
           id="publicNote"
           formControlName="publicNote"
@@ -36,21 +45,23 @@
     </form>
   </div>
   <mat-dialog-actions>
-    <button class="btn btn__small btn-blue" mat-dialog-close>Cancel</button>
+    <button class="btn btn__small btn-blue" mat-dialog-close>
+      {{'cancel'|translate}}
+    </button>
 
     <button
       *ngIf="this.data.action === ReservationDetailsActions.Edit"
       class="btn btn__small btn-yellow btn-border-yellow"
       (click)="updateReservation()"
     >
-      Update
+      {{'reservation_management.details.update'|translate}}
     </button>
     <button
       *ngIf="this.data.action === ReservationDetailsActions.Delete"
       class="btn btn__small btn-red btn-border-red"
       (click)="deleteReservation()"
     >
-      Delete
+      {{'reservation_management.details.delete'|translate}}
     </button>
   </mat-dialog-actions>
 </div>

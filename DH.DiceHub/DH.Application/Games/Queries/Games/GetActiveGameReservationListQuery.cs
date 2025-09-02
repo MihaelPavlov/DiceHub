@@ -38,6 +38,7 @@ internal class GetActiveGameReservationListQueryHandler(
                 var tenantUserSettings = await this.repository.GetByAsync(x => x.UserId == reservation.UserId, cancellationToken);
 
                 reservation.PhoneNumber = tenantUserSettings?.PhoneNumber ?? this.localizer["NotProvided"];
+                reservation.UserLanguage = tenantUserSettings?.Language ?? this.localizer["NotProvided"];
             }
 
         }
