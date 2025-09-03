@@ -49,8 +49,15 @@ public class ReservationCleanupQueue : QueueBase
 
     public void RequeueJob(JobInfo jobInfo)
     {
-        queue.Enqueue(jobInfo);   // Add back to end of queue
-        jobs[jobInfo.ReservationId] = jobInfo;
+        if (jobs.TryGetValue(jobInfo.ReservationId, out var latestJob))
+        {
+            queue.Enqueue(latestJob);
+        }
+        else
+        {
+            queue.Enqueue(jobInfo);
+            jobs[jobInfo.ReservationId] = jobInfo;
+        }
     }
 
     public void UpdateReservationCleaningJob(int reservationId, DateTime newRemovingTime)
@@ -58,7 +65,7 @@ public class ReservationCleanupQueue : QueueBase
         if (jobs.TryGetValue(reservationId, out var existingJob))
         {
             var updatedJobInfo = existingJob with { RemovingTime = newRemovingTime };
-            jobs[reservationId] = updatedJobInfo;
+            jobs[reservationId] = existingJob with { RemovingTime = newRemovingTime };
 
             this.QueuedJobService.UpdatePayload(this.QueueName, updatedJobInfo.JobId, JsonSerializer.Serialize(updatedJobInfo));
         }
@@ -71,7 +78,22 @@ public class ReservationCleanupQueue : QueueBase
     /// <returns>True if a job was successfully dequeued; otherwise, false.</returns>
     public bool TryDequeue([MaybeNullWhen(false)] out JobInfo result)
     {
-        return queue.TryDequeue(out result);
+        if (queue.TryDequeue(out var jobInfo))
+        {
+            // Always refresh from dictionary if there’s an updated version
+            if (jobs.TryGetValue(jobInfo.ReservationId, out var updatedJob))
+            {
+                result = updatedJob;
+            }
+            else
+            {
+                result = jobInfo;
+            }
+            return true;
+        }
+
+        result = null!;
+        return false;
     }
 
     public bool RemoveReservationCleaningJob(int reservationId)

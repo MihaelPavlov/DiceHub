@@ -37,7 +37,7 @@ internal class DeclineSpaceTableReservationCommandHandler(
 
         //TODO: Additional minutes can be tenantSettings
         DateTime newCleanupTime = DateTime.UtcNow.AddMinutes(2);
-        this.queue.AddReservationCleaningJob(reservation.Id, ReservationType.Table, newCleanupTime);
+        this.queue.UpdateReservationCleaningJob(reservation.Id, newCleanupTime);
 
         await this.statisticQueuePublisher.PublishAsync(new StatisticJobQueue.ReservationProcessingOutcomeJob(
             reservation.UserId, ReservationOutcome.Cancelled, ReservationType.Table, reservation.Id, DateTime.UtcNow));

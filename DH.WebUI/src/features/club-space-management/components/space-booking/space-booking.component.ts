@@ -209,7 +209,7 @@ export class SpaceBookingComponent extends Form {
         .subscribe({
           next: () => {
             this.toastService.success({
-              message: AppToastMessage.ChangesApplied,
+              message: this.translateService.instant(AppToastMessage.ChangesApplied),
               type: ToastType.Success,
             });
             this.router.navigateByUrl(FULL_ROUTE.SPACE_MANAGEMENT.HOME);
