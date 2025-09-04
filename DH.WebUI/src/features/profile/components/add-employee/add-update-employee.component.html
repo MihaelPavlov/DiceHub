@@ -1,7 +1,11 @@
 <div class="wrapper_icons">
   <span (click)="onBack()" class="arrow left"></span>
-  <span class="header_name" *ngIf="!this.editEmployeeId">New Employee</span>
-  <span class="header_name" *ngIf="this.editEmployeeId">Update Employee</span>
+  <span class="header_name" *ngIf="!this.editEmployeeId">{{
+    "profile.add_update_employee.new_employee" | translate
+  }}</span>
+  <span class="header_name" *ngIf="this.editEmployeeId">{{
+    "profile.add_update_employee.update_employee" | translate
+  }}</span>
 
   <div class="info-container">
     <svg (click)="controls.toggleMenu()" class="info" viewBox="0 -960 960 960">
@@ -14,20 +18,52 @@
 
 <form [formGroup]="this.form" class="container">
   <div class="input-field">
-    <label for="firstName" class="required">First Name</label>
-    <input placeholder="first name" type="text" formControlName="firstName" />
+    <label for="firstName" class="required">{{
+      "profile.add_update_employee.labels.first_name" | translate
+    }}</label>
+    <input
+      [placeholder]="
+        'profile.add_update_employee.placeholders.first_name' | translate
+      "
+      type="text"
+      formControlName="firstName"
+    />
   </div>
   <div class="input-field">
-    <label for="lastName" class="required">Last Name</label>
-    <input placeholder="last name " type="text" formControlName="lastName" />
+    <label for="lastName" class="required">{{
+      "profile.add_update_employee.labels.last_name" | translate
+    }}</label>
+    <input
+      [placeholder]="
+        'profile.add_update_employee.placeholders.last_name' | translate
+      "
+      type="text"
+      formControlName="lastName"
+    />
   </div>
   <div class="input-field">
-    <label for="email" class="required">Email</label>
-    <input placeholder="email" type="text" formControlName="email" />
+    <label for="email" class="required">{{
+      "profile.add_update_employee.labels.email" | translate
+    }}</label>
+    <input
+      [placeholder]="
+        'profile.add_update_employee.placeholders.email' | translate
+      "
+      type="text"
+      formControlName="email"
+    />
   </div>
   <div class="input-field">
-    <label for="phoneNumber" class="required">Phone Number</label>
-    <input placeholder="phone Number" type="text" formControlName="phoneNumber" />
+    <label for="phoneNumber" class="required">
+      {{ "profile.add_update_employee.labels.phone_number" | translate }}
+    </label>
+    <input
+      [placeholder]="
+        'profile.add_update_employee.placeholders.phone_number' | translate
+      "
+      type="text"
+      formControlName="phoneNumber"
+    />
   </div>
   <div *ngIf="getFirstErrorMessage()" class="errors">
     {{ getFirstErrorMessage() }}
@@ -47,7 +83,7 @@
         'btn-font-red': this.form.invalid
       }"
     >
-      Create
+      {{ "profile.add_update_employee.create_btn" | translate }}
     </button>
 
     <button
@@ -63,7 +99,7 @@
         'btn-font-red': this.form.invalid
       }"
     >
-      Update
+      {{ "profile.add_update_employee.update_btn" | translate }}
     </button>
   </div>
 </form>
@@ -71,5 +107,5 @@
 <app-controls-menu
   #controls
   [isInfo]="true"
-  infoDescription="Email with the password will be send to the new employee."
+  [infoDescription]="'profile.add_update_employee.info_message' | translate"
 ></app-controls-menu>

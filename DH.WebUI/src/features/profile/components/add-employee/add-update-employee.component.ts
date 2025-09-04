@@ -84,7 +84,9 @@ export class AddUpdateEmployeeComponent extends Form implements OnDestroy {
         .subscribe({
           next: () => {
             this.toastService.success({
-              message: AppToastMessage.ChangesSaved,
+              message: this.translateService.instant(
+                AppToastMessage.ChangesSaved
+              ),
               type: ToastType.Success,
             });
 
@@ -97,7 +99,9 @@ export class AddUpdateEmployeeComponent extends Form implements OnDestroy {
               this.handleServerErrors(error);
             }
             this.toastService.error({
-              message: AppToastMessage.SomethingWrong,
+              message: this.translateService.instant(
+                AppToastMessage.SomethingWrong
+              ),
               type: ToastType.Error,
             });
           },
@@ -118,7 +122,9 @@ export class AddUpdateEmployeeComponent extends Form implements OnDestroy {
         .subscribe({
           next: () => {
             this.toastService.success({
-              message: AppToastMessage.ChangesSaved,
+              message: this.translateService.instant(
+                AppToastMessage.ChangesSaved
+              ),
               type: ToastType.Success,
             });
 
@@ -131,7 +137,9 @@ export class AddUpdateEmployeeComponent extends Form implements OnDestroy {
               this.handleServerErrors(error);
             }
             this.toastService.error({
-              message: AppToastMessage.SomethingWrong,
+              message: this.translateService.instant(
+                AppToastMessage.SomethingWrong
+              ),
               type: ToastType.Error,
             });
           },
@@ -167,13 +175,21 @@ export class AddUpdateEmployeeComponent extends Form implements OnDestroy {
   protected override getControlDisplayName(controlName: string): string {
     switch (controlName) {
       case 'email':
-        return 'Email';
+        return this.translateService.instant(
+          'profile.add_update_employee.control_display_names.email'
+        );
       case 'firstName':
-        return 'First Name';
+        return this.translateService.instant(
+          'profile.add_update_employee.control_display_names.first_name'
+        );
       case 'lastName':
-        return 'Last Name';
+        return this.translateService.instant(
+          'profile.add_update_employee.control_display_names.last_name'
+        );
       case 'phoneNumber':
-        return 'Phone Number';
+        return this.translateService.instant(
+          'profile.add_update_employee.control_display_names.phone_number'
+        );
       default:
         return controlName;
     }
