@@ -110,11 +110,11 @@ public class UserService : IUserService
             throw new ValidationErrorsException(validationErrors);
 
         var existingUserByEmail = await this.userManager.FindByEmailAsync(form.Email);
-        if (existingUserByEmail != null)
+        if (existingUserByEmail != null && !existingUserByEmail.IsDeleted)
             throw new ValidationErrorsException("Exist", this.localizer["UserExistEmail"]);
 
         var existingUserByUsername = await this.userManager.FindByNameAsync(form.Username);
-        if (existingUserByUsername != null)
+        if (existingUserByUsername != null && !existingUserByUsername.IsDeleted)
             throw new ValidationErrorsException("Exist", this.localizer["UserExistUsername"]);
 
         var user = new ApplicationUser() { UserName = form.Username, Email = form.Email };
@@ -273,6 +273,50 @@ public class UserService : IUserService
         return user;
     }
 
+    public async Task<EmployeeModel?> GetEmployeeId(string id, CancellationToken cancellationToken)
+    {
+        var user = await this.userManager.Users
+            .Where(x => x.Id == id && !x.IsDeleted)
+            .Select(x => new EmployeeModel
+            {
+                Id = x.Id,
+                UserName = x.UserName ?? string.Empty,
+                Email = x.Email ?? string.Empty,
+                PhoneNumber = x.PhoneNumber ?? string.Empty,
+            })
+            .FirstOrDefaultAsync(cancellationToken);
+
+        if (user != null)
+        {
+            user.FirstName = user.UserName.Split(", ").FirstOrDefault() ?? string.Empty;
+            user.LastName = user.UserName.Split(", ").LastOrDefault() ?? string.Empty;
+        }
+
+        return user;
+    }
+
+    public async Task<UserModel?> GetEmployeeById(string id, CancellationToken cancellationToken)
+    {
+        var user = await this.userManager.Users
+            .Where(x => x.Id == id && !x.IsDeleted)
+            .Select(x => new UserModel
+            {
+                Id = x.Id,
+                UserName = x.UserName ?? this.localizer["NotProvided"],
+                Email = x.Email ?? this.localizer["NotProvided"],
+                PhoneNumber = x.PhoneNumber ?? this.localizer["NotProvided"],
+            })
+            .FirstOrDefaultAsync(cancellationToken);
+
+        if (user != null)
+        {
+            user.FirstName = user.UserName.Split(", ").FirstOrDefault() ?? string.Empty;
+            user.LastName = user.UserName.Split(", ").LastOrDefault() ?? string.Empty;
+        }
+
+        return user;
+    }
+
     public async Task<UserModel?> GetUserByEmail(string email)
     {
         var user = await this.userManager.FindByEmailAsync(email);
@@ -340,12 +384,12 @@ public class UserService : IUserService
             throw new ValidationErrorsException(validationErrors);
 
         var existingUserByEmail = await this.userManager.FindByEmailAsync(request.Email);
-        if (existingUserByEmail != null)
+        if (existingUserByEmail != null && !existingUserByEmail.IsDeleted)
             throw new ValidationErrorsException("Exist", this.localizer["UserExistEmail"]);
 
         var username = $"{request.FirstName}, {request.LastName}";
         var existingUserByUsername = await this.userManager.FindByNameAsync(username);
-        if (existingUserByUsername != null)
+        if (existingUserByUsername != null && !existingUserByUsername.IsDeleted)
             throw new ValidationErrorsException("Exist", this.localizer["UserFirstLastNamesExists"]);
 
         var user = new ApplicationUser()
@@ -446,7 +490,7 @@ public class UserService : IUserService
         if (user.IsInvalid())
             throw new NotFoundException(this.localizer["UserByEmailNotFound"]);
 
-        if (!request.PhoneNumber.Equals(request.PhoneNumber))
+        if (!request.PhoneNumber.Equals(user.PhoneNumber))
             throw new ValidationErrorsException("PhoneNumber", this.localizer["PhoneNumberMismatch"]);
 
         if (!request.NewPassword.Equals(request.ConfirmPassword))
@@ -552,8 +596,11 @@ public class UserService : IUserService
         var user = await this.userManager.FindByIdAsync(employeeId)
             ?? throw new BadRequestException(this.localizer["EmployeeDeletionFailed"]);
 
+        var userId = user.Id.Replace("-", "");
         user.IsDeleted = true;
-        await this.userManager.UpdateAsync(user);
+        user.UserName = $"{userId},deleted,{user.UserName}";
+        user.Email = $"{userId},deleted,{user.Email}";
+      var res= await this.userManager.UpdateAsync(user);
     }
 
     private static string GenerateRandomPassword()
