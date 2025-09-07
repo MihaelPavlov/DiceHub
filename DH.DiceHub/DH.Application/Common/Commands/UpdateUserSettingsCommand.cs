@@ -25,7 +25,7 @@ internal class UpdateUserSettingsCommandHandler(
         if (!request.Settings.FieldsAreValid(out var validationErrors, localizer))
             throw new ValidationErrorsException(validationErrors);
 
-        if (request.Settings.Id == null)
+        if (request.Settings.Id == null && request.UserId == null)
         {
             await this.repository.AddAsync(new TenantUserSetting
             {
@@ -38,7 +38,12 @@ internal class UpdateUserSettingsCommandHandler(
 
         var currentUserId = request.UserId != null ? request.UserId : this.userContext.UserId;
 
-        var dbSettings = await this.repository.GetByAsyncWithTracking(x => x.Id == request.Settings.Id && currentUserId == x.UserId, cancellationToken);
+        TenantUserSetting? dbSettings = null;
+
+        if (request.Settings.Id != null)
+            dbSettings = await this.repository.GetByAsyncWithTracking(x => x.Id == request.Settings.Id || currentUserId == x.UserId, cancellationToken);
+        else
+            dbSettings = await this.repository.GetByAsyncWithTracking(x => currentUserId == x.UserId, cancellationToken);
 
         if (dbSettings == null)
         {

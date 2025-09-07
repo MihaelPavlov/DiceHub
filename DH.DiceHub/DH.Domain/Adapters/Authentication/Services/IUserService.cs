@@ -39,6 +39,7 @@ public interface IUserService
     Task<List<UserModel>> GetUserListByIds(string[] ids, CancellationToken cancellationToken);
     Task<bool> HasUserAnyMatchingRole(string userId, params Role[] roles);
     Task<UserModel?> GetUserById(string id, CancellationToken cancellationToken);
+    Task<EmployeeModel?> GetEmployeeId(string id, CancellationToken cancellationToken);
     Task<UserModel?> GetUserByEmail(string email);
     /// <summary>
     /// Get user list by role

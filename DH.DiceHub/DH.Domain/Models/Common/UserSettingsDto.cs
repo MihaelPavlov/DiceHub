@@ -10,6 +10,8 @@ public class UserSettingsDto : IValidableFields
     public string PhoneNumber { get; set; } = string.Empty;
     public string Language { get; set; } = string.Empty;
 
+    public bool InternalUpdate = false;
+
     public bool FieldsAreValid(out List<ValidationError> validationErrors, ILocalizationService localizationService)
     {
         var errors = new List<ValidationError>();
@@ -17,8 +19,11 @@ public class UserSettingsDto : IValidableFields
         if (string.IsNullOrEmpty(PhoneNumber))
             errors.Add(new ValidationError(nameof(PhoneNumber), localizationService["TenantSettingsPhoneNumber"]));
 
-        if (!Enum.TryParse<SupportLanguages>(Language, out var parsedLanguage))
-            errors.Add(new ValidationError(nameof(Language), localizationService["UserSettingsLanguage"]));
+        if (!InternalUpdate)
+        {
+            if (!Enum.TryParse<SupportLanguages>(Language, out var parsedLanguage))
+                errors.Add(new ValidationError(nameof(Language), localizationService["UserSettingsLanguage"]));
+        }
 
         validationErrors = errors;
 
