@@ -1,9 +1,13 @@
 <div class="dialog-container">
-  <h3 class="dialog-container__header m-4">Confirm Deletion!</h3>
+  <h3 class="dialog-container__header m-4">
+    {{ "profile.employee_list.confirm_deletion" | translate }}
+  </h3>
   <mat-dialog-actions>
-    <button class="btn btn__small btn-blue" mat-dialog-close>Cancel</button>
+    <button class="btn btn__small btn-blue" mat-dialog-close>
+      {{ "cancel" | translate }}
+    </button>
     <button class="btn btn__small btn-red btn-border-red" (click)="delete()">
-      Delete
+      {{ "delete" | translate }}
     </button>
   </mat-dialog-actions>
 </div>

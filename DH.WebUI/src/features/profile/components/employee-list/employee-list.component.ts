@@ -10,6 +10,10 @@ import { NavigationService } from '../../../../shared/services/navigation-servic
 import { BehaviorSubject } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { EmployeeConfirmDeleteDialog } from '../../dialogs/employee-confirm-delete/employee-confirm-delete.component';
+import { ToastService } from '../../../../shared/services/toast.service';
+import { TranslateService } from '@ngx-translate/core';
+import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
+import { ToastType } from '../../../../shared/models/toast.model';
 
 @Component({
   selector: 'app-profile',
@@ -27,7 +31,9 @@ export class EmployeeListComponent implements OnDestroy {
     private readonly usersService: UsersService,
     private readonly router: Router,
     private readonly navigationService: NavigationService,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly toastService: ToastService,
+    private readonly translateService: TranslateService
   ) {
     this.fetchEmployeeList();
     this.menuTabsService.setActive(NAV_ITEM_LABELS.PROFILE);
@@ -36,8 +42,13 @@ export class EmployeeListComponent implements OnDestroy {
   public fetchEmployeeList(): void {
     this.usersService.getEmployeeList().subscribe({
       next: (employees) => (this.employees = employees ?? []),
-      error: (error) => {
-        console.log(error);
+      error: () => {
+        this.toastService.success({
+          message: this.translateService.instant(
+            AppToastMessage.SomethingWrong
+          ),
+          type: ToastType.Success,
+        });
       },
     });
   }
