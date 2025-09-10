@@ -189,7 +189,7 @@ public class UserController : ControllerBase
         }
         catch (SecurityTokenException)
         {
-            return Unauthorized(new { message = "Token validation failed" });
+            return Ok(null);
         }
     }
 
@@ -229,7 +229,7 @@ public class UserController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<UserModel>))]
     public async Task<IActionResult> GetEmployeeById(string id, CancellationToken cancellationToken)
     {
-        var employee = await this.userService.GetUserById(id, cancellationToken);
+        var employee = await this.userService.GetEmployeeId(id, cancellationToken);
         return Ok(employee);
     }
 
@@ -246,6 +246,7 @@ public class UserController : ControllerBase
         await this.mediator.Send(new UpdateUserSettingsCommand(new UserSettingsDto
         {
             PhoneNumber = request.PhoneNumber,
+            InternalUpdate = true
         }, employeeResult.UserId), cancellationToken);
 
         return Ok();
@@ -267,13 +268,14 @@ public class UserController : ControllerBase
         await this.mediator.Send(new UpdateUserSettingsCommand(new UserSettingsDto
         {
             PhoneNumber = request.PhoneNumber,
+            InternalUpdate = true
         }, employeeResult.UserId), cancellationToken);
 
         return Ok();
     }
 
     [Authorize]
-    [HttpPost("delete-employee")]
+    [HttpDelete("delete-employee/{employeeId}")]
     [ActionAuthorize(UserAction.EmployeesCRUD)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> DeleteEmployee(string employeeId, CancellationToken cancellationToken)
