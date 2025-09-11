@@ -4,7 +4,6 @@ import {
   NgModule,
   ErrorHandler,
   APP_INITIALIZER,
-  LOCALE_ID,
 } from '@angular/core';
 import { AppComponent } from './app-component/app.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';

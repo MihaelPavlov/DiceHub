@@ -1,5 +1,8 @@
 <app-header
-  [header]="selectedInstruction?.title ?? 'Instruction'"
+  [header]="
+    (selectedInstruction?.title | translate) ??
+    ('instruction.instruction_header' | translate)
+  "
   [withBackBtn]="true"
   (backClicked)="navigateBack()"
 ></app-header>

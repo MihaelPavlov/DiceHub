@@ -14,6 +14,7 @@ import {
   ImagePreviewData,
 } from '../../../../shared/dialogs/image-preview/image-preview.dialog';
 import { MatDialog } from '@angular/material/dialog';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-link-info',
@@ -39,8 +40,13 @@ export class LinkInfoComponent implements AfterViewInit {
 
   constructor(
     private cd: ChangeDetectorRef,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly translateService: TranslateService
   ) {}
+
+  public translate(key: string): string {
+    return this.translateService.instant(key);
+  }
 
   public ngAfterViewInit(): void {
     // Ensure snapping after manual scrolls
@@ -52,7 +58,9 @@ export class LinkInfoComponent implements AfterViewInit {
 
     setTimeout(() => {
       this.gifSrcMap[this.currentIndex] =
-        this.linkInfo[this.currentIndex].mediaUrl + '?t=' + Date.now();
+        this.translate(this.linkInfo[this.currentIndex].mediaUrl ?? '') +
+        '?t=' +
+        Date.now();
     });
   }
 
@@ -65,11 +73,13 @@ export class LinkInfoComponent implements AfterViewInit {
   }
 
   public openImagePreview(imageUrl: string) {
+    console.log('image preview ->', imageUrl);
+
     this.dialog.open<ImagePreviewDialog, ImagePreviewData>(ImagePreviewDialog, {
       data: {
         imageUrl,
         title: 'Image',
-        removeHeight: true
+        removeHeight: true,
       },
       width: '17rem',
     });
@@ -77,10 +87,6 @@ export class LinkInfoComponent implements AfterViewInit {
 
   public get getCurrentLinkInfo(): InstructionStep {
     return this.linkInfo[this.currentSlideIndex];
-  }
-
-  public getImagePathWithTimestamp(path: string | null): string {
-    return `${path}?t=${Date.now()}`;
   }
 
   public scrollToSlide(index: number): void {
@@ -95,7 +101,7 @@ export class LinkInfoComponent implements AfterViewInit {
 
     // Reset the GIF/Image source
     this.currentIndex = index;
-    const imagePath = this.linkInfo[index].mediaUrl;
+    const imagePath = this.translate(this.linkInfo[index].mediaUrl ?? '');
     this.gifSrcMap[index] = `${imagePath}?t=${Date.now()}`;
   }
 

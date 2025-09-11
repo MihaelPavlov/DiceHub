@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { InstructionSection } from '../../../../entities/instruction-management/models/instruction.model';
 import { INSTRUCTION_LINK_MAPPINGS } from '../../../../entities/instruction-management/constants/instruction.constant';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-instruction-links',
@@ -13,9 +14,10 @@ export class InstructionLinksComponent implements OnInit {
   public currentSection!: InstructionSection;
 
   constructor(
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private navigationService: NavigationService
+    private readonly router: Router,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly navigationService: NavigationService,
+    private readonly translateService: TranslateService
   ) {}
 
   public ngOnInit(): void {
@@ -36,5 +38,9 @@ export class InstructionLinksComponent implements OnInit {
   public navigateToLink(path: string) {
     this.navigationService.setPreviousUrl(this.router.url);
     this.router.navigate([path]);
+  }
+
+  public translate(key: string): string {
+    return this.translateService.instant(key);
   }
 }

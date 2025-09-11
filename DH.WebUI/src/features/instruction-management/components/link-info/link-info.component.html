@@ -4,7 +4,7 @@
     (click)="scrollToSlide(currentSlideIndex - 1)"
     *ngIf="currentSlideIndex > 0"
   >
-    Previous
+    {{ "instruction.previous" | translate }}
   </button>
   <div class="carousel__viewport" #carouselViewport>
     <div *ngFor="let slide of slides; let i = index" class="carousel__slide">
@@ -19,14 +19,16 @@
             />
           </div>
           <div class="wrapper_link">
-            <div class="name">{{ linkInfo[i].header }}</div>
-            <div class="description">{{ linkInfo[i].description }}</div>
+            <div class="name">{{ translate(linkInfo[i].header) }}</div>
+            <div class="description">
+              {{ translate(linkInfo[i].description) }}
+            </div>
             <a
               class="action_link"
               *ngIf="linkInfo[i].action"
               [routerLink]="linkInfo[i].action?.url"
             >
-              {{ linkInfo[i].action?.label }}</a
+              {{ translate(linkInfo[i].action?.label ?? "") }}</a
             >
           </div>
         </div>
@@ -38,7 +40,7 @@
     (click)="scrollToSlide(currentSlideIndex + 1)"
     *ngIf="currentSlideIndex < slides.length - 1"
   >
-    Next
+    {{ "instruction.next" | translate }}
   </button>
 
   <nav class="carousel__navigation">

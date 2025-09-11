@@ -1,18 +1,18 @@
 <app-header
-  header="Instructions"
+  [header]="'instruction.instructions_header' | translate"
   [withBackBtn]="true"
   (backClicked)="navigateBack()"
 ></app-header>
 
 <div class="wrapper_info">
   <div class="image">
-    <img [src]="currentSection.imageUrl" alt="" />
+    <img [src]="translate(currentSection.imageUrl)" alt="" />
   </div>
   <div class="header blue">
-    {{ currentSection.title }}
+    {{ translate(currentSection.title) }}
   </div>
   <div class="description">
-    {{ currentSection.summary }}
+    {{ translate(currentSection.summary) }}
   </div>
 </div>
 
@@ -23,12 +23,12 @@
     (click)="navigateToLink(link.route)"
   >
     <div class="wrapper_image">
-      <img [src]="link.thumbnailUrl" alt="Image" />
+      <img [src]="translate(link.thumbnailUrl)" alt="Image" />
     </div>
     <div class="wrapper_title">
-      <span>{{ link.title }}</span>
+      <span>{{ translate(link.title) }}</span>
       <div class="wrapper_description">
-        {{ link.description }}
+        {{ translate(link.description) }}
       </div>
     </div>
     <svg class="arrow" viewBox="0 -960 960 960" fill="#fafafa">

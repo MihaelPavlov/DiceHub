@@ -55,7 +55,7 @@ export class AuthService {
 
   public sendEmailConfirmationRequest(
     email: string,
-    language:string,
+    language: string
   ): Observable<boolean | null> {
     return this.api.post<boolean>(
       `/api/user/send-email-confirmation-request/${email}/${language}`,
@@ -221,8 +221,7 @@ export class AuthService {
             resolve();
           }
         },
-        error: () => {
-          console.error(AppToastMessage.SomethingWrong);
+        error: (error) => {
           this.userInfoSubject$.next(null);
           resolve();
         },
