@@ -3,25 +3,22 @@ import { InstructionSection, LinkInfoType } from '../models/instruction.model';
 export const INSTRUCTION_LINK_MAPPINGS: { [key: string]: InstructionSection } =
   {
     reservation: {
-      title: 'Reservations',
-      summary: 'Reserve a game, table, or a combination of both',
+      title: 'instruction.reservation.title',
+      summary: 'instruction.reservation.summary',
       imageUrl: '/shared/assets/images/icons/menu_book-icon-blue.svg',
       topics: [
         {
-          title: 'Game',
+          title: 'instruction.reservation.topic.game.title',
           route: '/instructions/reservation/game',
-          thumbnailUrl: '/shared/assets/images/instructions/Reservations/Game/3.png',
-          description: `Learn how to reserve a game step by step.`,
+          thumbnailUrl: 'instruction.reservation.topic.game.thumbnail_url',
+          description: `instruction.reservation.topic.game.description`,
           steps: [
             {
-              header: 'How to Reserve a Game',
-              description: `Tap the game library icon in the bottom-left corner. Use the list or search bar to find a game you want to play.
-            After selecting a game, click on Availability 
-            Select your arrival time and number of players — we’ll reserve a table for you. 
-            You’ll be notified when your reservation is approved or declined. 
-            If approved, please arrive 2–10 minutes before the timer ends.`,
+              header:
+                'instruction.reservation.topic.game.steps.how_to_reserve_game',
+              description: `instruction.reservation.topic.game.steps.description`,
               mediaUrl:
-                '/shared/assets/images/instructions/Reservations/Game/game_reservation_part_1.gif',
+                'instruction.reservation.topic.game.steps.media_url',
             },
             {
               header: 'Reservation Approved: What’s Next',
@@ -60,7 +57,8 @@ export const INSTRUCTION_LINK_MAPPINGS: { [key: string]: InstructionSection } =
         {
           title: 'Table',
           route: '/instructions/reservation/table',
-          thumbnailUrl: '/shared/assets/images/instructions/Reservations/Table/1.png',
+          thumbnailUrl:
+            '/shared/assets/images/instructions/Reservations/Table/1.png',
           description: 'Learn how to reserve a table.',
           steps: [
             {
@@ -95,7 +93,8 @@ export const INSTRUCTION_LINK_MAPPINGS: { [key: string]: InstructionSection } =
         {
           title: 'Combination',
           route: '/instructions/reservation/combination',
-          thumbnailUrl: '/shared/assets/images/instructions/Reservations/Combination/2.png',
+          thumbnailUrl:
+            '/shared/assets/images/instructions/Reservations/Combination/2.png',
           description:
             'Learn how to combine both a table and a game reservation into one seamless experience.',
           steps: [
@@ -139,7 +138,8 @@ export const INSTRUCTION_LINK_MAPPINGS: { [key: string]: InstructionSection } =
         {
           title: 'Tip #1 Manage Your Room',
           route: '/instructions/reservation/manage-room',
-          thumbnailUrl: '/shared/assets/images/instructions/Reservations/find_my_reservation.gif',
+          thumbnailUrl:
+            '/shared/assets/images/instructions/Reservations/find_my_reservation.gif',
           description:
             'Easily manage your reservation room — see who’s in, update players, and adjust your settings.',
           steps: [
@@ -164,7 +164,8 @@ export const INSTRUCTION_LINK_MAPPINGS: { [key: string]: InstructionSection } =
         {
           title: 'How to Join an Event',
           route: '/instructions/events/all',
-          thumbnailUrl: '/shared/assets/images/instructions/Events/join_event.gif',
+          thumbnailUrl:
+            '/shared/assets/images/instructions/Events/join_event.gif',
           description:
             'Find and join upcoming community events directly from your app.',
           steps: [
@@ -182,7 +183,8 @@ export const INSTRUCTION_LINK_MAPPINGS: { [key: string]: InstructionSection } =
         {
           title: 'How to Leave an Event',
           route: '/instructions/events/all',
-          thumbnailUrl: '/shared/assets/images/instructions/Events/leave_event.gif',
+          thumbnailUrl:
+            '/shared/assets/images/instructions/Events/leave_event.gif',
           description: 'Can’t make it? Easily leave an event you’ve joined.',
           steps: [
             {
@@ -294,8 +296,7 @@ export const INSTRUCTION_LINK_MAPPINGS: { [key: string]: InstructionSection } =
     },
     meeples: {
       title: 'Meeples',
-      summary:
-        `Looking for people to play with? 
+      summary: `Looking for people to play with? 
         The Meeples section helps you find or create a group of players who want to enjoy the same game as you. Meet new people, connect, and have fun together!`,
       imageUrl: '/shared/assets/images/icons/group-icon-blue.svg',
       topics: [
@@ -318,7 +319,8 @@ You can browse these and join any group that matches your interest.`,
           title: 'Create a Room',
           route: '/instructions/meeples/find',
           thumbnailUrl: '/shared/assets/images/instructions/Meeples/1.png',
-          description: 'Set up your own room and wait for others to join you for a game session.',
+          description:
+            'Set up your own room and wait for others to join you for a game session.',
           steps: [
             {
               header: 'Create a Meeple Room',
@@ -344,7 +346,7 @@ You’ll be taken to the room creation page, where you can set the game, time, a
               header: 'Room Info & Chat',
               description: `Inside each room, you’ll find details about the selected game, scheduled time, and players.
 You can also open the chat to talk to other participants, coordinate, or get updates.`,
-              mediaUrl: '/shared/assets/images/instructions/Meeples/4.png', 
+              mediaUrl: '/shared/assets/images/instructions/Meeples/4.png',
             },
           ],
         },
