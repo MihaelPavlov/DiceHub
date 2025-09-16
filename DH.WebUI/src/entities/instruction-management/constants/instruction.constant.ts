@@ -15,10 +15,10 @@ export const INSTRUCTION_LINK_MAPPINGS: { [key: string]: InstructionSection } =
           steps: [
             {
               header:
-                'instruction.reservation.topic.game.steps.how_to_reserve_game',
-              description: `instruction.reservation.topic.game.steps.description`,
+                'instruction.reservation.topic.game.steps.how_to_reserve_game.header',
+              description: `instruction.reservation.topic.game.steps.how_to_reserve_game.description`,
               mediaUrl:
-                'instruction.reservation.topic.game.steps.media_url',
+                'instruction.reservation.topic.game.steps.how_to_reserve_game.media_url',
             },
             {
               header: 'Reservation Approved: What’s Next',
