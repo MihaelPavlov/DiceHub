@@ -21,72 +21,75 @@ export const INSTRUCTION_LINK_MAPPINGS: { [key: string]: InstructionSection } =
                 'instruction.reservation.topic.game.steps.how_to_reserve_game.media_url',
             },
             {
-              header: 'Reservation Approved: What’s Next',
-              description: `Once your reservation is approved, you'll see a QR code and an info panel.
-              You can access this panel anytime from the red Games Tab in the top-right corner (it will glow when updated).
-              This panel shows important details and updates about your reservation.`,
+              header:
+                'instruction.reservation.topic.game.steps.reservation_approved.header',
+              description: `instruction.reservation.topic.game.steps.reservation_approved.description`,
               mediaUrl:
-                '/shared/assets/images/instructions/Reservations/Game/game_reservation_part_2.gif',
+                'instruction.reservation.topic.game.steps.reservation_approved.media_url',
             },
             {
-              header: 'Messages from Staff',
-              description: `Your info panel may include notes from staff about your reservation — make sure to read them.`,
+              header:
+                'instruction.reservation.topic.game.steps.message_from_staff.header',
+              description: `instruction.reservation.topic.game.steps.message_from_staff.description`,
               mediaUrl:
-                '/shared/assets/images/instructions/Reservations/Game/7.png',
+                'instruction.reservation.topic.game.steps.message_from_staff.media_url',
             },
             {
-              header: 'Checking In with Your QR Code',
-              description: `Show your QR code to the club staff when you arrive. They’ll scan it to confirm your reservation.`,
+              header:
+                'instruction.reservation.topic.game.steps.checking_in_with_qr_code.header',
+              description: `instruction.reservation.topic.game.steps.checking_in_with_qr_code.description`,
               mediaUrl:
-                '/shared/assets/images/instructions/Reservations/Game/9.png',
+                'instruction.reservation.topic.game.steps.checking_in_with_qr_code.media_url',
             },
             {
-              header: 'If Your Reservation is Declined',
-              description: `If your reservation is not approved, you’ll see a message explaining why it was declined.`,
+              header:
+                'instruction.reservation.topic.game.steps.reservation_is_declined.header',
+              description: `instruction.reservation.topic.game.steps.reservation_is_declined.description`,
               mediaUrl:
-                '/shared/assets/images/instructions/Reservations/Game/11.png',
+                'instruction.reservation.topic.game.steps.reservation_is_declined.media_url',
             },
             {
-              header: 'If No One Responds to Your Reservation',
-              description: `If your reservation isn’t acknowledged in time, you’ll get a additional message.`,
+              header:
+                'instruction.reservation.topic.game.steps.no_one_responds_to_reservation.header',
+              description: `instruction.reservation.topic.game.steps.no_one_responds_to_reservation.description`,
               mediaUrl:
-                '/shared/assets/images/instructions/Reservations/Game/13.png',
+                'instruction.reservation.topic.game.steps.no_one_responds_to_reservation.media_url',
             },
           ],
         },
         {
-          title: 'Table',
+          title: 'instruction.reservation.topic.table.title',
           route: '/instructions/reservation/table',
-          thumbnailUrl:
-            '/shared/assets/images/instructions/Reservations/Table/1.png',
-          description: 'Learn how to reserve a table.',
+          thumbnailUrl: 'instruction.reservation.topic.table.thumbnail_url',
+          description: 'instruction.reservation.topic.table.description',
           steps: [
             {
-              header: 'How to Reserve a Table',
-              description: `Tap the circular icon with crossed swords at the bottom center of the screen. 
-            Then, tap the top icon to open the Club Space Management page. 
-            There, you can book a table, choosing your arrival time, and entering the number of players. 
-            You’ll receive a notification once your reservation is approved or declined.`,
+              header:
+                'instruction.reservation.topic.table.steps.how_to_reserve_table.header',
+              description: `instruction.reservation.topic.table.steps.how_to_reserve_table.description`,
               mediaUrl:
-                '/shared/assets/images/instructions/Reservations/Table/table_reservation_part_1.gif',
+                'instruction.reservation.topic.table.steps.how_to_reserve_table.media_url',
             },
             {
-              header: 'Reservation Approved: What’s Next',
-              description: `If your reservation is approved, a QR code and all reservation details will appear in your info panel under Club Space Management page.`,
+              header:
+                'instruction.reservation.topic.table.steps.reservation_approved.header',
+              description: `instruction.reservation.topic.table.steps.reservation_approved.description`,
               mediaUrl:
-                '/shared/assets/images/instructions/Reservations/Table/1.png',
+                'instruction.reservation.topic.table.steps.reservation_approved.media_url',
             },
             {
-              header: 'Message from Staff',
-              description: `Sometimes, staff may leave you a note in the info panel with important information about your reservation.`,
+              header:
+                'instruction.reservation.topic.table.steps.message_from_staff.header',
+              description: `instruction.reservation.topic.table.steps.message_from_staff.description`,
               mediaUrl:
-                '/shared/assets/images/instructions/Reservations/Table/3.png',
+                'instruction.reservation.topic.table.steps.message_from_staff.media_url',
             },
             {
-              header: 'If Your Reservation is Declined',
-              description: `If your reservation is not approved, try selecting a different time or day.`,
+              header:
+                'instruction.reservation.topic.table.steps.reservation_declined.header',
+              description: `instruction.reservation.topic.table.steps.reservation_declined.description`,
               mediaUrl:
-                '/shared/assets/images/instructions/Reservations/Table/4.png',
+                'instruction.reservation.topic.table.steps.reservation_declined.media_url',
             },
           ],
         },
