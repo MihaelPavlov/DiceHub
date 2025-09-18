@@ -94,7 +94,7 @@ export const INSTRUCTION_LINK_MAPPINGS: { [key: string]: InstructionSection } =
           ],
         },
         {
-          title: 'Combination',
+          title: 'instruction.reservation.topic.combination.title',
           route: '/instructions/reservation/combination',
           thumbnailUrl:
             '/shared/assets/images/instructions/Reservations/Combination/2.png',
