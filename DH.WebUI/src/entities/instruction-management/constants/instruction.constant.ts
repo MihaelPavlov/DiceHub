@@ -97,44 +97,37 @@ export const INSTRUCTION_LINK_MAPPINGS: { [key: string]: InstructionSection } =
           title: 'instruction.reservation.topic.combination.title',
           route: '/instructions/reservation/combination',
           thumbnailUrl:
-            '/shared/assets/images/instructions/Reservations/Combination/2.png',
+            'instruction.reservation.topic.combination.thumbnail_url',
           description:
-            'Learn how to combine both a table and a game reservation into one seamless experience.',
+            'instruction.reservation.topic.combination.description',
           steps: [
             {
-              header: 'Step 1: Reserve Your Table',
-              description: `Start by learning how to book a table. Follow the instructions provided in the link below to secure your spot.`,
+              header: 'instruction.reservation.topic.combination.steps.reserve_table.header',
+              description: `instruction.reservation.topic.combination.steps.reserve_table.description`,
               action: {
-                label: 'How to Reserve a Table',
+                label: 'instruction.reservation.topic.combination.steps.reserve_table.action_label',
                 url: '/instructions/reservation/table',
               },
               mediaUrl:
-                '/shared/assets/images/instructions/Reservations/Table/table_reservation_part_1.gif',
+                'instruction.reservation.topic.combination.steps.reserve_table.media_url',
+            },
+             {
+              header: 'instruction.reservation.topic.combination.steps.game_reservation.header',
+              description: `instruction.reservation.topic.combination.steps.game_reservation.description`,
+              mediaUrl:
+                'instruction.reservation.topic.combination.steps.game_reservation.media_url',
             },
             {
-              header: 'Step 2: Game Reservation on the Day of Your Visit',
-              description: `On the day of your table reservation, you’ll receive a special message on the game availability page. This message will include your table details.   
-            
-            Exactly **1 hour before** your reserved time, you’ll be able to select and reserve a game.
-
-            Once you request a game reservation, it will either be approved or declined depending on availability.`,
+              header: 'instruction.reservation.topic.combination.steps.game_reservation_approved.header',
+              description: `instruction.reservation.topic.combination.steps.game_reservation_approved.description`,
               mediaUrl:
-                '/shared/assets/images/instructions/Reservations/Combination/2.png',
+                'instruction.reservation.topic.combination.steps.game_reservation_approved.media_url',
             },
             {
-              header: 'If Your Game Reservation is Approved',
-              description: `Great! Both your table and your selected game will be ready and waiting for you at the venue.`,
+              header: 'instruction.reservation.topic.combination.steps.game_reservation_declined.header',
+              description: `instruction.reservation.topic.combination.steps.game_reservation_declined.description`,
               mediaUrl:
-                '/shared/assets/images/instructions/Reservations/Combination/3.png',
-            },
-            {
-              header: 'If Your Game Reservation is Declined',
-              description: `Don’t worry—your table reservation is still confirmed. You can either:
-
-            - Try reserving a different game, or
-            - Arrive and choose from the games available on-site.`,
-              mediaUrl:
-                '/shared/assets/images/instructions/Reservations/Combination/4.png',
+                'instruction.reservation.topic.combination.steps.game_reservation_declined.media_url',
             },
           ],
         },
