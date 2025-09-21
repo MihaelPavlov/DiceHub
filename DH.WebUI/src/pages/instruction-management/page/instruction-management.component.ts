@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { NavigationService } from '../../../shared/services/navigation-service';
 import { AuthService } from '../../../entities/auth/auth.service';
 import { ROUTE } from '../../../shared/configs/route.config';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-instruction-management',
@@ -10,18 +11,33 @@ import { ROUTE } from '../../../shared/configs/route.config';
   styleUrl: 'instruction-management.component.scss',
 })
 export class InstructionManagementComponent {
-  public defaultLinks = [
-    { name: 'Reservations', path: '/instructions/reservation' },
-    { name: 'Events', path: '/instructions/events' },
-    { name: 'Challenges & Rewards', path: '/instructions/challenges' },
-    { name: 'Meeples', path: '/instructions/meeples' },
-  ];
+  public defaultLinks: any = [];
 
   constructor(
     private readonly router: Router,
     private readonly navigationService: NavigationService,
-    private readonly authService: AuthService
-  ) {}
+    private readonly authService: AuthService,
+    private readonly ts: TranslateService
+  ) {
+    this.defaultLinks = [
+      {
+        name: this.ts.instant('instruction.reservation.title'),
+        path: '/instructions/reservation',
+      },
+      {
+        name: this.ts.instant('instruction.events.title'),
+        path: '/instructions/events',
+      },
+      {
+        name: this.ts.instant('instruction.challenges.title'),
+        path: '/instructions/challenges',
+      },
+      {
+        name: this.ts.instant('instruction.meeples.title'),
+        path: '/instructions/meeples',
+      },
+    ];
+  }
 
   public get isUserAuthenticated(): boolean {
     return this.authService.getUser !== null;

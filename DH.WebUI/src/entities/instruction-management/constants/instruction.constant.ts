@@ -98,33 +98,37 @@ export const INSTRUCTION_LINK_MAPPINGS: { [key: string]: InstructionSection } =
           route: '/instructions/reservation/combination',
           thumbnailUrl:
             'instruction.reservation.topic.combination.thumbnail_url',
-          description:
-            'instruction.reservation.topic.combination.description',
+          description: 'instruction.reservation.topic.combination.description',
           steps: [
             {
-              header: 'instruction.reservation.topic.combination.steps.reserve_table.header',
+              header:
+                'instruction.reservation.topic.combination.steps.reserve_table.header',
               description: `instruction.reservation.topic.combination.steps.reserve_table.description`,
               action: {
-                label: 'instruction.reservation.topic.combination.steps.reserve_table.action_label',
+                label:
+                  'instruction.reservation.topic.combination.steps.reserve_table.action_label',
                 url: '/instructions/reservation/table',
               },
               mediaUrl:
                 'instruction.reservation.topic.combination.steps.reserve_table.media_url',
             },
-             {
-              header: 'instruction.reservation.topic.combination.steps.game_reservation.header',
+            {
+              header:
+                'instruction.reservation.topic.combination.steps.game_reservation.header',
               description: `instruction.reservation.topic.combination.steps.game_reservation.description`,
               mediaUrl:
                 'instruction.reservation.topic.combination.steps.game_reservation.media_url',
             },
             {
-              header: 'instruction.reservation.topic.combination.steps.game_reservation_approved.header',
+              header:
+                'instruction.reservation.topic.combination.steps.game_reservation_approved.header',
               description: `instruction.reservation.topic.combination.steps.game_reservation_approved.description`,
               mediaUrl:
                 'instruction.reservation.topic.combination.steps.game_reservation_approved.media_url',
             },
             {
-              header: 'instruction.reservation.topic.combination.steps.game_reservation_declined.header',
+              header:
+                'instruction.reservation.topic.combination.steps.game_reservation_declined.header',
               description: `instruction.reservation.topic.combination.steps.game_reservation_declined.description`,
               mediaUrl:
                 'instruction.reservation.topic.combination.steps.game_reservation_declined.media_url',
@@ -132,217 +136,217 @@ export const INSTRUCTION_LINK_MAPPINGS: { [key: string]: InstructionSection } =
           ],
         },
         {
-          title: 'Tip #1 Manage Your Room',
+          title: 'instruction.reservation.topic.manage_room.title',
           route: '/instructions/reservation/manage-room',
           thumbnailUrl:
-            '/shared/assets/images/instructions/Reservations/find_my_reservation.gif',
-          description:
-            'Easily manage your reservation room — see who’s in, update players, and adjust your settings.',
+            'instruction.reservation.topic.manage_room.thumbnail_url',
+          description: 'instruction.reservation.topic.manage_room.description',
           steps: [
             {
-              header: 'How to Manage Your Room',
-              description: `Tap the blue circle at the bottom center of the screen. Then tap the first icon at the top.
-              This will take you to the Club Space Management page, where you can view and manage your reservation room.
-              From there, you can update your reservation details or remove players if needed.`,
+              header:
+                'instruction.reservation.topic.manage_room.steps.manage_room.header',
+              description:
+                'instruction.reservation.topic.manage_room.steps.manage_room.description',
               mediaUrl:
-                '/shared/assets/images/instructions/Reservations/find_my_reservation.gif',
+                'instruction.reservation.topic.manage_room.steps.manage_room.media_url',
             },
           ],
         },
       ],
     },
     events: {
-      title: 'Events',
-      summary:
-        'Join exciting events and connect with the community through games, challenges, and fun activities.',
+      title: 'instruction.events.title',
+      summary: 'instruction.events.summary',
       imageUrl: '/shared/assets/images/icons/stadium-icon-blue.svg',
       topics: [
         {
-          title: 'How to Join an Event',
+          title: 'instruction.events.topic.join_event.title',
           route: '/instructions/events/all',
-          thumbnailUrl:
-            '/shared/assets/images/instructions/Events/join_event.gif',
-          description:
-            'Find and join upcoming community events directly from your app.',
+          thumbnailUrl: 'instruction.events.topic.join_event.thumbnail_url',
+          description: 'instruction.events.topic.join_event.description',
           steps: [
             {
-              header: 'Step-by-Step: Joining an Event',
-              description: `1. Tap the **Events** tab at the bottom of your screen.  
-            2. Browse through the list of upcoming events.  
-            3. Select an event to view full details like time, date, and description.  
-            4. Tap **Join Event** to secure your spot!`,
+              header:
+                'instruction.events.topic.join_event.steps.join_event.header',
+              description:
+                'instruction.events.topic.join_event.steps.join_event.description',
               mediaUrl:
-                '/shared/assets/images/instructions/Events/join_event.gif',
+                'instruction.events.topic.join_event.steps.join_event.media_url',
             },
           ],
         },
         {
-          title: 'How to Leave an Event',
+          title: 'instruction.events.topic.leave_event.title',
           route: '/instructions/events/all',
-          thumbnailUrl:
-            '/shared/assets/images/instructions/Events/leave_event.gif',
-          description: 'Can’t make it? Easily leave an event you’ve joined.',
+          thumbnailUrl: 'instruction.events.topic.leave_event.thumbnail_url',
+          description: 'instruction.events.topic.leave_event.description',
           steps: [
             {
-              header: 'Removing Yourself from an Event',
-              description: `1. Open the **Events** tab.  
-              2. Go to the **My Events** section.  
-              3. Tap the event you want to leave.  
-              4. Tap **Leave Event** at the bottom of the screen.`,
+              header:
+                'instruction.events.topic.leave_event.steps.leave_event.header',
+              description:
+                'instruction.events.topic.leave_event.steps.leave_event.description',
               mediaUrl:
-                '/shared/assets/images/instructions/Events/leave_event.gif',
+                'instruction.events.topic.leave_event.steps.leave_event.media_url',
             },
           ],
         },
         {
-          title: 'Stay Informed with Notifications',
+          title: 'instruction.events.topic.notifications.title',
           route: '/instructions/events/all',
-          thumbnailUrl: '/shared/assets/images/instructions/Events/2.png',
-          description: 'Get notified when new events are created.',
+          thumbnailUrl: 'instruction.events.topic.notifications.thumbnail_url',
+          description: 'instruction.events.topic.notifications.description',
           steps: [
             {
-              header: 'How Event Notifications Work',
-              description: `When your club creates a new event, you'll receive a notification.  
-              Tap the notification to view event details and decide whether to join.`,
-              mediaUrl: '/shared/assets/images/instructions/Events/2.png',
+              header:
+                'instruction.events.topic.notifications.steps.notifications.header',
+              description:
+                'instruction.events.topic.notifications.steps.notifications.description',
+              mediaUrl:
+                'instruction.events.topic.notifications.steps.notifications.media_url',
             },
           ],
         },
       ],
     },
     challenges: {
-      title: 'Challenge & Rewards',
-      summary: `Take part in exciting challenges and earn awesome rewards! 
-        This is your main hub for everything related to challenges, rewards, and friendly competition.`,
+      title: 'instruction.challenges.title',
+      summary: `instruction.challenges.summary`,
       imageUrl: '/shared/assets/images/icons/swords_icon-blue.svg',
       topics: [
         {
-          title: 'Challenges',
+          title: 'instruction.challenges.topic.info.title',
           route: '/instructions/challenges/info',
-          thumbnailUrl: '/shared/assets/images/instructions/Challenges/1.png',
-          description: 'Learn where, when, and how to complete challenges.',
+          thumbnailUrl: 'instruction.challenges.topic.info.thumbnail_url',
+          description: 'instruction.challenges.topic.info.description',
           steps: [
             {
-              header: 'Where to Find Challenges',
-              description: `Tap the blue circle at the bottom center of the screen, then tap the middle icon.
-
-              This will open your Challenge Page, where you can view both your current challenges and earned rewards.
-
-              The first tab (top left) will show whether you're participating in a weekly or monthly challenge period.`,
-              mediaUrl: '/shared/assets/images/instructions/Challenges/1.png',
+              header:
+                'instruction.challenges.topic.info.steps.where_to_find.header',
+              description:
+                'instruction.challenges.topic.info.steps.where_to_find.description',
+              mediaUrl:
+                'instruction.challenges.topic.info.steps.where_to_find.media_url',
             },
             {
-              header: 'How to Complete a Challenge',
-              description: `Each challenge tells you which game to play, how many times to play it, and how many points you’ll earn.
-              
-              These points are added to your total period score.
-              
-              To successfully complete a challenge, you must start the required game and play it for at least the average game time.
-              
-              For example: if the average play time for Ghost Stories is 55 minutes, you must play it for at least 55 minutes to get the reward.`,
-              mediaUrl: '/shared/assets/images/instructions/Challenges/1.png',
+              header:
+                'instruction.challenges.topic.info.steps.how_to_complete.header',
+              description:
+                'instruction.challenges.topic.info.steps.how_to_complete.description',
+              mediaUrl:
+                'instruction.challenges.topic.info.steps.how_to_complete.media_url',
             },
             {
-              header: 'When Do I Get New Challenges?',
-              description: `A new challenge is usually generated a few hours after you complete the previous one.
-              Occasionally, you’ll receive special or time-limited challenges too.`,
-              mediaUrl: '/shared/assets/images/instructions/Challenges/1.png',
+              header:
+                'instruction.challenges.topic.info.steps.when_new_challenges.header',
+              description:
+                'instruction.challenges.topic.info.steps.when_new_challenges.description',
+              mediaUrl:
+                'instruction.challenges.topic.info.steps.when_new_challenges.media_url',
             },
           ],
         },
         {
-          title: 'Rewards',
+          title: 'instruction.challenges.topic.rewards.title',
           route: '/instructions/challenges/rewards',
-          thumbnailUrl: '/shared/assets/images/instructions/Challenges/2.png',
-          description: 'Find out how to earn and redeem your rewards.',
+          thumbnailUrl: 'instruction.challenges.topic.rewards.thumbnail_url',
+          description: 'instruction.challenges.topic.rewards.description',
           steps: [
             {
-              header: 'Where to See Your Rewards',
-              description: `Tap the blue circle at the bottom center, then the middle icon to open the Challenge Page.
-              Switch to the second tab (top left) to view all the rewards you’ve earned.`,
-              mediaUrl: '/shared/assets/images/instructions/Challenges/2.png',
+              header:
+                'instruction.challenges.topic.rewards.steps.where_to_see.header',
+              description:
+                'instruction.challenges.topic.rewards.steps.where_to_see.description',
+              mediaUrl:
+                'instruction.challenges.topic.rewards.steps.where_to_see.media_url',
             },
             {
-              header: 'How to Claim Your Reward',
-              description: `Once you earn a reward, you’ll have a limited number of days to claim it before it expires.
-
-              To redeem it, visit the club and press the “Use” button inside the app.
-
-              Show the generated QR code to a staff member to receive your reward.`,
-              mediaUrl: '/shared/assets/images/instructions/Challenges/3.png',
+              header:
+                'instruction.challenges.topic.rewards.steps.how_to_claim.header',
+              description:
+                'instruction.challenges.topic.rewards.steps.how_to_claim.description',
+              mediaUrl:
+                'instruction.challenges.topic.rewards.steps.how_to_claim.media_url',
             },
           ],
         },
         {
-          title: 'Leaderboard',
+          title: 'instruction.challenges.topic.leaderboard.title',
           route: '/instructions/challenges/leaderboard',
-          thumbnailUrl: '/shared/assets/images/instructions/Challenges/4.png',
-          description: 'Check the leaderboard',
+          thumbnailUrl:
+            'instruction.challenges.topic.leaderboard.thumbnail_url',
+          description: 'instruction.challenges.topic.leaderboard.description',
           steps: [
             {
-              header: 'Where to View the Leaderboard?',
-              description: `Go to your Profile page, then find and tap the Challenge Leaderboard section.
-
-              You can view your ranking along with the scores of other players.`,
-              mediaUrl: '/shared/assets/images/instructions/Challenges/4.png',
+              header:
+                'instruction.challenges.topic.leaderboard.steps.where_to_view.header',
+              description:
+                'instruction.challenges.topic.leaderboard.steps.where_to_view.description',
+              mediaUrl:
+                'instruction.challenges.topic.leaderboard.steps.where_to_view.media_url',
             },
           ],
         },
       ],
     },
     meeples: {
-      title: 'Meeples',
-      summary: `Looking for people to play with? 
-        The Meeples section helps you find or create a group of players who want to enjoy the same game as you. Meet new people, connect, and have fun together!`,
+      title: 'instruction.meeples.title',
+      summary: `instruction.meeples.summary`,
       imageUrl: '/shared/assets/images/icons/group-icon-blue.svg',
       topics: [
         {
-          title: 'Meeple Groups / Find Players',
+          title: 'instruction.meeples.topic.groups.title',
           route: '/instructions/meeples/groups',
-          thumbnailUrl: '/shared/assets/images/instructions/Meeples/2.png',
-          description:
-            'Browse and join available groups where players are looking for others to play games with.',
+          thumbnailUrl: 'instruction.meeples.topic.groups.thumbnail_url',
+          description: 'instruction.meeples.topic.groups.description',
           steps: [
             {
-              header: 'View Available Groups & Rooms',
-              description: `Head to your Meeple page to see a list of open rooms created by other players.
-You can browse these and join any group that matches your interest.`,
-              mediaUrl: '/shared/assets/images/instructions/Meeples/2.png',
+              header:
+                'instruction.meeples.topic.groups.steps.view_available.header',
+              description:
+                'instruction.meeples.topic.groups.steps.view_available.description',
+              mediaUrl:
+                'instruction.meeples.topic.groups.steps.view_available.media_url',
             },
           ],
         },
         {
-          title: 'Create a Room',
+          title: 'instruction.meeples.topic.create_room.title',
           route: '/instructions/meeples/find',
-          thumbnailUrl: '/shared/assets/images/instructions/Meeples/1.png',
-          description:
-            'Set up your own room and wait for others to join you for a game session.',
+          thumbnailUrl: 'instruction.meeples.topic.create_room.thumbnail_url',
+          description: 'instruction.meeples.topic.create_room.description',
           steps: [
             {
-              header: 'Create a Meeple Room',
-              description: `On the Meeple page, tap the green plus (+) button at the top right.
-You’ll be taken to the room creation page, where you can set the game, time, and number of players.`,
-              mediaUrl: '/shared/assets/images/instructions/Meeples/1.png',
+              header:
+                'instruction.meeples.topic.create_room.steps.create.header',
+              description:
+                'instruction.meeples.topic.create_room.steps.create.description',
+              mediaUrl:
+                'instruction.meeples.topic.create_room.steps.create.media_url',
             },
           ],
         },
         {
-          title: 'Join Room',
+          title: 'instruction.meeples.topic.join_room.title',
           route: '/instructions/meeples/find',
-          thumbnailUrl: '/shared/assets/images/instructions/Meeples/3.png',
-          description: 'Join room and meet the new people',
+          thumbnailUrl: 'instruction.meeples.topic.join_room.thumbnail_url',
+          description: 'instruction.meeples.topic.join_room.description',
           steps: [
             {
-              header: 'Join an Existing Room',
-              description: `Browse the list of rooms on the Meeple page. 
-              Tap on a room you’re interested in to view more details and join it.`,
-              mediaUrl: '/shared/assets/images/instructions/Meeples/3.png',
+              header:
+                'instruction.meeples.topic.join_room.steps.join_existing.header',
+              description:
+                'instruction.meeples.topic.join_room.steps.join_existing.description',
+              mediaUrl:
+                'instruction.meeples.topic.join_room.steps.join_existing.media_url',
             },
             {
-              header: 'Room Info & Chat',
-              description: `Inside each room, you’ll find details about the selected game, scheduled time, and players.
-You can also open the chat to talk to other participants, coordinate, or get updates.`,
-              mediaUrl: '/shared/assets/images/instructions/Meeples/4.png',
+              header:
+                'instruction.meeples.topic.join_room.steps.room_info_chat.header',
+              description:
+                'instruction.meeples.topic.join_room.steps.room_info_chat.description',
+              mediaUrl:
+                'instruction.meeples.topic.join_room.steps.room_info_chat.media_url',
             },
           ],
         },

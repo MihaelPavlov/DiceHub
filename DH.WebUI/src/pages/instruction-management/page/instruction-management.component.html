@@ -1,6 +1,8 @@
 <div class="wrapper_icons">
   <span (click)="backNavigateBtn()" class="arrow left"></span>
-  <span class="header_name">Instructions</span>
+  <span class="header_name">{{
+    "instruction.instructions_header" | translate
+  }}</span>
   <div class="info-container">
     <svg (click)="controls.toggleMenu()" class="info" viewBox="0 -960 960 960">
       <path
@@ -34,8 +36,7 @@
 <app-controls-menu
   #controls
   [isInfo]="true"
-  infoDescription="Learn how to use the app, including how to reserve games, table,
-  earn rewards, and explore other important features to enhance your club experience."
+  [infoDescription]="'instruction.info_description' | translate"
 ></app-controls-menu>
 
 <router-outlet></router-outlet>
