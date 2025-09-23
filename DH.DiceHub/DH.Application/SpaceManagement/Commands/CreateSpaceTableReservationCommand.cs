@@ -1,6 +1,7 @@
 ﻿using DH.Domain.Adapters.Authentication;
 using DH.Domain.Adapters.Authentication.Models.Enums;
 using DH.Domain.Adapters.Authentication.Services;
+using DH.Domain.Adapters.Localization;
 using DH.Domain.Adapters.PushNotifications;
 using DH.Domain.Adapters.PushNotifications.Messages;
 using DH.Domain.Adapters.Reservations;
@@ -10,7 +11,6 @@ using DH.Domain.Repositories;
 using DH.Domain.Services.TenantSettingsService;
 using DH.OperationResultCore.Exceptions;
 using MediatR;
-using Microsoft.Extensions.Logging;
 
 namespace DH.Application.SpaceManagement.Commands;
 
@@ -22,7 +22,8 @@ internal class CreateSpaceTableReservationCommandHandler(
     IPushNotificationsService pushNotificationsService,
     IUserService userService,
     ITenantSettingsCacheService tenantSettingsCacheService,
-    ReservationCleanupQueue queue) : IRequestHandler<CreateSpaceTableReservationCommand>
+    ReservationCleanupQueue queue,
+    ILocalizationService localizationService) : IRequestHandler<CreateSpaceTableReservationCommand>
 {
     readonly IRepository<SpaceTableReservation> repository = repository;
     readonly IUserContext userContext = userContext;
@@ -30,6 +31,7 @@ internal class CreateSpaceTableReservationCommandHandler(
     readonly IUserService userService = userService;
     readonly ITenantSettingsCacheService tenantSettingsCacheService = tenantSettingsCacheService;
     readonly ReservationCleanupQueue queue = queue;
+    readonly ILocalizationService localizationService = localizationService;
 
     public async Task Handle(CreateSpaceTableReservationCommand request, CancellationToken cancellationToken)
     {
@@ -38,12 +40,17 @@ internal class CreateSpaceTableReservationCommandHandler(
         if (isUserHaveActiveReservation != null)
             throw new BadRequestException("User already have an active reservation");
 
-        DateTime reservationDate = TimeZoneInfo.ConvertTimeFromUtc(request.ReservationDate, TimeZoneInfo.Local).ToUniversalTime();
+        if (request.ReservationDate < DateTime.UtcNow)
+            throw new ValidationErrorsException("reservationDate", this.localizationService["SpaceTableReservationDateInvalidMessage"]);
+
+        if (request.ReservationDate < DateTime.UtcNow.AddHours(1))
+            throw new ValidationErrorsException("reservationDate", this.localizationService["SpaceTableReservationDateDateInFuture"]);
+
         var reservation = await this.repository.AddAsync(new SpaceTableReservation
         {
             UserId = this.userContext.UserId,
             CreatedDate = DateTime.UtcNow,
-            ReservationDate = reservationDate,
+            ReservationDate = request.ReservationDate,
             IsReservationSuccessful = false,
             IsActive = true,
             NumberOfGuests = request.NumberOfGuests,
@@ -52,7 +59,7 @@ internal class CreateSpaceTableReservationCommandHandler(
 
         var settings = await this.tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
 
-        this.queue.AddReservationCleaningJob(reservation.Id, ReservationType.Table, reservationDate.AddMinutes(settings.BonusTimeAfterReservationExpiration));
+        this.queue.AddReservationCleaningJob(reservation.Id, ReservationType.Table, request.ReservationDate.AddMinutes(settings.BonusTimeAfterReservationExpiration));
 
         var users = await this.userService.GetUserListByRole(Role.Staff, cancellationToken);
         var userIds = users.Select(user => user.Id).ToList();

@@ -420,4 +420,10 @@
   <data name="CreateChallengeRewardPointsValidation" xml:space="preserve">
     <value>Invalid reward points value.</value>
   </data>
+  <data name="SpaceTableReservationDateInvalidMessage" xml:space="preserve">
+    <value>Reservation date must be in the future</value>
+  </data>
+  <data name="SpaceTableReservationDateDateInFuture" xml:space="preserve">
+    <value>Reservation date must be at least one hour from now.</value>
+  </data>
 </root>

@@ -114,6 +114,10 @@
     </div>
   </div>
 
+    <div *ngIf="getFirstErrorMessage()" class="errors">
+      {{ getFirstErrorMessage() }}
+    </div>
+
   <div class="btn_container">
     <button
       [disabled]="this.form.invalid"

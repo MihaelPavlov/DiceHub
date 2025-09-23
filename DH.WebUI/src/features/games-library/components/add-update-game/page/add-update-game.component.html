@@ -5,7 +5,9 @@
     <ng-select
       [items]="gameList"
       bindLabel="name"
-      placeholder="Select Game"
+      [placeholder]="
+        'games.game.add_update.placeholder.select_game' | translate
+      "
       [searchable]="true"
       [(ngModel)]="selectedGame"
       (change)="handleAddExistingGame()"

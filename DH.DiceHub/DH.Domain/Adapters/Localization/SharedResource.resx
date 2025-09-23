@@ -420,4 +420,10 @@
   <data name="CreateChallengeRewardPointsValidation" xml:space="preserve">
     <value>Стойността на точките на наградата е Невалидна.</value>
   </data>
+  <data name="SpaceTableReservationDateInvalidMessage" xml:space="preserve">
+    <value>Резервацията трябва да бъде за бъдеща дата и час.</value>
+  </data>
+  <data name="SpaceTableReservationDateDateInFuture" xml:space="preserve">
+    <value>Датата на резервацията трябва да е поне един час по-късно от текущото време.</value>
+  </data>
 </root>

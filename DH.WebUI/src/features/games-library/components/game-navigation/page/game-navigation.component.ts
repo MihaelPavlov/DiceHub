@@ -11,6 +11,7 @@ import { GamesService } from '../../../../../entities/games/api/games.service';
 import { IGameReservationStatus } from '../../../../../entities/games/models/game-reservation-status.model';
 import { FULL_ROUTE } from '../../../../../shared/configs/route.config';
 import { NavigationService } from '../../../../../shared/services/navigation-service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-game-navigation',
@@ -37,15 +38,19 @@ export class GameNavigationComponent implements OnInit {
     private readonly router: Router,
     private readonly permissionService: PermissionService,
     private readonly gameService: GamesService,
-    private readonly navigationService: NavigationService
+    private readonly navigationService: NavigationService,
+    private readonly ts: TranslateService
   ) {
     this.handleMenuItemClick = this.handleMenuItemClick.bind(this);
   }
 
   public ngOnInit(): void {
     this.menuItems.next([
-      { key: 'add-game', label: 'Add Game' },
-      { key: 'add-existing-game', label: 'Add Existing Game' },
+      { key: 'add-game', label: this.ts.instant('games.navigation.add_game') },
+      {
+        key: 'add-existing-game',
+        label: this.ts.instant('games.navigation.add_existing_game'),
+      },
     ]);
 
     this.gameService.userReservationStatus().subscribe({
