@@ -1,10 +1,6 @@
 import { GlobalErrorHandler } from './../shared/components/global-error-handler';
 import { ConfirmEmailModule } from './../pages/confirm-email/confirm-email.module';
-import {
-  NgModule,
-  ErrorHandler,
-  APP_INITIALIZER,
-} from '@angular/core';
+import { NgModule, ErrorHandler, APP_INITIALIZER } from '@angular/core';
 import { AppComponent } from './app-component/app.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
@@ -36,6 +32,7 @@ import { registerLocaleData } from '@angular/common';
 import localeBg from '@angular/common/locales/bg';
 import localeEn from '@angular/common/locales/en';
 import { LanguageSwitchModule } from '../shared/components/language-switch/language-switch.module';
+import { ChallengeOverlayComponent } from '../shared/components/challenge-overlay/challenge-overlay.component';
 
 export function initializeUserFactory(authService: AuthService): () => void {
   return () => authService.userinfo$();
@@ -44,7 +41,7 @@ registerLocaleData(localeBg, 'bg');
 registerLocaleData(localeEn, 'en');
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, ChallengeOverlayComponent],
   exports: [BrowserModule, BrowserAnimationsModule],
   providers: [
     AuthGuard,

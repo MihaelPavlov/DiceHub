@@ -8,8 +8,8 @@ import { IUserInfo } from '../../entities/auth/models/user-info.model';
 import { NotificationsService } from '../../entities/common/api/notifications.service';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { FrontEndLogService } from '../../shared/services/frontend-log.service';
-import { ToastService } from '../../shared/services/toast.service';
-import { ToastType } from '../../shared/models/toast.model';
+import { ChallengeHubService } from '../../entities/challenges/api/challenge-hub.service';
+import { ChallengeOverlayComponent } from '../../shared/components/challenge-overlay/challenge-overlay.component';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +17,7 @@ import { ToastType } from '../../shared/models/toast.model';
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
+  @ViewChild('challengeOverlay') challengeOverlay!: ChallengeOverlayComponent;
   title = 'DH.WebUI';
   public readonly userInfo: Observable<IUserInfo | null> =
     this.authService.userInfo$;
@@ -64,6 +65,20 @@ export class AppComponent implements OnInit {
     if (!this.authService.getUser) {
       await this.authService.userinfo$();
     }
+    
+    await this.challengeHubService.startConnection(
+      this.authService.getUser!.id
+    );
+
+    this.challengeHubService.onChallengeUpdate((update) => {
+      console.log('Challenge progress update:', update.challengeId);
+      this.challengeOverlay.updateProgress(update.challengeId);
+    });
+    this.challengeHubService.onChallengeCompleted((completed) => {
+      console.log('Challenge completed:', completed);
+      this.challengeOverlay.completeChallenge('Challenge Completed!', '+50 XP');
+    });
+
     this._initializeFCM();
   }
 

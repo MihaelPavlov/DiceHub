@@ -35,7 +35,6 @@ public class ChatHubClient : Hub, IChatHubClient
 
         if (!string.IsNullOrEmpty(accessToken))
         {
-
             var claimsPrincipal = this.jwtService.ValidateToken(accessToken);
 
             if (claimsPrincipal != null)

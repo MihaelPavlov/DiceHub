@@ -59,12 +59,14 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.MEEPLE);
   }
+  
   public ngAfterViewChecked(): void {
     if (this.shouldScrollToBottom) {
       this.scrollToBottom();
       this.shouldScrollToBottom = false;
     }
   }
+
   public ngOnInit(): void {
     this.activeRoute.params.subscribe((params: Params) => {
       this.roomId = +params['id'];

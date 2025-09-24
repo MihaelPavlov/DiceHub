@@ -1,5 +1,6 @@
 ﻿using DH.Adapater.Localization;
 using DH.Adapter.Authentication;
+using DH.Adapter.ChallengeHub;
 using DH.Adapter.ChallengesOrchestrator;
 using DH.Adapter.ChatHub;
 using DH.Adapter.Data;
@@ -87,6 +88,7 @@ builder.Services.AddApplication();
 builder.Services.AddDataAdapter(builder.Configuration);
 builder.Services.AuthenticationAdapter(builder.Configuration);
 builder.Services.AddChatHubAdapter();
+builder.Services.AddChallengeHubAdapter();
 builder.Services.AddQRManagerAdapter();
 builder.Services.AddSchedulingAdapter(builder.Configuration);
 builder.Services.AddChallengesOrchestratorAdapter();
@@ -185,6 +187,7 @@ app.Use(async (context, next) =>
     if (!path.StartsWith("/api") &&
         !path.StartsWith("/health") &&
         !path.StartsWith("/chatHub") &&
+        !path.StartsWith("/challengeHub") &&
         !System.IO.Path.HasExtension(path)) // no extension means probably frontend route
     {
         // Remove authentication headers so authorization middleware won't block
@@ -199,6 +202,7 @@ app.UseEndpoints(endpoints =>
 {
     endpoints.MapHealthChecks("/health");
     endpoints.MapHub<ChatHubClient>("/chatHub");
+    endpoints.MapHub<ChallengeHubClient>("/challengeHub");
     endpoints.MapControllers();
 
     // This fallback serves index.html for SPA routes
