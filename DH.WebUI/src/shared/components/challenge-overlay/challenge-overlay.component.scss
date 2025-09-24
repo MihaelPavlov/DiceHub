@@ -1,0 +1,198 @@
+@use "../../../shared/assets/styles/palette";
+
+/* ===========================
+   Overlay background
+   =========================== */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(33, 33, 33, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+/* ===========================
+   Badge container
+   =========================== */
+.badge {
+  position: relative;
+  background: palette.$main-nav-color;
+  border-radius: 1rem;
+  padding: 1rem 1.5rem;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  overflow: visible;
+  animation: popIn 700ms ease-out, pulse 1.5s infinite;
+}
+
+/* ===========================
+   Emoji inside badge
+   =========================== */
+.emoji {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+  z-index: 2;
+  position: relative;
+  color: palette.$glow-yellow-color;
+}
+
+/* ===========================
+   Text message & reward
+   =========================== */
+.badge h2,
+.badge p.reward {
+  position: relative;
+  z-index: 2;
+  margin: 0.3rem 0;
+  color: palette.$main-font-color; /* $main-font-color */
+  text-shadow: 0 0 4px rgba(252, 205, 61, 0.7); /* subtle glow */
+}
+
+.badge p.reward {
+  color: palette.$main-green-color; /* $main-green-color */
+  font-weight: bold;
+  animation: floatUp 1.5s ease-out forwards;
+}
+
+/* ===========================
+   Pop-in animation for badge
+   =========================== */
+@keyframes popIn {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* ===========================
+   Pulse animation for badge
+   =========================== */
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 20px rgba(137, 156, 240, 0.5);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px palette.$main-blue-color;
+  }
+}
+
+/* ===========================
+   Floating reward text
+   =========================== */
+@keyframes floatUp {
+  0% {
+    transform: translateY(100px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ===========================
+   Mini overlay background
+   =========================== */
+.overlay-mini {
+  position: fixed;
+  inset: 0;
+  background: rgba(33, 33, 33, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+/* ===========================
+   Mini badge styling
+   =========================== */
+.badge-mini {
+  background: palette.$main-gray-color; /* $main-gray-color */
+  border-radius: 1rem;
+  padding: 1rem 2rem;
+  text-align: center;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+  position: relative;
+  animation: popInMini 400ms ease-out, pulseMini 1.2s infinite;
+  max-width: 220px;
+}
+
+/* Emoji inside mini badge */
+.badge-mini .emoji {
+  font-size: 2rem;
+  margin-bottom: 0.3rem;
+  color: palette.$main-blue-color; /* $main-blue-color */
+}
+
+/* Progress message */
+.badge-mini h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: palette.$main-font-color; /* $main-font-color */
+  font-weight: 600;
+}
+
+/* Pop-in animation for mini badge */
+@keyframes popInMini {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Subtle pulse for mini badge */
+@keyframes pulseMini {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 12px rgba(132, 173, 248, 0.4);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 18px palette.$main-blue-color;
+  }
+}
+
+.close-btn-bottom,
+.close-btn-bottom-mini {
+  display: block;
+  margin: 1rem auto 0 auto;
+  padding: 0.6rem 1.5rem;
+  background-color: palette.$main-blue-color;
+  color: palette.$main-font-color;
+  font-weight: 600;
+  border: none;
+  border-radius: 2rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: palette.$main-green-color;
+  }
+}
+
+.close-btn-bottom-mini {
+  padding: 0.4rem 1rem;
+  font-size: 0.9rem;
+}
