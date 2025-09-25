@@ -2,6 +2,6 @@
 
 public interface IChallengeHubClient
 {
-    Task SendChallengeUpdated(string userId, int challengeId);
-    Task SendChallengeCompleted(string userId, int challengeId);
+    Task SendChallengeCompleted(string userId, string challengeGameName, int rewardPoints);
+    Task SendChallengeUpdated(string userId, string challengeGameName);
 }

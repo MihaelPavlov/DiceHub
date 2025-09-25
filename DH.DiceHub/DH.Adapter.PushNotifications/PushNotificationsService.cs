@@ -304,9 +304,9 @@ internal class PushNotificationsService : IPushNotificationsService
                     Webpush = new WebpushConfig
                     {
                         Headers = new Dictionary<string, string>
-                    {
-                        { "Urgency", "high" }
-                    }
+                        {
+                            { "Urgency", "high" }
+                        }
                     }
                 });
 

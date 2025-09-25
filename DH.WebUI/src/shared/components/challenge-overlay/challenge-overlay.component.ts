@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   trigger,
   transition,
@@ -36,43 +36,31 @@ import {
   ],
 })
 export class ChallengeOverlayComponent {
-  @Input() message: string = '🎉 Challenge Completed!';
-  @Input() reward: string = '+50 XP';
-  @Input() percent: number = 0;
   // Completion overlay
-  showCompletion = false;
-  completionMessage = '';
-  completionReward = '';
+  public showCompletion = false;
+  public completionMessage = '';
+  public completionReward: string = '';
 
   // Progress overlay
-  showProgress = false;
-  progressMessage = '';
+  public showProgress = false;
+  public progressMessage = '';
 
-  // ------------------------
-  // Trigger completion
-  // ------------------------
-  completeChallenge(message: string, reward: string) {
-    this.completionMessage = message;
-    this.completionReward = reward;
+  public completeChallenge(challengeGameName: string, reward: number): void {
+    this.completionMessage = `Challenge for Game ${challengeGameName} is completed!`;
+    this.completionReward = `+ ${reward} Points`;
     this.showCompletion = true;
   }
 
-  // ------------------------
-  // Trigger progress
-  // ------------------------
-  updateProgress(progressPercent: number) {
-    this.progressMessage = `You reached ${progressPercent}% of the challenge!`;
+  public updateProgress(challengeGameName: string): void {
+    this.progressMessage = `Progress on challenge for game ${challengeGameName} has been updated. <br/>Keep going to complete the challenge!`;
     this.showProgress = true;
   }
 
-  // ------------------------
-  // Close handlers
-  // ------------------------
-  closeCompletion() {
+  public closeCompletion(): void {
     this.showCompletion = false;
   }
 
-  closeProgress() {
+  public closeProgress(): void {
     this.showProgress = false;
   }
 }

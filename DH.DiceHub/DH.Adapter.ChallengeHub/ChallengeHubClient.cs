@@ -1,45 +1,99 @@
-﻿ using DH.Domain.Adapters.ChallengeHub;
+﻿using DH.Domain.Adapters.ChallengeHub;
+using DH.Domain.Adapters.PushNotifications;
+using DH.Domain.Adapters.PushNotifications.Messages;
 using Microsoft.AspNetCore.SignalR;
+using System.Collections.Concurrent;
 
 namespace DH.Adapter.ChallengeHub;
 
 public class ChallengeHubClient : Hub, IChallengeHubClient
 {
-    readonly IHubContext<ChallengeHubClient> _hub;
+    static readonly ConcurrentDictionary<string, HashSet<string>> UserConnections = new();
 
-    public ChallengeHubClient(IHubContext<ChallengeHubClient> hub)
+    readonly IHubContext<ChallengeHubClient> hub;
+    readonly IPushNotificationsService pushNotificationsService;
+
+    public ChallengeHubClient(IHubContext<ChallengeHubClient> hub, IPushNotificationsService pushNotificationsService)
     {
-        _hub = hub;
+        this.hub = hub;
+        this.pushNotificationsService = pushNotificationsService;
     }
 
-    public override async Task OnConnectedAsync()
+    public override Task OnConnectedAsync()
     {
-        var httpContext = Context.GetHttpContext();
-        var userId = httpContext?.Request.Query["userId"].ToString();
-
+        var userId = Context.GetHttpContext()?.Request.Query["userId"].ToString();
         if (!string.IsNullOrEmpty(userId))
         {
-            // Add this connection to a group named after the userId
-            await Groups.AddToGroupAsync(Context.ConnectionId, $"user-{userId}");
+            UserConnections.TryAdd(userId, new HashSet<string>());
+            lock (UserConnections[userId])
+            {
+                UserConnections[userId].Add(Context.ConnectionId);
+            }
+
+            Groups.AddToGroupAsync(Context.ConnectionId, $"user-{userId}");
         }
 
-        await base.OnConnectedAsync();
+        return base.OnConnectedAsync();
     }
 
-    public async Task SendChallengeCompleted(string userId, int challengeId)
+    public override Task OnDisconnectedAsync(Exception exception)
     {
-        // Send to the group corresponding to this user
-        await _hub.Clients.Group($"user-{userId}")
-            .SendAsync("challengeCompleted", new { ChallengeId = challengeId });
-    }
-
-    public async Task SendChallengeUpdated(string userId, int challengeId)
-    {
-        // Send to the group corresponding to this user
-        await _hub.Clients.Group($"user-{userId}")
-            .SendAsync("challengeUpdated", new
+        var userId = Context.GetHttpContext()?.Request.Query["userId"].ToString();
+        if (!string.IsNullOrEmpty(userId) && UserConnections.TryGetValue(userId, out var connections))
+        {
+            lock (connections)
             {
-                ChallengeId = challengeId,
-            });
+                connections.Remove(Context.ConnectionId);
+                if (connections.Count == 0)
+                {
+                    UserConnections.TryRemove(userId, out _);
+                }
+            }
+        }
+
+        return base.OnDisconnectedAsync(exception);
+    }
+
+    public async Task SendChallengeCompleted(string userId, string challengeGameName, int rewardPoints)
+    {
+        if (IsUserConnected(userId))
+        {
+            await this.hub.Clients.Group($"user-{userId}")
+                .SendAsync("challengeCompleted", new { challengeGameName, rewardPoints });
+        }
+        else
+        {
+            await this.pushNotificationsService.SendNotificationToUsersAsync(
+                [userId],
+                new ChallengeCompletedNotification
+                {
+                    ChallengeName = challengeGameName,
+                    RewardPoints = rewardPoints,
+                }, CancellationToken.None);
+        }
+    }
+
+    public async Task SendChallengeUpdated(string userId, string challengeGameName)
+    {
+        if (IsUserConnected(userId))
+        {
+            // Send to the group corresponding to this user
+            await this.hub.Clients.Group($"user-{userId}")
+                .SendAsync("challengeUpdated", new { challengeGameName });
+        }
+        else
+        {
+            await this.pushNotificationsService.SendNotificationToUsersAsync(
+                [userId],
+                new ChallengeUpdatedNotification
+                {
+                    ChallengeName = challengeGameName,
+                }, CancellationToken.None);
+        }
+    }
+
+    private bool IsUserConnected(string userId)
+    {
+        return UserConnections.ContainsKey(userId);
     }
 }

@@ -1,5 +1,5 @@
 import { BehaviorSubject, filter, map, Observable } from 'rxjs';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from '../../entities/auth/auth.service';
 import { onMessage } from 'firebase/messaging';
 import { Messaging } from '@angular/fire/messaging';
@@ -34,6 +34,7 @@ export class AppComponent implements OnInit {
     private readonly activatedRoute: ActivatedRoute,
     private readonly frontEndLogService: FrontEndLogService,
     private readonly toastService: ToastService
+    private readonly challengeHubService: ChallengeHubService
   ) {
     this._initializeUser();
     this.router.events
@@ -71,12 +72,15 @@ export class AppComponent implements OnInit {
     );
 
     this.challengeHubService.onChallengeUpdate((update) => {
-      console.log('Challenge progress update:', update.challengeId);
-      this.challengeOverlay.updateProgress(update.challengeId);
+      console.log('Challenge progress update:', update.challengeGameName);
+      this.challengeOverlay.updateProgress(update.challengeGameName);
     });
     this.challengeHubService.onChallengeCompleted((completed) => {
       console.log('Challenge completed:', completed);
-      this.challengeOverlay.completeChallenge('Challenge Completed!', '+50 XP');
+      this.challengeOverlay.completeChallenge(
+        completed.challengeGameName,
+        completed.rewardPoints
+      );
     });
 
     this._initializeFCM();

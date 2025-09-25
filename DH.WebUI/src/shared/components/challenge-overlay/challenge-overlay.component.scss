@@ -20,7 +20,8 @@
   position: relative;
   background: palette.$main-nav-color;
   border-radius: 1rem;
-  padding: 1rem 1.5rem;
+  margin: 1rem 2.5rem;
+  padding: 1rem;
   text-align: center;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
   overflow: visible;
@@ -45,7 +46,7 @@
 .badge p.reward {
   position: relative;
   z-index: 2;
-  margin: 0.3rem 0;
+  margin: 0.3rem 2rem;
   color: palette.$main-font-color; /* $main-font-color */
   text-shadow: 0 0 4px rgba(252, 205, 61, 0.7); /* subtle glow */
 }
@@ -122,7 +123,8 @@
 .badge-mini {
   background: palette.$main-gray-color; /* $main-gray-color */
   border-radius: 1rem;
-  padding: 1rem 2rem;
+  margin: 1rem 2rem;
+  padding: 1rem;
   text-align: center;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
   position: relative;

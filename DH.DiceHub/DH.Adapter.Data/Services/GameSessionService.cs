@@ -1,5 +1,6 @@
 using DH.Domain.Adapters.Authentication.Models.Enums;
 using DH.Domain.Adapters.Authentication.Services;
+using DH.Domain.Adapters.ChallengeHub;
 using DH.Domain.Adapters.ChallengesOrchestrator;
 using DH.Domain.Adapters.Statistics;
 using DH.Domain.Adapters.Statistics.Services;
@@ -22,6 +23,7 @@ public class GameSessionService : IGameSessionService
     readonly ITenantSettingsCacheService tenantSettingsCacheService;
     readonly IStatisticQueuePublisher statisticQueuePublisher;
     readonly IUserService userService;
+    readonly IChallengeHubClient challengeHubClient;
     readonly ILogger<GameSessionService> logger;
 
     public GameSessionService(
@@ -30,6 +32,7 @@ public class GameSessionService : IGameSessionService
         ITenantSettingsCacheService tenantSettingsCacheService,
         IStatisticQueuePublisher statisticQueuePublisher,
         IUserService userService,
+        IChallengeHubClient challengeHubClient,
         ILogger<GameSessionService> logger)
     {
         this.dbContextFactory = dbContextFactory;
@@ -37,6 +40,7 @@ public class GameSessionService : IGameSessionService
         this.tenantSettingsCacheService = tenantSettingsCacheService;
         this.statisticQueuePublisher = statisticQueuePublisher;
         this.userService = userService;
+        this.challengeHubClient = challengeHubClient;
         this.logger = logger;
     }
 
@@ -62,6 +66,7 @@ public class GameSessionService : IGameSessionService
                         if (!customPeriodUserChallenges.Any())
                             return false;
 
+                        var updatedChallenges = new List<CustomPeriodUserChallenge>();
                         foreach (var customPeriodUserChallenge in customPeriodUserChallenges)
                         {
                             var currentAttempts = customPeriodUserChallenge.UserAttempts;
@@ -70,6 +75,7 @@ public class GameSessionService : IGameSessionService
                             if (currentAttempts < challengeAttempts)
                             {
                                 customPeriodUserChallenge.UserAttempts++;
+                                updatedChallenges.Add(customPeriodUserChallenge);
                             }
                         }
 
@@ -79,6 +85,13 @@ public class GameSessionService : IGameSessionService
                         {
                             customPeriodUserChallenge.CompletedDate = DateTime.UtcNow;
                             customPeriodUserChallenge.IsCompleted = true;
+                            var challengeForRemove = updatedChallenges.FirstOrDefault(x => x.Id == customPeriodUserChallenge.Id);
+
+                            if (challengeForRemove != null)
+                                updatedChallenges.Remove(challengeForRemove);
+
+                            await this.challengeHubClient.SendChallengeCompleted(
+                                userId, customPeriodUserChallenge.Game.Name, customPeriodUserChallenge.RewardPoints);
 
                             if (!await this.userService.HasUserAnyMatchingRole(userId, Role.SuperAdmin))
                             {
@@ -90,12 +103,19 @@ public class GameSessionService : IGameSessionService
                                     DateTime.UtcNow));
                             }
                         }
+
+                        foreach (var challenge in updatedChallenges)
+                        {
+                            await this.challengeHubClient.SendChallengeUpdated(
+                                userId, challenge.Game.Name);
+                        }
                     }
                     else
                     {
                         var userChallenges = await context.UserChallenges
                             .AsTracking()
                             .Include(x => x.Challenge)
+                            .ThenInclude(x => x.Game)
                             .Where(x =>
                                 x.UserId == userId &&
                                 x.IsActive &&
@@ -106,6 +126,8 @@ public class GameSessionService : IGameSessionService
                         if (!userChallenges.Any())
                             return false;
 
+                        var updatedChallenges = new List<UserChallenge>();
+
                         foreach (var userChallenge in userChallenges)
                         {
                             var currentAttempts = userChallenge.AttemptCount;
@@ -114,6 +136,7 @@ public class GameSessionService : IGameSessionService
                             if (currentAttempts < challengeAttempts)
                             {
                                 userChallenge.AttemptCount++;
+                                updatedChallenges.Add(userChallenge);
                             }
                         }
 
@@ -121,6 +144,12 @@ public class GameSessionService : IGameSessionService
 
                         if (!completedChallenges.Any())
                         {
+                            foreach (var challenge in updatedChallenges)
+                            {
+                                await this.challengeHubClient.SendChallengeUpdated(
+                                    userId, challenge.Challenge.Game.Name);
+                            }
+
                             await SaveAndCommitTransaction(context, transaction, cancellationToken);
 
                             return false;
@@ -137,6 +166,13 @@ public class GameSessionService : IGameSessionService
                             challenge.CompletedDate = DateTime.UtcNow;
                             challenge.Status = ChallengeStatus.Completed;
                             challenge.IsActive = false;
+                            var challengeForRemove = updatedChallenges.FirstOrDefault(x => x.Id == challenge.Id);
+
+                            if (challengeForRemove != null)
+                                updatedChallenges.Remove(challengeForRemove);
+
+                            await this.challengeHubClient.SendChallengeCompleted(
+                                userId, challenge.Challenge.Game.Name, (int)challenge.Challenge.RewardPoints);
 
                             if (!await this.userService.HasUserAnyMatchingRole(userId, Role.SuperAdmin))
                             {
@@ -150,6 +186,12 @@ public class GameSessionService : IGameSessionService
 
                             var challengeStats = challengeStatistics.First(x => x.ChallengeId == challenge.ChallengeId);
                             challengeStats.TotalCompletions++;
+                        }
+
+                        foreach (var challenge in updatedChallenges)
+                        {
+                            await this.challengeHubClient.SendChallengeUpdated(
+                                userId, challenge.Challenge.Game.Name);
                         }
 
                         var lockedChallenges = await context.UserChallenges

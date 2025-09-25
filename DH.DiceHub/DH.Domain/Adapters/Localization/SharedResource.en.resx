@@ -426,4 +426,16 @@
   <data name="SpaceTableReservationDateDateInFuture" xml:space="preserve">
     <value>Reservation date must be at least one hour from now.</value>
   </data>
+  <data name="ChallengeCompletedTitle" xml:space="preserve">
+    <value>Challenge Completed</value>
+  </data>
+  <data name="ChallengeCompletedBody" xml:space="preserve">
+    <value>You completed the challenge for game  **{0}** and earned {1} reward points!</value>
+  </data>
+  <data name="ChallengeUpdatedTitle" xml:space="preserve">
+    <value>Challenge Progress Updated</value>
+  </data>
+  <data name="ChallengeUpdatedBody" xml:space="preserve">
+    <value>Your progress on challenge for game **{0}** has been updated. Keep going to complete the challenge!</value>
+  </data>
 </root>

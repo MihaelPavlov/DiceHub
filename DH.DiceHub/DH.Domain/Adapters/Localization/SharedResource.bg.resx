@@ -426,4 +426,16 @@
   <data name="SpaceTableReservationDateDateInFuture" xml:space="preserve">
     <value>Датата на резервацията трябва да е поне един час по-късно от текущото време.</value>
   </data>
+  <data name="ChallengeCompletedTitle" xml:space="preserve">
+    <value>Предизвикателството е завършено</value>
+  </data>
+  <data name="ChallengeCompletedBody" xml:space="preserve">
+    <value>Завършихте предизвикателството  към игра „{0}“ и спечелихте {1} точки награда!</value>
+  </data>
+  <data name="ChallengeUpdatedTitle" xml:space="preserve">
+    <value>Прогресът по предизвикателството е обновен</value>
+  </data>
+  <data name="ChallengeUpdatedBody" xml:space="preserve">
+    <value>Прогресът ви по предизвикателството към игра  „{0}“ е обновен. Продължавайте, за да завършите предизвикателството!</value>
+  </data>
 </root>

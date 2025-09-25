@@ -1,0 +1,29 @@
+﻿using DH.Domain.Adapters.ChallengeHub;
+using DH.Domain.Adapters.PushNotifications;
+using Microsoft.AspNetCore.SignalR;
+
+namespace DH.Adapter.ChallengeHub;
+
+public class ChallengeHubClientProxy : IChallengeHubClient
+{
+    readonly IHubContext<ChallengeHubClient> hub;
+    readonly IPushNotificationsService pushNotifications;
+
+    public ChallengeHubClientProxy(IHubContext<ChallengeHubClient> hub, IPushNotificationsService pushNotifications)
+    {
+        this.hub = hub;
+        this.pushNotifications = pushNotifications;
+    }
+
+    public Task SendChallengeCompleted(string userId, string challengeGameName, int rewardPoints)
+    {
+        return new ChallengeHubClient(hub, pushNotifications)
+            .SendChallengeCompleted(userId, challengeGameName, rewardPoints);
+    }
+
+    public Task SendChallengeUpdated(string userId, string challengeGameName)
+    {
+        return new ChallengeHubClient(hub, pushNotifications)
+            .SendChallengeUpdated(userId, challengeGameName);
+    }
+}
