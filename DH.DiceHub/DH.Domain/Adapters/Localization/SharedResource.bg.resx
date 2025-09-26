@@ -438,4 +438,10 @@
   <data name="ChallengeUpdatedBody" xml:space="preserve">
     <value>Прогресът ви по предизвикателството към игра  „{0}“ е обновен. Продължавайте, за да завършите предизвикателството!</value>
   </data>
+  <data name="RewardGrantedTitle" xml:space="preserve">
+    <value>Наградата е получена</value>
+  </data>
+  <data name="RewardGrantedBody" xml:space="preserve">
+    <value>Получихте наградата „{0}“! Елате в клуба, за да си я вземете.</value>
+  </data>
 </root>

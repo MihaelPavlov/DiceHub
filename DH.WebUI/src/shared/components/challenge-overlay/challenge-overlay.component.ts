@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import {
   trigger,
   transition,
@@ -6,11 +6,16 @@ import {
   animate,
   keyframes,
 } from '@angular/animations';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { TranslateService } from '@ngx-translate/core';
+import { LanguageService } from '../../services/language.service';
+import { SupportLanguages } from '../../../entities/common/models/support-languages.enum';
 
 @Component({
   selector: 'app-challenge-overlay',
   templateUrl: './challenge-overlay.component.html',
   styleUrls: ['./challenge-overlay.component.scss'],
+  encapsulation: ViewEncapsulation.None,
   animations: [
     trigger('popIn', [
       transition(':enter', [
@@ -37,30 +42,71 @@ import {
 })
 export class ChallengeOverlayComponent {
   // Completion overlay
-  public showCompletion = false;
-  public completionMessage = '';
-  public completionReward: string = '';
+  public showChallengeCompletion: boolean = false;
+  public challengeCompletionMessage!: SafeHtml;
+  public challengeCompletionReward: string = '';
 
   // Progress overlay
-  public showProgress = false;
-  public progressMessage = '';
+  public showChallengeProgress: boolean = false;
+  public challengeProgressMessage!: SafeHtml;
+
+  public showRewardGranted: boolean = false;
+  public rewardGrantedMessage!: SafeHtml;
+
+  constructor(
+    private readonly ts: TranslateService,
+    private readonly languageService: LanguageService,
+    private readonly sanitizer: DomSanitizer
+  ) {}
 
   public completeChallenge(challengeGameName: string, reward: number): void {
-    this.completionMessage = `Challenge for Game ${challengeGameName} is completed!`;
-    this.completionReward = `+ ${reward} Points`;
-    this.showCompletion = true;
+    const message = this.ts.instant('challenge_overlay.completed_challenge', {
+      challengeGameName,
+    });
+    this.challengeCompletionMessage =
+      this.sanitizer.bypassSecurityTrustHtml(message);
+
+    this.challengeCompletionReward = this.ts.instant(
+      'challenge_overlay.reward_points',
+      {
+        reward,
+      }
+    );
+    this.showChallengeCompletion = true;
   }
 
   public updateProgress(challengeGameName: string): void {
-    this.progressMessage = `Progress on challenge for game ${challengeGameName} has been updated. <br/>Keep going to complete the challenge!`;
-    this.showProgress = true;
+    const message = this.ts.instant('challenge_overlay.updated_challenge', {
+      challengeGameName,
+    });
+    this.challengeProgressMessage =
+      this.sanitizer.bypassSecurityTrustHtml(message);
+    this.showChallengeProgress = true;
   }
 
-  public closeCompletion(): void {
-    this.showCompletion = false;
+  public rewardGranted(name_bg: string, name_en: string): void {
+    const name =
+      this.languageService.getCurrentLanguage() === SupportLanguages.EN
+        ? name_en
+        : name_bg;
+
+    const message = this.ts.instant('challenge_overlay.reward_granted', {
+      name,
+    });
+    this.rewardGrantedMessage = this.sanitizer.bypassSecurityTrustHtml(message);
+
+    this.showRewardGranted = true;
   }
 
-  public closeProgress(): void {
-    this.showProgress = false;
+  public closeChallengeCompletion(): void {
+    this.showChallengeCompletion = false;
+  }
+
+  public closeChallengeProgress(): void {
+    this.showChallengeProgress = false;
+  }
+
+  public closeRewardGranted(): void {
+    this.showRewardGranted = false;
   }
 }

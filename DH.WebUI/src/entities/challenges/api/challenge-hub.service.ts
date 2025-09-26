@@ -19,8 +19,6 @@ export class ChallengeHubService {
   ) {}
 
   public async startConnection(userId: string): Promise<void> {
-    console.log('userId', userId);
-
     this.hubConnection = new signalR.HubConnectionBuilder()
       .withUrl(
         `${environment.defaultAppUrl}/${ROUTE.CHALLENGE_HUB_CLIENT.CORE}?userId=${userId}`
@@ -48,5 +46,9 @@ export class ChallengeHubService {
 
   public onChallengeCompleted(callback: (data: any) => void): void {
     this.hubConnection.on('challengeCompleted', callback);
+  }
+
+  public onRewardGranted(callback: (data: any) => void): void {
+    this.hubConnection.on('rewardGranted', callback);
   }
 }

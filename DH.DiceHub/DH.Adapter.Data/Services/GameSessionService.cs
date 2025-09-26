@@ -331,8 +331,16 @@ public class GameSessionService : IGameSessionService
                                 });
                             }
                         }
+
+
                         if (completedRewards.Any())
                             await context.UserChallengeRewards.AddRangeAsync(completedRewards, cancellationToken);
+
+                        foreach (var reward in completedRewards)
+                        {
+                            await this.challengeHubClient.SendRewardGranted(
+                                userId, reward.Reward.Name_BG, reward.Reward.Name_EN);
+                        }
                     }
                     else
                     {
@@ -366,6 +374,12 @@ public class GameSessionService : IGameSessionService
 
                         if (completedRewards.Any())
                             await context.UserChallengeRewards.AddRangeAsync(completedRewards, cancellationToken);
+
+                        foreach (var reward in completedRewards)
+                        {
+                            await this.challengeHubClient.SendRewardGranted(
+                                userId, reward.Reward.Name_BG, reward.Reward.Name_EN);
+                        }
                     }
 
                     await SaveAndCommitTransaction(context, transaction, cancellationToken);

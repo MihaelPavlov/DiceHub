@@ -1,43 +1,67 @@
-<!-- Completion Overlay -->
-<div class="overlay" *ngIf="showCompletion" (click)="closeCompletion()">
+<!-- Challenge Completion Overlay -->
+<div
+  class="overlay"
+  *ngIf="showChallengeCompletion"
+  (click)="closeChallengeCompletion()"
+>
   <div class="badge" [@popIn] (click)="$event.stopPropagation()">
     <div class="emoji">
       <img
-        src="../../../shared/assets/images/diamond.gif"
-        alt="Diamond"
+        src="/shared/assets/images/target.gif"
+        alt="target"
         width="90"
         height="90"
       />
     </div>
-    <h2>{{ completionMessage }}</h2>
-    <p class="reward">{{ completionReward }}</p>
+    <h3 [innerHTML]="challengeCompletionMessage"></h3>
+    <p class="reward">{{ challengeCompletionReward }}</p>
 
     <!-- Close button at bottom center -->
-    <button class="close-btn-bottom" (click)="closeCompletion()">Close</button>
+    <button class="close-btn-bottom" (click)="closeChallengeCompletion()">
+      {{ "close" | translate }}
+    </button>
   </div>
 </div>
 
-<!-- Progress Mini-Overlay -->
-<div class="overlay-mini" *ngIf="showProgress" (click)="closeProgress()">
+<!-- Challenge Progress Mini-Overlay -->
+<div
+  class="overlay-mini"
+  *ngIf="showChallengeProgress"
+  (click)="closeChallengeProgress()"
+>
   <div class="badge-mini" [@popIn] (click)="$event.stopPropagation()">
     <div class="emoji">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="36"
-        height="36"
-        fill="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path
-          d="M11 21h-1l1-7H7a1 1 0 0 1-.9-1.45l5-10A1 1 0 0 1 12 2h1l-1 7h4a1 1 0 0 1 .9 1.45l-5 10A1 1 0 0 1 11 21z"
-        />
-      </svg>
+      <img
+        src="/shared/assets/images/loading.gif"
+        alt="loading"
+        width="90"
+        height="90"
+      />
     </div>
-    <h3 [innerHTML]="progressMessage"></h3>
+    <h3 [innerHTML]="challengeProgressMessage"></h3>
 
     <!-- Close button at bottom center -->
-    <button class="close-btn-bottom-mini" (click)="closeProgress()">
-      Close
+    <button class="close-btn-bottom-mini" (click)="closeChallengeProgress()">
+      {{ "close" | translate }}
+    </button>
+  </div>
+</div>
+
+<div class="overlay" *ngIf="showRewardGranted" (click)="closeRewardGranted()">
+  <div class="badge" [@popIn] (click)="$event.stopPropagation()">
+    <div class="emoji">
+      <img
+        src="/shared/assets/images/reward.gif"
+        alt="reward"
+        width="90"
+        height="90"
+      />
+    </div>
+    <h3 [innerHTML]="rewardGrantedMessage"></h3>
+
+    <!-- Close button at bottom center -->
+    <button class="close-btn-bottom" (click)="closeRewardGranted()">
+      {{ "close" | translate }}
     </button>
   </div>
 </div>

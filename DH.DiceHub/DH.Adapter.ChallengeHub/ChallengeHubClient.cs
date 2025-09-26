@@ -77,7 +77,6 @@ public class ChallengeHubClient : Hub, IChallengeHubClient
     {
         if (IsUserConnected(userId))
         {
-            // Send to the group corresponding to this user
             await this.hub.Clients.Group($"user-{userId}")
                 .SendAsync("challengeUpdated", new { challengeGameName });
         }
@@ -88,6 +87,25 @@ public class ChallengeHubClient : Hub, IChallengeHubClient
                 new ChallengeUpdatedNotification
                 {
                     ChallengeName = challengeGameName,
+                }, CancellationToken.None);
+        }
+    }
+
+    public async Task SendRewardGranted(string userId, string rewardName_BG, string rewardName_EN)
+    {
+        if (IsUserConnected(userId))
+        {
+            await this.hub.Clients.Group($"user-{userId}")
+                .SendAsync("rewardGranted", new { name_bg = rewardName_BG, name_en = rewardName_EN });
+        }
+        else
+        {
+            await this.pushNotificationsService.SendNotificationToUsersAsync(
+                [userId],
+                new RewardGrantedNotification
+                {
+                    RewardName_BG = rewardName_BG,
+                    RewardName_EN = rewardName_EN,
                 }, CancellationToken.None);
         }
     }

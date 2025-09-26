@@ -58,8 +58,6 @@ export const ROUTE = {
   },
   CHALLENGE_HUB_CLIENT: {
     CORE: 'challengeHub',
-    SEND_CHALLENGE_COMPLETED: 'SendChallengeCompleted',
-    SEND_CHALLENGE_UPDATED: 'SendChallengeUpdated',
   },
   MEEPLE_ROOMS: {
     CORE: 'meeples',

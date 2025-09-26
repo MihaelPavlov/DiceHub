@@ -66,7 +66,7 @@ export class AppComponent implements OnInit {
     if (!this.authService.getUser) {
       await this.authService.userinfo$();
     }
-    
+
     await this.challengeHubService.startConnection(
       this.authService.getUser!.id
     );
@@ -75,12 +75,18 @@ export class AppComponent implements OnInit {
       console.log('Challenge progress update:', update.challengeGameName);
       this.challengeOverlay.updateProgress(update.challengeGameName);
     });
+
     this.challengeHubService.onChallengeCompleted((completed) => {
       console.log('Challenge completed:', completed);
       this.challengeOverlay.completeChallenge(
         completed.challengeGameName,
         completed.rewardPoints
       );
+    });
+
+    this.challengeHubService.onRewardGranted((reward) => {
+      console.log('Reward granted:', reward);
+      this.challengeOverlay.rewardGranted(reward.name_bg, reward.name_en);
     });
 
     this._initializeFCM();

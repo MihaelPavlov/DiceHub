@@ -26,4 +26,10 @@ public class ChallengeHubClientProxy : IChallengeHubClient
         return new ChallengeHubClient(hub, pushNotifications)
             .SendChallengeUpdated(userId, challengeGameName);
     }
+
+    public Task SendRewardGranted(string userId, string rewardName_BG, string rewardName_EN)
+    {
+        return new ChallengeHubClient(hub, pushNotifications)
+            .SendRewardGranted(userId, rewardName_BG, rewardName_EN);
+    }
 }

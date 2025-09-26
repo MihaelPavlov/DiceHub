@@ -43,6 +43,7 @@
    Text message & reward
    =========================== */
 .badge h2,
+.badge h3,
 .badge p.reward {
   position: relative;
   z-index: 2;
@@ -197,4 +198,8 @@
 .close-btn-bottom-mini {
   padding: 0.4rem 1rem;
   font-size: 0.9rem;
+}
+
+.blue{
+  color: palette.$main-blue-color;
 }

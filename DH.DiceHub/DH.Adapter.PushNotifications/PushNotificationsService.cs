@@ -45,12 +45,20 @@ internal class PushNotificationsService : IPushNotificationsService
 
     public async Task<IEnumerable<GetUserNotificationsModel>> GetNotificationsByUserId(int page, int pageSize, CancellationToken cancellationToken)
     {
-        var notifications = await this.userNotificationRepository.GetWithPropertiesAsync(x => x.UserId == this.userContext.UserId, x => x, cancellationToken);
-
         var skip = (page - 1) * pageSize;
 
+        var notifications = await this.userNotificationRepository
+            .GetWithPropertiesAsync(x => x.UserId == this.userContext.UserId, x => x, cancellationToken);
+
+        var pagedNotifications = notifications
+            .OrderByDescending(x => x.CreatedDate)
+            .Skip(skip)
+            .Take(pageSize)
+            .ToList(); 
+
         var result = new List<GetUserNotificationsModel>();
-        foreach (var n in notifications)
+
+        foreach (var n in pagedNotifications)
         {
             var payload = NotificationTypeRegistry.DeserializeNotification(n.MessageType, n.PayloadJson);
             if (payload == null)
@@ -59,13 +67,7 @@ internal class PushNotificationsService : IPushNotificationsService
                 continue;
             }
 
-            NotificationPayload? notificationRenderResult = null;
-
-            if (payload != null)
-            {
-                notificationRenderResult = await this.notificationRenderer.RenderMessageBody(payload, n.UserId);
-            }
-
+            var notificationRenderResult = await this.notificationRenderer.RenderMessageBody(payload, n.UserId);
             if (notificationRenderResult == null)
                 continue;
 
@@ -81,10 +83,7 @@ internal class PushNotificationsService : IPushNotificationsService
             });
         }
 
-        return result
-            .Skip(skip)
-            .Take(pageSize)
-            .OrderByDescending(x => x.CreatedDate);
+        return result;
     }
 
     public async Task MarkedNotificationAsViewed(int notificationId, CancellationToken cancellationToken)
