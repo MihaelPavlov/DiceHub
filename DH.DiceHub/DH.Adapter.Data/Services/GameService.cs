@@ -1,7 +1,9 @@
-﻿using DH.Domain.Entities;
+﻿using DH.Domain.Adapters.Authentication;
+using DH.Domain.Entities;
 using DH.Domain.Enums;
 using DH.Domain.Models.GameModels.Queries;
 using DH.Domain.Services;
+using DH.Domain.Services.TenantSettingsService;
 using DH.OperationResultCore.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,15 +11,23 @@ namespace DH.Adapter.Data.Services;
 
 public class GameService : IGameService
 {
-    readonly IDbContextFactory<TenantDbContext> _contextFactory;
-    public GameService(IDbContextFactory<TenantDbContext> _contextFactory)
+    readonly IDbContextFactory<TenantDbContext> contextFactory;
+    readonly ITenantSettingsCacheService tenantSettingsCacheService;
+    readonly IUserContext userContext;
+
+    public GameService(
+        IDbContextFactory<TenantDbContext> contextFactory,
+        ITenantSettingsCacheService tenantSettingsCacheService,
+        IUserContext userContext)
     {
-        this._contextFactory = _contextFactory;
+        this.contextFactory = contextFactory;
+        this.tenantSettingsCacheService = tenantSettingsCacheService;
+        this.userContext = userContext;
     }
 
     public async Task<int> CreateGame(Game game, string fileName, string contentType, MemoryStream imageStream, CancellationToken cancellationToken)
     {
-        using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
+        using (var context = await contextFactory.CreateDbContextAsync(cancellationToken))
         {
             await context.Games.AddAsync(game, cancellationToken);
 
@@ -46,7 +56,7 @@ public class GameService : IGameService
 
     public async Task UpdateGame(Game game, string fileName, string contentType, MemoryStream imageStream, CancellationToken cancellationToken)
     {
-        using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
+        using (var context = await contextFactory.CreateDbContextAsync(cancellationToken))
         {
             var dbGame = await context.Games
                 .AsTracking()
@@ -84,7 +94,7 @@ public class GameService : IGameService
 
     public async Task<List<GetActiveGameReservationListQueryModel>> GetActiveGameReservation(CancellationToken cancellationToken)
     {
-        using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
+        using (var context = await contextFactory.CreateDbContextAsync(cancellationToken))
         {
             return await (
                 from gameReservation in context.GameReservations
@@ -115,7 +125,7 @@ public class GameService : IGameService
 
     public async Task<GetGameByIdQueryModel?> GetGameByIdAsync(int gameId, string userId, CancellationToken cancellationToken)
     {
-        using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
+        using (var context = await contextFactory.CreateDbContextAsync(cancellationToken))
         {
             return await (
                 from g in context.Games
@@ -141,7 +151,7 @@ public class GameService : IGameService
 
     public async Task<List<GetGameListQueryModel>> GetGameListBySearchExpressionAsync(string searchExpression, string userId, CancellationToken cancellationToken)
     {
-        using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
+        using (var context = await contextFactory.CreateDbContextAsync(cancellationToken))
         {
             return await
                 (from g in context.Games
@@ -166,7 +176,7 @@ public class GameService : IGameService
 
     public async Task<List<GetGameListQueryModel>> GetGameListBySearchExpressionAsync(int categoryId, string searchExpression, string userId, CancellationToken cancellationToken)
     {
-        using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
+        using (var context = await contextFactory.CreateDbContextAsync(cancellationToken))
         {
             return await
                 (from g in context.Games
@@ -191,7 +201,7 @@ public class GameService : IGameService
 
     public async Task<List<GetGameListQueryModel>> GetNewGameListBySearchExpressionAsync(string searchExpression, string userId, CancellationToken cancellationToken)
     {
-        using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
+        using (var context = await contextFactory.CreateDbContextAsync(cancellationToken))
         {
             return await
                 (from g in context.Games
@@ -216,7 +226,7 @@ public class GameService : IGameService
 
     public async Task CreateReservation(GameReservation reservation, CancellationToken cancellationToken)
     {
-        using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
+        using (var context = await contextFactory.CreateDbContextAsync(cancellationToken))
         {
             await context.GameReservations.AddAsync(reservation, cancellationToken);
             var inventory = await context.GameInventories.AsTracking().FirstOrDefaultAsync(x => x.GameId == reservation.GameId, cancellationToken)
@@ -233,7 +243,7 @@ public class GameService : IGameService
 
     public async Task<List<GetGameReservationHistoryQueryModel>> GetGameReservationListByStatus(ReservationStatus? status, CancellationToken cancellationToken)
     {
-        using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
+        using (var context = await contextFactory.CreateDbContextAsync(cancellationToken))
         {
             IQueryable<GameReservation> query = context.GameReservations;
 
@@ -277,9 +287,90 @@ public class GameService : IGameService
 
     public async Task<int> GetActiveGameReservationsCount(CancellationToken cancellationToken)
     {
-        using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
+        using (var context = await contextFactory.CreateDbContextAsync(cancellationToken))
         {
             return await context.GameReservations.Where(x => x.IsActive).CountAsync(cancellationToken);
+        }
+    }
+
+    public async Task DeleteGame(int id, CancellationToken cancellationToken)
+    {
+        using (var context = await contextFactory.CreateDbContextAsync(cancellationToken))
+        {
+            var dbGame = await context.Games
+                 .AsTracking()
+                 .FirstOrDefaultAsync(x => x.Id == id, cancellationToken)
+                     ?? throw new NotFoundException(nameof(Game), id);
+
+            var dbGameReservations = await context.GameReservations
+                .Where(x => x.GameId == id && x.IsActive)
+                .ToListAsync(cancellationToken);
+
+            if (dbGameReservations.Count == 1)
+                throw new ValidationErrorsException("ActiveGameReservations",
+                    "This game has one active reservation. Please close it before deleting the game.");
+
+            if (dbGameReservations.Count > 1)
+                throw new ValidationErrorsException("ActiveGameReservations",
+                    "This game has multiple active reservations. Please close them before deleting the game.");
+
+            var today = DateTime.UtcNow;
+            var dbEvents = await context.Events
+                .Where(x => x.GameId == id && x.StartDate > today)
+                .ToListAsync(cancellationToken);
+
+            if (dbEvents.Count == 1)
+                throw new ValidationErrorsException("ActiveEvents",
+                    "This game is linked to one upcoming event. Cancel the event before deleting the game.");
+
+            if (dbEvents.Count > 1)
+                throw new ValidationErrorsException("ActiveEvents",
+                    "This game is linked to multiple upcoming events. Cancel them before deleting the game.");
+
+            var tenantSettings = await this.tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
+
+            if (tenantSettings.IsCustomPeriodOn)
+            {
+                var customPeriods = await context.UserChallengePeriodPerformances
+                    .AsTracking()
+                    .Include(x => x.CustomPeriodUserChallenges)
+                    .ThenInclude(x => x.Game)
+                    .Where(x => x.UserId == this.userContext.UserId && x.IsPeriodActive)
+                    .ToListAsync(cancellationToken);
+
+                var gamesInCustomPeriods = customPeriods
+                    .SelectMany(x => x.CustomPeriodUserChallenges)
+                    .Where(x => x.GameId == id)
+                    .ToList();
+
+                if (gamesInCustomPeriods.Any())
+                    throw new ValidationErrorsException("ActiveCustomPeriod",
+                        "This game is part of an active custom challenge period. Wait to end the period before deleting the game.");
+            }
+            else
+            {
+                var userChallenges = await context.UserChallenges
+                    .AsTracking()
+                    .Include(x => x.Challenge)
+                    .ThenInclude(x => x.Game)
+                    .Where(x =>
+                        x.UserId == this.userContext.UserId &&
+                        x.IsActive &&
+                        x.Challenge.GameId == id)
+                    .ToListAsync(cancellationToken);
+
+                var gamesInActiveChallenges = userChallenges
+                    .Where(x => x.Challenge.GameId == id)
+                    .ToList();
+
+                if (gamesInActiveChallenges.Any())
+                    throw new ValidationErrorsException("ActiveChallenges",
+                        "This game is part of an active challenge. Please wait until you receive challenges not linked to this game, or switch to a custom period before deleting it.";
+            }
+
+            dbGame.IsDeleted = true;
+
+            await context.SaveChangesAsync(cancellationToken);
         }
     }
 }

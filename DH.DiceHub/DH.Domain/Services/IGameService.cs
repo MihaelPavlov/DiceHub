@@ -16,4 +16,5 @@ public interface IGameService : IDomainService<Game>
     Task CreateReservation(GameReservation reservation, CancellationToken cancellationToken);
     Task<List<GetGameReservationHistoryQueryModel>> GetGameReservationListByStatus(ReservationStatus? status, CancellationToken cancellationToken);
     Task<int> GetActiveGameReservationsCount(CancellationToken cancellationToken);
+    Task DeleteGame(int id, CancellationToken cancellationToken);
 }

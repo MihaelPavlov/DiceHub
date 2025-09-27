@@ -418,7 +418,6 @@ public class GameSessionService : IGameSessionService
 
         var periods = await query.ToListAsync(cancellationToken);
 
-
         if (periods.Count > 1)
         {
             this.logger.LogWarning("Active user period performance can't be more then 1(One). UserId {UserId}", userId);
