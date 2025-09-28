@@ -17,19 +17,19 @@ public class CreateOwnerRequest : IValidableFields
 
         if (string.IsNullOrEmpty(Email))
             errors.Add(new ValidationError(nameof(Email),
-                "Email is required."));
+                localizationService["OwnerValidationEmailRequired"]));
 
         if (!new EmailAddressAttribute().IsValid(Email))
             errors.Add(new ValidationError(nameof(Email),
-                "Email is invalid."));
+                localizationService["OwnerValidationEmailInvalid"]));
 
         if (string.IsNullOrEmpty(ClubName))
             errors.Add(new ValidationError(nameof(ClubName),
-                $"Club Name is required."));
+                localizationService["OwnerClubNameRequired"]));
 
         if (string.IsNullOrEmpty(ClubPhoneNumber))
             errors.Add(new ValidationError(nameof(ClubPhoneNumber),
-                $"Club Phone Number is required."));
+                localizationService["OwnerClubPhoneNumberRequired"]));
 
         validationErrors = errors;
 

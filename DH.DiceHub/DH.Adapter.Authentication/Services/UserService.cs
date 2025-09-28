@@ -1,5 +1,4 @@
-﻿using Azure.Core;
-using DH.Adapter.Authentication.Entities;
+﻿using DH.Adapter.Authentication.Entities;
 using DH.Adapter.Authentication.Helper;
 using DH.Domain.Adapters.Authentication;
 using DH.Domain.Adapters.Authentication.Models;
@@ -7,7 +6,6 @@ using DH.Domain.Adapters.Authentication.Models.Enums;
 using DH.Domain.Adapters.Authentication.Services;
 using DH.Domain.Adapters.ChallengesOrchestrator;
 using DH.Domain.Adapters.Localization;
-using DH.Domain.Adapters.PushNotifications;
 using DH.Domain.Entities;
 using DH.Domain.Enums;
 using DH.Domain.Repositories;
@@ -111,18 +109,17 @@ public class UserService : IUserService
 
         var existingUserByEmail = await this.userManager.FindByEmailAsync(form.Email);
         if (existingUserByEmail != null && !existingUserByEmail.IsDeleted)
-            throw new ValidationErrorsException("Exist", this.localizer["UserExistEmail"]);
+            throw new ValidationErrorsException("Email", this.localizer["UserExistEmail"]);
 
         var existingUserByUsername = await this.userManager.FindByNameAsync(form.Username);
         if (existingUserByUsername != null && !existingUserByUsername.IsDeleted)
-            throw new ValidationErrorsException("Exist", this.localizer["UserExistUsername"]);
+            throw new ValidationErrorsException("Username", this.localizer["UserExistUsername"]);
 
         var user = new ApplicationUser() { UserName = form.Username, Email = form.Email };
         var createUserResult = await userManager.CreateAsync(user, form.Password);
 
-        //TODO: Handle validation errors from createUserResult if any
         if (!createUserResult.Succeeded)
-            throw new BadRequestException(this.localizer["UserRegistrationFailed"]);
+            throw new ValidationErrorsException("General", this.localizer["UserRegistrationFailed"]);
 
         if (!await this.roleManager.Roles.AnyAsync(x => x.Name == Role.User.ToString()))
         {
@@ -385,7 +382,7 @@ public class UserService : IUserService
 
         var existingUserByEmail = await this.userManager.FindByEmailAsync(request.Email);
         if (existingUserByEmail != null && !existingUserByEmail.IsDeleted)
-            throw new ValidationErrorsException("Exist", this.localizer["UserExistEmail"]);
+            throw new ValidationErrorsException("Email", this.localizer["UserExistEmail"]);
 
         var username = $"{request.FirstName}, {request.LastName}";
         var existingUserByUsername = await this.userManager.FindByNameAsync(username);
@@ -600,7 +597,7 @@ public class UserService : IUserService
         user.IsDeleted = true;
         user.UserName = $"{userId},deleted,{user.UserName}";
         user.Email = $"{userId},deleted,{user.Email}";
-      var res= await this.userManager.UpdateAsync(user);
+        var res = await this.userManager.UpdateAsync(user);
     }
 
     private static string GenerateRandomPassword()

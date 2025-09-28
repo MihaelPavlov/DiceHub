@@ -1,23 +1,24 @@
-﻿using DH.Adapter.Authentication.Services;
+﻿using DH.Adapter.Authentication.Entities;
+using DH.Adapter.Authentication.Helper;
+using DH.Adapter.Authentication.Services;
+using DH.Domain.Adapters.Authentication;
+using DH.Domain.Adapters.Authentication.Enums;
+using DH.Domain.Adapters.Authentication.Interfaces;
+using DH.Domain.Adapters.Authentication.Models;
+using DH.Domain.Adapters.Authentication.Services;
 using DH.Domain.Repositories;
 using DH.Domain.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using DH.Adapter.Authentication.Helper;
-using DH.Domain.Adapters.Authentication;
-using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Builder;
-using DH.Adapter.Authentication.Entities;
-using DH.Domain.Adapters.Authentication.Services;
-using DH.Domain.Adapters.Authentication.Interfaces;
-using DH.Domain.Adapters.Authentication.Enums;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using System.Reflection;
+using System.Text;
 
 namespace DH.Adapter.Authentication;
 
@@ -74,7 +75,7 @@ public static class AuthenticationDIModule
                 options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;
                 options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequiredLength = 0;
+                options.Password.RequiredLength = UserRegistrationRequest.PASSWORD_MIN_LENGTH;
                 options.SignIn.RequireConfirmedEmail = true;
                 options.User.AllowedUserNameCharacters = new UserOptions().AllowedUserNameCharacters + ", ";
             })

@@ -94,7 +94,6 @@ export class RegisterComponent extends Form implements OnInit {
     if (this.form.valid) {
       this.loadingContext.enableManualMode();
       this.loadingService.loadingOn();
-
       try {
         let deviceToken: string | null = null;
         if (this.isPushUnsupportedIOS()) {
@@ -159,7 +158,11 @@ export class RegisterComponent extends Form implements OnInit {
                 });
               }
             },
-            error: (error) => this.handleRegistrationError(error),
+            error: (error) => {
+              this.loadingService.loadingOff();
+              this.loadingContext.disableManualMode();
+              this.handleRegistrationError(error);
+            },
             complete: () => {
               this.loadingService.loadingOff();
               this.loadingContext.disableManualMode();
@@ -224,9 +227,11 @@ export class RegisterComponent extends Form implements OnInit {
   }
 
   private handleRegistrationError(error: any): void {
-    if (error.error?.errors?.Exist) {
+    if (error.error?.errors?.Exist)
       this.getServerErrorMessage = error.error.errors.Exist[0];
-    } else {
+    else if (error.error?.errors?.General)
+      this.getServerErrorMessage = error.error.errors.General[0];
+    else {
       this.handleServerErrors(error);
     }
 

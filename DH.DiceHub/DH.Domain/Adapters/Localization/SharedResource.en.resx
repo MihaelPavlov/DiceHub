@@ -462,4 +462,40 @@
   <data name="DeleteGameActiveChallengeWarning" xml:space="preserve">
     <value>This game is part of an active challenge. Please wait until you receive challenges not linked to this game, or switch to a custom period before deleting it.</value>
   </data>
+  <data name="UserRegistrationValidationInvalidEmail" xml:space="preserve">
+    <value>Please enter a valid email address.</value>
+  </data>
+  <data name="UserRegistrationValidationPasswordTooShort" xml:space="preserve">
+    <value>Password must be at least {0} characters long.</value>
+  </data>
+  <data name="UserRegistrationValidationPasswordsDoNotMatch" xml:space="preserve">
+    <value>Password and confirmation password do not match.</value>
+  </data>
+  <data name="EmployeeValidationEmailRequired" xml:space="preserve">
+    <value>Email is required.</value>
+  </data>
+  <data name="EmployeeValidationEmailInvalid" xml:space="preserve">
+    <value>Email is invalid.</value>
+  </data>
+  <data name="EmployeeValidationFirstNameRequired" xml:space="preserve">
+    <value>First Name is required.</value>
+  </data>
+  <data name="EmployeeValidationLastNameRequired" xml:space="preserve">
+    <value>Last Name is required.</value>
+  </data>
+  <data name="EmployeeValidationPhoneNumberRequired" xml:space="preserve">
+    <value>Phone Number is required.</value>
+  </data>
+  <data name="OwnerValidationEmailRequired" xml:space="preserve">
+    <value>Email is required.</value>
+  </data>
+  <data name="OwnerValidationEmailInvalid" xml:space="preserve">
+    <value>Email is invalid.</value>
+  </data>
+  <data name="OwnerClubNameRequired" xml:space="preserve">
+    <value>Club Name is required.</value>
+  </data>
+  <data name="OwnerClubPhoneNumberRequired" xml:space="preserve">
+    <value>Club Phone Number is required.</value>
+  </data>
 </root>

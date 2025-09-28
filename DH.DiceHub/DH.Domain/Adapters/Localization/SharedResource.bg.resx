@@ -462,4 +462,40 @@
   <data name="DeleteGameActiveChallengeWarning" xml:space="preserve">
     <value>Тази игра е част от активно предизвикателство. Моля, изчакайте да получите предизвикателства, които не са свързани с тази игра, или преминете към персонализиран период, преди да я изтриете.</value>
   </data>
+  <data name="UserRegistrationValidationInvalidEmail" xml:space="preserve">
+    <value>Моля, въведете валиден имейл адрес.</value>
+  </data>
+  <data name="UserRegistrationValidationPasswordTooShort" xml:space="preserve">
+    <value>Паролата трябва да е поне {0} символа.</value>
+  </data>
+  <data name="UserRegistrationValidationPasswordsDoNotMatch" xml:space="preserve">
+    <value>Паролата и потвърждението на паролата не съвпадат.</value>
+  </data>
+  <data name="EmployeeValidationEmailRequired" xml:space="preserve">
+    <value>Имейлът е задължителен.</value>
+  </data>
+  <data name="EmployeeValidationEmailInvalid" xml:space="preserve">
+    <value>Невалиден имейл адрес.</value>
+  </data>
+  <data name="EmployeeValidationFirstNameRequired" xml:space="preserve">
+    <value>Името е задължително.</value>
+  </data>
+  <data name="EmployeeValidationLastNameRequired" xml:space="preserve">
+    <value>Фамилията е задължителна.</value>
+  </data>
+  <data name="EmployeeValidationPhoneNumberRequired" xml:space="preserve">
+    <value>Телефонният номер е задължителен.</value>
+  </data>
+  <data name="OwnerValidationEmailRequired" xml:space="preserve">
+    <value>Имейлът е задължителен.</value>
+  </data>
+  <data name="OwnerValidationEmailInvalid" xml:space="preserve">
+    <value>Невалиден имейл адрес.</value>
+  </data>
+  <data name="OwnerClubNameRequired" xml:space="preserve">
+    <value>Името на клуба е задължително.</value>
+  </data>
+  <data name="OwnerClubPhoneNumberRequired" xml:space="preserve">
+    <value>Телефонният номер на клуба е задължителен.</value>
+  </data>
 </root>

@@ -8,7 +8,7 @@ namespace DH.Domain.Adapters.Authentication.Models;
 
 public class UserRegistrationRequest : IValidableFields
 {
-    const int PASSWORD_MIN_LENGTH = 5;
+    public const int PASSWORD_MIN_LENGTH = 5;
     public string Username { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
@@ -21,13 +21,14 @@ public class UserRegistrationRequest : IValidableFields
         var errors = new List<ValidationError>();
 
         if (!Regex.IsMatch(Email, "^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$"))
-            errors.Add(new ValidationError(nameof(Email), "Email is invalid."));
+            errors.Add(new ValidationError(nameof(Email), localizationService["UserRegistrationValidationInvalidEmail"]));
 
         if (Password.Length < PASSWORD_MIN_LENGTH)
-            errors.Add(new ValidationError(nameof(Password), $"Passwords shouldn't be less then {PASSWORD_MIN_LENGTH} characters."));
+            errors.Add(new ValidationError(nameof(Password),
+                string.Format(localizationService["UserRegistrationValidationPasswordTooShort"], PASSWORD_MIN_LENGTH)));
 
         if (Password != ConfirmPassword)
-            errors.Add(new ValidationError(nameof(ConfirmPassword), $"Passwords should match."));
+            errors.Add(new ValidationError(nameof(ConfirmPassword), localizationService["UserRegistrationValidationPasswordsDoNotMatch"]));
 
         validationErrors = errors;
 

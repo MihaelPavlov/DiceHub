@@ -18,23 +18,23 @@ public class CreateEmployeeRequest : IValidableFields
 
         if (string.IsNullOrEmpty(Email))
             errors.Add(new ValidationError(nameof(Email),
-                "Email is required."));
+                localizationService["EmployeeValidationEmailRequired"]));
 
         if (!new EmailAddressAttribute().IsValid(Email))
             errors.Add(new ValidationError(nameof(Email),
-                "Email is invalid."));
+                localizationService["EmployeeValidationEmailInvalid"]));
 
         if (string.IsNullOrEmpty(FirstName))
             errors.Add(new ValidationError(nameof(FirstName),
-                $"First Name is required."));
+                localizationService["EmployeeValidationFirstNameRequired"]));
 
         if (string.IsNullOrEmpty(LastName))
             errors.Add(new ValidationError(nameof(LastName),
-                $"Last Name is required."));
+               localizationService["EmployeeValidationLastNameRequired"]));
 
         if (string.IsNullOrEmpty(PhoneNumber))
             errors.Add(new ValidationError(nameof(PhoneNumber),
-                $"Phone Number is required."));
+                localizationService["EmployeeValidationPhoneNumberRequired"]));
 
         validationErrors = errors;
 
