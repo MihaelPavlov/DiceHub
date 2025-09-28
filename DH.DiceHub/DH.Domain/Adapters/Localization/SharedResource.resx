@@ -444,4 +444,22 @@
   <data name="RewardGrantedBody" xml:space="preserve">
     <value>Получихте наградата „{0}“! Елате в клуба, за да си я вземете.</value>
   </data>
+  <data name="DeleteGameActiveReservationWarning" xml:space="preserve">
+    <value>Тази игра има една активна резервация. Моля, приключете я, преди да изтриете играта.</value>
+  </data>
+  <data name="DeleteGameMultipleActiveReservationsWarning" xml:space="preserve">
+    <value>Тази игра има няколко активни резервации. Моля, приключете ги, преди да изтриете играта.</value>
+  </data>
+  <data name="DeleteGameLinkedUpcomingEventWarning" xml:space="preserve">
+    <value>Тази игра е свързана с едно предстоящо събитие. Отменете го или изчакайте събитието да приключи, преди да изтриете играта.</value>
+  </data>
+  <data name="DeleteGameLinkedMultipleUpcomingEventsWarning" xml:space="preserve">
+    <value>Тази игра е свързана с няколко предстоящи събития. Отменете ги или изчакайте да приключат, преди да изтриете играта.</value>
+  </data>
+  <data name="DeleteGameActiveCustomChallengePeriodWarning" xml:space="preserve">
+    <value>Тази игра е част от персонализиран активен период. Премахнете играта от бъдещия период и изчакайте текущия период да приключи, преди да изтриете играта.</value>
+  </data>
+  <data name="DeleteGameActiveChallengeWarning" xml:space="preserve">
+    <value>Тази игра е част от активно предизвикателство. Моля, изчакайте да получите предизвикателства, които не са свързани с тази игра, или преминете към персонализиран период, преди да я изтриете.</value>
+  </data>
 </root>

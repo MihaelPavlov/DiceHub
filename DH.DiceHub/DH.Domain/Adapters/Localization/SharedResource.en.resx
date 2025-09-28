@@ -444,4 +444,22 @@
   <data name="RewardGrantedBody" xml:space="preserve">
     <value>You have received the reward **{0}**! Come and visit the club to claim it.</value>
   </data>
+  <data name="DeleteGameActiveReservationWarning" xml:space="preserve">
+    <value>This game has one active reservation. Please finish it before deleting the game.</value>
+  </data>
+  <data name="DeleteGameMultipleActiveReservationsWarning" xml:space="preserve">
+    <value>This game has multiple active reservations. Please finish them before deleting the game.</value>
+  </data>
+  <data name="DeleteGameLinkedUpcomingEventWarning" xml:space="preserve">
+    <value>This game is linked to one upcoming event. Cancel or Wait for the event to finish before deleting the game.</value>
+  </data>
+  <data name="DeleteGameLinkedMultipleUpcomingEventsWarning" xml:space="preserve">
+    <value>This game is linked to multiple upcoming events. Cancel or Wait for them to finish before deleting the game.</value>
+  </data>
+  <data name="DeleteGameActiveCustomChallengePeriodWarning" xml:space="preserve">
+    <value>This game is part of an active custom period. Remove the game from the future Custom Period and Wait until the current period finished before deleting the game.</value>
+  </data>
+  <data name="DeleteGameActiveChallengeWarning" xml:space="preserve">
+    <value>This game is part of an active challenge. Please wait until you receive challenges not linked to this game, or switch to a custom period before deleting it.</value>
+  </data>
 </root>

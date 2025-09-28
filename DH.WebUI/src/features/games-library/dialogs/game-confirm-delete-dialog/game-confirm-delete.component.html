@@ -1,10 +1,20 @@
 <div class="dialog-container">
-  <h3 class="dialog-container__header m-4">{{ "are_you_sure" | translate }}</h3>
+  <h3 *ngIf="!errorMessage" class="dialog-container__header m-4">
+    {{ "are_you_sure" | translate }}
+  </h3>
+  <h3 *ngIf="errorMessage" class="dialog-container__header m-4">
+    {{ "cannot_be_deleted" | translate }}
+  </h3>
+  <p class="errors" *ngIf="errorMessage">{{ errorMessage }}</p>
   <mat-dialog-actions>
     <button class="btn btn__small btn-blue" mat-dialog-close>
       {{ "cancel" | translate }}
     </button>
-    <button class="btn btn__small btn-red btn-border-red" (click)="delete()">
+    <button
+      *ngIf="!errorMessage"
+      class="btn btn__small btn-red btn-border-red"
+      (click)="delete()"
+    >
       {{ "delete" | translate }}
     </button>
   </mat-dialog-actions>

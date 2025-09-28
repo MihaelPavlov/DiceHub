@@ -1,4 +1,5 @@
 ﻿using DH.Domain.Adapters.Authentication;
+using DH.Domain.Adapters.Localization;
 using DH.Domain.Entities;
 using DH.Domain.Enums;
 using DH.Domain.Models.GameModels.Queries;
@@ -14,15 +15,18 @@ public class GameService : IGameService
     readonly IDbContextFactory<TenantDbContext> contextFactory;
     readonly ITenantSettingsCacheService tenantSettingsCacheService;
     readonly IUserContext userContext;
+    readonly ILocalizationService localizationService;
 
     public GameService(
         IDbContextFactory<TenantDbContext> contextFactory,
         ITenantSettingsCacheService tenantSettingsCacheService,
-        IUserContext userContext)
+        IUserContext userContext,
+        ILocalizationService localizationService)
     {
         this.contextFactory = contextFactory;
         this.tenantSettingsCacheService = tenantSettingsCacheService;
         this.userContext = userContext;
+        this.localizationService = localizationService;
     }
 
     public async Task<int> CreateGame(Game game, string fileName, string contentType, MemoryStream imageStream, CancellationToken cancellationToken)
@@ -307,12 +311,10 @@ public class GameService : IGameService
                 .ToListAsync(cancellationToken);
 
             if (dbGameReservations.Count == 1)
-                throw new ValidationErrorsException("ActiveGameReservations",
-                    "This game has one active reservation. Please close it before deleting the game.");
+                throw new ValidationErrorsException("ActiveGameReservations", this.localizationService["DeleteGameActiveReservationWarning"]);
 
             if (dbGameReservations.Count > 1)
-                throw new ValidationErrorsException("ActiveGameReservations",
-                    "This game has multiple active reservations. Please close them before deleting the game.");
+                throw new ValidationErrorsException("ActiveGameReservations", this.localizationService["DeleteGameMultipleActiveReservationsWarning"]);
 
             var today = DateTime.UtcNow;
             var dbEvents = await context.Events
@@ -320,12 +322,10 @@ public class GameService : IGameService
                 .ToListAsync(cancellationToken);
 
             if (dbEvents.Count == 1)
-                throw new ValidationErrorsException("ActiveEvents",
-                    "This game is linked to one upcoming event. Cancel the event before deleting the game.");
+                throw new ValidationErrorsException("ActiveEvents", this.localizationService["DeleteGameLinkedUpcomingEventWarning"]);
 
             if (dbEvents.Count > 1)
-                throw new ValidationErrorsException("ActiveEvents",
-                    "This game is linked to multiple upcoming events. Cancel them before deleting the game.");
+                throw new ValidationErrorsException("ActiveEvents", this.localizationService["DeleteGameLinkedMultipleUpcomingEventsWarning"]);
 
             var tenantSettings = await this.tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
 
@@ -344,8 +344,7 @@ public class GameService : IGameService
                     .ToList();
 
                 if (gamesInCustomPeriods.Any())
-                    throw new ValidationErrorsException("ActiveCustomPeriod",
-                        "This game is part of an active custom challenge period. Wait to end the period before deleting the game.");
+                    throw new ValidationErrorsException("ActiveCustomPeriod", this.localizationService["DeleteGameActiveCustomChallengePeriodWarning"]);
             }
             else
             {
@@ -364,8 +363,7 @@ public class GameService : IGameService
                     .ToList();
 
                 if (gamesInActiveChallenges.Any())
-                    throw new ValidationErrorsException("ActiveChallenges",
-                        "This game is part of an active challenge. Please wait until you receive challenges not linked to this game, or switch to a custom period before deleting it.";
+                    throw new ValidationErrorsException("ActiveChallenges", this.localizationService["DeleteGameActiveChallengeWarning"]);
             }
 
             dbGame.IsDeleted = true;
