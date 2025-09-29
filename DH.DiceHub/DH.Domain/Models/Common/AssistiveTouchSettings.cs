@@ -3,5 +3,5 @@
 public class AssistiveTouchSettings
 {
     public string PositionY { get; set; } = string.Empty;
-    public bool IsLeftAligned { get; set; }
+    public string PositionX { get; set; } = string.Empty;
 }

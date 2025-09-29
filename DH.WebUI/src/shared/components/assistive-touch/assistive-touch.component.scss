@@ -1,11 +1,13 @@
 @use "../../../shared/assets/styles/palette";
 .freeze-overlay {
   position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   background: transparent;
   z-index: 9999;
-  touch-action: none;  /* block touch gestures */
+  touch-action: none; /* block touch gestures */
   user-select: none;
   pointer-events: none; /* <-- make overlay transparent to pointer events */
 }
@@ -19,6 +21,24 @@
   z-index: 1000;
   cursor: pointer;
 
+  .icon_gif {
+    position: absolute;
+    top: -0.1rem;
+    left: -0rem;
+  }
+
+  .icon-container::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 2.5rem;
+    height: 0.2rem;
+    background: palette.$main-font-color;
+    transform: translate(-50%, -50%) rotate(45deg);
+    pointer-events: none;
+  }
+
   .icon {
     position: absolute;
     font-size: 2rem;
@@ -27,23 +47,6 @@
     font-variation-settings: "FILL" 1;
   }
 
-  .icon-button__badge {
-    position: absolute;
-    background: palette.$main-red-color;
-    border-radius: 50%;
-    width: 1rem;
-    height: 1rem;
-
-    &-right {
-      bottom: 1.7rem;
-      left: 1.8rem;
-    }
-
-    &-left {
-      bottom: 1.7rem;
-      right: 1.8rem;
-    }
-  }
   &.open {
     opacity: 1;
     &::before {

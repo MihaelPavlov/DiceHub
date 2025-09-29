@@ -30,10 +30,7 @@ export class AssistiveTouchComponent implements OnInit, OnDestroy {
     ? Number(this.assistiveTouchSettings.positionY)
     : 135; // Initial Y position of the button
   public positionX = 0; // Initial X position of the button (left side)
-  public isLeftAligned = this.assistiveTouchSettings
-    ? this.assistiveTouchSettings.isLeftAligned
-    : true;
-
+  
   private isDragging = false;
   private dragOffsetX = 0; // To store the x offset from where the drag started
   private dragOffsetY = 0; // To store the y offset from where the drag started
@@ -58,21 +55,17 @@ export class AssistiveTouchComponent implements OnInit, OnDestroy {
       next: (setting) => {
         if (setting) {
           this.assistiveTouchSettings = setting;
-          console.log('assistive touch settings ar ehere ->', setting);
-
           this.initiatePosition();
         } else if (!setting) {
           this.tenantUserSettingsService.updateAssistiveTouchSettings({
             positionY: this.positionY.toString(),
-            isLeftAligned: this.isLeftAligned,
+            positionX: this.positionX.toString(),
           });
         }
       },
     });
     this.tenantUserSettingsService.assistiveTouchSettings$.subscribe({
       next: (setting) => {
-        console.log('from assistive touch component ->', setting);
-
         this.assistiveTouchSettings = setting;
       },
     });
@@ -244,7 +237,6 @@ public onTouchEnd(event: TouchEvent) {
       topBoundary,
       Math.min(this.positionY, bottomBoundary)
     );
-    console.log(this.positionX, this.positionY);
   }
 
   // Resets the inactivity timer
@@ -256,54 +248,45 @@ public onTouchEnd(event: TouchEvent) {
     });
   }
 
-  // Snap to the nearest edge
-  private snapToEdge(): void {
-    const screenWidth = window.visualViewport
-      ? window.visualViewport.width
-      : window.innerWidth;
-    const halfScreenWidth = screenWidth / 2;
+private snapToEdge(): void {
+  const screenWidth = window.visualViewport
+    ? window.visualViewport.width
+    : window.innerWidth;
+  const halfScreenWidth = screenWidth / 2;
 
-    if (this.positionX < halfScreenWidth) {
-      this.positionX = 0; // Snap to left
-
-      this.isLeftAligned = true;
-      this.tenantUserSettingsService.updateAssistiveTouchSettings({
-        positionY: this.positionY.toString(),
-        isLeftAligned: true,
-      });
-    } else {
-      this.positionX = screenWidth - 38.4; // Snap to right (assuming button width is 32px)
-
-      this.isLeftAligned = false;
-
-      this.tenantUserSettingsService.updateAssistiveTouchSettings({
-        positionY: this.positionY.toString(),
-        isLeftAligned: false,
-      });
-    }
+  if (this.positionX < halfScreenWidth) {
+    this.positionX = 0; // Snap to left
+  } else {
+    this.positionX = screenWidth - 38.4; // Snap to right (assuming button width is 32px)
   }
 
-  private initiatePosition(): void {
-    const screenWidth = window.visualViewport
-      ? window.visualViewport.width
-      : window.innerWidth;
-    const buttonHeight = 38.4; // Assuming button height is 50px
-    const screenHeight = window.visualViewport
-      ? window.visualViewport.height
-      : window.innerHeight;
-    const bottomBoundary = screenHeight - buttonHeight - 76.8; // e.g., 60px from the bottom
-    const topBoundary = 76.8; // e.g., 60px from the top
-    if (this.assistiveTouchSettings)
-      this.isLeftAligned = this.assistiveTouchSettings.isLeftAligned;
+  this.tenantUserSettingsService.updateAssistiveTouchSettings({
+    positionY: this.positionY.toString(),
+    positionX: this.positionX.toString(), // store actual snapped X instead of isLeftAligned
+  });
+}
 
-    this.positionY = Math.max(
-      topBoundary,
-      Math.min(Number(this.assistiveTouchSettings?.positionY), bottomBoundary)
-    );
-    if (this.assistiveTouchSettings?.isLeftAligned) {
-      this.positionX = 0; // Snap to left
-    } else {
-      this.positionX = screenWidth - 38.4; // Snap to right (assuming button width is 32px)
-    }
-  }
+private initiatePosition(): void {
+  const screenWidth = window.visualViewport
+    ? window.visualViewport.width
+    : window.innerWidth;
+  const buttonHeight = 38.4;
+  const screenHeight = window.visualViewport
+    ? window.visualViewport.height
+    : window.innerHeight;
+
+  const bottomBoundary = screenHeight - buttonHeight - 76.8;
+  const topBoundary = 76.8;
+
+  this.positionY = Math.max(
+    topBoundary,
+    Math.min(Number(this.assistiveTouchSettings?.positionY), bottomBoundary)
+  );
+
+  // Use stored X position (fallback: right side if not set)
+  this.positionX =
+    this.assistiveTouchSettings?.positionX !== undefined
+      ? Number(this.assistiveTouchSettings.positionX)
+      : screenWidth - 38.4;
+}
 }
