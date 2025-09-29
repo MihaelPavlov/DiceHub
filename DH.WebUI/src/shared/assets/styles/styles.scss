@@ -151,3 +151,25 @@ a:active {
     transform: scale(1);
   }
 }
+
+.bump {
+  animation: bumpAnimation 1.8s ease-in-out infinite;
+}
+
+@keyframes bumpAnimation {
+  0% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-4px); /* small move up */
+  }
+  50% {
+    transform: translateY(2px); /* soft bump down */
+  }
+  70% {
+    transform: translateY(-2px); /* gentle bounce */
+  }
+  100% {
+    transform: translateY(0); /* back to normal */
+  }
+}
