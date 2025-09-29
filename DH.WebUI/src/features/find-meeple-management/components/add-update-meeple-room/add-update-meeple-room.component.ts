@@ -20,7 +20,7 @@ import { combineLatest, throwError } from 'rxjs';
 import { IGameByIdResult } from '../../../../entities/games/models/game-by-id.model';
 import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { ToastType } from '../../../../shared/models/toast.model';
-import { ActivatedRoute, Router, CanActivate } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IGameInventory } from '../../../../entities/games/models/game-inventory.mode';
 import { SafeUrl } from '@angular/platform-browser';
 import {
