@@ -3,9 +3,9 @@
     {{ this.data.Name }}
   </h3>
 
-  <div class="qrcodeImage" *ngIf="this.data">
+  <div class="qrcodeImage" *ngIf="this.encryptedQrData">
     <qrcode
-      [qrdata]="this.serializeData()"
+      [qrdata]="this.encryptedQrData"
       [width]="200"
       [margin]="4"
       [scale]="128"

@@ -8,9 +8,9 @@
   </mat-dialog-actions>
   <h3 class="dialog-container__header m-4">{{ "reward" | translate }}</h3>
 
-  <div class="qrcodeImage">
+  <div class="qrcodeImage" *ngIf="encryptedQrData">
     <qrcode
-      [qrdata]="this.serializeData()"
+      [qrdata]="this.encryptedQrData"
       [width]="200"
       [margin]="4"
       [scale]="128"

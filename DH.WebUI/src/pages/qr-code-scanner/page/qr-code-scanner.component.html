@@ -10,6 +10,17 @@
 >
 </span>
 
+<span
+  class="qr_code_error"
+  *ngIf="this.invalidQrCode && this.currentQrCodeType === QrCodeType.Game"
+  [innerHTML]="'qr_scanner.qr_code_invalid_from_game' | translate"
+>
+</span>
+
+<pre *ngIf="this.afterScanErrorMessage" class="after_scan_error_message">
+  {{ this.afterScanErrorMessage }}</pre
+>
+
 <pre
   *ngIf="this.afterScanSuccessfulMessage"
   class="after_scan_success_message">{{'qr_scanner.qr_code_is_valid'|translate}} <br />

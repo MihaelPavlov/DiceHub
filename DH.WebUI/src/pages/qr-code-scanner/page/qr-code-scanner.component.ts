@@ -16,6 +16,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ScanResultAdminDialog } from '../../../shared/dialogs/scan-result-admin/scan-result-admin.dialog';
 import { FULL_ROUTE } from '../../../shared/configs/route.config';
 import { TranslateService } from '@ngx-translate/core';
+import { QrEncryptService } from '../../../shared/services/qr-code-encrypt.service';
 
 @Component({
   selector: 'app-qr-code-scanner',
@@ -25,22 +26,28 @@ import { TranslateService } from '@ngx-translate/core';
 export class QrCodeScannerComponent implements OnInit, AfterViewInit {
   @ViewChild('video') videoElement!: ElementRef<HTMLVideoElement>;
   private readonly KEY_AFTER_SCAN_SUCCESS_MESSAGE = 'afterScanSuccessMessage';
+  private readonly KEY_AFTER_SCAN_ERROR_MESSAGE = 'afterScanErrorMessage';
   public imageSrc: string | null = null;
   public canvas!: HTMLCanvasElement;
   public context!: CanvasRenderingContext2D | null;
   public invalidQrCode = false;
   public isValidQrScanned = false;
+  public currentQrCodeType: QrCodeType | null = null;
+  public QrCodeType = QrCodeType;
   public afterScanSuccessfulMessage: string | null = null;
+  public afterScanErrorMessage: string | null = null;
 
   constructor(
     private readonly scannerService: ScannerService,
     private readonly router: Router,
     private readonly dialog: MatDialog,
-    private readonly translateService: TranslateService
+    private readonly translateService: TranslateService,
+    private readonly qrEncryptService: QrEncryptService
   ) {}
 
   public ngOnInit(): void {
     this.initAfterScanSuccessMessage();
+    this.initAfterScanErrorMessage();
   }
 
   public ngAfterViewInit(): void {
@@ -94,10 +101,24 @@ export class QrCodeScannerComponent implements OnInit, AfterViewInit {
         if (code) {
           this.afterScanSuccessfulMessage = null;
           video.pause();
-          if (!this.isQrCodeValid(code.data)) {
+          let decryptQrCode: string | null = null;
+
+          try {
+            decryptQrCode = this.qrEncryptService.decryptObjectSync(code.data);
+          } catch {
+            decryptQrCode = null;
+          }
+
+          if (!decryptQrCode || !this.isQrCodeValid(decryptQrCode)) {
             this.invalidQrCode = true;
             video.play();
+            setTimeout(() => {
+              this.invalidQrCode = false;
+            }, 3000);
           } else {
+            this.currentQrCodeType = (
+              JSON.parse(decryptQrCode) as IQrCode
+            ).Type;
             this.invalidQrCode = false;
             const request = { data: code.data };
             this.isValidQrScanned = true;
@@ -114,6 +135,9 @@ export class QrCodeScannerComponent implements OnInit, AfterViewInit {
                           this.router.navigateByUrl(
                             FULL_ROUTE.SPACE_MANAGEMENT.CREATE(res.objectId)
                           );
+                        } else {
+                          this.setLocalStorageErrorMessage(res.errorMessage);
+                          window.location.reload();
                         }
                         break;
 
@@ -212,8 +236,6 @@ export class QrCodeScannerComponent implements OnInit, AfterViewInit {
 
   public isQrCodeValid(data: string): boolean {
     let qrReader: IQrCode;
-    console.log(data);
-
     try {
       qrReader = JSON.parse(data) as IQrCode;
     } catch {
@@ -241,6 +263,14 @@ export class QrCodeScannerComponent implements OnInit, AfterViewInit {
     );
   }
 
+  private setLocalStorageErrorMessage(message: string): void {
+    this.afterScanErrorMessage = message;
+    localStorage.setItem(
+      this.KEY_AFTER_SCAN_ERROR_MESSAGE,
+      this.afterScanErrorMessage
+    );
+  }
+
   private initAfterScanSuccessMessage(): void {
     const storedMessage = localStorage.getItem(
       this.KEY_AFTER_SCAN_SUCCESS_MESSAGE
@@ -248,6 +278,17 @@ export class QrCodeScannerComponent implements OnInit, AfterViewInit {
     if (storedMessage) {
       this.afterScanSuccessfulMessage = storedMessage;
       localStorage.removeItem(this.KEY_AFTER_SCAN_SUCCESS_MESSAGE);
+    }
+  }
+
+  public initAfterScanErrorMessage(): void {
+    const storedMessage = localStorage.getItem(
+      this.KEY_AFTER_SCAN_ERROR_MESSAGE
+    );
+    if (storedMessage) {
+      this.afterScanErrorMessage = storedMessage;
+      this.invalidQrCode = true;
+      localStorage.removeItem(this.KEY_AFTER_SCAN_ERROR_MESSAGE);
     }
   }
 }

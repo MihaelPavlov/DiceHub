@@ -33,3 +33,13 @@
   text-wrap: auto;
   color: palette.$main-blue-color;
 }
+
+.after_scan_error_message {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: 1.25rem;
+  margin: 2rem;
+  text-wrap: auto;
+  color: palette.$main-red-color;
+}

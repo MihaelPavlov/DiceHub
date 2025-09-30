@@ -11,6 +11,8 @@ using DH.Domain.Entities;
 using DH.Domain.Repositories;
 using DH.Domain.Services;
 using DH.OperationResultCore.Exceptions;
+using System.Security.Cryptography;
+using System.Text;
 using System.Text.Json;
 
 namespace DH.Adapter.QRManager;
@@ -30,6 +32,7 @@ public class QRCodeManager : IQRCodeManager
     /// <inheritdoc/>
     public async Task<QrCodeValidationResult> ValidateQRCodeAsync(string data, CancellationToken cancellationToken)
     {
+        data = QrCodeDecryptor.Decrypt(data);
         var qrReader = this.ValidateCode(data);
 
         switch (qrReader.Type)
@@ -110,5 +113,34 @@ public class QRCodeManager : IQRCodeManager
         {
             throw new JsonException("Invalid QR Code format.", ex);
         }
+    }
+}
+
+
+public static class QrCodeDecryptor
+{
+    private static readonly byte[] Key = Encoding.UTF8.GetBytes("0123456789ABCDEF0123456789ABCDEF");
+
+    public static string Decrypt(string encryptedBase64)
+    {
+        var fullCipher = Convert.FromBase64String(encryptedBase64);
+
+        // First 16 bytes = IV
+        var iv = new byte[16];
+        var cipher = new byte[fullCipher.Length - 16];
+
+        Array.Copy(fullCipher, 0, iv, 0, 16);
+        Array.Copy(fullCipher, 16, cipher, 0, cipher.Length);
+
+        using var aes = Aes.Create();
+        aes.Key = Key;
+        aes.IV = iv;
+        aes.Mode = CipherMode.CBC;
+        aes.Padding = PaddingMode.PKCS7;
+
+        using var decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
+        var plainBytes = decryptor.TransformFinalBlock(cipher, 0, cipher.Length);
+
+        return Encoding.UTF8.GetString(plainBytes);
     }
 }
