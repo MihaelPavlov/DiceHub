@@ -46,7 +46,10 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
 
   @ViewChild('progressContainer') progressContainer!: ElementRef;
   @ViewChildren('circleContainer') circles!: QueryList<any>;
-
+  activeTab: 'game' | 'universal' = 'game';
+ switchTab(tab: 'game' | 'universal') {
+    this.activeTab = tab;
+  }
   private readonly scrollArrowWidth = 2.5;
   public rewardScrollArrowsOpacity: number = 1;
   public rewardScrollArrowsWidth: number = this.scrollArrowWidth;
