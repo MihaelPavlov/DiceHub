@@ -296,37 +296,33 @@
 }
 
 .challenge-toggle {
-  // position: fixed;
-  // bottom: 8rem;
-  // left: 50%;
-  // transform: translateX(-50%);
-  // z-index: 1000;
   display: flex;
   justify-content: center;
-  margin: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
   .toggle-track {
     position: relative;
     display: flex;
-    width: 220px; // smaller width
-    border-radius: 40px;
+    width: 13.75rem; // smaller width
+    border-radius: 2rem;
     background: palette.$main-gray-color;
-    padding: 4px;
+    padding: 0.3rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   }
 
   .toggle-thumb {
     position: absolute;
-    top: -2px;
-    left: 4px;
-    width: 100px;
-    height: 32px;
+    top: 4px;
+    left: 10px;
+    width: 6.25rem;
+    height: 1.3rem;
     background: palette.$main-blue-color;
-    border-radius: 30px;
+    border-radius: 2rem;
     transition: all 0.3s ease;
     box-shadow: 0 0 12px rgba(117, 160, 255, 0.6);
 
     &.right {
-      left: calc(100% - 104px);
+      left: calc(100% - 6.563rem);
     }
   }
 

@@ -333,21 +333,25 @@
       </div>
     </div>
   </div>
-<div class="challenge-toggle">
-  <div class="toggle-track">
-    <div class="toggle-thumb" [class.right]="activeTab === 'universal'"></div>
-    <button class="toggle-button game" 
-            [class.active]="activeTab === 'game'" 
-            (click)="activeTab = 'game'">
-      🎲 Game
-    </button>
-    <button class="toggle-button universal" 
-            [class.active]="activeTab === 'universal'" 
-            (click)="activeTab = 'universal'">
-      🌐 Universal
-    </button>
+  <div class="challenge-toggle">
+    <div class="toggle-track">
+      <div class="toggle-thumb" [class.right]="activeTab === 'universal'"></div>
+      <button
+        class="toggle-button game"
+        [class.active]="activeTab === 'game'"
+        (click)="activeTab = 'game'"
+      >
+        🎮 Game
+      </button>
+      <button
+        class="toggle-button universal"
+        [class.active]="activeTab === 'universal'"
+        (click)="activeTab = 'universal'"
+      >
+        🌎 Universal
+      </button>
+    </div>
   </div>
-</div>
 
   <div class="wrapper_challenges">
     <div
