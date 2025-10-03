@@ -1,3 +1,5 @@
+import { LanguageService } from './../../../../shared/services/language.service';
+import { ChallengeType } from './../../../../pages/challenges-management/shared/challenge-type.enum';
 import { IChallengeResult } from '../../../../entities/challenges/models/challenge-by-id.model';
 import { AdminChallengesConfirmDeleteDialog } from '../../dialogs/admin-challenges-confirm-delete/admin-challenges-confirm-delete.component';
 import { Component } from '@angular/core';
@@ -25,6 +27,9 @@ import { ScrollService } from '../../../../shared/services/scroll.service';
 import { ImageEntityType } from '../../../../shared/pipe/entity-image.pipe';
 import { IDropdown } from '../../../../shared/models/dropdown.model';
 import { TranslateService } from '@ngx-translate/core';
+import { UniversalChallengeType } from '../../../../pages/challenges-management/shared/challenge-universal-type.enum';
+import { IUniversalChallengeListResult } from '../../../../entities/challenges/models/universal-challenge.model';
+import { SupportLanguages } from '../../../../entities/common/models/support-languages.enum';
 
 interface IChallengeForm {
   selectedGame: number;
@@ -47,9 +52,14 @@ export class AdminChallengesListComponent extends Form {
   public showFilter: boolean = false;
   public editChallengeId: number | null = null;
   public challengeList: IChallengeListResult[] = [];
+  public universalChallengeList: IUniversalChallengeListResult[] = [];
   public filterGameIds: IGameDropdownResult[] = [];
   public challengeRewardPointList: IDropdown[] = [];
   public readonly ImageEntityType = ImageEntityType;
+  public readonly ChallengeType = ChallengeType;
+  public currentActiveTab: ChallengeType = ChallengeType.Game;
+  public UniversalChallengeType = UniversalChallengeType;
+  public SupportLanguages = SupportLanguages;
 
   constructor(
     public override readonly toastService: ToastService,
@@ -59,12 +69,12 @@ export class AdminChallengesListComponent extends Form {
     private readonly location: Location,
     private readonly dialog: MatDialog,
     private readonly scrollService: ScrollService,
-    public override translateService: TranslateService
+    public override translateService: TranslateService,
+    public readonly languageService: LanguageService
   ) {
     super(toastService, translateService);
     this.fetchGameList();
     this.fetchChallengeList();
-
     this.challengeRewardPointList = Object.entries(ChallengeRewardPoint)
       .filter(([key, value]) => typeof value === 'number')
       .map(([key, value]) => ({ id: value as number, name: value.toString() }));
@@ -76,6 +86,28 @@ export class AdminChallengesListComponent extends Form {
       },
     });
     this.form = this.initFormGroup();
+  }
+  public getCurrentLanguage(): SupportLanguages {
+    return this.languageService.getCurrentLanguage();
+  }
+  saveChallenge(challenge: IUniversalChallengeListResult) {
+    console.log('Saving challenge', challenge);
+    // call API to update attempts/rewardPoints/minValue/gameName
+  }
+  public tabChange(type: ChallengeType): void {
+    this.currentActiveTab = type;
+
+    if (this.currentActiveTab == ChallengeType.Universal) {
+      this.challengesService.getUniversalList().subscribe({
+        next: (result) => {
+          this.universalChallengeList = result ?? [];
+          this.universalChallengeList.map((ch) => ({
+            ...ch,
+            showDescription: false,
+          }));
+        },
+      });
+    }
   }
 
   public openDeleteDialog(id: number): void {

@@ -8,9 +8,9 @@ import { IChallengeResult } from '../models/challenge-by-id.model';
 import { IUpdateChallengeDto } from '../models/update-challenge.model';
 import { IUserChallenge } from '../models/user-challenge.model';
 import { IUserChallengePeriodPerformance } from '../models/user-challenge-period-performance.model';
-import { IChallengeDropdownResult } from '../models/challenge-dropdown.model';
 import { ICustomPeriod } from '../models/custom-period.model';
 import { IUserCustomPeriod } from '../models/user-custom-period.model';
+import { IUniversalChallengeListResult } from '../models/universal-challenge.model';
 
 @Injectable({
   providedIn: 'root',
@@ -26,6 +26,14 @@ export class ChallengesService {
       {
         gameIds,
       }
+    );
+  }
+
+  public getUniversalList(): Observable<
+    IUniversalChallengeListResult[] | null
+  > {
+    return this.api.get<IUniversalChallengeListResult[]>(
+      `/${PATH.CHALLENGES.CORE}/${PATH.CHALLENGES.UNIVERSAL_LIST}`
     );
   }
 

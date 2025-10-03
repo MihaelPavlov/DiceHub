@@ -1,0 +1,19 @@
+<div class="challenge-toggle">
+  <div class="toggle-track">
+    <div class="toggle-thumb" [class.right]="activeTab === ChallengeType.Universal"></div>
+    <button
+      class="toggle-button game"
+      [class.active]="activeTab === ChallengeType.Game"
+      (click)="switchTab(ChallengeType.Game)"
+    >
+      🎮 Game
+    </button>
+    <button
+      class="toggle-button universal"
+      [class.active]="activeTab === ChallengeType.Universal"
+      (click)="switchTab(ChallengeType.Universal)"
+    >
+      🌎 Universal
+    </button>
+  </div>
+</div>

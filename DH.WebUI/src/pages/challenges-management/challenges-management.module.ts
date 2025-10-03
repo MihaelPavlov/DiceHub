@@ -25,6 +25,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { CustomPeriodLeaveConfirmationDialog } from '../../features/challenges-management/dialogs/custom-period-leave-confirmation/custom-period-leave-confirmation.component';
 import { UnsavedChangesConfirmationDialogModule } from '../../shared/dialogs/unsaved-changes-confirmation/unsaved-changes-confirmation.module';
 import { ImagePreviewDialogModule } from '../../shared/dialogs/image-preview/image-preview.module';
+import { ChallengeTypeToggleComponent } from './shared/challenge-type-toggle/challenge-type-toggle.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { ImagePreviewDialogModule } from '../../shared/dialogs/image-preview/ima
     AdminChallengesConfirmDeleteDialog,
     UserRewardQrCodeDialog,
     CustomPeriodLeaveConfirmationDialog,
+    ChallengeTypeToggleComponent
   ],
   exports: [ChallengesManagementComponent],
   providers: [],
