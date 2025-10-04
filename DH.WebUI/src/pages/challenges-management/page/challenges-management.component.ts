@@ -34,6 +34,17 @@ import { MatDialog } from '@angular/material/dialog';
 import { LoadingInterceptorContextService } from '../../../shared/services/loading-context.service';
 import { LoadingService } from '../../../shared/services/loading.service';
 import { TranslateService } from '@ngx-translate/core';
+import { SupportLanguages } from '../../../entities/common/models/support-languages.enum';
+import { ChallengeType } from '../shared/challenge-type.enum';
+import { UniversalChallengeType } from '../shared/challenge-universal-type.enum';
+import { LanguageService } from '../../../shared/services/language.service';
+import { IUniversalChallengeListResult } from '../../../entities/challenges/models/universal-challenge.model';
+import { IUserUniversalChallenge } from '../../../entities/challenges/models/user-universal-challenge.model';
+import { ChallengeRewardPoint } from '../../../entities/challenges/enums/challenge-reward-point.enum';
+import { ControlsMenuComponent } from '../../../shared/components/menu/controls-menu.component';
+import { ICustomPeriodChallenge } from '../../../entities/challenges/models/custom-period.model';
+import { GameQrCodeDialog } from '../../../features/games-library/dialogs/qr-code-dialog/qr-code-dialog.component';
+import { QrCodeType } from '../../../entities/qr-code-scanner/enums/qr-code-type.enum';
 
 @Component({
   selector: 'app-challenges-management',
@@ -89,6 +100,127 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
   private rewardsListener!: () => void;
   private pointsListener!: () => void;
 
+  public readonly ChallengeType = ChallengeType;
+  public currentActiveTab: ChallengeType = ChallengeType.Game;
+  public UniversalChallengeType = UniversalChallengeType;
+  public SupportLanguages = SupportLanguages;
+  public userUniversalChallengeList: IUserUniversalChallenge[] = [
+    {
+      id: 1,
+      rewardPoints: ChallengeRewardPoint.Five,
+      maxAttempts: 5,
+      currentAttempts: 2,
+      status: ChallengeStatus.InProgress,
+      type: UniversalChallengeType.PlayGames,
+      name_EN: 'Play X Games',
+      name_BG: 'Играй X игри',
+      description_EN: 'Complete X games to earn reward points.',
+      description_BG: 'Изиграй X игри, за да спечелиш точки.',
+    },
+    {
+      id: 2,
+      rewardPoints: ChallengeRewardPoint.Ten,
+      maxAttempts: 3,
+      currentAttempts: 1,
+      status: ChallengeStatus.InProgress,
+      type: UniversalChallengeType.JoinMeepleRooms,
+      name_EN: 'Join Meeple Rooms',
+      name_BG: 'Присъедини се към Meeple стаи',
+      description_EN: 'Participate in Meeple rooms to progress.',
+      description_BG: 'Участвай в Meeple стаи, за да напреднеш.',
+    },
+    {
+      id: 3,
+      rewardPoints: ChallengeRewardPoint.Fifteen,
+      maxAttempts: 2,
+      currentAttempts: 0,
+      status: ChallengeStatus.InProgress,
+      type: UniversalChallengeType.JoinEvents,
+      name_EN: 'Join Events',
+      name_BG: 'Присъедини се към събития',
+      description_EN: 'Take part in events to complete this challenge.',
+      description_BG: 'Участвай в събития, за да изпълниш предизвикателството.',
+    },
+    {
+      id: 4,
+      rewardPoints: ChallengeRewardPoint.Twenty,
+      maxAttempts: 4,
+      currentAttempts: 3,
+      status: ChallengeStatus.InProgress,
+      type: UniversalChallengeType.UseRewards,
+      name_EN: 'Use Rewards',
+      name_BG: 'Използвай награди',
+      description_EN: 'Redeem your rewards to progress.',
+      description_BG: 'Използвай своите награди, за да напреднеш.',
+    },
+    {
+      id: 5,
+      rewardPoints: ChallengeRewardPoint.Five,
+      maxAttempts: 1,
+      currentAttempts: 1,
+      status: ChallengeStatus.Completed,
+      type: UniversalChallengeType.RewardsGranted,
+      name_EN: 'Rewards Granted',
+      name_BG: 'Наградите са получени',
+      description_EN: 'You have received rewards for your achievements.',
+      description_BG: 'Получил си награди за своите постижения.',
+    },
+    {
+      id: 6,
+      rewardPoints: ChallengeRewardPoint.Ten,
+      maxAttempts: 3,
+      currentAttempts: 2,
+      status: ChallengeStatus.InProgress,
+      type: UniversalChallengeType.BuyItems,
+      minValue: 20,
+      name_EN: 'Buy Items',
+      name_BG: 'Купи предмети',
+      description_EN: 'Purchase items worth at least X value.',
+      description_BG: 'Купи предмети на стойност поне X.',
+    },
+    {
+      id: 7,
+      rewardPoints: ChallengeRewardPoint.Fifteen,
+      maxAttempts: 2,
+      currentAttempts: 1,
+      status: ChallengeStatus.InProgress,
+      type: UniversalChallengeType.PlayFavoriteGame,
+      gameImageId: 35,
+      gameName: 'Catan',
+      name_EN: 'Play Favorite Game',
+      name_BG: 'Играй любимата игра',
+      description_EN: 'Play your favorite game to progress.',
+      description_BG: 'Играй любимата си игра, за да напреднеш.',
+    },
+    {
+      id: 8,
+      rewardPoints: ChallengeRewardPoint.Twenty,
+      maxAttempts: 1,
+      currentAttempts: 0,
+      status: ChallengeStatus.InProgress,
+      type: UniversalChallengeType.Top3ChallengeLeaderboard,
+      name_EN: 'Top 3 in Challenge Leaderboard',
+      name_BG: 'Топ 3 в класацията за предизвикателства',
+      description_EN: 'Reach the top 3 in the overall challenge leaderboard.',
+      description_BG: 'Влез в топ 3 на общата класация за предизвикателства.',
+    },
+    {
+      id: 9,
+      rewardPoints: ChallengeRewardPoint.Twenty,
+      maxAttempts: 1,
+      currentAttempts: 0,
+      status: ChallengeStatus.InProgress,
+      type: UniversalChallengeType.Top3StreakLeaderboard,
+      name_EN: 'Top 3 in Streak Leaderboard',
+      name_BG: 'Топ 3 в класацията за поредици',
+      description_EN: 'Reach the top 3 in the streak leaderboard.',
+      description_BG: 'Влез в топ 3 на класацията за поредици.',
+    },
+  ];
+  public animateChallengeProgress = false;
+  shakeStates: boolean[] = [];
+  private intervals: any[] = [];
+
   constructor(
     private readonly rewardsService: RewardsService,
     private readonly challengeService: ChallengesService,
@@ -98,57 +230,81 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
     private readonly dialog: MatDialog,
     private readonly loadingContext: LoadingInterceptorContextService,
     private readonly loadingService: LoadingService,
-    private readonly translateService: TranslateService
+    private readonly translateService: TranslateService,
+    public readonly languageService: LanguageService
   ) {}
 
   public ngOnDestroy(): void {
     if (this.rewardsListener) this.rewardsListener();
     if (this.pointsListener) this.pointsListener();
+
+    this.intervals.forEach((i) => clearInterval(i));
+  }
+
+  public getCurrentLanguage(): SupportLanguages {
+    return this.languageService.getCurrentLanguage();
+  }
+
+  public toggleMenu(menu: ControlsMenuComponent, description: string): void {
+    menu.infoDescription = description;
+    menu.toggleMenu();
+  }
+
+  public tabChange(type: ChallengeType): void {
+    this.currentActiveTab = type;
+    this.animateChallengeProgress = false;
+    this.runChallengeAnimation();
+  }
+
+  public challengeProgress(
+    challenge: IUserUniversalChallenge | IUserChallenge
+  ): number {
+    if (!challenge || !challenge.maxAttempts || challenge.maxAttempts === 0)
+      return 0;
+    return (challenge.currentAttempts / challenge.maxAttempts) * 100;
+  }
+
+  public customPeriodChallengeProgress(
+    challenge: IUserCustomPeriodChallenge
+  ): number {
+    if (
+      !challenge ||
+      !challenge.challengeAttempts ||
+      challenge.challengeAttempts === 0
+    )
+      return 0;
+    return (challenge.currentAttempts / challenge.challengeAttempts) * 100;
   }
 
   public openImagePreview(imageUrl: string) {
     this.dialog.open<ImagePreviewDialog, ImagePreviewData>(ImagePreviewDialog, {
       data: {
         imageUrl,
-        title: 'Image',
+        title: this.translateService.instant('image'),
       },
       width: '17rem',
     });
   }
 
-  public getLeftOffset(requiredPoints: number, index: number): number {
-    const rewards = this.tenantSettings?.isCustomPeriodOn
-      ? this.userCustomPeriodRewardsList
-      : this.userChallengePeriodRewardList;
-    const maxPoints = rewards[rewards.length - 1].rewardRequiredPoints;
-
-    let offset = (requiredPoints / maxPoints) * 100;
-
-    // Check if previous reward is close
-    if (index > 0) {
-      const prevPoints = rewards[index - 1].rewardRequiredPoints;
-      const prevOffset = (prevPoints / maxPoints) * 100;
-
-      const minDistance = 10; // Minimum % spacing between circles
-
-      if (offset - prevOffset < minDistance) {
-        offset = prevOffset + minDistance;
-      }
-    }
-
-    return offset - 5;
-  }
-
   public ngOnInit(): void {
+    this.shakeStates = new Array(this.userUniversalChallengeList.length).fill(
+      false
+    );
+    this.initUserUniversalChallengesAnimation();
     this.loadingContext.enableManualMode();
     this.loadingService.loadingOn();
     combineLatest([
       this.challengeService.getUserChallengePeriodPerformance(),
       this.tenantSettingsService.get(),
+      this.challengeService.getUserUniversalChallengeList(),
     ]).subscribe({
-      next: ([periodPerformance, tenantSettings]) => {
+      next: ([periodPerformance, tenantSettings, userUniversalChallenges]) => {
         this.periodPerformance = periodPerformance;
         this.tenantSettings = tenantSettings;
+        //TODO: When BE userUniversalChallenges ARE READY
+        // this.userUniversalChallengeList = userUniversalChallenges ?? [];
+        // this.initUserUniversalChallengesAnimation();
+
         if (this.periodPerformance && !this.tenantSettings.isCustomPeriodOn) {
           combineLatest([
             this.challengeService.getUserChallengeList(),
@@ -163,7 +319,7 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
               // Required to detect the changes from the api. Otherwise dom is empty
               // Force the DOM Update Before Querying
               this.cd.detectChanges();
-              this.updateChallengesProgressBar();
+              this.runChallengeAnimation();
               this.updateRewardProgressBar();
 
               this.initProgressContainerWidth();
@@ -216,7 +372,7 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
                 // Required to detect the changes from the api. Otherwise dom is empty
                 // Force the DOM Update Before Querying
                 this.cd.detectChanges();
-                this.updateChallengesProgressBar();
+                this.runChallengeAnimation();
                 this.updateRewardProgressBar();
 
                 this.initProgressContainerWidth();
@@ -260,6 +416,42 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
         }
       },
     });
+  }
+
+  public openUniversalChallengeBuyItemsQrCode(): void {
+    // TODO: Change QrCodeDialog
+    this.dialog.open(GameQrCodeDialog, {
+      width: '17rem',
+      data: {
+        Id: 14,
+        Name:
+          "TEST QR CODE",
+        Type: QrCodeType.Game,
+      },
+    });
+  }
+
+  public getLeftOffset(requiredPoints: number, index: number): number {
+    const rewards = this.tenantSettings?.isCustomPeriodOn
+      ? this.userCustomPeriodRewardsList
+      : this.userChallengePeriodRewardList;
+    const maxPoints = rewards[rewards.length - 1].rewardRequiredPoints;
+
+    let offset = (requiredPoints / maxPoints) * 100;
+
+    // Check if previous reward is close
+    if (index > 0) {
+      const prevPoints = rewards[index - 1].rewardRequiredPoints;
+      const prevOffset = (prevPoints / maxPoints) * 100;
+
+      const minDistance = 10; // Minimum % spacing between circles
+
+      if (offset - prevOffset < minDistance) {
+        offset = prevOffset + minDistance;
+      }
+    }
+
+    return offset - 5;
   }
 
   private resetRewardsInactivityTimer(): void {
@@ -316,60 +508,6 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
     });
   }
 
-  private updateChallengesProgressBar(): void {
-    if (this.tenantSettings?.isCustomPeriodOn) {
-      this.userCustomPeriodChallengesList.forEach((challenge, index) => {
-        const progressPercentage =
-          (challenge.currentAttempts / challenge.challengeAttempts) * 100;
-
-        const barValue = document.getElementById(
-          `progress-bar-${index}`
-        ) as HTMLElement;
-
-        const style = document.createElement('style');
-        style.textContent = `
-          @keyframes custom-load-${index} {
-            0% {
-              width: 0%;
-            }
-            100% {
-              width: ${progressPercentage}%;
-            }
-          }
-        `;
-
-        document.head.appendChild(style);
-
-        barValue.style.animation = `custom-load-${index} 3s normal forwards`;
-      });
-    } else {
-      this.userChallengeList.forEach((challenge, index) => {
-        const progressPercentage =
-          (challenge.currentAttempts / challenge.maxAttempts) * 100;
-
-        const barValue = document.getElementById(
-          `progress-bar-${index}`
-        ) as HTMLElement;
-
-        const style = document.createElement('style');
-        style.textContent = `
-          @keyframes custom-load-${index} {
-            0% {
-              width: 0%;
-            }
-            100% {
-              width: ${progressPercentage}%;
-            }
-          }
-        `;
-
-        document.head.appendChild(style);
-
-        barValue.style.animation = `custom-load-${index} 3s normal forwards`;
-      });
-    }
-  }
-
   private updateRewardProgressBar() {
     const progress: HTMLElement | null = document.getElementById('progress');
     const stepCircles: NodeListOf<Element> =
@@ -418,5 +556,32 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
 
       this.progressContainer.nativeElement.style.width = `${circleWidth}rem`;
     }
+  }
+
+  private runChallengeAnimation(): void {
+    // Reset first
+    this.animateChallengeProgress = false;
+
+    // Trigger animation after DOM rendered
+    setTimeout(() => {
+      this.animateChallengeProgress = true;
+    }, 0);
+  }
+
+  private initUserUniversalChallengesAnimation(): void {
+    this.userUniversalChallengeList
+      .forEach((_, i) => {
+        const interval = setInterval(() => {
+          // Random chance to shake
+          if (Math.random() < 0.3) {
+            // 30% chance every interval
+            this.shakeStates[i] = true;
+
+            // Remove shake after animation duration
+            setTimeout(() => (this.shakeStates[i] = false), 1500);
+          }
+        }, 3000 + Math.random() * 10000); // random 2–5 seconds
+        this.intervals.push(interval);
+      });
   }
 }

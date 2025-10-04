@@ -11,6 +11,7 @@ import { IUserChallengePeriodPerformance } from '../models/user-challenge-period
 import { ICustomPeriod } from '../models/custom-period.model';
 import { IUserCustomPeriod } from '../models/user-custom-period.model';
 import { IUniversalChallengeListResult } from '../models/universal-challenge.model';
+import { IUserUniversalChallenge } from '../models/user-universal-challenge.model';
 
 @Injectable({
   providedIn: 'root',
@@ -44,6 +45,14 @@ export class ChallengesService {
   public getUserChallengeList(): Observable<IUserChallenge[]> {
     return this.api.get<IUserChallenge[]>(
       `/${PATH.CHALLENGES.CORE}/${PATH.CHALLENGES.GET_USER_CHALLENGES}`
+    );
+  }
+
+  public getUserUniversalChallengeList(): Observable<
+    IUserUniversalChallenge[]
+  > {
+    return this.api.get<IUserUniversalChallenge[]>(
+      `/${PATH.CHALLENGES.CORE}/${PATH.CHALLENGES.GET_USER_UNIVERSAL_CHALLENGES}`
     );
   }
 

@@ -18,9 +18,343 @@
     userChallengePeriodRewardList
   "
 >
-  <div class="wrapper_stats">
+  <ng-container
+    *ngTemplateOutlet="
+      stats;
+      context: { $implicit: userChallengePeriodRewardList }
+    "
+  />
+
+  <app-challenge-type-toggle
+    (tabChange)="tabChange($event)"
+  ></app-challenge-type-toggle>
+
+  <ng-container *ngIf="currentActiveTab === ChallengeType.Game">
+    <ng-container *ngTemplateOutlet="autoChallengesTemplate" />
+  </ng-container>
+  <ng-container *ngIf="currentActiveTab === ChallengeType.Universal">
+    <ng-container *ngTemplateOutlet="universalChallengesTemplate" />
+  </ng-container>
+</ng-container>
+
+<!-- Custom Period -->
+<ng-container
+  *ngIf="
+    periodPerformance &&
+    tenantSettings?.isCustomPeriodOn &&
+    userCustomPeriodChallengesList
+  "
+>
+  <ng-container
+    *ngTemplateOutlet="
+      stats;
+      context: { $implicit: userCustomPeriodRewardsList }
+    "
+  />
+
+  <app-challenge-type-toggle
+    (tabChange)="tabChange($event)"
+  ></app-challenge-type-toggle>
+
+  <ng-container *ngIf="currentActiveTab === ChallengeType.Game">
+    <ng-container *ngTemplateOutlet="customPeriodChallenges" />
+  </ng-container>
+  <ng-container *ngIf="currentActiveTab === ChallengeType.Universal">
+    <ng-container *ngTemplateOutlet="universalChallengesTemplate" />
+  </ng-container>
+</ng-container>
+
+<ng-template #universalChallengesTemplate>
+  <div class="wrapper_universal_challenges">
+    <div
+      class="wrapper_universal_challenges__item"
+      *ngFor="let challenge of userUniversalChallengeList; let i = index"
+      [ngClass]="{
+        'in-progress': challenge.status === ChallengeStatus.InProgress,
+        completed: challenge.status === ChallengeStatus.Completed,
+        shake: shakeStates[i] && challenge.status === ChallengeStatus.InProgress
+      }"
+    >
+      <!-- Game Image & Info (only if tied to a game) -->
+      <div
+        class="challenge_container"
+        (click)="toggleMenu(controls, challenge.description_EN)"
+      >
+        <ng-container *ngIf="challenge.gameImageId">
+          <div
+            class="image clickable"
+            (click)="openImagePreview(imageUrl)"
+            *ngIf="
+              ImageEntityType.Games
+                | entityImage : challenge.gameImageId
+                | async as imageUrl
+            "
+          >
+            <img [src]="imageUrl" alt="" />
+          </div>
+        </ng-container>
+        <ng-container *ngIf="!challenge.gameImageId">
+          <div class="image clickable">
+            <ng-container [ngSwitch]="challenge.type">
+              <img
+                *ngSwitchCase="UniversalChallengeType.PlayGames"
+                class="image_type"
+                src="/shared/assets/images/universal-challenges/game-controller.png"
+                alt="Game"
+              />
+              <img
+                *ngSwitchCase="UniversalChallengeType.JoinMeepleRooms"
+                class="image_type"
+                src="/shared/assets/images/universal-challenges/join-meeple.png"
+                alt="Event"
+              />
+              <img
+                *ngSwitchCase="UniversalChallengeType.JoinEvents"
+                class="image_type"
+                src="/shared/assets/images/universal-challenges/join-events.png"
+                alt="Event"
+              />
+              <img
+                *ngSwitchCase="UniversalChallengeType.UseRewards"
+                class="image_type"
+                src="/shared/assets/images/universal-challenges/use-reward.png"
+                alt="Event"
+              />
+              <img
+                *ngSwitchCase="UniversalChallengeType.RewardsGranted"
+                class="image_type"
+                src="/shared/assets/images/universal-challenges/reward-granted.png"
+                alt="Event"
+              />
+              <img
+                *ngSwitchCase="UniversalChallengeType.BuyItems"
+                class="image_type"
+                src="/shared/assets/images/universal-challenges/buy.png"
+                alt="Event"
+              />
+              <img
+                *ngSwitchCase="UniversalChallengeType.Top3ChallengeLeaderboard"
+                class="image_type"
+                src="/shared/assets/images/universal-challenges/top-3-challenge-leaderboard.png"
+                alt="Event"
+              />
+              <img
+                *ngSwitchCase="UniversalChallengeType.Top3StreakLeaderboard"
+                class="image_type"
+                src="/shared/assets/images/universal-challenges/top-3-streak-leaderboard.png"
+                alt="Event"
+              />
+              <img
+                *ngSwitchDefault
+                class="image_type"
+                src="/shared/assets/images/universal-challenges/default.png"
+                alt="Default"
+              />
+            </ng-container>
+          </div>
+        </ng-container>
+        <!-- <ng-container *ngIf="!challenge.gameImageId">
+          <div class="info-container">
+            <svg
+              (click)="toggleMenu(controls, challenge.description_EN)"
+              class="info"
+              viewBox="0 -960 960 960"
+            >
+              <path
+                d="M448-284h66v-236h-66v236Zm31.82-308.92q14.64 0 24.72-9.9 10.08-9.91 10.08-24.54 0-14.64-9.91-24.72-9.9-10.07-24.53-10.07-14.64 0-24.72 9.9-10.08 9.9-10.08 24.54 0 14.63 9.91 24.71 9.9 10.08 24.53 10.08ZM480.13-88q-81.31 0-152.89-30.86-71.57-30.86-124.52-83.76-52.95-52.9-83.83-124.42Q88-398.55 88-479.87q0-81.56 30.92-153.37 30.92-71.8 83.92-124.91 53-53.12 124.42-83.48Q398.67-872 479.87-872q81.55 0 153.35 30.34 71.79 30.34 124.92 83.42 53.13 53.08 83.49 124.84Q872-561.64 872-480.05q0 81.59-30.34 152.83-30.34 71.23-83.41 124.28-53.07 53.05-124.81 84Q561.7-88 480.13-88Zm-.13-66q136.51 0 231.26-94.74Q806-343.49 806-480t-94.74-231.26Q616.51-806 480-806t-231.26 94.74Q154-616.51 154-480t94.74 231.26Q343.49-154 480-154Zm0-326Z"
+              />
+            </svg>
+          </div>
+        </ng-container> -->
+        <div class="info">
+          <span class="header">
+            {{ challenge.name_EN }}
+          </span>
+          <div class="bar-2">
+            <span class="bar-2-span"
+              >{{ challenge.currentAttempts }} /
+              {{ challenge.maxAttempts }}</span
+            >
+            <div
+              class="bar-2-value"
+              [class.animate-width]="animateChallengeProgress"
+              [style.width.%]="
+                animateChallengeProgress ? challengeProgress(challenge) : 0
+              "
+              [style.transition]="'width 1s ease-in-out'"
+            ></div>
+            <span class="points">{{ challenge.rewardPoints }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Status Image -->
+      <div class="status-image">
+        <ng-container [ngSwitch]="challenge.type">
+          <ng-container *ngSwitchCase="UniversalChallengeType.BuyItems">
+            <img
+              (click)="openUniversalChallengeBuyItemsQrCode()"
+              *ngIf="challenge.status !== ChallengeStatus.Completed"
+              class="qr_code_for_buy_items"
+              src="/shared/assets/images/qr-code.png"
+              alt="Event"
+            />
+            <img
+              class="img"
+              *ngIf="challenge.status === ChallengeStatus.Completed"
+              src="/shared/assets/images/challenge-complete.png"
+              alt="status"
+            />
+          </ng-container>
+          <img
+            *ngSwitchDefault
+            class="img"
+            [src]="
+              challenge.status === ChallengeStatus.InProgress
+                ? '/shared/assets/images/challenge-inprogress.png'
+                : challenge.status === ChallengeStatus.Completed
+                ? '/shared/assets/images/challenge-complete.png'
+                : '/shared/assets/images/locked.png'
+            "
+            alt="status"
+          />
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #customPeriodChallenges>
+  <div class="wrapper_challenges">
+    <div
+      class="wrapper_challenges__item"
+      *ngFor="let challenge of userCustomPeriodChallengesList; let i = index"
+      [ngClass]="{
+        'in-progress': !challenge.isCompleted,
+        completed: challenge.isCompleted,
+      }"
+    >
+      <div class="image_info_container">
+        <div
+          class="image clickable"
+          (click)="openImagePreview(imageUrl)"
+          *ngIf="
+            ImageEntityType.Games
+              | entityImage : challenge.gameImageId
+              | async as imageUrl
+          "
+        >
+          <img [src]="imageUrl" alt="" />
+        </div>
+        <div class="info">
+          <span class="header">
+            {{ "challenge_management.play" | translate }}
+            <strong>{{ challenge.gameName }}</strong>
+            {{ challenge.challengeAttempts }}
+            {{ "challenge_management.times" | translate }}
+          </span>
+          <div class="bar-2">
+            <span class="bar-2-span"
+              >{{ challenge.currentAttempts }} /
+              {{ challenge.challengeAttempts }}</span
+            >
+            <div
+              class="bar-2-value"
+              [class.animate-width]="animateChallengeProgress"
+              [style.width.%]="
+                animateChallengeProgress
+                  ? customPeriodChallengeProgress(challenge)
+                  : 0
+              "
+              [style.transition]="'width 1s ease-in-out'"
+            ></div>
+            <span class="points">{{ challenge.rewardPoints }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="status-image">
+        <img
+          [src]="
+            !challenge.isCompleted
+              ? '/shared/assets/images/challenge-inprogress.png'
+              : challenge.isCompleted
+              ? '/shared/assets/images/challenge-complete.png'
+              : '/shared/assets/images/locked.png'
+          "
+          alt=""
+        />
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #autoChallengesTemplate>
+  <div class="wrapper_challenges">
+    <div
+      class="wrapper_challenges__item"
+      *ngFor="let challenge of userChallengeList; let i = index"
+      [ngClass]="{
+        'in-progress': challenge.status === ChallengeStatus.InProgress,
+        completed: challenge.status === ChallengeStatus.Completed,
+        locked: challenge.status === ChallengeStatus.Locked
+      }"
+    >
+      <div class="image_info_container">
+        <div
+          class="image clickable"
+          (click)="openImagePreview(imageUrl)"
+          *ngIf="
+            ImageEntityType.Games
+              | entityImage : challenge.gameImageId
+              | async as imageUrl
+          "
+        >
+          <img [src]="imageUrl" alt="" />
+        </div>
+        <div class="info">
+          <span class="header">
+            {{ "challenge_management.play" | translate }}
+            <strong>{{ challenge.gameName }}</strong>
+            {{ challenge.maxAttempts }}
+            {{ "challenge_management.times" | translate }}
+          </span>
+          <div class="bar-2">
+            <span class="bar-2-span"
+              >{{ challenge.currentAttempts }} /
+              {{ challenge.maxAttempts }}</span
+            >
+            <div
+              class="bar-2-value"
+              [class.animate-width]="animateChallengeProgress"
+              [style.width.%]="
+                animateChallengeProgress ? challengeProgress(challenge) : 0
+              "
+              [style.transition]="'width 1s ease-in-out'"
+            ></div>
+            <span class="points">{{ challenge.rewardPoints }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="status-image">
+        <img
+          [src]="
+            challenge.status === ChallengeStatus.InProgress
+              ? '/shared/assets/images/challenge-inprogress.png'
+              : challenge.status === ChallengeStatus.Completed
+              ? '/shared/assets/images/challenge-complete.png'
+              : '/shared/assets/images/locked.png'
+          "
+          alt=""
+        />
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #stats let-userRewardList>
+  <div class="wrapper_stats" *ngIf="this.periodPerformance">
     <div class="wrapper_score">
-      <p class="score" *ngIf="this.periodPerformance">
+      <p class="score">
         {{
           "challenge_management.score"
             | translate : { points: this.periodPerformance.points }
@@ -57,198 +391,7 @@
       </svg>
       <div #rewardsScroller class="scroller">
         <div class="wrapper_stats__items">
-          <div
-            class="item"
-            *ngFor="let reward of userChallengePeriodRewardList"
-            [ngClass]="{
-              'completed-img': reward.isCompleted
-            }"
-          >
-            <img
-              *ngIf="
-                ImageEntityType.Rewards
-                  | entityImage : reward.rewardImageId
-                  | async as imageUrl
-              "
-              (click)="openImagePreview(imageUrl)"
-              [src]="imageUrl"
-              alt="Reward"
-              class="clickable"
-            />
-          </div>
-        </div>
-      </div>
-      <!-- play_arrow icon -->
-      <svg
-        class="arrow"
-        (click)="rewardsScrollRight()"
-        [ngStyle]="{
-          opacity: rewardScrollArrowsOpacity,
-          minWidth: rewardScrollArrowsWidth + 'rem',
-          width: rewardScrollArrowsWidth + 'rem',
-        }"
-        viewBox="0 -960 960 960"
-      >
-        <path
-          d="M332-234.31v-491.38L720.15-480 332-234.31ZM398-480Zm0 124 197.54-124L398-604v248Z"
-        />
-      </svg>
-    </div>
-
-    <div class="wrapper_stats__bar">
-      <div class="wrapper_progress_scroller">
-        <svg
-          class="arrow left"
-          (click)="pointsScrollLeft()"
-          [ngStyle]="{
-            opacity: pointsScrollArrowsOpacity,
-            minWidth: pointsScrollArrowsWidth + 'rem',
-            width: pointsScrollArrowsWidth + 'rem',
-          }"
-          viewBox="0 -960 960 960"
-        >
-          <path
-            d="M332-234.31v-491.38L720.15-480 332-234.31ZM398-480Zm0 124 197.54-124L398-604v248Z"
-          />
-        </svg>
-        <div #pointsScroller class="scroller">
-          <div #progressContainer class="progress-container">
-            <div class="progress" id="progress"></div>
-            <div
-              #circleContainer
-              class="circle_container"
-              *ngFor="
-                let reward of userChallengePeriodRewardList;
-                let i = index
-              "
-              [ngStyle]="{
-                left: getLeftOffset(reward.rewardRequiredPoints, i) + '%'
-              }"
-            >
-              <div class="circle" [ngClass]="{ activated: reward.isCompleted }">
-                {{ reward.rewardRequiredPoints }}
-              </div>
-            </div>
-          </div>
-        </div>
-        <svg
-          class="arrow"
-          (click)="pointsScrollRight()"
-          [ngStyle]="{
-            opacity: pointsScrollArrowsOpacity,
-            minWidth: pointsScrollArrowsWidth + 'rem',
-            width: pointsScrollArrowsWidth + 'rem',
-          }"
-          viewBox="0 -960 960 960"
-        >
-          <path
-            d="M332-234.31v-491.38L720.15-480 332-234.31ZM398-480Zm0 124 197.54-124L398-604v248Z"
-          />
-        </svg>
-      </div>
-    </div>
-  </div>
-
-  <div class="wrapper_challenges">
-    <div
-      class="wrapper_challenges__item"
-      *ngFor="let challenge of userChallengeList; let i = index"
-      [ngClass]="{
-        'in-progress': challenge.status === ChallengeStatus.InProgress,
-        completed: challenge.status === ChallengeStatus.Completed,
-        locked: challenge.status === ChallengeStatus.Locked
-      }"
-    >
-      <div class="image_info_container">
-        <div
-          class="image clickable"
-          (click)="openImagePreview(imageUrl)"
-          *ngIf="
-            ImageEntityType.Games
-              | entityImage : challenge.gameImageId
-              | async as imageUrl
-          "
-        >
-          <img [src]="imageUrl" alt="" />
-        </div>
-        <div class="info">
-          <span class="header">
-            {{ "challenge_management.play" | translate }}
-            <strong>{{ challenge.gameName }}</strong>
-            {{ challenge.maxAttempts }}
-            {{ "challenge_management.times" | translate }}
-          </span>
-          <div class="bar-2">
-            <span class="bar-2-span"
-              >{{ challenge.currentAttempts }} /
-              {{ challenge.maxAttempts }}</span
-            >
-            <div class="bar-2-value" id="progress-bar-{{ i }}"></div>
-            <span class="points">{{ challenge.rewardPoints }}</span>
-          </div>
-        </div>
-      </div>
-      <div class="status-image">
-        <img
-          [src]="
-            challenge.status === ChallengeStatus.InProgress
-              ? '/shared/assets/images/challenge-inprogress.png'
-              : challenge.status === ChallengeStatus.Completed
-              ? '/shared/assets/images/challenge-complete.png'
-              : '/shared/assets/images/locked.png'
-          "
-          alt=""
-        />
-      </div>
-    </div>
-  </div>
-</ng-container>
-
-<!-- Custom Period -->
-<ng-container
-  *ngIf="
-    periodPerformance &&
-    tenantSettings?.isCustomPeriodOn &&
-    userCustomPeriodChallengesList
-  "
->
-  <div class="wrapper_stats">
-    <div class="wrapper_score">
-      <p class="score" *ngIf="this.periodPerformance">
-        Score: {{ this.periodPerformance.points }}
-      </p>
-      <p class="dates">
-        <span>{{ this.periodPerformance.startDate | date : DATE_FORMAT }}</span>
-        <!-- arrow_range icon -->
-        <svg class="icon" viewBox="0 -960 960 960">
-          <path
-            d="M280-280 80-480l200-200 56 56-103 104h494L624-624l56-56 200 200-200 200-56-56 103-104H233l103 104-56 56Z"
-          />
-        </svg>
-        <span>{{
-          this.periodPerformance.endDate | date : DATE_FORMAT : "UTC"
-        }}</span>
-      </p>
-    </div>
-    <div class="wrapper_scroller">
-      <!-- play_arrow icon -->
-      <svg
-        class="arrow left"
-        (click)="rewardsScrollLeft()"
-        [ngStyle]="{
-          opacity: rewardScrollArrowsOpacity,
-          minWidth: rewardScrollArrowsWidth + 'rem',
-          width: rewardScrollArrowsWidth + 'rem',
-        }"
-        viewBox="0 -960 960 960"
-      >
-        <path
-          d="M332-234.31v-491.38L720.15-480 332-234.31ZM398-480Zm0 124 197.54-124L398-604v248Z"
-        />
-      </svg>
-      <div #rewardsScroller class="scroller">
-        <div class="wrapper_stats__items">
-          <ng-container *ngFor="let reward of userCustomPeriodRewardsList">
+          <ng-container *ngFor="let reward of userRewardList">
             <div
               class="item clickable"
               (click)="openImagePreview(imageUrl)"
@@ -305,7 +448,7 @@
             <div
               #circleContainer
               class="circle_container"
-              *ngFor="let reward of userCustomPeriodRewardsList; let i = index"
+              *ngFor="let reward of userRewardList; let i = index"
               [ngStyle]="{
                 left: getLeftOffset(reward.rewardRequiredPoints, i) + '%'
               }"
@@ -333,59 +476,6 @@
       </div>
     </div>
   </div>
+</ng-template>
 
-  <app-challenge-type-toggle></app-challenge-type-toggle>
-
-  <div class="wrapper_challenges">
-    <div
-      class="wrapper_challenges__item"
-      *ngFor="let challenge of userCustomPeriodChallengesList; let i = index"
-      [ngClass]="{
-        'in-progress': !challenge.isCompleted,
-        completed: challenge.isCompleted,
-      }"
-    >
-      <div class="image_info_container">
-        <div
-          class="image clickable"
-          (click)="openImagePreview(imageUrl)"
-          *ngIf="
-            ImageEntityType.Games
-              | entityImage : challenge.gameImageId
-              | async as imageUrl
-          "
-        >
-          <img [src]="imageUrl" alt="" />
-        </div>
-        <div class="info">
-          <span class="header">
-            {{ "challenge_management.play" | translate }}
-            <strong>{{ challenge.gameName }}</strong>
-            {{ challenge.challengeAttempts }}
-            {{ "challenge_management.times" | translate }}
-          </span>
-          <div class="bar-2">
-            <span class="bar-2-span"
-              >{{ challenge.currentAttempts }} /
-              {{ challenge.challengeAttempts }}</span
-            >
-            <div class="bar-2-value" id="progress-bar-{{ i }}"></div>
-            <span class="points">{{ challenge.rewardPoints }}</span>
-          </div>
-        </div>
-      </div>
-      <div class="status-image">
-        <img
-          [src]="
-            !challenge.isCompleted
-              ? '/shared/assets/images/challenge-inprogress.png'
-              : challenge.isCompleted
-              ? '/shared/assets/images/challenge-complete.png'
-              : '/shared/assets/images/locked.png'
-          "
-          alt=""
-        />
-      </div>
-    </div>
-  </div>
-</ng-container>
+<app-controls-menu #controls [isInfo]="true">></app-controls-menu>

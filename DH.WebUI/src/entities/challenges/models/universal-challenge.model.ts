@@ -12,6 +12,4 @@ export interface IUniversalChallengeListResult {
 
   attempts?: number;
   minValue?: number;
-
-  showDescription?: boolean;
 }

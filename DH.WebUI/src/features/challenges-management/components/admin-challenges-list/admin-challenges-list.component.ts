@@ -101,10 +101,6 @@ export class AdminChallengesListComponent extends Form {
       this.challengesService.getUniversalList().subscribe({
         next: (result) => {
           this.universalChallengeList = result ?? [];
-          this.universalChallengeList.map((ch) => ({
-            ...ch,
-            showDescription: false,
-          }));
         },
       });
     }

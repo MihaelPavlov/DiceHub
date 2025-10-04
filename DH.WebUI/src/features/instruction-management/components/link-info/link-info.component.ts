@@ -78,7 +78,7 @@ export class LinkInfoComponent implements AfterViewInit {
     this.dialog.open<ImagePreviewDialog, ImagePreviewData>(ImagePreviewDialog, {
       data: {
         imageUrl,
-        title: 'Image',
+        title: this.translateService.instant("image"),
         removeHeight: true,
       },
       width: '17rem',
