@@ -173,4 +173,116 @@
       </div>
     </div>
   </form>
+
+  <div class="buttons">
+    <div class="btn-container" (click)="addUniversalChallenge()">
+      <span>{{ "custom_period.add_universal_challenge" | translate }}</span>
+      <!-- add icon -->
+      <svg class="wrapper_add" viewBox="0 -960 960 960">
+        <path d="M447-448H208v-66h239v-239h66v239h239v66H513v239h-66v-239Z" />
+      </svg>
+    </div>
+  </div>
+
+  <form [formGroup]="form">
+    <div formArrayName="universalChallenges">
+      <div
+        class="universal-challenge-container"
+        [formGroup]="getFormGroup(universalChallenge)"
+        *ngFor="
+          let universalChallenge of universalChallengeArray.controls;
+          let i = index
+        "
+      >
+        <input type="hidden" formControlName="id" />
+
+        <div class="input-field">
+          <label for="universalChallenge" class="required">{{
+            "custom_period.labels.select_universal_challenge" | translate
+          }}</label>
+
+          <ng-select
+            [items]="universalChallengesDropdownList"
+            [bindLabel]="
+              getCurrentLanguage === SupportLanguages.EN ? 'name_EN' : 'name_BG'
+            "
+            bindValue="id"
+            [placeholder]="
+              'custom_period.placeholders.select_universal_challenge'
+                | translate
+            "
+            [searchable]="true"
+            formControlName="selectedUniversalChallenge"
+            class="app-select-long"
+          >
+            <ng-option
+              *ngFor="let item of universalChallengesDropdownList"
+              [value]="item.id"
+              [disabled]="item.disabled"
+            >
+              {{
+                getCurrentLanguage === SupportLanguages.EN
+                  ? item.name_EN
+                  : item.name_BG
+              }}
+            </ng-option>
+          </ng-select>
+        </div>
+
+        <div class="input-group universal-center">
+          <div class="input-field">
+            <label for="attempts" class="required">{{
+              "custom_period.labels.attempts" | translate
+            }}</label>
+            <input
+              name="attempts"
+              [placeholder]="'custom_period.placeholders.attempts' | translate"
+              type="number"
+              [id]="i"
+              formControlName="attempts"
+            />
+          </div>
+
+          <div class="input-field">
+            <label for="points" class="required">{{
+              "custom_period.labels.points" | translate
+            }}</label>
+            <input
+              name="points"
+              [placeholder]="'custom_period.placeholders.points' | translate"
+              type="number"
+              [id]="i"
+              formControlName="points"
+            />
+          </div>
+          <div
+            class="input-field input-with-symbol"
+            *ngIf="shouldShowMinValue(universalChallenge)"
+          >
+            <label for="minValue" class="required">{{
+              "custom_period.labels.min_value" | translate
+            }}</label>
+            <input
+              name="minValue"
+              [placeholder]="'custom_period.placeholders.min_value' | translate"
+              type="number"
+              [id]="i"
+              formControlName="minValue"
+            />
+            <span class="symbol">$</span>
+          </div>
+          <!-- close icon -->
+          <svg
+            class="input-remove"
+            viewBox="0 -960 960 960"
+            (click)="removeUniversalChallenge(i)"
+          >
+            <path
+              d="M252-203.69 205.69-252l227-228-227-230L252-758.31l229 230 227-230L754.31-710l-227 230 227 228L708-203.69l-227-230-229 230Z"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </form>
 </div>

@@ -21,7 +21,7 @@
   margin-bottom: 0.5rem;
   border-radius: 4px;
   font-size: 0.95rem;
-   box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
     rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
     rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
@@ -31,7 +31,7 @@
   flex-direction: column;
   width: 85%;
   margin: 0 auto;
-  margin-bottom: 10rem;
+  margin-bottom: 15rem;
 
   .btn-init {
     display: flex;
@@ -71,16 +71,7 @@
     align-items: center;
   }
 
-  .input-group {
-    .input-field input {
-      padding: 0.6rem;
-    }
-
-    .input-field label {
-      font-size: 0.7rem;
-      color: palette.$main-font-gray-color;
-    }
-
+  .universal-challenge-container {
     .input-remove {
       fill: palette.$main-font-color;
       width: 2rem;
@@ -89,4 +80,47 @@
       align-items: center;
     }
   }
+  .universal-center {
+    align-items: center;
+  }
+
+  .input-field input {
+    padding: 0.6rem;
+  }
+
+  .input-field label {
+    font-size: 0.7rem;
+    color: palette.$main-font-gray-color;
+  }
+
+  .input-remove {
+    fill: palette.$main-font-color;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+  }
+}
+
+::ng-deep .ng-option-disabled {
+  color: #888 !important;         // dim text
+  background-color: #2b2e35 !important; // subtle background if you use dark mode
+  opacity: 0.6;
+  cursor: not-allowed;
+  font-style: italic;
+}
+
+::ng-deep .ng-option-disabled:hover {
+  background-color: #2b2e35 !important; // prevent hover color
+  color: #999 !important;
+  transform: none !important;
+}
+
+::ng-deep .ng-option {
+  transition: all 0.2s ease-in-out;
+}
+
+::ng-deep .ng-option:not(.ng-option-disabled):hover {
+  background-color: #3b3f47 !important;
+  transform: translateX(2px);
 }

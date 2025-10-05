@@ -1,8 +1,9 @@
+import { IUniversalChallengeListResult } from './../../../../entities/challenges/models/universal-challenge.model';
 import { SupportLanguages } from './../../../../entities/common/models/support-languages.enum';
 import { LanguageService } from './../../../../shared/services/language.service';
 import { CustomPeriodLeaveConfirmationDialog } from './../../dialogs/custom-period-leave-confirmation/custom-period-leave-confirmation.component';
 import { ITenantSettings } from './../../../../entities/common/models/tenant-settings.model';
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { IGameDropdownResult } from '../../../../entities/games/models/game-dropdown.model';
 import { GamesService } from '../../../../entities/games/api/games.service';
 import { ToastService } from '../../../../shared/services/toast.service';
@@ -30,14 +31,18 @@ import {
   ICustomPeriod,
   ICustomPeriodChallenge,
   ICustomPeriodReward,
+  ICustomPeriodUniversalChallenge,
 } from '../../../../entities/challenges/models/custom-period.model';
 import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { UnsavedChangesConfirmationDialog } from '../../../../shared/dialogs/unsaved-changes-confirmation/unsaved-changes-confirmation.dialog';
 import { TranslateService } from '@ngx-translate/core';
+import { IUniversalChallengeDropdownResult } from '../../../../entities/space-management/models/universal-challenge-dropdown.model';
+import { UniversalChallengeType } from '../../../../pages/challenges-management/shared/challenge-universal-type.enum';
 
 interface ICustomPeriodForm {
   rewards: FormArray;
   challenges: FormArray;
+  universalChallenges: FormArray;
 }
 
 enum PeriodDataAction {
@@ -75,6 +80,9 @@ export class AdminChallengesCustomPeriodComponent
   public errors: string[] = [];
   public rewardList: IRewardDropdownResult[] = [];
   public gameList: IGameDropdownResult[] = [];
+  public universalChallengesDropdownList: IUniversalChallengeDropdownResult[] =
+    [];
+  public universalChallengeList: IUniversalChallengeListResult[] = [];
   public tenantSettings: ITenantSettings | null = null;
   public isCustomPeriodInitialized = false;
   public isUnsavedChanges = false;
@@ -90,12 +98,14 @@ export class AdminChallengesCustomPeriodComponent
     private readonly dialog: MatDialog,
     private readonly fb: FormBuilder,
     public override translateService: TranslateService,
-    private readonly languageService: LanguageService
+    private readonly languageService: LanguageService,
+    private readonly cd: ChangeDetectorRef
   ) {
     super(toastService, translateService);
 
     this.fetchRewardList();
     this.fetchGameList();
+    this.fetchUniversalChallenges();
     this.fetchSettings();
     this.fetchCustomPeriod();
     this.form = this.initFormGroup();
@@ -117,6 +127,7 @@ export class AdminChallengesCustomPeriodComponent
         // Clear existing controls
         this.rewardArray.clear();
         this.challengeArray.clear();
+        this.universalChallengeArray.clear();
 
         if (
           customPeriod.challenges.length !== 0 &&
@@ -146,6 +157,38 @@ export class AdminChallengesCustomPeriodComponent
             })
           );
         });
+
+        // Populate universal challenges
+        customPeriod.universalChallenges.forEach((challenge) => {
+          const group = this.fb.group({
+            id: [challenge.id],
+            selectedUniversalChallenge: [challenge.selectedUniversalChallenge],
+            attempts: [challenge.attempts],
+            points: [challenge.points],
+            minValue: [challenge.minValue],
+          });
+          const formGroup = group as FormGroup;
+
+          // Push the group to the FormArray
+          this.universalChallengeArray.push(formGroup);
+
+          // Subscribe to selection changes for this group
+          this.subscribeToUniversalChallengeSelection(
+            formGroup,
+            challenge.selectedUniversalChallenge
+          );
+        });
+
+        // Remove the existing universal challenges from the dropdown list
+        const universalIds = customPeriod.universalChallenges.map(
+          (x) => x.selectedUniversalChallenge
+        );
+
+        this.universalChallengesDropdownList =
+          this.universalChallengesDropdownList.map((item) => ({
+            ...item,
+            disabled: universalIds.includes(item.id),
+          }));
 
         this.initDeletedGames();
         this.initDeletedRewards();
@@ -224,9 +267,14 @@ export class AdminChallengesCustomPeriodComponent
     return this.form.controls['challenges'] as unknown as FormArray;
   }
 
+  get universalChallengeArray(): FormArray {
+    return this.form.controls['universalChallenges'] as unknown as FormArray;
+  }
+
   public getFormGroup(formGroup: AbstractControl<any, any>): FormGroup {
     return formGroup as FormGroup;
   }
+
   public createReward(): FormGroup {
     return this.fb.group({
       id: new FormControl<number | null>(null),
@@ -238,12 +286,25 @@ export class AdminChallengesCustomPeriodComponent
       ]),
     });
   }
+
   public createChallenge(): FormGroup {
     return this.fb.group({
       id: new FormControl<number | null>(null),
       selectedGame: new FormControl<number | null>(null, [Validators.required]),
       attempts: new FormControl<number | null>(null, [Validators.required]),
       points: new FormControl<number | null>(null, [Validators.required]),
+    });
+  }
+
+  public createUniversalChallenge(): FormGroup {
+    return this.fb.group({
+      id: new FormControl<number | null>(null),
+      selectedUniversalChallenge: new FormControl<number | null>(null, [
+        Validators.required,
+      ]),
+      attempts: new FormControl<number | null>(null, [Validators.required]),
+      points: new FormControl<number | null>(null, [Validators.required]),
+      minValue: new FormControl<number | null>(null, [Validators.required]),
     });
   }
 
@@ -377,6 +438,130 @@ export class AdminChallengesCustomPeriodComponent
     this.challengeArray.push(this.createChallenge());
   }
 
+  public addUniversalChallenge(): void {
+    this.isUnsavedChanges = true;
+    const newUniversalChallengeControl = this.createUniversalChallenge();
+    this.universalChallengeArray.push(newUniversalChallengeControl);
+
+    this.subscribeToUniversalChallengeSelection(newUniversalChallengeControl);
+  }
+  compareById = (a: any, b: any) => a?.id === b?.id;
+
+  private subscribeToUniversalChallengeSelection(
+    control: FormGroup,
+    selectUniversalChallengeId: number | null = null
+  ): void {
+    const selectedControl = control.get('selectedUniversalChallenge');
+    if (!selectedControl) return;
+
+    // Track last selected
+    if (selectUniversalChallengeId) {
+      control.addControl(
+        'lastSelectedId',
+        new FormControl<number | null>(selectUniversalChallengeId)
+      );
+
+      // Also disable this item in the dropdown initially
+      this.setDropdownDisabled(selectUniversalChallengeId, true);
+    }
+    if (!control.contains('lastSelectedId')) {
+      control.addControl(
+        'lastSelectedId',
+        new FormControl<number | null>(null)
+      );
+    }
+
+    selectedControl.valueChanges.subscribe((selectedId: number | null) => {
+      const lastSelectedId = control.get('lastSelectedId')?.value;
+
+      // CASE 1: User cleared (click X)
+      if (selectedId === null && lastSelectedId) {
+        this.setDropdownDisabled(lastSelectedId, false); // re-enable previous
+        control.get('lastSelectedId')?.setValue(null);
+        return;
+      }
+
+      // CASE 2: User selects the same item again → act like remove
+      if (lastSelectedId && selectedId === lastSelectedId) {
+        this.setDropdownDisabled(lastSelectedId, false); // re-enable
+        control.get('selectedUniversalChallenge')?.setValue(null); // clear selection
+        control.get('attempts')?.setValue(null); // clear selection
+        control.get('points')?.setValue(null); // clear selection
+        control.get('minValue')?.setValue(null); // clear selection
+
+        control.get('lastSelectedId')?.setValue(null);
+        return;
+      }
+
+      // CASE 3: User changed selection from one item to another
+      if (
+        lastSelectedId &&
+        selectedId !== null &&
+        selectedId !== lastSelectedId
+      ) {
+        this.setDropdownDisabled(lastSelectedId, false); // re-enable old
+        this.setDropdownDisabled(selectedId, true); // disable new
+        control.get('lastSelectedId')?.setValue(selectedId);
+        this.onUniversalChallengeSelected(control, selectedId);
+        return;
+      }
+
+      // CASE 4: First-time selection (no previous)
+      if (!lastSelectedId && selectedId !== null) {
+        this.setDropdownDisabled(selectedId, true);
+        control.get('lastSelectedId')?.setValue(selectedId);
+        this.onUniversalChallengeSelected(control, selectedId);
+        return;
+      }
+    });
+  }
+
+  private setDropdownDisabled(challengeId: number, disabled: boolean): void {
+    this.universalChallengesDropdownList =
+      this.universalChallengesDropdownList.map((item) =>
+        item.id === challengeId ? { ...item, disabled } : item
+      );
+  }
+
+  private onUniversalChallengeSelected(
+    control: AbstractControl,
+    selectedId: number
+  ): void {
+    const selectedChallenge = this.universalChallengeList.find(
+      (c) => c.id === selectedId
+    );
+    if (!selectedChallenge) return;
+
+    const dropdownItem = this.universalChallengesDropdownList.find(
+      (c) => c.id === selectedId
+    );
+    if (dropdownItem) dropdownItem.disabled = true;
+
+    control.get('attempts')?.setValue(selectedChallenge.attempts ?? 1);
+    control.get('points')?.setValue(selectedChallenge.rewardPoints ?? 0);
+
+    const type = selectedChallenge.type;
+    const minValueControl = control.get('minValue');
+
+    if (type === UniversalChallengeType.BuyItems) {
+      minValueControl?.setValidators([Validators.required]);
+      minValueControl?.setValue(selectedChallenge.minValue ?? 0);
+    } else {
+      minValueControl?.clearValidators();
+      minValueControl?.setValue(null);
+    }
+
+    minValueControl?.updateValueAndValidity();
+  }
+
+  public shouldShowMinValue(challengeGroup: AbstractControl): boolean {
+    const selectedId = challengeGroup.get('selectedUniversalChallenge')?.value;
+    const selected = this.universalChallengeList.find(
+      (c) => c.id === selectedId
+    );
+    return selected?.type === UniversalChallengeType.BuyItems;
+  }
+
   public removeReward(index: number): void {
     this.isUnsavedChanges = true;
     this.rewardArray.removeAt(index);
@@ -385,6 +570,22 @@ export class AdminChallengesCustomPeriodComponent
   public removeChallenge(index: number): void {
     this.isUnsavedChanges = true;
     this.challengeArray.removeAt(index);
+  }
+
+  public removeUniversalChallenge(index: number): void {
+    this.isUnsavedChanges = true;
+
+    const removedControl = this.universalChallengeArray.at(index);
+    const removedChallengeId = removedControl.get(
+      'selectedUniversalChallenge'
+    )?.value;
+
+    if (removedChallengeId) {
+      // Re-enable it before removing (so ng-select allows clear)
+      this.setDropdownDisabled(removedChallengeId, false);
+    }
+
+    this.universalChallengeArray.removeAt(index);
   }
 
   protected override getControlDisplayName(controlName: string): string {
@@ -481,6 +682,7 @@ export class AdminChallengesCustomPeriodComponent
       {
         rewards: this.fb.array([]),
         challenges: this.fb.array([]),
+        universalChallenges: this.fb.array([]),
       },
       { validators: customPeriodValidator() }
     );
@@ -509,7 +711,24 @@ export class AdminChallengesCustomPeriodComponent
         };
       });
 
-    return { rewards, challenges };
+    const universalChallenges: ICustomPeriodUniversalChallenge[] =
+      this.universalChallengeArray.controls.map((control) => {
+        const group = control as FormGroup;
+
+        return {
+          id: group.controls['id'].value ?? null,
+          selectedUniversalChallenge: Number(
+            group.controls['selectedUniversalChallenge'].value ?? 0
+          ),
+          attempts: Number(group.controls['attempts'].value ?? 0),
+          points: Number(group.controls['points'].value ?? 0),
+          minValue: group.controls['minValue'].value
+            ? Number(group.controls['minValue'].value)
+            : null,
+        };
+      });
+
+    return { rewards, challenges, universalChallenges };
   }
 
   private fetchRewardList(): void {
@@ -532,6 +751,30 @@ export class AdminChallengesCustomPeriodComponent
     this.gamesService.getDropdownList().subscribe({
       next: (gameList) => {
         this.gameList = gameList ?? [];
+      },
+      error: () => {
+        this.toastService.error({
+          message: this.translateService.instant(
+            AppToastMessage.SomethingWrong
+          ),
+          type: ToastType.Error,
+        });
+      },
+    });
+  }
+
+  private fetchUniversalChallenges(): void {
+    this.challengesService.getUniversalList().subscribe({
+      next: (universalChallenges) => {
+        this.universalChallengeList = universalChallenges ?? [];
+        this.universalChallengesDropdownList = this.universalChallengeList.map(
+          (x) => ({
+            id: x.id,
+            name_EN: x.name_EN,
+            name_BG: x.name_BG,
+            disabled: false,
+          })
+        );
       },
       error: () => {
         this.toastService.error({

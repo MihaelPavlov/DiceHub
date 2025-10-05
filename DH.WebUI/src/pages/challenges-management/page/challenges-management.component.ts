@@ -104,7 +104,9 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
   public currentActiveTab: ChallengeType = ChallengeType.Game;
   public UniversalChallengeType = UniversalChallengeType;
   public SupportLanguages = SupportLanguages;
-  public userUniversalChallengeList: IUserUniversalChallenge[] = [
+  public userUniversalChallengeList: IUserUniversalChallenge[] = [];
+  /*
+  [
     {
       id: 1,
       rewardPoints: ChallengeRewardPoint.Five,
@@ -217,6 +219,7 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
       description_BG: 'Влез в топ 3 на класацията за поредици.',
     },
   ];
+  */
   public animateChallengeProgress = false;
   shakeStates: boolean[] = [];
   private intervals: any[] = [];
@@ -302,8 +305,8 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
         this.periodPerformance = periodPerformance;
         this.tenantSettings = tenantSettings;
         //TODO: When BE userUniversalChallenges ARE READY
-        // this.userUniversalChallengeList = userUniversalChallenges ?? [];
-        // this.initUserUniversalChallengesAnimation();
+        this.userUniversalChallengeList = userUniversalChallenges ?? [];
+        this.initUserUniversalChallengesAnimation();
 
         if (this.periodPerformance && !this.tenantSettings.isCustomPeriodOn) {
           combineLatest([

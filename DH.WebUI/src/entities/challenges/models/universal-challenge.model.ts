@@ -9,7 +9,7 @@ export interface IUniversalChallengeListResult {
   description_EN: string;
   description_BG: string;
   type: UniversalChallengeType;
+  attempts: number;
 
-  attempts?: number;
   minValue?: number;
 }

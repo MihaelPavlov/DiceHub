@@ -1,6 +1,7 @@
 export interface ICustomPeriod {
   rewards: ICustomPeriodReward[];
   challenges: ICustomPeriodChallenge[];
+  universalChallenges: ICustomPeriodUniversalChallenge[];
 }
 
 export interface ICustomPeriodReward {
@@ -14,4 +15,12 @@ export interface ICustomPeriodChallenge {
   selectedGame: number;
   attempts: number;
   points: number;
+}
+
+export interface ICustomPeriodUniversalChallenge {
+  id: number | null;
+  selectedUniversalChallenge: number;
+  attempts: number;
+  points: number;
+  minValue?: number | null;
 }

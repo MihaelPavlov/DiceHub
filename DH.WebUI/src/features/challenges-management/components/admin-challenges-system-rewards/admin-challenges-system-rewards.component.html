@@ -144,7 +144,9 @@
                 [items]="rewardRequiredPointList"
                 bindValue="id"
                 bindLabel="name"
-                [placeholder]="'admin_rewards.placeholders.required_points' | translate"
+                [placeholder]="
+                  'admin_rewards.placeholders.required_points' | translate
+                "
                 [searchable]="true"
                 formControlName="requiredPoints"
                 [disabled]="form.controls.requiredPoints.disabled"
@@ -152,7 +154,7 @@
               >
               </ng-select>
             </div>
-            <div class="input-field">
+            <div class="input-field input-with-symbol">
               <label for="cashEquivalent" class="required">{{
                 "admin_rewards.labels.cash_equivalent" | translate
               }}</label>
@@ -165,6 +167,7 @@
                 id="cashEquivalent"
                 formControlName="cashEquivalent"
               />
+              <span class="symbol">$</span>
             </div>
           </div>
 
