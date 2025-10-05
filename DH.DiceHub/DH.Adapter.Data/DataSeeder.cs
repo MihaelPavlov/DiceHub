@@ -2,6 +2,7 @@
 using DH.Domain.Services.Seed;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System.Net.Http.Headers;
 
 namespace DH.Adapter.Data;
 
@@ -34,6 +35,13 @@ public class DataSeeder : IDataSeeder
                     if (!isAnyGameCategories)
                     {
                         await context.AddRangeAsync(SeedData.GAME_CATEGORIES);
+                    }
+
+                    var isAnyUniversalChallenges = await context.UniversalChallenges.AnyAsync();
+                    if (!isAnyUniversalChallenges)
+                    {
+                        //await context.UniversalChallenges.ExecuteDeleteAsync();
+                        await context.AddRangeAsync(SeedData.UNIVERSAL_CHALLENGES);
                     }
 
                     var isAnyEmailTemplates = await context.EmailTemplates.AnyAsync();

@@ -67,6 +67,7 @@ public class TenantDbContext : DbContext, ITenantDbContext
     #region challenges
 
     public DbSet<Challenge> Challenges { get; set; } = default!;
+    public DbSet<UniversalChallenge> UniversalChallenges { get; set; } = default!;
     public DbSet<ChallengeStatistic> ChallengeStatistics { get; set; } = default!;
     public DbSet<UserChallenge> UserChallenges { get; set; } = default!;
     public DbSet<ChallengeReward> ChallengeRewards { get; set; } = default!;
@@ -76,7 +77,9 @@ public class TenantDbContext : DbContext, ITenantDbContext
     public DbSet<UserChallengePeriodPerformance> UserChallengePeriodPerformances { get; set; } = default!;
     public DbSet<CustomPeriodReward> CustomPeriodRewards { get; set; } = default!;
     public DbSet<CustomPeriodChallenge> CustomPeriodChallenges { get; set; } = default!;
+    public DbSet<CustomPeriodUniversalChallenge> CustomPeriodUniversalChallenges { get; set; } = default!;
     public DbSet<CustomPeriodUserChallenge> CustomPeriodUserChallenges { get; set; } = default!;
+    public DbSet<CustomPeriodUserUniversalChallenge> CustomPeriodUserUniversalChallenges { get; set; } = default!;
     public DbSet<CustomPeriodUserReward> CustomPeriodUserRewards { get; set; } = default!;
 
     #endregion challenges

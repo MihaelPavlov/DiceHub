@@ -42,6 +42,15 @@ public class ChallengesController : ControllerBase
         return Ok(result);
     }
 
+    [HttpGet("get-user-universal-challenges")]
+    [ActionAuthorize(UserAction.ChallengesRead)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetUserUniversalChallengeListQueryModel>))]
+    public async Task<IActionResult> GetUserUniversalChallengeList(CancellationToken cancellationToken)
+    {
+        var result = await this.mediator.Send(new GetUserUniversalChallengeListQuery(), cancellationToken);
+        return Ok(result);
+    }
+
     [HttpGet("get-user-challenge-period-performance")]
     [ActionAuthorize(UserAction.ChallengesRead)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetUserChallengePeriodPerformanceQueryModel))]
@@ -57,6 +66,15 @@ public class ChallengesController : ControllerBase
     public async Task<IActionResult> GetChallengeList(GetChallengeListWithFilterQuery query, CancellationToken cancellationToken)
     {
         var result = await this.mediator.Send(query, cancellationToken);
+        return Ok(result);
+    }
+
+    [HttpGet("universal-list")]
+    [ActionAuthorize(UserAction.ChallengesRead)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetUniversalChallengeListQueryModel>))]
+    public async Task<IActionResult> GetUniversalChallengeList(CancellationToken cancellationToken)
+    {
+        var result = await this.mediator.Send(new GetUniversalChallengeListQuery(), cancellationToken);
         return Ok(result);
     }
 

@@ -9,10 +9,12 @@ public record GetCustomPeriodQuery : IRequest<GetCustomPeriodQueryModel>;
 
 internal class GetCustomPeriodQueryHandler(
     IRepository<CustomPeriodReward> customPeriodRewardRepository,
-    IRepository<CustomPeriodChallenge> customPeriodChallengeRepository) : IRequestHandler<GetCustomPeriodQuery, GetCustomPeriodQueryModel>
+    IRepository<CustomPeriodChallenge> customPeriodChallengeRepository,
+    IRepository<CustomPeriodUniversalChallenge> customPeriodUniversalChallengeRepository) : IRequestHandler<GetCustomPeriodQuery, GetCustomPeriodQueryModel>
 {
     readonly IRepository<CustomPeriodReward> customPeriodRewardRepository = customPeriodRewardRepository;
     readonly IRepository<CustomPeriodChallenge> customPeriodChallengeRepository = customPeriodChallengeRepository;
+    readonly IRepository<CustomPeriodUniversalChallenge> customPeriodUniversalChallengeRepository = customPeriodUniversalChallengeRepository;
 
     public async Task<GetCustomPeriodQueryModel> Handle(GetCustomPeriodQuery request, CancellationToken cancellationToken)
     {
@@ -31,10 +33,20 @@ internal class GetCustomPeriodQueryHandler(
             SelectedGame = x.GameId,
         }, cancellationToken);
 
+        var universalChallenges = await this.customPeriodUniversalChallengeRepository.GetWithPropertiesAsync(x => new GetCustomPeriodUniversalChallengeQueryModel
+        {
+            Id = x.Id,
+            Attempts = x.Attempts,
+            Points = x.RewardPoints,
+            SelectedUniversalChallenge = x.UniversalChallengeId,
+            MinValue = x.MinValue
+        }, cancellationToken);
+
         return new GetCustomPeriodQueryModel
         {
             Rewards = rewards.OrderBy(x => x.RequiredPoints).ToList(),
-            Challenges = challenges
+            Challenges = challenges,
+            UniversalChallenges = universalChallenges.OrderBy(x => x.SelectedUniversalChallenge).ToList()
         };
     }
 }

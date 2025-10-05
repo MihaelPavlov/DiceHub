@@ -30,7 +30,6 @@ internal class ConditionalJobScheduler : IHostedService
         var scheduler = await _schedulerFactory.GetScheduler(cancellationToken);
         using (var scope = _serviceProvider.CreateScope())
         {
-
             var tenantSettingsCacheService = scope.ServiceProvider.GetRequiredService<ITenantSettingsCacheService>();
             var tenantSettings = await tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
             if (Enum.TryParse<TimePeriodType>(tenantSettings.PeriodOfRewardReset, out var timePeriod))

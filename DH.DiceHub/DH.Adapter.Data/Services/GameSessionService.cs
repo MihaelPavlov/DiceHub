@@ -172,13 +172,13 @@ public class GameSessionService : IGameSessionService
                                 updatedChallenges.Remove(challengeForRemove);
 
                             await this.challengeHubClient.SendChallengeCompleted(
-                                userId, challenge.Challenge.Game.Name, (int)challenge.Challenge.RewardPoints);
+                                userId, challenge.Challenge!.Game.Name, (int)challenge.Challenge.RewardPoints);
 
                             if (!await this.userService.HasUserAnyMatchingRole(userId, Role.SuperAdmin))
                             {
                                 await this.statisticQueuePublisher.PublishAsync(new StatisticJobQueue.ChallengeProcessingOutcomeJob(
                                     userId,
-                                    challenge.ChallengeId,
+                                    challenge.ChallengeId!.Value,
                                     ChallengeOutcome.Completed,
                                     challenge.CompletedDate.Value,
                                     DateTime.UtcNow));
@@ -191,7 +191,7 @@ public class GameSessionService : IGameSessionService
                         foreach (var challenge in updatedChallenges)
                         {
                             await this.challengeHubClient.SendChallengeUpdated(
-                                userId, challenge.Challenge.Game.Name);
+                                userId, challenge.Challenge!.Game.Name);
                         }
 
                         var lockedChallenges = await context.UserChallenges

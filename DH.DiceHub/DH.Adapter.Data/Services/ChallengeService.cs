@@ -58,17 +58,80 @@ public class ChallengeService : IChallengeService
         }
     }
 
+    public async Task<List<GetUserUniversalChallengeListQueryModel>> GetUserUniversalChallenges(CancellationToken cancellationToken)
+    {
+        using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
+        {
+            var activeChallenges = await context.UserChallenges
+                .Where(x => x.UserId == this.userContext.UserId
+                         && x.IsActive
+                         && x.UniversalChallenge != null)
+                .Select(x =>
+                    new GetUserUniversalChallengeListQueryModel
+                    {
+                        Id = x.Id,
+                        RewardPoints = x.UniversalChallenge!.RewardPoints,
+                        Status = x.Status,
+                        CurrentAttempts = x.AttemptCount,
+                        MaxAttempts = x.UniversalChallenge.Attempts,
+                        GameImageId = x.Game != null ? x.Game.Image.Id : null,
+                        GameName = x.Game != null ? x.Game.Name : null,
+                        Type = x.UniversalChallenge.Type,
+                        MinValue = x.UniversalChallenge.MinValue,
+                        Name_EN = x.UniversalChallenge.Name_EN,
+                        Name_BG = x.UniversalChallenge.Name_BG,
+                        Description_EN = x.UniversalChallenge.Description_EN,
+                        Description_BG = x.UniversalChallenge.Description_BG
+                    })
+                .ToListAsync(cancellationToken);
+
+            var lastCompletedChallenge = await context.UserChallenges
+                .Where(x => x.UserId == this.userContext.UserId
+                         && x.CompletedDate != null
+                         && x.UniversalChallenge != null)
+                .OrderByDescending(x => x.CompletedDate)
+                .Select(x =>
+                    new GetUserUniversalChallengeListQueryModel
+                    {
+                        Id = x.Id,
+                        RewardPoints = x.UniversalChallenge!.RewardPoints,
+                        Status = x.Status,
+                        CurrentAttempts = x.AttemptCount,
+                        MaxAttempts = x.UniversalChallenge.Attempts,
+                        GameImageId = x.Game != null ? x.Game.Image.Id : null,
+                        GameName = x.Game != null ? x.Game.Name : null,
+                        Type = x.UniversalChallenge.Type,
+                        MinValue = x.UniversalChallenge.MinValue,
+                        Name_EN = x.UniversalChallenge.Name_EN,
+                        Name_BG = x.UniversalChallenge.Name_BG,
+                        Description_EN = x.UniversalChallenge.Description_EN,
+                        Description_BG = x.UniversalChallenge.Description_BG
+                    })
+                .FirstOrDefaultAsync(cancellationToken);
+
+            var orderedChallenges = activeChallenges
+                .OrderBy(x => x.Status)
+                .ThenBy(x => x.RewardPoints)
+                .ToList();
+
+            if (lastCompletedChallenge != null)
+                orderedChallenges.Add(lastCompletedChallenge);
+
+            return orderedChallenges;
+        }
+    }
+
     public async Task<List<GetUserChallengeListQueryModel>> GetUserChallenges(CancellationToken cancellationToken)
     {
         using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
         {
             var activeChallenges = await context.UserChallenges
-                .Where(x => this.userContext.UserId == x.UserId && x.IsActive)
+                .Where(x => this.userContext.UserId == x.UserId && x.IsActive && x.Challenge != null)
                 .Select(x =>
                     new GetUserChallengeListQueryModel
                     {
                         Id = x.Id,
-                        RewardPoints = x.Challenge.RewardPoints,
+                        RewardPoints = x.Challenge!.RewardPoints,
                         Status = x.Status,
                         GameImageId = x.Challenge.Game.Image.Id,
                         GameName = x.Challenge.Game.Name,
@@ -78,19 +141,19 @@ public class ChallengeService : IChallengeService
                 .ToListAsync(cancellationToken);
 
             var lastCompletedChallenge = await context.UserChallenges
-                .Where(x => this.userContext.UserId == x.UserId && x.CompletedDate != null)
+                .Where(x => this.userContext.UserId == x.UserId && x.CompletedDate != null && x.Challenge != null)
                 .OrderByDescending(x => x.CompletedDate)
                 .Select(x =>
-                        new GetUserChallengeListQueryModel
-                        {
-                            Id = x.Id,
-                            RewardPoints = x.Challenge.RewardPoints,
-                            Status = x.Status,
-                            GameImageId = x.Challenge.Game.Image.Id,
-                            GameName = x.Challenge.Game.Name,
-                            CurrentAttempts = x.AttemptCount,
-                            MaxAttempts = x.Challenge.Attempts,
-                        })
+                    new GetUserChallengeListQueryModel
+                    {
+                        Id = x.Id,
+                        RewardPoints = x.Challenge!.RewardPoints,
+                        Status = x.Status,
+                        GameImageId = x.Challenge.Game.Image.Id,
+                        GameName = x.Challenge.Game.Name,
+                        CurrentAttempts = x.AttemptCount,
+                        MaxAttempts = x.Challenge.Attempts,
+                    })
                 .FirstOrDefaultAsync(cancellationToken);
 
             var orderedChallenges = activeChallenges
@@ -182,6 +245,35 @@ public class ChallengeService : IChallengeService
             }
         }
 
+        // --- Universal Challenges ---
+        var incomingUniversalDtos = customPeriod.UniversalChallenges;
+        var incomingUniversalIds = incomingUniversalDtos.Where(c => c.Id.HasValue).Select(c => c.Id!.Value).ToHashSet();
+
+        var existingUniversalChallenges = await context.CustomPeriodUniversalChallenges
+            .Where(c => incomingUniversalIds.Contains(c.Id))
+            .ToListAsync(cancellationToken);
+
+        foreach (var dto in incomingUniversalDtos)
+        {
+            if (dto.Id is null)
+            {
+                await context.CustomPeriodUniversalChallenges.AddAsync(new CustomPeriodUniversalChallenge
+                {
+                    UniversalChallengeId = dto.SelectedUniversalChallenge,
+                    Attempts = dto.Attempts,
+                    RewardPoints = dto.Points,
+                    MinValue = dto.MinValue
+                }, cancellationToken);
+            }
+            else if (existingUniversalChallenges.FirstOrDefault(c => c.Id == dto.Id) is { } entity)
+            {
+                entity.UniversalChallengeId = dto.SelectedUniversalChallenge;
+                entity.Attempts = dto.Attempts;
+                entity.RewardPoints = dto.Points;
+                entity.MinValue = dto.MinValue;
+            }
+        }
+
         // --- Soft Delete Missing Rewards ---
         var allRewards = await context.CustomPeriodRewards.ToListAsync(cancellationToken);
         var rewardForDelete = allRewards.Where(r => !incomingRewardIds.Contains(r.Id));
@@ -191,6 +283,11 @@ public class ChallengeService : IChallengeService
         var allChallenges = await context.CustomPeriodChallenges.ToListAsync(cancellationToken);
         var challengeForDelete = allChallenges.Where(c => !incomingChallengeIds.Contains(c.Id));
         context.RemoveRange(challengeForDelete);
+
+        // --- Soft Delete Missing Universal Challenges ---
+        var allUniversalChallenges = await context.CustomPeriodUniversalChallenges.ToListAsync(cancellationToken);
+        var universalForDelete = allUniversalChallenges.Where(c => !incomingUniversalIds.Contains(c.Id));
+        context.RemoveRange(universalForDelete);
 
         if (customPeriod.Rewards.Count != 0 && customPeriod.Challenges.Count != 0)
         {
