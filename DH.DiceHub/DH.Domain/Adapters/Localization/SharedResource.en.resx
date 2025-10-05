@@ -498,4 +498,13 @@
   <data name="OwnerClubPhoneNumberRequired" xml:space="preserve">
     <value>Club Phone Number is required.</value>
   </data>
+  <data name="CustomPeriodMinValueMustBeGreaterThanZero" xml:space="preserve">
+    <value>Min Monetary Value must be greater than zero.</value>
+  </data>
+  <data name="UniversalChallengeCompletedBody" xml:space="preserve">
+    <value>You completed the universal challenge **{0}** and earned {1} reward points!</value>
+  </data>
+  <data name="UniversalChallengeUpdatedBody" xml:space="preserve">
+    <value>Your progress on universal challenge **{0}** has been updated. Keep going to complete the challenge!</value>
+  </data>
 </root>

@@ -4,6 +4,7 @@ public class GetCustomPeriodQueryModel
 {
     public List<GetCustomPeriodRewardQueryModel> Rewards { get; set; } = [];
     public List<GetCustomPeriodChallengeQueryModel> Challenges { get; set; } = [];
+    public List<GetCustomPeriodUniversalChallengeQueryModel> UniversalChallenges { get; set; } = [];
 }
 
 public class GetCustomPeriodRewardQueryModel
@@ -19,4 +20,13 @@ public class GetCustomPeriodChallengeQueryModel
     public int SelectedGame { get; set; }
     public int Attempts { get; set; }
     public int Points { get; set; }
+}
+
+public class GetCustomPeriodUniversalChallengeQueryModel
+{
+    public int Id { get; set; }
+    public int SelectedUniversalChallenge { get; set; }
+    public int Attempts { get; set; }
+    public int Points { get; set; }
+    public decimal? MinValue { get; set; }
 }

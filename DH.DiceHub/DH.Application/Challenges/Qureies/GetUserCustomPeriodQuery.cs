@@ -6,15 +6,9 @@ namespace DH.Application.Challenges.Qureies;
 
 public record GetUserCustomPeriodQuery : IRequest<GetUserCustomPeriodQueryModel>;
 
-internal class GetUserCustomPeriodQueryHandler : IRequestHandler<GetUserCustomPeriodQuery, GetUserCustomPeriodQueryModel>
+internal class GetUserCustomPeriodQueryHandler(IChallengeService challengeService) : IRequestHandler<GetUserCustomPeriodQuery, GetUserCustomPeriodQueryModel>
 {
-    readonly IChallengeService challengeService;
-
-    public GetUserCustomPeriodQueryHandler(
-        IChallengeService challengeService)
-    {
-        this.challengeService = challengeService;
-    }
+    readonly IChallengeService challengeService = challengeService;
 
     public async Task<GetUserCustomPeriodQueryModel> Handle(GetUserCustomPeriodQuery request, CancellationToken cancellationToken)
     {

@@ -16,5 +16,6 @@ public class UserChallengePeriodPerformance
     public virtual ICollection<UserChallengePeriodReward> UserChallengePeriodRewards { get; set; } = [];
 
     public virtual ICollection<CustomPeriodUserChallenge> CustomPeriodUserChallenges { get; set; } = [];
+    public virtual ICollection<CustomPeriodUserUniversalChallenge> CustomPeriodUserUniversalChallenges { get; set; } = [];
     public virtual ICollection<CustomPeriodUserReward> CustomPeriodUserRewards { get; set; } = [];
 }

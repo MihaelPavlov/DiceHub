@@ -7,6 +7,7 @@ public class SaveCustomPeriodDto : IValidableFields
 {
     public List<SaveCustomPeriodRewardDto> Rewards { get; set; } = [];
     public List<SaveCustomPeriodChallengeDto> Challenges { get; set; } = [];
+    public List<SaveCustomPeriodUniversalChallengeDto> UniversalChallenges { get; set; } = [];
 
     public bool FieldsAreValid(out List<ValidationErrorsException.ValidationError> validationErrors, ILocalizationService localizationService)
     {
@@ -52,6 +53,32 @@ public class SaveCustomPeriodDto : IValidableFields
                 "Rewards", string.Format(localizationService["CustomPeriodTotalPointsMismatch"], totalRewardRequiredPoints, totalChallengePoints)));
         }
 
+        if (UniversalChallenges.Count > 0)
+        {
+            for (int i = 0; i < UniversalChallenges.Count; i++)
+            {
+                var challenge = UniversalChallenges[i];
+
+                if (challenge.Attempts <= 0)
+                {
+                    errors.Add(new ValidationErrorsException.ValidationError(
+                        $"UniversalChallenges[{i}].Attempts", localizationService["CustomPeriodAttemptsMustBeGreaterThanZero"]));
+                }
+
+                if (challenge.Points <= 0)
+                {
+                    errors.Add(new ValidationErrorsException.ValidationError(
+                        $"UniversalChallenges[{i}].Points", localizationService["CustomPeriodPointsMustBeGreaterThanZero"]));
+                }
+
+                if (challenge.MinValue.HasValue && challenge.MinValue <= 0)
+                {
+                    errors.Add(new ValidationErrorsException.ValidationError(
+                        $"UniversalChallenges[{i}].MinValue", localizationService["CustomPeriodMinValueMustBeGreaterThanZero"]));
+                }
+            }
+        }
+
         validationErrors = errors;
         return !validationErrors.Any();
     }
@@ -70,4 +97,13 @@ public class SaveCustomPeriodChallengeDto
     public int SelectedGame { get; set; }
     public int Attempts { get; set; }
     public int Points { get; set; }
+}
+
+public class SaveCustomPeriodUniversalChallengeDto
+{
+    public int? Id { get; set; }
+    public int SelectedUniversalChallenge { get; set; }
+    public int Attempts { get; set; }
+    public int Points { get; set; }
+    public decimal? MinValue { get; set; }
 }

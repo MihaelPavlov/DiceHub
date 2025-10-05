@@ -498,4 +498,13 @@
   <data name="OwnerClubPhoneNumberRequired" xml:space="preserve">
     <value>Телефонният номер на клуба е задължителен.</value>
   </data>
+  <data name="CustomPeriodMinValueMustBeGreaterThanZero" xml:space="preserve">
+    <value>Минималната стойност трябва да бъде повече от нула.</value>
+  </data>
+  <data name="UniversalChallengeCompletedBody" xml:space="preserve">
+    <value>Завършихте универсалното предизвикателството „{0}“ и спечелихте {1} точки награда!</value>
+  </data>
+  <data name="UniversalChallengeUpdatedBody" xml:space="preserve">
+    <value>Прогресът ви по универсалното предизвикателството „{0}“ е обновен. Продължавайте, за да завършите предизвикателството!</value>
+  </data>
 </root>
