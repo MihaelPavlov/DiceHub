@@ -297,6 +297,7 @@ public class UserChallengesManagementService : IUserChallengesManagementService
         {
             var rewards = await context.CustomPeriodRewards.OrderBy(x => x.RequiredPoints).ToListAsync(cancellationToken);
             var challenges = await context.CustomPeriodChallenges.ToListAsync(cancellationToken);
+            var universalChallenges = await context.CustomPeriodUniversalChallenges.Include(x => x.UniversalChallenge).ToListAsync(cancellationToken);
 
             userPerformance.CustomPeriodUserRewards = rewards.Select(x => new CustomPeriodUserReward
             {
@@ -317,6 +318,61 @@ public class UserChallengesManagementService : IUserChallengesManagementService
                 UserChallengePeriodPerformanceId = userPerformance.Id,
             }).ToArray();
 
+
+            foreach (var x in universalChallenges)
+            {
+                if (x.UniversalChallenge.Type == UniversalChallengeType.PlayFavoriteGame)
+                {
+                    var favoriteUserGames = await context.GameLikes
+                        .Where(x => x.UserId == userId)
+                        .Select(x => x.GameId)
+                        .ToListAsync(cancellationToken);
+
+                    int selectedGameId;
+
+                    if (favoriteUserGames.Any())
+                    {
+                        var randomIndex = RandomNumberGenerator.GetInt32(0, favoriteUserGames.Count);
+                        selectedGameId = favoriteUserGames[randomIndex];
+                    }
+                    else
+                    {
+                        var allGameIds = await context.Games
+                            .Select(g => g.Id)
+                            .ToListAsync(cancellationToken);
+
+                        var randomIndex = RandomNumberGenerator.GetInt32(0, allGameIds.Count);
+                        selectedGameId = allGameIds[randomIndex];
+                    }
+
+                    userPerformance.CustomPeriodUserUniversalChallenges.Add(new CustomPeriodUserUniversalChallenge
+                    {
+                        IsCompleted = false,
+                        IsRewardCollected = false,
+                        ChallengeAttempts = x.Attempts,
+                        UserAttempts = 0,
+                        RewardPoints = x.RewardPoints,
+                        UniversalChallengeId = x.UniversalChallengeId,
+                        UserChallengePeriodPerformanceId = userPerformance.Id,
+                        GameId = selectedGameId,
+                    });
+
+                    continue;
+                }
+
+                userPerformance.CustomPeriodUserUniversalChallenges.Add(new CustomPeriodUserUniversalChallenge
+                {
+                    IsCompleted = false,
+                    IsRewardCollected = false,
+                    ChallengeAttempts = x.Attempts,
+                    UserAttempts = 0,
+                    RewardPoints = x.RewardPoints,
+                    UniversalChallengeId = x.UniversalChallengeId,
+                    UserChallengePeriodPerformanceId = userPerformance.Id,
+                    MinValue = x.MinValue,
+                });
+            }
+
             await context.UserChallengePeriodPerformances.AddAsync(userPerformance, cancellationToken);
         }
         else
@@ -336,38 +392,51 @@ public class UserChallengesManagementService : IUserChallengesManagementService
             //    TotalChallengesCompleted = 0,
             //    UserId = userId,
             //});
-        }
+            var universalChallenges = await context.UniversalChallenges.ToListAsync(cancellationToken);
 
-        var universalChallenges = await context.UniversalChallenges.ToListAsync(cancellationToken);
+            await context.UserChallenges
+                .Where(x => x.UserId == userId && x.UniversalChallenge != null && x.IsActive)
+                .ExecuteUpdateAsync(x => x.SetProperty(x => x.IsActive, false));
 
-        await context.UserChallenges
-            .Where(x => x.UserId == userId && x.UniversalChallenge != null && x.IsActive)
-            .ExecuteUpdateAsync(x => x.SetProperty(x => x.IsActive, false));
-
-        foreach (var challenge in universalChallenges)
-        {
-            if (challenge.Type == UniversalChallengeType.PlayFavoriteGame)
+            foreach (var challenge in universalChallenges)
             {
-                var favoriteUserGames = await context.GameLikes
-                    .Where(x => x.UserId == userId)
-                    .Select(x => x.GameId)
-                    .ToListAsync(cancellationToken);
-
-                int selectedGameId;
-
-                if (favoriteUserGames.Any())
+                if (challenge.Type == UniversalChallengeType.PlayFavoriteGame)
                 {
-                    var randomIndex = RandomNumberGenerator.GetInt32(0, favoriteUserGames.Count);
-                    selectedGameId = favoriteUserGames[randomIndex];
-                }
-                else
-                {
-                    var allGameIds = await context.Games
-                        .Select(g => g.Id)
+                    var favoriteUserGames = await context.GameLikes
+                        .Where(x => x.UserId == userId)
+                        .Select(x => x.GameId)
                         .ToListAsync(cancellationToken);
 
-                    var randomIndex = RandomNumberGenerator.GetInt32(0, allGameIds.Count);
-                    selectedGameId = allGameIds[randomIndex];
+                    int selectedGameId;
+
+                    if (favoriteUserGames.Any())
+                    {
+                        var randomIndex = RandomNumberGenerator.GetInt32(0, favoriteUserGames.Count);
+                        selectedGameId = favoriteUserGames[randomIndex];
+                    }
+                    else
+                    {
+                        var allGameIds = await context.Games
+                            .Select(g => g.Id)
+                            .ToListAsync(cancellationToken);
+
+                        var randomIndex = RandomNumberGenerator.GetInt32(0, allGameIds.Count);
+                        selectedGameId = allGameIds[randomIndex];
+                    }
+
+                    await context.UserChallenges.AddAsync(new UserChallenge
+                    {
+                        UserId = userId,
+                        IsActive = true,
+                        Status = ChallengeStatus.InProgress,
+                        CreatedDate = DateTime.UtcNow,
+                        AttemptCount = 0,
+                        UniversalChallengeId = challenge.Id,
+                        UniversalChallenge = challenge,
+                        GameId = selectedGameId,
+                    });
+
+                    continue;
                 }
 
                 await context.UserChallenges.AddAsync(new UserChallenge
@@ -379,23 +448,10 @@ public class UserChallengesManagementService : IUserChallengesManagementService
                     AttemptCount = 0,
                     UniversalChallengeId = challenge.Id,
                     UniversalChallenge = challenge,
-                    GameId = selectedGameId,
                 });
-
-                continue;
             }
-
-            await context.UserChallenges.AddAsync(new UserChallenge
-            {
-                UserId = userId,
-                IsActive = true,
-                Status = ChallengeStatus.InProgress,
-                CreatedDate = DateTime.UtcNow,
-                AttemptCount = 0,
-                UniversalChallengeId = challenge.Id,
-                UniversalChallenge = challenge,
-            });
         }
+
     }
 
     /// <summary>

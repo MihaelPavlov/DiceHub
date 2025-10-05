@@ -12,6 +12,7 @@ using DH.Domain.Services.TenantSettingsService;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace DH.Adapter.Data.Services;
 
@@ -61,54 +62,16 @@ public class GameSessionService : IGameSessionService
                         if (customPeriod == null)
                             return false;
 
-                        var customPeriodUserChallenges = customPeriod.CustomPeriodUserChallenges.Where(x => !x.IsCompleted && x.GameId == gameId);
+                        var updatedChallenges = await ProcessCustomChallengesAsync(context, customPeriod, userId, gameId, cancellationToken);
+                        var updatedUniversalChallenges = await ProcessUniversalChallengesAsync(context, customPeriod, userId, gameId, cancellationToken);
 
-                        if (!customPeriodUserChallenges.Any())
-                            return false;
-
-                        var updatedChallenges = new List<CustomPeriodUserChallenge>();
-                        foreach (var customPeriodUserChallenge in customPeriodUserChallenges)
-                        {
-                            var currentAttempts = customPeriodUserChallenge.UserAttempts;
-                            var challengeAttempts = customPeriodUserChallenge.ChallengeAttempts;
-
-                            if (currentAttempts < challengeAttempts)
-                            {
-                                customPeriodUserChallenge.UserAttempts++;
-                                updatedChallenges.Add(customPeriodUserChallenge);
-                            }
-                        }
-
-                        var completedCustomPeriodUserChallenges = customPeriodUserChallenges.Where(x => x.UserAttempts == x.ChallengeAttempts);
-
-                        foreach (var customPeriodUserChallenge in completedCustomPeriodUserChallenges)
-                        {
-                            customPeriodUserChallenge.CompletedDate = DateTime.UtcNow;
-                            customPeriodUserChallenge.IsCompleted = true;
-                            var challengeForRemove = updatedChallenges.FirstOrDefault(x => x.Id == customPeriodUserChallenge.Id);
-
-                            if (challengeForRemove != null)
-                                updatedChallenges.Remove(challengeForRemove);
-
-                            await this.challengeHubClient.SendChallengeCompleted(
-                                userId, customPeriodUserChallenge.Game.Name, customPeriodUserChallenge.RewardPoints);
-
-                            if (!await this.userService.HasUserAnyMatchingRole(userId, Role.SuperAdmin))
-                            {
-                                await this.statisticQueuePublisher.PublishAsync(new StatisticJobQueue.ChallengeProcessingOutcomeJob(
-                                    userId,
-                                    10000 + customPeriodUserChallenge.Id, // Number the indicated the custom challenges
-                                    ChallengeOutcome.Completed,
-                                    customPeriodUserChallenge.CompletedDate.Value,
-                                    DateTime.UtcNow));
-                            }
-                        }
+                        foreach (var challenge in updatedUniversalChallenges)
+                            await this.challengeHubClient.SendUniversalChallengeUpdated(
+                                userId, challenge.UniversalChallenge.Name_EN, challenge.UniversalChallenge.Name_BG);
 
                         foreach (var challenge in updatedChallenges)
-                        {
                             await this.challengeHubClient.SendChallengeUpdated(
                                 userId, challenge.Game.Name);
-                        }
                     }
                     else
                     {
@@ -120,73 +83,25 @@ public class GameSessionService : IGameSessionService
                                 x.UserId == userId &&
                                 x.IsActive &&
                                 x.Status == ChallengeStatus.InProgress &&
+                                x.Challenge != null &&
                                 gameId == x.Challenge.GameId)
                             .ToListAsync(cancellationToken);
 
-                        if (!userChallenges.Any())
-                            return false;
-
-                        var updatedChallenges = new List<UserChallenge>();
-
-                        foreach (var userChallenge in userChallenges)
-                        {
-                            var currentAttempts = userChallenge.AttemptCount;
-                            var challengeAttempts = userChallenge.Challenge.Attempts;
-
-                            if (currentAttempts < challengeAttempts)
-                            {
-                                userChallenge.AttemptCount++;
-                                updatedChallenges.Add(userChallenge);
-                            }
-                        }
-
-                        var completedChallenges = userChallenges.Where(x => x.AttemptCount == x.Challenge.Attempts);
-
-                        if (!completedChallenges.Any())
-                        {
-                            foreach (var challenge in updatedChallenges)
-                            {
-                                await this.challengeHubClient.SendChallengeUpdated(
-                                    userId, challenge.Challenge.Game.Name);
-                            }
-
-                            await SaveAndCommitTransaction(context, transaction, cancellationToken);
-
-                            return false;
-                        }
-
-                        var challengeStatistics = await context.ChallengeStatistics
+                        var userUniversalChallenges = await context.UserChallenges
                             .AsTracking()
+                            .Include(x => x.UniversalChallenge)
                             .Where(x =>
-                                completedChallenges.Select(c => c.ChallengeId).Contains(x.ChallengeId))
+                                x.UserId == userId &&
+                                x.IsActive &&
+                                x.Status == ChallengeStatus.InProgress &&
+                                x.UniversalChallenge != null)
                             .ToListAsync(cancellationToken);
 
-                        foreach (var challenge in completedChallenges)
-                        {
-                            challenge.CompletedDate = DateTime.UtcNow;
-                            challenge.Status = ChallengeStatus.Completed;
-                            challenge.IsActive = false;
-                            var challengeForRemove = updatedChallenges.FirstOrDefault(x => x.Id == challenge.Id);
+                        if (!userChallenges.Any() && !userUniversalChallenges.Any())
+                            return false;
 
-                            if (challengeForRemove != null)
-                                updatedChallenges.Remove(challengeForRemove);
-
-                            await this.challengeHubClient.SendChallengeCompleted(
-                                userId, challenge.Challenge!.Game.Name, (int)challenge.Challenge.RewardPoints);
-
-                            if (!await this.userService.HasUserAnyMatchingRole(userId, Role.SuperAdmin))
-                            {
-                                await this.statisticQueuePublisher.PublishAsync(new StatisticJobQueue.ChallengeProcessingOutcomeJob(
-                                    userId,
-                                    challenge.ChallengeId!.Value,
-                                    ChallengeOutcome.Completed,
-                                    challenge.CompletedDate.Value,
-                                    DateTime.UtcNow));
-                            }
-
-                            var challengeStats = challengeStatistics.First(x => x.ChallengeId == challenge.ChallengeId);
-                            challengeStats.TotalCompletions++;
-                        }
+                        var (updatedChallenges, completedChallenges) = await ProcessUserChallenges(userId, context, userChallenges, cancellationToken);
+                        var (updatedUniversalChallenges, completedUniversalChallenges) = await ProcessUserUniversalChallenges(userId, gameId, context, userUniversalChallenges, cancellationToken);
 
                         foreach (var challenge in updatedChallenges)
                         {
@@ -194,15 +109,26 @@ public class GameSessionService : IGameSessionService
                                 userId, challenge.Challenge!.Game.Name);
                         }
 
-                        var lockedChallenges = await context.UserChallenges
-                            .Where(uc => uc.UserId == userId && uc.Status == ChallengeStatus.Locked)
-                            .ToListAsync(cancellationToken);
-
-                        if (lockedChallenges.Count != 0)
-                            this.queue.AddChallengeInitiationJob(userId, DateTime.UtcNow);
-                        else
+                        foreach (var challenge in updatedUniversalChallenges)
                         {
-                            this.queue.AddChallengeInitiationJob(userId, DateTime.UtcNow.AddHours(tenantSettings.ChallengeInitiationDelayHours));
+                            await this.challengeHubClient.SendUniversalChallengeUpdated(
+                                userId, challenge.UniversalChallenge!.Name_EN, challenge.UniversalChallenge!.Name_BG);
+                        }
+
+                        if (!completedUniversalChallenges.Any() && !completedChallenges.Any()) return false;
+
+                        if (completedChallenges.Any())
+                        {
+                            var lockedChallenges = await context.UserChallenges
+                                .Where(uc => uc.UserId == userId && uc.Status == ChallengeStatus.Locked)
+                                .ToListAsync(cancellationToken);
+
+                            if (lockedChallenges.Count != 0)
+                                this.queue.AddChallengeInitiationJob(userId, DateTime.UtcNow);
+                            else
+                            {
+                                this.queue.AddChallengeInitiationJob(userId, DateTime.UtcNow.AddHours(tenantSettings.ChallengeInitiationDelayHours));
+                            }
                         }
                     }
 
@@ -223,6 +149,274 @@ public class GameSessionService : IGameSessionService
         }
     }
 
+    #region Helpers ProcessChallengeAfterSession
+
+    private async Task<(List<UserChallenge> updatedUniversalChallenges, List<UserChallenge> completedUniversalChallenges)> ProcessUserUniversalChallenges(
+        string userId, int gameId, TenantDbContext context, List<UserChallenge> userChallenges, CancellationToken cancellationToken)
+    {
+        var validTypes = new[]
+        {
+            UniversalChallengeType.PlayGames,
+            UniversalChallengeType.PlayFavoriteGame,
+            UniversalChallengeType.JoinMeepleRooms
+        };
+
+        var updatedChallenges = new List<UserChallenge>();
+        userChallenges = userChallenges.Where(x => validTypes.Contains(x.UniversalChallenge!.Type)).ToList();
+        foreach (var challenge in userChallenges)
+        {
+            switch (challenge.UniversalChallenge!.Type)
+            {
+                case UniversalChallengeType.PlayGames:
+                    challenge.AttemptCount++;
+                    updatedChallenges.Add(challenge);
+                    break;
+
+                case UniversalChallengeType.PlayFavoriteGame when challenge.GameId == gameId:
+                    challenge.AttemptCount++;
+                    updatedChallenges.Add(challenge);
+                    break;
+
+                case UniversalChallengeType.JoinMeepleRooms:
+                    if (await HasUserJoinedMeepleRoomToday(context, userId, gameId, cancellationToken))
+                    {
+                        challenge.AttemptCount++;
+                        updatedChallenges.Add(challenge);
+                    }
+                    break;
+            }
+        }
+
+        var completedChallenges = userChallenges.Where(x => x.AttemptCount == x.UniversalChallenge!.Attempts).ToList();
+
+        if (!completedChallenges.Any())
+            return (updatedChallenges, []);
+
+        foreach (var challenge in completedChallenges)
+        {
+            challenge.CompletedDate = DateTime.UtcNow;
+            challenge.Status = ChallengeStatus.Completed;
+            challenge.IsActive = false;
+            var challengeForRemove = updatedChallenges.FirstOrDefault(x => x.Id == challenge.Id);
+
+            if (challengeForRemove != null)
+                updatedChallenges.Remove(challengeForRemove);
+
+            await this.challengeHubClient.SendUniversalChallengeCompleted(
+                userId, challenge.UniversalChallenge!.Name_EN,
+                challenge.UniversalChallenge.Name_BG,
+                (int)challenge.UniversalChallenge.RewardPoints);
+
+            if (!await this.userService.HasUserAnyMatchingRole(userId, Role.SuperAdmin))
+            {
+                await this.statisticQueuePublisher.PublishAsync(new StatisticJobQueue.ChallengeProcessingOutcomeJob(
+                    userId,
+                    100000 + challenge.UniversalChallengeId!.Value,
+                    ChallengeOutcome.Completed,
+                    challenge.CompletedDate.Value,
+                    DateTime.UtcNow));
+            }
+        }
+
+        return (updatedChallenges, completedChallenges);
+    }
+
+    private async Task<(List<UserChallenge> updatedChallenges, List<UserChallenge> completedChallenge)> ProcessUserChallenges(
+        string userId, TenantDbContext context, List<UserChallenge> userChallenges, CancellationToken cancellationToken)
+    {
+        var updatedChallenges = new List<UserChallenge>();
+        foreach (var userChallenge in userChallenges)
+        {
+            var currentAttempts = userChallenge.AttemptCount;
+            var challengeAttempts = userChallenge.Challenge!.Attempts;
+
+            if (currentAttempts < challengeAttempts)
+            {
+                userChallenge.AttemptCount++;
+                updatedChallenges.Add(userChallenge);
+            }
+        }
+
+        var completedChallenges = userChallenges.Where(x => x.AttemptCount == x.Challenge!.Attempts).ToList();
+
+        if (!completedChallenges.Any())
+        {
+            return (updatedChallenges, []);
+        }
+
+        var challengeStatistics = await context.ChallengeStatistics
+            .AsTracking()
+            .Where(x =>
+                completedChallenges.Select(c => c.ChallengeId).Contains(x.ChallengeId))
+            .ToListAsync(cancellationToken);
+
+        foreach (var challenge in completedChallenges)
+        {
+            challenge.CompletedDate = DateTime.UtcNow;
+            challenge.Status = ChallengeStatus.Completed;
+            challenge.IsActive = false;
+            var challengeForRemove = updatedChallenges.FirstOrDefault(x => x.Id == challenge.Id);
+
+            if (challengeForRemove != null)
+                updatedChallenges.Remove(challengeForRemove);
+
+            await this.challengeHubClient.SendChallengeCompleted(
+                userId, challenge.Challenge!.Game.Name, (int)challenge.Challenge.RewardPoints);
+
+            if (!await this.userService.HasUserAnyMatchingRole(userId, Role.SuperAdmin))
+            {
+                await this.statisticQueuePublisher.PublishAsync(new StatisticJobQueue.ChallengeProcessingOutcomeJob(
+                    userId,
+                    challenge.ChallengeId!.Value,
+                    ChallengeOutcome.Completed,
+                    challenge.CompletedDate.Value,
+                    DateTime.UtcNow));
+            }
+
+            var challengeStats = challengeStatistics.First(x => x.ChallengeId == challenge.ChallengeId);
+            challengeStats.TotalCompletions++;
+        }
+
+        return (updatedChallenges, completedChallenges);
+    }
+
+    #endregion Helpers ProcessChallengeAfterSession
+
+    #region Helpers ProcessChallengeAfterSession CustomPeriod
+    private async Task<List<CustomPeriodUserChallenge>> ProcessCustomChallengesAsync(
+        TenantDbContext context,
+        UserChallengePeriodPerformance customPeriod,
+        string userId, int gameId,
+        CancellationToken cancellationToken)
+    {
+        var challenges = customPeriod.CustomPeriodUserChallenges
+            .Where(x => !x.IsCompleted && x.GameId == gameId)
+            .ToList();
+
+        var updated = new List<CustomPeriodUserChallenge>();
+
+        foreach (var challenge in challenges)
+        {
+            if (challenge.UserAttempts < challenge.ChallengeAttempts)
+            {
+                challenge.UserAttempts++;
+                updated.Add(challenge);
+            }
+        }
+
+        var completed = challenges.Where(x => x.UserAttempts == x.ChallengeAttempts).ToList();
+        foreach (var challenge in completed)
+        {
+            challenge.CompletedDate = DateTime.UtcNow;
+            challenge.IsCompleted = true;
+
+            updated.RemoveAll(x => x.Id == challenge.Id);
+
+            await this.challengeHubClient.SendChallengeCompleted(userId, challenge.Game.Name, challenge.RewardPoints);
+
+            if (!await userService.HasUserAnyMatchingRole(userId, Role.SuperAdmin))
+            {
+                await statisticQueuePublisher.PublishAsync(new StatisticJobQueue.ChallengeProcessingOutcomeJob(
+                    userId,
+                    10000 + challenge.Id,
+                    ChallengeOutcome.Completed,
+                    challenge.CompletedDate!.Value,
+                    DateTime.UtcNow));
+            }
+        }
+
+        return updated;
+    }
+
+    private async Task<List<CustomPeriodUserUniversalChallenge>> ProcessUniversalChallengesAsync(
+        TenantDbContext context,
+        UserChallengePeriodPerformance customPeriod,
+        string userId, int gameId,
+        CancellationToken cancellationToken)
+    {
+        var validTypes = new[]
+        {
+            UniversalChallengeType.PlayGames,
+            UniversalChallengeType.PlayFavoriteGame,
+            UniversalChallengeType.JoinMeepleRooms
+        };
+
+        var challenges = customPeriod.CustomPeriodUserUniversalChallenges
+            .Where(x => !x.IsCompleted && validTypes.Contains(x.UniversalChallenge.Type))
+            .ToList();
+
+        var updated = new List<CustomPeriodUserUniversalChallenge>();
+
+        foreach (var challenge in challenges)
+        {
+            switch (challenge.UniversalChallenge.Type)
+            {
+                case UniversalChallengeType.PlayGames:
+                    challenge.UserAttempts++;
+                    updated.Add(challenge);
+                    break;
+
+                case UniversalChallengeType.PlayFavoriteGame when challenge.GameId == gameId:
+                    challenge.UserAttempts++;
+                    updated.Add(challenge);
+                    break;
+
+                case UniversalChallengeType.JoinMeepleRooms:
+                    if (await HasUserJoinedMeepleRoomToday(context, userId, gameId, cancellationToken))
+                    {
+                        challenge.UserAttempts++;
+                        updated.Add(challenge);
+                    }
+                    break;
+            }
+        }
+
+        var completed = challenges.Where(x => x.UserAttempts == x.ChallengeAttempts).ToList();
+
+        foreach (var challenge in completed)
+        {
+            challenge.CompletedDate = DateTime.UtcNow;
+            challenge.IsCompleted = true;
+
+            updated.RemoveAll(x => x.Id == challenge.Id);
+
+            await this.challengeHubClient.SendUniversalChallengeCompleted(
+                userId, challenge.UniversalChallenge.Name_EN, challenge.UniversalChallenge.Name_BG, challenge.RewardPoints);
+
+            if (!await userService.HasUserAnyMatchingRole(userId, Role.SuperAdmin))
+            {
+                await statisticQueuePublisher.PublishAsync(new StatisticJobQueue.ChallengeProcessingOutcomeJob(
+                    userId,
+                    10000 + challenge.Id,
+                    ChallengeOutcome.Completed,
+                    challenge.CompletedDate!.Value,
+                    DateTime.UtcNow));
+            }
+        }
+
+        return updated;
+    }
+
+    private async Task<bool> HasUserJoinedMeepleRoomToday(
+        TenantDbContext context, string userId, int gameId, CancellationToken cancellationToken)
+    {
+        var today = DateTime.UtcNow.Date;
+
+        var createdRoom = await context.Rooms
+            .FirstOrDefaultAsync(x => x.UserId == userId && x.GameId == gameId && x.StartDate.Date == today, cancellationToken);
+
+        if (createdRoom != null)
+            return true;
+
+        var participantRoom = await context.RoomParticipants
+            .Include(x => x.Room)
+            .FirstOrDefaultAsync(x => x.UserId == userId && x.Room.GameId == gameId && x.Room.StartDate.Date == today, cancellationToken);
+
+        return participantRoom != null;
+    }
+
+    #endregion Helpers ProcessChallengeAfterSession CustomPeriod
+
     /// <inheritdoc/>
     public async Task<bool> CollectRewardsFromChallenges(string userId, CancellationToken cancellationToken)
     {
@@ -240,10 +434,15 @@ public class GameSessionService : IGameSessionService
                             return false;
 
                         var customPeriodUserChallenges = customPeriod.CustomPeriodUserChallenges.Where(x => x.IsCompleted && !x.IsRewardCollected);
-
-                        if (!customPeriodUserChallenges.Any()) return false;
+                        var customPeriodUserUniversalChallenges = customPeriod.CustomPeriodUserUniversalChallenges.Where(x => x.IsCompleted && !x.IsRewardCollected);
 
                         foreach (var challenge in customPeriodUserChallenges)
+                        {
+                            customPeriod.Points += challenge.RewardPoints;
+                            challenge.IsRewardCollected = true;
+                        }
+
+                        foreach (var challenge in customPeriodUserUniversalChallenges)
                         {
                             customPeriod.Points += challenge.RewardPoints;
                             challenge.IsRewardCollected = true;
@@ -259,10 +458,23 @@ public class GameSessionService : IGameSessionService
                                 !x.IsActive &&
                                 !x.IsRewardCollected &&
                                 x.CompletedDate != null &&
+                                x.Challenge != null &&
                                 x.Status == ChallengeStatus.Completed)
                             .ToListAsync(cancellationToken);
 
-                        if (!userChallenges.Any()) return false;
+                        var userUniversalChallenges = await context.UserChallenges
+                            .AsTracking()
+                            .Include(x => x.UniversalChallenge)
+                            .Where(x =>
+                                x.UserId == userId &&
+                                !x.IsActive &&
+                                !x.IsRewardCollected &&
+                                x.CompletedDate != null &&
+                                x.UniversalChallenge != null &&
+                                x.Status == ChallengeStatus.Completed)
+                            .ToListAsync(cancellationToken);
+
+                        if (!userChallenges.Any() && !userUniversalChallenges.Any()) return false;
 
                         var periodPerformance = await TryGetActivePeriodAsync(context, userId, includeRewards: false, cancellationToken);
 
@@ -270,7 +482,12 @@ public class GameSessionService : IGameSessionService
 
                         foreach (var challenge in userChallenges)
                         {
-                            periodPerformance.Points += (int)challenge.Challenge.RewardPoints;
+                            periodPerformance.Points += (int)challenge.Challenge!.RewardPoints;
+                            challenge.IsRewardCollected = true;
+                        }
+                        foreach (var challenge in userUniversalChallenges)
+                        {
+                            periodPerformance.Points += (int)challenge.UniversalChallenge!.RewardPoints;
                             challenge.IsRewardCollected = true;
                         }
                     }
@@ -440,6 +657,10 @@ public class GameSessionService : IGameSessionService
            .ThenInclude(x => x.Game)
            .Include(x => x.CustomPeriodUserRewards)
            .ThenInclude(x => x.Reward)
+           .Include(x => x.CustomPeriodUserUniversalChallenges)
+           .ThenInclude(x => x.UniversalChallenge)
+           .Include(x => x.CustomPeriodUserUniversalChallenges)
+           .ThenInclude(x => x.Game)
            .Where(x => x.UserId == userId && x.IsPeriodActive)
            .ToListAsync(cancellationToken);
 

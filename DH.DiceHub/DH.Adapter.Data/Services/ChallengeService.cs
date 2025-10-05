@@ -57,7 +57,6 @@ public class ChallengeService : IChallengeService
             await context.SaveChangesAsync(cancellationToken);
         }
     }
-
     public async Task<List<GetUserUniversalChallengeListQueryModel>> GetUserUniversalChallenges(CancellationToken cancellationToken)
     {
         using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
@@ -304,11 +303,17 @@ public class ChallengeService : IChallengeService
         {
             var period = await context.UserChallengePeriodPerformances
                 .Include(x => x.CustomPeriodUserChallenges)
-                .ThenInclude(x => x.Game)
-                .ThenInclude(x => x.Image)
+                    .ThenInclude(x => x.Game)
+                        .ThenInclude(x => x.Image)
                 .Include(x => x.CustomPeriodUserRewards)
-                .ThenInclude(x => x.Reward)
-                .ThenInclude(x => x.Image)
+                    .ThenInclude(x => x.Reward)
+                        .ThenInclude(x => x.Image)
+                .Include(x => x.CustomPeriodUserUniversalChallenges)
+                    .ThenInclude(x => x.Game)
+                        .ThenInclude(x => x.Image)
+                .Include(x => x.CustomPeriodUserUniversalChallenges)
+                    .ThenInclude(x => x.UniversalChallenge)
+
                 .FirstOrDefaultAsync(x => x.UserId == this.userContext.UserId && x.IsPeriodActive, cancellationToken);
 
             if (period == null)
@@ -331,10 +336,27 @@ public class ChallengeService : IChallengeService
                 RewardImageId = x.Reward.Image.Id,
             }).ToList();
 
+            var universalChallenges = period.CustomPeriodUserUniversalChallenges.OrderBy(x => x.UniversalChallengeId).Select(x => new GetUserCustomPeriodUniversalChallengeQueryModel
+            {
+                MaxAttempts = x.ChallengeAttempts,
+                CurrentAttempts = x.UserAttempts,
+                GameImageId = x.Game != null ? x.Game.Image.Id : null,
+                GameName = x.Game != null ? x.Game.Name : null,
+                RewardPoints = x.RewardPoints,
+                Type = x.UniversalChallenge.Type,
+                Description_EN = x.UniversalChallenge.Description_EN,
+                Description_BG = x.UniversalChallenge.Description_BG,
+                Name_BG = x.UniversalChallenge.Name_BG,
+                Name_EN = x.UniversalChallenge.Name_EN,
+                MinValue = x.MinValue,
+                Status = x.IsCompleted ? Domain.Enums.ChallengeStatus.Completed : Domain.Enums.ChallengeStatus.InProgress
+            }).ToList();
+
             return new GetUserCustomPeriodQueryModel
             {
                 Rewards = rewards,
-                Challenges = challenges
+                Challenges = challenges,
+                UniversalChallenges = universalChallenges
             };
         }
     }

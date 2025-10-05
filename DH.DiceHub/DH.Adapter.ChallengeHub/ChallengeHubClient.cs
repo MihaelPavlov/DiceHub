@@ -110,6 +110,55 @@ public class ChallengeHubClient : Hub, IChallengeHubClient
         }
     }
 
+    public async Task SendUniversalChallengeCompleted(
+        string userId, string challengeName_EN, string challengeName_BG, int rewardPoints)
+    {
+        if (IsUserConnected(userId))
+        {
+            await this.hub.Clients.Group($"user-{userId}")
+                .SendAsync("challengeUniversalCompleted", new
+                {
+                    challengeName_en = challengeName_EN,
+                    challengeName_bg = challengeName_BG,
+                    rewardPoints = rewardPoints
+                });
+        }
+        else
+        {
+            await this.pushNotificationsService.SendNotificationToUsersAsync(
+                [userId],
+                new UniversalChallengeCompletedNotification
+                {
+                    ChallengeName_EN = challengeName_EN,
+                    ChallengeName_BG = challengeName_BG,
+                    RewardPoints = rewardPoints,
+                }, CancellationToken.None);
+        }
+    }
+
+    public async Task SendUniversalChallengeUpdated(string userId, string challengeName_EN, string challengeName_BG)
+    {
+        if (IsUserConnected(userId))
+        {
+            await this.hub.Clients.Group($"user-{userId}")
+                .SendAsync("challengeUniversalUpdated", new
+                {
+                    challengeName_en = challengeName_EN,
+                    challengeName_bg = challengeName_BG,
+                });
+        }
+        else
+        {
+            await this.pushNotificationsService.SendNotificationToUsersAsync(
+                [userId],
+                new UniversalChallengeUpdatedNotification
+                {
+                    ChallengeName_EN = challengeName_EN,
+                    ChallengeName_BG = challengeName_BG,
+                }, CancellationToken.None);
+        }
+    }
+
     private bool IsUserConnected(string userId)
     {
         return UserConnections.ContainsKey(userId);
