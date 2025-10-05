@@ -8,6 +8,7 @@ using DH.Domain.Services.TenantSettingsService;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Npgsql;
+using System.Security.Cryptography;
 
 namespace DH.Adapter.Data.Services;
 
@@ -335,6 +336,65 @@ public class UserChallengesManagementService : IUserChallengesManagementService
             //    TotalChallengesCompleted = 0,
             //    UserId = userId,
             //});
+        }
+
+        var universalChallenges = await context.UniversalChallenges.ToListAsync(cancellationToken);
+
+        await context.UserChallenges
+            .Where(x => x.UserId == userId && x.UniversalChallenge != null && x.IsActive)
+            .ExecuteUpdateAsync(x => x.SetProperty(x => x.IsActive, false));
+
+        foreach (var challenge in universalChallenges)
+        {
+            if (challenge.Type == UniversalChallengeType.PlayFavoriteGame)
+            {
+                var favoriteUserGames = await context.GameLikes
+                    .Where(x => x.UserId == userId)
+                    .Select(x => x.GameId)
+                    .ToListAsync(cancellationToken);
+
+                int selectedGameId;
+
+                if (favoriteUserGames.Any())
+                {
+                    var randomIndex = RandomNumberGenerator.GetInt32(0, favoriteUserGames.Count);
+                    selectedGameId = favoriteUserGames[randomIndex];
+                }
+                else
+                {
+                    var allGameIds = await context.Games
+                        .Select(g => g.Id)
+                        .ToListAsync(cancellationToken);
+
+                    var randomIndex = RandomNumberGenerator.GetInt32(0, allGameIds.Count);
+                    selectedGameId = allGameIds[randomIndex];
+                }
+
+                await context.UserChallenges.AddAsync(new UserChallenge
+                {
+                    UserId = userId,
+                    IsActive = true,
+                    Status = ChallengeStatus.InProgress,
+                    CreatedDate = DateTime.UtcNow,
+                    AttemptCount = 0,
+                    UniversalChallengeId = challenge.Id,
+                    UniversalChallenge = challenge,
+                    GameId = selectedGameId,
+                });
+
+                continue;
+            }
+
+            await context.UserChallenges.AddAsync(new UserChallenge
+            {
+                UserId = userId,
+                IsActive = true,
+                Status = ChallengeStatus.InProgress,
+                CreatedDate = DateTime.UtcNow,
+                AttemptCount = 0,
+                UniversalChallengeId = challenge.Id,
+                UniversalChallenge = challenge,
+            });
         }
     }
 
