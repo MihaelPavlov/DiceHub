@@ -38,11 +38,8 @@ import { SupportLanguages } from '../../../entities/common/models/support-langua
 import { ChallengeType } from '../shared/challenge-type.enum';
 import { UniversalChallengeType } from '../shared/challenge-universal-type.enum';
 import { LanguageService } from '../../../shared/services/language.service';
-import { IUniversalChallengeListResult } from '../../../entities/challenges/models/universal-challenge.model';
 import { IUserUniversalChallenge } from '../../../entities/challenges/models/user-universal-challenge.model';
-import { ChallengeRewardPoint } from '../../../entities/challenges/enums/challenge-reward-point.enum';
 import { ControlsMenuComponent } from '../../../shared/components/menu/controls-menu.component';
-import { ICustomPeriodChallenge } from '../../../entities/challenges/models/custom-period.model';
 import { GameQrCodeDialog } from '../../../features/games-library/dialogs/qr-code-dialog/qr-code-dialog.component';
 import { QrCodeType } from '../../../entities/qr-code-scanner/enums/qr-code-type.enum';
 
@@ -70,6 +67,8 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
 
   public userCustomPeriodChallengesList: IUserCustomPeriodChallenge[] = [];
   public userCustomPeriodRewardsList: IUserCustomPeriodReward[] = [];
+
+  public userUniversalChallengeList: IUserUniversalChallenge[] = [];
 
   public ChallengeStatus = ChallengeStatus;
   public readonly ImageEntityType = ImageEntityType;
@@ -104,7 +103,6 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
   public currentActiveTab: ChallengeType = ChallengeType.Game;
   public UniversalChallengeType = UniversalChallengeType;
   public SupportLanguages = SupportLanguages;
-  public userUniversalChallengeList: IUserUniversalChallenge[] = [];
   /*
   [
     {
@@ -299,14 +297,10 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
     combineLatest([
       this.challengeService.getUserChallengePeriodPerformance(),
       this.tenantSettingsService.get(),
-      this.challengeService.getUserUniversalChallengeList(),
     ]).subscribe({
-      next: ([periodPerformance, tenantSettings, userUniversalChallenges]) => {
+      next: ([periodPerformance, tenantSettings]) => {
         this.periodPerformance = periodPerformance;
         this.tenantSettings = tenantSettings;
-        //TODO: When BE userUniversalChallenges ARE READY
-        this.userUniversalChallengeList = userUniversalChallenges ?? [];
-        this.initUserUniversalChallengesAnimation();
 
         if (this.periodPerformance && !this.tenantSettings.isCustomPeriodOn) {
           combineLatest([
@@ -314,10 +308,17 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
             this.rewardsService.getUserChallengePeriodRewardList(
               this.periodPerformance.id
             ),
+            this.challengeService.getUserUniversalChallengeList(),
           ]).subscribe({
-            next: ([userChallengeList, rewardList]) => {
+            next: ([
+              userChallengeList,
+              rewardList,
+              userUniversalChallenges,
+            ]) => {
               this.userChallengeList = userChallengeList;
               this.userChallengePeriodRewardList = rewardList;
+              this.userUniversalChallengeList = userUniversalChallenges ?? [];
+              this.initUserUniversalChallengesAnimation();
 
               // Required to detect the changes from the api. Otherwise dom is empty
               // Force the DOM Update Before Querying
@@ -371,6 +372,9 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
               if (customPeriod) {
                 this.userCustomPeriodChallengesList = customPeriod.challenges;
                 this.userCustomPeriodRewardsList = customPeriod.rewards;
+                this.userUniversalChallengeList =
+                  customPeriod.universalChallenges;
+                this.initUserUniversalChallengesAnimation();
 
                 // Required to detect the changes from the api. Otherwise dom is empty
                 // Force the DOM Update Before Querying
@@ -427,8 +431,7 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
       width: '17rem',
       data: {
         Id: 14,
-        Name:
-          "TEST QR CODE",
+        Name: 'TEST QR CODE',
         Type: QrCodeType.Game,
       },
     });
@@ -572,19 +575,18 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
   }
 
   private initUserUniversalChallengesAnimation(): void {
-    this.userUniversalChallengeList
-      .forEach((_, i) => {
-        const interval = setInterval(() => {
-          // Random chance to shake
-          if (Math.random() < 0.3) {
-            // 30% chance every interval
-            this.shakeStates[i] = true;
+    this.userUniversalChallengeList.forEach((_, i) => {
+      const interval = setInterval(() => {
+        // Random chance to shake
+        if (Math.random() < 0.3) {
+          // 30% chance every interval
+          this.shakeStates[i] = true;
 
-            // Remove shake after animation duration
-            setTimeout(() => (this.shakeStates[i] = false), 1500);
-          }
-        }, 3000 + Math.random() * 10000); // random 2–5 seconds
-        this.intervals.push(interval);
-      });
+          // Remove shake after animation duration
+          setTimeout(() => (this.shakeStates[i] = false), 1500);
+        }
+      }, 3000 + Math.random() * 10000); // random 2–5 seconds
+      this.intervals.push(interval);
+    });
   }
 }

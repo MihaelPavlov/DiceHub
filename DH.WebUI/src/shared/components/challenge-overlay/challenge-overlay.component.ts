@@ -75,10 +75,58 @@ export class ChallengeOverlayComponent {
     this.showChallengeCompletion = true;
   }
 
-  public updateProgress(challengeGameName: string): void {
+  public completeUniversalChallenge(
+    challengeName_en: string,
+    challengeName_bg,
+    reward: number
+  ): void {
+    const name =
+      this.languageService.getCurrentLanguage() === SupportLanguages.EN
+        ? challengeName_en
+        : challengeName_bg;
+
+    const message = this.ts.instant(
+      'challenge_overlay.completed_universal_challenge',
+      {
+        name,
+      }
+    );
+    this.challengeCompletionMessage =
+      this.sanitizer.bypassSecurityTrustHtml(message);
+
+    this.challengeCompletionReward = this.ts.instant(
+      'challenge_overlay.reward_points',
+      {
+        reward,
+      }
+    );
+    this.showChallengeCompletion = true;
+  }
+
+  public updateChallengeProgress(challengeGameName: string): void {
     const message = this.ts.instant('challenge_overlay.updated_challenge', {
       challengeGameName,
     });
+    this.challengeProgressMessage =
+      this.sanitizer.bypassSecurityTrustHtml(message);
+    this.showChallengeProgress = true;
+  }
+
+  public updateUniversalChallengeProgress(
+    challengeName_en: string,
+    challengeName_bg
+  ): void {
+    const name =
+      this.languageService.getCurrentLanguage() === SupportLanguages.EN
+        ? challengeName_en
+        : challengeName_bg;
+
+    const message = this.ts.instant(
+      'challenge_overlay.updated_universal_challenge',
+      {
+        name,
+      }
+    );
     this.challengeProgressMessage =
       this.sanitizer.bypassSecurityTrustHtml(message);
     this.showChallengeProgress = true;

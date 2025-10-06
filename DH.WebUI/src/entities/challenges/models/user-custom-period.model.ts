@@ -1,6 +1,9 @@
+import { IUserUniversalChallenge } from './user-universal-challenge.model';
+
 export interface IUserCustomPeriod {
   rewards: IUserCustomPeriodReward[];
   challenges: IUserCustomPeriodChallenge[];
+  universalChallenges: IUserUniversalChallenge[];
 }
 
 export interface IUserCustomPeriodReward {
