@@ -63,7 +63,7 @@ public class GameSessionService : IGameSessionService
                             return false;
 
                         var updatedChallenges = await ProcessCustomChallengesAsync(context, customPeriod, userId, gameId, cancellationToken);
-                        var updatedUniversalChallenges = await ProcessUniversalChallengesAsync(context, customPeriod, userId, gameId, cancellationToken);
+                        var updatedUniversalChallenges = await ProcessCustomUniversalChallengesAsync(context, customPeriod, userId, gameId, cancellationToken);
 
                         foreach (var challenge in updatedUniversalChallenges)
                             await this.challengeHubClient.SendUniversalChallengeUpdated(
@@ -328,7 +328,7 @@ public class GameSessionService : IGameSessionService
         return updated;
     }
 
-    private async Task<List<CustomPeriodUserUniversalChallenge>> ProcessUniversalChallengesAsync(
+    private async Task<List<CustomPeriodUserUniversalChallenge>> ProcessCustomUniversalChallengesAsync(
         TenantDbContext context,
         UserChallengePeriodPerformance customPeriod,
         string userId, int gameId,
@@ -532,23 +532,18 @@ public class GameSessionService : IGameSessionService
 
                         var completedRewards = new List<UserChallengeReward>();
 
-                        foreach (var userReward in customPeriodUserRewards)
-                        {
-                            if (customPeriod.Points >= userReward.RequiredPoints)
-                            {
-                                userReward.IsCompleted = true;
-                                completedRewards.Add(new UserChallengeReward
-                                {
-                                    UserId = userId,
-                                    AvailableFromDate = DateTime.UtcNow,
-                                    ExpiresDate = DateTime.UtcNow.AddDays(Enum.Parse<TimePeriodType>(tenantSettings.PeriodOfRewardReset).GetDays()),
-                                    IsClaimed = false,
-                                    RewardId = userReward.RewardId,
-                                    IsExpired = false,
-                                });
-                            }
-                        }
+                        ProcessEligibleUserRewardsForCustomPeriod(userId, tenantSettings, customPeriod, customPeriodUserRewards, completedRewards);
 
+                        var rewardGrantedChallenge = customPeriod.CustomPeriodUserUniversalChallenges
+                            .FirstOrDefault(x => x.UniversalChallenge.Type == UniversalChallengeType.RewardsGranted);
+
+                        if (rewardGrantedChallenge != null && completedRewards.Any())
+                        {
+                            var isChallengeCompleted = await HandleCustomRewardsGrantedChallengeAsync(userId, customPeriod, completedRewards, rewardGrantedChallenge);
+
+                            if (isChallengeCompleted) // If this universal challenge just completed, recheck rewards again(as total points changed)
+                                ProcessEligibleUserRewardsForCustomPeriod(userId, tenantSettings, customPeriod, customPeriodUserRewards, completedRewards);
+                        }
 
                         if (completedRewards.Any())
                             await context.UserChallengeRewards.AddRangeAsync(completedRewards, cancellationToken);
@@ -572,21 +567,27 @@ public class GameSessionService : IGameSessionService
 
                         var completedRewards = new List<UserChallengeReward>();
 
-                        foreach (var item in userPeriodRewards)
+                        ProcessEligibleUserRewardsForPeriod(userId, tenantSettings, periodPerformance, userPeriodRewards, completedRewards);
+
+                        var userUniversalChallenges = await context.UserChallenges
+                            .AsTracking()
+                            .Include(x => x.UniversalChallenge)
+                            .Where(x =>
+                                x.UserId == userId &&
+                                x.IsActive &&
+                                x.Status == ChallengeStatus.InProgress &&
+                                x.UniversalChallenge != null)
+                            .ToListAsync(cancellationToken);
+
+                        var rewardGrantedChallenge = userUniversalChallenges
+                            .FirstOrDefault(x => x.UniversalChallenge?.Type == UniversalChallengeType.RewardsGranted);
+
+                        if (rewardGrantedChallenge != null && completedRewards.Any())
                         {
-                            if (periodPerformance.Points >= (int)item.ChallengeReward.RequiredPoints)
-                            {
-                                item.IsCompleted = true;
-                                completedRewards.Add(new UserChallengeReward
-                                {
-                                    UserId = userId,
-                                    AvailableFromDate = DateTime.UtcNow,
-                                    ExpiresDate = DateTime.UtcNow.AddDays(Enum.Parse<TimePeriodType>(tenantSettings.PeriodOfRewardReset).GetDays()),
-                                    IsClaimed = false,
-                                    RewardId = item.ChallengeRewardId,
-                                    IsExpired = false,
-                                });
-                            }
+                            bool isChallengeCompleted = await HandleRewardsGrantedChallengeAsync(userId, periodPerformance, completedRewards, rewardGrantedChallenge);
+
+                            if (isChallengeCompleted) // If this universal challenge just completed, recheck rewards again(as total points changed)
+                                ProcessEligibleUserRewardsForPeriod(userId, tenantSettings, periodPerformance, userPeriodRewards, completedRewards);
                         }
 
                         if (completedRewards.Any())
@@ -613,6 +614,136 @@ public class GameSessionService : IGameSessionService
             }
         }
     }
+
+    #region EvaluateUserRewards Helper Methods
+
+    private async Task<bool> HandleRewardsGrantedChallengeAsync(
+        string userId, UserChallengePeriodPerformance periodPerformance, List<UserChallengeReward> completedRewards, UserChallenge rewardGrantedChallenge)
+    {
+        rewardGrantedChallenge.AttemptCount += completedRewards.Count;
+
+        if (rewardGrantedChallenge.AttemptCount < rewardGrantedChallenge.UniversalChallenge!.Attempts)
+        {
+            await challengeHubClient.SendUniversalChallengeUpdated(
+                userId,
+                rewardGrantedChallenge.UniversalChallenge.Name_EN,
+                rewardGrantedChallenge.UniversalChallenge.Name_BG);
+
+            return false;
+        }
+
+        rewardGrantedChallenge.Status = ChallengeStatus.Completed;
+        rewardGrantedChallenge.CompletedDate = DateTime.UtcNow;
+        rewardGrantedChallenge.IsRewardCollected = true;
+        rewardGrantedChallenge.IsActive = false;
+
+        periodPerformance.Points += (int)rewardGrantedChallenge.UniversalChallenge.RewardPoints;
+
+        await this.challengeHubClient.SendUniversalChallengeCompleted(
+            userId,
+            rewardGrantedChallenge.UniversalChallenge.Name_EN,
+            rewardGrantedChallenge.UniversalChallenge.Name_BG,
+            (int)rewardGrantedChallenge.UniversalChallenge.RewardPoints);
+
+        if (!await userService.HasUserAnyMatchingRole(userId, Role.SuperAdmin))
+        {
+            await statisticQueuePublisher.PublishAsync(new StatisticJobQueue.ChallengeProcessingOutcomeJob(
+                userId,
+                10000 + rewardGrantedChallenge.Id,
+                ChallengeOutcome.Completed,
+                rewardGrantedChallenge.CompletedDate!.Value,
+                DateTime.UtcNow));
+        }
+
+        return true;
+    }
+
+    private static void ProcessEligibleUserRewardsForPeriod(
+        string userId, TenantSetting tenantSettings, UserChallengePeriodPerformance periodPerformance,
+        IEnumerable<UserChallengePeriodReward> userPeriodRewards, List<UserChallengeReward> completedRewards)
+    {
+        foreach (var item in userPeriodRewards)
+        {
+            if (periodPerformance.Points >= (int)item.ChallengeReward.RequiredPoints)
+            {
+                item.IsCompleted = true;
+                completedRewards.Add(new UserChallengeReward
+                {
+                    UserId = userId,
+                    AvailableFromDate = DateTime.UtcNow,
+                    ExpiresDate = DateTime.UtcNow.AddDays(Enum.Parse<TimePeriodType>(tenantSettings.PeriodOfRewardReset).GetDays()),
+                    IsClaimed = false,
+                    RewardId = item.ChallengeRewardId,
+                    IsExpired = false,
+                });
+            }
+        }
+    }
+
+    private async Task<bool> HandleCustomRewardsGrantedChallengeAsync(
+        string userId, UserChallengePeriodPerformance customPeriod, 
+        List<UserChallengeReward> completedRewards, CustomPeriodUserUniversalChallenge rewardGrantedChallenge)
+    {
+        rewardGrantedChallenge.UserAttempts += completedRewards.Count;
+
+        if (rewardGrantedChallenge.UserAttempts < rewardGrantedChallenge.ChallengeAttempts)
+        {
+            await challengeHubClient.SendUniversalChallengeUpdated(
+                userId,
+                rewardGrantedChallenge.UniversalChallenge.Name_EN,
+                rewardGrantedChallenge.UniversalChallenge.Name_BG);
+
+            return false;
+        }
+
+        rewardGrantedChallenge.IsCompleted = true;
+        rewardGrantedChallenge.CompletedDate = DateTime.UtcNow;
+        rewardGrantedChallenge.IsRewardCollected = true;
+
+        customPeriod.Points += rewardGrantedChallenge.RewardPoints;
+
+        await this.challengeHubClient.SendUniversalChallengeCompleted(
+            userId,
+            rewardGrantedChallenge.UniversalChallenge.Name_EN,
+            rewardGrantedChallenge.UniversalChallenge.Name_BG,
+            rewardGrantedChallenge.RewardPoints);
+
+        if (!await userService.HasUserAnyMatchingRole(userId, Role.SuperAdmin))
+        {
+            await statisticQueuePublisher.PublishAsync(new StatisticJobQueue.ChallengeProcessingOutcomeJob(
+                userId,
+                10000 + rewardGrantedChallenge.Id,
+                ChallengeOutcome.Completed,
+                rewardGrantedChallenge.CompletedDate!.Value,
+                DateTime.UtcNow));
+        }
+
+        return true;
+    }
+
+    private static void ProcessEligibleUserRewardsForCustomPeriod(
+        string userId, TenantSetting tenantSettings, UserChallengePeriodPerformance customPeriod, 
+        IEnumerable<CustomPeriodUserReward> customPeriodUserRewards, List<UserChallengeReward> completedRewards)
+    {
+        foreach (var userReward in customPeriodUserRewards)
+        {
+            if (customPeriod.Points >= userReward.RequiredPoints)
+            {
+                userReward.IsCompleted = true;
+                completedRewards.Add(new UserChallengeReward
+                {
+                    UserId = userId,
+                    AvailableFromDate = DateTime.UtcNow,
+                    ExpiresDate = DateTime.UtcNow.AddDays(Enum.Parse<TimePeriodType>(tenantSettings.PeriodOfRewardReset).GetDays()),
+                    IsClaimed = false,
+                    RewardId = userReward.RewardId,
+                    IsExpired = false,
+                });
+            }
+        }
+    }
+
+    #endregion EvaluateUserRewards Helper Methods
 
     private async Task SaveAndCommitTransaction(TenantDbContext context, IDbContextTransaction transaction, CancellationToken cancellationToken)
     {
