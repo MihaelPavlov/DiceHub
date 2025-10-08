@@ -681,7 +681,7 @@ public class GameSessionService : IGameSessionService
     }
 
     private async Task<bool> HandleCustomRewardsGrantedChallengeAsync(
-        string userId, UserChallengePeriodPerformance customPeriod, 
+        string userId, UserChallengePeriodPerformance customPeriod,
         List<UserChallengeReward> completedRewards, CustomPeriodUserUniversalChallenge rewardGrantedChallenge)
     {
         rewardGrantedChallenge.UserAttempts += completedRewards.Count;
@@ -722,7 +722,7 @@ public class GameSessionService : IGameSessionService
     }
 
     private static void ProcessEligibleUserRewardsForCustomPeriod(
-        string userId, TenantSetting tenantSettings, UserChallengePeriodPerformance customPeriod, 
+        string userId, TenantSetting tenantSettings, UserChallengePeriodPerformance customPeriod,
         IEnumerable<CustomPeriodUserReward> customPeriodUserRewards, List<UserChallengeReward> completedRewards)
     {
         foreach (var userReward in customPeriodUserRewards)

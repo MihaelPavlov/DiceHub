@@ -69,7 +69,9 @@ export const PATH = {
   CHALLENGES: {
     CORE: 'api/challenges',
     LIST: 'list',
+    UNIVERSAL_LIST: 'universal-list',
     GET_USER_CHALLENGES: 'get-user-challenges',
+    GET_USER_UNIVERSAL_CHALLENGES: 'get-user-universal-challenges',
     GET_USER_CHALLENGE_PERIOD_PERFORMANCE:
       'get-user-challenge-period-performance',
     GET_CUSTOM_PERIOD: 'get-custom-period',
