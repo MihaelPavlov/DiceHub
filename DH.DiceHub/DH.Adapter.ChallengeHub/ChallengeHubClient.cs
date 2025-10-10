@@ -116,7 +116,7 @@ public class ChallengeHubClient : Hub, IChallengeHubClient
         if (IsUserConnected(userId))
         {
             await this.hub.Clients.Group($"user-{userId}")
-                .SendAsync("challengeUniversalCompleted", new
+                .SendAsync("universalChallengeCompleted", new
                 {
                     challengeName_en = challengeName_EN,
                     challengeName_bg = challengeName_BG,
@@ -141,7 +141,7 @@ public class ChallengeHubClient : Hub, IChallengeHubClient
         if (IsUserConnected(userId))
         {
             await this.hub.Clients.Group($"user-{userId}")
-                .SendAsync("challengeUniversalUpdated", new
+                .SendAsync("universalChallengeUpdated", new
                 {
                     challengeName_en = challengeName_EN,
                     challengeName_bg = challengeName_BG,

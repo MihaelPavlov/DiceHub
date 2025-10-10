@@ -6,6 +6,7 @@ using DH.Domain.Adapters.Statistics;
 using DH.Domain.Adapters.Statistics.Services;
 using DH.Domain.Entities;
 using DH.Domain.Enums;
+using DH.Domain.Extensions;
 using DH.Domain.Helpers;
 using DH.Domain.Services;
 using DH.Domain.Services.TenantSettingsService;
@@ -766,18 +767,7 @@ public class GameSessionService : IGameSessionService
 
         var periods = await query.ToListAsync(cancellationToken);
 
-        if (periods.Count > 1)
-        {
-            this.logger.LogWarning("Active user period performance can't be more then 1(One). UserId {UserId}", userId);
-            return null;
-        }
-        else if (periods.Count == 0)
-        {
-            this.logger.LogWarning("There is no active user period performance. UserId {UserId}", userId);
-            return null;
-        }
-
-        return periods.First();
+        return periods.GetActiveUserPeriod(this.logger, userId);
     }
 
     private async Task<UserChallengePeriodPerformance?> TryGetActiveCustomPeriodAsync(TenantDbContext context, string userId, CancellationToken cancellationToken)
@@ -795,17 +785,6 @@ public class GameSessionService : IGameSessionService
            .Where(x => x.UserId == userId && x.IsPeriodActive)
            .ToListAsync(cancellationToken);
 
-        if (customPeriods.Count == 0)
-        {
-            this.logger.LogWarning("Active Custom Period was not found for UserId {UserId}", userId);
-            return null;
-        }
-        else if (customPeriods.Count > 1)
-        {
-            this.logger.LogWarning("Active Custom Period can't be more then 1(One). UserId {UserId}", userId);
-            return null;
-        }
-
-        return customPeriods.First();
+        return customPeriods.GetActiveUserCustomPeriod(this.logger, userId);
     }
 }

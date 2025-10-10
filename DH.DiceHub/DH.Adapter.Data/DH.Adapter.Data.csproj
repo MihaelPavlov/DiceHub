@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DH.Domain.Extension\DH.Domain.Extension.csproj" />
     <ProjectReference Include="..\DH.Domain\DH.Domain.csproj" />
   </ItemGroup>
 
