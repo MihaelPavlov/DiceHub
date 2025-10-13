@@ -81,6 +81,14 @@ public class QRCodeManager : IQRCodeManager
                         )
                     );
                 break;
+            case QrCodeType.PurchaseChallenge:
+                this.qRCodeContext.SetState(
+                    new PurchaseChallengeQRCodeState(
+                        this.containerService.Resolve<IUserContext>(),
+                        this.containerService.Resolve<IUniversalChallengeProcessing>()
+                        )
+                    );
+                break;
             default:
                 this.qRCodeContext.SetState(new UnknownQRCodeState());
                 break;

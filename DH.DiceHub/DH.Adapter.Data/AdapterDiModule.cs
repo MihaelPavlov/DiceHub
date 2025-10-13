@@ -41,7 +41,8 @@ public static class DataDIModule
             .AddScoped<IQueuedJobService, QueuedJobService>()
             .AddScoped<IDataSeeder, DataSeeder>()
             .AddScoped<IEmailHelperService, EmailHelperService>()
-            .AddScoped<IStatisticsService, StatisticsService>();
+            .AddScoped<IStatisticsService, StatisticsService>()
+            .AddScoped<IUniversalChallengeProcessing, UniversalChallengeProcessing>();
 
         services.AddMemoryCache();
         services.AddScoped<IUserSettingsCache, UserSettingsCache>();

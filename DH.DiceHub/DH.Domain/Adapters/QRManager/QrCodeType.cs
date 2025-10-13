@@ -8,4 +8,5 @@ public enum QrCodeType
     Reward = 3,
     GameReservation = 4,
     TableReservation = 5,
+    PurchaseChallenge = 6,
 }
