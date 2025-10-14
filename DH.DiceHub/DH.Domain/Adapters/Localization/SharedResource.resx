@@ -507,4 +507,16 @@
   <data name="UniversalChallengeUpdatedBody" xml:space="preserve">
     <value>Прогресът ви по универсалното предизвикателството „{0}“ е обновен. Продължавайте, за да завършите предизвикателството!</value>
   </data>
+  <data name="PurchaseUniversalChallengeAccessDenied" xml:space="preserve">
+    <value>Достъпът е отказан: само упълномощен персонал може да сканира Универсално предизвикателство Купи X артикула.</value>
+  </data>
+  <data name="QrCodeScannedMissingUserId" xml:space="preserve">
+    <value>Невалидна заявка: Липсва ID на потребителя.</value>
+  </data>
+  <data name="QrCodeScannedProcessingFailed" xml:space="preserve">
+    <value>Обработката не бе успешна.</value>
+  </data>
+  <data name="GameQrCodeScannedIsInvalid" xml:space="preserve">
+    <value>Тази игра не съществува. Моля, потърсете помощ от персонала със сканираната игра.</value>
+  </data>
 </root>

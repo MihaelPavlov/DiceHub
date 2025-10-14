@@ -507,4 +507,16 @@
   <data name="UniversalChallengeUpdatedBody" xml:space="preserve">
     <value>Your progress on universal challenge **{0}** has been updated. Keep going to complete the challenge!</value>
   </data>
+  <data name="PurchaseUniversalChallengeAccessDenied" xml:space="preserve">
+    <value>Access denied: only authorized staff can scan Universal Buy X Items Challenge.</value>
+  </data>
+  <data name="QrCodeScannedMissingUserId" xml:space="preserve">
+    <value>Invalid request: User ID is missing.</value>
+  </data>
+  <data name="QrCodeScannedProcessingFailed" xml:space="preserve">
+    <value>Processing was not successful.</value>
+  </data>
+  <data name="GameQrCodeScannedIsInvalid" xml:space="preserve">
+    <value>Game doesn't exists. Reach someone from the staff with the scanned game.</value>
+  </data>
 </root>

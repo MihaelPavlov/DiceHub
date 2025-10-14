@@ -1,4 +1,5 @@
-﻿using DH.Domain.Adapters.QRManager;
+﻿using DH.Domain.Adapters.Localization;
+using DH.Domain.Adapters.QRManager;
 using DH.Domain.Adapters.QRManager.StateModels;
 using DH.Domain.Entities;
 using DH.Domain.Repositories;
@@ -9,10 +10,12 @@ namespace DH.Adapter.QRManager.QRCodeStates;
 public class GameQRCodeState : IQRCodeState
 {
     readonly IRepository<Game> gameRepository;
+    readonly ILocalizationService loc;
 
-    public GameQRCodeState(IRepository<Game> gameRepository)
+    public GameQRCodeState(IRepository<Game> gameRepository, ILocalizationService loc)
     {
         this.gameRepository = gameRepository;
+        this.loc = loc;
     }
 
     public async Task<QrCodeValidationResult> HandleAsync(IQRCodeContext context, QRReaderModel data, CancellationToken cancellationToken)
@@ -25,7 +28,8 @@ public class GameQRCodeState : IQRCodeState
 
             if (game == null)
             {
-                validationResult.ErrorMessage = "Game doesn't exists. Reach someone from the staff with the scanned game.";
+                validationResult.ErrorMessage = this.loc["GameQrCodeScannedIsInvalid"];
+                validationResult.IsValid = false;
                 await context.TrackScannedQrCode(traceId, data, new NotFoundException(validationResult.ErrorMessage), cancellationToken);
                 return validationResult;
             }
@@ -36,7 +40,7 @@ public class GameQRCodeState : IQRCodeState
         catch (Exception ex)
         {
             validationResult.IsValid = false;
-            validationResult.ErrorMessage = "Something whent wrong. Contact staff";
+            validationResult.ErrorMessage = this.loc["QrCodeScannedProcessingFailed"];
             await context.TrackScannedQrCode(traceId, data, ex, cancellationToken);
         }
 
