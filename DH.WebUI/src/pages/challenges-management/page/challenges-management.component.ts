@@ -40,8 +40,9 @@ import { UniversalChallengeType } from '../shared/challenge-universal-type.enum'
 import { LanguageService } from '../../../shared/services/language.service';
 import { IUserUniversalChallenge } from '../../../entities/challenges/models/user-universal-challenge.model';
 import { ControlsMenuComponent } from '../../../shared/components/menu/controls-menu.component';
-import { GameQrCodeDialog } from '../../../features/games-library/dialogs/qr-code-dialog/qr-code-dialog.component';
+import { QrCodeDialog } from '../../../features/games-library/dialogs/qr-code-dialog/qr-code-dialog.component';
 import { QrCodeType } from '../../../entities/qr-code-scanner/enums/qr-code-type.enum';
+import { AuthService } from '../../../entities/auth/auth.service';
 
 @Component({
   selector: 'app-challenges-management',
@@ -223,6 +224,7 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
   private intervals: any[] = [];
 
   constructor(
+    private readonly authService: AuthService,
     private readonly rewardsService: RewardsService,
     private readonly challengeService: ChallengesService,
     private readonly tenantSettingsService: TenantSettingsService,
@@ -426,13 +428,17 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
   }
 
   public openUniversalChallengeBuyItemsQrCode(): void {
-    // TODO: Change QrCodeDialog
-    this.dialog.open(GameQrCodeDialog, {
+    this.dialog.open(QrCodeDialog, {
       width: '17rem',
       data: {
         Id: 14,
-        Name: 'TEST QR CODE',
-        Type: QrCodeType.Game,
+        Name: this.translateService.instant(
+          'qr_scanner.enum_values.PurchaseChallenge'
+        ),
+        Type: QrCodeType.PurchaseChallenge,
+        AdditionalData: {
+          userId: this.authService.getUser?.id,
+        },
       },
     });
   }

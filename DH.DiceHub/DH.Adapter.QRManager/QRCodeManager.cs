@@ -3,6 +3,7 @@ using DH.Domain;
 using DH.Domain.Adapters.Authentication;
 using DH.Domain.Adapters.Authentication.Services;
 using DH.Domain.Adapters.GameSession;
+using DH.Domain.Adapters.Localization;
 using DH.Domain.Adapters.QRManager;
 using DH.Domain.Adapters.QRManager.StateModels;
 using DH.Domain.Adapters.Reservations;
@@ -40,7 +41,8 @@ public class QRCodeManager : IQRCodeManager
             case QrCodeType.Game:
                 this.qRCodeContext.SetState(
                     new GameQRCodeState(
-                        this.containerService.Resolve<IRepository<Game>>()
+                        this.containerService.Resolve<IRepository<Game>>(),
+                        this.containerService.Resolve<ILocalizationService>()
                         )
                     );
                 break;
@@ -56,7 +58,8 @@ public class QRCodeManager : IQRCodeManager
                         this.containerService.Resolve<SynchronizeGameSessionQueue>(),
                         this.containerService.Resolve<IRepository<Game>>(),
                         this.containerService.Resolve<IStatisticQueuePublisher>(),
-                        this.containerService.Resolve<ReservationCleanupQueue>()
+                        this.containerService.Resolve<ReservationCleanupQueue>(),
+                        this.containerService.Resolve<ILocalizationService>()
                         )
                     );
                 break;
@@ -67,7 +70,8 @@ public class QRCodeManager : IQRCodeManager
                 this.qRCodeContext.SetState(
                     new RewardQRCodeState(
                         this.containerService.Resolve<IUserContext>(),
-                        this.containerService.Resolve<IRepository<UserChallengeReward>>()
+                        this.containerService.Resolve<IRepository<UserChallengeReward>>(),
+                        this.containerService.Resolve<ILocalizationService>()
                         )
                     );
                 break;
@@ -77,7 +81,8 @@ public class QRCodeManager : IQRCodeManager
                         this.containerService.Resolve<IUserContext>(),
                         this.containerService.Resolve<IRepository<SpaceTableReservation>>(),
                         this.containerService.Resolve<IRepository<SpaceTable>>(),
-                        this.containerService.Resolve<IStatisticQueuePublisher>()
+                        this.containerService.Resolve<IStatisticQueuePublisher>(),
+                        this.containerService.Resolve<ILocalizationService>()
                         )
                     );
                 break;
@@ -85,7 +90,8 @@ public class QRCodeManager : IQRCodeManager
                 this.qRCodeContext.SetState(
                     new PurchaseChallengeQRCodeState(
                         this.containerService.Resolve<IUserContext>(),
-                        this.containerService.Resolve<IUniversalChallengeProcessing>()
+                        this.containerService.Resolve<IUniversalChallengeProcessing>(),
+                        this.containerService.Resolve<ILocalizationService>()
                         )
                     );
                 break;

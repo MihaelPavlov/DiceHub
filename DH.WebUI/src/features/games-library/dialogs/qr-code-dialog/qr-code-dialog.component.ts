@@ -8,12 +8,12 @@ import { QrEncryptService } from '../../../../shared/services/qr-code-encrypt.se
   templateUrl: 'qr-code-dialog.component.html',
   styleUrl: 'qr-code-dialog.component.scss',
 })
-export class GameQrCodeDialog implements OnInit{
+export class QrCodeDialog implements OnInit{
   public encryptedQrData: string | null = null;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: IQrCode,
-    private dialogRef: MatDialogRef<GameQrCodeDialog>,
+    private dialogRef: MatDialogRef<QrCodeDialog>,
     private readonly qrEncryptService: QrEncryptService
   ) {}
 

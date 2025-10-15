@@ -1,0 +1,27 @@
+<div class="dialog-container">
+  <h2 class="dialog-container__header" mat-dialog-title>
+    {{ "qr_scanner.scan_confirm_dialog.header" | translate }}
+  </h2>
+  <div class="wrapper">
+    <h4>{{ "qr_scanner.scan_confirm_dialog.description" | translate }}</h4>
+    <h4 *ngIf="data?.type">
+      {{ "qr_scanner.scan_confirm_dialog.type" | translate }}
+      <strong>{{ getTranslateType}}</strong>
+    </h4>
+  </div>
+  <div class="btn_wrapper">
+    <button
+      mat-dialog-close
+      class="btn btn__extra-small btn-gray btn-border-blue btn-font-blue"
+    >
+      {{ "close" | translate }}
+    </button>
+    <button
+      mat-flat-button
+      class="btn btn__small btn-gray btn-border-green btn-font-green"
+      (click)="onConfirm()"
+    >
+      {{ "confirm" | translate }}
+    </button>
+  </div>
+</div>

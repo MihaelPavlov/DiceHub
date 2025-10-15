@@ -519,4 +519,49 @@
   <data name="GameQrCodeScannedIsInvalid" xml:space="preserve">
     <value>Game doesn't exists. Reach someone from the staff with the scanned game.</value>
   </data>
+  <data name="GameReservationQrCodeScannedAccessDenied" xml:space="preserve">
+    <value>Access denied: only authorized staff can scan reservations.</value>
+  </data>
+  <data name="GameReservationQrCodeScannedNoActiveGameReservation" xml:space="preserve">
+    <value>No such active game reservation found for the specified user.</value>
+  </data>
+  <data name="GameReservationQrCodeScannedReservationInactive" xml:space="preserve">
+    <value>This game reservation is no longer active</value>
+  </data>
+  <data name="GameReservationQrCodeScannedReservationNotApproved" xml:space="preserve">
+    <value>This game reservation is not approved from staff</value>
+  </data>
+  <data name="GameReservationQrCodeScannedUserAlreadyHasActiveTable" xml:space="preserve">
+    <value>User already have an active table for this game</value>
+  </data>
+  <data name="GameReservationQrCodeScannedUserAlreadyHasActiveTableForDifferentGame" xml:space="preserve">
+    <value>User already has an active table for a different game.</value>
+  </data>
+  <data name="GameReservationQrCodeScannedGameMissingOrDeleted" xml:space="preserve">
+    <value>{0}: Table (ID: {1}) was created, but the game (ID: {2}) is missing or deleted. The average play time won't be tracked, and challenge points can't be earned for this game.</value>
+  </data>
+  <data name="RewardQrCodeScannedAccessDenied" xml:space="preserve">
+    <value>Access denied: only authorized staff can give rewards.</value>
+  </data>
+  <data name="RewardQrCodeScannedNoRewardFound" xml:space="preserve">
+    <value>No reward found for the specified user.</value>
+  </data>
+  <data name="RewardQrCodeScannedRewardExpired" xml:space="preserve">
+    <value>This reward has expired and can no longer be claimed.</value>
+  </data>
+  <data name="RewardQrCodeScannedRewardAlreadyClaimed" xml:space="preserve">
+    <value>This reward has already been claimed.</value>
+  </data>
+  <data name="TableReservationQrCodeScannedAccessDenied" xml:space="preserve">
+    <value>Access denied: only authorized staff can scan reservations.</value>
+  </data>
+  <data name="TableReservationQrCodeScannedNoActiveTableReservation" xml:space="preserve">
+    <value>No such active table reservation found for the specified user.</value>
+  </data>
+  <data name="TableReservationQrCodeScannedTableReservationNotApproved" xml:space="preserve">
+    <value>This table reservation is not approved by the staff.</value>
+  </data>
+  <data name="TableReservationQrCodeScannedUserAlreadyHasActiveTable" xml:space="preserve">
+    <value>User already has an active table.</value>
+  </data>
 </root>

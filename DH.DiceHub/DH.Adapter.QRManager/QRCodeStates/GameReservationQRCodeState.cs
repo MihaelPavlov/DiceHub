@@ -2,6 +2,7 @@
 using DH.Domain.Adapters.Authentication.Models.Enums;
 using DH.Domain.Adapters.Authentication.Services;
 using DH.Domain.Adapters.GameSession;
+using DH.Domain.Adapters.Localization;
 using DH.Domain.Adapters.QRManager;
 using DH.Domain.Adapters.QRManager.StateModels;
 using DH.Domain.Adapters.Reservations;
@@ -27,12 +28,13 @@ public class GameReservationQRCodeState : IQRCodeState
     readonly SynchronizeGameSessionQueue gameSessionQueue;
     readonly IStatisticQueuePublisher statisticQueuePublisher;
     readonly ReservationCleanupQueue reservationCleanupQueue;
+    readonly ILocalizationService loc;
 
     public GameReservationQRCodeState(IUserContext userContext, IRepository<GameReservation> gameReservationRepository,
         IRepository<SpaceTableReservation> tableReservationRepository, IUserService userService,
         ISpaceTableService spaceTableService, IRepository<SpaceTable> tableRepository, SynchronizeGameSessionQueue gameSessionQueue,
         IRepository<Game> gameRepository, IStatisticQueuePublisher statisticQueuePublisher,
-        ReservationCleanupQueue reservationCleanupQueue)
+        ReservationCleanupQueue reservationCleanupQueue, ILocalizationService loc)
     {
         this.userContext = userContext;
         this.gameReservationRepository = gameReservationRepository;
@@ -44,6 +46,7 @@ public class GameReservationQRCodeState : IQRCodeState
         this.gameRepository = gameRepository;
         this.statisticQueuePublisher = statisticQueuePublisher;
         this.reservationCleanupQueue = reservationCleanupQueue;
+        this.loc = loc;
     }
 
     public async Task<QrCodeValidationResult> HandleAsync(IQRCodeContext context, QRReaderModel data, CancellationToken cancellationToken)
@@ -53,22 +56,22 @@ public class GameReservationQRCodeState : IQRCodeState
         var result = new QrCodeValidationResult(data.Id, QrCodeType.GameReservation);
 
         if (this.userContext.RoleKey == (int)Role.User)
-            return await SetError(context, data, result, "Access denied: only authorized staff can scan reservations.", traceId, cancellationToken);
+            return await SetError(context, data, result, this.loc["GameReservationQrCodeScannedAccessDenied"], traceId, cancellationToken);
 
         if (!data.AdditionalData.TryGetValue("userId", out var userId))
-            return await SetError(context, data, result, "Invalid request: User ID is missing.", traceId, cancellationToken);
+            return await SetError(context, data, result, this.loc["QrCodeScannedMissingUserId"], traceId, cancellationToken);
 
         var gameReservation = await this.gameReservationRepository
             .GetByAsyncWithTracking(x => x.Id == data.Id && x.UserId == userId, cancellationToken);
 
         if (gameReservation == null)
-            return await SetError(context, data, result, "No such active game reservation found for the specified user.", traceId, cancellationToken);
+            return await SetError(context, data, result, this.loc["GameReservationQrCodeScannedNoActiveGameReservation"], traceId, cancellationToken);
 
         if (!gameReservation.IsActive)
-            return await SetError(context, data, result, "This game reservation is no longer active", traceId, cancellationToken);
+            return await SetError(context, data, result, this.loc["GameReservationQrCodeScannedReservationInactive"], traceId, cancellationToken);
 
         if (gameReservation.Status != ReservationStatus.Accepted)
-            return await SetError(context, data, result, "This game reservation is not approved from staff", traceId, cancellationToken);
+            return await SetError(context, data, result, this.loc["GameReservationQrCodeScannedReservationNotApproved"], traceId, cancellationToken);
 
         var activeTable = await this.tableRepository
             .GetByAsync(x => x.IsTableActive && x.CreatedBy == userId,
@@ -79,9 +82,9 @@ public class GameReservationQRCodeState : IQRCodeState
             var message = string.Empty;
 
             if (activeTable.GameId == gameReservation.GameId)
-                message = "User already have an active table for this game";
+                message = this.loc["GameReservationQrCodeScannedUserAlreadyHasActiveTable"];
             else
-                message = "User already have an active table for different game";
+                message = this.loc["GameReservationQrCodeScannedUserAlreadyHasActiveTableForDifferentGame"];
 
             return await SetError(context, data, result, message, traceId, cancellationToken);
         }
@@ -131,7 +134,7 @@ public class GameReservationQRCodeState : IQRCodeState
         if (game == null || game.IsDeleted)
             return await SetError(
                 context, data, result,
-                $"{traceId}: Table (ID: {spaceTableId}) was created, but the game (ID: {request.GameId}) is missing or deleted. The average play time won't be tracked, and challenge points can't be earned for this game.",
+                string.Format(this.loc["GameReservationQrCodeScannedGameMissingOrDeleted"], traceId, spaceTableId, request.GameId),
                 traceId, cancellationToken);
 
         this.gameSessionQueue.AddUserPlayTimEnforcerJob(userId, game.Id, DateTime.UtcNow.AddMinutes((int)game.AveragePlaytime));

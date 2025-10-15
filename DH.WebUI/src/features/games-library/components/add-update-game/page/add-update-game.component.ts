@@ -25,7 +25,7 @@ import { Form } from '../../../../../shared/components/form/form.component';
 import { IGameDropdownResult } from '../../../../../entities/games/models/game-dropdown.model';
 import { AppToastMessage } from '../../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { Formify } from '../../../../../shared/models/form.model';
-import { GameQrCodeDialog } from '../../../dialogs/qr-code-dialog/qr-code-dialog.component';
+import { QrCodeDialog } from '../../../dialogs/qr-code-dialog/qr-code-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { SafeUrl } from '@angular/platform-browser';
 import { GameAveragePlaytime } from '../../../../../entities/games/enums/game-average-playtime.enum';
@@ -156,7 +156,7 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
   }
 
   public openQrCodeDialog(): void {
-    this.dialog.open(GameQrCodeDialog, {
+    this.dialog.open(QrCodeDialog, {
       width: '17rem',
       data: {
         Id: this.editGameId,

@@ -519,4 +519,49 @@
   <data name="GameQrCodeScannedIsInvalid" xml:space="preserve">
     <value>Тази игра не съществува. Моля, потърсете помощ от персонала със сканираната игра.</value>
   </data>
+  <data name="GameReservationQrCodeScannedAccessDenied" xml:space="preserve">
+    <value>Достъпът е отказан: само упълномощен персонал може да сканира резервации.</value>
+  </data>
+  <data name="GameReservationQrCodeScannedNoActiveGameReservation" xml:space="preserve">
+    <value>Не е открита активна резервация за игра за посочения потребител.</value>
+  </data>
+  <data name="GameReservationQrCodeScannedReservationInactive" xml:space="preserve">
+    <value>Тази резервация за игра вече не е активна.</value>
+  </data>
+  <data name="GameReservationQrCodeScannedReservationNotApproved" xml:space="preserve">
+    <value>Тази резервация за игра не е одобрена от персонала.</value>
+  </data>
+  <data name="GameReservationQrCodeScannedUserAlreadyHasActiveTable" xml:space="preserve">
+    <value>Потребителят вече има активна маса за тази игра.</value>
+  </data>
+  <data name="GameReservationQrCodeScannedUserAlreadyHasActiveTableForDifferentGame" xml:space="preserve">
+    <value>Потребителят вече има активна маса за различна игра.</value>
+  </data>
+  <data name="GameReservationQrCodeScannedGameMissingOrDeleted" xml:space="preserve">
+    <value>{0}: Масата (ID: {1}) беше създадена, но играта (ID: {2}) липсва или е изтрита. Средното време за игра няма да бъде проследено и точки за предизвикателството няма да могат да бъдат спечелени за тази игра.</value>
+  </data>
+  <data name="RewardQrCodeScannedAccessDenied" xml:space="preserve">
+    <value>Достъпът е отказан: само упълномощен персонал може да дава награди.</value>
+  </data>
+  <data name="RewardQrCodeScannedNoRewardFound" xml:space="preserve">
+    <value>Не е открита награда за посочения потребител.</value>
+  </data>
+  <data name="RewardQrCodeScannedRewardExpired" xml:space="preserve">
+    <value>Тази награда е с изтекъл срок и не може повече да бъде получена.</value>
+  </data>
+  <data name="RewardQrCodeScannedRewardAlreadyClaimed" xml:space="preserve">
+    <value>Тази награда вече е получена.</value>
+  </data>
+  <data name="TableReservationQrCodeScannedAccessDenied" xml:space="preserve">
+    <value>Достъпът е отказан: само упълномощен персонал може да сканира резервации.</value>
+  </data>
+  <data name="TableReservationQrCodeScannedNoActiveTableReservation" xml:space="preserve">
+    <value>Не е открита активна резервация на маса за посочения потребител.</value>
+  </data>
+  <data name="TableReservationQrCodeScannedTableReservationNotApproved" xml:space="preserve">
+    <value>Тази резервация на маса не е одобрена от персонала.</value>
+  </data>
+  <data name="TableReservationQrCodeScannedUserAlreadyHasActiveTable" xml:space="preserve">
+    <value>Потребителят вече има активна маса.</value>
+  </data>
 </root>

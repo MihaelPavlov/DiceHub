@@ -14,7 +14,7 @@ import { PermissionService } from '../../../shared/services/permission.service';
 import { UserAction } from '../../../shared/constants/user-action';
 import { GameConfirmDeleteDialog } from '../../../features/games-library/dialogs/game-confirm-delete-dialog/game-confirm-delete.component';
 import { MatDialog } from '@angular/material/dialog';
-import { GameQrCodeDialog } from '../../../features/games-library/dialogs/qr-code-dialog/qr-code-dialog.component';
+import { QrCodeDialog } from '../../../features/games-library/dialogs/qr-code-dialog/qr-code-dialog.component';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { ControlsMenuComponent } from '../../../shared/components/menu/controls-menu.component';
 import { QrCodeType } from '../../../entities/qr-code-scanner/enums/qr-code-type.enum';
@@ -140,7 +140,7 @@ export class GamesLibraryComponent implements OnInit, OnDestroy {
     } else if (key === 'delete' && this.visibleMenuId) {
       this.openDeleteDialog(this.visibleMenuId);
     } else if (key === 'qr-code') {
-      this.dialog.open(GameQrCodeDialog, {
+      this.dialog.open(QrCodeDialog, {
         width: '17rem',
         data: {
           Id: this.visibleMenuId,

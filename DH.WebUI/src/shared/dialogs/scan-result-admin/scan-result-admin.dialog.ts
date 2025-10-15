@@ -35,6 +35,8 @@ export class ScanResultAdminDialog {
         return this.translateService.instant('qr_scanner.qr_code_type.game');
       case QrCodeType.Event:
         return this.translateService.instant('qr_scanner.qr_code_type.event');
+      case QrCodeType.PurchaseChallenge:
+        return this.translateService.instant('qr_scanner.qr_code_type.purchase_challenge');
       default:
         return this.translateService.instant('qr_scanner.qr_code_type.qr_code');
     }

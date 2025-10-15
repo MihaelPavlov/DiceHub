@@ -11,7 +11,7 @@ import { GamesService } from '../../../../../entities/games/api/games.service';
 import { MenuTabsService } from '../../../../../shared/services/menu-tabs.service';
 import { NavItemInterface } from '../../../../../shared/models/nav-item.mode';
 import { MatDialog } from '@angular/material/dialog';
-import { GameQrCodeDialog } from '../../../dialogs/qr-code-dialog/qr-code-dialog.component';
+import { QrCodeDialog } from '../../../dialogs/qr-code-dialog/qr-code-dialog.component';
 import { AuthService } from '../../../../../entities/auth/auth.service';
 import { UserRole } from '../../../../../entities/auth/enums/roles.enum';
 import { FULL_ROUTE } from '../../../../../shared/configs/route.config';
@@ -66,7 +66,7 @@ export class GameLayoutComponent implements OnInit, OnDestroy {
   }
 
   public openQrCodeDialog(): void {
-    this.dialog.open(GameQrCodeDialog, {
+    this.dialog.open(QrCodeDialog, {
       width: '17rem',
       data: {
         Id: this.game.id,

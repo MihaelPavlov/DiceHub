@@ -25,7 +25,7 @@ import { AddUpdateGameComponent } from '../../features/games-library/components/
 import { NgSelectModule } from '@ng-select/ng-select';
 import { GameConfirmDeleteDialog } from '../../features/games-library/dialogs/game-confirm-delete-dialog/game-confirm-delete.component';
 import { QrCodeComponent } from '../../features/games-library/test/qr-code.component';
-import { GameQrCodeDialog } from '../../features/games-library/dialogs/qr-code-dialog/qr-code-dialog.component';
+import { QrCodeDialog } from '../../features/games-library/dialogs/qr-code-dialog/qr-code-dialog.component';
 import { ReservationQrCodeDialogModule } from '../../shared/dialogs/reservation-qr-code/reservation-qr-code.module';
 import { QRCodeModule } from 'angularx-qrcode';
 import { AvailabilityReservationInfoDialog } from '../../features/games-library/dialogs/availability-reservation-info-dialog/availability-reservation-info-dialog.component';
@@ -45,7 +45,7 @@ import { ImagePreviewDialogModule } from '../../shared/dialogs/image-preview/ima
     GameReviewConfirmDeleteDialog,
     GameConfirmDeleteDialog,
     QrCodeComponent,
-    GameQrCodeDialog,
+    QrCodeDialog,
     AvailabilityReservationInfoDialog,
   ],
   exports: [GamesLibraryComponent],
