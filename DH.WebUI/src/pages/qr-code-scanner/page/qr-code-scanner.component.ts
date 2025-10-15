@@ -127,6 +127,7 @@ export class QrCodeScannerComponent implements OnInit, AfterViewInit {
             const dialogRefConfirmation = this.dialog.open(
               ScanConfirmDialogComponent,
               {
+                width: '17rem',
                 data: {
                   type: this.currentQrCodeType,
                 },

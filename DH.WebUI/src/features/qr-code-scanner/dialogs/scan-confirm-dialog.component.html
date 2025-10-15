@@ -3,11 +3,11 @@
     {{ "qr_scanner.scan_confirm_dialog.header" | translate }}
   </h2>
   <div class="wrapper">
-    <h4>{{ "qr_scanner.scan_confirm_dialog.description" | translate }}</h4>
-    <h4 *ngIf="data?.type">
+    <p>{{ "qr_scanner.scan_confirm_dialog.description" | translate }}</p>
+    <p class="type" *ngIf="data?.type">
       {{ "qr_scanner.scan_confirm_dialog.type" | translate }}
-      <strong>{{ getTranslateType}}</strong>
-    </h4>
+      <strong class="blue">{{ getTranslateType}}</strong>
+    </p>
   </div>
   <div class="btn_wrapper">
     <button

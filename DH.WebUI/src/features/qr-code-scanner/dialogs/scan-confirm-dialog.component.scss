@@ -3,8 +3,6 @@
 .dialog-container {
   color: palette.$main-font-color;
   background-color: palette.$main-nav-color;
-  position: relative;
-  padding: 1rem;
 
   &__header {
     margin-top: 1rem;
@@ -13,15 +11,25 @@
     padding: 0 1rem;
     word-break: break-word;
   }
+  .wrapper {
+    margin: 1rem;
+  }
+  .type {
+    margin-top: 0.5rem;
+  }
 
   .btn_wrapper {
     display: flex;
     justify-content: end;
-    margin: 0.4rem;
+    margin: 0.8rem;
     margin-top: 1rem;
 
     .btn__extra-small {
       margin-right: 1rem;
     }
   }
+}
+
+.blue {
+  color: palette.$main-blue-color;
 }
