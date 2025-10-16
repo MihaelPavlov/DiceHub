@@ -1,5 +1,6 @@
 ﻿using DH.Domain.Adapters.ChallengeHub;
 using DH.Domain.Adapters.Statistics;
+using DH.Domain.Adapters.Statistics.Enums;
 using DH.Domain.Adapters.Statistics.Services;
 using DH.Domain.Entities;
 using DH.Domain.Enums;
@@ -17,13 +18,92 @@ internal class UniversalChallengeProcessing(
     ITenantSettingsCacheService tenantSettingsCacheService,
     ILogger<UniversalChallengeProcessing> logger,
     IChallengeHubClient challengeHubClient,
-    IStatisticQueuePublisher statisticQueuePublisher) : IUniversalChallengeProcessing
+    IStatisticQueuePublisher statisticQueuePublisher,
+    IStatisticsService statisticsService) : IUniversalChallengeProcessing
 {
     readonly IDbContextFactory<TenantDbContext> dbContextFactory = dbContextFactory;
     readonly ITenantSettingsCacheService tenantSettingsCacheService = tenantSettingsCacheService;
     readonly ILogger<UniversalChallengeProcessing> logger = logger;
     readonly IChallengeHubClient challengeHubClient = challengeHubClient;
     readonly IStatisticQueuePublisher statisticQueuePublisher = statisticQueuePublisher;
+    readonly IStatisticsService statisticsService = statisticsService;
+
+    public async Task ProcessUserChallengeTop3Streak(CancellationToken cancellationToken)
+    {
+        var challengeHistory = await this.statisticsService
+            .GetChallengeHistoryLogs(ChallengeHistoryLogType.Weekly, cancellationToken);
+
+        //  purpose : Maintain a top 3 position on the overall Challenge Leaderboard for consecutive days. Progress is tracked daily. Field Attempts represent days for this challenge",
+        if (challengeHistory.Success && challengeHistory.RelatedObject != null)
+        {
+            var top3Users = challengeHistory.RelatedObject.Take(3).Select(u => u.UserId).ToList();
+
+            var tenantSettings = await this.tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
+
+            using (var context = await this.dbContextFactory.CreateDbContextAsync(cancellationToken))
+            {
+                using (var transaction = await context.Database.BeginTransactionAsync(cancellationToken))
+                {
+                    if (tenantSettings.IsCustomPeriodOn)
+                    {
+                        var activePeriods = await context.UserChallengePeriodPerformances
+                            .Include(x => x.CustomPeriodUserUniversalChallenges)
+                            .ThenInclude(x => x.UniversalChallenge)
+                            .Where(x => x.IsPeriodActive)
+                            .ToListAsync(cancellationToken);
+
+                        foreach (var period in activePeriods)
+                        {
+                            var userId = period.UserId;
+                            var top3Challenge = period.CustomPeriodUserUniversalChallenges
+                                .FirstOrDefault(x => x.UniversalChallenge.Type == UniversalChallengeType.Top3ChallengeLeaderboard);
+
+                            if (top3Challenge == null)
+                                continue;
+
+                            if (top3Users.Contains(userId))
+                            {
+                                // user is still in top 3, continue streak
+                                top3Challenge.UserAttempts++;
+
+                                if (top3Challenge.UserAttempts >= top3Challenge.ChallengeAttempts && !top3Challenge.IsCompleted)
+                                {
+                                    top3Challenge.IsCompleted = true;
+                                    top3Challenge.CompletedDate = DateTime.UtcNow;
+                                    top3Challenge.IsRewardCollected = true;
+
+                                    period.Points += top3Challenge.RewardPoints;
+
+                                    await this.challengeHubClient.SendUniversalChallengeCompleted(
+                                        userId,
+                                        top3Challenge.UniversalChallenge!.Name_EN,
+                                        top3Challenge.UniversalChallenge!.Name_BG,
+                                        top3Challenge.RewardPoints);
+                                }
+                                else
+                                {
+                                    await this.challengeHubClient.SendUniversalChallengeUpdated(
+                                        userId,
+                                        top3Challenge.UniversalChallenge!.Name_EN,
+                                        top3Challenge.UniversalChallenge!.Name_BG);
+                                }
+                            }
+                            else
+                            {
+                                // user dropped out of top 3, reset streak
+                                top3Challenge.UserAttempts = 0;
+                                top3Challenge.IsCompleted = false;
+                            }
+                        }
+                    }
+                    else
+                    {
+
+                    }
+                }
+            }
+        }
+    }
 
     public async Task<bool> PurchaseChallengeQrCodeProcessing(string userId, CancellationToken cancellationToken)
     {
