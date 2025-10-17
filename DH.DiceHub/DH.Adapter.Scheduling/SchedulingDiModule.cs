@@ -50,6 +50,8 @@ public static class SchedulingDIModule
             .StoreDurably().RequestRecovery());
             q.AddJob<AddUserChallengePeriodJob>(opts => opts.WithIdentity(nameof(AddUserChallengePeriodJob))
             .StoreDurably().RequestRecovery());
+            q.AddJob<UserChallengeTop3StreakTrackerJob>(opts => opts.WithIdentity(nameof(UserChallengeTop3StreakTrackerJob))
+            .StoreDurably().RequestRecovery());
 
             TriggerDailyJobs(q, services);
 
@@ -77,6 +79,13 @@ public static class SchedulingDIModule
             .WithIdentity($"DailyJobTriggers-{nameof(UserRewardsExpirationReminderJob)}")
             .WithCronSchedule("0 0 0 * * ?", cronScheduleBuilder =>
                 cronScheduleBuilder.InTimeZone(TimeZoneInfo.Utc)));// Every night 00:00 UTC 
+
+        //FUTURE TODO: Change it in different way 
+        service.AddTrigger(opts => opts
+            .ForJob(nameof(UserChallengeTop3StreakTrackerJob))
+            .WithIdentity($"DailyJobTriggers-{nameof(UserChallengeTop3StreakTrackerJob)}")
+            .WithCronSchedule("0 0/2 * * * ?", cronScheduleBuilder =>
+                cronScheduleBuilder.InTimeZone(TimeZoneInfo.FindSystemTimeZoneById("Europe/Sofia"))));
 
         // .WithCronSchedule("0 0/2 * * * ?")); // Every two mins
 

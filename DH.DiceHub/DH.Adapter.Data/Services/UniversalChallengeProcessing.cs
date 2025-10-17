@@ -10,6 +10,7 @@ using DH.Domain.Services;
 using DH.Domain.Services.TenantSettingsService;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using NodaTime;
 
 namespace DH.Adapter.Data.Services;
 
@@ -90,16 +91,76 @@ internal class UniversalChallengeProcessing(
                             }
                             else
                             {
-                                // user dropped out of top 3, reset streak
                                 top3Challenge.UserAttempts = 0;
-                                top3Challenge.IsCompleted = false;
+
+                                //Todo: send restart/lose progress Challenge notification
                             }
                         }
                     }
                     else
                     {
+                        var periods = await context.UserChallengePeriodPerformances
+                            .AsTracking()
+                            .Include(x => x.UserChallengePeriodRewards)
+                                .ThenInclude(r => r.ChallengeReward)
+                            .Where(x => x.IsPeriodActive)
+                            .ToListAsync(cancellationToken);
 
+                        foreach (var period in periods)
+                        {
+                            var userId = period.UserId;
+
+                            var userUniversalChallenges = await context.UserChallenges
+                            .AsTracking()
+                            .Include(x => x.UniversalChallenge)
+                            .Where(x =>
+                                x.UserId == userId &&
+                                x.IsActive &&
+                                x.Status == ChallengeStatus.InProgress &&
+                                x.UniversalChallenge != null)
+                            .ToListAsync(cancellationToken);
+
+                            var top3Challenge = userUniversalChallenges
+                                .FirstOrDefault(x => x.UniversalChallenge!.Type == UniversalChallengeType.Top3ChallengeLeaderboard);
+
+                            if (top3Challenge == null)
+                                continue;
+                            if (top3Users.Contains(userId))
+                            {
+                                top3Challenge.AttemptCount++;
+
+                                if (top3Challenge.AttemptCount >= top3Challenge.UniversalChallenge!.Attempts)
+                                {
+                                    top3Challenge.Status = ChallengeStatus.Completed;
+                                    top3Challenge.CompletedDate = DateTime.UtcNow;
+                                    top3Challenge.IsActive = false;
+                                    top3Challenge.IsRewardCollected = true;
+
+                                    await this.challengeHubClient.SendUniversalChallengeCompleted(
+                                        userId,
+                                        top3Challenge.UniversalChallenge!.Name_EN,
+                                        top3Challenge.UniversalChallenge!.Name_BG,
+                                        (int)top3Challenge.UniversalChallenge!.RewardPoints);
+                                }
+                                else
+                                {
+                                    await this.challengeHubClient.SendUniversalChallengeUpdated(
+                                        userId,
+                                        top3Challenge.UniversalChallenge!.Name_EN,
+                                        top3Challenge.UniversalChallenge!.Name_BG);
+                                }
+                            }
+                            else
+                            {
+                                top3Challenge.AttemptCount = 0;
+                                //Todo: send restart/lose progress Challenge notification
+
+                            }
+                        }
                     }
+
+                    await context.SaveChangesAsync(cancellationToken);
+                    await transaction.CommitAsync(cancellationToken);
                 }
             }
         }
@@ -173,16 +234,14 @@ internal class UniversalChallengeProcessing(
             return;
 
         var userUniversalChallenges = await context.UserChallenges
-               .AsTracking()
-               .Include(x => x.UniversalChallenge)
-               .Where(x =>
-                   x.UserId == userId &&
-                   !x.IsActive &&
-                   !x.IsRewardCollected &&
-                   x.CompletedDate != null &&
-                   x.UniversalChallenge != null &&
-                   x.Status == ChallengeStatus.Completed)
-               .ToListAsync(cancellationToken);
+            .AsTracking()
+            .Include(x => x.UniversalChallenge)
+            .Where(x =>
+                x.UserId == userId &&
+                x.IsActive &&
+                x.Status == ChallengeStatus.InProgress &&
+                x.UniversalChallenge != null)
+            .ToListAsync(cancellationToken);
 
         var selectedUniversalChallenge = userUniversalChallenges
             .FirstOrDefault(x => x.UniversalChallenge!.Type == universalChallengeType);
@@ -193,9 +252,10 @@ internal class UniversalChallengeProcessing(
 
             if (selectedUniversalChallenge.UniversalChallenge!.Attempts == selectedUniversalChallenge.AttemptCount)
             {
-                selectedUniversalChallenge.IsActive = true;
+                selectedUniversalChallenge.IsActive = false;
                 selectedUniversalChallenge.CompletedDate = DateTime.UtcNow;
                 selectedUniversalChallenge.IsRewardCollected = true;
+                selectedUniversalChallenge.Status = ChallengeStatus.Completed;
 
                 activePeriod.Points += (int)selectedUniversalChallenge.UniversalChallenge.RewardPoints;
 

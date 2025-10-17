@@ -1,4 +1,5 @@
 ﻿using DH.Domain.Services;
+using DH.OperationResultCore.Exceptions;
 using Quartz;
 
 namespace DH.Adapter.Scheduling.Jobs;
@@ -7,8 +8,15 @@ internal class UserChallengeTop3StreakTrackerJob(IUniversalChallengeProcessing u
 {
     readonly IUniversalChallengeProcessing universalChallengeProcessing = universalChallengeProcessing;
 
-    public Task Execute(IJobExecutionContext context)
+    public async Task Execute(IJobExecutionContext context)
     {
-        throw new NotImplementedException();
+        try
+        {
+            await this.universalChallengeProcessing.ProcessUserChallengeTop3Streak(CancellationToken.None);
+        }
+        catch (Exception ex)
+        {
+            throw new InfrastructureException(ex.Message);
+        }
     }
 }
