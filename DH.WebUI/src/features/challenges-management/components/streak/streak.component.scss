@@ -73,6 +73,17 @@
   }
 }
 
+.sparks_active_color {
+  span {
+    background: orange;
+  }
+}
+.sparks_inactive_color {
+  span {
+    background: palette.$main-icon-color;
+  }
+}
+
 .sparks {
   position: absolute;
   top: 0;
@@ -85,7 +96,6 @@
     position: absolute;
     width: 0.4rem;
     height: 0.4rem;
-    background: orange;
     border-radius: 50%;
     opacity: 0;
     animation: spark 1s infinite ease-out;
@@ -165,6 +175,7 @@
       scale(0);
   }
 }
+
 .current_streak {
   display: flex;
   align-items: center;

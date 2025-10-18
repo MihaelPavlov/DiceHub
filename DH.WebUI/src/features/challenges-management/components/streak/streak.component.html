@@ -68,7 +68,11 @@
     <p class="description">Current Streak!</p>
   </div>
 
-  <div class="sparks">
+  <div
+    class="sparks"
+    [class.sparks_active_color]="isUserStreakActive"
+    [class.sparks_inactive_color]="!isUserStreakActive"
+  >
     <span></span>
     <span></span>
     <span></span>
