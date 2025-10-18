@@ -1,0 +1,329 @@
+@use "../../../../shared/assets/styles/palette";
+
+.streak-toggle {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  .toggle-track {
+    position: relative;
+    display: flex;
+    width: 16rem; // smaller width
+    border-radius: 2rem;
+    background: palette.$main-gray-color;
+    padding: 0.75rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  }
+
+  .toggle-thumb {
+    position: absolute;
+    top: 6px;
+    left: 10px;
+    width: 7.5rem;
+    height: 1.75rem;
+    background: palette.$main-blue-color;
+    border-radius: 2rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 12px rgba(117, 160, 255, 0.6);
+
+    &.right {
+      left: calc(100% - 8.25rem);
+    }
+  }
+
+  .toggle-button {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: palette.$main-font-gray-color;
+    font-weight: 600;
+    font-size: 14px;
+    z-index: 1;
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.2s ease;
+
+    &.active {
+      color: palette.$main-font-color;
+      transform: scale(1.05);
+    }
+  }
+}
+
+.fire_section {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+
+  .fire_circle_inactive {
+    border: 2px solid rgba(233, 164, 157, 0.2);
+    box-shadow: 0 0 1rem rgb(231 231 231 / 70%);
+    border-radius: 10rem;
+    background: linear-gradient(rgb(245 241 237 / 20%), rgb(223 216 212 / 20%));
+  }
+  .fire_circle_active {
+    border: 2px solid rgba(233, 164, 157, 0.2);
+    box-shadow: 0 0 1rem rgb(225 113 101 / 70%);
+    border-radius: 10rem;
+    background: linear-gradient(rgb(255 179 92 / 20%), rgb(243 160 110 / 20%));
+  }
+  .fire_gif {
+    width: 6rem;
+    height: 6rem;
+    object-fit: contain;
+  }
+}
+
+.sparks {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+
+  span {
+    position: absolute;
+    width: 0.4rem;
+    height: 0.4rem;
+    background: orange;
+    border-radius: 50%;
+    opacity: 0;
+    animation: spark 1s infinite ease-out;
+  }
+
+  /* randomize delays and starting positions */
+  span:nth-child(1) {
+    top: 20%;
+    left: 10%;
+    animation-delay: 0s;
+  }
+  span:nth-child(2) {
+    top: 50%;
+    left: 80%;
+    animation-delay: 0.3s;
+  }
+  span:nth-child(3) {
+    top: 10%;
+    left: 50%;
+    animation-delay: 0.6s;
+  }
+  span:nth-child(4) {
+    top: 35%;
+    left: 30%;
+    animation-delay: 0.9s;
+  }
+  span:nth-child(5) {
+    top: 40%;
+    left: 20%;
+    animation-delay: 1.2s;
+  }
+  span:nth-child(6) {
+    top: 60%;
+    left: 60%;
+    animation-delay: 1.5s;
+  }
+  span:nth-child(7) {
+    top: 30%;
+    left: 70%;
+    animation-delay: 1.8s;
+  }
+  span:nth-child(8) {
+    top: 15%;
+    left: 80%;
+    animation-delay: 2.4s;
+  }
+  span:nth-child(9) {
+    top: 55%;
+    left: 15%;
+    animation-delay: 2.7s;
+  }
+}
+
+@keyframes spark {
+  0% {
+    transform: translate(0, 0) scale(0.3);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+  70% {
+    transform: translate(
+        calc(-10px + 20px * random()),
+        calc(-10px + 20px * random())
+      )
+      scale(0.5);
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(
+        calc(-20px + 40px * random()),
+        calc(-20px + 40px * random())
+      )
+      scale(0);
+  }
+}
+.current_streak {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin: 1rem;
+
+  .value {
+    font-size: 3rem;
+  }
+  .description {
+    font-weight: 600;
+  }
+}
+.your_stats {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fdf4f3;
+  color: #cd5422;
+  font-weight: 600;
+  margin: 0 1rem;
+  padding: 0.4rem;
+  border-radius: 0.75rem;
+  .header {
+    margin: 0.2rem;
+  }
+  &_sections {
+    display: flex;
+    justify-content: space-evenly;
+    text-align: center;
+    background-color: #20232a;
+    border-radius: 0.5rem;
+    width: 100%;
+
+    .section {
+      display: flex;
+      flex-direction: column;
+      margin: 0.6rem;
+
+      .value {
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-bottom: 0.4rem;
+      }
+      .description {
+        font-size: 0.8rem;
+        color: palette.$main-icon-color;
+      }
+    }
+    .line {
+      border-right: 0.1rem solid palette.$main-icon-color;
+      margin: 0.5rem 0;
+    }
+  }
+}
+
+.what_is_streak_description {
+  margin: 1rem;
+  margin-top: 2rem;
+  .description {
+    margin: 1rem 0;
+  }
+}
+
+.streak_milestones {
+  margin: 2rem 1rem 10rem 1rem;
+
+  .milestones {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    position: relative;
+    margin: 1rem 0;
+    .milestone {
+      display: flex;
+      align-items: center;
+      position: relative;
+
+      .calendar_icon {
+        width: 3rem;
+        height: 3rem;
+        border-radius: 0.5rem;
+        border: 2px solid palette.$main-icon-color;
+        z-index: 1;
+      }
+
+      .description {
+        margin-left: 1rem;
+        font-size: 0.9rem;
+
+        .result {
+          font-weight: 600;
+        }
+      }
+
+      .status_icon {
+        width: 1.5rem;
+        height: 1.5rem;
+        margin-left: auto;
+      }
+
+      // line connecting to next milestone
+      &::after {
+        content: "";
+        position: absolute;
+        left: 1.4rem;
+        top: 3rem;
+        width: 4px;
+        height: calc(40% + 1rem);
+        background-color: palette.$main-icon-color;
+        z-index: 0;
+      }
+
+      &:last-child::after {
+        display: none; // we will handle the last line separately
+      }
+    }
+
+    // Active milestone styling
+    .milestone.active .calendar_icon {
+      border-color: orange;
+    }
+
+    .milestone.active::after {
+      background-color: orange;
+    }
+  }
+
+  // Show More container
+  .show_more_container {
+    display: flex;
+    align-items: flex-start;
+    position: relative;
+
+    .show_more_icon {
+      width: 1.5rem;
+      height: 1.5rem;
+      position: absolute;
+      top: 0.5rem;
+      left: 0.75rem;
+    }
+
+    .show_more_text {
+      position: absolute;
+      top: 0.75rem;
+      left: 4rem;
+      color: #df4e19;
+      font-weight: 600;
+    }
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: 1.4rem; // same as milestones
+      top: -1.2rem;
+      height: 2rem;
+      width: 4px;
+      background-color: palette.$main-icon-color;
+      z-index: 0;
+    }
+  }
+}

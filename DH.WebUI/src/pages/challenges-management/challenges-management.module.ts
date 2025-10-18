@@ -26,6 +26,7 @@ import { CustomPeriodLeaveConfirmationDialog } from '../../features/challenges-m
 import { UnsavedChangesConfirmationDialogModule } from '../../shared/dialogs/unsaved-changes-confirmation/unsaved-changes-confirmation.module';
 import { ImagePreviewDialogModule } from '../../shared/dialogs/image-preview/image-preview.module';
 import { ChallengeTypeToggleComponent } from './shared/challenge-type-toggle/challenge-type-toggle.component';
+import { StreakRewardsComponent } from '../../features/challenges-management/components/streak/streak.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { ChallengeTypeToggleComponent } from './shared/challenge-type-toggle/cha
     AdminChallengesConfirmDeleteDialog,
     UserRewardQrCodeDialog,
     CustomPeriodLeaveConfirmationDialog,
-    ChallengeTypeToggleComponent
+    ChallengeTypeToggleComponent,
+    StreakRewardsComponent
   ],
   exports: [ChallengesManagementComponent],
   providers: [],

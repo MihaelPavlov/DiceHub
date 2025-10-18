@@ -76,7 +76,7 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
   public readonly DATE_FORMAT = DateHelper.DATE_FORMAT;
 
   public columns: Column[] = [
-    // TODO: Update the word weekly based on the settings. Weekly rewards could be monthly
+    // FUTURE TODO: Update the word weekly based on the settings. Weekly rewards could be monthly
     {
       name: this.translateService.instant(
         'challenge_management.columns.weekly'
@@ -89,6 +89,13 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
         'challenge_management.columns.rewards'
       ),
       link: FULL_ROUTE.CHALLENGES.CHALLENGES_REWARDS,
+      isActive: false,
+    },
+    {
+      name: this.translateService.instant(
+        'challenge_management.columns.streaks'
+      ),
+      link: FULL_ROUTE.CHALLENGES.CHALLENGES_STREAKS,
       isActive: false,
     },
   ];
