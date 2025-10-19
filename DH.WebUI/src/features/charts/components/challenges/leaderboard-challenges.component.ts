@@ -1,12 +1,20 @@
-import { ToastType } from './../../../../shared/models/toast.model';
-import { StatisticsService } from './../../../../entities/statistics/api/statistics.service';
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  QueryList,
+  ViewChildren,
+} from '@angular/core';
 import { Router } from '@angular/router';
-import { ToastService } from '../../../../shared/services/toast.service';
-import { UsersService } from '../../../../entities/profile/api/user.service';
 import { ChallengeLeaderboardType } from '../../../../entities/statistics/enums/challenge-leaderboard-type.enum';
-import { combineLatest } from 'rxjs';
+import { ROUTE } from '../../../../shared/configs/route.config';
+import { UsersService } from '../../../../entities/profile/api/user.service';
+import { StatisticsService } from '../../../../entities/statistics/api/statistics.service';
+import { ToastService } from '../../../../shared/services/toast.service';
+import { AuthService } from '../../../../entities/auth/auth.service';
 import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
+import { ToastType } from '../../../../shared/models/toast.model';
+import { combineLatest } from 'rxjs';
 
 interface IChallengeLeaderboardData {
   username: string;
@@ -24,19 +32,30 @@ export class LeaderboardChallengesComponent implements OnInit {
   public currentLeaderboardActiveType: ChallengeLeaderboardType =
     ChallengeLeaderboardType.Weekly;
   public challengeLeaderboardData: IChallengeLeaderboardData[] = [];
-
+  public currentUserRank: number | null = null;
+  public currentUserChallengeCountValue: number = 0;
   constructor(
     private readonly router: Router,
     private readonly toastService: ToastService,
     private readonly statisticsService: StatisticsService,
     private readonly userService: UsersService,
+    private readonly authService: AuthService
   ) {}
+
   public ngOnInit(): void {
     this.fetchLeaderboardData(ChallengeLeaderboardType.Weekly);
   }
 
   public backNavigateBtn(): void {
-    this.router.navigateByUrl('profile');
+    this.router.navigateByUrl(ROUTE.PROFILE.CORE);
+  }
+
+  public get getCurrentUserRank(): number | null {
+    return this.currentUserRank;
+  }
+
+  public get getCurrentUserChallengeCountValue(): number {
+    return this.currentUserChallengeCountValue;
   }
 
   public fetchLeaderboardData(type: ChallengeLeaderboardType): void {
@@ -52,14 +71,27 @@ export class LeaderboardChallengesComponent implements OnInit {
           operation.success &&
           operation.relatedObject
         ) {
-          console.log(users,operation.relatedObject);
-          
+          console.log(users, operation.relatedObject);
+
           this.challengeLeaderboardData = operation.relatedObject.map((x) => ({
             challengeCount: x.challengeCount,
             username:
               users.find((e) => e.id === x.userId)?.userName ||
               'Username not found',
           }));
+
+          const userIndex = this.challengeLeaderboardData.findIndex(
+            (u) => u.username === this.authService.getUser?.username
+          );
+
+          if (userIndex !== -1) {
+            this.currentUserRank = userIndex + 1;
+            this.currentUserChallengeCountValue =
+              this.challengeLeaderboardData[userIndex].challengeCount;
+          } else {
+            this.currentUserRank = null;
+            this.currentUserChallengeCountValue = 0;
+          }
         }
       },
       error: () => {
@@ -67,7 +99,28 @@ export class LeaderboardChallengesComponent implements OnInit {
           message: AppToastMessage.SomethingWrong,
           type: ToastType.Error,
         });
-      }
+      },
     });
+  }
+
+  public scrollToCurrentUser(): void {
+    const currentUserRank = this.authService.getUser?.username; // you can dynamically determine this
+    const elementId = 'user-rank-' + currentUserRank;
+    const element = document.getElementById(elementId);
+
+    if (element) {
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      });
+
+      // Add breathing effect class
+      element.classList.add('breathing-highlight');
+
+      // Remove it after 3 seconds
+      setTimeout(() => {
+        element.classList.remove('breathing-highlight');
+      }, 3000);
+    }
   }
 }
