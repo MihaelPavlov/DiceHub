@@ -77,6 +77,7 @@ export const PATH = {
     GET_CUSTOM_PERIOD: 'get-custom-period',
     GET_USER_CUSTOM_PERIOD: 'get-user-custom-period',
     SAVE_CUSTOM_PERIOD: 'save-custom-period',
+    UPDATE_UNIVERSAL_CHALLENGE: 'update-universal-challenge',
   },
   SPACE_MANAGEMENT: {
     CORE: 'api/spaceManagement',

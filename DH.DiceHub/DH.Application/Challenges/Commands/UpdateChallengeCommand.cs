@@ -11,6 +11,7 @@ public record UpdateChallengeCommand(UpdateChallengeDto Challenge) : IRequest;
 internal class UpdateChallengeCommandHandler : IRequestHandler<UpdateChallengeCommand>
 {
     readonly IRepository<Challenge> repository;
+
     public UpdateChallengeCommandHandler(IRepository<Challenge> repository)
     {
         this.repository = repository;

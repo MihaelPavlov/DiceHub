@@ -12,6 +12,7 @@ import { ICustomPeriod } from '../models/custom-period.model';
 import { IUserCustomPeriod } from '../models/user-custom-period.model';
 import { IUniversalChallengeListResult } from '../models/universal-challenge.model';
 import { IUserUniversalChallenge } from '../models/user-universal-challenge.model';
+import { IUpdateUniversalChallengeDto } from '../models/update-universal-challenge.model';
 
 @Injectable({
   providedIn: 'root',
@@ -70,6 +71,13 @@ export class ChallengesService {
 
   public update(challenge: IUpdateChallengeDto): Observable<null> {
     return this.api.put(`/${PATH.CHALLENGES.CORE}`, { ...challenge });
+  }
+
+  public updateUniversalChallenge(universalChallenge:IUpdateUniversalChallengeDto): Observable<null> {
+    return this.api.put(
+      `/${PATH.CHALLENGES.CORE}/${PATH.CHALLENGES.UPDATE_UNIVERSAL_CHALLENGE}`,
+      { ...universalChallenge }
+    );
   }
 
   public delete(id: number): Observable<null> {

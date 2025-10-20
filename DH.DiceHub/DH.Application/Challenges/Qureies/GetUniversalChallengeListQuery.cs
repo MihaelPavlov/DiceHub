@@ -13,7 +13,7 @@ internal class GetUniversalChallengeListQueryHandler(IRepository<UniversalChalle
 
     public async Task<List<GetUniversalChallengeListQueryModel>> Handle(GetUniversalChallengeListQuery request, CancellationToken cancellationToken)
     {
-        return await this.repository.GetWithPropertiesAsync(
+        var res = await this.repository.GetWithPropertiesAsync(
             x => new GetUniversalChallengeListQueryModel
             {
                 Id = x.Id,
@@ -26,5 +26,7 @@ internal class GetUniversalChallengeListQueryHandler(IRepository<UniversalChalle
                 Name_BG = x.Name_BG,
                 Type = x.Type
             }, cancellationToken);
+
+        return res.OrderBy(x => x.Id).ToList();
     }
 }

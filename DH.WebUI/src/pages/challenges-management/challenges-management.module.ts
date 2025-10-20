@@ -29,6 +29,8 @@ import { ChallengeTypeToggleComponent } from './shared/challenge-type-toggle/cha
 import { StreakLeaderboardComponent } from '../../features/challenges-management/components/streak-leaderboard/streak-leaderboard.component';
 import { StreakRewardsComponent } from '../../features/challenges-management/components/streak-reward/streak-rewards.component';
 import { StreakComponent } from '../../features/challenges-management/components/streak/streak.component';
+import { AdminChallengesComponent } from '../../features/challenges-management/components/admin-challenges/admin-challenges.component';
+import { AdminUniversalChallengesComponent } from '../../features/challenges-management/components/admin-universal-challenges/admin-universal-challenges.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,9 @@ import { StreakComponent } from '../../features/challenges-management/components
     ChallengesRewardsComponent,
     AdminChallengesNavigationComponent,
     AdminChallengesHistoryLogComponent,
+    AdminChallengesComponent,
     AdminChallengesListComponent,
+    AdminUniversalChallengesComponent,
     AdminChallengesCustomPeriodComponent,
     AdminChallengesSystemRewardsComponent,
     AdminChallengesRewardConfirmDeleteDialog,

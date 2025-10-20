@@ -84,7 +84,7 @@ public static class SchedulingDIModule
         service.AddTrigger(opts => opts
             .ForJob(nameof(UserChallengeTop3StreakTrackerJob))
             .WithIdentity($"DailyJobTriggers-{nameof(UserChallengeTop3StreakTrackerJob)}")
-            .WithCronSchedule("0 0/2 * * * ?", cronScheduleBuilder =>
+            .WithCronSchedule("0 0 10 * * ?", cronScheduleBuilder =>
                 cronScheduleBuilder.InTimeZone(TimeZoneInfo.FindSystemTimeZoneById("Europe/Sofia"))));
 
         // .WithCronSchedule("0 0/2 * * * ?")); // Every two mins

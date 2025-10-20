@@ -57,9 +57,6 @@ export class AdminChallengesListComponent extends Form {
   public challengeRewardPointList: IDropdown[] = [];
   public readonly ImageEntityType = ImageEntityType;
   public readonly ChallengeType = ChallengeType;
-  public currentActiveTab: ChallengeType = ChallengeType.Game;
-  public UniversalChallengeType = UniversalChallengeType;
-  public SupportLanguages = SupportLanguages;
 
   constructor(
     public override readonly toastService: ToastService,
@@ -86,24 +83,6 @@ export class AdminChallengesListComponent extends Form {
       },
     });
     this.form = this.initFormGroup();
-  }
-  public getCurrentLanguage(): SupportLanguages {
-    return this.languageService.getCurrentLanguage();
-  }
-  saveChallenge(challenge: IUniversalChallengeListResult) {
-    console.log('Saving challenge', challenge);
-    // call API to update attempts/rewardPoints/minValue/gameName
-  }
-  public tabChange(type: ChallengeType): void {
-    this.currentActiveTab = type;
-
-    if (this.currentActiveTab == ChallengeType.Universal) {
-      this.challengesService.getUniversalList().subscribe({
-        next: (result) => {
-          this.universalChallengeList = result ?? [];
-        },
-      });
-    }
   }
 
   public openDeleteDialog(id: number): void {

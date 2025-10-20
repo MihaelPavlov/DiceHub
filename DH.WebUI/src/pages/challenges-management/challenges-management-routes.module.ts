@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ChallengesManagementComponent } from './page/challenges-management.component';
 import { ChallengesRewardsComponent } from '../../features/challenges-management/components/challenges-rewards/challenges-rewards.component';
-import { AdminChallengesListComponent } from '../../features/challenges-management/components/admin-challenges-list/admin-challenges-list.component';
 import { AdminChallengesCustomPeriodComponent } from '../../features/challenges-management/components/admin-challenges-custom-period/admin-challenges-custom-period.component';
 import { AdminChallengesSystemRewardsComponent } from '../../features/challenges-management/components/admin-challenges-system-rewards/admin-challenges-system-rewards.component';
 import { AdminChallengesNavigationComponent } from './admin-page/admin-challenges-navigation.component';
@@ -11,6 +10,7 @@ import { ROUTE } from '../../shared/configs/route.config';
 import { ChallengeAdminAccessGuard } from '../../shared/guards/challenge-admin-access.guard';
 import { canDeactivateGuard } from '../../shared/guards/can-deactive.guard';
 import { StreakComponent } from '../../features/challenges-management/components/streak/streak.component';
+import { AdminChallengesComponent } from '../../features/challenges-management/components/admin-challenges/admin-challenges.component';
 
 const routes: Routes = [
   {
@@ -40,7 +40,7 @@ const routes: Routes = [
       },
       {
         path: ROUTE.CHALLENGES.ADMIN.LIST,
-        component: AdminChallengesListComponent,
+        component: AdminChallengesComponent,
       },
       {
         path: `${ROUTE.CHALLENGES.ADMIN.SYSTEM_REWARDS}`,

@@ -1,0 +1,82 @@
+<div class="challenges-grid">
+  <form
+    *ngFor="let challenge of universalChallengeList; let i = index"
+    [formGroup]="getChallengeFormGroup(i)"
+    class="challenge-card"
+  >
+    <input type="hidden" formControlName="id" />
+
+    <div class="challenge-body">
+      <div class="name-content">
+        <p *ngIf="getCurrentLanguage() === SupportLanguages.EN">
+          {{ challenge.name_EN }}
+        </p>
+        <p *ngIf="getCurrentLanguage() === SupportLanguages.BG">
+          {{ challenge.name_BG }}
+        </p>
+      </div>
+
+      <div class="description-content">
+        <p *ngIf="getCurrentLanguage() === SupportLanguages.EN">
+          {{ challenge.description_EN }}
+        </p>
+        <p *ngIf="getCurrentLanguage() === SupportLanguages.BG">
+          {{ challenge.description_BG }}
+        </p>
+      </div>
+
+      <div class="input-field">
+        <label class="required">{{
+          "admin_challenge.labels.attempts" | translate
+        }}</label>
+        <input
+          type="number"
+          [placeholder]="'admin_challenge.placeholders.attempts' | translate"
+          formControlName="attempts"
+          min="0"
+        />
+      </div>
+
+      <div class="input-field">
+        <label class="required">{{
+          "admin_challenge.labels.points" | translate
+        }}</label>
+        <ng-select
+          [items]="challengeRewardPointList"
+          bindLabel="name"
+          bindValue="id"
+          [placeholder]="'admin_challenge.placeholders.points' | translate"
+          [searchable]="true"
+          formControlName="rewardPoints"
+          class="app-select"
+        ></ng-select>
+      </div>
+
+      <div class="input-field" *ngIf="challenge.minValue !== null">
+        <label class="required">{{
+          "admin_challenge.labels.monetary_value" | translate
+        }}</label>
+        <input
+          type="number"
+          [placeholder]="
+            'admin_challenge.placeholders.monetary_value' | translate
+          "
+          formControlName="minValue"
+          min="0"
+        />
+      </div>
+    </div>
+
+    <button
+      type="button"
+      class="btn btn-gray challenge-action"
+      [ngClass]="{
+        'btn-border-red btn-font-red': getChallengeFormGroup(i).invalid,
+        'btn-border-blue btn-font-blue': getChallengeFormGroup(i).valid
+      }"
+      (click)="saveChallenge(i)"
+    >
+      {{ "save" | translate }}
+    </button>
+  </form>
+</div>

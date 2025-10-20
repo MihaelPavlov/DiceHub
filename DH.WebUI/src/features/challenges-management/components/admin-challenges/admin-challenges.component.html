@@ -1,0 +1,11 @@
+<app-challenge-type-toggle
+  (tabChange)="tabChange($event)"
+></app-challenge-type-toggle>
+
+<ng-container *ngIf="currentActiveTab === ChallengeType.Game">
+    <app-admin-challenges-list></app-admin-challenges-list>
+</ng-container>
+
+<ng-container *ngIf="currentActiveTab === ChallengeType.Universal">
+    <app-admin-universal-challenges></app-admin-universal-challenges>
+</ng-container>

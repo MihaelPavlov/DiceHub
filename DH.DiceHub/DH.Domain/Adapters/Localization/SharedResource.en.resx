@@ -564,4 +564,13 @@
   <data name="TableReservationQrCodeScannedUserAlreadyHasActiveTable" xml:space="preserve">
     <value>User already has an active table.</value>
   </data>
+  <data name="UpdateUniversalChallengeIdValidation" xml:space="preserve">
+    <value>Universal Challenge ID must be a positive number.</value>
+  </data>
+  <data name="UpdateUniversalChallengeAttemptsValidation" xml:space="preserve">
+    <value>Attempts must be greater than zero.</value>
+  </data>
+  <data name="UpdateUniversalChallengeMinValueValidation" xml:space="preserve">
+    <value>Minimum value must be zero or greater.</value>
+  </data>
 </root>

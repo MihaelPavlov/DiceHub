@@ -564,4 +564,13 @@
   <data name="TableReservationQrCodeScannedUserAlreadyHasActiveTable" xml:space="preserve">
     <value>Потребителят вече има активна маса.</value>
   </data>
+  <data name="UpdateUniversalChallengeIdValidation" xml:space="preserve">
+    <value>ID на предизвикателството трябва да е положително число.</value>
+  </data>
+  <data name="UpdateUniversalChallengeAttemptsValidation" xml:space="preserve">
+    <value>Броят опити трябва да е по-голям от нула.</value>
+  </data>
+  <data name="UpdateUniversalChallengeMinValueValidation" xml:space="preserve">
+    <value>Минималната стойност трябва да е нула или повече.</value>
+  </data>
 </root>
