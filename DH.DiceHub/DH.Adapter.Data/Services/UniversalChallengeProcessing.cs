@@ -59,7 +59,7 @@ internal class UniversalChallengeProcessing(
                             var top3Challenge = period.CustomPeriodUserUniversalChallenges
                                 .FirstOrDefault(x => x.UniversalChallenge.Type == UniversalChallengeType.Top3ChallengeLeaderboard);
 
-                            if (top3Challenge == null)
+                            if (top3Challenge == null || top3Challenge.IsCompleted)
                                 continue;
 
                             if (top3Users.Contains(userId))
@@ -123,7 +123,7 @@ internal class UniversalChallengeProcessing(
                             var top3Challenge = userUniversalChallenges
                                 .FirstOrDefault(x => x.UniversalChallenge!.Type == UniversalChallengeType.Top3ChallengeLeaderboard);
 
-                            if (top3Challenge == null)
+                            if (top3Challenge == null || top3Challenge.IsActive)
                                 continue;
                             if (top3Users.Contains(userId))
                             {
