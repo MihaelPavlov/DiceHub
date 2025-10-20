@@ -1,0 +1,92 @@
+<div>
+  <div class="fire_section">
+    <div
+      [class.fire_circle_active]="isUserStreakActive"
+      [class.fire_circle_inactive]="!isUserStreakActive"
+    >
+      <img
+        class="fire_gif"
+        [src]="
+          isUserStreakActive
+            ? '/shared/assets/images/streak_fire.gif'
+            : '/shared/assets/images/streak_fire_inactive.png'
+        "
+      />
+    </div>
+  </div>
+
+  <div class="current_streak">
+    <h1 class="value">7</h1>
+    <p class="description">Current Streak!</p>
+  </div>
+
+  <div
+    class="sparks"
+    [class.sparks_active_color]="isUserStreakActive"
+    [class.sparks_inactive_color]="!isUserStreakActive"
+  >
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<div class="your_stats">
+  <p class="header">Your Statistics</p>
+  <div class="your_stats_sections">
+    <div class="section">
+      <div class="value_container">
+        <img src="shared/assets/images/streak_badge.png"/>
+        <span class="value">123</span>
+      </div>
+      <span class="description">All Time Best Streak</span>
+    </div>
+    <span class="line"></span>
+    <div class="section">
+      <div class="value_container">
+        <img src="shared/assets/images/streak_reading.png"/>
+
+        <span class="value">4</span>
+      </div>
+      <span class="description">Milestones Unlocked</span>
+    </div>
+  </div>
+</div>
+
+<div class="what_is_streak_description">
+  <h2>What is Streak?</h2>
+  <p class="description">
+    Play at least once game in the club Per Day and reach the milestones for
+    amazing rewards
+  </p>
+</div>
+
+<div class="streak_milestones">
+  <h2>Streak Milestones</h2>
+
+  <div class="milestones">
+    <div
+      class="milestone"
+      *ngFor="let milestone of visibleMilestones"
+      [ngClass]="{ active: milestone.active }"
+    >
+      <img class="calendar_icon" [src]="milestone.icon" />
+      <div class="description">
+        <p class="result">{{ milestone.title }}</p>
+        <p>{{ milestone.description }}</p>
+      </div>
+      <img class="status_icon" [src]="milestone.statusIcon" />
+    </div>
+  </div>
+
+  <div class="show_more_container" *ngIf="canShowMore" (click)="showMore()">
+    <img class="show_more_icon" src="/shared/assets/images/streak_down.png" />
+    <p class="show_more_text">Show more</p>
+  </div>
+</div>

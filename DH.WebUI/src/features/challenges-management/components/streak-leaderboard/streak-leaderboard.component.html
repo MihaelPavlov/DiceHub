@@ -1,0 +1,146 @@
+<div class="wrapper_users">
+  <div
+    *ngIf="this.streakLeaderboardData.length === 0"
+    class="no-streak-message"
+  >
+    <p>No streaks recorded yet!</p>
+    <p>Complete challenges to start your streak.</p>
+  </div>
+
+  <div class="wrapper_steps" *ngIf="streakLeaderboardData.length > 3">
+    <div
+      class="wrapper_steps__item second_third_place"
+      [id]="'user-rank-' + user.username"
+      *ngFor="let user of streakLeaderboardData | slice : 1 : 2"
+    >
+      <div class="wrapper_steps__item__info">
+        <img
+          src="/shared/assets/images/silver_medal.png"
+          class="badge_number"
+        />
+        <span>{{ user.username }}</span>
+        <div class="value_container">
+          <img src="shared/assets/images/streak_fire.png" />
+          <span class="value">
+            {{ user.streakCount }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="wrapper_steps__item"
+      *ngFor="let user of streakLeaderboardData | slice : 0 : 1"
+      [id]="'user-rank-' + user.username"
+    >
+      <div class="wrapper_steps__item__info">
+        <img src="/shared/assets/images/gold_medal.png" class="badge_number" />
+        <span>{{ user.username }}</span>
+        <div class="value_container">
+          <img src="shared/assets/images/streak_fire.png" />
+          <span class="value">
+            {{ user.streakCount }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="wrapper_steps__item second_third_place"
+      *ngFor="let user of streakLeaderboardData | slice : 2 : 3"
+      [id]="'user-rank-' + user.username"
+    >
+      <div class="wrapper_steps__item__info">
+        <img
+          src="/shared/assets/images/bronze_medal.png"
+          class="badge_number"
+        />
+        <span>{{ user.username }}</span>
+        <div class="value_container">
+          <img src="shared/assets/images/streak_fire.png" />
+          <span class="value">
+            {{ user.streakCount }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="user_rank_status" (click)="scrollToCurrentUser()">
+    <div class="container">
+      <img src="shared/assets/images/challenge_target.png" />
+      <p *ngIf="getCurrentUserRank == null" class="description">
+        Complete a challenge to join the streak race!
+      </p>
+      <div *ngIf="getCurrentUserRank != null" class="description">
+        <p>
+          You rank is <strong>{{ getCurrentUserRank }}</strong>
+        </p>
+        <p class="max_users">Out of {{ streakLeaderboardData.length }} users</p>
+      </div>
+    </div>
+    <div class="value_container">
+      <img src="shared/assets/images/streak_fire.png" />
+      <span class="value">{{ getCurrentUserStreakCountValue }}</span>
+    </div>
+  </div>
+
+  <ng-container *ngIf="streakLeaderboardData.length > 3">
+    <div class="wrapper_users__items">
+      <div class="headers">
+        <span>Rankings</span>
+        <span>Streaks</span>
+      </div>
+      <div
+        *ngFor="let user of streakLeaderboardData | slice : 3; let i = index"
+        [id]="'user-rank-' + user.username"
+        class="wrapper_users__item"
+      >
+        <div class="wrapper_users__item__info">
+          <div class="left-side">
+            <span class="th">{{ i + 4 }}<strong>th</strong></span>
+
+            <span class="name">{{ user.username }}</span>
+          </div>
+          <div class="value_container">
+            <img src="shared/assets/images/streak_fire.png" />
+            <span class="value">{{ user.streakCount }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="streakLeaderboardData.length <= 3">
+    <div class="wrapper_users__items">
+      <div class="headers">
+        <span>Rankings</span>
+        <span>Streaks</span>
+      </div>
+      <div
+        *ngFor="let user of streakLeaderboardData; let i = index"
+        [id]="'user-rank-' + user.username"
+        class="wrapper_users__item"
+      >
+        <div class="wrapper_users__item__info">
+          <div class="left-side">
+            <span class="th">{{ i + 1 }}<strong>th</strong></span>
+
+            <span class="name">{{ user.username }}</span>
+          </div>
+
+          <div class="value_container">
+            <img src="shared/assets/images/streak_fire.png" />
+            <span class="value">{{ user.streakCount }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>
+
+<app-controls-menu
+  #controls
+  [isInfo]="true"
+  infoDescription="This leaderboard shows users ranked by their longest consecutive streak of completed challenges.
+  Try to beat your personal best and stay on top of the leaderboard!"
+></app-controls-menu>

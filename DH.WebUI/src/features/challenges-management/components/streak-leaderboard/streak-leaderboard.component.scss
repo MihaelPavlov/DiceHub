@@ -1,0 +1,208 @@
+@use "../../../../shared/assets/styles/palette";
+
+.wrapper_users {
+  margin-top: 1rem;
+  margin-bottom: 10rem;
+
+  .filters {
+    display: flex;
+    justify-content: space-around;
+    margin: 1.5rem;
+    align-items: center;
+    span {
+      padding: 0.5rem 1rem;
+    }
+    .active {
+      background-color: palette.$main-blue-color;
+      border-radius: 0.5rem;
+    }
+  }
+
+  .wrapper_steps {
+    display: flex;
+    justify-content: space-evenly;
+
+    &__item {
+      display: flex;
+      text-align: center;
+
+      .value_container {
+        display: flex;
+        align-items: center;
+        img {
+          width: 1rem;
+          height: 1rem;
+          margin-right: 0.2rem;
+          margin-top: 0.5rem;
+        }
+        .value {
+          color: #df7f32;
+        }
+      }
+
+      &__info {
+        display: flex;
+        border-radius: 10rem;
+        flex-direction: column;
+        align-items: center;
+        span {
+          margin-top: 0.5rem;
+          word-break: break-word;
+          text-align: center;
+        }
+      }
+      .badge_number {
+        width: 3rem;
+        height: 3rem;
+      }
+    }
+
+    .second_third_place {
+      margin-top: 1rem;
+    }
+  }
+
+  .user_rank_status {
+    position: fixed; // stays fixed when scrolling
+    bottom: 6rem; // distance from bottom
+    left: 50%; // start centering
+    transform: translateX(-50%); // perfect center
+    z-index: 1000; // stay above other elements
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    border-radius: 10rem;
+    padding: 0.25rem 1rem;
+    color: black;
+    width: 90%;
+    .container {
+      display: flex;
+      align-items: center;
+    }
+    img {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+
+    .value_container {
+      display: flex;
+      align-items: flex-start;
+      img {
+        width: 1rem;
+        height: 1rem;
+        margin-right: 0.2rem;
+      }
+      .value {
+        color: #df7f32;
+      }
+    }
+    .description {
+      margin-left: 0.75rem;
+      font-size: 0.9rem;
+      .max_users {
+        font-size: 0.8rem;
+        color: gray;
+      }
+    }
+  }
+
+  &__items {
+    background-color: palette.$main-nav-color;
+    margin: 0.75rem 0.75rem;
+    border-radius: 1rem;
+
+    .headers {
+      display: flex;
+      justify-content: space-between;
+      margin-left: 2rem;
+      margin-right: 1.5rem;
+      padding-top: 0.75rem;
+      font-weight: 600;
+    }
+  }
+
+  &__item {
+    display: flex;
+    margin: 0.75rem 0;
+    padding: 0.75rem;
+
+    &__info {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      justify-content: space-between;
+      margin-left: 1rem;
+      .value_container {
+        display: flex;
+        align-items: flex-start;
+        margin-right: 1.25rem;
+        img {
+          width: 1rem;
+          height: 1rem;
+          margin-right: 0.2rem;
+        }
+        .value {
+          color: #df7f32;
+        }
+      }
+      .left-side {
+        .name {
+          margin-left: 2rem;
+          word-break: break-word;
+        }
+
+        .th {
+          position: relative;
+          strong {
+            position: absolute;
+            font-size: 0.7rem;
+          }
+        }
+      }
+    }
+
+    .wrapper_image {
+      text-align: center;
+      width: 2rem;
+      height: 2rem;
+
+      img {
+        width: 2rem;
+        height: 2rem;
+        object-fit: cover;
+        border-radius: 100%;
+        border: 0.1rem solid black;
+      }
+    }
+  }
+}
+
+.no-streak-message {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin: 1rem;
+}
+
+.breathing-highlight {
+  position: relative;
+  animation: breathing 1.5s ease-in-out infinite;
+  border-radius: 0.5rem;
+  z-index: 1;
+}
+@keyframes breathing {
+  0% {
+    box-shadow: 0 0 0px 0 rgba(255, 215, 0, 0.6);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 15px 6px rgba(255, 215, 0, 0.3);
+    transform: scale(1.03);
+  }
+  100% {
+    box-shadow: 0 0 0px 0 rgba(255, 215, 0, 0.6);
+    transform: scale(1);
+  }
+}
