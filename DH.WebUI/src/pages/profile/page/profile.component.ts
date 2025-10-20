@@ -99,4 +99,8 @@ export class ProfileComponent implements OnDestroy {
   public navigateToChallengeLeaderboard(): void {
     this.router.navigateByUrl(FULL_ROUTE.CHARTS.CHALLENGES_LEADERBOARD);
   }
+
+   public navigateToStreakLeaderboard(): void {
+    this.router.navigateByUrl(FULL_ROUTE.CHARTS.STREAK_LEADERBOARD);
+  }
 }
