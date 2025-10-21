@@ -211,9 +211,13 @@
         </span>
       </div>
 
-      <div class="item-wrapper" (click)="navigateToStreakLeaderboard()">
+      <div
+        class="item-wrapper"
+        (click)="navigateToStreakLeaderboard()"
+        *ngIf="!isDifferentFromUser()"
+      >
         <div class="item">
-          <!-- Fire icon -->
+          <!-- fire icon -->
 
           <svg
             height="24px"

@@ -3,7 +3,7 @@ import { SupportLanguages } from './../../../../entities/common/models/support-l
 import { LanguageService } from './../../../../shared/services/language.service';
 import { CustomPeriodLeaveConfirmationDialog } from './../../dialogs/custom-period-leave-confirmation/custom-period-leave-confirmation.component';
 import { ITenantSettings } from './../../../../entities/common/models/tenant-settings.model';
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { IGameDropdownResult } from '../../../../entities/games/models/game-dropdown.model';
 import { GamesService } from '../../../../entities/games/api/games.service';
 import { ToastService } from '../../../../shared/services/toast.service';
@@ -98,8 +98,7 @@ export class AdminChallengesCustomPeriodComponent
     private readonly dialog: MatDialog,
     private readonly fb: FormBuilder,
     public override translateService: TranslateService,
-    private readonly languageService: LanguageService,
-    private readonly cd: ChangeDetectorRef
+    private readonly languageService: LanguageService
   ) {
     super(toastService, translateService);
 
