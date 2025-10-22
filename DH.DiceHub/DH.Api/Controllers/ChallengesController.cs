@@ -1,4 +1,5 @@
-﻿using DH.Adapter.Authentication.Filters;
+﻿
+using DH.Adapter.Authentication.Filters;
 using DH.Application.Challenges.Commands;
 using DH.Application.Challenges.Qureies;
 using DH.Domain.Adapters.Authentication;
@@ -85,6 +86,15 @@ public class ChallengesController : ControllerBase
     {
         var result = await this.mediator.Send(new CreateChallengeCommand(command), cancellationToken);
         return Ok(result);
+    }
+
+    [HttpPut("update-universal-challenge")]
+    [ActionAuthorize(UserAction.ChallengesCUD)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> UpdateUniversalChallenge([FromBody] UpdateUniversalChallengeDto command, CancellationToken cancellationToken)
+    {
+        await this.mediator.Send(new UpdateUniversalChallengeCommand(command), cancellationToken);
+        return Ok();
     }
 
     [HttpPut]

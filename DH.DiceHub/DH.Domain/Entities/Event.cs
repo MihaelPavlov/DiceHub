@@ -11,6 +11,7 @@ public class Event
     public int GameId { get; set; }
     public bool IsCustomImage { get; set; } = false;
     public bool IsDeleted { get; set; }
+    public bool IsJoinChallengeProcessed { get; set; }
 
     public virtual Game Game { get; set; } = null!;
     public virtual EventImage? Image { get; set; }

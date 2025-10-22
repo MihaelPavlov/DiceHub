@@ -384,4 +384,30 @@ internal class UniversalChallengeProcessing(
             }
         }
     }
+
+    public async Task ProcessJoinXEventsChallenge(CancellationToken cancellationToken)
+    {
+        using (var context = await this.dbContextFactory.CreateDbContextAsync(cancellationToken))
+        {
+            var events = await context.Events
+                .Where(x => !x.IsDeleted && !x.IsJoinChallengeProcessed && x.StartDate < DateTime.UtcNow)
+                .Include(x => x.Participants)
+                .AsSplitQuery()
+                .ToListAsync(cancellationToken);
+
+            foreach (var currentEvent in events)
+            {
+                foreach (var participant in currentEvent.Participants)
+                {
+                    await ProcessUniversalChallengeByType(
+                        participant.UserId, 
+                        UniversalChallengeType.JoinEvents,
+                        cancellationToken);
+                }
+                currentEvent.IsJoinChallengeProcessed = true;
+            }
+
+            await context.SaveChangesAsync(cancellationToken);
+        }
+    }
 }

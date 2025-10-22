@@ -52,6 +52,8 @@ public static class SchedulingDIModule
             .StoreDurably().RequestRecovery());
             q.AddJob<UserChallengeTop3StreakTrackerJob>(opts => opts.WithIdentity(nameof(UserChallengeTop3StreakTrackerJob))
             .StoreDurably().RequestRecovery());
+            q.AddJob<EventChecker>(opts => opts.WithIdentity(nameof(EventChecker))
+            .StoreDurably().RequestRecovery());
 
             TriggerDailyJobs(q, services);
 
@@ -86,6 +88,13 @@ public static class SchedulingDIModule
             .WithIdentity($"DailyJobTriggers-{nameof(UserChallengeTop3StreakTrackerJob)}")
             .WithCronSchedule("0 0 10 * * ?", cronScheduleBuilder =>
                 cronScheduleBuilder.InTimeZone(TimeZoneInfo.FindSystemTimeZoneById("Europe/Sofia"))));
+
+        service.AddTrigger(opts => opts
+            .ForJob(nameof(EventChecker))
+            .WithIdentity($"Every8HoursTrigger-{nameof(EventChecker)}")
+            .WithSimpleSchedule(x => x
+                .WithIntervalInHours(8)
+                .RepeatForever()));
 
         // .WithCronSchedule("0 0/2 * * * ?")); // Every two mins
 
