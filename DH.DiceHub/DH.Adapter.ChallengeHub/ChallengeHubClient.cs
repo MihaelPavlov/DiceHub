@@ -136,6 +136,29 @@ public class ChallengeHubClient : Hub, IChallengeHubClient
         }
     }
 
+    public async Task SendUniversalChallengeRestarted(string userId, string challengeName_EN, string challengeName_BG)
+    {
+        if (IsUserConnected(userId))
+        {
+            await this.hub.Clients.Group($"user-{userId}")
+                .SendAsync("universalChallengeRestarted", new
+                {
+                    challengeName_en = challengeName_EN,
+                    challengeName_bg = challengeName_BG,
+                });
+        }
+        else
+        {
+            await this.pushNotificationsService.SendNotificationToUsersAsync(
+                [userId],
+                new UniversalChallengeRestartedNotification
+                {
+                    ChallengeName_EN = challengeName_EN,
+                    ChallengeName_BG = challengeName_BG,
+                }, CancellationToken.None);
+        }
+    }
+
     public async Task SendUniversalChallengeUpdated(string userId, string challengeName_EN, string challengeName_BG)
     {
         if (IsUserConnected(userId))

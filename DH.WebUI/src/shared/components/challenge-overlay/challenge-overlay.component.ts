@@ -112,9 +112,29 @@ export class ChallengeOverlayComponent {
     this.showChallengeProgress = true;
   }
 
+  public restartChallengeProgress(
+    challengeName_en: string,
+    challengeName_bg: string
+  ): void {
+    const name =
+      this.languageService.getCurrentLanguage() === SupportLanguages.EN
+        ? challengeName_en
+        : challengeName_bg;
+
+    const message = this.ts.instant(
+      'challenge_overlay.restarted_universal_challenge',
+      {
+        name,
+      }
+    );
+    this.challengeProgressMessage =
+      this.sanitizer.bypassSecurityTrustHtml(message);
+    this.showChallengeProgress = true;
+  }
+
   public updateUniversalChallengeProgress(
     challengeName_en: string,
-    challengeName_bg
+    challengeName_bg: string
   ): void {
     const name =
       this.languageService.getCurrentLanguage() === SupportLanguages.EN

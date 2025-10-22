@@ -39,6 +39,12 @@ public class ChallengeHubClientProxy : IChallengeHubClient
          .SendUniversalChallengeCompleted(userId, challengeName_EN, challengeName_BG, rewardPoints);
     }
 
+    public Task SendUniversalChallengeRestarted(string userId, string challengeName_EN, string challengeName_BG)
+    {
+        return new ChallengeHubClient(hub, pushNotifications)
+         .SendUniversalChallengeRestarted(userId, challengeName_EN, challengeName_BG);
+    }
+
     public Task SendUniversalChallengeUpdated(string userId, string challengeName_EN, string challengeName_BG)
     {
         return new ChallengeHubClient(hub, pushNotifications)

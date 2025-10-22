@@ -31,6 +31,7 @@ public static class NotificationTypeRegistry
         { nameof(RewardGrantedNotification), typeof(RewardGrantedNotification) },
         { nameof(UniversalChallengeUpdatedNotification), typeof(UniversalChallengeUpdatedNotification) },
         { nameof(UniversalChallengeCompletedNotification), typeof(UniversalChallengeCompletedNotification) },
+        { nameof(UniversalChallengeRestartedNotification), typeof(UniversalChallengeRestartedNotification) },
     };
 
     public static bool TryGetType(string messageType, out Type type) => Types.TryGetValue(messageType, out type!);

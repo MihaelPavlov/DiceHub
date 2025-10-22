@@ -56,6 +56,10 @@ export class ChallengeHubService {
     this.hubConnection.on('universalChallengeCompleted', callback);
   }
 
+  public onUniversalChallengeRestarted(callback: (data: any) => void): void {
+    this.hubConnection.on('universalChallengeRestarted', callback);
+  }
+
   public onRewardGranted(callback: (data: any) => void): void {
     this.hubConnection.on('rewardGranted', callback);
   }

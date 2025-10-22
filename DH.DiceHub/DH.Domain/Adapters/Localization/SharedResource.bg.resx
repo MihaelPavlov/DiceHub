@@ -573,4 +573,10 @@
   <data name="UpdateUniversalChallengeMinValueValidation" xml:space="preserve">
     <value>Минималната стойност трябва да е нула или повече.</value>
   </data>
+  <data name="ChallengeRestartedTitle" xml:space="preserve">
+    <value>Загуби текущия прогрес. Прогресът по предизвикателството е рестартиран. </value>
+  </data>
+  <data name="UniversalChallengeRestartedBody" xml:space="preserve">
+    <value>Прогресът ви по универсалното предизвикателството „{0}“ е обновен. Не се отказвай. Продължавайте, за да завършите предизвикателството!</value>
+  </data>
 </root>
