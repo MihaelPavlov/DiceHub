@@ -93,7 +93,10 @@ internal class UniversalChallengeProcessing(
                             {
                                 top3Challenge.UserAttempts = 0;
 
-                                //Todo: send restart/lose progress Challenge notification
+                                await this.challengeHubClient.SendUniversalChallengeRestarted(
+                                    userId,
+                                    top3Challenge.UniversalChallenge!.Name_EN,
+                                    top3Challenge.UniversalChallenge!.Name_BG);
                             }
                         }
                     }
@@ -153,8 +156,10 @@ internal class UniversalChallengeProcessing(
                             else
                             {
                                 top3Challenge.AttemptCount = 0;
-                                //Todo: send restart/lose progress Challenge notification
-
+                                await this.challengeHubClient.SendUniversalChallengeRestarted(
+                                    userId,
+                                    top3Challenge.UniversalChallenge!.Name_EN,
+                                    top3Challenge.UniversalChallenge!.Name_BG);
                             }
                         }
                     }
@@ -400,7 +405,7 @@ internal class UniversalChallengeProcessing(
                 foreach (var participant in currentEvent.Participants)
                 {
                     await ProcessUniversalChallengeByType(
-                        participant.UserId, 
+                        participant.UserId,
                         UniversalChallengeType.JoinEvents,
                         cancellationToken);
                 }
