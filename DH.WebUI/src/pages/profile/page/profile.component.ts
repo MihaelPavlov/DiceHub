@@ -100,7 +100,8 @@ export class ProfileComponent implements OnDestroy {
     this.router.navigateByUrl(FULL_ROUTE.CHARTS.CHALLENGES_LEADERBOARD);
   }
 
-   public navigateToStreakLeaderboard(): void {
-    this.router.navigateByUrl(FULL_ROUTE.CHARTS.STREAK_LEADERBOARD);
-  }
+  // FUTURE Feature - Streaks Page
+  //  public navigateToStreakLeaderboard(): void {
+  //   this.router.navigateByUrl(FULL_ROUTE.CHARTS.STREAK_LEADERBOARD);
+  // }
 }

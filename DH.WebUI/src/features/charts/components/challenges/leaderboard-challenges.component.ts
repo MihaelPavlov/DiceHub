@@ -1,9 +1,6 @@
 import {
   Component,
-  ElementRef,
-  OnInit,
-  QueryList,
-  ViewChildren,
+  OnInit
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { ChallengeLeaderboardType } from '../../../../entities/statistics/enums/challenge-leaderboard-type.enum';
@@ -15,6 +12,7 @@ import { AuthService } from '../../../../entities/auth/auth.service';
 import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { ToastType } from '../../../../shared/models/toast.model';
 import { combineLatest } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 interface IChallengeLeaderboardData {
   username: string;
@@ -39,7 +37,8 @@ export class LeaderboardChallengesComponent implements OnInit {
     private readonly toastService: ToastService,
     private readonly statisticsService: StatisticsService,
     private readonly userService: UsersService,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly translateService: TranslateService
   ) {}
 
   public ngOnInit(): void {
@@ -77,7 +76,9 @@ export class LeaderboardChallengesComponent implements OnInit {
             challengeCount: x.challengeCount,
             username:
               users.find((e) => e.id === x.userId)?.userName ||
-              'Username not found',
+              this.translateService.instant(
+                'challenge_leaderboard.username_not_found'
+              ),
           }));
 
           const userIndex = this.challengeLeaderboardData.findIndex(
@@ -96,7 +97,9 @@ export class LeaderboardChallengesComponent implements OnInit {
       },
       error: () => {
         this.toastService.error({
-          message: AppToastMessage.SomethingWrong,
+          message: this.translateService.instant(
+            AppToastMessage.SomethingWrong
+          ),
           type: ToastType.Error,
         });
       },

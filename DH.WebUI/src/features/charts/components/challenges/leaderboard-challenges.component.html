@@ -1,6 +1,8 @@
 <div class="wrapper_icons">
   <span (click)="backNavigateBtn()" class="arrow left"></span>
-  <span class="header_name"> Challenge Leaderboard</span>
+  <span class="header_name">
+    {{ "challenge_leaderboard.header" | translate }}</span
+  >
   <div class="info-container">
     <svg
       class="info bump"
@@ -22,7 +24,7 @@
       }"
       (click)="fetchLeaderboardData(ChallengeLeaderboardType.Weekly)"
     >
-      Week
+      {{ "challenge_leaderboard.leaderboard_types.weekly" | translate }}
     </span>
     <span
       [ngClass]="{
@@ -31,7 +33,7 @@
       }"
       (click)="fetchLeaderboardData(ChallengeLeaderboardType.Monthly)"
     >
-      Month
+      {{ "challenge_leaderboard.leaderboard_types.monthly" | translate }}
     </span>
     <span
       [ngClass]="{
@@ -39,7 +41,7 @@
       }"
       (click)="fetchLeaderboardData(ChallengeLeaderboardType.Yearly)"
     >
-      Yearly
+      {{ "challenge_leaderboard.leaderboard_types.yearly" | translate }}
     </span>
   </div>
 
@@ -47,8 +49,8 @@
     *ngIf="this.challengeLeaderboardData.length === 0"
     class="no-challenges-message"
   >
-    <p>No challenges were completed during this period.</p>
-    <p>Try selecting a different time range to see user activity.</p>
+    <p>{{ "challenge_leaderboard.no_completed_challenges_1" | translate }}</p>
+    <p>{{ "challenge_leaderboard.no_completed_challenges_2" | translate }}</p>
   </div>
 
   <div class="wrapper_steps" *ngIf="challengeLeaderboardData.length > 3">
@@ -105,14 +107,21 @@
     <div class="container">
       <img src="shared/assets/images/challenge_target.png" />
       <p *ngIf="getCurrentUserRank == null" class="description">
-        Complete a challenge to view your rank.
+        {{
+          "challenge_leaderboard.user_rank.not_any_challenges_completed"
+            | translate
+        }}
       </p>
       <div *ngIf="getCurrentUserRank != null" class="description">
         <p>
-          You rank is <strong>{{ getCurrentUserRank }}</strong>
+          {{ "challenge_leaderboard.user_rank.your_rank_is" | translate }}
+          <strong> {{ getCurrentUserRank }}</strong>
         </p>
         <p class="max_users">
-          Out of {{ challengeLeaderboardData.length }} users
+          {{
+            "challenge_leaderboard.user_rank.out_of_x_users"
+              | translate : { usersCount: challengeLeaderboardData.length }
+          }}
         </p>
       </div>
     </div>
@@ -122,8 +131,8 @@
   <ng-container *ngIf="challengeLeaderboardData.length > 3">
     <div class="wrapper_users__items">
       <div class="headers">
-        <span>Rankings</span>
-        <span>Count</span>
+        <span>{{ "challenge_leaderboard.rankings" | translate }}</span>
+        <span>{{ "challenge_leaderboard.count" | translate }}</span>
       </div>
       <div
         *ngFor="let user of challengeLeaderboardData | slice : 3; let i = index"
@@ -132,7 +141,12 @@
       >
         <div class="wrapper_users__item__info">
           <div class="left-side">
-            <span class="th">{{ i + 4 }}<strong>th</strong></span>
+            <span class="th"
+              >{{ i + 4
+              }}<strong>{{
+                "challenge_leaderboard.th" | translate
+              }}</strong></span
+            >
 
             <span class="name">{{ user.username }}</span>
           </div>
@@ -144,8 +158,8 @@
   <ng-container *ngIf="challengeLeaderboardData.length <= 3">
     <div class="wrapper_users__items">
       <div class="headers">
-        <span>Rankings</span>
-        <span>Count</span>
+        <span>{{ "challenge_leaderboard.rankings" | translate }}</span>
+        <span>{{ "challenge_leaderboard.count" | translate }}</span>
       </div>
       <div
         *ngFor="let user of challengeLeaderboardData; let i = index"
@@ -154,7 +168,12 @@
       >
         <div class="wrapper_users__item__info">
           <div class="left-side">
-            <span class="th">{{ i + 1 }}<strong>th</strong></span>
+            <span class="th"
+              >{{ i + 1
+              }}<strong>{{
+                "challenge_leaderboard.th" | translate
+              }}</strong></span
+            >
 
             <span class="name">{{ user.username }}</span>
           </div>
@@ -168,6 +187,5 @@
 <app-controls-menu
   #controls
   [isInfo]="true"
-  infoDescription="This leaderboard displays users who have completed challenges, ranked by how many they've successfully finished. 
-Use the tabs above to view rankings for the current week, month, or year."
+  [infoDescription]="'challenge_leaderboard.info_message' | translate"
 ></app-controls-menu>

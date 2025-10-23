@@ -9,7 +9,6 @@ import { ChallengeUserAccessGuard } from '../../shared/guards/challenge-user-acc
 import { ROUTE } from '../../shared/configs/route.config';
 import { ChallengeAdminAccessGuard } from '../../shared/guards/challenge-admin-access.guard';
 import { canDeactivateGuard } from '../../shared/guards/can-deactive.guard';
-import { StreakComponent } from '../../features/challenges-management/components/streak/streak.component';
 import { AdminChallengesComponent } from '../../features/challenges-management/components/admin-challenges/admin-challenges.component';
 
 const routes: Routes = [
@@ -23,11 +22,12 @@ const routes: Routes = [
     component: ChallengesRewardsComponent,
     canActivate: [ChallengeUserAccessGuard],
   },
-  {
-    path: ROUTE.CHALLENGES.STREAKS,
-    component: StreakComponent,
-    canActivate: [ChallengeUserAccessGuard],
-  },
+  // FUTURE Feature - Streaks Page
+  // {
+  //   path: ROUTE.CHALLENGES.STREAKS,
+  //   component: StreakComponent,
+  //   canActivate: [ChallengeUserAccessGuard],
+  // },
   {
     path: ROUTE.CHALLENGES.ADMIN.CORE,
     component: AdminChallengesNavigationComponent,

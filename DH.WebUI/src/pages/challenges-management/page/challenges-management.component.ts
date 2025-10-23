@@ -91,13 +91,14 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
       link: FULL_ROUTE.CHALLENGES.CHALLENGES_REWARDS,
       isActive: false,
     },
-    {
-      name: this.translateService.instant(
-        'challenge_management.columns.streaks'
-      ),
-      link: FULL_ROUTE.CHALLENGES.CHALLENGES_STREAKS,
-      isActive: false,
-    },
+    // Future Feature: Streak Page
+    // {
+    //   name: this.translateService.instant(
+    //     'challenge_management.columns.streaks'
+    //   ),
+    //   link: FULL_ROUTE.CHALLENGES.CHALLENGES_STREAKS,
+    //   isActive: false,
+    // },
   ];
 
   private inactivityRewardsTimer!: Subscription;

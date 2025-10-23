@@ -102,7 +102,7 @@ export const ROUTES: Routes = [
       import(
         '../../pages/instruction-management/instruction-management.module'
       ).then((m) => m.InstructionManagementModule),
-    data: { hideMenu: true },
+    data: { hideMenu: false },
   },
   {
     path: 'login',

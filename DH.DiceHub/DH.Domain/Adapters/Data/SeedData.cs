@@ -651,4 +651,129 @@ public static class SeedData
 
 
     public static readonly List<CreateChallengeDto> CHALLENGE_LIST_DTOS = new();
+
+    public static readonly List<UniversalChallenge> UNIVERSAL_CHALLENGES = new()
+    {
+        new()
+        {
+            Id = 1,
+            RewardPoints = ChallengeRewardPoint.Ten,
+            CreatedDate = DateTime.UtcNow,
+            UpdatedDate = DateTime.UtcNow,
+            CreatedBy = "Seeder",
+            UpdatedBy = "Seeder",
+            Name_EN = "Play X Games",
+            Name_BG = "Играй X игри",
+            Description_EN = "Play a set number of games during the challenge period. Each completed game session will count towards your progress.",
+            Description_BG = "Играй определен брой игри в рамките на периода на предизвикателството. Всяка завършена игрова сесия се брои към напредъка ти.",
+            Type = UniversalChallengeType.PlayGames,
+            Attempts = 5
+        },
+        new()
+        {
+            Id = 2,
+            RewardPoints = ChallengeRewardPoint.Ten,
+            CreatedDate = DateTime.UtcNow,
+            UpdatedDate = DateTime.UtcNow,
+            CreatedBy = "Seeder",
+            UpdatedBy = "Seeder",
+            Name_EN = "Play Game From Meeple Room",
+            Name_BG = "Играй игра от Meeple Room",
+            Description_EN = "Start and finish a game that was scheduled via a Meeple Room. The game must match the event’s game selection for it to count.",
+            Description_BG = "Започни и завърши игра, която е била планирана чрез Meeple Room. Играта трябва да съвпада с избора на събитието, за да се зачете.",
+            Type = UniversalChallengeType.JoinMeepleRooms,
+            Attempts = 3
+        },
+        new()
+        {
+            Id = 3,
+            RewardPoints = ChallengeRewardPoint.Ten,
+            CreatedDate = DateTime.UtcNow,
+            UpdatedDate = DateTime.UtcNow,
+            CreatedBy = "Seeder",
+            UpdatedBy = "Seeder",
+            Name_EN = "Join X Events",
+            Name_BG = "Участвай в X събития",
+            Description_EN = "Participate in community events hosted at the club. Each event joined adds to your challenge progress.",
+            Description_BG = "Участвай в клубни събития. Всяко събитие, в което участваш, добавя точки към напредъка ти.",
+            Type = UniversalChallengeType.JoinEvents,
+            Attempts = 2
+        },
+        new()
+        {
+            Id = 4,
+            RewardPoints = ChallengeRewardPoint.Ten,
+            CreatedDate = DateTime.UtcNow,
+            UpdatedDate = DateTime.UtcNow,
+            CreatedBy = "Seeder",
+            UpdatedBy = "Seeder",
+            Name_EN = "Use X Rewards",
+            Name_BG = "Използвай X награди",
+            Description_EN = "Redeem and use rewards during your play sessions. Every time you activate a reward QR code, progress is tracked.",
+            Description_BG = "Използвай награди по време на игралните сесии. Всеки път когато активираш QR код на награда, напредъкът се отчита.",
+            Type = UniversalChallengeType.UseRewards,
+            Attempts = 5
+        },
+        new()
+        {
+            Id = 5,
+            RewardPoints = ChallengeRewardPoint.Ten,
+            CreatedDate = DateTime.UtcNow,
+            UpdatedDate = DateTime.UtcNow,
+            CreatedBy = "Seeder",
+            UpdatedBy = "Seeder",
+            Name_EN = "Receive X Rewards",
+            Name_BG = "Получи X награди",
+            Description_EN = "Collect rewards granted by completing other challenges or special tasks. Each reward received increases your progress.",
+            Description_BG = "Получавай награди от завършени предизвикателства или специални задачи. Всяка получена награда увеличава напредъка ти.",
+            Type = UniversalChallengeType.RewardsGranted,
+            Attempts = 3
+        },
+        new()
+        {
+            Id = 6,
+            RewardPoints = ChallengeRewardPoint.Ten,
+            CreatedDate = DateTime.UtcNow,
+            UpdatedDate = DateTime.UtcNow,
+            CreatedBy = "Seeder",
+            UpdatedBy = "Seeder",
+            Name_EN = "Buy Items Above X Value",
+            Name_BG = "Купи предмети над X стойност",
+            Description_EN = "Make purchases from the club shop with a total value above the set minimum. Staff will validate this with a QR code scan.",
+            Description_BG = "Направи покупки от магазина на клуба на стойност над минималната. Персоналът ще потвърди със сканиране на QR код.",
+            Type = UniversalChallengeType.BuyItems,
+            Attempts = 2,
+            MinValue = 50m
+        },
+        new()
+        {
+            Id = 7,
+            RewardPoints = ChallengeRewardPoint.Ten,
+            CreatedDate = DateTime.UtcNow,
+            UpdatedDate = DateTime.UtcNow,
+            CreatedBy = "Seeder",
+            UpdatedBy = "Seeder",
+            Name_EN = "Play Favorite Game",
+            Name_BG = "Играй любима игра",
+            Description_EN = "Play your marked favorite game multiple times. Each session with your favorite title counts toward the challenge.",
+            Description_BG = "Играй своята любима игра няколко пъти. Всяка сесия с избраната любима игра се брои за напредъка.",
+            Type = UniversalChallengeType.PlayFavoriteGame,
+            Attempts = 3
+        },
+        new()
+        {
+            Id = 8,
+            RewardPoints = ChallengeRewardPoint.Ten,
+            CreatedDate = DateTime.UtcNow,
+            UpdatedDate = DateTime.UtcNow,
+            CreatedBy = "Seeder",
+            UpdatedBy = "Seeder",
+            Name_EN = "Stay in Top 3 Challenge Leaderboard",
+            Name_BG = "Остани в топ 3 на класацията",
+            Description_EN = "Maintain a top 3 position on the overall Challenge Leaderboard for consecutive days. Progress is tracked daily. Attempts represent days for this challenge",
+            Description_BG = "Запази място в топ 3 на общата класация за предизвикателства няколко дни подред. Напредъкът се следи ежедневно. Опити е в контекста на дни за това предизвикателство",
+            Type = UniversalChallengeType.Top3ChallengeLeaderboard,
+            Attempts = 3
+        }
+    };
 }

@@ -72,20 +72,39 @@ export class AppComponent implements OnInit {
     );
 
     this.challengeHubService.onChallengeUpdate((update) => {
-      console.log('Challenge progress update:', update.challengeGameName);
-      this.challengeOverlay.updateProgress(update.challengeGameName);
+      this.challengeOverlay.updateChallengeProgress(update.challengeGameName);
     });
 
     this.challengeHubService.onChallengeCompleted((completed) => {
-      console.log('Challenge completed:', completed);
       this.challengeOverlay.completeChallenge(
         completed.challengeGameName,
         completed.rewardPoints
       );
     });
 
+    this.challengeHubService.onUniversalChallengeUpdate((update) => {
+      this.challengeOverlay.updateUniversalChallengeProgress(
+        update.challengeName_en,
+        update.challengeName_bg
+      );
+    });
+
+    this.challengeHubService.onUniversalChallengeCompleted((completed) => {
+      this.challengeOverlay.completeUniversalChallenge(
+        completed.challengeName_en,
+        completed.challengeName_bg,
+        completed.rewardPoints
+      );
+    });
+
+    this.challengeHubService.onUniversalChallengeRestarted((completed) => {
+      this.challengeOverlay.restartChallengeProgress(
+        completed.challengeName_en,
+        completed.challengeName_bg
+      );
+    });
+
     this.challengeHubService.onRewardGranted((reward) => {
-      console.log('Reward granted:', reward);
       this.challengeOverlay.rewardGranted(reward.name_bg, reward.name_en);
     });
 
