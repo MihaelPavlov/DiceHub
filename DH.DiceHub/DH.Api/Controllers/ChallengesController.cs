@@ -114,6 +114,7 @@ public class ChallengesController : ControllerBase
         await this.mediator.Send(new DeleteChallengeCommand(id), cancellationToken);
         return Ok();
     }
+
     [HttpGet("get-custom-period")]
     [ActionAuthorize(UserAction.ChallengesCUD)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetCustomPeriodQueryModel))]
