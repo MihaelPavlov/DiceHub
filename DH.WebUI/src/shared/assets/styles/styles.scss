@@ -16,7 +16,13 @@ $color-danger-10-percent: #f6e8eb;
   margin: 0;
   padding: 0;
 }
-
+html,
+body {
+  overscroll-behavior: none;
+}
+app-root {
+  overscroll-behavior: contain;
+}
 body {
   background-color: $main-background-color;
   color: $main-font-color;

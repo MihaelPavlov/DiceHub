@@ -8,6 +8,23 @@
     max-width: 10rem;
 }
 
+// NOT USED ANYMORE - kept for reference
+// .text-overflow .ng-value-label {
+//     white-space: nowrap;
+//     overflow: hidden;
+//     text-overflow: ellipsis;
+//     max-width: 100%;
+// }
+
+// .text-overflow .ng-value {
+//     display: flex;
+//     flex-wrap: nowrap;
+//     overflow: hidden;
+//     text-overflow: ellipsis;
+//     white-space: nowrap;
+//     max-width: 100%;
+// }
+
 .ng-select.app-select {
     color: palette.$main-font-color;
     border-radius: 0.3rem;
