@@ -1,0 +1,1427 @@
+{
+  "HELLO": "Hello",
+  "WELCOME": "Welcome to DiceHub",
+  "search": "Search",
+  "image": "Image",
+  "preview": "Preview",
+  "close": "Close",
+  "cancel": "Cancel",
+  "are_you_sure": "Are you Sure?",
+  "delete": "Delete",
+  "deleted": "Deleted",
+  "remove": "Remove",
+  "leave": "Leave",
+  "confirm": "Confirm",
+  "club": "Club",
+  "back_to_home": "Back to Home",
+  "cannot_be_deleted": "Cannot be Deleted",
+  "save": "Save",
+  "toast_messages": {
+    "something_wrong": "Something wrong!",
+    "changes_saved": "Changes have been successfully saved.",
+    "changes_applied": "Changes have been successfully applied.",
+    "failed_to_save_changes": "Changes have not been applied.",
+    "internal_server_error": "The server encountered an error and could not complete your request."
+  },
+  "form_errors": {
+    "required": "{{field}} is required.",
+    "min_length": "{{field}} must be at least {{requiredLength}} characters long.",
+    "max_length": "{{field}} cannot exceed {{requiredLength}} characters.",
+    "min": "{{field}} must be at least {{min}}."
+  },
+  "games": {
+    "navigation": {
+      "add_game": "Add Game",
+      "add_existing_game": "Add Existing Game"
+    },
+    "game": {
+      "menu_items": {
+        "info": "Statistics",
+        "availability": "Availability",
+        "reviews": "Reviews"
+      },
+      "statistics": {
+        "about_the_game": "About the game",
+        "age": "Age +{{minAge}} Years",
+        "players": "{{minPlayers}}-{{maxPlayers}} Players",
+        "average_playtime": "{{averagePlaytime}} min/s",
+        "description": "Description"
+      },
+      "availability": {
+        "reservation_successfully": "Reservation is successfully",
+        "reservation_not_successfully": "Reservation was not successfully",
+        "controls_display_name": {
+          "people": "People",
+          "arrive_time": "Arrive Time"
+        },
+        "reserve_your_seat": "Reserve Your Seat and Get Ready to Play!",
+        "table_reservation_for_today": "You have table reservation for today",
+        "game_reservation_availability_info": "Game reservation for your table will become available <strong>1 hour</strong> before your reserved time.",
+        "available": "AVAILABLE",
+        "unavailable": "UNAVAILABLE",
+        "units": "units {{availableCopies}} / {{totalCopies}}",
+        "your_crew": "Your Crew?",
+        "how_many_people_in_your_crew": "How much people in your crew?",
+        "arrival_time": "Arrival Time:",
+        "when_will_you_arrive": "When will you arrive?",
+        "details_prefilled_message": "These details are prefilled from your table reservation.",
+        "current_game_reservation": "Your current game reservation -",
+        "under_review": "Under Review",
+        "approved": "Approved",
+        "declined": "Declined",
+        "reservation_not_acknowledged": "Your reservation hasn’t been acknowledged by our staff. <br />We’ve extended it for an additional 5-10 minutes. <br />If no one approves or declines your reservation, please contact us.",
+        "reservation_extended": "We’ve extended your reservation with an <br />additional 5-10 minutes.",
+        "game_reservation_unavailable": "GAME RESERVATION UNAVAILABLE",
+        "reservation": {
+          "before_action": "Reservation of game will be available after",
+          "closing": "closing",
+          "or": "or",
+          "leaving": "leaving",
+          "after_action": "the current active table"
+        },
+        "active_table_button": "Active table",
+        "prepare_to_arrive_in": "Prepare to arrive in <strong>{{minutes}}</strong> mins",
+        "reservation_info": {
+          "information": "Reservation Information",
+          "message_from_staff": "Message from Staff: {{publicNote}}",
+          "approved_reminder": "Don't forget to show the QR code to the Staff when you arrive in our space",
+          "declined_message": "We're sorry, but your reservation couldn't be approved this time due to high demand. <br/> <br/> Please try again later or check out other available time slots. <br/> Thank you for understanding!"
+        },
+        "reservation_qr_code": {
+          "show_to_staff": "Show To Staff"
+        }
+      },
+      "reviews": {
+        "write_review": "Write review",
+        "reviews": "Reviews",
+        "update": "update",
+        "create": "create",
+        "delete": "Delete",
+        "review_deleted": "Review is Deleted!",
+        "cancel": "Cancel",
+        "delete_review": "Delete Review?",
+        "write_your_review": "Write your review",
+        "review_is_required": "Review is required.",
+        "review_cannot_exceed": "Review cannot exceed 100 characters.",
+        "review_must_be_at_least": "Review must be at least 10 characters long."
+      },
+      "add_update": {
+        "game_info": "Game Info",
+        "copy_info": "QR Code already exist for the current game",
+        "labels": {
+          "category": "Category",
+          "choose_category": "Choose category",
+          "name": "Name",
+          "description": "Description",
+          "min_age": "Min age",
+          "min_players": "Min Players",
+          "max_players": "Max Players",
+          "average_playtime": "Approx Time"
+        },
+        "placeholder": {
+          "select_game": "Select Game",
+          "selected_image": "Selected Image",
+          "kids_or_adults": "kids or adults",
+          "avg_playtime": "avg play time",
+          "min_players": "min players",
+          "max_players": "max players",
+          "game_name": "name of the game?",
+          "description_en": "description in english",
+          "description_bg": "description in bulgarian"
+        },
+        "buttons": {
+          "create": "Create",
+          "update": "Update",
+          "add_copy": "Add Copy"
+        },
+        "controls_display_name": {
+          "image_required": "Image is required.",
+          "category": "Category",
+          "name": "Name",
+          "description_en": "English Description",
+          "description_bg": "Bulgarian Description",
+          "min_age": "Minimum Age",
+          "min_players": "Minimum Players",
+          "max_players": "Maximum Players",
+          "average_playtime": "Average Playtime",
+          "image": "Image"
+        }
+      }
+    },
+    "not_found": "No Games Found",
+    "navbar": {
+      "items": {
+        "popular": "Popular",
+        "categories": "Categories",
+        "new": "New"
+      },
+      "header": "Games"
+    },
+    "categories": {
+      "Games": "Games",
+      "Abstract": "Abstract",
+      "Adventure": "Adventure",
+      "Card": "Card",
+      "Cooperative": "Cooperative",
+      "Deck Building": "Deck Building",
+      "Dexterity": "Dexterity",
+      "Economy": "Economy",
+      "Exploration": "Exploration",
+      "Family": "Family",
+      "Fantasy": "Fantasy",
+      "Historical": "Historical",
+      "Horror": "Horror",
+      "Party": "Party",
+      "Puzzle": "Puzzle",
+      "Racing": "Racing",
+      "Resource Management": "Resource Management",
+      "Science Fiction": "Science Fiction",
+      "Strategy": "Strategy",
+      "Trivia": "Trivia",
+      "Warfare": "Warfare"
+    },
+    "library": {
+      "menu_items": {
+        "qr_code": "QR Code",
+        "update": "Update",
+        "add_copy": "Add Copy",
+        "delete": "Delete"
+      },
+      "missing_name_for_qr_code": "Game QR Code",
+      "game_image": "Game Image"
+    }
+  },
+  "events": {
+    "header_upcoming_events": "Upcoming Events",
+    "header_todays_events": "Todays Events",
+    "header_my_events": "My Events",
+    "no_events_today": "No events for today",
+    "chip_joined": "{{peopleJoined}} joined",
+    "chip_max": "{{maxPeople}} max",
+    "remaining_days": {
+      "days_left": "{{count}} days left",
+      "days_ago": "{{count}} days ago",
+      "today": "Today"
+    },
+    "details": {
+      "header": "EVENT:",
+      "description": "Description for event",
+      "about_the_game": "About the game - {{gameName}}",
+      "event_max_limit_message": "This event has reached its maximum capacity for online sign-ins",
+      "join_event": "Join Event",
+      "leave_event": "Leave Event",
+      "update_event": "Update Event"
+    },
+    "menu_items": {
+      "update": "Update",
+      "delete": "Delete",
+      "send_notification": "Send Notifications",
+      "add": "Ad Event"
+    },
+    "send_notifications_for_event": "Notifications for the event was sended successfully",
+    "management_header": "Events Management",
+    "delete_event": {
+      "message": "Are you sure you want to delete this event?",
+      "message_dependencies": "This action will remove all participant registrations and send a cancellation notification to everyone who registered."
+    },
+    "add_update": {
+      "event_info": "Event Info",
+      "start_date_validation": "Start Date cannot be in the past.",
+      "labels": {
+        "use_custom_image": "Use Custom Image",
+        "game": "Game",
+        "start_date": "Start Date",
+        "start_time": "Start Time",
+        "name": "Name",
+        "max_people": "Max People",
+        "description": "Description"
+      },
+      "placeholders": {
+        "select_game": "Choose Game",
+        "start_date": "start date",
+        "start_time": "start time",
+        "name": "name of the event?",
+        "max_people": "max people",
+        "description_en": "description in english",
+        "description_bg": "description in bulgarian"
+      },
+      "buttons": {
+        "create": "Create",
+        "update": "Update"
+      },
+      "controls_display_name": {
+        "game": "Game",
+        "name": "Name",
+        "description_en": "English Description",
+        "description_bg": "Bulgarian Description",
+        "max_people": "Max People",
+        "start_date": "Start Date",
+        "start_time": "Start Time",
+        "image": "Image"
+      }
+    }
+  },
+  "meeple": {
+    "no_rooms_available": "No Rooms Available",
+    "header": "Find Meeple",
+    "game_image_alt": "Game Image",
+    "game": "Game: {{gameName}}",
+    "chip_joined": "{{peopleJoined}} joined",
+    "chip_max": "{{maxPeople}} max",
+    "room": {
+      "from": "from {{username}}",
+      "joined": "joined",
+      "date": "date",
+      "max": "max",
+      "time": "time",
+      "open_chat": "Open Chat",
+      "see_game_details": "See Game Details",
+      "join_room": "Join the Room",
+      "room_is_full": "Sorry, the room is full!",
+      "left_room_success": "Room successfully left",
+      "leave_room_question": "Leave Room?",
+      "menu": {
+        "update": "Update",
+        "group_members": "Group Members",
+        "leave_room": "Leave Room",
+        "delete_room": "Delete Room"
+      },
+      "delete_room_question": "Delete Room?",
+      "successfully_deleted": "Room successfully deleted",
+      "lobby": "Lobby",
+      "write_your_message_placeholder": "Write your message here",
+      "remove_member_successfully": "Member removed successfully",
+      "remove_member_question": "Remove Member?",
+      "room_members": "Room Members",
+      "room_owner": "Owner - ",
+      "room_person_age": "age {{age}}",
+      "room_person_joined_at": "Joined at"
+    },
+    "add_update": {
+      "create_header": "Create Game Camp",
+      "update_header": "Update Game Camp",
+      "btn_update": "Update the Camp",
+      "btn_create": "Fire the Camp",
+      "info_message": "The room will be available until the selected date.",
+      "validation_message_cannot_be_today": " You cannot set the start date to today or in the past.<br/> Please choose a future date.",
+      "controls_display_name": {
+        "name": "Name",
+        "start_date": "Start Date",
+        "start_time": "Start Time",
+        "max_participants": "Max Participants",
+        "game": "Game"
+      },
+      "placeholders": {
+        "select_game": "Select Game",
+        "minutes": "m",
+        "name": "name of your room",
+        "max_participants": "max participants"
+      },
+      "labels": {
+        "choose_date": "Choose Date",
+        "choose_time": "Choose Time",
+        "name": "Name",
+        "max_participants": "Max people"
+      }
+    }
+  },
+  "navigation_menu": {
+    "games": "Games",
+    "meeple": "Meeple",
+    "reservations": "Reservations",
+    "events": "Events",
+    "profile": "Profile"
+  },
+  "qr_scanner": {
+    "header": "Scan QR Code",
+    "game_reservation_valid": "Game Reservation is VALID \n\n {{note}}",
+    "table_reservation_valid": "Table Reservation is VALID \n\n {{note}}",
+    "no_staff_note": "No Note From Staff",
+    "qr_code_type": {
+      "reward": "Reward",
+      "game_reservation": "Game Reservation",
+      "game": "Game",
+      "event": "Event",
+      "purchase_challenge": "Purchase Challenge",
+      "qr_code": "Qr-Code"
+    },
+    "enum_values": {
+      "Unknown": "Unknown",
+      "Game": "Game",
+      "Event": "Event",
+      "Reward": "Reward",
+      "GameReservation": "Game Reservation",
+      "TableReservation": "Table Reservation",
+      "PurchaseChallenge": "Purchase Challenge"
+    },
+    "reward_claimed": "Successfully claimed",
+    "problem_with_qr_code": "Problem with the {{qrCode}}!",
+    "reward_is_valid": "Reward is valid!",
+    "please_confirm_giving_reward": "Please confirm when you give the reward to the customer!",
+    "qr_code_is_invalid_full": "QR Code is invalid!",
+    "qr_code_invalid_from_game": "<br />Contact the <strong>STAFF</strong> if you <strong>scan QR Code from a game</strong>",
+    "qr_code_is_valid": "QR Code is valid!",
+    "scan_confirm_dialog": {
+      "header": "Confirm Scan",
+      "description": "You are about to process this QR code.",
+      "type": "Type:"
+    }
+  },
+  "space_management": {
+    "header": "Club Space",
+    "join_game_table_header": "Join Game Table",
+    "people_in_club": "People In Club",
+    "online_tables": "Online tables",
+    "view_table": "View Table",
+    "create_table": "Create Table",
+    "create_table_description": "Begin your adventure. Create a table if you're free and you are in the club!",
+    "create_table_btn": "Create",
+    "join_table": "Join Table",
+    "join_table_description": "Jump into an ongoing game! Join a table if you're free and ready to play.",
+    "join_table_btn": "Join",
+    "join_the_table_btn": "Join The Table",
+    "book_table": "Book Table",
+    "book_table_description": "Reserve your spot for a future game! Book a table and prepare for the fun.",
+    "book_table_btn": "Book",
+    "your_reservation": "Your Reservation",
+    "no_active_game_tables": "There are no active game tables at the moment.",
+    "check_back_again": "Check back later or create a new table to start playing!",
+    "join_room_question": "Join Room?",
+    "table": {
+      "name": "{{tableName}} Table",
+      "playing": "Playing {{gameName}}",
+      "chip_joined": "{{peopleJoined}} joined",
+      "chip_max": "{{maxPeople}} max"
+    },
+    "details": {
+      "room": "Room",
+      "name": "Name:",
+      "game": "Game:",
+      "max_people": "Max People:",
+      "password": "Password:",
+      "joined_before": "joined before: {{joinedBefore}} mins",
+      "menu_items": {
+        "update": "Update",
+        "add_virtual_user": "Add Virtual User",
+        "close_room": "Close Room",
+        "leave_room": "Leave Room"
+      }
+    },
+    "add_update": {
+      "update_header": "Update Game Table",
+      "create_header": "Create Game Table",
+      "password_info_message": "If no password is set, anyone can join the session until the maximum participant limit is reached.",
+      "create_btn": "Create",
+      "update_btn": "Update",
+      "placeholders": {
+        "scanned_game": "scanned game",
+        "table_name": "table name",
+        "max_people": "max people",
+        "password": "password",
+        "enter_password": "enter password"
+      },
+      "labels": {
+        "scanned_game": "Scanned Game",
+        "table_name": "Table Name",
+        "max_people": "Max People",
+        "password": "Password"
+      },
+      "controls_display_names": {
+        "scanned_game": "Scanned Game",
+        "table_name": "Table Name",
+        "max_people": "Max People",
+        "password": "Password"
+      }
+    },
+    "booking": {
+      "header": "Booking",
+      "user_have_active_reservation": "User already have an active reservation",
+      "account_have_active_reservation": "This account already have an active reservation",
+      "book_btn": "Book a Table",
+      "info_message": "Reserve your table to enjoy your game session at the club. Select the number of guests, pick a time slot, and confirm your booking below.",
+      "labels": {
+        "number_of_guests": "Number of Guests",
+        "reservation_date": "Reservation Date",
+        "available_time_slots": "Available Time Slots"
+      },
+      "menu_items": {
+        "update": "Update",
+        "qr_code": "QR Code",
+        "add_copy": "Add Copy",
+        "delete": "Delete"
+      }
+    },
+    "reservation_keys": {
+      "number_of_guests": "Number of Guests",
+      "reservation_date": "Reservation Date",
+      "is_confirmed": "Is Confirmed"
+    },
+    "table_status": {
+      "waiting": "Waiting",
+      "approved": "Approved",
+      "declined": "Declined"
+    },
+    "table_status_description": {
+      "waiting": "Waiting for confirmation — hang tight while we process your request.",
+      "approved": "Your spot for a future game! Be prepared for the fun.",
+      "declined": "Reservation declined — please try booking a different time."
+    },
+    "message_from_club": "Message from Club: {{publicNote}}",
+    "table_messages": {
+      "host": {
+        "live": "🎯 Your Table is Live 🎯",
+        "in_progress": "🕹️ Game in Progress 🕹️",
+        "rolled_dice": "🎲 You’ve Rolled the Dice 🎲",
+        "hot_table": "🔥 Table’s Hot — You’re Hosting 🔥",
+        "running_show": "🧩 You’re Running the Show 🧩"
+      },
+      "participant": {
+        "in_game": "🎮 You’re in the Game 🎮",
+        "seat_taken": "🪑 Pulled Up a Seat 🪑",
+        "joined_table": "✨ You’ve Joined the Table ✨",
+        "part_of_crew": "🧑‍🤝‍🧑 Part of the Crew 🧑‍🤝‍🧑",
+        "table_vibes": "🎭 Table Vibes: Active 🎭"
+      }
+    }
+  },
+  "profile": {
+    "hello": "Hello,",
+    "games": "Games",
+    "reservations": "Reservations",
+    "events": "Events",
+    "owner": "Owner",
+    "settings": "Settings",
+    "instructions": "Instructions",
+    "employees": "Employees",
+    "jobs": "Jobs",
+    "charts": {
+      "challenge_leaderboard": "Challenge Leaderboard",
+      "streak_leaderboard": "Streak Leaderboard",
+      "games": "Games Charts",
+      "visitors": "Visitor Charts",
+      "reservations": "Reservation Charts",
+      "events": "Event Charts",
+      "rewards": "Reward Charts"
+    },
+    "add_update_employee": {
+      "new_employee": "New Employee",
+      "update_employee": "Update Employee",
+      "labels": {
+        "first_name": "First Name",
+        "last_name": "Last Name",
+        "email": "Email",
+        "phone_number": "Phone Number"
+      },
+      "placeholders": {
+        "first_name": "e.g. John",
+        "last_name": "e.g. Smith",
+        "email": "e.g. john.smith@example.com",
+        "phone_number": "e.g. +359 8812 24567"
+      },
+      "control_display_names": {
+        "first_name": "First Name",
+        "last_name": "Last Name",
+        "email": "Email",
+        "phone_number": "Phone Number"
+      },
+      "create_btn": "Create",
+      "update_btn": "Update",
+      "info_message_create": "Email with the password will be send to the new employee.",
+      "info_message_update": "If you update the employee's email, a new password will be sent to the new email address."
+    },
+    "employee_list": {
+      "header": "Employees",
+      "no_employees_message": "Add your first employee",
+      "update_btn": "Update",
+      "delete_btn": "Delete",
+      "confirm_deletion": "Confirm Deletion!",
+      "deletion_successfully": "Employee successfully deleted",
+      "deletion_unsuccessfully": "Employee successfully deleted"
+    }
+  },
+  "space_settings": {
+    "header_name": "Space Settings",
+    "control_display_names": {
+      "average_max_capacity": "Average Max Capacity",
+      "language": "Language",
+      "challenge_rewards_count_for_period": "Challenge Rewards Count For Period",
+      "period_of_reward_reset": "Period Of Reward Reset",
+      "reset_day_for_rewards": "Reset Day For Rewards",
+      "challenge_initiation_delay_hours": "Challenge Initiation Delay Hours",
+      "reservation_hours": "Reservation Hours",
+      "phone_number": "Phone Number",
+      "club_name": "Club Name",
+      "bonus_time_after_reservation_expiration": "Bonus Time After Reservation Expiration",
+      "is_custom_period_on": "Is Custom Period On"
+    },
+    "language": {
+      "label": "Language",
+      "placeholder": "EN",
+      "info": "Application Language for you"
+    },
+    "phone_number": {
+      "label": "Club Phone Number",
+      "placeholder": "+359 .....",
+      "info": "The main contact number for the club that will be shown to users."
+    },
+    "club_name": {
+      "label": "Club Name",
+      "placeholder": "Write your club name",
+      "info": "The name of the club that will be displayed to users."
+    },
+    "average_max_capacity": {
+      "label": "Average Max Capacity",
+      "placeholder": "0",
+      "info": "Represents the average number of people the club can accommodate at one time."
+    },
+    "challenge_rewards_count_for_period": {
+      "label": "Challenge Rewards Count For Period",
+      "placeholder": "0",
+      "info": "Defines how many rewards a user can earn during a single reset period."
+    },
+    "challenge_initiation_delay_hours": {
+      "label": "Challenge Initiation Delay Hours",
+      "placeholder": "0",
+      "info": "Number of hours to wait before a new challenge becomes active after being triggered."
+    },
+    "reset_day_for_rewards": {
+      "label": "Reset Day For Rewards",
+      "placeholder": "0",
+      "info": "Day of the week when rewards reset at 12:00 PM (e.g., every Monday at noon)."
+    },
+    "reservation_hours": {
+      "label": "Reservation Hours",
+      "placeholder": "Select your hours",
+      "info": "Set the available time slots for reservations based on the club’s operating hours. Multiple time slots can be selected."
+    },
+    "bonus_time_after_reservation_expiration": {
+      "label": "Bonus Time After Reservation Expiration",
+      "placeholder": "15 minutes",
+      "info": "Extra grace time (in minutes) after a reservation ends before it is considered expired."
+    },
+    "period_of_reward_reset": {
+      "label": "Period Of Reward Reset",
+      "placeholder": "Weekly or Monthly",
+      "info": "How often the reward count resets for users — weekly or monthly."
+    },
+    "is_custom_period_on": {
+      "label": "Is Custom Period On",
+      "placeholder": "On or Off",
+      "info": "⚠️ Every time you switch this setting from Off to On, you will be redirected to the Custom Period tab in Challenge Manager. If no challenges or rewards are set up there, you must complete the setup before you can leave."
+    },
+    "save_button": "Save",
+    "controls_menu": {
+      "info_description": "Configure key settings for your club’s operations, challenges, and reservations. Adjust values to fit your club’s needs and ensure a smooth experience for all users."
+    }
+  },
+  "user_settings": {
+    "header_name": "Space Settings",
+    "phone_number": {
+      "label": "Phone Number",
+      "placeholder": "+359 .....",
+      "info": "Provide a phone number where the club can reach you regarding updates or inquiries."
+    },
+    "language": {
+      "label": "Language",
+      "placeholder": "EN",
+      "info": "Application Language for you"
+    },
+    "controls_display_names": {
+      "phone_number": "Phone Number",
+      "language": "Language"
+    },
+    "save_button": "Save",
+    "controls_menu": {
+      "info_description": "Manage space-related settings such as contact details, visibility, and preferences to ensure accurate and personalized club usage."
+    }
+  },
+  "week_days_names": {
+    "Sunday": "Sunday",
+    "Monday": "Monday",
+    "Tuesday": "Tuesday",
+    "Wednesday": "Wednesday",
+    "Thursday": "Thursday",
+    "Friday": "Friday",
+    "Saturday": "Saturday"
+  },
+  "period_time_names": {
+    "Weekly": "Weekly",
+    "Monthly": "Monthly"
+  },
+  "toggle_state_names": {
+    "Off": "Off",
+    "On": "On"
+  },
+  "languages_names": {
+    "EN": "EN",
+    "BG": "BG"
+  },
+  "languages_names_short": {
+    "EN": "EN",
+    "BG": "BG"
+  },
+  "landing": {
+    "revolutionizing": "Revolutionizing",
+    "game_driven_entertainment": "Game-Driven Entertainment",
+    "info": "The all-in-one platform to streamline operations, boost engagement, and grow your gaming-focused venue.",
+
+    "club_game_management_title": "Club Game Management",
+    "club_game_management_desc": "Effortlessly organize your tables, games, and schedules in one central place.",
+
+    "challenge_rewards_title": "Challenge & Rewards System",
+    "challenge_rewards_desc": "Keep players coming back with engaging challenges and customizable rewards.",
+
+    "activity_tracking_title": "Real-Time Activity Tracking",
+    "activity_tracking_desc": "Monitor game sessions and user participation with powerful tracking tools.",
+
+    "event_management_title": "Event Management",
+    "event_management_desc": "Create, promote, and manage tournaments, weekly events, or private bookings with ease.",
+
+    "reservation_system_title": "Smart Reservation System",
+    "reservation_system_desc": "Simplify your booking process for tables, games, or events — all from one dashboard.",
+
+    "qr_code_game_tracking_title": "QR Code Game Tracking",
+
+    "how_it_works": "How it Works",
+    "login": "Login",
+    "register": "Register",
+
+    "partner_with_us_title": "Partner with Us",
+    "partner_with_us_text": "Looking to modernize your entertainment space? Whether you run a board game cafe, darts bar, billiards lounge, or a hybrid venue, DiceHub helps you elevate the experience and grow your community.",
+
+    "form": {
+      "labels": {
+        "name": "Name",
+        "email": "Email",
+        "phone_number": "Phone Number",
+        "message": "Message"
+      },
+      "send_btn": "Send",
+      "placeholders": {
+        "name": "Your Name",
+        "email": "Your Email",
+        "phone_number": "+359 .....",
+        "message": "Tell us about your venue or questions you have"
+      }
+    }
+  },
+  "login": {
+    "labels": {
+      "email": "Email",
+      "password": "Password",
+      "remember_me": "Remember Me",
+      "lost_your_way": "Lost your way?"
+    },
+    "placeholders": {
+      "email": "Your Email",
+      "password": "Your Password"
+    },
+    "show_resend": {
+      "or": "or",
+      "click_to_resend": "Click here to resend"
+    },
+    "login_btn": "Login",
+    "no_account": "Still a stranger to this realm?",
+    "sign_up": "Sign Up",
+    "enjoy_journey": "and embark on your journey!",
+    "control_display_names": {
+      "email": "Email",
+      "password": "Password"
+    },
+    "from_message": {
+      "register": "Registration successful! Please check your email to confirm your account.",
+      "forgot_password": "Password reset email sent successfully! Please check your email.",
+      "reset_password": "Password reset was successfully! Please use your new password to sign in.",
+      "create_employee_password": "Welcome to the team! Password creation was successfully! Please use your new password to sign in."
+    },
+    "toast_messages": {
+      "resend_successfully": "Confirmation email resent successfully! Please check your email.",
+      "resend_not_successfully": "Failed to resend confirmation email. Please try again later."
+    }
+  },
+  "register": {
+    "successfully_message": "Registration successful! Please check your email to confirm your account.",
+    "successfully_with_email_failed": "Registration successful, but we couldn't send the confirmation email. Please try resending it or contact support.",
+    "register_error_message": "We couldn't send the confirmation email. Please try resending it or contact support.",
+    "registration_failed": "Registration failed. Please try again.",
+    "confirmation_email_sent": "Confirmation email sent successfully!",
+    "failed_email_send": "Failed to send confirmation email.",
+    "control_display_names": {
+      "username": "Username",
+      "email": "Email",
+      "password": "Password",
+      "confirm_password": "Confirm Password"
+    },
+    "placeholders": {
+      "username": "Your Username",
+      "email": "Your Email",
+      "password": "Your Password",
+      "confirm_password": "Confirm Your Password"
+    },
+    "labels": {
+      "username": "Username",
+      "email": "Email",
+      "password": "Password",
+      "confirm_password": "Confirm Password"
+    },
+    "click_to_resend": "click here to resend",
+    "register_btn": "Register",
+    "you_have_registration": "You're already part of the guild!",
+    "sign_in_1": "Sign In",
+    "sign_in_2": "to jump back into the action!"
+  },
+  "reset_password": {
+    "reset_was_successfully": "Your password has been reset successfully.",
+    "reset_was_unsuccessfully": "Password reset failed. Please try again.",
+    "control_display_names": {
+      "new_password": "New Password",
+      "confirm_password": "Confirm Password"
+    },
+    "labels": {
+      "new_password": "New Password",
+      "confirm_password": "Confirm Password"
+    },
+    "placeholders": {
+      "new_password": "Enter your new password",
+      "confirm_password": "Re-enter your new password"
+    },
+    "reset_password_btn": "Reset Password"
+  },
+  "forgot_password": {
+    "send_was_successfully": "Your password reset email has been sent successfully.",
+    "send_was_unsuccessfully": "Unable to send the password reset email. Please try again.",
+    "control_display_names": {
+      "email": "Email"
+    },
+    "labels": {
+      "email": "Email"
+    },
+    "placeholders": {
+      "email": "Enter your Email"
+    },
+    "send_btn": "Send",
+    "remembered_your_key": "You remembered your key!",
+    "sign_in": "Sign In",
+    "sign_in_message": "to jump back into the action!"
+  },
+  "create_owner_password": {
+    "was_successfully": "Password creation was successfully!",
+    "was_unsuccessfully": "Password creation was unsuccessfully!",
+    "resend_password_email_was_resend": "Email sent! Please allow a few minutes for it to arrive in your inbox.",
+    "resend_password_email_was_not_resend": "Failed to send email. Please try again later.",
+    "control_display_names": {
+      "club_phone_number": "Club Phone Number",
+      "new_password": "New Password",
+      "confirm_password": "Confirm Password"
+    },
+    "labels": {
+      "club_phone_number": "Club Phone Number",
+      "new_password": "New Password",
+      "confirm_password": "Confirm Password"
+    },
+    "placeholders": {
+      "club_phone_number": "+359 .....",
+      "new_password": "Enter your new password",
+      "confirm_password": "Re-enter your new password"
+    },
+    "link_expired": "The link has expired or is invalid.",
+    "resend_email": "Click here to request a new one.",
+    "create_password_btn": "Create Password"
+  },
+  "create_employee_password": {
+    "was_successfully": "Password creation was successfully!",
+    "was_unsuccessfully": "Password creation was unsuccessfully!",
+    "resend_password_email_was_resend": "Email sent! Please allow a few minutes for it to arrive in your inbox.",
+    "resend_password_email_was_not_resend": "Failed to send email. Please try again later.",
+    "control_display_names": {
+      "phone_number": "Phone Number",
+      "new_password": "New Password",
+      "confirm_password": "Confirm Password"
+    },
+    "labels": {
+      "phone_number": "Phone Number",
+      "new_password": "New Password",
+      "confirm_password": "Confirm Password"
+    },
+    "placeholders": {
+      "phone_number": "+359 .....",
+      "new_password": "Enter your new password",
+      "confirm_password": "Re-enter your new password"
+    },
+    "link_expired": "The link has expired or is invalid.",
+    "resend_email": "Click here to request a new one.",
+    "create_password_btn": "Create Password"
+  },
+  "confirm_email": {
+    "confirming": "Confirming...",
+    "invalid_confirm_link": "The confirmation link is invalid or has expired.",
+    "email_send_successfully": "Confirmation email sent successfully!",
+    "email_send_successfully_message": "Email sent successfully! Please check your inbox.",
+    "email_send_not_successfully": "Failed to send confirmation email.",
+    "email_confirmation_failed": "Email confirmation failed.",
+    "email_confirmed_successfully": "Your email has been confirmed successfully! <br/>You will be redirected to your account in <span class='dot-loader'>3</span> seconds...",
+    "confirming_email_please_wait": "Confirming your email, please wait...",
+    "resend_email": "Resend email from here",
+    "click_if_not_redirected": "Click here if you are not redirected automatically"
+  },
+  "notification_dialog": {
+    "push_unsupported": "⚠️ Unfortunately, your device or browser doesn’t support notifications when the app is closed or in the background. You will still receive alerts inside the app while you’re using it.",
+    "push_unsupported_dismiss": "Got it ✓",
+    "notification_permissions_not_granted": "⚠️ You will still receive notifications inside the app, but since browser notifications are disabled, we cannot guarantee you’ll get alerts when you’re outside the app.",
+    "learn_how_to_enable_notification": "Learn how to enable notifications",
+    "notifications_header": "Notifications",
+    "no_notifications_1": "You’re all caught up, Champion!",
+    "no_notifications_2": "No new notifications for now — stay sharp, the next challenge could be just around the corner!",
+    "read_all": "Read All",
+    "clear": "Clear"
+  },
+  "challenge_management": {
+    "challenges_header": "Challenges",
+    "columns": {
+      "weekly": "Weekly",
+      "rewards": "Rewards",
+      "streaks": "Streaks"
+    },
+    "challenge_are_being_generated": "Your challenges are being generated.",
+    "check_back": "Please check back in a few minutes!",
+    "play": "Play",
+    "times": "times",
+    "score": "Score: {{points}}",
+    "no_rewards": "No rewards yet!",
+    "visit_club": "Visit the club and start completing",
+    "challenges": "challenges",
+    "to_earn": "to earn them.",
+    "available_more": "Available more:",
+    "days": "{{availableMoreForDays}} DAYS",
+    "use": "Use",
+    "used": "Used",
+    "expired": "Expired"
+  },
+  "reward": "Reward",
+  "admin_challenge": {
+    "challenges_manager": "Challenges Manager",
+    "columns": {
+      "challenges": "Challenges",
+      "rewards": "Rewards",
+      "custom_period": "Custom Period"
+    },
+    "add_challenge": "Add Challenge",
+    "update_challenge": "Update Challenge",
+    "total_challenges": "Total: {{totalChallenges}}",
+    "selected_games": "Selected Games: {{filterGamesCount}}",
+    "filter_by_game": "Filter by Game",
+    "placeholders": {
+      "select_game": "Select a game",
+      "points": "Enter points",
+      "attempts": "Enter attempts",
+      "monetary_value": "money $"
+    },
+    "labels": {
+      "select_game": "Select a game",
+      "points": "Points",
+      "attempts": "Attempts",
+      "monetary_value": "Min Monetary Value"
+    },
+    "control_display_names": {
+      "game": "Game",
+      "points": "Reward Points",
+      "attempts": "Attempts",
+      "monetary_value": "Monetary Value"
+    },
+    "create_btn": "Create",
+    "update_btn": "Update",
+    "no_challenges": "No challenges yet.",
+    "no_challenges_desc": "Start by adding challenges to keep your users engaged and rewarded!",
+    "attempts": "Attempts: {{attempts}}",
+    "reward": "Reward: {{rewardPoints}}"
+  },
+  "admin_rewards": {
+    "add_reward": "Add Reward",
+    "update_reward": "Update Reward",
+    "total_rewards": "Total: {{totalRewards}}",
+    "search_btn": "Search",
+    "labels": {
+      "search": "Search",
+      "select_level": "Select Level",
+      "required_points": "Required Points",
+      "cash_equivalent": "Cash Equivalent",
+      "name": "Name",
+      "description": "Description"
+    },
+    "placeholders": {
+      "search": "Search",
+      "select_level": "Select Level",
+      "required_points": "Points",
+      "cash_equivalent": "Cash Equivalent",
+      "name_en": "Name english",
+      "name_bg": "Name bulgarian",
+      "description_en": "Description / English",
+      "description_bg": "Description / Bulgarian"
+    },
+    "control_display_names": {
+      "selected_level": "Level",
+      "name_en": "Name English",
+      "name_bg": "Name Bulgarian",
+      "description_en": "Description English",
+      "description_bg": "Description Bulgarian",
+      "required_points": "Required Points",
+      "image": "Image",
+      "cash_equivalent": "Cash Equivalent"
+    },
+    "create_btn": "Create",
+    "update_btn": "Update",
+    "no_rewards": "No rewards to show.",
+    "no_rewards_desc_1": "Add a new reward",
+    "no_rewards_desc_2": " to get started.",
+    "currency": "BGN ",
+    "delete_dialog": {
+      "important_note": "Important Note!",
+      "important_note_desc_1": "This reward will no longer appear in future challenge periods.",
+      "important_note_desc_2": "However, it will remain visible to users who have already earned it and will still be shown in the current challenge period."
+    },
+    "image_required": "Image is required."
+  },
+  "reward_level": {
+    "Bronze": "Bronze",
+    "Silver": "Silver",
+    "Gold": "Gold",
+    "Platinum": "Platinum"
+  },
+  "custom_period": {
+    "save_custom_period": "Save Custom Period",
+    "period_warning_messages": "Custom period initialization will apply on your next scheduled reward reset day.<br /> Currently set to <strong>{{resetDayForRewards}}</strong> at <strong>12:00 PM</strong>.<br /> <br /> You can continue editing your settings until the reset occurs. <br /> <br /> <strong>Note:</strong> The configured challenges and rewards will be the same for all users during the custom period.",
+    "add_reward": "Add Reward",
+    "add_challenge": "Add Challenge",
+    "add_universal_challenge": "Add Universal Challenge",
+    "labels": {
+      "select_reward": "Select Reward",
+      "required_points": "Required Points",
+      "select_game": "Select Game",
+      "select_universal_challenge": "Select Universal Challenge",
+      "attempts": "Attempts",
+      "points": "Points",
+      "min_value": " Min Monetary Value"
+    },
+    "placeholders": {
+      "select_reward": "Select Reward",
+      "required_points": "Points",
+      "select_game": "Select a game",
+      "select_universal_challenge": "Select a universal challenge",
+      "attempts": "0",
+      "points": "0",
+      "min_value": "5$"
+    },
+    "failed_to_load_period": "Failed to load custom period",
+    "has_deleted_data_changed_but_unsaved": "The period had invalid data due to deleted games or rewards. Save your changes to continue.",
+    "validity_period_on_save": {
+      "challenges_rewards_deleted": "Cannot save — some challenges reference deleted games and some rewards are unavailable.",
+      "rewards_deleted": "Cannot save — some rewards are unavailable.",
+      "games_deleted": "Cannot save — some challenges reference deleted games."
+    },
+    "validity_period_on_leave": {
+      "challenges_rewards_deleted": "You cannot leave — some challenges reference deleted games and some rewards are unavailable.",
+      "rewards_deleted": "You cannot leave — some rewards are unavailable.",
+      "games_deleted": "You cannot leave — some challenges reference deleted games."
+    },
+    "max_rewards_reached": "You have reached the maximum allowed rewards ({{maxRewards}}). To add more, adjust the global settings.",
+    "deleted_placeholder": "(deleted)",
+    "period_leave_dialog": {
+      "custom_period_setup_required": "Custom Period Setup Required",
+      "period_enabled": "Custom Period mode is currently enabled.",
+      "message_1": "To leave this section, you must either complete the required setup (challenges and rewards)",
+      "message_2": "or turn off Custom Period mode in the settings.",
+      "turn_off_custom_period": "Turn Off Custom Period",
+      "stay": "Stay"
+    }
+  },
+  "unsaved_changes_dialog": {
+    "unsaved_changes": "Unsaved Changes",
+    "message": "You have unsaved changes. Are you sure you want to leave?",
+    "leave": "Leave",
+    "stay": "Stay"
+  },
+  "reservation_management": {
+    "reservations": "Reservations",
+    "history_games": "History Games",
+    "history_tables": "History Tables",
+    "navbar_columns": {
+      "games": "Games",
+      "tables": "Tables"
+    },
+    "active": "Active",
+    "game_bookings": "Game Bookings",
+    "table_bookings": "Table Bookings",
+    "no_reservations": "No reservations",
+    "no_reservations_message": "Your book with active reservations is empty",
+    "details": {
+      "game_reservation_date": "Game reservation:",
+      "table_reservation_date": "Table reservation:",
+      "information": "Information:",
+      "people": "people",
+      "date": "date",
+      "from": "From: {{username}}",
+      "phone_number": "Phone Number: {{phoneNumber}}",
+      "none": "None",
+      "internal_note": "Internal Note",
+      "public_note": "Public Note",
+      "placeholders": {
+        "internal_note": "Nobody add an internal note",
+        "public_note": "Nobody add an public note"
+      },
+      "update": "Update",
+      "delete": "Delete"
+    },
+    "status": {
+      "approved": "Approved",
+      "declined": "Declined",
+      "approve": "Approve",
+      "decline": "Decline"
+    },
+    "confirm_dialog": {
+      "successfully_declined": "Reservation is declined",
+      "successfully_approved": "Reservation is approved",
+      "approving_reservation": "Approving reservation:",
+      "declined_reservation": "Declining reservation:",
+      "internal_note": "Internal Note",
+      "public_note": "Public Note",
+      "placeholders": {
+        "internal_note": "Internal Note",
+        "public_note": "Public Note"
+      },
+      "game": "game -",
+      "people": "people -",
+      "date": "date -",
+      "phone_number": "phone number -",
+      "user_language": "user language -",
+      "existing_table_reservation": "existing table reservation",
+      "approve": "Approve",
+      "decline": "Decline"
+    },
+    "history": {
+      "header": "History",
+      "created_date": "Created At: {{createdDate}}",
+      "game": "Game",
+      "was_booked_from": "was booked from",
+      "has_booked_table": "has booked a table for",
+      "reservation_date": "Reservation Date:",
+      "person": "person",
+      "people": "people",
+      "filter": {
+        "all": "ALL",
+        "expired": "EXPIRED",
+        "pending": "PENDING",
+        "approved": "APPROVED",
+        "declined": "DECLINED"
+      },
+      "actions": {
+        "no": "No",
+        "reservation_found": "reservations found from type",
+        "available": "Available",
+        "update": "Update",
+        "approve": "Approve",
+        "decline": "Decline",
+        "info": "Info",
+        "delete": "Delete",
+        "info_message": "The reservation expired without a response"
+      }
+    }
+  },
+  "reservation_status": {
+    "Pending": "Pending",
+    "Approved": "Approved",
+    "Declined": "Declined",
+    "Expired": "Expired"
+  },
+  "instruction": {
+    "instruction_header": "Instruction",
+    "instructions_header": "Instructions",
+    "info_description": "Learn how to use the app, including how to reserve games, table,\nearn rewards, and explore other important features to enhance your club experience.",
+    "previous": "Previous",
+    "next": "Next",
+    "reservation": {
+      "title": "Reservations",
+      "summary": "Reserve a game, table, or a combination of both",
+      "topic": {
+        "game": {
+          "title": "Game",
+          "thumbnail_url": "/shared/assets/images/instructions/Reservations/Game/3.png",
+          "description": "Learn how to reserve a game step by step.",
+          "steps": {
+            "how_to_reserve_game": {
+              "header": "How to Reserve a Game",
+              "description": "Tap the game library icon in the bottom-left corner. Use the list or search bar to find a game you want to play.\nAfter selecting a game, click on Availability\nSelect your arrival time and number of players — we’ll reserve a table for you.\nYou’ll be notified when your reservation is approved or declined.\nIf approved, please arrive 2–10 minutes before the timer ends.",
+              "media_url": "/shared/assets/images/instructions/Reservations/Game/game_reservation_part_1.gif"
+            },
+            "reservation_approved": {
+              "header": "Reservation Approved: What’s Next",
+              "description": "Once your reservation is approved, you'll see a QR code and an info panel.\nYou can access this panel anytime from the red Games Tab in the top-right corner (it will glow when updated).\nThis panel shows important details and updates about your reservation.",
+              "media_url": "/shared/assets/images/instructions/Reservations/Game/game_reservation_part_2.gif"
+            },
+            "message_from_staff": {
+              "header": "Messages from Staff",
+              "description": "Your info panel may include notes from staff about your reservation — make sure to read them.",
+              "media_url": "/shared/assets/images/instructions/Reservations/Game/7.png"
+            },
+            "checking_in_with_qr_code": {
+              "header": "Checking In with Your QR Code",
+              "description": "Show your QR code to the club staff when you arrive. They’ll scan it to confirm your reservation.",
+              "media_url": "/shared/assets/images/instructions/Reservations/Game/9.png"
+            },
+            "reservation_is_declined": {
+              "header": "If Your Reservation is Declined",
+              "description": "If your reservation is not approved, you’ll see a message explaining why it was declined.",
+              "media_url": "/shared/assets/images/instructions/Reservations/Game/11.png"
+            },
+            "no_one_responds_to_reservation": {
+              "header": "If No One Responds to Your Reservation",
+              "description": "If your reservation isn’t acknowledged in time, you’ll get a additional message.",
+              "media_url": "/shared/assets/images/instructions/Reservations/Game/13.png"
+            }
+          }
+        },
+        "table": {
+          "title": "Table",
+          "thumbnail_url": "/shared/assets/images/instructions/Reservations/Table/1.png",
+          "description": "Learn how to reserve a table. ",
+          "steps": {
+            "how_to_reserve_table": {
+              "header": "How to Reserve a Table",
+              "description": "Tap the circular icon with crossed swords at the bottom center of the screen.\nThen, tap the top icon to open the Club Space Management page.\nThere, you can book a table, choosing your arrival time, and entering the number of players.\nYou’ll receive a notification once your reservation is approved or declined.",
+              "media_url": "/shared/assets/images/instructions/Reservations/Table/table_reservation_part_1.gif"
+            },
+            "reservation_approved": {
+              "header": "Reservation Approved: What’s Next",
+              "description": "If your reservation is approved, a QR code and all reservation details will appear in your info panel under Club Space Management page.",
+              "media_url": "/shared/assets/images/instructions/Reservations/Table/1.png"
+            },
+            "message_from_staff": {
+              "header": "Message from Staff",
+              "description": "Sometimes, staff may leave you a note in the info panel with important information about your reservation.",
+              "media_url": "/shared/assets/images/instructions/Reservations/Table/3.png"
+            },
+            "reservation_declined": {
+              "header": "If Your Reservation is Declined",
+              "description": "If your reservation is not approved, try selecting a different time or day.",
+              "media_url": "/shared/assets/images/instructions/Reservations/Table/4.png"
+            }
+          }
+        },
+        "combination": {
+          "title": "Combination",
+          "thumbnail_url": "/shared/assets/images/instructions/Reservations/Combination/2.png",
+          "description": "Learn how to combine both a table and a game reservation into one seamless experience.",
+          "steps": {
+            "reserve_table": {
+              "header": "Step 1: Reserve Your Table",
+              "description": "Start by learning how to book a table. Follow the instructions provided in the link below to secure your spot.",
+              "action_label": "How to Reserve a Table",
+              "media_url": "/shared/assets/images/instructions/Reservations/Table/table_reservation_part_1.gif"
+            },
+            "game_reservation": {
+              "header": "Step 2: Game Reservation on the Day of Your Visit",
+              "description": "On the day of your table reservation, you’ll receive a special message on the game availability page. This message will include your table details.\n\nExactly **1 hour before** your reserved time, you’ll be able to select and reserve a game.\n\nOnce you request a game reservation, it will either be approved or declined depending on availability.",
+              "media_url": "/shared/assets/images/instructions/Reservations/Combination/2.png"
+            },
+            "game_reservation_approved": {
+              "header": "If Your Game Reservation is Approved",
+              "description": "Great! Both your table and your selected game will be ready and waiting for you at the venue.",
+              "media_url": "/shared/assets/images/instructions/Reservations/Combination/3.png"
+            },
+            "game_reservation_declined": {
+              "header": "If Your Game Reservation is Declined",
+              "description": "Don’t worry your table reservation is still confirmed. You can either:\n\n- Try reserving a different game, or\n- Arrive and choose from the games available on-site.",
+              "media_url": "/shared/assets/images/instructions/Reservations/Combination/4.png"
+            }
+          }
+        },
+        "manage_room": {
+          "title": "Tip #1 Manage Your Room",
+          "thumbnail_url": "/shared/assets/images/instructions/Reservations/find_my_reservation.gif",
+          "description": "Easily manage your reservation room — see who’s in, update players, and adjust your settings.",
+          "steps": {
+            "manage_room": {
+              "header": "How to Manage Your Room",
+              "description": "Tap the blue circle at the bottom center of the screen. Then tap the first icon at the top.\nThis will take you to the Club Space Management page, where you can view and manage your reservation room.\nFrom there, you can update your reservation details or remove players if needed.",
+              "media_url": "/shared/assets/images/instructions/Reservations/find_my_reservation.gif"
+            }
+          }
+        }
+      }
+    },
+    "events": {
+      "title": "Events",
+      "summary": "Join exciting events and connect with the community through games, challenges, and fun activities.",
+      "topic": {
+        "join_event": {
+          "title": "How to Join an Event",
+          "thumbnail_url": "/shared/assets/images/instructions/Events/join_event.gif",
+          "description": "Find and join upcoming community events directly from your app.",
+          "steps": {
+            "join_event": {
+              "header": "Step-by-Step: Joining an Event",
+              "description": "1. Tap the **Events** tab at the bottom of your screen.\n2. Browse through the list of upcoming events.\n3. Select an event to view full details like time, date, and description.\n4. Tap **Join Event** to secure your spot!",
+              "media_url": "/shared/assets/images/instructions/Events/join_event.gif"
+            }
+          }
+        },
+        "leave_event": {
+          "title": "How to Leave an Event",
+          "thumbnail_url": "/shared/assets/images/instructions/Events/leave_event.gif",
+          "description": "Can’t make it? Easily leave an event you’ve joined.",
+          "steps": {
+            "leave_event": {
+              "header": "Removing Yourself from an Event",
+              "description": "1. Open the **Events** tab.\n2. Go to the **My Events** section.\n3. Tap the event you want to leave.\n4. Tap **Leave Event** at the bottom of the screen.",
+              "media_url": "/shared/assets/images/instructions/Events/leave_event.gif"
+            }
+          }
+        },
+        "notifications": {
+          "title": "Stay Informed with Notifications",
+          "thumbnail_url": "/shared/assets/images/instructions/Events/2.png",
+          "description": "Get notified when new events are created.",
+          "steps": {
+            "notifications": {
+              "header": "How Event Notifications Work",
+              "description": "When your club creates a new event, you'll receive a notification.\nTap the notification to view event details and decide whether to join.",
+              "media_url": "/shared/assets/images/instructions/Events/2.png"
+            }
+          }
+        }
+      }
+    },
+    "challenges": {
+      "title": "Challenge & Rewards",
+      "summary": "Take part in exciting challenges and earn awesome rewards!\nThis is your main hub for everything related to challenges, rewards, and friendly competition.",
+      "topic": {
+        "info": {
+          "title": "Challenges",
+          "thumbnail_url": "/shared/assets/images/instructions/Challenges/1.png",
+          "description": "Learn where, when, and how to complete challenges.",
+          "steps": {
+            "where_to_find": {
+              "header": "Where to Find Challenges",
+              "description": "Tap the blue circle at the bottom center of the screen, then tap the middle icon.\n\nThis will open your Challenge Page, where you can view both your current challenges and earned rewards.\n\nThe first tab (top left) will show whether you're participating in a weekly or monthly challenge period.",
+              "media_url": "/shared/assets/images/instructions/Challenges/1.png"
+            },
+            "how_to_complete": {
+              "header": "How to Complete a Challenge",
+              "description": "Each challenge tells you which game to play, how many times to play it, and how many points you’ll earn.\n\nThese points are added to your total period score.\n\nTo successfully complete a challenge, you must start the required game and play it for at least the average game time.\n\nFor example: if the average play time for Ghost Stories is 55 minutes, you must play it for at least 55 minutes to get the reward.",
+              "media_url": "/shared/assets/images/instructions/Challenges/1.png"
+            },
+            "when_new_challenges": {
+              "header": "When Do I Get New Challenges?",
+              "description": "A new challenge is usually generated a few hours after you complete the previous one.\nOccasionally, you’ll receive special or time-limited challenges too.",
+              "media_url": "/shared/assets/images/instructions/Challenges/1.png"
+            }
+          }
+        },
+        "rewards": {
+          "title": "Rewards",
+          "thumbnail_url": "/shared/assets/images/instructions/Challenges/2.png",
+          "description": "Find out how to earn and redeem your rewards.",
+          "steps": {
+            "where_to_see": {
+              "header": "Where to See Your Rewards",
+              "description": "Tap the blue circle at the bottom center, then the middle icon to open the Challenge Page.\nSwitch to the second tab (top left) to view all the rewards you’ve earned.",
+              "media_url": "/shared/assets/images/instructions/Challenges/2.png"
+            },
+            "how_to_claim": {
+              "header": "How to Claim Your Reward",
+              "description": "Once you earn a reward, you’ll have a limited number of days to claim it before it expires.\n\nTo redeem it, visit the club and press the “Use” button inside the app.\n\nShow the generated QR code to a staff member to receive your reward.",
+              "media_url": "/shared/assets/images/instructions/Challenges/3.png"
+            }
+          }
+        },
+        "leaderboard": {
+          "title": "Leaderboard",
+          "thumbnail_url": "/shared/assets/images/instructions/Challenges/4.png",
+          "description": "Check the leaderboard",
+          "steps": {
+            "where_to_view": {
+              "header": "Where to View the Leaderboard?",
+              "description": "Go to your Profile page, then find and tap the Challenge Leaderboard section.\n\nYou can view your ranking along with the scores of other players.",
+              "media_url": "/shared/assets/images/instructions/Challenges/4.png"
+            }
+          }
+        }
+      }
+    },
+    "meeples": {
+      "title": "Meeples",
+      "summary": "Looking for people to play with?\nThe Meeples section helps you find or create a group of players who want to enjoy the same game as you. Meet new people, connect, and have fun together!",
+      "topic": {
+        "groups": {
+          "title": "Meeple Groups / Find Players",
+          "thumbnail_url": "/shared/assets/images/instructions/Meeples/2.png",
+          "description": "Browse and join available groups where players are looking for others to play games with.",
+          "steps": {
+            "view_available": {
+              "header": "View Available Groups & Rooms",
+              "description": "Head to your Meeple page to see a list of open rooms created by other players.\nYou can browse these and join any group that matches your interest.",
+              "media_url": "/shared/assets/images/instructions/Meeples/2.png"
+            }
+          }
+        },
+        "create_room": {
+          "title": "Create a Room",
+          "thumbnail_url": "/shared/assets/images/instructions/Meeples/1.png",
+          "description": "Set up your own room and wait for others to join you for a game session.",
+          "steps": {
+            "create": {
+              "header": "Create a Meeple Room",
+              "description": "On the Meeple page, tap the green plus (+) button at the top right.\nYou’ll be taken to the room creation page, where you can set the game, time, and number of players.",
+              "media_url": "/shared/assets/images/instructions/Meeples/1.png"
+            }
+          }
+        },
+        "join_room": {
+          "title": "Join Room",
+          "thumbnail_url": "/shared/assets/images/instructions/Meeples/3.png",
+          "description": "Join room and meet the new people",
+          "steps": {
+            "join_existing": {
+              "header": "Join an Existing Room",
+              "description": "Browse the list of rooms on the Meeple page.\nTap on a room you’re interested in to view more details and join it.",
+              "media_url": "/shared/assets/images/instructions/Meeples/3.png"
+            },
+            "room_info_chat": {
+              "header": "Room Info & Chat",
+              "description": "Inside each room, you’ll find details about the selected game, scheduled time, and players.\nYou can also open the chat to talk to other participants, coordinate, or get updates.",
+              "media_url": "/shared/assets/images/instructions/Meeples/4.png"
+            }
+          }
+        }
+      }
+    }
+  },
+  "challenge_overlay": {
+    "completed_challenge": "Challenge for Game <strong class='blue'>{{challengeGameName}}</strong> is completed!",
+    "completed_universal_challenge": "Universal Challenge <strong class='blue'>{{name}}</strong> is completed!",
+    "reward_points": "+ {{reward}} Points",
+    "updated_challenge": "Progress on challenge for game <strong class='blue'>{{challengeGameName}}</strong> has been updated. <br/>Keep going to complete the challenge!",
+    "updated_universal_challenge": "Progress on universal challenge  <strong class='blue'>{{name}}</strong> has been updated. <br/>Keep going to complete the challenge!",
+    "restarted_universal_challenge": "Universal Challenge  <strong class='blue'>{{name}}</strong> has been restarted. <br/>Don't give up. Keep going to complete the challenge!",
+    "reward_granted": "Reward <strong class='blue'>{{name}}</strong> has been granted.  <br/> <br/> Visit the rewards page and come and get your reward in the club!"
+  },
+  "challenge_leaderboard": {
+    "username_not_found": "Username not found",
+    "header": "Challenge Leaderboard",
+    "leaderboard_types": {
+      "weekly": "Week",
+      "monthly": "Month",
+      "yearly": "Year"
+    },
+    "user_rank": {
+      "not_any_challenges_completed": "Complete a challenge to view your rank.",
+      "your_rank_is": "Your rank is",
+      "out_of_x_users": "out of {{usersCount}} users"
+    },
+    "th":"th",
+    "no_completed_challenges_1": "No challenges were completed during this period.",
+    "no_completed_challenges_2": "Try selecting a different time range to see user activity.",
+    "rankings": "Rankings",
+    "count": "Count",
+    "info_message": "This leaderboard displays users who have completed challenges, ranked by how many they've successfully finished. Use the tabs above to view rankings for the current week, month, or year."
+  }
+}
