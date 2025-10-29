@@ -67,46 +67,14 @@ export class AppComponent implements OnInit {
       await this.authService.userinfo$();
     }
 
-    await this.challengeHubService.startConnection(
-      this.authService.getUser!.id
-    );
-
-    this.challengeHubService.onChallengeUpdate((update) => {
-      this.challengeOverlay.updateChallengeProgress(update.challengeGameName);
-    });
-
-    this.challengeHubService.onChallengeCompleted((completed) => {
-      this.challengeOverlay.completeChallenge(
-        completed.challengeGameName,
-        completed.rewardPoints
+    if (this.authService.getUser) {
+      await this.challengeHubService.initChallengeHubConnection(
+        this.authService.getUser.id, this.challengeOverlay
       );
-    });
-
-    this.challengeHubService.onUniversalChallengeUpdate((update) => {
-      this.challengeOverlay.updateUniversalChallengeProgress(
-        update.challengeName_en,
-        update.challengeName_bg
-      );
-    });
-
-    this.challengeHubService.onUniversalChallengeCompleted((completed) => {
-      this.challengeOverlay.completeUniversalChallenge(
-        completed.challengeName_en,
-        completed.challengeName_bg,
-        completed.rewardPoints
-      );
-    });
-
-    this.challengeHubService.onUniversalChallengeRestarted((completed) => {
-      this.challengeOverlay.restartChallengeProgress(
-        completed.challengeName_en,
-        completed.challengeName_bg
-      );
-    });
-
-    this.challengeHubService.onRewardGranted((reward) => {
-      this.challengeOverlay.rewardGranted(reward.name_bg, reward.name_en);
-    });
+    }
+    else{      
+      this.challengeOverlayService.init(this.challengeOverlay);
+    }
 
     this._initializeFCM();
   }

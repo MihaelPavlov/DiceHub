@@ -1,5 +1,5 @@
 import { FrontEndLogService } from './../../../shared/services/frontend-log.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from '../../../entities/auth/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Form } from '../../../shared/components/form/form.component';
@@ -20,6 +20,9 @@ import { LoadingService } from '../../../shared/services/loading.service';
 import { LoadingInterceptorContextService } from '../../../shared/services/loading-context.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../shared/services/language.service';
+import { ChallengeOverlayComponent } from '../../../shared/components/challenge-overlay/challenge-overlay.component';
+import { ChallengeOverlayService } from '../../../shared/services/challenges-overlay.service';
+import { ChallengeHubService } from '../../../entities/challenges/api/challenge-hub.service';
 
 interface ILoginForm {
   email: string;
@@ -51,7 +54,9 @@ export class LoginComponent extends Form implements OnInit {
     private readonly frontEndLogService: FrontEndLogService,
     private readonly loadingContext: LoadingInterceptorContextService,
     public override translateService: TranslateService,
-    private readonly languageService: LanguageService
+    private readonly languageService: LanguageService,
+    private readonly challengeOverlayService: ChallengeOverlayService,
+    private readonly challengeHubService: ChallengeHubService
   ) {
     super(toastService, translateService);
     this.route.queryParams.subscribe((params) => {
@@ -204,6 +209,13 @@ export class LoginComponent extends Form implements OnInit {
                 response.accessToken,
                 response.refreshToken
               );
+
+              if (this.challengeOverlayService.overlay.value) {
+                this.challengeHubService.initChallengeHubConnection(
+                  response.userId,
+                  this.challengeOverlayService.overlay.value
+                );
+              }
 
               this.router.navigateByUrl(FULL_ROUTE.GAMES.LIBRARY);
             }

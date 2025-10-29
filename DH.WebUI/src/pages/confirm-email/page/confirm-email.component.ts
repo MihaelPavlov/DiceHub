@@ -7,6 +7,8 @@ import { ToastType } from '../../../shared/models/toast.model';
 import { TenantSettingsService } from '../../../entities/common/api/tenant-settings.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../shared/services/language.service';
+import { ChallengeHubService } from '../../../entities/challenges/api/challenge-hub.service';
+import { ChallengeOverlayService } from '../../../shared/services/challenges-overlay.service';
 
 @Component({
   selector: 'app-confirm-email',
@@ -29,7 +31,9 @@ export class ConfirmEmailComponent implements OnInit {
     private readonly authService: AuthService,
     private readonly tenantSettingsService: TenantSettingsService,
     private readonly translateService: TranslateService,
-    private readonly languageService: LanguageService
+    private readonly languageService: LanguageService,
+    private readonly challengeOverlayService: ChallengeOverlayService,
+    private readonly challengeHubService: ChallengeHubService
   ) {}
 
   public ngOnInit(): void {
@@ -131,6 +135,14 @@ export class ConfirmEmailComponent implements OnInit {
               response!.accessToken,
               response!.refreshToken
             );
+
+            if (this.challengeOverlayService.overlay.value) {
+              this.challengeHubService.initChallengeHubConnection(
+                response!.userId,
+                this.challengeOverlayService.overlay.value
+              );
+            }
+
             this.authService.initiateNotifications(email);
 
             this.router.navigateByUrl(FULL_ROUTE.GAMES.LIBRARY);

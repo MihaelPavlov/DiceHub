@@ -585,7 +585,7 @@ public class UserService : IUserService
 
         _httpContextAccessor.HttpContext!.User = new ClaimsPrincipal(new ClaimsIdentity(claims));
 
-        return new TokenResponseModel { AccessToken = tokenString, RefreshToken = refreshToken };
+        return new TokenResponseModel { AccessToken = tokenString, RefreshToken = refreshToken, UserId = user.Id };
     }
 
     public async Task DeleteEmployee(string employeeId)
