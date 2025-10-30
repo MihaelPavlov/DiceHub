@@ -1,8 +1,10 @@
 ﻿using DH.Adapter.Data.Repositories;
+using DH.Adapter.Data.Seeder;
 using DH.Adapter.Data.Services;
 using DH.Domain.Adapters.Data;
 using DH.Domain.Adapters.Statistics.Services;
 using DH.Domain.Repositories;
+using DH.Domain.Seeder;
 using DH.Domain.Services;
 using DH.Domain.Services.Queue;
 using DH.Domain.Services.TenantUserSettingsService;
@@ -42,7 +44,8 @@ public static class DataDIModule
             .AddScoped<IDataSeeder, DataSeeder>()
             .AddScoped<IEmailHelperService, EmailHelperService>()
             .AddScoped<IStatisticsService, StatisticsService>()
-            .AddScoped<IUniversalChallengeProcessing, UniversalChallengeProcessing>();
+            .AddScoped<IUniversalChallengeProcessing, UniversalChallengeProcessing>()
+            .AddScoped<IGameSeeder, GameSeeder>();
 
         services.AddMemoryCache();
         services.AddScoped<IUserSettingsCache, UserSettingsCache>();

@@ -1,4 +1,5 @@
 ﻿using DH.Domain.Adapters.Data;
+using DH.Domain.Seeder;
 using DH.Domain.Services.Seed;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -12,12 +13,18 @@ public class DataSeeder : IDataSeeder
     readonly IDbContextFactory<TenantDbContext> dbContextFactory;
     readonly ILogger<DataSeeder> logger;
     readonly IEnumerable<ISeedService> seedServices;
+    readonly IGameSeeder gameSeeder;
 
-    public DataSeeder(IDbContextFactory<TenantDbContext> dbContextFactory, ILogger<DataSeeder> logger, IEnumerable<ISeedService> seedServices)
+    public DataSeeder(
+        IDbContextFactory<TenantDbContext> dbContextFactory,
+        ILogger<DataSeeder> logger,
+        IEnumerable<ISeedService> seedServices,
+        IGameSeeder gameSeeder)
     {
         this.dbContextFactory = dbContextFactory;
         this.logger = logger;
         this.seedServices = seedServices;
+        this.gameSeeder = gameSeeder;
     }
 
     /// <inheritdoc/>
@@ -60,6 +67,8 @@ public class DataSeeder : IDataSeeder
                 }
             }
         }
+
+        await this.gameSeeder.SeedAsync();
 
         await this.ExecuteSeeders();
     }
