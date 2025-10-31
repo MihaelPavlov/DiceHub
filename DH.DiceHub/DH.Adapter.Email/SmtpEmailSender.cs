@@ -36,9 +36,9 @@ public class SmtpEmailSender(
 
             return true;
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            // Exception Details
+            this.logger.LogError(ex, "Failed to send email to {Email}, ex {ex}, innerEx: {innerEx}", message.To, ex.Message, ex.InnerException);
 
             return false;
         }

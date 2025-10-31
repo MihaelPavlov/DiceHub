@@ -64,7 +64,7 @@ internal class UpdateUserSettingsCommandHandler(
         if (dbSettings!.Language != request.Settings.Language)
         {
             dbSettings.Language = request.Settings.Language;
-            this.userSettingsCache.InvalidateLanguage(this.userContext.UserId);
+            this.userSettingsCache.InvalidateLanguage(currentUserId);
         }
 
         await this.repository.SaveChangesAsync(cancellationToken);

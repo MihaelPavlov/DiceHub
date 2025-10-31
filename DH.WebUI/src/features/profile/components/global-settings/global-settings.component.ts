@@ -130,7 +130,8 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
           periodOfRewardReset:
             TimePeriodType[tenantSettings.periodOfRewardReset],
           resetDayForRewards: WeekDay[tenantSettings.resetDayForRewards],
-          language: SupportLanguages[userSettings.language],
+          language:
+            SupportLanguages[userSettings.language] ?? SupportLanguages.EN,
           challengeInitiationDelayHours:
             tenantSettings.challengeInitiationDelayHours,
           bonusTimeAfterReservationExpiration:

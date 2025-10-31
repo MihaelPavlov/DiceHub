@@ -86,6 +86,10 @@ internal class SendEmployeeCreatePasswordEmailCommandHandler(
             UserId = user.Id,
         });
 
+        this.logger.LogInformation("Employee Create Password Email was sent to {Email}. Success: {IsEmailSendSuccessfully}",
+            request.Email,
+            isEmailSendSuccessfully);
+
         return isEmailSendSuccessfully;
     }
 }
