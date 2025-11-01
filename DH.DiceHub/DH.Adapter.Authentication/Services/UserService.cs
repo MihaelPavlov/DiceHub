@@ -1,5 +1,4 @@
 ﻿using DH.Adapter.Authentication.Entities;
-using DH.Adapter.Authentication.Helper;
 using DH.Domain.Adapters.Authentication;
 using DH.Domain.Adapters.Authentication.Models;
 using DH.Domain.Adapters.Authentication.Models.Enums;
@@ -64,9 +63,10 @@ public class UserService : IUserService
     /// <inheritdoc />
     public async Task<TokenResponseModel?> Login(LoginRequest form)
     {
-        var user = await this.userManager.FindByEmailAsync(form.Email);
+        var user = await this.userManager.Users
+            .Where(x => x.Email == form.Email && !x.IsDeleted).FirstOrDefaultAsync();
 
-        if (user.IsInvalid())
+        if (user == null)
             throw new ValidationErrorsException("Email", this.localizer["InvalidEmailOrPass"]);
 
         if (!await userManager.IsEmailConfirmedAsync(user!))
@@ -107,12 +107,16 @@ public class UserService : IUserService
         if (!form.FieldsAreValid(out var validationErrors, this.localizer))
             throw new ValidationErrorsException(validationErrors);
 
-        var existingUserByEmail = await this.userManager.FindByEmailAsync(form.Email);
-        if (existingUserByEmail != null && !existingUserByEmail.IsDeleted)
+        var existingUserByEmail = await this.userManager.Users
+             .Where(x => x.Email == form.Email && !x.IsDeleted).FirstOrDefaultAsync();
+
+        if (existingUserByEmail != null)
             throw new ValidationErrorsException("Email", this.localizer["UserExistEmail"]);
 
-        var existingUserByUsername = await this.userManager.FindByNameAsync(form.Username);
-        if (existingUserByUsername != null && !existingUserByUsername.IsDeleted)
+        var existingUserByUsername = await this.userManager.Users
+             .Where(x => x.UserName == form.Username && !x.IsDeleted).FirstOrDefaultAsync();
+
+        if (existingUserByUsername != null)
             throw new ValidationErrorsException("Username", this.localizer["UserExistUsername"]);
 
         var user = new ApplicationUser() { UserName = form.Username, Email = form.Email };
@@ -129,7 +133,9 @@ public class UserService : IUserService
 
         await this.userManager.AddToRoleAsync(user, Role.User.ToString());
 
-        user = await this.userManager.FindByEmailAsync(form.Email);
+        user = await this.userManager.Users
+            .Where(x => x.Email == form.Email && !x.IsDeleted).FirstOrDefaultAsync();
+
         if (user is null)
             throw new NotFoundException(this.localizer["UserNotCreated"]);
 
@@ -159,8 +165,10 @@ public class UserService : IUserService
 
     public async Task<TokenResponseModel?> ConfirmEmail(string email, string token, CancellationToken cancellationToken)
     {
-        var user = await this.userManager.FindByEmailAsync(email);
-        if (user.IsInvalid())
+        var user = await this.userManager.Users
+            .Where(x => x.Email == email && !x.IsDeleted).FirstOrDefaultAsync();
+
+        if (user is null)
             throw new NotFoundException(this.localizer["UserByEmailNotFound"]);
 
         var result = await this.userManager.ConfirmEmailAsync(user!, token);
@@ -177,8 +185,10 @@ public class UserService : IUserService
 
     public async Task<string> GenerateEmailConfirmationTokenAsync(string userId)
     {
-        var user = await this.userManager.FindByIdAsync(userId);
-        if (user.IsInvalid())
+        var user = await this.userManager.Users
+           .Where(x => x.Id == userId && !x.IsDeleted).FirstOrDefaultAsync();
+
+        if (user is null)
             throw new NotFoundException(this.localizer["UserNotFound"]);
 
         return await userManager.GenerateEmailConfirmationTokenAsync(user!);
@@ -186,8 +196,10 @@ public class UserService : IUserService
 
     public async Task<string> GeneratePasswordResetTokenAsync(string email)
     {
-        var user = await this.userManager.FindByEmailAsync(email);
-        if (user.IsInvalid())
+        var user = await this.userManager.Users
+           .Where(x => x.Email == email && !x.IsDeleted).FirstOrDefaultAsync();
+
+        if (user is null)
             throw new NotFoundException(this.localizer["UserNotFound"]);
 
         return await userManager.GeneratePasswordResetTokenAsync(user!);
@@ -195,14 +207,16 @@ public class UserService : IUserService
 
     public async Task ResetPassword(ResetPasswordRequest request)
     {
-        var user = await this.userManager.FindByEmailAsync(request.Email);
-        if (user.IsInvalid())
+        var user = await this.userManager.Users
+           .Where(x => x.Email == request.Email && !x.IsDeleted).FirstOrDefaultAsync();
+
+        if (user is null)
             throw new NotFoundException(this.localizer["UserNotFound"]);
 
         if (!request.NewPassword.Equals(request.ConfirmPassword))
             throw new ValidationErrorsException("Password", this.localizer["PasswordMismatch"]);
 
-        var result = await this.userManager.ResetPasswordAsync(user!, request.Token, request.NewPassword);
+        var result = await this.userManager.ResetPasswordAsync(user, request.Token, request.NewPassword);
 
         if (!result.Succeeded)
             throw new ValidationErrorsException("Password", this.localizer["PasswordResetFailed"]);
@@ -210,11 +224,13 @@ public class UserService : IUserService
 
     public async Task<UserDeviceToken?> GetDeviceTokenByUserEmail(string email)
     {
-        var user = await this.userManager.FindByEmailAsync(email);
-        if (user.IsInvalid())
+        var user = await this.userManager.Users
+           .Where(x => x.Email == email && !x.IsDeleted).FirstOrDefaultAsync();
+
+        if (user is null)
             throw new NotFoundException(this.localizer["UserNotFound"]);
 
-        return await this.userDeviceTokenRepository.GetByAsync(x => x.UserId == user!.Id, CancellationToken.None);
+        return await this.userDeviceTokenRepository.GetByAsync(x => x.UserId == user.Id, CancellationToken.None);
     }
 
     public async Task<List<UserModel>> GetUserListByIds(string[] ids, CancellationToken cancellationToken)
@@ -233,8 +249,10 @@ public class UserService : IUserService
 
     public async Task<bool> HasUserAnyMatchingRole(string userId, params Role[] roles)
     {
-        var user = await this.userManager.FindByIdAsync(userId);
-        if (user.IsInvalid())
+        var user = await this.userManager.Users
+            .Where(x => x.Id == userId && !x.IsDeleted).FirstOrDefaultAsync();
+
+        if (user is null)
             throw new NotFoundException(this.localizer["UserNotFound"]);
 
         foreach (var role in roles)
@@ -316,9 +334,10 @@ public class UserService : IUserService
 
     public async Task<UserModel?> GetUserByEmail(string email)
     {
-        var user = await this.userManager.FindByEmailAsync(email);
+        var user = await this.userManager.Users
+            .Where(x => x.Email == email && !x.IsDeleted).FirstOrDefaultAsync();
 
-        if (user.IsInvalid())
+        if (user == null)
             return null;
 
         return new UserModel
@@ -380,13 +399,16 @@ public class UserService : IUserService
         if (!request.FieldsAreValid(out var validationErrors, this.localizer))
             throw new ValidationErrorsException(validationErrors);
 
-        var existingUserByEmail = await this.userManager.FindByEmailAsync(request.Email);
-        if (existingUserByEmail != null && !existingUserByEmail.IsDeleted)
+        var existingUserByEmail = await this.userManager.Users
+           .Where(x => x.Email == request.Email && !x.IsDeleted).FirstOrDefaultAsync();
+        if (existingUserByEmail != null)
             throw new ValidationErrorsException("Email", this.localizer["UserExistEmail"]);
 
         var username = $"{request.FirstName}, {request.LastName}";
-        var existingUserByUsername = await this.userManager.FindByNameAsync(username);
-        if (existingUserByUsername != null && !existingUserByUsername.IsDeleted)
+        var existingUserByUsername = await this.userManager.Users
+           .Where(x => x.UserName == username && !x.IsDeleted).FirstOrDefaultAsync();
+
+        if (existingUserByUsername != null)
             throw new ValidationErrorsException("Exist", this.localizer["UserFirstLastNamesExists"]);
 
         var user = new ApplicationUser()
@@ -412,8 +434,6 @@ public class UserService : IUserService
         var afterRegister = await this.userManager.FindByEmailAsync(request.Email);
         if (afterRegister is null)
             throw new NotFoundException(this.localizer["UserNotCreated"]);
-
-        this.queue.AddSynchronizeNewUserJob(afterRegister.Id);
 
         return new EmployeeResult
         {
@@ -483,8 +503,10 @@ public class UserService : IUserService
 
     public async Task CreateEmployeePassword(CreateEmployeePasswordRequest request)
     {
-        var user = await this.userManager.FindByEmailAsync(request.Email);
-        if (user.IsInvalid())
+        var user = await this.userManager.Users
+           .Where(x => x.Email == request.Email && !x.IsDeleted).FirstOrDefaultAsync();
+
+        if (user is null)
             throw new NotFoundException(this.localizer["UserByEmailNotFound"]);
 
         if (!request.PhoneNumber.Equals(user.PhoneNumber))
@@ -517,8 +539,10 @@ public class UserService : IUserService
 
     public async Task CreateOwnerPassword(CreateOwnerPasswordRequest request)
     {
-        var user = await this.userManager.FindByEmailAsync(request.Email);
-        if (user.IsInvalid())
+        var user = await this.userManager.Users
+           .Where(x => x.Email == request.Email && !x.IsDeleted).FirstOrDefaultAsync();
+
+        if (user is null)
             throw new NotFoundException(this.localizer["UserByEmailNotFound"]);
 
         var dbSettings = await this.tenantSettingsRepository.GetByAsync(x => x.Id == 1, CancellationToken.None);
@@ -590,13 +614,16 @@ public class UserService : IUserService
 
     public async Task DeleteEmployee(string employeeId)
     {
-        var user = await this.userManager.FindByIdAsync(employeeId)
-            ?? throw new BadRequestException(this.localizer["EmployeeDeletionFailed"]);
+        var user = await this.userManager.Users
+           .Where(x => x.Id == employeeId && !x.IsDeleted).FirstOrDefaultAsync()
+                ?? throw new BadRequestException(this.localizer["EmployeeDeletionFailed"]);
 
         var userId = user.Id.Replace("-", "");
+
         user.IsDeleted = true;
         user.UserName = $"{userId},deleted,{user.UserName}";
         user.Email = $"{userId},deleted,{user.Email}";
+
         var res = await this.userManager.UpdateAsync(user);
     }
 
@@ -618,15 +645,18 @@ public class UserService : IUserService
         if (!request.FieldsAreValid(out var validationErrors, this.localizer))
             throw new ValidationErrorsException(validationErrors);
 
-        var existingUser = await this.userManager.FindByIdAsync(request.Id);
-        if (existingUser == null)
+        var existingUser = await this.userManager.Users
+           .Where(x => x.Id == request.Id && !x.IsDeleted).FirstOrDefaultAsync();
+
+        if (existingUser is null)
             throw new NotFoundException(this.localizer["UserNotFound"]);
 
         var isEmailChanged = false;
         var oldEmail = string.Empty;
         if (existingUser.Email != request.Email)
         {
-            var existingUserByEmail = await this.userManager.FindByEmailAsync(request.Email);
+            var existingUserByEmail = await this.userManager.Users
+           .Where(x => x.Email == request.Email && !x.IsDeleted).FirstOrDefaultAsync();
 
             if (existingUserByEmail != null)
                 throw new ValidationErrorsException("Exist", this.localizer["UserExistEmail"]);
@@ -640,7 +670,9 @@ public class UserService : IUserService
 
         if (newUsername != existingUser.UserName)
         {
-            var existingUserByUsername = await this.userManager.FindByNameAsync(newUsername);
+            var existingUserByUsername = await this.userManager.Users
+                .Where(x => x.UserName == newUsername && !x.IsDeleted).FirstOrDefaultAsync();
+
             if (existingUserByUsername != null)
                 throw new ValidationErrorsException("Exist", this.localizer["UserFirstLastNamesExists"]);
 
@@ -663,7 +695,10 @@ public class UserService : IUserService
 
     public async Task<string[]> GetAllUserIds(CancellationToken cancellationToken)
     {
-        return await this.userManager.Users.Select(x => x.Id).ToArrayAsync(cancellationToken);
+        return await this.userManager.Users
+            .Where(x => !x.IsDeleted)
+            .Select(x => x.Id)
+            .ToArrayAsync(cancellationToken);
     }
 
     public async Task<OwnerResult?> GetOwner(CancellationToken cancellationToken)
@@ -718,8 +753,10 @@ public class UserService : IUserService
 
     public async Task<string> GetUserTimeZone(string userId)
     {
-        var user = await this.userManager.FindByIdAsync(userId);
-        if (user.IsInvalid())
+        var user = await this.userManager.Users
+           .Where(x => x.Id == userId && !x.IsDeleted).FirstOrDefaultAsync();
+
+        if (user is null)
             throw new NotFoundException(this.localizer["UserByEmailNotFound"]);
 
         return user!.TimeZone;

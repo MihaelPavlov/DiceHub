@@ -30,11 +30,14 @@ public class UserController : ControllerBase
     readonly IMediator mediator;
     readonly IPushNotificationsService pushNotificationsService;
     readonly ITenantSettingsCacheService tenantSettingsCacheService;
+    readonly ILogger<UserController> logger;
+    private readonly IServiceScopeFactory scopeFactory;
 
     public UserController(
         IConfiguration configuration, IJwtService jwtService,
         IUserService userService, IMediator mediator,
-        IPushNotificationsService pushNotificationsService, ITenantSettingsCacheService tenantSettingsCacheService)
+        IPushNotificationsService pushNotificationsService, ITenantSettingsCacheService tenantSettingsCacheService,
+        ILogger<UserController> logger, IServiceScopeFactory scopeFactory)
     {
         this.configuration = configuration;
         this.userService = userService;
@@ -42,6 +45,8 @@ public class UserController : ControllerBase
         this.mediator = mediator;
         this.pushNotificationsService = pushNotificationsService;
         this.tenantSettingsCacheService = tenantSettingsCacheService;
+        this.logger = logger;
+        this.scopeFactory = scopeFactory;
     }
 
     [AllowAnonymous]
@@ -240,14 +245,26 @@ public class UserController : ControllerBase
     public async Task<IActionResult> CreateEmployee([FromBody] CreateEmployeeRequest request, CancellationToken cancellationToken)
     {
         var employeeResult = await this.userService.CreateEmployee(request, cancellationToken);
-        await this.mediator.Send(new SendEmployeeCreatePasswordEmailCommand(
-            employeeResult.Email), cancellationToken);
 
-        await this.mediator.Send(new UpdateUserSettingsCommand(new UserSettingsDto
+        _ = Task.Run(async () =>
         {
-            PhoneNumber = request.PhoneNumber,
-            InternalUpdate = true
-        }, employeeResult.UserId), cancellationToken);
+            try
+            {
+                using var scope = scopeFactory.CreateScope();
+                var scopedMediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+
+                await scopedMediator.Send(new SendEmployeeCreatePasswordEmailCommand(employeeResult.Email));
+                await scopedMediator.Send(new UpdateUserSettingsCommand(new UserSettingsDto
+                {
+                    PhoneNumber = request.PhoneNumber,
+                    InternalUpdate = true
+                }, employeeResult.UserId));
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, "Error while sending employee create password email or updating user settings for employee {EmployeeEmail}", employeeResult.Email);
+            }
+        });
 
         return Ok();
     }
@@ -259,17 +276,30 @@ public class UserController : ControllerBase
     public async Task<IActionResult> UpdateEmployee([FromBody] UpdateEmployeeRequest request, CancellationToken cancellationToken)
     {
         var employeeResult = await this.userService.UpdateEmployee(request, cancellationToken);
-        if (employeeResult.IsEmailChanged)
-        {
-            await this.mediator.Send(new SendEmployeeCreatePasswordEmailCommand(
-                employeeResult.Email), cancellationToken);
-        }
 
-        await this.mediator.Send(new UpdateUserSettingsCommand(new UserSettingsDto
+        _ = Task.Run(async () =>
         {
-            PhoneNumber = request.PhoneNumber,
-            InternalUpdate = true
-        }, employeeResult.UserId), cancellationToken);
+            try
+            {
+                using var scope = scopeFactory.CreateScope();
+                var scopedMediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+
+                if (employeeResult.IsEmailChanged)
+                {
+                    await scopedMediator.Send(new SendEmployeeCreatePasswordEmailCommand(employeeResult.Email));
+                }
+
+                await scopedMediator.Send(new UpdateUserSettingsCommand(new UserSettingsDto
+                {
+                    PhoneNumber = request.PhoneNumber,
+                    InternalUpdate = true
+                }, employeeResult.UserId));
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, "Error while sending employee create password email or updating user settings for employee {EmployeeEmail}", employeeResult.Email);
+            }
+        });
 
         return Ok();
     }
