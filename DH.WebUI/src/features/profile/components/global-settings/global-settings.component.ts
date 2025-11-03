@@ -148,8 +148,8 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
         }
 
         this.userSettings = userSettings;
-
-        this.languageService.setLanguage(userSettings.language);
+        if (this.userSettings)
+          this.languageService.setLanguage(userSettings.language);
       },
     });
   }
@@ -159,7 +159,8 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
   }
 
   public onSave(): void {
-    if (this.form.valid && this.userSettings) {
+
+    if (this.form.valid) {
       let oldLanguage;
       let newLanguage;
       const periodTranslation$ = this.translateInPipe.transform(
@@ -189,8 +190,8 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
             oldLanguage = this.languageService.getCurrentLanguage();
             newLanguage = language as unknown as SupportLanguages;
             const updatedSettings = {
-              ...this.userSettings,
               language: newLanguage,
+              phoneNumber: this.form.controls.phoneNumber.value,
             };
             return combineLatest([
               this.tenantSettingsService.update({

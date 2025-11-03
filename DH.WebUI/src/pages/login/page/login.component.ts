@@ -90,7 +90,7 @@ export class LoginComponent extends Form implements OnInit {
       if (this.getServerErrorMessage) {
         this.clearServerErrorMessage();
       }
-      this.getMessageFromRedirect = null;
+      if (this.form.dirty) this.getMessageFromRedirect = null;
     });
   }
 

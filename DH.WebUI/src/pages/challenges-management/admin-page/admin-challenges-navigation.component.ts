@@ -56,21 +56,21 @@ export class AdminChallengesNavigationComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.menuItems.next([
-      { key: 'add-game', label: 'Generic Challenges' }, 
-      // Play X Games, 
-      // Join Or Create X Meeple Rooms,
-      // Join X Events,
-      // Use X Rewards,
-      // Buy X Items above x value/money$
-      // Play 1 time Favorite Game, 
-      // Stay 2/3 days at top 3 of the Challenge Leaderboard, 
-      // Stay 2/3 days in Top 3 streak leaderboard
-      {
-        key: 'add-existing-game',
-        label: 'Streaks',
-      },
-    ]);
+    // this.menuItems.next([
+    //   { key: 'add-game', label: 'Generic Challenges' }, 
+    //   // Play X Games, 
+    //   // Join Or Create X Meeple Rooms,
+    //   // Join X Events,
+    //   // Use X Rewards,
+    //   // Buy X Items above x value/money$
+    //   // Play 1 time Favorite Game, 
+    //   // Stay 2/3 days at top 3 of the Challenge Leaderboard, 
+    //   // Stay 2/3 days in Top 3 streak leaderboard
+    //   {
+    //     key: 'add-existing-game',
+    //     label: 'Streaks',
+    //   },
+    // ]);
   }
 
   public isActiveLink(link: string): boolean {
