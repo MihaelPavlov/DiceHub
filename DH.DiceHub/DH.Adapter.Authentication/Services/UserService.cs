@@ -114,7 +114,7 @@ public class UserService : IUserService
             throw new ValidationErrorsException("Email", this.localizer["UserExistEmail"]);
 
         var existingUserByUsername = await this.userManager.Users
-             .Where(x => x.UserName == form.Username && !x.IsDeleted).FirstOrDefaultAsync();
+             .Where(x => x.UserName == form.Username).FirstOrDefaultAsync();
 
         if (existingUserByUsername != null)
             throw new ValidationErrorsException("Username", this.localizer["UserExistUsername"]);
