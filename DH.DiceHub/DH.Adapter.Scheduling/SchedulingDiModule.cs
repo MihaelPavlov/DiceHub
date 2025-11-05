@@ -63,8 +63,6 @@ public static class SchedulingDIModule
         // Register Quartz.NET hosted service
         services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
 
-        services.AddHostedService<ConditionalJobScheduler>();
-
         return services;
     }
 
@@ -86,7 +84,7 @@ public static class SchedulingDIModule
         service.AddTrigger(opts => opts
             .ForJob(nameof(UserChallengeTop3StreakTrackerJob))
             .WithIdentity($"DailyJobTriggers-{nameof(UserChallengeTop3StreakTrackerJob)}")
-            .WithCronSchedule("0 0 10 * * ?", cronScheduleBuilder =>
+            .WithCronSchedule("0 0 22 * * ?", cronScheduleBuilder =>
                 cronScheduleBuilder.InTimeZone(TimeZoneInfo.FindSystemTimeZoneById("Europe/Sofia"))));
 
         service.AddTrigger(opts => opts
@@ -107,7 +105,7 @@ public static class SchedulingDIModule
         service.AddTrigger(opts => opts
             .ForJob(nameof(UserChallengeValidationJob))
             .WithIdentity($"DailyJobTriggers-{nameof(UserChallengeValidationJob)}")
-            .WithCronSchedule("0 0 0 * * ?", cronScheduleBuilder =>
-                cronScheduleBuilder.InTimeZone(TimeZoneInfo.Utc)));// Every night 00:00 UTC 
+            .WithCronSchedule("0 0 6 * * ?", cronScheduleBuilder =>
+                cronScheduleBuilder.InTimeZone(TimeZoneInfo.FindSystemTimeZoneById("Europe/Sofia")))); // Every morning 6:00 Sofia time
     }
 }

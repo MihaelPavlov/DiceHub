@@ -579,4 +579,10 @@
   <data name="UniversalChallengeRestartedBody" xml:space="preserve">
     <value>Your progress on universal challenge **{0}** has been restarted. Don't give up. Keep going to complete the challenge!</value>
   </data>
+  <data name="PeriodPerformanceStartedTitle" xml:space="preserve">
+    <value>New Performance Period Started!</value>
+  </data>
+  <data name="PeriodPerformanceStartedBody" xml:space="preserve">
+    <value>Your new performance period for challenges and rewards started. Keep playing and earning points!</value>
+  </data>
 </root>

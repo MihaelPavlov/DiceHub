@@ -7,6 +7,8 @@ using DH.Domain.Services.TenantSettingsService;
 using Microsoft.Extensions.Logging;
 using Quartz;
 using Quartz.Impl.Matchers;
+using System.Threading;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace DH.Adapter.Scheduling;
 
@@ -74,39 +76,46 @@ internal class SchedulerService : ISchedulerService
         return false;
     }
 
-    public async Task ScheduleAddUserPeriodJob()
+    public async Task ScheduleAddUserPeriodJob(CancellationToken cancellationToken)
     {
         try
         {
-            var scheduler = await schedulerFactory.GetScheduler();
-            var tenantSettings = await tenantSettingsService.GetGlobalTenantSettingsAsync(CancellationToken.None);
+            var scheduler = await schedulerFactory.GetScheduler(cancellationToken);
 
-            var jobKey = new JobKey(nameof(AddUserChallengePeriodJob));
-
-            if (await scheduler.CheckExists(jobKey))
+            var tenantSettings = await tenantSettingsService.GetGlobalTenantSettingsAsync(cancellationToken);
+            if (Enum.TryParse<TimePeriodType>(tenantSettings.PeriodOfRewardReset, out var timePeriod))
             {
-                await scheduler.DeleteJob(jobKey);
+                var jobKey = new JobKey(nameof(AddUserChallengePeriodJob));
+
+                var triggers = await scheduler.GetTriggersOfJob(jobKey, cancellationToken);
+                bool hasTrigger = triggers.Any(t => t is ICronTrigger || t is ISimpleTrigger);
+
+                if (!hasTrigger)
+                {
+                    var runAt = TimePeriodTypeHelper.CalculateNextResetDate(timePeriod, tenantSettings.ResetDayForRewards);
+                    var offset = TimeZoneHelper.GetOffsetForTimeZone(runAt, "Europe/Sofia");
+                    runAt = runAt.AddHours(-offset?.TotalHours ?? 0);
+
+                    //var job = await scheduler.GetJobDetail(jobKey, cancellationToken)
+                    //          ?? JobBuilder.Create<AddUserChallengePeriodJob>()
+                    //                       .WithIdentity(jobKey)
+                    //                       .Build();
+
+                    var triggerKey = new TriggerKey($"WeeklyJobTrigger-{jobKey.Name}");
+                    var trigger = TriggerBuilder.Create()
+                                                .WithIdentity(triggerKey)
+                                                .StartAt(runAt)
+                                                .ForJob(jobKey)
+                                                .Build();
+
+                    await scheduler.ScheduleJob(trigger, cancellationToken);
+                    logger.LogInformation("Scheduled job {JobName} with trigger {TriggerName} to run at {RunAt}", jobKey.Name, triggerKey.Name, runAt);
+                }
+                else
+                {
+                    logger.LogInformation("Job {JobName} already has a trigger, skipping scheduling.", jobKey.Name);
+                }
             }
-
-            var triggerKey = new TriggerKey($"WeeklyJobTrigger-{jobKey.Name}");
-
-            Enum.TryParse<TimePeriodType>(tenantSettings.PeriodOfRewardReset, out var timePeriod);
-
-            var runAt = TimePeriodTypeHelper.CalculateNextResetDate(timePeriod, tenantSettings.ResetDayForRewards);
-
-            var job = JobBuilder.Create<AddUserChallengePeriodJob>()
-                .WithIdentity(jobKey)
-                .Build();
-
-            var trigger = TriggerBuilder.Create()
-                .WithIdentity(triggerKey)
-                .StartAt(runAt)
-                .ForJob(jobKey)
-                .Build();
-
-            await scheduler.ScheduleJob(job, trigger);
-
-            logger.LogInformation("Scheduled AddUserChallengePeriodJob to run at {RunAt}", runAt);
         }
         catch (Exception ex)
         {

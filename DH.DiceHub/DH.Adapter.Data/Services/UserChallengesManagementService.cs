@@ -1,4 +1,6 @@
 ﻿using DH.Domain.Adapters.Authentication.Services;
+using DH.Domain.Adapters.PushNotifications;
+using DH.Domain.Adapters.PushNotifications.Messages;
 using DH.Domain.Adapters.Scheduling;
 using DH.Domain.Entities;
 using DH.Domain.Enums;
@@ -20,19 +22,22 @@ public class UserChallengesManagementService : IUserChallengesManagementService
     readonly ILogger<UserChallengesManagementService> logger;
     readonly IUserService userService;
     readonly ISchedulerService schedulerService;
+    readonly IPushNotificationsService pushNotificationsService;
 
     public UserChallengesManagementService(
         IDbContextFactory<TenantDbContext> dbContextFactory,
         ITenantSettingsCacheService tenantSettingsCacheService,
         ILogger<UserChallengesManagementService> logger,
         IUserService userService,
-        ISchedulerService schedulerService)
+        ISchedulerService schedulerService,
+         IPushNotificationsService pushNotificationsService)
     {
         this.dbContextFactory = dbContextFactory;
         this.tenantSettingsCacheService = tenantSettingsCacheService;
         this.logger = logger;
         this.userService = userService;
         this.schedulerService = schedulerService;
+        this.pushNotificationsService = pushNotificationsService;
     }
 
     /// <inheritdoc/>
@@ -192,6 +197,9 @@ public class UserChallengesManagementService : IUserChallengesManagementService
 
                         await SaveAndCommitTransaction(context, transaction, cancellationToken);
 
+                        await this.pushNotificationsService
+                            .SendNotificationToUsersAsync([userId], new PeriodPerformanceStartedNotification(), cancellationToken);
+
                         this.logger.LogInformation(
                             "Successfully reset of the UserChallengePeriodPerformance during UserChallengesManagementService.EnsureValidUserChallengePeriodsAsync for UserId {UserId}.",
                             userId);
@@ -210,7 +218,7 @@ public class UserChallengesManagementService : IUserChallengesManagementService
 
         var doesAddUserChallengePeriodJobExists = await this.schedulerService.DoesAddUserChallengePeriodJobExists();
         if (nextResetDate.HasValue && !doesAddUserChallengePeriodJobExists)
-            await this.schedulerService.ScheduleAddUserPeriodJob();
+            await this.schedulerService.ScheduleAddUserPeriodJob(cancellationToken);
     }
 
     /// <inheritdoc/>
@@ -257,6 +265,9 @@ public class UserChallengesManagementService : IUserChallengesManagementService
                     await SetupPeriod(userPerformance, context, userId, tenantSettings, includeChallenges: forNewUser, cancellationToken);
 
                     await SaveAndCommitTransaction(context, transaction, cancellationToken);
+
+                    await this.pushNotificationsService
+                        .SendNotificationToUsersAsync([userId], new PeriodPerformanceStartedNotification(), cancellationToken);
 
                     return true;
                 }

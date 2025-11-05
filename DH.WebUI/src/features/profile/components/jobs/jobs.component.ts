@@ -33,10 +33,15 @@ export class JobsComponent {
       },
     });
   }
- public setLanguage(lang: string) {
+  public setLanguage(lang: string) {
     this.translate.use(lang);
   }
+
   public executePeriodJobs(): void {
     this.schedulerService.runJobsForPeriod().subscribe();
+  }
+
+  public runChallengePeriodJob(): void {
+    this.schedulerService.runUserChallengePeriodJob().subscribe();
   }
 }

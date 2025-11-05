@@ -28,6 +28,15 @@ public class SchedulerController(
         return Ok(result);
     }
 
+    [HttpPost("run-user-challenge-period-job")]
+    [ActionAuthorize(UserAction.SchedulerCRUD)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> RunUserChallengePeriodJob(CancellationToken cancellationToken)
+    {
+        await this.schedulerService.ScheduleAddUserPeriodJob(cancellationToken);
+        return Ok();
+    }
+
     [HttpGet("run-concurrent")]
     public async Task<IActionResult> RunBothJobsConcurrently()
     {

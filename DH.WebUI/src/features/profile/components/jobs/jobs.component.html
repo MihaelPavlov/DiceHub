@@ -1,4 +1,4 @@
-<p>{{ 'WELCOME' | translate }}</p>
+<p>{{ "WELCOME" | translate }}</p>
 <button (click)="setLanguage('en')">English</button>
 <button (click)="setLanguage('bg')">Български</button>
 
@@ -6,6 +6,12 @@
 <br />
 <div>native platform -> {{ nativePlatform }}</div>
 <div class="wrapper">
+  <div class="header">
+    <span class="title">Run Challenge Period Job</span>
+    <br />
+    <button (click)="runChallengePeriodJob()" class="title">Execute</button>
+  </div>
+  <br />
   <div class="header">
     <span class="title">Jobs</span>
     <br />

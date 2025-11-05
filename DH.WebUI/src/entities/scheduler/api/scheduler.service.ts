@@ -16,9 +16,14 @@ export class SchedulerService {
     );
   }
 
-   public runJobsForPeriod(): Observable<null> {
-    return this.api.get(
-      `/${PATH.SCHEDULER.CORE}/run-concurrent`
+  public runUserChallengePeriodJob(): Observable<null> {
+    return this.api.post<null>(
+      `/${PATH.SCHEDULER.CORE}/${PATH.SCHEDULER.RUN_USER_CHALLENGE_PERIOD_JOB}`,
+      {}
     );
+  }
+
+  public runJobsForPeriod(): Observable<null> {
+    return this.api.get(`/${PATH.SCHEDULER.CORE}/run-concurrent`);
   }
 }

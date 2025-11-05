@@ -579,4 +579,10 @@
   <data name="UniversalChallengeRestartedBody" xml:space="preserve">
     <value>Прогресът ви по универсалното предизвикателството „{0}“ е обновен. Не се отказвай. Продължавайте, за да завършите предизвикателството!</value>
   </data>
+  <data name="PeriodPerformanceStartedTitle" xml:space="preserve">
+    <value>Начало на нов период за представяне!</value>
+  </data>
+  <data name="PeriodPerformanceStartedBody" xml:space="preserve">
+    <value>Новият ти период за предизвикателства и награди започна. Играй и събирай точки!</value>
+  </data>
 </root>

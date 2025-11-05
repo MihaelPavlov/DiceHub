@@ -143,6 +143,7 @@ export const PATH = {
   SCHEDULER: {
     CORE: 'api/scheduler',
     GET_SCHEDULE_JOBS: 'get-schedule-jobs',
+    RUN_USER_CHALLENGE_PERIOD_JOB:'run-user-challenge-period-job'
   },
   // AUTH: {
   //   LOGIN: 'auth/user/login',
