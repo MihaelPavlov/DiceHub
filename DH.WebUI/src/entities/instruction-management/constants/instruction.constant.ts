@@ -1,7 +1,85 @@
-import { InstructionSection, LinkInfoType } from '../models/instruction.model';
+import { InstructionSection } from '../models/instruction.model';
 
 export const INSTRUCTION_LINK_MAPPINGS: { [key: string]: InstructionSection } =
   {
+    how_to_install: {
+      title: 'instruction.how_to_install.title',
+      summary: 'instruction.how_to_install.summary',
+      imageUrl: '/shared/assets/images/icons/menu_book-icon-blue.svg',
+      topics: [
+        {
+          title: 'instruction.how_to_install.topic.android_google_chrome.title',
+          route: '/instructions/how_to_install/android_google_chrome',
+          thumbnailUrl:
+            'instruction.how_to_install.topic.android_google_chrome.thumbnail_url',
+          description: `instruction.how_to_install.topic.android_google_chrome.description`,
+          steps: [
+            {
+              header:
+                'instruction.how_to_install.topic.android_google_chrome.steps.instal.header',
+              description: `instruction.how_to_install.topic.android_google_chrome.steps.instal.description`,
+              mediaUrl:
+                'instruction.how_to_install.topic.android_google_chrome.steps.instal.media_url',
+            },
+          ],
+        },
+        {
+          title: 'instruction.how_to_install.topic.ios_safari.title',
+          route: '/instructions/how_to_install/ios_safari',
+          thumbnailUrl:
+            'instruction.how_to_install.topic.ios_safari.thumbnail_url',
+          description: `instruction.how_to_install.topic.ios_safari.description`,
+          steps: [
+            {
+              header:
+                'instruction.how_to_install.topic.ios_safari.steps.instal.header',
+              description: `instruction.how_to_install.topic.ios_safari.steps.instal.description`,
+              mediaUrl:
+                'instruction.how_to_install.topic.ios_safari.steps.instal.media_url',
+            },
+          ],
+        },
+      ],
+    },
+    notifications: {
+      title: 'instruction.notifications.title',
+      summary: 'instruction.notifications.summary',
+      imageUrl: '/shared/assets/images/icons/menu_book-icon-blue.svg',
+      topics: [
+        {
+          title: 'instruction.notifications.topic.android_unblocked.title',
+          route: '/instructions/notifications/android_unblocked',
+          thumbnailUrl:
+            'instruction.notifications.topic.android_unblocked.thumbnail_url',
+          description: `instruction.notifications.topic.android_unblocked.description`,
+          steps: [
+            {
+              header:
+                'instruction.notifications.topic.android_unblocked.steps.instal.header',
+              description: `instruction.notifications.topic.android_unblocked.steps.instal.description`,
+              mediaUrl:
+                'instruction.notifications.topic.android_unblocked.steps.instal.media_url',
+            },
+          ],
+        },
+        {
+          title: 'instruction.notifications.topic.ios_unblocked.title',
+          route: '/instructions/notifications/ios_unblocked',
+          thumbnailUrl:
+            'instruction.notifications.topic.ios_unblocked.thumbnail_url',
+          description: `instruction.notifications.topic.ios_unblocked.description`,
+          steps: [
+            {
+              header:
+                'instruction.notifications.topic.ios_unblocked.steps.instal.header',
+              description: `instruction.notifications.topic.ios_unblocked.steps.instal.description`,
+              mediaUrl:
+                'instruction.notifications.topic.ios_unblocked.steps.instal.media_url',
+            },
+          ],
+        },
+      ],
+    },
     reservation: {
       title: 'instruction.reservation.title',
       summary: 'instruction.reservation.summary',

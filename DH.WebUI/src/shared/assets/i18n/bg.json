@@ -1393,6 +1393,66 @@
           }
         }
       }
+    },
+    "how_to_install": {
+      "title": "Инсталирай приложението",
+      "summary": "Вижте стъпка по стъпка как да инсталирате приложението на вашето устройство за по-лесен достъп по всяко време и за да подобрите известията си.",
+      "topic": {
+        "android_google_chrome": {
+          "title": "Инсталиране на Android чрез Google Chrome",
+          "thumbnail_url": "/shared/assets/images/instructions/How_to_install/android_google_chrome_install.gif",
+          "description": "Научете как да инсталирате приложението на вашето Android устройство с помощта на браузъра Google Chrome.",
+          "steps": {
+            "instal": {
+              "header": "Отворете приложението в Google Chrome",
+              "description": "Стъпка 1: Отворете Google Chrome на вашето Android устройство и отидете на уебсайта на приложението.\n\nСтъпка 2: Натиснете трите точки в горния десен ъгъл.\n\nСтъпка 3: От падащото меню изберете 'Добавяне към начален екран' ('Add to Home screen').\n\nСтъпка 4: Потвърдете, като натиснете 'Инсталирай' ('Install'). Приложението ще бъде инсталирано и ще се появи пряк път на началния ви екран за бърз достъп.",
+              "media_url": "/shared/assets/images/instructions/How_to_install/android_google_chrome_install.gif"
+            }
+          }
+        },
+        "ios_safari": {
+          "title": "Инсталиране чрез Apple Safari",
+          "thumbnail_url": "/shared/assets/images/instructions/How_to_install/apple_safari_install.gif",
+          "description": "Научете как да инсталирате приложението на вашето Apple устройство чрез браузъра Safari.",
+          "steps": {
+            "instal": {
+              "header": "Отворете приложението в браузъра",
+              "description": "Стъпка 1: Отворете браузъра Safari на вашето Apple устройство и отидете на уебсайта на приложението.\n\nСтъпка 2: Натиснете бутона 'Сподели' (Share).\n\nСтъпка 3: Изберете „Добавяне към начален екран“ ('Add to Home Screen').\n\nСтъпка 4: Потвърдете и добавете. Приложението ще бъде инсталирано и ще се появи пряк път на началния ви екран за лесен достъп.",
+              "media_url": "/shared/assets/images/instructions/How_to_install/apple_safari_install.gif"
+            }
+          }
+        }
+      }
+    },
+    "notifications": {
+      "title": "Известия",
+      "summary": "Информация за активиране или отключване на известията за приложението на вашето устройство, за да получавате най-новите съобщения и уведомления.",
+      "topic": {
+        "android_unblocked": {
+          "title": "Android: Отключете известията си",
+          "thumbnail_url": "/shared/assets/images/instructions/Notifications/android_unblocked_notification.gif",
+          "description": "Научете как да отключите известията за приложението на вашето устройство.",
+          "steps": {
+            "instal": {
+              "header": "Отключване на известията",
+              "description": "Стъпка 1: Задръжте върху иконата на приложението на екрана си.\n\nСтъпка 2: Натиснете 'Настройки на сайта' ('Site Settings').\n\nСтъпка 3: Натиснете 'Известия' ('Notifications') и включете опцията 'Показвай известия' ('Show Notifications').\n\nСтъпка 4: Рестартирайте приложението.",
+              "media_url": "/shared/assets/images/instructions/Notifications/android_unblocked_notification.gif"
+            }
+          }
+        },
+        "ios_unblocked": {
+          "title": "Apple iOS: Отключете известията си",
+          "thumbnail_url": "/shared/assets/images/instructions/Notifications/apple_unblocked_notifications.gif",
+          "description": "Научете как да отключите известията за приложението на вашето устройство.",
+          "steps": {
+            "instal": {
+              "header": "Отключване на известията",
+              "description": "Стъпка 1: Отворете 'Настройки' ('Settings').\n\nСтъпка 2: Въведете в търсачката 'Известия' ('Notifications').\n\nСтъпка 3: Намерете иконата на приложението и натиснете върху нея.\n\nСтъпка 4: Натиснете 'Разреши известия' ('Allow Notifications').\n\nСтъпка 5: Рестартирайте приложението.",
+              "media_url": "/shared/assets/images/instructions/Notifications/apple_unblocked_notifications.gif"
+            }
+          }
+        }
+      }
     }
   },
   "challenge_overlay": {
@@ -1423,5 +1483,10 @@
     "rankings": "Класации",
     "count": "Брой",
     "info_message": "Тази класация показва потребителите, които са завършили предизвикателства, подредени по броя успешно завършени. Използвайте горните раздели, за да видите класациите за текущата седмица, месец или година."
+  },
+  "single_player_confirm_dialog": {
+    "dialog_header_solo_game": "Здравей! Ще играеш ли сам тази игра?",
+    "button_no": "Не",
+    "button_yes": "Да"
   }
 }

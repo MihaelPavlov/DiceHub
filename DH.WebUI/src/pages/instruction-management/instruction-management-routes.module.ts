@@ -13,6 +13,8 @@ const routes: Routes = [
     path: ':key/:linkName',
     component: InstructionComponent,
   },
+  { path: 'how_to_install', component: InstructionLinksComponent },
+  { path: 'notifications', component: InstructionLinksComponent },
   { path: 'reservation', component: InstructionLinksComponent },
   { path: 'events', component: InstructionLinksComponent },
   { path: 'challenges', component: InstructionLinksComponent },

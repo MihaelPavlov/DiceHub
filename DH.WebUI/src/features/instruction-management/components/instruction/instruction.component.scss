@@ -28,10 +28,12 @@
     font-size: 1.4rem;
     color: palette.$main-blue-color;
   }
-  .description {
-  }
 }
 
 .blue {
   color: palette.$main-blue-color;
+}
+
+:host ::ng-deep app-header .wrapper_header__title {
+  text-align: unset !important;
 }

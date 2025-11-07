@@ -21,6 +21,14 @@ export class InstructionManagementComponent {
   ) {
     this.defaultLinks = [
       {
+        name: this.ts.instant('instruction.how_to_install.title'),
+        path: '/instructions/how_to_install',
+      },
+      {
+        name: this.ts.instant('instruction.notifications.title'),
+        path: '/instructions/notifications',
+      },
+      {
         name: this.ts.instant('instruction.reservation.title'),
         path: '/instructions/reservation',
       },

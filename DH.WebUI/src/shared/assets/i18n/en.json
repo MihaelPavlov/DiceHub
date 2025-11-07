@@ -1393,6 +1393,66 @@
           }
         }
       }
+    },
+    "how_to_install": {
+      "title": "Install the App",
+      "summary": "Get step-by-step instructions on installing the app on your device for easy access anytime and improve your notifications.",
+      "topic": {
+        "android_google_chrome": {
+          "title": "Android Google Chrome Installation",
+          "thumbnail_url": "/shared/assets/images/instructions/How_to_install/android_google_chrome_install.gif",
+          "description": "Learn how to install the app on your Android device using Google Chrome browser.",
+          "steps": {
+            "instal": {
+              "header": "Open the App in Google Chrome",
+              "description": "Step 1: Launch Google Chrome on your Android device and navigate to the app's website.\n\nStep 2: Click on the three dots on top right corner.\n\nStep 3: From the dropdown menu, select 'Add to Home screen'.\n\nStep 4: Confirm by tapping 'Install'. The app will be installed and a shortcut will appear on your home screen for easy access.",
+              "media_url": "/shared/assets/images/instructions/How_to_install/android_google_chrome_install.gif"
+            }
+          }
+        },
+        "ios_safari": {
+          "title": "Apple Safari Installation",
+          "thumbnail_url": "/shared/assets/images/instructions/How_to_install/apple_safari_install.gif",
+          "description": "Learn how to install the app on your Apple device using IOS Safari browser.",
+          "steps": {
+            "instal": {
+              "header": "Open the App in Browser",
+              "description": "Step 1: Launch the browser on your Apple device and navigate to the app's website.\n\nStep 2: Tap the Share Button.\n\nStep 3: Choose “Add to Home Screen”'.\n\nStep 4: Confirm and add. The app will be installed and a shortcut will appear on your home screen for easy access.",
+              "media_url": "/shared/assets/images/instructions/How_to_install/apple_safari_install.gif"
+            }
+          }
+        }
+      }
+    },
+    "notifications": {
+      "title": "Notifications",
+      "summary": "Information about enabling or unblocking notifications for the app on your device to stay updated with the latest alerts and messages.`",
+      "topic": {
+        "android_unblocked": {
+          "title": "Android: Unblock Your Notifications",
+          "thumbnail_url": "/shared/assets/images/instructions/Notifications/android_unblocked_notification.gif",
+          "description": "Learn how to unblocked notifications for the app on your device.",
+          "steps": {
+            "instal": {
+              "header": "Unblock Notifications",
+              "description": "Step 1: Hold on the application icon on your screen.\n\nStep 2: Tap on 'Site Settings'.\n\nStep 3: Tap On 'Notifications' and Turn ON the 'Show Notifications'. \n\nStep 4: Restart the application",
+              "media_url": "/shared/assets/images/instructions/Notifications/android_unblocked_notification.gif"
+            }
+          }
+        },
+        "ios_unblocked": {
+          "title": "Apple-IOS: Unblock Your Notifications",
+          "thumbnail_url": "/shared/assets/images/instructions/Notifications/apple_unblocked_notifications.gif",
+          "description": "Learn how to unblocked notifications for the app on your device.",
+          "steps": {
+            "instal": {
+              "header": "Unblock Your Notifications",
+              "description": "Step 1: Open Settings.\n\nStep 2: Type on the search 'Notifications'.\n\nStep 3: Find the application icon and tab on it \n\nStep 4: Tap On 'Allow Notifications'. \n\nStep 5: Restart the application",
+              "media_url": "/shared/assets/images/instructions/Notifications/apple_unblocked_notifications.gif"
+            }
+          }
+        }
+      }
     }
   },
   "challenge_overlay": {
@@ -1417,11 +1477,16 @@
       "your_rank_is": "Your rank is",
       "out_of_x_users": "out of {{usersCount}} users"
     },
-    "th":"th",
+    "th": "th",
     "no_completed_challenges_1": "No challenges were completed during this period.",
     "no_completed_challenges_2": "Try selecting a different time range to see user activity.",
     "rankings": "Rankings",
     "count": "Count",
     "info_message": "This leaderboard displays users who have completed challenges, ranked by how many they've successfully finished. Use the tabs above to view rankings for the current week, month, or year."
+  },
+  "single_player_confirm_dialog": {
+    "dialog_header_solo_game": "Hey there! Will you be going solo for this game?",
+    "button_no": "No",
+    "button_yes": "Yes"
   }
 }

@@ -14,6 +14,7 @@ import { DateHelper } from '../../../helpers/date-helper';
 import { MessagingService } from '../../../../entities/messaging/api/messaging.service';
 import { LanguageService } from '../../../services/language.service';
 import { SupportLanguages } from '../../../../entities/common/models/support-languages.enum';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-notifications-dialog',
@@ -69,7 +70,8 @@ export class NotificationsDialog implements OnInit {
     private dialogRef: MatDialogRef<NotificationsDialog>,
     private readonly notificationService: NotificationsService,
     private readonly messagingService: MessagingService,
-    private readonly languageService: LanguageService
+    private readonly languageService: LanguageService,
+    private readonly router: Router
   ) {}
 
   public ngOnInit(): void {
@@ -135,9 +137,10 @@ export class NotificationsDialog implements OnInit {
     this.showWarning = false;
   }
 
-  public navigateToEnableBrowserNotificationInstruction(): //todo: add instructions on pwa if the decline the notification when you need to go in
-  //  the settings find you app icon and enable the notifications from this place
-  void {}
+  public navigateToEnableBrowserNotificationInstruction(): void {
+    this.router.navigateByUrl('instructions/notifications');
+    this.dialogRef.close();
+  }
 
   public get isAllMarkedAsViewed(): boolean {
     return this.userNotifications.every((x) => x.hasBeenViewed);

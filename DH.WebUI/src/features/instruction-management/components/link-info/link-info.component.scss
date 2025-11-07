@@ -90,6 +90,7 @@
 
 .wrapper {
   white-space: normal;
+  margin-bottom: 10rem;
 }
 .wrapper_image {
   display: flex;
@@ -113,7 +114,7 @@
   .description {
     white-space: pre-line;
   }
-  .action_link{
+  .action_link {
     color: palette.$main-blue-color;
   }
 }
