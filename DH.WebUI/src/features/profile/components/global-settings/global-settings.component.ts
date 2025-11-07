@@ -34,6 +34,8 @@ interface ITenantSettingsForm {
   periodOfRewardReset: string;
   resetDayForRewards: string;
   daysOff: string[] | null;
+  startWorkingHours: string;
+  endWorkingHours: string;
   challengeInitiationDelayHours: number;
   reservationHours: string[];
   bonusTimeAfterReservationExpiration: number;
@@ -135,6 +137,8 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
             tenantSettings.daysOff.length === 0
               ? null
               : tenantSettings.daysOff.map((day) => WeekDay[day]),
+          startWorkingHours: tenantSettings.startWorkingHours,
+          endWorkingHours: tenantSettings.endWorkingHours,
           language:
             SupportLanguages[userSettings.language] ?? SupportLanguages.EN,
           challengeInitiationDelayHours:
@@ -193,12 +197,13 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
           switchMap(([periodName, weekDayName, language]) => {
             oldLanguage = this.languageService.getCurrentLanguage();
             newLanguage = language as unknown as SupportLanguages;
-            console.log(language, newLanguage);
+
             const updatedSettings = {
               id: this.userSettings?.id ?? null,
               language: newLanguage,
               phoneNumber: this.form.controls.phoneNumber.value,
             };
+            
             return combineLatest([
               this.tenantSettingsService.update({
                 id: this.tenantSettingsId,
@@ -213,6 +218,8 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
                         (day) => WeekDay[day as keyof typeof WeekDay]
                       )
                     : [],
+                startWorkingHours: this.form.controls.startWorkingHours.value,
+                endWorkingHours: this.form.controls.endWorkingHours.value,
                 challengeInitiationDelayHours:
                   this.form.controls.challengeInitiationDelayHours.value,
                 reservationHours: this.form.controls.reservationHours.value,
@@ -304,6 +311,14 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
         return this.translateService.instant(
           'space_settings.control_display_names.days_off'
         );
+      case 'startWorkingHours':
+        return this.translateService.instant(
+          'space_settings.control_display_names.start_working_hours'
+        );
+      case 'endWorkingHours':
+        return this.translateService.instant(
+          'space_settings.control_display_names.end_working_hours'
+        );
       case 'challengeInitiationDelayHours':
         return this.translateService.instant(
           'space_settings.control_display_names.challenge_initiation_delay_hours'
@@ -381,6 +396,12 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
         '0',
         Validators.required
       ),
+      startWorkingHours: new FormControl<Date | null>(null, [
+        Validators.required,
+      ]),
+      endWorkingHours: new FormControl<Date | null>(null, [
+        Validators.required,
+      ]),
       daysOff: new FormControl<string[] | null>(null),
       challengeInitiationDelayHours: new FormControl<string | null>('2', [
         Validators.required,

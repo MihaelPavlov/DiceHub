@@ -588,4 +588,10 @@
   <data name="TenantSettingsDaysOff" xml:space="preserve">
     <value>Days Off  value is not valid.</value>
   </data>
+  <data name="TenantSettingsStartWorkingHours" xml:space="preserve">
+    <value>Start working hours are required.</value>
+  </data>
+  <data name="TenantSettingsEndWorkingHours" xml:space="preserve">
+    <value>End working hours are required.</value>
+  </data>
 </root>

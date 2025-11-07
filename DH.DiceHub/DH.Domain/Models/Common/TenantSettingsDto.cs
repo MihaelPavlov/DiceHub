@@ -35,6 +35,16 @@ public class TenantSettingDto : IValidableFields
     public string[] DaysOff { get; set; } = [];
 
     /// <summary>
+    /// Defines the start of working hours for the facility
+    /// </summary>
+    public string StartWorkingHours { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Defines the end of working hours for the facility
+    /// </summary>
+    public string EndWorkingHours { get; set; } = string.Empty;
+
+    /// <summary>
     /// Defines the number of hours to delay the initiation of the new challenge
     /// </summary>
     public int ChallengeInitiationDelayHours { get; set; }
@@ -93,6 +103,12 @@ public class TenantSettingDto : IValidableFields
                 break;
             }
         }
+
+        if (string.IsNullOrEmpty(StartWorkingHours))
+            errors.Add(new ValidationError(nameof(StartWorkingHours), localizationService["TenantSettingsStartWorkingHours"]));
+
+        if (string.IsNullOrEmpty(EndWorkingHours))
+            errors.Add(new ValidationError(nameof(EndWorkingHours), localizationService["TenantSettingsEndWorkingHours"]));
 
         if (ChallengeInitiationDelayHours <= 1 || ChallengeInitiationDelayHours > 12)
             errors.Add(new ValidationError(nameof(ChallengeInitiationDelayHours), localizationService["TenantSettingsChallengeInitiationDelayHours"]));

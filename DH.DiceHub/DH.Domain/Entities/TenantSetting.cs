@@ -30,6 +30,16 @@ public class TenantSetting
     public string DaysOff { get; set; } = string.Empty;
 
     /// <summary>
+    /// Defines the start of working hours for the facility
+    /// </summary>
+    public string StartWorkingHours { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Defines the end of working hours for the facility
+    /// </summary>
+    public string EndWorkingHours { get; set; } = string.Empty;
+
+    /// <summary>
     /// Defines the number of hours to delay the initiation of the new challenge
     /// </summary>
     public int ChallengeInitiationDelayHours { get; set; }

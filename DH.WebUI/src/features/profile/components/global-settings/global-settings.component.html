@@ -71,6 +71,63 @@
   </div>
 
   <div class="input-field">
+    <label for="daysOff">{{
+      "space_settings.days_off.label" | translate
+    }}</label>
+    <span class="input-info">{{
+      "space_settings.days_off.info" | translate
+    }}</span>
+
+    <ng-select
+      id="daysOff"
+      [items]="weekDaysValues"
+      bindValue="id"
+      bindLabel="name"
+      [placeholder]="'space_settings.days_off.placeholder' | translate"
+      [searchable]="true"
+      formControlName="daysOff"
+      [multiple]="true"
+      class="app-select-long"
+    >
+    </ng-select>
+  </div>
+
+  <div class="input-group">
+    <div class="input-field">
+      <label for="startWorkingHours" class="required">{{
+        "space_settings.start_working_hours.label" | translate
+      }}</label>
+      <span class="input-info">{{
+        "space_settings.start_working_hours.info" | translate
+      }}</span>
+      <input
+        type="time"
+        name="startWorkingHours"
+        [placeholder]="
+          'space_settings.start_working_hours.placeholder' | translate
+        "
+        formControlName="startWorkingHours"
+      />
+    </div>
+    <div class="input-field">
+      <label for="endWorkingHours" class="required">{{
+        "space_settings.end_working_hours.label" | translate
+      }}</label>
+      <span class="input-info">{{
+        "space_settings.end_working_hours.info" | translate
+      }}</span>
+      <input
+        type="time"
+        name="endWorkingHours"
+        [placeholder]="
+          'space_settings.end_working_hours.placeholder' | translate
+        "
+        formControlName="endWorkingHours"
+      />
+    </div>
+  </div>
+
+  <div class="input-field">
     <label for="averageMaxCapacity" class="required">{{
       "space_settings.average_max_capacity.label" | translate
     }}</label>
@@ -149,30 +206,6 @@
       "
       [searchable]="true"
       formControlName="resetDayForRewards"
-      class="app-select-long"
-    >
-    </ng-select>
-  </div>
-
-   <div class="input-field">
-    <label for="daysOff">{{
-      "space_settings.days_off.label" | translate
-    }}</label>
-    <span class="input-info">{{
-      "space_settings.days_off.info" | translate
-    }}</span>
-
-    <ng-select
-      id="daysOff"
-      [items]="weekDaysValues"
-      bindValue="id"
-      bindLabel="name"
-      [placeholder]="
-        'space_settings.days_off.placeholder' | translate
-      "
-      [searchable]="true"
-      formControlName="daysOff"
-      [multiple]="true"
       class="app-select-long"
     >
     </ng-select>

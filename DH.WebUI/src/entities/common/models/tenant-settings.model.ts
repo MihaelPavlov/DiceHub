@@ -30,6 +30,16 @@ export interface ITenantSettings {
   daysOff: WeekDay[];
 
   /// <summary>
+  /// Working Hours Start
+  /// </summary>
+  startWorkingHours: string;
+
+  /// <summary>
+  /// Working Hours End
+  /// </summary>
+  endWorkingHours: string;
+
+  /// <summary>
   /// Defines the number of hours to delay the initiation of the new challenge
   /// </summary>
   challengeInitiationDelayHours: number;

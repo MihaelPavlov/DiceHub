@@ -588,4 +588,10 @@
   <data name="TenantSettingsDaysOff" xml:space="preserve">
     <value>Стойноста на някой почивен ден не е валидна</value>
   </data>
+  <data name="TenantSettingsStartWorkingHours" xml:space="preserve">
+    <value>Началният час на работното време е задължителен.</value>
+  </data>
+  <data name="TenantSettingsEndWorkingHours" xml:space="preserve">
+    <value>Крайният час на работното време е задължителен.</value>
+  </data>
 </root>

@@ -547,7 +547,9 @@
       "challenge_rewards_count_for_period": "Challenge Rewards Count For Period",
       "period_of_reward_reset": "Period Of Reward Reset",
       "reset_day_for_rewards": "Reset Day For Rewards",
-      "days_off":" Days Off",
+      "days_off": "Days Off",
+      "start_working_hours": "Start Working Hours",
+      "end_working_hours": "End Working Hours",
       "challenge_initiation_delay_hours": "Challenge Initiation Delay Hours",
       "reservation_hours": "Reservation Hours",
       "phone_number": "Phone Number",
@@ -594,6 +596,16 @@
       "label": "Days Off",
       "placeholder": "Monday, Tuesday",
       "info": "Days of the week when the club is closed."
+    },
+    "start_working_hours": {
+      "label": "Start Hour",
+      "placeholder": "09:00",
+      "info": "The hour when the club opens for the day."
+    },
+    "end_working_hours": {
+      "label": "End Hour",
+      "placeholder": "21:00",
+      "info": "The hour when the club closes for the day."
     },
     "reservation_hours": {
       "label": "Reservation Hours",
