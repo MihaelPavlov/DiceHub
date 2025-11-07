@@ -159,7 +159,6 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
   }
 
   public onSave(): void {
-
     if (this.form.valid) {
       let oldLanguage;
       let newLanguage;
@@ -183,13 +182,15 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
         }`,
         SupportLanguages.EN.toLowerCase()
       );
-
+      
       forkJoin([periodTranslation$, weekDayTranslation$, languageTranslation$])
-        .pipe(
-          switchMap(([periodName, weekDayName, language]) => {
-            oldLanguage = this.languageService.getCurrentLanguage();
-            newLanguage = language as unknown as SupportLanguages;
+      .pipe(
+        switchMap(([periodName, weekDayName, language]) => {
+          oldLanguage = this.languageService.getCurrentLanguage();
+          newLanguage = language as unknown as SupportLanguages;
+          console.log(language,newLanguage);
             const updatedSettings = {
+              id : this.userSettings?.id ?? null,
               language: newLanguage,
               phoneNumber: this.form.controls.phoneNumber.value,
             };
