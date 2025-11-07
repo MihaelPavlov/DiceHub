@@ -547,6 +547,7 @@
       "challenge_rewards_count_for_period": "Challenge Rewards Count For Period",
       "period_of_reward_reset": "Period Of Reward Reset",
       "reset_day_for_rewards": "Reset Day For Rewards",
+      "days_off":" Days Off",
       "challenge_initiation_delay_hours": "Challenge Initiation Delay Hours",
       "reservation_hours": "Reservation Hours",
       "phone_number": "Phone Number",
@@ -588,6 +589,11 @@
       "label": "Reset Day For Rewards",
       "placeholder": "0",
       "info": "Day of the week when rewards reset at 12:00 PM (e.g., every Monday at noon)."
+    },
+    "days_off": {
+      "label": "Days Off",
+      "placeholder": "Monday, Tuesday",
+      "info": "Days of the week when the club is closed."
     },
     "reservation_hours": {
       "label": "Reservation Hours",

@@ -30,6 +30,11 @@ public class TenantSettingDto : IValidableFields
     public string ResetDayForRewards { get; set; } = string.Empty;
 
     /// <summary>
+    /// Which days are off for the facility
+    /// </summary>
+    public string[] DaysOff { get; set; } = [];
+
+    /// <summary>
     /// Defines the number of hours to delay the initiation of the new challenge
     /// </summary>
     public int ChallengeInitiationDelayHours { get; set; }
@@ -74,11 +79,20 @@ public class TenantSettingDto : IValidableFields
         if (ChallengeRewardsCountForPeriod < 4 || ChallengeRewardsCountForPeriod > 8)
             errors.Add(new ValidationError(nameof(ChallengeRewardsCountForPeriod), localizationService["TenantSettingsChallengeRewardsCountForPeriod"]));
 
-        if (!Enum.TryParse<TimePeriodType>(PeriodOfRewardReset, out var parsedPeriodOfRewardReset))
+        if (!Enum.TryParse<TimePeriodType>(PeriodOfRewardReset, out var _))
             errors.Add(new ValidationError(nameof(PeriodOfRewardReset), localizationService["TenantSettingsPeriodOfRewardReset"]));
 
-        if (!Enum.TryParse<WeekDays>(ResetDayForRewards, out var parsedResetDayForRewards))
+        if (!Enum.TryParse<WeekDays>(ResetDayForRewards, out var _))
             errors.Add(new ValidationError(nameof(ResetDayForRewards), localizationService["TenantSettingsResetDayForRewards"]));
+
+        foreach (var dayOff in DaysOff)
+        {
+            if (!Enum.TryParse<WeekDays>(dayOff, out var _))
+            {
+                errors.Add(new ValidationError(nameof(DaysOff), localizationService["TenantSettingsDaysOff"]));
+                break;
+            }
+        }
 
         if (ChallengeInitiationDelayHours <= 1 || ChallengeInitiationDelayHours > 12)
             errors.Add(new ValidationError(nameof(ChallengeInitiationDelayHours), localizationService["TenantSettingsChallengeInitiationDelayHours"]));

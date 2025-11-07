@@ -25,6 +25,11 @@ public class TenantSetting
     public string ResetDayForRewards { get; set; } = string.Empty;
 
     /// <summary>
+    /// Which days are off for the facility
+    /// </summary>
+    public string DaysOff { get; set; } = string.Empty;
+
+    /// <summary>
     /// Defines the number of hours to delay the initiation of the new challenge
     /// </summary>
     public int ChallengeInitiationDelayHours { get; set; }

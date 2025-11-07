@@ -25,6 +25,11 @@ export interface ITenantSettings {
   resetDayForRewards: WeekDay;
 
   /// <summary>
+  /// Days Off of the Facility
+  /// </summary>
+  daysOff: WeekDay[];
+
+  /// <summary>
   /// Defines the number of hours to delay the initiation of the new challenge
   /// </summary>
   challengeInitiationDelayHours: number;

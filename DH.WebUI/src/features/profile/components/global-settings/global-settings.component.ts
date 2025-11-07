@@ -33,6 +33,7 @@ interface ITenantSettingsForm {
   challengeRewardsCountForPeriod: number;
   periodOfRewardReset: string;
   resetDayForRewards: string;
+  daysOff: string[] | null;
   challengeInitiationDelayHours: number;
   reservationHours: string[];
   bonusTimeAfterReservationExpiration: number;
@@ -130,6 +131,10 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
           periodOfRewardReset:
             TimePeriodType[tenantSettings.periodOfRewardReset],
           resetDayForRewards: WeekDay[tenantSettings.resetDayForRewards],
+          daysOff:
+            tenantSettings.daysOff.length === 0
+              ? null
+              : tenantSettings.daysOff.map((day) => WeekDay[day]),
           language:
             SupportLanguages[userSettings.language] ?? SupportLanguages.EN,
           challengeInitiationDelayHours:
@@ -182,15 +187,15 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
         }`,
         SupportLanguages.EN.toLowerCase()
       );
-      
+
       forkJoin([periodTranslation$, weekDayTranslation$, languageTranslation$])
-      .pipe(
-        switchMap(([periodName, weekDayName, language]) => {
-          oldLanguage = this.languageService.getCurrentLanguage();
-          newLanguage = language as unknown as SupportLanguages;
-          console.log(language,newLanguage);
+        .pipe(
+          switchMap(([periodName, weekDayName, language]) => {
+            oldLanguage = this.languageService.getCurrentLanguage();
+            newLanguage = language as unknown as SupportLanguages;
+            console.log(language, newLanguage);
             const updatedSettings = {
-              id : this.userSettings?.id ?? null,
+              id: this.userSettings?.id ?? null,
               language: newLanguage,
               phoneNumber: this.form.controls.phoneNumber.value,
             };
@@ -202,6 +207,12 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
                   this.form.controls.challengeRewardsCountForPeriod.value,
                 periodOfRewardReset: periodName as unknown as TimePeriodType,
                 resetDayForRewards: weekDayName as unknown as WeekDay,
+                daysOff:
+                  this.form.controls.daysOff.value !== null
+                    ? this.form.controls.daysOff.value.map(
+                        (day) => WeekDay[day as keyof typeof WeekDay]
+                      )
+                    : [],
                 challengeInitiationDelayHours:
                   this.form.controls.challengeInitiationDelayHours.value,
                 reservationHours: this.form.controls.reservationHours.value,
@@ -289,6 +300,10 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
         return this.translateService.instant(
           'space_settings.control_display_names.reset_day_for_rewards'
         );
+      case 'daysOff':
+        return this.translateService.instant(
+          'space_settings.control_display_names.days_off'
+        );
       case 'challengeInitiationDelayHours':
         return this.translateService.instant(
           'space_settings.control_display_names.challenge_initiation_delay_hours'
@@ -366,6 +381,7 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
         '0',
         Validators.required
       ),
+      daysOff: new FormControl<string[] | null>(null),
       challengeInitiationDelayHours: new FormControl<string | null>('2', [
         Validators.required,
       ]),

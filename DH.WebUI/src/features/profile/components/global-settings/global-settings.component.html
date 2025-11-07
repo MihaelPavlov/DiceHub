@@ -154,6 +154,30 @@
     </ng-select>
   </div>
 
+   <div class="input-field">
+    <label for="daysOff">{{
+      "space_settings.days_off.label" | translate
+    }}</label>
+    <span class="input-info">{{
+      "space_settings.days_off.info" | translate
+    }}</span>
+
+    <ng-select
+      id="daysOff"
+      [items]="weekDaysValues"
+      bindValue="id"
+      bindLabel="name"
+      [placeholder]="
+        'space_settings.days_off.placeholder' | translate
+      "
+      [searchable]="true"
+      formControlName="daysOff"
+      [multiple]="true"
+      class="app-select-long"
+    >
+    </ng-select>
+  </div>
+
   <div class="input-field">
     <label for="reservationHours" class="required">{{
       "space_settings.reservation_hours.label" | translate

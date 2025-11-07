@@ -33,6 +33,7 @@ internal class UpdateTenantSettingsCommandHandler(
                 AverageMaxCapacity = request.Settings.AverageMaxCapacity,
                 ChallengeRewardsCountForPeriod = request.Settings.ChallengeRewardsCountForPeriod,
                 PeriodOfRewardReset = request.Settings.PeriodOfRewardReset,
+                DaysOff = string.Join(",", request.Settings.DaysOff.OrderBy(x => x)),
                 ReservationHours = string.Join(",", request.Settings.ReservationHours.OrderBy(x => x)),
                 BonusTimeAfterReservationExpiration = request.Settings.BonusTimeAfterReservationExpiration,
                 PhoneNumber = request.Settings.PhoneNumber,
@@ -63,6 +64,11 @@ internal class UpdateTenantSettingsCommandHandler(
         if (dbSettings.ResetDayForRewards != request.Settings.ResetDayForRewards)
         {
             dbSettings.ResetDayForRewards = request.Settings.ResetDayForRewards;
+        }
+
+        if (dbSettings.DaysOff != string.Join(",", request.Settings.DaysOff.OrderBy(x => x)))
+        {
+            dbSettings.DaysOff = string.Join(",", request.Settings.DaysOff.OrderBy(x => x));
         }
 
         if (dbSettings.ChallengeInitiationDelayHours != request.Settings.ChallengeInitiationDelayHours)

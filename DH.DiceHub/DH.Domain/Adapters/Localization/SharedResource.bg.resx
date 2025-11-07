@@ -585,4 +585,7 @@
   <data name="PeriodPerformanceStartedBody" xml:space="preserve">
     <value>Новият ти период за предизвикателства и награди започна. Играй и събирай точки!</value>
   </data>
+  <data name="TenantSettingsDaysOff" xml:space="preserve">
+    <value>Стойноста на някой почивен ден не е валидна</value>
+  </data>
 </root>

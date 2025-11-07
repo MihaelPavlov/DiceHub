@@ -585,4 +585,7 @@
   <data name="PeriodPerformanceStartedBody" xml:space="preserve">
     <value>Your new performance period for challenges and rewards started. Keep playing and earning points!</value>
   </data>
+  <data name="TenantSettingsDaysOff" xml:space="preserve">
+    <value>Days Off  value is not valid.</value>
+  </data>
 </root>
