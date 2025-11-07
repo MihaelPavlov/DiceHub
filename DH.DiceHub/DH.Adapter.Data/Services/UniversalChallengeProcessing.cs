@@ -31,6 +31,14 @@ internal class UniversalChallengeProcessing(
 
     public async Task ProcessUserChallengeTop3Streak(CancellationToken cancellationToken)
     {
+        var tenantSettings = await this.tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
+
+        if (tenantSettings.DaysOff.IsTodayDayOff())
+        {
+            this.logger.LogInformation("Skipping Universal Challenge Top 3 Users Processing - Today is day off.");
+            return;
+        }
+
         var challengeHistory = await this.statisticsService
             .GetChallengeHistoryLogs(ChallengeHistoryLogType.Weekly, cancellationToken);
 
@@ -39,7 +47,6 @@ internal class UniversalChallengeProcessing(
         {
             var top3Users = challengeHistory.RelatedObject.Take(3).Select(u => u.UserId).ToList();
 
-            var tenantSettings = await this.tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
 
             using (var context = await this.dbContextFactory.CreateDbContextAsync(cancellationToken))
             {

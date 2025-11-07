@@ -770,8 +770,8 @@ public static class SeedData
             UpdatedBy = "Seeder",
             Name_EN = "Stay in Top 3 Challenge Leaderboard",
             Name_BG = "Остани в топ 3 на класацията",
-            Description_EN = "Maintain a top 3 position on the overall Challenge Leaderboard for consecutive days. Progress is tracked daily. Attempts represent days for this challenge",
-            Description_BG = "Запази място в топ 3 на общата класация за предизвикателства няколко дни подред. Напредъкът се следи ежедневно. Опити е в контекста на дни за това предизвикателство",
+            Description_EN = "Maintain a top 3 position on the overall Challenge Leaderboard for consecutive days. Progress is tracked daily, skipping the club's days off. Attempts represent days for this challenge",
+            Description_BG = "Запази място в топ 3 на общата класация за предизвикателства няколко дни подред. Напредъкът се следи ежедневно, като се пропускат почивните дни на клуба. Опити е в контекста на дни за това предизвикателство",
             Type = UniversalChallengeType.Top3ChallengeLeaderboard,
             Attempts = 3
         }
