@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { getToken } from 'firebase/messaging';
 import { Messaging } from '@angular/fire/messaging';
-import { environment } from '../../../app/environment';
+import { environment } from '../../../shared/environments/environment.development';
 import { AuthService } from '../../auth/auth.service';
 import { Subscription } from 'rxjs';
 import { FirebaseMessaging } from '@capacitor-firebase/messaging';
@@ -283,11 +283,16 @@ export class MessagingService {
   }
 
   private showNotificationBlockedMessage(): void {
-    const helpUrl = 'https://support.google.com/chrome/answer/3220216'; // or your own help page
+    let helpUrl = '';
+   if(environment.production){
+      helpUrl = `${environment.defaultAppUrl}/instructions/notifications`;
+   }else{
+      helpUrl = `http://localhost:4200/instructions/notifications`;
+   }
 
     this.toastService.error({
-      message: `Notifications are <b>blocked</b> in your browser settings. 
-              <a href="${helpUrl}" target="_blank"><strong style="text-decoration: underline;">Learn how to enable them</strong></a>.`,
+      message: `Notifications are <b>blocked</b> in your browser settings. Visit our instruction page.
+              <a href="${helpUrl}"><strong style="text-decoration: underline;">Learn how to enable them</strong></a>.`,
       type: ToastType.Error,
       duration: 10000,
     });
