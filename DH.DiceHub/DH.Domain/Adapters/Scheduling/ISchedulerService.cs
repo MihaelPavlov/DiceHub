@@ -7,4 +7,5 @@ public interface ISchedulerService
     Task ScheduleAddUserPeriodJob(CancellationToken cancellationToken);
     Task<List<ScheduleJobInfo>> GetScheduleJobs();
     Task<bool> DoesAddUserChallengePeriodJobExists();
+    Task ScheduleCloseActiveTablesJob(CancellationToken cancellationToken);
 }

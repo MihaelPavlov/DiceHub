@@ -6,6 +6,7 @@ using DH.Domain.Models.SpaceManagementModels.Queries;
 using DH.Domain.Services;
 using DH.OperationResultCore.Exceptions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace DH.Adapter.Data.Services;
 
@@ -20,6 +21,26 @@ public class SpaceTableService : ISpaceTableService
         this.userContext = userContext;
         this.dbContextFactory = dbContextFactory;
         this.localizer = localizer;
+    }
+
+    public async Task CloseActiveTables(CancellationToken cancellationToken)
+    {
+        using (var context = await this.dbContextFactory.CreateDbContextAsync(cancellationToken))
+        {
+            var activeTables = await context.SpaceTables
+                .Where(r => r.IsTableActive)
+                .ToListAsync(cancellationToken);
+
+            if (activeTables.Count == 0)
+                return;
+
+            foreach (var room in activeTables)
+            {
+                room.IsTableActive = false;
+            }
+
+            await context.SaveChangesAsync(cancellationToken);
+        }
     }
 
     public async Task<int> Create(SpaceTable spaceTable, CancellationToken cancellationToken, bool fromGameReservation = false, string userId = "")

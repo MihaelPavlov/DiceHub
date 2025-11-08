@@ -1,4 +1,5 @@
 ﻿using DH.Adapter.Scheduling.Jobs;
+using DH.Domain.Adapters.Authentication;
 using DH.Domain.Adapters.Scheduling;
 using DH.Domain.Adapters.Scheduling.Models;
 using DH.Domain.Enums;
@@ -7,8 +8,6 @@ using DH.Domain.Services.TenantSettingsService;
 using Microsoft.Extensions.Logging;
 using Quartz;
 using Quartz.Impl.Matchers;
-using System.Threading;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace DH.Adapter.Scheduling;
 
@@ -17,14 +16,18 @@ internal class SchedulerService : ISchedulerService
     private readonly ISchedulerFactory schedulerFactory;
     private readonly ITenantSettingsCacheService tenantSettingsService;
     private readonly ILogger<SchedulerService> logger;
+    private readonly IUserContext userContext;
+
     public SchedulerService(
         ISchedulerFactory schedulerFactory,
         ITenantSettingsCacheService tenantSettingsService,
-        ILogger<SchedulerService> logger)
+        ILogger<SchedulerService> logger,
+        IUserContext userContext)
     {
         this.schedulerFactory = schedulerFactory;
         this.tenantSettingsService = tenantSettingsService;
         this.logger = logger;
+        this.userContext = userContext;
     }
 
     public async Task<List<ScheduleJobInfo>> GetScheduleJobs()
@@ -121,5 +124,41 @@ internal class SchedulerService : ISchedulerService
         {
             logger.LogError(ex, "Failed to schedule AddUserChallengePeriodJob");
         }
+    }
+
+    public async Task ScheduleCloseActiveTablesJob(CancellationToken cancellationToken)
+    {
+        var scheduler = await this.schedulerFactory.GetScheduler(cancellationToken);
+        var tenantSettings = await this.tenantSettingsService.GetGlobalTenantSettingsAsync(cancellationToken);
+
+        var endTime = TimeOnly.Parse(tenantSettings.EndWorkingHours)
+               .AddMinutes(10);
+
+        var (hour, minute) = (endTime.Hour, endTime.Minute);
+
+        var timeZone = TimeZoneInfo.FindSystemTimeZoneById(this.userContext.TimeZone ?? "Europe/Sofia");
+
+        var jobKey = new JobKey(nameof(CloseActiveTablesJob));
+        var triggerKey = new TriggerKey($"DailyTrigger-{nameof(CloseActiveTablesJob)}");
+
+        // Check if job already exists
+        if (await scheduler.CheckExists(jobKey, cancellationToken))
+        {
+            // Unschedule the old trigger and delete old job
+            await scheduler.UnscheduleJob(triggerKey, cancellationToken);
+            await scheduler.DeleteJob(jobKey, cancellationToken);
+        }
+
+        var job = JobBuilder.Create<CloseActiveTablesJob>()
+            .WithIdentity(jobKey)
+            .Build();
+
+        var trigger = TriggerBuilder.Create()
+            .WithIdentity(triggerKey)
+            .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(hour, minute)
+                .InTimeZone(timeZone))
+            .Build();
+
+        await scheduler.ScheduleJob(job, trigger, cancellationToken);
     }
 }

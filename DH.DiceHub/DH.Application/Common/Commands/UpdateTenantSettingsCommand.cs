@@ -1,4 +1,5 @@
 ﻿using DH.Domain.Adapters.Localization;
+using DH.Domain.Adapters.Scheduling;
 using DH.Domain.Entities;
 using DH.Domain.Repositories;
 using DH.OperationResultCore.Exceptions;
@@ -12,12 +13,14 @@ internal class UpdateTenantSettingsCommandHandler(
     IRepository<TenantSetting> repository,
     IRepository<CustomPeriodChallenge> customPeridoChallengesRepository,
     IRepository<CustomPeriodReward> customPeridoRewardsRepository,
-    ILocalizationService localizer) : IRequestHandler<UpdateTenantSettingsCommand>
+    ILocalizationService localizer,
+    ISchedulerService schedulerService) : IRequestHandler<UpdateTenantSettingsCommand>
 {
     readonly IRepository<TenantSetting> repository = repository;
     readonly IRepository<CustomPeriodChallenge> customPeridoChallengesRepository = customPeridoChallengesRepository;
     readonly IRepository<CustomPeriodReward> customPeridoRewardsRepository = customPeridoRewardsRepository;
     readonly ILocalizationService localizer = localizer;
+    readonly ISchedulerService schedulerService = schedulerService;
 
     public async Task Handle(UpdateTenantSettingsCommand request, CancellationToken cancellationToken)
     {
@@ -76,6 +79,7 @@ internal class UpdateTenantSettingsCommandHandler(
         if (dbSettings.EndWorkingHours != request.Settings.EndWorkingHours)
         {
             dbSettings.EndWorkingHours = request.Settings.EndWorkingHours;
+            await this.schedulerService.ScheduleCloseActiveTablesJob(cancellationToken);
         }
 
         if (dbSettings.DaysOff != string.Join(",", request.Settings.DaysOff.OrderBy(x => x)))
