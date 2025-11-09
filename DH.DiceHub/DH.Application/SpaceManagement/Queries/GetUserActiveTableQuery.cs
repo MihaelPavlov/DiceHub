@@ -37,7 +37,8 @@ internal class GetUserActiveTableQueryHandler : IRequestHandler<GetUserActiveTab
                 x => new
                 {
                     SpaceTableId = x.SpaceTableId,
-                    SpaceTableName = x.SpaceTable.Name
+                    SpaceTableName = x.SpaceTable.Name,
+                    SpaceTableCreatedDate = x.SpaceTable.CreatedDate,
                 },
                 cancellationToken);
 
@@ -47,6 +48,7 @@ internal class GetUserActiveTableQueryHandler : IRequestHandler<GetUserActiveTab
         {
             userActiveTableResult.IsPlayerHaveActiveTable = true;
             userActiveTableResult.ActiveTableName = spaceTable.Name;
+            userActiveTableResult.ActiveTableCreatedDate = spaceTable.CreatedDate;
             userActiveTableResult.ActiveTableId = spaceTable.Id;
         }
         else if (spaceTableParticipations.Count == 1)
@@ -54,6 +56,7 @@ internal class GetUserActiveTableQueryHandler : IRequestHandler<GetUserActiveTab
             var spaceTableFromParticipant = spaceTableParticipations.First();
             userActiveTableResult.IsPlayerParticipateInTable = true;
             userActiveTableResult.ActiveTableName = spaceTableFromParticipant.SpaceTableName;
+            userActiveTableResult.ActiveTableCreatedDate = spaceTableFromParticipant.SpaceTableCreatedDate;
             userActiveTableResult.ActiveTableId = spaceTableFromParticipant.SpaceTableId;
         }
         else if (spaceTableParticipations.Count > 1)

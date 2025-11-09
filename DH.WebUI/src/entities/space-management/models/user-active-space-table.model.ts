@@ -3,4 +3,5 @@ export interface IUserActiveSpaceTableResult {
   isPlayerParticipateInTable: boolean;
   activeTableName?: string | null;
   activeTableId?: number | null;
+  activeTableCreatedDate?: Date | null;
 }

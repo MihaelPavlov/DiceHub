@@ -26,6 +26,10 @@
         <strong>{{ "space_management.details.password" | translate }}</strong>
         {{ detailsSpaceTable.password }}
       </span>
+      <span>
+        <strong>{{ "space_management.details.created_date" | translate }}</strong>
+        {{ info.activeTableCreatedDate | date: DATE_TIME_FORMAT :undefined:getCurrentLanguage }}
+      </span>
     </div>
     <a class="wrapper_menu">
       <!-- settings icon -->

@@ -6,4 +6,5 @@ public class GetUserActiveTableQueryModel
     public bool IsPlayerParticipateInTable { get; set; }
     public string? ActiveTableName { get; set; }
     public int? ActiveTableId { get; set; }
+    public DateTime? ActiveTableCreatedDate { get; set; }
 }

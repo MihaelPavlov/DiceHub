@@ -399,6 +399,7 @@
       "game": "Игра:",
       "max_people": "Макс хора:",
       "password": "Парола:",
+      "created_date": "Създадена на:",
       "joined_before": "присъединил се преди: {{joinedBefore}} мин.",
       "menu_items": {
         "update": "Актуализирай",

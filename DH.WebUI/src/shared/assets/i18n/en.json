@@ -399,6 +399,7 @@
       "game": "Game:",
       "max_people": "Max People:",
       "password": "Password:",
+      "created_date": "Created Date:",
       "joined_before": "joined before: {{joinedBefore}} mins",
       "menu_items": {
         "update": "Update",

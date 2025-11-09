@@ -14,6 +14,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastType } from '../../../../shared/models/toast.model';
 import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { ToastService } from '../../../../shared/services/toast.service';
+import { DateHelper } from '../../../../shared/helpers/date-helper';
+import { LanguageService } from '../../../../shared/services/language.service';
+import { SupportLanguages } from '../../../../entities/common/models/support-languages.enum';
 
 @Component({
   selector: 'app-club-space-details',
@@ -23,6 +26,7 @@ import { ToastService } from '../../../../shared/services/toast.service';
 export class ClubSpaceDetailsComponent implements OnInit {
   public userActiveTable!: IUserActiveSpaceTableResult;
   private allParticipants$ = new BehaviorSubject<ISpaceTableParticipant[]>([]);
+  public readonly DATE_TIME_FORMAT: string = DateHelper.DATE_TIME_FORMAT;
 
   public spaceTableParticipantList$ = this.allParticipants$.asObservable();
   public tableId!: number;
@@ -38,8 +42,14 @@ export class ClubSpaceDetailsComponent implements OnInit {
     private readonly authService: AuthService,
     private readonly navigationService: NavigationService,
     private readonly translateService: TranslateService,
-    private readonly toastService: ToastService
+    private readonly toastService: ToastService,
+    private readonly languageService: LanguageService
   ) {}
+
+  public get getCurrentLanguage(): SupportLanguages {
+    return this.languageService.getCurrentLanguage();
+  }
+
   public get isUserCreatorOfTable() {
     return this.detailsSpaceTable.createdBy === this.authService.getUser?.id;
   }
