@@ -100,6 +100,11 @@ public class SynchronizeGameSessionQueue : QueueBase
         this.canceledJobs.Remove((userId, gameId));
     }
 
+    public bool IsEmpty()
+    {
+        return queue.IsEmpty;
+    }
+
     /// <summary>
     /// Represents the basic information related to a job for enforcing user playtime.
     /// </summary>

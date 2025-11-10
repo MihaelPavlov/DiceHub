@@ -12,8 +12,9 @@ namespace DH.Api.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 public class SchedulerController(
-    ISchedulerService schedulerService, AddUserChallengePeriodJob addJob,
-        UserChallengeValidationJob validationJob) : ControllerBase
+    ISchedulerService schedulerService,
+    AddUserChallengePeriodJob addJob,
+    UserChallengeValidationJob validationJob) : ControllerBase
 {
     readonly ISchedulerService schedulerService = schedulerService;
     private readonly AddUserChallengePeriodJob _addJob = addJob;

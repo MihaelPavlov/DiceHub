@@ -54,6 +54,8 @@ public static class SchedulingDIModule
             .StoreDurably().RequestRecovery());
             q.AddJob<EventChecker>(opts => opts.WithIdentity(nameof(EventChecker))
             .StoreDurably().RequestRecovery());
+            q.AddJob<CloseActiveTablesJob>(opts => opts.WithIdentity(nameof(CloseActiveTablesJob))
+            .StoreDurably().RequestRecovery());
 
             TriggerDailyJobs(q, services);
 

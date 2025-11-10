@@ -3,6 +3,7 @@ using DH.Domain.Enums;
 using DH.Domain.Helpers;
 using DH.Domain.Services.TenantSettingsService;
 using DH.OperationResultCore.Exceptions;
+using Microsoft.Extensions.Logging;
 using Quartz;
 
 namespace DH.Adapter.Scheduling.Jobs;
@@ -14,21 +15,26 @@ public class AddUserChallengePeriodJob : IJob
     readonly IAddUserChallengePeriodHandler addUserChallengePeriodHandler;
     private readonly ISchedulerFactory schedulerFactory;
     private readonly ITenantSettingsCacheService tenantSettingsService;
+    private readonly ILogger<AddUserChallengePeriodJob> logger;
 
     public AddUserChallengePeriodJob(
         IAddUserChallengePeriodHandler addUserChallengePeriodHandler,
         ISchedulerFactory schedulerFactory,
-        ITenantSettingsCacheService tenantSettingsService)
+        ITenantSettingsCacheService tenantSettingsService,
+        ILogger<AddUserChallengePeriodJob> logger)
     {
         this.addUserChallengePeriodHandler = addUserChallengePeriodHandler;
         this.schedulerFactory = schedulerFactory;
         this.tenantSettingsService = tenantSettingsService;
+        this.logger = logger;
     }
 
     public async Task Execute(IJobExecutionContext context)
     {
         try
         {
+            this.logger.LogInformation("AddUserChallengePeriodJob started execution at {RunAt}.", DateTime.UtcNow);
+
             await this.addUserChallengePeriodHandler.InitializeNewPeriods(CancellationToken.None);
 
             var scheduler = await this.schedulerFactory.GetScheduler();
@@ -49,12 +55,6 @@ public class AddUserChallengePeriodJob : IJob
             var offset = TimeZoneHelper.GetOffsetForTimeZone(runAt, "Europe/Sofia");
             runAt = runAt.AddHours(-offset?.TotalHours ?? 0);
 
-            var nextTrigger = TriggerBuilder.Create()
-                .ForJob(jobKey)
-                .WithIdentity(triggerKey)
-                .StartAt(runAt)
-                .Build();
-
             var job = JobBuilder.Create<AddUserChallengePeriodJob>()
                  .WithIdentity(jobKey)
                  .Build();
@@ -66,6 +66,8 @@ public class AddUserChallengePeriodJob : IJob
                 .Build();
 
             await scheduler.ScheduleJob(job, trigger, CancellationToken.None);
+
+            this.logger.LogInformation("AddUserChallengePeriodJob executed successfully and rescheduled for {RunAt}", runAt);
         }
         catch (Exception ex)
         {

@@ -269,6 +269,8 @@ public class UserChallengesManagementService : IUserChallengesManagementService
                     await this.pushNotificationsService
                         .SendNotificationToUsersAsync([userId], new PeriodPerformanceStartedNotification(), cancellationToken);
 
+                    this.logger.LogInformation("Created new UserChallengePeriodPerformance for UserId {UserId}", userId);
+
                     return true;
                 }
                 catch (DbUpdateException ex) when (IsUniqueConstraintViolation(ex))

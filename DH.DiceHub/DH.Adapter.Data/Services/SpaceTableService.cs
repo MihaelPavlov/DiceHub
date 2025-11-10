@@ -34,10 +34,18 @@ public class SpaceTableService : ISpaceTableService
             if (activeTables.Count == 0)
                 return;
 
-            foreach (var room in activeTables)
+            var activeTableIds = activeTables.Select(x => x.Id).ToArray();
+
+            foreach (var table in activeTables)
             {
-                room.IsTableActive = false;
+                table.IsTableActive = false;
             }
+
+            var activeTableParticipantList = await context.SpaceTableParticipants
+                .Where(x => activeTableIds.Contains(x.SpaceTableId))
+                .ToListAsync(cancellationToken);
+
+            context.RemoveRange(activeTableParticipantList);
 
             await context.SaveChangesAsync(cancellationToken);
         }
