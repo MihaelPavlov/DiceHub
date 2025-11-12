@@ -77,7 +77,7 @@ export class GamesService {
   public getReservations_BackgroundRequest(): Observable<IReservedGame[]> {
     return this.api.get<IReservedGame[]>(
       `/${PATH.GAMES.CORE}/${PATH.GAMES.GET_RESERVED_GAMES}`,
-      {backgroundRequest:true},
+      { backgroundRequest: true }
     );
   }
 
@@ -218,6 +218,15 @@ export class GamesService {
         id: reservationId,
         publicNote,
         internalNote,
+      }
+    );
+  }
+
+  public cancelReservation(reservationId: number): Observable<null> {
+    return this.api.put(
+      `/${PATH.GAMES.CORE}/${PATH.GAMES.CANCEL_RESERVATION}`,
+      {
+        id: reservationId,
       }
     );
   }

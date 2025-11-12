@@ -76,7 +76,7 @@
         </p>
       </div>
     </ng-container>
-    <form [formGroup]="form">
+    <form [formGroup]="form" *ngIf="!this.data.isCancel">
       <div class="input-field">
         <label for="internalNote"
           >{{'reservation_management.confirm_dialog.internal_note'|translate}}</label
@@ -101,6 +101,14 @@
         ></textarea>
       </div>
     </form>
+
+    <ng-container *ngIf="this.data.isCancel">
+      <div class="dialog-container__description">
+        <p>
+          {{'reservation_management.confirm_dialog.cancel_description'|translate}}
+        </p>
+      </div>
+    </ng-container>
   </div>
   <mat-dialog-actions>
     <button class="btn btn__small btn-blue" mat-dialog-close>
@@ -120,6 +128,13 @@
       (click)="declineReservation()"
     >
       {{'reservation_management.confirm_dialog.decline'|translate}}
+    </button>
+     <button
+      *ngIf="this.data.isCancel"
+      class="btn btn__small btn-red btn-border-red"
+      (click)="cancelReservation()"
+    >
+      {{'reservation_management.confirm_dialog.cancel'|translate}}
     </button>
   </mat-dialog-actions>
 </div>

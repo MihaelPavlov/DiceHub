@@ -594,4 +594,16 @@
   <data name="TenantSettingsEndWorkingHours" xml:space="preserve">
     <value>Крайният час на работното време е задължителен.</value>
   </data>
+  <data name="SpaceTableCancelledTitle" xml:space="preserve">
+    <value>Вашата резервация беше отменена</value>
+  </data>
+  <data name="SpaceTableCancelledBody" xml:space="preserve">
+    <value>Вашата резервация за {0} {1} на {2} беше отменена.</value>
+  </data>
+  <data name="GameReservationCancelledTitle" xml:space="preserve">
+    <value>Резервацията за играта е отменена</value>
+  </data>
+  <data name="GameReservationCancelledBody" xml:space="preserve">
+    <value>Вашата резервация за игра **{0}** с {1} {2} на {3} беше ОТМЕНЕНА.</value>
+  </data>
 </root>

@@ -755,8 +755,8 @@ public static class SeedData
             UpdatedBy = "Seeder",
             Name_EN = "Play Favorite Game",
             Name_BG = "Играй любима игра",
-            Description_EN = "Play your marked favorite game multiple times. Each session with your favorite title counts toward the challenge.",
-            Description_BG = "Играй своята любима игра няколко пъти. Всяка сесия с избраната любима игра се брои за напредъка.",
+            Description_EN = "Play your marked favorite game multiple times. Each session with your favorite title counts toward the challenge. If you don't have a liked/favorite games, random game will be added for this challenge",
+            Description_BG = "Играй своята любима игра няколко пъти. Всяка сесия с избраната любима игра се брои за напредъка. Ако нямаш харесани/любими игри ще бъде добавена игра на случаен принцип.",
             Type = UniversalChallengeType.PlayFavoriteGame,
             Attempts = 3
         },

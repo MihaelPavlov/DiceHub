@@ -62,6 +62,16 @@ export class GameReservations implements OnInit, OnDestroy {
       this.expandedReservationId === reservationId ? null : reservationId;
   }
 
+  public toggleTopItem(
+    reservationId: number,
+    reservationStatus: ReservationStatus
+  ): void {
+    if (reservationStatus === ReservationStatus.Approved) {
+      this.expandedReservationId =
+        this.expandedReservationId === reservationId ? null : reservationId;
+    }
+  }
+
   public isExpanded(reservationId: number): boolean {
     return this.expandedReservationId === reservationId;
   }
@@ -79,6 +89,26 @@ export class GameReservations implements OnInit, OnDestroy {
     this.router.navigateByUrl(FULL_ROUTE.RESERVATION_MANAGEMENT.GAME_HISTORY);
   }
 
+  public onCancel(): void {
+    if (this.expandedReservationId) {
+      const dialogRef = this.dialog.open(ReservationConfirmationDialog, {
+        width: '17rem',
+        data: {
+          type: ReservationType.Game,
+          reservationId: this.expandedReservationId,
+          isCancel: true,
+        },
+      });
+
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          this.activeReservations$ = this.gameService.getActiveReservations();
+          this.expandedReservationId = null;
+        }
+      });
+    }
+  }
+
   public approveReservation(
     reservationDate: Date,
     numberOfGuests: number,
@@ -88,8 +118,6 @@ export class GameReservations implements OnInit, OnDestroy {
     tableReservationDate: Date | null
   ): void {
     if (this.expandedReservationId) {
-      console.log(this.expandedReservationId);
-
       const dialogRef = this.dialog.open(ReservationConfirmationDialog, {
         width: '17rem',
         data: {

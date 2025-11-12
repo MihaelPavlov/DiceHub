@@ -84,12 +84,12 @@ public class ReservationCleanupService : BackgroundService
                 // Handle declined reservations immediately
                 if (reservation.Status == ReservationStatus.Declined)
                 {
-                    await this.CleanupGameReservationAsync(scope, jobInfo.JobId, reservation, traceId, cancellationToken);
+                    await this.CleanupGameReservationAsync(scope, jobInfo.JobId, reservation, traceId, cancellationToken, isDeclined: true);
                     return;
                 }
 
                 // Handle time-based cleanup for non-declined reservations
-                if (DateTime.UtcNow >= reservation.ReservationDate)
+                if (DateTime.UtcNow >= reservation.ReservationDate && reservation.Status == ReservationStatus.Pending)
                 {
                     if (reservation.IsActive)
                     {
@@ -100,6 +100,11 @@ public class ReservationCleanupService : BackgroundService
                         var queuedJobService = scope.ServiceProvider.GetRequiredService<IQueuedJobService>();
                         await queuedJobService.UpdateStatusToCompleted(this.queue.QueueName, jobInfo.JobId);
                     }
+                }
+                else if (DateTime.UtcNow >= reservation.ReservationDate && reservation.Status == ReservationStatus.Accepted)
+                {
+                    var queuedJobService = scope.ServiceProvider.GetRequiredService<IQueuedJobService>();
+                    await queuedJobService.UpdateStatusToCompleted(this.queue.QueueName, jobInfo.JobId);
                 }
                 else
                 {
@@ -121,12 +126,12 @@ public class ReservationCleanupService : BackgroundService
                 // Handle declined reservations immediately
                 if (reservation.Status == ReservationStatus.Declined)
                 {
-                    await this.CleanupSpaceTableReservationAsync(scope, spaceTableReservationRepo, jobInfo.JobId, reservation, traceId, cancellationToken);
+                    await this.CleanupSpaceTableReservationAsync(scope, spaceTableReservationRepo, jobInfo.JobId, reservation, traceId, cancellationToken, isDeclined: true);
                     return;
                 }
 
                 // Handle time-based cleanup for non-declined reservations
-                if (DateTime.UtcNow >= reservation.ReservationDate)
+                if (DateTime.UtcNow >= reservation.ReservationDate && reservation.Status == ReservationStatus.Pending)
                 {
                     if (reservation.IsActive)
                     {
@@ -137,6 +142,11 @@ public class ReservationCleanupService : BackgroundService
                         var queuedJobService = scope.ServiceProvider.GetRequiredService<IQueuedJobService>();
                         await queuedJobService.UpdateStatusToCompleted(this.queue.QueueName, jobInfo.JobId);
                     }
+                }
+                else if (DateTime.UtcNow >= reservation.ReservationDate && reservation.Status == ReservationStatus.Accepted)
+                {
+                    var queuedJobService = scope.ServiceProvider.GetRequiredService<IQueuedJobService>();
+                    await queuedJobService.UpdateStatusToCompleted(this.queue.QueueName, jobInfo.JobId);
                 }
                 else
                 {
@@ -158,7 +168,7 @@ public class ReservationCleanupService : BackgroundService
         logger.LogInformation("Requeued job for reservation ID {reservationId}.", jobInfo.ReservationId);
     }
 
-    private async Task CleanupGameReservationAsync(IServiceScope scope, Guid jobId, GameReservation reservation, string traceId, CancellationToken cancellationToken)
+    private async Task CleanupGameReservationAsync(IServiceScope scope, Guid jobId, GameReservation reservation, string traceId, CancellationToken cancellationToken, bool isDeclined = false)
     {
         var gameInventoryRepository = scope.ServiceProvider.GetRequiredService<IRepository<GameInventory>>();
         var inventory = await gameInventoryRepository.GetByAsyncWithTracking(x => x.GameId == reservation.GameId, cancellationToken);
@@ -174,7 +184,7 @@ public class ReservationCleanupService : BackgroundService
 
         reservation.IsReservationSuccessful = false;
         reservation.IsActive = false;
-        reservation.Status = ReservationStatus.Expired;
+        reservation.Status = isDeclined ? ReservationStatus.Declined : ReservationStatus.Expired;
 
         await gameInventoryRepository.SaveChangesAsync(cancellationToken);
 
@@ -184,11 +194,11 @@ public class ReservationCleanupService : BackgroundService
         logger.LogInformation("Job {traceId}: Deactivated Game reservation ID {reservationId}.", traceId, reservation.Id);
     }
 
-    private async Task CleanupSpaceTableReservationAsync(IServiceScope scope, IRepository<SpaceTableReservation> repository, Guid jobId, SpaceTableReservation reservation, string traceId, CancellationToken cancellationToken)
+    private async Task CleanupSpaceTableReservationAsync(IServiceScope scope, IRepository<SpaceTableReservation> repository, Guid jobId, SpaceTableReservation reservation, string traceId, CancellationToken cancellationToken, bool isDeclined = false)
     {
         reservation.IsActive = false;
         reservation.IsReservationSuccessful = false;
-        reservation.Status = ReservationStatus.Expired;
+        reservation.Status = isDeclined ? ReservationStatus.Declined : ReservationStatus.Expired;
         await repository.SaveChangesAsync(cancellationToken);
 
         var queuedJobService = scope.ServiceProvider.GetRequiredService<IQueuedJobService>();

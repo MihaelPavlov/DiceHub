@@ -594,4 +594,16 @@
   <data name="TenantSettingsEndWorkingHours" xml:space="preserve">
     <value>End working hours are required.</value>
   </data>
+  <data name="SpaceTableCancelledTitle" xml:space="preserve">
+    <value>Your table reservation has been Cancelled</value>
+  </data>
+  <data name="SpaceTableCancelledBody" xml:space="preserve">
+    <value>Your reservation for {0} {1} on {2} has been cancelled.</value>
+  </data>
+  <data name="GameReservationCancelledTitle" xml:space="preserve">
+    <value>Game Reservation Cancelled</value>
+  </data>
+  <data name="GameReservationCancelledBody" xml:space="preserve">
+    <value>Your reservation for game **{0}** with {1} {2} on {3} has been CANCELLED.</value>
+  </data>
 </root>

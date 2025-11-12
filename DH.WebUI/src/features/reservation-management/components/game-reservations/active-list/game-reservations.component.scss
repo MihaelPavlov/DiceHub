@@ -122,6 +122,11 @@
       }
     }
 
+    .btns {
+      display: flex;
+      flex-direction: column;
+    }
+
     .btnWithIcon {
       cursor: pointer;
       padding: 1rem;
@@ -140,6 +145,47 @@
         fill: palette.$main-red-color;
         width: 3rem;
         height: 3rem;
+      }
+    }
+
+    .btnWithIcon {
+      cursor: pointer;
+      padding: 1rem;
+      border: none;
+      background: transparent;
+      color: palette.$main-font-color;
+      border-radius: 0.25rem;
+
+      .accept {
+        fill: palette.$main-green-color;
+        width: 3rem;
+        height: 3rem;
+      }
+
+      .decline {
+        fill: palette.$main-red-color;
+        width: 3rem;
+        height: 3rem;
+      }
+    }
+
+    .btnWithIcon_Small {
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      color: palette.$main-font-color;
+      border-radius: 0.25rem;
+
+      .accept {
+        fill: palette.$main-green-color;
+        width: 2.5rem;
+        height: 2.5rem;
+      }
+
+      .decline {
+        fill: palette.$main-red-color;
+        width: 2.5rem;
+        height: 2.5rem;
       }
     }
 

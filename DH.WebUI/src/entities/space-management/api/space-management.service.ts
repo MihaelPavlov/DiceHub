@@ -157,6 +157,15 @@ export class SpaceManagementService {
     );
   }
 
+  public cancelReservation(reservationId: number): Observable<null> {
+    return this.api.put(
+      `/${PATH.SPACE_MANAGEMENT.CORE}/${PATH.SPACE_MANAGEMENT.CANCEL_RESERVATION}`,
+      {
+        reservationId,
+      }
+    );
+  }
+
   public deleteReservation(id: number): Observable<null> {
     return this.api.delete(
       `/${PATH.SPACE_MANAGEMENT.CORE}/${PATH.SPACE_MANAGEMENT.DELETE_RESERVATION}/${id}`

@@ -57,6 +57,7 @@ public class JobListenerForDeadLetterQueue : JobListenerSupport
                     var addUserChallengePeriodHandler = scope.ServiceProvider.GetRequiredService<IAddUserChallengePeriodHandler>();
                     await addUserChallengePeriodHandler.ProcessFailedReset(JsonSerializer.Serialize(new { context.JobDetail.Key, context.JobDetail.JobDataMap }), jobException.Message, cancellationToken);
                 }
+                //TODO: Check the other jobs and add their handlers here as well
             }
         }
     }

@@ -56,6 +56,54 @@ export class ReservationConfirmationDialog extends Form {
     return this.languageService.getCurrentLanguage();
   }
 
+  public cancelReservation(): void {
+    if (this.data.type === ReservationType.Table) {
+      this.spaceManagementService
+        .cancelReservation(this.data.reservationId)
+        .subscribe({
+          next: () => {
+            this.toastService.success({
+              message: this.translateService.instant(
+                'reservation_management.confirm_dialog.successfully_cancel'
+              ),
+              type: ToastType.Success,
+            });
+
+            this.dialogRef.close(true);
+          },
+          error: () => {
+            this.toastService.error({
+              message: this.translateService.instant(
+                AppToastMessage.SomethingWrong
+              ),
+              type: ToastType.Error,
+            });
+          },
+        });
+    } else if (this.data.type === ReservationType.Game) {
+      this.gameService.cancelReservation(this.data.reservationId).subscribe({
+        next: () => {
+          this.toastService.success({
+            message: this.translateService.instant(
+              'reservation_management.confirm_dialog.successfully_cancel'
+            ),
+            type: ToastType.Success,
+          });
+
+          this.dialogRef.close(true);
+        },
+        error: () => {
+          this.toastService.error({
+            message: this.translateService.instant(
+              AppToastMessage.SomethingWrong
+            ),
+            type: ToastType.Error,
+          });
+        },
+      });
+    }
+  }
+
   public declineReservation(): void {
     if (this.data.type === ReservationType.Table) {
       this.spaceManagementService

@@ -11,4 +11,5 @@ export interface ReservationConfirmation {
   phoneNumber: string;
   userLanguage: string;
   tableReservationDate?: Date | null;
+  isCancel: boolean;
 }

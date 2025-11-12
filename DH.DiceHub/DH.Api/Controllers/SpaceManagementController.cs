@@ -221,6 +221,15 @@ public class SpaceManagementController : ControllerBase
         return Ok();
     }
 
+    [HttpPut("cancel-reservation")]
+    [ActionAuthorize(UserAction.SpaceManagementReservedTablesRU)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> CancelSpaceTableReservation([FromBody] CancelSpaceTableReservationCommand command, CancellationToken cancellationToken)
+    {
+        await this.mediator.Send(command, cancellationToken);
+        return Ok();
+    }
+
     [HttpPost("book-table")]
     [ActionAuthorize(UserAction.SpaceManagementCRUD)]
     [ProducesResponseType(StatusCodes.Status200OK)]

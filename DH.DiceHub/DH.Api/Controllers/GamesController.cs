@@ -250,6 +250,15 @@ public class GamesController : ControllerBase
         return Ok();
     }
 
+    [HttpPut("cancel-reservation")]
+    [ActionAuthorize(UserAction.GamesCUD)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> CancelGameReservation([FromBody] CancelGameReservationCommand command, CancellationToken cancellationToken)
+    {
+        await this.mediator.Send(command, cancellationToken);
+        return Ok();
+    }
+
     [HttpPost("get-reservation-history")]
     [ActionAuthorize(UserAction.GamesCUD)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetGameReservationHistoryQueryModel>))]
