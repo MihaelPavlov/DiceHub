@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { RestApiService } from '../../../shared/services/rest-api.service';
 import { Observable } from 'rxjs';
 import { PATH } from '../../../shared/configs/path.config';
+import { GetClubInfoModel } from '../../profile/models/get-club-info.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +19,12 @@ export class TenantSettingsService {
           responseType: 'text',
         },
       }
+    );
+  }
+
+   public getClubInfo(): Observable<GetClubInfoModel> {
+    return this.api.get<GetClubInfoModel>(
+      `/${PATH.TENANT_SETTINGS.CORE}/${PATH.TENANT_SETTINGS.GET_CLUB_INFO}`
     );
   }
 

@@ -1094,11 +1094,14 @@
       "approved": "Одобрена",
       "declined": "Отказана",
       "approve": "Одобри",
-      "decline": "Откажи"
+      "decline": "Откажи",
+      "cancel": "Отмени"
     },
     "confirm_dialog": {
+      "cancel_description": "Сигурни ли сте, че искате да отмените тази резервация?",
       "successfully_declined": "Резервацията е отказана",
       "successfully_approved": "Резервацията е одобрена",
+      "successfully_cancel": "Резервацията е отменена",
       "approving_reservation": "Одобряване на резервация:",
       "declined_reservation": "Отказване на резервация:",
       "internal_note": "Вътрешна бележка",
@@ -1114,7 +1117,8 @@
       "user_language": "език на потребителя -",
       "existing_table_reservation": "съществуваща резервация на маса",
       "approve": "Одобри",
-      "decline": "Откажи"
+      "decline": "Откажи",
+      "cancel": "Отмени"
     },
     "history": {
       "header": "История",
@@ -1507,5 +1511,13 @@
     "dialog_header_solo_game": "Здравей! Ще играеш ли сам тази игра?",
     "button_no": "Не",
     "button_yes": "Да"
+  },
+  "club_info": {
+    "header": "Информация за клуба",
+    "info_description": "Тук можете да намерите информация за работното време, телефонния номер и почивните дни на клуба.",
+    "working_hours": "Работно време",
+    "phone": "Телефонен номер",
+    "days_off": "Почивни дни",
+    "no_days_off": "Няма почивни дни"
   }
 }

@@ -18,6 +18,7 @@ export const PATH = {
     GET_ACTIVE_RESERVED_GAMES_COUNT: 'get-active-reserved-games-count',
     APPROVE_RESERVATION: 'approve-reservation',
     DECLINE_RESERVATION: 'decline-reservation',
+    CANCEL_RESERVATION: 'cancel-reservation',
     UPDATE_RESERVATION: 'update-reservation',
     DELETE_RESERVATION: 'delete-reservation',
     GET_RESERVATION_HISTORY: 'get-reservation-history',
@@ -99,12 +100,14 @@ export const PATH = {
     GET_RESERVATION_BY_ID: 'get-reservation',
     APPROVE_RESERVATION: 'approve-reservation',
     DECLINE_RESERVATION: 'decline-reservation',
+    CANCEL_RESERVATION: 'cancel-reservation',
     UPDATE_RESERVATION: 'update-reservation',
     DELETE_RESERVATION: 'delete-reservation',
   },
   TENANT_SETTINGS: {
     CORE: 'api/tenantSettings',
     GET_CLUB_NAME: 'get-club-name',
+    GET_CLUB_INFO: 'club-info',
   },
   USER_SETTINGS: {
     CORE: 'api/tenantUserSettings',
@@ -143,7 +146,7 @@ export const PATH = {
   SCHEDULER: {
     CORE: 'api/scheduler',
     GET_SCHEDULE_JOBS: 'get-schedule-jobs',
-    RUN_USER_CHALLENGE_PERIOD_JOB:'run-user-challenge-period-job'
+    RUN_USER_CHALLENGE_PERIOD_JOB: 'run-user-challenge-period-job',
   },
   // AUTH: {
   //   LOGIN: 'auth/user/login',

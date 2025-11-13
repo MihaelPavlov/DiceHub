@@ -30,6 +30,15 @@ public class TenantSettingsController : ControllerBase
         return Ok(result.ClubName);
     }
 
+    [HttpGet("club-info")]
+    [ActionAuthorize(UserAction.TenantSettingsR)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetClubInfoModel))]
+    public async Task<IActionResult> GetClubInfo(CancellationToken cancellationToken)
+    {
+        var result = await this.mediator.Send(new GetClubInfoQuery(), cancellationToken);
+        return Ok(result);
+    }
+
     [HttpGet]
     [ActionAuthorize(UserAction.TenantSettingsR)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TenantSettingDto))]

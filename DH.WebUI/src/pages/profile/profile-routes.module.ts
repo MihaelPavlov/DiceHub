@@ -10,6 +10,9 @@ import { AddUpdateEmployeeComponent } from '../../features/profile/components/ad
 import { OwnerDetailsComponent } from '../../features/profile/components/owner-details/owner-details.component';
 import { SettingsSuperAdminAccessGuard } from './guards/settings-super-admin-access.guard';
 import { JobsComponent } from '../../features/profile/components/jobs/jobs.component';
+import {
+  ClubInfo
+} from '../../features/profile/components/club-info/club-info.component';
 
 const routes: Routes = [
   {
@@ -50,6 +53,10 @@ const routes: Routes = [
     path: 'jobs',
     component: JobsComponent,
     canActivate: [SettingsSuperAdminAccessGuard],
+  },
+  {
+    path: 'club-info',
+    component: ClubInfo,
   },
   // {
   //   path: 'add-owner',

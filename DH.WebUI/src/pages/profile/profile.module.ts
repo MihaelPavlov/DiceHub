@@ -12,6 +12,7 @@ import { EmployeeConfirmDeleteDialog } from '../../features/profile/dialogs/empl
 import { MatDialogActions, MatDialogClose } from '@angular/material/dialog';
 import { OwnerDetailsComponent } from '../../features/profile/components/owner-details/owner-details.component';
 import { JobsComponent } from '../../features/profile/components/jobs/jobs.component';
+import { ClubInfo } from '../../features/profile/components/club-info/club-info.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { JobsComponent } from '../../features/profile/components/jobs/jobs.compo
     AddUpdateEmployeeComponent,
     EmployeeConfirmDeleteDialog,
     OwnerDetailsComponent,
-    JobsComponent
+    JobsComponent,
+    ClubInfo
   ],
   exports: [],
   providers: [],

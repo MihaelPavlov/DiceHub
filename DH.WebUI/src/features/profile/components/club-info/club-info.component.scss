@@ -1,0 +1,108 @@
+@use "../../.././../shared/assets/styles/palette";
+
+.wrapper_icons {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 1rem;
+  padding-top: 1rem;
+  align-items: center;
+
+  .header_name {
+    font-size: 1.5rem;
+    padding-top: 1rem;
+    padding-bottom: 0.5rem;
+    word-wrap: break-word;
+    width: 70%;
+    text-align: center;
+  }
+
+  .info-container {
+    position: relative;
+
+    .info {
+      width: 3rem;
+      height: 3rem;
+      fill: palette.$main-blue-color;
+
+      &__text {
+        position: absolute;
+        right: 0.5rem;
+        top: 2.25rem;
+        background-color: palette.$main-gray-color;
+        padding: 0.5rem;
+        z-index: 1000;
+        width: 10rem;
+        text-align: center;
+      }
+    }
+  }
+
+  .arrow {
+    width: 3rem;
+    height: 3rem;
+    display: inline-block;
+    position: relative;
+    border: 0.1rem solid palette.$main-icon-color;
+    border-radius: 2.5rem;
+
+    &::before {
+      content: "";
+      display: block;
+      width: 0.75rem;
+      height: 0.75rem;
+      top: 65%;
+      left: 63%;
+      border-style: solid;
+      border-color: palette.$main-icon-color;
+      border-width: 0.2rem 0.2rem 0 0;
+      position: absolute;
+      transform-origin: 50% 50%;
+    }
+
+    &.left::before {
+      transform: rotate(-135deg);
+      margin: -0.9rem 0 0 -0.6rem;
+    }
+  }
+}
+
+
+.club-info {
+  margin: 1rem;
+  padding: 1rem;
+  background-color: palette.$main-gray-color;
+  border-radius: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+
+  &__item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+    color: palette.$main-font-gray-color;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__label {
+    font-weight: bold;
+    color: palette.$main-font-gray-color;
+  }
+
+  &__value {
+    text-align: right;
+    color: palette.$main-font-gray-color;
+  }
+
+  &__phone {
+    text-decoration: none;
+    color: palette.$main-font-gray-color;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
