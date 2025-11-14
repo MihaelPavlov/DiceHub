@@ -761,4 +761,15 @@ public class UserService : IUserService
 
         return user!.TimeZone;
     }
+
+    public async Task<bool> IsUserInRole(string userId, Role role, CancellationToken cancellationToken)
+    {
+        var user = await this.userManager.Users
+           .Where(x => x.Id == userId && !x.IsDeleted).FirstOrDefaultAsync();
+
+        if (user is null)
+            return false;
+
+        return await this.userManager.IsInRoleAsync(user, role.ToString());
+    }
 }

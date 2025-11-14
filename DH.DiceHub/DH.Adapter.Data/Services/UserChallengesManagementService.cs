@@ -1,4 +1,5 @@
-﻿using DH.Domain.Adapters.Authentication.Services;
+﻿using DH.Domain.Adapters.Authentication.Models.Enums;
+using DH.Domain.Adapters.Authentication.Services;
 using DH.Domain.Adapters.PushNotifications;
 using DH.Domain.Adapters.PushNotifications.Messages;
 using DH.Domain.Adapters.Scheduling;
@@ -226,6 +227,11 @@ public class UserChallengesManagementService : IUserChallengesManagementService
     //IMPORTANT! Every Sunday at 12:00 AM reset all reward for everybody 
     public async Task<bool> InitiateUserChallengePeriod(string userId, CancellationToken cancellationToken, bool forNewUser = false)
     {
+        var isUserInRoleUser = await this.userService.IsUserInRole(userId, Role.User, cancellationToken);
+
+        if (!isUserInRoleUser)
+            return true;
+
         using (var context = await this.dbContextFactory.CreateDbContextAsync(cancellationToken))
         {
             using (var transaction = await context.Database.BeginTransactionAsync(cancellationToken))

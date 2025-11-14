@@ -77,4 +77,6 @@ public interface IUserService
     /// </summary>
     /// <param name="employeeId"></param>
     Task DeleteEmployee(string employeeId);
+
+    Task<bool> IsUserInRole(string userId, Role role, CancellationToken cancellationToken);
 }
