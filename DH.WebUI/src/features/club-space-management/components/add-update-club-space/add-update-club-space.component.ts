@@ -147,7 +147,18 @@ export class AddUpdateClubSpaceComponent extends Form implements OnInit {
             this.router.navigateByUrl(FULL_ROUTE.SPACE_MANAGEMENT.HOME);
           },
           error: (error) => {
-            this.handleServerErrors(error);
+             if (error.error.errors.UserHaveActiveTable)
+              this.getServerErrorMessage =
+                error.error.errors.UserHaveActiveTable[0];
+
+            if (error.error.errors.UserParticipateInActiveTable)
+              this.getServerErrorMessage =
+                error.error.errors.UserParticipateInActiveTable[0];
+
+            if (error.error.errors.NoAvailableCopies)
+              this.getServerErrorMessage =
+                error.error.errors.NoAvailableCopies[0];
+            // this.handleServerErrors(error);
             this.toastService.error({
               message: this.translateService.instant(
                 AppToastMessage.FailedToSaveChanges
