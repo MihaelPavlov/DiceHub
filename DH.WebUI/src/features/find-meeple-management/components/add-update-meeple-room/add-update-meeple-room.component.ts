@@ -338,16 +338,18 @@ export class AddUpdateMeepleRoomComponent
 
   protected override handleAdditionalErrors(): string | null {
     const startDate = this.form.get('startDate')?.value;
+    if (startDate) {
+      const selectedDate = new Date(startDate);
+      const today = new Date();
+      selectedDate.setHours(0, 0, 0, 0);
+      today.setHours(0, 0, 0, 0);
 
-    if (
-      startDate &&
-      new Date(startDate).getTime() < new Date().setHours(0, 0, 0, 0)
-    ) {
-      return this.translateService.instant(
-        'meeple.add_update.validation_message_cannot_be_today'
-      );
+      if (selectedDate <= today) {
+        return this.translateService.instant(
+          'meeple.add_update.validation_message_cannot_be_today'
+        );
+      }
     }
-
     return null;
   }
 
