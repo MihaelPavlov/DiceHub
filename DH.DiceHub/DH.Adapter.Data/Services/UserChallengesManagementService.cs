@@ -143,6 +143,15 @@ public class UserChallengesManagementService : IUserChallengesManagementService
                         }
 
                         var userPerformance = userPerformances.FirstOrDefault(x => x.IsPeriodActive);
+
+                        var hasAlreadySameDayPeriod = userPerformance != null && userPerformance.CreatedDate.Date == now.Date;
+
+                        if (hasAlreadySameDayPeriod)
+                        {
+                            // Skip this user — challenge period is valid
+                            continue;
+                        }
+
                         isInvalid = userPerformance == null || now > userPerformance.EndDate;
 
                         if (!isInvalid)
@@ -191,7 +200,8 @@ public class UserChallengesManagementService : IUserChallengesManagementService
                             Points = 0,
                             StartDate = startDate,
                             EndDate = nextResetDate.Value,
-                            TimePeriodType = settingPeriod
+                            TimePeriodType = settingPeriod,
+                            CreatedDate = DateTime.UtcNow,
                         };
 
                         await SetupPeriod(newUserPerformance, context, userId, tenantSettings, includeChallenges: false, cancellationToken);
@@ -265,7 +275,8 @@ public class UserChallengesManagementService : IUserChallengesManagementService
                         Points = 0,
                         StartDate = startDate,
                         EndDate = nextResetDate,
-                        TimePeriodType = settingPeriod
+                        TimePeriodType = settingPeriod,
+                        CreatedDate = DateTime.UtcNow,
                     };
 
                     await SetupPeriod(userPerformance, context, userId, tenantSettings, includeChallenges: forNewUser, cancellationToken);
