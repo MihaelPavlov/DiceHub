@@ -140,7 +140,9 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
           startWorkingHours: tenantSettings.startWorkingHours,
           endWorkingHours: tenantSettings.endWorkingHours,
           language:
-            SupportLanguages[userSettings.language] ?? SupportLanguages.EN,
+            userSettings !== null
+              ? SupportLanguages[userSettings.language]
+              : SupportLanguages.EN,
           challengeInitiationDelayHours:
             tenantSettings.challengeInitiationDelayHours,
           bonusTimeAfterReservationExpiration:
@@ -203,7 +205,7 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
               language: newLanguage,
               phoneNumber: this.form.controls.phoneNumber.value,
             };
-            
+
             return combineLatest([
               this.tenantSettingsService.update({
                 id: this.tenantSettingsId,
