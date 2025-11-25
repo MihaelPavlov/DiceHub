@@ -28,16 +28,20 @@ public static class TimePeriodTypeHelper
 
         if (periodType == TimePeriodType.Weekly)
         {
+            var tz = TimeZoneInfo.FindSystemTimeZoneById("Europe/Sofia");
+            var nowBg = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, tz);
             // Parse ResetDayForRewards as a DayOfWeek
-            if (Enum.TryParse<DayOfWeek>(resetDayForRewards, true, out var resetDayOfWeek))
+            if (Enum.TryParse<DayOfWeek>(resetDayForRewards, true, out var resetDay))
             {
                 // Calculate next occurrence of specified day at 12:00 PM
-                int daysUntilReset = ((int)resetDayOfWeek - (int)DateTime.UtcNow.DayOfWeek + 7) % 7;
-               
+                int daysUntilReset = ((int)resetDay - (int)nowBg.DayOfWeek + 7) % 7;
+
                 // Not needed if we have day on monday, and today is monday and we will create period till the end of the day . 
                 //if (daysUntilReset == 0)
                 //    daysUntilReset = 7;
-                nextResetDate = DateTime.UtcNow.Date.AddDays(daysUntilReset).AddHours(resetHour);
+                var resetDateBg = nowBg.Date.AddDays(daysUntilReset);
+                resetDateBg = resetDateBg.AddDays(1).AddSeconds(-1);
+                return TimeZoneInfo.ConvertTimeToUtc(resetDateBg, tz);
             }
         }
         else if (periodType == TimePeriodType.Monthly)

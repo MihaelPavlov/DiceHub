@@ -10,6 +10,7 @@ using DH.Domain.Services;
 using DH.Domain.Services.TenantSettingsService;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using NodaTime;
 using Npgsql;
 using System.Security.Cryptography;
 
@@ -113,6 +114,7 @@ public class UserChallengesManagementService : IUserChallengesManagementService
     /// <inheritdoc/>
     public async Task EnsureValidUserChallengePeriodsAsync(CancellationToken cancellationToken)
     {
+
         var now = DateTime.UtcNow;
         DateTime? nextResetDate = null;
         using (var context = await this.dbContextFactory.CreateDbContextAsync(cancellationToken))
@@ -120,6 +122,14 @@ public class UserChallengesManagementService : IUserChallengesManagementService
             var userIds = await this.userService.GetAllUserIds(cancellationToken);
             foreach (var userId in userIds)
             {
+                var isUserInRoleUser = await this.userService.IsUserInRole(userId, Role.User, cancellationToken);
+
+                if (!isUserInRoleUser)
+                {
+                    this.logger.LogWarning("EnsureValidUserChallengePeriodsAsync for {UserId} was skipped because the user is not in User Role", userId);
+                    continue;
+                }
+
                 using (var transaction = await context.Database.BeginTransactionAsync(cancellationToken))
                 {
                     try
@@ -149,6 +159,7 @@ public class UserChallengesManagementService : IUserChallengesManagementService
                         if (hasAlreadySameDayPeriod)
                         {
                             // Skip this user — challenge period is valid
+                            this.logger.LogWarning("EnsureValidUserChallengePeriodsAsync for {UserId} has already same day active period", userId);
                             continue;
                         }
 
@@ -157,6 +168,7 @@ public class UserChallengesManagementService : IUserChallengesManagementService
                         if (!isInvalid)
                         {
                             // Skip this user — challenge period is valid
+                            this.logger.LogWarning("EnsureValidUserChallengePeriodsAsync for {UserId} has invalid  user performance", userId);
                             continue;
                         }
 
@@ -240,7 +252,10 @@ public class UserChallengesManagementService : IUserChallengesManagementService
         var isUserInRoleUser = await this.userService.IsUserInRole(userId, Role.User, cancellationToken);
 
         if (!isUserInRoleUser)
+        {
+            this.logger.LogWarning("InitiateUserChallengePeriod for {UserId} was skipped because the user is not in User Role", userId);
             return true;
+        }
 
         using (var context = await this.dbContextFactory.CreateDbContextAsync(cancellationToken))
         {
@@ -253,6 +268,7 @@ public class UserChallengesManagementService : IUserChallengesManagementService
                     var settingPeriod = Enum.Parse<TimePeriodType>(tenantSettings.PeriodOfRewardReset);
                     var startDate = DateTime.UtcNow.Date;
                     var nextResetDate = TimePeriodTypeHelper.CalculateNextResetDate(settingPeriod, tenantSettings.ResetDayForRewards);
+                    this.logger.LogInformation("InitiateUserChallengePeriod {UserId} next reset date is for {NextResetDate}", userId, nextResetDate);
 
                     var existingPeriod = await context.UserChallengePeriodPerformances
                         .AnyAsync(x =>
