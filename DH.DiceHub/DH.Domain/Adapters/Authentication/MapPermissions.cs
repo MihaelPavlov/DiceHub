@@ -40,6 +40,7 @@ public class MapPermissions : IMapPermissions, IActionPermissions<UserAction>
         { UserAction.EmployeesCRUD, new List<Role> { Role.SuperAdmin, Role.Owner } },
         { UserAction.UsersRead, new List<Role> { Role.SuperAdmin, Role.Owner, Role.Staff, Role.User } },
         { UserAction.OwnerCRUD, new List<Role> { Role.SuperAdmin} },
+        { UserAction.OwnerStats, new List<Role> { Role.SuperAdmin, Role.Owner} },
         { UserAction.SchedulerCRUD, new List<Role> { Role.SuperAdmin} },
     };
 

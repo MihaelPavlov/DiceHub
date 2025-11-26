@@ -28,6 +28,7 @@ public class SpaceTableService : ISpaceTableService
         using (var context = await this.dbContextFactory.CreateDbContextAsync(cancellationToken))
         {
             var activeTables = await context.SpaceTables
+                .AsTracking()
                 .Where(r => r.IsTableActive)
                 .ToListAsync(cancellationToken);
 
@@ -41,9 +42,22 @@ public class SpaceTableService : ISpaceTableService
                 table.IsTableActive = false;
             }
 
-            var activeTableParticipantList = await context.SpaceTableParticipants
-                .Where(x => activeTableIds.Contains(x.SpaceTableId))
+            var gameIds = activeTables.Select(x => x.GameId).Distinct().ToList();
+
+            var gameInventories = await context.GameInventories
+                .AsTracking()
+                .Where(x => gameIds.Contains(x.GameId))
                 .ToListAsync(cancellationToken);
+
+            foreach (var inventory in gameInventories)
+            {
+                var tablesForGame = activeTables.Where(x => x.GameId == inventory.GameId).ToList();
+                inventory.AvailableCopies += tablesForGame.Count;
+            }
+
+            var activeTableParticipantList = await context.SpaceTableParticipants
+            .Where(x => activeTableIds.Contains(x.SpaceTableId))
+            .ToListAsync(cancellationToken);
 
             context.RemoveRange(activeTableParticipantList);
 

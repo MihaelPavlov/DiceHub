@@ -33,5 +33,6 @@ public enum UserAction
     EventsAdminRead = 23,
     UsersRead = 24,
     OwnerCRUD = 25,
-    SchedulerCRUD = 26
+    SchedulerCRUD = 26,
+    OwnerStats = 27
 }

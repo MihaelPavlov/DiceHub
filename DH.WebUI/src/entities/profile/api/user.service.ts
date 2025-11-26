@@ -5,6 +5,7 @@ import { IUser } from '../models/user.model';
 import { PATH } from '../../../shared/configs/path.config';
 import { GetUserStats } from '../models/get-user-stats.interface';
 import { IOwnerResult } from '../models/owner-result.interface';
+import { GetOwnerStats } from '../models/get-owner-stats.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -43,6 +44,12 @@ export class UsersService {
   public getUserStats(): Observable<GetUserStats> {
     return this.api.get<GetUserStats>(
       `/${PATH.USER.CORE}/${PATH.USER.GET_USER_STATS}`
+    );
+  }
+
+   public getOwnerStats(): Observable<GetOwnerStats> {
+    return this.api.get<GetOwnerStats>(
+      `/${PATH.USER.CORE}/${PATH.USER.GET_OWNER_STATS}`
     );
   }
 

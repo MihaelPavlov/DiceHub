@@ -1,8 +1,10 @@
-﻿using DH.Domain.Adapters.Statistics.Enums;
+﻿using DH.Domain.Adapters.Authentication;
+using DH.Domain.Adapters.Statistics.Enums;
 using DH.Domain.Adapters.Statistics.Services;
 using DH.Domain.Entities;
 using DH.Domain.Enums;
 using DH.Domain.Helpers;
+using DH.Domain.Models.SpaceManagementModels.Queries;
 using DH.Domain.Models.StatisticsModels.Queries;
 using DH.OperationResultCore.Exceptions;
 using DH.OperationResultCore.Extension;
@@ -13,9 +15,63 @@ using static DH.Domain.Adapters.Statistics.StatisticJobQueue;
 namespace DH.Adapter.Data.Services;
 
 internal class StatisticsService(
-    IDbContextFactory<TenantDbContext> dbContextFactory) : IStatisticsService
+    IDbContextFactory<TenantDbContext> dbContextFactory,
+    IUserContext userContext) : IStatisticsService
 {
     readonly IDbContextFactory<TenantDbContext> dbContextFactory = dbContextFactory;
+    readonly IUserContext userContext = userContext;
+
+    public async Task<GetUserStatsQueryModel> GetUserProfileStats(CancellationToken cancellationToken)
+    {
+        using (var context = await this.dbContextFactory.CreateDbContextAsync(cancellationToken))
+        {
+            var tables = await context.SpaceTables
+                .Where(r => r.CreatedBy == this.userContext.UserId)
+                .ToListAsync(cancellationToken);
+
+            var participantInTables = await context.SpaceTableParticipants
+                .Where(r => r.UserId == this.userContext.UserId)
+                .ToListAsync(cancellationToken);
+
+            var uniqueGamesPlayed = tables
+                .Select(x => x.GameId)
+                .Union(participantInTables
+                    .Select(x => x.SpaceTable.GameId))
+                .Distinct()
+                .Count();
+
+            var gameReservationsCount = await context.GameReservations
+                .CountAsync(x => x.IsReservationSuccessful && x.UserId == this.userContext.UserId, cancellationToken);
+
+            var tableReservationsCount = await context.SpaceTableReservations
+                .CountAsync(x => x.IsReservationSuccessful && x.UserId == this.userContext.UserId, cancellationToken);
+
+            var events = await context.EventParticipants.Where(
+                x => x.UserId == this.userContext.UserId).ToListAsync(cancellationToken);
+
+            return new GetUserStatsQueryModel(uniqueGamesPlayed, gameReservationsCount + tableReservationsCount, events.Count);
+        }
+    }
+
+    public async Task<GetOwnerStatsQueryModel> GetOwnerProfileStats(CancellationToken cancellationToken)
+    {
+        using (var context = await this.dbContextFactory.CreateDbContextAsync(cancellationToken))
+        {
+            var uniqueGames = await context.Games.CountAsync(cancellationToken);
+            var uniqueEvents = await context.Events.CountAsync(cancellationToken);
+
+            var gameReservationsCount = await context.GameReservations
+                .CountAsync(x => x.IsReservationSuccessful, cancellationToken);
+
+            var tableReservationsCount = await context.SpaceTableReservations
+                .CountAsync(x => x.IsReservationSuccessful, cancellationToken);
+
+            var events = await context.EventParticipants.Where(
+                x => x.UserId == this.userContext.UserId).ToListAsync(cancellationToken);
+
+            return new GetOwnerStatsQueryModel(uniqueGames, gameReservationsCount + tableReservationsCount, events.Count);
+        }
+    }
 
     public async Task ChallengeProcessingOutcomeMessage(ChallengeProcessingOutcomeJob job)
     {

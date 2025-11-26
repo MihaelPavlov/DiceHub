@@ -27,30 +27,52 @@
     </div>
   </div> -->
 
-  <div class="wrapper_stats_2" *ngIf="userStats | async as stats">
-    <div class="item">
-      <span class="item-value"> {{ stats.uniquePlayedGames }} </span>
-      <span class="item-header"> {{ "profile.games" | translate }} </span>
+  <ng-container *ngIf="this.isOwnerOrSuperAdmin">
+    <div class="wrapper_stats_2" *ngIf="ownerStats | async as stats">
+      <div class="item">
+        <span class="item-value"> {{ stats.clubGames }} </span>
+        <span class="item-header"> {{ "profile.games" | translate }} </span>
+      </div>
+      <span class="border-right"></span>
+      <div class="item">
+        <span class="item-value"> {{ stats.totalClubReservations }} </span>
+        <span class="item-header">
+          {{ "profile.reservations" | translate }}
+        </span>
+      </div>
+      <span class="border-right"></span>
+      <div class="item">
+        <span class="item-value"> {{ stats.totalEvents }} </span>
+        <span class="item-header"> {{ "profile.events" | translate }} </span>
+      </div>
     </div>
-    <span class="border-right"></span>
+  </ng-container>
+  <ng-container *ngIf="!this.isOwnerOrSuperAdmin">
+    <div class="wrapper_stats_2" *ngIf="userStats | async as stats">
+      <div class="item">
+        <span class="item-value"> {{ stats.uniquePlayedGames }} </span>
+        <span class="item-header"> {{ "profile.games" | translate }} </span>
+      </div>
+      <span class="border-right"></span>
 
-    <!-- FUTURE IMPROVEMENTS -->
-    <!-- <div class="item">
-      <span class="item-value"> 88 </span>
-      <span class="item-header"> Points </span>
-    </div> -->
-    <div class="item">
-      <span class="item-value"> {{ stats.reservations }} </span>
-      <span class="item-header">
-        {{ "profile.reservations" | translate }}
-      </span>
+      <!-- FUTURE IMPROVEMENTS -->
+      <!-- <div class="item">
+          <span class="item-value"> 88 </span>
+          <span class="item-header"> Points </span>
+        </div> -->
+      <div class="item">
+        <span class="item-value"> {{ stats.reservations }} </span>
+        <span class="item-header">
+          {{ "profile.reservations" | translate }}
+        </span>
+      </div>
+      <span class="border-right"></span>
+      <div class="item">
+        <span class="item-value"> {{ stats.events }} </span>
+        <span class="item-header"> {{ "profile.events" | translate }} </span>
+      </div>
     </div>
-    <span class="border-right"></span>
-    <div class="item">
-      <span class="item-value"> {{ stats.events }} </span>
-      <span class="item-header"> {{ "profile.events" | translate }} </span>
-    </div>
-  </div>
+  </ng-container>
 
   <div class="wrapper_menu">
     <div class="menu">

@@ -17,6 +17,7 @@ using DH.Application.Emails.Commands;
 using DH.Domain.Adapters.Email.Models;
 using DH.Domain.Models.Common;
 using DH.Domain.Services.TenantSettingsService;
+using DH.Domain.Models.SpaceManagementModels.Queries;
 
 namespace DH.Api.Controllers;
 
@@ -357,6 +358,16 @@ public class UserController : ControllerBase
     public async Task<IActionResult> GetUserStats(CancellationToken cancellationToken)
     {
         var result = await this.mediator.Send(new GetUserStatsQuery(), cancellationToken);
+        return Ok(result);
+    }
+
+    [Authorize]
+    [HttpGet("get-owner-stats")]
+    [ActionAuthorize(UserAction.OwnerStats)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetOwnerStatsQueryModel))]
+    public async Task<IActionResult> GetOwnerStats(CancellationToken cancellationToken)
+    {
+        var result = await this.mediator.Send(new GetOwnerStatsQuery(), cancellationToken);
         return Ok(result);
     }
 }

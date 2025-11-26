@@ -126,6 +126,7 @@ export const PATH = {
     GET_OWNER: 'get-owner',
     DELETE_OWNER: 'delete-owner',
     GET_USER_STATS: 'get-user-stats',
+    GET_OWNER_STATS: 'get-owner-stats',
   },
   STATISTICS: {
     CORE: 'api/statistics',

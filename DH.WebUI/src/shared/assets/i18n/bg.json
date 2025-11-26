@@ -1499,7 +1499,7 @@
     "user_rank": {
       "not_any_challenges_completed": "Завършете предизвикателство, за да видите ранга си.",
       "your_rank_is": "Вашият ранг е",
-      "out_of_x_users": "от {{usersCount}} потребители"
+      "out_of_x_users": "от {{usersCount}} потребителя"
     },
     "th": "№",
     "no_completed_challenges_1": "През този период не са завършени предизвикателства.",

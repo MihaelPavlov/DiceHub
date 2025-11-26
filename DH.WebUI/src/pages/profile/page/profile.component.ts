@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MenuTabsService } from '../../../shared/services/menu-tabs.service';
 import { NAV_ITEM_LABELS } from '../../../shared/models/nav-items-labels.const';
 import { AuthService } from '../../../entities/auth/auth.service';
@@ -9,15 +9,17 @@ import { GetUserStats } from '../../../entities/profile/models/get-user-stats.in
 import { Observable } from 'rxjs';
 import { NavigationService } from '../../../shared/services/navigation-service';
 import { FULL_ROUTE, ROUTE } from '../../../shared/configs/route.config';
+import { GetOwnerStats } from '../../../entities/profile/models/get-owner-stats.interface';
 
 @Component({
   selector: 'app-profile',
   templateUrl: 'profile.component.html',
   styleUrl: 'profile.component.scss',
 })
-export class ProfileComponent implements OnDestroy {
+export class ProfileComponent implements OnInit, OnDestroy {
   public username: string = this.authService.getUser?.username || '';
   public userStats!: Observable<GetUserStats>;
+  public ownerStats!: Observable<GetOwnerStats>;
 
   constructor(
     private readonly menuTabsService: MenuTabsService,
@@ -27,8 +29,20 @@ export class ProfileComponent implements OnDestroy {
     private readonly router: Router
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.PROFILE);
+  }
+  public ngOnInit(): void {
+    if (this.isOwnerOrSuperAdmin) {
+      this.ownerStats = this.usersService.getOwnerStats();
+    } else {
+      this.userStats = this.usersService.getUserStats();
+    }
+  }
 
-    this.userStats = this.usersService.getUserStats();
+  public get isOwnerOrSuperAdmin(): boolean {
+    return (
+      this.authService.getUser?.role === UserRole.Owner ||
+      this.authService.getUser?.role === UserRole.SuperAdmin
+    );
   }
 
   public ngOnDestroy(): void {
@@ -100,7 +114,7 @@ export class ProfileComponent implements OnDestroy {
     this.router.navigateByUrl(FULL_ROUTE.CHARTS.CHALLENGES_LEADERBOARD);
   }
 
-  public navigateToClubInfo():void{
+  public navigateToClubInfo(): void {
     this.router.navigateByUrl(FULL_ROUTE.PROFILE.CLUB_INFO);
   }
 
