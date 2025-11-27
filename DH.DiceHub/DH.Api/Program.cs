@@ -103,6 +103,8 @@ var test = FirebaseApp.Create(new AppOptions()
 
 Console.WriteLine(test.Options.ProjectId);
 
+builder.Services.AddHostedService<MemoryMonitorService>();
+
 builder.Services.AddFirebaseMessaging();
 builder.Services.AddHealthChecks();
 builder.Services.AddLocalizationAdapter();
