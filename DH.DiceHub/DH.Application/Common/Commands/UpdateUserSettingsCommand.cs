@@ -60,13 +60,15 @@ internal class UpdateUserSettingsCommandHandler(
         {
             dbSettings.PhoneNumber = request.Settings.PhoneNumber;
         }
-
+        var isLanguageChanged = false;
         if (dbSettings!.Language != request.Settings.Language)
         {
             dbSettings.Language = request.Settings.Language;
-            this.userSettingsCache.InvalidateLanguage(currentUserId);
+            isLanguageChanged = true;
         }
 
         await this.repository.SaveChangesAsync(cancellationToken);
+
+        if (isLanguageChanged) this.userSettingsCache.InvalidateLanguage(currentUserId);
     }
 }

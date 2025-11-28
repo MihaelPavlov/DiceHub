@@ -159,8 +159,6 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
         }
 
         this.userSettings = userSettings;
-        if (this.userSettings)
-          this.languageService.setLanguage(userSettings.language);
       },
     });
   }
@@ -260,8 +258,6 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
                 FULL_ROUTE.CHALLENGES.ADMIN_CUSTOM_PERIOD
               );
             }
-
-            this.fetchSettings();
 
             this.toastService.success({
               message: this.translateService.instant(

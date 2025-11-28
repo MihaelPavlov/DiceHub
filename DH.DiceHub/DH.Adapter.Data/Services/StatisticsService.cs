@@ -66,10 +66,7 @@ internal class StatisticsService(
             var tableReservationsCount = await context.SpaceTableReservations
                 .CountAsync(x => x.IsReservationSuccessful, cancellationToken);
 
-            var events = await context.EventParticipants.Where(
-                x => x.UserId == this.userContext.UserId).ToListAsync(cancellationToken);
-
-            return new GetOwnerStatsQueryModel(uniqueGames, gameReservationsCount + tableReservationsCount, events.Count);
+            return new GetOwnerStatsQueryModel(uniqueGames, gameReservationsCount + tableReservationsCount, uniqueEvents);
         }
     }
 
