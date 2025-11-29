@@ -80,7 +80,7 @@
 }
 .wrapper_settings.active .blur-overlay {
   opacity: 0.5;
-  backdrop-filter: blur(1rem);
+  backdrop-filter: blur(0.2rem);
   pointer-events: all;
   visibility: visible; /* Shows overlay */
 }
