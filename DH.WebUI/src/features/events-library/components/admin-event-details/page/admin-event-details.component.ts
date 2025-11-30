@@ -9,6 +9,12 @@ import { FULL_ROUTE } from '../../../../../shared/configs/route.config';
 import { DateHelper } from '../../../../../shared/helpers/date-helper';
 import { LanguageService } from '../../../../../shared/services/language.service';
 import { SupportLanguages } from '../../../../../entities/common/models/support-languages.enum';
+import {
+  ImagePreviewData,
+  ImagePreviewDialog,
+} from '../../../../../shared/dialogs/image-preview/image-preview.dialog';
+import { TranslateService } from '@ngx-translate/core';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-admin-event-details',
@@ -27,7 +33,9 @@ export class AdminEventDetailsComponent implements OnInit, OnDestroy {
     private readonly activeRoute: ActivatedRoute,
     private readonly menuTabsService: MenuTabsService,
     private readonly router: Router,
-    private readonly languageService: LanguageService
+    private readonly languageService: LanguageService,
+    private readonly translateService: TranslateService,
+    private readonly dialog: MatDialog
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.EVENTS);
   }
@@ -58,6 +66,16 @@ export class AdminEventDetailsComponent implements OnInit, OnDestroy {
 
   public getImage(event: IEventByIdResult): Observable<string> {
     return this.eventService.getImage(event.isCustomImage, event.imageId);
+  }
+
+  public openImagePreview(imageUrl: string) {
+    this.dialog.open<ImagePreviewDialog, ImagePreviewData>(ImagePreviewDialog, {
+      data: {
+        imageUrl,
+        title: this.translateService.instant('image'),
+      },
+      width: '17rem',
+    });
   }
 
   private fetchEvent(): void {

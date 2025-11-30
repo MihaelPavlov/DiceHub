@@ -1,4 +1,3 @@
-import { ReactiveFormsModule } from '@angular/forms';
 import { Component } from '@angular/core';
 import { IEventByIdResult } from '../../../../../entities/events/models/event-by-id.mode';
 import { Observable } from 'rxjs';
@@ -14,6 +13,11 @@ import { FULL_ROUTE } from '../../../../../shared/configs/route.config';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../../../shared/services/language.service';
 import { SupportLanguages } from '../../../../../entities/common/models/support-languages.enum';
+import {
+  ImagePreviewDialog,
+  ImagePreviewData,
+} from '../../../../../shared/dialogs/image-preview/image-preview.dialog';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-event-details',
@@ -35,7 +39,8 @@ export class EventDetailsComponent {
     private readonly toastService: ToastService,
     private readonly router: Router,
     private readonly translateService: TranslateService,
-    private readonly languageService: LanguageService
+    private readonly languageService: LanguageService,
+    private readonly dialog: MatDialog
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.EVENTS);
   }
@@ -122,6 +127,16 @@ export class EventDetailsComponent {
 
   public getImage(event: IEventByIdResult): Observable<string> {
     return this.eventService.getImage(event.isCustomImage, event.imageId);
+  }
+
+  public openImagePreview(imageUrl: string) {
+    this.dialog.open<ImagePreviewDialog, ImagePreviewData>(ImagePreviewDialog, {
+      data: {
+        imageUrl,
+        title: this.translateService.instant('image'),
+      },
+      width: '17rem',
+    });
   }
 
   private fetchEvent(): void {
