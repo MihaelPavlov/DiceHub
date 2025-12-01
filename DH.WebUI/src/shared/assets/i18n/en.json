@@ -216,7 +216,7 @@
       "update": "Update",
       "delete": "Delete",
       "send_notification": "Send Notifications",
-      "add": "Ad Event"
+      "add": "Add Event"
     },
     "send_notifications_for_event": "Notifications for the event was sended successfully",
     "management_header": "Events Management",

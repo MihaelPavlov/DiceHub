@@ -262,6 +262,8 @@ export class QrCodeScannerComponent implements OnInit, AfterViewInit {
                         this.startCamera();
                       },
                     });
+                } else {
+                  window.location.reload();
                 }
               });
           }

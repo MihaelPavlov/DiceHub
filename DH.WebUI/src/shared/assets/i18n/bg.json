@@ -196,7 +196,7 @@
     "header_todays_events": "Днешни събития",
     "header_my_events": "Моите събития",
     "no_events_today": "Няма събития за днес",
-    "chip_joined": "участници / {{peopleJoined}}",
+    "chip_joined": "записани / {{peopleJoined}}",
     "chip_max": "максимум / {{maxPeople}}",
     "remaining_days": {
       "days_left": "остават {{count}} дни",
@@ -1077,7 +1077,7 @@
       "game_reservation_date": "Резервация на игра:",
       "table_reservation_date": "Резервация на маса:",
       "information": "Информация:",
-      "people": "хора",
+      "people": "души",
       "date": "дата",
       "from": "От: {{username}}",
       "phone_number": "Телефонен номер: {{phoneNumber}}",
@@ -1129,7 +1129,7 @@
       "has_booked_table": "е резервирал маса за",
       "reservation_date": "Дата на резервация:",
       "person": "човек",
-      "people": "хора",
+      "people": "души",
       "filter": {
         "all": "ВСИЧКИ",
         "expired": "ИЗТЕКЛИ",
