@@ -13,7 +13,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { FULL_ROUTE } from '../../../../../shared/configs/route.config';
 import { LanguageService } from '../../../../../shared/services/language.service';
 import { SupportLanguages } from '../../../../../entities/common/models/support-languages.enum';
-import { user } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-space-table-active-reservations',
@@ -50,6 +49,10 @@ export class SpaceTableActiveReservations implements OnDestroy {
 
   public get getCurrentLanguage(): SupportLanguages {
     return this.languageService.getCurrentLanguage();
+  }
+
+  public getPhoneNumber(phoneNumber: string): string {
+    return phoneNumber.length === 0 ? '-' : phoneNumber;
   }
 
   public ngOnInit(): void {

@@ -19,18 +19,6 @@
         <div class="content">
           <div class="wrapper_info">
             <div class="wrapper_title">
-              <div class="wrapper_description">
-                <p>
-                  {{
-                    "reservation_management.details.game_reservation_date"
-                      | translate
-                  }}
-                  {{
-                    reservation.createdDate
-                      | date : DATE_TIME_FORMAT : undefined : getCurrentLanguage
-                  }}
-                </p>
-              </div>
               <span class="blue">{{ reservation.username }}</span>
               {{
                 "reservation_management.history.has_booked_table" | translate
@@ -41,6 +29,12 @@
                   ? ("reservation_management.history.person" | translate)
                   : ("reservation_management.history.people" | translate)
               }}
+              <p>
+                  {{
+                    "reservation_management.details.phone_number"
+                      | translate : { phoneNumber: getPhoneNumber(reservation.phoneNumber) }
+                  }}
+                </p>
               <div class="wrapper_description">
                 <p>
                   {{

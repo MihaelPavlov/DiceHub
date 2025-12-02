@@ -36,10 +36,12 @@
                     "reservation_management.details.game_reservation_date"
                       | translate
                   }}
-                  <span class="blue">{{
+                </p>
+                <p class="blue">
+                  {{
                     reservation.reservationDate
                       | date : DATE_TIME_FORMAT : undefined : getCurrentLanguage
-                  }}</span>
+                  }}
                 </p>
 
                 <p>
@@ -51,7 +53,7 @@
                 <p>
                   {{
                     "reservation_management.details.phone_number"
-                      | translate : { phoneNumber: reservation.phoneNumber }
+                      | translate : { phoneNumber:  getPhoneNumber(reservation.phoneNumber)}
                   }}
                 </p>
                 <p>
@@ -59,20 +61,19 @@
                     "reservation_management.details.table_reservation_date"
                       | translate
                   }}
-                  <span
-                    class="blue"
-                    *ngIf="reservation.userHaveActiveTableReservation"
-                    >{{
-                      reservation.tableReservationTime
-                        | date
-                          : DATE_TIME_FORMAT
-                          : undefined
-                          : getCurrentLanguage
-                    }}</span
-                  >
+
                   <span *ngIf="!reservation.userHaveActiveTableReservation">{{
                     "reservation_management.details.none" | translate
                   }}</span>
+                </p>
+                <p
+                  class="blue"
+                  *ngIf="reservation.userHaveActiveTableReservation"
+                >
+                  {{
+                    reservation.tableReservationTime
+                      | date : DATE_TIME_FORMAT : undefined : getCurrentLanguage
+                  }}
                 </p>
               </div>
             </div>

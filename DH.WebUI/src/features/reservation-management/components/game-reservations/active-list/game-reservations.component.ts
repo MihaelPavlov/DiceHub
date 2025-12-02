@@ -53,8 +53,13 @@ export class GameReservations implements OnInit, OnDestroy {
 
     this.activeReservations$ = this.gameService.getActiveReservations();
   }
+
   public get getCurrentLanguage(): SupportLanguages {
     return this.languageService.getCurrentLanguage();
+  }
+
+  public getPhoneNumber(phoneNumber: string): string {
+    return phoneNumber.length === 0 ? '-' : phoneNumber;
   }
 
   public toggleItem(reservationId: number): void {
