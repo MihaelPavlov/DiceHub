@@ -22,9 +22,10 @@ interface IResetPasswordForm {
 }
 
 @Component({
-  selector: 'app-reset-password',
-  templateUrl: 'reset-password.component.html',
-  styleUrl: 'reset-password.component.scss',
+    selector: 'app-reset-password',
+    templateUrl: 'reset-password.component.html',
+    styleUrl: 'reset-password.component.scss',
+    standalone: false
 })
 export class ResetPasswordComponent extends Form implements OnInit {
   override form: Formify<IResetPasswordForm>;

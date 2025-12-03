@@ -45,9 +45,10 @@ interface ITenantSettingsForm {
 }
 
 @Component({
-  selector: 'app-global-settings',
-  templateUrl: 'global-settings.component.html',
-  styleUrl: 'global-settings.component.scss',
+    selector: 'app-global-settings',
+    templateUrl: 'global-settings.component.html',
+    styleUrl: 'global-settings.component.scss',
+    standalone: false
 })
 export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
   override form: Formify<ITenantSettingsForm>;
@@ -95,7 +96,7 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.PROFILE);
     this.initSelectValues();
     let id = 1;
-    for (let hour = 8; hour < 22; hour++) {
+    for (let hour = 8; hour < 24; hour++) {
       for (let minute = 0; minute < 60; minute += 5) {
         const time = `${hour.toString().padStart(2, '0')}:${minute
           .toString()

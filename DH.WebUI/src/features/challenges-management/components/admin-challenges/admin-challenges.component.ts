@@ -2,9 +2,10 @@ import { ChallengeType } from './../../../../pages/challenges-management/shared/
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-admin-challenges',
-  templateUrl: 'admin-challenges.component.html',
-  styleUrl: 'admin-challenges.component.scss',
+    selector: 'app-admin-challenges',
+    templateUrl: 'admin-challenges.component.html',
+    styleUrl: 'admin-challenges.component.scss',
+    standalone: false
 })
 export class AdminChallengesComponent {
   public currentActiveTab: ChallengeType = ChallengeType.Game;

@@ -4,9 +4,10 @@ import { IQrCode } from '../../../entities/qr-code-scanner/models/qr-code.model'
 import { QrEncryptService } from '../../services/qr-code-encrypt.service';
 
 @Component({
-  selector: 'reservation-qr-code-dialog',
-  templateUrl: 'reservation-qr-code.component.html',
-  styleUrls: ['reservation-qr-code.component.scss'],
+    selector: 'reservation-qr-code-dialog',
+    templateUrl: 'reservation-qr-code.component.html',
+    styleUrls: ['reservation-qr-code.component.scss'],
+    standalone: false
 })
 export class ReservationQrCodeDialog implements OnInit {
   public encryptedQrData: string | null = null;

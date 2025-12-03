@@ -25,9 +25,10 @@ import { IDropdown } from '../../../../shared/models/dropdown.model';
 import { DatePipe } from '@angular/common';
 
 @Component({
-  selector: 'visitors-chart',
-  templateUrl: 'visitors-chart.component.html',
-  styleUrl: 'visitors-chart.component.scss',
+    selector: 'visitors-chart',
+    templateUrl: 'visitors-chart.component.html',
+    styleUrl: 'visitors-chart.component.scss',
+    standalone: false
 })
 export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
   @ViewChild('visitorActivityChartCanvas')

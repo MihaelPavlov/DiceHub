@@ -36,20 +36,21 @@ import {
 import { DateHelper } from '../../../../shared/helpers/date-helper';
 
 @Component({
-  selector: 'games-chart',
-  templateUrl: 'games-chart.component.html',
-  styleUrl: 'games-chart.component.scss',
-  animations: [
-    trigger('slideToggle', [
-      transition(':enter', [
-        style({ height: 0, opacity: 0 }),
-        animate('300ms ease-out', style({ height: '*', opacity: 1 })),
-      ]),
-      transition(':leave', [
-        animate('300ms ease-in', style({ height: 0, opacity: 0 })),
-      ]),
-    ]),
-  ],
+    selector: 'games-chart',
+    templateUrl: 'games-chart.component.html',
+    styleUrl: 'games-chart.component.scss',
+    animations: [
+        trigger('slideToggle', [
+            transition(':enter', [
+                style({ height: 0, opacity: 0 }),
+                animate('300ms ease-out', style({ height: '*', opacity: 1 })),
+            ]),
+            transition(':leave', [
+                animate('300ms ease-in', style({ height: 0, opacity: 0 })),
+            ]),
+        ]),
+    ],
+    standalone: false
 })
 export class GamesChartComponent implements AfterViewInit, OnDestroy {
   public chartType: IDropdown[] = [];

@@ -7,9 +7,10 @@ interface IStreakLeaderboardData {
 }
 
 @Component({
-  selector: 'app-leaderboard-streak',
-  templateUrl: 'streak-leaderboard.component.html',
-  styleUrl: 'streak-leaderboard.component.scss',
+    selector: 'app-leaderboard-streak',
+    templateUrl: 'streak-leaderboard.component.html',
+    styleUrl: 'streak-leaderboard.component.scss',
+    standalone: false
 })
 export class StreakLeaderboardComponent {
   public streakLeaderboardData: IStreakLeaderboardData[] = [

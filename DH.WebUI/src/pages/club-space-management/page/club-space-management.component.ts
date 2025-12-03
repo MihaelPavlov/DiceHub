@@ -22,9 +22,10 @@ import { LanguageService } from '../../../shared/services/language.service';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-club-space-management',
-  templateUrl: 'club-space-management.component.html',
-  styleUrl: 'club-space-management.component.scss',
+    selector: 'app-club-space-management',
+    templateUrl: 'club-space-management.component.html',
+    styleUrl: 'club-space-management.component.scss',
+    standalone: false
 })
 export class ClubSpaceManagementComponent implements OnInit {
   public userActiveTableInfo!: IUserActiveSpaceTableResult;

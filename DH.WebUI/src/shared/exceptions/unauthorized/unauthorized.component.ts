@@ -5,9 +5,10 @@ import { LanguageService } from '../../services/language.service';
 import { ExceptionBaseComponent } from '../base/exception-base.component';
 
 @Component({
-  selector: 'app-unauthorized',
-  templateUrl: 'unauthorized.component.html',
-  styleUrls: ['unauthorized.component.scss'],
+    selector: 'app-unauthorized',
+    templateUrl: 'unauthorized.component.html',
+    styleUrls: ['unauthorized.component.scss'],
+    standalone: false
 })
 export class UnauthorizedComponent extends ExceptionBaseComponent {
   protected imageCode = '401';

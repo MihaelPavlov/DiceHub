@@ -7,9 +7,10 @@ import { AppToastMessage } from '../../../../shared/components/toast/constants/a
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-event-confirm-delete-dialog',
-  templateUrl: 'event-confirm-delete.component.html',
-  styleUrl: 'event-confirm-delete.component.scss',
+    selector: 'app-event-confirm-delete-dialog',
+    templateUrl: 'event-confirm-delete.component.html',
+    styleUrl: 'event-confirm-delete.component.scss',
+    standalone: false
 })
 export class EventConfirmDeleteDialog {
   constructor(

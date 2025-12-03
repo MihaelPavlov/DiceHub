@@ -4,9 +4,10 @@ import { ToastService } from '../../../../shared/services/toast.service';
 import { GamesService } from '../../../../entities/games/api/games.service';
 
 @Component({
-  selector: 'app-single-player-confirm-dialog',
-  templateUrl: 'single-player-confirm-dialog.component.html',
-  styleUrl: 'single-player-confirm-dialog.component.scss',
+    selector: 'app-single-player-confirm-dialog',
+    templateUrl: 'single-player-confirm-dialog.component.html',
+    styleUrl: 'single-player-confirm-dialog.component.scss',
+    standalone: false
 })
 export class SinglePlayerConfirmDialog {
   constructor(

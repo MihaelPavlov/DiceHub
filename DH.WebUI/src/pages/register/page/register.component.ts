@@ -29,9 +29,10 @@ interface IRegisterForm {
 }
 
 @Component({
-  selector: 'app-register',
-  templateUrl: 'register.component.html',
-  styleUrl: 'register.component.scss',
+    selector: 'app-register',
+    templateUrl: 'register.component.html',
+    styleUrl: 'register.component.scss',
+    standalone: false
 })
 export class RegisterComponent extends Form implements OnInit {
   override form: Formify<IRegisterForm>;

@@ -15,9 +15,10 @@ import { AssistiveTouchSettings } from '../../../entities/common/models/assistiv
 import { NotificationsService } from '../../../entities/common/api/notifications.service';
 
 @Component({
-  selector: 'app-assistive-touch',
-  templateUrl: 'assistive-touch.component.html',
-  styleUrl: 'assistive-touch.component.scss',
+    selector: 'app-assistive-touch',
+    templateUrl: 'assistive-touch.component.html',
+    styleUrl: 'assistive-touch.component.scss',
+    standalone: false
 })
 export class AssistiveTouchComponent implements OnInit, OnDestroy {
   public buttonOpacity: number = 1; // Button opacity (1 = fully visible)

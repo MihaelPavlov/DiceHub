@@ -17,9 +17,10 @@ import { LanguageService } from '../../../../../shared/services/language.service
 import { SupportLanguages } from '../../../../../entities/common/models/support-languages.enum';
 
 @Component({
-  selector: 'app-game-reservations',
-  templateUrl: 'game-reservations.component.html',
-  styleUrl: 'game-reservations.component.scss',
+    selector: 'app-game-reservations',
+    templateUrl: 'game-reservations.component.html',
+    styleUrl: 'game-reservations.component.scss',
+    standalone: false
 })
 export class GameReservations implements OnInit, OnDestroy {
   public reservedGames$!: Observable<IReservedGame[]>;

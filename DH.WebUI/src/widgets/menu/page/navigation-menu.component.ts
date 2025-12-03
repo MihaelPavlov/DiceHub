@@ -25,10 +25,11 @@ import { GamesService } from '../../../entities/games/api/games.service';
 import { ROUTE } from '../../../shared/configs/route.config';
 
 @Component({
-  selector: 'app-navigation-menu',
-  templateUrl: 'navigation-menu.component.html',
-  styleUrl: 'navigation-menu.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-navigation-menu',
+    templateUrl: 'navigation-menu.component.html',
+    styleUrl: 'navigation-menu.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class NavigationMenuComponent implements OnInit, AfterViewInit {
   @ViewChild('interactiveOption') interactiveOption!: ElementRef<HTMLElement>;

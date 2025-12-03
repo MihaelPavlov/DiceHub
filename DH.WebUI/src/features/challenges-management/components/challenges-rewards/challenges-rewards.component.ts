@@ -19,9 +19,10 @@ import { LanguageService } from '../../../../shared/services/language.service';
 import { SupportLanguages } from '../../../../entities/common/models/support-languages.enum';
 
 @Component({
-  selector: 'app-challenges-rewards',
-  templateUrl: 'challenges-rewards.component.html',
-  styleUrl: 'challenges-rewards.component.scss',
+    selector: 'app-challenges-rewards',
+    templateUrl: 'challenges-rewards.component.html',
+    styleUrl: 'challenges-rewards.component.scss',
+    standalone: false
 })
 export class ChallengesRewardsComponent implements OnInit {
   public userRewards$!: Observable<IUserReward[]>;

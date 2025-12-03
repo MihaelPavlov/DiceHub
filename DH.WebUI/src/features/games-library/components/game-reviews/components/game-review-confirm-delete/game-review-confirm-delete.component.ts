@@ -6,9 +6,10 @@ import { ToastType } from '../../../../../../shared/models/toast.model';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-game-review-confirm-delete-dialog',
-  templateUrl: 'game-review-confirm-delete.component.html',
-  styleUrl: 'game-review-confirm-delete.component.scss',
+    selector: 'app-game-review-confirm-delete-dialog',
+    templateUrl: 'game-review-confirm-delete.component.html',
+    styleUrl: 'game-review-confirm-delete.component.scss',
+    standalone: false
 })
 export class GameReviewConfirmDeleteDialog {
   constructor(

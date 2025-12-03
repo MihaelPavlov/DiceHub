@@ -20,9 +20,10 @@ interface IChallengeLeaderboardData {
 }
 
 @Component({
-  selector: 'leaderboard-challenges',
-  templateUrl: 'leaderboard-challenges.component.html',
-  styleUrl: 'leaderboard-challenges.component.scss',
+    selector: 'leaderboard-challenges',
+    templateUrl: 'leaderboard-challenges.component.html',
+    styleUrl: 'leaderboard-challenges.component.scss',
+    standalone: false
 })
 export class LeaderboardChallengesComponent implements OnInit {
   users: any[] = [];

@@ -5,9 +5,10 @@ import { AuthService } from '../../../entities/auth/auth.service';
 import { ExceptionBaseComponent } from '../base/exception-base.component';
 
 @Component({
-  selector: 'app-not-found',
-  templateUrl: 'not-found.component.html',
-  styleUrls: ['not-found.component.scss'],
+    selector: 'app-not-found',
+    templateUrl: 'not-found.component.html',
+    styleUrls: ['not-found.component.scss'],
+    standalone: false
 })
 export class NotFoundComponent extends ExceptionBaseComponent {
   protected imageCode = '404';

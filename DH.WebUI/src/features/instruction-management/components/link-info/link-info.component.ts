@@ -17,9 +17,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-link-info',
-  templateUrl: 'link-info.component.html',
-  styleUrl: 'link-info.component.scss',
+    selector: 'app-link-info',
+    templateUrl: 'link-info.component.html',
+    styleUrl: 'link-info.component.scss',
+    standalone: false
 })
 export class LinkInfoComponent implements AfterViewInit {
   @Input({ required: true }) linkInfo!: InstructionStep[];

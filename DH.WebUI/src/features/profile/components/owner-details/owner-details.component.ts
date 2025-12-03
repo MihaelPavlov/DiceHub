@@ -23,9 +23,10 @@ interface IOwnerForm {
 }
 
 @Component({
-  selector: 'app-owner-details',
-  templateUrl: 'owner-details.component.html',
-  styleUrl: 'owner-details.component.scss',
+    selector: 'app-owner-details',
+    templateUrl: 'owner-details.component.html',
+    styleUrl: 'owner-details.component.scss',
+    standalone: false
 })
 export class OwnerDetailsComponent extends Form implements OnDestroy {
   override form: Formify<IOwnerForm>;

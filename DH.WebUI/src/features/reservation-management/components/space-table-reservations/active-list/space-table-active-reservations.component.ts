@@ -15,9 +15,10 @@ import { LanguageService } from '../../../../../shared/services/language.service
 import { SupportLanguages } from '../../../../../entities/common/models/support-languages.enum';
 
 @Component({
-  selector: 'app-space-table-active-reservations',
-  templateUrl: 'space-table-active-reservations.component.html',
-  styleUrl: 'space-table-active-reservations.component.scss',
+    selector: 'app-space-table-active-reservations',
+    templateUrl: 'space-table-active-reservations.component.html',
+    styleUrl: 'space-table-active-reservations.component.scss',
+    standalone: false
 })
 export class SpaceTableActiveReservations implements OnDestroy {
   public reservedGames$!: Observable<IActiveReservedTable[]>;

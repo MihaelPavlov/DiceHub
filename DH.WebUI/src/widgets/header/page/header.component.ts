@@ -15,9 +15,10 @@ import { IGameReservationStatus } from '../../../entities/games/models/game-rese
 import { ReservationStatus } from '../../../shared/enums/reservation-status.enum';
 
 @Component({
-  selector: 'app-header',
-  templateUrl: 'header.component.html',
-  styleUrl: 'header.component.scss',
+    selector: 'app-header',
+    templateUrl: 'header.component.html',
+    styleUrl: 'header.component.scss',
+    standalone: false
 })
 export class HeaderComponent implements OnInit, AfterViewInit {
   @Input() header!: string;

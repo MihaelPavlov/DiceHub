@@ -6,7 +6,6 @@ import { ChallengesManagementComponent } from './page/challenges-management.comp
 import { NavBarModule } from '../../widgets/nav-bar/nav-bar.module';
 import { ChallengesRewardsComponent } from '../../features/challenges-management/components/challenges-rewards/challenges-rewards.component';
 import { ChipModule } from '../../widgets/chip/chip.module';
-import { QRCodeModule } from 'angularx-qrcode';
 import { UserRewardQrCodeDialog } from '../../features/challenges-management/dialogs/user-reward-qr-code-dialog/user-reward-qr-code.component';
 import {
   MatDialogActions,
@@ -31,6 +30,7 @@ import { StreakRewardsComponent } from '../../features/challenges-management/com
 import { StreakComponent } from '../../features/challenges-management/components/streak/streak.component';
 import { AdminChallengesComponent } from '../../features/challenges-management/components/admin-challenges/admin-challenges.component';
 import { AdminUniversalChallengesComponent } from '../../features/challenges-management/components/admin-universal-challenges/admin-universal-challenges.component';
+import { QRCodeComponent } from 'angularx-qrcode';
 
 @NgModule({
   declarations: [
@@ -60,7 +60,7 @@ import { AdminUniversalChallengesComponent } from '../../features/challenges-man
     ChallengesManagementRoutingModule,
     NavBarModule,
     ChipModule,
-    QRCodeModule,
+    QRCodeComponent,
     MatDialogActions,
     MatDialogContent,
     MatDialogClose,

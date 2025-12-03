@@ -10,9 +10,10 @@ import { SupportLanguages } from '../../../../../entities/common/models/support-
 import { LanguageService } from '../../../../../shared/services/language.service';
 
 @Component({
-  selector: 'app-game-details',
-  templateUrl: 'game-details.component.html',
-  styleUrl: 'game-details.component.scss',
+    selector: 'app-game-details',
+    templateUrl: 'game-details.component.html',
+    styleUrl: 'game-details.component.scss',
+    standalone: false
 })
 export class GameDetailsComponent implements OnInit, OnDestroy {
   public game$!: Observable<IGameByIdResult>;

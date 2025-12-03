@@ -1,7 +1,8 @@
 import { Directive, ElementRef, Input, OnInit } from '@angular/core';
 
 @Directive({
-  selector: '[randomColor]',
+    selector: '[randomColor]',
+    standalone: false
 })
 export class RandomColorDirective implements OnInit {
   @Input() randomColor: number = 1; // Optional index for specific hues

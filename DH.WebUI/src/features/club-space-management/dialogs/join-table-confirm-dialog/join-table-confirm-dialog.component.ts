@@ -10,9 +10,10 @@ interface JoinTableConfirmDialogData {
 }
 
 @Component({
-  selector: 'app-join-table-confirm-dialog',
-  templateUrl: 'join-table-confirm-dialog.component.html',
-  styleUrl: 'join-table-confirm-dialog.component.scss',
+    selector: 'app-join-table-confirm-dialog',
+    templateUrl: 'join-table-confirm-dialog.component.html',
+    styleUrl: 'join-table-confirm-dialog.component.scss',
+    standalone: false
 })
 export class JoinTableConfirmDialog {
   public password: FormControl = new FormControl('', Validators.required);

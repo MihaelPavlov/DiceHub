@@ -1,9 +1,10 @@
 import { Component, HostListener } from '@angular/core';
 
 @Component({
-  selector: 'app-scroll-to-top',
-  templateUrl: 'scroll-to-top.component.html',
-  styleUrl: 'scroll-to-top.component.scss',
+    selector: 'app-scroll-to-top',
+    templateUrl: 'scroll-to-top.component.html',
+    styleUrl: 'scroll-to-top.component.scss',
+    standalone: false
 })
 export class ScrollTopComponent {
   private lastScrollPosition = 0; // To track the last scroll position

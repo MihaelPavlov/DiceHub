@@ -14,9 +14,10 @@ import { ITableReservationHistory } from '../../../../../entities/space-manageme
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-reservation-history-actions',
-  templateUrl: 'reservation-history-actions.component.html',
-  styleUrl: 'reservation-history-actions.component.scss',
+    selector: 'app-reservation-history-actions',
+    templateUrl: 'reservation-history-actions.component.html',
+    styleUrl: 'reservation-history-actions.component.scss',
+    standalone: false
 })
 export class ReservationHistoryActionsComponent<
   T extends IGameReservationHistory | ITableReservationHistory

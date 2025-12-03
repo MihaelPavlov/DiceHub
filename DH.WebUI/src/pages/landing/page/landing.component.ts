@@ -24,9 +24,10 @@ interface IPartnerInquiryForm {
 }
 
 @Component({
-  selector: 'app-landing',
-  templateUrl: 'landing.component.html',
-  styleUrl: 'landing.component.scss',
+    selector: 'app-landing',
+    templateUrl: 'landing.component.html',
+    styleUrl: 'landing.component.scss',
+    standalone: false
 })
 export class LandingComponent extends Form {
   override form: Formify<IPartnerInquiryForm>;

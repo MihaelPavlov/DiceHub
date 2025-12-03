@@ -35,9 +35,10 @@ interface ICreateSpaceTableForm {
 }
 
 @Component({
-  selector: 'app-add-update-club-space',
-  templateUrl: 'add-update-club-space.component.html',
-  styleUrl: 'add-update-club-space.component.scss',
+    selector: 'app-add-update-club-space',
+    templateUrl: 'add-update-club-space.component.html',
+    styleUrl: 'add-update-club-space.component.scss',
+    standalone: false
 })
 export class AddUpdateClubSpaceComponent extends Form implements OnInit {
   override form: Formify<ICreateSpaceTableForm>;

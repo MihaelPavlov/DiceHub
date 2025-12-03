@@ -16,9 +16,10 @@ import { AppToastMessage } from '../../../../shared/components/toast/constants/a
 import { ToastType } from '../../../../shared/models/toast.model';
 
 @Component({
-  selector: 'app-profile',
-  templateUrl: 'employee-list.component.html',
-  styleUrl: 'employee-list.component.scss',
+    selector: 'app-profile',
+    templateUrl: 'employee-list.component.html',
+    styleUrl: 'employee-list.component.scss',
+    standalone: false
 })
 export class EmployeeListComponent implements OnDestroy {
   public employees: IUser[] = [];

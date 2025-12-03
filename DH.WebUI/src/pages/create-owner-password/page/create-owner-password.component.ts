@@ -23,9 +23,10 @@ interface ICreateOwnerPasswordForm {
 }
 
 @Component({
-  selector: 'app-create-owner-password',
-  templateUrl: 'create-owner-password.component.html',
-  styleUrl: 'create-owner-password.component.scss',
+    selector: 'app-create-owner-password',
+    templateUrl: 'create-owner-password.component.html',
+    styleUrl: 'create-owner-password.component.scss',
+    standalone: false
 })
 export class CreateOwnerPasswordComponent extends Form implements OnInit {
   override form: Formify<ICreateOwnerPasswordForm>;

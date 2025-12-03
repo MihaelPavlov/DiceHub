@@ -2,8 +2,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 @Pipe({
-  name: 'calculateRemainingDays',
-  pure: true,
+    name: 'calculateRemainingDays',
+    pure: true,
+    standalone: false
 })
 export class CalculateRemainingDaysPipe implements PipeTransform {
   constructor(private readonly translationService: TranslateService) {}

@@ -6,9 +6,10 @@ import { ROUTE } from '../../../shared/configs/route.config';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-instruction-management',
-  templateUrl: 'instruction-management.component.html',
-  styleUrl: 'instruction-management.component.scss',
+    selector: 'app-instruction-management',
+    templateUrl: 'instruction-management.component.html',
+    styleUrl: 'instruction-management.component.scss',
+    standalone: false
 })
 export class InstructionManagementComponent {
   public defaultLinks: any = [];

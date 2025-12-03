@@ -11,9 +11,10 @@ import { ChallengeHubService } from '../../../entities/challenges/api/challenge-
 import { ChallengeOverlayService } from '../../../shared/services/challenges-overlay.service';
 
 @Component({
-  selector: 'app-confirm-email',
-  templateUrl: 'confirm-email.component.html',
-  styleUrl: 'confirm-email.component.scss',
+    selector: 'app-confirm-email',
+    templateUrl: 'confirm-email.component.html',
+    styleUrl: 'confirm-email.component.scss',
+    standalone: false
 })
 export class ConfirmEmailComponent implements OnInit {
   public readonly confirming = this.translateService.instant(

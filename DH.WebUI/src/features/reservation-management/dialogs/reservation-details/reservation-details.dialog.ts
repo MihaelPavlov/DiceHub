@@ -18,9 +18,10 @@ import { LanguageService } from '../../../../shared/services/language.service';
 import { SupportLanguages } from '../../../../entities/common/models/support-languages.enum';
 
 @Component({
-  selector: 'app-reservation-details',
-  templateUrl: 'reservation-details.dialog.html',
-  styleUrl: 'reservation-details.dialog.scss',
+    selector: 'app-reservation-details',
+    templateUrl: 'reservation-details.dialog.html',
+    styleUrl: 'reservation-details.dialog.scss',
+    standalone: false
 })
 export class ReservationDetailsDialog extends Form {
   override form: Formify<IReservationConfirmationForm>;

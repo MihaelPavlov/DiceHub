@@ -10,12 +10,11 @@ import { Observable } from 'rxjs';
 import { LoadingService } from '../../services/loading.service';
 
 @Component({
-  selector: 'loading-indicator',
-  templateUrl: './loading-indicator.component.html',
-  styleUrls: ['./loading-indicator.component.scss'],
-  imports: [AsyncPipe],
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush, // Improves performance
+    selector: 'loading-indicator',
+    templateUrl: './loading-indicator.component.html',
+    styleUrls: ['./loading-indicator.component.scss'],
+    imports: [AsyncPipe],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoadingIndicatorComponent {
   loading$: Observable<boolean>;

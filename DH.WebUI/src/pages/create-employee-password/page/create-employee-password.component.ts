@@ -23,9 +23,10 @@ interface ICreateEmployeePasswordForm {
 }
 
 @Component({
-  selector: 'app-create-employee-password',
-  templateUrl: 'create-employee-password.component.html',
-  styleUrl: 'create-employee-password.component.scss',
+    selector: 'app-create-employee-password',
+    templateUrl: 'create-employee-password.component.html',
+    styleUrl: 'create-employee-password.component.scss',
+    standalone: false
 })
 export class CreateEmployeePasswordComponent extends Form implements OnInit {
   override form: Formify<ICreateEmployeePasswordForm>;

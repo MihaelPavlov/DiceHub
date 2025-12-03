@@ -4,9 +4,10 @@ import 'chartjs-adapter-date-fns';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 @Component({
-  selector: 'chart',
-  templateUrl: 'chart.component.html',
-  styleUrl: 'chart.component.scss',
+    selector: 'chart',
+    templateUrl: 'chart.component.html',
+    styleUrl: 'chart.component.scss',
+    standalone: false
 })
 export class Chart2Component implements AfterViewInit {
   @ViewChild('visitorMonthActivityChartCanvas')

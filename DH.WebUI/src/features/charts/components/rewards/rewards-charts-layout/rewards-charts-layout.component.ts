@@ -4,9 +4,10 @@ import { Router } from '@angular/router';
 import { NAV_ITEM_LABELS } from '../../../../../shared/models/nav-items-labels.const';
 
 @Component({
-  selector: 'rewards-layout-chart',
-  templateUrl: 'rewards-charts-layout.component.html',
-  styleUrl: 'rewards-charts-layout.component.scss',
+    selector: 'rewards-layout-chart',
+    templateUrl: 'rewards-charts-layout.component.html',
+    styleUrl: 'rewards-charts-layout.component.scss',
+    standalone: false
 })
 export class RewardChartsLayoutComponent implements OnDestroy {
   constructor(

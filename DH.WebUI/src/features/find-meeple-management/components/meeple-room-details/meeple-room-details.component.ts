@@ -24,9 +24,10 @@ import { LanguageService } from '../../../../shared/services/language.service';
 import { SupportLanguages } from '../../../../entities/common/models/support-languages.enum';
 
 @Component({
-  selector: 'app-meeple-room-details',
-  templateUrl: 'meeple-room-details.component.html',
-  styleUrl: 'meeple-room-details.component.scss',
+    selector: 'app-meeple-room-details',
+    templateUrl: 'meeple-room-details.component.html',
+    styleUrl: 'meeple-room-details.component.scss',
+    standalone: false
 })
 export class MeepleRoomDetailsComponent implements OnInit, OnDestroy {
   @ViewChild(MeepleRoomMenuComponent) menu!: MeepleRoomMenuComponent;

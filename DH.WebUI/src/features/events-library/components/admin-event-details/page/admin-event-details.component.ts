@@ -17,9 +17,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-admin-event-details',
-  templateUrl: 'admin-event-details.component.html',
-  styleUrl: 'admin-event-details.component.scss',
+    selector: 'app-admin-event-details',
+    templateUrl: 'admin-event-details.component.html',
+    styleUrl: 'admin-event-details.component.scss',
+    standalone: false
 })
 export class AdminEventDetailsComponent implements OnInit, OnDestroy {
   public event$!: Observable<IEventByIdResult>;

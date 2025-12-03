@@ -50,9 +50,10 @@ interface ICreateGameForm {
 }
 
 @Component({
-  selector: 'app-add-update-game',
-  templateUrl: 'add-update-game.component.html',
-  styleUrl: 'add-update-game.component.scss',
+    selector: 'app-add-update-game',
+    templateUrl: 'add-update-game.component.html',
+    styleUrl: 'add-update-game.component.scss',
+    standalone: false
 })
 export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
   override form: Formify<ICreateGameForm>;

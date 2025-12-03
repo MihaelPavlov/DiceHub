@@ -17,41 +17,30 @@ import { SupportLanguages } from '../../../../entities/common/models/support-lan
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-notifications-dialog',
-  templateUrl: 'notifications.dialog.html',
-  styleUrl: 'notifications.dialog.scss',
-  animations: [
-    trigger('dialogAnimation', [
-      transition(':enter', [
-        style({ transform: 'scaleY(0.005) scaleX(0)' }),
-        animate(
-          '1s cubic-bezier(0.165, 0.84, 0.44, 1)',
-          style({ transform: 'scaleY(1) scaleX(1)' })
-        ),
-      ]),
-      transition(':leave', [
-        animate(
-          '1s cubic-bezier(0.165, 0.84, 0.44, 1)',
-          style({ transform: 'scaleY(0.005) scaleX(0)' })
-        ),
-      ]),
-    ]),
-    trigger('modalAnimation', [
-      transition(':enter', [
-        style({ transform: 'scale(0)' }),
-        animate(
-          '0.5s 0.8s cubic-bezier(0.165, 0.84, 0.44, 1)',
-          style({ transform: 'scale(1)' })
-        ),
-      ]),
-      transition(':leave', [
-        animate(
-          '0.5s cubic-bezier(0.165, 0.84, 0.44, 1)',
-          style({ transform: 'scale(0)' })
-        ),
-      ]),
-    ]),
-  ],
+    selector: 'app-notifications-dialog',
+    templateUrl: 'notifications.dialog.html',
+    styleUrl: 'notifications.dialog.scss',
+    animations: [
+        trigger('dialogAnimation', [
+            transition(':enter', [
+                style({ transform: 'scaleY(0.005) scaleX(0)' }),
+                animate('1s cubic-bezier(0.165, 0.84, 0.44, 1)', style({ transform: 'scaleY(1) scaleX(1)' })),
+            ]),
+            transition(':leave', [
+                animate('1s cubic-bezier(0.165, 0.84, 0.44, 1)', style({ transform: 'scaleY(0.005) scaleX(0)' })),
+            ]),
+        ]),
+        trigger('modalAnimation', [
+            transition(':enter', [
+                style({ transform: 'scale(0)' }),
+                animate('0.5s 0.8s cubic-bezier(0.165, 0.84, 0.44, 1)', style({ transform: 'scale(1)' })),
+            ]),
+            transition(':leave', [
+                animate('0.5s cubic-bezier(0.165, 0.84, 0.44, 1)', style({ transform: 'scale(0)' })),
+            ]),
+        ]),
+    ],
+    standalone: false
 })
 export class NotificationsDialog implements OnInit {
   public notificationsUpdated = new EventEmitter<IUserNotification[]>();

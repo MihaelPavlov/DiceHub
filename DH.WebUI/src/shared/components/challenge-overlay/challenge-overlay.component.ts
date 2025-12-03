@@ -12,33 +12,28 @@ import { LanguageService } from '../../services/language.service';
 import { SupportLanguages } from '../../../entities/common/models/support-languages.enum';
 
 @Component({
-  selector: 'app-challenge-overlay',
-  templateUrl: './challenge-overlay.component.html',
-  styleUrls: ['./challenge-overlay.component.scss'],
-  encapsulation: ViewEncapsulation.None,
-  animations: [
-    trigger('popIn', [
-      transition(':enter', [
-        animate(
-          '700ms ease-out',
-          keyframes([
-            style({ transform: 'scale(0)', opacity: 0, offset: 0 }),
-            style({ transform: 'scale(1.2)', opacity: 1, offset: 0.6 }),
-            style({ transform: 'scale(1)', opacity: 1, offset: 1 }),
-          ])
-        ),
-      ]),
-      transition(':leave', [
-        animate(
-          '500ms ease-in',
-          keyframes([
-            style({ transform: 'scale(1)', opacity: 1, offset: 0 }),
-            style({ transform: 'scale(0.7)', opacity: 0, offset: 1 }),
-          ])
-        ),
-      ]),
-    ]),
-  ],
+    selector: 'app-challenge-overlay',
+    templateUrl: './challenge-overlay.component.html',
+    styleUrls: ['./challenge-overlay.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    animations: [
+        trigger('popIn', [
+            transition(':enter', [
+                animate('700ms ease-out', keyframes([
+                    style({ transform: 'scale(0)', opacity: 0, offset: 0 }),
+                    style({ transform: 'scale(1.2)', opacity: 1, offset: 0.6 }),
+                    style({ transform: 'scale(1)', opacity: 1, offset: 1 }),
+                ])),
+            ]),
+            transition(':leave', [
+                animate('500ms ease-in', keyframes([
+                    style({ transform: 'scale(1)', opacity: 1, offset: 0 }),
+                    style({ transform: 'scale(0.7)', opacity: 0, offset: 1 }),
+                ])),
+            ]),
+        ]),
+    ],
+    standalone: false
 })
 export class ChallengeOverlayComponent {
   // Completion overlay

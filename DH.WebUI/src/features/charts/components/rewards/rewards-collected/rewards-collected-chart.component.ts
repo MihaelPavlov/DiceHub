@@ -14,9 +14,10 @@ import { AppToastMessage } from '../../../../../shared/components/toast/constant
 import { ToastType } from '../../../../../shared/models/toast.model';
 
 @Component({
-  selector: 'rewards-collected-chart',
-  templateUrl: 'rewards-collected-chart.component.html',
-  styleUrl: 'rewards-collected-chart.component.scss',
+    selector: 'rewards-collected-chart',
+    templateUrl: 'rewards-collected-chart.component.html',
+    styleUrl: 'rewards-collected-chart.component.scss',
+    standalone: false
 })
 export class RewardsCollectedChartComponent implements OnDestroy {
   @ViewChild('rewardsChartCanvas')

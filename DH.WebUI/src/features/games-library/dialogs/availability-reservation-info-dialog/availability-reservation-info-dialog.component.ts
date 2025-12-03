@@ -8,9 +8,10 @@ interface AvailabilityReservationInfoDialogData {
 }
 
 @Component({
-  selector: 'app-availability-reservation-info-dialog',
-  templateUrl: 'availability-reservation-info-dialog.component.html',
-  styleUrl: 'availability-reservation-info-dialog.component.scss',
+    selector: 'app-availability-reservation-info-dialog',
+    templateUrl: 'availability-reservation-info-dialog.component.html',
+    styleUrl: 'availability-reservation-info-dialog.component.scss',
+    standalone: false
 })
 export class AvailabilityReservationInfoDialog {
   public readonly ReservationStatus = ReservationStatus;

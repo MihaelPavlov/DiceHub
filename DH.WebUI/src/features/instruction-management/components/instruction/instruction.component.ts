@@ -8,9 +8,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { INSTRUCTION_LINK_MAPPINGS } from '../../../../entities/instruction-management/constants/instruction.constant';
 
 @Component({
-  selector: 'app-instruction',
-  templateUrl: 'instruction.component.html',
-  styleUrl: 'instruction.component.scss',
+    selector: 'app-instruction',
+    templateUrl: 'instruction.component.html',
+    styleUrl: 'instruction.component.scss',
+    standalone: false
 })
 export class InstructionComponent implements OnInit {
   public selectedInstruction!: InstructionSection  | null;

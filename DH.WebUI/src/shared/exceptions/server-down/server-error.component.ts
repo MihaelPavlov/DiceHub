@@ -5,9 +5,10 @@ import { LanguageService } from '../../services/language.service';
 import { ExceptionBaseComponent } from '../base/exception-base.component';
 
 @Component({
-  selector: 'app-server-error',
-  templateUrl: 'server-error.component.html',
-  styleUrls: ['server-error.component.scss'],
+    selector: 'app-server-error',
+    templateUrl: 'server-error.component.html',
+    styleUrls: ['server-error.component.scss'],
+    standalone: false
 })
 export class ServerErrorComponent extends ExceptionBaseComponent {
   protected imageCode = '500';

@@ -13,9 +13,10 @@ import { combineLatest, debounceTime, Subject, tap } from 'rxjs';
 import { IDropdown } from '../../../../../shared/models/dropdown.model';
 
 @Component({
-  selector: 'event-attendance-by-events-chart',
-  templateUrl: 'event-attendance-by-events-chart.component.html',
-  styleUrl: 'event-attendance-by-events-chart.component.scss',
+    selector: 'event-attendance-by-events-chart',
+    templateUrl: 'event-attendance-by-events-chart.component.html',
+    styleUrl: 'event-attendance-by-events-chart.component.scss',
+    standalone: false
 })
 export class EventAttendanceByEventsChartComponent implements OnDestroy {
   @ViewChild('eventAttendanceChartCanvas')

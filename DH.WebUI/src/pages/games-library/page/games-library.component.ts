@@ -24,9 +24,10 @@ import { FULL_ROUTE } from '../../../shared/configs/route.config';
 import { LanguageService } from '../../../shared/services/language.service';
 
 @Component({
-  selector: 'app-games-library',
-  templateUrl: 'games-library.component.html',
-  styleUrl: 'games-library.component.scss',
+    selector: 'app-games-library',
+    templateUrl: 'games-library.component.html',
+    styleUrl: 'games-library.component.scss',
+    standalone: false
 })
 export class GamesLibraryComponent implements OnInit, OnDestroy {
   public games: IGameListResult[] = [];

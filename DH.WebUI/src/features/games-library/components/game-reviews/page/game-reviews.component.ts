@@ -25,9 +25,10 @@ enum ReviewState {
 }
 
 @Component({
-  selector: 'app-game-reviews',
-  templateUrl: 'game-reviews.component.html',
-  styleUrl: 'game-reviews.component.scss',
+    selector: 'app-game-reviews',
+    templateUrl: 'game-reviews.component.html',
+    styleUrl: 'game-reviews.component.scss',
+    standalone: false
 })
 export class GameReviewsComponent implements OnInit, OnDestroy {
   public game!: IGameByIdResult;

@@ -6,9 +6,10 @@ import { UsersService } from '../../../../entities/profile/api/user.service';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-employee-confirm-delete-dialog',
-  templateUrl: 'employee-confirm-delete.component.html',
-  styleUrl: 'employee-confirm-delete.component.scss',
+    selector: 'app-employee-confirm-delete-dialog',
+    templateUrl: 'employee-confirm-delete.component.html',
+    styleUrl: 'employee-confirm-delete.component.scss',
+    standalone: false
 })
 export class EmployeeConfirmDeleteDialog {
   constructor(

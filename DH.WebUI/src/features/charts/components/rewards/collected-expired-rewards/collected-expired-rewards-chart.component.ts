@@ -20,9 +20,10 @@ import { ToastType } from '../../../../../shared/models/toast.model';
 import { RewardsStats } from '../../../../../entities/statistics/models/expired-collected-rewards-chart.model';
 
 @Component({
-  selector: 'collected-expired-rewards-chart',
-  templateUrl: 'collected-expired-rewards-chart.component.html',
-  styleUrl: 'collected-expired-rewards-chart.component.scss',
+    selector: 'collected-expired-rewards-chart',
+    templateUrl: 'collected-expired-rewards-chart.component.html',
+    styleUrl: 'collected-expired-rewards-chart.component.scss',
+    standalone: false
 })
 export class CollectedExpiredRewardsChartComponent
   implements AfterViewInit, OnDestroy

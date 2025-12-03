@@ -45,9 +45,10 @@ import { QrCodeType } from '../../../entities/qr-code-scanner/enums/qr-code-type
 import { AuthService } from '../../../entities/auth/auth.service';
 
 @Component({
-  selector: 'app-challenges-management',
-  templateUrl: 'challenges-management.component.html',
-  styleUrl: 'challenges-management.component.scss',
+    selector: 'app-challenges-management',
+    templateUrl: 'challenges-management.component.html',
+    styleUrl: 'challenges-management.component.scss',
+    standalone: false
 })
 export class ChallengesManagementComponent implements OnInit, OnDestroy {
   @ViewChild('rewardsScroller') rewardsScroller!: ElementRef;

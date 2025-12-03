@@ -20,9 +20,10 @@ import { QrEncryptService } from '../../../shared/services/qr-code-encrypt.servi
 import { ScanConfirmDialogComponent } from '../../../features/qr-code-scanner/dialogs/scan-confirm-dialog.component';
 
 @Component({
-  selector: 'app-qr-code-scanner',
-  templateUrl: 'qr-code-scanner.component.html',
-  styleUrl: 'qr-code-scanner.component.scss',
+    selector: 'app-qr-code-scanner',
+    templateUrl: 'qr-code-scanner.component.html',
+    styleUrl: 'qr-code-scanner.component.scss',
+    standalone: false
 })
 export class QrCodeScannerComponent implements OnInit, AfterViewInit {
   @ViewChild('video') videoElement!: ElementRef<HTMLVideoElement>;

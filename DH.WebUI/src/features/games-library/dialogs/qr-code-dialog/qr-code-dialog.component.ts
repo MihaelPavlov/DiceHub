@@ -4,9 +4,10 @@ import { IQrCode } from '../../../../entities/qr-code-scanner/models/qr-code.mod
 import { QrEncryptService } from '../../../../shared/services/qr-code-encrypt.service';
 
 @Component({
-  selector: 'app-game-qr-code-dialog',
-  templateUrl: 'qr-code-dialog.component.html',
-  styleUrl: 'qr-code-dialog.component.scss',
+    selector: 'app-game-qr-code-dialog',
+    templateUrl: 'qr-code-dialog.component.html',
+    styleUrl: 'qr-code-dialog.component.scss',
+    standalone: false
 })
 export class QrCodeDialog implements OnInit{
   public encryptedQrData: string | null = null;

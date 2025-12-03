@@ -14,9 +14,10 @@ import { NavigationService } from '../../../../../shared/services/navigation-ser
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-game-navigation',
-  templateUrl: 'game-navigation.component.html',
-  styleUrl: 'game-navigation.component.scss',
+    selector: 'app-game-navigation',
+    templateUrl: 'game-navigation.component.html',
+    styleUrl: 'game-navigation.component.scss',
+    standalone: false
 })
 export class GameNavigationComponent implements OnInit {
   private activeChildComponent!:

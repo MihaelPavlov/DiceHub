@@ -6,9 +6,10 @@ import { GetClubInfoModel } from '../../../../entities/profile/models/get-club-i
 import { TenantSettingsService } from '../../../../entities/common/api/tenant-settings.service';
 
 @Component({
-  selector: 'app-club-info',
-  templateUrl: 'club-info.component.html',
-  styleUrl: 'club-info.component.scss',
+    selector: 'app-club-info',
+    templateUrl: 'club-info.component.html',
+    styleUrl: 'club-info.component.scss',
+    standalone: false
 })
 export class ClubInfo implements OnInit {
   public clubInfo: GetClubInfoModel | null = null;

@@ -9,9 +9,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { AppToastMessage } from '../../components/toast/constants/app-toast-messages.constant';
 
 @Component({
-  selector: 'scan-result-admin-dialog',
-  templateUrl: 'scan-result-admin.dialog.html',
-  styleUrls: ['scan-result-admin.dialog.scss'],
+    selector: 'scan-result-admin-dialog',
+    templateUrl: 'scan-result-admin.dialog.html',
+    styleUrls: ['scan-result-admin.dialog.scss'],
+    standalone: false
 })
 export class ScanResultAdminDialog {
   public QrCodeType = QrCodeType;

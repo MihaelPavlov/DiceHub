@@ -5,9 +5,10 @@ import { catchError, of, tap } from 'rxjs';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-toast',
-  templateUrl: 'toast.component.html',
-  encapsulation: ViewEncapsulation.None,
+    selector: 'app-toast',
+    templateUrl: 'toast.component.html',
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class ToastComponent {
   progress = 100;

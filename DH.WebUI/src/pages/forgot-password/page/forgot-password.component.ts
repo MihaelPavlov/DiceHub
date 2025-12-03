@@ -20,9 +20,10 @@ interface IForgotPasswordForm {
 }
 
 @Component({
-  selector: 'app-forgot-password',
-  templateUrl: 'forgot-password.component.html',
-  styleUrl: 'forgot-password.component.scss',
+    selector: 'app-forgot-password',
+    templateUrl: 'forgot-password.component.html',
+    styleUrl: 'forgot-password.component.scss',
+    standalone: false
 })
 export class ForgotPasswordComponent extends Form implements OnInit {
   override form: Formify<IForgotPasswordForm>;

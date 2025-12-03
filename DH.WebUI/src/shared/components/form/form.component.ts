@@ -12,7 +12,8 @@ interface IValidationError {
 }
 
 @Component({
-  template: '',
+    template: '',
+    standalone: false
 })
 export abstract class Form {
   public form!: UntypedFormGroup;

@@ -6,9 +6,10 @@ import { INSTRUCTION_LINK_MAPPINGS } from '../../../../entities/instruction-mana
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-instruction-links',
-  templateUrl: 'instruction-links.component.html',
-  styleUrl: 'instruction-links.component.scss',
+    selector: 'app-instruction-links',
+    templateUrl: 'instruction-links.component.html',
+    styleUrl: 'instruction-links.component.scss',
+    standalone: false
 })
 export class InstructionLinksComponent implements OnInit {
   public currentSection!: InstructionSection;

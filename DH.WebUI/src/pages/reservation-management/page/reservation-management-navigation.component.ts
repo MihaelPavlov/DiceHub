@@ -21,9 +21,10 @@ import { ControlsMenuComponent } from '../../../shared/components/menu/controls-
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-reservation-management-navigation',
-  templateUrl: 'reservation-management-navigation.component.html',
-  styleUrl: 'reservation-management-navigation.component.scss',
+    selector: 'app-reservation-management-navigation',
+    templateUrl: 'reservation-management-navigation.component.html',
+    styleUrl: 'reservation-management-navigation.component.scss',
+    standalone: false
 })
 export class ReservationManagementNavigationComponent
   implements OnInit, OnDestroy

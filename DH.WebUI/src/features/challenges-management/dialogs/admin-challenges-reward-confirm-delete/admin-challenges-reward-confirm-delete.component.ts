@@ -7,9 +7,10 @@ import { AppToastMessage } from '../../../../shared/components/toast/constants/a
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-admin-challenges-reward-confirm-delete-dialog',
-  templateUrl: 'admin-challenges-reward-confirm-delete.component.html',
-  styleUrl: 'admin-challenges-reward-confirm-delete.component.scss',
+    selector: 'app-admin-challenges-reward-confirm-delete-dialog',
+    templateUrl: 'admin-challenges-reward-confirm-delete.component.html',
+    styleUrl: 'admin-challenges-reward-confirm-delete.component.scss',
+    standalone: false
 })
 export class AdminChallengesRewardConfirmDeleteDialog {
   constructor(

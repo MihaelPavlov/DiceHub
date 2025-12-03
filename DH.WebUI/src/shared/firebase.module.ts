@@ -6,7 +6,7 @@ import { getAuth, provideAuth } from '@angular/fire/auth';
 import { environment } from '../shared/environments/environment.development';
 
 @NgModule({
-  imports: [
+  providers: [
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideFirestore(() => getFirestore()),
     provideAuth(() => getAuth()),

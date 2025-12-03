@@ -12,9 +12,10 @@ import { FULL_ROUTE, ROUTE } from '../../../shared/configs/route.config';
 import { GetOwnerStats } from '../../../entities/profile/models/get-owner-stats.interface';
 
 @Component({
-  selector: 'app-profile',
-  templateUrl: 'profile.component.html',
-  styleUrl: 'profile.component.scss',
+    selector: 'app-profile',
+    templateUrl: 'profile.component.html',
+    styleUrl: 'profile.component.scss',
+    standalone: false
 })
 export class ProfileComponent implements OnInit, OnDestroy {
   public username: string = this.authService.getUser?.username || '';

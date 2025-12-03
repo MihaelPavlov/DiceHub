@@ -21,9 +21,10 @@ import { AppToastMessage } from '../../../../shared/components/toast/constants/a
 import { ToastType } from '../../../../shared/models/toast.model';
 
 @Component({
-  selector: 'reservations-chart',
-  templateUrl: 'reservations-chart.component.html',
-  styleUrl: 'reservations-chart.component.scss',
+    selector: 'reservations-chart',
+    templateUrl: 'reservations-chart.component.html',
+    styleUrl: 'reservations-chart.component.scss',
+    standalone: false
 })
 export class ReservationsChartComponent implements AfterViewInit, OnDestroy {
   @ViewChild('reservationChartCanvas')

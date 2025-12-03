@@ -8,7 +8,10 @@ import { GameDetailsComponent } from '../../features/games-library/components/ga
 import { GameAvailabilityComponent } from '../../features/games-library/components/game-availability/page/game-availability.component';
 import { GameLayoutComponent } from '../../features/games-library/components/game-layout/page/game-layout.component';
 import { GameReviewsComponent } from '../../features/games-library/components/game-reviews/page/game-reviews.component';
-import { HttpClientModule } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatDialogActions,
@@ -24,10 +27,9 @@ import { NewGameListComponent } from '../../features/games-library/components/ne
 import { AddUpdateGameComponent } from '../../features/games-library/components/add-update-game/page/add-update-game.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { GameConfirmDeleteDialog } from '../../features/games-library/dialogs/game-confirm-delete-dialog/game-confirm-delete.component';
-import { QrCodeComponent } from '../../features/games-library/test/qr-code.component';
 import { QrCodeDialog } from '../../features/games-library/dialogs/qr-code-dialog/qr-code-dialog.component';
 import { ReservationQrCodeDialogModule } from '../../shared/dialogs/reservation-qr-code/reservation-qr-code.module';
-import { QRCodeModule } from 'angularx-qrcode';
+import { QRCodeComponent } from 'angularx-qrcode';
 import { AvailabilityReservationInfoDialog } from '../../features/games-library/dialogs/availability-reservation-info-dialog/availability-reservation-info-dialog.component';
 import { ImagePreviewDialogModule } from '../../shared/dialogs/image-preview/image-preview.module';
 
@@ -44,15 +46,12 @@ import { ImagePreviewDialogModule } from '../../shared/dialogs/image-preview/ima
     AddUpdateGameComponent,
     GameReviewConfirmDeleteDialog,
     GameConfirmDeleteDialog,
-    QrCodeComponent,
     QrCodeDialog,
     AvailabilityReservationInfoDialog,
   ],
   exports: [GamesLibraryComponent],
-  providers: [],
   imports: [
     SharedModule,
-    HttpClientModule,
     HeaderModule,
     NavBarModule,
     GamesLibraryRoutingModule,
@@ -64,9 +63,10 @@ import { ImagePreviewDialogModule } from '../../shared/dialogs/image-preview/ima
     MatDialogModule,
     FormsModule,
     NgSelectModule,
-    QRCodeModule,
+    QRCodeComponent,
     ReservationQrCodeDialogModule,
     ImagePreviewDialogModule,
   ],
+  providers: [provideHttpClient(withInterceptorsFromDi())],
 })
 export class GamesLibraryModule {}

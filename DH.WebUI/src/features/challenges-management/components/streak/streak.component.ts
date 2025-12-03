@@ -7,9 +7,10 @@ export enum StreakPageType {
 }
 
 @Component({
-  selector: 'app-streak',
-  templateUrl: './streak.component.html',
-  styleUrls: ['./streak.component.scss'],
+    selector: 'app-streak',
+    templateUrl: './streak.component.html',
+    styleUrls: ['./streak.component.scss'],
+    standalone: false
 })
 export class StreakComponent implements OnInit {
   public activeTab: StreakPageType = StreakPageType.Streak;

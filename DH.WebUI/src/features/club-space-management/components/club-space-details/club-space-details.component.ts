@@ -19,9 +19,10 @@ import { LanguageService } from '../../../../shared/services/language.service';
 import { SupportLanguages } from '../../../../entities/common/models/support-languages.enum';
 
 @Component({
-  selector: 'app-club-space-details',
-  templateUrl: 'club-space-details.component.html',
-  styleUrl: 'club-space-details.component.scss',
+    selector: 'app-club-space-details',
+    templateUrl: 'club-space-details.component.html',
+    styleUrl: 'club-space-details.component.scss',
+    standalone: false
 })
 export class ClubSpaceDetailsComponent implements OnInit {
   public userActiveTable!: IUserActiveSpaceTableResult;

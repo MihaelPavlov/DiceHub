@@ -14,9 +14,10 @@ import { LanguageService } from '../../../shared/services/language.service';
 import { SupportLanguages } from '../../../entities/common/models/support-languages.enum';
 
 @Component({
-  selector: 'app-find-meeple-manager',
-  templateUrl: 'find-meeple-management.component.html',
-  styleUrl: 'find-meeple-management.component.scss',
+    selector: 'app-find-meeple-manager',
+    templateUrl: 'find-meeple-management.component.html',
+    styleUrl: 'find-meeple-management.component.scss',
+    standalone: false
 })
 export class FindMeepleManagementComponent implements OnInit, OnDestroy {
   public roomList$!: Observable<IRoomListResult[] | null>;

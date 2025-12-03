@@ -19,9 +19,10 @@ import { ToastType } from '../../../../shared/models/toast.model';
 import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
 
 @Component({
-  selector: 'event-attendance-chart',
-  templateUrl: 'event-attendance-chart.component.html',
-  styleUrl: 'event-attendance-chart.component.scss',
+    selector: 'event-attendance-chart',
+    templateUrl: 'event-attendance-chart.component.html',
+    styleUrl: 'event-attendance-chart.component.scss',
+    standalone: false
 })
 export class EventAttendanceChartComponent implements AfterViewInit, OnDestroy {
   @ViewChild('eventAttendanceChartCanvas')

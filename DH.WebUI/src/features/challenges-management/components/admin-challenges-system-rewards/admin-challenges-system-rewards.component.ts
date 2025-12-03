@@ -41,9 +41,10 @@ interface ISystemRewardsForm {
 }
 
 @Component({
-  selector: 'app-admin-challenges-system-rewards',
-  templateUrl: 'admin-challenges-system-rewards.component.html',
-  styleUrl: 'admin-challenges-system-rewards.component.scss',
+    selector: 'app-admin-challenges-system-rewards',
+    templateUrl: 'admin-challenges-system-rewards.component.html',
+    styleUrl: 'admin-challenges-system-rewards.component.scss',
+    standalone: false
 })
 export class AdminChallengesSystemRewardsComponent extends Form {
   override form: Formify<ISystemRewardsForm>;

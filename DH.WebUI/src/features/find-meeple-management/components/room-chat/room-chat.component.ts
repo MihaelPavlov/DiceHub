@@ -28,9 +28,10 @@ import { FULL_ROUTE, ROUTE } from '../../../../shared/configs/route.config';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-room-chat',
-  templateUrl: 'room-chat.component.html',
-  styleUrl: 'room-chat.component.scss',
+    selector: 'app-room-chat',
+    templateUrl: 'room-chat.component.html',
+    styleUrl: 'room-chat.component.scss',
+    standalone: false
 })
 export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   @ViewChild('chat') private chatContainer!: ElementRef;

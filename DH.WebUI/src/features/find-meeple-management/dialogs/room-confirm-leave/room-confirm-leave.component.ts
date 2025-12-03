@@ -7,9 +7,10 @@ import { AppToastMessage } from '../../../../shared/components/toast/constants/a
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-room-confirm-leave-dialog',
-  templateUrl: 'room-confirm-leave.component.html',
-  styleUrl: 'room-confirm-leave.component.scss',
+    selector: 'app-room-confirm-leave-dialog',
+    templateUrl: 'room-confirm-leave.component.html',
+    styleUrl: 'room-confirm-leave.component.scss',
+    standalone: false
 })
 export class RoomConfirmLeaveDialog {
   constructor(

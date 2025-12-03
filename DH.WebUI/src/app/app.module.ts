@@ -1,8 +1,17 @@
 import { GlobalErrorHandler } from './../shared/components/global-error-handler';
 import { ConfirmEmailModule } from './../pages/confirm-email/confirm-email.module';
-import { NgModule, ErrorHandler, APP_INITIALIZER } from '@angular/core';
+import {
+  NgModule,
+  ErrorHandler,
+  APP_INITIALIZER,
+  provideAppInitializer,
+} from '@angular/core';
 import { AppComponent } from './app-component/app.component';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import {
+  HTTP_INTERCEPTORS,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { NavigationMenuModule } from '../widgets/menu/navigation-menu.module';
 import { RouterOutlet } from '@angular/router';
@@ -43,11 +52,33 @@ registerLocaleData(localeEn, 'en');
 @NgModule({
   declarations: [AppComponent, ChallengeOverlayComponent],
   exports: [BrowserModule, BrowserAnimationsModule],
+  bootstrap: [AppComponent],
+  imports: [
+    TranslateModule.forRoot(),
+    AppRoutingModule,
+    BrowserModule,
+    NavigationMenuModule,
+    LoginModule,
+    RegisterModule,
+    ConfirmEmailModule,
+    ForgotPasswordModule,
+    ResetPasswordModule,
+    CreateEmployeePasswordModule,
+    CreateOwnerPasswordModule,
+    HeaderModule,
+    AssistiveTouchModule,
+    RouterOutlet,
+    JwtModule,
+    LoadingIndicatorComponent,
+    FirebaseModule,
+    ScrollToTopModule,
+    LanguageSwitchModule,
+  ],
   providers: [
     AuthGuard,
     AuthRedirectGuard,
     {
-      provide: APP_INITIALIZER,
+      provide: provideAppInitializer,
       useFactory: initializeUserFactory,
       deps: [AuthService],
       multi: true,
@@ -73,29 +104,7 @@ registerLocaleData(localeEn, 'en');
       useClass: GlobalErrorHandler,
     },
     JwtHelperService,
-  ],
-  bootstrap: [AppComponent],
-  imports: [
-    TranslateModule.forRoot(),
-    HttpClientModule,
-    AppRoutingModule,
-    BrowserModule,
-    NavigationMenuModule,
-    LoginModule,
-    RegisterModule,
-    ConfirmEmailModule,
-    ForgotPasswordModule,
-    ResetPasswordModule,
-    CreateEmployeePasswordModule,
-    CreateOwnerPasswordModule,
-    HeaderModule,
-    AssistiveTouchModule,
-    RouterOutlet,
-    JwtModule,
-    LoadingIndicatorComponent,
-    FirebaseModule,
-    ScrollToTopModule,
-    LanguageSwitchModule,
+    provideHttpClient(withInterceptorsFromDi()),
   ],
 })
 export class AppModule {}

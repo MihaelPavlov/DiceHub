@@ -27,9 +27,10 @@ interface IEmployeeForm {
 }
 
 @Component({
-  selector: 'app-add-update-employee',
-  templateUrl: 'add-update-employee.component.html',
-  styleUrl: 'add-update-employee.component.scss',
+    selector: 'app-add-update-employee',
+    templateUrl: 'add-update-employee.component.html',
+    styleUrl: 'add-update-employee.component.scss',
+    standalone: false
 })
 export class AddUpdateEmployeeComponent extends Form implements OnDestroy {
   override form: Formify<IEmployeeForm>;

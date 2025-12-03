@@ -4,9 +4,10 @@ import { NAV_ITEM_LABELS } from "../../../../../shared/models/nav-items-labels.c
 import { MenuTabsService } from "../../../../../shared/services/menu-tabs.service";
 
 @Component({
-  selector: 'events-layout-chart',
-  templateUrl: 'events-charts-layout.component.html',
-  styleUrl: 'events-charts-layout.component.scss',
+    selector: 'events-layout-chart',
+    templateUrl: 'events-charts-layout.component.html',
+    styleUrl: 'events-charts-layout.component.scss',
+    standalone: false
 })
 export class EventsChartsLayoutComponent implements OnDestroy {
   constructor(

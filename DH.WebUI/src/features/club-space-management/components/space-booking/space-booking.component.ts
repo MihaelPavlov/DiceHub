@@ -32,60 +32,50 @@ interface ICreateSpaceReservation {
   reservationDate: Date;
 }
 @Component({
-  selector: 'app-club-space-booking',
-  templateUrl: 'space-booking.component.html',
-  styleUrl: 'space-booking.component.scss',
-  animations: [
-    trigger('flowLeft', [
-      state('start', style({ transform: 'translateX(-50px)', opacity: 1 })),
-      state('reverse', style({ transform: 'translateX(0)', opacity: 1 })),
-      transition('* => start', [
-        style({ transform: 'translateX(0)', opacity: 0 }),
-        animate('0.6s ease-out'),
-      ]),
-      transition('* => reverse', [
-        animate(
-          '1.2s ease-in-out',
-          keyframes([
-            style({ transform: 'translateX(-25px)', opacity: 1, offset: 0.5 }),
-            style({ transform: 'translateX(0)', opacity: 1, offset: 1 }),
-          ])
-        ),
-      ]),
-    ]),
-
-    trigger('flowRight', [
-      state('start', style({ transform: 'translateX(50px)', opacity: 1 })),
-      state('reverse', style({ transform: 'translateX(0)', opacity: 1 })),
-      transition('* => start', [
-        style({ transform: 'translateX(0)', opacity: 0 }),
-        animate('0.6s ease-out'),
-      ]),
-      transition('* => reverse', [
-        animate(
-          '1.2s ease-in-out',
-          keyframes([
-            style({ transform: 'translateX(25px)', opacity: 1, offset: 0.5 }),
-            style({ transform: 'translateX(0)', opacity: 1, offset: 1 }),
-          ])
-        ),
-      ]),
-    ]),
-
-    trigger('mergeItems', [
-      state('start', style({ transform: 'scale(1)', opacity: 1 })),
-      state('reverse', style({ transform: 'scale(1)', opacity: 1 })),
-      transition('start => reverse', [
-        animate(
-          '1s ease-in-out',
-          keyframes([
-            style({ transform: 'scale(1.1)', opacity: 0.8, offset: 0.5 }),
-            style({ transform: 'scale(1)', opacity: 1, offset: 1 }),
-          ])
-        ),
-      ]),
-    ]),
-  ],
+    selector: 'app-club-space-booking',
+    templateUrl: 'space-booking.component.html',
+    styleUrl: 'space-booking.component.scss',
+    animations: [
+        trigger('flowLeft', [
+            state('start', style({ transform: 'translateX(-50px)', opacity: 1 })),
+            state('reverse', style({ transform: 'translateX(0)', opacity: 1 })),
+            transition('* => start', [
+                style({ transform: 'translateX(0)', opacity: 0 }),
+                animate('0.6s ease-out'),
+            ]),
+            transition('* => reverse', [
+                animate('1.2s ease-in-out', keyframes([
+                    style({ transform: 'translateX(-25px)', opacity: 1, offset: 0.5 }),
+                    style({ transform: 'translateX(0)', opacity: 1, offset: 1 }),
+                ])),
+            ]),
+        ]),
+        trigger('flowRight', [
+            state('start', style({ transform: 'translateX(50px)', opacity: 1 })),
+            state('reverse', style({ transform: 'translateX(0)', opacity: 1 })),
+            transition('* => start', [
+                style({ transform: 'translateX(0)', opacity: 0 }),
+                animate('0.6s ease-out'),
+            ]),
+            transition('* => reverse', [
+                animate('1.2s ease-in-out', keyframes([
+                    style({ transform: 'translateX(25px)', opacity: 1, offset: 0.5 }),
+                    style({ transform: 'translateX(0)', opacity: 1, offset: 1 }),
+                ])),
+            ]),
+        ]),
+        trigger('mergeItems', [
+            state('start', style({ transform: 'scale(1)', opacity: 1 })),
+            state('reverse', style({ transform: 'scale(1)', opacity: 1 })),
+            transition('start => reverse', [
+                animate('1s ease-in-out', keyframes([
+                    style({ transform: 'scale(1.1)', opacity: 0.8, offset: 0.5 }),
+                    style({ transform: 'scale(1)', opacity: 1, offset: 1 }),
+                ])),
+            ]),
+        ]),
+    ],
+    standalone: false
 })
 export class SpaceBookingComponent extends Form {
   override form: Formify<ICreateSpaceReservation>;

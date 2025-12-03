@@ -16,8 +16,9 @@ export enum ImageEntityType {
 }
 
 @Pipe({
-  name: 'entityImage',
-  pure: true,
+    name: 'entityImage',
+    pure: true,
+    standalone: false
 })
 export class EntityImagePipe implements PipeTransform {
   constructor(

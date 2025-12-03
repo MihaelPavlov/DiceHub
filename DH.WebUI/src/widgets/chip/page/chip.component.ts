@@ -1,9 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-chip',
-  templateUrl: 'chip.component.html',
-  styleUrl: 'chip.component.scss',
+    selector: 'app-chip',
+    templateUrl: 'chip.component.html',
+    styleUrl: 'chip.component.scss',
+    standalone: false
 })
 export class ChipComponent implements OnInit {
   @Input() size: 'extraSmall' | 'small' | 'middle' | 'big' = 'middle';

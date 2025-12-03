@@ -21,9 +21,10 @@ import { SupportLanguages } from '../../../entities/common/models/support-langua
 import { LanguageService } from '../../../shared/services/language.service';
 
 @Component({
-  selector: 'app-admin-event-management',
-  templateUrl: 'admin-event-management.component.html',
-  styleUrl: 'admin-event-management.component.scss',
+    selector: 'app-admin-event-management',
+    templateUrl: 'admin-event-management.component.html',
+    styleUrl: 'admin-event-management.component.scss',
+    standalone: false
 })
 export class AdminEventManagementComponent implements OnInit, OnDestroy {
   public headerMenuItems: BehaviorSubject<IMenuItem[]> = new BehaviorSubject<

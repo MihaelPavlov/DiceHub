@@ -11,9 +11,10 @@ import { LanguageService } from '../../../shared/services/language.service';
 import { SupportLanguages } from '../../../entities/common/models/support-languages.enum';
 
 @Component({
-  selector: 'app-events-library',
-  templateUrl: 'events-library.component.html',
-  styleUrl: 'events-library.component.scss',
+    selector: 'app-events-library',
+    templateUrl: 'events-library.component.html',
+    styleUrl: 'events-library.component.scss',
+    standalone: false
 })
 export class EventsLibraryComponent implements OnInit, OnDestroy {
   public todayEvents: IEventListResult[] = [];

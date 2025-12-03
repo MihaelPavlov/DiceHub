@@ -20,9 +20,10 @@ import { FULL_ROUTE } from '../../../../shared/configs/route.config';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-meeple-room-menu',
-  templateUrl: 'meeple-room-menu.component.html',
-  styleUrl: 'meeple-room-menu.component.scss',
+    selector: 'app-meeple-room-menu',
+    templateUrl: 'meeple-room-menu.component.html',
+    styleUrl: 'meeple-room-menu.component.scss',
+    standalone: false
 })
 export class MeepleRoomMenuComponent implements OnInit {
   @Input() isCurrentUserParticipateInRoom!: boolean;

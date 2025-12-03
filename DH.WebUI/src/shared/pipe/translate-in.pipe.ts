@@ -5,7 +5,8 @@ import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 
 @Pipe({
-  name: 'translateIn',
+    name: 'translateIn',
+    standalone: false
 })
 export class TranslateInPipe implements PipeTransform {
   constructor(private translate: TranslateService, private http: HttpClient) {}

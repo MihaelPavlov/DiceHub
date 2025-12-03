@@ -61,10 +61,11 @@ function futureDateValidator(): ValidatorFn {
 }
 
 @Component({
-  selector: 'app-add-update-meeple-room',
-  templateUrl: 'add-update-meeple-room.component.html',
-  styleUrl: 'add-update-meeple-room.component.scss',
-  encapsulation: ViewEncapsulation.None,
+    selector: 'app-add-update-meeple-room',
+    templateUrl: 'add-update-meeple-room.component.html',
+    styleUrl: 'add-update-meeple-room.component.scss',
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class AddUpdateMeepleRoomComponent
   extends Form

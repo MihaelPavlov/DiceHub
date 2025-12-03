@@ -1,9 +1,10 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
-  selector: 'app-password-visibility-toggle',
-  templateUrl: 'password-visibility-toggle.component.html',
-  styleUrls: ['password-visibility-toggle.component.scss'],
+    selector: 'app-password-visibility-toggle',
+    templateUrl: 'password-visibility-toggle.component.html',
+    styleUrls: ['password-visibility-toggle.component.scss'],
+    standalone: false
 })
 export class PasswordVisibilityToggleComponent {
   @Input() isVisible: boolean = false;

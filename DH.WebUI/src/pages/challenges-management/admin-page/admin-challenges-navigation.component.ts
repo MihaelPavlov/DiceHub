@@ -11,9 +11,10 @@ import { BehaviorSubject } from 'rxjs';
 import { IMenuItem } from '../../../shared/models/menu-item.model';
 
 @Component({
-  selector: 'app-admin-challenges-navigation',
-  templateUrl: 'admin-challenges-navigation.component.html',
-  styleUrl: 'admin-challenges-navigation.component.scss',
+    selector: 'app-admin-challenges-navigation',
+    templateUrl: 'admin-challenges-navigation.component.html',
+    styleUrl: 'admin-challenges-navigation.component.scss',
+    standalone: false
 })
 export class AdminChallengesNavigationComponent implements OnInit {
   public ADMIN_CUSTOM_PERIOD = FULL_ROUTE.CHALLENGES.ADMIN_CUSTOM_PERIOD;

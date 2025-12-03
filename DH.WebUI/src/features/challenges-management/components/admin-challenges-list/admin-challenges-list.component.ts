@@ -39,9 +39,10 @@ interface IChallengeForm {
 }
 
 @Component({
-  selector: 'app-admin-challenges-list',
-  templateUrl: 'admin-challenges-list.component.html',
-  styleUrl: 'admin-challenges-list.component.scss',
+    selector: 'app-admin-challenges-list',
+    templateUrl: 'admin-challenges-list.component.html',
+    styleUrl: 'admin-challenges-list.component.scss',
+    standalone: false
 })
 export class AdminChallengesListComponent extends Form {
   override form: Formify<IChallengeForm>;

@@ -16,9 +16,10 @@ import { SupportLanguages } from '../../../../entities/common/models/support-lan
 import { DateHelper } from '../../../../shared/helpers/date-helper';
 
 @Component({
-  selector: 'app-room-members',
-  templateUrl: 'room-members.component.html',
-  styleUrls: ['room-members.component.scss'],
+    selector: 'app-room-members',
+    templateUrl: 'room-members.component.html',
+    styleUrls: ['room-members.component.scss'],
+    standalone: false
 })
 export class RoomMembersComponent implements OnInit, OnDestroy {
   public roomId!: number;

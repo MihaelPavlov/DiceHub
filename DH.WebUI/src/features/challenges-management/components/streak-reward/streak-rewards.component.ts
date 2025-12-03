@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-streak-milestones',
-  templateUrl: './streak-rewards.component.html',
-  styleUrls: ['./streak-rewards.component.scss'],
+    selector: 'app-streak-milestones',
+    templateUrl: './streak-rewards.component.html',
+    styleUrls: ['./streak-rewards.component.scss'],
+    standalone: false
 })
 export class StreakRewardsComponent {
   milestones = [

@@ -39,9 +39,10 @@ interface IReservationGameForm {
 }
 
 @Component({
-  selector: 'app-game-availability',
-  templateUrl: 'game-availability.component.html',
-  styleUrl: 'game-availability.component.scss',
+    selector: 'app-game-availability',
+    templateUrl: 'game-availability.component.html',
+    styleUrl: 'game-availability.component.scss',
+    standalone: false
 })
 export class GameAvailabilityComponent
   extends Form

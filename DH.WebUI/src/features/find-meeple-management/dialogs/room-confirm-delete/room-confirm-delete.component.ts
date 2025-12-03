@@ -7,9 +7,10 @@ import { AppToastMessage } from '../../../../shared/components/toast/constants/a
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-room-confirm-delete-dialog',
-  templateUrl: 'room-confirm-delete.component.html',
-  styleUrl: 'room-confirm-delete.component.scss',
+    selector: 'app-room-confirm-delete-dialog',
+    templateUrl: 'room-confirm-delete.component.html',
+    styleUrl: 'room-confirm-delete.component.scss',
+    standalone: false
 })
 export class RoomConfirmDeleteDialog {
   constructor(

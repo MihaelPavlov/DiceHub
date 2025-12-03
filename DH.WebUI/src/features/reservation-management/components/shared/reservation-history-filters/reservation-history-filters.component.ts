@@ -2,9 +2,10 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { ReservationStatus } from '../../../../../shared/enums/reservation-status.enum';
 
 @Component({
-  selector: 'app-reservation-history-filters',
-  templateUrl: 'reservation-history-filters.component.html',
-  styleUrl: 'reservation-history-filters.component.scss',
+    selector: 'app-reservation-history-filters',
+    templateUrl: 'reservation-history-filters.component.html',
+    styleUrl: 'reservation-history-filters.component.scss',
+    standalone: false
 })
 export class ReservationHistoryFiltersComponent {
   @Output() expandedReservationIdReset: EventEmitter<void> =

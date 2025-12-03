@@ -68,9 +68,10 @@ function customPeriodValidator(): ValidatorFn {
   };
 }
 @Component({
-  selector: 'app-admin-challenges-custom-period',
-  templateUrl: 'admin-challenges-custom-period.component.html',
-  styleUrl: 'admin-challenges-custom-period.component.scss',
+    selector: 'app-admin-challenges-custom-period',
+    templateUrl: 'admin-challenges-custom-period.component.html',
+    styleUrl: 'admin-challenges-custom-period.component.scss',
+    standalone: false
 })
 export class AdminChallengesCustomPeriodComponent
   extends Form

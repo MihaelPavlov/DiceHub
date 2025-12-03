@@ -4,9 +4,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { QrCodeType } from '../../../entities/qr-code-scanner/enums/qr-code-type.enum';
 
 @Component({
-  selector: 'app-scan-confirm-dialog',
-  templateUrl: 'scan-confirm-dialog.component.html',
-  styleUrl: 'scan-confirm-dialog.component.scss',
+    selector: 'app-scan-confirm-dialog',
+    templateUrl: 'scan-confirm-dialog.component.html',
+    styleUrl: 'scan-confirm-dialog.component.scss',
+    standalone: false
 })
 export class ScanConfirmDialogComponent {
   constructor(

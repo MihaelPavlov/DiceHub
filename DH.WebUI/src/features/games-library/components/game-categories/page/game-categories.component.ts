@@ -8,9 +8,10 @@ import { SearchService } from '../../../../../shared/services/search.service';
 import { FULL_ROUTE } from '../../../../../shared/configs/route.config';
 
 @Component({
-  selector: 'app-game-categories',
-  templateUrl: 'game-categories.component.html',
-  styleUrl: 'game-categories.component.scss',
+    selector: 'app-game-categories',
+    templateUrl: 'game-categories.component.html',
+    styleUrl: 'game-categories.component.scss',
+    standalone: false
 })
 export class GameCategoriesComponent implements OnInit, OnDestroy {
   public categories: IGameCategory[] = [];

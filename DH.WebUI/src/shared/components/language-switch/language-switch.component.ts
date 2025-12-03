@@ -3,9 +3,10 @@ import { LanguageService } from '../../services/language.service';
 import { SupportLanguages } from '../../../entities/common/models/support-languages.enum';
 
 @Component({
-  selector: 'app-language-switch',
-  templateUrl: './language-switch.component.html',
-  styleUrls: ['./language-switch.component.scss'],
+    selector: 'app-language-switch',
+    templateUrl: './language-switch.component.html',
+    styleUrls: ['./language-switch.component.scss'],
+    standalone: false
 })
 export class LanguageSwitchComponent implements OnInit {
   public currentLang!: string;

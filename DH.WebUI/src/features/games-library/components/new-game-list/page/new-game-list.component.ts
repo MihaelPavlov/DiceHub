@@ -12,9 +12,10 @@ import { LanguageService } from '../../../../../shared/services/language.service
 import { SupportLanguages } from '../../../../../entities/common/models/support-languages.enum';
 
 @Component({
-  selector: 'app-new-game-list',
-  templateUrl: 'new-game-list.component.html',
-  styleUrl: 'new-game-list.component.scss',
+    selector: 'app-new-game-list',
+    templateUrl: 'new-game-list.component.html',
+    styleUrl: 'new-game-list.component.scss',
+    standalone: false
 })
 export class NewGameListComponent implements OnInit, OnDestroy {
   public games: IGameListResult[] = [];

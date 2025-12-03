@@ -2,9 +2,10 @@ import { Component, EventEmitter, Input, input, Output } from '@angular/core';
 import { ChallengeType } from '../challenge-type.enum';
 
 @Component({
-  selector: 'app-challenge-type-toggle',
-  templateUrl: './challenge-type-toggle.component.html',
-  styleUrls: ['./challenge-type-toggle.component.scss'],
+    selector: 'app-challenge-type-toggle',
+    templateUrl: './challenge-type-toggle.component.html',
+    styleUrls: ['./challenge-type-toggle.component.scss'],
+    standalone: false
 })
 export class ChallengeTypeToggleComponent {
   public activeTab: ChallengeType = ChallengeType.Game;

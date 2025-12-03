@@ -24,9 +24,10 @@ import {
 } from '../../../../../shared/dialogs/image-preview/image-preview.dialog';
 
 @Component({
-  selector: 'app-game-layout',
-  templateUrl: 'game-layout.component.html',
-  styleUrl: 'game-layout.component.scss',
+    selector: 'app-game-layout',
+    templateUrl: 'game-layout.component.html',
+    styleUrl: 'game-layout.component.scss',
+    standalone: false
 })
 export class GameLayoutComponent implements OnInit, OnDestroy {
   @Input() game!: IGameByIdResult;

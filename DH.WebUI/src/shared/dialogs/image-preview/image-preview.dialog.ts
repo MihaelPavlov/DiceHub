@@ -8,9 +8,10 @@ export interface ImagePreviewData {
 }
 
 @Component({
-  selector: 'image-preview',
-  templateUrl: 'image-preview.dialog.html',
-  styleUrls: ['image-preview.dialog.scss'],
+    selector: 'image-preview',
+    templateUrl: 'image-preview.dialog.html',
+    styleUrls: ['image-preview.dialog.scss'],
+    standalone: false
 })
 export class ImagePreviewDialog {
   constructor(

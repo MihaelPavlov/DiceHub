@@ -17,9 +17,10 @@ import {
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-club-space-list',
-  templateUrl: 'club-space-list.component.html',
-  styleUrl: 'club-space-list.component.scss',
+    selector: 'app-club-space-list',
+    templateUrl: 'club-space-list.component.html',
+    styleUrl: 'club-space-list.component.scss',
+    standalone: false
 })
 export class ClubSpaceListComponent implements OnDestroy {
   public spaceAvailableTableList$!: Observable<ISpaceTableList[] | null>;

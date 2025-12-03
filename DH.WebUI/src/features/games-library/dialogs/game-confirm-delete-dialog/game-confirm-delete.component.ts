@@ -7,9 +7,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
 
 @Component({
-  selector: 'app-game-confirm-delete-dialog',
-  templateUrl: 'game-confirm-delete.component.html',
-  styleUrl: 'game-confirm-delete.component.scss',
+    selector: 'app-game-confirm-delete-dialog',
+    templateUrl: 'game-confirm-delete.component.html',
+    styleUrl: 'game-confirm-delete.component.scss',
+    standalone: false
 })
 export class GameConfirmDeleteDialog {
   public errorMessage: string | null = null;

@@ -65,9 +65,10 @@ function futureDateValidator(): ValidatorFn {
 }
 
 @Component({
-  selector: 'app-add-update-event',
-  templateUrl: 'add-update-event.component.html',
-  styleUrl: 'add-update-event.component.scss',
+    selector: 'app-add-update-event',
+    templateUrl: 'add-update-event.component.html',
+    styleUrl: 'add-update-event.component.scss',
+    standalone: false
 })
 export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
   override form: Formify<ICreateEventForm>;

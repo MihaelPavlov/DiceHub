@@ -13,9 +13,10 @@ import { ToastType } from '../../../../shared/models/toast.model';
 import { IUpdateUniversalChallengeDto } from '../../../../entities/challenges/models/update-universal-challenge.model';
 
 @Component({
-  selector: 'app-admin-universal-challenges',
-  templateUrl: './admin-universal-challenges.component.html',
-  styleUrls: ['./admin-universal-challenges.component.scss'],
+    selector: 'app-admin-universal-challenges',
+    templateUrl: './admin-universal-challenges.component.html',
+    styleUrls: ['./admin-universal-challenges.component.scss'],
+    standalone: false
 })
 export class AdminUniversalChallengesComponent implements OnInit {
   public universalChallengeList: IUniversalChallengeListResult[] = [];

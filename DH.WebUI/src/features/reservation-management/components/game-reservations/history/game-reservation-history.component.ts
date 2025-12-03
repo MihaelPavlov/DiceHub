@@ -15,9 +15,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { SupportLanguages } from '../../../../../entities/common/models/support-languages.enum';
 
 @Component({
-  selector: 'app-game-reservation-history',
-  templateUrl: 'game-reservation-history.component.html',
-  styleUrl: 'game-reservation-history.component.scss',
+    selector: 'app-game-reservation-history',
+    templateUrl: 'game-reservation-history.component.html',
+    styleUrl: 'game-reservation-history.component.scss',
+    standalone: false
 })
 export class GameReservationHistory implements OnDestroy {
   public reservedGames$!: Observable<IGameReservationHistory[] | null>;

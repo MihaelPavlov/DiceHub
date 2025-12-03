@@ -3,9 +3,10 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { IMenuItem } from '../../models/menu-item.model';
 
 @Component({
-  selector: 'app-controls-menu',
-  templateUrl: 'controls-menu.component.html',
-  styleUrls: ['controls-menu.component.scss'],
+    selector: 'app-controls-menu',
+    templateUrl: 'controls-menu.component.html',
+    styleUrls: ['controls-menu.component.scss'],
+    standalone: false
 })
 export class ControlsMenuComponent {
   @Input() isVisible: boolean = false;

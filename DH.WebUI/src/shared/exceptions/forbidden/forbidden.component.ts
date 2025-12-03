@@ -5,9 +5,10 @@ import { AuthService } from '../../../entities/auth/auth.service';
 import { ExceptionBaseComponent } from '../base/exception-base.component';
 
 @Component({
-  selector: 'app-forbidden',
-  templateUrl: 'forbidden.component.html',
-  styleUrls: ['forbidden.component.scss'],
+    selector: 'app-forbidden',
+    templateUrl: 'forbidden.component.html',
+    styleUrls: ['forbidden.component.scss'],
+    standalone: false
 })
 export class ForbiddenComponent extends ExceptionBaseComponent {
   protected imageCode = '403';
