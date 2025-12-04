@@ -15,6 +15,7 @@ import { ROUTE } from '../../../shared/configs/route.config';
 import { AppToastMessage } from '../../../shared/components/toast/constants/app-toast-messages.constant';
 import { TenantSettingsService } from '../../../entities/common/api/tenant-settings.service';
 import { TranslateService } from '@ngx-translate/core';
+import { LanguageService } from '../../../shared/services/language.service';
 
 interface IResetPasswordForm {
   newPassword: string;
@@ -22,10 +23,10 @@ interface IResetPasswordForm {
 }
 
 @Component({
-    selector: 'app-reset-password',
-    templateUrl: 'reset-password.component.html',
-    styleUrl: 'reset-password.component.scss',
-    standalone: false
+  selector: 'app-reset-password',
+  templateUrl: 'reset-password.component.html',
+  styleUrl: 'reset-password.component.scss',
+  standalone: false,
 })
 export class ResetPasswordComponent extends Form implements OnInit {
   override form: Formify<IResetPasswordForm>;
@@ -44,6 +45,7 @@ export class ResetPasswordComponent extends Form implements OnInit {
     private readonly fb: FormBuilder,
     private readonly tenantSettingsService: TenantSettingsService,
     public override translateService: TranslateService,
+    private readonly languageService: LanguageService
   ) {
     super(toastService, translateService);
     this.form = this.initFormGroup();
@@ -58,6 +60,13 @@ export class ResetPasswordComponent extends Form implements OnInit {
     this.route.queryParams.subscribe((params) => {
       this.email = params['email'];
       this.token = params['token'];
+      const language = params['language'];
+
+      if (language) {
+        console.log(`Language from query param: ${language}`);
+
+        this.languageService.setLanguage(language);
+      }
     });
     this.tenantSettingsService.getClubName().subscribe({
       next: (clubName) => {

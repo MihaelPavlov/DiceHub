@@ -14,16 +14,17 @@ import { ROUTE } from '../../../shared/configs/route.config';
 import { ToastType } from '../../../shared/models/toast.model';
 import { TenantSettingsService } from '../../../entities/common/api/tenant-settings.service';
 import { TranslateService } from '@ngx-translate/core';
+import { LanguageService } from '../../../shared/services/language.service';
 
 interface IForgotPasswordForm {
   email: string;
 }
 
 @Component({
-    selector: 'app-forgot-password',
-    templateUrl: 'forgot-password.component.html',
-    styleUrl: 'forgot-password.component.scss',
-    standalone: false
+  selector: 'app-forgot-password',
+  templateUrl: 'forgot-password.component.html',
+  styleUrl: 'forgot-password.component.scss',
+  standalone: false,
 })
 export class ForgotPasswordComponent extends Form implements OnInit {
   override form: Formify<IForgotPasswordForm>;
@@ -36,7 +37,8 @@ export class ForgotPasswordComponent extends Form implements OnInit {
     public override readonly toastService: ToastService,
     private readonly fb: FormBuilder,
     private readonly tenantSettingsService: TenantSettingsService,
-    public override translateService: TranslateService
+    public override translateService: TranslateService,
+    private readonly languageService: LanguageService
   ) {
     super(toastService, translateService);
     this.form = this.initFormGroup();
@@ -61,8 +63,10 @@ export class ForgotPasswordComponent extends Form implements OnInit {
 
   public onSubmit(): void {
     if (this.form.valid) {
+      console.log('current lang ', this.languageService.getCurrentLanguage());
+      
       this.authService
-        .forgotPassword(this.form.controls.email.value)
+        .forgotPassword(this.form.controls.email.value, this.languageService.getCurrentLanguage())
         .subscribe({
           next: () => {
             this.toastService.success({

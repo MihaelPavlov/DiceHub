@@ -57,6 +57,10 @@
       </div>
     </div> -->
 
+    <span class="markup forgot-password" (click)="navigateToForgotPassword()">{{
+      "login.labels.lost_your_way" | translate
+    }}</span>
+
     <div *ngIf="getFirstErrorMessage()" class="errors">
       {{ getFirstErrorMessage() }}
 

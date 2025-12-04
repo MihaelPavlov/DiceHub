@@ -10,7 +10,10 @@
 .markup {
   color: palette.$main-blue-color;
 }
-
+.forgot-password{
+display: flex;
+justify-content: end;
+}
 .interactive-option {
   display: flex;
   justify-content: center;

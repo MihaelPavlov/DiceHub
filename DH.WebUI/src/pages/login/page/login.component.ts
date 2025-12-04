@@ -1,5 +1,5 @@
 import { FrontEndLogService } from './../../../shared/services/frontend-log.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../entities/auth/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Form } from '../../../shared/components/form/form.component';
@@ -20,7 +20,6 @@ import { LoadingService } from '../../../shared/services/loading.service';
 import { LoadingInterceptorContextService } from '../../../shared/services/loading-context.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../shared/services/language.service';
-import { ChallengeOverlayComponent } from '../../../shared/components/challenge-overlay/challenge-overlay.component';
 import { ChallengeOverlayService } from '../../../shared/services/challenges-overlay.service';
 import { ChallengeHubService } from '../../../entities/challenges/api/challenge-hub.service';
 
