@@ -1,4 +1,3 @@
-import { LandingComponent } from './../../pages/landing/page/landing.component';
 import { LanguageService } from './../../shared/services/language.service';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, map } from 'rxjs';
@@ -49,8 +48,8 @@ export class AuthService {
     });
   }
 
-  public forgotPassword(email: string): Observable<any> {
-    return this.api.post(`/api/user/forgot-password/${email}`, {});
+  public forgotPassword(email: string, language: string): Observable<any> {
+    return this.api.post(`/api/user/forgot-password/${email}/${language}`, {});
   }
 
   public sendEmailConfirmationRequest(

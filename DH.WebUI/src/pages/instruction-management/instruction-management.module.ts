@@ -5,7 +5,6 @@ import { InstructionManagementRoutingModule } from './instruction-management-rou
 import { HeaderModule } from '../../widgets/header/header.module';
 import { InstructionLinksComponent } from '../../features/instruction-management/components/instruction-links/instruction-links.component';
 import { InstructionComponent } from '../../features/instruction-management/components/instruction/instruction.component';
-import { LandingComponent } from '../landing/page/landing.component';
 import { LinkInfoComponent } from '../../features/instruction-management/components/link-info/link-info.component';
 import { LanguageSwitchModule } from '../../shared/components/language-switch/language-switch.module';
 
@@ -15,7 +14,6 @@ import { LanguageSwitchModule } from '../../shared/components/language-switch/la
     InstructionLinksComponent,
     LinkInfoComponent,
     InstructionComponent,
-    LandingComponent,
   ],
   exports: [],
   providers: [],

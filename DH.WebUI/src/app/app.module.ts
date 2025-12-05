@@ -42,6 +42,7 @@ import localeBg from '@angular/common/locales/bg';
 import localeEn from '@angular/common/locales/en';
 import { LanguageSwitchModule } from '../shared/components/language-switch/language-switch.module';
 import { ChallengeOverlayComponent } from '../shared/components/challenge-overlay/challenge-overlay.component';
+import { LandingComponent } from '../pages/landing/page/landing.component';
 
 export function initializeUserFactory(authService: AuthService): () => void {
   return () => authService.userinfo$();
@@ -50,7 +51,7 @@ registerLocaleData(localeBg, 'bg');
 registerLocaleData(localeEn, 'en');
 
 @NgModule({
-  declarations: [AppComponent, ChallengeOverlayComponent],
+  declarations: [AppComponent, LandingComponent, ChallengeOverlayComponent],
   exports: [BrowserModule, BrowserAnimationsModule],
   bootstrap: [AppComponent],
   imports: [
