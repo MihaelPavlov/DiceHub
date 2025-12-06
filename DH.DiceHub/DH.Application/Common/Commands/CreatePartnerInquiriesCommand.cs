@@ -2,6 +2,7 @@
 using DH.Domain.Adapters.EmailSender;
 using DH.Domain.Adapters.Localization;
 using DH.Domain.Entities;
+using DH.Domain.Enums;
 using DH.Domain.Models.Common;
 using DH.Domain.Repositories;
 using DH.Domain.Services;
@@ -51,7 +52,7 @@ internal class CreatePartnerInquiriesCommandHandle(
 
         var emailType = EmailType.PartnerInquiryRequest;
 
-        var emailTemplate = await this.emailHelperService.GetEmailTemplate(emailType);
+        var emailTemplate = await this.emailHelperService.GetEmailTemplate(emailType, SupportLanguages.EN.ToString());
         if (emailTemplate == null)
         {
             this.logger.LogWarning("Email Template with Key {EmailType} was not found. {EmailType} was not send",

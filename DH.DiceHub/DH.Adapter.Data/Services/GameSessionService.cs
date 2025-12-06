@@ -20,7 +20,7 @@ namespace DH.Adapter.Data.Services;
 public class GameSessionService : IGameSessionService
 {
     readonly IDbContextFactory<TenantDbContext> dbContextFactory;
-    readonly SynchronizeUsersChallengesQueue queue;
+    readonly ISynchronizeUsersChallengesQueue queue;
     readonly ITenantSettingsCacheService tenantSettingsCacheService;
     readonly IStatisticQueuePublisher statisticQueuePublisher;
     readonly IUserService userService;
@@ -29,7 +29,7 @@ public class GameSessionService : IGameSessionService
 
     public GameSessionService(
         IDbContextFactory<TenantDbContext> dbContextFactory,
-        SynchronizeUsersChallengesQueue queue,
+        ISynchronizeUsersChallengesQueue queue,
         ITenantSettingsCacheService tenantSettingsCacheService,
         IStatisticQueuePublisher statisticQueuePublisher,
         IUserService userService,
@@ -124,10 +124,10 @@ public class GameSessionService : IGameSessionService
                                 .ToListAsync(cancellationToken);
 
                             if (lockedChallenges.Count != 0)
-                                this.queue.AddChallengeInitiationJob(userId, DateTime.UtcNow);
+                                await this.queue.AddChallengeInitiationJob(userId, DateTime.UtcNow);
                             else
                             {
-                                this.queue.AddChallengeInitiationJob(userId, DateTime.UtcNow.AddHours(tenantSettings.ChallengeInitiationDelayHours));
+                                await this.queue.AddChallengeInitiationJob(userId, DateTime.UtcNow.AddHours(tenantSettings.ChallengeInitiationDelayHours));
                             }
                         }
                     }
@@ -209,7 +209,7 @@ public class GameSessionService : IGameSessionService
 
             if (!await this.userService.HasUserAnyMatchingRole(userId, Role.SuperAdmin))
             {
-                await this.statisticQueuePublisher.PublishAsync(new StatisticJobQueue.ChallengeProcessingOutcomeJob(
+                await this.statisticQueuePublisher.PublishAsync(new ChallengeProcessingOutcomeJob(
                     userId,
                     100000 + challenge.UniversalChallengeId!.Value,
                     ChallengeOutcome.Completed,
@@ -265,7 +265,7 @@ public class GameSessionService : IGameSessionService
 
             if (!await this.userService.HasUserAnyMatchingRole(userId, Role.SuperAdmin))
             {
-                await this.statisticQueuePublisher.PublishAsync(new StatisticJobQueue.ChallengeProcessingOutcomeJob(
+                await this.statisticQueuePublisher.PublishAsync(new ChallengeProcessingOutcomeJob(
                     userId,
                     challenge.ChallengeId!.Value,
                     ChallengeOutcome.Completed,
@@ -316,7 +316,7 @@ public class GameSessionService : IGameSessionService
 
             if (!await userService.HasUserAnyMatchingRole(userId, Role.SuperAdmin))
             {
-                await statisticQueuePublisher.PublishAsync(new StatisticJobQueue.ChallengeProcessingOutcomeJob(
+                await statisticQueuePublisher.PublishAsync(new ChallengeProcessingOutcomeJob(
                     userId,
                     10000 + challenge.Id,
                     ChallengeOutcome.Completed,
@@ -385,7 +385,7 @@ public class GameSessionService : IGameSessionService
 
             if (!await userService.HasUserAnyMatchingRole(userId, Role.SuperAdmin))
             {
-                await statisticQueuePublisher.PublishAsync(new StatisticJobQueue.ChallengeProcessingOutcomeJob(
+                await statisticQueuePublisher.PublishAsync(new ChallengeProcessingOutcomeJob(
                     userId,
                     10000 + challenge.Id,
                     ChallengeOutcome.Completed,
@@ -647,7 +647,7 @@ public class GameSessionService : IGameSessionService
 
         if (!await userService.HasUserAnyMatchingRole(userId, Role.SuperAdmin))
         {
-            await statisticQueuePublisher.PublishAsync(new StatisticJobQueue.ChallengeProcessingOutcomeJob(
+            await statisticQueuePublisher.PublishAsync(new ChallengeProcessingOutcomeJob(
                 userId,
                 10000 + rewardGrantedChallenge.Id,
                 ChallengeOutcome.Completed,
@@ -710,7 +710,7 @@ public class GameSessionService : IGameSessionService
 
         if (!await userService.HasUserAnyMatchingRole(userId, Role.SuperAdmin))
         {
-            await statisticQueuePublisher.PublishAsync(new StatisticJobQueue.ChallengeProcessingOutcomeJob(
+            await statisticQueuePublisher.PublishAsync(new ChallengeProcessingOutcomeJob(
                 userId,
                 10000 + rewardGrantedChallenge.Id,
                 ChallengeOutcome.Completed,

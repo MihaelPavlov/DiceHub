@@ -13,10 +13,10 @@ internal class RemoveUserFromSpaceTableCommandHandler : IRequestHandler<RemoveUs
 {
     readonly IRepository<SpaceTable> spaceTableRepository;
     readonly IRepository<SpaceTableParticipant> spaceTableParticipantRepository;
-    readonly SynchronizeGameSessionQueue queue;
+    readonly IGameSessionQueue queue;
     readonly IUserContext userContext;
 
-    public RemoveUserFromSpaceTableCommandHandler(IRepository<SpaceTable> spaceTableRepository, SynchronizeGameSessionQueue queue, IRepository<SpaceTableParticipant> spaceTableParticipantRepository, IUserContext userContext)
+    public RemoveUserFromSpaceTableCommandHandler(IRepository<SpaceTable> spaceTableRepository, IGameSessionQueue queue, IRepository<SpaceTableParticipant> spaceTableParticipantRepository, IUserContext userContext)
     {
         this.spaceTableRepository = spaceTableRepository;
         this.queue = queue;
@@ -40,7 +40,7 @@ internal class RemoveUserFromSpaceTableCommandHandler : IRequestHandler<RemoveUs
 
         await this.spaceTableParticipantRepository.Remove(spaceTableParticipation, cancellationToken);
 
-        if (this.queue.Contains(request.UserId, spaceTable.GameId))
-            this.queue.CancelUserPlayTimeEnforcerJob(request.UserId, spaceTable.GameId);
+        if (await this.queue.Contains(request.UserId, spaceTable.GameId, cancellationToken))
+            await this.queue.CancelUserPlayTimeEnforcerJob(request.UserId, spaceTable.GameId);
     }
 }

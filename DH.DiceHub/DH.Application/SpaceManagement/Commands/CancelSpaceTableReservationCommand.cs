@@ -32,7 +32,7 @@ internal class CancelSpaceTableReservationCommandHandler(
 
         await this.repository.SaveChangesAsync(cancellationToken);
 
-        await this.statisticQueuePublisher.PublishAsync(new StatisticJobQueue.ReservationProcessingOutcomeJob(
+        await this.statisticQueuePublisher.PublishAsync(new ReservationProcessingOutcomeJob(
             reservation.UserId, ReservationOutcome.Cancelled, ReservationType.Table, reservation.Id, DateTime.UtcNow));
 
         var payload = new SpaceTableCancelNotification

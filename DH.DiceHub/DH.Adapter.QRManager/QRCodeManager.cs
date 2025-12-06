@@ -55,10 +55,10 @@ public class QRCodeManager : IQRCodeManager
                         this.containerService.Resolve<IUserService>(),
                         this.containerService.Resolve<ISpaceTableService>(),
                         this.containerService.Resolve<IRepository<SpaceTable>>(),
-                        this.containerService.Resolve<SynchronizeGameSessionQueue>(),
+                        this.containerService.Resolve<IGameSessionQueue>(),
                         this.containerService.Resolve<IRepository<Game>>(),
                         this.containerService.Resolve<IStatisticQueuePublisher>(),
-                        this.containerService.Resolve<ReservationCleanupQueue>(),
+                        this.containerService.Resolve<IReservationCleanupQueue>(),
                         this.containerService.Resolve<ILocalizationService>()
                         )
                     );
@@ -82,7 +82,8 @@ public class QRCodeManager : IQRCodeManager
                         this.containerService.Resolve<IRepository<SpaceTableReservation>>(),
                         this.containerService.Resolve<IRepository<SpaceTable>>(),
                         this.containerService.Resolve<IStatisticQueuePublisher>(),
-                        this.containerService.Resolve<ILocalizationService>()
+                        this.containerService.Resolve<ILocalizationService>(),
+                        this.containerService.Resolve<IReservationCleanupQueue>()
                         )
                     );
                 break;

@@ -25,16 +25,16 @@ public class GameReservationQRCodeState : IQRCodeState
     readonly IRepository<Game> gameRepository;
     readonly IUserService userService;
     readonly ISpaceTableService spaceTableService;
-    readonly SynchronizeGameSessionQueue gameSessionQueue;
+    readonly IGameSessionQueue gameSessionQueue;
     readonly IStatisticQueuePublisher statisticQueuePublisher;
-    readonly ReservationCleanupQueue reservationCleanupQueue;
+    readonly IReservationCleanupQueue reservationCleanupQueue;
     readonly ILocalizationService loc;
 
     public GameReservationQRCodeState(IUserContext userContext, IRepository<GameReservation> gameReservationRepository,
         IRepository<SpaceTableReservation> tableReservationRepository, IUserService userService,
-        ISpaceTableService spaceTableService, IRepository<SpaceTable> tableRepository, SynchronizeGameSessionQueue gameSessionQueue,
+        ISpaceTableService spaceTableService, IRepository<SpaceTable> tableRepository, IGameSessionQueue gameSessionQueue,
         IRepository<Game> gameRepository, IStatisticQueuePublisher statisticQueuePublisher,
-        ReservationCleanupQueue reservationCleanupQueue, ILocalizationService loc)
+        IReservationCleanupQueue reservationCleanupQueue, ILocalizationService loc)
     {
         this.userContext = userContext;
         this.gameReservationRepository = gameReservationRepository;
@@ -137,20 +137,20 @@ public class GameReservationQRCodeState : IQRCodeState
                 string.Format(this.loc["GameReservationQrCodeScannedGameMissingOrDeleted"], traceId, spaceTableId, request.GameId),
                 traceId, cancellationToken);
 
-        this.gameSessionQueue.AddUserPlayTimEnforcerJob(userId, game.Id, DateTime.UtcNow.AddMinutes((int)game.AveragePlaytime));
+        await this.gameSessionQueue.AddUserPlayTimEnforcerJob(userId, game.Id, DateTime.UtcNow.AddMinutes((int)game.AveragePlaytime));
 
         await context.TrackScannedQrCode(traceId, data, null, cancellationToken);
 
-        await this.statisticQueuePublisher.PublishAsync(new StatisticJobQueue.ClubActivityDetectedJob(
+        await this.statisticQueuePublisher.PublishAsync(new ClubActivityDetectedJob(
             userId, DateTime.UtcNow));
 
-        await this.statisticQueuePublisher.PublishAsync(new StatisticJobQueue.ReservationProcessingOutcomeJob(
+        await this.statisticQueuePublisher.PublishAsync(new ReservationProcessingOutcomeJob(
            userId, ReservationOutcome.Completed, ReservationType.Game, gameReservation.Id, DateTime.UtcNow));
 
-        await this.statisticQueuePublisher.PublishAsync(new StatisticJobQueue.GameEngagementDetectedJob(
+        await this.statisticQueuePublisher.PublishAsync(new GameEngagementDetectedJob(
            userId, game.Id, DateTime.UtcNow));
 
-        this.reservationCleanupQueue.RemoveReservationCleaningJob(gameReservation.Id);
+        await this.reservationCleanupQueue.CancelReservationCleaningJob(gameReservation.Id, ReservationType.Game);
 
         result.IsValid = true;
         return result;

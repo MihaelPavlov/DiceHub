@@ -7,7 +7,6 @@ using DH.Domain.Adapters.PushNotifications.Messages;
 using DH.Domain.Adapters.Reservations;
 using DH.Domain.Entities;
 using DH.Domain.Enums;
-using DH.Domain.Helpers;
 using DH.Domain.Models.GameModels.Commands;
 using DH.Domain.Repositories;
 using DH.Domain.Services;
@@ -23,7 +22,7 @@ public record CreateGameReservationCommand(CreateGameReservationModel Reservatio
 internal class CreateGameReservationCommandHandler(
     IGameService gameService,
     IRepository<GameReservation> repository,
-    IUserContext userContext, ReservationCleanupQueue queue,
+    IUserContext userContext, IReservationCleanupQueue queue,
     IPushNotificationsService pushNotificationsService,
     IUserService userService,
     IRepository<Game> gameRepository,
@@ -38,7 +37,7 @@ internal class CreateGameReservationCommandHandler(
     readonly IPushNotificationsService pushNotificationsService = pushNotificationsService;
     readonly IUserService userService = userService;
     readonly ITenantSettingsCacheService tenantSettingsCacheService = tenantSettingsCacheService;
-    readonly ReservationCleanupQueue queue = queue;
+    readonly IReservationCleanupQueue queue = queue;
     readonly ILogger<CreateGameReservationCommandHandler> logger = logger;
     readonly ILocalizationService localizer = localizer;
 
@@ -65,9 +64,9 @@ internal class CreateGameReservationCommandHandler(
 
         var settings = await this.tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
 
-        this.queue.AddReservationCleaningJob(reservation.Id, ReservationType.Game, reservation.ReservationDate.AddMinutes(settings.BonusTimeAfterReservationExpiration));
+        await this.queue.AddReservationCleaningJob(reservation.Id, ReservationType.Game, reservation.ReservationDate.AddMinutes(settings.BonusTimeAfterReservationExpiration));
 
-        var users = await this.userService.GetUserListByRoles([Role.Staff,Role.SuperAdmin], cancellationToken);
+        var users = await this.userService.GetUserListByRoles([Role.Staff, Role.SuperAdmin], cancellationToken);
         var getUsers = await this.userService.GetUserListByIds([this.userContext.UserId], cancellationToken);
         var currentUser = getUsers.First();
 

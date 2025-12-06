@@ -8,6 +8,6 @@ public static class ReservationAdapterDI
     public static IServiceCollection AddReservationAdapter(
         this IServiceCollection services)
         => services
-            .AddSingleton<ReservationCleanupQueue>()
-            .AddHostedService<ReservationCleanupService>();
+            .AddScoped<IReservationCleanupQueue, ReservationCleanupQueue>()
+            .AddHostedService<ReservationCleanupWorker>();
 }

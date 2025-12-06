@@ -15,14 +15,14 @@ public record DeclineGameReservationCommand(int Id, string InternalNote, string 
 
 internal class DeclineGameReservationCommandHandler(
     IRepository<GameReservation> repository, IRepository<Game> gameRepository,
-    ReservationCleanupQueue queue, IStatisticQueuePublisher statisticQueuePublisher,
+    IReservationCleanupQueue queue, IStatisticQueuePublisher statisticQueuePublisher,
     IPushNotificationsService pushNotificationsService) : IRequestHandler<DeclineGameReservationCommand>
 {
     readonly IRepository<GameReservation> repository = repository;
     readonly IRepository<Game> gameRepository = gameRepository;
     readonly IPushNotificationsService pushNotificationsService = pushNotificationsService;
     readonly IStatisticQueuePublisher statisticQueuePublisher = statisticQueuePublisher;
-    readonly ReservationCleanupQueue queue = queue;
+    readonly IReservationCleanupQueue queue = queue;
 
     public async Task Handle(DeclineGameReservationCommand request, CancellationToken cancellationToken)
     {
@@ -36,11 +36,10 @@ internal class DeclineGameReservationCommandHandler(
         await this.repository.SaveChangesAsync(cancellationToken);
         var game = await this.gameRepository.GetByAsync(x => x.Id == reservation.GameId, cancellationToken);
 
-        //TODO: This additional minutes can be tenantSettings
         DateTime newCleanupTime = DateTime.UtcNow.AddMinutes(2);
-        this.queue.UpdateReservationCleaningJob(reservation.Id, newCleanupTime);
+        await this.queue.UpdateReservationCleaningJob(reservation.Id, ReservationType.Game, newCleanupTime);
 
-        await this.statisticQueuePublisher.PublishAsync(new StatisticJobQueue.ReservationProcessingOutcomeJob(
+        await this.statisticQueuePublisher.PublishAsync(new ReservationProcessingOutcomeJob(
             reservation.UserId, ReservationOutcome.Cancelled, ReservationType.Game, reservation.Id, DateTime.UtcNow));
 
         var payload = new GameReservationDeclinedNotification

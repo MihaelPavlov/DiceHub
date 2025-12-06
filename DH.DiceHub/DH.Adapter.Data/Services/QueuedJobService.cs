@@ -17,7 +17,7 @@ public class QueuedJobService : IQueuedJobService
         this.contextFactory = contextFactory;
     }
 
-    public async Task Create(string queueName, Guid jobId, string payload, string? jobType = null)
+    public async Task Create(string queueName, string jobId, string payload, string? jobType = null)
     {
         using (var context = await this.contextFactory.CreateDbContextAsync())
         {
@@ -35,7 +35,27 @@ public class QueuedJobService : IQueuedJobService
         }
     }
 
-    public async Task UpdatePayload(string queueName, Guid jobId, string payload)
+    public async Task<List<QueuedJob>> GetJobsInPendingStatusByQueueType(string queueType, CancellationToken cancellationToken)
+    {
+        using (var context = await this.contextFactory.CreateDbContextAsync())
+        {
+            return await context.QueuedJobs
+                .Where(x => x.QueueType == queueType && x.Status == JobStatus.Pending)
+                .ToListAsync(cancellationToken);
+        }
+    }
+
+    public async Task<QueuedJob?> GetJobByJobId(string queueType, string jobId, CancellationToken cancellationToken)
+    {
+        using (var context = await this.contextFactory.CreateDbContextAsync())
+        {
+            return await context.QueuedJobs
+                .Where(x => x.JobId == jobId && x.QueueType == queueType && x.Status == JobStatus.Pending)
+                .FirstOrDefaultAsync(cancellationToken);
+        }
+    }
+
+    public async Task UpdatePayload(string queueName, string jobId, string payload)
     {
         using (var context = await this.contextFactory.CreateDbContextAsync())
         {
@@ -53,7 +73,7 @@ public class QueuedJobService : IQueuedJobService
         }
     }
 
-    public async Task UpdateStatusToCompleted(string queueName, Guid jobId)
+    public async Task UpdateStatusToCompleted(string queueName, string jobId)
     {
         var isUpdatedSuccesuflly = await this.UpdateJobStatus(queueName, jobId, JobStatus.Completed);
 
@@ -63,7 +83,7 @@ public class QueuedJobService : IQueuedJobService
         }
     }
 
-    public async Task UpdateStatusToCancelled(string queueName, Guid jobId)
+    public async Task UpdateStatusToCancelled(string queueName, string jobId)
     {
         var isUpdatedSuccesuflly = await this.UpdateJobStatus(queueName, jobId, JobStatus.Cancelled);
 
@@ -73,7 +93,7 @@ public class QueuedJobService : IQueuedJobService
         }
     }
 
-    public async Task UpdateStatusToFailed(string queueName, Guid jobId)
+    public async Task UpdateStatusToFailed(string queueName, string jobId)
     {
         var isUpdatedSuccesuflly = await this.UpdateJobStatus(queueName, jobId, JobStatus.Failed);
 
@@ -83,12 +103,12 @@ public class QueuedJobService : IQueuedJobService
         }
     }
 
-    private async Task<bool> UpdateJobStatus(string queueName, Guid jobId, JobStatus jobStatus)
+    private async Task<bool> UpdateJobStatus(string queueName, string jobId, JobStatus jobStatus)
     {
         using (var context = await this.contextFactory.CreateDbContextAsync())
         {
             var job = await context.QueuedJobs
-                .FirstOrDefaultAsync(x => x.QueueType == queueName && x.JobId == jobId);
+                .FirstOrDefaultAsync(x => x.QueueType == queueName && x.JobId == jobId && x.Status == JobStatus.Pending);
             if (job != null)
             {
                 job.Status = jobStatus;

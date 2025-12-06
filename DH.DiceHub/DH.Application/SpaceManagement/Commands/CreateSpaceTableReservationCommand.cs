@@ -22,7 +22,7 @@ internal class CreateSpaceTableReservationCommandHandler(
     IPushNotificationsService pushNotificationsService,
     IUserService userService,
     ITenantSettingsCacheService tenantSettingsCacheService,
-    ReservationCleanupQueue queue,
+    IReservationCleanupQueue queue,
     ILocalizationService localizationService) : IRequestHandler<CreateSpaceTableReservationCommand>
 {
     readonly IRepository<SpaceTableReservation> repository = repository;
@@ -30,7 +30,7 @@ internal class CreateSpaceTableReservationCommandHandler(
     readonly IPushNotificationsService pushNotificationsService = pushNotificationsService;
     readonly IUserService userService = userService;
     readonly ITenantSettingsCacheService tenantSettingsCacheService = tenantSettingsCacheService;
-    readonly ReservationCleanupQueue queue = queue;
+    readonly IReservationCleanupQueue queue = queue;
     readonly ILocalizationService localizationService = localizationService;
 
     public async Task Handle(CreateSpaceTableReservationCommand request, CancellationToken cancellationToken)
@@ -59,7 +59,7 @@ internal class CreateSpaceTableReservationCommandHandler(
 
         var settings = await this.tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
 
-        this.queue.AddReservationCleaningJob(reservation.Id, ReservationType.Table, request.ReservationDate.AddMinutes(settings.BonusTimeAfterReservationExpiration));
+        await this.queue.AddReservationCleaningJob(reservation.Id, ReservationType.Table, request.ReservationDate.AddMinutes(settings.BonusTimeAfterReservationExpiration));
 
         var users = await this.userService.GetUserListByRole(Role.Staff, cancellationToken);
         var userIds = users.Select(user => user.Id).ToList();

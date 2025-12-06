@@ -41,7 +41,7 @@ internal class CancelGameReservationCommandHandler(
 
         var game = await this.gameRepository.GetByAsync(x => x.Id == reservation.GameId, cancellationToken);
 
-        await this.statisticQueuePublisher.PublishAsync(new StatisticJobQueue.ReservationProcessingOutcomeJob(
+        await this.statisticQueuePublisher.PublishAsync(new ReservationProcessingOutcomeJob(
             reservation.UserId, ReservationOutcome.Cancelled, ReservationType.Game, reservation.Id, DateTime.UtcNow));
 
         var payload = new GameReservationCancelledNotification

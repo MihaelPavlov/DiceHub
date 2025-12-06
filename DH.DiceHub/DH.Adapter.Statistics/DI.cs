@@ -8,6 +8,6 @@ public static class DI
     public static IServiceCollection AddStatisticsAdapter(this IServiceCollection services)
         => services
        .AddScoped<IStatisticJobFactory, StatisticJobFactory>()
-       .AddSingleton<StatisticJobQueue>()
+       .AddScoped<IStatisticJobQueue, StatisticJobQueue>()
        .AddHostedService<StatisticJobWorker>();
 }

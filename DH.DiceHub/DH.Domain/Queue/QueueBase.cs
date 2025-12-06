@@ -17,7 +17,7 @@
 /// }
 /// </code>
 /// </example>
-public abstract class QueueBase
+public interface QueueBase
 {
     /// <summary>
     /// Gets the name of the queue.
@@ -26,5 +26,5 @@ public abstract class QueueBase
     /// This property must be overridden by any queue implementation to provide a unique name 
     /// for the queue, which is used for processing jobs and identifying the queue in the system.
     /// </remarks>
-    public abstract string QueueName { get; }
+    public string QueueName { get; }
 }

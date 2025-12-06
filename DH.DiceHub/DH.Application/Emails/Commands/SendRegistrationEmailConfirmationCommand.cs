@@ -33,6 +33,7 @@ internal class SendRegistrationEmailConfirmationCommandHandler(
     public async Task<bool> Handle(SendRegistrationEmailConfirmationCommand request, CancellationToken cancellationToken)
     {
         var emailType = EmailType.RegistrationEmailConfirmation;
+        var currentPreferredLanguage = request.Language ?? SupportLanguages.EN.ToString();
 
         if (string.IsNullOrWhiteSpace(request.ByUserId) && string.IsNullOrWhiteSpace(request.ByEmail))
         {
@@ -61,7 +62,7 @@ internal class SendRegistrationEmailConfirmationCommandHandler(
             return false;
         }
 
-        var emailTemplate = await this.emailHelperService.GetEmailTemplate(emailType);
+        var emailTemplate = await this.emailHelperService.GetEmailTemplate(emailType, currentPreferredLanguage);
         if (emailTemplate == null)
         {
             this.logger.LogWarning("Email Template with Key {EmailType} was not found. {EmailType} was not send",
@@ -70,11 +71,10 @@ internal class SendRegistrationEmailConfirmationCommandHandler(
         }
 
         var settings = await tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
-
         var token = await this.userService.GenerateEmailConfirmationTokenAsync(user.Id);
         var encodedToken = WebUtility.UrlEncode(token);
         var frontendUrl = configuration.GetSection("Frontend_URL").Value;
-        var callbackUrl = $"{frontendUrl}/confirm-email?email={WebUtility.UrlEncode(user.Email)}&token={encodedToken}&language={request.Language ?? SupportLanguages.EN.ToString()}";
+        var callbackUrl = $"{frontendUrl}/confirm-email?email={WebUtility.UrlEncode(user.Email)}&token={encodedToken}&language={currentPreferredLanguage}";
 
         var body = this.emailHelperService.LoadTemplate(emailTemplate.TemplateHtml, new Dictionary<string, string>
         {

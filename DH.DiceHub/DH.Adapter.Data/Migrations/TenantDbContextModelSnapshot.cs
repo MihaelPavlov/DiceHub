@@ -462,6 +462,10 @@ namespace DH.Adapter.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Language")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Subject")
                         .IsRequired()
                         .HasColumnType("text");
@@ -984,8 +988,9 @@ namespace DH.Adapter.Data.Migrations
                     b.Property<DateTime>("EnqueuedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid>("JobId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("JobId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("JobType")
                         .IsRequired()

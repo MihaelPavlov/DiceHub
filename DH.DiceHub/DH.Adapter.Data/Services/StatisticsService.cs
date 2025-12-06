@@ -1,4 +1,5 @@
 ﻿using DH.Domain.Adapters.Authentication;
+using DH.Domain.Adapters.Statistics;
 using DH.Domain.Adapters.Statistics.Enums;
 using DH.Domain.Adapters.Statistics.Services;
 using DH.Domain.Entities;
@@ -10,7 +11,6 @@ using DH.OperationResultCore.Exceptions;
 using DH.OperationResultCore.Extension;
 using DH.OperationResultCore.Utility;
 using Microsoft.EntityFrameworkCore;
-using static DH.Domain.Adapters.Statistics.StatisticJobQueue;
 
 namespace DH.Adapter.Data.Services;
 
@@ -30,6 +30,7 @@ internal class StatisticsService(
                 .ToListAsync(cancellationToken);
 
             var participantInTables = await context.SpaceTableParticipants
+                .Include(x => x.SpaceTable)
                 .Where(r => r.UserId == this.userContext.UserId)
                 .ToListAsync(cancellationToken);
 

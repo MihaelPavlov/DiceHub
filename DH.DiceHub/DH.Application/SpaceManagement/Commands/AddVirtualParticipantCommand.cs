@@ -44,7 +44,7 @@ internal class AddVirtualParticipantCommandHandler(
 
         await this.spaceTableRepository.SaveChangesAsync(cancellationToken);
 
-        await this.statisticQueuePublisher.PublishAsync(new StatisticJobQueue.ClubActivityDetectedJob(
+        await this.statisticQueuePublisher.PublishAsync(new ClubActivityDetectedJob(
             userContext.UserId, DateTime.UtcNow));
     }
 }

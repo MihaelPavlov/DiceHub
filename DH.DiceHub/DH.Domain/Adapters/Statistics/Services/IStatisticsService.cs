@@ -3,7 +3,6 @@ using DH.Domain.Enums;
 using DH.Domain.Models.SpaceManagementModels.Queries;
 using DH.Domain.Models.StatisticsModels.Queries;
 using DH.OperationResultCore.Utility;
-using static DH.Domain.Adapters.Statistics.StatisticJobQueue;
 
 namespace DH.Domain.Adapters.Statistics.Services;
 

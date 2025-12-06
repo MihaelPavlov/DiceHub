@@ -2,7 +2,6 @@
 using DH.Domain.Adapters.Statistics.JobHandlers;
 using DH.Domain.Adapters.Statistics.Services;
 using Microsoft.Extensions.DependencyInjection;
-using static DH.Domain.Adapters.Statistics.StatisticJobQueue;
 
 namespace DH.Adapter.Statistics;
 

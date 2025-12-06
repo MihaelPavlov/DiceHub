@@ -2,104 +2,39 @@
 using DH.Domain.Enums;
 using DH.Domain.Queue;
 using DH.Domain.Services.Queue;
-using Microsoft.Extensions.DependencyInjection;
-using System.Collections.Concurrent;
-using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 
 namespace DH.Domain.Adapters.Reservations;
 
-public class ReservationCleanupQueue : QueueBase
+public class ReservationCleanupQueue(IQueuedJobService queuedJobService) : IReservationCleanupQueue
 {
-    // FIFO queue
-    private readonly ConcurrentQueue<JobInfo> queue = new();
+    public string QueueName => QueueNameKeysConstants.RESERVATION_CLEANUP_QUEUE_NAME;
 
-    // Optional dictionary for fast lookups or updates
-    private readonly ConcurrentDictionary<int, JobInfo> jobs = new();
+    readonly IQueuedJobService queuedJobService = queuedJobService;
 
-    public override string QueueName => QueueNameKeysConstants.RESERVATION_CLEANUP_QUEUE_NAME;
-
-    private IQueuedJobService? queuedJobService = null;
-    readonly IServiceScopeFactory serviceFactory;
-    public ReservationCleanupQueue(IServiceScopeFactory serviceFactory)
+    public async Task AddReservationCleaningJob(int reservationId, ReservationType type, DateTime removingTime)
     {
-        this.serviceFactory = serviceFactory;
+        var job = new ReservationCleanupJobInfo(reservationId, type, removingTime);
+        await this.queuedJobService.Create(this.QueueName, job.JobId, JsonSerializer.Serialize(job));
     }
 
-    private IQueuedJobService QueuedJobService
+    public async Task UpdateReservationCleaningJob(int reservationId, ReservationType type, DateTime newRemovingTime)
     {
-        get
-        {
-            if (queuedJobService == null)
-            {
-                queuedJobService = serviceFactory.CreateScope().ServiceProvider.GetRequiredService<IQueuedJobService>();
-            }
-            return queuedJobService;
-        }
+        var job = new ReservationCleanupJobInfo(reservationId, type, newRemovingTime);
+
+        await this.queuedJobService.UpdatePayload(this.QueueName, job.JobId, JsonSerializer.Serialize(job));
     }
 
-    public void AddReservationCleaningJob(int reservationId, ReservationType type, DateTime removingTime)
+    public async Task<List<QueuedJob>> TryDequeue(CancellationToken cancellationToken)
     {
-        var job = new JobInfo(reservationId, type, removingTime);
-        this.QueuedJobService.Create(this.QueueName, job.JobId, JsonSerializer.Serialize(job));
+        var queuedJobs = await this.queuedJobService.GetJobsInPendingStatusByQueueType(this.QueueName, cancellationToken);
 
-        jobs[reservationId] = job; // Store for lookup/update
-        queue.Enqueue(job);        // FIFO behavior
+        return queuedJobs ?? [];
     }
 
-    public void RequeueJob(JobInfo jobInfo)
+    public async Task CancelReservationCleaningJob(int reservationId, ReservationType type)
     {
-        if (jobs.TryGetValue(jobInfo.ReservationId, out var latestJob))
-        {
-            queue.Enqueue(latestJob);
-        }
-        else
-        {
-            queue.Enqueue(jobInfo);
-            jobs[jobInfo.ReservationId] = jobInfo;
-        }
+        var jobId = ReservationCleanupHelper.BuildJobId(reservationId, type);
+        await this.queuedJobService.UpdateStatusToCancelled(this.QueueName, jobId);
     }
-
-    public void UpdateReservationCleaningJob(int reservationId, DateTime newRemovingTime)
-    {
-        if (jobs.TryGetValue(reservationId, out var existingJob))
-        {
-            var updatedJobInfo = existingJob with { RemovingTime = newRemovingTime };
-            jobs[reservationId] = existingJob with { RemovingTime = newRemovingTime };
-
-            this.QueuedJobService.UpdatePayload(this.QueueName, updatedJobInfo.JobId, JsonSerializer.Serialize(updatedJobInfo));
-        }
-    }
-
-    /// <summary>
-    /// Attempts to dequeue a job from the queue.
-    /// </summary>
-    /// <param name="result">When this method returns, contains the job information if the operation was successful; otherwise, null.</param>
-    /// <returns>True if a job was successfully dequeued; otherwise, false.</returns>
-    public bool TryDequeue([MaybeNullWhen(false)] out JobInfo result)
-    {
-        if (queue.TryDequeue(out var jobInfo))
-        {
-            // Always refresh from dictionary if there’s an updated version
-            if (jobs.TryGetValue(jobInfo.ReservationId, out var updatedJob))
-            {
-                result = updatedJob;
-            }
-            else
-            {
-                result = jobInfo;
-            }
-            return true;
-        }
-
-        result = null!;
-        return false;
-    }
-
-    public bool RemoveReservationCleaningJob(int reservationId)
-    {
-        return jobs.TryRemove(reservationId, out _);
-    }
-
-    public record JobInfo(int ReservationId, ReservationType Type, DateTime RemovingTime) : JobInfoBase;
 }

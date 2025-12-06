@@ -53,7 +53,7 @@ internal class UserRewardsExpiryHandler(IRepository<UserChallengeReward> reposit
         foreach (var reward in expiredRewards)
         {
             await this.statisticQueuePublisher.PublishAsync(
-                new StatisticJobQueue.RewardActionDetectedJob(
+                new RewardActionDetectedJob(
                     reward.UserId, reward.RewardId,
                     CollectedDate: null, ExpiredDate: reward.ExpiredDate,
                     IsExpired: true, IsCollected: false));

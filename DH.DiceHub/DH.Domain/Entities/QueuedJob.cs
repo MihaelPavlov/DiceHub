@@ -6,7 +6,7 @@ public class QueuedJob
 {
     public int Id { get; set; }
     public string QueueType { get; set; } = string.Empty;
-    public Guid JobId { get; set; }
+    public string JobId { get; set; } = string.Empty;
     public string MessagePayload { get; set; } = string.Empty;
     public JobStatus Status { get; set; } = JobStatus.Pending;
     public string JobType { get; set; } = string.Empty;

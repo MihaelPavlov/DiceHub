@@ -8,6 +8,6 @@ public static class GameSessionAdapterDI
     public static IServiceCollection AddGameSessionAdapter(
         this IServiceCollection services)
         => services
-            .AddSingleton<SynchronizeGameSessionQueue>()
-            .AddHostedService<SynchronizeGameSessionService>();
+            .AddScoped<IGameSessionQueue, GameSessionQueue>()
+            .AddHostedService<GameSessionWorker>();
 }

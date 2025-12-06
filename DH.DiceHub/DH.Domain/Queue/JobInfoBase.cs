@@ -17,7 +17,12 @@
 public abstract record JobInfoBase
 {
     /// <summary>
-    /// Gets the unique identifier for the job.
+    /// Unique identifier for the job. Must be provided by every derived job.
     /// </summary>
-    public Guid JobId { get; init; } = Guid.NewGuid();
+    public string JobId { get; init; }
+
+    protected JobInfoBase(string jobId)
+    {
+        JobId = jobId;
+    }
 }

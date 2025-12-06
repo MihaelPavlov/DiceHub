@@ -42,7 +42,7 @@ internal class RemoveParticipantFromEventCommandHandler : IRequestHandler<Remove
         {
             await this.eventParticipantRepository.Remove(currentUserParticipant, cancellationToken);
 
-            await this.statisticQueuePublisher.PublishAsync(new StatisticJobQueue.EventAttendanceDetectedJob(
+            await this.statisticQueuePublisher.PublishAsync(new EventAttendanceDetectedJob(
                 this.userContext.UserId, AttendanceAction.Leaving, eventDb.Id, DateTime.UtcNow));
 
             return true;

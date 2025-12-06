@@ -2,12 +2,12 @@
 
 public interface IStatisticJob
 {
-    Guid JobId { get; }
+    string JobId { get; }
     Task ExecuteAsync(CancellationToken cancellationToken);
 }
 
 public interface IStatisticJobInfo
 {
-    Guid JobId { get; }
+    string JobId { get; }
     StatisticJobType JobType { get; }
 }

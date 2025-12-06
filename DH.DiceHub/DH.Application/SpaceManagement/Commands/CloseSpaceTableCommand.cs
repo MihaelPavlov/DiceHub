@@ -1,5 +1,4 @@
-﻿using DH.Domain.Adapters.Authentication;
-using DH.Domain.Adapters.GameSession;
+﻿using DH.Domain.Adapters.GameSession;
 using DH.Domain.Entities;
 using DH.Domain.Repositories;
 using DH.OperationResultCore.Exceptions;
@@ -15,16 +14,17 @@ internal class CloseSpaceTableCommandHandler : IRequestHandler<CloseSpaceTableCo
     readonly IRepository<SpaceTable> spaceTableRepository;
     readonly IRepository<SpaceTableParticipant> spaceTableParticipantRepository;
     readonly IRepository<GameInventory> gameInventoryRepository;
-    readonly IUserContext userContext;
-    readonly SynchronizeGameSessionQueue queue;
+    readonly IGameSessionQueue queue;
     readonly ILogger<CloseSpaceTableCommandHandler> logger;
 
-    public CloseSpaceTableCommandHandler(IRepository<SpaceTable> spaceTableRepository, SynchronizeGameSessionQueue queue, ILogger<CloseSpaceTableCommandHandler> logger, IUserContext userContext, IRepository<GameInventory> gameInventoryRepository, IRepository<SpaceTableParticipant> spaceTableParticipantRepository)
+    public CloseSpaceTableCommandHandler(
+        IRepository<SpaceTable> spaceTableRepository, IGameSessionQueue queue,
+        ILogger<CloseSpaceTableCommandHandler> logger, IRepository<GameInventory> gameInventoryRepository,
+        IRepository<SpaceTableParticipant> spaceTableParticipantRepository)
     {
         this.spaceTableRepository = spaceTableRepository;
         this.queue = queue;
         this.logger = logger;
-        this.userContext = userContext;
         this.gameInventoryRepository = gameInventoryRepository;
         this.spaceTableParticipantRepository = spaceTableParticipantRepository;
     }
@@ -38,12 +38,12 @@ internal class CloseSpaceTableCommandHandler : IRequestHandler<CloseSpaceTableCo
 
         foreach (var participant in spaceTableParticipantList)
         {
-            if (this.queue.Contains(participant.UserId, spaceTable.GameId))
-                this.queue.CancelUserPlayTimeEnforcerJob(participant.UserId, spaceTable.GameId);
+            if (await this.queue.Contains(participant.UserId, spaceTable.GameId, cancellationToken))
+                await this.queue.CancelUserPlayTimeEnforcerJob(participant.UserId, spaceTable.GameId);
         }
 
-        if (this.queue.Contains(spaceTable.CreatedBy, spaceTable.GameId))
-            this.queue.CancelUserPlayTimeEnforcerJob(spaceTable.CreatedBy, spaceTable.GameId);
+        if (await this.queue.Contains(spaceTable.CreatedBy, spaceTable.GameId, cancellationToken))
+            await this.queue.CancelUserPlayTimeEnforcerJob(spaceTable.CreatedBy, spaceTable.GameId);
 
         await this.spaceTableParticipantRepository.RemoveRange(spaceTableParticipantList, cancellationToken);
 

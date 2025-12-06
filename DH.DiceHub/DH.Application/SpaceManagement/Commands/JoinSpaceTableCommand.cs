@@ -19,7 +19,7 @@ internal class JoinSpaceTableCommandHandler : IRequestHandler<JoinSpaceTableComm
     readonly IRepository<SpaceTableParticipant> spaceTableParticipantRepository;
     readonly IRepository<Game> gameRepository;
     readonly IUserContext userContext;
-    readonly SynchronizeGameSessionQueue queue;
+    readonly IGameSessionQueue queue;
     readonly ILogger<JoinSpaceTableCommandHandler> logger;
     readonly IStatisticQueuePublisher statisticQueuePublisher;
     readonly ILocalizationService localizer;
@@ -29,7 +29,7 @@ internal class JoinSpaceTableCommandHandler : IRequestHandler<JoinSpaceTableComm
         IRepository<SpaceTableParticipant> spaceTableParticipantRepository,
         IRepository<Game> gameRepository,
         IUserContext userContext,
-        SynchronizeGameSessionQueue queue,
+        IGameSessionQueue queue,
         ILogger<JoinSpaceTableCommandHandler> logger,
         IStatisticQueuePublisher statisticQueuePublisher,
         ILocalizationService localizer)
@@ -66,7 +66,7 @@ internal class JoinSpaceTableCommandHandler : IRequestHandler<JoinSpaceTableComm
 
         await this.spaceTableRepository.SaveChangesAsync(cancellationToken);
 
-        await this.statisticQueuePublisher.PublishAsync(new StatisticJobQueue.ClubActivityDetectedJob(
+        await this.statisticQueuePublisher.PublishAsync(new ClubActivityDetectedJob(
             this.userContext.UserId, DateTime.UtcNow));
 
         var traceId = Guid.NewGuid().ToString();
@@ -78,9 +78,9 @@ internal class JoinSpaceTableCommandHandler : IRequestHandler<JoinSpaceTableComm
             throw new InfrastructureException($"Something went wrong: reference traceId: {traceId}");
         }
 
-        this.queue.AddUserPlayTimEnforcerJob(this.userContext.UserId, game!.Id, DateTime.UtcNow.AddMinutes((int)game.AveragePlaytime));
+        await this.queue.AddUserPlayTimEnforcerJob(this.userContext.UserId, game!.Id, DateTime.UtcNow.AddMinutes((int)game.AveragePlaytime));
 
-        await this.statisticQueuePublisher.PublishAsync(new StatisticJobQueue.GameEngagementDetectedJob(
+        await this.statisticQueuePublisher.PublishAsync(new GameEngagementDetectedJob(
            this.userContext.UserId, game.Id, DateTime.UtcNow));
     }
 }

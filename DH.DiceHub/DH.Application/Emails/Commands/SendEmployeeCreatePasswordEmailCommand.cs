@@ -1,14 +1,16 @@
 ﻿using DH.Domain.Adapters.Authentication.Services;
 using DH.Domain.Adapters.Email;
-using DH.Domain.Services.TenantSettingsService;
+using DH.Domain.Adapters.EmailSender;
+using DH.Domain.Adapters.Localization;
+using DH.Domain.Entities;
+using DH.Domain.Enums;
 using DH.Domain.Services;
+using DH.Domain.Services.TenantSettingsService;
+using DH.OperationResultCore.Exceptions;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using DH.OperationResultCore.Exceptions;
 using System.Net;
-using DH.Domain.Adapters.EmailSender;
-using DH.Domain.Entities;
 
 namespace DH.Application.Emails.Commands;
 
@@ -20,7 +22,8 @@ internal class SendEmployeeCreatePasswordEmailCommandHandler(
     IUserService userService,
     IEmailHelperService emailHelperService,
     IEmailSender emailSender,
-    IConfiguration configuration) : IRequestHandler<SendEmployeeCreatePasswordEmailCommand, bool>
+    IConfiguration configuration,
+    ILocalizationService localizationService) : IRequestHandler<SendEmployeeCreatePasswordEmailCommand, bool>
 {
     readonly ILogger<SendEmployeeCreatePasswordEmailCommandHandler> logger = logger;
     readonly ITenantSettingsCacheService tenantSettingsCacheService = tenantSettingsCacheService;
@@ -28,20 +31,22 @@ internal class SendEmployeeCreatePasswordEmailCommandHandler(
     readonly IEmailHelperService emailHelperService = emailHelperService;
     readonly IEmailSender emailSender = emailSender;
     readonly IConfiguration configuration = configuration;
+    readonly ILocalizationService localizationService = localizationService;
 
     public async Task<bool> Handle(SendEmployeeCreatePasswordEmailCommand request, CancellationToken cancellationToken)
     {
         var user = await this.userService.GetUserByEmail(request.Email);
+
         var emailType = EmailType.EmployeePasswordCreation;
         if (user == null)
         {
             this.logger.LogWarning("User with Email {Email} was not found. {EmailType} was not send",
                 request.Email,
                 emailType);
-            throw new ValidationErrorsException("Email", "User with this email adrress doesn't exists!");
+            throw new ValidationErrorsException("Email", this.localizationService["ForgotPasswordUserWithEmailNotFound"]);
         }
 
-        var emailTemplate = await this.emailHelperService.GetEmailTemplate(emailType);
+        var emailTemplate = await this.emailHelperService.GetEmailTemplate(emailType, SupportLanguages.EN.ToString());
         if (emailTemplate == null)
         {
             this.logger.LogWarning("Email Template with Key {EmailType} was not found. {EmailType} was not send",

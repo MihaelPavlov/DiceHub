@@ -15,10 +15,10 @@ internal class LeaveSpaceTableCommandHandler : IRequestHandler<LeaveSpaceTableCo
     readonly IRepository<SpaceTable> spaceTableRepository;
     readonly IRepository<SpaceTableParticipant> spaceTableParticipantRepository;
     readonly IUserContext userContext;
-    readonly SynchronizeGameSessionQueue queue;
+    readonly IGameSessionQueue queue;
     readonly ILogger<LeaveSpaceTableCommandHandler> logger;
 
-    public LeaveSpaceTableCommandHandler(IRepository<SpaceTable> spaceTableRepository, SynchronizeGameSessionQueue queue, ILogger<LeaveSpaceTableCommandHandler> logger, IUserContext userContext, IRepository<SpaceTableParticipant> spaceTableParticipantRepository)
+    public LeaveSpaceTableCommandHandler(IRepository<SpaceTable> spaceTableRepository, IGameSessionQueue queue, ILogger<LeaveSpaceTableCommandHandler> logger, IUserContext userContext, IRepository<SpaceTableParticipant> spaceTableParticipantRepository)
     {
         this.spaceTableRepository = spaceTableRepository;
         this.queue = queue;
@@ -43,7 +43,7 @@ internal class LeaveSpaceTableCommandHandler : IRequestHandler<LeaveSpaceTableCo
 
         await this.spaceTableParticipantRepository.Remove(spaceTableParticipation, cancellationToken);
 
-        if (this.queue.Contains(this.userContext.UserId, spaceTable.GameId))
-            this.queue.CancelUserPlayTimeEnforcerJob(this.userContext.UserId, spaceTable.GameId);
+        if (await this.queue.Contains(this.userContext.UserId, spaceTable.GameId, cancellationToken))
+            await this.queue.CancelUserPlayTimeEnforcerJob(this.userContext.UserId, spaceTable.GameId);
     }
 }

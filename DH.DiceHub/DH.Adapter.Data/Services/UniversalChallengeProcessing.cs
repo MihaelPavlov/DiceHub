@@ -277,7 +277,7 @@ internal class UniversalChallengeProcessing(
                     selectedUniversalChallenge.UniversalChallenge!.Name_BG,
                     (int)selectedUniversalChallenge.UniversalChallenge.RewardPoints);
 
-                await this.statisticQueuePublisher.PublishAsync(new StatisticJobQueue.ChallengeProcessingOutcomeJob(
+                await this.statisticQueuePublisher.PublishAsync(new ChallengeProcessingOutcomeJob(
                     userId,
                     100000 + selectedUniversalChallenge.UniversalChallengeId!.Value,
                     ChallengeOutcome.Completed,
@@ -358,7 +358,7 @@ internal class UniversalChallengeProcessing(
                     selectedUniversalChallenge.UniversalChallenge!.Name_BG,
                     selectedUniversalChallenge.RewardPoints);
 
-                await this.statisticQueuePublisher.PublishAsync(new StatisticJobQueue.ChallengeProcessingOutcomeJob(
+                await this.statisticQueuePublisher.PublishAsync(new ChallengeProcessingOutcomeJob(
                     userId,
                     100000 + selectedUniversalChallenge.UniversalChallengeId,
                     ChallengeOutcome.Completed,

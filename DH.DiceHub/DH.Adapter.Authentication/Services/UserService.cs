@@ -28,7 +28,7 @@ public class UserService : IUserService
     readonly IJwtService jwtService;
     readonly IHttpContextAccessor _httpContextAccessor;
     readonly IPermissionStringBuilder _permissionStringBuilder;
-    readonly SynchronizeUsersChallengesQueue queue;
+    readonly ISynchronizeUsersChallengesQueue queue;
     readonly IRepository<UserDeviceToken> userDeviceTokenRepository;
     readonly IUserContext userContext;
     readonly ILogger<UserService> logger;
@@ -42,7 +42,7 @@ public class UserService : IUserService
     public UserService(IHttpContextAccessor httpContextAccessor, IHttpClientFactory httpClientFactory,
         SignInManager<ApplicationUser> signInManager, IJwtService jwtService,
         UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager,
-        IPermissionStringBuilder permissionStringBuilder, SynchronizeUsersChallengesQueue queue, IRepository<UserDeviceToken> userDeviceTokenRepository,
+        IPermissionStringBuilder permissionStringBuilder, ISynchronizeUsersChallengesQueue queue, IRepository<UserDeviceToken> userDeviceTokenRepository,
         IUserContext userContext, ILogger<UserService> logger, IRepository<TenantSetting> tenantSettingsRepository, IRepository<TenantUserSetting> tenantUserSettingRepository, ILocalizationService localizer)
     {
         _httpContextAccessor = httpContextAccessor;
@@ -139,7 +139,7 @@ public class UserService : IUserService
         if (user is null)
             throw new NotFoundException(this.localizer["UserNotCreated"]);
 
-        this.queue.AddSynchronizeNewUserJob(user.Id);
+        await this.queue.AddSynchronizeNewUserJob(user.Id);
 
         if (!string.IsNullOrEmpty(form.DeviceToken))
         {

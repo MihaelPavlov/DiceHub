@@ -1,11 +1,10 @@
 ﻿using DH.Domain.Adapters.Statistics.Services;
-using static DH.Domain.Adapters.Statistics.StatisticJobQueue;
 
 namespace DH.Domain.Adapters.Statistics.JobHandlers;
 
 public record ClubActivityDetectedJobHandler : IStatisticJob
 {
-    public Guid JobId => this.job.JobId;
+    public string JobId => this.job.JobId;
 
     readonly ClubActivityDetectedJob job;
     readonly IStatisticsService statisticsService;

@@ -56,7 +56,7 @@ internal class ParticipateInEventCommandHandler : IRequestHandler<ParticipateInE
                 UserId = this.userContext.UserId,
             }, cancellationToken);
 
-            await this.statisticQueuePublisher.PublishAsync(new StatisticJobQueue.EventAttendanceDetectedJob(
+            await this.statisticQueuePublisher.PublishAsync(new EventAttendanceDetectedJob(
                this.userContext.UserId, AttendanceAction.Joining, eventDb.Id, DateTime.UtcNow));
 
             return true;

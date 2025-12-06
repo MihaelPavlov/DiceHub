@@ -16,7 +16,6 @@ using DH.Api.Filters;
 using DH.Application;
 using DH.Domain;
 using DH.Domain.Adapters.Data;
-using DH.Domain.Queue.Services;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
 using Microsoft.EntityFrameworkCore;
@@ -147,9 +146,6 @@ using (var scope = app.Services.CreateScope())
 
 using (var scope = app.Services.CreateScope())
 {
-    var queueDispatcher = scope.ServiceProvider.GetRequiredService<IQueueDispatcher>();
-    queueDispatcher.Dispatch();
-
     var dataSeeder = scope.ServiceProvider.GetRequiredService<IDataSeeder>();
     await dataSeeder.SeedAsync();
 
@@ -170,6 +166,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHttpsRedirection();
 }
 
+app.UseStaticFiles();
 app.UseSpaStaticFiles();
 
 app.UseRouting();

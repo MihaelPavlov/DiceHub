@@ -29,7 +29,7 @@ internal class UserRewardConfirmationCommandHandler(
 
         await this.userChallengeRewardRepository.SaveChangesAsync(cancellationToken);
 
-        await this.statisticQueuePublisher.PublishAsync(new StatisticJobQueue.RewardActionDetectedJob(
+        await this.statisticQueuePublisher.PublishAsync(new RewardActionDetectedJob(
             userReward.UserId, userReward.RewardId,
             CollectedDate: DateTime.UtcNow, ExpiredDate: null,
             IsExpired: false, IsCollected: userReward.IsClaimed));

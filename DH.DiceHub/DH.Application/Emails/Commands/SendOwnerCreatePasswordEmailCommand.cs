@@ -2,6 +2,7 @@
 using DH.Domain.Adapters.Email;
 using DH.Domain.Adapters.EmailSender;
 using DH.Domain.Entities;
+using DH.Domain.Enums;
 using DH.Domain.Services;
 using DH.Domain.Services.TenantSettingsService;
 using DH.OperationResultCore.Exceptions;
@@ -33,6 +34,7 @@ internal class SendOwnerCreatePasswordEmailCommandHandler(
     {
         var user = await this.userService.GetUserByEmail(request.Email);
         var emailType = EmailType.OwnerPasswordCreation;
+
         if (user == null)
         {
             this.logger.LogWarning("User with Email {Email} was not found. {EmailType} was not send",
@@ -41,7 +43,7 @@ internal class SendOwnerCreatePasswordEmailCommandHandler(
             throw new ValidationErrorsException("Email", "User with this email adrress doesn't exists!");
         }
 
-        var emailTemplate = await this.emailHelperService.GetEmailTemplate(emailType);
+        var emailTemplate = await this.emailHelperService.GetEmailTemplate(emailType, SupportLanguages.EN.ToString());
         if (emailTemplate == null)
         {
             this.logger.LogWarning("Email Template with Key {EmailType} was not found. {EmailType} was not send",

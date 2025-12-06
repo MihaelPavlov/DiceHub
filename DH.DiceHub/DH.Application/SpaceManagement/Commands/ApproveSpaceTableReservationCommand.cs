@@ -4,6 +4,7 @@ using DH.Domain.Adapters.Reservations;
 using DH.Domain.Entities;
 using DH.Domain.Enums;
 using DH.Domain.Repositories;
+using DH.Domain.Services.TenantSettingsService;
 using DH.OperationResultCore.Exceptions;
 using MediatR;
 
@@ -12,12 +13,15 @@ namespace DH.Application.SpaceManagement.Commands;
 public record ApproveSpaceTableReservationCommand(int ReservationId, string InternalNote, string PublicNote) : IRequest;
 
 internal class ApproveSpaceTableReservationCommandHandler(
-    IRepository<SpaceTableReservation> repository, ReservationCleanupQueue queue,
-    IPushNotificationsService pushNotificationsService) : IRequestHandler<ApproveSpaceTableReservationCommand>
+    IRepository<SpaceTableReservation> repository,
+    IReservationCleanupQueue queue,
+    IPushNotificationsService pushNotificationsService,
+    ITenantSettingsCacheService tenantSettingsCacheService) : IRequestHandler<ApproveSpaceTableReservationCommand>
 {
     readonly IRepository<SpaceTableReservation> repository = repository;
-    readonly ReservationCleanupQueue queue = queue;
+    readonly IReservationCleanupQueue queue = queue;
     readonly IPushNotificationsService pushNotificationsService = pushNotificationsService;
+    readonly ITenantSettingsCacheService tenantSettingsCacheService = tenantSettingsCacheService;
 
     public async Task Handle(ApproveSpaceTableReservationCommand request, CancellationToken cancellationToken)
     {
@@ -30,9 +34,9 @@ internal class ApproveSpaceTableReservationCommandHandler(
 
         await this.repository.SaveChangesAsync(cancellationToken);
 
-        //TODO: Additional minutes can be tenantSettings
-        this.queue.AddReservationCleaningJob(
-            reservation.Id, ReservationType.Table, reservation.ReservationDate.AddMinutes(2));
+        var tenantSettings = await this.tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
+        await this.queue.UpdateReservationCleaningJob(
+             reservation.Id, ReservationType.Table, reservation.ReservationDate.AddMinutes(tenantSettings.BonusTimeAfterReservationExpiration));
 
         var payload = new SpaceTableApprovedNotification
         {

@@ -5,83 +5,64 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
-using static DH.Domain.Adapters.GameSession.SynchronizeGameSessionQueue;
 
 namespace DH.Adapter.GameSession;
 
-public class SynchronizeGameSessionService : BackgroundService
+public class GameSessionWorker : BackgroundService
 {
-    readonly ILogger<SynchronizeGameSessionService> logger;
-    readonly SynchronizeGameSessionQueue queue;
+    readonly ILogger<GameSessionWorker> logger;
     readonly IServiceScopeFactory serviceScopeFactory;
 
-    public SynchronizeGameSessionService(IServiceScopeFactory serviceScopeFactory, ILogger<SynchronizeGameSessionService> logger, SynchronizeGameSessionQueue queue)
+    public GameSessionWorker(IServiceScopeFactory serviceScopeFactory, ILogger<GameSessionWorker> logger)
     {
         this.serviceScopeFactory = serviceScopeFactory;
         this.logger = logger;
-        this.queue = queue;
     }
 
     protected override async Task ExecuteAsync(CancellationToken cancellationToken)
     {
         while (!cancellationToken.IsCancellationRequested)
         {
-            var tasks = new List<Task>();
+            var outerScope = serviceScopeFactory.CreateScope();
+            var queue = outerScope.ServiceProvider.GetRequiredService<IGameSessionQueue>();
 
-            while (this.queue.TryDequeue(out var jobInfo))
+            var queuedJobs = await queue.TryDequeue(cancellationToken);
+            var nextJobsForProcessing = queuedJobs
+               .Select(q => JsonSerializer.Deserialize<UserPlayTimeEnforcerJob>(q.MessagePayload)!)
+               .Where(x => DateTime.UtcNow > x.RequiredPlayUntil);
+
+            var tasks = new List<Task>();
+            foreach (var nextJob in nextJobsForProcessing)
             {
-                if (DateTime.UtcNow >= jobInfo.RequiredPlayUntil)
+                var scope = serviceScopeFactory.CreateScope();
+
+                tasks.Add(Task.Run(async () =>
                 {
-                    tasks.Add(ProcessJobAsync(jobInfo, cancellationToken));
-                }
-                else
-                {
-                    this.queue.RequeueJob(jobInfo);
-                }
+                    using var scope = serviceScopeFactory.CreateScope();
+                    await ProcessJobAsync(nextJob, queue.QueueName, scope, cancellationToken);
+                }, cancellationToken));
             }
 
             if (tasks.Count > 0)
                 await Task.WhenAll(tasks);
 
-            await Task.Delay(this.queue.IsEmpty() ? 180000 : 500, cancellationToken); // 3 minutes if empty, 0.5 second if not
+            if (!nextJobsForProcessing.Any())
+                await Task.Delay(TimeSpan.FromMinutes(3), cancellationToken);
         }
     }
 
-    private async Task ProcessJobAsync(JobInfo jobInfo, CancellationToken cancellationToken)
+    private async Task ProcessJobAsync(UserPlayTimeEnforcerJob jobInfo, string queueName, IServiceScope scope, CancellationToken cancellationToken)
     {
         string traceId = Guid.NewGuid().ToString();
-        var scope = serviceScopeFactory.CreateScope();
         var queuedJobService = scope.ServiceProvider.GetRequiredService<IQueuedJobService>();
 
         try
         {
-            if (IsJobCanceled(jobInfo))
-            {
-                this.queue.RemoveRecordFromCanceledJob(jobInfo.UserId, jobInfo.GameId);
-                await queuedJobService.UpdateStatusToCancelled(this.queue.QueueName, jobInfo.JobId);
-                logger.LogInformation("Job ID: {jobId} - Skipped processing because it is canceled by the user - Job Info: {jobInfo}", traceId, JsonSerializer.Serialize(jobInfo));
-                return;
-            }
-
             var jobStartTime = DateTime.UtcNow;
             logger.LogInformation("Job ID: {jobId} - Started at {startTime} - Job Info: {jobInfo}", traceId, jobStartTime, JsonSerializer.Serialize(jobInfo));
 
-            switch (jobInfo)
-            {
-                case SynchronizeGameSessionQueue.UserPlayTimeEnforcerJob enforcerJob:
-                    if (DateTime.UtcNow >= enforcerJob.RequiredPlayUntil)
-                    {
-                        await ProcessUserPlayTimeEnforcerJob(scope, enforcerJob, traceId, cancellationToken);
-                        await queuedJobService.UpdateStatusToCompleted(this.queue.QueueName, jobInfo.JobId);
-                        break;
-                    }
-                    this.queue.RequeueJob(enforcerJob);
-                    logger.LogInformation("Job ID: {jobId} - Requeued at {requeueTime} - Job Info: {jobInfo}", traceId, DateTime.UtcNow, JsonSerializer.Serialize(jobInfo));
-                    break;
-                default:
-                    logger.LogWarning("Job ID: {jobId} - Unknown job type at {warningTime}: {jobInfo}", traceId, DateTime.UtcNow, JsonSerializer.Serialize(jobInfo));
-                    break;
-            }
+            await ProcessUserPlayTimeEnforcerJob(scope, jobInfo, traceId, cancellationToken);
+            await queuedJobService.UpdateStatusToCompleted(queueName, jobInfo.JobId);
 
             DateTime jobEndTime = DateTime.UtcNow;
             logger.LogInformation("Job ID: {jobId} - Ended at {endTime} - Duration: {duration} - Job Info: {jobInfo}", traceId, jobEndTime, (jobEndTime - jobStartTime).TotalMilliseconds, JsonSerializer.Serialize(jobInfo));
@@ -93,7 +74,7 @@ public class SynchronizeGameSessionService : BackgroundService
         }
         catch (Exception ex)
         {
-            await queuedJobService.UpdateStatusToFailed(this.queue.QueueName, jobInfo.JobId);
+            await queuedJobService.UpdateStatusToFailed(queueName, jobInfo.JobId);
 
             logger.LogError(ex, "Job ID: {jobId} - Failed at {failureTime}: {jobInfo}", traceId, DateTime.UtcNow, JsonSerializer.Serialize(jobInfo));
         }
@@ -151,15 +132,5 @@ public class SynchronizeGameSessionService : BackgroundService
         {
             logger.LogWarning("Job ID: {jobId} - this.gameSessionService.ProcessChallengeAfterSession the user doesn't have anything to process at {currentTime} - Job Info: {jobInfo}", traceId, DateTime.UtcNow, JsonSerializer.Serialize(enforcerJob));
         }
-    }
-
-    /// <summary>
-    /// The IsJobCanceled method checks whether a specific job has been canceled.
-    /// </summary>
-    /// <param name="job">Parameter which contains information about the job to be checked.</param>
-    /// <returns>True if the job is canceled; otherwise, false.</returns>
-    private bool IsJobCanceled(JobInfo job)
-    {
-        return this.queue.CanceledJobs.Contains((job.UserId, job.GameId));
     }
 }

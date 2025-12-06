@@ -1,6 +1,5 @@
 ﻿using DH.Domain.Adapters.PushNotifications;
 using DH.Domain.Adapters.Statistics.Services;
-using DH.Domain.Queue.Services;
 using DH.Domain.Services.TenantSettingsService;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,6 +12,5 @@ public static class DomainDIModule
         => services
             .AddScoped<ITenantSettingsCacheService, TenantSettingsCacheService>()
             .AddScoped<INotificationRenderer, NotificationRenderer>()
-            .AddScoped<IStatisticQueuePublisher, StatisticQueuePublisher>()
-            .AddScoped<IQueueDispatcher, QueueDispatcher>();
+            .AddScoped<IStatisticQueuePublisher, StatisticQueuePublisher>();
 }

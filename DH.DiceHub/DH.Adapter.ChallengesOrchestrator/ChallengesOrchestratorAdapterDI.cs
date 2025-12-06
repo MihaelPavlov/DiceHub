@@ -8,6 +8,6 @@ public static class ChallengesOrchestratorAdapterDI
     public static IServiceCollection AddChallengesOrchestratorAdapter(
         this IServiceCollection services)
         => services
-            .AddSingleton<SynchronizeUsersChallengesQueue>()
-            .AddHostedService<SynchronizeUsersChallengesService>();
+            .AddScoped<ISynchronizeUsersChallengesQueue, SynchronizeUsersChallengesQueue>()
+            .AddHostedService<SynchronizeUsersChallengesWorker>();
 }
