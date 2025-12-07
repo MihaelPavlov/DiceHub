@@ -38,6 +38,7 @@ public static class SeedData
         new ()
         {
             Id = 1,
+            Language = SupportLanguages.EN.ToString(),
             TemplateName = EmailType.RegistrationEmailConfirmation.ToString(),
             Subject = "Confirm your email address",
             TemplateHtml = @"
@@ -46,329 +47,472 @@ public static class SeedData
   <head>
     <meta charset=""UTF-8"" />
     <title>Confirm Your Email</title>
-    <style>
-      body {
-        background-color: #20232a;
-        margin: 0;
-        padding: 0;
-        color: white;
-      }
-
-      .wrapper {
-        max-width: 500px;
-        max-height: 700px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        margin: 2rem auto;
-        padding: 2rem;
-        border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0, 2, 1, 1);
-      }
-
-      .interactive-option {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 1rem;
-      }
-
-      .icon_wrapper {
-        width: 5rem;
-        height: 5rem;
-        border-radius: 50px;
-        background: #75a0ff;
-        box-shadow: 0 0 0 12px #20232a;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .icon {
-        width: 3rem;
-        height: 3rem;
-        fill: white;
-      }
-
-      .header {
-        text-align: center;
-        font-size: 1.5rem;
-        margin-bottom: 2rem;
-      }
-
-      .content p {
-        font-size: 1rem;
-        line-height: 1.6;
-      }
-
-      .link {
-        text-align: center;
-        margin: 1rem;
-      }
-
-      .link a {
-        appearance: none;
-        text-decoration: none;
-        border: none;
-        border-radius: 2rem;
-        color: white;
-        cursor: pointer;
-        font-weight: 600;
-        padding: 0.65rem 2rem;
-        font-size: 1rem;
-        background-color: #75a0ff;
-      }
-    </style>
   </head>
-  <body>
-    <div class=""wrapper"">
-        <div class=""interactive-option"">
-          <div class=""icon_wrapper"">
-            <svg class=""icon"" viewBox=""0 -960 960 960"">
-              <path
-                d=""M750.54-116.15 638.15-229.31l-88 88-11.07-11.07q-26.39-26.39-26.39-63.47 0-37.07 26.39-63.46l145.61-145.61q26.39-26.39 63.46-26.39 37.08 0 63.47 26.39l11.07 11.07-88 88 113.16 113.39q13.69 13.69 13.69 31.61 0 17.93-13.69 31.62l-33.08 33.08q-13.69 13.69-32.12 13.69-18.42 0-32.11-13.69ZM853-735.92 408.31-290.46l24.61 25.38q16.39 26.39 13.39 57.46-3 31.08-26.39 54.47l-11.07 11.07-88-88-113.39 114.16q-13.69 13.69-31.61 13.69-17.93 0-31.62-13.69L110.15-150q-13.69-13.69-13.69-31.62 0-17.92 13.69-31.61l114.16-113.39-88-88 11.07-11.07q23.39-23.39 54.97-26.39 31.57-3 57.96 14.39l26.15 25.38L731.92-857H853v121.08ZM333-601l14.23-15.77 14-14-14 14L333-601Zm-46.31 45.54L107-735.92V-857h121.08L407-677.31l-45.77 46.54L201-791h-28v28l160 162-46.31 45.54ZM363-337l424-426v-28h-28L334-366l29 29Zm0 0-13.23-15.77L334-366l15.77 13.23L363-337Z""
-              />
-            </svg>
-          </div>
-        </div>
-        <div class=""header"">{{ClubName}}</div>
-      <div class=""content"">
-        <p>Hello,</p>
-        <p>Thank you for registering at {{ClubName}}!</p>
-        <p>Please confirm your email by clicking the button below:</p>
-        <p class=""link""><a href=""{{CallbackUrl}}"">Confirm Email</a></p>
-        <p>If you did not sign up, you can ignore this email.</p>
-        <p>This link will expire in 24 hours for security reasons.</p>
-      </div>
-    </div>
+  <body
+    style=""
+      margin: 0;
+      padding: 0;
+      background-color: #20232a;
+      font-family: Arial, sans-serif;
+      color: white;
+    ""
+  >
+    <table
+      width=""100%""
+      cellpadding=""0""
+      cellspacing=""0""
+      role=""presentation""
+      style=""background-color: #20232a; padding: 20px 0""
+    >
+      <tr>
+        <td align=""center"">
+          <table
+            width=""500""
+            cellpadding=""0""
+            cellspacing=""0""
+            role=""presentation""
+            style=""
+              background-color: #20232a;
+              padding: 20px;
+              border-radius: 8px;
+              box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            ""
+          >
+            <!-- Icon -->
+            <tr>
+              <td align=""center"">
+                <div
+                  style=""
+                    width: 100px;
+                    height: 120px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                  ""
+                >
+                  <img
+                    src=""https://dicehub.online/email-images/dicehub_logo_1.png""
+                    width=""150""
+                    height=""auto""
+                    alt=""icon""
+                    style=""display: block""
+                  />
+                </div>
+              </td>
+            </tr>
+
+            <!-- Header -->
+            <tr>
+              <td
+                align=""center""
+                style=""font-size: 22px; font-weight: bold; padding-bottom: 20px""
+              >
+                {{ClubName}}
+              </td>
+            </tr>
+
+            <!-- Content -->
+            <tr>
+              <td style=""font-size: 16px; line-height: 1.6"">
+                <p>Hello,</p>
+                <p>Thank you for registering at {{ClubName}}!</p>
+                <p>Please confirm your email by clicking the button below:</p>
+
+                <div style=""text-align: center; margin: 30px 0"">
+                  <a
+                    href=""{{CallbackUrl}}""
+                    style=""
+                      background-color: #75a0ff;
+                      color: white;
+                      padding: 12px 30px;
+                      border-radius: 30px;
+                      text-decoration: none;
+                      font-weight: bold;
+                      display: inline-block;
+                    ""
+                  >
+                    Confirm Email
+                  </a>
+                </div>
+
+                <p>If you did not sign up, you can ignore this email.</p>
+                <p>This link will expire in 24 hours for security reasons.</p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
   </body>
 </html>
+
 "
         },
         new ()
         {
             Id = 2,
-            TemplateName = EmailType.ForgotPasswordReset.ToString(),
-            Subject = "Reset Your Password",
+            Language = SupportLanguages.BG.ToString(),
+            TemplateName = EmailType.RegistrationEmailConfirmation.ToString(),
+            Subject = "Потвърдете своя имейл адрес",
             TemplateHtml = @"
 <!DOCTYPE html>
-<html lang=""en"">
-  <head>
-    <meta charset=""UTF-8"" />
-    <title>Confirm Your Email</title>
-    <style>
-      body {
-        background-color: #20232a;
-        margin: 0;
-        padding: 0;
-        color: white;
-      }
+<html lang=""bg"">
+<head>
+  <meta charset=""UTF-8"" />
+  <title>Потвърдете своя имейл</title>
+</head>
+<body style=""
+  margin: 0;
+  padding: 0;
+  background-color: #20232a;
+  font-family: Arial, sans-serif;
+  color: white;
+"">
+  <table width=""100%"" cellpadding=""0"" cellspacing=""0"" role=""presentation"" style=""background-color: #20232a; padding: 20px 0"">
+    <tr>
+      <td align=""center"">
+        <table width=""500"" cellpadding=""0"" cellspacing=""0"" role=""presentation"" style=""
+          background-color: #20232a;
+          padding: 20px;
+          border-radius: 8px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        "">
+          <tr>
+            <td align=""center"">
+              <img src=""https://dicehub.online/email-images/dicehub_logo_1.png"" width=""150"" style=""display:block;"" alt=""DiceHub"">
+            </td>
+          </tr>
 
-      .wrapper {
-        max-width: 500px;
-        max-height: 700px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        margin: 2rem auto;
-        padding: 2rem;
-        border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0, 2, 1, 1);
-      }
+          <tr>
+            <td align=""center"" style=""font-size: 22px; font-weight: bold; padding-bottom: 20px"">
+              {{ClubName}}
+            </td>
+          </tr>
 
-      .interactive-option {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 1rem;
-      }
+          <tr>
+            <td style=""font-size: 16px; line-height: 1.6"">
+              <p>Здравейте,</p>
+              <p>Благодарим Ви, че се регистрирахте в {{ClubName}}!</p>
+              <p>Моля, потвърдете своя имейл като натиснете бутона по-долу:</p>
 
-      .icon_wrapper {
-        width: 5rem;
-        height: 5rem;
-        border-radius: 50px;
-        background: #75a0ff;
-        box-shadow: 0 0 0 12px #20232a;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
+              <div style=""text-align: center; margin: 30px 0"">
+                <a href=""{{CallbackUrl}}"" style=""
+                  background-color: #75a0ff;
+                  color: white;
+                  padding: 12px 30px;
+                  border-radius: 30px;
+                  text-decoration: none;
+                  font-weight: bold;
+                  display: inline-block;
+                "">Потвърди имейл</a>
+              </div>
 
-      .icon {
-        width: 3rem;
-        height: 3rem;
-        fill: white;
-      }
-
-      .header {
-        text-align: center;
-        font-size: 1.5rem;
-        margin-bottom: 2rem;
-      }
-
-      .content p {
-        font-size: 1rem;
-        line-height: 1.6;
-      }
-
-      .link {
-        text-align: center;
-        margin: 1rem;
-      }
-
-      .link a {
-        appearance: none;
-        text-decoration: none;
-        border: none;
-        border-radius: 2rem;
-        color: white;
-        cursor: pointer;
-        font-weight: 600;
-        padding: 0.65rem 2rem;
-        font-size: 1rem;
-        background-color: #75a0ff;
-      }
-    </style>
-  </head>
-  <body>
-    <div class=""wrapper"">
-        <div class=""interactive-option"">
-          <div class=""icon_wrapper"">
-            <svg class=""icon"" viewBox=""0 -960 960 960"">
-              <path
-                d=""M750.54-116.15 638.15-229.31l-88 88-11.07-11.07q-26.39-26.39-26.39-63.47 0-37.07 26.39-63.46l145.61-145.61q26.39-26.39 63.46-26.39 37.08 0 63.47 26.39l11.07 11.07-88 88 113.16 113.39q13.69 13.69 13.69 31.61 0 17.93-13.69 31.62l-33.08 33.08q-13.69 13.69-32.12 13.69-18.42 0-32.11-13.69ZM853-735.92 408.31-290.46l24.61 25.38q16.39 26.39 13.39 57.46-3 31.08-26.39 54.47l-11.07 11.07-88-88-113.39 114.16q-13.69 13.69-31.61 13.69-17.93 0-31.62-13.69L110.15-150q-13.69-13.69-13.69-31.62 0-17.92 13.69-31.61l114.16-113.39-88-88 11.07-11.07q23.39-23.39 54.97-26.39 31.57-3 57.96 14.39l26.15 25.38L731.92-857H853v121.08ZM333-601l14.23-15.77 14-14-14 14L333-601Zm-46.31 45.54L107-735.92V-857h121.08L407-677.31l-45.77 46.54L201-791h-28v28l160 162-46.31 45.54ZM363-337l424-426v-28h-28L334-366l29 29Zm0 0-13.23-15.77L334-366l15.77 13.23L363-337Z""
-              />
-            </svg>
-          </div>
-        </div>
-        <div class=""header"">{{ClubName}}</div>
-      <div class=""content"">
-        <p>Hello,</p>
-        <p>We received a request to reset the password for your account.</p>
-        <p>If you made this request, please click the button below to set a new password:</p>
-        <p class=""link""><a href=""{{CallbackUrl}}"">Reset Password</a></p>
-        <p>If you did not request a password reset, you can safely ignore this email.</p>
-        <p>This link will expire in 24 hours for security reasons.</p>
-      </div>
-    </div>
-  </body>
+              <p>Ако не сте създавали регистрация, игнорирайте този имейл.</p>
+              <p>Линкът е валиден 24 часа заради мерки за сигурност.</p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
 </html>
+
 "
         },
         new ()
         {
             Id = 3,
-            TemplateName = EmailType.EmployeePasswordCreation.ToString(),
-            Subject = "Welcome to {{ClubName}} – Create Your Account Password",
+            Language = SupportLanguages.EN.ToString(),
+            TemplateName = EmailType.ForgotPasswordReset.ToString(),
+            Subject = "Reset Your Password",
             TemplateHtml = @"
 <!DOCTYPE html>
-<html lang=""en"">
-  <head>
-    <meta charset=""UTF-8"" />
-    <title>Confirm Your Email</title>
-    <style>
-      body {
-        background-color: #20232a;
-        margin: 0;
-        padding: 0;
-        color: white;
-      }
+<html lang=""bg"">
+<head>
+  <meta charset=""UTF-8"" />
+  <title>Reset Your Passwrod</title>
+</head>
+<body style=""
+  margin: 0;
+  padding: 0;
+  background-color: #20232a;
+  font-family: Arial, sans-serif;
+  color: white;
+"">
+  <table width=""100%"" cellpadding=""0"" cellspacing=""0"" role=""presentation"" style=""background-color: #20232a; padding: 20px 0"">
+    <tr>
+      <td align=""center"">
+        <table width=""500"" cellpadding=""0"" cellspacing=""0"" role=""presentation"" style=""
+          background-color: #20232a;
+          padding: 20px;
+          border-radius: 8px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        "">
+          <tr>
+            <td align=""center"">
+              <img src=""https://dicehub.online/email-images/dicehub_logo_1.png"" width=""150"" style=""display:block;"" alt=""DiceHub"">
+            </td>
+          </tr>
 
-      .wrapper {
-        max-width: 500px;
-        max-height: 700px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        margin: 2rem auto;
-        padding: 2rem;
-        border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0, 2, 1, 1);
-      }
+          <tr>
+            <td align=""center"" style=""font-size: 22px; font-weight: bold; padding-bottom: 20px"">
+              {{ClubName}}
+            </td>
+          </tr>
 
-      .interactive-option {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 1rem;
-      }
+          <tr>
+            <td style=""font-size: 16px; line-height: 1.6"">
+              <p>Hello,</p>
+              <p>We received a request to reset the password for your account.</p>
+              <p>If you made this request, please click the button below to set a new password:</p>
+              <div style=""text-align: center; margin: 30px 0"">
+                <a href=""{{CallbackUrl}}"" style=""
+                  background-color: #75a0ff;
+                  color: white;
+                  padding: 12px 30px;
+                  border-radius: 30px;
+                  text-decoration: none;
+                  font-weight: bold;
+                  display: inline-block;
+                "">Reset Password</a>
+              </div>
 
-      .icon_wrapper {
-        width: 5rem;
-        height: 5rem;
-        border-radius: 50px;
-        background: #75a0ff;
-        box-shadow: 0 0 0 12px #20232a;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
+               <p>If you did not request a password reset, you can safely ignore this email.</p>
+               <p>This link will expire in 24 hours for security reasons.</p>
+            </td>
+          </tr>
 
-      .icon {
-        width: 3rem;
-        height: 3rem;
-        fill: white;
-      }
-
-      .header {
-        text-align: center;
-        font-size: 1.5rem;
-        margin-bottom: 2rem;
-      }
-
-      .content p {
-        font-size: 1rem;
-        line-height: 1.6;
-      }
-
-      .link {
-        text-align: center;
-        margin: 1rem;
-      }
-
-      .link a {
-        appearance: none;
-        text-decoration: none;
-        border: none;
-        border-radius: 2rem;
-        color: white;
-        cursor: pointer;
-        font-weight: 600;
-        padding: 0.65rem 1rem;
-        font-size: 1rem;
-        background-color: #75a0ff;
-        display: flex;
-        justify-content: center;
-      }
-    </style>
-  </head>
-  <body>
-    <div class=""wrapper"">
-        <div class=""interactive-option"">
-          <div class=""icon_wrapper"">
-            <svg class=""icon"" viewBox=""0 -960 960 960"">
-              <path
-                d=""M750.54-116.15 638.15-229.31l-88 88-11.07-11.07q-26.39-26.39-26.39-63.47 0-37.07 26.39-63.46l145.61-145.61q26.39-26.39 63.46-26.39 37.08 0 63.47 26.39l11.07 11.07-88 88 113.16 113.39q13.69 13.69 13.69 31.61 0 17.93-13.69 31.62l-33.08 33.08q-13.69 13.69-32.12 13.69-18.42 0-32.11-13.69ZM853-735.92 408.31-290.46l24.61 25.38q16.39 26.39 13.39 57.46-3 31.08-26.39 54.47l-11.07 11.07-88-88-113.39 114.16q-13.69 13.69-31.61 13.69-17.93 0-31.62-13.69L110.15-150q-13.69-13.69-13.69-31.62 0-17.92 13.69-31.61l114.16-113.39-88-88 11.07-11.07q23.39-23.39 54.97-26.39 31.57-3 57.96 14.39l26.15 25.38L731.92-857H853v121.08ZM333-601l14.23-15.77 14-14-14 14L333-601Zm-46.31 45.54L107-735.92V-857h121.08L407-677.31l-45.77 46.54L201-791h-28v28l160 162-46.31 45.54ZM363-337l424-426v-28h-28L334-366l29 29Zm0 0-13.23-15.77L334-366l15.77 13.23L363-337Z""
-              />
-            </svg>
-          </div>
-        </div>
-        <div class=""header"">{{ClubName}}</div>
-      <div class=""content"">
-        <p>Hello,</p>
-        <p>Your employee account at <strong>{{ClubName}}</strong> has been created.</p>
-        <p>To access the system, you need to set up your password.</p>
-        <p>Before you can do that, we need to verify your identity.</p>
-        <p>Please click the button below to start the setup process. You’ll be asked to confirm your phone number to ensure it matches what your employer provided:</p>
-        <p class=""link""><a href=""{{CreatePasswordUrl}}"">Set Up Your Password</a></p>
-        <p>This link is valid for 24 hours. If it expires, contact your administrator to request a new one.</p>
-        <p>Welcome aboard!</p>
-      </div>
-    </div>
-  </body>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
 </html>
 "
         },
         new ()
         {
             Id = 4,
+            Language = SupportLanguages.BG.ToString(),
+            TemplateName = EmailType.ForgotPasswordReset.ToString(),
+            Subject = "Възстановяване на Парола",
+            TemplateHtml = @"
+<!DOCTYPE html>
+<html lang=""bg"">
+<head>
+  <meta charset=""UTF-8"" />
+  <title>Възстановяване на Парола</title>
+</head>
+<body style=""
+  margin: 0;
+  padding: 0;
+  background-color: #20232a;
+  font-family: Arial, sans-serif;
+  color: white;
+"">
+  <table width=""100%"" cellpadding=""0"" cellspacing=""0"" role=""presentation"" style=""background-color: #20232a; padding: 20px 0"">
+    <tr>
+      <td align=""center"">
+        <table width=""500"" cellpadding=""0"" cellspacing=""0"" role=""presentation"" style=""
+          background-color: #20232a;
+          padding: 20px;
+          border-radius: 8px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        "">
+          <tr>
+            <td align=""center"">
+              <img src=""https://dicehub.online/email-images/dicehub_logo_1.png"" width=""150"" style=""display:block;"" alt=""DiceHub"">
+            </td>
+          </tr>
+
+          <tr>
+            <td align=""center"" style=""font-size: 22px; font-weight: bold; padding-bottom: 20px"">
+              {{ClubName}}
+            </td>
+          </tr>
+
+          <tr>
+            <td style=""font-size: 16px; line-height: 1.6"">
+              <p>Здравейте,</p>
+              <p>Получихме заявка за възтановяване на паролата за вашия акаунт.</p>
+              <p>Ако вие сте направили тази заявка, моля натиснете бутона по-долу, за да зададете нова парола:</p>
+              <div style=""text-align: center; margin: 30px 0"">
+                <a href=""{{CallbackUrl}}"" style=""
+                  background-color: #75a0ff;
+                  color: white;
+                  padding: 12px 30px;
+                  border-radius: 30px;
+                  text-decoration: none;
+                  font-weight: bold;
+                  display: inline-block;
+                "">Нулирай парола</a>
+              </div>
+
+               <p>Ако не сте заявили възтановяване на паролата, може спокойно да игнорирате този имейл.</p>
+               <p>Този линк ще изтече след 24 часа поради съображения за сигурност.</p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+"
+        },
+        new ()
+        {
+            Id = 5,
+            Language = SupportLanguages.EN.ToString(),
+            TemplateName = EmailType.EmployeePasswordCreation.ToString(),
+            Subject = "Welcome to {{ClubName}} – Create Your Account Password",
+            TemplateHtml = @"
+<!DOCTYPE html>
+<html lang=""bg"">
+<head>
+  <meta charset=""UTF-8"" />
+  <title>Create your account password</title>
+</head>
+<body style=""
+  margin: 0;
+  padding: 0;
+  background-color: #20232a;
+  font-family: Arial, sans-serif;
+  color: white;
+"">
+  <table width=""100%"" cellpadding=""0"" cellspacing=""0"" role=""presentation"" style=""background-color: #20232a; padding: 20px 0"">
+    <tr>
+      <td align=""center"">
+        <table width=""500"" cellpadding=""0"" cellspacing=""0"" role=""presentation"" style=""
+          background-color: #20232a;
+          padding: 20px;
+          border-radius: 8px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        "">
+          <tr>
+            <td align=""center"">
+              <img src=""https://dicehub.online/email-images/dicehub_logo_1.png"" width=""150"" style=""display:block;"" alt=""DiceHub"">
+            </td>
+          </tr>
+
+          <tr>
+            <td align=""center"" style=""font-size: 22px; font-weight: bold; padding-bottom: 20px"">
+              {{ClubName}}
+            </td>
+          </tr>
+
+          <tr>
+            <td style=""font-size: 16px; line-height: 1.6"">
+                <p>Hello,</p>
+                <p>Your employee account at <strong>{{ClubName}}</strong> has been created.</p>
+                <p>To access the system, you need to set up your password.</p>
+                <p>Before you can do that, we need to verify your identity.</p>
+                <p>Please click the button below to start the setup process. You’ll be asked to confirm your phone number to ensure it matches what your employer provided:</p>
+              <div style=""text-align: center; margin: 30px 0"">
+                <a href=""{{CallbackUrl}}"" style=""
+                  background-color: #75a0ff;
+                  color: white;
+                  padding: 12px 30px;
+                  border-radius: 30px;
+                  text-decoration: none;
+                  font-weight: bold;
+                  display: inline-block;
+                "">Set Up Your Password</a>
+              </div>
+
+                <p>This link is valid for 24 hours. If it expires, contact your administrator to request a new one.</p>
+                <p>Welcome aboard!</p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+"
+        },
+        new ()
+        {
+            Id = 6,
+            Language = SupportLanguages.BG.ToString(),
+            TemplateName = EmailType.EmployeePasswordCreation.ToString(),
+            Subject = "Добре Дошъл в екипа  на {{ClubName}} – Създай своята акаунт парола",
+            TemplateHtml = @"
+<!DOCTYPE html>
+<html lang=""bg"">
+<head>
+  <meta charset=""UTF-8"" />
+  <title>Създайте парола за своя акаунт</title>
+</head>
+<body style=""
+  margin: 0;
+  padding: 0;
+  background-color: #20232a;
+  font-family: Arial, sans-serif;
+  color: white;
+"">
+  <table width=""100%"" cellpadding=""0"" cellspacing=""0"" role=""presentation"" style=""background-color: #20232a; padding: 20px 0"">
+    <tr>
+      <td align=""center"">
+        <table width=""500"" cellpadding=""0"" cellspacing=""0"" role=""presentation"" style=""
+          background-color: #20232a;
+          padding: 20px;
+          border-radius: 8px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        "">
+          <tr>
+            <td align=""center"">
+              <img src=""https://dicehub.online/email-images/dicehub_logo_1.png"" width=""150"" style=""display:block;"" alt=""DiceHub"">
+            </td>
+          </tr>
+
+          <tr>
+            <td align=""center"" style=""font-size: 22px; font-weight: bold; padding-bottom: 20px"">
+              {{ClubName}}
+            </td>
+          </tr>
+
+          <tr>
+            <td style=""font-size: 16px; line-height: 1.6"">
+                <p>Здравейте,</p>
+                <p>Вашият служебен акаунт в <strong>{{ClubName}}</strong> беше създаден.</p>
+                <p>За да получите достъп до системата, трябва да зададете своя парола.</p>
+                <p>Преди да направите това, трябва да потвърдим вашата идентичност.</p>
+                <p>Моля, натиснете бутона по-долу, за да започнете процеса. Ще бъдете помолени да потвърдите телефонния си номер, за да се уверим, че съвпада с информацията, предоставена от вашия работодател:</p>
+              <div style=""text-align: center; margin: 30px 0"">
+                <a href=""{{CallbackUrl}}"" style=""
+                  background-color: #75a0ff;
+                  color: white;
+                  padding: 12px 30px;
+                  border-radius: 30px;
+                  text-decoration: none;
+                  font-weight: bold;
+                  display: inline-block;
+                "">Задайте своята парола</a>
+              </div>
+
+                <p>Този линк е валиден 24 часа. Ако изтече, свържете се с вашия администратор, за да заявите нов.</p>
+                <p>Добре дошли в екипа!</p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+
+"
+        },
+        new ()
+        {
+            Id = 7,
+            Language =SupportLanguages.EN.ToString(),
             TemplateName = EmailType.PartnerInquiryRequest.ToString(),
             Subject = "Parnet Inquiry Request",
             TemplateHtml = @"
@@ -377,199 +521,402 @@ public static class SeedData
   <head>
     <meta charset=""UTF-8"" />
     <title>New Partner Inquiry</title>
-    <style>
-      body {
-        background-color: #20232a;
-        margin: 0;
-        padding: 0;
-        color: white;
-      }
-
-      .wrapper {
-        max-width: 500px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        margin: 2rem auto;
-        padding: 2rem;
-        border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0, 2, 1, 1);
-      }
-
-      .interactive-option {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 1rem;
-      }
-
-      .icon_wrapper {
-        width: 5rem;
-        height: 5rem;
-        border-radius: 50px;
-        background: #75a0ff;
-        box-shadow: 0 0 0 12px #20232a;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .icon {
-        width: 3rem;
-        height: 3rem;
-        fill: white;
-      }
-
-      .header {
-        text-align: center;
-        font-size: 1.5rem;
-        margin-bottom: 2rem;
-      }
-
-      .content p {
-        font-size: 1rem;
-        line-height: 1.6;
-      }
-
-      .link {
-        text-align: center;
-        margin: 1rem;
-      }
-    </style>
   </head>
-  <body>
-     <div class=""wrapper"">
-      <div class=""interactive-option"">
-        <div class=""icon_wrapper"">
-          <svg class=""icon"" viewBox=""0 -960 960 960"">
-            <path d=""..."" /> <!-- Keep the icon path as-is -->
-          </svg>
-        </div>
-      </div>
-      <div class=""header"">New Partner Inquiry</div>
-      <div class=""content"">
-        <p>Hello,</p>
-        <p>You have received a new partnership inquiry via the DiceHub platform.</p>
-        <p><strong>From:</strong> {{Name}}</p>
-        <p><strong>Email:</strong> {{Email}}</p>
-        <p><strong>Phone Number:</strong> {{PhoneNumber}}</p>
-        <p><strong>Message:</strong></p>
-        <p>{{Message}}</p>
-        <p>Please reach out to the potential partner to continue the conversation.</p>
-        <p>— The DiceHub System</p>
-      </div>
-    </div>
+  <body
+    style=""
+      margin: 0;
+      padding: 0;
+      background-color: #20232a;
+      font-family: Arial, sans-serif;
+      color: white;
+    ""
+  >
+    <table
+      width=""100%""
+      cellpadding=""0""
+      cellspacing=""0""
+      role=""presentation""
+      style=""background-color: #20232a; padding: 20px 0""
+    >
+      <tr>
+        <td align=""center"">
+          <table
+            width=""500""
+            cellpadding=""0""
+            cellspacing=""0""
+            role=""presentation""
+            style=""
+              background-color: #20232a;
+              padding: 20px;
+              border-radius: 8px;
+              box-shadow: 0 4px 12px rgba(0, 2, 1, 1);
+            ""
+          >
+            <!-- LOGO -->
+            <tr>
+              <td align=""center"">
+                <img
+                  src=""https://dicehub.online/email-images/dicehub_logo_1.png""
+                  width=""150""
+                  style=""display:block;""
+                  alt=""DiceHub""
+                />
+              </td>
+            </tr>
+
+            <!-- HEADER -->
+            <tr>
+              <td
+                align=""center""
+                style=""font-size: 22px; font-weight: bold; padding-bottom: 20px""
+              >
+                New Partner Inquiry
+              </td>
+            </tr>
+
+            <!-- CONTENT -->
+            <tr>
+              <td style=""font-size: 16px; line-height: 1.6"">
+                <p>Hello,</p>
+                <p>
+                  You have received a new partnership inquiry via the DiceHub
+                  platform.
+                </p>
+                <p><strong>From:</strong> {{Name}}</p>
+                <p><strong>Email:</strong> {{Email}}</p>
+                <p><strong>Phone Number:</strong> {{PhoneNumber}}</p>
+                <p><strong>Message:</strong></p>
+                <p>{{Message}}</p>
+                <p>
+                  Please reach out to the potential partner to continue the
+                  conversation.
+                </p>
+                <p>— The DiceHub System</p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
+
+"
+        },
+        new ()
+        {
+            Id = 8,
+            Language =SupportLanguages.BG.ToString(),
+            TemplateName = EmailType.PartnerInquiryRequest.ToString(),
+            Subject = "Ново запитване за партньорство",
+            TemplateHtml = @"
+<!DOCTYPE html>
+<html lang=""bg"">
+  <head>
+    <meta charset=""UTF-8"" />
+    <title>Ново запитване за партньорство</title>
+  </head>
+  <body
+    style=""
+      margin: 0;
+      padding: 0;
+      background-color: #20232a;
+      font-family: Arial, sans-serif;
+      color: white;
+    ""
+  >
+    <table
+      width=""100%""
+      cellpadding=""0""
+      cellspacing=""0""
+      role=""presentation""
+      style=""background-color: #20232a; padding: 20px 0""
+    >
+      <tr>
+        <td align=""center"">
+          <table
+            width=""500""
+            cellpadding=""0""
+            cellspacing=""0""
+            role=""presentation""
+            style=""
+              background-color: #20232a;
+              padding: 20px;
+              border-radius: 8px;
+              box-shadow: 0 4px 12px rgba(0, 2, 1, 1);
+            ""
+          >
+            <!-- LOGО -->
+            <tr>
+              <td align=""center"">
+                <img
+                  src=""https://dicehub.online/email-images/dicehub_logo_1.png""
+                  width=""150""
+                  style=""display:block;""
+                  alt=""DiceHub""
+                />
+              </td>
+            </tr>
+
+            <!-- HEADER -->
+            <tr>
+              <td
+                align=""center""
+                style=""font-size: 22px; font-weight: bold; padding-bottom: 20px""
+              >
+                Ново запитване за партньорство
+              </td>
+            </tr>
+
+            <!-- CONTENT -->
+            <tr>
+              <td style=""font-size: 16px; line-height: 1.6"">
+                <p>Здравейте,</p>
+                <p>
+                  Получихте ново запитване за партньорство през платформата
+                  DiceHub.
+                </p>
+                <p><strong>От:</strong> {{Name}}</p>
+                <p><strong>Имейл:</strong> {{Email}}</p>
+                <p><strong>Телефон:</strong> {{PhoneNumber}}</p>
+                <p><strong>Съобщение:</strong></p>
+                <p>{{Message}}</p>
+                <p>
+                  Моля, свържете се с потенциалния партньор, за да продължите
+                  разговора.
+                </p>
+                <p>— Системата на DiceHub</p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
   </body>
 </html>
 "
         },
         new ()
         {
-            Id = 5,
+            Id = 9,
+            Language = SupportLanguages.EN.ToString(),
             TemplateName = EmailType.OwnerPasswordCreation.ToString(),
             Subject = "Welcome Owner of {{ClubName}} – Create Your Account Password",
             TemplateHtml = @"
 <!DOCTYPE html>
-<html lang=""en"">
+<html lang=""bg"">
   <head>
     <meta charset=""UTF-8"" />
-    <title>Confirm Your Email</title>
-    <style>
-      body {
-        background-color: #20232a;
-        margin: 0;
-        padding: 0;
-        color: white;
-      }
-
-      .wrapper {
-        max-width: 500px;
-        max-height: 700px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        margin: 2rem auto;
-        padding: 2rem;
-        border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0, 2, 1, 1);
-      }
-
-      .interactive-option {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 1rem;
-      }
-
-      .icon_wrapper {
-        width: 5rem;
-        height: 5rem;
-        border-radius: 50px;
-        background: #75a0ff;
-        box-shadow: 0 0 0 12px #20232a;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .icon {
-        width: 3rem;
-        height: 3rem;
-        fill: white;
-      }
-
-      .header {
-        text-align: center;
-        font-size: 1.5rem;
-        margin-bottom: 2rem;
-      }
-
-      .content p {
-        font-size: 1rem;
-        line-height: 1.6;
-      }
-
-      .link {
-        text-align: center;
-        margin: 1rem;
-      }
-
-      .link a {
-        appearance: none;
-        text-decoration: none;
-        border: none;
-        border-radius: 2rem;
-        color: white;
-        cursor: pointer;
-        font-weight: 600;
-        padding: 0.65rem 1rem;
-        font-size: 1rem;
-        background-color: #75a0ff;
-        display: flex;
-        justify-content: center;
-      }
-    </style>
+    <title>Create Owner Password</title>
   </head>
-  <body>
-    <div class=""wrapper"">
-        <div class=""interactive-option"">
-          <div class=""icon_wrapper"">
-            <svg class=""icon"" viewBox=""0 -960 960 960"">
-              <path
-                d=""M750.54-116.15 638.15-229.31l-88 88-11.07-11.07q-26.39-26.39-26.39-63.47 0-37.07 26.39-63.46l145.61-145.61q26.39-26.39 63.46-26.39 37.08 0 63.47 26.39l11.07 11.07-88 88 113.16 113.39q13.69 13.69 13.69 31.61 0 17.93-13.69 31.62l-33.08 33.08q-13.69 13.69-32.12 13.69-18.42 0-32.11-13.69ZM853-735.92 408.31-290.46l24.61 25.38q16.39 26.39 13.39 57.46-3 31.08-26.39 54.47l-11.07 11.07-88-88-113.39 114.16q-13.69 13.69-31.61 13.69-17.93 0-31.62-13.69L110.15-150q-13.69-13.69-13.69-31.62 0-17.92 13.69-31.61l114.16-113.39-88-88 11.07-11.07q23.39-23.39 54.97-26.39 31.57-3 57.96 14.39l26.15 25.38L731.92-857H853v121.08ZM333-601l14.23-15.77 14-14-14 14L333-601Zm-46.31 45.54L107-735.92V-857h121.08L407-677.31l-45.77 46.54L201-791h-28v28l160 162-46.31 45.54ZM363-337l424-426v-28h-28L334-366l29 29Zm0 0-13.23-15.77L334-366l15.77 13.23L363-337Z""
-              />
-            </svg>
-          </div>
-        </div>
-        <div class=""header"">{{ClubName}}</div>
-      <div class=""content"">
-         <p>Hello and welcome!</p>
-            <p>Your owner account for <strong>{{ClubName}}</strong> has been successfully created.</p>
-            <p>To get started, you'll need to set your password and verify your identity.</p>
-            <p>Please click the button below to begin the setup process. As part of the setup, we’ll confirm your phone number to ensure it matches your registration details.</p>
-            <p class=""link""><a href=""{{CreatePasswordUrl}}"">Set Up Your Password</a></p>
-            <p>This link is valid for 24 hours. If it expires, please contact support to request a new one.</p>
-            <p>We’re excited to have you on board and look forward to supporting your club!</p>
-      </div>
-    </div>
+  <body
+    style=""
+      margin: 0;
+      padding: 0;
+      background-color: #20232a;
+      font-family: Arial, sans-serif;
+      color: white;
+    ""
+  >
+    <table
+      width=""100%""
+      cellpadding=""0""
+      cellspacing=""0""
+      role=""presentation""
+      style=""background-color: #20232a; padding: 20px 0""
+    >
+      <tr>
+        <td align=""center"">
+          <table
+            width=""500""
+            cellpadding=""0""
+            cellspacing=""0""
+            role=""presentation""
+            style=""
+              background-color: #20232a;
+              padding: 20px;
+              border-radius: 8px;
+              box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            ""
+          >
+            <tr>
+              <td align=""center"">
+                <img
+                  src=""https://dicehub.online/email-images/dicehub_logo_1.png""
+                  width=""150""
+                  style=""display: block""
+                  alt=""DiceHub""
+                />
+              </td>
+            </tr>
+
+            <tr>
+              <td
+                align=""center""
+                style=""font-size: 22px; font-weight: bold; padding-bottom: 20px""
+              >
+                {{ClubName}}
+              </td>
+            </tr>
+
+            <tr>
+              <td style=""font-size: 16px; line-height: 1.6"">
+                <p>Hello and welcome!</p>
+                <p>
+                  Your owner account for <strong>{{ClubName}}</strong> has
+                  been successfully created.
+                </p>
+                <p>
+                  To get started, you'll need to set your password and verify
+                  your identity.
+                </p>
+                <p>
+                  Please click the button below to begin the setup process. As
+                  part of the setup, we’ll confirm your phone number to ensure
+                  it matches your registration details.
+                </p>
+                <div style=""text-align: center; margin: 30px 0"">
+                  <a
+                    href=""{{CallbackUrl}}""
+                    style=""
+                      background-color: #75a0ff;
+                      color: white;
+                      padding: 12px 30px;
+                      border-radius: 30px;
+                      text-decoration: none;
+                      font-weight: bold;
+                      display: inline-block;
+                    ""
+                    >Set Up Your Password</a
+                  >
+                </div>
+                <p>
+                  This link is valid for 24 hours. If it expires, please contact
+                  support to request a new one.
+                </p>
+                <p>
+                  We’re excited to have you on board and look forward to
+                  supporting your club!
+                </p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
+"
+        },
+        new()
+        {
+            Id = 10,
+            Language = SupportLanguages.BG.ToString(),
+            TemplateName = EmailType.OwnerPasswordCreation.ToString(),
+            Subject = "Добре дошъл, собственик на {{ClubName}} – Създайте своята парола",
+            TemplateHtml = @"
+<!DOCTYPE html>
+<html lang=""bg"">
+  <head>
+    <meta charset=""UTF-8"" />
+    <title>Създаване на парола за собственик</title>
+  </head>
+  <body
+    style=""
+      margin: 0;
+      padding: 0;
+      background-color: #20232a;
+      font-family: Arial, sans-serif;
+      color: white;
+    ""
+  >
+    <table
+      width=""100%""
+      cellpadding=""0""
+      cellspacing=""0""
+      role=""presentation""
+      style=""background-color: #20232a; padding: 20px 0""
+    >
+      <tr>
+        <td align=""center"">
+          <table
+            width=""500""
+            cellpadding=""0""
+            cellspacing=""0""
+            role=""presentation""
+            style=""
+              background-color: #20232a;
+              padding: 20px;
+              border-radius: 8px;
+              box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            ""
+          >
+            <tr>
+              <td align=""center"">
+                <img
+                  src=""https://dicehub.online/email-images/dicehub_logo_1.png""
+                  width=""150""
+                  style=""display: block""
+                  alt=""DiceHub""
+                />
+              </td>
+            </tr>
+
+            <tr>
+              <td
+                align=""center""
+                style=""font-size: 22px; font-weight: bold; padding-bottom: 20px""
+              >
+                {{ClubName}}
+              </td>
+            </tr>
+
+            <tr>
+              <td style=""font-size: 16px; line-height: 1.6"">
+                <p>Здравейте и добре дошли!</p>
+                <p>
+                  Вашият акаунт собственик на <strong>{{ClubName}}</strong>
+                  беше успешно създаден.
+                </p>
+                <p>
+                  За да започнете, е необходимо да зададете своята парола и да
+                  потвърдите своята идентичност.
+                </p>
+                <p>
+                  Моля, натиснете бутона по-долу, за да започнете процеса на
+                  настройка. Като част от него ще бъде извършена проверка на
+                  вашия телефонен номер, за да се уверим, че съвпада с данните,
+                  предоставени при регистрацията.
+                </p>
+                <div style=""text-align: center; margin: 30px 0"">
+                  <a
+                    href=""{{CallbackUrl}}""
+                    style=""
+                      background-color: #75a0ff;
+                      color: white;
+                      padding: 12px 30px;
+                      border-radius: 30px;
+                      text-decoration: none;
+                      font-weight: bold;
+                      display: inline-block;
+                    ""
+                    >Задайте своята парола</a
+                  >
+                </div>
+                <p>
+                  Този линк е валиден 24 часа. Ако изтече, моля свържете се с
+                  поддръжката, за да получите нов.
+                </p>
+                <p>
+                  Радваме се, че сте част от платформата и с нетърпение очакваме
+                  да подкрепим вашия клуб!
+                </p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
   </body>
 </html>
 "
