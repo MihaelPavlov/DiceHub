@@ -105,10 +105,10 @@ public class UserController : ControllerBase
     }
 
     [AllowAnonymous]
-    [HttpPost("forgot-password/{email}")]
-    public async Task<IActionResult> ForgotPassword(string email, CancellationToken cancellationToken)
+    [HttpPost("forgot-password/{email}/{language}")]
+    public async Task<IActionResult> ForgotPassword(string email, string? language, CancellationToken cancellationToken)
     {
-        await this.mediator.Send(new SendForgotPasswordEmailCommand(email), cancellationToken);
+        await this.mediator.Send(new SendForgotPasswordEmailCommand(email,language), cancellationToken);
         return this.Ok();
     }
 

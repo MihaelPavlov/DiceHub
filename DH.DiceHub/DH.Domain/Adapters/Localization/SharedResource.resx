@@ -606,4 +606,7 @@
   <data name="GameReservationCancelledBody" xml:space="preserve">
     <value>Вашата резервация за игра **{0}** с {1} {2} на {3} беше ОТМЕНЕНА.</value>
   </data>
+  <data name="ForgotPasswordUserWithEmailNotFound" xml:space="preserve">
+    <value>Потребител с този имейл не съществува!</value>
+  </data>
 </root>

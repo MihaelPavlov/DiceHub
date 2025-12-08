@@ -606,4 +606,7 @@
   <data name="GameReservationCancelledBody" xml:space="preserve">
     <value>Your reservation for game **{0}** with {1} {2} on {3} has been CANCELLED.</value>
   </data>
+  <data name="ForgotPasswordUserWithEmailNotFound" xml:space="preserve">
+    <value>User with this email address doesn't exists!</value>
+  </data>
 </root>
