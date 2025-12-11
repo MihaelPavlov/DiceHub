@@ -96,8 +96,8 @@ internal class SchedulerService : ISchedulerService
                 if (!hasTrigger)
                 {
                     var runAt = TimePeriodTypeHelper.CalculateNextResetDate(timePeriod, tenantSettings.ResetDayForRewards);
-                    var offset = TimeZoneHelper.GetOffsetForTimeZone(runAt, "Europe/Sofia");
-                    runAt = runAt.AddHours(-offset?.TotalHours ?? 0);
+                    //var offset = TimeZoneHelper.GetOffsetForTimeZone(runAt, "Europe/Sofia");
+                    //runAt = runAt.AddHours(-offset?.TotalHours ?? 0);
 
                     //var job = await scheduler.GetJobDetail(jobKey, cancellationToken)
                     //          ?? JobBuilder.Create<AddUserChallengePeriodJob>()

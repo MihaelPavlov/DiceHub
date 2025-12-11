@@ -53,9 +53,9 @@ public class AddUserChallengePeriodJob : IJob
 
             var runAt = TimePeriodTypeHelper.CalculateNextResetDate(timePeriod, tenantSettings.ResetDayForRewards);
 
-            var offset = TimeZoneHelper.GetOffsetForTimeZone(runAt, "Europe/Sofia");
-            runAt = runAt.AddHours(-offset?.TotalHours ?? 0);
-            this.logger.LogInformation("AddUserChallengePeriodJob rescheduled to run at {RunAt}. {SofiaOffeset}", runAt, -offset?.TotalHours ?? 0);
+            //var offset = TimeZoneHelper.GetOffsetForTimeZone(runAt, "Europe/Sofia");
+            //runAt = runAt.AddHours(-offset?.TotalHours ?? 0);
+            this.logger.LogInformation("AddUserChallengePeriodJob rescheduled to run at {RunAt}.", runAt);
 
             var job = JobBuilder.Create<AddUserChallengePeriodJob>()
                  .WithIdentity(jobKey)
