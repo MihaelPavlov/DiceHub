@@ -43,6 +43,7 @@ import localeEn from '@angular/common/locales/en';
 import { LanguageSwitchModule } from '../shared/components/language-switch/language-switch.module';
 import { ChallengeOverlayComponent } from '../shared/components/challenge-overlay/challenge-overlay.component';
 import { LandingComponent } from '../pages/landing/page/landing.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 export function initializeUserFactory(authService: AuthService): () => void {
   return () => authService.userinfo$();
@@ -58,6 +59,7 @@ registerLocaleData(localeEn, 'en');
     TranslateModule.forRoot(),
     AppRoutingModule,
     BrowserModule,
+    ReactiveFormsModule,
     NavigationMenuModule,
     LoginModule,
     RegisterModule,
