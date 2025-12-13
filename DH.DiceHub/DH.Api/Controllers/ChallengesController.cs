@@ -20,9 +20,14 @@ public class ChallengesController : ControllerBase
 {
     readonly IMediator mediator;
 
-    public ChallengesController(IMediator mediator)
+    readonly IUserContext userContext;
+    readonly IAddUserChallengePeriodHandler periodHandler;
+
+    public ChallengesController(IMediator mediator, IUserContext userContext, IAddUserChallengePeriodHandler periodHandler)
     {
         this.mediator = mediator;
+        this.userContext = userContext;
+        this.periodHandler = periodHandler;
     }
 
     [HttpGet("{id}")]
@@ -132,12 +137,22 @@ public class ChallengesController : ControllerBase
         var result = await this.mediator.Send(new GetUserCustomPeriodQuery(), cancellationToken);
         return Ok(result);
     }
+
     [HttpPost("save-custom-period")]
     [ActionAuthorize(UserAction.ChallengesCUD)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> SaveCustomPeriod([FromBody] SaveCustomPeriodCommand command, CancellationToken cancellationToken)
     {
         await this.mediator.Send(command, cancellationToken);
+        return Ok();
+    }
+
+    [HttpPost("period-reset")]
+    [ActionAuthorize(UserAction.ChallengesRead)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+    public async Task<IActionResult> CreatePeriod(CancellationToken cancellationToken)
+    {
+        await this.periodHandler.InitializeNewPeriods(cancellationToken);
         return Ok();
     }
 }

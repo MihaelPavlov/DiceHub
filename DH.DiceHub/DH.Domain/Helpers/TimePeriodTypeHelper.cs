@@ -40,7 +40,7 @@ public static class TimePeriodTypeHelper
                 //if (daysUntilReset == 0)
                 //    daysUntilReset = 7;
                 var resetDateBg = nowBg.Date.AddDays(daysUntilReset);
-                resetDateBg = resetDateBg.AddDays(1).AddSeconds(-1);
+                resetDateBg = resetDateBg.AddDays(1);
                 return TimeZoneInfo.ConvertTimeToUtc(resetDateBg, tz);
             }
         }
