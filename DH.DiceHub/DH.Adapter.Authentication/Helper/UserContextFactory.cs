@@ -1,9 +1,7 @@
 ﻿using DH.Domain.Adapters.Authentication;
 using DH.Domain.Adapters.Authentication.Models.Enums;
 using DH.Domain.Adapters.Authentication.Services;
-using DH.Domain.Entities;
 using DH.Domain.Enums;
-using DH.Domain.Repositories;
 using DH.Domain.Services.TenantUserSettingsService;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
@@ -12,63 +10,56 @@ namespace DH.Adapter.Authentication.Helper;
 
 public class UserContextFactory : IUserContextFactory
 {
-    IUserContext _defaultUserContext;
-
-    readonly IHttpContextAccessor _httpContextAccessor;
-    readonly HttpClient client;
+    readonly IHttpContextAccessor httpContextAccessor;
     readonly IJwtService jwtService;
     readonly IUserSettingsCache userSettingsCache;
 
-    public UserContextFactory(IHttpContextAccessor httpContextAccessor, IHttpClientFactory httpClientFactory, IJwtService jwtService, IUserSettingsCache userSettingsCache)
+    public UserContextFactory(IHttpContextAccessor httpContextAccessor, IJwtService jwtService, IUserSettingsCache userSettingsCache)
     {
-        client = httpClientFactory.CreateClient();
-        _httpContextAccessor = httpContextAccessor;
+        this.httpContextAccessor = httpContextAccessor;
         this.jwtService = jwtService;
         this.userSettingsCache = userSettingsCache;
-        _defaultUserContext = new UserContext(null, null, null, null, null);
     }
 
-    public IUserContext CreateUserContext()
+    /// <summary>
+    /// Creates a user context from the current HTTP request.
+    /// Uses ASP.NET authentication state ONLY.
+    /// </summary>
+    public async Task<IUserContext> CreateAsync()
     {
-        if (_httpContextAccessor.HttpContext == null)
-            return _defaultUserContext;
+        var httpContext = this.httpContextAccessor.HttpContext;
+        var user = httpContext?.User;
 
-        if (_httpContextAccessor.HttpContext.Request.Headers.TryGetValue("Authorization", out var authHeader))
+        if (user?.Identity?.IsAuthenticated != true)
         {
-            var accessToken = authHeader.ToString().Split(' ').Last();
-            client.DefaultRequestHeaders.Remove("Authorization");
-            client.DefaultRequestHeaders.Add("Authorization", authHeader.ToString());
-
-            var user = _httpContextAccessor.HttpContext.User;
-
-            var userIdClaim = user.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid);
-            string language = SupportLanguages.EN.ToString();
-            if (userIdClaim != null)
-                language = this.userSettingsCache.GetLanguageAsync(userIdClaim.Value).GetAwaiter().GetResult();
-
-            var userRoleClaim = user.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role);
-            var userTimeZone = user.Claims.FirstOrDefault(x => x.Type == "TimeZone");
-
-            var userContext = new UserContext(
-                userId: userIdClaim != null ? userIdClaim.Value : null,
-                roleKey: userRoleClaim != null ? RoleHelper.GetRoleKeyByName(userRoleClaim.Value) : null,
-                accessToken,
-                userTimeZone?.Value ?? null,
-                language);
-            this._defaultUserContext = userContext;
-            return userContext;
+            return AnonymousUserContext.Instance;
         }
-        return this._defaultUserContext;
+
+        var userId = user.FindFirstValue(ClaimTypes.Sid);
+        var roleName = user.FindFirstValue(ClaimTypes.Role);
+        var timeZone = user.FindFirstValue("TimeZone");
+
+        if (string.IsNullOrWhiteSpace(userId))
+        {
+            return AnonymousUserContext.Instance;
+        }
+
+        var language = await this.userSettingsCache.GetLanguageAsync(userId);
+
+        return new UserContext(
+            userId: userId,
+            roleKey: roleName != null ? RoleHelper.GetRoleKeyByName(roleName) : null,
+            timeZone: timeZone,
+            language: language
+        );
     }
 
-    public void SetDefaultUserContext(IUserContext defaultUserContext)
-    {
-        _defaultUserContext = defaultUserContext;
-    }
+    public IUserContext Create()
+        => CreateAsync().GetAwaiter().GetResult();
 
     public IUserContext GetUserContextForB2b()
     {
-        if (_httpContextAccessor.HttpContext == null)
+        if (this.httpContextAccessor.HttpContext == null)
         {
             var claims = new List<Claim>
             {
@@ -76,11 +67,16 @@ public class UserContextFactory : IUserContextFactory
             };
             var token = this.jwtService.GenerateAccessToken(claims);
 
-            return new UserContext("1", 1, token, "timezone", SupportLanguages.EN.ToString());
+            return new UserContext(
+                userId: "system",
+                roleKey: 1,
+                timeZone: "UTC",
+                language: SupportLanguages.EN.ToString()
+            );
         }
         else
         {
-            return CreateUserContext();
+            return AnonymousUserContext.Instance;
         }
     }
 }

@@ -16,7 +16,7 @@ public class UserActionService : IUserActionService
 
     public bool IsActionAvailable(int actionKey)
     {
-        var permissionString = _permissionStringBuilder.GetFromCacheOrBuildPermissionsString(_user.RoleKey);
+        var permissionString = _permissionStringBuilder.GetFromCacheOrBuildPermissionsString(_user.RoleKey!.Value);
         return permissionString[actionKey] == '1';
     }
 }

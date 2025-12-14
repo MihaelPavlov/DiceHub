@@ -1,5 +1,6 @@
 ﻿using DH.Adapter.Authentication.Entities;
 using DH.Domain.Adapters.Authentication.Models;
+using DH.Domain.Adapters.Authentication.Models.Enums;
 using DH.Domain.Adapters.Authentication.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -19,16 +20,22 @@ public class JwtService : IJwtService
 {
     readonly UserManager<ApplicationUser> userManager;
     readonly IConfiguration configuration;
+    readonly IPermissionStringBuilder _permissionStringBuilder;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JwtService"/> class with the specified dependencies.
     /// </summary>
     /// <param name="userManager"><see cref="UserManager{TUser}"/> for managing user-related operations.</param>
     /// <param name="configuration"><see cref="IConfiguration"/> for accessing application settings.</param>
-    public JwtService(UserManager<ApplicationUser> userManager, IConfiguration configuration)
+    public JwtService(
+        UserManager<ApplicationUser> userManager,
+        IConfiguration configuration,
+        IPermissionStringBuilder permissionStringBuilder
+    )
     {
         this.userManager = userManager;
         this.configuration = configuration;
+        _permissionStringBuilder = permissionStringBuilder;
     }
 
     /// <inheritdoc/>
@@ -78,19 +85,52 @@ public class JwtService : IJwtService
         string refreshToken = tokens.RefreshToken;
 
         var principal = GetPrincipalFromExpiredToken(accessToken);
+        var userId = principal.FindFirstValue(ClaimTypes.Sid);
 
-        var username = principal.Identity.Name; //this is mapped to the Name claim by default
-        var user = await userManager.FindByNameAsync(username);
+        if (string.IsNullOrEmpty(userId))
+            throw new SecurityTokenException("Invalid token");
+
+        var user = await userManager.FindByIdAsync(userId);
 
         if (user is null || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.UtcNow)
-            throw new ArgumentNullException("Invalid client request");
+            throw new SecurityTokenException("Invalid refresh token");
 
-        var newAccessToken = GenerateAccessToken(principal.Claims);
+        var roles = await userManager.GetRolesAsync(user);
+
+        var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.Sid, user.Id),
+            new Claim(ClaimTypes.Name, user.UserName!),
+            new Claim("TimeZone", user.TimeZone!)
+        };
+
+        if (roles.Any())
+        {
+            var role = roles.First();
+            claims.Add(new Claim(ClaimTypes.Role, RoleHelper.GetRoleKeyByName(role).ToString()));
+            claims.Add(new Claim("permissions",
+                this._permissionStringBuilder.GetFromCacheOrBuildPermissionsString(
+                    RoleHelper.GetRoleKeyByName(role))));
+        }
+
+        var newAccessToken = GenerateAccessToken(claims);
         var newRefreshToken = GenerateRefreshToken();
 
         user.RefreshToken = newRefreshToken;
+        user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(5);
+        user.SecurityStamp = Guid.NewGuid().ToString();
 
-        var result = await userManager.UpdateAsync(user);
+        /*
+         SecurityStamp is not a refresh-token field.
+            It is an identity invalidation marker.
+            ASP.NET Identity uses it to:
+            invalidate cookies
+            invalidate tokens
+            force re-authentication across sessions
+            Think of it as “kill all sessions”.
+         */
+
+        await this.userManager.UpdateAsync(user);
 
         return new TokenResponseModel()
         {
@@ -124,20 +164,29 @@ public class JwtService : IJwtService
         {
             ValidateIssuer = true,
             ValidateAudience = true,
-            ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = secretKey,
+
+            ValidateLifetime = false,
+                                        // Prevents accepting tokens that are “almost expired”
+            ClockSkew = TimeSpan.Zero,  //Keeps refresh logic deterministic
+                                        // Avoids subtle timing bugs during rotation
             ValidIssuer = issuer,
             ValidAudiences = apiAudiences,
+            IssuerSigningKey = secretKey,
         };
 
         var tokenHandler = new JwtSecurityTokenHandler();
-        SecurityToken securityToken;
-        var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out securityToken);
-        var jwtSecurityToken = securityToken as JwtSecurityToken;
 
-        if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+        var principal = tokenHandler.ValidateToken(
+            token,
+            tokenValidationParameters,
+            out SecurityToken securityToken);
+
+        if (securityToken is not JwtSecurityToken jwt ||
+        !jwt.Header.Alg.Equals(SecurityAlgorithms.HmacSha256,
+            StringComparison.InvariantCultureIgnoreCase))
             throw new SecurityTokenException("Invalid token");
+
         return principal;
     }
 }

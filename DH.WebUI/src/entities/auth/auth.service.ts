@@ -1,6 +1,6 @@
 import { LanguageService } from './../../shared/services/language.service';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, map } from 'rxjs';
+import { BehaviorSubject, Observable, map, tap } from 'rxjs';
 import { IUserInfo } from './models/user-info.model';
 import { Router } from '@angular/router';
 import { ITokenResponse } from './models/token-response.model';
@@ -137,8 +137,10 @@ export class AuthService {
   public userinfo(): void {
     const sidClaim: string =
       'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid';
-    const roleClaim: string =
+    const roleNameClaim: string =
       'http://schemas.microsoft.com/ws/2008/06/identity/claims/role';
+    const roleClaim: string = 'role_key';
+
     const usernameClaim: string =
       'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name';
 
@@ -181,8 +183,9 @@ export class AuthService {
   public userinfo$(): Promise<void> {
     const sidClaim: string =
       'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid';
-    const roleClaim: string =
+    const roleNameClaim: string =
       'http://schemas.microsoft.com/ws/2008/06/identity/claims/role';
+    const roleClaim: string = 'role_key';
     const usernameClaim: string =
       'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name';
 
@@ -235,13 +238,21 @@ export class AuthService {
       })
     );
   }
+
   public getToken(): string | null {
     return localStorage.getItem('jwt');
   }
-  public logout(): void {
-    localStorage.removeItem('jwt');
-    localStorage.removeItem('refreshToken');
-    this.userInfoSubject$.next(null);
+
+  public logout(): Observable<void | null> {
+    return this.api
+      .post<void>(`/${PATH.USER.CORE}/${PATH.USER.LOGOUT}`, {})
+      .pipe(
+        tap(() => {
+          localStorage.removeItem('jwt');
+          localStorage.removeItem('refreshToken');
+          this.userInfoSubject$.next(null);
+        })
+      );
   }
 
   public saveToken(deviceToken: string): Observable<null> {

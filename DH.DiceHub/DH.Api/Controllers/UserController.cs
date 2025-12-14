@@ -1,23 +1,24 @@
-﻿using DH.Domain.Adapters.Authentication.Services;
+﻿using DH.Adapter.Authentication.Filters;
+using DH.Application.Common.Commands;
+using DH.Application.Emails.Commands;
+using DH.Application.Stats.Queries;
+using DH.Domain.Adapters.Authentication.Enums;
+using DH.Domain.Adapters.Authentication.Models;
+using DH.Domain.Adapters.Authentication.Models.Enums;
+using DH.Domain.Adapters.Authentication.Services;
+using DH.Domain.Adapters.Email.Models;
+using DH.Domain.Adapters.PushNotifications;
+using DH.Domain.Adapters.PushNotifications.Messages;
+using DH.Domain.Models.Common;
+using DH.Domain.Models.SpaceManagementModels.Queries;
+using DH.Domain.Services.TenantSettingsService;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using DH.Domain.Adapters.Authentication.Models;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
-using DH.Adapter.Authentication.Filters;
-using DH.Application.Common.Commands;
-using DH.Domain.Adapters.Authentication.Enums;
-using MediatR;
-using DH.Domain.Adapters.PushNotifications.Messages;
-using DH.Domain.Adapters.PushNotifications;
-using DH.Domain.Adapters.Authentication.Models.Enums;
-using DH.Application.Stats.Queries;
-using DH.Application.Emails.Commands;
-using DH.Domain.Adapters.Email.Models;
-using DH.Domain.Models.Common;
-using DH.Domain.Services.TenantSettingsService;
-using DH.Domain.Models.SpaceManagementModels.Queries;
 
 namespace DH.Api.Controllers;
 
@@ -108,7 +109,7 @@ public class UserController : ControllerBase
     [HttpPost("forgot-password/{email}/{language}")]
     public async Task<IActionResult> ForgotPassword(string email, string? language, CancellationToken cancellationToken)
     {
-        await this.mediator.Send(new SendForgotPasswordEmailCommand(email,language), cancellationToken);
+        await this.mediator.Send(new SendForgotPasswordEmailCommand(email, language), cancellationToken);
         return this.Ok();
     }
 
@@ -369,5 +370,19 @@ public class UserController : ControllerBase
     {
         var result = await this.mediator.Send(new GetOwnerStatsQuery(), cancellationToken);
         return Ok(result);
+    }
+
+    [Authorize]
+    [HttpPost("logout")]
+    public async Task<IActionResult> Logout()
+    {
+        var userId = User.FindFirstValue(ClaimTypes.Sid);
+
+        if (string.IsNullOrEmpty(userId))
+            return Unauthorized();
+
+        await this.userService.Logout(userId);
+
+        return Ok();
     }
 }

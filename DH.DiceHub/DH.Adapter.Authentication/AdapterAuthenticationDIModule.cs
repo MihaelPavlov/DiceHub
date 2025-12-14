@@ -103,8 +103,13 @@ public static class AuthenticationDIModule
                 {
                     ValidateIssuer = true,
                     ValidateAudience = true,
-                    ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
+
+                    ValidateLifetime = true,
+
+                                               // ASP.NET allows 5 minutes by default
+                    ClockSkew = TimeSpan.Zero, // Without this, an expired token is still accepted
+                                               // frontend already handles refresh → no grace period needed
                     ValidIssuer = issuer,
                     ValidAudiences = apiAudiences,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetValue<string>("JWT_SecretKey")
@@ -123,7 +128,7 @@ public static class AuthenticationDIModule
            .AddScoped<IMapPermissions, MapPermissions>()
            .AddScoped<IActionPermissions<UserAction>, MapPermissions>()
            .AddScoped<IUserContextFactory, UserContextFactory>()
-           .AddScoped<IUserContext>(services => services.GetRequiredService<IUserContextFactory>().CreateUserContext());
+           .AddScoped<IUserContext>(services => services.GetRequiredService<IUserContextFactory>().Create());
 
         RegisterAssemblyTypesAsClosedGeneric(services, typeof(IRepository<>), typeof(IDomainService<>), typeof(IDbContextFactory<>));
 

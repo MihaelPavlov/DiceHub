@@ -1,6 +1,7 @@
 ﻿using DH.Domain.Adapters.Authentication.Enums;
 using DH.Domain.Adapters.Authentication.Interfaces;
 using DH.Domain.Adapters.Authentication.Models.Enums;
+using System.Linq;
 
 namespace DH.Domain.Adapters.Authentication;
 
@@ -54,6 +55,6 @@ public class MapPermissions : IMapPermissions, IActionPermissions<UserAction>
         if (!_map.TryGetValue(action, out var roles))
             return false;
 
-        return roles.Cast<int>().Contains(userContext.RoleKey);
+        return roles.Contains((Role)userContext.RoleKey!);
     }
 }

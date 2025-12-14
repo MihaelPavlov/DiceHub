@@ -6,22 +6,22 @@ namespace DH.Adapter.Authentication.Helper;
 /// A factory class for creating instances of <see cref="IUserContext"/> that simulates a default user context.
 /// This is useful for testing or migration utilities where a real user context is not required.
 /// </summary>
-public class VirtualUserContextFactory : IUserContextFactory
-{
-    IUserContext _defaultUserContext = new UserContext("0", 0, string.Empty, string.Empty, string.Empty);
+//public class VirtualUserContextFactory : IUserContextFactory
+//{
+//    IUserContext _defaultUserContext = new UserContext("0", 0, string.Empty, string.Empty, string.Empty);
 
-    public IUserContext CreateUserContext()
-    {
-        return _defaultUserContext;
-    }
+//    public IUserContext CreateUserContext()
+//    {
+//        return _defaultUserContext;
+//    }
 
-    public IUserContext GetUserContextForB2b()
-    {
-        throw new NotImplementedException("No B2B Comunication inside the virtual user context");
-    }
+//    public IUserContext GetUserContextForB2b()
+//    {
+//        throw new NotImplementedException("No B2B Comunication inside the virtual user context");
+//    }
 
-    public void SetDefaultUserContext(IUserContext defaultUserContext)
-    {
-        _defaultUserContext = defaultUserContext;
-    }
-}
+//    public void SetDefaultUserContext(IUserContext defaultUserContext)
+//    {
+//        _defaultUserContext = defaultUserContext;
+//    }
+//}

@@ -1,34 +1,37 @@
 ﻿namespace DH.Domain.Adapters.Authentication;
 
 /// <summary>
-/// Provides properties to access information about the current user context.
+/// Provides information about the current execution user.
+/// Safe for authenticated, anonymous, and system contexts.
 /// </summary>
 public interface IUserContext
 {
     /// <summary>
     /// Gets the unique identifier of the current user.
+    /// Null when the user is anonymous or system-level.
     /// </summary>
-    string UserId { get; }
+    string? UserId { get; }
 
     /// <summary>
-    /// Gets the time zone of the current user.
+    /// Gets the role key of the current user.
+    /// Null when unauthenticated.
     /// </summary>
-    string TimeZone { get; }
+    int? RoleKey { get; }
 
     /// <summary>
-    /// Preferred Language from the user
+    /// Gets the user's preferred time zone.
+    /// Null when not available.
     /// </summary>
-    string Language { get; }
+    string? TimeZone { get; }
 
     /// <summary>
-    /// Gets a value indicating whether the current user is authenticated.
+    /// Gets the user's preferred language.
+    /// Null when not available.
+    /// </summary>
+    string? Language { get; }
+
+    /// <summary>
+    /// Indicates whether the current user is authenticated.
     /// </summary>
     bool IsAuthenticated { get; }
-
-    /// <summary>
-    /// Gets a value indicating user role key.
-    /// </summary>
-	int RoleKey { get; }
-
-    string Token { get; }
 }
