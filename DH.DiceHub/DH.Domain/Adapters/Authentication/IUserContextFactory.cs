@@ -1,17 +1,17 @@
 ﻿namespace DH.Domain.Adapters.Authentication;
 
 /// <summary>
-/// Provides a method to create instances of the <see cref="IUserContext"/>.
+/// Factory for creating <see cref="IUserContext"/> instances.
 /// </summary>
 public interface IUserContextFactory
 {
     /// <summary>
-    /// Creates a new instance of the <see cref="IUserContext"/>.
+    /// Creates a user context from the current HTTP request.
+    /// Returns an anonymous context when unauthenticated.
     /// </summary>
-    /// <returns>A new <see cref="IUserContext"/> instance.</returns>
-    IUserContext CreateUserContext();
+    Task<IUserContext> CreateAsync();
 
-    void SetDefaultUserContext(IUserContext defaultUserContext);
+    IUserContext Create();
 
     IUserContext GetUserContextForB2b();
 }

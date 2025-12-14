@@ -1,4 +1,5 @@
-﻿using DH.Adapter.Authentication.Entities;
+﻿using Azure.Core;
+using DH.Adapter.Authentication.Entities;
 using DH.Domain.Adapters.Authentication;
 using DH.Domain.Adapters.Authentication.Models;
 using DH.Domain.Adapters.Authentication.Models.Enums;
@@ -13,6 +14,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
 namespace DH.Adapter.Authentication.Services;
@@ -72,14 +74,13 @@ public class UserService : IUserService
         if (!await userManager.IsEmailConfirmedAsync(user!))
             throw new ValidationErrorsException("EmailNotConfirmed", this.localizer["EmailNotConfirmed"]);
 
-        var result = await this.signInManager.PasswordSignInAsync(user!, form.Password, form.RememberMe, true);
-
-        if (!result.Succeeded)
-            throw new ValidationErrorsException("Email", this.localizer["InvalidEmailOrPass"]);
+        if (!await userManager.CheckPasswordAsync(user!, form.Password))
+            throw new ValidationErrorsException("Email", localizer["InvalidEmailOrPass"]);
 
         if (!string.IsNullOrEmpty(form.TimeZone) && form.TimeZone != user!.TimeZone)
         {
             user.TimeZone = form.TimeZone!;
+            await userManager.UpdateAsync(user);
         }
 
         var userDiviceToken = await this.userDeviceTokenRepository.GetByAsyncWithTracking(x => x.UserId == user!.Id, CancellationToken.None);
@@ -584,22 +585,30 @@ public class UserService : IUserService
 
     private async Task<TokenResponseModel?> IssueUserTokensAsync(ApplicationUser user)
     {
-        var roles = await this.userManager.GetRolesAsync(user);
-        this.logger.LogDebug("Roles ->, {roles}", string.Join(", ", roles));
-        var role = roles.FirstOrDefault();
+        var roles = await userManager.GetRolesAsync(user);
+        var roleName = roles.FirstOrDefault();
 
         var claims = new List<Claim>
         {
-            new Claim(ClaimTypes.Sid,user.Id),
+            new Claim(ClaimTypes.Sid, user.Id),
             new Claim(ClaimTypes.Name, user.UserName!),
             new Claim("TimeZone", user.TimeZone!),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
-        if (role != null)
+        if (roleName != null)
         {
-            claims.Add(new Claim(ClaimTypes.Role, RoleHelper.GetRoleKeyByName(role).ToString()));
-            claims.Add(new Claim("permissions", _permissionStringBuilder.GetFromCacheOrBuildPermissionsString(RoleHelper.GetRoleKeyByName(role))));
+            claims.Add(new Claim(ClaimTypes.Role, roleName));
+            claims.Add(new Claim("role_key",
+                RoleHelper.GetRoleKeyByName(roleName).ToString()));
+
+            claims.Add(new Claim(
+                "permissions",
+                this._permissionStringBuilder
+                    .GetFromCacheOrBuildPermissionsString(
+                        RoleHelper.GetRoleKeyByName(roleName))));
+
         }
-        var tokenString = this.jwtService.GenerateAccessToken(claims);
+        var accessToken = this.jwtService.GenerateAccessToken(claims);
         var refreshToken = this.jwtService.GenerateRefreshToken();
 
         user.RefreshToken = refreshToken;
@@ -607,9 +616,12 @@ public class UserService : IUserService
 
         await this.userManager.UpdateAsync(user);
 
-        _httpContextAccessor.HttpContext!.User = new ClaimsPrincipal(new ClaimsIdentity(claims));
-
-        return new TokenResponseModel { AccessToken = tokenString, RefreshToken = refreshToken, UserId = user.Id };
+        return new TokenResponseModel
+        {
+            AccessToken = accessToken,
+            RefreshToken = refreshToken,
+            UserId = user.Id
+        };
     }
 
     public async Task DeleteEmployee(string employeeId)
@@ -771,5 +783,21 @@ public class UserService : IUserService
             return false;
 
         return await this.userManager.IsInRoleAsync(user, role.ToString());
+    }
+
+    public async Task Logout(string userId)
+    {
+        var user = await userManager.FindByIdAsync(userId);
+        if (user is null)
+            return;
+
+        // Invalidate refresh token
+        user.RefreshToken = null;
+        user.RefreshTokenExpiryTime = DateTime.UtcNow;
+
+        // Optional: kill all sessions
+        user.SecurityStamp = Guid.NewGuid().ToString();
+
+        await userManager.UpdateAsync(user);
     }
 }
