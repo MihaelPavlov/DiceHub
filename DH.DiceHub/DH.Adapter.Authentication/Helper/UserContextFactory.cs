@@ -1,9 +1,7 @@
 ﻿using DH.Domain.Adapters.Authentication;
 using DH.Domain.Adapters.Authentication.Models.Enums;
 using DH.Domain.Adapters.Authentication.Services;
-using DH.Domain.Entities;
 using DH.Domain.Enums;
-using DH.Domain.Repositories;
 using DH.Domain.Services.TenantUserSettingsService;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
@@ -25,7 +23,7 @@ public class UserContextFactory : IUserContextFactory
         _httpContextAccessor = httpContextAccessor;
         this.jwtService = jwtService;
         this.userSettingsCache = userSettingsCache;
-        _defaultUserContext = new UserContext(null, null, null, null, null);
+        _defaultUserContext = new UserContext(null, null, null, null, null, null);
     }
 
     public IUserContext CreateUserContext()
@@ -48,14 +46,18 @@ public class UserContextFactory : IUserContextFactory
 
             var userRoleClaim = user.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role);
             var userTimeZone = user.Claims.FirstOrDefault(x => x.Type == "TimeZone");
+            var tenantId = _httpContextAccessor.HttpContext.Request.Headers["X-Tenant-Id"].FirstOrDefault();
 
             var userContext = new UserContext(
                 userId: userIdClaim != null ? userIdClaim.Value : null,
                 roleKey: userRoleClaim != null ? RoleHelper.GetRoleKeyByName(userRoleClaim.Value) : null,
                 accessToken,
                 userTimeZone?.Value ?? null,
-                language);
+                language,
+                tenantId);
+
             this._defaultUserContext = userContext;
+
             return userContext;
         }
         return this._defaultUserContext;
@@ -76,7 +78,7 @@ public class UserContextFactory : IUserContextFactory
             };
             var token = this.jwtService.GenerateAccessToken(claims);
 
-            return new UserContext("1", 1, token, "timezone", SupportLanguages.EN.ToString());
+            return new UserContext("1", 1, token, "timezone", SupportLanguages.EN.ToString(), string.Empty);
         }
         else
         {

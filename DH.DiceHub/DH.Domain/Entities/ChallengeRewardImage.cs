@@ -1,6 +1,6 @@
 ﻿namespace DH.Domain.Entities;
 
-public class ChallengeRewardImage
+public class ChallengeRewardImage : TenantEntity
 {
     public int Id { get; set; }
     public string FileName { get; set; } = string.Empty;

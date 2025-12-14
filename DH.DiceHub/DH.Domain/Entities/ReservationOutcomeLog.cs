@@ -2,7 +2,7 @@
 
 namespace DH.Domain.Entities;
 
-public class ReservationOutcomeLog
+public class ReservationOutcomeLog : TenantEntity
 {
     public int Id { get; set; }
 

@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { environment } from '../environments/environment.development';
 import { LanguageService } from './language.service';
+import { TenantService } from './tenant.service';
 
 export enum ApiBase {
   Default = 'default',
@@ -28,7 +29,8 @@ interface ApiConfig {
 export class RestApiService {
   constructor(
     private readonly http: HttpClient,
-    private readonly translateService: TranslateService
+    private readonly translateService: TranslateService,
+    private readonly tenantService: TenantService
   ) {}
 
   private getBaseUrl(base: ApiBase): string {
@@ -91,7 +93,15 @@ export class RestApiService {
     }
 
     if (this.translateService.getCurrentLang())
-      headers = headers.set('Accept-Language', this.translateService.getCurrentLang());
+      headers = headers.set(
+        'Accept-Language',
+        this.translateService.getCurrentLang()
+      );
+
+    const tenantId = this.tenantService.tenantId;
+    console.log('auth service - tenantId - ', tenantId);
+
+    if (tenantId) headers = headers.set('X-Tenant-Id', tenantId);
 
     return {
       ...config.options,

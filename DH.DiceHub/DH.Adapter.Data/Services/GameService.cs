@@ -13,17 +13,20 @@ namespace DH.Adapter.Data.Services;
 public class GameService : IGameService
 {
     readonly IDbContextFactory<TenantDbContext> contextFactory;
+    readonly TenantDbContext tenantDbContext;
     readonly ITenantSettingsCacheService tenantSettingsCacheService;
     readonly IUserContext userContext;
     readonly ILocalizationService localizationService;
 
     public GameService(
         IDbContextFactory<TenantDbContext> contextFactory,
+        TenantDbContext tenantDbContext,
         ITenantSettingsCacheService tenantSettingsCacheService,
         IUserContext userContext,
         ILocalizationService localizationService)
     {
         this.contextFactory = contextFactory;
+        this.tenantDbContext = tenantDbContext;
         this.tenantSettingsCacheService = tenantSettingsCacheService;
         this.userContext = userContext;
         this.localizationService = localizationService;
@@ -155,9 +158,9 @@ public class GameService : IGameService
 
     public async Task<List<GetGameListQueryModel>> GetGameListBySearchExpressionAsync(string searchExpression, string userId, CancellationToken cancellationToken)
     {
-        using (var context = await contextFactory.CreateDbContextAsync(cancellationToken))
-        {
-            return await
+        var context = this.tenantDbContext;
+
+        return await
                 (from g in context.Games
                  join gi in context.GameImages on g.Id equals gi.GameId
                  where !g.IsDeleted && g.Name.ToLower().Contains(searchExpression.ToLower())
@@ -175,14 +178,16 @@ public class GameService : IGameService
                  })
                  .OrderBy(x => x.Name)
                  .ToListAsync(cancellationToken);
-        }
     }
 
     public async Task<List<GetGameListQueryModel>> GetGameListBySearchExpressionAsync(int categoryId, string searchExpression, string userId, CancellationToken cancellationToken)
     {
         using (var context = await contextFactory.CreateDbContextAsync(cancellationToken))
         {
-            return await
+            using (var transaction = await context.Database.BeginTransactionAsync())
+            {
+
+                return await
                 (from g in context.Games
                  join gi in context.GameImages on g.Id equals gi.GameId
                  where !g.IsDeleted && g.Name.ToLower().Contains(searchExpression.ToLower()) && g.CategoryId == categoryId
@@ -200,6 +205,7 @@ public class GameService : IGameService
                  })
                  .OrderBy(x => x.Name)
                  .ToListAsync(cancellationToken);
+            }
         }
     }
 

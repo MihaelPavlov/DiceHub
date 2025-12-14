@@ -8,7 +8,7 @@ namespace DH.Adapter.Authentication.Helper;
 /// </summary>
 public class VirtualUserContextFactory : IUserContextFactory
 {
-    IUserContext _defaultUserContext = new UserContext("0", 0, string.Empty, string.Empty, string.Empty);
+    IUserContext _defaultUserContext = new UserContext("0", 0, string.Empty, string.Empty, string.Empty, string.Empty);
 
     public IUserContext CreateUserContext()
     {

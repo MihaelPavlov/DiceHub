@@ -10,6 +10,7 @@ import { Injectable } from '@angular/core';
 import { ITokenResponse } from '../../entities/auth/models/token-response.model';
 import { catchError, map, Observable, of, take, tap } from 'rxjs';
 import { RestApiService } from '../services/rest-api.service';
+import { TenantService } from '../services/tenant.service';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +20,8 @@ export class AuthGuard {
     private readonly router: Router,
     private readonly jwtHelper: JwtHelperService,
     private readonly api: RestApiService,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly tenantService: TenantService
   ) {}
 
   public canActivate(
@@ -27,7 +29,7 @@ export class AuthGuard {
     state: RouterStateSnapshot
   ): Observable<boolean> | boolean | Promise<boolean> {
     const token = localStorage.getItem('jwt');
-    
+
     if (token && !this.jwtHelper.isTokenExpired(token)) {
       return of(true);
     }
@@ -55,12 +57,16 @@ export class AuthGuard {
       accessToken: token,
       refreshToken: refreshToken,
     };
+    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
+    // Add tenantId if available
+    const tenantId = this.tenantService.tenantId;
+    if (tenantId) {
+      headers = headers.set('X-Tenant-Id', tenantId);
+    }
     return this.api
       .post<ITokenResponse>(`/api/user/refresh`, credentials, {
-        options: {
-          headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-        },
+        options: { headers },
       })
       .pipe(
         take(1),

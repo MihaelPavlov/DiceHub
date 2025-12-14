@@ -1,6 +1,6 @@
 ﻿namespace DH.Domain.Entities;
 
-public class UserChallengePeriodReward
+public class UserChallengePeriodReward : TenantEntity
 {
     public int Id { get; set; }
     public int ChallengeRewardId { get; set; }

@@ -11,6 +11,7 @@ using DH.Domain.Services.TenantUserSettingsService;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using System.Reflection;
 
 namespace DH.Adapter.Data;
@@ -22,12 +23,16 @@ public static class DataDIModule
         IConfiguration configuration)
     {
         services
-            .AddDbContext<TenantDbContext>(options => options
-                .UseNpgsql(
-                    configuration.GetConnectionString("DefaultConnection"),
-                    sqlServer => sqlServer
-                        .MigrationsAssembly(typeof(TenantDbContext).Assembly.FullName))
-            .EnableDetailedErrors(true)) // TODO:Don't do this on production. Don't hardcode this
+            .AddDbContext<TenantDbContext>((provider, options) =>
+            {
+                options
+                .AddInterceptors(provider.GetRequiredService<TenantDbConnectionInterceptor>())
+                    .UseNpgsql(
+                        configuration.GetConnectionString("DefaultConnection"),
+                        sqlServer => sqlServer
+                            .MigrationsAssembly(typeof(TenantDbContext).Assembly.FullName))
+                .EnableDetailedErrors(true);// TODO:Don't do this on production. Don't hardcode this
+            })
             .AddScoped<ITenantDbContext>(provider => provider.GetService<TenantDbContext>()
                 ?? throw new ArgumentNullException("IDBContext was not found"))
             .AddScoped(typeof(IRepository<>), typeof(DataRepository<>))
@@ -45,7 +50,8 @@ public static class DataDIModule
             .AddScoped<IEmailHelperService, EmailHelperService>()
             .AddScoped<IStatisticsService, StatisticsService>()
             .AddScoped<IUniversalChallengeProcessing, UniversalChallengeProcessing>()
-            .AddScoped<IGameSeeder, GameSeeder>();
+            .AddScoped<IGameSeeder, GameSeeder>()
+            .AddSingleton<TenantDbConnectionInterceptor>();
 
         services.AddMemoryCache();
         services.AddScoped<IUserSettingsCache, UserSettingsCache>();

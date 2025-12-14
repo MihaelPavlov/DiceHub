@@ -1,6 +1,6 @@
 ﻿namespace DH.Domain.Entities;
 
-public class CustomPeriodReward
+public class CustomPeriodReward : TenantEntity
 {
     public int Id { get; set; }
     public int RequiredPoints { get; set; }

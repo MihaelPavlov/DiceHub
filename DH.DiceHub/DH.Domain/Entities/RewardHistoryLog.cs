@@ -1,6 +1,6 @@
 ﻿namespace DH.Domain.Entities;
 
-public class RewardHistoryLog
+public class RewardHistoryLog : TenantEntity
 {
     public int Id { get; set; }
     public int RewardId { get; set; }

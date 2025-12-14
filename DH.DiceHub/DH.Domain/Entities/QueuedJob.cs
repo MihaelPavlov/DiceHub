@@ -2,7 +2,7 @@
 
 namespace DH.Domain.Entities;
 
-public class QueuedJob
+public class QueuedJob : TenantEntity
 {
     public int Id { get; set; }
     public string QueueType { get; set; } = string.Empty;

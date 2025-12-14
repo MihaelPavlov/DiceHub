@@ -1,6 +1,6 @@
 ﻿namespace DH.Domain.Entities;
 
-public class EmailTemplate
+public class EmailTemplate : TenantEntity
 {
     public int Id { get; set; }
     public string Language { get; set; } = string.Empty;

@@ -13,18 +13,20 @@ public class UserContext : IUserContext
     readonly string? _token;
     readonly string? _timeZone;
     readonly string? _language;
+    readonly string? _tenantId;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="UserContext"/> class with the specified user ID.
     /// </summary>
     /// <param name="userId">The unique identifier of the current user.</param>
-    public UserContext(string? userId, int? roleKey, string? token, string? timeZone, string? language)
+    public UserContext(string? userId, int? roleKey, string? token, string? timeZone, string? language, string? tenantId)
     {
         _userId = userId;
         _roleKey = roleKey;
         _token = token;
         _timeZone = timeZone;
         _language = language;
+        _tenantId = tenantId;
     }
 
     /// <inheritdoc/>
@@ -72,6 +74,17 @@ public class UserContext : IUserContext
                 return _language;
 
             throw new Exception("Can not find language for user.");
+        }
+    }
+
+    public string TenantId
+    {
+        get
+        {
+            if (_tenantId != null)
+                return _tenantId;
+
+            return string.Empty;
         }
     }
 

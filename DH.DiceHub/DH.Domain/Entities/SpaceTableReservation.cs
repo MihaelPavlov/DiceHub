@@ -2,7 +2,7 @@ using DH.Domain.Enums;
 
 namespace DH.Domain.Entities;
 
-public class SpaceTableReservation
+public class SpaceTableReservation : TenantEntity
 {
     public int Id { get; set; }
     public string UserId { get; set; } = string.Empty;

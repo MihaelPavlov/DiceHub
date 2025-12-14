@@ -1,6 +1,6 @@
 ﻿namespace DH.Domain.Entities;
 
-public class PartnerInquiry
+public class PartnerInquiry : TenantEntity
 {
     public int Id { get; set; }
     public string Name { get; set; } = string.Empty;

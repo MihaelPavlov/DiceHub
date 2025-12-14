@@ -30,9 +30,11 @@ public class TenantDbContext : DbContext, ITenantDbContext
 #if DEBUG
         if (!optionsBuilder.IsConfigured)
         {
-            optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=DH.DiceHub;User Id=postgres;Password=1qaz!QAZ;");
+            optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=DH.DiceHub2;User Id=app_user;Password=1qaz!QAZ;");
         }
 #endif
+
+        //optionsBuilder.AddInterceptors(containerService.Resolve<TenantDbConnectionInterceptor>());
     }
 
     #region games
@@ -118,6 +120,7 @@ public class TenantDbContext : DbContext, ITenantDbContext
     public DbSet<FailedJob> FailedJobs { get; set; } = default!;
     public DbSet<QrCodeScanAudit> QrCodeScanAudits { get; set; } = default!;
     public DbSet<TenantSetting> TenantSettings { get; set; } = default!;
+    public DbSet<Tenant> Tenants { get; set; } = default!;
     public DbSet<TenantUserSetting> TenantUserSettings { get; set; } = default!;
     public DbSet<PartnerInquiry> PartnerInquiries { get; set; } = default!;
     public DbSet<QueuedJob> QueuedJobs { get; set; } = default!;
@@ -133,7 +136,7 @@ public class TenantDbContext : DbContext, ITenantDbContext
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
-      
+
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.Entity<UserChallengePeriodPerformance>()

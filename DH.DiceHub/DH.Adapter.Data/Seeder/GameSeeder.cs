@@ -405,6 +405,7 @@ internal class GameSeeder(IDbContextFactory<TenantDbContext> contextFactory) : I
         {
             foreach (var game in games)
             {
+                break;
                 var exists = await context.Games.AnyAsync(x => x.Name == game.Game.Name);
                 if (exists)
                     continue;

@@ -21,6 +21,11 @@ public interface IUserContext
     string Language { get; }
 
     /// <summary>
+    /// Tenant Id Of the current user
+    /// </summary>
+    string TenantId { get; }
+
+    /// <summary>
     /// Gets a value indicating whether the current user is authenticated.
     /// </summary>
     bool IsAuthenticated { get; }

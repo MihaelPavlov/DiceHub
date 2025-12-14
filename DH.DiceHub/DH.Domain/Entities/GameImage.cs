@@ -1,6 +1,6 @@
 ﻿namespace DH.Domain.Entities;
 
-public class GameImage
+public class GameImage : TenantEntity
 {
     public int Id { get; set; }
     public string FileName { get; set; } = string.Empty;

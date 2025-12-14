@@ -1,6 +1,6 @@
 ﻿namespace DH.Domain.Entities;
 
-public class SpaceTable
+public class SpaceTable : TenantEntity
 {
     public int Id { get; set; }
     public string CreatedBy { get; set; } = string.Empty;
