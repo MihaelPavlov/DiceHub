@@ -11,45 +11,63 @@ import { LeaderboardChallengesComponent } from '../../features/charts/components
 import { EventAttendanceByEventsChartComponent } from '../../features/charts/components/events/event-attendance-by-ids/event-attendance-by-events-chart.component';
 import { EventsChartsLayoutComponent } from '../../features/charts/components/events/events-charts-layout/events-charts-layout.component';
 import { GamesChartComponent } from '../../features/charts/components/games/games-chart.component';
+import { AuthGuard } from '../../shared/guards/auth.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: Chart2Component,
+    canActivate: [AuthGuard],
   },
   {
     path: 'visitors',
     component: VisitorsChartComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'games',
     component: GamesChartComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'reservations',
     component: ReservationsChartComponent,
+    canActivate: [AuthGuard],
   },
-  { path: 'rewards', component: RewardChartsLayoutComponent },
+  {
+    path: 'rewards',
+    component: RewardChartsLayoutComponent,
+    canActivate: [AuthGuard],
+  },
   {
     path: 'rewards/expired-collected',
     component: CollectedExpiredRewardsChartComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'rewards/collected',
     component: RewardsCollectedChartComponent,
+    canActivate: [AuthGuard],
   },
-  { path: 'events', component: EventsChartsLayoutComponent },
+  {
+    path: 'events',
+    component: EventsChartsLayoutComponent,
+    canActivate: [AuthGuard],
+  },
   {
     path: 'events/by-dates',
     component: EventAttendanceChartComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'events/by-events',
     component: EventAttendanceByEventsChartComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'challenges/leaderboard',
     component: LeaderboardChallengesComponent,
+    canActivate: [AuthGuard],
   },
 ];
 

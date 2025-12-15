@@ -1,5 +1,4 @@
 ﻿using DH.Adapter.Authentication;
-using DH.Adapter.Authentication.Helper;
 using DH.Adapter.Data;
 using DH.Adapter.Data.Services;
 using DH.Adapter.QRManager;
@@ -67,8 +66,7 @@ try
             services.AddScoped<IChallengeService, ChallengeService>();
             services.AddScoped<IGameService, GameService>();
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(CreateGameCommand).Assembly));
-            services.AddScoped<IUserContextFactory, VirtualUserContextFactory>();
-            services.AddScoped<IUserContext>(services => services.GetRequiredService<IUserContextFactory>().CreateUserContext());
+            services.AddScoped<IUserContext>(services => services.GetRequiredService<IUserContextFactory>().Create());
         })
         .Build();
 

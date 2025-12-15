@@ -1,6 +1,6 @@
 import { LanguageService } from './../../shared/services/language.service';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, map, tap } from 'rxjs';
+import { BehaviorSubject, Observable, map, of, tap } from 'rxjs';
 import { IUserInfo } from './models/user-info.model';
 import { Router } from '@angular/router';
 import { ITokenResponse } from './models/token-response.model';
@@ -243,7 +243,14 @@ export class AuthService {
     return localStorage.getItem('jwt');
   }
 
-  public logout(): Observable<void | null> {
+  public logout(forceFrontendOnly = false): Observable<void | null> {
+    if (forceFrontendOnly) {
+      localStorage.removeItem('jwt');
+      localStorage.removeItem('refreshToken');
+      this.userInfoSubject$.next(null);
+      return of(void 0);
+    }
+
     return this.api
       .post<void>(`/${PATH.USER.CORE}/${PATH.USER.LOGOUT}`, {})
       .pipe(

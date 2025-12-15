@@ -8,7 +8,16 @@ import {
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Injectable } from '@angular/core';
 import { ITokenResponse } from '../../entities/auth/models/token-response.model';
-import { catchError, map, Observable, of, take, tap } from 'rxjs';
+import {
+  catchError,
+  from,
+  map,
+  Observable,
+  of,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs';
 import { RestApiService } from '../services/rest-api.service';
 
 @Injectable({
@@ -22,24 +31,44 @@ export class AuthGuard {
     private readonly authService: AuthService
   ) {}
 
+  public canActivateChild(
+    childRoute: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<boolean> | boolean | Promise<boolean> {
+    return this.canActivate(childRoute, state); // reuse the same logic
+  }
+
   public canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | boolean | Promise<boolean> {
     const token = localStorage.getItem('jwt');
-    
-    if (token && !this.jwtHelper.isTokenExpired(token)) {
-      return of(true);
+
+    if (!token) {
+      this.authService.userInfoSubject$.next(null);
+      this.router.navigateByUrl('login');
+      return false;
     }
+
+    if (!this.jwtHelper.isTokenExpired(token)) return true;
 
     return this.tryRefreshingTokens(token).pipe(
       take(1),
-      tap((isRefreshSuccess) => {
+      switchMap((isRefreshSuccess) => {
         if (!isRefreshSuccess) {
-          this.authService.logout();
-          this.router.navigateByUrl('login');
+          // logout is already an Observable, chain it
+          return this.authService.logout().pipe(
+            tap(() => this.router.navigateByUrl('login')),
+            map(() => false) // emit false after logout
+          );
         } else {
-          this.authService.userinfo();
+          // refresh succeeded, load user info
+          return from(this.authService.userinfo$()).pipe(
+            map(() => true),
+            catchError(() => {
+              return of(false);
+            })
+          );
         }
       })
     );
@@ -48,7 +77,7 @@ export class AuthGuard {
   private tryRefreshingTokens(token: string | null): Observable<boolean> {
     const refreshToken: string | null = localStorage.getItem('refreshToken');
     if (!token || !refreshToken) {
-      return of(false);
+      return this.authService.logout().pipe(map(() => false));
     }
 
     const credentials = {
@@ -73,8 +102,7 @@ export class AuthGuard {
         map(() => true), // Emit true if refresh is successful
         catchError((error) => {
           console.error(error);
-          this.authService.logout();
-          return of(false); // Emit false if refresh fails
+          return this.authService.logout(true).pipe(map(() => false));
         })
       );
   }

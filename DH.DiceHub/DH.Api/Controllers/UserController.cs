@@ -162,14 +162,13 @@ public class UserController : ControllerBase
     [HttpGet("info")]
     public IActionResult UserInfo()
     {
-        if (!HttpContext.Request.Headers.TryGetValue("Authorization", out var authHeader))
-            return Ok(null);
+        var authHeaderExists = HttpContext.Request.Headers.TryGetValue("Authorization", out var authHeader);
+        if (!authHeaderExists) return Ok(null);
 
         var accessToken = authHeader.ToString().Split(' ').Last();
         var tokenHandler = new JwtSecurityTokenHandler();
 
-        if (!tokenHandler.CanReadToken(accessToken))
-            return Ok(null);
+        if (!tokenHandler.CanReadToken(accessToken)) return Ok(null);
 
         try
         {

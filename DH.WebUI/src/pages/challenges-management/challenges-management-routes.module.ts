@@ -10,41 +10,45 @@ import { ROUTE } from '../../shared/configs/route.config';
 import { ChallengeAdminAccessGuard } from '../../shared/guards/challenge-admin-access.guard';
 import { canDeactivateGuard } from '../../shared/guards/can-deactive.guard';
 import { AdminChallengesComponent } from '../../features/challenges-management/components/admin-challenges/admin-challenges.component';
+import { AuthGuard } from '../../shared/guards/auth.guard';
 
 const routes: Routes = [
   {
     path: ROUTE.CHALLENGES.HOME,
     component: ChallengesManagementComponent,
-    canActivate: [ChallengeUserAccessGuard],
+    canActivate: [AuthGuard, ChallengeUserAccessGuard],
   },
   {
     path: ROUTE.CHALLENGES.REWARDS,
     component: ChallengesRewardsComponent,
-    canActivate: [ChallengeUserAccessGuard],
+    canActivate: [AuthGuard, ChallengeUserAccessGuard],
   },
   // FUTURE Feature - Streaks Page
   // {
   //   path: ROUTE.CHALLENGES.STREAKS,
   //   component: StreakComponent,
-  //   canActivate: [ChallengeUserAccessGuard],
+  //   canActivate: [AuthGuard,ChallengeUserAccessGuard],
   // },
   {
     path: ROUTE.CHALLENGES.ADMIN.CORE,
     component: AdminChallengesNavigationComponent,
-    canActivate: [ChallengeAdminAccessGuard],
+    canActivate: [AuthGuard, ChallengeAdminAccessGuard],
     children: [
       {
         path: ROUTE.CHALLENGES.ADMIN.CUSTOM_PERIOD,
         component: AdminChallengesCustomPeriodComponent,
-        canDeactivate:[canDeactivateGuard]
+        canActivate: [AuthGuard],
+        canDeactivate: [canDeactivateGuard],
       },
       {
         path: ROUTE.CHALLENGES.ADMIN.LIST,
         component: AdminChallengesComponent,
+        canActivate: [AuthGuard],
       },
       {
         path: `${ROUTE.CHALLENGES.ADMIN.SYSTEM_REWARDS}`,
         component: AdminChallengesSystemRewardsComponent,
+        canActivate: [AuthGuard],
       },
     ],
   },

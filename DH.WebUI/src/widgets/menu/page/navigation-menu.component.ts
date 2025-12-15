@@ -12,8 +12,10 @@ import { IMenuItemInterface } from '../models/menu-item.interface';
 import { NavigationEnd, Router } from '@angular/router';
 import {
   BehaviorSubject,
+  catchError,
   combineLatest,
   filter,
+  of,
   Subject,
   takeUntil,
 } from 'rxjs';
@@ -25,11 +27,11 @@ import { GamesService } from '../../../entities/games/api/games.service';
 import { ROUTE } from '../../../shared/configs/route.config';
 
 @Component({
-    selector: 'app-navigation-menu',
-    templateUrl: 'navigation-menu.component.html',
-    styleUrl: 'navigation-menu.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'app-navigation-menu',
+  templateUrl: 'navigation-menu.component.html',
+  styleUrl: 'navigation-menu.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class NavigationMenuComponent implements OnInit, AfterViewInit {
   @ViewChild('interactiveOption') interactiveOption!: ElementRef<HTMLElement>;
@@ -96,8 +98,20 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
 
   public refreshForAnyActiveReservations(): void {
     combineLatest([
-      this.gameService.getReservations_BackgroundRequest(),
-      this.spaceManagementService.getActiveReservedTableList_BackgroundRequest(),
+      this.gameService.getReservations_BackgroundRequest().pipe(
+        catchError((err) => {
+          console.warn('Game reservations failed silently', err);
+          return of([]);
+        })
+      ),
+      this.spaceManagementService
+        .getActiveReservedTableList_BackgroundRequest()
+        .pipe(
+          catchError((err) => {
+            console.warn('Table reservations failed silently', err);
+            return of([]);
+          })
+        ),
     ]).subscribe({
       next: ([gameReservations, tableReservations]) => {
         const gameActiveReservations =

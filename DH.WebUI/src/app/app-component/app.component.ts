@@ -1,4 +1,4 @@
-import { BehaviorSubject, filter, map, Observable } from 'rxjs';
+import { BehaviorSubject, catchError, filter, map, Observable, of } from 'rxjs';
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from '../../entities/auth/auth.service';
 import { onMessage } from 'firebase/messaging';
@@ -10,11 +10,13 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { FrontEndLogService } from '../../shared/services/frontend-log.service';
 import { ChallengeHubService } from '../../entities/challenges/api/challenge-hub.service';
 import { ChallengeOverlayComponent } from '../../shared/components/challenge-overlay/challenge-overlay.component';
+import { ChallengeOverlayService } from '../../shared/services/challenges-overlay.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
+  standalone: false,
 })
 export class AppComponent implements OnInit {
   @ViewChild('challengeOverlay') challengeOverlay!: ChallengeOverlayComponent;
@@ -24,6 +26,7 @@ export class AppComponent implements OnInit {
   public areAnyActiveNotificationSubject: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
   hideMenu = false;
+
   constructor(
     private readonly authService: AuthService,
     private readonly _messaging: Messaging,
@@ -33,10 +36,36 @@ export class AppComponent implements OnInit {
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute,
     private readonly frontEndLogService: FrontEndLogService,
-    private readonly toastService: ToastService
-    private readonly challengeHubService: ChallengeHubService
+    private readonly challengeHubService: ChallengeHubService,
+    private readonly challengeOverlayService: ChallengeOverlayService
   ) {
-    this._initializeUser();
+    window.addEventListener(
+      'touchstart',
+      (e) => {
+        if (e.touches.length === 1) {
+          const touch = e.touches[0];
+          // Save initial position if you want to detect swipe direction
+          window['touchStartX'] = touch.clientX;
+        }
+      },
+      { passive: false }
+    );
+
+    window.addEventListener(
+      'touchmove',
+      (e) => {
+        if (e.touches.length === 1) {
+          const touch = e.touches[0];
+          const diffX = touch.clientX - window['touchStartX'];
+
+          // If horizontal swipe more than threshold, prevent default to block back/forward navigation
+          if (Math.abs(diffX) > 30) {
+            e.preventDefault();
+          }
+        }
+      },
+      { passive: false }
+    );
     this.router.events
       .pipe(
         filter((event) => event instanceof NavigationEnd),
@@ -64,15 +93,17 @@ export class AppComponent implements OnInit {
    */
   private async _initializeUser(): Promise<void> {
     if (!this.authService.getUser) {
+      console.log('unit user');
+
       await this.authService.userinfo$();
     }
 
     if (this.authService.getUser) {
       await this.challengeHubService.initChallengeHubConnection(
-        this.authService.getUser.id, this.challengeOverlay
+        this.authService.getUser.id,
+        this.challengeOverlay
       );
-    }
-    else{      
+    } else {
       this.challengeOverlayService.init(this.challengeOverlay);
     }
 
@@ -98,18 +129,25 @@ export class AppComponent implements OnInit {
         .sendInfo('Initializing Firebase Cloud Messaging...', 'none')
         .subscribe();
 
-      this.messagingService.requestNotificationPermission();
       this.messagingService.getDeviceToken();
       this._listenForMessages();
     }
   }
 
   public onUpdateUserNotifications() {
-    this.notificationService.areAnyActiveNotifications().subscribe({
-      next: (areAnyActive) => {
-        this.areAnyActiveNotificationSubject.next(areAnyActive);
-      },
-    });
+    this.notificationService
+      .areAnyActiveNotifications()
+      .pipe(
+        catchError((err) => {
+          console.warn('Are Any Active Notifications failed silently', err);
+          return of(false);
+        })
+      )
+      .subscribe({
+        next: (areAnyActive) => {
+          this.areAnyActiveNotificationSubject.next(areAnyActive);
+        },
+      });
   }
 
   /**
@@ -117,7 +155,9 @@ export class AppComponent implements OnInit {
    */
   private _listenForMessages(): void {
     onMessage(this._messaging, {
-      next: () => {
+      next: (res) => {
+        console.log('Received foreground message:', res);
+
         this.notificationService.areAnyActiveNotifications().subscribe({
           next: (result) => {
             console.log('------------Are any active notifications:', result);

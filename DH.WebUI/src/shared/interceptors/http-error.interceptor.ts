@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse } from '@angular/common/http';
-import { Observable, of, throwError } from 'rxjs';
+import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
@@ -12,8 +12,14 @@ export class ErrorInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    const isBackground = req.headers.has('X-Background-Request');
+
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
+        if (isBackground) {
+          // Fail silently for background requests
+          return EMPTY;
+        }
         let errorMessage = 'An unknown error occurred!';
 
         if (error.error instanceof ErrorEvent) {
