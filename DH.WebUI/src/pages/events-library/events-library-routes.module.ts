@@ -8,37 +8,38 @@ import { EventAdminAccessGuard } from '../../shared/guards/event-admin-access.gu
 import { EventUserAccessGuard } from '../../shared/guards/event-user.guard';
 import { EventsLibraryComponent } from './page/events-library.component';
 import { ROUTE } from '../../shared/configs/route.config';
+import { AuthGuard } from '../../shared/guards/auth.guard';
 
 const routes: Routes = [
   {
     path: ROUTE.EVENTS.HOME,
     component: EventsLibraryComponent,
-    canActivate: [EventUserAccessGuard],
+    canActivate: [AuthGuard, EventUserAccessGuard],
   },
   {
     path: `:id/${ROUTE.EVENTS.DETAILS}`,
     component: EventDetailsComponent,
-    canActivate: [EventUserAccessGuard],
+    canActivate: [AuthGuard, EventUserAccessGuard],
   },
   {
     path: ROUTE.EVENTS.ADMIN.CORE,
     component: AdminEventManagementComponent,
-    canActivate: [EventAdminAccessGuard],
+    canActivate: [AuthGuard, EventAdminAccessGuard],
   },
   {
     path: `${ROUTE.EVENTS.ADMIN.CORE}/${ROUTE.EVENTS.ADMIN.ADD}`,
     component: AddUpdateEventComponent,
-    canActivate: [EventAdminAccessGuard],
+    canActivate: [AuthGuard, EventAdminAccessGuard],
   },
   {
     path: `:id/${ROUTE.EVENTS.ADMIN.CORE}/${ROUTE.EVENTS.ADMIN.UPDATE}`,
     component: AddUpdateEventComponent,
-    canActivate: [EventAdminAccessGuard],
+    canActivate: [AuthGuard, EventAdminAccessGuard],
   },
   {
     path: `:id/${ROUTE.EVENTS.ADMIN.CORE}/${ROUTE.EVENTS.ADMIN.DETAILS}`,
     component: AdminEventDetailsComponent,
-    canActivate: [EventAdminAccessGuard],
+    canActivate: [AuthGuard, EventAdminAccessGuard],
   },
 ];
 @NgModule({

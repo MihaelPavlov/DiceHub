@@ -5,16 +5,30 @@ import { SpaceTableActiveReservations } from '../../features/reservation-managem
 import { SpaceTableReservationHistory } from '../../features/reservation-management/components/space-table-reservations/history/space-table-reservation-history.component';
 import { GameReservations } from '../../features/reservation-management/components/game-reservations/active-list/game-reservations.component';
 import { GameReservationHistory } from '../../features/reservation-management/components/game-reservations/history/game-reservation-history.component';
+import { AuthGuard } from '../../shared/guards/auth.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: ReservationManagementNavigationComponent,
+    canActivate: [AuthGuard],
     children: [
-      { path: 'games', component: GameReservations },
-      { path: 'games/history', component: GameReservationHistory },
-      { path: 'tables', component: SpaceTableActiveReservations },
-      { path: 'tables/history', component: SpaceTableReservationHistory },
+      { path: 'games', component: GameReservations, canActivate: [AuthGuard] },
+      {
+        path: 'games/history',
+        component: GameReservationHistory,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'tables',
+        component: SpaceTableActiveReservations,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'tables/history',
+        component: SpaceTableReservationHistory,
+        canActivate: [AuthGuard],
+      },
     ],
   },
 ];

@@ -6,33 +6,38 @@ import { ClubSpaceListComponent } from '../../features/club-space-management/com
 import { ClubSpaceDetailsComponent } from '../../features/club-space-management/components/club-space-details/club-space-details.component';
 import { SpaceBookingComponent } from '../../features/club-space-management/components/space-booking/space-booking.component';
 import { UserHasActiveTableGuard } from './guards/user-has-active-table.guard';
+import { AuthGuard } from '../../shared/guards/auth.guard';
 
 const routes: Routes = [
   {
     path: 'home',
     component: ClubSpaceManagementComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'create/:gameId',
     component: AddUpdateClubSpaceComponent,
-    canActivate: [UserHasActiveTableGuard],
+    canActivate: [AuthGuard, UserHasActiveTableGuard],
   },
   {
     path: 'update/:tableId',
     component: AddUpdateClubSpaceComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'list',
     component: ClubSpaceListComponent,
-    canActivate: [UserHasActiveTableGuard],
+    canActivate: [AuthGuard, UserHasActiveTableGuard],
   },
   {
     path: ':id/details',
     component: ClubSpaceDetailsComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'booking',
     component: SpaceBookingComponent,
+    canActivate: [AuthGuard],
   },
 ];
 

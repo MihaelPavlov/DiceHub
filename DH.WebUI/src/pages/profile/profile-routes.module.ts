@@ -10,59 +10,55 @@ import { AddUpdateEmployeeComponent } from '../../features/profile/components/ad
 import { OwnerDetailsComponent } from '../../features/profile/components/owner-details/owner-details.component';
 import { SettingsSuperAdminAccessGuard } from './guards/settings-super-admin-access.guard';
 import { JobsComponent } from '../../features/profile/components/jobs/jobs.component';
-import {
-  ClubInfo
-} from '../../features/profile/components/club-info/club-info.component';
+import { ClubInfo } from '../../features/profile/components/club-info/club-info.component';
+import { AuthGuard } from '../../shared/guards/auth.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: ProfileComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'settings',
     component: GlobalSettingsComponent,
-    canActivate: [SettingsOwnerAccessGuard],
+    canActivate: [AuthGuard, SettingsOwnerAccessGuard],
   },
   {
     path: 'user-settings',
     component: UserSettingsComponent,
-    canActivate: [SettingsUserAccessGuard],
+    canActivate: [AuthGuard, SettingsUserAccessGuard],
   },
   {
     path: 'employees',
     component: EmployeeListComponent,
-    canActivate: [SettingsOwnerAccessGuard],
+    canActivate: [AuthGuard, SettingsOwnerAccessGuard],
   },
   {
     path: 'add-employee',
     component: AddUpdateEmployeeComponent,
-    canActivate: [SettingsOwnerAccessGuard],
+    canActivate: [AuthGuard, SettingsOwnerAccessGuard],
   },
   {
     path: ':id/update-employee',
     component: AddUpdateEmployeeComponent,
-    canActivate: [SettingsOwnerAccessGuard],
+    canActivate: [AuthGuard, SettingsOwnerAccessGuard],
   },
   {
     path: 'owner-details',
     component: OwnerDetailsComponent,
-    canActivate: [SettingsSuperAdminAccessGuard],
+    canActivate: [AuthGuard, SettingsSuperAdminAccessGuard],
   },
   {
     path: 'jobs',
     component: JobsComponent,
-    canActivate: [SettingsSuperAdminAccessGuard],
+    canActivate: [AuthGuard, SettingsSuperAdminAccessGuard],
   },
   {
     path: 'club-info',
     component: ClubInfo,
+    canActivate: [AuthGuard],
   },
-  // {
-  //   path: 'add-owner',
-  //   component: AddOwnerComponent,
-  //   canActivate: [SettingsSuperAdminAccessGuard],
-  // },
 ];
 
 @NgModule({
