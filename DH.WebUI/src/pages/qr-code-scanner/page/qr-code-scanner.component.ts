@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
@@ -20,12 +21,14 @@ import { QrEncryptService } from '../../../shared/services/qr-code-encrypt.servi
 import { ScanConfirmDialogComponent } from '../../../features/qr-code-scanner/dialogs/scan-confirm-dialog.component';
 
 @Component({
-    selector: 'app-qr-code-scanner',
-    templateUrl: 'qr-code-scanner.component.html',
-    styleUrl: 'qr-code-scanner.component.scss',
-    standalone: false
+  selector: 'app-qr-code-scanner',
+  templateUrl: 'qr-code-scanner.component.html',
+  styleUrl: 'qr-code-scanner.component.scss',
+  standalone: false,
 })
-export class QrCodeScannerComponent implements OnInit, AfterViewInit {
+export class QrCodeScannerComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
   @ViewChild('video') videoElement!: ElementRef<HTMLVideoElement>;
   private readonly KEY_AFTER_SCAN_SUCCESS_MESSAGE = 'afterScanSuccessMessage';
   private readonly KEY_AFTER_SCAN_ERROR_MESSAGE = 'afterScanErrorMessage';
@@ -38,6 +41,7 @@ export class QrCodeScannerComponent implements OnInit, AfterViewInit {
   public QrCodeType = QrCodeType;
   public afterScanSuccessfulMessage: string | null = null;
   public afterScanErrorMessage: string | null = null;
+  private mediaStream: MediaStream | null = null;
 
   constructor(
     private readonly scannerService: ScannerService,
@@ -58,11 +62,29 @@ export class QrCodeScannerComponent implements OnInit, AfterViewInit {
     this.startCamera();
   }
 
+  public ngOnDestroy(): void {
+    this.stopCamera();
+  }
+
+  private stopCamera(): void {
+    if (this.mediaStream) {
+      this.mediaStream.getTracks().forEach((track) => track.stop());
+      this.mediaStream = null;
+    }
+
+    if (this.videoElement?.nativeElement) {
+      this.videoElement.nativeElement.pause();
+      this.videoElement.nativeElement.srcObject = null;
+    }
+  }
+
   private startCamera(): void {
     navigator.mediaDevices
       .getUserMedia({ video: { facingMode: 'environment' } })
       .then((stream) => {
         try {
+          this.mediaStream = stream;
+
           this.videoElement.nativeElement.srcObject = stream;
           this.videoElement.nativeElement.play();
           requestAnimationFrame(this.tick.bind(this));
