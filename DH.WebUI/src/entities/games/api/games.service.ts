@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
-import { RestApiService } from '../../../shared/services/rest-api.service';
+import {
+  ApiConfig,
+  RestApiService,
+} from '../../../shared/services/rest-api.service';
 import { Observable } from 'rxjs';
 import { PATH } from '../../../shared/configs/path.config';
 import { IGameListResult } from '../models/game-list.model';
@@ -20,6 +23,8 @@ import { ReservationStatus } from '../../../shared/enums/reservation-status.enum
   providedIn: 'root',
 })
 export class GamesService {
+  private tenantConfig: ApiConfig = { requiredTenant: true };
+
   constructor(private readonly api: RestApiService) {}
 
   public getList(
@@ -29,13 +34,15 @@ export class GamesService {
       `/${PATH.GAMES.CORE}/${PATH.GAMES.LIST}`,
       {
         searchExpression,
-      }
+      },
+      this.tenantConfig
     );
   }
 
   public getReservationById(id: number): Observable<IGetReservationById> {
     return this.api.get<IGetReservationById>(
-      `/${PATH.GAMES.CORE}/${PATH.GAMES.GET_RESERVATION_BY_ID}/${id}`
+      `/${PATH.GAMES.CORE}/${PATH.GAMES.GET_RESERVATION_BY_ID}/${id}`,
+      this.tenantConfig
     );
   }
 
@@ -44,64 +51,79 @@ export class GamesService {
   ): Observable<IGameReservationHistory[] | null> {
     return this.api.post<IGameReservationHistory[]>(
       `/${PATH.GAMES.CORE}/${PATH.GAMES.GET_RESERVATION_HISTORY}`,
-      { status }
+      { status },
+      this.tenantConfig
     );
   }
 
   public generateQRCode(qrCodeString: string): Observable<any> {
     console.log(qrCodeString);
 
-    return this.api.post(`/${PATH.GAMES.CORE}/create-qr-code`, {
-      qrCodeData: qrCodeString,
-    });
+    return this.api.post(
+      `/${PATH.GAMES.CORE}/create-qr-code`,
+      {
+        qrCodeData: qrCodeString,
+      },
+      this.tenantConfig
+    );
   }
 
   public upload(data: any): Observable<any> {
-    return this.api.post<any>(`/${PATH.GAMES.CORE}/upload`, {
-      imageData: data,
-    });
+    return this.api.post<any>(
+      `/${PATH.GAMES.CORE}/upload`,
+      {
+        imageData: data,
+      },
+      this.tenantConfig
+    );
   }
 
   public getInventory(id: number): Observable<IGameInventory> {
     return this.api.get<IGameInventory>(
-      `/${PATH.GAMES.CORE}/${id}/${PATH.GAMES.INVENTORY}`
+      `/${PATH.GAMES.CORE}/${id}/${PATH.GAMES.INVENTORY}`,
+      this.tenantConfig
     );
   }
 
   public getReservations(): Observable<IReservedGame[]> {
     return this.api.get<IReservedGame[]>(
-      `/${PATH.GAMES.CORE}/${PATH.GAMES.GET_RESERVED_GAMES}`
+      `/${PATH.GAMES.CORE}/${PATH.GAMES.GET_RESERVED_GAMES}`,
+      this.tenantConfig
     );
   }
 
   public getReservations_BackgroundRequest(): Observable<IReservedGame[]> {
     return this.api.get<IReservedGame[]>(
       `/${PATH.GAMES.CORE}/${PATH.GAMES.GET_RESERVED_GAMES}`,
-      { backgroundRequest: true }
+      { ...this.tenantConfig, backgroundRequest: true }
     );
   }
 
   public getActiveReservation(): Observable<ActiveReservedGame> {
     return this.api.get<ActiveReservedGame>(
-      `/${PATH.GAMES.CORE}/${PATH.GAMES.GET_ACTIVE_RESERVED_GAME}`
+      `/${PATH.GAMES.CORE}/${PATH.GAMES.GET_ACTIVE_RESERVED_GAME}`,
+      this.tenantConfig
     );
   }
 
   public getActiveReservations(): Observable<ActiveReservedGame[]> {
     return this.api.get<ActiveReservedGame[]>(
-      `/${PATH.GAMES.CORE}/${PATH.GAMES.GET_ACTIVE_RESERVED_GAMES}`
+      `/${PATH.GAMES.CORE}/${PATH.GAMES.GET_ACTIVE_RESERVED_GAMES}`,
+      this.tenantConfig
     );
   }
 
   public getActiveReservationsCount(): Observable<number> {
     return this.api.get<number>(
-      `/${PATH.GAMES.CORE}/${PATH.GAMES.GET_ACTIVE_RESERVED_GAMES_COUNT}`
+      `/${PATH.GAMES.CORE}/${PATH.GAMES.GET_ACTIVE_RESERVED_GAMES_COUNT}`,
+      this.tenantConfig
     );
   }
 
   public getDropdownList(): Observable<IGameDropdownResult[]> {
     return this.api.get<IGameDropdownResult[]>(
-      `/${PATH.GAMES.CORE}/${PATH.GAMES.GET_DROPDOWN_LIST}`
+      `/${PATH.GAMES.CORE}/${PATH.GAMES.GET_DROPDOWN_LIST}`,
+      this.tenantConfig
     );
   }
 
@@ -112,7 +134,8 @@ export class GamesService {
       `/${PATH.GAMES.CORE}/${PATH.GAMES.GET_NEW_GAMES}`,
       {
         searchExpression,
-      }
+      },
+      this.tenantConfig
     );
   }
 
@@ -125,7 +148,8 @@ export class GamesService {
       {
         id,
         searchExpression,
-      }
+      },
+      this.tenantConfig
     );
   }
 
@@ -134,15 +158,23 @@ export class GamesService {
     formData.append('game', JSON.stringify(game));
     formData.append('imageFile', imageFile);
 
-    return this.api.post<number>(`/${PATH.GAMES.CORE}`, formData);
+    return this.api.post<number>(
+      `/${PATH.GAMES.CORE}`,
+      formData,
+      this.tenantConfig
+    );
   }
 
   public addCopy(id: number): Observable<null> {
-    return this.api.post(`/${PATH.GAMES.CORE}/${PATH.GAMES.COPY}`, { id });
+    return this.api.post(
+      `/${PATH.GAMES.CORE}/${PATH.GAMES.COPY}`,
+      { id },
+      this.tenantConfig
+    );
   }
 
   public delete(id: number): Observable<null> {
-    return this.api.delete(`/${PATH.GAMES.CORE}/${id}`);
+    return this.api.delete(`/${PATH.GAMES.CORE}/${id}`, this.tenantConfig);
   }
 
   public update(
@@ -153,25 +185,40 @@ export class GamesService {
     formData.append('game', JSON.stringify(game));
     if (imageFile) formData.append('imageFile', imageFile);
 
-    return this.api.put(`/${PATH.GAMES.CORE}`, formData);
+    return this.api.put(`/${PATH.GAMES.CORE}`, formData, this.tenantConfig);
   }
 
   public getById(id: number): Observable<IGameByIdResult> {
-    return this.api.get<IGameByIdResult>(`/${PATH.GAMES.CORE}/${id}`);
+    return this.api.get<IGameByIdResult>(
+      `/${PATH.GAMES.CORE}/${id}`,
+      this.tenantConfig
+    );
   }
 
   public likeGame(id: number): Observable<null> {
-    return this.api.put(`/${PATH.GAMES.CORE}/${id}/${PATH.GAMES.LIKE}`, {});
+    return this.api.put(
+      `/${PATH.GAMES.CORE}/${id}/${PATH.GAMES.LIKE}`,
+      {},
+      this.tenantConfig
+    );
   }
 
   public dislikeGame(id: number): Observable<null> {
-    return this.api.put(`/${PATH.GAMES.CORE}/${id}/${PATH.GAMES.DISLIKE}`, {});
+    return this.api.put(
+      `/${PATH.GAMES.CORE}/${id}/${PATH.GAMES.DISLIKE}`,
+      {},
+      this.tenantConfig
+    );
   }
 
   public reservation(reservation: ICreateGameReservation): Observable<null> {
-    return this.api.post(`/${PATH.GAMES.CORE}/${PATH.GAMES.RESERVATION}`, {
-      reservation,
-    });
+    return this.api.post(
+      `/${PATH.GAMES.CORE}/${PATH.GAMES.RESERVATION}`,
+      {
+        reservation,
+      },
+      this.tenantConfig
+    );
   }
 
   public reservationStatus(
@@ -181,14 +228,16 @@ export class GamesService {
       `/${PATH.GAMES.CORE}/${PATH.GAMES.RESERVATION_STATUS}`,
       {
         id,
-      }
+      },
+      this.tenantConfig
     );
   }
 
   public userReservationStatus(): Observable<IGameReservationStatus | null> {
     return this.api.post(
       `/${PATH.GAMES.CORE}/${PATH.GAMES.USER_RESERVATION_STATUS}`,
-      {}
+      {},
+      this.tenantConfig
     );
   }
 
@@ -203,7 +252,8 @@ export class GamesService {
         id: reservationId,
         publicNote,
         internalNote,
-      }
+      },
+      this.tenantConfig
     );
   }
 
@@ -218,7 +268,8 @@ export class GamesService {
         id: reservationId,
         publicNote,
         internalNote,
-      }
+      },
+      this.tenantConfig
     );
   }
 
@@ -227,7 +278,8 @@ export class GamesService {
       `/${PATH.GAMES.CORE}/${PATH.GAMES.CANCEL_RESERVATION}`,
       {
         id: reservationId,
-      }
+      },
+      this.tenantConfig
     );
   }
 
@@ -242,13 +294,15 @@ export class GamesService {
         id,
         publicNote,
         internalNote,
-      }
+      },
+      this.tenantConfig
     );
   }
 
   public deleteReservation(id: number): Observable<null> {
     return this.api.delete(
-      `/${PATH.GAMES.CORE}/${PATH.GAMES.DELETE_RESERVATION}/${id}`
+      `/${PATH.GAMES.CORE}/${PATH.GAMES.DELETE_RESERVATION}/${id}`,
+      this.tenantConfig
     );
   }
 }

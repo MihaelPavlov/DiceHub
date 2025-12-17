@@ -15,6 +15,7 @@ export class TenantSettingsService {
     return this.api.get<string>(
       `/${PATH.TENANT_SETTINGS.CORE}/${PATH.TENANT_SETTINGS.GET_CLUB_NAME}`,
       {
+        requiredTenant: false,
         options: {
           responseType: 'text',
         },

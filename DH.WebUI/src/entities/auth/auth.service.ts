@@ -148,6 +148,7 @@ export class AuthService {
       next: (user: any) => {
         if (user) {
           this.userInfoSubject$.next({
+            tenantId: user['tenant_id'],
             id: user[sidClaim],
             role: user[roleClaim],
             username: user[usernameClaim],
@@ -194,6 +195,7 @@ export class AuthService {
         next: (user: any) => {
           if (user) {
             this.userInfoSubject$.next({
+              tenantId: user['tenant_id'],
               id: user[sidClaim],
               role: user[roleClaim],
               username: user[usernameClaim],

@@ -1,6 +1,7 @@
 export const ROUTE = {
   LANDING: '/',
   LOGIN: 'login',
+  CHOOSE_CLUB: 'choose-club',
   REGISTER: 'register',
   FORGOT_PASSWORD: 'forgot-password',
   INSTRUCTIONS: 'instructions',

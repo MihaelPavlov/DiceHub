@@ -19,7 +19,7 @@ import {
   tap,
 } from 'rxjs';
 import { RestApiService } from '../services/rest-api.service';
-import { TenantService } from '../services/tenant.service';
+import { TenantContextService } from '../services/tenant-context.service';
 
 @Injectable({
   providedIn: 'root',
@@ -30,7 +30,7 @@ export class AuthGuard {
     private readonly jwtHelper: JwtHelperService,
     private readonly api: RestApiService,
     private readonly authService: AuthService,
-    private readonly tenantService: TenantService
+    private readonly tenantContextService: TenantContextService
   ) {}
 
   public canActivateChild(
@@ -88,11 +88,6 @@ export class AuthGuard {
     };
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    // Add tenantId if available
-    const tenantId = this.tenantService.tenantId;
-    if (tenantId) {
-      headers = headers.set('X-Tenant-Id', tenantId);
-    }
     return this.api
       .post<ITokenResponse>(`/api/user/refresh`, credentials, {
         options: { headers },

@@ -86,6 +86,7 @@ public class JwtService : IJwtService
 
         var principal = GetPrincipalFromExpiredToken(accessToken);
         var userId = principal.FindFirstValue(ClaimTypes.Sid);
+        var tokenTenantId = principal.FindFirstValue("tenant_id");
 
         if (string.IsNullOrEmpty(userId))
             throw new SecurityTokenException("Invalid token");
@@ -95,13 +96,17 @@ public class JwtService : IJwtService
         if (user is null || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.UtcNow)
             throw new SecurityTokenException("Invalid refresh token");
 
+        if (tokenTenantId != user.TenantId)
+            throw new SecurityTokenException("Tenant mismatch");
+
         var roles = await userManager.GetRolesAsync(user);
 
         var claims = new List<Claim>
         {
             new Claim(ClaimTypes.Sid, user.Id),
             new Claim(ClaimTypes.Name, user.UserName!),
-            new Claim("TimeZone", user.TimeZone!)
+            new Claim("TimeZone", user.TimeZone!),
+            new Claim("tenant_id", user.TenantId)
         };
 
         if (roles.Any())
@@ -167,7 +172,7 @@ public class JwtService : IJwtService
             ValidateIssuerSigningKey = true,
 
             ValidateLifetime = false,
-                                        // Prevents accepting tokens that are “almost expired”
+            // Prevents accepting tokens that are “almost expired”
             ClockSkew = TimeSpan.Zero,  //Keeps refresh logic deterministic
                                         // Avoids subtle timing bugs during rotation
             ValidIssuer = issuer,

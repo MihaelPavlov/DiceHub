@@ -1,8 +1,7 @@
-﻿using DH.Domain.Adapters.Authentication;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using System.Data.Common;
-using System.Threading;
+using System.Security;
 
 namespace DH.Adapter.Data;
 
@@ -20,7 +19,20 @@ public class TenantDbConnectionInterceptor : DbConnectionInterceptor
         ConnectionEndEventData eventData,
         CancellationToken cancellationToken = default)
     {
-        var tenantId = this.httpContextAccessor.HttpContext.Request.Headers["X-Tenant-Id"].FirstOrDefault();
+        var httpContext = httpContextAccessor.HttpContext;
+
+        if (httpContext == null)
+            return;
+
+        if (httpContext.Request.Headers.TryGetValue("X-Requires-Tenant", out var value)
+            && value == "false")
+        {
+            return;
+        }
+
+        var tenantId = httpContext.Items["TenantId"]?.ToString();
+        if (string.IsNullOrEmpty(tenantId))
+            throw new SecurityException("Tenant context missing");
 
         if (!string.IsNullOrEmpty(tenantId))
         {
@@ -29,16 +41,6 @@ public class TenantDbConnectionInterceptor : DbConnectionInterceptor
 
                 cmd.CommandText = $"SET app.tenant_id = '{tenantId.Replace("'", "''")}'";
                 await cmd.ExecuteNonQueryAsync(cancellationToken);
-            }
-            try
-            {
-
-                //await cmd.ExecuteNonQueryAsync(cancellationToken);
-            }
-            catch (Exception ex)
-            {
-
-                throw;
             }
         }
 
@@ -49,17 +51,18 @@ public class TenantDbConnectionInterceptor : DbConnectionInterceptor
     {
         if (this.httpContextAccessor != null && this.httpContextAccessor.HttpContext != null)
         {
-        var tenantId = this.httpContextAccessor.HttpContext.Request.Headers["X-Tenant-Id"].FirstOrDefault();
+            var tenantId = this.httpContextAccessor.HttpContext?
+                .Items["TenantId"]?.ToString();
 
-        if (!string.IsNullOrEmpty(tenantId))
-        {
-            using (var cmd = connection.CreateCommand())
+            if (!string.IsNullOrEmpty(tenantId))
             {
+                using (var cmd = connection.CreateCommand())
+                {
 
-                cmd.CommandText = $"SET app.tenant_id = '{tenantId.Replace("'", "''")}'";
-                cmd.ExecuteNonQuery();
+                    cmd.CommandText = $"SET app.tenant_id = '{tenantId.Replace("'", "''")}'";
+                    cmd.ExecuteNonQuery();
+                }
             }
-        }
         }
     }
 }

@@ -83,6 +83,8 @@ public class UserService : IUserService
             await userManager.UpdateAsync(user);
         }
 
+        _httpContextAccessor.HttpContext!.Items["TenantId"] = user.TenantId;
+
         var userDiviceToken = await this.userDeviceTokenRepository.GetByAsyncWithTracking(x => x.UserId == user!.Id, CancellationToken.None);
         if (userDiviceToken is null && form.DeviceToken is not null)
         {
@@ -593,7 +595,8 @@ public class UserService : IUserService
             new Claim(ClaimTypes.Sid, user.Id),
             new Claim(ClaimTypes.Name, user.UserName!),
             new Claim("TimeZone", user.TimeZone!),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new Claim("tenant_id", user.TenantId)
         };
         if (roleName != null)
         {
@@ -620,7 +623,8 @@ public class UserService : IUserService
         {
             AccessToken = accessToken,
             RefreshToken = refreshToken,
-            UserId = user.Id
+            UserId = user.Id,
+            TenantId = user.TenantId
         };
     }
 
@@ -785,11 +789,12 @@ public class UserService : IUserService
         return await this.userManager.IsInRoleAsync(user, role.ToString());
     }
 
-    public async Task Logout(string userId)
+    public async Task<bool> Logout(string userId, string tenantId)
     {
         var user = await userManager.FindByIdAsync(userId);
-        if (user is null)
-            return;
+
+        if (user is null || user.TenantId != tenantId)
+            return false;
 
         // Invalidate refresh token
         user.RefreshToken = null;
@@ -799,5 +804,7 @@ public class UserService : IUserService
         user.SecurityStamp = Guid.NewGuid().ToString();
 
         await userManager.UpdateAsync(user);
+
+        return true;
     }
 }

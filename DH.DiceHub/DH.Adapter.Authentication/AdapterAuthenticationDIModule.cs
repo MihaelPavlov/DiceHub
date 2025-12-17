@@ -90,6 +90,21 @@ public static class AuthenticationDIModule
             })
             .AddJwtBearer(options =>
             {
+                options.Events = new JwtBearerEvents
+                {
+                    OnTokenValidated = context =>
+                    {
+                        var tenantId = context.Principal?.FindFirst("tenant_id")?.Value;
+
+                        if (string.IsNullOrEmpty(tenantId))
+                            throw new SecurityTokenException("Tenant missing");
+
+                        // Expose tenant to DbContext / interceptor
+                        context.HttpContext.Items["TenantId"] = tenantId;
+
+                        return Task.CompletedTask;
+                    }
+                };
                 var apiAudiences = configuration.GetSection("APIs_Audience_URLs").Get<string[]>()
                     ?? throw new ArgumentException("APIs_Audience_URLs was not specified");
 

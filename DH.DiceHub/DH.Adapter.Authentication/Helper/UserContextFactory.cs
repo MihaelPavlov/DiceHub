@@ -38,6 +38,8 @@ public class UserContextFactory : IUserContextFactory
         var userId = user.FindFirstValue(ClaimTypes.Sid);
         var roleName = user.FindFirstValue(ClaimTypes.Role);
         var timeZone = user.FindFirstValue("TimeZone");
+        var tenantId = user.FindFirstValue("tenant_id")
+            ?? httpContext?.Items["TenantId"]?.ToString();
 
         if (string.IsNullOrWhiteSpace(userId))
         {
@@ -47,6 +49,7 @@ public class UserContextFactory : IUserContextFactory
         var language = await this.userSettingsCache.GetLanguageAsync(userId);
 
         return new UserContext(
+            tenantId: tenantId,
             userId: userId,
             roleKey: roleName != null ? RoleHelper.GetRoleKeyByName(roleName) : null,
             timeZone: timeZone,
@@ -68,6 +71,7 @@ public class UserContextFactory : IUserContextFactory
             var token = this.jwtService.GenerateAccessToken(claims);
 
             return new UserContext(
+                tenantId: "tenant_1",
                 userId: "system",
                 roleKey: 1,
                 timeZone: "UTC",

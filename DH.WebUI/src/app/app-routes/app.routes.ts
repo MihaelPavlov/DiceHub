@@ -11,6 +11,7 @@ import { CreateEmployeePasswordComponent } from '../../pages/create-employee-pas
 import { LandingComponent } from '../../pages/landing/page/landing.component';
 import { CreateOwnerPasswordComponent } from '../../pages/create-owner-password/page/create-owner-password.component';
 import { TenantLayoutComponent } from '../../shared/components/tenant-layout/tenant-layout.component';
+import { SelectClubComponent } from '../../shared/components/select-club/select-club.component';
 
 export const ROUTES: Routes = [
   {
@@ -19,14 +20,8 @@ export const ROUTES: Routes = [
     data: { hideMenu: true },
   },
   {
-    path: 'login',
-    component: LoginComponent,
-    canActivate: [AuthRedirectGuard],
-    data: { hideMenu: true },
-  },
-  {
-    path: 'register',
-    component: RegisterComponent,
+    path: 'choose-club',
+    component: SelectClubComponent,
     canActivate: [AuthRedirectGuard],
     data: { hideMenu: true },
   },
@@ -103,9 +98,20 @@ export const ROUTES: Routes = [
   {
     path: ':tenant',
     component: TenantLayoutComponent,
-    canActivate: [AuthGuard],
     data: { hideMenu: false },
     children: [
+      {
+        path: 'login',
+        component: LoginComponent,
+        canActivate: [AuthRedirectGuard],
+        data: { hideMenu: true },
+      },
+      {
+        path: 'register',
+        component: RegisterComponent,
+        canActivate: [AuthRedirectGuard],
+        data: { hideMenu: true },
+      },
       {
         path: '',
         children: [

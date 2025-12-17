@@ -24,10 +24,10 @@ interface IPartnerInquiryForm {
 }
 
 @Component({
-    selector: 'app-landing',
-    templateUrl: 'landing.component.html',
-    styleUrl: 'landing.component.scss',
-    standalone: false
+  selector: 'app-landing',
+  templateUrl: 'landing.component.html',
+  styleUrl: 'landing.component.scss',
+  standalone: false,
 })
 export class LandingComponent extends Form {
   override form: Formify<IPartnerInquiryForm>;
@@ -54,7 +54,7 @@ export class LandingComponent extends Form {
     this.getServerErrorMessage = null;
   }
   public onLogin(): void {
-    this.router.navigateByUrl(ROUTE.LOGIN);
+    this.router.navigateByUrl(ROUTE.CHOOSE_CLUB);
   }
 
   public onRegister(): void {

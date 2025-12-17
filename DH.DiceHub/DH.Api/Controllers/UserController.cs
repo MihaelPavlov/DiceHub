@@ -376,12 +376,17 @@ public class UserController : ControllerBase
     public async Task<IActionResult> Logout()
     {
         var userId = User.FindFirstValue(ClaimTypes.Sid);
+        var tenantId = User.FindFirstValue("tenant_id");
 
-        if (string.IsNullOrEmpty(userId))
+        if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(tenantId))
             return Unauthorized();
 
-        await this.userService.Logout(userId);
+        var isSuccess = await this.userService.Logout(userId, tenantId);
+
+        if (!isSuccess)
+            return Unauthorized();
 
         return Ok();
+
     }
 }

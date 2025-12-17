@@ -9,6 +9,7 @@ public class Tenant
     public string Town { get; set; } = string.Empty;
     public TenantStatus TenantStatus { get; set; }
     public DateTime CreatedDate { get; set; }
+    public string LogoFileName { get; set; } = string.Empty;
 
     // Optional for now. Under discsussion
     public string RegisterQrCode { get; set; } = string.Empty;

@@ -51,6 +51,7 @@ public static class DataDIModule
             .AddScoped<IStatisticsService, StatisticsService>()
             .AddScoped<IUniversalChallengeProcessing, UniversalChallengeProcessing>()
             .AddScoped<IGameSeeder, GameSeeder>()
+            .AddScoped<ITenantResolver, TenantResolver>()
             .AddSingleton<TenantDbConnectionInterceptor>();
 
         services.AddMemoryCache();

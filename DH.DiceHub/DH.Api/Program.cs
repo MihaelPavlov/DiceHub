@@ -172,6 +172,7 @@ app.UseSpaStaticFiles();
 app.UseRouting();
 
 app.UseAuthentication();
+app.UseMiddleware<TenantRouteValidationMiddleware>();
 app.UseAuthorization();
 
 app.UseCors("EnableCORS");

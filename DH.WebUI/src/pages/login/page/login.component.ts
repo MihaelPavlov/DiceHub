@@ -1,7 +1,8 @@
+import { TenantSettingsService } from './../../../entities/common/api/tenant-settings.service';
 import { FrontEndLogService } from './../../../shared/services/frontend-log.service';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../entities/auth/auth.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Form } from '../../../shared/components/form/form.component';
 import { ToastService } from '../../../shared/services/toast.service';
 import { Formify } from '../../../shared/models/form.model';
@@ -15,13 +16,14 @@ import { AppToastMessage } from '../../../shared/components/toast/constants/app-
 import { ToastType } from '../../../shared/models/toast.model';
 import { FULL_ROUTE, ROUTE } from '../../../shared/configs/route.config';
 import { MessagingService } from '../../../entities/messaging/api/messaging.service';
-import { TenantSettingsService } from '../../../entities/common/api/tenant-settings.service';
 import { LoadingService } from '../../../shared/services/loading.service';
 import { LoadingInterceptorContextService } from '../../../shared/services/loading-context.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../shared/services/language.service';
 import { ChallengeOverlayService } from '../../../shared/services/challenges-overlay.service';
 import { ChallengeHubService } from '../../../entities/challenges/api/challenge-hub.service';
+import { TenantRouter } from '../../../shared/helpers/tenant-router';
+import { TenantContextService } from '../../../shared/services/tenant-context.service';
 
 interface ILoginForm {
   email: string;
@@ -30,10 +32,10 @@ interface ILoginForm {
 }
 
 @Component({
-    selector: 'app-login',
-    templateUrl: 'login.component.html',
-    styleUrl: 'login.component.scss',
-    standalone: false
+  selector: 'app-login',
+  templateUrl: 'login.component.html',
+  styleUrl: 'login.component.scss',
+  standalone: false,
 })
 export class LoginComponent extends Form implements OnInit {
   override form: Formify<ILoginForm>;
@@ -44,21 +46,24 @@ export class LoginComponent extends Form implements OnInit {
 
   constructor(
     public override readonly toastService: ToastService,
-    private readonly router: Router,
     private readonly authService: AuthService,
     private readonly messagingService: MessagingService,
     private readonly fb: FormBuilder,
     private readonly route: ActivatedRoute,
-    private readonly tenantSettingsService: TenantSettingsService,
+    private readonly tenantRouter: TenantRouter,
+    private readonly tenantContextService: TenantContextService,
     private readonly loadingService: LoadingService,
     private readonly frontEndLogService: FrontEndLogService,
     private readonly loadingContext: LoadingInterceptorContextService,
     public override translateService: TranslateService,
     private readonly languageService: LanguageService,
     private readonly challengeOverlayService: ChallengeOverlayService,
-    private readonly challengeHubService: ChallengeHubService
+    private readonly challengeHubService: ChallengeHubService,
+    private readonly tenantSettingsService: TenantSettingsService
   ) {
     super(toastService, translateService);
+    console.log('login component');
+
     this.route.queryParams.subscribe((params) => {
       if (params['fromRegister'] === 'true') {
         this.getMessageFromRedirect = this.translateService.instant(
@@ -103,15 +108,15 @@ export class LoginComponent extends Form implements OnInit {
   }
 
   public navigateToRegister(): void {
-    this.router.navigateByUrl(ROUTE.REGISTER);
+    this.tenantRouter.navigateGlobal(ROUTE.REGISTER);
   }
 
   public navigateToForgotPassword(): void {
-    this.router.navigateByUrl(ROUTE.FORGOT_PASSWORD);
+    this.tenantRouter.navigateGlobal(ROUTE.FORGOT_PASSWORD);
   }
 
   public navigateToLanding(): void {
-    this.router.navigateByUrl(ROUTE.LANDING);
+    this.tenantRouter.navigateGlobal(ROUTE.LANDING);
   }
 
   private clearServerErrorMessage() {
@@ -216,8 +221,9 @@ export class LoginComponent extends Form implements OnInit {
                   this.challengeOverlayService.overlay.value
                 );
               }
+              this.tenantContextService.tenantId = response.tenantId;
 
-              this.router.navigateByUrl(FULL_ROUTE.GAMES.LIBRARY);
+              this.tenantRouter.navigateTenant(FULL_ROUTE.GAMES.LIBRARY);
             }
           },
           error: (error) => {
@@ -282,7 +288,9 @@ export class LoginComponent extends Form implements OnInit {
                 response.refreshToken
               );
 
-              this.router.navigateByUrl('games/library');
+              this.tenantContextService.tenantId = response.tenantId;
+
+              this.tenantRouter.navigateTenant(FULL_ROUTE.GAMES.LIBRARY);
             }
           },
           error: (error) => {
@@ -343,7 +351,9 @@ export class LoginComponent extends Form implements OnInit {
               response.refreshToken
             );
 
-            this.router.navigateByUrl('games/library');
+            this.tenantContextService.tenantId = response.tenantId;
+
+            this.tenantRouter.navigateTenant(FULL_ROUTE.GAMES.LIBRARY);
           }
         },
         error: (error) => {

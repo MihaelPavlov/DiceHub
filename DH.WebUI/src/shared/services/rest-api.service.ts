@@ -3,8 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { environment } from '../environments/environment.development';
-import { LanguageService } from './language.service';
-import { TenantService } from './tenant.service';
+import { TenantContextService } from './tenant-context.service';
 
 export enum ApiBase {
   Default = 'default',
@@ -14,13 +13,14 @@ export const ApiEndpoints = {
   default: `${environment.defaultAppUrl}`,
 };
 
-interface ApiConfig {
+export interface ApiConfig {
   options?: {
     headers?: HttpHeaders;
     [key: string]: any;
   };
   base?: ApiBase;
   backgroundRequest?: boolean;
+  requiredTenant?: boolean;
 }
 
 @Injectable({
@@ -30,15 +30,37 @@ export class RestApiService {
   constructor(
     private readonly http: HttpClient,
     private readonly translateService: TranslateService,
-    private readonly tenantService: TenantService
+    private readonly tenantContextService: TenantContextService
   ) {}
 
   private getBaseUrl(base: ApiBase): string {
     return ApiEndpoints[base] || ApiEndpoints.default;
   }
+  private normalizePath(path: string): string {
+    return path.startsWith('/') ? path : `/${path}`;
+  }
+  private shouldUseTenant(config: ApiConfig): boolean {
+    return (
+      config.requiredTenant !== undefined && config.requiredTenant !== false
+    );
+  }
 
-  private buildUrl(base: ApiBase, path: string): string {
-    return `${this.getBaseUrl(base)}${path}`;
+  private buildUrl(config: ApiConfig, path: string): string {
+    const base = this.getBaseUrl(config.base || ApiBase.Default);
+    const normalizedPath = this.normalizePath(path);
+
+    const useTenant = this.shouldUseTenant(config);
+    const tenantId = this.tenantContextService.tenantId;
+
+    if (useTenant && !tenantId) {
+      throw new Error('Tenant required but missing');
+    }
+
+    const apiPrefix = normalizedPath.startsWith('/api') ? '' : '/api';
+
+    const tenantPrefix = useTenant && tenantId ? `/${tenantId}` : '';
+
+    return `${base}${apiPrefix}${tenantPrefix}${normalizedPath}`;
   }
 
   public get<T>(path: string, config: ApiConfig = {}): Observable<T> {
@@ -46,7 +68,7 @@ export class RestApiService {
     const options = this.buildRequestOptions(config);
 
     return this.http
-      .get<T>(this.buildUrl(base, path), options)
+      .get<T>(this.buildUrl(config, path), options)
       .pipe(map((result: any) => result as T));
   }
 
@@ -59,7 +81,7 @@ export class RestApiService {
     const options = this.buildRequestOptions(config);
 
     return this.http
-      .post<T>(this.buildUrl(base, path), body, options)
+      .post<T>(this.buildUrl(config, path), body, options)
       .pipe(map((res: any) => res as T));
   }
 
@@ -72,7 +94,7 @@ export class RestApiService {
     const options = this.buildRequestOptions(config);
 
     return this.http
-      .put<T>(this.buildUrl(base, path), body, options)
+      .put<T>(this.buildUrl(config, path), body, options)
       .pipe(map((res: any) => res as T));
   }
 
@@ -81,7 +103,7 @@ export class RestApiService {
     const options = this.buildRequestOptions(config);
 
     return this.http
-      .delete<T>(this.buildUrl(base, path), options)
+      .delete<T>(this.buildUrl(config, path), options)
       .pipe(map((res: any) => res as T));
   }
 
@@ -92,16 +114,17 @@ export class RestApiService {
       headers = headers.set('X-Background-Request', 'true');
     }
 
+    if (config.requiredTenant !== null)
+      headers = headers.set(
+        'X-Requires-Tenant',
+        config.requiredTenant ? 'true' : 'false'
+      );
+
     if (this.translateService.getCurrentLang())
       headers = headers.set(
         'Accept-Language',
         this.translateService.getCurrentLang()
       );
-
-    const tenantId = this.tenantService.tenantId;
-    console.log('auth service - tenantId - ', tenantId);
-
-    if (tenantId) headers = headers.set('X-Tenant-Id', tenantId);
 
     return {
       ...config.options,

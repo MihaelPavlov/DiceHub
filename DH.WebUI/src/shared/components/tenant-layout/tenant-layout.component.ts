@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
-import { TenantService } from '../../services/tenant.service';
+import { TenantContextService } from '../../services/tenant-context.service';
 
 @Component({
   selector: 'app-tenant-layout',
@@ -10,14 +10,11 @@ import { TenantService } from '../../services/tenant.service';
 export class TenantLayoutComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
-    private tenantService: TenantService
+    private tenantContextService: TenantContextService
   ) {}
 
-  ngOnInit(): void {
-    console.log('TenantLayout - ngOnInit');
+  public ngOnInit(): void {
     const tenantId = this.route.snapshot.paramMap.get('tenant');
-    console.log('TenantLayout - ', tenantId);
-
-    this.tenantService.tenantId = tenantId;
+    this.tenantContextService.tenantId = tenantId;
   }
 }

@@ -1,14 +1,19 @@
+import { Observable } from 'rxjs';
+import { ITenantListResult } from '../../entities/common/models/tenant-list.model';
+import { PATH } from '../configs/path.config';
+import { RestApiService } from './rest-api.service';
 import { Injectable } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class TenantService {
-  private _tenantId: string | null = null;
+  constructor(private readonly api: RestApiService) {}
 
-  get tenantId(): string | null {
-    return this._tenantId;
-  }
-
-  set tenantId(id: string | null) {
-    this._tenantId = id;
+  public getList(): Observable<ITenantListResult[] | null> {
+    return this.api.get<ITenantListResult[]>(
+      `/${PATH.TENANT.CORE}/${PATH.TENANT.LIST}`,
+      {
+        requiredTenant: false,
+      }
+    );
   }
 }

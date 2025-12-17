@@ -1,6 +1,10 @@
 export const PATH = {
+  TENANT: {
+    CORE: 'tenant',
+    LIST: 'list',
+  },
   GAMES: {
-    CORE: 'api/games',
+    CORE: 'games',
     INVENTORY: 'inventory',
     LIST: 'list',
     GET_DROPDOWN_LIST: 'get-dropdown-list',
@@ -25,14 +29,14 @@ export const PATH = {
     GET_RESERVATION_BY_ID: 'get-reservation',
   },
   GAME_REVIEWS: {
-    CORE: 'api/gameReviews',
+    CORE: 'gameReviews',
   },
   GAME_CATEGORIES: {
-    CORE: 'api/gameCategories',
+    CORE: 'gameCategories',
     LIST: 'list',
   },
   EVENTS: {
-    CORE: 'api/events',
+    CORE: 'events',
     LIST_FOR_USERS: 'get-list-for-user',
     LIST_FOR_STAFF: 'get-list-for-staff',
     GET_USER_EVENTS: 'get-user-events',
@@ -43,7 +47,7 @@ export const PATH = {
     GET_ALL_EVENTS_DROPDOWN_LIST: 'get-all-events-dropdown-list',
   },
   ROOMS: {
-    CORE: 'api/rooms',
+    CORE: 'rooms',
     JOIN: 'join',
     LEAVE: 'leave',
     LIST: 'list',
@@ -54,11 +58,11 @@ export const PATH = {
     CHECK_USER_PARTICIPATION: 'check-user-participation',
   },
   SCANNER: {
-    CORE: 'api/scanner',
+    CORE: 'scanner',
     UPLOAD: 'upload',
   },
   REWARDS: {
-    CORE: 'api/rewards',
+    CORE: 'rewards',
     SYSTEM_REWARD: 'system-reward',
     GET_DROPDOWN_LIST: 'get-dropdown-list',
     SYSTEM_REWARD_LIST: 'system-reward-list',
@@ -68,7 +72,7 @@ export const PATH = {
     USER_REWARD_CONFIRMATION: 'user-reward-confirmation',
   },
   CHALLENGES: {
-    CORE: 'api/challenges',
+    CORE: 'challenges',
     LIST: 'list',
     UNIVERSAL_LIST: 'universal-list',
     GET_USER_CHALLENGES: 'get-user-challenges',
@@ -81,7 +85,7 @@ export const PATH = {
     UPDATE_UNIVERSAL_CHALLENGE: 'update-universal-challenge',
   },
   SPACE_MANAGEMENT: {
-    CORE: 'api/spaceManagement',
+    CORE: 'spaceManagement',
     JOIN: 'join',
     LEAVE_TABLE: 'leave-table',
     CLOSE_TABLE: 'close-table',
@@ -105,16 +109,16 @@ export const PATH = {
     DELETE_RESERVATION: 'delete-reservation',
   },
   TENANT_SETTINGS: {
-    CORE: 'api/tenantSettings',
+    CORE: 'tenantSettings',
     GET_CLUB_NAME: 'get-club-name',
     GET_CLUB_INFO: 'club-info',
   },
   USER_SETTINGS: {
-    CORE: 'api/tenantUserSettings',
+    CORE: 'tenantUserSettings',
     ASSISTIVE_TOUCH_SETTINGS: 'assistive-touch-settings',
   },
   USER: {
-    CORE: 'api/user',
+    CORE: 'user',
     SAVE_TOKEN: 'save-token',
     LOGOUT: 'logout',
     GET_EMPLOYEE_LIST: 'get-employee-list',
@@ -130,7 +134,7 @@ export const PATH = {
     GET_OWNER_STATS: 'get-owner-stats',
   },
   STATISTICS: {
-    CORE: 'api/statistics',
+    CORE: 'statistics',
     GET_ACTIVITY_CHART_DATA: 'get-activity-chart-data',
     GET_RESERVATION_CHART_DATA: 'get-reservation-chart-data',
     GET_EVENT_ATTENDANCE_CHART_DATA: 'get-event-attendance-chart-data',
@@ -143,10 +147,10 @@ export const PATH = {
     GET_GAME_USER_ENGAGEMENT_CHART_DATA: 'get-game-user-engagement-chart-data',
   },
   PARTNER_INQUIRIES: {
-    CORE: 'api/partnerInquiries',
+    CORE: 'partnerInquiries',
   },
   SCHEDULER: {
-    CORE: 'api/scheduler',
+    CORE: 'scheduler',
     GET_SCHEDULE_JOBS: 'get-schedule-jobs',
     RUN_USER_CHALLENGE_PERIOD_JOB: 'run-user-challenge-period-job',
   },

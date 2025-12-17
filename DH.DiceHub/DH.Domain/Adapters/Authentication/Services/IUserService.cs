@@ -79,5 +79,5 @@ public interface IUserService
     Task DeleteEmployee(string employeeId);
 
     Task<bool> IsUserInRole(string userId, Role role, CancellationToken cancellationToken);
-    Task Logout(string userId);
+    Task<bool> Logout(string userId, string tenantId);
 }

@@ -6,22 +6,26 @@
 /// </summary>
 public sealed class UserContext : IUserContext
 {
+    public string? TenantId { get; }
     public string? UserId { get; }
     public int? RoleKey { get; }
     public string? TimeZone { get; }
     public string? Language { get; }
 
-    public bool IsAuthenticated => !string.IsNullOrWhiteSpace(UserId);
+    public bool IsAuthenticated => !string.IsNullOrWhiteSpace(UserId) && !string.IsNullOrWhiteSpace(TenantId);
 
     public UserContext(
+        string? tenantId,
         string? userId,
         int? roleKey,
         string? timeZone,
         string? language)
     {
+        TenantId = tenantId;
         UserId = userId;
         RoleKey = roleKey;
         TimeZone = timeZone;
         Language = language;
+
     }
 }
