@@ -23,7 +23,7 @@ export class SelectClubComponent implements OnInit {
 
   public ngOnInit(): void {
     window.scrollTo({ top: 0, behavior: 'auto' });
-
+    
     this.tenantService
       .getList()
       .subscribe((clubs) => (this.clubs = clubs ?? []));

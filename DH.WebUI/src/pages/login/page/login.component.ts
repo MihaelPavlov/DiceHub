@@ -62,7 +62,6 @@ export class LoginComponent extends Form implements OnInit {
     private readonly tenantSettingsService: TenantSettingsService
   ) {
     super(toastService, translateService);
-    console.log('login component');
 
     this.route.queryParams.subscribe((params) => {
       if (params['fromRegister'] === 'true') {
@@ -105,6 +104,10 @@ export class LoginComponent extends Form implements OnInit {
         this.clubName = clubName;
       },
     });
+  }
+
+  public changeClub(): void {
+    this.tenantRouter.navigateGlobal(ROUTE.CHOOSE_CLUB);
   }
 
   public navigateToRegister(): void {

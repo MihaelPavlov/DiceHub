@@ -730,7 +730,8 @@
       "email": "Имейл",
       "password": "Парола",
       "remember_me": "Запомни ме",
-      "lost_your_way": "Изгубихте ли се?"
+      "lost_your_way": "Изгубихте ли се?",
+      "change_club": "Смяна на клубa"
     },
     "placeholders": {
       "email": "Вашият имейл",

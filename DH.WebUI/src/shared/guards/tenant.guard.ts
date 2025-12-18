@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, Router } from '@angular/router';
-import { TenantService } from '../services/tenant-context.service';
+import { TenantContextService } from '../services/tenant-context.service';
+import { ROUTE } from '../configs/route.config';
 
 @Injectable({ providedIn: 'root' })
 export class TenantGuard implements CanActivate {
   constructor(
-    private tenantService: TenantService,
+    private tenantContextService: TenantContextService,
     private readonly router: Router
   ) {}
 
@@ -13,11 +14,11 @@ export class TenantGuard implements CanActivate {
     const tenant = route.paramMap.get('tenant');
 
     if (!tenant) {
-      this.router.navigate(['/login']);
+      this.router.navigateByUrl(ROUTE.CHOOSE_CLUB);
       return false;
     }
 
-    this.tenantService.tenantId = tenant;
+    this.tenantContextService.tenantId = tenant;
     return true;
   }
 }

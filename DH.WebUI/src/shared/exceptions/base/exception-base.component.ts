@@ -1,23 +1,34 @@
+import { TenantRouter } from './../../helpers/tenant-router';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../entities/auth/auth.service';
 import { LanguageService } from '../../services/language.service';
 import { SupportLanguages } from '../../../entities/common/models/support-languages.enum';
 import { FULL_ROUTE, ROUTE } from '../../configs/route.config';
+import { TenantContextService } from '../../services/tenant-context.service';
 
 export abstract class ExceptionBaseComponent {
-  protected abstract imageCode: string; 
+  protected abstract imageCode: string;
 
   constructor(
     protected readonly router: Router,
     protected readonly authService: AuthService,
-    protected readonly languageService: LanguageService
+    protected readonly languageService: LanguageService,
+    private readonly tenantRouter: TenantRouter,
+    private readonly tenantContextService: TenantContextService
   ) {}
 
   public redirectTo(): void {
-    if (this.authService.getUser)
+    if (this.authService.getUser) {
       this.router.navigateByUrl(FULL_ROUTE.GAMES.LIBRARY);
-    else
-      this.router.navigateByUrl(ROUTE.LOGIN);
+      return;
+    }
+
+    if (this.tenantContextService.hasTenant()) {
+      this.tenantRouter.navigateTenant(ROUTE.LOGIN);
+      return;
+    }
+
+    this.router.navigateByUrl(ROUTE.CHOOSE_CLUB);
   }
 
   public get imgPath(): string {

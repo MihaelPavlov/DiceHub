@@ -730,7 +730,8 @@
       "email": "Email",
       "password": "Password",
       "remember_me": "Remember Me",
-      "lost_your_way": "Lost your way?"
+      "lost_your_way": "Lost your way?",
+      "change_club": "Change Club"
     },
     "placeholders": {
       "email": "Your Email",

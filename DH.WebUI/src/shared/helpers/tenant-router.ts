@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TenantContextService } from '../services/tenant-context.service';
-import { LogLevel } from '@microsoft/signalr';
 
 @Injectable({ providedIn: 'root' })
 export class TenantRouter {
-  constructor(private router: Router, private tenantService: TenantContextService) {}
+  constructor(
+    private router: Router,
+    private tenantService: TenantContextService
+  ) {}
 
   public navigateTenant(path: string) {
     if (!this.tenantService.hasTenant()) {
@@ -14,7 +16,6 @@ export class TenantRouter {
 
     const tenant = this.tenantService.tenantId;
     const fullPath = [tenant, path].join('/');
-    console.log('tenant route ->', fullPath);
 
     return this.router.navigateByUrl(fullPath);
   }
