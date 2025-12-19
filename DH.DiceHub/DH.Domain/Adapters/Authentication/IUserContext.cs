@@ -40,4 +40,9 @@ public interface IUserContext
     /// Indicates whether the current user is authenticated.
     /// </summary>
     bool IsAuthenticated { get; }
+
+    /// <summary>
+    /// Is system
+    /// </summary>
+    bool IsSystem { get; }
 }

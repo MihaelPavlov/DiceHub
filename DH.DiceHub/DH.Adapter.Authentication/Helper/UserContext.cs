@@ -11,6 +11,7 @@ public sealed class UserContext : IUserContext
     public int? RoleKey { get; }
     public string? TimeZone { get; }
     public string? Language { get; }
+    public bool IsSystem { get; }
 
     public bool IsAuthenticated => !string.IsNullOrWhiteSpace(UserId) && !string.IsNullOrWhiteSpace(TenantId);
 
@@ -26,6 +27,6 @@ public sealed class UserContext : IUserContext
         RoleKey = roleKey;
         TimeZone = timeZone;
         Language = language;
-
+        IsSystem = false;
     }
 }

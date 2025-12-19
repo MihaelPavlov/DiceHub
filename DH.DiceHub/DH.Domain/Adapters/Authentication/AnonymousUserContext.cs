@@ -1,6 +1,4 @@
-﻿using DH.Domain.Adapters.Authentication;
-
-namespace DH.Adapter.Authentication.Helper;
+﻿namespace DH.Domain.Adapters.Authentication;
 
 public sealed class AnonymousUserContext : IUserContext
 {
@@ -13,6 +11,7 @@ public sealed class AnonymousUserContext : IUserContext
     public string? TimeZone => null;
     public string? Language => null;
 
+    public bool IsSystem => false;
     public bool IsAuthenticated => false;
     private AnonymousUserContext() { }
 }

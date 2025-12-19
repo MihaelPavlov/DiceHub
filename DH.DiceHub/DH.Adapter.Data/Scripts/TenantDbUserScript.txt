@@ -1,0 +1,99 @@
+BEGIN;
+
+--------------------------------------------------
+-- 1. CREATE APPLICATION USER
+--------------------------------------------------
+CREATE ROLE dicehub_user
+LOGIN
+PASSWORD 'TEMP_CHANGE_ME'      -- change via Render ENV later
+NOSUPERUSER
+NOCREATEDB
+NOCREATEROLE
+NOINHERIT;
+
+--------------------------------------------------
+-- 2. DATABASE ACCESS
+--------------------------------------------------
+GRANT CONNECT ON DATABASE "DH.DiceHub2" TO dicehub_user;
+
+--------------------------------------------------
+-- 3. SCHEMA ACCESS
+--------------------------------------------------
+GRANT USAGE ON SCHEMA public TO dicehub_user;
+
+--------------------------------------------------
+-- 4. TABLE PERMISSIONS (EXISTING TABLES)
+--------------------------------------------------
+GRANT SELECT, INSERT, UPDATE, DELETE
+ON ALL TABLES IN SCHEMA public
+TO dicehub_user;
+
+--------------------------------------------------
+-- 5. SEQUENCE PERMISSIONS
+--------------------------------------------------
+GRANT USAGE, SELECT
+ON ALL SEQUENCES IN SCHEMA public
+TO dicehub_user;
+
+--------------------------------------------------
+-- 6. AUTO-GRANT FOR FUTURE TABLES & SEQUENCES
+--------------------------------------------------
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+GRANT SELECT, INSERT, UPDATE, DELETE
+ON TABLES
+TO dicehub_user;
+
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+GRANT USAGE, SELECT
+ON SEQUENCES
+TO dicehub_user;
+
+--------------------------------------------------
+-- 7. ENABLE ROW LEVEL SECURITY (EXAMPLE)
+--------------------------------------------------
+DO $$
+DECLARE
+    r RECORD;
+    policy_name text := 'tenant_isolation_policy';
+BEGIN
+    FOR r IN
+        SELECT table_schema, table_name
+        FROM information_schema.columns
+        WHERE column_name = 'TenantId'
+          AND table_schema = 'public'
+        GROUP BY table_schema, table_name
+    LOOP
+        -- Enable RLS
+        EXECUTE format(
+            'ALTER TABLE %I.%I ENABLE ROW LEVEL SECURITY;',
+            r.table_schema,
+            r.table_name
+        );
+
+        -- Drop existing policy
+        EXECUTE format(
+            'DROP POLICY IF EXISTS %I ON %I.%I;',
+            policy_name,
+            r.table_schema,
+            r.table_name
+        );
+
+        -- Create new policy
+        EXECUTE format(
+            'CREATE POLICY %I ON %I.%I
+             FOR ALL
+             USING ("TenantId" = current_setting(''app.tenant_id'', true));',
+            policy_name,
+            r.table_schema,
+            r.table_name
+        );
+    END LOOP;
+END
+$$;
+
+--------------------------------------------------
+-- 8. SECURITY HARDENING (OPTIONAL BUT RECOMMENDED)
+--------------------------------------------------
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+
+COMMIT;

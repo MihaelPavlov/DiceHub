@@ -60,11 +60,12 @@ public static class AuthenticationDIModule
 
     public static IServiceCollection AuthenticationAdapter(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<AppIdentityDbContext>(x =>
-            x.UseNpgsql(
-                connectionString: configuration.GetConnectionString("DefaultConnection"),
-                sqlServer => sqlServer
-                    .MigrationsAssembly(typeof(AppIdentityDbContext).Assembly.FullName)
+        services.AddDbContext<AppIdentityDbContext>((provider, options) =>
+            options.AddInterceptors(provider.GetRequiredService<ApplicationDbConnectionInterceptor>())
+                .UseNpgsql(
+                    connectionString: configuration.GetConnectionString("DefaultConnection"),
+                    sqlServer => sqlServer
+                        .MigrationsAssembly(typeof(AppIdentityDbContext).Assembly.FullName)
             )
         );
         services.AddScoped<IIdentityDbContext, AppIdentityDbContext>();
@@ -122,7 +123,7 @@ public static class AuthenticationDIModule
 
                     ValidateLifetime = true,
 
-                                               // ASP.NET allows 5 minutes by default
+                    // ASP.NET allows 5 minutes by default
                     ClockSkew = TimeSpan.Zero, // Without this, an expired token is still accepted
                                                // frontend already handles refresh → no grace period needed
                     ValidIssuer = issuer,
@@ -144,6 +145,9 @@ public static class AuthenticationDIModule
            .AddScoped<IActionPermissions<UserAction>, MapPermissions>()
            .AddScoped<IUserContextFactory, UserContextFactory>()
            .AddScoped<IUserContext>(services => services.GetRequiredService<IUserContextFactory>().Create());
+
+        services.AddSingleton<ApplicationDbConnectionInterceptor>();
+        services.AddSingleton<ISystemUserContextAccessor, SystemUserContextAccessor>();
 
         RegisterAssemblyTypesAsClosedGeneric(services, typeof(IRepository<>), typeof(IDomainService<>), typeof(IDbContextFactory<>));
 

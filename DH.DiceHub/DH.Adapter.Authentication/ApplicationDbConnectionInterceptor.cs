@@ -3,13 +3,13 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 using System.Data.Common;
 using System.Security;
 
-namespace DH.Adapter.Data;
+namespace DH.Adapter.Authentication;
 
-public class TenantDbConnectionInterceptor : DbConnectionInterceptor
+public class ApplicationDbConnectionInterceptor : DbConnectionInterceptor
 {
     private readonly IHttpContextAccessor httpContextAccessor;
 
-    public TenantDbConnectionInterceptor(IHttpContextAccessor httpContextAccessor)
+    public ApplicationDbConnectionInterceptor(IHttpContextAccessor httpContextAccessor)
     {
         this.httpContextAccessor = httpContextAccessor;
     }
@@ -38,7 +38,6 @@ public class TenantDbConnectionInterceptor : DbConnectionInterceptor
         {
             using (var cmd = connection.CreateCommand())
             {
-
                 cmd.CommandText = $"SET app.tenant_id = '{tenantId.Replace("'", "''")}'";
                 await cmd.ExecuteNonQueryAsync(cancellationToken);
             }

@@ -41,6 +41,32 @@ public class AppIdentityDbContext : IdentityDbContext<ApplicationUser>, IIdentit
         return _containerService.Resolve<T>();
     }
 
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        var userContext = this._containerService.Resolve<ISystemUserContextAccessor>().Current;
+
+        // Check if the user context is anonymous
+        if (userContext is AnonymousUserContext)
+        {
+            // Fallback to resolve IUserContext from the container (e.g., SystemUserContext or regular user context)
+            userContext = this._containerService.Resolve<IUserContext>();
+        }
+
+        var tenantId = userContext.TenantId;
+
+        if (!userContext.IsSystem && userContext.TenantId == null)
+        {
+            throw new InvalidOperationException("TenantId is required for non-system operations");
+        }
+
+        foreach (var entry in ChangeTracker.Entries<TenantEntity>())
+        {
+            if (entry.State == EntityState.Added && userContext.TenantId != null)
+                entry.Entity.TenantId = userContext.TenantId;
+        }
+        return base.SaveChangesAsync(cancellationToken);
+    }
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

@@ -64,7 +64,6 @@ export class RestApiService {
   }
 
   public get<T>(path: string, config: ApiConfig = {}): Observable<T> {
-    const { base = ApiBase.Default } = config;
     const options = this.buildRequestOptions(config);
 
     return this.http
@@ -77,7 +76,6 @@ export class RestApiService {
     body: object | string | number,
     config: ApiConfig = {}
   ): Observable<T | null> {
-    const { base = ApiBase.Default } = config;
     const options = this.buildRequestOptions(config);
 
     return this.http
@@ -90,7 +88,6 @@ export class RestApiService {
     body: object | string,
     config: ApiConfig = {}
   ): Observable<T | null> {
-    const { base = ApiBase.Default } = config;
     const options = this.buildRequestOptions(config);
 
     return this.http
@@ -99,7 +96,6 @@ export class RestApiService {
   }
 
   public delete<T>(path: string, config: ApiConfig = {}): Observable<any> {
-    const { base = ApiBase.Default } = config;
     const options = this.buildRequestOptions(config);
 
     return this.http

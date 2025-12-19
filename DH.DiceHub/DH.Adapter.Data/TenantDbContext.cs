@@ -3,6 +3,7 @@ using DH.Domain.Entities;
 using System.Reflection;
 using DH.Domain;
 using Microsoft.EntityFrameworkCore;
+using DH.Domain.Adapters.Authentication;
 
 namespace DH.Adapter.Data;
 
@@ -130,6 +131,32 @@ public class TenantDbContext : DbContext, ITenantDbContext
     public T AcquireRepository<T>()
     {
         return containerService.Resolve<T>();
+    }
+
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        var userContext = this.containerService.Resolve<ISystemUserContextAccessor>().Current;
+
+        // Check if the user context is anonymous
+        if (userContext is AnonymousUserContext)
+        {
+            // Fallback to resolve IUserContext from the container (e.g., SystemUserContext or regular user context)
+            userContext = this.containerService.Resolve<IUserContext>();
+        }
+
+        var tenantId = userContext.TenantId;
+
+        if (!userContext.IsSystem && userContext.TenantId == null)
+        {
+            throw new InvalidOperationException("TenantId is required for non-system operations");
+        }
+
+        foreach (var entry in ChangeTracker.Entries<TenantEntity>())
+        {
+            if (entry.State == EntityState.Added && userContext.TenantId != null)
+                entry.Entity.TenantId = userContext.TenantId;
+        }
+        return base.SaveChangesAsync(cancellationToken);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -30,47 +30,47 @@ public class DataSeeder : IDataSeeder
     /// <inheritdoc/>
     public async Task SeedAsync()
     {
-        using (var context = await this.dbContextFactory.CreateDbContextAsync())
-        {
-            using (var transaction = await context.Database.BeginTransactionAsync())
-            {
-                try
-                {
-                    //await context.Database.ExecuteSqlRawAsync("SET IDENTITY_INSERT GameCategories ON");
+        //using (var context = await this.dbContextFactory.CreateDbContextAsync())
+        //{
+        //    using (var transaction = await context.Database.BeginTransactionAsync())
+        //    {
+        //        try
+        //        {
+        //            //await context.Database.ExecuteSqlRawAsync("SET IDENTITY_INSERT GameCategories ON");
 
-                    var isAnyGameCategories = await context.GameCategories.AnyAsync();
-                    if (!isAnyGameCategories)
-                    {
-                        await context.AddRangeAsync(SeedData.GAME_CATEGORIES);
-                    }
+        //            var isAnyGameCategories = await context.GameCategories.AnyAsync();
+        //            if (!isAnyGameCategories)
+        //            {
+        //                await context.AddRangeAsync(SeedData.GAME_CATEGORIES);
+        //            }
 
-                    var isAnyUniversalChallenges = await context.UniversalChallenges.AnyAsync();
-                    if (!isAnyUniversalChallenges)
-                    {
-                        //await context.UniversalChallenges.ExecuteDeleteAsync();
-                        await context.AddRangeAsync(SeedData.UNIVERSAL_CHALLENGES);
-                    }
+        //            var isAnyUniversalChallenges = await context.UniversalChallenges.AnyAsync();
+        //            if (!isAnyUniversalChallenges)
+        //            {
+        //                //await context.UniversalChallenges.ExecuteDeleteAsync();
+        //                await context.AddRangeAsync(SeedData.UNIVERSAL_CHALLENGES);
+        //            }
 
-                    var isAnyEmailTemplates = await context.EmailTemplates.AnyAsync();
-                    await context.EmailTemplates.ExecuteDeleteAsync();
-                    await context.AddRangeAsync(SeedData.EMAIL_TEMPLATES);
+        //            var isAnyEmailTemplates = await context.EmailTemplates.AnyAsync();
+        //            await context.EmailTemplates.ExecuteDeleteAsync();
+        //            await context.AddRangeAsync(SeedData.EMAIL_TEMPLATES);
 
-                    await context.SaveChangesAsync();
-                    //await context.Database.ExecuteSqlRawAsync("SET IDENTITY_INSERT GameCategories OFF");
+        //            await context.SaveChangesAsync();
+        //            //await context.Database.ExecuteSqlRawAsync("SET IDENTITY_INSERT GameCategories OFF");
 
-                    await transaction.CommitAsync();
-                }
-                catch (Exception ex)
-                {
-                    await transaction.RollbackAsync();
-                    this.logger.LogError(ex, "An error occurred during the transaction while seeding database Entities. The transaction has been rolled back.");
-                }
-            }
-        }
+        //            await transaction.CommitAsync();
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            await transaction.RollbackAsync();
+        //            this.logger.LogError(ex, "An error occurred during the transaction while seeding database Entities. The transaction has been rolled back.");
+        //        }
+        //    }
+        //}
 
-        await this.gameSeeder.SeedAsync();
+        //await this.gameSeeder.SeedAsync();
 
-        await this.ExecuteSeeders();
+        //await this.ExecuteSeeders();
     }
 
     /*
