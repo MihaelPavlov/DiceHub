@@ -11,10 +11,10 @@ namespace DH.Adapter.Authentication.Helper;
 public class UserContextFactory : IUserContextFactory
 {
     readonly IHttpContextAccessor httpContextAccessor;
-    readonly IJwtService jwtService;
+    readonly ITokenService jwtService;
     readonly IUserSettingsCache userSettingsCache;
 
-    public UserContextFactory(IHttpContextAccessor httpContextAccessor, IJwtService jwtService, IUserSettingsCache userSettingsCache)
+    public UserContextFactory(IHttpContextAccessor httpContextAccessor, ITokenService jwtService, IUserSettingsCache userSettingsCache)
     {
         this.httpContextAccessor = httpContextAccessor;
         this.jwtService = jwtService;

@@ -18,14 +18,14 @@ public record SendRegistrationEmailConfirmationCommand(string? ByUserId, string?
 internal class SendRegistrationEmailConfirmationCommandHandler(
     ILogger<SendRegistrationEmailConfirmationCommandHandler> logger,
     ITenantSettingsCacheService tenantSettingsCacheService,
-    IUserService userService,
+    IUserManagementService userManagementService,
     IEmailHelperService emailHelperService,
     IEmailSender emailSender,
     IConfiguration configuration) : IRequestHandler<SendRegistrationEmailConfirmationCommand, bool>
 {
     readonly ILogger<SendRegistrationEmailConfirmationCommandHandler> logger = logger;
     readonly ITenantSettingsCacheService tenantSettingsCacheService = tenantSettingsCacheService;
-    readonly IUserService userService = userService;
+    readonly IUserManagementService userManagementService = userManagementService;
     readonly IEmailHelperService emailHelperService = emailHelperService;
     readonly IEmailSender emailSender = emailSender;
     readonly IConfiguration configuration = configuration;
@@ -45,10 +45,10 @@ internal class SendRegistrationEmailConfirmationCommandHandler(
         UserModel? user = null;
 
         if (!string.IsNullOrWhiteSpace(request.ByUserId))
-            user = await userService.GetUserById(request.ByUserId, cancellationToken);
+            user = await this.userManagementService.GetUserById(request.ByUserId, cancellationToken);
 
         if (user == null && !string.IsNullOrWhiteSpace(request.ByEmail))
-            user = await userService.GetUserByEmail(request.ByEmail);
+            user = await this.userManagementService.GetUserByEmail(request.ByEmail);
 
         if (user == null)
         {
@@ -71,7 +71,7 @@ internal class SendRegistrationEmailConfirmationCommandHandler(
         }
 
         var settings = await tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
-        var token = await this.userService.GenerateEmailConfirmationTokenAsync(user.Id);
+        var token = await this.userManagementService.GenerateEmailConfirmationTokenAsync(user.Id);
         var encodedToken = WebUtility.UrlEncode(token);
         var frontendUrl = configuration.GetSection("Frontend_URL").Value;
         var callbackUrl = $"{frontendUrl}/confirm-email?email={WebUtility.UrlEncode(user.Email)}&token={encodedToken}&language={currentPreferredLanguage}";

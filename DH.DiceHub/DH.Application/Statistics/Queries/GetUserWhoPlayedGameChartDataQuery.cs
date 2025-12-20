@@ -10,10 +10,11 @@ namespace DH.Application.Statistics.Queries;
 public record GetUserWhoPlayedGameChartDataQuery(int GameId, ChartGameActivityType Type, DateTime? RangeStart, DateTime? RangeEnd) : IRequest<OperationResult<GetUsersWhoPlayedGameData>>;
 
 internal class GetUserWhoPlayedGameChartDataQueryHandler(
-    IStatisticsService statisticsService, IUserService userService) : IRequestHandler<GetUserWhoPlayedGameChartDataQuery, OperationResult<GetUsersWhoPlayedGameData>>
+    IStatisticsService statisticsService,
+    IUserManagementService userManagementService) : IRequestHandler<GetUserWhoPlayedGameChartDataQuery, OperationResult<GetUsersWhoPlayedGameData>>
 {
     readonly IStatisticsService statisticsService = statisticsService;
-    readonly IUserService userService = userService;
+    readonly IUserManagementService userManagementService = userManagementService;
     public async Task<OperationResult<GetUsersWhoPlayedGameData>> Handle(
         GetUserWhoPlayedGameChartDataQuery request, CancellationToken cancellationToken)
     {
@@ -21,7 +22,7 @@ internal class GetUserWhoPlayedGameChartDataQueryHandler(
             request.GameId, request.Type, request.RangeStart, request.RangeEnd, cancellationToken);
 
         var userIds = operationResult.RelatedObject?.Users.Select(x => x.UserId).ToArray();
-        var users = await this.userService.GetUserListByIds(userIds ?? [], cancellationToken);
+        var users = await this.userManagementService.GetUserListByIds(userIds ?? [], cancellationToken);
 
         foreach (var user in operationResult.RelatedObject?.Users ?? [])
         {

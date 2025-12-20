@@ -22,7 +22,7 @@ public class UserChallengesManagementService : IUserChallengesManagementService
     readonly IDbContextFactory<TenantDbContext> dbContextFactory;
     readonly ITenantSettingsCacheService tenantSettingsCacheService;
     readonly ILogger<UserChallengesManagementService> logger;
-    readonly IUserService userService;
+    readonly IUserManagementService userManagementService;
     readonly ISchedulerService schedulerService;
     readonly IPushNotificationsService pushNotificationsService;
 
@@ -30,14 +30,14 @@ public class UserChallengesManagementService : IUserChallengesManagementService
         IDbContextFactory<TenantDbContext> dbContextFactory,
         ITenantSettingsCacheService tenantSettingsCacheService,
         ILogger<UserChallengesManagementService> logger,
-        IUserService userService,
+        IUserManagementService userManagementService,
         ISchedulerService schedulerService,
-         IPushNotificationsService pushNotificationsService)
+        IPushNotificationsService pushNotificationsService)
     {
         this.dbContextFactory = dbContextFactory;
         this.tenantSettingsCacheService = tenantSettingsCacheService;
         this.logger = logger;
-        this.userService = userService;
+        this.userManagementService = userManagementService;
         this.schedulerService = schedulerService;
         this.pushNotificationsService = pushNotificationsService;
     }
@@ -119,10 +119,10 @@ public class UserChallengesManagementService : IUserChallengesManagementService
         DateTime? nextResetDate = null;
         using (var context = await this.dbContextFactory.CreateDbContextAsync(cancellationToken))
         {
-            var userIds = await this.userService.GetAllUserIds(cancellationToken);
+            var userIds = await this.userManagementService.GetAllUserIds(cancellationToken);
             foreach (var userId in userIds)
             {
-                var isUserInRoleUser = await this.userService.IsUserInRole(userId, Role.User, cancellationToken);
+                var isUserInRoleUser = await this.userManagementService.IsUserInRole(userId, Role.User, cancellationToken);
 
                 if (!isUserInRoleUser)
                 {
@@ -249,7 +249,7 @@ public class UserChallengesManagementService : IUserChallengesManagementService
     //IMPORTANT! Every Sunday at 12:00 AM reset all reward for everybody 
     public async Task<bool> InitiateUserChallengePeriod(string userId, CancellationToken cancellationToken, bool forNewUser = false)
     {
-        var isUserInRoleUser = await this.userService.IsUserInRole(userId, Role.User, cancellationToken);
+        var isUserInRoleUser = await this.userManagementService.IsUserInRole(userId, Role.User, cancellationToken);
 
         if (!isUserInRoleUser)
         {

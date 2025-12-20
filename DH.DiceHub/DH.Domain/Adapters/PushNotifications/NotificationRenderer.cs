@@ -9,12 +9,13 @@ using DH.Domain.Repositories;
 namespace DH.Domain.Adapters.PushNotifications;
 
 public class NotificationRenderer(
-    ILocalizationService localizer, IRepository<TenantUserSetting> tenantUserRepository,
-    IUserService userService) : INotificationRenderer
+    ILocalizationService localizer, 
+    IRepository<TenantUserSetting> tenantUserRepository,
+    IUserManagementService userManagementService) : INotificationRenderer
 {
     readonly ILocalizationService localizer = localizer;
     readonly IRepository<TenantUserSetting> tenantUserRepository = tenantUserRepository;
-    readonly IUserService userService = userService;
+    readonly IUserManagementService userManagementService = userManagementService;
 
     public async Task<NotificationPayload?> RenderMessageBody<TPayload>(TPayload payload, string userId) where TPayload : RenderableNotification
     {
@@ -26,7 +27,7 @@ public class NotificationRenderer(
 
         this.localizer.SetLanguage(language);
 
-        var userTimeZone = await this.userService.GetUserTimeZone(userId);
+        var userTimeZone = await this.userManagementService.GetUserTimeZone(userId);
         var userLanguage = language;
 
         if (payload is RenderableNotification renderable)

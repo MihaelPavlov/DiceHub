@@ -20,7 +20,7 @@ internal class CreateSpaceTableReservationCommandHandler(
     IRepository<SpaceTableReservation> repository,
     IUserContext userContext,
     IPushNotificationsService pushNotificationsService,
-    IUserService userService,
+    IUserManagementService userManagementService,
     ITenantSettingsCacheService tenantSettingsCacheService,
     IReservationCleanupQueue queue,
     ILocalizationService localizationService) : IRequestHandler<CreateSpaceTableReservationCommand>
@@ -28,7 +28,7 @@ internal class CreateSpaceTableReservationCommandHandler(
     readonly IRepository<SpaceTableReservation> repository = repository;
     readonly IUserContext userContext = userContext;
     readonly IPushNotificationsService pushNotificationsService = pushNotificationsService;
-    readonly IUserService userService = userService;
+    readonly IUserManagementService userManagementService = userManagementService;
     readonly ITenantSettingsCacheService tenantSettingsCacheService = tenantSettingsCacheService;
     readonly IReservationCleanupQueue queue = queue;
     readonly ILocalizationService localizationService = localizationService;
@@ -48,7 +48,7 @@ internal class CreateSpaceTableReservationCommandHandler(
 
         var reservation = await this.repository.AddAsync(new SpaceTableReservation
         {
-            UserId = this.userContext.UserId,
+            UserId = this.userContext.UserId!,
             CreatedDate = DateTime.UtcNow,
             ReservationDate = request.ReservationDate,
             IsReservationSuccessful = false,
@@ -61,7 +61,7 @@ internal class CreateSpaceTableReservationCommandHandler(
 
         await this.queue.AddReservationCleaningJob(reservation.Id, ReservationType.Table, request.ReservationDate.AddMinutes(settings.BonusTimeAfterReservationExpiration));
 
-        var users = await this.userService.GetUserListByRole(Role.Staff, cancellationToken);
+        var users = await this.userManagementService.GetUserListByRole(Role.Staff, cancellationToken);
         var userIds = users.Select(user => user.Id).ToList();
 
         var payload = new SpaceTableReservationManagementNotification

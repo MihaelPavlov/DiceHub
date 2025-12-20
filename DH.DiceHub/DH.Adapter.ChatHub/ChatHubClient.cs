@@ -15,18 +15,23 @@ public class ChatHubClient : Hub, IChatHubClient
     readonly IRepository<RoomParticipant> roomParticipantsRepository;
     readonly IRepository<RoomMessage> roomMessagesRepository;
     readonly IUserContext userContext;
-    readonly IJwtService jwtService;
-    readonly IUserService userService;
+    readonly ITokenService jwtService;
+    readonly IUserManagementService userManagementService;
 
-    public ChatHubClient(IRepository<Room> roomsRepository, IRepository<RoomParticipant> roomParticipantsRepository,
-        IRepository<RoomMessage> roomMessagesRepository, IUserContext userContext, IJwtService jwtService, IUserService userService)
+    public ChatHubClient(
+        IRepository<Room> roomsRepository, 
+        IRepository<RoomParticipant> roomParticipantsRepository,
+        IRepository<RoomMessage> roomMessagesRepository, 
+        IUserContext userContext,
+        ITokenService jwtService,
+        IUserManagementService userManagementService)
     {
         this.roomsRepository = roomsRepository;
         this.roomParticipantsRepository = roomParticipantsRepository;
         this.roomMessagesRepository = roomMessagesRepository;
         this.userContext = userContext;
         this.jwtService = jwtService;
-        this.userService = userService;
+        this.userManagementService = userManagementService;
     }
 
     public override Task OnConnectedAsync()
@@ -51,7 +56,7 @@ public class ChatHubClient : Hub, IChatHubClient
         var room = await this.roomsRepository.GetByAsync(g => g.Id == roomId, CancellationToken.None)
             ?? throw new NotFoundException(nameof(Room), roomId);
 
-        var userGroup = new RoomParticipant { UserId = this.userContext.UserId, Room = room };
+        var userGroup = new RoomParticipant { UserId = this.userContext.UserId!, Room = room };
         await this.roomParticipantsRepository.AddAsync(userGroup, CancellationToken.None);
 
         await Groups.AddToGroupAsync(this.Context.ConnectionId, roomId.ToString());
@@ -63,9 +68,9 @@ public class ChatHubClient : Hub, IChatHubClient
         var room = await this.roomsRepository.GetByAsync(g => g.Id == roomId, CancellationToken.None)
             ?? throw new NotFoundException(nameof(Room), roomId);
 
-        var newMessage = new RoomMessage { CreatedDate = DateTime.UtcNow, Room = room, MessageContent = message, Sender = this.userContext.UserId };
+        var newMessage = new RoomMessage { CreatedDate = DateTime.UtcNow, Room = room, MessageContent = message, Sender = this.userContext.UserId! };
 
-        var user = await this.userService.GetUserListByIds([this.userContext.UserId], CancellationToken.None);
+        var user = await this.userManagementService.GetUserListByIds([this.userContext.UserId!], CancellationToken.None);
         await this.roomMessagesRepository.AddAsync(newMessage, CancellationToken.None);
         await Clients.Group(roomId.ToString()).SendAsync("ReceiveMessage", newMessage.Sender, user.First().UserName, newMessage.MessageContent, newMessage.CreatedDate);
     }

@@ -15,14 +15,19 @@ internal class GetRoomMessageListQueryHandler : IRequestHandler<GetRoomMessageLi
     readonly IRepository<RoomMessage> roomMessagesRepository;
     readonly IRepository<RoomParticipant> roomParticipantsRepository;
     readonly IRepository<Room> roomsRepository;
-    readonly IUserService userService;
+    readonly IUserManagementService userManagementService;
     readonly IUserContext userContext;
 
-    public GetRoomMessageListQueryHandler(IRepository<RoomMessage> roomMessagesRepository, IRepository<Room> roomsRepository, IUserService userService, IRepository<RoomParticipant> roomParticipantsRepository, IUserContext userContext)
+    public GetRoomMessageListQueryHandler(
+        IRepository<RoomMessage> roomMessagesRepository,
+        IRepository<Room> roomsRepository, 
+        IUserManagementService userManagementService, 
+        IRepository<RoomParticipant> roomParticipantsRepository, 
+        IUserContext userContext)
     {
         this.roomMessagesRepository = roomMessagesRepository;
         this.roomsRepository = roomsRepository;
-        this.userService = userService;
+        this.userManagementService = userManagementService;
         this.roomParticipantsRepository = roomParticipantsRepository;
         this.userContext = userContext;
     }
@@ -53,7 +58,7 @@ internal class GetRoomMessageListQueryHandler : IRequestHandler<GetRoomMessageLi
 
         var userIds = messages.Select(x => x.SenderId).Distinct().ToArray();
 
-        var users = await this.userService.GetUserListByIds(userIds, cancellationToken);
+        var users = await this.userManagementService.GetUserListByIds(userIds, cancellationToken);
 
         foreach (var message in messages)
         {

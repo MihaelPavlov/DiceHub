@@ -19,7 +19,7 @@ public record SendForgotPasswordEmailCommand(string Email, string? Language) : I
 internal class SendForgotPasswordEmailCommandHandler(
     ILogger<SendForgotPasswordEmailCommandHandler> logger,
     ITenantSettingsCacheService tenantSettingsCacheService,
-    IUserService userService,
+    IUserManagementService userManagementService,
     IEmailHelperService emailHelperService,
     IEmailSender emailSender,
     IConfiguration configuration,
@@ -27,7 +27,7 @@ internal class SendForgotPasswordEmailCommandHandler(
 {
     readonly ILogger<SendForgotPasswordEmailCommandHandler> logger = logger;
     readonly ITenantSettingsCacheService tenantSettingsCacheService = tenantSettingsCacheService;
-    readonly IUserService userService = userService;
+    readonly IUserManagementService userManagementService = userManagementService;
     readonly IEmailHelperService emailHelperService = emailHelperService;
     readonly IEmailSender emailSender = emailSender;
     readonly IConfiguration configuration = configuration;
@@ -35,7 +35,7 @@ internal class SendForgotPasswordEmailCommandHandler(
 
     public async Task Handle(SendForgotPasswordEmailCommand request, CancellationToken cancellationToken)
     {
-        var user = await this.userService.GetUserByEmail(request.Email);
+        var user = await this.userManagementService.GetUserByEmail(request.Email);
         var emailType = EmailType.ForgotPasswordReset;
         var currentPreferredLanguage = request.Language ?? SupportLanguages.EN.ToString();
 
@@ -57,7 +57,7 @@ internal class SendForgotPasswordEmailCommandHandler(
 
         var settings = await tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
 
-        var token = await this.userService.GeneratePasswordResetTokenAsync(request.Email);
+        var token = await this.userManagementService.GeneratePasswordResetTokenAsync(request.Email);
         var encodedToken = WebUtility.UrlEncode(token);
         var frontendUrl = configuration.GetSection("Frontend_URL").Value;
         var callbackUrl = $"{frontendUrl}/reset-password?email={WebUtility.UrlEncode(user.Email)}&token={encodedToken}&language={currentPreferredLanguage}";

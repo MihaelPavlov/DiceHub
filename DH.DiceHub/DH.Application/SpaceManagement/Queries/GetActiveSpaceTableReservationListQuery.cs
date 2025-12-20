@@ -12,17 +12,17 @@ public record GetActiveSpaceTableReservationListQuery : IRequest<List<GetActiveS
 internal class GetActiveSpaceTableReservationListQueryHandler : IRequestHandler<GetActiveSpaceTableReservationListQuery, List<GetActiveSpaceTableReservationListQueryModel>>
 {
     readonly IRepository<SpaceTableReservation> repository;
-    readonly IUserService userService;
+    readonly IUserManagementService userManagementService;
     readonly IRepository<TenantUserSetting> tenantUserSettingRepository;
     readonly ILocalizationService localizer;
     public GetActiveSpaceTableReservationListQueryHandler(
         IRepository<SpaceTableReservation> repository, 
-        IUserService userService,
+        IUserManagementService userManagementService,
         IRepository<TenantUserSetting> tenantUserSettingRepository,
         ILocalizationService localizer)
     {
         this.repository = repository;
-        this.userService = userService;
+        this.userManagementService = userManagementService;
         this.tenantUserSettingRepository = tenantUserSettingRepository;
         this.localizer = localizer;
     }
@@ -44,7 +44,7 @@ internal class GetActiveSpaceTableReservationListQueryHandler : IRequestHandler<
 
         var userIds = reservations.DistinctBy(x => x.UserId).Select(x => x.UserId).ToArray();
 
-        var users = await this.userService.GetUserListByIds(userIds, cancellationToken);
+        var users = await this.userManagementService.GetUserListByIds(userIds, cancellationToken);
 
         foreach (var reservation in reservations)
         {

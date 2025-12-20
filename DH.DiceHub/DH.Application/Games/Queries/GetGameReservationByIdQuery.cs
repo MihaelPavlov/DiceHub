@@ -10,17 +10,19 @@ namespace DH.Application.Games.Queries;
 
 public record GetGameReservationByIdQuery(int Id) : IRequest<GetGameReservationByIdQueryModel>;
 
-internal class GetGameReservationByIdQueryHandler(IRepository<GameReservation> repository, IUserService userService) : IRequestHandler<GetGameReservationByIdQuery, GetGameReservationByIdQueryModel>
+internal class GetGameReservationByIdQueryHandler(
+    IRepository<GameReservation> repository,
+    IUserManagementService userManagementService) : IRequestHandler<GetGameReservationByIdQuery, GetGameReservationByIdQueryModel>
 {
     readonly IRepository<GameReservation> repository = repository;
-    readonly IUserService userService = userService;
+    readonly IUserManagementService userManagementService = userManagementService;
 
     public async Task<GetGameReservationByIdQueryModel> Handle(GetGameReservationByIdQuery request, CancellationToken cancellationToken)
     {
         var reservationDb = await this.repository.GetByAsync(x => x.Id == request.Id, cancellationToken)
             ?? throw new NotFoundException(nameof(GameReservation), request.Id);
 
-        var users = await this.userService.GetUserListByIds([reservationDb.UserId], cancellationToken);
+        var users = await this.userManagementService.GetUserListByIds([reservationDb.UserId], cancellationToken);
         reservationDb.ReservationDate = reservationDb.ReservationDate;
         reservationDb.CreatedDate = reservationDb.CreatedDate;
 

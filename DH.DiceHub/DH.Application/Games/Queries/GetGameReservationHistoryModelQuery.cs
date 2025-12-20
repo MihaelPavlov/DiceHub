@@ -8,9 +8,10 @@ namespace DH.Application.Games.Queries;
 
 public record GetGameReservationHistoryQuery(ReservationStatus? Status) : IRequest<List<GetGameReservationHistoryQueryModel>>;
 
-internal class GetGameReservationHistoryQueryHandler(IUserService userService, IGameService gameService) : IRequestHandler<GetGameReservationHistoryQuery, List<GetGameReservationHistoryQueryModel>>
+internal class GetGameReservationHistoryQueryHandler(
+    IUserManagementService userManagementService, IGameService gameService) : IRequestHandler<GetGameReservationHistoryQuery, List<GetGameReservationHistoryQueryModel>>
 {
-    readonly IUserService userService = userService;
+    readonly IUserManagementService userManagementService = userManagementService;
     readonly IGameService gameService = gameService;
 
     public async Task<List<GetGameReservationHistoryQueryModel>> Handle(GetGameReservationHistoryQuery request, CancellationToken cancellationToken)
@@ -19,7 +20,7 @@ internal class GetGameReservationHistoryQueryHandler(IUserService userService, I
 
         var userIds = reservations.DistinctBy(x => x.UserId).Select(x => x.UserId).ToArray();
 
-        var users = await this.userService.GetUserListByIds(userIds, cancellationToken);
+        var users = await this.userManagementService.GetUserListByIds(userIds, cancellationToken);
 
         foreach (var reservation in reservations)
         {

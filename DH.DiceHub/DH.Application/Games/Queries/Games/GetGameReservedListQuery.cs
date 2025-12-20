@@ -11,13 +11,16 @@ public record GetGameReservedListQuery : IRequest<List<GetGameReservationListQue
 internal class GetGameReservedListQueryHandler : IRequestHandler<GetGameReservedListQuery, List<GetGameReservationListQueryModel>>
 {
     readonly IRepository<GameReservation> repository;
-    readonly IUserService userService;
+    readonly IUserManagementService userManagementService;
     readonly IRepository<Game> gameRepository;
 
-    public GetGameReservedListQueryHandler(IRepository<GameReservation> repository, IUserService userService, IRepository<Game> gameRepository)
+    public GetGameReservedListQueryHandler(
+        IRepository<GameReservation> repository, 
+        IUserManagementService userManagementService, 
+        IRepository<Game> gameRepository)
     {
         this.repository = repository;
-        this.userService = userService;
+        this.userManagementService = userManagementService;
         this.gameRepository = gameRepository;
     }
 
@@ -36,7 +39,7 @@ internal class GetGameReservedListQueryHandler : IRequestHandler<GetGameReserved
 
         var userIds = reservations.DistinctBy(x => x.UserId).Select(x => x.UserId).ToArray();
 
-        var users = await this.userService.GetUserListByIds(userIds, cancellationToken);
+        var users = await this.userManagementService.GetUserListByIds(userIds, cancellationToken);
 
         var gameIds = reservations.DistinctBy(x => x.GameId).Select(x => x.GameId).ToArray();
 

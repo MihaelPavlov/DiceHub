@@ -13,13 +13,16 @@ internal class GetRoomMemberListQueryHandler : IRequestHandler<GetRoomMemberList
 {
     readonly IRepository<RoomParticipant> roomParticipantRepository;
     readonly IRepository<Room> roomsRepository;
-    readonly IUserService userService;
+    readonly IUserManagementService userManagementService;
 
-    public GetRoomMemberListQueryHandler(IRepository<RoomParticipant> roomParticipantRepository, IRepository<Room> roomsRepository, IUserService userService)
+    public GetRoomMemberListQueryHandler(
+        IRepository<RoomParticipant> roomParticipantRepository,
+        IRepository<Room> roomsRepository, 
+        IUserManagementService userManagementService)
     {
         this.roomParticipantRepository = roomParticipantRepository;
         this.roomsRepository = roomsRepository;
-        this.userService = userService;
+        this.userManagementService = userManagementService;
     }
 
     public async Task<List<GetRoomMemberListQueryModel>> Handle(GetRoomMemberListQuery request, CancellationToken cancellationToken)
@@ -48,7 +51,7 @@ internal class GetRoomMemberListQueryHandler : IRequestHandler<GetRoomMemberList
 
         var userIds = members.Select(x => x.UserId).Distinct().ToArray();
 
-        var users = await this.userService.GetUserListByIds(userIds, cancellationToken);
+        var users = await this.userManagementService.GetUserListByIds(userIds, cancellationToken);
 
         foreach (var member in members)
         {

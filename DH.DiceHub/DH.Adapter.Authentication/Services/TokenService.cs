@@ -1,64 +1,56 @@
 ﻿using DH.Adapter.Authentication.Entities;
 using DH.Domain.Adapters.Authentication.Models;
 using DH.Domain.Adapters.Authentication.Models.Enums;
+using DH.Domain.Adapters.Authentication.Options;
 using DH.Domain.Adapters.Authentication.Services;
+using DH.OperationResultCore.Exceptions;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
-using System.Text;
 
 namespace DH.Adapter.Authentication.Services;
 
 /// <summary>
-/// Implements the <see cref="IJwtService"/>. 
+/// Implements the <see cref="ITokenService"/>. 
 /// Provides methods for generating and refreshing JWT tokens.
 /// </summary>
-public class JwtService : IJwtService
+public class TokenService : ITokenService
 {
     readonly UserManager<ApplicationUser> userManager;
-    readonly IConfiguration configuration;
-    readonly IPermissionStringBuilder _permissionStringBuilder;
+    readonly IPermissionStringBuilder permissionStringBuilder;
+    readonly JwtTokenOptions jwtTokenOptions;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JwtService"/> class with the specified dependencies.
+    /// Initializes a new instance of the <see cref="TokenService"/> class with the specified dependencies.
     /// </summary>
-    /// <param name="userManager"><see cref="UserManager{TUser}"/> for managing user-related operations.</param>
-    /// <param name="configuration"><see cref="IConfiguration"/> for accessing application settings.</param>
-    public JwtService(
+    public TokenService(
         UserManager<ApplicationUser> userManager,
-        IConfiguration configuration,
-        IPermissionStringBuilder permissionStringBuilder
+        IPermissionStringBuilder permissionStringBuilder,
+        JwtTokenOptions jwtTokenOptions
     )
     {
         this.userManager = userManager;
-        this.configuration = configuration;
-        _permissionStringBuilder = permissionStringBuilder;
+        this.permissionStringBuilder = permissionStringBuilder;
+        this.jwtTokenOptions = jwtTokenOptions;
+
     }
 
     /// <inheritdoc/>
     public string GenerateAccessToken(IEnumerable<Claim> claims)
     {
-        var apiAudiences = configuration.GetSection("APIs_Audience_URLs").Get<string[]>()
-            ?? throw new ArgumentException("APIs_Audience_URLs was not specified");
+        var signinCredentials = new SigningCredentials(
+            new SymmetricSecurityKey(this.jwtTokenOptions.SigningKey), SecurityAlgorithms.HmacSha256);
 
-        var issuer = configuration.GetValue<string>("TokenIssuer")
-            ?? throw new ArgumentException("TokenIssuer was not specified");
-
-        var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetValue<string>("JWT_SecretKey")
-            ?? throw new ArgumentException("JWT_SecretKey was not specified")));
-
-        var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
         var tokeOptions = new JwtSecurityToken(
-            issuer: issuer,
+            issuer: this.jwtTokenOptions.Issuer,
             claims: claims,
-            expires: DateTime.UtcNow.AddDays(1),
+            expires: DateTime.UtcNow.Add(this.jwtTokenOptions.AccessTokenLifetime),
             signingCredentials: signinCredentials
         );
 
-        tokeOptions.Payload["aud"] = apiAudiences;
+        tokeOptions.Payload["aud"] = this.jwtTokenOptions.Audiences;
 
         var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
         return tokenString;
@@ -67,24 +59,26 @@ public class JwtService : IJwtService
     /// <inheritdoc/>
     public string GenerateRefreshToken()
     {
-        var randomNumber = new byte[32];
-        using (var rng = RandomNumberGenerator.Create())
-        {
-            rng.GetBytes(randomNumber);
-            return Convert.ToBase64String(randomNumber);
-        }
+        var bytes = new byte[32];
+        RandomNumberGenerator.Fill(bytes);
+        return Convert.ToBase64String(bytes);
+    }
+
+    public DateTime GetRefreshTokenExpiryTime()
+    {
+        return DateTime.UtcNow.Add(this.jwtTokenOptions.RefreshTokenLifetime);
     }
 
     /// <inheritdoc/>
     public async Task<TokenResponseModel> RefreshAccessTokenAsync(TokenResponseModel tokens)
     {
         if (tokens is null)
-            throw new ArgumentNullException("Invalid client request");
+            throw new SecurityTokenException("Invalid client request");
 
-        string accessToken = tokens.AccessToken;
-        string refreshToken = tokens.RefreshToken;
+        if (string.IsNullOrEmpty(tokens.AccessToken) || string.IsNullOrEmpty(tokens.RefreshToken))
+            throw new SecurityTokenException("Invalid client request");
 
-        var principal = GetPrincipalFromExpiredToken(accessToken);
+        var principal = GetPrincipalFromExpiredToken(tokens.AccessToken);
         var userId = principal.FindFirstValue(ClaimTypes.Sid);
         var tokenTenantId = principal.FindFirstValue("tenant_id");
 
@@ -93,7 +87,9 @@ public class JwtService : IJwtService
 
         var user = await userManager.FindByIdAsync(userId);
 
-        if (user is null || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.UtcNow)
+        if (user is null ||
+            user.RefreshToken != tokens.RefreshToken ||
+            user.RefreshTokenExpiryTime <= DateTime.UtcNow)
             throw new SecurityTokenException("Invalid refresh token");
 
         if (tokenTenantId != user.TenantId)
@@ -101,28 +97,14 @@ public class JwtService : IJwtService
 
         var roles = await userManager.GetRolesAsync(user);
 
-        var claims = new List<Claim>
-        {
-            new Claim(ClaimTypes.Sid, user.Id),
-            new Claim(ClaimTypes.Name, user.UserName!),
-            new Claim("TimeZone", user.TimeZone!),
-            new Claim("tenant_id", user.TenantId)
-        };
-
-        if (roles.Any())
-        {
-            var role = roles.First();
-            claims.Add(new Claim(ClaimTypes.Role, RoleHelper.GetRoleKeyByName(role).ToString()));
-            claims.Add(new Claim("permissions",
-                this._permissionStringBuilder.GetFromCacheOrBuildPermissionsString(
-                    RoleHelper.GetRoleKeyByName(role))));
-        }
+        var claims = await BuildUserClaimsAsync(user.Id);
 
         var newAccessToken = GenerateAccessToken(claims);
         var newRefreshToken = GenerateRefreshToken();
 
         user.RefreshToken = newRefreshToken;
-        user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(5);
+        user.RefreshTokenExpiryTime = this.GetRefreshTokenExpiryTime();
+
         user.SecurityStamp = Guid.NewGuid().ToString();
 
         /*
@@ -144,10 +126,38 @@ public class JwtService : IJwtService
         };
     }
 
-    public ClaimsPrincipal ValidateToken(string accessToken)
+    public async Task<List<Claim>> BuildUserClaimsAsync(string userId)
     {
-        return this.GetPrincipalFromExpiredToken(accessToken);
+        var user = await userManager.FindByIdAsync(userId)
+            ?? throw new NotFoundException(nameof(ApplicationUser), userId);
+
+        var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.Sid, user.Id),
+            new Claim(ClaimTypes.Name, user.UserName!),
+            new Claim("TimeZone", user.TimeZone!),
+            new Claim("tenant_id", user.TenantId)
+        };
+
+        var roles = await userManager.GetRolesAsync(user);
+        var role = roles.FirstOrDefault();
+
+        if (role is not null)
+        {
+            var roleKey = RoleHelper.GetRoleKeyByName(role);
+
+            claims.Add(new Claim(ClaimTypes.Role, role));
+            claims.Add(new Claim("role_key", roleKey.ToString()));
+            claims.Add(new Claim(
+                "permissions",
+                permissionStringBuilder.GetFromCacheOrBuildPermissionsString(roleKey)));
+        }
+
+        return claims;
     }
+
+    public ClaimsPrincipal ValidateToken(string accessToken)
+        => GetPrincipalFromExpiredToken(accessToken);
 
     /// <summary>
     /// Retrieves the principal from an expired token.
@@ -156,15 +166,6 @@ public class JwtService : IJwtService
     /// <returns>A <see cref="ClaimsPrincipal"/> representing the user.</returns>
     private ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
     {
-        var apiAudiences = configuration.GetSection("APIs_Audience_URLs").Get<string[]>()
-            ?? throw new ArgumentException("APIs_Audience_URLs was not specified");
-
-        var issuer = configuration.GetValue<string>("TokenIssuer")
-            ?? throw new ArgumentException("TokenIssuer was not specified");
-
-        var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetValue<string>("JWT_SecretKey")
-            ?? throw new ArgumentException("JWT_SecretKey was not specified")));
-
         var tokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
@@ -175,9 +176,9 @@ public class JwtService : IJwtService
             // Prevents accepting tokens that are “almost expired”
             ClockSkew = TimeSpan.Zero,  //Keeps refresh logic deterministic
                                         // Avoids subtle timing bugs during rotation
-            ValidIssuer = issuer,
-            ValidAudiences = apiAudiences,
-            IssuerSigningKey = secretKey,
+            ValidIssuer = this.jwtTokenOptions.Issuer,
+            ValidAudiences = this.jwtTokenOptions.Audiences,
+            IssuerSigningKey = new SymmetricSecurityKey(this.jwtTokenOptions.SigningKey),
         };
 
         var tokenHandler = new JwtSecurityTokenHandler();

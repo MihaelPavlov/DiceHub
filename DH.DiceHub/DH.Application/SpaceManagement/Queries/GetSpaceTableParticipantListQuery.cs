@@ -12,13 +12,16 @@ public record GetSpaceTableParticipantListQuery(int Id, string SearchExpression)
 internal class GetSpaceTableParticipantListQueryHandler : IRequestHandler<GetSpaceTableParticipantListQuery, List<GetSpaceTableParticipantListQueryModel>>
 {
     readonly IRepository<SpaceTableParticipant> repository;
-    readonly IUserService userService;
+    readonly IUserManagementService userManagementService;
     readonly ILocalizationService localizer;
 
-    public GetSpaceTableParticipantListQueryHandler(IRepository<SpaceTableParticipant> repository, IUserService userService, ILocalizationService localizer)
+    public GetSpaceTableParticipantListQueryHandler(
+        IRepository<SpaceTableParticipant> repository, 
+        IUserManagementService userManagementService,
+        ILocalizationService localizer)
     {
         this.repository = repository;
-        this.userService = userService;
+        this.userManagementService = userManagementService;
         this.localizer = localizer;
     }
 
@@ -38,7 +41,7 @@ internal class GetSpaceTableParticipantListQueryHandler : IRequestHandler<GetSpa
 
         var userIds = participants.Where(x => !x.IsVirtualParticipant).Select(x => x.UserId).ToArray();
 
-        var users = await this.userService.GetUserListByIds(userIds, CancellationToken.None);
+        var users = await this.userManagementService.GetUserListByIds(userIds, CancellationToken.None);
 
         var virtualUserCount = 1;
         foreach (var participant in participants)

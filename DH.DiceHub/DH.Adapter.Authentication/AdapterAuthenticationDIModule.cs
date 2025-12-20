@@ -5,6 +5,7 @@ using DH.Domain.Adapters.Authentication;
 using DH.Domain.Adapters.Authentication.Enums;
 using DH.Domain.Adapters.Authentication.Interfaces;
 using DH.Domain.Adapters.Authentication.Models;
+using DH.Domain.Adapters.Authentication.Options;
 using DH.Domain.Adapters.Authentication.Services;
 using DH.Domain.Repositories;
 using DH.Domain.Services;
@@ -137,8 +138,11 @@ public static class AuthenticationDIModule
 
         services.AddHttpClient().AddHttpContextAccessor();
         services
-           .AddScoped<IUserService, UserService>()
-           .AddScoped<IJwtService, JwtService>()
+           .AddScoped<IAuthenticationService, AuthenticationService>()
+           .AddScoped<ITokenService, TokenService>()
+           .AddScoped<IUserManagementService, UserManagementService>()
+           .AddScoped<IOwnerService, OwnerService>()
+           .AddScoped<IEmployeeService, EmployeeService>()
            .AddScoped<IUserActionService, UserActionService>()
            .AddScoped<IPermissionStringBuilder, PermissionStringBuilder>()
            .AddScoped<IMapPermissions, MapPermissions>()
@@ -147,7 +151,31 @@ public static class AuthenticationDIModule
            .AddScoped<IUserContext>(services => services.GetRequiredService<IUserContextFactory>().Create());
 
         services.AddSingleton<ApplicationDbConnectionInterceptor>();
-        services.AddSingleton<ISystemUserContextAccessor, SystemUserContextAccessor>();
+        services.AddScoped<ISystemUserContextAccessor, SystemUserContextAccessor>();
+
+        services.AddSingleton(sp =>
+        {
+            var config = sp.GetRequiredService<IConfiguration>();
+
+            var issuer = config["TokenIssuer"];
+            if (string.IsNullOrWhiteSpace(issuer))
+                throw new InvalidOperationException("JWT configuration error: TokenIssuer is missing");
+
+            var audiences = config.GetSection("APIs_Audience_URLs").Get<string[]>();
+            if (audiences is null || audiences.Length == 0)
+                throw new InvalidOperationException("JWT configuration error: APIs_Audience_URLs is missing or empty");
+
+            var secret = config["JWT_SecretKey"];
+            if (string.IsNullOrWhiteSpace(secret))
+                throw new InvalidOperationException("JWT configuration error: JWT_SecretKey is missing");
+
+            return new JwtTokenOptions
+            {
+                Issuer = issuer,
+                Audiences = audiences,
+                SigningKey = Encoding.UTF8.GetBytes(secret)
+            };
+        });
 
         RegisterAssemblyTypesAsClosedGeneric(services, typeof(IRepository<>), typeof(IDomainService<>), typeof(IDbContextFactory<>));
 

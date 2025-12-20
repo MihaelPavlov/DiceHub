@@ -23,7 +23,7 @@ public class GameSessionService : IGameSessionService
     readonly ISynchronizeUsersChallengesQueue queue;
     readonly ITenantSettingsCacheService tenantSettingsCacheService;
     readonly IStatisticQueuePublisher statisticQueuePublisher;
-    readonly IUserService userService;
+    readonly IUserManagementService userManagementService;
     readonly IChallengeHubClient challengeHubClient;
     readonly ILogger<GameSessionService> logger;
 
@@ -32,7 +32,7 @@ public class GameSessionService : IGameSessionService
         ISynchronizeUsersChallengesQueue queue,
         ITenantSettingsCacheService tenantSettingsCacheService,
         IStatisticQueuePublisher statisticQueuePublisher,
-        IUserService userService,
+        IUserManagementService userManagementService,
         IChallengeHubClient challengeHubClient,
         ILogger<GameSessionService> logger)
     {
@@ -40,7 +40,7 @@ public class GameSessionService : IGameSessionService
         this.queue = queue;
         this.tenantSettingsCacheService = tenantSettingsCacheService;
         this.statisticQueuePublisher = statisticQueuePublisher;
-        this.userService = userService;
+        this.userManagementService = userManagementService;
         this.challengeHubClient = challengeHubClient;
         this.logger = logger;
     }
@@ -207,7 +207,7 @@ public class GameSessionService : IGameSessionService
                 challenge.UniversalChallenge.Name_BG,
                 (int)challenge.UniversalChallenge.RewardPoints);
 
-            if (!await this.userService.HasUserAnyMatchingRole(userId, Role.SuperAdmin))
+            if (!await this.userManagementService.HasUserAnyMatchingRole(userId, Role.SuperAdmin))
             {
                 await this.statisticQueuePublisher.PublishAsync(new ChallengeProcessingOutcomeJob(
                     userId,
@@ -263,7 +263,7 @@ public class GameSessionService : IGameSessionService
             await this.challengeHubClient.SendChallengeCompleted(
                 userId, challenge.Challenge!.Game.Name, (int)challenge.Challenge.RewardPoints);
 
-            if (!await this.userService.HasUserAnyMatchingRole(userId, Role.SuperAdmin))
+            if (!await this.userManagementService.HasUserAnyMatchingRole(userId, Role.SuperAdmin))
             {
                 await this.statisticQueuePublisher.PublishAsync(new ChallengeProcessingOutcomeJob(
                     userId,
@@ -314,7 +314,7 @@ public class GameSessionService : IGameSessionService
 
             await this.challengeHubClient.SendChallengeCompleted(userId, challenge.Game.Name, challenge.RewardPoints);
 
-            if (!await userService.HasUserAnyMatchingRole(userId, Role.SuperAdmin))
+            if (!await this.userManagementService.HasUserAnyMatchingRole(userId, Role.SuperAdmin))
             {
                 await statisticQueuePublisher.PublishAsync(new ChallengeProcessingOutcomeJob(
                     userId,
@@ -383,7 +383,7 @@ public class GameSessionService : IGameSessionService
             await this.challengeHubClient.SendUniversalChallengeCompleted(
                 userId, challenge.UniversalChallenge.Name_EN, challenge.UniversalChallenge.Name_BG, challenge.RewardPoints);
 
-            if (!await userService.HasUserAnyMatchingRole(userId, Role.SuperAdmin))
+            if (!await this.userManagementService.HasUserAnyMatchingRole(userId, Role.SuperAdmin))
             {
                 await statisticQueuePublisher.PublishAsync(new ChallengeProcessingOutcomeJob(
                     userId,
@@ -645,7 +645,7 @@ public class GameSessionService : IGameSessionService
             rewardGrantedChallenge.UniversalChallenge.Name_BG,
             (int)rewardGrantedChallenge.UniversalChallenge.RewardPoints);
 
-        if (!await userService.HasUserAnyMatchingRole(userId, Role.SuperAdmin))
+        if (!await this.userManagementService.HasUserAnyMatchingRole(userId, Role.SuperAdmin))
         {
             await statisticQueuePublisher.PublishAsync(new ChallengeProcessingOutcomeJob(
                 userId,
@@ -708,7 +708,7 @@ public class GameSessionService : IGameSessionService
             rewardGrantedChallenge.UniversalChallenge.Name_BG,
             rewardGrantedChallenge.RewardPoints);
 
-        if (!await userService.HasUserAnyMatchingRole(userId, Role.SuperAdmin))
+        if (!await this.userManagementService.HasUserAnyMatchingRole(userId, Role.SuperAdmin))
         {
             await statisticQueuePublisher.PublishAsync(new ChallengeProcessingOutcomeJob(
                 userId,

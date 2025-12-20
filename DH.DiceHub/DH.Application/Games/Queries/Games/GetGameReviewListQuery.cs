@@ -11,12 +11,14 @@ public record GetGameReviewListQuery(int Id) : IRequest<List<GetGameReviewListQu
 internal class GetGameReviewListQueryHandler : IRequestHandler<GetGameReviewListQuery, List<GetGameReviewListQueryModel>>
 {
     readonly IRepository<GameReview> repository;
-    readonly IUserService userService;
+    readonly IUserManagementService userManagementService;
 
-    public GetGameReviewListQueryHandler(IRepository<GameReview> repository, IUserService userService)
+    public GetGameReviewListQueryHandler(
+        IRepository<GameReview> repository,
+        IUserManagementService userManagementService)
     {
         this.repository = repository;
-        this.userService = userService;
+        this.userManagementService = userManagementService;
     }
 
     public async Task<List<GetGameReviewListQueryModel>> Handle(GetGameReviewListQuery request, CancellationToken cancellationToken)
@@ -34,7 +36,7 @@ internal class GetGameReviewListQueryHandler : IRequestHandler<GetGameReviewList
 
         var userIds = gameReviews.DistinctBy(x => x.UserId).Select(x => x.UserId).ToArray();
 
-        var users = await this.userService.GetUserListByIds(userIds, cancellationToken);
+        var users = await this.userManagementService.GetUserListByIds(userIds, cancellationToken);
 
         foreach (var gameReview in gameReviews)
         {

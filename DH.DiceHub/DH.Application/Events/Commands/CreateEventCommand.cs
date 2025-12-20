@@ -22,18 +22,18 @@ public record CreateEventCommand(
 internal class CreateEventCommandHandler : IRequestHandler<CreateEventCommand, int>
 {
     readonly IEventService eventService;
-    readonly IUserService userService;
+    readonly IUserManagementService userManagementService;
     readonly IPushNotificationsService pushNotificationsService;
     readonly ILocalizationService localizer;
 
     public CreateEventCommandHandler(
         IEventService eventService,
-        IUserService userService,
+        IUserManagementService userManagementService,
         IPushNotificationsService pushNotificationsService,
         ILocalizationService localizer)
     {
         this.eventService = eventService;
-        this.userService = userService;
+        this.userManagementService = userManagementService;
         this.pushNotificationsService = pushNotificationsService;
         this.localizer = localizer;
     }
@@ -52,7 +52,7 @@ internal class CreateEventCommandHandler : IRequestHandler<CreateEventCommand, i
         );
 
         //TODO: Send to all staff and only to the users that have email notification enabled
-        var users = await this.userService.GetUserListByRoles([Role.User, Role.Staff], cancellationToken);
+        var users = await this.userManagementService.GetUserListByRoles([Role.User, Role.Staff], cancellationToken);
 
         var userIds = users.Select(x => x.Id).ToList();
 

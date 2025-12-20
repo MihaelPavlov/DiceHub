@@ -52,7 +52,7 @@ public class QRCodeManager : IQRCodeManager
                         this.containerService.Resolve<IUserContext>(),
                         this.containerService.Resolve<IRepository<GameReservation>>(),
                         this.containerService.Resolve<IRepository<SpaceTableReservation>>(),
-                        this.containerService.Resolve<IUserService>(),
+                        this.containerService.Resolve<IUserManagementService>(),
                         this.containerService.Resolve<ISpaceTableService>(),
                         this.containerService.Resolve<IRepository<SpaceTable>>(),
                         this.containerService.Resolve<IGameSessionQueue>(),

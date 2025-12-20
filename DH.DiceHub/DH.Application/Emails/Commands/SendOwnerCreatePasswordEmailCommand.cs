@@ -18,21 +18,21 @@ public record SendOwnerCreatePasswordEmailCommand(string Email) : IRequest<bool>
 internal class SendOwnerCreatePasswordEmailCommandHandler(
     ILogger<SendOwnerCreatePasswordEmailCommandHandler> logger,
     ITenantSettingsCacheService tenantSettingsCacheService,
-    IUserService userService,
+    IUserManagementService userManagementService,
     IEmailHelperService emailHelperService,
     IEmailSender emailSender,
     IConfiguration configuration) : IRequestHandler<SendOwnerCreatePasswordEmailCommand, bool>
 {
     readonly ILogger<SendOwnerCreatePasswordEmailCommandHandler> logger = logger;
     readonly ITenantSettingsCacheService tenantSettingsCacheService = tenantSettingsCacheService;
-    readonly IUserService userService = userService;
+    readonly IUserManagementService userManagementService = userManagementService;
     readonly IEmailHelperService emailHelperService = emailHelperService;
     readonly IEmailSender emailSender = emailSender;
     readonly IConfiguration configuration = configuration;
 
     public async Task<bool> Handle(SendOwnerCreatePasswordEmailCommand request, CancellationToken cancellationToken)
     {
-        var user = await this.userService.GetUserByEmail(request.Email);
+        var user = await this.userManagementService.GetUserByEmail(request.Email);
         var emailType = EmailType.OwnerPasswordCreation;
 
         if (user == null)
@@ -53,7 +53,7 @@ internal class SendOwnerCreatePasswordEmailCommandHandler(
 
         var settings = await tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
 
-        var token = await this.userService.GeneratePasswordResetTokenAsync(request.Email);
+        var token = await this.userManagementService.GeneratePasswordResetTokenAsync(request.Email);
         var encodedToken = WebUtility.UrlEncode(token);
         var frontendUrl = configuration.GetSection("Frontend_URL").Value;
         var callbackUrl = $"{frontendUrl}/create-owner-password?email={WebUtility.UrlEncode(user.Email)}&token={encodedToken}";

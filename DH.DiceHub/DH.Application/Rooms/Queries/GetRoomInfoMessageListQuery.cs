@@ -1,5 +1,3 @@
-using DH.Domain.Adapters.Authentication;
-using DH.Domain.Adapters.Authentication.Services;
 using DH.Domain.Adapters.Localization;
 using DH.Domain.Entities;
 using DH.Domain.Models.RoomModels.Queries;
@@ -15,21 +13,15 @@ internal class GetRoomInfoMessageListQueryHandler : IRequestHandler<GetRoomInfoM
 {
     readonly IRepository<RoomInfoMessage> roomInfoMessagesRepository;
     readonly IRepository<Room> roomsRepository;
-    readonly IUserService userService;
-    readonly IUserContext userContext;
     readonly ILocalizationService localizer;
 
     public GetRoomInfoMessageListQueryHandler(
         IRepository<RoomInfoMessage> roomInfoMessagesRepository,
         IRepository<Room> roomsRepository,
-        IUserService userService,
-        IUserContext userContext,
         ILocalizationService localizer)
     {
         this.roomInfoMessagesRepository = roomInfoMessagesRepository;
         this.roomsRepository = roomsRepository;
-        this.userService = userService;
-        this.userContext = userContext;
         this.localizer = localizer;
     }
 
