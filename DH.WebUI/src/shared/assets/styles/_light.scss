@@ -1,0 +1,47 @@
+.theme-light {
+  --main-background-color: #f9f9f9; /* soft white */
+  --main-nav-color: #31313b;
+  --main-font-color: #1f1f23; /* dark gray text */
+  --main-icon-color: #5f5f66; /* muted gray icons */
+  --main-blue-color: #4f7fff; /* primary blue accent */
+  --main-gray-color: #e0e0e5; /* panels, borders, subtle areas */
+  --main-font-gray-color: #6b6d72; /* secondary text */
+  --main-red-color: #bf3c65; /* alert/red accents */
+  --main-green-color: #46945b; /* success/green accents */
+  --glow-yellow-color: #f0c23d; /* glow/yellow accent */
+  --chip-blue-color: #d1d9ff; /* pastel chip colors */
+  --chip-yellow-color: #f7ecc0;
+  --chip-orange-color: #f6d6b8;
+  --chip-red-color: #f5c5ca;
+  --main-overlay-color: rgba(0, 0, 0, 0.08); /* subtle overlay */
+  --main-font-gray-mix-40: #9b9b9b; /* less prominent text */
+
+  .surface-elevated {
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+      rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+    border-radius: 0.3rem;
+  }
+}
+
+// box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
+
+// stella choose rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px
+//NOT BAD LESS DARKER
+// .theme-light {
+//   --main-background-color: #2e3038;      /* soft dark gray, not black */
+//   --main-nav-color: #383a44;            /* slightly lighter than background */
+//   --main-font-color: #e1e1e1;           /* off-white font for readability */
+//   --main-icon-color: #a0a0a5;           /* muted icons */
+//   --main-blue-color: #75a0ff;           /* same as dark theme */
+//   --main-gray-color: #3a3c44;           /* mid-gray areas */
+//   --main-font-gray-color: #b0b0b0;      /* secondary text */
+//   --main-red-color: #bf3c65;            /* same as dark theme */
+//   --main-green-color: #46945b;          /* same as dark theme */
+//   --glow-yellow-color: #fccd3d;         /* same as dark theme */
+//   --chip-blue-color: #5f73c1;           /* toned-down chip colors */
+//   --chip-yellow-color: #927c45;
+//   --chip-orange-color: #9a5b39;
+//   --chip-red-color: #8b5259;
+//   --main-overlay-color: rgba(0, 0, 0, 0.15); /* subtle overlay */
+//   --main-font-gray-mix-40: #7d7d7d;     /* softer secondary text */
+// }
