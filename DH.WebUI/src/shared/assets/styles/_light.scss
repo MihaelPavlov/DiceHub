@@ -1,6 +1,6 @@
 .theme-light {
-  --main-background-color: #f9f9f9; /* soft white */
-  --main-nav-color: #31313b;
+  --main-background-color: #f7f7f7; /* soft white */
+  --main-nav-color: #ffffff; /* slightly darker nav for contrast */
   --main-font-color: #1f1f23; /* dark gray text */
   --main-icon-color: #5f5f66; /* muted gray icons */
   --main-blue-color: #4f7fff; /* primary blue accent */
@@ -15,12 +15,26 @@
   --chip-red-color: #f5c5ca;
   --main-overlay-color: rgba(0, 0, 0, 0.08); /* subtle overlay */
   --main-font-gray-mix-40: #9b9b9b; /* less prominent text */
-
+  --main-fill-svg-color: #5f5f66;
   .surface-elevated {
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
       rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
     border-radius: 0.3rem;
   }
+
+  .svg-color-fill {
+    fill: var(--main-fill-svg-color);
+  }
+
+  .svg-color-interaction-option{
+    fill: var(--main-nav-color);
+  }
+
+  .image-color-filter {
+    filter: brightness(0) saturate(100%) invert(45%) sepia(15%) saturate(600%)
+      hue-rotate(200deg);
+  }
+
 }
 
 // box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;

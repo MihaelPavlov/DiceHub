@@ -15,7 +15,13 @@
   --chip-red-color: #853f47;
   --main-overlay-color: #212121;
   --main-font-gray-mix-40: #5e5e5e;
+  --main-fill-svg-color: #ffffff;
 
+  .svg-color-fill {
+    fill: var(--main-fill-svg-color);
+  }
 
+  .svg-color-interaction-option {
+    fill: var(--main-font-color);
+  }
 }
-
