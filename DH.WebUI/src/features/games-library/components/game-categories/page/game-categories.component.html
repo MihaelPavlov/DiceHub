@@ -2,7 +2,7 @@
   <div
     *ngFor="let item of categories"
     (click)="navigateToGameLibrary(item.id)"
-    class="wrapper_category"
+    class="wrapper_category surface-elevated"
   >
     <div class="wrapper_category-text">
       <span>{{ "games.categories." + item.name | translate }}</span>

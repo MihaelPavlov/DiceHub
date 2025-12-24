@@ -51,7 +51,7 @@
     <span
       *ngFor="let item of menuItems"
       [routerLink]="item.route"
-      class="{{ item.class }} {{ item.enabled ? '' : 'disabled' }}"
+      class="{{ item.class }} {{ item.enabled ? '' : 'disabled' }} surface-elevated"
       >{{ item.label }}</span
     >
   </div>
