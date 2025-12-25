@@ -4,7 +4,7 @@
 
 <form [formGroup]="form" class="container">
   <div class="upload-section">
-    <div class="upload-icon">
+    <div class="upload-icon surface-elevated">
       <input
         type="file"
         id="file-upload"
@@ -24,7 +24,7 @@
     </div>
 
     <div class="statistics">
-      <span>{{ "events.add_update.event_info" | translate }}</span>
+      <span class="surface-elevated">{{ "events.add_update.event_info" | translate }}</span>
     </div>
 
     <div class="input-field">
@@ -35,6 +35,7 @@
         type="checkbox"
         id="is-custom-image"
         formControlName="isCustomImage"
+        class="surface-elevated"
       />
     </div>
 
@@ -48,7 +49,7 @@
         bindValue="id"
         [placeholder]="'events.add_update.placeholders.select_game' | translate"
         [searchable]="true"
-        class="app-select-long"
+        class="app-select-long surface-elevated"
         [closeOnSelect]="true"
         formControlName="gameId"
       >
@@ -67,6 +68,7 @@
           type="date"
           id="start-date"
           formControlName="startDate"
+          class="surface-elevated"
         />
       </div>
       <div class="input-field">
@@ -80,6 +82,7 @@
           type="time"
           id="start-time"
           formControlName="startTime"
+          class="surface-elevated"
         />
       </div>
     </div>
@@ -93,6 +96,7 @@
           type="text"
           id="name"
           formControlName="name"
+          class="surface-elevated"
         />
       </div>
       <div class="input-field">
@@ -106,6 +110,7 @@
           type="number"
           id="max-people"
           formControlName="maxPeople"
+          class="surface-elevated"
         />
       </div>
     </div>
@@ -165,7 +170,7 @@
         formControlName="description_en"
         #descAreaEn
         (input)="adjustTextareaHeight(descAreaEn)"
-        class="expand-textarea-mobile"
+        class="expand-textarea-mobile surface-elevated"
       ></textarea>
 
       <!-- BG Textarea -->
@@ -177,7 +182,7 @@
         formControlName="description_bg"
         #descAreaBg
         (input)="adjustTextareaHeight(descAreaBg)"
-        class="expand-textarea-mobile"
+        class="expand-textarea-mobile surface-elevated"
       ></textarea>
     </div>
 

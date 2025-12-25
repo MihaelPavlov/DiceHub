@@ -44,7 +44,7 @@
       }}</label>
       <div class="input-container">
         <input
-          class="people_input"
+          class="people_input surface-elevated"
           type="number"
           id="numberOfGuests"
           [value]="guestsFirstSection + guestsSecondSection"
@@ -90,7 +90,7 @@
       "space_management.booking.labels.reservation_date" | translate
     }}</label>
     <input
-      class="people_input"
+      class="people_input surface-elevated"
       type="date"
       id="reservationDate"
       formControlName="reservationDate"
@@ -104,9 +104,8 @@
     <div class="slots scroller">
       <div
         *ngFor="let slot of timeSlots; let i = index"
-        class="slot"
+        class="slot surface-elevated"
         [ngClass]="{ 'slot-active': i === activeSlotIndex }"
-        l
         (click)="onSlotClick(i)"
       >
         {{ slot }}

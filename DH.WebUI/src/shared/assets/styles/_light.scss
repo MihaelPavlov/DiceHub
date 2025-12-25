@@ -3,19 +3,21 @@
   --main-nav-color: #ffffff; /* slightly darker nav for contrast */
   --main-font-color: #1f1f23; /* dark gray text */
   --main-icon-color: #5f5f66; /* muted gray icons */
-  --main-blue-color: #4f7fff; /* primary blue accent */
+  --main-blue-color: #8ea2ff; /* primary blue accent */
   --main-gray-color: #e0e0e5; /* panels, borders, subtle areas */
   --main-font-gray-color: #6b6d72; /* secondary text */
   --main-red-color: #bf3c65; /* alert/red accents */
   --main-green-color: #46945b; /* success/green accents */
   --glow-yellow-color: #f0c23d; /* glow/yellow accent */
-  --chip-blue-color: #d1d9ff; /* pastel chip colors */
-  --chip-yellow-color: #f7ecc0;
-  --chip-orange-color: #f6d6b8;
-  --chip-red-color: #f5c5ca;
+  --chip-blue-color: #21419b;
+  --chip-yellow-color: #977f33;
+  --chip-orange-color: #98542b;
+  --chip-red-color: #853f47;
   --main-overlay-color: rgba(0, 0, 0, 0.08); /* subtle overlay */
   --main-font-gray-mix-40: #9b9b9b; /* less prominent text */
   --main-fill-svg-color: #5f5f66;
+  --input-bg-color: #e9e9e9;
+
   .surface-elevated {
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
       rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
@@ -26,7 +28,7 @@
     fill: var(--main-fill-svg-color);
   }
 
-  .svg-color-interaction-option{
+  .svg-color-interaction-option {
     fill: var(--main-nav-color);
   }
 
@@ -34,7 +36,6 @@
     filter: brightness(0) saturate(100%) invert(45%) sepia(15%) saturate(600%)
       hue-rotate(200deg);
   }
-
 }
 
 // box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;

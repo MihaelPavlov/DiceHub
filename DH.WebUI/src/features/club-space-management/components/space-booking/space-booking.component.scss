@@ -127,7 +127,7 @@
   }
 
   .slot-active {
-    box-shadow: #ffffff 0.1px 0.1px 5px 0.1px;
+    box-shadow: palette.$main-blue-color 0.3px 0.3px 10px 0.3px;
   }
 }
 .scroller::-webkit-scrollbar {
