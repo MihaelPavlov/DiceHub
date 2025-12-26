@@ -18,11 +18,11 @@ export class ChipComponent implements OnInit {
 
   public systemColor!: string;
 
-  public chipBlueColor: string = '#21419b';
-  public chipYellowColor: string = '#977f33';
-  public chipOrangeColor: string = '#98542b';
-  public chipRedColor: string = '#853f47';
-  public chipGreenColor: string = '#46945b';
+  public chipBlueColor: string = '#4988C4';
+  public chipYellowColor: string = '#FFD41D';
+  public chipOrangeColor: string = '#DE802B';
+  public chipRedColor: string = '#DE1A58';
+  public chipGreenColor: string = '#A3D78A';
   public ngOnInit(): void {
     switch (this.color) {
       case 'red':
