@@ -20,6 +20,7 @@
       id="gameName"
       formControlName="gameName"
       readonly="readonly"
+      class="surface-elevated"
     />
     <a class="qr-code">
       <img src="/shared/assets/images/qr-code.png" alt="" />
@@ -43,6 +44,7 @@
       type="text"
       id="tableName"
       formControlName="tableName"
+      class="surface-elevated"
     />
   </div>
   <div class="input-group">
@@ -57,6 +59,7 @@
         type="number"
         id="max-people"
         formControlName="maxPeople"
+        class="surface-elevated"
       />
     </div>
     <div class="input-field password-field">
@@ -70,6 +73,7 @@
         [type]="showPassword ? 'text' : 'password'"
         id="password"
         formControlName="password"
+        class="surface-elevated"
       />
       <app-password-visibility-toggle
         [(isVisible)]="showPassword"
@@ -84,7 +88,7 @@
   <div *ngIf="getFirstErrorMessage()" class="errors">
     {{ getFirstErrorMessage() }}
   </div>
-  
+
   <div class="wrapper_btn">
     <button
       *ngIf="!this.editTableId"
