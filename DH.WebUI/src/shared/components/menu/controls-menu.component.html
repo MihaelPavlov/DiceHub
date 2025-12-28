@@ -19,7 +19,7 @@
     <ul class="menu_ul" *ngIf="menuItems | async as menu">
       <ng-container *ngFor="let item of menu">
         <li
-          class="menu_li surface-elevated"
+          class="menu_li"
           *ngIf="
             item.isVisible === undefined || item.isVisible === null
               ? true

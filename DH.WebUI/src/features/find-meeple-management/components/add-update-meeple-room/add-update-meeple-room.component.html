@@ -6,7 +6,11 @@
       : ("meeple.add_update.create_header" | translate)
   }}</span>
   <div class="info-container">
-    <svg class="info bump" (click)="controls.toggleMenu()" viewBox="0 -960 960 960">
+    <svg
+      class="info bump"
+      (click)="controls.toggleMenu()"
+      viewBox="0 -960 960 960"
+    >
       <path
         d="M448-284h66v-236h-66v236Zm31.82-308.92q14.64 0 24.72-9.9 10.08-9.91 10.08-24.54 0-14.64-9.91-24.72-9.9-10.07-24.53-10.07-14.64 0-24.72 9.9-10.08 9.9-10.08 24.54 0 14.63 9.91 24.71 9.9 10.08 24.53 10.08ZM480.13-88q-81.31 0-152.89-30.86-71.57-30.86-124.52-83.76-52.95-52.9-83.83-124.42Q88-398.55 88-479.87q0-81.56 30.92-153.37 30.92-71.8 83.92-124.91 53-53.12 124.42-83.48Q398.67-872 479.87-872q81.55 0 153.35 30.34 71.79 30.34 124.92 83.42 53.13 53.08 83.49 124.84Q872-561.64 872-480.05q0 81.59-30.34 152.83-30.34 71.23-83.41 124.28-53.07 53.05-124.81 84Q561.7-88 480.13-88Z"
       />
@@ -20,7 +24,7 @@
     [placeholder]="'meeple.add_update.placeholders.select_game' | translate"
     [(ngModel)]="this.selectedGame"
     (change)="handleSelectGame()"
-    class="app-select"
+    class="app-select surface-elevated"
   >
   </ng-select>
 </div>
@@ -28,7 +32,7 @@
 <form [formGroup]="this.form">
   <div class="wrapper_stats">
     <div class="wrapper_stats__chips-left">
-      <div class="chip">
+      <div class="chip surface-elevated">
         <span
           >{{ getGame("averagePlaytime") }}
           {{
@@ -44,7 +48,7 @@
           />
         </svg>
       </div>
-      <div class="chip">
+      <div class="chip surface-elevated">
         <span
           >{{ getGame("minPlayers") }} {{ this.game ? "-" : "" }}
           {{ getGame("maxPlayers") }}</span
@@ -72,7 +76,7 @@
     </div>
 
     <div class="wrapper_stats__chips-right">
-      <div class="chip">
+      <div class="chip surface-elevated">
         <!-- cake icon -->
         <svg height="24px" viewBox="0 -960 960 960" width="24px" fill="#fafafa">
           <path
@@ -81,7 +85,7 @@
         </svg>
         <span>{{ getGame("minAge") }} {{ this.game ? "+" : "" }} </span>
       </div>
-      <div class="chip">
+      <div class="chip surface-elevated">
         <!-- verified icon -->
         <svg
           *ngIf="!this.gameInventory || this.gameInventory.availableCopies > 0"
@@ -124,13 +128,23 @@
       <label class="required" for="startDate">{{
         "meeple.add_update.labels.choose_date" | translate
       }}</label>
-      <input formControlName="startDate" type="date" name="startDate" />
+      <input
+        formControlName="startDate"
+        type="date"
+        name="startDate"
+        class="surface-elevated"
+      />
     </div>
     <div class="wrapper_inputs__time">
       <label class="required" for="startTime">{{
         "meeple.add_update.labels.choose_time" | translate
       }}</label>
-      <input type="time" name="startTime" formControlName="startTime" />
+      <input
+        type="time"
+        name="startTime"
+        formControlName="startTime"
+        class="surface-elevated"
+      />
     </div>
   </div>
   <br />
@@ -144,6 +158,7 @@
         [placeholder]="'meeple.add_update.placeholders.name' | translate"
         type="text"
         name="name"
+        class="surface-elevated"
       />
     </div>
     <div class="wrapper_inputs__time">
@@ -157,6 +172,7 @@
           'meeple.add_update.placeholders.max_participants' | translate
         "
         formControlName="maxParticipants"
+        class="surface-elevated"
       />
     </div>
   </div>

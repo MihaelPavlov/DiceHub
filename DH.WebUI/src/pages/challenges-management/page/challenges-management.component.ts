@@ -45,10 +45,10 @@ import { QrCodeType } from '../../../entities/qr-code-scanner/enums/qr-code-type
 import { AuthService } from '../../../entities/auth/auth.service';
 
 @Component({
-    selector: 'app-challenges-management',
-    templateUrl: 'challenges-management.component.html',
-    styleUrl: 'challenges-management.component.scss',
-    standalone: false
+  selector: 'app-challenges-management',
+  templateUrl: 'challenges-management.component.html',
+  styleUrl: 'challenges-management.component.scss',
+  standalone: false,
 })
 export class ChallengesManagementComponent implements OnInit, OnDestroy {
   @ViewChild('rewardsScroller') rewardsScroller!: ElementRef;
@@ -113,7 +113,7 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
   public currentActiveTab: ChallengeType = ChallengeType.Game;
   public UniversalChallengeType = UniversalChallengeType;
   public SupportLanguages = SupportLanguages;
- 
+
   public animateChallengeProgress = false;
   shakeStates: boolean[] = [];
   private intervals: any[] = [];
@@ -317,6 +317,9 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
               }
             },
           });
+        } else {
+          this.loadingContext.disableManualMode();
+          this.loadingService.loadingOff();
         }
       },
     });

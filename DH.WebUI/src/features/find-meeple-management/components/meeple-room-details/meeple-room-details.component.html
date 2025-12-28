@@ -23,7 +23,7 @@
     {{ "meeple.room.from" | translate : { username: room.username } }}
   </div>
 
-  <div class="wrapper_chips">
+  <div class="wrapper_chips surface-elevated">
     <div class="wrapper_chips__detail">
       <span>{{ "meeple.room.joined" | translate }}</span>
       <app-chip
@@ -62,7 +62,7 @@
 
   <ng-container *ngIf="isCurrentUserParticipateInRoom">
     <div class="wrapper_tabs">
-      <div class="wrapper_tabs__tab" (click)="navigateToChat(room.id)">
+      <div class="wrapper_tabs__tab surface-elevated" (click)="navigateToChat(room.id)">
         <div class="info">
           <!-- chat icon -->
           <svg viewBox="0 -960 960 960">
@@ -76,7 +76,7 @@
         >
       </div>
       <div
-        class="wrapper_tabs__tab"
+        class="wrapper_tabs__tab surface-elevated"
         (click)="navigateToGameDetails(room.gameId)"
       >
         <div class="info">

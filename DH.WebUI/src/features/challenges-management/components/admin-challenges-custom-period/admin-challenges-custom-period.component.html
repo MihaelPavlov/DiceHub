@@ -64,7 +64,7 @@
             "
             [searchable]="true"
             formControlName="selectedReward"
-            class="app-select"
+            class="app-select surface-elevated"
           >
           </ng-select>
         </div>
@@ -81,6 +81,7 @@
             type="number"
             [id]="i"
             formControlName="requiredPoints"
+            class="surface-elevated"
           />
         </div>
 
@@ -129,7 +130,7 @@
             [placeholder]="'custom_period.placeholders.select_game' | translate"
             [searchable]="true"
             formControlName="selectedGame"
-            class="app-select"
+            class="app-select surface-elevated"
           >
           </ng-select>
         </div>
@@ -144,6 +145,7 @@
             type="number"
             [id]="i"
             formControlName="attempts"
+            class="surface-elevated"
           />
         </div>
 
@@ -157,6 +159,7 @@
             type="number"
             [id]="i"
             formControlName="points"
+            class="surface-elevated"
           />
         </div>
 
@@ -213,7 +216,7 @@
             "
             [searchable]="true"
             formControlName="selectedUniversalChallenge"
-            class="app-select-long"
+            class="app-select-long surface-elevated"
           >
             <ng-option
               *ngFor="let item of universalChallengesDropdownList"
@@ -240,6 +243,7 @@
               type="number"
               [id]="i"
               formControlName="attempts"
+              class="surface-elevated"
             />
           </div>
 
@@ -253,6 +257,7 @@
               type="number"
               [id]="i"
               formControlName="points"
+              class="surface-elevated"
             />
           </div>
           <div
@@ -268,6 +273,7 @@
               type="number"
               [id]="i"
               formControlName="minValue"
+              class="surface-elevated"
             />
             <span class="symbol">$</span>
           </div>

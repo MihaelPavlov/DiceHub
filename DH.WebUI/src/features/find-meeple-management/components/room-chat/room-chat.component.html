@@ -61,7 +61,7 @@
               <span class="username">{{ group.senderUsername }}</span>
             </ng-container>
             <div class="item">
-              <span>{{ message.text }}</span>
+              <span class="surface-elevated">{{ message.text }}</span>
               <!-- FUTURE IMPROVEMENTS -->
               <!-- <div id="user-image" class="item__image">
                 <img
@@ -85,7 +85,7 @@
     <input
       [(ngModel)]="message"
       type="text"
-      class="form__field"
+      class="form__field surface-elevated"
       placeholder="search"
       name="search"
       id="search"
@@ -99,7 +99,7 @@
       height="24px"
       viewBox="0 -960 960 960"
       width="24px"
-      fill="#fafafa"
+      class="svg-color-fill"
     >
       <path
         d="m317.23-83.69-59.54-59.54L595.46-481 257.69-818.77l59.54-59.54L714.54-481 317.23-83.69Z"

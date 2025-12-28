@@ -28,7 +28,7 @@
     {{ "challenge_management.to_earn" | translate }}
   </div>
   <div
-    class="wrapper_challenges__item"
+    class="wrapper_challenges__item surface-elevated"
     *ngFor="let reward of userRewards"
     [ngClass]="{
       completed: reward.status !== UserRewardStatus.NotExpired

@@ -10,7 +10,7 @@
   <div class="wrapper_events">
     <div
       *ngFor="let event of userEvents"
-      class="wrapper_event"
+      class="wrapper_event surface-elevated"
       (click)="navigateToDetails(event.id)"
     >
       <div class="wrapper_event__image">
@@ -82,7 +82,7 @@
   <div class="wrapper_events">
     <div
       *ngFor="let event of todayEvents"
-      class="wrapper_event"
+      class="wrapper_event surface-elevated"
       (click)="navigateToDetails(event.id)"
     >
       <div class="wrapper_event__image">
@@ -150,7 +150,7 @@
   <div class="wrapper_events">
     <div
       *ngFor="let event of upcomingEvents"
-      class="wrapper_event"
+      class="wrapper_event surface-elevated"
       (click)="navigateToDetails(event.id)"
     >
       <div class="wrapper_event__image">
