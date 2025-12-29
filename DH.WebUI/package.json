@@ -7,7 +7,7 @@
     "start-for-phone": "ng serve --host 172.20.10.4",
     "start-for-phone-https": "ng serve --ssl --ssl-key src/ssl/localhost.key --ssl-cert src/ssl/localhost.pem --host 192.168.0.220",
     "build": "ng build",
-    "prod-build": "ng build --configuration production",
+    "prod-build": "ng build --configuration production --base-href / --deploy-url /",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
