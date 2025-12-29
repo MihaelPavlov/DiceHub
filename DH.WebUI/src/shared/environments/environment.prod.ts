@@ -1,7 +1,6 @@
 export const environment = {
-  production: false,
-  defaultAppUrl: 'http://localhost:5000',
-  //defaultAppUrl: 'https://dh-api-latest.onrender.com',
+  production: true,
+  defaultAppUrl: 'https://dh-api-latest.onrender.com',
   firebase: {
     apiKey: 'AIzaSyBSZ3ju-sFNOPAoLuw_q2PebmtQsQ3D13s',
     authDomain: 'dicehub-8c63f.firebaseapp.com',
