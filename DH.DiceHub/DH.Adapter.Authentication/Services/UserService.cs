@@ -723,7 +723,7 @@ public class UserService : IUserService
 
         var usersInRole = await this.userManager.GetUsersInRoleAsync(Role.Owner.ToString());
 
-        if (usersInRole == null)
+        if (usersInRole == null || usersInRole.Count == 0)
             return null;
 
         if (usersInRole.Count() > 1)
