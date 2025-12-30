@@ -7,6 +7,6 @@ export interface IUserChallenge {
   maxAttempts: number;
   currentAttempts: number;
   status: ChallengeStatus;
-  gameImageId: number;
+  gameImageUrl: string;
   gameName: string;
 }

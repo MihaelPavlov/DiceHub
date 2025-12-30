@@ -8,6 +8,6 @@ export interface IReservedGame {
   isPaymentSuccessful: boolean;
   status: ReservationStatus;
   gameName: string;
-  gameImageId: number;
+  gameImageUrl: string;
   userName: string;
 }

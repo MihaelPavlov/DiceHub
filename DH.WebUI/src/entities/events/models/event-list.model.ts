@@ -8,5 +8,5 @@ export interface IEventListResult {
   maxPeople: number;
   gameId: number;
   isCustomImage: boolean;
-  imageId: number;
+  imageUrl: string;
 }

@@ -8,6 +8,6 @@ public class GetRoomByIdQueryModel
     public DateTime StartDate { get; set; }
     public int MaxParticipants { get; set; }
     public int GameId { get; set; }
-    public int GameImageId { get; set; }
+    public string GameImageUrl { get; set; } = string.Empty;
     public string Username { get; set; } = string.Empty;
 }

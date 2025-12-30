@@ -13,6 +13,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\DH.Adapter.ChallengeHub\DH.Adapter.ChallengeHub.csproj" />
+		<ProjectReference Include="..\DH.Adapter.FileManager\DH.Adapter.FileManager.csproj" />
 		<ProjectReference Include="..\DH.Adapter.Localization\DH.Adapter.Localization.csproj" />
 		<ProjectReference Include="..\DH.Adapter.Authentication\DH.Adapter.Authentication.csproj" />
 		<ProjectReference Include="..\DH.Adapter.ChallengesOrchestrator\DH.Adapter.ChallengesOrchestrator.csproj" />

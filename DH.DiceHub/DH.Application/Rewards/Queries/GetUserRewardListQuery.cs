@@ -26,7 +26,7 @@ internal class GetUserRewardListQueryHandler : IRequestHandler<GetUserRewardList
             x => new GetUserRewardListQueryModel
             {
                 Id = x.Id,
-                RewardImageId = x.Reward.Image.Id,
+                RewardImageUrl = x.Reward.ImageUrl,
                 RewardName_EN = x.Reward.Name_EN,
                 RewardName_BG = x.Reward.Name_BG,
                 RewardDescription_EN = x.Reward.Description_EN,

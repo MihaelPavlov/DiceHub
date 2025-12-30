@@ -65,10 +65,6 @@ export class AdminEventDetailsComponent implements OnInit, OnDestroy {
     this.router.navigateByUrl(FULL_ROUTE.EVENTS.ADMIN.UPDATE_BY_ID(id));
   }
 
-  public getImage(event: IEventByIdResult): Observable<string> {
-    return this.eventService.getImage(event.isCustomImage, event.imageId);
-  }
-
   public openImagePreview(imageUrl: string) {
     this.dialog.open<ImagePreviewDialog, ImagePreviewData>(ImagePreviewDialog, {
       data: {

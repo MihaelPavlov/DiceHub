@@ -23,12 +23,12 @@ internal class GetSpaceAvailableTableListQueryHandler : IRequestHandler<GetSpace
                 (
                 x.Name.ToLower().Contains(request.searchExpressionName.ToLower()) ||
                 x.Game.Name.ToLower().Contains(request.searchExpressionName.ToLower())
-                )&&
+                ) &&
                 x.IsTableActive && !x.IsSoloModeActive,
             x => new GetSpaceAvailableTableListQueryModel
             {
                 Id = x.Id,
-                GameImageId = x.Game.Image.Id,
+                GameImageUrl = x.Game.ImageUrl,
                 GameName = x.Game.Name,
                 IsLocked = !string.IsNullOrEmpty(x.Password),
                 MaxPeople = x.MaxPeople,

@@ -2,7 +2,6 @@
 using DH.Application.Rewards.Commands;
 using DH.Application.Rewards.Queries;
 using DH.Domain.Adapters.Authentication.Enums;
-using DH.Domain.Models.GameModels.Queries;
 using DH.Domain.Models.RewardModels.Commands;
 using DH.Domain.Models.RewardModels.Queries;
 using MediatR;
@@ -136,17 +135,5 @@ public class RewardsController : ControllerBase
     {
         await this.mediator.Send(new DeleteSystemRewardCommand(id), cancellationToken);
         return Ok();
-    }
-
-    [HttpGet("get-image/{id}")]
-    public async Task<IActionResult> GetRewardImage(int id, CancellationToken cancellationToken)
-    {
-        var rewardFile = await this.mediator.Send(new GetRewardImageByIdQuery(id), cancellationToken);
-        if (rewardFile == null)
-        {
-            return NotFound();
-        }
-
-        return File(rewardFile.Data, rewardFile.ContentType, rewardFile.FileName);
     }
 }

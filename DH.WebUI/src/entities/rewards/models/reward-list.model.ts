@@ -5,5 +5,5 @@ export interface IRewardListResult {
   cashEquivalent: number;
   description_EN: string;
   description_BG: string;
-  imageId: number;
+  imageUrl: string;
 }

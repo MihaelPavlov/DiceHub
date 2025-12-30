@@ -125,11 +125,7 @@ export class EventDetailsComponent {
   public navigateBackToEventList(): void {
     this.router.navigateByUrl(FULL_ROUTE.EVENTS.HOME);
   }
-
-  public getImage(event: IEventByIdResult): Observable<string> {
-    return this.eventService.getImage(event.isCustomImage, event.imageId);
-  }
-
+  
   public openImagePreview(imageUrl: string) {
     this.dialog.open<ImagePreviewDialog, ImagePreviewData>(ImagePreviewDialog, {
       data: {

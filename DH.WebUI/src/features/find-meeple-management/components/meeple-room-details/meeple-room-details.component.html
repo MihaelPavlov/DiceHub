@@ -12,11 +12,9 @@
 
   <div
     class="wrapper_image"
-    *ngIf="
-      ImageEntityType.Games | entityImage : room.gameImageId | async as imageUrl
-    "
+    *ngIf="room.gameImageUrl"
   >
-    <img [src]="imageUrl" (click)="openImagePreview(imageUrl)" />
+    <img [src]="room.gameImageUrl" (click)="openImagePreview(room.gameImageUrl)" />
   </div>
 
   <div class="wrapper_header">

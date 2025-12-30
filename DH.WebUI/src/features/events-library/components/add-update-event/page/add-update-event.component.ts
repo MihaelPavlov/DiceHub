@@ -65,10 +65,10 @@ function futureDateValidator(): ValidatorFn {
 }
 
 @Component({
-    selector: 'app-add-update-event',
-    templateUrl: 'add-update-event.component.html',
-    styleUrl: 'add-update-event.component.scss',
-    standalone: false
+  selector: 'app-add-update-event',
+  templateUrl: 'add-update-event.component.html',
+  styleUrl: 'add-update-event.component.scss',
+  standalone: false,
 })
 export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
   override form: Formify<ICreateEventForm>;
@@ -277,7 +277,7 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
   public backNavigateBtn() {
     this.location.back();
   }
-  
+
   protected override handleAdditionalErrors(): string | null {
     const startDate = this.form.get('startDate')?.value;
 
@@ -352,15 +352,11 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
             startDate: formattedDate?.toString(),
             startTime: formattedTime?.toString(),
             maxPeople: event.maxPeople,
-            image: event.imageId.toString(),
+            image: event.imageUrl,
             isCustomImage: event.isCustomImage,
           });
+          this.imagePreview = event.imageUrl;
 
-          this.eventService
-            .getImage(event.isCustomImage, event.imageId)
-            .subscribe((image) => {
-              this.imagePreview = image;
-            });
           this.fileToUpload = null;
 
           this.initFormValueChanges(true);
@@ -404,15 +400,10 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
         if (game) {
           if (!this.form.controls.isCustomImage.value) {
             this.form.patchValue({
-              image: game.imageId.toString(),
+              image: game.imageUrl,
             });
-
-            this.entityImagePipe
-              .transform(ImageEntityType.Games, game.imageId)
-              .subscribe((image) => {
-                this.imagePreview = image;
-                this.cd.detectChanges();
-              });
+            this.imagePreview = game.imageUrl;
+            this.cd.detectChanges();
 
             this.fileToUpload = null;
           }

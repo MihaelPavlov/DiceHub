@@ -11,5 +11,5 @@ public class GetEventListQueryModel
     public int MaxPeople { get; set; }
     public int GameId { get; set; }
     public bool IsCustomImage { get; set; }
-    public int ImageId { get; set; }
+    public string ImageUrl { get; set; } = string.Empty;
 }

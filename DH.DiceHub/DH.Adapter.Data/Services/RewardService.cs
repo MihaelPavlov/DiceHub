@@ -1,5 +1,5 @@
 using DH.Domain.Adapters.Authentication;
-using DH.Domain.Adapters.ChallengeHub;
+using DH.Domain.Adapters.FileManager;
 using DH.Domain.Entities;
 using DH.Domain.Services;
 using DH.OperationResultCore.Exceptions;
@@ -11,33 +11,29 @@ public class RewardService : IRewardService
 {
     readonly IDbContextFactory<TenantDbContext> _contextFactory;
     readonly IUserContext userContext;
+    readonly IFileManagerClient fileManagerClient;
 
     public RewardService(
-        IDbContextFactory<TenantDbContext> _contextFactory, IUserContext userContext)
+        IDbContextFactory<TenantDbContext> _contextFactory, IUserContext userContext, IFileManagerClient fileManagerClient)
     {
         this._contextFactory = _contextFactory;
         this.userContext = userContext;
+        this.fileManagerClient = fileManagerClient;
     }
 
     public async Task<int> CreateReward(ChallengeReward reward, string fileName, string contentType, MemoryStream imageStream, CancellationToken cancellationToken)
     {
+        var imageUrl = await this.fileManagerClient.UploadFileAsync(
+            FileManagerFolders.Rewards.ToString(), fileName, imageStream.ToArray());
         using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
         {
             using (var transaction = await context.Database.BeginTransactionAsync(cancellationToken))
             {
                 try
                 {
-                    reward.CreatedBy = this.userContext.UserId;
+                    reward.CreatedBy = this.userContext.UserId!;
+                    reward.ImageUrl = imageUrl;
                     await context.ChallengeRewards.AddAsync(reward, cancellationToken);
-
-                    await context.ChallengeRewardImages
-                        .AddAsync(new ChallengeRewardImage
-                        {
-                            Reward = reward,
-                            FileName = fileName,
-                            ContentType = contentType,
-                            Data = imageStream.ToArray(),
-                        }, cancellationToken);
 
                     await context.SaveChangesAsync(cancellationToken);
 
@@ -54,17 +50,20 @@ public class RewardService : IRewardService
         }
     }
 
-    public async Task UpdateReward(ChallengeReward reward, string fileName, string contentType, MemoryStream imageStream, CancellationToken cancellationToken)
+    public async Task UpdateReward(ChallengeReward reward, string? fileName, string? contentType, MemoryStream? imageStream, CancellationToken cancellationToken)
     {
+        string? currenFileImageUrl = null;
+
+        if (!string.IsNullOrEmpty(fileName))
+            currenFileImageUrl = this.fileManagerClient.GetPublicUrl(
+                FileManagerFolders.Games.ToString(), fileName);
+
         using (var context = await this._contextFactory.CreateDbContextAsync(cancellationToken))
         {
             var dbReward = await context.ChallengeRewards
                 .AsTracking()
-                .Include(g => g.Image)
                 .FirstOrDefaultAsync(x => x.Id == reward.Id, cancellationToken)
                     ?? throw new NotFoundException(nameof(ChallengeReward), reward.Id);
-
-            var oldImage = dbReward.Image;
 
             dbReward.Name_EN = reward.Name_EN;
             dbReward.Name_BG = reward.Name_BG;
@@ -74,18 +73,13 @@ public class RewardService : IRewardService
             dbReward.RequiredPoints = reward.RequiredPoints;
             dbReward.Level = reward.Level;
             dbReward.UpdatedDate = DateTime.UtcNow;
-            dbReward.UpdatedBy = this.userContext.UserId;
-
-            var newRewardImage = new ChallengeRewardImage
+            dbReward.UpdatedBy = this.userContext.UserId!;
+            if (currenFileImageUrl != null && currenFileImageUrl != dbReward.ImageUrl && imageStream != null)
             {
-                FileName = fileName,
-                ContentType = contentType,
-                Data = imageStream.ToArray(),
-            };
-
-            dbReward.Image = newRewardImage;
-
-            context.ChallengeRewardImages.Remove(oldImage);
+                var imageUrl = await this.fileManagerClient.UploadFileAsync(
+                    FileManagerFolders.Rewards.ToString(), fileName!, imageStream.ToArray());
+                dbReward.ImageUrl = imageUrl;
+            }
 
             await context.SaveChangesAsync(cancellationToken);
         }

@@ -2,7 +2,7 @@ export interface ISpaceTableList {
   id: number;
   tableName: string;
   gameName: string;
-  gameImageId: number;
+  gameImageUrl: string;
   peopleJoined: number;
   maxPeople: number;
   isLocked: boolean;

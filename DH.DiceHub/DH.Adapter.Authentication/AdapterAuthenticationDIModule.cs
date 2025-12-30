@@ -60,11 +60,26 @@ public static class AuthenticationDIModule
 
     public static IServiceCollection AuthenticationAdapter(this IServiceCollection services, IConfiguration configuration)
     {
+        var connectionString = configuration.GetConnectionString("DefaultConnection");
+
+        // Add or override pooling settings
+        var builder = new Npgsql.NpgsqlConnectionStringBuilder(connectionString)
+        {
+            Pooling = true,            // enable connection pooling
+            MaxPoolSize = 25,          // max concurrent connections from pool (adjust as needed)
+            MinPoolSize = 5,           // optional: minimum pool size
+            Timeout = 15               // optional: connection timeout in seconds
+        };
         services.AddDbContext<AppIdentityDbContext>(x =>
             x.UseNpgsql(
-                connectionString: configuration.GetConnectionString("DefaultConnection"),
-                sqlServer => sqlServer
-                    .MigrationsAssembly(typeof(AppIdentityDbContext).Assembly.FullName)
+                builder.ConnectionString,
+                    npgsqlOptions =>
+                        npgsqlOptions
+                        .EnableRetryOnFailure(
+                            maxRetryCount: 5,
+                            maxRetryDelay: TimeSpan.FromSeconds(5),
+                            errorCodesToAdd: null)
+                        .MigrationsAssembly(typeof(AppIdentityDbContext).Assembly.FullName)
             )
         );
         services.AddScoped<IIdentityDbContext, AppIdentityDbContext>();
@@ -107,7 +122,7 @@ public static class AuthenticationDIModule
 
                     ValidateLifetime = true,
 
-                                               // ASP.NET allows 5 minutes by default
+                    // ASP.NET allows 5 minutes by default
                     ClockSkew = TimeSpan.Zero, // Without this, an expired token is still accepted
                                                // frontend already handles refresh → no grace period needed
                     ValidIssuer = issuer,

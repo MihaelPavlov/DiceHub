@@ -9,5 +9,5 @@ public class GetGameListQueryModel
     public string Description_BG { get; set; } = string.Empty;
     public int Likes { get; set; }
     public bool IsLiked { get; set; }
-    public int ImageId { get; set; }
+    public string ImageUrl { get; set; } = string.Empty;
 }

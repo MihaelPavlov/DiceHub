@@ -10,5 +10,5 @@ public class GameActivityStats
     public int GameId { get; set; }
     public string GameName { get; set; } = string.Empty;
     public int TimesPlayed { get; set; }
-    public int GameImageId { get; set; }
+    public string GameImageUrl { get; set; } = string.Empty;
 }

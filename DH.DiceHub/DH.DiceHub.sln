@@ -65,6 +65,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DH.Adapter.ChallengeHub", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DH.Domain.Extension", "DH.Domain.Extension\DH.Domain.Extension.csproj", "{8AC0E560-45AA-47AA-B2CA-13A60F581D68}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DH.Adapter.FileManager", "DH.Adapter.FileManager\DH.Adapter.FileManager.csproj", "{5636C007-126B-43B8-B747-9F9CE11CD322}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -155,6 +157,10 @@ Global
 		{8AC0E560-45AA-47AA-B2CA-13A60F581D68}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8AC0E560-45AA-47AA-B2CA-13A60F581D68}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8AC0E560-45AA-47AA-B2CA-13A60F581D68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5636C007-126B-43B8-B747-9F9CE11CD322}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5636C007-126B-43B8-B747-9F9CE11CD322}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5636C007-126B-43B8-B747-9F9CE11CD322}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5636C007-126B-43B8-B747-9F9CE11CD322}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -184,6 +190,7 @@ Global
 		{4948E4CD-BF78-40BD-B281-D12575FBD530} = {02B8040D-1456-40FD-9E14-90ABB8CCC813}
 		{CD0B2670-D21A-434A-A531-7F07D09FF731} = {02B8040D-1456-40FD-9E14-90ABB8CCC813}
 		{8AC0E560-45AA-47AA-B2CA-13A60F581D68} = {9D3A50F5-73F0-4212-9713-18164B45A5B6}
+		{5636C007-126B-43B8-B747-9F9CE11CD322} = {02B8040D-1456-40FD-9E14-90ABB8CCC813}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {16F99846-C0F6-4373-96DE-9ADCFED2E236}

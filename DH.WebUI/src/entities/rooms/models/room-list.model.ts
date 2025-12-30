@@ -7,6 +7,6 @@ export interface IRoomListResult {
   maxParticipants: number;
   gameId: number;
   gameName: string;
-  gameImageId: number;
+  gameImageUrl: string;
   username: string;
 }

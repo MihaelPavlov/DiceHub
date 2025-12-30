@@ -50,10 +50,6 @@ export class EventsLibraryComponent implements OnInit, OnDestroy {
     this.router.navigateByUrl(FULL_ROUTE.EVENTS.DETAILS_BY_ID(id));
   }
 
-  public getImage(event: IEventListResult): Observable<string> | null {
-    return this.eventService.getImage(event.isCustomImage, event.imageId);
-  }
-
   public isUserParticipatedIn(eventId): boolean {
     return this.userEvents.find((x) => x.id == eventId) ? true : false;
   }

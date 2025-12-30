@@ -27,7 +27,7 @@ internal class GetSystemRewardByIdQueryHandler : IRequestHandler<GetSystemReward
                 Description_EN = x.Description_EN,
                 Description_BG = x.Description_BG,
                 CashEquivalent = x.CashEquivalent,
-                ImageId = x.Image.Id,
+                ImageUrl = x.ImageUrl,
                 RequiredPoints = x.RequiredPoints,
                 Level = x.Level,
                 Name_EN = x.Name_EN,

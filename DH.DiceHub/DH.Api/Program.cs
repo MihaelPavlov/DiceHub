@@ -5,6 +5,7 @@ using DH.Adapter.ChallengesOrchestrator;
 using DH.Adapter.ChatHub;
 using DH.Adapter.Data;
 using DH.Adapter.Email;
+using DH.Adapter.FileManager;
 using DH.Adapter.GameSession;
 using DH.Adapter.PushNotifications;
 using DH.Adapter.QRManager;
@@ -95,6 +96,7 @@ builder.Services.AddReservationAdapter();
 builder.Services.AddGameSessionAdapter();
 builder.Services.AddEmailAdapter(builder.Configuration);
 builder.Services.AddStatisticsAdapter();
+builder.Services.AddFileManager(builder.Configuration);
 var test = FirebaseApp.Create(new AppOptions()
 {
     Credential = GoogleCredential.FromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "dicehub-8c63f-firebase-adminsdk-y31l3-6026a82c88.json")),

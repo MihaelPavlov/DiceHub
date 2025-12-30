@@ -10,5 +10,5 @@ export interface IUpdateGameDto {
   minPlayers: number;
   maxPlayers: number;
   averagePlaytime: GameAveragePlaytime;
-  imageId?: number | null;
+  imageUrl?: string | null;
 }

@@ -12,5 +12,5 @@ public class GetRewardByIdQueryModel
     public string Description_BG { get; set; } = string.Empty;
     public RewardRequiredPoint RequiredPoints { get; set; }
     public RewardLevel Level { get; set; }
-    public int ImageId { get; set; }
+    public string ImageUrl { get; set; } = string.Empty;
 }

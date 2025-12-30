@@ -26,7 +26,7 @@ internal class GetChallengeListWithFilterQueryHandler : IRequestHandler<GetChall
                 {
                     Id = x.Id,
                     RewardPoints = x.RewardPoints,
-                    GameImageId = x.Game.Image.Id,
+                    GameImageUrl = x.Game.ImageUrl,
                     Attempts = x.Attempts,
                 }, cancellationToken);
         }
@@ -35,7 +35,7 @@ internal class GetChallengeListWithFilterQueryHandler : IRequestHandler<GetChall
             {
                 Id = x.Id,
                 RewardPoints = x.RewardPoints,
-                GameImageId = x.Game.Image.Id,
+                GameImageUrl = x.Game.ImageUrl,
                 Attempts = x.Attempts,
             }, cancellationToken);
     }

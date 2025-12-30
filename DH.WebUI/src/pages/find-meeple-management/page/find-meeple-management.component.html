@@ -21,9 +21,7 @@
       <div class="wrapper_library__item">
         <div class="wrapper_image">
           <img
-            [src]="
-              ImageEntityType.Games | entityImage : room.gameImageId | async
-            "
+            [src]="room.gameImageUrl"
             [alt]="'meeple.game_image_alt' | translate"
           />
         </div>

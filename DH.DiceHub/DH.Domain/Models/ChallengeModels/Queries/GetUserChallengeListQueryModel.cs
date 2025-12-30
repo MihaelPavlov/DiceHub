@@ -9,6 +9,6 @@ public class GetUserChallengeListQueryModel
     public int MaxAttempts { get; set; }
     public int CurrentAttempts { get; set; }
     public ChallengeStatus Status { get; set; }
-    public int GameImageId { get; set; }
+    public string GameImageUrl { get; set; } = string.Empty;
     public string GameName { get; set; } = string.Empty;
 }

@@ -40,11 +40,9 @@
 
   <div
     class="wrapper_image"
-    *ngIf="
-      ImageEntityType.Games | entityImage : game.imageId | async as imageUrl
-    "
+    *ngIf="game.imageUrl"
   >
-    <img [src]="imageUrl" (click)="openImagePreview(imageUrl)" />
+    <img [src]="game.imageUrl" (click)="openImagePreview(game.imageUrl)" />
   </div>
 
   <div class="wrapper_navigation">

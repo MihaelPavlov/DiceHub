@@ -1,14 +1,15 @@
-﻿using DH.Domain.Entities;
+﻿using DH.Domain.Adapters.FileManager;
+using DH.Domain.Entities;
 using DH.Domain.Enums;
 using DH.Domain.Seeder;
 using Microsoft.EntityFrameworkCore;
 
 namespace DH.Adapter.Data.Seeder;
 
-internal class GameSeeder(IDbContextFactory<TenantDbContext> contextFactory) : IGameSeeder
+internal class GameSeeder(IDbContextFactory<TenantDbContext> contextFactory, IFileManagerClient fileManagerClient) : IGameSeeder
 {
     readonly IDbContextFactory<TenantDbContext> contextFactory = contextFactory;
-
+    readonly IFileManagerClient fileManagerClient = fileManagerClient;
     public async Task SeedAsync()
     {
         var imageFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "game-images");
@@ -409,16 +410,11 @@ internal class GameSeeder(IDbContextFactory<TenantDbContext> contextFactory) : I
                 if (exists)
                     continue;
 
-                await context.Games.AddAsync(game.Game, CancellationToken.None);
+                var imageUrl = await this.fileManagerClient.UploadFileAsync(
+                    FileManagerFolders.Games.ToString(), game.FileName, game.ImageStream);
 
-                await context.GameImages
-                    .AddAsync(new GameImage
-                    {
-                        Game = game.Game,
-                        FileName = game.FileName,
-                        ContentType = game.ContentType,
-                        Data = game.ImageStream,
-                    }, CancellationToken.None);
+                game.Game.ImageUrl = imageUrl;
+                await context.Games.AddAsync(game.Game, CancellationToken.None);
 
                 await context.GameInventories
                     .AddAsync(new GameInventory

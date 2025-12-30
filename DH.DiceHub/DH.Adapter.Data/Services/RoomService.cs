@@ -69,7 +69,6 @@ public class RoomService : IRoomService
             return await (
                 from r in context.Rooms
                 join g in context.Games on r.GameId equals g.Id
-                join gi in context.GameImages on g.Id equals gi.GameId
                 where r.Id == id
                 select new GetRoomByIdQueryModel
                 {
@@ -79,7 +78,7 @@ public class RoomService : IRoomService
                     StartDate = r.StartDate,
                     MaxParticipants = r.MaxParticipants,
                     GameId = r.GameId,
-                    GameImageId = gi.Id,
+                    GameImageUrl = g.ImageUrl,
                     JoinedParticipants = r.Participants.Where(x => !x.IsDeleted).Count(),
                 }).FirstOrDefaultAsync(cancellationToken);
         }
@@ -93,7 +92,6 @@ public class RoomService : IRoomService
             return await (
                 from r in context.Rooms
                 join g in context.Games on r.GameId equals g.Id
-                join gi in context.GameImages on g.Id equals gi.GameId
                 where r.Name.ToLower().Contains(searchExpression.ToLower()) && r.StartDate > today
                 select new GetRoomListQueryModel
                 {
@@ -103,7 +101,7 @@ public class RoomService : IRoomService
                     StartDate = r.StartDate,
                     MaxParticipants = r.MaxParticipants,
                     GameId = r.GameId,
-                    GameImageId = gi.Id,
+                    GameImageUrl = g.ImageUrl,
                     GameName = g.Name,
                     JoinedParticipants = r.Participants.Where(x => !x.IsDeleted).Count(),
                 })

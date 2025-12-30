@@ -50,13 +50,9 @@
 
       <div
         class="image"
-        *ngIf="
-          ImageEntityType.Games
-            | entityImage : table.gameImageId
-            | async as imageUrl
-        "
+        *ngIf="table.gameImageUrl"
       >
-        <img [src]="imageUrl" (click)="openImagePreview(imageUrl)" />
+        <img [src]="table.gameImageUrl" (click)="openImagePreview(table.gameImageUrl)" />
       </div>
     </div>
 

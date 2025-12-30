@@ -16,9 +16,9 @@ public class Game
     public int CategoryId { get; set; }
     public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedDate { get; set; } = DateTime.UtcNow;
+    public string ImageUrl { get; set; } = string.Empty;
 
     public virtual GameCategory Category { get; set; } = null!;
-    public virtual GameImage Image { get; set; } = null!;
     public virtual GameInventory Inventory { get; set; } = null!;
 
     public virtual ICollection<GameReview> Reviews { get; set; } = [];

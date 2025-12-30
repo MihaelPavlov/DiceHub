@@ -12,7 +12,7 @@ public class GetEventByIdQueryModel
     public int PeopleJoined { get; set; }
     public int MaxPeople { get; set; }
     public bool IsCustomImage { get; set; }
-    public int ImageId { get; set; }
+    public string ImageUrl { get; set; } = string.Empty;
 
     public int GameId { get; set; }
     public string GameName { get; set; } = string.Empty;

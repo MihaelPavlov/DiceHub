@@ -605,13 +605,13 @@ internal class StatisticsService(
                 log.DetectedOn <= rangeEndUtc.Value)
             ||
             (type == ChartGameActivityType.AlTime)
-            group log by new { game.Id, game.Name, ImageId = game.Image.Id } into g
+            group log by new { game.Id, game.Name, ImageUrl = game.ImageUrl } into g
             select new GameActivityStats
             {
                 GameId = g.Key.Id,
                 GameName = g.Key.Name,
                 TimesPlayed = g.Count(),
-                GameImageId = g.Key.ImageId
+                GameImageUrl = g.Key.ImageUrl
             }
         )
         .OrderByDescending(x => x.TimesPlayed)

@@ -36,14 +36,10 @@
   >
     <div
       class="image"
-      *ngIf="
-        ImageEntityType.Rewards
-          | entityImage : reward.rewardImageId
-          | async as imageUrl
-      "
-      (click)="openImagePreview(imageUrl)"
+      *ngIf="reward.rewardImageUrl"
+      (click)="openImagePreview(reward.rewardImageUrl)"
     >
-      <img [src]="imageUrl" alt="" />
+      <img [src]="reward.rewardImageUrl" alt="" />
     </div>
     <div class="info">
       <span class="header">{{

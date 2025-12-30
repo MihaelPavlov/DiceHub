@@ -76,9 +76,7 @@
         <span class="number" [randomColor]="i">{{ i + 1 }}</span>
         <div class="wrapper_image">
           <img
-            [src]="
-              ImageEntityType.Games | entityImage : game.gameImageId | async
-            "
+            [src]="game.gameImageUrl"
             alt="Game Image"
           />
         </div>

@@ -17,8 +17,8 @@ public class ChallengeReward
     public string UpdatedBy { get; set; } = string.Empty;
     public DateTime UpdatedDate { get; set; } = DateTime.UtcNow;
     public bool IsDeleted { get; set; }
+    public string ImageUrl { get; set; } = string.Empty;
 
-    public virtual ChallengeRewardImage Image { get; set; } = null!;
     public virtual ICollection<UserChallengeReward> UserRewards { get; set; } = [];
     public virtual ICollection<UserChallengePeriodReward> UserChallengePeriodRewards { get; set; } = [];
 }
