@@ -91,7 +91,7 @@ public static class SeedData
                   ""
                 >
                   <img
-                    src=""https://dicehub.online/email-images/dicehub_logo_1.png""
+                    src=""https://ifjmepvyiksirgheyqyw.supabase.co/storage/v1/object/public/dicehub/Email/dicehub_logo_1.png""
                     width=""150""
                     height=""auto""
                     alt=""icon""
@@ -179,7 +179,7 @@ public static class SeedData
         "">
           <tr>
             <td align=""center"">
-              <img src=""https://dicehub.online/email-images/dicehub_logo_1.png"" width=""150"" style=""display:block;"" alt=""DiceHub"">
+              <img src=""https://ifjmepvyiksirgheyqyw.supabase.co/storage/v1/object/public/dicehub/Email/dicehub_logo_1.png"" width=""150"" style=""display:block;"" alt=""DiceHub"">
             </td>
           </tr>
 
@@ -251,7 +251,7 @@ public static class SeedData
         "">
           <tr>
             <td align=""center"">
-              <img src=""https://dicehub.online/email-images/dicehub_logo_1.png"" width=""150"" style=""display:block;"" alt=""DiceHub"">
+              <img src=""https://ifjmepvyiksirgheyqyw.supabase.co/storage/v1/object/public/dicehub/Email/dicehub_logo_1.png"" width=""150"" style=""display:block;"" alt=""DiceHub"">
             </td>
           </tr>
 
@@ -322,7 +322,7 @@ public static class SeedData
         "">
           <tr>
             <td align=""center"">
-              <img src=""https://dicehub.online/email-images/dicehub_logo_1.png"" width=""150"" style=""display:block;"" alt=""DiceHub"">
+              <img src=""https://ifjmepvyiksirgheyqyw.supabase.co/storage/v1/object/public/dicehub/Email/dicehub_logo_1.png"" width=""150"" style=""display:block;"" alt=""DiceHub"">
             </td>
           </tr>
 
@@ -393,7 +393,7 @@ public static class SeedData
         "">
           <tr>
             <td align=""center"">
-              <img src=""https://dicehub.online/email-images/dicehub_logo_1.png"" width=""150"" style=""display:block;"" alt=""DiceHub"">
+              <img src=""https://ifjmepvyiksirgheyqyw.supabase.co/storage/v1/object/public/dicehub/Email/dicehub_logo_1.png"" width=""150"" style=""display:block;"" alt=""DiceHub"">
             </td>
           </tr>
 
@@ -466,7 +466,7 @@ public static class SeedData
         "">
           <tr>
             <td align=""center"">
-              <img src=""https://dicehub.online/email-images/dicehub_logo_1.png"" width=""150"" style=""display:block;"" alt=""DiceHub"">
+              <img src=""https://ifjmepvyiksirgheyqyw.supabase.co/storage/v1/object/public/dicehub/Email/dicehub_logo_1.png"" width=""150"" style=""display:block;"" alt=""DiceHub"">
             </td>
           </tr>
 
@@ -556,7 +556,7 @@ public static class SeedData
             <tr>
               <td align=""center"">
                 <img
-                  src=""https://dicehub.online/email-images/dicehub_logo_1.png""
+                  src=""https://ifjmepvyiksirgheyqyw.supabase.co/storage/v1/object/public/dicehub/Email/dicehub_logo_1.png""
                   width=""150""
                   style=""display:block;""
                   alt=""DiceHub""
@@ -650,7 +650,7 @@ public static class SeedData
             <tr>
               <td align=""center"">
                 <img
-                  src=""https://dicehub.online/email-images/dicehub_logo_1.png""
+                  src=""https://ifjmepvyiksirgheyqyw.supabase.co/storage/v1/object/public/dicehub/Email/dicehub_logo_1.png""
                   width=""150""
                   style=""display:block;""
                   alt=""DiceHub""
@@ -742,7 +742,7 @@ public static class SeedData
             <tr>
               <td align=""center"">
                 <img
-                  src=""https://dicehub.online/email-images/dicehub_logo_1.png""
+                  src=""https://ifjmepvyiksirgheyqyw.supabase.co/storage/v1/object/public/dicehub/Email/dicehub_logo_1.png""
                   width=""150""
                   style=""display: block""
                   alt=""DiceHub""
@@ -854,7 +854,7 @@ public static class SeedData
             <tr>
               <td align=""center"">
                 <img
-                  src=""https://dicehub.online/email-images/dicehub_logo_1.png""
+                  src=""https://ifjmepvyiksirgheyqyw.supabase.co/storage/v1/object/public/dicehub/Email/dicehub_logo_1.png""
                   width=""150""
                   style=""display: block""
                   alt=""DiceHub""
