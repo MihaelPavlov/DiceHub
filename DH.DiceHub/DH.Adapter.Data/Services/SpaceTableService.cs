@@ -127,7 +127,7 @@ public class SpaceTableService : ISpaceTableService
     {
         using (var context = await dbContextFactory.CreateDbContextAsync(cancellationToken))
         {
-            return await context.SpaceTableReservations.Where(x => x.IsActive).CountAsync(cancellationToken);
+            return await context.SpaceTableReservations.AsNoTracking().Where(x => x.IsActive).CountAsync(cancellationToken);
         }
     }
 
@@ -135,7 +135,7 @@ public class SpaceTableService : ISpaceTableService
     {
         using (var context = await dbContextFactory.CreateDbContextAsync(cancellationToken))
         {
-            IQueryable<SpaceTableReservation> query = context.SpaceTableReservations;
+            IQueryable<SpaceTableReservation> query = context.SpaceTableReservations.AsNoTracking();
 
             query = status switch
             {

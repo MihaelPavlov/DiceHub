@@ -4,5 +4,6 @@ public enum FileManagerFolders
 {
     Games,
     Events,
-    Rewards
+    Rewards,
+    Seed,
 }

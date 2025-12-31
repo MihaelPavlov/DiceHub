@@ -39,7 +39,7 @@ public class QueuedJobService : IQueuedJobService
     {
         using (var context = await this.contextFactory.CreateDbContextAsync())
         {
-            return await context.QueuedJobs
+            return await context.QueuedJobs.AsNoTracking()
                 .Where(x => x.QueueType == queueType && x.Status == JobStatus.Pending)
                 .ToListAsync(cancellationToken);
         }
@@ -49,7 +49,7 @@ public class QueuedJobService : IQueuedJobService
     {
         using (var context = await this.contextFactory.CreateDbContextAsync())
         {
-            return await context.QueuedJobs
+            return await context.QueuedJobs.AsNoTracking()
                 .Where(x => x.JobId == jobId && x.QueueType == queueType && x.Status == JobStatus.Pending)
                 .FirstOrDefaultAsync(cancellationToken);
         }
@@ -123,7 +123,7 @@ public class QueuedJobService : IQueuedJobService
     {
         using (var context = this.contextFactory.CreateDbContext())
         {
-            return context.QueuedJobs.Where(x => x.Status == JobStatus.Pending).ToList();
+            return context.QueuedJobs.AsNoTracking().Where(x => x.Status == JobStatus.Pending).ToList();
         }
     }
 }

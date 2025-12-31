@@ -62,6 +62,7 @@ public class ChallengeService : IChallengeService
         using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
         {
             var activeChallenges = await context.UserChallenges
+                .AsNoTracking()
                 .Where(x => x.UserId == this.userContext.UserId
                          && x.IsActive
                          && x.UniversalChallenge != null)
@@ -85,6 +86,7 @@ public class ChallengeService : IChallengeService
                 .ToListAsync(cancellationToken);
 
             var lastCompletedChallenge = await context.UserChallenges
+                .AsNoTracking()
                 .Where(x => x.UserId == this.userContext.UserId
                          && x.CompletedDate != null
                          && x.UniversalChallenge != null)
@@ -125,6 +127,7 @@ public class ChallengeService : IChallengeService
         using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
         {
             var activeChallenges = await context.UserChallenges
+                .AsNoTracking()
                 .Where(x => this.userContext.UserId == x.UserId && x.IsActive && x.Challenge != null)
                 .Select(x =>
                     new GetUserChallengeListQueryModel
@@ -140,6 +143,7 @@ public class ChallengeService : IChallengeService
                 .ToListAsync(cancellationToken);
 
             var lastCompletedChallenge = await context.UserChallenges
+                .AsNoTracking()
                 .Where(x => this.userContext.UserId == x.UserId && x.CompletedDate != null && x.Challenge != null)
                 .OrderByDescending(x => x.CompletedDate)
                 .Select(x =>
@@ -302,6 +306,7 @@ public class ChallengeService : IChallengeService
         using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
         {
             var query = context.UserChallengePeriodPerformances
+                .AsNoTracking()
                 .Where(x => x.UserId == this.userContext.UserId && x.IsPeriodActive)
                 .Select(x => new
                 {

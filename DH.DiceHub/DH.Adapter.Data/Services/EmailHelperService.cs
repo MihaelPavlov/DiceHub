@@ -22,7 +22,7 @@ internal class EmailHelperService(IDbContextFactory<TenantDbContext> dbContextFa
     {
         using (var context = await this._contextFactory.CreateDbContextAsync())
         {
-            return await context.EmailTemplates
+            return await context.EmailTemplates.AsNoTracking()
                 .FirstOrDefaultAsync(x => x.TemplateName == emailType.ToString() && x.Language.ToLower() == userLanguage.ToLower());
         }
     }

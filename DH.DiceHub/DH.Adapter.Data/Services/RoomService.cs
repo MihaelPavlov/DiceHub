@@ -67,8 +67,7 @@ public class RoomService : IRoomService
         using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
         {
             return await (
-                from r in context.Rooms
-                join g in context.Games on r.GameId equals g.Id
+                from r in context.Rooms.AsNoTracking()
                 where r.Id == id
                 select new GetRoomByIdQueryModel
                 {
@@ -78,7 +77,7 @@ public class RoomService : IRoomService
                     StartDate = r.StartDate,
                     MaxParticipants = r.MaxParticipants,
                     GameId = r.GameId,
-                    GameImageUrl = g.ImageUrl,
+                    GameImageUrl = r.Game.ImageUrl,
                     JoinedParticipants = r.Participants.Where(x => !x.IsDeleted).Count(),
                 }).FirstOrDefaultAsync(cancellationToken);
         }
@@ -90,8 +89,7 @@ public class RoomService : IRoomService
         {
             var today = DateTime.UtcNow;
             return await (
-                from r in context.Rooms
-                join g in context.Games on r.GameId equals g.Id
+                from r in context.Rooms.AsNoTracking()
                 where r.Name.ToLower().Contains(searchExpression.ToLower()) && r.StartDate > today
                 select new GetRoomListQueryModel
                 {
@@ -101,8 +99,8 @@ public class RoomService : IRoomService
                     StartDate = r.StartDate,
                     MaxParticipants = r.MaxParticipants,
                     GameId = r.GameId,
-                    GameImageUrl = g.ImageUrl,
-                    GameName = g.Name,
+                    GameImageUrl = r.Game.ImageUrl,
+                    GameName = r.Game.Name,
                     JoinedParticipants = r.Participants.Where(x => !x.IsDeleted).Count(),
                 })
                 .OrderBy(x => x.StartDate)

@@ -51,8 +51,7 @@ internal class EventService : IEventService
         using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
         {
             return await (
-                from e in context.Events
-                join g in context.Games on e.GameId equals g.Id
+                from e in context.Events.AsNoTracking()
                 where e.Id == eventId && !e.IsDeleted
                 select new GetEventByIdQueryModel
                 {
@@ -64,15 +63,15 @@ internal class EventService : IEventService
                     IsCustomImage = e.IsCustomImage,
                     MaxPeople = e.MaxPeople,
                     PeopleJoined = e.Participants.Count,
-                    ImageUrl = e.IsCustomImage ? e.ImageUrl : g.ImageUrl,
-                    GameId = g.Id,
-                    GameName = g.Name,
-                    GameDescription_EN = g.Description_EN,
-                    GameDescription_BG = g.Description_BG,
-                    GameAveragePlaytime = g.AveragePlaytime,
-                    GameMinAge = g.MinAge,
-                    GameMaxPlayers = g.MaxPlayers,
-                    GameMinPlayers = g.MinPlayers,
+                    ImageUrl = e.IsCustomImage ? e.ImageUrl : e.Game.ImageUrl,
+                    GameId = e.Game.Id,
+                    GameName = e.Game.Name,
+                    GameDescription_EN = e.Game.Description_EN,
+                    GameDescription_BG = e.Game.Description_BG,
+                    GameAveragePlaytime = e.Game.AveragePlaytime,
+                    GameMinAge = e.Game.MinAge,
+                    GameMaxPlayers = e.Game.MaxPlayers,
+                    GameMinPlayers = e.Game.MinPlayers,
                 }).FirstOrDefaultAsync(cancellationToken);
         }
     }
@@ -83,13 +82,12 @@ internal class EventService : IEventService
         {
             var today = DateTime.UtcNow;
             return await (
-                from e in context.Events
-                join g in context.Games on e.GameId equals g.Id
+                from e in context.Events.AsNoTracking()
                 where today.Date <= e.StartDate.Date && !e.IsDeleted
                 select new GetEventListQueryModel
                 {
                     Id = e.Id,
-                    GameId = g.Id,
+                    GameId = e.Game.Id,
                     Name = e.Name,
                     Description_EN = e.Description_EN,
                     Description_BG = e.Description_BG,
@@ -97,7 +95,7 @@ internal class EventService : IEventService
                     IsCustomImage = e.IsCustomImage,
                     MaxPeople = e.MaxPeople,
                     PeopleJoined = e.Participants.Count,
-                    ImageUrl = e.IsCustomImage ? e.ImageUrl : g.ImageUrl,
+                    ImageUrl = e.IsCustomImage ? e.ImageUrl : e.Game.ImageUrl,
                 })
                 .OrderBy(x => x.StartDate)
                 .ToListAsync(cancellationToken);
@@ -111,19 +109,18 @@ internal class EventService : IEventService
             var today = DateTime.UtcNow;
 
             return await (
-                from e in context.Events
-                join g in context.Games on e.GameId equals g.Id
+                from e in context.Events.AsNoTracking()
                 where e.Name.ToLower().Contains(searchExpression.ToLower()) && !e.IsDeleted
                 select new GetEventListQueryModel
                 {
                     Id = e.Id,
-                    GameId = g.Id,
+                    GameId = e.Game.Id,
                     Name = e.Name,
                     StartDate = e.StartDate,
                     IsCustomImage = e.IsCustomImage,
                     MaxPeople = e.MaxPeople,
                     PeopleJoined = e.Participants.Count,
-                    ImageUrl = e.IsCustomImage ? e.ImageUrl : g.ImageUrl,
+                    ImageUrl = e.IsCustomImage ? e.ImageUrl : e.Game.ImageUrl,
                 })
                 .OrderBy(x => x.StartDate < today ? 1 : 0)   // Past events (1) go to the bottom
                 .ThenBy(x => x.StartDate >= today ? x.StartDate : DateTime.MaxValue) // Ascending for future/today
@@ -139,13 +136,12 @@ internal class EventService : IEventService
             var today = DateTime.UtcNow;
 
             return await (
-                from ep in context.EventParticipants
-                join g in context.Games on ep.Event.GameId equals g.Id
+                from ep in context.EventParticipants.AsNoTracking()
                 where ep.UserId == this.userContext.UserId && today.Date <= ep.Event.StartDate.Date && !ep.Event.IsDeleted
                 select new GetEventListQueryModel
                 {
                     Id = ep.Event.Id,
-                    GameId = g.Id,
+                    GameId = ep.Event.Game.Id,
                     Name = ep.Event.Name,
                     Description_EN = ep.Event.Description_EN,
                     Description_BG = ep.Event.Description_BG,
@@ -153,7 +149,7 @@ internal class EventService : IEventService
                     IsCustomImage = ep.Event.IsCustomImage,
                     MaxPeople = ep.Event.MaxPeople,
                     PeopleJoined = ep.Event.Participants.Count,
-                    ImageUrl = ep.Event.IsCustomImage ? ep.Event.ImageUrl : g.ImageUrl,
+                    ImageUrl = ep.Event.IsCustomImage ? ep.Event.ImageUrl : ep.Event.Game.ImageUrl,
                 })
                 .OrderBy(x => x.StartDate)
                 .ToListAsync(cancellationToken);

@@ -25,11 +25,11 @@ internal class StatisticsService(
     {
         using (var context = await this.dbContextFactory.CreateDbContextAsync(cancellationToken))
         {
-            var tables = await context.SpaceTables
+            var tables = await context.SpaceTables.AsNoTracking()
                 .Where(r => r.CreatedBy == this.userContext.UserId)
                 .ToListAsync(cancellationToken);
 
-            var participantInTables = await context.SpaceTableParticipants
+            var participantInTables = await context.SpaceTableParticipants.AsNoTracking()
                 .Include(x => x.SpaceTable)
                 .Where(r => r.UserId == this.userContext.UserId)
                 .ToListAsync(cancellationToken);
@@ -41,14 +41,16 @@ internal class StatisticsService(
                 .Distinct()
                 .Count();
 
-            var gameReservationsCount = await context.GameReservations
+            var gameReservationsCount = await context.GameReservations.AsNoTracking()
                 .CountAsync(x => x.IsReservationSuccessful && x.UserId == this.userContext.UserId, cancellationToken);
 
-            var tableReservationsCount = await context.SpaceTableReservations
+            var tableReservationsCount = await context.SpaceTableReservations.AsNoTracking()
                 .CountAsync(x => x.IsReservationSuccessful && x.UserId == this.userContext.UserId, cancellationToken);
 
-            var events = await context.EventParticipants.Where(
-                x => x.UserId == this.userContext.UserId).ToListAsync(cancellationToken);
+            var events = await context.EventParticipants
+                .AsNoTracking()
+                .Where(x => x.UserId == this.userContext.UserId)
+                .ToListAsync(cancellationToken);
 
             return new GetUserStatsQueryModel(uniqueGamesPlayed, gameReservationsCount + tableReservationsCount, events.Count);
         }
@@ -58,13 +60,19 @@ internal class StatisticsService(
     {
         using (var context = await this.dbContextFactory.CreateDbContextAsync(cancellationToken))
         {
-            var uniqueGames = await context.Games.CountAsync(cancellationToken);
-            var uniqueEvents = await context.Events.CountAsync(cancellationToken);
+            var uniqueGames = await context.Games
+                .AsNoTracking()
+                .CountAsync(cancellationToken);
+            var uniqueEvents = await context.Events
+                .AsNoTracking()
+                .CountAsync(cancellationToken);
 
             var gameReservationsCount = await context.GameReservations
+                .AsNoTracking()
                 .CountAsync(x => x.IsReservationSuccessful, cancellationToken);
 
             var tableReservationsCount = await context.SpaceTableReservations
+                .AsNoTracking()
                 .CountAsync(x => x.IsReservationSuccessful, cancellationToken);
 
             return new GetOwnerStatsQueryModel(uniqueGames, gameReservationsCount + tableReservationsCount, uniqueEvents);
@@ -192,7 +200,7 @@ internal class StatisticsService(
 
         using (var context = await dbContextFactory.CreateDbContextAsync(cancellationToken))
         {
-            IQueryable<ClubVisitorLog> query = context.ClubVisitorLogs;
+            IQueryable<ClubVisitorLog> query = context.ClubVisitorLogs.AsNoTracking();
 
             if (type == ChartActivityType.Monthly)
             {
@@ -326,6 +334,7 @@ internal class StatisticsService(
         using (var context = await dbContextFactory.CreateDbContextAsync(cancellationToken))
         {
             var challenges = await context.ChallengeHistoryLogs
+                .AsNoTracking()
                 .Where(x => x.Outcome == ChallengeOutcome.Completed && x.OutcomeDate >= startDateUtc && x.OutcomeDate <= endDateUtc)
                 .GroupBy(x => x.UserId)
                 .Select(x => new GetChallengeHistoryLogQueryResponse
@@ -348,14 +357,15 @@ internal class StatisticsService(
             return new OperationResult<List<GetCollectedRewardByDatesModel>>()
                 .ReturnWithBadRequestException(errorMessage);
 
-
         using (var context = await dbContextFactory.CreateDbContextAsync(cancellationToken))
         {
             var systemRewards = await context.ChallengeRewards
+                .AsNoTracking()
                 .Select(x => new Test(x.Id, x.CashEquivalent))
                 .ToListAsync(cancellationToken);
 
             var groupedRewards = await context.RewardHistoryLogs
+                .AsNoTracking()
                 .Where(x =>
                     x.IsCollected &&
                     x.CollectedDate != null &&
@@ -394,6 +404,7 @@ internal class StatisticsService(
         using (var context = await dbContextFactory.CreateDbContextAsync(cancellationToken))
         {
             var events = await context.EventAttendanceLogs
+               .AsNoTracking()
                .Where(x => eventIds.Contains(x.EventId))
                .GroupBy(x => x.EventId)
                .Select(x => new EventAttendance

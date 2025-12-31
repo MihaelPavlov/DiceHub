@@ -97,10 +97,10 @@ public class GameService : IGameService
         using (var context = await contextFactory.CreateDbContextAsync(cancellationToken))
         {
             return await (
-                from gameReservation in context.GameReservations
+                from gameReservation in context.GameReservations.AsNoTracking()
                 where gameReservation.IsActive
                 orderby gameReservation.ReservationDate descending
-                let tableReservation = context.SpaceTableReservations
+                let tableReservation = context.SpaceTableReservations.AsNoTracking()
                     .Where(t => t.IsActive && t.UserId == gameReservation.UserId && gameReservation.ReservationDate.Date == t.ReservationDate.Date)
                     .FirstOrDefault()
                 select new GetActiveGameReservationListQueryModel
