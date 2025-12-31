@@ -609,4 +609,7 @@
   <data name="ForgotPasswordUserWithEmailNotFound" xml:space="preserve">
     <value>Потребител с този имейл не съществува!</value>
   </data>
+  <data name="UserSettingsUiTheme" xml:space="preserve">
+    <value>Посочената цветова тема не е валидна стойност.</value>
+  </data>
 </root>

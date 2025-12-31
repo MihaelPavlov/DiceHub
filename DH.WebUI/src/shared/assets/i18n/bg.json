@@ -646,9 +646,15 @@
       "placeholder": "Български или Английски",
       "info": "Език на приложението за вас"
     },
+    "theme": {
+      "label": "Цветова тема",
+      "placeholder": "Тъмна или Светла",
+      "info": "Цветова тема на интерфейса на приложението"
+    },
     "controls_display_names": {
       "phone_number": "Телефонният номер",
-      "language": "Езикът"
+      "language": "Езикът",
+      "uiTheme": "Цветовата тема"
     },
     "save_button": "Запази",
     "controls_menu": {
@@ -679,6 +685,10 @@
   "languages_names_short": {
     "EN": "АНГ",
     "BG": "БГ"
+  },
+  "ui_theme_names": {
+    "Dark": "Черна",
+    "Light": "Светла"
   },
   "landing": {
     "revolutionizing": "Революционизиране",

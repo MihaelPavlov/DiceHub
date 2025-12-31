@@ -17,6 +17,27 @@
 </div>
 
 <form [formGroup]="form" class="container">
+    <div class="input-field">
+    <label for="theme" class="required">{{
+      "user_settings.theme.label" | translate
+    }}</label>
+    <span class="input-info">{{
+      "user_settings.theme.info" | translate
+    }}</span>
+
+    <ng-select
+      id="theme"
+      [items]="themeValues"
+      bindValue="id"
+      bindLabel="name"
+      [placeholder]="'user_settings.theme.placeholder' | translate"
+      [searchable]="true"
+      formControlName="uiTheme"
+      class="app-select-long surface-elevated"
+    >
+    </ng-select>
+  </div>
+
   <div class="input-field">
     <label for="language" class="required">{{
       "space_settings.language.label" | translate
