@@ -1,1 +1,0 @@
-import{L as o}from"./chunk-JJGLVIRE.js";var n=(()=>{let r=class r{constructor(){this.previousUrl=null}setPreviousUrl(e){this.previousUrl=e}getPreviousUrl(){return this.previousUrl}};r.\u0275fac=function(s){return new(s||r)},r.\u0275prov=o({token:r,factory:r.\u0275fac,providedIn:"root"});let t=r;return t})();export{n as a};

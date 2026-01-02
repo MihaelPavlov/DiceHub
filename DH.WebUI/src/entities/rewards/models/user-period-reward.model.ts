@@ -1,5 +1,5 @@
 export interface IUserChallengePeriodReward {
-  rewardImageId: number;
+  rewardImageUrl: string;
   rewardRequiredPoints: number;
   isCompleted: boolean;
 }

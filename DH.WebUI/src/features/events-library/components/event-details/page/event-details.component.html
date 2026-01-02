@@ -1,10 +1,8 @@
 <div class="wrapper_event" *ngIf="this.event$ | async as event">
   <div class="wrapper_event__image">
     <span class="arrow left" (click)="navigateBackToEventList()"></span>
-    <ng-container *ngIf="(getImage(event) | async) as imageUrl">
 
-      <img [src]="imageUrl" (click)="openImagePreview(imageUrl)"/>
-    </ng-container>
+    <img [src]="event.imageUrl" (click)="openImagePreview(event.imageUrl)" />
   </div>
 
   <div class="wrapper_event__header">

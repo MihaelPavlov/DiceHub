@@ -7,5 +7,5 @@ public class GetChallengeListWithFilterQueryModel
     public int Id { get; set; }
     public ChallengeRewardPoint RewardPoints { get; set; }
     public int Attempts { get; set; }
-    public int GameImageId { get; set; }
+    public string GameImageUrl { get; set; } = string.Empty;
 }

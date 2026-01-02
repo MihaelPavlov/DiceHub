@@ -42,17 +42,17 @@ public class SynchronizeUsersChallengesWorker : BackgroundService
                     var jobStartTime = DateTime.UtcNow;
                     logger.LogInformation("Trace Id: {traceId}; Job Id: {jobId} - Started at {startTime} - Job Info: {jobInfo}", traceId, nextJob.JobId, jobStartTime, JsonSerializer.Serialize(nextJob));
 
-                    switch (nextJob)
+                    switch (nextJob.TypeOfJob)
                     {
-                        case SynchronizeNewUserJob newUserJob:
-                            await userChallengesManagementService.InitiateUserChallengePeriod(newUserJob.UserId, cancellationToken, forNewUser: true);
+                        case nameof(SynchronizeNewUserJob):
+                            await userChallengesManagementService.InitiateUserChallengePeriod(nextJob.UserId, cancellationToken, forNewUser: true);
 
                             await queuedJobService.UpdateStatusToCompleted(queue.QueueName, nextJob.JobId);
                             break;
-                        case ChallengeInitiationJob challengeJob:
-                            if (challengeJob.ScheduledTime.HasValue && DateTime.UtcNow >= challengeJob.ScheduledTime)
+                        case nameof(ChallengeInitiationJob):
+                            if (nextJob.ScheduledTime.HasValue && DateTime.UtcNow >= nextJob.ScheduledTime)
                             {
-                                await userChallengesManagementService.AssignNextChallengeToUserAsync(challengeJob.UserId, cancellationToken);
+                                await userChallengesManagementService.AssignNextChallengeToUserAsync(nextJob.UserId, cancellationToken);
 
                                 await queuedJobService.UpdateStatusToCompleted(queue.QueueName, nextJob.JobId);
                                 break;

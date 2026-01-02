@@ -1,12 +1,12 @@
 <!-- app-menu.component.html -->
 <div class="wrapper_settings" [ngClass]="{ active: isVisible }">
   <!-- Overlay div to blur the background when menu is visible -->
-  <div class="blur-overlay" (click)="closeMenu()"></div>
+  <div class="blur-overlay surface-elevated" (click)="closeMenu()"></div>
 
   <!-- Menu content -->
   <div *ngIf="isVisible && isInfo" class="menu">
     <ul class="menu_ul">
-      <li class="menu_li info" [innerHTML]="infoDescriptionWithBreaks"></li>
+      <li class="menu_li info surface-elevated" [innerHTML]="infoDescriptionWithBreaks"></li>
     </ul>
     <ul class="last_menu_ul last_menu_item">
       <li class="last_menu_li" (click)="closeMenu()">
@@ -35,7 +35,7 @@
       </ng-container>
     </ul>
     <ul class="last_menu_ul last_menu_item">
-      <li class="last_menu_li" (click)="closeMenu()">
+      <li class="last_menu_li " (click)="closeMenu()">
         {{ "close" | translate }}
       </li>
     </ul>

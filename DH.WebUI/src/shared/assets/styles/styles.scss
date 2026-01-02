@@ -1,10 +1,11 @@
-@use "./palette" as *;
-@use "./palette";
+@use "./palette" as palette;
 @use "./input";
 @use "./animations";
 @use "./button";
 @use "./scrollbar";
 @use "./ng-select";
+@use "./dark";
+@use "./light";
 @import "../../../../node_modules/@ng-select/ng-select/themes/default.theme.css";
 @import "@angular/cdk/overlay-prebuilt.css";
 
@@ -20,12 +21,13 @@ html,
 body {
   overscroll-behavior: none;
 }
+
 app-root {
   overscroll-behavior: contain;
 }
 body {
-  background-color: $main-background-color;
-  color: $main-font-color;
+  background-color: palette.$main-background-color;
+  color: palette.$main-font-color;
   height: 100%;
 }
 

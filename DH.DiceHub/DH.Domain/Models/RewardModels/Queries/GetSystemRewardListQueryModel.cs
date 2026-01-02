@@ -8,5 +8,5 @@ public class GetSystemRewardListQueryModel
     public decimal CashEquivalent { get; set; }
     public string Description_EN { get; set; } = string.Empty;
     public string Description_BG { get; set; } = string.Empty;
-    public int ImageId { get; set; }
+    public string ImageUrl { get; set; } = string.Empty;
 }

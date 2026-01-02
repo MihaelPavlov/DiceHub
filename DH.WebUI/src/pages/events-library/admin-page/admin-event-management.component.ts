@@ -183,10 +183,6 @@ export class AdminEventManagementComponent implements OnInit, OnDestroy {
     this.fetchEventList(searchExpression);
   }
 
-  public getImage(event: IEventListResult): Observable<string> {
-    return this.eventService.getImage(event.isCustomImage, event.imageId);
-  }
-
   public navigateToDetails(eventId: number): void {
     this.router.navigateByUrl(FULL_ROUTE.EVENTS.ADMIN.DETAILS_BY_ID(eventId));
   }

@@ -12,7 +12,7 @@ public class GetUserUniversalChallengeListQueryModel
     public UniversalChallengeType Type { get; set; }
 
     public decimal? MinValue { get; set; }
-    public int? GameImageId { get; set; }
+    public string? GameImageUrl { get; set; }
     public string? GameName { get; set; } = string.Empty;
 
     public string Name_EN { get; set; } = string.Empty;

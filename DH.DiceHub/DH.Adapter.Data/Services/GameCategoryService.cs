@@ -18,7 +18,7 @@ public class GameCategoryService : IGameCategoryService
         using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
         {
             return await
-                (from g in context.GameCategories
+                (from g in context.GameCategories.AsNoTracking()
                  where g.Name.ToLower().Contains(searchExpression.ToLower())
                  select new GetGameCategoryListQueryModel
                  {

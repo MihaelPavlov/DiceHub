@@ -123,6 +123,10 @@ namespace DH.Adapter.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
@@ -558,6 +562,10 @@ namespace DH.Adapter.Data.Migrations
                     b.Property<int>("GameId")
                         .HasColumnType("integer");
 
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<bool>("IsCustomImage")
                         .HasColumnType("boolean");
 
@@ -760,6 +768,10 @@ namespace DH.Adapter.Data.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Description_EN")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -1946,17 +1958,6 @@ namespace DH.Adapter.Data.Migrations
                     b.Navigation("Game");
                 });
 
-            modelBuilder.Entity("DH.Domain.Entities.ChallengeRewardImage", b =>
-                {
-                    b.HasOne("DH.Domain.Entities.ChallengeReward", "Reward")
-                        .WithOne("Image")
-                        .HasForeignKey("DH.Domain.Entities.ChallengeRewardImage", "RewardId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Reward");
-                });
-
             modelBuilder.Entity("DH.Domain.Entities.ChallengeStatistic", b =>
                 {
                     b.HasOne("DH.Domain.Entities.Challenge", "Challenge")
@@ -2075,17 +2076,6 @@ namespace DH.Adapter.Data.Migrations
                     b.Navigation("Game");
                 });
 
-            modelBuilder.Entity("DH.Domain.Entities.EventImage", b =>
-                {
-                    b.HasOne("DH.Domain.Entities.Event", "Event")
-                        .WithOne("Image")
-                        .HasForeignKey("DH.Domain.Entities.EventImage", "EventId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Event");
-                });
-
             modelBuilder.Entity("DH.Domain.Entities.EventNotification", b =>
                 {
                     b.HasOne("DH.Domain.Entities.Event", "Event")
@@ -2117,17 +2107,6 @@ namespace DH.Adapter.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("DH.Domain.Entities.GameImage", b =>
-                {
-                    b.HasOne("DH.Domain.Entities.Game", "Game")
-                        .WithOne("Image")
-                        .HasForeignKey("DH.Domain.Entities.GameImage", "GameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Game");
                 });
 
             modelBuilder.Entity("DH.Domain.Entities.GameInventory", b =>
@@ -2312,9 +2291,6 @@ namespace DH.Adapter.Data.Migrations
 
             modelBuilder.Entity("DH.Domain.Entities.ChallengeReward", b =>
                 {
-                    b.Navigation("Image")
-                        .IsRequired();
-
                     b.Navigation("UserChallengePeriodRewards");
 
                     b.Navigation("UserRewards");
@@ -2322,8 +2298,6 @@ namespace DH.Adapter.Data.Migrations
 
             modelBuilder.Entity("DH.Domain.Entities.Event", b =>
                 {
-                    b.Navigation("Image");
-
                     b.Navigation("Notifications");
 
                     b.Navigation("Participants");
@@ -2331,9 +2305,6 @@ namespace DH.Adapter.Data.Migrations
 
             modelBuilder.Entity("DH.Domain.Entities.Game", b =>
                 {
-                    b.Navigation("Image")
-                        .IsRequired();
-
                     b.Navigation("Inventory")
                         .IsRequired();
 

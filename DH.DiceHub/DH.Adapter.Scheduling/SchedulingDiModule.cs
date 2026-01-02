@@ -24,6 +24,10 @@ public static class SchedulingDIModule
 
         services.AddQuartz(q =>
         {
+            q.UseDefaultThreadPool(tp =>
+            {
+                tp.MaxConcurrency = 5;
+            });
             // Configure the job store for persistence
             q.UsePersistentStore(storeOptions =>
             {
@@ -63,7 +67,7 @@ public static class SchedulingDIModule
         });
 
         // Register Quartz.NET hosted service
-        services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
+        services.AddQuartzHostedService(q => q.WaitForJobsToComplete = false);
 
         return services;
     }
@@ -79,7 +83,13 @@ public static class SchedulingDIModule
         service.AddTrigger(opts => opts
             .ForJob(nameof(UserRewardsExpirationReminderJob))
             .WithIdentity($"DailyJobTriggers-{nameof(UserRewardsExpirationReminderJob)}")
-            .WithCronSchedule("0 0 0 * * ?", cronScheduleBuilder =>
+            .WithCronSchedule("0 10 0 * * ?", cronScheduleBuilder =>
+                cronScheduleBuilder.InTimeZone(TimeZoneInfo.Utc)));// Every night 00:00 UTC 
+
+        service.AddTrigger(opts => opts
+            .ForJob(nameof(ExpireReservationJob))
+            .WithIdentity($"DailyJobTriggers-{nameof(ExpireReservationJob)}")
+            .WithCronSchedule("0 20 0 * * ?", cronScheduleBuilder =>
                 cronScheduleBuilder.InTimeZone(TimeZoneInfo.Utc)));// Every night 00:00 UTC 
 
         //FUTURE TODO: Change it in different way 
@@ -97,12 +107,6 @@ public static class SchedulingDIModule
                 .RepeatForever()));
 
         // .WithCronSchedule("0 0/2 * * * ?")); // Every two mins
-
-        service.AddTrigger(opts => opts
-            .ForJob(nameof(ExpireReservationJob))
-            .WithIdentity($"DailyJobTriggers-{nameof(ExpireReservationJob)}")
-            .WithCronSchedule("0 0 0 * * ?", cronScheduleBuilder =>
-                cronScheduleBuilder.InTimeZone(TimeZoneInfo.Utc)));// Every night 00:00 UTC 
 
         service.AddTrigger(opts => opts
             .ForJob(nameof(UserChallengeValidationJob))

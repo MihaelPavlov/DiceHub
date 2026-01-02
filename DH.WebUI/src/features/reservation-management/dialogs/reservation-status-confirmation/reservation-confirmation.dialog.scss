@@ -9,7 +9,7 @@
 
   input,
   textarea {
-    background-color: #43434b;
+    background-color: palette.$input-bg-color;
   }
   &__header {
     margin: 1rem 0;

@@ -11,7 +11,7 @@ export interface IUserUniversalChallenge {
   type: UniversalChallengeType;
 
   minValue?: number;
-  gameImageId?: number;
+  gameImageUrl?: string;
   gameName?: string;
 
   name_EN: string;

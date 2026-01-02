@@ -61,11 +61,25 @@ public static class AuthenticationDIModule
 
     public static IServiceCollection AuthenticationAdapter(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<AppIdentityDbContext>((provider, options) =>
-            options.AddInterceptors(provider.GetRequiredService<ApplicationDbConnectionInterceptor>())
-                .UseNpgsql(
-                    connectionString: configuration.GetConnectionString("DefaultConnection"),
-                    sqlServer => sqlServer
+        var connectionString = configuration.GetConnectionString("DefaultConnection");
+
+        // Add or override pooling settings
+        var builder = new Npgsql.NpgsqlConnectionStringBuilder(connectionString)
+        {
+            Pooling = true,            // enable connection pooling
+            MaxPoolSize = 25,          // max concurrent connections from pool (adjust as needed)
+            MinPoolSize = 5,           // optional: minimum pool size
+            Timeout = 15               // optional: connection timeout in seconds
+        };
+        services.AddDbContext<AppIdentityDbContext>(x =>
+            x.UseNpgsql(
+                builder.ConnectionString,
+                    npgsqlOptions =>
+                        npgsqlOptions
+                        .EnableRetryOnFailure(
+                            maxRetryCount: 5,
+                            maxRetryDelay: TimeSpan.FromSeconds(5),
+                            errorCodesToAdd: null)
                         .MigrationsAssembly(typeof(AppIdentityDbContext).Assembly.FullName)
             )
         );

@@ -282,8 +282,8 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
             minPlayers: this.form.controls.minPlayers.value,
             maxPlayers: this.form.controls.maxPlayers.value,
             averagePlaytime: this.form.controls.averagePlaytime.value,
-            imageId: !this.fileToUpload
-              ? +this.form.controls.image.value
+            imageUrl: !this.fileToUpload
+              ? this.form.controls.image.value
               : null,
           },
           this.fileToUpload
@@ -418,13 +418,11 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
             minPlayers: game.minPlayers,
             maxPlayers: game.maxPlayers,
             averagePlaytime: game.averagePlaytime,
-            image: game.imageId.toString(),
+            image: game.imageUrl,
           });
           this.editGameName = game.name;
 
-          this.entityImagePipe
-            .transform(ImageEntityType.Games, game.imageId)
-            .subscribe((image) => (this.imagePreview = image));
+          this.imagePreview = game.imageUrl;
 
           this.fileToUpload = null;
 

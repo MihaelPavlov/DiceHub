@@ -5,5 +5,5 @@ export interface IGameListResult {
   description_BG: string;
   likes: number;
   isLiked: boolean;
-  imageId: number;
+  imageUrl: string;
 }

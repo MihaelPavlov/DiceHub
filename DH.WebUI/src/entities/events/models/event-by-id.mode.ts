@@ -7,7 +7,7 @@ export interface IEventByIdResult {
   peopleJoined: number;
   maxPeople: number;
   isCustomImage: boolean;
-  imageId: number;
+  imageUrl: string;
 
   gameId: number;
   gameName: string;

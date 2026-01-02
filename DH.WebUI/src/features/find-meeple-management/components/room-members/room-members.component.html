@@ -38,13 +38,14 @@
                 class="owner"
                 *ngIf="this.room.createdBy === member.userId"
                 >{{ "meeple.room.room_owner" | translate }}</span
-              >{{ member.username }} -
-              <span class="age">
+              >{{ member.username }} 
+              <!--   -
+            <span class="age">
                 {{
                   "meeple.room.room_person_age"
                     | translate : { age: member.age }
                 }}</span
-              >
+              > -->
             </span>
             <br />
             <small

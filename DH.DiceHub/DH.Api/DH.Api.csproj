@@ -13,6 +13,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\DH.Adapter.ChallengeHub\DH.Adapter.ChallengeHub.csproj" />
+		<ProjectReference Include="..\DH.Adapter.FileManager\DH.Adapter.FileManager.csproj" />
 		<ProjectReference Include="..\DH.Adapter.Localization\DH.Adapter.Localization.csproj" />
 		<ProjectReference Include="..\DH.Adapter.Authentication\DH.Adapter.Authentication.csproj" />
 		<ProjectReference Include="..\DH.Adapter.ChallengesOrchestrator\DH.Adapter.ChallengesOrchestrator.csproj" />
@@ -33,10 +34,6 @@
 		<Content Update="dicehub-8c63f-firebase-adminsdk-y31l3-6026a82c88.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="wwwroot\game-images\" />
 	</ItemGroup>
 
 </Project>

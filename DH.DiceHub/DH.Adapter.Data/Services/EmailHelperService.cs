@@ -1,15 +1,13 @@
 ﻿using DH.Domain.Adapters.Email;
-using DH.Domain.Adapters.Localization;
 using DH.Domain.Entities;
 using DH.Domain.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace DH.Adapter.Data.Services;
 
-internal class EmailHelperService(IDbContextFactory<TenantDbContext> dbContextFactory, ILocalizationService localizationService) : IEmailHelperService
+internal class EmailHelperService(IDbContextFactory<TenantDbContext> dbContextFactory) : IEmailHelperService
 {
     readonly IDbContextFactory<TenantDbContext> _contextFactory = dbContextFactory;
-    readonly ILocalizationService localizationService = localizationService;
 
     public async Task CreateEmailHistory(EmailHistory history)
     {
@@ -24,7 +22,7 @@ internal class EmailHelperService(IDbContextFactory<TenantDbContext> dbContextFa
     {
         using (var context = await this._contextFactory.CreateDbContextAsync())
         {
-            return await context.EmailTemplates
+            return await context.EmailTemplates.AsNoTracking()
                 .FirstOrDefaultAsync(x => x.TemplateName == emailType.ToString() && x.Language.ToLower() == userLanguage.ToLower());
         }
     }

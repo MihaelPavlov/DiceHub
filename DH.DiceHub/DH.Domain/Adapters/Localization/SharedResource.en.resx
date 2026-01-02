@@ -609,4 +609,7 @@
   <data name="ForgotPasswordUserWithEmailNotFound" xml:space="preserve">
     <value>User with this email address doesn't exists!</value>
   </data>
+  <data name="UserSettingsUiTheme" xml:space="preserve">
+    <value>Provided Ui Theme is not a valid value.</value>
+  </data>
 </root>

@@ -10,7 +10,7 @@
   >
     <div class="wrapper_image">
       <img
-        [src]="ImageEntityType.Games | entityImage : game.imageId | async"
+        [src]="game.imageUrl"
         alt="Game Image"
       />
     </div>
@@ -18,10 +18,12 @@
       <div class="wrapper_title">
         {{ game.name }}
         <div class="wrapper_description">
-          {{   (currentLanguage === SupportLanguages.EN
+          {{
+            (currentLanguage === SupportLanguages.EN
               ? game.description_EN
               : game.description_BG
-            ) | truncate }}
+            ) | truncate
+          }}
         </div>
       </div>
       <div class="wrapper_right">

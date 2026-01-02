@@ -61,11 +61,11 @@ function futureDateValidator(): ValidatorFn {
 }
 
 @Component({
-    selector: 'app-add-update-meeple-room',
-    templateUrl: 'add-update-meeple-room.component.html',
-    styleUrl: 'add-update-meeple-room.component.scss',
-    encapsulation: ViewEncapsulation.None,
-    standalone: false
+  selector: 'app-add-update-meeple-room',
+  templateUrl: 'add-update-meeple-room.component.html',
+  styleUrl: 'add-update-meeple-room.component.scss',
+  encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class AddUpdateMeepleRoomComponent
   extends Form
@@ -291,10 +291,8 @@ export class AddUpdateMeepleRoomComponent
           this.form.patchValue({
             gameId: game.id,
           });
-          this.entityImagePipe
-            .transform(ImageEntityType.Games, game.imageId)
-            .subscribe((image) => (this.imagePreview = image));
 
+          this.imagePreview = game.imageUrl;
           this.gameInventory = inventory;
         }
       },

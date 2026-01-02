@@ -10,5 +10,5 @@ export interface IRewardGetByIdResult {
   cashEquivalent: number;
   requiredPoints: RewardRequiredPoint;
   level: RewardLevel;
-  imageId: number;
+  imageUrl: string;
 }

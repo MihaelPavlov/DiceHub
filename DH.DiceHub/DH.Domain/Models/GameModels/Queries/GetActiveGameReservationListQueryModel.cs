@@ -7,7 +7,7 @@ public class GetActiveGameReservationListQueryModel
     public int Id { get; set; }
     public int GameId { get; set; }
     public string GameName { get; set; } = string.Empty;
-    public int GameImageId { get; set; }
+    public string GameImageUrl { get; set; } = string.Empty;
     public int NumberOfGuests { get; set; }
     public DateTime CreatedDate { get; set; }
     public DateTime ReservationDate { get; set; }

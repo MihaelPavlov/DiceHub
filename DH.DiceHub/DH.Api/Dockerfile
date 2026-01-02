@@ -27,6 +27,7 @@ COPY ["DH.Adapter.QRManager/DH.Adapter.QRManager.csproj", "DH.Adapter.QRManager/
 COPY ["DH.Adapter.Reservations/DH.Adapter.Reservations.csproj", "DH.Adapter.Reservations/"]
 COPY ["DH.Adapter.Scheduling/DH.Adapter.Scheduling.csproj", "DH.Adapter.Scheduling/"]
 COPY ["DH.Adapter.Statistics/DH.Adapter.Statistics.csproj", "DH.Adapter.Statistics/"]
+COPY ["DH.Adapter.FileManager/DH.Adapter.FileManager.csproj", "DH.Adapter.FileManager/"]
 COPY ["DH.Application/DH.Application.csproj", "DH.Application/"]
 RUN dotnet restore "./DH.Api/DH.Api.csproj"
 COPY . .

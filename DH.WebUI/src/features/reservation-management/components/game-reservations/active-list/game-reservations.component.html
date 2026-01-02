@@ -19,11 +19,7 @@
         <div class="content">
           <div class="wrapper_image">
             <img
-              [src]="
-                ImageEntityType.Games
-                  | entityImage : reservation.gameImageId
-                  | async
-              "
+              [src]="reservation.gameImageUrl"
               alt="Game Image"
             />
           </div>

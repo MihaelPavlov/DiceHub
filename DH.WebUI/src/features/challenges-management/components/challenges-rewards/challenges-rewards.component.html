@@ -28,7 +28,7 @@
     {{ "challenge_management.to_earn" | translate }}
   </div>
   <div
-    class="wrapper_challenges__item"
+    class="wrapper_challenges__item surface-elevated"
     *ngFor="let reward of userRewards"
     [ngClass]="{
       completed: reward.status !== UserRewardStatus.NotExpired
@@ -36,14 +36,10 @@
   >
     <div
       class="image"
-      *ngIf="
-        ImageEntityType.Rewards
-          | entityImage : reward.rewardImageId
-          | async as imageUrl
-      "
-      (click)="openImagePreview(imageUrl)"
+      *ngIf="reward.rewardImageUrl"
+      (click)="openImagePreview(reward.rewardImageUrl)"
     >
-      <img [src]="imageUrl" alt="" />
+      <img [src]="reward.rewardImageUrl" alt="" />
     </div>
     <div class="info">
       <span class="header">{{

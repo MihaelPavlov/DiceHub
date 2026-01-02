@@ -20,11 +20,21 @@
   <div class="input-group">
     <div class="input-field">
       <label for="fromDate">From Date</label>
-      <input type="date" id="fromDate" [formControl]="fromDateControl" />
+      <input
+        type="date"
+        id="fromDate"
+        [formControl]="fromDateControl"
+        class="surface-elevated"
+      />
     </div>
     <div class="input-field">
       <label for="toDate">To Date</label>
-      <input type="date" id="toDate" [formControl]="toDateControl" />
+      <input
+        type="date"
+        id="toDate"
+        [formControl]="toDateControl"
+        class="surface-elevated"
+      />
     </div>
   </div>
   <div class="errors">

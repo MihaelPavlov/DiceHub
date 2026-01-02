@@ -1,1 +1,0 @@
-var a=function(n){return n[n.Unknown=0]="Unknown",n[n.Game=1]="Game",n[n.Event=2]="Event",n[n.Reward=3]="Reward",n[n.GameReservation=4]="GameReservation",n[n.TableReservation=5]="TableReservation",n}(a||{});export{a};

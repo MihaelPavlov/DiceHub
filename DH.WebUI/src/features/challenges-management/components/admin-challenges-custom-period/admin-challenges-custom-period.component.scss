@@ -124,3 +124,9 @@
   background-color: #3b3f47 !important;
   transform: translateX(2px);
 }
+
+::ng-deep .ng-option-label{
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: unset !important;
+}

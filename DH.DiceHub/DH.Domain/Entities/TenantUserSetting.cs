@@ -8,5 +8,6 @@ public class TenantUserSetting : TenantEntity
     public string UserId { get; set; } = string.Empty;
     public string AssistiveTouchSettings { get; set; } = string.Empty;
     public string PhoneNumber { get; set; } = string.Empty;
+    public string UiTheme { get; set; } = Theme.Dark.ToString();
     public string Language { get; set; } = SupportLanguages.EN.ToString();
 }

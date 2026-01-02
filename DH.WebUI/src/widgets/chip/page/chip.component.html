@@ -1,7 +1,3 @@
-<div
-  class="chip"
-  [ngClass]="{ small: size === 'small', big: size === 'big', extraSmall: size ==='extraSmall' }"
-  [style.background-color]="systemColor"
->
+<div class="chip surface-elevated" [ngClass]="[size, systemColorCssName]">
   {{ text }}
 </div>

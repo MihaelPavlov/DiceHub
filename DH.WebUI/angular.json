@@ -20,20 +20,28 @@
             "outputPath": "dist/dh.web-ui",
             "index": "src/index.html",
             "browser": "src/main.ts",
+            "baseHref": "/",
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
-               "src/shared/assets",
-               "src/shared/assets/images",
-               "src/firebase-messaging-sw.js",
-               "src/manifest.json"],
+              "src/shared/assets",
+              "src/shared/assets/images",
+              "src/firebase-messaging-sw.js",
+              "src/manifest.json"
+            ],
             "styles": ["src/shared/assets/styles/styles.scss"],
             "scripts": []
           },
           "configurations": {
             "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/shared/environments/environment.development.ts",
+                  "with": "src/shared/environments/environment.prod.ts"
+                }
+              ],
               "budgets": [
                 {
                   "type": "initial",
@@ -80,7 +88,11 @@
             "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
-            "assets": ["src/favicon.ico","src/shared/assets","src/firebase-messaging-sw.js"],
+            "assets": [
+              "src/favicon.ico",
+              "src/shared/assets",
+              "src/firebase-messaging-sw.js"
+            ],
             "styles": ["src/shared/assets/styles/styles.scss"],
             "scripts": []
           }

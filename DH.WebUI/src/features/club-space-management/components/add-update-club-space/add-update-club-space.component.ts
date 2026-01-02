@@ -35,10 +35,10 @@ interface ICreateSpaceTableForm {
 }
 
 @Component({
-    selector: 'app-add-update-club-space',
-    templateUrl: 'add-update-club-space.component.html',
-    styleUrl: 'add-update-club-space.component.scss',
-    standalone: false
+  selector: 'app-add-update-club-space',
+  templateUrl: 'add-update-club-space.component.html',
+  styleUrl: 'add-update-club-space.component.scss',
+  standalone: false,
 })
 export class AddUpdateClubSpaceComponent extends Form implements OnInit {
   override form: Formify<ICreateSpaceTableForm>;
@@ -148,7 +148,7 @@ export class AddUpdateClubSpaceComponent extends Form implements OnInit {
             this.router.navigateByUrl(FULL_ROUTE.SPACE_MANAGEMENT.HOME);
           },
           error: (error) => {
-             if (error.error.errors.UserHaveActiveTable)
+            if (error.error.errors.UserHaveActiveTable)
               this.getServerErrorMessage =
                 error.error.errors.UserHaveActiveTable[0];
 
@@ -239,10 +239,7 @@ export class AddUpdateClubSpaceComponent extends Form implements OnInit {
             gameName: game.name,
             gameId: game.id,
           });
-
-          this.entityImagePipe
-            .transform(ImageEntityType.Games, game.imageId)
-            .subscribe((x) => (this.imagePreview = x));
+          this.imagePreview = game.imageUrl;
         }
       },
     });
@@ -257,9 +254,7 @@ export class AddUpdateClubSpaceComponent extends Form implements OnInit {
             gameId: game.id,
           });
 
-          this.entityImagePipe
-            .transform(ImageEntityType.Games, game.imageId)
-            .subscribe((x) => (this.imagePreview = x));
+          this.imagePreview = game.imageUrl;
 
           if (game.minPlayers === 1) {
             const dialogRef = this.dialog.open(SinglePlayerConfirmDialog, {});

@@ -17,7 +17,7 @@
     [ngClass]="{ expired: isEventExpired(event.startDate) }"
   >
     <div class="wrapper_image">
-      <img *ngIf="getImage(event) | async as image" [src]="image" />
+      <img [src]="event.imageUrl" />
     </div>
     <div class="wrapper_info">
       <div class="wrapper_title">

@@ -17,6 +17,27 @@
 </div>
 
 <form [formGroup]="form" class="container">
+    <div class="input-field">
+    <label for="theme" class="required">{{
+      "user_settings.theme.label" | translate
+    }}</label>
+    <span class="input-info">{{
+      "user_settings.theme.info" | translate
+    }}</span>
+
+    <ng-select
+      id="theme"
+      [items]="themeValues"
+      bindValue="id"
+      bindLabel="name"
+      [placeholder]="'user_settings.theme.placeholder' | translate"
+      [searchable]="true"
+      formControlName="uiTheme"
+      class="app-select-long surface-elevated"
+    >
+    </ng-select>
+  </div>
+
   <div class="input-field">
     <label for="language" class="required">{{
       "space_settings.language.label" | translate
@@ -33,7 +54,7 @@
       [placeholder]="'space_settings.language.placeholder' | translate"
       [searchable]="true"
       formControlName="language"
-      class="app-select-long"
+      class="app-select-long surface-elevated"
     >
     </ng-select>
   </div>
@@ -51,6 +72,7 @@
       type="text"
       id="phoneNumber"
       formControlName="phoneNumber"
+      class="surface-elevated"
     />
   </div>
 
@@ -67,6 +89,7 @@
       type="text"
       id="clubName"
       formControlName="clubName"
+      class="surface-elevated"
     />
   </div>
 
@@ -87,7 +110,7 @@
       [searchable]="true"
       formControlName="daysOff"
       [multiple]="true"
-      class="app-select-long"
+      class="app-select-long surface-elevated"
     >
     </ng-select>
   </div>
@@ -107,6 +130,7 @@
           'space_settings.start_working_hours.placeholder' | translate
         "
         formControlName="startWorkingHours"
+        class="surface-elevated"
       />
     </div>
     <div class="input-field">
@@ -123,6 +147,7 @@
           'space_settings.end_working_hours.placeholder' | translate
         "
         formControlName="endWorkingHours"
+        class="surface-elevated"
       />
     </div>
   </div>
@@ -142,6 +167,7 @@
       type="number"
       id="averageMaxCapacity"
       formControlName="averageMaxCapacity"
+      class="surface-elevated"
     />
   </div>
 
@@ -161,6 +187,7 @@
       type="number"
       id="challengeRewardsCountForPeriod"
       formControlName="challengeRewardsCountForPeriod"
+      class="surface-elevated"
     />
   </div>
 
@@ -183,7 +210,7 @@
       "
       [searchable]="true"
       formControlName="challengeInitiationDelayHours"
-      class="app-select-long"
+      class="app-select-long surface-elevated"
     >
     </ng-select>
   </div>
@@ -206,7 +233,7 @@
       "
       [searchable]="true"
       formControlName="resetDayForRewards"
-      class="app-select-long"
+      class="app-select-long surface-elevated"
     >
     </ng-select>
   </div>
@@ -229,7 +256,7 @@
       [closeOnSelect]="false"
       [searchable]="true"
       formControlName="reservationHours"
-      class="app-select-long"
+      class="app-select-long surface-elevated"
     >
     </ng-select>
   </div>
@@ -250,6 +277,7 @@
       type="number"
       id="bonusTimeAfterReservationExpiration"
       formControlName="bonusTimeAfterReservationExpiration"
+      class="surface-elevated"
     />
   </div>
 
@@ -271,7 +299,7 @@
       "
       [searchable]="true"
       formControlName="periodOfRewardReset"
-      class="app-select-long"
+      class="app-select-long surface-elevated"
     >
     </ng-select>
   </div>
@@ -294,7 +322,7 @@
       "
       [searchable]="true"
       formControlName="isCustomPeriodOn"
-      class="app-select-long"
+      class="app-select-long surface-elevated"
     >
     </ng-select>
   </div>

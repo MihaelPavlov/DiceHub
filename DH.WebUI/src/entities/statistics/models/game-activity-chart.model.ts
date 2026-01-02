@@ -6,5 +6,5 @@ export interface GameActivityStats {
   gameId: number;
   gameName: string;
   timesPlayed: number;
-  gameImageId: number;
+  gameImageUrl: string;
 }

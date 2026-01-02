@@ -147,16 +147,4 @@ public class EventsController : ControllerBase
         var result = await this.mediator.Send(query, cancellationToken);
         return Ok(result);
     }
-
-    [HttpGet("get-image/{id}")]
-    public async Task<IActionResult> GetEventImage(int id, CancellationToken cancellationToken)
-    { 
-        var eventFile = await this.mediator.Send(new GetEventImageByIdQuery(id), cancellationToken);
-        if (eventFile == null)
-        {
-            return NotFound();
-        }
-
-        return File(eventFile.Data, eventFile.ContentType, eventFile.FileName);
-    }
 }

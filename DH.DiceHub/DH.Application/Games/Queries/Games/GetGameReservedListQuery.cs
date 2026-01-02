@@ -45,7 +45,7 @@ internal class GetGameReservedListQueryHandler : IRequestHandler<GetGameReserved
 
         var games = await this.gameRepository.GetWithPropertiesAsync<GameRecord>(
             x => gameIds.Contains(x.Id),
-            x => new GameRecord(x.Id, x.Image.Id, x.Name),
+            x => new GameRecord(x.Id, x.ImageUrl, x.Name),
             cancellationToken);
 
         foreach (var reservation in reservations)
@@ -59,13 +59,13 @@ internal class GetGameReservedListQueryHandler : IRequestHandler<GetGameReserved
             var game = games.FirstOrDefault(x => x.Id == reservation.GameId);
             if (game != null)
             {
-                reservation.GameImageId = game.ImageId;
+                reservation.GameImageUrl = game.ImageUrl;
                 reservation.GameName = game.Name;
             }
         }
 
         return reservations.OrderByDescending(x => x.ReservationDate).ToList();
     }
-    private record GameRecord(int Id, int ImageId, string Name);
+    private record GameRecord(int Id, string ImageUrl, string Name);
 }
 

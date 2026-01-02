@@ -7,7 +7,7 @@ export interface IUserCustomPeriod {
 }
 
 export interface IUserCustomPeriodReward {
-  rewardImageId: number;
+  rewardImageUrl: string;
   rewardRequiredPoints: number;
   isCompleted: boolean;
 }
@@ -17,6 +17,6 @@ export interface IUserCustomPeriodChallenge {
   challengeAttempts: number;
   currentAttempts: number;
   rewardPoints: number;
-  gameImageId: number;
+  gameImageUrl: string;
   gameName: string;
 }

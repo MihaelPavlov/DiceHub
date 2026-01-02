@@ -67,7 +67,7 @@
 <ng-template #universalChallengesTemplate>
   <div class="wrapper_universal_challenges">
     <div
-      class="wrapper_universal_challenges__item"
+      class="wrapper_universal_challenges__item surface-elevated"
       *ngFor="let challenge of userUniversalChallengeList; let i = index"
       [ngClass]="{
         'in-progress': challenge.status === ChallengeStatus.InProgress,
@@ -80,20 +80,15 @@
         class="challenge_container"
         (click)="toggleMenu(controls, challenge.description_EN)"
       >
-        <ng-container *ngIf="challenge.gameImageId">
+        <ng-container *ngIf="challenge.gameImageUrl">
           <div
             class="image clickable"
-            (click)="openImagePreview(imageUrl)"
-            *ngIf="
-              ImageEntityType.Games
-                | entityImage : challenge.gameImageId
-                | async as imageUrl
-            "
+            (click)="openImagePreview(challenge.gameImageUrl)"
           >
-            <img [src]="imageUrl" alt="" />
+            <img [src]="challenge.gameImageUrl" alt="" />
           </div>
         </ng-container>
-        <ng-container *ngIf="!challenge.gameImageId">
+        <ng-container *ngIf="!challenge.gameImageUrl">
           <div class="image clickable">
             <ng-container [ngSwitch]="challenge.type">
               <img
@@ -153,7 +148,7 @@
             </ng-container>
           </div>
         </ng-container>
-        <!-- <ng-container *ngIf="!challenge.gameImageId">
+        <!-- <ng-container *ngIf="!challenge.gameImageUrl">
           <div class="info-container">
             <svg
               (click)="toggleMenu(controls, challenge.description_EN)"
@@ -227,7 +222,7 @@
 <ng-template #customPeriodChallenges>
   <div class="wrapper_challenges">
     <div
-      class="wrapper_challenges__item"
+      class="wrapper_challenges__item surface-elevated"
       *ngFor="let challenge of userCustomPeriodChallengesList; let i = index"
       [ngClass]="{
         'in-progress': !challenge.isCompleted,
@@ -237,14 +232,9 @@
       <div class="image_info_container">
         <div
           class="image clickable"
-          (click)="openImagePreview(imageUrl)"
-          *ngIf="
-            ImageEntityType.Games
-              | entityImage : challenge.gameImageId
-              | async as imageUrl
-          "
+          (click)="openImagePreview(challenge.gameImageUrl)"
         >
-          <img [src]="imageUrl" alt="" />
+          <img [src]="challenge.gameImageUrl" alt="" />
         </div>
         <div class="info">
           <span class="header">
@@ -291,7 +281,7 @@
 <ng-template #autoChallengesTemplate>
   <div class="wrapper_challenges">
     <div
-      class="wrapper_challenges__item"
+      class="wrapper_challenges__item surface-elevated"
       *ngFor="let challenge of userChallengeList; let i = index"
       [ngClass]="{
         'in-progress': challenge.status === ChallengeStatus.InProgress,
@@ -302,14 +292,9 @@
       <div class="image_info_container">
         <div
           class="image clickable"
-          (click)="openImagePreview(imageUrl)"
-          *ngIf="
-            ImageEntityType.Games
-              | entityImage : challenge.gameImageId
-              | async as imageUrl
-          "
+          (click)="openImagePreview(challenge.gameImageUrl)"
         >
-          <img [src]="imageUrl" alt="" />
+          <img [src]="challenge.gameImageUrl" alt="" />
         </div>
         <div class="info">
           <span class="header">
@@ -352,7 +337,7 @@
 </ng-template>
 
 <ng-template #stats let-userRewardList>
-  <div class="wrapper_stats" *ngIf="this.periodPerformance">
+  <div class="wrapper_stats surface-elevated" *ngIf="this.periodPerformance">
     <div class="wrapper_score">
       <p class="score">
         {{
@@ -394,17 +379,12 @@
           <ng-container *ngFor="let reward of userRewardList">
             <div
               class="item clickable"
-              (click)="openImagePreview(imageUrl)"
-              *ngIf="
-                ImageEntityType.Rewards
-                  | entityImage : reward.rewardImageId
-                  | async as imageUrl
-              "
+              (click)="openImagePreview(reward.rewardImageUrl)"
               [ngClass]="{
                 'completed-img': reward.isCompleted
               }"
             >
-              <img [src]="imageUrl" alt="Reward" />
+              <img [src]="reward.rewardImageUrl" alt="Reward" />
             </div>
           </ng-container>
         </div>

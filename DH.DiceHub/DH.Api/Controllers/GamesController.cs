@@ -155,19 +155,6 @@ public class GamesController : ControllerBase
         return Ok();
     }
 
-    [HttpGet("get-image/{id}")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(FileContentResult))]
-    public async Task<IActionResult> GetGameImage(int id, CancellationToken cancellationToken)
-    {
-        var gameFile = await this.mediator.Send(new GetGameImageByIdQuery(id), cancellationToken);
-        if (gameFile == null)
-        {
-            return NotFound();
-        }
-
-        return File(gameFile.Data, gameFile.ContentType, gameFile.FileName);
-    }
-
     [HttpDelete("{id}")]
     [ActionAuthorize(UserAction.GamesCUD)]
     [ProducesResponseType(StatusCodes.Status200OK)]

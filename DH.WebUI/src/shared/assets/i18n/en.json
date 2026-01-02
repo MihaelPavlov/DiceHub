@@ -646,9 +646,15 @@
       "placeholder": "EN",
       "info": "Application Language for you"
     },
+     "theme": {
+      "label": "UI Theme",
+      "placeholder": "Dark or Light",
+      "info": "UI Theme of the application interface"
+    },
     "controls_display_names": {
       "phone_number": "Phone Number",
-      "language": "Language"
+      "language": "Language",
+      "uiTheme": "UI Theme"
     },
     "save_button": "Save",
     "controls_menu": {
@@ -679,6 +685,10 @@
   "languages_names_short": {
     "EN": "EN",
     "BG": "BG"
+  },
+  "ui_theme_names":{
+    "Dark": "Dark",
+    "Light": "Light"
   },
   "landing": {
     "revolutionizing": "Revolutionizing",

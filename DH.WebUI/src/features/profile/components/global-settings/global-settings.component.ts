@@ -26,10 +26,13 @@ import { IUserSettings } from '../../../../entities/common/models/user-settings.
 import { LanguageService } from '../../../../shared/services/language.service';
 import { TranslateService } from '@ngx-translate/core';
 import { TranslateInPipe } from '../../../../shared/pipe/translate-in.pipe';
+import { ThemeService } from '../../../../shared/services/theme.service';
+import { UiTheme } from '../../../../shared/enums/ui-theme.enum';
 
 interface ITenantSettingsForm {
   averageMaxCapacity: number;
   language: string;
+  uiTheme: string;
   challengeRewardsCountForPeriod: number;
   periodOfRewardReset: string;
   resetDayForRewards: string;
@@ -45,10 +48,10 @@ interface ITenantSettingsForm {
 }
 
 @Component({
-    selector: 'app-global-settings',
-    templateUrl: 'global-settings.component.html',
-    styleUrl: 'global-settings.component.scss',
-    standalone: false
+  selector: 'app-global-settings',
+  templateUrl: 'global-settings.component.html',
+  styleUrl: 'global-settings.component.scss',
+  standalone: false,
 })
 export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
   override form: Formify<ITenantSettingsForm>;
@@ -59,6 +62,7 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
   public toggleStateValues: IDropdown[] = [];
   public reservationHours: IDropdown[] = [];
   public languagesValues: IDropdown[] = [];
+  public themeValues: IDropdown[] = [];
   public oldCustomPeriodValue: ToggleState | null = null;
 
   public delayHours: IDropdown[] = [
@@ -83,6 +87,7 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
     private readonly tenantSettingsService: TenantSettingsService,
     private readonly tenantUserSettingsService: TenantUserSettingsService,
     private readonly languageService: LanguageService,
+    private readonly themeService: ThemeService,
     public override translateService: TranslateService,
     private readonly translateInPipe: TranslateInPipe
   ) {
@@ -144,6 +149,10 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
             userSettings !== null
               ? SupportLanguages[userSettings.language]
               : SupportLanguages.EN,
+          uiTheme:
+            userSettings !== null
+              ? UiTheme[userSettings.uiTheme]
+              : UiTheme.Dark,
           challengeInitiationDelayHours:
             tenantSettings.challengeInitiationDelayHours,
           bonusTimeAfterReservationExpiration:
@@ -172,6 +181,10 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
     if (this.form.valid) {
       let oldLanguage;
       let newLanguage;
+
+      let oldTheme;
+      let newTheme;
+
       const periodTranslation$ = this.translateInPipe.transform(
         `period_time_names.${
           TimePeriodType[this.form.controls.periodOfRewardReset.value]
@@ -193,18 +206,34 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
         SupportLanguages.EN.toLowerCase()
       );
 
-      forkJoin([periodTranslation$, weekDayTranslation$, languageTranslation$])
+      const themeTranslation$ = this.translateInPipe.transform(
+        `ui_theme_names.${UiTheme[this.form.controls.uiTheme.value]}`,
+        SupportLanguages.EN.toLowerCase()
+      );
+
+      let updatedSettings = {
+        id: this.userSettings?.id ?? null,
+        language: newLanguage,
+        uiTheme: newTheme,
+        phoneNumber: this.form.controls.phoneNumber.value,
+      };
+
+      forkJoin([
+        periodTranslation$,
+        weekDayTranslation$,
+        languageTranslation$,
+        themeTranslation$,
+      ])
         .pipe(
-          switchMap(([periodName, weekDayName, language]) => {
+          switchMap(([periodName, weekDayName, language, theme]) => {
             oldLanguage = this.languageService.getCurrentLanguage();
             newLanguage = language as unknown as SupportLanguages;
 
-            const updatedSettings = {
-              id: this.userSettings?.id ?? null,
-              language: newLanguage,
-              phoneNumber: this.form.controls.phoneNumber.value,
-            };
+            oldTheme = this.userSettings?.uiTheme;
+            newTheme = theme as unknown as UiTheme;
 
+            updatedSettings.language = newLanguage;
+            updatedSettings.uiTheme = newTheme;
             return combineLatest([
               this.tenantSettingsService.update({
                 id: this.tenantSettingsId,
@@ -239,7 +268,7 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
         )
         .subscribe({
           next: () => {
-            if (newLanguage != oldLanguage) {
+            if (newLanguage !== oldLanguage) {
               this.languageService
                 .setLanguage$(newLanguage as SupportLanguages)
                 .subscribe({
@@ -248,6 +277,12 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
                   },
                 });
             }
+
+            if (newTheme !== oldTheme) {
+              this.themeService.applyTheme(newTheme as UiTheme);
+              this.initSelectValues();
+            }
+            this.userSettings = updatedSettings;
 
             const newCustomPeriodValue =
               this.form.controls.isCustomPeriodOn.value;
@@ -293,6 +328,10 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
       case 'language':
         return this.translateService.instant(
           'space_settings.control_display_names.language'
+        );
+      case 'uiTheme':
+        return this.translateService.instant(
+          'user_settings.controls_display_names.uiTheme'
         );
       case 'challengeRewardsCountForPeriod':
         return this.translateService.instant(
@@ -375,6 +414,13 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
         id: SupportLanguages[name as keyof typeof SupportLanguages],
         name: this.translateService.instant(`languages_names.${name}`),
       })) as unknown as IDropdown[];
+
+    this.themeValues = Object.keys(UiTheme)
+      .filter((key) => isNaN(Number(key)))
+      .map((name) => ({
+        id: UiTheme[name as keyof typeof UiTheme],
+        name: this.translateService.instant(`ui_theme_names.${name}`),
+      })) as unknown as IDropdown[];
   }
 
   private initFormGroup(): FormGroup {
@@ -384,6 +430,7 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
         Validators.required,
       ]),
       language: new FormControl<string | null>('0', Validators.required),
+      uiTheme: new FormControl<string | null>('0', [Validators.required]),
       challengeRewardsCountForPeriod: new FormControl<number | null>(null, [
         Validators.required,
       ]),

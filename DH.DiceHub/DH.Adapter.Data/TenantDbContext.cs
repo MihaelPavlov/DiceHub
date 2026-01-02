@@ -44,7 +44,6 @@ public class TenantDbContext : DbContext, ITenantDbContext
     public DbSet<GameReview> GameReviews { get; set; } = default!;
     public DbSet<GameLike> GameLikes { get; set; } = default!;
     public DbSet<GameCategory> GameCategories { get; set; } = default!;
-    public DbSet<GameImage> GameImages { get; set; } = default!;
     public DbSet<GameReservation> GameReservations { get; set; } = default!;
     public DbSet<GameInventory> GameInventories { get; set; } = default!;
 
@@ -53,7 +52,6 @@ public class TenantDbContext : DbContext, ITenantDbContext
     #region events
 
     public DbSet<Event> Events { get; set; } = default!;
-    public DbSet<EventImage> EventImages { get; set; } = default!;
     public DbSet<EventParticipant> EventParticipants { get; set; } = default!;
 
     #endregion events
@@ -74,7 +72,6 @@ public class TenantDbContext : DbContext, ITenantDbContext
     public DbSet<ChallengeStatistic> ChallengeStatistics { get; set; } = default!;
     public DbSet<UserChallenge> UserChallenges { get; set; } = default!;
     public DbSet<ChallengeReward> ChallengeRewards { get; set; } = default!;
-    public DbSet<ChallengeRewardImage> ChallengeRewardImages { get; set; } = default!;
     public DbSet<UserChallengeReward> UserChallengeRewards { get; set; } = default!;
     public DbSet<UserChallengePeriodReward> UserChallengePeriodRewards { get; set; } = default!;
     public DbSet<UserChallengePeriodPerformance> UserChallengePeriodPerformances { get; set; } = default!;

@@ -1,6 +1,6 @@
 export interface IRoomMemberResult {
   userId: string;
   username: string;
-  age: number;
+  // age: number;
   joinedAt: Date;
 }

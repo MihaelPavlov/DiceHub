@@ -18,7 +18,7 @@
       id="type"
       bindValue="id"
       bindLabel="name"
-      class="app-select-long"
+      class="app-select-long surface-elevated"
       [formControl]="gamesChartType"
     >
     </ng-select>
@@ -76,9 +76,7 @@
         <span class="number" [randomColor]="i">{{ i + 1 }}</span>
         <div class="wrapper_image">
           <img
-            [src]="
-              ImageEntityType.Games | entityImage : game.gameImageId | async
-            "
+            [src]="game.gameImageUrl"
             alt="Game Image"
           />
         </div>

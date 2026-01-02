@@ -29,22 +29,12 @@ internal class UpdateGameCommandHandler : IRequestHandler<UpdateGameCommand>
         if (!request.Game.FieldsAreValid(out var validationErrors, localizer))
             throw new ValidationErrorsException(validationErrors);
 
-        if (request.Game.ImageId == null &&
-            request.FileName != null &&
-            request.ContentType != null &&
-            request.ImageStream != null)
-        {
-            await this.gameService.UpdateGame(
-                request.Game.Adapt<Game>(),
-                request.FileName,
-                request.ContentType,
-                request.ImageStream,
-                cancellationToken
-            );
-
-            return;
-        }
-
-        await this.repository.Update(request.Game.Adapt<Game>(), cancellationToken);
+        await this.gameService.UpdateGame(
+            request.Game.Adapt<Game>(),
+            request.FileName,
+            request.ContentType,
+            request.ImageStream,
+            cancellationToken
+        );
     }
 }

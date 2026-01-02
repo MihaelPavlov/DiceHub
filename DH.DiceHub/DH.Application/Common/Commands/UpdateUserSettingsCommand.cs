@@ -29,7 +29,7 @@ internal class UpdateUserSettingsCommandHandler(
         {
             await this.repository.AddAsync(new TenantUserSetting
             {
-                UserId = this.userContext.UserId,
+                UserId = this.userContext.UserId!,
                 PhoneNumber = request.Settings.PhoneNumber,
             }, cancellationToken);
 
@@ -49,7 +49,7 @@ internal class UpdateUserSettingsCommandHandler(
         {
             await this.repository.AddAsync(new TenantUserSetting
             {
-                UserId = currentUserId,
+                UserId = currentUserId!,
                 PhoneNumber = request.Settings.PhoneNumber,
             }, cancellationToken);
 
@@ -66,9 +66,13 @@ internal class UpdateUserSettingsCommandHandler(
             dbSettings.Language = request.Settings.Language;
             isLanguageChanged = true;
         }
+        if (dbSettings!.UiTheme != request.Settings.UiTheme)
+        {
+            dbSettings.UiTheme = request.Settings.UiTheme;
+        }
 
         await this.repository.SaveChangesAsync(cancellationToken);
 
-        if (isLanguageChanged) this.userSettingsCache.InvalidateLanguage(currentUserId);
+        if (isLanguageChanged) this.userSettingsCache.InvalidateLanguage(currentUserId!);
     }
 }

@@ -28,6 +28,7 @@ public class DataRepository<TEntity> : IRepository<TEntity>
         CancellationToken cancellationToken)
     {
         return await this.tenantDbContext.Set<TEntity>()
+            .AsNoTracking()
             .Select(selector)
             .ToListAsync(cancellationToken);
     }
@@ -50,6 +51,7 @@ public class DataRepository<TEntity> : IRepository<TEntity>
         CancellationToken cancellationToken)
     {
         return await this.tenantDbContext.Set<TEntity>()
+            .AsNoTracking()
             .Where(wherePredicate)
             .Select(selector)
             .ToListAsync(cancellationToken);
@@ -71,7 +73,7 @@ public class DataRepository<TEntity> : IRepository<TEntity>
     /// <inheritdoc/>
     public async Task<TEntity?> GetByAsync(Expression<Func<TEntity, bool>> selector, CancellationToken cancellationToken)
     {
-        return await this.tenantDbContext.Set<TEntity>().FirstOrDefaultAsync(selector, cancellationToken);
+        return await this.tenantDbContext.Set<TEntity>().AsNoTracking().FirstOrDefaultAsync(selector, cancellationToken);
     }
 
     /// <inheritdoc/>

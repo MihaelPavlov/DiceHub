@@ -22,22 +22,26 @@ import { ROUTE } from '../../../../shared/configs/route.config';
 import { TranslateInPipe } from '../../../../shared/pipe/translate-in.pipe';
 import { forkJoin, switchMap } from 'rxjs';
 import { IUserSettings } from '../../../../entities/common/models/user-settings.model';
+import { UiTheme } from '../../../../shared/enums/ui-theme.enum';
+import { ThemeService } from '../../../../shared/services/theme.service';
 
 interface IUserSettingsForm {
   phoneNumber: string;
   language: string;
+  uiTheme: string;
 }
 
 @Component({
-    selector: 'app-user-settings',
-    templateUrl: 'user-settings.component.html',
-    styleUrl: 'user-settings.component.scss',
-    standalone: false
+  selector: 'app-user-settings',
+  templateUrl: 'user-settings.component.html',
+  styleUrl: 'user-settings.component.scss',
+  standalone: false,
 })
 export class UserSettingsComponent extends Form implements OnInit, OnDestroy {
   override form: Formify<IUserSettingsForm>;
   public tenantSettingsId: number | null = null;
   public languagesValues: IDropdown[] = [];
+  public themeValues: IDropdown[] = [];
   public userSettings: IUserSettings | null = null;
 
   constructor(
@@ -48,7 +52,8 @@ export class UserSettingsComponent extends Form implements OnInit, OnDestroy {
     private readonly router: Router,
     private readonly languageService: LanguageService,
     public override translateService: TranslateService,
-    private readonly translateInPipe: TranslateInPipe
+    private readonly translateInPipe: TranslateInPipe,
+    private readonly themeService: ThemeService
   ) {
     super(toastService, translateService);
     this.form = this.initFormGroup();
@@ -69,6 +74,13 @@ export class UserSettingsComponent extends Form implements OnInit, OnDestroy {
         id: SupportLanguages[name as keyof typeof SupportLanguages],
         name: this.translateService.instant(`languages_names.${name}`),
       })) as unknown as IDropdown[];
+
+    this.themeValues = Object.keys(UiTheme)
+      .filter((key) => isNaN(Number(key)))
+      .map((name) => ({
+        id: UiTheme[name as keyof typeof UiTheme],
+        name: this.translateService.instant(`ui_theme_names.${name}`),
+      })) as unknown as IDropdown[];      
   }
 
   public ngOnDestroy(): void {
@@ -85,7 +97,8 @@ export class UserSettingsComponent extends Form implements OnInit, OnDestroy {
         this.tenantSettingsId = userSettings.id ?? null;
         this.form.patchValue({
           phoneNumber: userSettings.phoneNumber,
-          language: SupportLanguages[userSettings.language]
+          language: SupportLanguages[userSettings.language],
+          uiTheme: UiTheme[userSettings.uiTheme],
         });
 
         this.userSettings = userSettings;
@@ -98,6 +111,8 @@ export class UserSettingsComponent extends Form implements OnInit, OnDestroy {
       let oldLanguage;
       let newLanguage;
 
+      let oldTheme;
+      let newTheme;
       const languageTranslation$ = this.translateInPipe.transform(
         `languages_names.${
           SupportLanguages[this.form.controls.language.value]
@@ -105,16 +120,25 @@ export class UserSettingsComponent extends Form implements OnInit, OnDestroy {
         SupportLanguages.EN.toLowerCase()
       );
 
-      forkJoin([languageTranslation$])
+      const themeTranslation$ = this.translateInPipe.transform(
+        `ui_theme_names.${UiTheme[this.form.controls.uiTheme.value]}`,
+         SupportLanguages.EN.toLowerCase()
+      );
+
+      forkJoin([languageTranslation$, themeTranslation$])
         .pipe(
-          switchMap(([language]) => {
-            oldLanguage = this.languageService.getCurrentLanguage();            
+          switchMap(([language, theme]) => {
+            oldLanguage = this.languageService.getCurrentLanguage();
             newLanguage = language as unknown as SupportLanguages;
-            
+
+            oldTheme = this.userSettings?.uiTheme;
+            newTheme = theme as unknown as UiTheme;
+
             return this.userSettingService.update({
               id: this.tenantSettingsId,
               phoneNumber: this.form.controls.phoneNumber.value,
               language: newLanguage,
+              uiTheme: newTheme,
             });
           })
         )
@@ -128,6 +152,10 @@ export class UserSettingsComponent extends Form implements OnInit, OnDestroy {
                     this.initDropdownValues();
                   },
                 });
+            }
+            if (newTheme != oldTheme) {
+              this.themeService.applyTheme(newTheme as UiTheme);
+              this.initDropdownValues();
             }
 
             this.fetchSettings();
@@ -165,6 +193,10 @@ export class UserSettingsComponent extends Form implements OnInit, OnDestroy {
         return this.translateService.instant(
           'user_settings.controls_display_names.language'
         );
+      case 'uiTheme':
+        return this.translateService.instant(
+          'user_settings.controls_display_names.uiTheme'
+        );
       default:
         return controlName;
     }
@@ -179,6 +211,7 @@ export class UserSettingsComponent extends Form implements OnInit, OnDestroy {
       id: new FormControl<number | null>(null),
       phoneNumber: new FormControl<string | null>('', [Validators.required]),
       language: new FormControl<string | null>('0', [Validators.required]),
+      uiTheme: new FormControl<string | null>('0', [Validators.required]),
     });
   }
 }

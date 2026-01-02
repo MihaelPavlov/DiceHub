@@ -1,4 +1,5 @@
 ﻿using DH.Domain.Adapters.Authentication;
+using DH.Domain.Adapters.FileManager;
 using DH.Domain.Adapters.Localization;
 using DH.Domain.Entities;
 using DH.Domain.Enums;
@@ -16,6 +17,7 @@ public class GameService : IGameService
     readonly TenantDbContext tenantDbContext;
     readonly ITenantSettingsCacheService tenantSettingsCacheService;
     readonly IUserContext userContext;
+    readonly IFileManagerClient fileManagerClient;
     readonly ILocalizationService localizationService;
 
     public GameService(
@@ -23,29 +25,26 @@ public class GameService : IGameService
         TenantDbContext tenantDbContext,
         ITenantSettingsCacheService tenantSettingsCacheService,
         IUserContext userContext,
+        IFileManagerClient fileManagerClient,
         ILocalizationService localizationService)
     {
         this.contextFactory = contextFactory;
         this.tenantDbContext = tenantDbContext;
         this.tenantSettingsCacheService = tenantSettingsCacheService;
         this.userContext = userContext;
+        this.fileManagerClient = fileManagerClient;
         this.localizationService = localizationService;
     }
 
     public async Task<int> CreateGame(Game game, string fileName, string contentType, MemoryStream imageStream, CancellationToken cancellationToken)
     {
+        var imageUrl = await this.fileManagerClient.UploadFileAsync(
+            FileManagerFolders.Games.ToString(), fileName, imageStream.ToArray());
+
         using (var context = await contextFactory.CreateDbContextAsync(cancellationToken))
         {
+            game.ImageUrl = imageUrl;
             await context.Games.AddAsync(game, cancellationToken);
-
-            await context.GameImages
-                .AddAsync(new GameImage
-                {
-                    Game = game,
-                    FileName = fileName,
-                    ContentType = contentType,
-                    Data = imageStream.ToArray(),
-                }, cancellationToken);
 
             await context.GameInventories
                 .AddAsync(new GameInventory
@@ -61,17 +60,20 @@ public class GameService : IGameService
         }
     }
 
-    public async Task UpdateGame(Game game, string fileName, string contentType, MemoryStream imageStream, CancellationToken cancellationToken)
+    public async Task UpdateGame(Game game, string? fileName, string? contentType, MemoryStream? imageStream, CancellationToken cancellationToken)
     {
+        string? currenFileImageUrl = null;
+
+        if (!string.IsNullOrEmpty(fileName))
+            currenFileImageUrl = this.fileManagerClient.GetPublicUrl(
+                FileManagerFolders.Games.ToString(), fileName);
+
         using (var context = await contextFactory.CreateDbContextAsync(cancellationToken))
         {
             var dbGame = await context.Games
                 .AsTracking()
-                .Include(g => g.Image)
                 .FirstOrDefaultAsync(x => x.Id == game.Id, cancellationToken)
                     ?? throw new NotFoundException(nameof(Game), game.Id);
-
-            var oldImage = dbGame.Image;
 
             dbGame.Name = game.Name;
             dbGame.Description_EN = game.Description_EN;
@@ -80,20 +82,14 @@ public class GameService : IGameService
             dbGame.MinPlayers = game.MinPlayers;
             dbGame.MaxPlayers = game.MaxPlayers;
             dbGame.AveragePlaytime = game.AveragePlaytime;
-            dbGame.CreatedDate = DateTime.UtcNow;
             dbGame.UpdatedDate = DateTime.UtcNow;
             dbGame.CategoryId = game.CategoryId;
-
-            var newGameImage = new GameImage
+            if (currenFileImageUrl != null && currenFileImageUrl != dbGame.ImageUrl && imageStream != null)
             {
-                FileName = fileName,
-                ContentType = contentType,
-                Data = imageStream.ToArray(),
-            };
-
-            dbGame.Image = newGameImage;
-
-            context.GameImages.Remove(oldImage);
+                var imageUrl = await this.fileManagerClient.UploadFileAsync(
+                    FileManagerFolders.Games.ToString(), fileName!, imageStream.ToArray());
+                dbGame.ImageUrl = imageUrl;
+            }
 
             await context.SaveChangesAsync(cancellationToken);
         }
@@ -104,10 +100,10 @@ public class GameService : IGameService
         using (var context = await contextFactory.CreateDbContextAsync(cancellationToken))
         {
             return await (
-                from gameReservation in context.GameReservations
+                from gameReservation in context.GameReservations.AsNoTracking()
                 where gameReservation.IsActive
                 orderby gameReservation.ReservationDate descending
-                let tableReservation = context.SpaceTableReservations
+                let tableReservation = context.SpaceTableReservations.AsNoTracking()
                     .Where(t => t.IsActive && t.UserId == gameReservation.UserId && gameReservation.ReservationDate.Date == t.ReservationDate.Date)
                     .FirstOrDefault()
                 select new GetActiveGameReservationListQueryModel
@@ -115,7 +111,7 @@ public class GameService : IGameService
                     Id = gameReservation.Id,
                     GameId = gameReservation.Game.Id,
                     GameName = gameReservation.Game.Name,
-                    GameImageId = gameReservation.Game.Image.Id,
+                    GameImageUrl = gameReservation.Game.ImageUrl,
                     CreatedDate = gameReservation.CreatedDate,
                     ReservationDate = gameReservation.ReservationDate,
                     ReservedDurationMinutes = gameReservation.ReservedDurationMinutes,
@@ -136,7 +132,6 @@ public class GameService : IGameService
         {
             return await (
                 from g in context.Games
-                join gi in context.GameImages on g.Id equals gi.GameId
                 where g.Id == gameId && !g.IsDeleted
                 select new GetGameByIdQueryModel
                 {
@@ -146,7 +141,7 @@ public class GameService : IGameService
                     Description_EN = g.Description_EN,
                     Description_BG = g.Description_BG,
                     AveragePlaytime = g.AveragePlaytime,
-                    ImageId = gi.Id,
+                    ImageUrl = g.ImageUrl,
                     Likes = g.Likes.Count(),
                     IsLiked = g.Likes.Any(x => x.UserId == userId),
                     MinAge = g.MinAge,
@@ -162,7 +157,6 @@ public class GameService : IGameService
 
         return await
                 (from g in context.Games
-                 join gi in context.GameImages on g.Id equals gi.GameId
                  where !g.IsDeleted && g.Name.ToLower().Contains(searchExpression.ToLower())
                  let likes = context.GameLikes.Where(x => x.GameId == g.Id).ToList()
                  select new GetGameListQueryModel
@@ -172,7 +166,7 @@ public class GameService : IGameService
                      Name = g.Name,
                      Description_EN = g.Description_EN,
                      Description_BG = g.Description_BG,
-                     ImageId = gi.Id,
+                     ImageUrl = g.ImageUrl,
                      Likes = likes.Count(),
                      IsLiked = likes.Any(x => x.UserId == userId)
                  })
@@ -189,7 +183,6 @@ public class GameService : IGameService
 
                 return await
                 (from g in context.Games
-                 join gi in context.GameImages on g.Id equals gi.GameId
                  where !g.IsDeleted && g.Name.ToLower().Contains(searchExpression.ToLower()) && g.CategoryId == categoryId
                  let likes = context.GameLikes.Where(x => x.GameId == g.Id).ToList()
                  select new GetGameListQueryModel
@@ -199,7 +192,7 @@ public class GameService : IGameService
                      Name = g.Name,
                      Description_EN = g.Description_EN,
                      Description_BG = g.Description_BG,
-                     ImageId = gi.Id,
+                     ImageUrl = g.ImageUrl,
                      Likes = likes.Count(),
                      IsLiked = likes.Any(x => x.UserId == userId)
                  })
@@ -215,7 +208,6 @@ public class GameService : IGameService
         {
             return await
                 (from g in context.Games
-                 join gi in context.GameImages on g.Id equals gi.GameId
                  where !g.IsDeleted && g.Name.ToLower().Contains(searchExpression.ToLower()) && g.CreatedDate >= DateTime.UtcNow.AddDays(-7)
                  let likes = context.GameLikes.Where(x => x.GameId == g.Id).ToList()
                  select new GetGameListQueryModel
@@ -225,7 +217,7 @@ public class GameService : IGameService
                      Name = g.Name,
                      Description_EN = g.Description_EN,
                      Description_BG = g.Description_BG,
-                     ImageId = gi.Id,
+                     ImageUrl = g.ImageUrl,
                      Likes = likes.Count(),
                      IsLiked = likes.Any(x => x.UserId == userId)
                  })

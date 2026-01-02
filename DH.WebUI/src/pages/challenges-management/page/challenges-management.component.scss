@@ -115,7 +115,7 @@
       height: 0.5rem;
       width: 100%;
       z-index: 1;
-      border: 0.1rem solid white;
+      border: 0.1rem solid palette.$main-font-color;
     }
 
     .progress-container {
@@ -141,7 +141,7 @@
       width: 0%;
       z-index: 1;
       transition: 2s ease;
-      border: 0.1rem solid white;
+      border: 0.1rem solid palette.$main-font-color;
     }
     .circle_container {
       z-index: 3;
@@ -151,7 +151,7 @@
     }
     .circle {
       background: palette.$main-background-color;
-      color: white;
+      color: palette.$main-font-color;
       font-size: 0.7rem;
       border-radius: 50%;
       height: 1.5rem;
@@ -159,13 +159,13 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      border: 0.1rem solid white;
+      border: 0.1rem solid palette.$main-font-color;
       transition: 0.4s ease;
       z-index: 3;
     }
 
     .circle.activated {
-      border: 0.2rem solid white;
+      border: 0.2rem solid palette.$main-font-color;
     }
   }
 }
@@ -234,7 +234,7 @@
 
       .bar-2 {
         margin-top: 0.25rem;
-        background: rgba(255, 255, 255, 0.1);
+        background:palette.$challenge-card-bar-color;
         justify-content: flex-start;
         border-radius: 5rem;
         align-items: center;
@@ -264,7 +264,7 @@
 
       .points {
         background: palette.$main-background-color;
-        color: white;
+        color: palette.$main-font-color;
         font-size: 0.7rem;
         border-radius: 50%;
         height: 1.5rem;
@@ -272,7 +272,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        border: 0.1rem solid white;
+        border: 0.1rem solid palette.$main-font-color;
         transition: 0.4s ease;
         z-index: 3;
         position: absolute;
@@ -282,7 +282,7 @@
       }
 
       .points.active {
-        border: 0.2rem solid white;
+        border: 0.2rem solid palette.$main-font-color;
       }
     }
   }
@@ -379,7 +379,7 @@
 
       .bar-2 {
         margin-top: 0.25rem;
-        background: rgba(255, 255, 255, 0.1);
+        background: palette.$challenge-card-bar-color;
         justify-content: flex-start;
         border-radius: 5rem;
         align-items: center;
@@ -409,7 +409,7 @@
 
       .points {
         background: palette.$main-background-color;
-        color: white;
+        color: palette.$main-font-color;
         font-size: 0.7rem;
         border-radius: 50%;
         height: 1.5rem;
@@ -417,7 +417,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        border: 0.1rem solid white;
+        border: 0.1rem solid palette.$main-font-color;
         transition: 0.4s ease;
         z-index: 3;
         position: absolute;
@@ -427,7 +427,7 @@
       }
 
       .points.active {
-        border: 0.2rem solid white;
+        border: 0.2rem solid palette.$main-font-color;
       }
     }
   }
@@ -451,7 +451,7 @@
 .challenge-card {
   border: 0.2rem dashed #31313b;
   border-radius: 1rem;
-  color: #ffffff;
+  color: palette.$main-font-color;
   border-radius: 12px;
   padding: 12px;
   display: flex;

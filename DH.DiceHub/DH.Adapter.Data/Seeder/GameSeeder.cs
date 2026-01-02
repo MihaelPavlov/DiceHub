@@ -1,14 +1,15 @@
-﻿using DH.Domain.Entities;
+﻿using DH.Domain.Adapters.FileManager;
+using DH.Domain.Entities;
 using DH.Domain.Enums;
 using DH.Domain.Seeder;
 using Microsoft.EntityFrameworkCore;
 
 namespace DH.Adapter.Data.Seeder;
 
-internal class GameSeeder(IDbContextFactory<TenantDbContext> contextFactory) : IGameSeeder
+internal class GameSeeder(IDbContextFactory<TenantDbContext> contextFactory, IFileManagerClient fileManagerClient) : IGameSeeder
 {
     readonly IDbContextFactory<TenantDbContext> contextFactory = contextFactory;
-
+    readonly IFileManagerClient fileManagerClient = fileManagerClient;
     public async Task SeedAsync()
     {
         var imageFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "game-images");
@@ -27,9 +28,7 @@ internal class GameSeeder(IDbContextFactory<TenantDbContext> contextFactory) : I
                     AveragePlaytime = GameAveragePlaytime.Thirty,
                     CategoryId = 13,
                 },
-                "azul_queens_garden.jpg",
-                "image/jpeg",
-                await File.ReadAllBytesAsync(Path.Combine(imageFolder, "azul_queens_garden.jpg"))
+                "azul_queens_garden.jpg"
             ),
             new SeedGameData(
                 new Game
@@ -43,9 +42,7 @@ internal class GameSeeder(IDbContextFactory<TenantDbContext> contextFactory) : I
                     AveragePlaytime = GameAveragePlaytime.Thirty,
                     CategoryId = 13,
                 },
-                "citadel_of_time.jpg",
-                "image/jpeg",
-                await File.ReadAllBytesAsync(Path.Combine(imageFolder, "citadel_of_time.jpg"))
+                "citadel_of_time.jpg"
             ),
              new SeedGameData(
                 new Game
@@ -59,9 +56,7 @@ internal class GameSeeder(IDbContextFactory<TenantDbContext> contextFactory) : I
                     AveragePlaytime = GameAveragePlaytime.Thirty,
                     CategoryId = 13,
                 },
-                "dixit_stella.jpg",
-                "image/jpeg",
-                await File.ReadAllBytesAsync(Path.Combine(imageFolder, "dixit_stella.jpg"))
+                "dixit_stella.jpg"
             ),
             new SeedGameData(
                 new Game
@@ -75,9 +70,7 @@ internal class GameSeeder(IDbContextFactory<TenantDbContext> contextFactory) : I
                     AveragePlaytime = GameAveragePlaytime.Twenty,
                     CategoryId = 13,
                 },
-                "uno_flip.jpg",
-                "image/jpeg",
-                await File.ReadAllBytesAsync(Path.Combine(imageFolder, "uno_flip.jpg"))
+                "uno_flip.jpg"
             ),
             new SeedGameData(
                 new Game
@@ -91,9 +84,7 @@ internal class GameSeeder(IDbContextFactory<TenantDbContext> contextFactory) : I
                     AveragePlaytime = GameAveragePlaytime.Twenty,
                     CategoryId = 13,
                 },
-                "uno.jpg",
-                "image/jpeg",
-                await File.ReadAllBytesAsync(Path.Combine(imageFolder, "uno.jpg"))
+                "uno.jpg"
             ),
             new SeedGameData(
                 new Game
@@ -107,9 +98,7 @@ internal class GameSeeder(IDbContextFactory<TenantDbContext> contextFactory) : I
                     AveragePlaytime = GameAveragePlaytime.Thirty,
                     CategoryId = 13,
                 },
-                "micro_macro_showdown.jpg",
-                "image/jpeg",
-                await File.ReadAllBytesAsync(Path.Combine(imageFolder, "micro_macro_showdown.jpg"))
+                "micro_macro_showdown.jpg"
             ),
             new SeedGameData(
                 new Game
@@ -123,9 +112,7 @@ internal class GameSeeder(IDbContextFactory<TenantDbContext> contextFactory) : I
                     AveragePlaytime = GameAveragePlaytime.Fifteen,
                     CategoryId = 13,
                 },
-                "exploding_kittens_good_vs_evil.jpg",
-                "image/jpeg",
-                await File.ReadAllBytesAsync(Path.Combine(imageFolder, "exploding_kittens_good_vs_evil.jpg"))
+                "exploding_kittens_good_vs_evil.jpg"
             ),
             new SeedGameData(
                 new Game
@@ -139,9 +126,7 @@ internal class GameSeeder(IDbContextFactory<TenantDbContext> contextFactory) : I
                     AveragePlaytime = GameAveragePlaytime.Thirty,
                     CategoryId = 13,
                 },
-                "micro_macro_crime_city.jpg",
-                "image/jpeg",
-                await File.ReadAllBytesAsync(Path.Combine(imageFolder, "micro_macro_crime_city.jpg"))
+                "micro_macro_crime_city.jpg"
             ),
             new SeedGameData(
                 new Game
@@ -155,9 +140,7 @@ internal class GameSeeder(IDbContextFactory<TenantDbContext> contextFactory) : I
                     AveragePlaytime = GameAveragePlaytime.Thirty,
                     CategoryId = 13,
                 },
-                "dixit.jpg",
-                "image/jpeg",
-                await File.ReadAllBytesAsync(Path.Combine(imageFolder, "dixit.jpg"))
+                "dixit.jpg"
             ),
             new SeedGameData(
                 new Game
@@ -171,9 +154,7 @@ internal class GameSeeder(IDbContextFactory<TenantDbContext> contextFactory) : I
                     AveragePlaytime = GameAveragePlaytime.Sixty,
                     CategoryId = 13,
                 },
-                "dungeon_board_game.jpg",
-                "image/jpeg",
-                await File.ReadAllBytesAsync(Path.Combine(imageFolder, "dungeon_board_game.jpg"))
+                "dungeon_board_game.jpg"
             ),
             new SeedGameData(
                 new Game
@@ -187,9 +168,7 @@ internal class GameSeeder(IDbContextFactory<TenantDbContext> contextFactory) : I
                     AveragePlaytime = GameAveragePlaytime.FortyFive,
                     CategoryId = 13,
                 },
-                "among_thieves.jpg",
-                "image/jpeg",
-                await File.ReadAllBytesAsync(Path.Combine(imageFolder, "among_thieves.jpg"))
+                "among_thieves.jpg"
             ),
             new SeedGameData(
                 new Game
@@ -203,9 +182,7 @@ internal class GameSeeder(IDbContextFactory<TenantDbContext> contextFactory) : I
                     AveragePlaytime = GameAveragePlaytime.Thirty,
                     CategoryId = 13,
                 },
-                "here_to_slay.jpg",
-                "image/jpeg",
-                await File.ReadAllBytesAsync(Path.Combine(imageFolder, "here_to_slay.jpg"))
+                "here_to_slay.jpg"
             ),
             new SeedGameData(
                 new Game
@@ -219,9 +196,7 @@ internal class GameSeeder(IDbContextFactory<TenantDbContext> contextFactory) : I
                     AveragePlaytime = GameAveragePlaytime.Thirty,
                     CategoryId = 13,
                 },
-                "in_too_deep.jpg",
-                "image/jpeg",
-                await File.ReadAllBytesAsync(Path.Combine(imageFolder, "in_too_deep.jpg"))
+                "in_too_deep.jpg"
             ),
             new SeedGameData(
                 new Game
@@ -235,9 +210,7 @@ internal class GameSeeder(IDbContextFactory<TenantDbContext> contextFactory) : I
                     AveragePlaytime = GameAveragePlaytime.Twenty,
                     CategoryId = 13,
                 },
-                "on_a_scale_of_one_to_trex.jpg",
-                "image/jpeg",
-                await File.ReadAllBytesAsync(Path.Combine(imageFolder, "on_a_scale_of_one_to_trex.jpg"))
+                "on_a_scale_of_one_to_trex.jpg"
             ),
             new SeedGameData(
                 new Game
@@ -251,9 +224,7 @@ internal class GameSeeder(IDbContextFactory<TenantDbContext> contextFactory) : I
                     AveragePlaytime = GameAveragePlaytime.Sixty,
                     CategoryId = 13,
                 },
-                "discover_lands_unkown.jpg",
-                "image/jpeg",
-                await File.ReadAllBytesAsync(Path.Combine(imageFolder, "discover_lands_unkown.jpg"))
+                "discover_lands_unkown.jpg"
             ),
             new SeedGameData(
                 new Game
@@ -267,9 +238,7 @@ internal class GameSeeder(IDbContextFactory<TenantDbContext> contextFactory) : I
                     AveragePlaytime = GameAveragePlaytime.Thirty,
                     CategoryId = 13,
                 },
-                "comanauts.jpg",
-                "image/jpeg",
-                await File.ReadAllBytesAsync(Path.Combine(imageFolder, "comanauts.jpg"))
+                "comanauts.jpg"
             ),
             new SeedGameData(
                 new Game
@@ -283,9 +252,7 @@ internal class GameSeeder(IDbContextFactory<TenantDbContext> contextFactory) : I
                     AveragePlaytime = GameAveragePlaytime.FortyFive,
                     CategoryId = 13,
                 },
-                "round_the_word.jpg",
-                "image/jpeg",
-                await File.ReadAllBytesAsync(Path.Combine(imageFolder, "round_the_word.jpg"))
+                "round_the_word.jpg"
             ),
             new SeedGameData(
                 new Game
@@ -299,9 +266,7 @@ internal class GameSeeder(IDbContextFactory<TenantDbContext> contextFactory) : I
                     AveragePlaytime = GameAveragePlaytime.FortyFive,
                     CategoryId = 13,
                 },
-                "a_war_of_whispers.jpg",
-                "image/jpeg",
-                await File.ReadAllBytesAsync(Path.Combine(imageFolder, "a_war_of_whispers.jpg"))
+                "a_war_of_whispers.jpg"
             ),
             new SeedGameData(
                 new Game
@@ -315,9 +280,7 @@ internal class GameSeeder(IDbContextFactory<TenantDbContext> contextFactory) : I
                     AveragePlaytime = GameAveragePlaytime.Sixty,
                     CategoryId = 13,
                 },
-                "the_arrival.jpg",
-                "image/jpeg",
-                await File.ReadAllBytesAsync(Path.Combine(imageFolder, "the_arrival.jpg"))
+                "the_arrival.jpg"
             ),
             new SeedGameData(
                 new Game
@@ -331,9 +294,7 @@ internal class GameSeeder(IDbContextFactory<TenantDbContext> contextFactory) : I
                     AveragePlaytime = GameAveragePlaytime.Sixty,
                     CategoryId = 13,
                 },
-                "master_f_orion.jpg",
-                "image/jpeg",
-                await File.ReadAllBytesAsync(Path.Combine(imageFolder, "master_f_orion.jpg"))
+                "master_f_orion.jpg"
             ),
             new SeedGameData(
                 new Game
@@ -347,9 +308,7 @@ internal class GameSeeder(IDbContextFactory<TenantDbContext> contextFactory) : I
                     AveragePlaytime = GameAveragePlaytime.FortyFive,
                     CategoryId = 13,
                 },
-                "skyward.jpg",
-                "image/jpeg",
-                await File.ReadAllBytesAsync(Path.Combine(imageFolder, "skyward.jpg"))
+                "skyward.jpg"
             ),
             new SeedGameData(
                 new Game
@@ -363,9 +322,7 @@ internal class GameSeeder(IDbContextFactory<TenantDbContext> contextFactory) : I
                     AveragePlaytime = GameAveragePlaytime.Fifteen,
                     CategoryId = 13,
                 },
-                "exploding_kittens.jpg",
-                "image/jpeg",
-                await File.ReadAllBytesAsync(Path.Combine(imageFolder, "exploding_kittens.jpg"))
+                "exploding_kittens.jpg"
             ),
             new SeedGameData(
                 new Game
@@ -379,9 +336,7 @@ internal class GameSeeder(IDbContextFactory<TenantDbContext> contextFactory) : I
                     AveragePlaytime = GameAveragePlaytime.Thirty,
                     CategoryId = 13,
                 },
-                "7_wonders_duel.jpg",
-                "image/jpeg",
-                await File.ReadAllBytesAsync(Path.Combine(imageFolder, "7_wonders_duel.jpg"))
+                "7_wonders_duel.jpg"
             ),
             new SeedGameData(
                 new Game
@@ -395,9 +350,7 @@ internal class GameSeeder(IDbContextFactory<TenantDbContext> contextFactory) : I
                     AveragePlaytime = GameAveragePlaytime.Sixty,
                     CategoryId = 13,
                 },
-                "battalia_the_creation.jpg",
-                "image/jpeg",
-                await File.ReadAllBytesAsync(Path.Combine(imageFolder, "battalia_the_creation.jpg"))
+                "battalia_the_creation.jpg"
             ),
         };
 
@@ -410,16 +363,9 @@ internal class GameSeeder(IDbContextFactory<TenantDbContext> contextFactory) : I
                 if (exists)
                     continue;
 
+                var imageUrl = this.fileManagerClient.GetPublicUrl(FileManagerFolders.Seed.ToString(), game.FileName);
+                game.Game.ImageUrl = imageUrl;
                 await context.Games.AddAsync(game.Game, CancellationToken.None);
-
-                await context.GameImages
-                    .AddAsync(new GameImage
-                    {
-                        Game = game.Game,
-                        FileName = game.FileName,
-                        ContentType = game.ContentType,
-                        Data = game.ImageStream,
-                    }, CancellationToken.None);
 
                 await context.GameInventories
                     .AddAsync(new GameInventory
@@ -435,4 +381,4 @@ internal class GameSeeder(IDbContextFactory<TenantDbContext> contextFactory) : I
     }
 }
 
-public record SeedGameData(Game Game, string FileName, string ContentType, byte[] ImageStream);
+public record SeedGameData(Game Game, string FileName);

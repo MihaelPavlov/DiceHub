@@ -62,6 +62,7 @@ public class ChallengeService : IChallengeService
         using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
         {
             var activeChallenges = await context.UserChallenges
+                .AsNoTracking()
                 .Where(x => x.UserId == this.userContext.UserId
                          && x.IsActive
                          && x.UniversalChallenge != null)
@@ -73,7 +74,7 @@ public class ChallengeService : IChallengeService
                         Status = x.Status,
                         CurrentAttempts = x.AttemptCount,
                         MaxAttempts = x.UniversalChallenge.Attempts,
-                        GameImageId = x.Game != null ? x.Game.Image.Id : null,
+                        GameImageUrl = x.Game != null ? x.Game.ImageUrl : null,
                         GameName = x.Game != null ? x.Game.Name : null,
                         Type = x.UniversalChallenge.Type,
                         MinValue = x.UniversalChallenge.MinValue,
@@ -85,6 +86,7 @@ public class ChallengeService : IChallengeService
                 .ToListAsync(cancellationToken);
 
             var lastCompletedChallenge = await context.UserChallenges
+                .AsNoTracking()
                 .Where(x => x.UserId == this.userContext.UserId
                          && x.CompletedDate != null
                          && x.UniversalChallenge != null)
@@ -97,7 +99,7 @@ public class ChallengeService : IChallengeService
                         Status = x.Status,
                         CurrentAttempts = x.AttemptCount,
                         MaxAttempts = x.UniversalChallenge.Attempts,
-                        GameImageId = x.Game != null ? x.Game.Image.Id : null,
+                        GameImageUrl = x.Game != null ? x.Game.ImageUrl : null,
                         GameName = x.Game != null ? x.Game.Name : null,
                         Type = x.UniversalChallenge.Type,
                         MinValue = x.UniversalChallenge.MinValue,
@@ -125,6 +127,7 @@ public class ChallengeService : IChallengeService
         using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
         {
             var activeChallenges = await context.UserChallenges
+                .AsNoTracking()
                 .Where(x => this.userContext.UserId == x.UserId && x.IsActive && x.Challenge != null)
                 .Select(x =>
                     new GetUserChallengeListQueryModel
@@ -132,7 +135,7 @@ public class ChallengeService : IChallengeService
                         Id = x.Id,
                         RewardPoints = x.Challenge!.RewardPoints,
                         Status = x.Status,
-                        GameImageId = x.Challenge.Game.Image.Id,
+                        GameImageUrl = x.Challenge.Game.ImageUrl,
                         GameName = x.Challenge.Game.Name,
                         CurrentAttempts = x.AttemptCount,
                         MaxAttempts = x.Challenge.Attempts,
@@ -140,6 +143,7 @@ public class ChallengeService : IChallengeService
                 .ToListAsync(cancellationToken);
 
             var lastCompletedChallenge = await context.UserChallenges
+                .AsNoTracking()
                 .Where(x => this.userContext.UserId == x.UserId && x.CompletedDate != null && x.Challenge != null)
                 .OrderByDescending(x => x.CompletedDate)
                 .Select(x =>
@@ -148,7 +152,7 @@ public class ChallengeService : IChallengeService
                         Id = x.Id,
                         RewardPoints = x.Challenge!.RewardPoints,
                         Status = x.Status,
-                        GameImageId = x.Challenge.Game.Image.Id,
+                        GameImageUrl = x.Challenge.Game.ImageUrl,
                         GameName = x.Challenge.Game.Name,
                         CurrentAttempts = x.AttemptCount,
                         MaxAttempts = x.Challenge.Attempts,
@@ -302,6 +306,7 @@ public class ChallengeService : IChallengeService
         using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
         {
             var query = context.UserChallengePeriodPerformances
+                .AsNoTracking()
                 .Where(x => x.UserId == this.userContext.UserId && x.IsPeriodActive)
                 .Select(x => new
                 {
@@ -309,7 +314,7 @@ public class ChallengeService : IChallengeService
                     {
                         ChallengeAttempts = ch.ChallengeAttempts,
                         CurrentAttempts = ch.UserAttempts,
-                        GameImageId = ch.Game.Image.Id,
+                        GameImageUrl = ch.Game.ImageUrl,
                         GameName = ch.Game.Name,
                         IsCompleted = ch.IsCompleted,
                         RewardPoints = ch.RewardPoints,
@@ -321,7 +326,7 @@ public class ChallengeService : IChallengeService
                         {
                             IsCompleted = r.IsCompleted,
                             RewardRequiredPoints = r.RequiredPoints,
-                            RewardImageId = r.Reward.Image.Id,
+                            RewardImageUrl = r.Reward.ImageUrl,
                         }).ToList(),
 
                     UniversalChallenges = x.CustomPeriodUserUniversalChallenges
@@ -330,7 +335,7 @@ public class ChallengeService : IChallengeService
                         {
                             MaxAttempts = u.ChallengeAttempts,
                             CurrentAttempts = u.UserAttempts,
-                            GameImageId = u.Game != null ? u.Game.Image.Id : null,
+                            GameImageUrl = u.Game != null ? u.Game.ImageUrl : null,
                             GameName = u.Game != null ? u.Game.Name : null,
                             RewardPoints = u.RewardPoints,
                             Type = u.UniversalChallenge.Type,
@@ -348,7 +353,7 @@ public class ChallengeService : IChallengeService
             var result = await query.FirstOrDefaultAsync(cancellationToken);
 
             if (result == null)
-                throw new NotFoundException(nameof(UserChallengePeriodPerformance), this.userContext.UserId);
+                throw new NotFoundException(nameof(UserChallengePeriodPerformance), this.userContext.UserId!);
 
             return new GetUserCustomPeriodQueryModel
             {

@@ -21,17 +21,29 @@ public static class DataDIModule
         this IServiceCollection services,
         IConfiguration configuration)
     {
+        var connectionString = configuration.GetConnectionString("DefaultConnection");
+
+        // Add or override pooling settings
+        var builder = new Npgsql.NpgsqlConnectionStringBuilder(connectionString)
+        {
+            Pooling = true,            // enable connection pooling
+            MaxPoolSize = 25,          // max concurrent connections from pool (adjust as needed)
+            MinPoolSize = 5,           // optional: minimum pool size
+            Timeout = 15               // optional: connection timeout in seconds
+        };
+
         services
-            .AddDbContext<TenantDbContext>((provider, options) =>
-            {
-                options
-                .AddInterceptors(provider.GetRequiredService<TenantDbConnectionInterceptor>())
-                    .UseNpgsql(
-                        configuration.GetConnectionString("DefaultConnection"),
-                        sqlServer => sqlServer
-                            .MigrationsAssembly(typeof(TenantDbContext).Assembly.FullName))
-                .EnableDetailedErrors(true);// TODO:Don't do this on production. Don't hardcode this
-            })
+            .AddDbContext<TenantDbContext>(options => options
+                .UseNpgsql(
+                    builder.ConnectionString,
+                    npgsqlOptions => 
+                        npgsqlOptions
+                        .EnableRetryOnFailure(
+                            maxRetryCount: 5,
+                            maxRetryDelay: TimeSpan.FromSeconds(5),
+                            errorCodesToAdd: null)
+                        .MigrationsAssembly(typeof(TenantDbContext).Assembly.FullName))
+            .EnableDetailedErrors(true)) // TODO:Don't do this on production. Don't hardcode this
             .AddScoped<ITenantDbContext>(provider => provider.GetService<TenantDbContext>()
                 ?? throw new ArgumentNullException("IDBContext was not found"))
             .AddScoped(typeof(IRepository<>), typeof(DataRepository<>))

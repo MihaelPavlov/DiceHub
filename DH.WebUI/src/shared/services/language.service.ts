@@ -3,7 +3,6 @@ import {
   TranslateService,
 } from '@ngx-translate/core';
 import { Injectable } from '@angular/core';
-import { TenantUserSettingsService } from '../../entities/common/api/tenant-user-settings.service';
 import { SupportLanguages } from '../../entities/common/models/support-languages.enum';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 
@@ -13,10 +12,7 @@ export class LanguageService {
     SupportLanguages.EN
   );
 
-  constructor(
-    private readonly translate: TranslateService,
-    private readonly tenantUserSettingsService: TenantUserSettingsService
-  ) {
+  constructor(private readonly translate: TranslateService) {
     const supportedLanguages = Object.keys(SupportLanguages)
       .filter((key) => isNaN(Number(key)))
       .map((key) => key.toLowerCase());
@@ -27,23 +23,6 @@ export class LanguageService {
 
   public getLanguageCode(lang: SupportLanguages): string {
     return lang.toString().toLowerCase();
-  }
-
-  public loadUserLanguage(): void {
-    this.tenantUserSettingsService
-      .get()
-      .pipe(
-        tap((res) => {
-          const lang = res?.language || SupportLanguages.EN;
-
-          this.setLanguage(lang);
-        })
-      )
-      .subscribe({
-        error: () => {
-          this.setLanguage(SupportLanguages.EN);
-        },
-      });
   }
 
   public setLanguage(lang: SupportLanguages) {

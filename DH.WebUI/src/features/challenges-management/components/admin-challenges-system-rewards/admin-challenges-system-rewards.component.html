@@ -74,7 +74,7 @@
   </div>
 
   <form [formGroup]="form" *ngIf="showRewardForm">
-    <div class="reward-container">
+    <div class="reward-container surface-elevated">
       <div class="close-container">
         <!-- close icon -->
         <svg
@@ -90,12 +90,13 @@
       </div>
       <div class="wrapper">
         <div class="inputs">
-          <div class="upload-icon">
+          <div class="upload-icon surface-elevated">
             <input
               type="file"
               id="file-upload"
               accept="image/*"
               (change)="onFileSelected($event)"
+              class="surface-elevated"
             />
             <label for="file-upload">
               <div class="image-preview">
@@ -120,7 +121,7 @@
               "
               [searchable]="true"
               formControlName="selectedLevel"
-              class="app-select-long"
+              class="app-select-long surface-elevated"
             >
             </ng-select>
           </div>
@@ -150,7 +151,7 @@
                 [searchable]="true"
                 formControlName="requiredPoints"
                 [disabled]="form.controls.requiredPoints.disabled"
-                class="app-select-long"
+                class="app-select-long surface-elevated"
               >
               </ng-select>
             </div>
@@ -166,6 +167,7 @@
                 type="number"
                 id="cashEquivalent"
                 formControlName="cashEquivalent"
+                class="surface-elevated"
               />
               <span class="symbol">$</span>
             </div>
@@ -230,6 +232,7 @@
               [placeholder]="'admin_rewards.placeholders.name_en' | translate"
               type="text"
               id="name"
+              class="surface-elevated"
               formControlName="name_en"
             />
             <input
@@ -238,6 +241,7 @@
               [placeholder]="'admin_rewards.placeholders.name_bg' | translate"
               type="text"
               id="name"
+              class="surface-elevated"
               formControlName="name_bg"
             />
           </div>
@@ -301,7 +305,7 @@
               "
               formControlName="description_en"
               #descAreaEn
-              class="expand-textarea-mobile"
+              class="expand-textarea-mobile surface-elevated"
             ></textarea>
 
             <!-- BG Textarea -->
@@ -312,7 +316,7 @@
               "
               formControlName="description_bg"
               #descAreaBg
-              class="expand-textarea-mobile"
+              class="expand-textarea-mobile surface-elevated"
             ></textarea>
           </div>
         </div>
@@ -368,12 +372,12 @@
 <section class="wrapper_library">
   <div
     *ngFor="let reward of rewardList"
-    class="wrapper_library__item"
+    class="wrapper_library__item surface-elevated"
     [ngClass]="{ 'wrapper_library__item-active': reward.id === editRewardId }"
   >
     <div class="wrapper_image">
       <img
-        [src]="ImageEntityType.Rewards | entityImage : reward.imageId | async"
+        [src]="reward.imageUrl"
         alt="Reward Image"
       />
     </div>

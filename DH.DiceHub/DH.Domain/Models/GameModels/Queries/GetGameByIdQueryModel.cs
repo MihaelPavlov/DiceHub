@@ -15,5 +15,5 @@ public class GetGameByIdQueryModel
     public GameAveragePlaytime AveragePlaytime { get; set; }
     public int Likes { get; set; }
     public bool IsLiked { get; set; }
-    public int ImageId { get; set; }
+    public string ImageUrl { get; set; } = string.Empty;
 }

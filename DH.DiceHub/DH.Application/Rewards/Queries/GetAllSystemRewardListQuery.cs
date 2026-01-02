@@ -22,7 +22,7 @@ internal class GetAllSystemRewardListQueryHandler(IRepository<ChallengeReward> c
                CashEquivalent = x.CashEquivalent,
                Description_EN = x.Description_EN,
                Description_BG = x.Description_BG,
-               ImageId = x.Image.Id
+               ImageUrl = x.ImageUrl
            }, cancellationToken);
     }
 }

@@ -9,6 +9,7 @@ public class UserSettingsDto : IValidableFields
     public int? Id { get; set; }
     public string PhoneNumber { get; set; } = string.Empty;
     public string Language { get; set; } = string.Empty;
+    public string UiTheme { get; set; } = string.Empty;
 
     public bool InternalUpdate = false;
 
@@ -21,8 +22,11 @@ public class UserSettingsDto : IValidableFields
 
         if (!InternalUpdate)
         {
-            if (!Enum.TryParse<SupportLanguages>(Language, out var parsedLanguage))
+            if (!Enum.TryParse<SupportLanguages>(Language, out var _))
                 errors.Add(new ValidationError(nameof(Language), localizationService["UserSettingsLanguage"]));
+
+            if (!Enum.TryParse<Theme>(UiTheme, out var _))
+                errors.Add(new ValidationError(nameof(UiTheme), localizationService["UserSettingsUiTheme"]));
         }
 
         validationErrors = errors;

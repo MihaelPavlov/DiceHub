@@ -11,7 +11,7 @@ public class GetUserCustomPeriodQueryModel
 
 public class GetUserCustomPeriodRewardQueryModel
 {
-    public int RewardImageId { get; set; }
+    public string RewardImageUrl { get; set; } = string.Empty;
     public int RewardRequiredPoints { get; set; }
     public bool IsCompleted { get; set; }
 }
@@ -22,7 +22,7 @@ public class GetUserCustomPeriodChallengeQueryModel
     public int ChallengeAttempts { get; set; }
     public int CurrentAttempts { get; set; }
     public int RewardPoints { get; set; }
-    public int GameImageId { get; set; }
+    public string GameImageUrl { get; set; } = string.Empty;
     public string GameName { get; set; } = string.Empty;
 }
 
@@ -36,7 +36,7 @@ public class GetUserCustomPeriodUniversalChallengeQueryModel
 
     // For Game Challenges
     public decimal? MinValue { get; set; }
-    public int? GameImageId { get; set; }
+    public string? GameImageUrl { get; set; } = string.Empty;
     public string? GameName { get; set; }
 
     // For Universal Challenges

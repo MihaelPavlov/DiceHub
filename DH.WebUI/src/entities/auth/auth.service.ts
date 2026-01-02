@@ -15,6 +15,10 @@ import { TenantSettingsService } from '../common/api/tenant-settings.service';
 import { FULL_ROUTE } from '../../shared/configs/route.config';
 import { UserRole } from './enums/roles.enum';
 import { ICreateOwnerPasswordRequest } from './models/create-owner-password.model';
+import { TenantUserSettingsService } from '../common/api/tenant-user-settings.service';
+import { SupportLanguages } from '../common/models/support-languages.enum';
+import { ThemeService } from '../../shared/services/theme.service';
+import { UiTheme } from '../../shared/enums/ui-theme.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -29,7 +33,9 @@ export class AuthService {
     readonly api: RestApiService,
     private readonly router: Router,
     private readonly tenantSettingsService: TenantSettingsService,
-    private readonly languageService: LanguageService
+    private readonly tenantUserSettingsService: TenantUserSettingsService,
+    private readonly languageService: LanguageService,
+    private readonly themeService: ThemeService
   ) {
     if (!this.userInfoSubject$.value) {
       this.userinfo();
@@ -155,7 +161,7 @@ export class AuthService {
             permissionString: user['permissions'],
           });
 
-          this.languageService.loadUserLanguage();
+          this.loadUserSettings();
 
           this.tenantSettingsService.get().subscribe({
             next: (settings) => {
@@ -181,6 +187,25 @@ export class AuthService {
     });
   }
 
+  private loadUserSettings(): void {
+    this.tenantUserSettingsService
+      .get()
+      .pipe(
+        tap((res) => {
+          const lang = res?.language || SupportLanguages.EN;
+          const theme = res?.uiTheme || UiTheme.Dark;
+          this.languageService.setLanguage(lang);
+          this.themeService.applyTheme(theme);
+        })
+      )
+      .subscribe({
+        error: () => {
+          this.themeService.applyTheme(UiTheme.Dark);
+          this.languageService.setLanguage(SupportLanguages.EN);
+        },
+      });
+  }
+
   public userinfo$(): Promise<void> {
     const sidClaim: string =
       'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid';
@@ -202,7 +227,7 @@ export class AuthService {
               permissionString: user['permissions'],
             });
 
-            this.languageService.loadUserLanguage();
+            this.loadUserSettings();
 
             this.tenantSettingsService.get().subscribe({
               next: (settings) => {
@@ -246,6 +271,7 @@ export class AuthService {
   }
 
   public logout(forceFrontendOnly = false): Observable<void | null> {
+    this.themeService.applyTheme(UiTheme.Dark);
     if (forceFrontendOnly) {
       localStorage.removeItem('jwt');
       localStorage.removeItem('refreshToken');

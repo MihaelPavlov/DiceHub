@@ -10,11 +10,11 @@
   <div class="wrapper_events">
     <div
       *ngFor="let event of userEvents"
-      class="wrapper_event"
+      class="wrapper_event surface-elevated"
       (click)="navigateToDetails(event.id)"
     >
       <div class="wrapper_event__image">
-        <img [src]="getImage(event) | async" alt="" />
+        <img [src]="event.imageUrl" alt="" />
       </div>
       <div class="wrapper_event__header">
         <p class="event_name">{{ event.name }}</p>
@@ -82,11 +82,11 @@
   <div class="wrapper_events">
     <div
       *ngFor="let event of todayEvents"
-      class="wrapper_event"
+      class="wrapper_event surface-elevated"
       (click)="navigateToDetails(event.id)"
     >
       <div class="wrapper_event__image">
-        <img [src]="getImage(event) | async" alt="" />
+        <img [src]="event.imageUrl" alt="" />
       </div>
       <div class="wrapper_event__header">
         <p>{{ event.name }}</p>
@@ -150,11 +150,11 @@
   <div class="wrapper_events">
     <div
       *ngFor="let event of upcomingEvents"
-      class="wrapper_event"
+      class="wrapper_event surface-elevated"
       (click)="navigateToDetails(event.id)"
     >
       <div class="wrapper_event__image">
-        <img [src]="getImage(event) | async" alt="" />
+        <img [src]="event.imageUrl" alt="" />
       </div>
       <div class="wrapper_event__header">
         <p class="event_name">{{ event.name }}</p>

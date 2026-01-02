@@ -228,8 +228,8 @@ export class AdminChallengesSystemRewardsComponent extends Form {
             description_BG: this.form.controls.description_bg.value,
             cashEquivalent: this.form.controls.cashEquivalent.value,
             requiredPoints: this.form.controls.requiredPoints.value,
-            imageId: !this.fileToUpload
-              ? +this.form.controls.image.value
+            imageUrl: !this.fileToUpload
+              ? this.form.controls.image.value
               : null,
           },
           this.fileToUpload
@@ -272,11 +272,9 @@ export class AdminChallengesSystemRewardsComponent extends Form {
           requiredPoints: reward.requiredPoints,
           cashEquivalent: reward.cashEquivalent,
           selectedLevel: reward.level,
-          image: reward.imageId.toString(),
+          image: reward.imageUrl,
         });
-        this.entityImagePipe
-          .transform(ImageEntityType.Rewards, reward.imageId)
-          .subscribe((image) => (this.imagePreview = image));
+        this.imagePreview = reward.imageUrl;
         this.fileToUpload = null;
         this.showRewardForm = true;
         this.scrollService.scrollToTop();

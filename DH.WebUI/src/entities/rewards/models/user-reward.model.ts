@@ -1,7 +1,7 @@
 export interface IUserReward {
   id: number;
   availableMoreForDays: number;
-  rewardImageId: number;
+  rewardImageUrl: string;
   rewardName_EN: string;
   rewardName_BG: string;
   rewardDescription_EN: string;

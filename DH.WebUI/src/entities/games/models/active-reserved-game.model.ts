@@ -4,7 +4,7 @@ export interface ActiveReservedGame {
   id: number;
   gameId: number;
   gameName: string;
-  gameImageId: number;
+  gameImageUrl: string;
   reservationDate: Date;
   reservedDurationMinutes: number;
   status: ReservationStatus;
