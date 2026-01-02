@@ -30,7 +30,7 @@ public class TenantDbContext : DbContext, ITenantDbContext
 #if DEBUG
         if (!optionsBuilder.IsConfigured)
         {
-            optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=DH.DiceHub;User Id=postgres;Password=1qaz!QAZ;");
+            optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=DH.DiceHub_Authentication;User Id=postgres;Password=1qaz!QAZ;");
         }
 #endif
     }
