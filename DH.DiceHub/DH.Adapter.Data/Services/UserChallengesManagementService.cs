@@ -10,7 +10,6 @@ using DH.Domain.Services;
 using DH.Domain.Services.TenantSettingsService;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using NodaTime;
 using Npgsql;
 using System.Security.Cryptography;
 
@@ -40,6 +39,97 @@ public class UserChallengesManagementService : IUserChallengesManagementService
         this.userService = userService;
         this.schedulerService = schedulerService;
         this.pushNotificationsService = pushNotificationsService;
+    }
+
+    public async Task InitializeNewPeriodsBatch(CancellationToken cancellationToken)
+    {
+        List<string> userIds;
+        using (var context = await this.dbContextFactory.CreateDbContextAsync(cancellationToken))
+        {
+            userIds = await context.UserChallengePeriodPerformances
+               .AsNoTracking()
+               .Where(x => x.IsPeriodActive)
+               .Select(x => x.UserId)
+               .ToListAsync(cancellationToken);
+        }
+
+        var tenantSettings = await this.tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
+        var settingPeriod = Enum.Parse<TimePeriodType>(tenantSettings.PeriodOfRewardReset);
+        var startDate = DateTime.UtcNow.Date;
+        var nextResetDate = TimePeriodTypeHelper.CalculateNextResetDate(settingPeriod, tenantSettings.ResetDayForRewards);
+
+        const int batchSize = 100; // adjust based on memory / load
+
+        for (int i = 0; i < userIds.Count; i += batchSize)
+        {
+            var batch = userIds.Skip(i).Take(batchSize).ToList();
+            using (var context = await this.dbContextFactory.CreateDbContextAsync(cancellationToken))
+            {
+                var customRewards = await context.CustomPeriodRewards.OrderBy(x => x.RequiredPoints).ToListAsync(cancellationToken);
+                var customChallenges = await context.CustomPeriodChallenges.ToListAsync(cancellationToken);
+                var customUniversalChallenges = await context.CustomPeriodUniversalChallenges.Include(x => x.UniversalChallenge).ToListAsync(cancellationToken);
+                var notificationsToSend = new List<string>();
+
+                foreach (var userId in batch)
+                {
+                    var existingPeriod = await context.UserChallengePeriodPerformances
+                    .AnyAsync(x =>
+                        x.UserId == userId &&
+                        x.IsPeriodActive &&
+                        x.StartDate.Date == startDate &&
+                        x.EndDate.Date == nextResetDate.Date,
+                        cancellationToken);
+
+                    if (existingPeriod)
+                    {
+                        this.logger.LogWarning("Active UserChallengePeriodPerformance already exists for UserId {UserId} from {StartDate} to {EndDate}", userId, startDate, nextResetDate);
+                        continue;
+                    }
+
+                    var userPerformance = new UserChallengePeriodPerformance
+                    {
+                        UserId = userId,
+                        IsPeriodActive = true,
+                        Points = 0,
+                        StartDate = startDate,
+                        EndDate = nextResetDate,
+                        TimePeriodType = settingPeriod,
+                        CreatedDate = DateTime.UtcNow,
+                    };
+
+                    if (tenantSettings.IsCustomPeriodOn)
+                    {
+                        await SetupPeriod(
+                            userPerformance, customRewards,
+                            customChallenges, customUniversalChallenges,
+                            context, userId, tenantSettings,
+                            includeChallenges: false, cancellationToken);
+                    }
+                    else
+                    {
+                        await SetupPeriod(
+                            userPerformance, [], [], [],
+                            context, userId, tenantSettings,
+                            includeChallenges: false, cancellationToken);
+                    }
+
+                    notificationsToSend.Add(userId);
+                }
+                await context.UserChallengePeriodPerformances
+                    .Where(x => batch.Contains(x.UserId) && x.IsPeriodActive)
+                    .ExecuteUpdateAsync(x => x.SetProperty(p => p.IsPeriodActive, false), cancellationToken);
+
+                await context.SaveChangesAsync(cancellationToken);
+
+                this.logger.LogInformation("Batch: Created new UserChallengePeriodPerformances for UserIds: {UserIds}", string.Join(Environment.NewLine, notificationsToSend));
+
+                // Send notifications in batch
+                if (notificationsToSend.Count > 0)
+                {
+                    await pushNotificationsService.SendNotificationToUsersAsync(notificationsToSend, new PeriodPerformanceStartedNotification(), cancellationToken);
+                }
+            }
+        }
     }
 
     /// <inheritdoc/>
@@ -114,12 +204,21 @@ public class UserChallengesManagementService : IUserChallengesManagementService
     /// <inheritdoc/>
     public async Task EnsureValidUserChallengePeriodsAsync(CancellationToken cancellationToken)
     {
-
         var now = DateTime.UtcNow;
         DateTime? nextResetDate = null;
         using (var context = await this.dbContextFactory.CreateDbContextAsync(cancellationToken))
         {
             var userIds = await this.userService.GetAllUserIds(cancellationToken);
+
+            var tenantSettings = await this.tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
+            var startDate = DateTime.UtcNow.Date;
+            var settingPeriod = Enum.Parse<TimePeriodType>(tenantSettings.PeriodOfRewardReset);
+            nextResetDate = TimePeriodTypeHelper.CalculateNextResetDate(settingPeriod, tenantSettings.ResetDayForRewards);
+
+            var customRewards = await context.CustomPeriodRewards.OrderBy(x => x.RequiredPoints).ToListAsync(cancellationToken);
+            var customChallenges = await context.CustomPeriodChallenges.ToListAsync(cancellationToken);
+            var customUniversalChallenges = await context.CustomPeriodUniversalChallenges.Include(x => x.UniversalChallenge).ToListAsync(cancellationToken);
+
             foreach (var userId in userIds)
             {
                 var isUserInRoleUser = await this.userService.IsUserInRole(userId, Role.User, cancellationToken);
@@ -182,12 +281,6 @@ public class UserChallengesManagementService : IUserChallengesManagementService
                             await context.SaveChangesAsync(cancellationToken);
                         }
 
-                        var tenantSettings = await this.tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
-
-                        var startDate = DateTime.UtcNow.Date;
-                        var settingPeriod = Enum.Parse<TimePeriodType>(tenantSettings.PeriodOfRewardReset);
-                        nextResetDate = TimePeriodTypeHelper.CalculateNextResetDate(settingPeriod, tenantSettings.ResetDayForRewards);
-
                         var alreadyExists = await context.UserChallengePeriodPerformances
                             .AnyAsync(x =>
                                 x.UserId == userId &&
@@ -216,8 +309,21 @@ public class UserChallengesManagementService : IUserChallengesManagementService
                             CreatedDate = DateTime.UtcNow,
                         };
 
-                        await SetupPeriod(newUserPerformance, context, userId, tenantSettings, includeChallenges: false, cancellationToken);
-
+                        if (tenantSettings.IsCustomPeriodOn)
+                        {
+                            await SetupPeriod(
+                                userPerformance!, customRewards,
+                                customChallenges, customUniversalChallenges,
+                                context, userId, tenantSettings,
+                                includeChallenges: false, cancellationToken);
+                        }
+                        else
+                        {
+                            await SetupPeriod(
+                                userPerformance!, [], [], [],
+                                context, userId, tenantSettings,
+                                includeChallenges: false, cancellationToken);
+                        }
                         await SaveAndCommitTransaction(context, transaction, cancellationToken);
 
                         await this.pushNotificationsService
@@ -264,10 +370,10 @@ public class UserChallengesManagementService : IUserChallengesManagementService
                 try
                 {
                     var tenantSettings = await this.tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
-
                     var settingPeriod = Enum.Parse<TimePeriodType>(tenantSettings.PeriodOfRewardReset);
                     var startDate = DateTime.UtcNow.Date;
                     var nextResetDate = TimePeriodTypeHelper.CalculateNextResetDate(settingPeriod, tenantSettings.ResetDayForRewards);
+
                     this.logger.LogInformation("InitiateUserChallengePeriod {UserId} next reset date is for {NextResetDate}", userId, nextResetDate);
 
                     var existingPeriod = await context.UserChallengePeriodPerformances
@@ -295,7 +401,30 @@ public class UserChallengesManagementService : IUserChallengesManagementService
                         CreatedDate = DateTime.UtcNow,
                     };
 
-                    await SetupPeriod(userPerformance, context, userId, tenantSettings, includeChallenges: forNewUser, cancellationToken);
+                    if (tenantSettings.IsCustomPeriodOn)
+                    {
+                        var customRewards = await context.CustomPeriodRewards
+                            .AsNoTracking().OrderBy(x => x.RequiredPoints).ToListAsync(cancellationToken);
+
+                        var customChallenges = await context.CustomPeriodChallenges
+                            .AsNoTracking().ToListAsync(cancellationToken);
+
+                        var customUniversalChallenges = await context.CustomPeriodUniversalChallenges
+                            .AsNoTracking().Include(x => x.UniversalChallenge).ToListAsync(cancellationToken);
+
+                        await SetupPeriod(
+                            userPerformance, customRewards,
+                            customChallenges, customUniversalChallenges,
+                            context, userId, tenantSettings,
+                            includeChallenges: forNewUser, cancellationToken);
+                    }
+                    else
+                    {
+                        await SetupPeriod(
+                            userPerformance, [], [], [],
+                            context, userId, tenantSettings,
+                            includeChallenges: forNewUser, cancellationToken);
+                    }
 
                     await SaveAndCommitTransaction(context, transaction, cancellationToken);
 
@@ -337,15 +466,18 @@ public class UserChallengesManagementService : IUserChallengesManagementService
         await transaction.CommitAsync(cancellationToken);
     }
 
-    private async Task SetupPeriod(UserChallengePeriodPerformance userPerformance, TenantDbContext context, string userId, TenantSetting tenantSettings, bool includeChallenges, CancellationToken cancellationToken)
+    private async Task SetupPeriod(
+        UserChallengePeriodPerformance userPerformance,
+        List<CustomPeriodReward> customRewards,
+        List<CustomPeriodChallenge> customChallenges,
+        List<CustomPeriodUniversalChallenge> customUniversalChallenges,
+        TenantDbContext context, string userId,
+        TenantSetting tenantSettings, bool includeChallenges,
+        CancellationToken cancellationToken)
     {
         if (tenantSettings.IsCustomPeriodOn)
         {
-            var rewards = await context.CustomPeriodRewards.OrderBy(x => x.RequiredPoints).ToListAsync(cancellationToken);
-            var challenges = await context.CustomPeriodChallenges.ToListAsync(cancellationToken);
-            var universalChallenges = await context.CustomPeriodUniversalChallenges.Include(x => x.UniversalChallenge).ToListAsync(cancellationToken);
-
-            userPerformance.CustomPeriodUserRewards = rewards.Select(x => new CustomPeriodUserReward
+            userPerformance.CustomPeriodUserRewards = customRewards.Select(x => new CustomPeriodUserReward
             {
                 IsCompleted = false,
                 RequiredPoints = x.RequiredPoints,
@@ -353,7 +485,7 @@ public class UserChallengesManagementService : IUserChallengesManagementService
                 RewardId = x.RewardId,
             }).ToArray();
 
-            userPerformance.CustomPeriodUserChallenges = challenges.Select(x => new CustomPeriodUserChallenge
+            userPerformance.CustomPeriodUserChallenges = customChallenges.Select(x => new CustomPeriodUserChallenge
             {
                 IsCompleted = false,
                 IsRewardCollected = false,
@@ -364,8 +496,7 @@ public class UserChallengesManagementService : IUserChallengesManagementService
                 UserChallengePeriodPerformanceId = userPerformance.Id,
             }).ToArray();
 
-
-            foreach (var x in universalChallenges)
+            foreach (var x in customUniversalChallenges)
             {
                 if (x.UniversalChallenge.Type == UniversalChallengeType.PlayFavoriteGame)
                 {

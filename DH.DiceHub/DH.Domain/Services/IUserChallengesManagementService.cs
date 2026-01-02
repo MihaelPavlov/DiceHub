@@ -6,6 +6,7 @@
 /// </summary>
 public interface IUserChallengesManagementService
 {
+    Task InitializeNewPeriodsBatch(CancellationToken cancellationToken);
     /// <summary>
     /// Initiate challenge period for user. 
     /// The system generates rewards and assigns initial challenges.
