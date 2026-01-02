@@ -4,14 +4,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DH.Adapter.Data.Services;
 
-public class TenantResolver(TenantDbContext db) : ITenantResolver
+public class TenantService(TenantDbContext db) : ITenantService
 {
     private readonly TenantDbContext _db = db;
 
-    public async Task<Tenant?> GetBySlugAsync(string slug)
+    public async Task<Tenant?> GetByTenantName(string name)
     {
         return await _db.Tenants
-            .Where(t => t.TenantName == slug)
+            .Where(t => t.TenantName == name)
             .FirstOrDefaultAsync();
     }
 }

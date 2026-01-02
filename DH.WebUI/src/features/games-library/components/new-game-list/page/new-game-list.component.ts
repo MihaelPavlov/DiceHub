@@ -10,12 +10,13 @@ import { ImageEntityType } from '../../../../../shared/pipe/entity-image.pipe';
 import { FULL_ROUTE } from '../../../../../shared/configs/route.config';
 import { LanguageService } from '../../../../../shared/services/language.service';
 import { SupportLanguages } from '../../../../../entities/common/models/support-languages.enum';
+import { TenantRouter } from '../../../../../shared/helpers/tenant-router';
 
 @Component({
-    selector: 'app-new-game-list',
-    templateUrl: 'new-game-list.component.html',
-    styleUrl: 'new-game-list.component.scss',
-    standalone: false
+  selector: 'app-new-game-list',
+  templateUrl: 'new-game-list.component.html',
+  styleUrl: 'new-game-list.component.scss',
+  standalone: false,
 })
 export class NewGameListComponent implements OnInit, OnDestroy {
   public games: IGameListResult[] = [];
@@ -24,6 +25,7 @@ export class NewGameListComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly gameService: GamesService,
     private readonly menuTabsService: MenuTabsService,
     private readonly searchService: SearchService,
@@ -48,7 +50,7 @@ export class NewGameListComponent implements OnInit, OnDestroy {
 
   public navigateToGameDetails(id: number): void {
     this.navigationService.setPreviousUrl(this.router.url);
-    this.router.navigateByUrl(FULL_ROUTE.GAMES.DETAILS(id));
+    this.tenantRouter.navigateTenant(FULL_ROUTE.GAMES.DETAILS(id));
   }
 
   public handleSearchExpression(searchExpression: string) {

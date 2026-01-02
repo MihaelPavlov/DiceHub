@@ -5,6 +5,15 @@ using System.Security;
 
 namespace DH.Adapter.Data;
 
+/// <summary>
+/// Entity Framework Core connection interceptor that applies
+/// tenant-specific context to database connections.
+/// </summary>
+/// <remarks>
+/// This interceptor sets the PostgreSQL session variable <c>app.tenant_id</c>
+/// based on the current HTTP request context.  
+/// It is intended to support Row-Level Security (RLS) and tenant isolation.
+/// </remarks>
 public class TenantDbConnectionInterceptor : DbConnectionInterceptor
 {
     private readonly IHttpContextAccessor httpContextAccessor;
@@ -48,7 +57,7 @@ public class TenantDbConnectionInterceptor : DbConnectionInterceptor
     }
 
     public override void ConnectionOpened(DbConnection connection, ConnectionEndEventData eventData)
-    {
+     {
         if (this.httpContextAccessor != null && this.httpContextAccessor.HttpContext != null)
         {
             var tenantId = this.httpContextAccessor.HttpContext?

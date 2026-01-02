@@ -12,6 +12,7 @@ export const ROUTE = {
     AVAILABILITY: 'availability',
     REVIEWS: 'reviews',
     UPDATE: 'update',
+    ADD: 'add',
     ADD_EXISTING_GAME: 'add-existing-game',
     RESERVATIONS: 'reservations',
   },
@@ -106,15 +107,17 @@ export const FULL_ROUTE = {
     LIBRARY_BY_CATEGORY_ID: (categoryId: number) =>
       `${ROUTE.GAMES.CORE}/${ROUTE.GAMES.LIBRARY}/${categoryId}`,
     DETAILS: (gameId: number) =>
-      `/${ROUTE.GAMES.CORE}/${gameId}/${ROUTE.GAMES.DETAILS}`,
+      `${ROUTE.GAMES.CORE}/${gameId}/${ROUTE.GAMES.DETAILS}`,
     AVAILABILITY: (gameId: number) =>
-      `/${ROUTE.GAMES.CORE}/${gameId}/${ROUTE.GAMES.AVAILABILITY}`,
+      `${ROUTE.GAMES.CORE}/${gameId}/${ROUTE.GAMES.AVAILABILITY}`,
     REVIEWS: (gameId: number) =>
-      `/${ROUTE.GAMES.CORE}/${gameId}/${ROUTE.GAMES.REVIEWS}`,
+      `${ROUTE.GAMES.CORE}/${gameId}/${ROUTE.GAMES.REVIEWS}`,
+    ADD: `${ROUTE.GAMES.CORE}/${ROUTE.GAMES.ADD}`,
     UPDATE: (gameId: number) =>
-      `/${ROUTE.GAMES.CORE}/${gameId}/${ROUTE.GAMES.UPDATE}`,
-    ADD_EXISTING_GAME: (gameId: number) =>
-      `/${ROUTE.GAMES.CORE}/${gameId}/${ROUTE.GAMES.ADD_EXISTING_GAME}`,
+      `${ROUTE.GAMES.CORE}/${gameId}/${ROUTE.GAMES.UPDATE}`,
+    ADD_EXISTING_GAME: `${ROUTE.GAMES.CORE}/${ROUTE.GAMES.ADD_EXISTING_GAME}`,
+    ADD_EXISTING_GAME_BY_ID: (gameId: number) =>
+      `${ROUTE.GAMES.CORE}/${gameId}/${ROUTE.GAMES.ADD_EXISTING_GAME}`,
     ACTIVE_RESERVATIONS: `${ROUTE.GAMES.RESERVATIONS}/${ROUTE.GAMES.CORE}`,
   },
   EVENTS: {

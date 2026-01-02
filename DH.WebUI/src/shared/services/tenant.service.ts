@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { catchError, map, Observable, of } from 'rxjs';
 import { ITenantListResult } from '../../entities/common/models/tenant-list.model';
 import { PATH } from '../configs/path.config';
 import { RestApiService } from './rest-api.service';
@@ -15,5 +15,14 @@ export class TenantService {
         requiredTenant: false,
       }
     );
+  }
+
+  public validateTenant(tenantId: string): Observable<boolean> {
+    return this.api
+      .get<boolean>(`/${PATH.TENANT.CORE}/${tenantId}/${PATH.TENANT.EXISTS}`)
+      .pipe(
+        map(() => true),
+        catchError(() => of(false))
+      );
   }
 }

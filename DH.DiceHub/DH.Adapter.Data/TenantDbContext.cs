@@ -34,8 +34,6 @@ public class TenantDbContext : DbContext, ITenantDbContext
             optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=DH.DiceHub2;User Id=app_user;Password=1qaz!QAZ;");
         }
 #endif
-
-        //optionsBuilder.AddInterceptors(containerService.Resolve<TenantDbConnectionInterceptor>());
     }
 
     #region games
@@ -159,7 +157,6 @@ public class TenantDbContext : DbContext, ITenantDbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-
 
         base.OnModelCreating(modelBuilder);
 

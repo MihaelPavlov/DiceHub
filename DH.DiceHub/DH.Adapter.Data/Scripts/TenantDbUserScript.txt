@@ -1,4 +1,4 @@
-BEGIN;
+﻿BEGIN;
 
 --------------------------------------------------
 -- 1. CREATE APPLICATION USER
@@ -55,12 +55,17 @@ DO $$
 DECLARE
     r RECORD;
     policy_name text := 'tenant_isolation_policy';
+
+    excluded_tables text[] := ARRAY[
+        'AspNetUsers'
+    ];
 BEGIN
     FOR r IN
         SELECT table_schema, table_name
         FROM information_schema.columns
         WHERE column_name = 'TenantId'
           AND table_schema = 'public'
+          AND table_name <> ALL (excluded_tables)
         GROUP BY table_schema, table_name
     LOOP
         -- Enable RLS

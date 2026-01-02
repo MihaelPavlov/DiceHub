@@ -12,18 +12,18 @@
     [columns]="[
       {
         name: 'games.navbar.items.popular' | translate,
-        link: 'games/library',
-        isActive: isActiveLink('/games/library', null, true)
+        link: getTenantLink('games/library'),
+        isActive: isActiveLink('games/library')
       },
       {
         name: 'games.navbar.items.categories' | translate,
-        link: 'games/categories',
-        isActive: isActiveLink('/games/categories', '/games/library/')
+        link: getTenantLink('games/categories'),
+        isActive: isActiveLink('games/categories')
       },
       {
         name: 'games.navbar.items.new' | translate,
-        link: 'games/new',
-        isActive: isActiveLink('/games/new')
+        link: getTenantLink('games/new'),
+        isActive: isActiveLink('games/new')
       }
     ]"
   ></app-nav-bar>

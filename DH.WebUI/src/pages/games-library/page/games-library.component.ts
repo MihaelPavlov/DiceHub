@@ -22,6 +22,7 @@ import { ImageEntityType } from '../../../shared/pipe/entity-image.pipe';
 import { GameCategoriesService } from '../../../entities/games/api/game-categories.service';
 import { FULL_ROUTE } from '../../../shared/configs/route.config';
 import { LanguageService } from '../../../shared/services/language.service';
+import { TenantRouter } from '../../../shared/helpers/tenant-router';
 
 @Component({
     selector: 'app-games-library',
@@ -45,6 +46,7 @@ export class GamesLibraryComponent implements OnInit, OnDestroy {
   public categoryList: IGameCategory[] = [];
   constructor(
     private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly activeRoute: ActivatedRoute,
     private readonly gameService: GamesService,
     private readonly menuTabsService: MenuTabsService,
@@ -119,7 +121,7 @@ export class GamesLibraryComponent implements OnInit, OnDestroy {
 
   public navigateToGameDetails(id: number): void {
     this.navigationService.setPreviousUrl(this.router.url);
-    this.router.navigateByUrl(FULL_ROUTE.GAMES.DETAILS(id));
+    this.tenantRouter.navigateTenant(FULL_ROUTE.GAMES.DETAILS(id));
   }
 
   public handleSearchExpression(searchExpression: string) {
@@ -133,10 +135,10 @@ export class GamesLibraryComponent implements OnInit, OnDestroy {
   public onMenuOption(key: string, event: MouseEvent): void {
     event.stopPropagation();
     if (key === 'update' && this.visibleMenuId) {
-      this.router.navigateByUrl(FULL_ROUTE.GAMES.UPDATE(this.visibleMenuId));
+      this.tenantRouter.navigateTenant(FULL_ROUTE.GAMES.UPDATE(this.visibleMenuId));
     } else if (key === 'copy' && this.visibleMenuId) {
-      this.router.navigateByUrl(
-        FULL_ROUTE.GAMES.ADD_EXISTING_GAME(this.visibleMenuId)
+      this.tenantRouter.navigateTenant(
+        FULL_ROUTE.GAMES.ADD_EXISTING_GAME_BY_ID(this.visibleMenuId)
       );
     } else if (key === 'delete' && this.visibleMenuId) {
       this.openDeleteDialog(this.visibleMenuId);

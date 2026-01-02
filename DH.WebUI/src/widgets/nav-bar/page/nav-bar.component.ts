@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
 export interface Column {
@@ -8,23 +8,15 @@ export interface Column {
 }
 
 @Component({
-    selector: 'app-nav-bar',
-    templateUrl: 'nav-bar.component.html',
-    styleUrl: 'nav-bar.component.scss',
-    standalone: false
+  selector: 'app-nav-bar',
+  templateUrl: 'nav-bar.component.html',
+  styleUrl: 'nav-bar.component.scss',
+  standalone: false,
 })
-export class NavBarComponent implements OnInit {
+export class NavBarComponent {
   @Input() columns: Column[] = [];
 
   constructor(private readonly router: Router) {}
-
-  public ngOnInit(): void {
-    this.columns.forEach((column) => {
-      if (column.isActive) {
-        // this.router.navigateByUrl(column.link);
-      }
-    });
-  }
 
   public toggleActive(item: Column): void {
     // Don't preemptively mark as active

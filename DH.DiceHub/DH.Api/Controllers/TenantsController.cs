@@ -3,16 +3,17 @@ using DH.Domain.Models.Common;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading;
 
 namespace DH.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class TenantController : ControllerBase
+public class TenantsController : ControllerBase
 {
     readonly IMediator mediator;
 
-    public TenantController(IMediator mediator)
+    public TenantsController(IMediator mediator)
     {
         this.mediator = mediator;
     }
@@ -24,5 +25,13 @@ public class TenantController : ControllerBase
     {
         var result = await this.mediator.Send(new GetTenantListQuery(), cancellationToken);
         return Ok(result);
+    }
+
+    [HttpGet("{tenantId}/exists")]
+    public async Task<ActionResult<bool>> TenantExists(string tenantId, CancellationToken cancellationToken)
+    {
+        var tenant = await this.mediator.Send(new GetTenantByIdQuery(tenantId), cancellationToken);
+        if (tenant == null) return NotFound();
+        return Ok(true);
     }
 }

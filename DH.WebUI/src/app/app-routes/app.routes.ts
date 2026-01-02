@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+import { Routes, CanActivate } from '@angular/router';
 import { LoginComponent } from '../../pages/login/page/login.component';
 import { AuthGuard } from '../../shared/guards/auth.guard';
 import { RegisterComponent } from '../../pages/register/page/register.component';
@@ -12,6 +12,8 @@ import { LandingComponent } from '../../pages/landing/page/landing.component';
 import { CreateOwnerPasswordComponent } from '../../pages/create-owner-password/page/create-owner-password.component';
 import { TenantLayoutComponent } from '../../shared/components/tenant-layout/tenant-layout.component';
 import { SelectClubComponent } from '../../shared/components/select-club/select-club.component';
+import { TenantGuard } from '../../shared/guards/tenant.guard';
+import { RedirectIfTenantGuard } from '../../shared/guards/choose-club.guard';
 
 export const ROUTES: Routes = [
   {
@@ -22,7 +24,7 @@ export const ROUTES: Routes = [
   {
     path: 'choose-club',
     component: SelectClubComponent,
-    canActivate: [AuthRedirectGuard],
+    canActivate: [RedirectIfTenantGuard, AuthRedirectGuard],
     data: { hideMenu: true },
   },
   {
@@ -98,6 +100,7 @@ export const ROUTES: Routes = [
   {
     path: ':tenant',
     component: TenantLayoutComponent,
+    canActivate: [TenantGuard],
     data: { hideMenu: false },
     children: [
       {

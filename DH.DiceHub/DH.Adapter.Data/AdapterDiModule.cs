@@ -33,10 +33,12 @@ public static class DataDIModule
         };
 
         services
-            .AddDbContext<TenantDbContext>(options => options
+            .AddDbContext<TenantDbContext>((provider, options) =>
+                options
+                .AddInterceptors(provider.GetRequiredService<TenantDbConnectionInterceptor>())
                 .UseNpgsql(
                     builder.ConnectionString,
-                    npgsqlOptions => 
+                    npgsqlOptions =>
                         npgsqlOptions
                         .EnableRetryOnFailure(
                             maxRetryCount: 5,
@@ -62,7 +64,7 @@ public static class DataDIModule
             .AddScoped<IStatisticsService, StatisticsService>()
             .AddScoped<IUniversalChallengeProcessing, UniversalChallengeProcessing>()
             .AddScoped<IGameSeeder, GameSeeder>()
-            .AddScoped<ITenantResolver, TenantResolver>()
+            .AddScoped<ITenantService, TenantService>()
             .AddSingleton<TenantDbConnectionInterceptor>();
 
         services.AddMemoryCache();

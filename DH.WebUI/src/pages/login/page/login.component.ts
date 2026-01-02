@@ -207,6 +207,7 @@ export class LoginComponent extends Form implements OnInit {
         .login({
           email: this.form.controls.email.value,
           password: this.form.controls.password.value,
+          tenantId: this.tenantContextService.tenantId,
           deviceToken,
           timeZone,
         })
@@ -281,6 +282,7 @@ export class LoginComponent extends Form implements OnInit {
           email: 'rap4obg@abv.bg',
           password: '1qaz!QAZ',
           deviceToken,
+          tenantId: this.tenantContextService.tenantId,
           timeZone,
         })
         .subscribe({
@@ -344,6 +346,7 @@ export class LoginComponent extends Form implements OnInit {
         email: 'sa@dicehub.com',
         password: '1qaz!QAZ',
         deviceToken,
+        tenantId: this.tenantContextService.tenantId,
         timeZone,
       })
       .subscribe({

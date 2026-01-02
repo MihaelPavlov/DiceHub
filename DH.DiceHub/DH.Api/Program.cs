@@ -34,10 +34,6 @@ builder.Services.AddControllers(options =>
     options.Filters.Add<ValidationFilterAttribute>();
 
 });
-builder.Services.AddSpaStaticFiles(configuration =>
-{
-    configuration.RootPath = "wwwroot";
-});
 builder.Services.AddSingleton<IMemoryCache>(service => new MemoryCache(new MemoryCacheOptions { ExpirationScanFrequency = TimeSpan.FromMinutes(1.0) }));
 builder.Services.AddEndpointsApiExplorer();
 
@@ -152,7 +148,7 @@ using (var scope = app.Services.CreateScope())
     await dataSeeder.SeedAsync();
 
     //TODO: Better way to seed eveyrthing maybe ???
-    await ApplicationDbContextSeeder.SeedUsers(scope.ServiceProvider);
+    //await ApplicationDbContextSeeder.SeedUsers(scope.ServiceProvider);
 }
 var locOptions = app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>();
 app.UseRequestLocalization(locOptions.Value);
@@ -168,9 +164,6 @@ if (!app.Environment.IsDevelopment())
     app.UseHttpsRedirection();
 }
 
-app.UseStaticFiles();
-app.UseSpaStaticFiles();
-
 app.UseRouting();
 
 app.UseAuthentication();
@@ -179,26 +172,6 @@ app.UseAuthorization();
 
 app.UseCors("EnableCORS");
 
-#pragma warning disable ASP0014 // Suggest using top level route registrations
-app.Use(async (context, next) =>
-{
-    // If request path doesn't start with /api, /health, /chatHub etc (your protected endpoints)
-    // and the request is not for a static file, let it pass without auth
-    var path = context.Request.Path.Value ?? string.Empty;
-
-    if (!path.StartsWith("/api") &&
-        !path.StartsWith("/health") &&
-        !path.StartsWith("/chatHub") &&
-        !path.StartsWith("/challengeHub") &&
-        !System.IO.Path.HasExtension(path)) // no extension means probably frontend route
-    {
-        // Remove authentication headers so authorization middleware won't block
-        context.Items["AllowAnonymous"] = true;
-    }
-
-    await next.Invoke();
-});
-
 // Then map endpoints
 app.UseEndpoints(endpoints =>
 {
@@ -206,9 +179,6 @@ app.UseEndpoints(endpoints =>
     endpoints.MapHub<ChatHubClient>("/chatHub");
     endpoints.MapHub<ChallengeHubClient>("/challengeHub");
     endpoints.MapControllers();
-
-    // This fallback serves index.html for SPA routes
-    endpoints.MapFallbackToFile("index.html");
 });
 #pragma warning restore ASP0014 // Suggest using top level route registrations
 

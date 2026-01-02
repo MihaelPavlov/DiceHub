@@ -208,7 +208,7 @@ public class UserChallengesManagementService : IUserChallengesManagementService
         DateTime? nextResetDate = null;
         using (var context = await this.dbContextFactory.CreateDbContextAsync(cancellationToken))
         {
-            var userIds = await this.userService.GetAllUserIds(cancellationToken);
+            var userIds = await this.userManagementService.GetAllUserIds(cancellationToken);
 
             var tenantSettings = await this.tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
             var startDate = DateTime.UtcNow.Date;

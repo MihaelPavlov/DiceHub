@@ -3,6 +3,19 @@ using System.Security.Claims;
 
 namespace DH.Api;
 
+/// <summary>
+/// Middleware responsible for validating tenant access based on route and JWT claims.
+/// </summary>
+/// <remarks>
+/// This middleware ensures that:
+/// <list type="bullet">
+/// <item>The tenant slug in the route exists.</item>
+/// <item>The authenticated user contains a tenant claim.</item>
+/// <item>The tenant in the JWT matches the tenant in the route.</item>
+/// </list>
+/// When validation succeeds, the resolved tenant ID is exposed via
+/// <see cref="HttpContext.Items"/> for downstream components.
+/// </remarks>
 public class TenantRouteValidationMiddleware
 {
     private readonly RequestDelegate _next;
@@ -14,7 +27,7 @@ public class TenantRouteValidationMiddleware
 
     public async Task InvokeAsync(
         HttpContext context,
-        ITenantResolver tenantResolver)
+        ITenantService tenantResolver)
     {
         // Extract tenant from route (e.g., /api/{tenant}/...)
         var routeTenant = context.Request.RouteValues["tenant"]?.ToString();
@@ -45,7 +58,7 @@ public class TenantRouteValidationMiddleware
         }
 
         // Resolve tenant by slug from route
-        var tenant = await tenantResolver.GetBySlugAsync(routeTenant);
+        var tenant = await tenantResolver.GetByTenantName(routeTenant);
         if (tenant == null)
         {
             context.Response.StatusCode = StatusCodes.Status404NotFound;

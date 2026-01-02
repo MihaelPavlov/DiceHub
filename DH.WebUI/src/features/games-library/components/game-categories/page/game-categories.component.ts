@@ -6,12 +6,13 @@ import { IGameCategory } from '../../../../../entities/games/models/game-categor
 import { Router } from '@angular/router';
 import { SearchService } from '../../../../../shared/services/search.service';
 import { FULL_ROUTE } from '../../../../../shared/configs/route.config';
+import { TenantRouter } from '../../../../../shared/helpers/tenant-router';
 
 @Component({
-    selector: 'app-game-categories',
-    templateUrl: 'game-categories.component.html',
-    styleUrl: 'game-categories.component.scss',
-    standalone: false
+  selector: 'app-game-categories',
+  templateUrl: 'game-categories.component.html',
+  styleUrl: 'game-categories.component.scss',
+  standalone: false,
 })
 export class GameCategoriesComponent implements OnInit, OnDestroy {
   public categories: IGameCategory[] = [];
@@ -20,7 +21,7 @@ export class GameCategoriesComponent implements OnInit, OnDestroy {
     private readonly gameCategoriesService: GameCategoriesService,
     private readonly menuTabsService: MenuTabsService,
     private readonly searchService: SearchService,
-    private readonly router: Router
+    private readonly router: TenantRouter
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.GAMES);
   }
@@ -39,7 +40,7 @@ export class GameCategoriesComponent implements OnInit, OnDestroy {
   }
 
   public navigateToGameLibrary(id: number): void {
-    this.router.navigateByUrl(FULL_ROUTE.GAMES.LIBRARY_BY_CATEGORY_ID(id));
+    this.router.navigateTenant(FULL_ROUTE.GAMES.LIBRARY_BY_CATEGORY_ID(id));
   }
 
   private fetchGameList(searchExpression: string = '') {

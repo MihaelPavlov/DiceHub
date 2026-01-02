@@ -18,8 +18,26 @@ export abstract class ExceptionBaseComponent {
   ) {}
 
   public redirectTo(): void {
+    if (
+      this.authService.getUser?.tenantId !== this.tenantContextService.tenantId
+    ) {
+      this.authService.logout().subscribe({
+        next: () => {
+          this.router.navigateByUrl(ROUTE.CHOOSE_CLUB);
+        },
+        error: () => {
+          this.authService.logout(true).subscribe({
+            next: () => {
+              this.router.navigateByUrl(ROUTE.CHOOSE_CLUB);
+            },
+          });
+        },
+      });
+      return;
+    }
+
     if (this.authService.getUser) {
-      this.router.navigateByUrl(FULL_ROUTE.GAMES.LIBRARY);
+      this.tenantRouter.navigateTenant(FULL_ROUTE.GAMES.LIBRARY);
       return;
     }
 

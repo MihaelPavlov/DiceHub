@@ -71,8 +71,10 @@ public static class AuthenticationDIModule
             MinPoolSize = 5,           // optional: minimum pool size
             Timeout = 15               // optional: connection timeout in seconds
         };
-        services.AddDbContext<AppIdentityDbContext>(x =>
-            x.UseNpgsql(
+        services.AddDbContext<AppIdentityDbContext>((provider, options) =>
+            options
+           .AddInterceptors(provider.GetRequiredService<ApplicationDbConnectionInterceptor>())
+            .UseNpgsql(
                 builder.ConnectionString,
                     npgsqlOptions =>
                         npgsqlOptions

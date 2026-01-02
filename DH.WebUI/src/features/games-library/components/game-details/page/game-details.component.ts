@@ -1,5 +1,6 @@
+import { FULL_ROUTE } from './../../../../../shared/configs/route.config';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { GamesService } from '../../../../../entities/games/api/games.service';
 import { Observable } from 'rxjs';
 import { IGameByIdResult } from '../../../../../entities/games/models/game-by-id.model';
@@ -8,12 +9,13 @@ import { NAV_ITEM_LABELS } from '../../../../../shared/models/nav-items-labels.c
 import { NavigationService } from '../../../../../shared/services/navigation-service';
 import { SupportLanguages } from '../../../../../entities/common/models/support-languages.enum';
 import { LanguageService } from '../../../../../shared/services/language.service';
+import { TenantRouter } from '../../../../../shared/helpers/tenant-router';
 
 @Component({
-    selector: 'app-game-details',
-    templateUrl: 'game-details.component.html',
-    styleUrl: 'game-details.component.scss',
-    standalone: false
+  selector: 'app-game-details',
+  templateUrl: 'game-details.component.html',
+  styleUrl: 'game-details.component.scss',
+  standalone: false,
 })
 export class GameDetailsComponent implements OnInit, OnDestroy {
   public game$!: Observable<IGameByIdResult>;
@@ -24,7 +26,7 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
     private readonly gameService: GamesService,
     private readonly activeRoute: ActivatedRoute,
     private readonly menuTabsService: MenuTabsService,
-    private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly navigationService: NavigationService,
     private readonly languageService: LanguageService
   ) {
@@ -35,7 +37,7 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
     this.menuTabsService.resetData();
   }
 
-  public get currentLanguage(): SupportLanguages {    
+  public get currentLanguage(): SupportLanguages {
     return this.languageService.getCurrentLanguage();
   }
 
@@ -47,9 +49,10 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
   }
 
   public navigateBack(): void {
-    this.router.navigateByUrl(
-      this.navigationService.getPreviousUrl() ?? '/games/library'
-    );
+    const previousUrl = this.navigationService.getPreviousUrl();
+
+    if (previousUrl) this.tenantRouter.navigateByUrl(previousUrl);
+    else this.tenantRouter.navigateTenant(FULL_ROUTE.GAMES.LIBRARY);
   }
 
   public fetchGame(): void {

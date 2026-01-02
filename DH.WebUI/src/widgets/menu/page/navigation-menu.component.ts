@@ -25,6 +25,7 @@ import { AuthService } from '../../../entities/auth/auth.service';
 import { UserRole } from '../../../entities/auth/enums/roles.enum';
 import { GamesService } from '../../../entities/games/api/games.service';
 import { ROUTE } from '../../../shared/configs/route.config';
+import { TenantRouter } from '../../../shared/helpers/tenant-router';
 
 @Component({
   selector: 'app-navigation-menu',
@@ -46,6 +47,7 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
   public eventLis: any;
   constructor(
     private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly menuTabsService: MenuTabsService,
     private readonly authService: AuthService,
     private readonly cd: ChangeDetectorRef,
@@ -70,8 +72,8 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
         takeUntil(this.destroy$),
         filter((event) => event instanceof NavigationEnd)
       )
-      .subscribe((navEvent: any) => {
-        this.activeLink = (navEvent as NavigationEnd).url.split('/')[1];
+      .subscribe((navEvent: any) => {        
+        this.activeLink = (navEvent as NavigationEnd).url.split('/')[2];
       });
     if (this.authService.getUser?.role !== UserRole.User) {
       this.subscriptionRefreshForAnyActiveReservations = setInterval(
@@ -130,11 +132,11 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
     });
   }
   private updateLeftMenuItems(hasActive: boolean): void {
-    const page = location.pathname.split('/')[1];
+    const page = location.pathname.split('/')[2];
     const isReservationsPage = page === 'reservations';
 
     this.leftMenuItems = this.leftMenuItems.filter(
-      (item) => item.route !== '/reservations'
+      (item) => item.route !== this.tenantRouter.buildTenantUrl('/reservations')
     );
 
     this.leftMenuItems.push({
@@ -146,7 +148,7 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
       visible: true,
       icon: '/shared/assets/images/icons/menu_book-icon.svg',
       icon_color: '/shared/assets/images/icons/menu_book-icon-blue.svg',
-      route: '/reservations',
+      route: this.tenantRouter.buildTenantUrl('/reservations'),
     });
   }
   private filterActiveReservations(reservations: any[]): any[] {
@@ -161,11 +163,11 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
   }
 
   public navigateToSpaceManagement(): void {
-    this.router.navigate(['/space/home']);
+    this.tenantRouter.navigateTenant('space/home');
   }
 
   public navigateToChallenges(): void {
-    this.router.navigate(['/challenges/home']);
+    this.tenantRouter.navigateTenant('challenges/home');
   }
 
   public setActiveTab(label: string) {
@@ -190,70 +192,84 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
     this.leftMenuItems = [
       {
         label: NAV_ITEM_LABELS.GAMES.toLowerCase(),
-        class: page === '/games/library' ? 'active' : '',
+        class:
+          page === this.tenantRouter.buildTenantUrl('/games/library')
+            ? 'active'
+            : '',
         isAlertActive: false,
         enabled: true,
         visible: true,
         icon: '/shared/assets/images/icons/kid_star-icon.svg',
         icon_color: '/shared/assets/images/icons/kid_star-icon-blue.svg',
-        route: '/games/library',
+        route: this.tenantRouter.buildTenantUrl('/games/library'),
       },
     ];
 
     if (this.authService.getUser?.role !== UserRole.User) {
       this.leftMenuItems.push({
         label: NAV_ITEM_LABELS.RESERVATIONS.toLowerCase(),
-        class: page === '/reservations' ? 'active' : '',
+        class:
+          page === this.tenantRouter.buildTenantUrl('/reservations')
+            ? 'active'
+            : '',
         isAlertActive: true,
         enabled: true,
         visible: true,
         icon: '/shared/assets/images/icons/menu_book-icon.svg',
         icon_color: '/shared/assets/images/icons/menu_book-icon-blue.svg',
-        route: '/reservations',
+        route: this.tenantRouter.buildTenantUrl('/reservations'),
       });
     } else {
       this.leftMenuItems.push({
         label: NAV_ITEM_LABELS.MEEPLE.toLowerCase(),
-        class: page === '/meeples/find' ? 'active' : '',
+        class:
+          page === this.tenantRouter.buildTenantUrl('/meeples/find')
+            ? 'active'
+            : '',
         isAlertActive: false,
         enabled: true,
         visible: true,
         icon: '/shared/assets/images/icons/group-icon.svg',
         icon_color: '/shared/assets/images/icons/group-icon-blue.svg',
-        route: '/meeples/find',
+        route: this.tenantRouter.buildTenantUrl('/meeples/find'),
       });
     }
 
     this.rightMenuItems = [
       {
         label: NAV_ITEM_LABELS.EVENTS.toLowerCase(),
-        class: page === '/events/home' ? 'active' : '',
+        class:
+          page === this.tenantRouter.buildTenantUrl('/events/home')
+            ? 'active'
+            : '',
         isAlertActive: false,
         enabled: true,
         visible: true,
         icon: '/shared/assets/images/icons/stadium-icon.svg',
         icon_color: '/shared/assets/images/icons/stadium-icon-blue.svg',
-        route: '/events/home',
+        route: this.tenantRouter.buildTenantUrl('/events/home'),
       },
       {
         label: NAV_ITEM_LABELS.PROFILE.toLowerCase(),
-        class: page === '/profile' ? 'active' : '',
+        class:
+          page === this.tenantRouter.buildTenantUrl('/profile') ? 'active' : '',
         isAlertActive: false,
         enabled: true,
         visible: true,
         icon: '/shared/assets/images/icons/account_circle-icon.svg',
         icon_color: '/shared/assets/images/icons/account_circle-icon-blue.svg',
-        route: '/profile',
+        route: this.tenantRouter.buildTenantUrl('/profile'),
       },
     ];
   }
 
   public navigateToQrCodeScanner(): void {
-    this.router.navigateByUrl(ROUTE.QR_CODE_SCANNER);
+    this.tenantRouter.navigateTenant(ROUTE.QR_CODE_SCANNER);
   }
 
   private updateMenuItems() {
-    let page: string = location.pathname.split('/')[1];
+    let page: string = location.pathname.split('/')[2];
+
     this.updateMenuItemsWithPage(page);
   }
 }
