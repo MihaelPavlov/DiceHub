@@ -69,7 +69,7 @@ internal class JoinRoomCommandHandler : IRequestHandler<JoinRoomCommand>
         }
         else
         {
-            var roomParticipant = new RoomParticipant { UserId = this.userContext.UserId, Room = room, JoinedAt = DateTime.UtcNow };
+            var roomParticipant = new RoomParticipant { UserId = this.userContext.UserId, RoomId = room.Id, JoinedAt = DateTime.UtcNow };
             await this.roomParticipantsRepository.AddAsync(roomParticipant, cancellationToken);
         }
         var user = await this.userService.GetUserById(this.userContext.UserId, cancellationToken);

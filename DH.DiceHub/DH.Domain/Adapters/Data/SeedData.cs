@@ -411,7 +411,7 @@ public static class SeedData
                 <p>Before you can do that, we need to verify your identity.</p>
                 <p>Please click the button below to start the setup process. You’ll be asked to confirm your phone number to ensure it matches what your employer provided:</p>
               <div style=""text-align: center; margin: 30px 0"">
-                <a href=""{{CallbackUrl}}"" style=""
+                <a href=""{{CreatePasswordUrl}}"" style=""
                   background-color: #75a0ff;
                   color: white;
                   padding: 12px 30px;
@@ -484,7 +484,7 @@ public static class SeedData
                 <p>Преди да направите това, трябва да потвърдим вашата идентичност.</p>
                 <p>Моля, натиснете бутона по-долу, за да започнете процеса. Ще бъдете помолени да потвърдите телефонния си номер, за да се уверим, че съвпада с информацията, предоставена от вашия работодател:</p>
               <div style=""text-align: center; margin: 30px 0"">
-                <a href=""{{CallbackUrl}}"" style=""
+                <a href=""{{CreatePasswordUrl}}"" style=""
                   background-color: #75a0ff;
                   color: white;
                   padding: 12px 30px;
@@ -777,7 +777,7 @@ public static class SeedData
                 </p>
                 <div style=""text-align: center; margin: 30px 0"">
                   <a
-                    href=""{{CallbackUrl}}""
+                    href=""{{CreatePasswordUrl}}""
                     style=""
                       background-color: #75a0ff;
                       color: white;
@@ -890,7 +890,7 @@ public static class SeedData
                 </p>
                 <div style=""text-align: center; margin: 30px 0"">
                   <a
-                    href=""{{CallbackUrl}}""
+                    href=""{{CreatePasswordUrl}}""
                     style=""
                       background-color: #75a0ff;
                       color: white;

@@ -26,6 +26,6 @@ internal class GetSpaceTableByIdQueryHandler(IRepository<SpaceTable> repository,
 
         mappedTalbe.GameName = game.Name;
 
-        return spaceTable.Adapt<GetSpaceTableByIdQueryModel>();
+        return mappedTalbe;
     }
 }
