@@ -51,16 +51,19 @@ public class JwtService : IJwtService
             ?? throw new ArgumentException("JWT_SecretKey was not specified")));
 
         var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-        var tokeOptions = new JwtSecurityToken(
+        var payload = new JwtPayload(
             issuer: issuer,
+            audience: null,
             claims: claims,
-            expires: DateTime.UtcNow.AddDays(1),
-            signingCredentials: signinCredentials
+            notBefore: null,
+            expires: DateTime.UtcNow.AddDays(1)
         );
 
-        tokeOptions.Payload["aud"] = apiAudiences;
+        payload["aud"] = apiAudiences;
 
-        var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
+        var token = new JwtSecurityToken(new JwtHeader(signinCredentials), payload);
+        var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+
         return tokenString;
     }
 
@@ -96,21 +99,27 @@ public class JwtService : IJwtService
             throw new SecurityTokenException("Invalid refresh token");
 
         var roles = await userManager.GetRolesAsync(user);
+        var roleName = roles.FirstOrDefault();
 
         var claims = new List<Claim>
         {
             new Claim(ClaimTypes.Sid, user.Id),
             new Claim(ClaimTypes.Name, user.UserName!),
-            new Claim("TimeZone", user.TimeZone!)
+            new Claim("TimeZone", user.TimeZone!),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
-
-        if (roles.Any())
+        if (roleName != null)
         {
-            var role = roles.First();
-            claims.Add(new Claim(ClaimTypes.Role, RoleHelper.GetRoleKeyByName(role).ToString()));
-            claims.Add(new Claim("permissions",
-                this._permissionStringBuilder.GetFromCacheOrBuildPermissionsString(
-                    RoleHelper.GetRoleKeyByName(role))));
+            claims.Add(new Claim(ClaimTypes.Role, roleName));
+            claims.Add(new Claim("role_key",
+                RoleHelper.GetRoleKeyByName(roleName).ToString()));
+
+            claims.Add(new Claim(
+                "permissions",
+                this._permissionStringBuilder
+                    .GetFromCacheOrBuildPermissionsString(
+                        RoleHelper.GetRoleKeyByName(roleName))));
+
         }
 
         var newAccessToken = GenerateAccessToken(claims);
@@ -167,7 +176,7 @@ public class JwtService : IJwtService
             ValidateIssuerSigningKey = true,
 
             ValidateLifetime = false,
-                                        // Prevents accepting tokens that are “almost expired”
+            // Prevents accepting tokens that are “almost expired”
             ClockSkew = TimeSpan.Zero,  //Keeps refresh logic deterministic
                                         // Avoids subtle timing bugs during rotation
             ValidIssuer = issuer,
