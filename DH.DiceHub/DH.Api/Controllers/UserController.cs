@@ -184,18 +184,27 @@ public class UserController : ControllerBase
 
         if (!tokenHandler.CanReadToken(accessToken)) return Ok(null);
 
+        var apiAudiences = configuration.GetSection("APIs_Audience_URLs").Get<string[]>()
+            ?? throw new ArgumentException("APIs_Audience_URLs was not specified");
+
+        var issuer = configuration.GetValue<string>("TokenIssuer")
+            ?? throw new ArgumentException("TokenIssuer was not specified");
+
+        var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetValue<string>("JWT_SecretKey")
+            ?? throw new ArgumentException("JWT_SecretKey was not specified")));
+
         try
         {
             var validationParams = new TokenValidationParameters
             {
                 ValidateIssuer = true,
                 ValidateAudience = true,
-                ValidateLifetime = true,
                 ValidateIssuerSigningKey = true,
-                ValidIssuer = configuration["TokenIssuer"],
-                ValidAudiences = configuration.GetSection("APIs_Audience_URLs").Get<string[]>(),
-                IssuerSigningKey = new SymmetricSecurityKey(
-                    Encoding.UTF8.GetBytes(configuration["JWT_SecretKey"]!))
+                ValidateLifetime = false,
+                ClockSkew = TimeSpan.Zero,
+                ValidIssuer = issuer,
+                ValidAudiences = apiAudiences,
+                IssuerSigningKey = secretKey,
             };
 
             tokenHandler.ValidateToken(accessToken, validationParams, out var validatedToken);

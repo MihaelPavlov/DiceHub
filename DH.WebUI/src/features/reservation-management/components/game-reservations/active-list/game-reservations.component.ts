@@ -9,7 +9,6 @@ import { ReservationManagementNavigationComponent } from '../../../../../pages/r
 import { ReservationStatus } from '../../../../../shared/enums/reservation-status.enum';
 import { ReservationConfirmationDialog } from '../../../dialogs/reservation-status-confirmation/reservation-confirmation.dialog';
 import { ReservationType } from '../../../enums/reservation-type.enum';
-import { ImageEntityType } from '../../../../../shared/pipe/entity-image.pipe';
 import { DateHelper } from '../../../../../shared/helpers/date-helper';
 import { TranslateService } from '@ngx-translate/core';
 import { FULL_ROUTE } from '../../../../../shared/configs/route.config';
@@ -28,7 +27,6 @@ export class GameReservations implements OnInit, OnDestroy {
   public expandedReservationId: number | null = null;
   public activeReservations$!: Observable<ActiveReservedGame[]>;
 
-  public readonly ImageEntityType = ImageEntityType;
   public readonly ReservationStatus = ReservationStatus;
   public readonly DATE_TIME_FORMAT: string = DateHelper.DATE_TIME_FORMAT;
 

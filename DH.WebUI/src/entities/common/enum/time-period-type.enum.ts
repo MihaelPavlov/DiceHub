@@ -1,5 +1,5 @@
 export enum TimePeriodType {
   Weekly,
-  Monthly,
+  // Monthly,
   // Yearly,
 }

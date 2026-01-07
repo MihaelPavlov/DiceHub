@@ -43,16 +43,19 @@ public class TokenService : ITokenService
         var signinCredentials = new SigningCredentials(
             new SymmetricSecurityKey(this.jwtTokenOptions.SigningKey), SecurityAlgorithms.HmacSha256);
 
-        var tokeOptions = new JwtSecurityToken(
+        var tokeOptions = new JwtPayload(
             issuer: this.jwtTokenOptions.Issuer,
+            audience: null,
             claims: claims,
-            expires: DateTime.UtcNow.Add(this.jwtTokenOptions.AccessTokenLifetime),
-            signingCredentials: signinCredentials
+            notBefore: null,
+            expires: DateTime.UtcNow.Add(this.jwtTokenOptions.AccessTokenLifetime)
         );
 
-        tokeOptions.Payload["aud"] = this.jwtTokenOptions.Audiences;
+        tokeOptions["aud"] = this.jwtTokenOptions.Audiences;
 
-        var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
+        var token = new JwtSecurityToken(new JwtHeader(signinCredentials), tokeOptions);
+        var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+
         return tokenString;
     }
 
@@ -96,6 +99,7 @@ public class TokenService : ITokenService
             throw new SecurityTokenException("Tenant mismatch");
 
         var roles = await userManager.GetRolesAsync(user);
+        var roleName = roles.FirstOrDefault();
 
         var claims = await BuildUserClaimsAsync(user.Id);
 

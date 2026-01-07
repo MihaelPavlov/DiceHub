@@ -30,7 +30,14 @@
         </p>
         <p>
           {{'reservation_management.confirm_dialog.phone_number'|translate}}
-          <strong> {{this.data.phoneNumber}}</strong>
+          <strong>
+            <a
+              [href]="'tel:' + this.data.phoneNumber"
+              class="club-info__value club-info__phone"
+            >
+              {{ this.data.phoneNumber }}
+            </a></strong
+          >
         </p>
         <p>
           {{'reservation_management.confirm_dialog.user_language'|translate}}
@@ -131,7 +138,7 @@
     >
       {{'reservation_management.confirm_dialog.decline'|translate}}
     </button>
-     <button
+    <button
       *ngIf="this.data.isCancel"
       class="btn btn__small btn-red btn-border-red"
       (click)="cancelReservation()"

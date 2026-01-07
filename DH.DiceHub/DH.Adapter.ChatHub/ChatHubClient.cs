@@ -51,26 +51,14 @@ public class ChatHubClient : Hub, IChatHubClient
         return base.OnConnectedAsync();
     }
 
-    public async Task AddToGroup(int roomId)
-    {
-        var room = await this.roomsRepository.GetByAsync(g => g.Id == roomId, CancellationToken.None)
-            ?? throw new NotFoundException(nameof(Room), roomId);
-
-        var userGroup = new RoomParticipant { UserId = this.userContext.UserId!, Room = room };
-        await this.roomParticipantsRepository.AddAsync(userGroup, CancellationToken.None);
-
-        await Groups.AddToGroupAsync(this.Context.ConnectionId, roomId.ToString());
-        await Clients.Group(roomId.ToString()).SendAsync("Send", $"{this.Context.ConnectionId} has joined the group {room.Name}.");
-    }
-
     public async Task SendMessageToGroup(int roomId, string message)
     {
         var room = await this.roomsRepository.GetByAsync(g => g.Id == roomId, CancellationToken.None)
             ?? throw new NotFoundException(nameof(Room), roomId);
 
-        var newMessage = new RoomMessage { CreatedDate = DateTime.UtcNow, Room = room, MessageContent = message, Sender = this.userContext.UserId! };
+        var newMessage = new RoomMessage { CreatedDate = DateTime.UtcNow, RoomId = room.Id, MessageContent = message, Sender = this.userContext.UserId! };
 
-        var user = await this.userManagementService.GetUserListByIds([this.userContext.UserId!], CancellationToken.None);
+        var user = await this.userService.GetUserListByIds([this.userContext.UserId!], CancellationToken.None);
         await this.roomMessagesRepository.AddAsync(newMessage, CancellationToken.None);
         await Clients.Group(roomId.ToString()).SendAsync("ReceiveMessage", newMessage.Sender, user.First().UserName, newMessage.MessageContent, newMessage.CreatedDate);
     }

@@ -53,14 +53,14 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
     private readonly cd: ChangeDetectorRef,
     private readonly spaceManagementService: SpaceManagementService,
     private readonly gameService: GamesService
-  ) {
+  ) {}
+
+  public ngOnInit(): void {
     this.updateMenuItems();
     if (this.authService.getUser?.role !== UserRole.User) {
       this.refreshForAnyActiveReservations();
     }
-  }
 
-  public ngOnInit(): void {
     this.menuTabsService.activeTab$
       .pipe(takeUntil(this.destroy$))
       .subscribe((label) => {
