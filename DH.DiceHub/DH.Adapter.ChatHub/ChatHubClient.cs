@@ -58,7 +58,7 @@ public class ChatHubClient : Hub, IChatHubClient
 
         var newMessage = new RoomMessage { CreatedDate = DateTime.UtcNow, RoomId = room.Id, MessageContent = message, Sender = this.userContext.UserId! };
 
-        var user = await this.userService.GetUserListByIds([this.userContext.UserId!], CancellationToken.None);
+        var user = await this.userManagementService.GetUserListByIds([this.userContext.UserId!], CancellationToken.None);
         await this.roomMessagesRepository.AddAsync(newMessage, CancellationToken.None);
         await Clients.Group(roomId.ToString()).SendAsync("ReceiveMessage", newMessage.Sender, user.First().UserName, newMessage.MessageContent, newMessage.CreatedDate);
     }
