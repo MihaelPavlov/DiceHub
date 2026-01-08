@@ -233,7 +233,7 @@
         "start_date": "Начална дата",
         "start_time": "Начален час",
         "name": "Име",
-        "max_people": "Максимален брой хора",
+        "max_people": "Макс. бр. хора",
         "description": "Описание"
       },
       "placeholders": {
