@@ -1,4 +1,4 @@
-import { WeekDay } from '@angular/common';
+import { WeekDay } from '../../../shared/enums/week-day.enum';
 import { TimePeriodType } from '../enum/time-period-type.enum';
 
 export interface ITenantSettings {
@@ -23,6 +23,11 @@ export interface ITenantSettings {
   /// In which day at 12:00PM the rewards are gonna be reset
   /// </summary>
   resetDayForRewards: WeekDay;
+
+  /// <summary>
+  ///Showing the next reset day to the owner
+  /// </summary>
+  nextResetTimeOfPeriod?: Date | null;
 
   /// <summary>
   /// Days Off of the Facility

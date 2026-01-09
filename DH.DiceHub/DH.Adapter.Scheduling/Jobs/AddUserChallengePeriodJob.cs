@@ -1,10 +1,14 @@
 ﻿using DH.Domain.Adapters.Scheduling;
+using DH.Domain.Entities;
 using DH.Domain.Enums;
 using DH.Domain.Helpers;
+using DH.Domain.Repositories;
 using DH.Domain.Services.TenantSettingsService;
 using DH.OperationResultCore.Exceptions;
+using MediatR;
 using Microsoft.Extensions.Logging;
 using Quartz;
+using System.Threading;
 
 namespace DH.Adapter.Scheduling.Jobs;
 
@@ -13,19 +17,25 @@ namespace DH.Adapter.Scheduling.Jobs;
 public class AddUserChallengePeriodJob : IJob
 {
     readonly IAddUserChallengePeriodHandler addUserChallengePeriodHandler;
-    private readonly ISchedulerFactory schedulerFactory;
-    private readonly ITenantSettingsCacheService tenantSettingsService;
-    private readonly ILogger<AddUserChallengePeriodJob> logger;
+    readonly ISchedulerFactory schedulerFactory;
+    readonly ITenantSettingsCacheService tenantSettingsService;
+    readonly ILogger<AddUserChallengePeriodJob> logger;
+    readonly IRepository<TenantSetting> repository;
+
+    static readonly string JobName = nameof(AddUserChallengePeriodJob);
+    static readonly string TriggerName = $"WeeklyJobTrigger-{JobName}";
 
     public AddUserChallengePeriodJob(
         IAddUserChallengePeriodHandler addUserChallengePeriodHandler,
         ISchedulerFactory schedulerFactory,
         ITenantSettingsCacheService tenantSettingsService,
+        IRepository<TenantSetting> repository,
         ILogger<AddUserChallengePeriodJob> logger)
     {
         this.addUserChallengePeriodHandler = addUserChallengePeriodHandler;
         this.schedulerFactory = schedulerFactory;
         this.tenantSettingsService = tenantSettingsService;
+        this.repository = repository;
         this.logger = logger;
     }
 
@@ -40,36 +50,44 @@ public class AddUserChallengePeriodJob : IJob
             var scheduler = await this.schedulerFactory.GetScheduler();
             var tenantSettings = await this.tenantSettingsService.GetGlobalTenantSettingsAsync(CancellationToken.None);
 
-            var jobKey = new JobKey(nameof(AddUserChallengePeriodJob));
-
-            if (await scheduler.CheckExists(jobKey))
-            {
-                await scheduler.DeleteJob(jobKey);
-            }
-
-            var triggerKey = new TriggerKey($"WeeklyJobTrigger-{jobKey.Name}");
-
             Enum.TryParse<TimePeriodType>(tenantSettings.PeriodOfRewardReset, out var timePeriod);
 
-            var runAt = TimePeriodTypeHelper.CalculateNextResetDate(timePeriod, tenantSettings.ResetDayForRewards);
+            var nextRunAt = TimePeriodTypeHelper.CalculateNextResetDate(timePeriod, tenantSettings.ResetDayForRewards);
 
             //var offset = TimeZoneHelper.GetOffsetForTimeZone(runAt, "Europe/Sofia");
             //runAt = runAt.AddHours(-offset?.TotalHours ?? 0);
-            this.logger.LogInformation("AddUserChallengePeriodJob rescheduled to run at {RunAt}.", runAt);
+            this.logger.LogInformation("AddUserChallengePeriodJob will be rescheduled to run at {NextRunAt}.", nextRunAt);
 
-            var job = JobBuilder.Create<AddUserChallengePeriodJob>()
-                 .WithIdentity(jobKey)
-                 .Build();
+            var jobKey = new JobKey(JobName);
+            var triggerKey = new TriggerKey(TriggerName);
 
+            // Ensure job exists (create only once)
+            if (!await scheduler.CheckExists(jobKey))
+            {
+                var job = JobBuilder.Create<AddUserChallengePeriodJob>()
+                    .WithIdentity(jobKey)
+                    .Build();
+
+                await scheduler.AddJob(job, true, CancellationToken.None);
+            }
+
+            // Reschedule trigger
             var trigger = TriggerBuilder.Create()
                 .WithIdentity(triggerKey)
-                .StartAt(runAt)
                 .ForJob(jobKey)
+                .StartAt(nextRunAt)
                 .Build();
 
-            await scheduler.ScheduleJob(job, trigger, CancellationToken.None);
+            await scheduler.RescheduleJob(triggerKey, trigger);
 
-            this.logger.LogInformation("AddUserChallengePeriodJob executed successfully and rescheduled for {RunAt}", runAt);
+            this.logger.LogInformation("AddUserChallengePeriodJob successfully rescheduled for {NextRunAt}.", nextRunAt);
+
+            var dbSettings = await this.repository.GetByAsyncWithTracking(x => x.Id == tenantSettings.Id, CancellationToken.None);
+            if (dbSettings != null)
+            {
+                dbSettings.NextResetTimeOfPeriod = nextRunAt.ToUniversalTime();
+                await this.repository.SaveChangesAsync(CancellationToken.None);
+            }
         }
         catch (Exception ex)
         {

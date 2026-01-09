@@ -312,7 +312,7 @@ public class UserChallengesManagementService : IUserChallengesManagementService
                         if (tenantSettings.IsCustomPeriodOn)
                         {
                             await SetupPeriod(
-                                userPerformance!, customRewards,
+                                newUserPerformance!, customRewards,
                                 customChallenges, customUniversalChallenges,
                                 context, userId, tenantSettings,
                                 includeChallenges: false, cancellationToken);
@@ -320,7 +320,7 @@ public class UserChallengesManagementService : IUserChallengesManagementService
                         else
                         {
                             await SetupPeriod(
-                                userPerformance!, [], [], [],
+                                newUserPerformance!, [], [], [],
                                 context, userId, tenantSettings,
                                 includeChallenges: false, cancellationToken);
                         }
@@ -481,7 +481,7 @@ public class UserChallengesManagementService : IUserChallengesManagementService
             {
                 IsCompleted = false,
                 RequiredPoints = x.RequiredPoints,
-                UserChallengePeriodPerformanceId = userPerformance.Id,
+                UserChallengePeriodPerformance = userPerformance,
                 RewardId = x.RewardId,
             }).ToArray();
 
@@ -493,7 +493,7 @@ public class UserChallengesManagementService : IUserChallengesManagementService
                 UserAttempts = 0,
                 RewardPoints = x.RewardPoints,
                 GameId = x.GameId,
-                UserChallengePeriodPerformanceId = userPerformance.Id,
+                UserChallengePeriodPerformance = userPerformance,
             }).ToArray();
 
             foreach (var x in customUniversalChallenges)
@@ -530,7 +530,7 @@ public class UserChallengesManagementService : IUserChallengesManagementService
                         UserAttempts = 0,
                         RewardPoints = x.RewardPoints,
                         UniversalChallengeId = x.UniversalChallengeId,
-                        UserChallengePeriodPerformanceId = userPerformance.Id,
+                        UserChallengePeriodPerformance = userPerformance,
                         GameId = selectedGameId,
                     });
 
@@ -545,7 +545,7 @@ public class UserChallengesManagementService : IUserChallengesManagementService
                     UserAttempts = 0,
                     RewardPoints = x.RewardPoints,
                     UniversalChallengeId = x.UniversalChallengeId,
-                    UserChallengePeriodPerformanceId = userPerformance.Id,
+                    UserChallengePeriodPerformance = userPerformance,
                     MinValue = x.MinValue,
                 });
             }

@@ -646,7 +646,7 @@
       "placeholder": "EN",
       "info": "Application Language for you"
     },
-     "theme": {
+    "theme": {
       "label": "UI Theme",
       "placeholder": "Dark or Light",
       "info": "UI Theme of the application interface"
@@ -686,7 +686,7 @@
     "EN": "EN",
     "BG": "BG"
   },
-  "ui_theme_names":{
+  "ui_theme_names": {
     "Dark": "Dark",
     "Light": "Light"
   },
@@ -1019,7 +1019,7 @@
   },
   "custom_period": {
     "save_custom_period": "Save Custom Period",
-    "period_warning_messages": "Custom period initialization will apply on your next scheduled reward reset day.<br /> Currently set to <strong>{{resetDayForRewards}}</strong> at <strong>12:00 PM</strong>.<br /> <br /> You can continue editing your settings until the reset occurs. <br /> <br /> <strong>Note:</strong> The configured challenges and rewards will be the same for all users during the custom period.",
+    "period_warning_messages": "Custom period initialization will apply on your next scheduled reward reset day.<br />Period Start: <strong>{{periodStart}}</strong> at <strong>11:59 PM</strong>.<br />Period End: <strong>{{periodEnd}}</strong> at <strong>11:59 PM</strong>.<br /><br />You can continue editing your settings until the reset occurs.<br /><br /><strong>Note:</strong> The configured challenges and rewards will be the same for all users during the custom period.",
     "add_reward": "Add Reward",
     "add_challenge": "Add Challenge",
     "add_universal_challenge": "Add Universal Challenge",

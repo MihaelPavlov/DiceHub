@@ -3,7 +3,7 @@ import { SupportLanguages } from './../../../../entities/common/models/support-l
 import { LanguageService } from './../../../../shared/services/language.service';
 import { CustomPeriodLeaveConfirmationDialog } from './../../dialogs/custom-period-leave-confirmation/custom-period-leave-confirmation.component';
 import { ITenantSettings } from './../../../../entities/common/models/tenant-settings.model';
-import { Component } from '@angular/core';
+import { Component, REQUEST } from '@angular/core';
 import { IGameDropdownResult } from '../../../../entities/games/models/game-dropdown.model';
 import { GamesService } from '../../../../entities/games/api/games.service';
 import { ToastService } from '../../../../shared/services/toast.service';
@@ -38,11 +38,19 @@ import { UnsavedChangesConfirmationDialog } from '../../../../shared/dialogs/uns
 import { TranslateService } from '@ngx-translate/core';
 import { IUniversalChallengeDropdownResult } from '../../../../entities/space-management/models/universal-challenge-dropdown.model';
 import { UniversalChallengeType } from '../../../../pages/challenges-management/shared/challenge-universal-type.enum';
+import { WeekDay } from '../../../../shared/enums/week-day.enum';
+import { DatePipe } from '@angular/common';
+import { LogLevel } from '@microsoft/signalr';
 
 interface ICustomPeriodForm {
   rewards: FormArray;
   challenges: FormArray;
   universalChallenges: FormArray;
+}
+
+interface WeeklyPeriod {
+  start: Date;
+  nextEnd: Date;
 }
 
 enum PeriodDataAction {
@@ -68,10 +76,10 @@ function customPeriodValidator(): ValidatorFn {
   };
 }
 @Component({
-    selector: 'app-admin-challenges-custom-period',
-    templateUrl: 'admin-challenges-custom-period.component.html',
-    styleUrl: 'admin-challenges-custom-period.component.scss',
-    standalone: false
+  selector: 'app-admin-challenges-custom-period',
+  templateUrl: 'admin-challenges-custom-period.component.html',
+  styleUrl: 'admin-challenges-custom-period.component.scss',
+  standalone: false,
 })
 export class AdminChallengesCustomPeriodComponent
   extends Form
@@ -89,7 +97,8 @@ export class AdminChallengesCustomPeriodComponent
   public isUnsavedChanges = false;
   public SupportLanguages = SupportLanguages;
   private hasDeletedDataChangedButUnsaved: boolean = false;
-
+  public periodStartDate!: Date;
+  public periodNextResetDate!: Date;
   constructor(
     public override readonly toastService: ToastService,
     private readonly rewardsService: RewardsService,
@@ -99,7 +108,8 @@ export class AdminChallengesCustomPeriodComponent
     private readonly dialog: MatDialog,
     private readonly fb: FormBuilder,
     public override translateService: TranslateService,
-    private readonly languageService: LanguageService
+    private readonly languageService: LanguageService,
+    private readonly datePipe: DatePipe
   ) {
     super(toastService, translateService);
 
@@ -115,10 +125,35 @@ export class AdminChallengesCustomPeriodComponent
     return this.languageService.getCurrentLanguage();
   }
 
-  public get getCurrentResetDayForRewards(): string {
-    return this.translateService.instant(
-      `week_days_names.${this.tenantSettings?.resetDayForRewards.toString()}`
+  public calculateWeeklyPeriod(nextReset: Date, endDay: WeekDay): WeeklyPeriod {
+    const start = nextReset;
+
+    // Find the next occurrence of the specified endDay
+    const nextEnd = new Date(start);
+    const currentDay = nextEnd.getDay();
+    let daysUntilEnd = endDay - currentDay;
+
+    if (daysUntilEnd <= 0) {
+      // If the day has already passed in this week, go to next week
+      daysUntilEnd += 7;
+    }
+
+    nextEnd.setDate(nextEnd.getDate() + daysUntilEnd);
+
+    return { start, nextEnd };
+  }
+
+  public getTranslateDateForPeriodInfo(date: Date): string {
+    const translateDay = this.translateService.instant(
+      `week_days_names.${
+        WeekDay[date.getDay() as unknown as keyof typeof WeekDay]
+      }`
     );
+
+    return `${translateDay} - ${String(date.getMonth() + 1).padStart(
+      2,
+      '0'
+    )}.${String(date.getDate()).padStart(2, '0')}`;
   }
 
   private fetchCustomPeriod(): void {
@@ -596,6 +631,20 @@ export class AdminChallengesCustomPeriodComponent
     this.tenantSettingsService.get().subscribe({
       next: (res) => {
         this.tenantSettings = res;
+        console.log(this.tenantSettings);
+
+        const nextReset = this.tenantSettings.nextResetTimeOfPeriod;
+        if (nextReset) {
+          const result = this.calculateWeeklyPeriod(
+            new Date(nextReset),
+            WeekDay[
+              this.tenantSettings
+                .resetDayForRewards as unknown as keyof typeof WeekDay
+            ]
+          );
+          this.periodStartDate = result.start;
+          this.periodNextResetDate = result.nextEnd;
+        }
       },
     });
   }
