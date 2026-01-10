@@ -133,11 +133,6 @@ export class AdminChallengesCustomPeriodComponent
     const currentDay = nextEnd.getDay();
     let daysUntilEnd = endDay - currentDay;
 
-    if (daysUntilEnd <= 0) {
-      // If the day has already passed in this week, go to next week
-      daysUntilEnd += 7;
-    }
-
     nextEnd.setDate(nextEnd.getDate() + daysUntilEnd);
 
     return { start, nextEnd };
