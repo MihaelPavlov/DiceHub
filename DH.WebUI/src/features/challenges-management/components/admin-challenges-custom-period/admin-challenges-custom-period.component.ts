@@ -143,7 +143,29 @@ export class AdminChallengesCustomPeriodComponent
     return { start, nextEnd };
   }
 
-  public getTranslateDateForPeriodInfo(date: Date): string {
+  // The subtract - 1 from getDay and getDate is intentionally
+  // because currently the period reset is happen in 12:00AM which is showing the next day but its the previous
+  public get getTranslateStartDateForPeriodInfo(): string {
+    const date = this.periodStartDate;
+    const translateDay = this.translateService.instant(
+      `week_days_names.${
+        WeekDay[
+          (date.getDay() === 0
+            ? 6
+            : date.getDay() - 1) as unknown as keyof typeof WeekDay
+        ]
+      }`
+    );
+
+    return `${translateDay} - ${String(date.getMonth() + 1).padStart(
+      2,
+      '0'
+    )}.${String(date.getDate() - 1).padStart(2, '0')}`;
+  }
+
+  public get getTranslateNextDateForPeriodInfo(): string {
+    const date = this.periodNextResetDate;
+
     const translateDay = this.translateService.instant(
       `week_days_names.${
         WeekDay[date.getDay() as unknown as keyof typeof WeekDay]
@@ -631,7 +653,6 @@ export class AdminChallengesCustomPeriodComponent
     this.tenantSettingsService.get().subscribe({
       next: (res) => {
         this.tenantSettings = res;
-        console.log(this.tenantSettings);
 
         const nextReset = this.tenantSettings.nextResetTimeOfPeriod;
         if (nextReset) {

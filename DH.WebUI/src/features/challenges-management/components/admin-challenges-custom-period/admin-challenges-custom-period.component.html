@@ -19,8 +19,8 @@
       'custom_period.period_warning_messages'
         | translate
           : {
-              periodStart: getTranslateDateForPeriodInfo(this.periodStartDate),
-              periodEnd: getTranslateDateForPeriodInfo(this.periodNextResetDate)
+              periodStart: getTranslateStartDateForPeriodInfo,
+              periodEnd: getTranslateNextDateForPeriodInfo
             }
     "
   ></p>
