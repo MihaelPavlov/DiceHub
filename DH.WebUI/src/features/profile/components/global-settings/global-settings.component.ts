@@ -10,7 +10,6 @@ import { Router } from '@angular/router';
 import { NAV_ITEM_LABELS } from '../../../../shared/models/nav-items-labels.const';
 import { MenuTabsService } from '../../../../shared/services/menu-tabs.service';
 import { ToastService } from '../../../../shared/services/toast.service';
-import { WeekDay } from '@angular/common';
 import { Formify } from '../../../../shared/models/form.model';
 import { TimePeriodType } from '../../../../entities/common/enum/time-period-type.enum';
 import { TenantSettingsService } from '../../../../entities/common/api/tenant-settings.service';
@@ -28,6 +27,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { TranslateInPipe } from '../../../../shared/pipe/translate-in.pipe';
 import { ThemeService } from '../../../../shared/services/theme.service';
 import { UiTheme } from '../../../../shared/enums/ui-theme.enum';
+import { WeekDay } from '../../../../shared/enums/week-day.enum';
 
 interface ITenantSettingsForm {
   averageMaxCapacity: number;

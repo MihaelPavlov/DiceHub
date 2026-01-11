@@ -30,6 +30,11 @@ public class TenantSettingDto : IValidableFields
     public string ResetDayForRewards { get; set; } = string.Empty;
 
     /// <summary>
+    ///Showing the next reset day to the owner
+    /// </summary>
+    public DateTime? NextResetTimeOfPeriod { get; set; }
+
+    /// <summary>
     /// Which days are off for the facility
     /// </summary>
     public string[] DaysOff { get; set; } = [];

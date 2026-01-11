@@ -11,14 +11,8 @@ public interface IPushNotificationsService
     /// </summary>
     /// <param name="message">The message details including title, body, and device token.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    Task SendUserNotificationAsync(RenderableNotification message);
-
-    /// <summary>
-    /// Sends a push notification to multiple specified device tokens.
-    /// </summary>
-    /// <param name="message">The message details including title, body, and list of device tokens.</param>
-    /// <returns>A task representing the asynchronous operation.</returns>
-    Task SendBulkNotificationsAsync(MultipleMessageRequest message);
+    Task SendUserNotificationAsync<TPayload>(TPayload payload)
+        where TPayload : RenderableNotification;
 
     /// <summary>
     /// Sends a push notification to a specified list of users.

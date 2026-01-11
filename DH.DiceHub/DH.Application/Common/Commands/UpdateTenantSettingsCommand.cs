@@ -75,11 +75,11 @@ internal class UpdateTenantSettingsCommandHandler(
         {
             dbSettings.StartWorkingHours = request.Settings.StartWorkingHours;
         }
-
+        var wasEndWorkingHourUpdated = false;
         if (dbSettings.EndWorkingHours != request.Settings.EndWorkingHours)
         {
+            wasEndWorkingHourUpdated = true;
             dbSettings.EndWorkingHours = request.Settings.EndWorkingHours;
-            await this.schedulerService.ScheduleCloseActiveTablesJob(cancellationToken);
         }
 
         if (dbSettings.DaysOff != string.Join(",", request.Settings.DaysOff.OrderBy(x => x)))
@@ -129,5 +129,10 @@ internal class UpdateTenantSettingsCommandHandler(
         }
 
         await this.repository.SaveChangesAsync(cancellationToken);
+
+        if (wasEndWorkingHourUpdated)
+        {
+            await this.schedulerService.ScheduleCloseActiveTablesJob(cancellationToken);
+        }
     }
 }

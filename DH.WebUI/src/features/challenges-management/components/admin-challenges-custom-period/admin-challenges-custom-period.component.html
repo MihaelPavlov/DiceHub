@@ -14,11 +14,13 @@
   </div>
   <p
     class="save-period-message"
+    *ngIf="this.periodStartDate && this.periodNextResetDate"
     [innerHTML]="
       'custom_period.period_warning_messages'
         | translate
           : {
-              resetDayForRewards: getCurrentResetDayForRewards
+              periodStart: getTranslateStartDateForPeriodInfo,
+              periodEnd: getTranslateNextDateForPeriodInfo
             }
     "
   ></p>

@@ -36,6 +36,7 @@ internal class GetTenantSettingsQueryHandler : IRequestHandler<GetTenantSettings
             ClubName = settings.ClubName,
             IsCustomPeriodOn = settings.IsCustomPeriodOn,
             IsCustomPeriodSetupComplete = settings.IsCustomPeriodSetupComplete,
+            NextResetTimeOfPeriod = settings.NextResetTimeOfPeriod,
         };
 
         return dto;
