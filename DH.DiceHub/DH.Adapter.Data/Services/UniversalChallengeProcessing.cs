@@ -98,12 +98,15 @@ internal class UniversalChallengeProcessing(
                             }
                             else
                             {
-                                top3Challenge.UserAttempts = 0;
+                                if (top3Challenge.UserAttempts > 0)
+                                {
+                                    top3Challenge.UserAttempts = 0;
 
-                                await this.challengeHubClient.SendUniversalChallengeRestarted(
-                                    userId,
-                                    top3Challenge.UniversalChallenge!.Name_EN,
-                                    top3Challenge.UniversalChallenge!.Name_BG);
+                                    await this.challengeHubClient.SendUniversalChallengeRestarted(
+                                        userId,
+                                        top3Challenge.UniversalChallenge!.Name_EN,
+                                        top3Challenge.UniversalChallenge!.Name_BG);
+                                }
                             }
                         }
                     }
@@ -162,11 +165,14 @@ internal class UniversalChallengeProcessing(
                             }
                             else
                             {
-                                top3Challenge.AttemptCount = 0;
-                                await this.challengeHubClient.SendUniversalChallengeRestarted(
-                                    userId,
-                                    top3Challenge.UniversalChallenge!.Name_EN,
-                                    top3Challenge.UniversalChallenge!.Name_BG);
+                                if (top3Challenge.AttemptCount > 0)
+                                {
+                                    top3Challenge.AttemptCount = 0;
+                                    await this.challengeHubClient.SendUniversalChallengeRestarted(
+                                        userId,
+                                        top3Challenge.UniversalChallenge!.Name_EN,
+                                        top3Challenge.UniversalChallenge!.Name_BG);
+                                }
                             }
                         }
                     }

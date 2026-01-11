@@ -574,7 +574,7 @@
     <value>Minimum value must be zero or greater.</value>
   </data>
   <data name="ChallengeRestartedTitle" xml:space="preserve">
-    <value>You lost you current progress. Challenge progress restarted!</value>
+    <value>You lost your current progress. Challenge progress restarted!</value>
   </data>
   <data name="UniversalChallengeRestartedBody" xml:space="preserve">
     <value>Your progress on universal challenge **{0}** has been restarted. Don't give up. Keep going to complete the challenge!</value>
