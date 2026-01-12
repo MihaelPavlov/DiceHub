@@ -60,12 +60,12 @@ public class AddUserChallengePeriodJob : IJob
 
             var jobKey = new JobKey(JobName);
             var triggerKey = new TriggerKey(TriggerName);
-
             // Ensure job exists (create only once)
             if (!await scheduler.CheckExists(jobKey))
             {
                 var job = JobBuilder.Create<AddUserChallengePeriodJob>()
                     .WithIdentity(jobKey)
+                    .StoreDurably()
                     .Build();
 
                 await scheduler.AddJob(job, true, CancellationToken.None);
