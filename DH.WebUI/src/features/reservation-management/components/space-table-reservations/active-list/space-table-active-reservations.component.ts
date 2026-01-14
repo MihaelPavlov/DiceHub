@@ -7,12 +7,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { ReservationType } from '../../../enums/reservation-type.enum';
 import { ReservationStatus } from '../../../../../shared/enums/reservation-status.enum';
 import { IActiveReservedTable } from '../../../../../entities/space-management/models/active-reserved-table.model';
-import { Router } from '@angular/router';
 import { DateHelper } from '../../../../../shared/helpers/date-helper';
 import { TranslateService } from '@ngx-translate/core';
 import { FULL_ROUTE } from '../../../../../shared/configs/route.config';
 import { LanguageService } from '../../../../../shared/services/language.service';
 import { SupportLanguages } from '../../../../../entities/common/models/support-languages.enum';
+import { TenantRouter } from '../../../../../shared/helpers/tenant-router';
 
 @Component({
     selector: 'app-space-table-active-reservations',
@@ -31,7 +31,7 @@ export class SpaceTableActiveReservations implements OnDestroy {
   private reservationNavigationRef!: ReservationManagementNavigationComponent | null;
   constructor(
     private readonly injector: Injector,
-    private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly dialog: MatDialog,
     private readonly spaceManagementService: SpaceManagementService,
     private readonly translateService: TranslateService,
@@ -167,6 +167,6 @@ export class SpaceTableActiveReservations implements OnDestroy {
   }
 
   public onHistory(): void {
-    this.router.navigateByUrl(FULL_ROUTE.RESERVATION_MANAGEMENT.TABLE_HISTORY);
+this.tenantRouter.navigateTenant(FULL_ROUTE.RESERVATION_MANAGEMENT.TABLE_HISTORY);
   }
 }

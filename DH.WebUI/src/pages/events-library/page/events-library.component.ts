@@ -1,20 +1,20 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
 import { EventsService } from '../../../entities/events/api/events.service';
 import { IEventListResult } from '../../../entities/events/models/event-list.model';
 import { NAV_ITEM_LABELS } from '../../../shared/models/nav-items-labels.const';
 import { MenuTabsService } from '../../../shared/services/menu-tabs.service';
 import { FULL_ROUTE } from '../../../shared/configs/route.config';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest } from 'rxjs';
 import { DateHelper } from '../../../shared/helpers/date-helper';
 import { LanguageService } from '../../../shared/services/language.service';
 import { SupportLanguages } from '../../../entities/common/models/support-languages.enum';
+import { TenantRouter } from '../../../shared/helpers/tenant-router';
 
 @Component({
-    selector: 'app-events-library',
-    templateUrl: 'events-library.component.html',
-    styleUrl: 'events-library.component.scss',
-    standalone: false
+  selector: 'app-events-library',
+  templateUrl: 'events-library.component.html',
+  styleUrl: 'events-library.component.scss',
+  standalone: false,
 })
 export class EventsLibraryComponent implements OnInit, OnDestroy {
   public todayEvents: IEventListResult[] = [];
@@ -26,7 +26,7 @@ export class EventsLibraryComponent implements OnInit, OnDestroy {
   public readonly SupportLanguages = SupportLanguages;
 
   constructor(
-    private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly menuTabsService: MenuTabsService,
     private readonly eventService: EventsService,
     private readonly languageService: LanguageService
@@ -47,7 +47,7 @@ export class EventsLibraryComponent implements OnInit, OnDestroy {
   }
 
   public navigateToDetails(id: number): void {
-    this.router.navigateByUrl(FULL_ROUTE.EVENTS.DETAILS_BY_ID(id));
+    this.tenantRouter.navigateTenant(FULL_ROUTE.EVENTS.DETAILS_BY_ID(id));
   }
 
   public isUserParticipatedIn(eventId): boolean {

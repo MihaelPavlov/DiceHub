@@ -19,7 +19,7 @@ import {
 } from '@angular/forms';
 import { MenuTabsService } from '../../../../../shared/services/menu-tabs.service';
 import { ToastService } from '../../../../../shared/services/toast.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { NAV_ITEM_LABELS } from '../../../../../shared/models/nav-items-labels.const';
 import { IGameDropdownResult } from '../../../../../entities/games/models/game-dropdown.model';
 import { GamesService } from '../../../../../entities/games/api/games.service';
@@ -29,13 +29,10 @@ import { AppToastMessage } from '../../../../../shared/components/toast/constant
 import { ToastType } from '../../../../../shared/models/toast.model';
 import { DatePipe, Location } from '@angular/common';
 import { SafeUrl } from '@angular/platform-browser';
-import {
-  EntityImagePipe,
-  ImageEntityType,
-} from '../../../../../shared/pipe/entity-image.pipe';
 import { DateHelper } from '../../../../../shared/helpers/date-helper';
 import { TranslateService } from '@ngx-translate/core';
 import { FULL_ROUTE } from '../../../../../shared/configs/route.config';
+import { TenantRouter } from '../../../../../shared/helpers/tenant-router';
 
 interface ICreateEventForm {
   name: string;
@@ -88,12 +85,11 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
   constructor(
     private readonly fb: FormBuilder,
     private readonly menuTabsService: MenuTabsService,
-    private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly activatedRoute: ActivatedRoute,
     private readonly gameService: GamesService,
     private readonly eventService: EventsService,
     private readonly location: Location,
-    private readonly entityImagePipe: EntityImagePipe,
     private readonly cd: ChangeDetectorRef,
     public override readonly toastService: ToastService,
     private readonly datePipe: DatePipe,
@@ -193,7 +189,7 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
               type: ToastType.Success,
             });
 
-            this.router.navigateByUrl(FULL_ROUTE.EVENTS.HOME);
+            this.tenantRouter.navigateTenant(FULL_ROUTE.EVENTS.HOME);
           },
           error: (error) => {
             this.handleServerErrors(error);
@@ -240,7 +236,7 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
               type: ToastType.Success,
             });
 
-            this.router.navigateByUrl(FULL_ROUTE.EVENTS.HOME);
+            this.tenantRouter.navigateTenant(FULL_ROUTE.EVENTS.HOME);
           },
           error: (error) => {
             this.handleServerErrors(error);

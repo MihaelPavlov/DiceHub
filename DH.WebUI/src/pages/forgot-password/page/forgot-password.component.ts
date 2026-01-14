@@ -15,6 +15,7 @@ import { ToastType } from '../../../shared/models/toast.model';
 import { TenantSettingsService } from '../../../entities/common/api/tenant-settings.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../shared/services/language.service';
+import { TenantRouter } from '../../../shared/helpers/tenant-router';
 
 interface IForgotPasswordForm {
   email: string;
@@ -32,13 +33,14 @@ export class ForgotPasswordComponent extends Form implements OnInit {
   public clubName: string | null = null;
 
   constructor(
+    private readonly tenantRouter: TenantRouter,
     private readonly router: Router,
     private readonly authService: AuthService,
     public override readonly toastService: ToastService,
-    private readonly fb: FormBuilder,
     private readonly tenantSettingsService: TenantSettingsService,
     public override translateService: TranslateService,
-    private readonly languageService: LanguageService
+    private readonly languageService: LanguageService,
+    private readonly fb: FormBuilder
   ) {
     super(toastService, translateService);
     this.form = this.initFormGroup();
@@ -63,10 +65,11 @@ export class ForgotPasswordComponent extends Form implements OnInit {
 
   public onSubmit(): void {
     if (this.form.valid) {
-      console.log('current lang ', this.languageService.getCurrentLanguage());
-      
       this.authService
-        .forgotPassword(this.form.controls.email.value, this.languageService.getCurrentLanguage())
+        .forgotPassword(
+          this.form.controls.email.value,
+          this.languageService.getCurrentLanguage()
+        )
         .subscribe({
           next: () => {
             this.toastService.success({
@@ -76,9 +79,12 @@ export class ForgotPasswordComponent extends Form implements OnInit {
               ),
             });
             setTimeout(() => {
-              this.router.navigate([ROUTE.LOGIN], {
-                queryParams: { fromForgotPassword: 'true' },
-              });
+              this.router.navigate(
+                [this.tenantRouter.buildTenantUrl(ROUTE.LOGIN)],
+                {
+                  queryParams: { fromForgotPassword: 'true' },
+                }
+              );
             }, 5000);
           },
           error: (error) => {
@@ -96,7 +102,7 @@ export class ForgotPasswordComponent extends Form implements OnInit {
   }
 
   public navigateToLogin(): void {
-    this.router.navigateByUrl(ROUTE.LOGIN);
+    this.tenantRouter.navigateTenant(ROUTE.LOGIN);
   }
 
   protected override getControlDisplayName(controlName: string): string {

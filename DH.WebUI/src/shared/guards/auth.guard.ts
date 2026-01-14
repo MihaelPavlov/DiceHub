@@ -3,6 +3,7 @@ import { HttpHeaders } from '@angular/common/http';
 import {
   ActivatedRouteSnapshot,
   Router,
+  ROUTER_CONFIGURATION,
   RouterStateSnapshot,
 } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -20,6 +21,9 @@ import {
 } from 'rxjs';
 import { RestApiService } from '../services/rest-api.service';
 import { TenantContextService } from '../services/tenant-context.service';
+import { TenantRouter } from '../helpers/tenant-router';
+import { PATH } from '../configs/path.config';
+import { ROUTE } from '../configs/route.config';
 
 @Injectable({
   providedIn: 'root',
@@ -27,10 +31,10 @@ import { TenantContextService } from '../services/tenant-context.service';
 export class AuthGuard {
   constructor(
     private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly jwtHelper: JwtHelperService,
     private readonly api: RestApiService,
-    private readonly authService: AuthService,
-    private readonly tenantContextService: TenantContextService
+    private readonly authService: AuthService
   ) {}
 
   public canActivateChild(
@@ -48,7 +52,7 @@ export class AuthGuard {
 
     if (!token) {
       this.authService.userInfoSubject$.next(null);
-      this.router.navigateByUrl('login');
+      this.tenantRouter.navigateTenant(ROUTE.LOGIN);
       return false;
     }
 
@@ -60,7 +64,7 @@ export class AuthGuard {
         if (!isRefreshSuccess) {
           // logout is already an Observable, chain it
           return this.authService.logout().pipe(
-            tap(() => this.router.navigateByUrl('login')),
+            tap(() => this.tenantRouter.navigateTenant(ROUTE.LOGIN)),
             map(() => false) // emit false after logout
           );
         } else {

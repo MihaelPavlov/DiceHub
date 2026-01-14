@@ -15,6 +15,7 @@ import { ToastType } from '../../../shared/models/toast.model';
 import { ToastService } from '../../../shared/services/toast.service';
 import { ROUTE } from '../../../shared/configs/route.config';
 import { TranslateService } from '@ngx-translate/core';
+import { TenantRouter } from '../../../shared/helpers/tenant-router';
 
 interface ICreateEmployeePasswordForm {
   phoneNumber: string;
@@ -23,10 +24,10 @@ interface ICreateEmployeePasswordForm {
 }
 
 @Component({
-    selector: 'app-create-employee-password',
-    templateUrl: 'create-employee-password.component.html',
-    styleUrl: 'create-employee-password.component.scss',
-    standalone: false
+  selector: 'app-create-employee-password',
+  templateUrl: 'create-employee-password.component.html',
+  styleUrl: 'create-employee-password.component.scss',
+  standalone: false,
 })
 export class CreateEmployeePasswordComponent extends Form implements OnInit {
   override form: Formify<ICreateEmployeePasswordForm>;
@@ -40,6 +41,7 @@ export class CreateEmployeePasswordComponent extends Form implements OnInit {
 
   constructor(
     private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly route: ActivatedRoute,
     private readonly authService: AuthService,
     public override readonly toastService: ToastService,
@@ -98,9 +100,12 @@ export class CreateEmployeePasswordComponent extends Form implements OnInit {
               ),
             });
             setTimeout(() => {
-              this.router.navigate([ROUTE.LOGIN], {
-                queryParams: { fromCreateEmployeePassword: 'true' },
-              });
+              this.router.navigate(
+                [this.tenantRouter.buildTenantUrl(ROUTE.LOGIN)],
+                {
+                  queryParams: { fromCreateEmployeePassword: 'true' },
+                }
+              );
             }, 4000);
           },
           error: (error) => {

@@ -14,6 +14,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { FULL_ROUTE } from '../../../../../shared/configs/route.config';
 import { LanguageService } from '../../../../../shared/services/language.service';
 import { SupportLanguages } from '../../../../../entities/common/models/support-languages.enum';
+import { TenantRouter } from '../../../../../shared/helpers/tenant-router';
 
 @Component({
     selector: 'app-game-reservations',
@@ -35,7 +36,7 @@ export class GameReservations implements OnInit, OnDestroy {
   constructor(
     private readonly injector: Injector,
     private readonly gameService: GamesService,
-    private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly dialog: MatDialog,
     private readonly translateService: TranslateService,
     private readonly languageService: LanguageService
@@ -90,7 +91,7 @@ export class GameReservations implements OnInit, OnDestroy {
   }
 
   public onHistory(): void {
-    this.router.navigateByUrl(FULL_ROUTE.RESERVATION_MANAGEMENT.GAME_HISTORY);
+   this.tenantRouter.navigateTenant(FULL_ROUTE.RESERVATION_MANAGEMENT.GAME_HISTORY);
   }
 
   public onCancel(): void {

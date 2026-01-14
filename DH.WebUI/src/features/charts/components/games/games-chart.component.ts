@@ -1,15 +1,9 @@
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import {
   GameActivityStats,
   GetGameActivityChartData,
 } from './../../../../entities/statistics/models/game-activity-chart.model';
-import {
-  Component,
-  AfterViewInit,
-  OnDestroy,
-  ChangeDetectorRef,
-} from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, AfterViewInit, OnDestroy } from '@angular/core';
 import { StatisticsService } from '../../../../entities/statistics/api/statistics.service';
 import { NAV_ITEM_LABELS } from '../../../../shared/models/nav-items-labels.const';
 import { MenuTabsService } from '../../../../shared/services/menu-tabs.service';
@@ -26,31 +20,27 @@ import {
 } from '../../../../entities/statistics/models/game-user-activity.model';
 import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { ToastType } from '../../../../shared/models/toast.model';
-import {
-  trigger,
-  state,
-  style,
-  transition,
-  animate,
-} from '@angular/animations';
+import { trigger, style, transition, animate } from '@angular/animations';
 import { DateHelper } from '../../../../shared/helpers/date-helper';
+import { TenantRouter } from '../../../../shared/helpers/tenant-router';
+import { ROUTE } from '../../../../shared/configs/route.config';
 
 @Component({
-    selector: 'games-chart',
-    templateUrl: 'games-chart.component.html',
-    styleUrl: 'games-chart.component.scss',
-    animations: [
-        trigger('slideToggle', [
-            transition(':enter', [
-                style({ height: 0, opacity: 0 }),
-                animate('300ms ease-out', style({ height: '*', opacity: 1 })),
-            ]),
-            transition(':leave', [
-                animate('300ms ease-in', style({ height: 0, opacity: 0 })),
-            ]),
-        ]),
-    ],
-    standalone: false
+  selector: 'games-chart',
+  templateUrl: 'games-chart.component.html',
+  styleUrl: 'games-chart.component.scss',
+  animations: [
+    trigger('slideToggle', [
+      transition(':enter', [
+        style({ height: 0, opacity: 0 }),
+        animate('300ms ease-out', style({ height: '*', opacity: 1 })),
+      ]),
+      transition(':leave', [
+        animate('300ms ease-in', style({ height: 0, opacity: 0 })),
+      ]),
+    ]),
+  ],
+  standalone: false,
 })
 export class GamesChartComponent implements AfterViewInit, OnDestroy {
   public chartType: IDropdown[] = [];
@@ -71,9 +61,8 @@ export class GamesChartComponent implements AfterViewInit, OnDestroy {
   constructor(
     private readonly menuTabsService: MenuTabsService,
     private readonly toastService: ToastService,
-    private readonly router: Router,
-    private readonly statisticsService: StatisticsService,
-    private readonly cd: ChangeDetectorRef
+    private readonly tenantRouter: TenantRouter,
+    private readonly statisticsService: StatisticsService
   ) {
     this.chartType = Object.entries(GamesActivityType)
       .filter(([key, value]) => typeof value === 'number')
@@ -93,7 +82,7 @@ export class GamesChartComponent implements AfterViewInit, OnDestroy {
   }
 
   public backNavigateBtn(): void {
-    this.router.navigateByUrl('profile');
+    this.tenantRouter.navigateTenant(ROUTE.PROFILE.CORE);
   }
 
   public onClickGame(gameId: number): void {

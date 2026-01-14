@@ -25,6 +25,7 @@ import {
 import { NavigationService } from '../../../../shared/services/navigation-service';
 import { TranslateService } from '@ngx-translate/core';
 import { FULL_ROUTE } from '../../../../shared/configs/route.config';
+import { TenantRouter } from '../../../../shared/helpers/tenant-router';
 
 interface ICreateSpaceTableForm {
   gameName: string;
@@ -55,8 +56,7 @@ export class AddUpdateClubSpaceComponent extends Form implements OnInit {
     private readonly activatedRoute: ActivatedRoute,
     private readonly gamesService: GamesService,
     private readonly spaceManagementService: SpaceManagementService,
-    private readonly entityImagePipe: EntityImagePipe,
-    private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly dialog: MatDialog,
     private readonly navigationService: NavigationService,
     public override translateService: TranslateService
@@ -105,19 +105,19 @@ export class AddUpdateClubSpaceComponent extends Form implements OnInit {
         FULL_ROUTE.SPACE_MANAGEMENT.CREATE(this.gameId)
       );
 
-      this.router.navigateByUrl(FULL_ROUTE.GAMES.DETAILS(this.gameId));
+      this.tenantRouter.navigateTenant(FULL_ROUTE.GAMES.DETAILS(this.gameId));
     }
   }
 
   public backNavigateBtn(): void {
     if (this.editTableId) {
-      this.router.navigateByUrl(
+      this.tenantRouter.navigateTenant(
         FULL_ROUTE.SPACE_MANAGEMENT.ROOM_DETAILS(this.editTableId)
       );
       return;
     }
 
-    this.router.navigateByUrl(
+    this.tenantRouter.navigateTenant(
       this.navigationService.getPreviousUrl() ??
         FULL_ROUTE.SPACE_MANAGEMENT.HOME
     );
@@ -145,7 +145,7 @@ export class AddUpdateClubSpaceComponent extends Form implements OnInit {
               ),
               type: ToastType.Success,
             });
-            this.router.navigateByUrl(FULL_ROUTE.SPACE_MANAGEMENT.HOME);
+            this.tenantRouter.navigateTenant(FULL_ROUTE.SPACE_MANAGEMENT.HOME);
           },
           error: (error) => {
             if (error.error.errors.UserHaveActiveTable)
@@ -190,7 +190,7 @@ export class AddUpdateClubSpaceComponent extends Form implements OnInit {
             });
 
             if (this.editTableId)
-              this.router.navigateByUrl(
+              this.tenantRouter.navigateTenant(
                 FULL_ROUTE.SPACE_MANAGEMENT.ROOM_DETAILS(this.editTableId)
               );
           },
@@ -277,7 +277,7 @@ export class AddUpdateClubSpaceComponent extends Form implements OnInit {
                         ),
                         type: ToastType.Success,
                       });
-                      this.router.navigateByUrl(
+                      this.tenantRouter.navigateTenant(
                         FULL_ROUTE.SPACE_MANAGEMENT.HOME
                       );
                     },

@@ -7,7 +7,6 @@ import {
   Output,
 } from '@angular/core';
 import { IMenuItem } from '../../../../shared/models/menu-item.model';
-import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { RoomConfirmDeleteDialog } from '../../dialogs/room-confirm-delete/room-confirm-delete.component';
 import { RoomConfirmLeaveDialog } from '../../dialogs/room-confirm-leave/room-confirm-leave.component';
@@ -18,6 +17,7 @@ import { ControlsMenuComponent } from '../../../../shared/components/menu/contro
 import { NavigationService } from '../../../../shared/services/navigation-service';
 import { FULL_ROUTE } from '../../../../shared/configs/route.config';
 import { TranslateService } from '@ngx-translate/core';
+import { TenantRouter } from '../../../../shared/helpers/tenant-router';
 
 @Component({
     selector: 'app-meeple-room-menu',
@@ -36,7 +36,7 @@ export class MeepleRoomMenuComponent implements OnInit {
   public isMenuVisible: boolean = false;
 
   constructor(
-    private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly dialog: MatDialog,
     private readonly authService: AuthService,
     private readonly navigationService: NavigationService,
@@ -94,11 +94,11 @@ export class MeepleRoomMenuComponent implements OnInit {
 
   public onMenuOption(key: string, event: MouseEvent): void {
     if (key === 'group-members') {
-      this.router.navigateByUrl(
+      this.tenantRouter.navigateTenant(
         FULL_ROUTE.MEEPLE_ROOM.CHAT_MEMBERS(this.room.id)
       );
     } else if (key === 'update') {
-      this.router.navigateByUrl(FULL_ROUTE.MEEPLE_ROOM.UPDATE(this.room.id));
+      this.tenantRouter.navigateTenant(FULL_ROUTE.MEEPLE_ROOM.UPDATE(this.room.id));
     } else if (key === 'leave-room') {
       this.openLeaveRoomDialog();
     } else if (key === 'delete-room') {
@@ -115,7 +115,7 @@ export class MeepleRoomMenuComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.router.navigateByUrl(FULL_ROUTE.MEEPLE_ROOM.FIND);
+        this.tenantRouter.navigateTenant(FULL_ROUTE.MEEPLE_ROOM.FIND);
       }
     });
   }
@@ -136,7 +136,7 @@ export class MeepleRoomMenuComponent implements OnInit {
     this.navigationService.setPreviousUrl(
       FULL_ROUTE.MEEPLE_ROOM.DETAILS_BY_ID(this.room.id)
     );
-    this.router.navigateByUrl(FULL_ROUTE.GAMES.DETAILS(this.room.gameId));
+    this.tenantRouter.navigateTenant(FULL_ROUTE.GAMES.DETAILS(this.room.gameId));
   }
 
   @HostListener('document:click', ['$event'])

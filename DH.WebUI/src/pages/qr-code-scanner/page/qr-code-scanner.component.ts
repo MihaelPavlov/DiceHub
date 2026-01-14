@@ -19,6 +19,7 @@ import { FULL_ROUTE } from '../../../shared/configs/route.config';
 import { TranslateService } from '@ngx-translate/core';
 import { QrEncryptService } from '../../../shared/services/qr-code-encrypt.service';
 import { ScanConfirmDialogComponent } from '../../../features/qr-code-scanner/dialogs/scan-confirm-dialog.component';
+import { TenantRouter } from '../../../shared/helpers/tenant-router';
 
 @Component({
   selector: 'app-qr-code-scanner',
@@ -45,7 +46,7 @@ export class QrCodeScannerComponent
 
   constructor(
     private readonly scannerService: ScannerService,
-    private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly dialog: MatDialog,
     private readonly translateService: TranslateService,
     private readonly qrEncryptService: QrEncryptService
@@ -171,7 +172,7 @@ export class QrCodeScannerComponent
                           switch (res.type) {
                             case QrCodeType.Game:
                               if (res.isValid) {
-                                this.router.navigateByUrl(
+                                this.tenantRouter.navigateTenant(
                                   FULL_ROUTE.SPACE_MANAGEMENT.CREATE(
                                     res.objectId
                                   )

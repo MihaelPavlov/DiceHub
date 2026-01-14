@@ -15,6 +15,7 @@ import { ToastType } from '../../../shared/models/toast.model';
 import { ToastService } from '../../../shared/services/toast.service';
 import { ROUTE } from '../../../shared/configs/route.config';
 import { TranslateService } from '@ngx-translate/core';
+import { TenantRouter } from '../../../shared/helpers/tenant-router';
 
 interface ICreateOwnerPasswordForm {
   clubPhoneNumber: string;
@@ -23,10 +24,10 @@ interface ICreateOwnerPasswordForm {
 }
 
 @Component({
-    selector: 'app-create-owner-password',
-    templateUrl: 'create-owner-password.component.html',
-    styleUrl: 'create-owner-password.component.scss',
-    standalone: false
+  selector: 'app-create-owner-password',
+  templateUrl: 'create-owner-password.component.html',
+  styleUrl: 'create-owner-password.component.scss',
+  standalone: false,
 })
 export class CreateOwnerPasswordComponent extends Form implements OnInit {
   override form: Formify<ICreateOwnerPasswordForm>;
@@ -40,6 +41,7 @@ export class CreateOwnerPasswordComponent extends Form implements OnInit {
 
   constructor(
     private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly route: ActivatedRoute,
     private readonly authService: AuthService,
     public override readonly toastService: ToastService,
@@ -99,9 +101,12 @@ export class CreateOwnerPasswordComponent extends Form implements OnInit {
               ),
             });
             setTimeout(() => {
-              this.router.navigate([ROUTE.LOGIN], {
-                queryParams: { fromResetPassword: 'true' },
-              });
+              this.router.navigate(
+                [this.tenantRouter.buildTenantUrl(ROUTE.LOGIN)],
+                {
+                  queryParams: { fromResetPassword: 'true' },
+                }
+              );
             }, 4000);
           },
           error: (error) => {

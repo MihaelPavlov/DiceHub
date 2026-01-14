@@ -15,6 +15,7 @@ import {
   ImagePreviewData,
 } from '../../../../shared/dialogs/image-preview/image-preview.dialog';
 import { TranslateService } from '@ngx-translate/core';
+import { TenantRouter } from '../../../../shared/helpers/tenant-router';
 
 @Component({
     selector: 'app-club-space-list',
@@ -30,7 +31,7 @@ export class ClubSpaceListComponent implements OnDestroy {
     private readonly spaceManagementService: SpaceManagementService,
     private readonly authService: AuthService,
     private readonly dialog: MatDialog,
-    private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly searchService: SearchService,
     private readonly menuTabsService: MenuTabsService,
     private readonly translateService: TranslateService
@@ -72,7 +73,7 @@ export class ClubSpaceListComponent implements OnDestroy {
           return;
         }
 
-        this.router.navigateByUrl(FULL_ROUTE.SPACE_MANAGEMENT.HOME);
+        this.tenantRouter.navigateTenant(FULL_ROUTE.SPACE_MANAGEMENT.HOME);
       }
     });
   }

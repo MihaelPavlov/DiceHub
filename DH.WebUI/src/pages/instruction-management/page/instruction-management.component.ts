@@ -4,18 +4,20 @@ import { NavigationService } from '../../../shared/services/navigation-service';
 import { AuthService } from '../../../entities/auth/auth.service';
 import { ROUTE } from '../../../shared/configs/route.config';
 import { TranslateService } from '@ngx-translate/core';
+import { TenantRouter } from '../../../shared/helpers/tenant-router';
 
 @Component({
-    selector: 'app-instruction-management',
-    templateUrl: 'instruction-management.component.html',
-    styleUrl: 'instruction-management.component.scss',
-    standalone: false
+  selector: 'app-instruction-management',
+  templateUrl: 'instruction-management.component.html',
+  styleUrl: 'instruction-management.component.scss',
+  standalone: false,
 })
 export class InstructionManagementComponent {
   public defaultLinks: any = [];
 
   constructor(
     private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly navigationService: NavigationService,
     private readonly authService: AuthService,
     private readonly ts: TranslateService
@@ -59,7 +61,7 @@ export class InstructionManagementComponent {
 
   public backNavigateBtn() {
     if (this.isUserAuthenticated) {
-      this.router.navigateByUrl(ROUTE.PROFILE.CORE);
+      this.tenantRouter.navigateTenant(ROUTE.PROFILE.CORE);
     } else {
       this.router.navigateByUrl(ROUTE.LANDING);
     }

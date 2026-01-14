@@ -18,6 +18,9 @@ import { NAV_ITEM_LABELS } from '../../../../../shared/models/nav-items-labels.c
 import { NavigationService } from '../../../../../shared/services/navigation-service';
 import { DateHelper } from '../../../../../shared/helpers/date-helper';
 import { LanguageService } from '../../../../../shared/services/language.service';
+import { TenantRouter } from '../../../../../shared/helpers/tenant-router';
+import { FULL_ROUTE } from '../../../../../shared/configs/route.config';
+import { TranslateService } from '@ngx-translate/core';
 
 enum ReviewState {
   create,
@@ -25,10 +28,10 @@ enum ReviewState {
 }
 
 @Component({
-    selector: 'app-game-reviews',
-    templateUrl: 'game-reviews.component.html',
-    styleUrl: 'game-reviews.component.scss',
-    standalone: false
+  selector: 'app-game-reviews',
+  templateUrl: 'game-reviews.component.html',
+  styleUrl: 'game-reviews.component.scss',
+  standalone: false,
 })
 export class GameReviewsComponent implements OnInit, OnDestroy {
   public game!: IGameByIdResult;
@@ -63,8 +66,9 @@ export class GameReviewsComponent implements OnInit, OnDestroy {
     private readonly activeRoute: ActivatedRoute,
     private readonly menuTabsService: MenuTabsService,
     private readonly navigationService: NavigationService,
-    private readonly router: Router,
-    private readonly languageService: LanguageService
+    private readonly tenantRouter: TenantRouter,
+    private readonly languageService: LanguageService,
+    private readonly translateService: TranslateService
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.GAMES);
   }
@@ -121,8 +125,8 @@ export class GameReviewsComponent implements OnInit, OnDestroy {
   }
 
   public navigateBack(): void {
-    this.router.navigateByUrl(
-      this.navigationService.getPreviousUrl() ?? '/games/library'
+    this.tenantRouter.navigateTenant(
+      this.navigationService.getPreviousUrl() ?? FULL_ROUTE.GAMES.LIBRARY
     );
   }
 
@@ -136,7 +140,7 @@ export class GameReviewsComponent implements OnInit, OnDestroy {
         })
         .subscribe((x) => {
           this.toastService.success({
-            message: 'Succesefully updated',
+            message: this.translateService.instant('successfully_updated'),
             type: ToastType.Success,
           });
           this.fetchGameReviews();

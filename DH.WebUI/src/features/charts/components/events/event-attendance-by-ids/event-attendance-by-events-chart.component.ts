@@ -3,7 +3,6 @@ import { StatisticsService } from './../../../../../entities/statistics/api/stat
 import { EventsService } from './../../../../../entities/events/api/events.service';
 import { Component, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
-import { Router } from '@angular/router';
 import { NAV_ITEM_LABELS } from '../../../../../shared/models/nav-items-labels.const';
 import { MenuTabsService } from '../../../../../shared/services/menu-tabs.service';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
@@ -11,6 +10,7 @@ import { AppToastMessage } from '../../../../../shared/components/toast/constant
 import { ToastType } from '../../../../../shared/models/toast.model';
 import { combineLatest, debounceTime, Subject, tap } from 'rxjs';
 import { IDropdown } from '../../../../../shared/models/dropdown.model';
+import { TenantRouter } from '../../../../../shared/helpers/tenant-router';
 
 @Component({
     selector: 'event-attendance-by-events-chart',
@@ -32,7 +32,7 @@ export class EventAttendanceByEventsChartComponent implements OnDestroy {
   public isLoading: boolean = false;
 
   constructor(
-    private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly menuTabsService: MenuTabsService,
     private readonly eventsService: EventsService,
     private readonly statisticsService: StatisticsService,
@@ -62,7 +62,7 @@ export class EventAttendanceByEventsChartComponent implements OnDestroy {
     this.eventSelectionSubject.next(this.selectedEventIds);
   }
   public backNavigateBtn(): void {
-    this.router.navigateByUrl('charts/events');
+    this.tenantRouter.navigateTenant('charts/events');
   }
 
   public ngOnDestroy(): void {

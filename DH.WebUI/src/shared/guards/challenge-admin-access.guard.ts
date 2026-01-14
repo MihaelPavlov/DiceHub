@@ -7,9 +7,19 @@ import {
 import { Injectable } from '@angular/core';
 import { AuthService } from '../../entities/auth/auth.service';
 import { UserRole } from '../../entities/auth/enums/roles.enum';
-import { catchError, filter, from, map, Observable, of, switchMap, take } from 'rxjs';
-import { FULL_ROUTE } from '../configs/route.config';
+import {
+  catchError,
+  filter,
+  from,
+  map,
+  Observable,
+  of,
+  switchMap,
+  take,
+} from 'rxjs';
+import { FULL_ROUTE, ROUTE } from '../configs/route.config';
 import { IUserInfo } from '../../entities/auth/models/user-info.model';
+import { TenantRouter } from '../helpers/tenant-router';
 
 @Injectable({
   providedIn: 'root',
@@ -17,10 +27,11 @@ import { IUserInfo } from '../../entities/auth/models/user-info.model';
 export class ChallengeAdminAccessGuard {
   constructor(
     private readonly authService: AuthService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly tenantRouter: TenantRouter
   ) {}
 
- canActivate(
+  canActivate(
     _: ActivatedRouteSnapshot,
     __: RouterStateSnapshot
   ): Observable<boolean | UrlTree> {
@@ -29,10 +40,12 @@ export class ChallengeAdminAccessGuard {
     // If user info is already known, short-circuit (no extra network call)
     if (cachedUser !== undefined) {
       if (!cachedUser) {
-        return of(this.router.parseUrl('/login'));
+        return of(
+          this.router.parseUrl(this.tenantRouter.buildTenantUrl(ROUTE.LOGIN))
+        );
       }
       if (cachedUser.role === UserRole.User) {
-      return of(this.router.parseUrl(FULL_ROUTE.CHALLENGES.CHALLENGES_HOME));
+        return of(this.router.parseUrl(FULL_ROUTE.CHALLENGES.CHALLENGES_HOME));
       }
       return of(true);
     }
@@ -45,12 +58,17 @@ export class ChallengeAdminAccessGuard {
       filter((u): u is IUserInfo | null => typeof u !== 'undefined'),
       take(1),
       map((user) => {
-        if (!user) return this.router.parseUrl('/login');
+        if (!user)
+          return this.router.parseUrl(
+            this.tenantRouter.buildTenantUrl(ROUTE.LOGIN)
+          );
         if (user.role === UserRole.User)
-      return this.router.parseUrl(FULL_ROUTE.CHALLENGES.CHALLENGES_HOME);
+          return this.router.parseUrl(FULL_ROUTE.CHALLENGES.CHALLENGES_HOME);
         return true;
       }),
-      catchError(() => of(this.router.parseUrl('/login')))
+      catchError(() =>
+        of(this.router.parseUrl(this.tenantRouter.buildTenantUrl(ROUTE.LOGIN)))
+      )
     );
   }
 }

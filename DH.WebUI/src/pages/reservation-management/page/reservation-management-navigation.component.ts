@@ -19,12 +19,13 @@ import { SpaceManagementService } from '../../../entities/space-management/api/s
 import { FULL_ROUTE, ROUTE } from '../../../shared/configs/route.config';
 import { ControlsMenuComponent } from '../../../shared/components/menu/controls-menu.component';
 import { TranslateService } from '@ngx-translate/core';
+import { TenantRouter } from '../../../shared/helpers/tenant-router';
 
 @Component({
-    selector: 'app-reservation-management-navigation',
-    templateUrl: 'reservation-management-navigation.component.html',
-    styleUrl: 'reservation-management-navigation.component.scss',
-    standalone: false
+  selector: 'app-reservation-management-navigation',
+  templateUrl: 'reservation-management-navigation.component.html',
+  styleUrl: 'reservation-management-navigation.component.scss',
+  standalone: false,
 })
 export class ReservationManagementNavigationComponent
   implements OnInit, OnDestroy
@@ -53,6 +54,7 @@ export class ReservationManagementNavigationComponent
   );
 
   constructor(
+    private readonly tenantRouter: TenantRouter,
     private readonly router: Router,
     private readonly permissionService: PermissionService,
     private readonly menuTabsService: MenuTabsService,
@@ -69,11 +71,13 @@ export class ReservationManagementNavigationComponent
   }
 
   public navigateToActiveGameReservations(): void {
-    this.router.navigateByUrl(FULL_ROUTE.GAMES.ACTIVE_RESERVATIONS);
+    this.tenantRouter.navigateTenant(FULL_ROUTE.GAMES.ACTIVE_RESERVATIONS);
   }
 
   public navigateToActiveTableReservations(): void {
-    this.router.navigateByUrl(FULL_ROUTE.SPACE_MANAGEMENT.ACTIVE_RESERVATIONS);
+    this.tenantRouter.navigateTenant(
+      FULL_ROUTE.SPACE_MANAGEMENT.ACTIVE_RESERVATIONS
+    );
   }
 
   public ngOnInit(): void {
@@ -107,11 +111,13 @@ export class ReservationManagementNavigationComponent
 
   public handleMenuItemClick(key: string): void {
     if (key === 'history-tables') {
-      this.router.navigateByUrl(
+      this.tenantRouter.navigateTenant(
         FULL_ROUTE.RESERVATION_MANAGEMENT.TABLE_HISTORY
       );
     } else if (key === 'history-games') {
-      this.router.navigateByUrl(FULL_ROUTE.RESERVATION_MANAGEMENT.GAME_HISTORY);
+      this.tenantRouter.navigateTenant(
+        FULL_ROUTE.RESERVATION_MANAGEMENT.GAME_HISTORY
+      );
     }
   }
 
@@ -138,7 +144,7 @@ export class ReservationManagementNavigationComponent
     this.header.next(
       this.translateService.instant('reservation_management.reservations')
     );
-    this.router.navigateByUrl(ROUTE.RESERVATION_MANAGEMENT.CORE);
+    this.tenantRouter.navigateTenant(ROUTE.RESERVATION_MANAGEMENT.CORE);
   }
 
   public removeActiveChildComponent(): void {

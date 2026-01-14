@@ -1,6 +1,5 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { SpaceManagementService } from '../../../entities/space-management/api/space-management.service';
 import { combineLatest, throwError } from 'rxjs';
 import { IUserActiveSpaceTableResult } from '../../../entities/space-management/models/user-active-space-table.model';
@@ -20,12 +19,13 @@ import { DateHelper } from '../../../shared/helpers/date-helper';
 import { FULL_ROUTE, ROUTE } from '../../../shared/configs/route.config';
 import { LanguageService } from '../../../shared/services/language.service';
 import { TranslateService } from '@ngx-translate/core';
+import { TenantRouter } from '../../../shared/helpers/tenant-router';
 
 @Component({
-    selector: 'app-club-space-management',
-    templateUrl: 'club-space-management.component.html',
-    styleUrl: 'club-space-management.component.scss',
-    standalone: false
+  selector: 'app-club-space-management',
+  templateUrl: 'club-space-management.component.html',
+  styleUrl: 'club-space-management.component.scss',
+  standalone: false,
 })
 export class ClubSpaceManagementComponent implements OnInit {
   public userActiveTableInfo!: IUserActiveSpaceTableResult;
@@ -55,7 +55,7 @@ export class ClubSpaceManagementComponent implements OnInit {
   public randomParticipantMessage: string | null = null;
 
   constructor(
-    private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly spaceManagementService: SpaceManagementService,
     public readonly gameService: GamesService,
     private readonly dialog: MatDialog,
@@ -155,20 +155,22 @@ export class ClubSpaceManagementComponent implements OnInit {
   }
 
   public navigateSpaceTableList(): void {
-    this.router.navigateByUrl(FULL_ROUTE.SPACE_MANAGEMENT.LIST);
+    this.tenantRouter.navigateTenant(FULL_ROUTE.SPACE_MANAGEMENT.LIST);
   }
 
   public navigateSpaceTableBooking(): void {
-    this.router.navigateByUrl(FULL_ROUTE.SPACE_MANAGEMENT.BOOKING);
+    this.tenantRouter.navigateTenant(FULL_ROUTE.SPACE_MANAGEMENT.BOOKING);
   }
 
   public navigateToCreateTable(): void {
-    this.router.navigateByUrl(ROUTE.QR_CODE_SCANNER);
+    this.tenantRouter.navigateTenant(ROUTE.QR_CODE_SCANNER);
   }
 
   public navigateToSpaceClubDetails(id: number | null | undefined): void {
     if (id)
-      this.router.navigateByUrl(FULL_ROUTE.SPACE_MANAGEMENT.ROOM_DETAILS(id));
+      this.tenantRouter.navigateTenant(
+        FULL_ROUTE.SPACE_MANAGEMENT.ROOM_DETAILS(id)
+      );
   }
 
   public getKeyValuePair(): { key: string; value: any }[] {

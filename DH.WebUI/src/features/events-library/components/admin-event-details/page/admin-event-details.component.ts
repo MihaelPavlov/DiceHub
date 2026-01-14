@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { IEventByIdResult } from '../../../../../entities/events/models/event-by-id.mode';
 import { Observable } from 'rxjs';
 import { EventsService } from '../../../../../entities/events/api/events.service';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { NAV_ITEM_LABELS } from '../../../../../shared/models/nav-items-labels.const';
 import { MenuTabsService } from '../../../../../shared/services/menu-tabs.service';
 import { FULL_ROUTE } from '../../../../../shared/configs/route.config';
@@ -15,6 +15,7 @@ import {
 } from '../../../../../shared/dialogs/image-preview/image-preview.dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { MatDialog } from '@angular/material/dialog';
+import { TenantRouter } from '../../../../../shared/helpers/tenant-router';
 
 @Component({
     selector: 'app-admin-event-details',
@@ -33,7 +34,7 @@ export class AdminEventDetailsComponent implements OnInit, OnDestroy {
     private readonly eventService: EventsService,
     private readonly activeRoute: ActivatedRoute,
     private readonly menuTabsService: MenuTabsService,
-    private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly languageService: LanguageService,
     private readonly translateService: TranslateService,
     private readonly dialog: MatDialog
@@ -58,11 +59,11 @@ export class AdminEventDetailsComponent implements OnInit, OnDestroy {
   }
 
   public navigateBackToEventList(): void {
-    this.router.navigateByUrl(FULL_ROUTE.EVENTS.HOME);
+    this.tenantRouter.navigateTenant(FULL_ROUTE.EVENTS.HOME);
   }
 
   public navigateToUpdate(id: number): void {
-    this.router.navigateByUrl(FULL_ROUTE.EVENTS.ADMIN.UPDATE_BY_ID(id));
+    this.tenantRouter.navigateTenant(FULL_ROUTE.EVENTS.ADMIN.UPDATE_BY_ID(id));
   }
 
   public openImagePreview(imageUrl: string) {

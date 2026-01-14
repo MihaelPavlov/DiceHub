@@ -8,6 +8,8 @@ import {
 import { Observable } from 'rxjs';
 import { AuthService } from '../../../entities/auth/auth.service';
 import { UserRole } from '../../../entities/auth/enums/roles.enum';
+import { ROUTE } from '../../../shared/configs/route.config';
+import { TenantRouter } from '../../../shared/helpers/tenant-router';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +17,8 @@ import { UserRole } from '../../../entities/auth/enums/roles.enum';
 export class SettingsSuperAdminAccessGuard {
   constructor(
     private readonly authService: AuthService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly tenantRouter: TenantRouter
   ) {}
 
   public canActivate(
@@ -25,7 +28,8 @@ export class SettingsSuperAdminAccessGuard {
     if (this.authService.getUser?.role === UserRole.SuperAdmin) {
       return true;
     }
+    const tenantUrl = this.tenantRouter.buildTenantUrl(ROUTE.PROFILE.CORE);
 
-    return this.router.parseUrl('profile');
+    return this.router.parseUrl(tenantUrl);
   }
 }

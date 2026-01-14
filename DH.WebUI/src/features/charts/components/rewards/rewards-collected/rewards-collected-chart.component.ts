@@ -12,12 +12,14 @@ import { ToastService } from '../../../../../shared/services/toast.service';
 import { combineLatest } from 'rxjs';
 import { AppToastMessage } from '../../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { ToastType } from '../../../../../shared/models/toast.model';
+import { FULL_ROUTE } from '../../../../../shared/configs/route.config';
+import { TenantRouter } from '../../../../../shared/helpers/tenant-router';
 
 @Component({
-    selector: 'rewards-collected-chart',
-    templateUrl: 'rewards-collected-chart.component.html',
-    styleUrl: 'rewards-collected-chart.component.scss',
-    standalone: false
+  selector: 'rewards-collected-chart',
+  templateUrl: 'rewards-collected-chart.component.html',
+  styleUrl: 'rewards-collected-chart.component.scss',
+  standalone: false,
 })
 export class RewardsCollectedChartComponent implements OnDestroy {
   @ViewChild('rewardsChartCanvas')
@@ -33,7 +35,7 @@ export class RewardsCollectedChartComponent implements OnDestroy {
     this.REQUIRED_MESSAGE_FROM_DATES;
 
   constructor(
-    private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly menuTabsService: MenuTabsService,
     private readonly toastService: ToastService,
     private readonly statisticsService: StatisticsService,
@@ -77,7 +79,7 @@ export class RewardsCollectedChartComponent implements OnDestroy {
   }
 
   public backNavigateBtn(): void {
-    this.router.navigateByUrl('charts/rewards');
+    this.tenantRouter.navigateTenant(FULL_ROUTE.CHARTS.REWARDS);
   }
 
   public createRewardsStatsChartCanvas(colors): void {
@@ -158,7 +160,9 @@ export class RewardsCollectedChartComponent implements OnDestroy {
                         formatter: function (value, context) {
                           const index = context.dataIndex;
                           const reward = rewardsData[index];
-                          return `${reward.collectionCount} / ${reward.totalCashEquivalent.toFixed(2)} BGN`;
+                          return `${
+                            reward.collectionCount
+                          } / ${reward.totalCashEquivalent.toFixed(2)} BGN`;
                         },
                       },
                       legend: {

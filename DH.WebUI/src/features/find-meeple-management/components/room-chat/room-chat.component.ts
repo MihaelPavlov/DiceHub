@@ -12,7 +12,7 @@ import { NAV_ITEM_LABELS } from '../../../../shared/models/nav-items-labels.cons
 import { RoomsService } from '../../../../entities/rooms/api/rooms.service';
 import { MenuTabsService } from '../../../../shared/services/menu-tabs.service';
 import { AuthService } from '../../../../entities/auth/auth.service';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import * as signalR from '@microsoft/signalr';
 import { BehaviorSubject, combineLatest, throwError } from 'rxjs';
 import { IRoomByIdResult } from '../../../../entities/rooms/models/room-by-id.model';
@@ -26,12 +26,13 @@ import { IRoomInfoMessageResult } from '../../../../entities/rooms/models/room-i
 import { environment } from '../../../../shared/environments/environment.development';
 import { FULL_ROUTE, ROUTE } from '../../../../shared/configs/route.config';
 import { TranslateService } from '@ngx-translate/core';
+import { TenantRouter } from '../../../../shared/helpers/tenant-router';
 
 @Component({
-    selector: 'app-room-chat',
-    templateUrl: 'room-chat.component.html',
-    styleUrl: 'room-chat.component.scss',
-    standalone: false
+  selector: 'app-room-chat',
+  templateUrl: 'room-chat.component.html',
+  styleUrl: 'room-chat.component.scss',
+  standalone: false,
 })
 export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   @ViewChild('chat') private chatContainer!: ElementRef;
@@ -52,7 +53,7 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     private readonly menuTabsService: MenuTabsService,
     private readonly authService: AuthService,
     private readonly cdRef: ChangeDetectorRef,
-    private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly activeRoute: ActivatedRoute,
     private readonly toastService: ToastService,
     private readonly translateService: TranslateService,
@@ -60,7 +61,7 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.MEEPLE);
   }
-  
+
   public ngAfterViewChecked(): void {
     if (this.shouldScrollToBottom) {
       this.scrollToBottom();
@@ -110,7 +111,7 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   public backNavigateBtn(): void {
-    this.router.navigateByUrl(
+    this.tenantRouter.navigateTenant(
       FULL_ROUTE.MEEPLE_ROOM.DETAILS_BY_ID(this.roomId)
     );
   }

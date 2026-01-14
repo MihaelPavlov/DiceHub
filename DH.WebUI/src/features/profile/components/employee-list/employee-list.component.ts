@@ -1,5 +1,4 @@
 import { Component, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
 import { NAV_ITEM_LABELS } from '../../../../shared/models/nav-items-labels.const';
 import { MenuTabsService } from '../../../../shared/services/menu-tabs.service';
 import { IUser } from '../../../../entities/profile/models/user.model';
@@ -14,6 +13,7 @@ import { ToastService } from '../../../../shared/services/toast.service';
 import { TranslateService } from '@ngx-translate/core';
 import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { ToastType } from '../../../../shared/models/toast.model';
+import { TenantRouter } from '../../../../shared/helpers/tenant-router';
 
 @Component({
     selector: 'app-profile',
@@ -30,7 +30,7 @@ export class EmployeeListComponent implements OnDestroy {
   constructor(
     private readonly menuTabsService: MenuTabsService,
     private readonly usersService: UsersService,
-    private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly navigationService: NavigationService,
     private readonly dialog: MatDialog,
     private readonly toastService: ToastService,
@@ -69,17 +69,17 @@ export class EmployeeListComponent implements OnDestroy {
 
   public onAdd(): void {
     this.navigationService.setPreviousUrl(FULL_ROUTE.PROFILE.EMPLOYEES);
-    this.router.navigateByUrl(FULL_ROUTE.PROFILE.ADD_EMPLOYEE);
+    this.tenantRouter.navigateTenant(FULL_ROUTE.PROFILE.ADD_EMPLOYEE);
   }
 
   public onBack(): void {
-    this.router.navigateByUrl(ROUTE.PROFILE.CORE);
+    this.tenantRouter.navigateTenant(ROUTE.PROFILE.CORE);
   }
 
   public onEdit(employeeId: string, event?: TouchEvent | MouseEvent): void {
     if (event) event.stopPropagation();
     this.navigationService.setPreviousUrl(FULL_ROUTE.PROFILE.EMPLOYEES);
-    this.router.navigateByUrl(FULL_ROUTE.PROFILE.UPDATE_BY_ID(employeeId));
+    this.tenantRouter.navigateTenant(FULL_ROUTE.PROFILE.UPDATE_BY_ID(employeeId));
   }
 
   public openDeleteDialog(

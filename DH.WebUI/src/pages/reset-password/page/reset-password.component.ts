@@ -16,6 +16,7 @@ import { AppToastMessage } from '../../../shared/components/toast/constants/app-
 import { TenantSettingsService } from '../../../entities/common/api/tenant-settings.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../shared/services/language.service';
+import { TenantRouter } from '../../../shared/helpers/tenant-router';
 
 interface IResetPasswordForm {
   newPassword: string;
@@ -39,6 +40,7 @@ export class ResetPasswordComponent extends Form implements OnInit {
 
   constructor(
     private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly route: ActivatedRoute,
     private readonly authService: AuthService,
     public override readonly toastService: ToastService,
@@ -101,9 +103,12 @@ export class ResetPasswordComponent extends Form implements OnInit {
               ),
             });
             setTimeout(() => {
-              this.router.navigate([ROUTE.LOGIN], {
-                queryParams: { fromResetPassword: 'true' },
-              });
+              this.router.navigate(
+                [this.tenantRouter.buildTenantUrl(ROUTE.LOGIN)],
+                {
+                  queryParams: { fromResetPassword: 'true' },
+                }
+              );
             }, 4000);
           },
           error: (error) => {

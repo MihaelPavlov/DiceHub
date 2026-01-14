@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 import { NavigationService } from '../../../shared/services/navigation-service';
 import { FULL_ROUTE, ROUTE } from '../../../shared/configs/route.config';
 import { GetOwnerStats } from '../../../entities/profile/models/get-owner-stats.interface';
+import { TenantRouter } from '../../../shared/helpers/tenant-router';
 
 @Component({
   selector: 'app-profile',
@@ -27,6 +28,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     private readonly navigationService: NavigationService,
     private readonly authService: AuthService,
     private readonly usersService: UsersService,
+    private readonly tenantRouter: TenantRouter,
     private readonly router: Router
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.PROFILE);
@@ -52,8 +54,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   public onLogout(): void {
     this.authService.logout().subscribe({
-      next: () => this.router.navigateByUrl(ROUTE.LOGIN),
-      error: () => this.router.navigateByUrl(ROUTE.LOGIN),
+      next: () => this.tenantRouter.navigateTenant(ROUTE.LOGIN),
+      error: () => this.tenantRouter.navigateTenant(ROUTE.LOGIN),
     });
   }
 
@@ -71,58 +73,58 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   public navigateToSettings(): void {
     if (this.authService.getUser?.role === UserRole.Owner)
-      this.router.navigateByUrl(FULL_ROUTE.PROFILE.SETTINGS);
+      this.tenantRouter.navigateTenant(FULL_ROUTE.PROFILE.SETTINGS);
     else {
-      this.router.navigateByUrl(FULL_ROUTE.PROFILE.USER_SETTINGS);
+      this.tenantRouter.navigateTenant(FULL_ROUTE.PROFILE.USER_SETTINGS);
     }
   }
 
   public navigateToJobList(): void {
-    this.router.navigateByUrl(FULL_ROUTE.PROFILE.JOBS);
+    this.tenantRouter.navigateTenant(FULL_ROUTE.PROFILE.JOBS);
   }
 
   public navigateToEmployeeList(): void {
-    this.router.navigateByUrl(FULL_ROUTE.PROFILE.EMPLOYEES);
+    this.tenantRouter.navigateTenant(FULL_ROUTE.PROFILE.EMPLOYEES);
   }
 
   public navigateToOwnerDetails(): void {
-    this.router.navigateByUrl(FULL_ROUTE.PROFILE.OWNER_DETAILS);
+    this.tenantRouter.navigateTenant(FULL_ROUTE.PROFILE.OWNER_DETAILS);
   }
 
   public navigateToInstructions(): void {
     this.navigationService.setPreviousUrl(this.router.url);
-    this.router.navigateByUrl(ROUTE.INSTRUCTIONS);
+    this.tenantRouter.navigateTenant(ROUTE.INSTRUCTIONS);
   }
 
   public navigateToVisitorChart(): void {
-    this.router.navigateByUrl(FULL_ROUTE.CHARTS.VISITORS);
+    this.tenantRouter.navigateTenant(FULL_ROUTE.CHARTS.VISITORS);
   }
 
   public navigateToGameChart(): void {
-    this.router.navigateByUrl(FULL_ROUTE.CHARTS.GAMES);
+    this.tenantRouter.navigateTenant(FULL_ROUTE.CHARTS.GAMES);
   }
 
   public navigateToReservationsChart(): void {
-    this.router.navigateByUrl(FULL_ROUTE.CHARTS.RESERVATIONS);
+    this.tenantRouter.navigateTenant(FULL_ROUTE.CHARTS.RESERVATIONS);
   }
 
   public navigateToRewardCharts(): void {
-    this.router.navigateByUrl(FULL_ROUTE.CHARTS.REWARDS);
+    this.tenantRouter.navigateTenant(FULL_ROUTE.CHARTS.REWARDS);
   }
   public navigateToEventCharts(): void {
-    this.router.navigateByUrl(FULL_ROUTE.CHARTS.EVENTS);
+    this.tenantRouter.navigateTenant(FULL_ROUTE.CHARTS.EVENTS);
   }
 
   public navigateToChallengeLeaderboard(): void {
-    this.router.navigateByUrl(FULL_ROUTE.CHARTS.CHALLENGES_LEADERBOARD);
+    this.tenantRouter.navigateTenant(FULL_ROUTE.CHARTS.CHALLENGES_LEADERBOARD);
   }
 
   public navigateToClubInfo(): void {
-    this.router.navigateByUrl(FULL_ROUTE.PROFILE.CLUB_INFO);
+    this.tenantRouter.navigateTenant(FULL_ROUTE.PROFILE.CLUB_INFO);
   }
 
   // FUTURE Feature - Streaks Page
   //  public navigateToStreakLeaderboard(): void {
-  //   this.router.navigateByUrl(FULL_ROUTE.CHARTS.STREAK_LEADERBOARD);
+  //   this.tenantRouter.navigateTenant(FULL_ROUTE.CHARTS.STREAK_LEADERBOARD);
   // }
 }

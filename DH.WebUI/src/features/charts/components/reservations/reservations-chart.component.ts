@@ -8,17 +8,17 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
-import { Router } from '@angular/router';
 import { MenuTabsService } from '../../../../shared/services/menu-tabs.service';
 import { NAV_ITEM_LABELS } from '../../../../shared/models/nav-items-labels.const';
 import { FormControl } from '@angular/forms';
 import { colors } from '../../consts/colors.const';
-import { ControlsMenuComponent } from '../../../../shared/components/menu/controls-menu.component';
 import { StatisticsService } from '../../../../entities/statistics/api/statistics.service';
 import { GetReservationChartData } from '../../../../entities/statistics/models/reservation-chart.model';
 import { OperationResult } from '../../../../shared/models/operation-result.model';
 import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { ToastType } from '../../../../shared/models/toast.model';
+import { ROUTE } from '../../../../shared/configs/route.config';
+import { TenantRouter } from '../../../../shared/helpers/tenant-router';
 
 @Component({
     selector: 'reservations-chart',
@@ -39,7 +39,7 @@ export class ReservationsChartComponent implements AfterViewInit, OnDestroy {
     this.REQUIRED_MESSAGE_FROM_DATES;
 
   constructor(
-    private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly statisticsService: StatisticsService,
     private readonly menuTabsService: MenuTabsService,
     private readonly toastService: ToastService
@@ -84,7 +84,7 @@ export class ReservationsChartComponent implements AfterViewInit, OnDestroy {
   }
 
   public backNavigateBtn(): void {
-    this.router.navigateByUrl('profile');
+    this.tenantRouter.navigateTenant(ROUTE.PROFILE.CORE);
   }
 
   private createReservationChartCanvas(colors): void {

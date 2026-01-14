@@ -17,6 +17,7 @@ import { combineLatest } from 'rxjs';
 import { ToastService } from '../../../../shared/services/toast.service';
 import { ToastType } from '../../../../shared/models/toast.model';
 import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
+import { TenantRouter } from '../../../../shared/helpers/tenant-router';
 
 @Component({
     selector: 'event-attendance-chart',
@@ -37,7 +38,7 @@ export class EventAttendanceChartComponent implements AfterViewInit, OnDestroy {
     this.REQUIRED_MESSAGE_FROM_DATES;
 
   constructor(
-    private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly menuTabsService: MenuTabsService,
     private readonly eventsService: EventsService,
     private readonly statisticsService: StatisticsService,
@@ -77,7 +78,7 @@ export class EventAttendanceChartComponent implements AfterViewInit, OnDestroy {
   }
 
   public backNavigateBtn(): void {
-    this.router.navigateByUrl('charts/events');
+    this.tenantRouter.navigateTenant('charts/events');
   }
 
   public ngAfterViewInit(): void {

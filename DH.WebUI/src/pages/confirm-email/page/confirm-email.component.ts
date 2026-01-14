@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../entities/auth/auth.service';
 import { FULL_ROUTE, ROUTE } from '../../../shared/configs/route.config';
 import { ToastService } from '../../../shared/services/toast.service';
@@ -9,12 +9,13 @@ import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../shared/services/language.service';
 import { ChallengeHubService } from '../../../entities/challenges/api/challenge-hub.service';
 import { ChallengeOverlayService } from '../../../shared/services/challenges-overlay.service';
+import { TenantRouter } from '../../../shared/helpers/tenant-router';
 
 @Component({
-    selector: 'app-confirm-email',
-    templateUrl: 'confirm-email.component.html',
-    styleUrl: 'confirm-email.component.scss',
-    standalone: false
+  selector: 'app-confirm-email',
+  templateUrl: 'confirm-email.component.html',
+  styleUrl: 'confirm-email.component.scss',
+  standalone: false,
 })
 export class ConfirmEmailComponent implements OnInit {
   public readonly confirming = this.translateService.instant(
@@ -28,7 +29,7 @@ export class ConfirmEmailComponent implements OnInit {
   constructor(
     private readonly toastService: ToastService,
     private readonly route: ActivatedRoute,
-    private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly authService: AuthService,
     private readonly tenantSettingsService: TenantSettingsService,
     private readonly translateService: TranslateService,
@@ -62,7 +63,7 @@ export class ConfirmEmailComponent implements OnInit {
   }
 
   public navigateToLogin(): void {
-    this.router.navigateByUrl(ROUTE.LOGIN);
+    this.tenantRouter.navigateTenant(ROUTE.LOGIN);
   }
 
   public resendConfirmationEmail(): void {
@@ -146,7 +147,7 @@ export class ConfirmEmailComponent implements OnInit {
 
             this.authService.initiateNotifications(email);
 
-            this.router.navigateByUrl(FULL_ROUTE.GAMES.LIBRARY);
+            this.tenantRouter.navigateTenant(FULL_ROUTE.GAMES.LIBRARY);
           }, 3000);
         }
       },

@@ -6,7 +6,6 @@ import {
   FormControl,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
 import { NAV_ITEM_LABELS } from '../../../../shared/models/nav-items-labels.const';
 import { MenuTabsService } from '../../../../shared/services/menu-tabs.service';
 import { ToastService } from '../../../../shared/services/toast.service';
@@ -28,6 +27,7 @@ import { TranslateInPipe } from '../../../../shared/pipe/translate-in.pipe';
 import { ThemeService } from '../../../../shared/services/theme.service';
 import { UiTheme } from '../../../../shared/enums/ui-theme.enum';
 import { WeekDay } from '../../../../shared/enums/week-day.enum';
+import { TenantRouter } from '../../../../shared/helpers/tenant-router';
 
 interface ITenantSettingsForm {
   averageMaxCapacity: number;
@@ -83,7 +83,7 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
     private readonly fb: FormBuilder,
     public override readonly toastService: ToastService,
     private readonly menuTabsService: MenuTabsService,
-    private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly tenantSettingsService: TenantSettingsService,
     private readonly tenantUserSettingsService: TenantUserSettingsService,
     private readonly languageService: LanguageService,
@@ -290,7 +290,7 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
               this.oldCustomPeriodValue != newCustomPeriodValue &&
               newCustomPeriodValue === ToggleState.On
             ) {
-              this.router.navigateByUrl(
+              this.tenantRouter.navigateTenant(
                 FULL_ROUTE.CHALLENGES.ADMIN_CUSTOM_PERIOD
               );
             }
@@ -316,7 +316,7 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
   }
 
   public backNavigateBtn() {
-    this.router.navigateByUrl(ROUTE.PROFILE.CORE);
+    this.tenantRouter.navigateTenant(ROUTE.PROFILE.CORE);
   }
 
   protected override getControlDisplayName(controlName: string): string {

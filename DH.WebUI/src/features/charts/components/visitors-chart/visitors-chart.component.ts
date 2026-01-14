@@ -1,3 +1,4 @@
+import { TenantRouter } from './../../../../shared/helpers/tenant-router';
 import { StatisticsService } from './../../../../entities/statistics/api/statistics.service';
 import {
   AfterViewInit,
@@ -6,7 +7,6 @@ import {
   OnDestroy,
   ViewChild,
 } from '@angular/core';
-import { Router } from '@angular/router';
 import { NAV_ITEM_LABELS } from '../../../../shared/models/nav-items-labels.const';
 import { MenuTabsService } from '../../../../shared/services/menu-tabs.service';
 import { FormControl } from '@angular/forms';
@@ -22,7 +22,7 @@ import { ToastService } from '../../../../shared/services/toast.service';
 import { ToastType } from '../../../../shared/models/toast.model';
 import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { IDropdown } from '../../../../shared/models/dropdown.model';
-import { DatePipe } from '@angular/common';
+import { ROUTE } from '../../../../shared/configs/route.config';
 
 @Component({
     selector: 'visitors-chart',
@@ -43,9 +43,8 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
   constructor(
     private readonly menuTabsService: MenuTabsService,
     private readonly toastService: ToastService,
-    private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly statisticsService: StatisticsService,
-    private datePipe: DatePipe
   ) {
     Chart.register(ChartDataLabels, ...registerables);
 
@@ -66,7 +65,7 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
   }
 
   public backNavigateBtn(): void {
-    this.router.navigateByUrl('profile');
+    this.tenantRouter.navigateTenant(ROUTE.PROFILE.CORE);
   }
 
   public updateDateRange(direction: 'forward' | 'backward'): void {

@@ -1,21 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { ROUTE } from '../../../../shared/configs/route.config';
 import { TranslateService } from '@ngx-translate/core';
 import { GetClubInfoModel } from '../../../../entities/profile/models/get-club-info.interface';
 import { TenantSettingsService } from '../../../../entities/common/api/tenant-settings.service';
+import { TenantRouter } from '../../../../shared/helpers/tenant-router';
 
 @Component({
-    selector: 'app-club-info',
-    templateUrl: 'club-info.component.html',
-    styleUrl: 'club-info.component.scss',
-    standalone: false
+  selector: 'app-club-info',
+  templateUrl: 'club-info.component.html',
+  styleUrl: 'club-info.component.scss',
+  standalone: false,
 })
 export class ClubInfo implements OnInit {
   public clubInfo: GetClubInfoModel | null = null;
 
   constructor(
-    private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly tenantSettingsService: TenantSettingsService,
     private readonly ts: TranslateService
   ) {}
@@ -24,13 +24,12 @@ export class ClubInfo implements OnInit {
     this.tenantSettingsService.getClubInfo().subscribe({
       next: (clubInfo) => {
         console.log(clubInfo);
-        
+
         this.clubInfo = clubInfo;
       },
-      error:(err)=>{
+      error: (err) => {
         console.log(err);
-        
-      }
+      },
     });
   }
 
@@ -40,6 +39,6 @@ export class ClubInfo implements OnInit {
   }
 
   public backNavigateBtn() {
-    this.router.navigateByUrl(ROUTE.PROFILE.CORE);
+    this.tenantRouter.navigateTenant(ROUTE.PROFILE.CORE);
   }
 }

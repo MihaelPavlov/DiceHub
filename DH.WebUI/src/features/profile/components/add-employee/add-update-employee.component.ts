@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { UsersService } from '../../../../entities/profile/api/user.service';
 import { NAV_ITEM_LABELS } from '../../../../shared/models/nav-items-labels.const';
 import { MenuTabsService } from '../../../../shared/services/menu-tabs.service';
@@ -18,6 +18,7 @@ import { NavigationService } from '../../../../shared/services/navigation-servic
 import { FULL_ROUTE } from '../../../../shared/configs/route.config';
 import { throwError } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
+import { TenantRouter } from '../../../../shared/helpers/tenant-router';
 
 interface IEmployeeForm {
   email: string;
@@ -44,7 +45,7 @@ export class AddUpdateEmployeeComponent extends Form implements OnDestroy {
     private readonly navigationService: NavigationService,
     private readonly activatedRoute: ActivatedRoute,
     private readonly fb: FormBuilder,
-    private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     public override translateService: TranslateService
   ) {
     super(toastService, translateService);
@@ -169,8 +170,8 @@ export class AddUpdateEmployeeComponent extends Form implements OnDestroy {
   public onBack(): void {
     let url = this.navigationService.getPreviousUrl();
 
-    if (url) this.router.navigateByUrl(url);
-    else this.router.navigateByUrl(FULL_ROUTE.PROFILE.EMPLOYEES);
+    if (url) this.tenantRouter.navigateTenant(url);
+    else this.tenantRouter.navigateTenant(FULL_ROUTE.PROFILE.EMPLOYEES);
   }
 
   protected override getControlDisplayName(controlName: string): string {

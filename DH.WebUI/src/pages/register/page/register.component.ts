@@ -20,6 +20,7 @@ import { LoadingService } from '../../../shared/services/loading.service';
 import { LoadingInterceptorContextService } from '../../../shared/services/loading-context.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../shared/services/language.service';
+import { TenantRouter } from '../../../shared/helpers/tenant-router';
 
 interface IRegisterForm {
   username: string;
@@ -29,10 +30,10 @@ interface IRegisterForm {
 }
 
 @Component({
-    selector: 'app-register',
-    templateUrl: 'register.component.html',
-    styleUrl: 'register.component.scss',
-    standalone: false
+  selector: 'app-register',
+  templateUrl: 'register.component.html',
+  styleUrl: 'register.component.scss',
+  standalone: false,
 })
 export class RegisterComponent extends Form implements OnInit {
   override form: Formify<IRegisterForm>;
@@ -44,6 +45,7 @@ export class RegisterComponent extends Form implements OnInit {
 
   constructor(
     private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly authService: AuthService,
     private readonly messagingService: MessagingService,
     public override readonly toastService: ToastService,
@@ -76,7 +78,7 @@ export class RegisterComponent extends Form implements OnInit {
   }
 
   public navigateToLogin(): void {
-    this.router.navigateByUrl(ROUTE.LOGIN);
+    this.tenantRouter.navigateTenant(ROUTE.LOGIN);
   }
 
   public navigateToLanding(): void {
@@ -131,9 +133,12 @@ export class RegisterComponent extends Form implements OnInit {
                   type: ToastType.Success,
                 });
                 setTimeout(() => {
-                  this.router.navigate([ROUTE.LOGIN], {
-                    queryParams: { fromRegister: 'true' },
-                  });
+                  this.router.navigate(
+                    [this.tenantRouter.buildTenantUrl(ROUTE.LOGIN)],
+                    {
+                      queryParams: { fromRegister: 'true' },
+                    }
+                  );
                 }, 5000);
               } else if (
                 response &&
@@ -203,9 +208,12 @@ export class RegisterComponent extends Form implements OnInit {
               });
               this.clearServerErrorMessage();
               setTimeout(() => {
-                this.router.navigate([ROUTE.LOGIN], {
-                  queryParams: { fromRegister: 'true' },
-                });
+                this.router.navigate(
+                  [this.tenantRouter.buildTenantUrl(ROUTE.LOGIN)],
+                  {
+                    queryParams: { fromRegister: 'true' },
+                  }
+                );
               }, 4000);
             } else {
               this.toastService.error({

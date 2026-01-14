@@ -1,6 +1,6 @@
 import { SpaceManagementService } from './../../../../../entities/space-management/api/space-management.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { GamesService } from '../../../../../entities/games/api/games.service';
 import { Observable } from 'rxjs';
 import { IGameByIdResult } from '../../../../../entities/games/models/game-by-id.model';
@@ -32,6 +32,7 @@ import { AvailabilityReservationInfoDialog } from '../../../dialogs/availability
 import { DateHelper } from '../../../../../shared/helpers/date-helper';
 import { LanguageService } from '../../../../../shared/services/language.service';
 import { TranslateService } from '@ngx-translate/core';
+import { TenantRouter } from '../../../../../shared/helpers/tenant-router';
 
 interface IReservationGameForm {
   reservationPeopleCount: number;
@@ -39,10 +40,10 @@ interface IReservationGameForm {
 }
 
 @Component({
-    selector: 'app-game-availability',
-    templateUrl: 'game-availability.component.html',
-    styleUrl: 'game-availability.component.scss',
-    standalone: false
+  selector: 'app-game-availability',
+  templateUrl: 'game-availability.component.html',
+  styleUrl: 'game-availability.component.scss',
+  standalone: false,
 })
 export class GameAvailabilityComponent
   extends Form
@@ -68,7 +69,7 @@ export class GameAvailabilityComponent
   constructor(
     private readonly gameService: GamesService,
     private readonly activeRoute: ActivatedRoute,
-    private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly fb: FormBuilder,
     private readonly menuTabsService: MenuTabsService,
     public override readonly toastService: ToastService,
@@ -114,7 +115,7 @@ export class GameAvailabilityComponent
   }
 
   public navigateToActiveTable(tableId: number): void {
-    this.router.navigateByUrl(
+    this.tenantRouter.navigateTenant(
       FULL_ROUTE.SPACE_MANAGEMENT.ROOM_DETAILS(tableId)
     );
   }
@@ -246,7 +247,7 @@ export class GameAvailabilityComponent
   }
 
   public navigateBack(): void {
-    this.router.navigateByUrl(
+    this.tenantRouter.navigateTenant(
       this.navigationService.getPreviousUrl() ?? FULL_ROUTE.GAMES.LIBRARY
     );
   }

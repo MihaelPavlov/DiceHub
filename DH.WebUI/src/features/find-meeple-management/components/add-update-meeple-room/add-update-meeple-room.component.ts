@@ -20,11 +20,10 @@ import { combineLatest, throwError } from 'rxjs';
 import { IGameByIdResult } from '../../../../entities/games/models/game-by-id.model';
 import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { ToastType } from '../../../../shared/models/toast.model';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { IGameInventory } from '../../../../entities/games/models/game-inventory.mode';
 import { SafeUrl } from '@angular/platform-browser';
 import {
-  EntityImagePipe,
   ImageEntityType,
 } from '../../../../shared/pipe/entity-image.pipe';
 import { DateHelper } from '../../../../shared/helpers/date-helper';
@@ -36,6 +35,7 @@ import {
   ImagePreviewData,
 } from '../../../../shared/dialogs/image-preview/image-preview.dialog';
 import { MatDialog } from '@angular/material/dialog';
+import { TenantRouter } from '../../../../shared/helpers/tenant-router';
 
 interface IAddUpdateRoomForm {
   name: string;
@@ -86,8 +86,7 @@ export class AddUpdateMeepleRoomComponent
     private readonly roomService: RoomsService,
     private readonly menuTabsService: MenuTabsService,
     private readonly fb: FormBuilder,
-    private readonly entityImagePipe: EntityImagePipe,
-    private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly activatedRoute: ActivatedRoute,
     private readonly datePipe: DatePipe,
     public override translateService: TranslateService,
@@ -142,10 +141,10 @@ export class AddUpdateMeepleRoomComponent
 
   public backNavigateBtn() {
     if (this.editRoomId)
-      this.router.navigateByUrl(
+      this.tenantRouter.navigateTenant(
         FULL_ROUTE.MEEPLE_ROOM.DETAILS_BY_ID(this.editRoomId)
       );
-    else this.router.navigateByUrl(FULL_ROUTE.MEEPLE_ROOM.FIND);
+    else this.tenantRouter.navigateTenant(FULL_ROUTE.MEEPLE_ROOM.FIND);
   }
 
   public onSubmit(): void {
@@ -176,7 +175,7 @@ export class AddUpdateMeepleRoomComponent
               });
 
               if (this.editRoomId)
-                this.router.navigateByUrl(
+                this.tenantRouter.navigateTenant(
                   FULL_ROUTE.MEEPLE_ROOM.DETAILS_BY_ID(this.editRoomId)
                 );
             },
@@ -207,7 +206,7 @@ export class AddUpdateMeepleRoomComponent
                 type: ToastType.Success,
               });
 
-              this.router.navigateByUrl(FULL_ROUTE.MEEPLE_ROOM.FIND);
+              this.tenantRouter.navigateTenant(FULL_ROUTE.MEEPLE_ROOM.FIND);
             },
             error: (error) => {
               this.handleServerErrors(error);

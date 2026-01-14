@@ -1,4 +1,3 @@
-import { map } from 'rxjs';
 import { StatisticsService } from './../../../../../entities/statistics/api/statistics.service';
 import {
   Component,
@@ -7,7 +6,6 @@ import {
   ViewChild,
   ElementRef,
 } from '@angular/core';
-import { Router } from '@angular/router';
 import { Chart, registerables } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { NAV_ITEM_LABELS } from '../../../../../shared/models/nav-items-labels.const';
@@ -18,6 +16,7 @@ import { ToastService } from '../../../../../shared/services/toast.service';
 import { AppToastMessage } from '../../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { ToastType } from '../../../../../shared/models/toast.model';
 import { RewardsStats } from '../../../../../entities/statistics/models/expired-collected-rewards-chart.model';
+import { TenantRouter } from '../../../../../shared/helpers/tenant-router';
 
 @Component({
     selector: 'collected-expired-rewards-chart',
@@ -54,7 +53,7 @@ export class CollectedExpiredRewardsChartComponent
   filteredCollected: RewardsStats[] = [];
   filteredUncollected: RewardsStats[] = [];
   constructor(
-    private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly menuTabsService: MenuTabsService,
     private readonly toastService: ToastService,
     private readonly statisticsService: StatisticsService
@@ -73,7 +72,7 @@ export class CollectedExpiredRewardsChartComponent
   }
 
   public backNavigateBtn(): void {
-    this.router.navigateByUrl('charts/rewards');
+    this.tenantRouter.navigateTenant('charts/rewards');
   }
 
   public updateDateRange(direction: 'forward' | 'backward'): void {
