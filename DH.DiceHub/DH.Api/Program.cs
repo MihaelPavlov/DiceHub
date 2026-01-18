@@ -148,7 +148,7 @@ using (var scope = app.Services.CreateScope())
     await dataSeeder.SeedAsync();
 
     //TODO: Better way to seed eveyrthing maybe ???
-    //await ApplicationDbContextSeeder.SeedUsers(scope.ServiceProvider);
+    await ApplicationDbContextSeeder.SeedUsers(scope.ServiceProvider);
 }
 var locOptions = app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>();
 app.UseRequestLocalization(locOptions.Value);
