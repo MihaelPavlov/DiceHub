@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DH.Adapter.Authentication.Migrations
 {
     [DbContext(typeof(AppIdentityDbContext))]
-    [Migration("20250811205316_ApplicationUserRemoveLanguage")]
-    partial class ApplicationUserRemoveLanguage
+    [Migration("20260118090050_InitialTenant")]
+    partial class InitialTenant
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -77,6 +77,10 @@ namespace DH.Adapter.Authentication.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("SecurityStamp")
+                        .HasColumnType("text");
+
+                    b.Property<string>("TenantId")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("TimeZone")

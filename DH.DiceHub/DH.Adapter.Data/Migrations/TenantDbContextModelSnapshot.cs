@@ -160,41 +160,6 @@ namespace DH.Adapter.Data.Migrations
                     b.ToTable("ChallengeRewards");
                 });
 
-            modelBuilder.Entity("DH.Domain.Entities.ChallengeRewardImage", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ContentType")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<byte[]>("Data")
-                        .IsRequired()
-                        .HasColumnType("bytea");
-
-                    b.Property<string>("FileName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("RewardId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("TenantId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RewardId")
-                        .IsUnique();
-
-                    b.ToTable("ChallengeRewardImages");
-                });
-
             modelBuilder.Entity("DH.Domain.Entities.ChallengeStatistic", b =>
                 {
                     b.Property<int>("Id")
@@ -626,41 +591,6 @@ namespace DH.Adapter.Data.Migrations
                     b.ToTable("EventAttendanceLogs");
                 });
 
-            modelBuilder.Entity("DH.Domain.Entities.EventImage", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ContentType")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<byte[]>("Data")
-                        .IsRequired()
-                        .HasColumnType("bytea");
-
-                    b.Property<int>("EventId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("FileName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("TenantId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EventId")
-                        .IsUnique();
-
-                    b.ToTable("EventImages");
-                });
-
             modelBuilder.Entity("DH.Domain.Entities.EventNotification", b =>
                 {
                     b.Property<int>("Id")
@@ -854,41 +784,6 @@ namespace DH.Adapter.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("GameEngagementLogs");
-                });
-
-            modelBuilder.Entity("DH.Domain.Entities.GameImage", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ContentType")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<byte[]>("Data")
-                        .IsRequired()
-                        .HasColumnType("bytea");
-
-                    b.Property<string>("FileName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("GameId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("TenantId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GameId")
-                        .IsUnique();
-
-                    b.ToTable("GameImages");
                 });
 
             modelBuilder.Entity("DH.Domain.Entities.GameInventory", b =>
@@ -1612,6 +1507,10 @@ namespace DH.Adapter.Data.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("UiTheme")
                         .IsRequired()
                         .HasColumnType("text");
 

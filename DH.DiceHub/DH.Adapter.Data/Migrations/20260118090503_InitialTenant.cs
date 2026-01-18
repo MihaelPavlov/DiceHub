@@ -7,30 +7,124 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DH.Adapter.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitialTenant : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "ChallengeHistoryLogs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    ChallengeId = table.Column<int>(type: "integer", nullable: false),
+                    Outcome = table.Column<int>(type: "integer", nullable: false),
+                    OutcomeDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    TenantId = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ChallengeHistoryLogs", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "ChallengeRewards",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false),
+                    Name_EN = table.Column<string>(type: "text", nullable: false),
+                    Name_BG = table.Column<string>(type: "text", nullable: false),
+                    CashEquivalent = table.Column<decimal>(type: "numeric", nullable: false),
+                    Description_EN = table.Column<string>(type: "text", nullable: false),
+                    Description_BG = table.Column<string>(type: "text", nullable: false),
                     RequiredPoints = table.Column<int>(type: "integer", nullable: false),
                     Level = table.Column<int>(type: "integer", nullable: false),
                     CreatedBy = table.Column<string>(type: "text", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedBy = table.Column<string>(type: "text", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
+                    ImageUrl = table.Column<string>(type: "text", nullable: false),
+                    TenantId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ChallengeRewards", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ClubVisitorLogs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    LogDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    TenantId = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClubVisitorLogs", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EmailHistory",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    TemplateName = table.Column<string>(type: "text", nullable: false),
+                    TemplateType = table.Column<string>(type: "text", nullable: false),
+                    SendedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    To = table.Column<string>(type: "text", nullable: false),
+                    Subject = table.Column<string>(type: "text", nullable: false),
+                    Body = table.Column<string>(type: "text", nullable: false),
+                    IsSuccessfully = table.Column<bool>(type: "boolean", nullable: false),
+                    TenantId = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EmailHistory", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EmailTemplates",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Language = table.Column<string>(type: "text", nullable: false),
+                    TemplateName = table.Column<string>(type: "text", nullable: false),
+                    TemplateHtml = table.Column<string>(type: "text", nullable: false),
+                    Subject = table.Column<string>(type: "text", nullable: false),
+                    TenantId = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EmailTemplates", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EventAttendanceLogs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    EventId = table.Column<int>(type: "integer", nullable: false),
+                    LogDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    TenantId = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EventAttendanceLogs", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -42,7 +136,8 @@ namespace DH.Adapter.Data.Migrations
                     Type = table.Column<int>(type: "integer", nullable: false),
                     Data = table.Column<string>(type: "text", nullable: false),
                     FailedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    ErrorMessage = table.Column<string>(type: "text", nullable: false)
+                    ErrorMessage = table.Column<string>(type: "text", nullable: false),
+                    TenantId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -55,11 +150,46 @@ namespace DH.Adapter.Data.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: false)
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    TenantId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_GameCategories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GameEngagementLogs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    GameId = table.Column<int>(type: "integer", nullable: false),
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    DetectedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    TenantId = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GameEngagementLogs", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PartnerInquiries",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: false),
+                    Message = table.Column<string>(type: "text", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: false),
+                    TenantId = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PartnerInquiries", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -72,11 +202,70 @@ namespace DH.Adapter.Data.Migrations
                     UserId = table.Column<string>(type: "text", nullable: false),
                     ScannedData = table.Column<string>(type: "text", nullable: false),
                     ErrorMessage = table.Column<string>(type: "text", nullable: false),
-                    ScannedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    ScannedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    TenantId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_QrCodeScanAudits", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "QueuedJobs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    QueueType = table.Column<string>(type: "text", nullable: false),
+                    JobId = table.Column<string>(type: "text", nullable: false),
+                    MessagePayload = table.Column<string>(type: "text", nullable: false),
+                    Status = table.Column<int>(type: "integer", nullable: false),
+                    JobType = table.Column<string>(type: "text", nullable: false),
+                    EnqueuedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    TenantId = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_QueuedJobs", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ReservationOutcomeLogs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ReservationId = table.Column<int>(type: "integer", nullable: false),
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    OutcomeDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Outcome = table.Column<int>(type: "integer", nullable: false),
+                    Type = table.Column<int>(type: "integer", nullable: false),
+                    TenantId = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ReservationOutcomeLogs", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RewardHistoryLogs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    RewardId = table.Column<int>(type: "integer", nullable: false),
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    IsExpired = table.Column<bool>(type: "boolean", nullable: false),
+                    IsCollected = table.Column<bool>(type: "boolean", nullable: false),
+                    CollectedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    ExpiredDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    TenantId = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RewardHistoryLogs", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -93,7 +282,8 @@ namespace DH.Adapter.Data.Migrations
                     Status = table.Column<int>(type: "integer", nullable: false),
                     InternalNote = table.Column<string>(type: "text", nullable: false),
                     PublicNote = table.Column<string>(type: "text", nullable: false),
-                    IsReservationSuccessful = table.Column<bool>(type: "boolean", nullable: false)
+                    IsReservationSuccessful = table.Column<bool>(type: "boolean", nullable: false),
+                    TenantId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -110,10 +300,17 @@ namespace DH.Adapter.Data.Migrations
                     ChallengeRewardsCountForPeriod = table.Column<int>(type: "integer", nullable: false),
                     PeriodOfRewardReset = table.Column<string>(type: "text", nullable: false),
                     ResetDayForRewards = table.Column<string>(type: "text", nullable: false),
+                    NextResetTimeOfPeriod = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    DaysOff = table.Column<string>(type: "text", nullable: false),
+                    StartWorkingHours = table.Column<string>(type: "text", nullable: false),
+                    EndWorkingHours = table.Column<string>(type: "text", nullable: false),
                     ChallengeInitiationDelayHours = table.Column<int>(type: "integer", nullable: false),
                     ReservationHours = table.Column<string>(type: "text", nullable: false),
                     BonusTimeAfterReservationExpiration = table.Column<int>(type: "integer", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "text", nullable: false)
+                    PhoneNumber = table.Column<string>(type: "text", nullable: false),
+                    ClubName = table.Column<string>(type: "text", nullable: false),
+                    IsCustomPeriodOn = table.Column<bool>(type: "boolean", nullable: false),
+                    IsCustomPeriodSetupComplete = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -128,11 +325,39 @@ namespace DH.Adapter.Data.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     UserId = table.Column<string>(type: "text", nullable: false),
                     AssistiveTouchSettings = table.Column<string>(type: "text", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "text", nullable: false)
+                    PhoneNumber = table.Column<string>(type: "text", nullable: false),
+                    UiTheme = table.Column<string>(type: "text", nullable: false),
+                    Language = table.Column<string>(type: "text", nullable: false),
+                    TenantId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TenantUserSettings", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UniversalChallenges",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    RewardPoints = table.Column<int>(type: "integer", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedBy = table.Column<string>(type: "text", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "text", nullable: false),
+                    Name_EN = table.Column<string>(type: "text", nullable: false),
+                    Name_BG = table.Column<string>(type: "text", nullable: false),
+                    Description_EN = table.Column<string>(type: "text", nullable: false),
+                    Description_BG = table.Column<string>(type: "text", nullable: false),
+                    Type = table.Column<int>(type: "integer", nullable: false),
+                    Attempts = table.Column<int>(type: "integer", nullable: false),
+                    MinValue = table.Column<decimal>(type: "numeric", nullable: true),
+                    TenantId = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UniversalChallenges", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -147,7 +372,9 @@ namespace DH.Adapter.Data.Migrations
                     CompletedChallengeCount = table.Column<int>(type: "integer", nullable: false),
                     StartDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     EndDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    TimePeriodType = table.Column<int>(type: "integer", nullable: false)
+                    CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    TimePeriodType = table.Column<int>(type: "integer", nullable: false),
+                    TenantId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -162,7 +389,8 @@ namespace DH.Adapter.Data.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     UserId = table.Column<string>(type: "text", nullable: false),
                     DeviceToken = table.Column<string>(type: "text", nullable: false),
-                    LastUpdated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    LastUpdated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    TenantId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -177,11 +405,11 @@ namespace DH.Adapter.Data.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     UserId = table.Column<string>(type: "text", nullable: false),
                     MessageId = table.Column<string>(type: "text", nullable: false),
-                    MessageBody = table.Column<string>(type: "text", nullable: false),
-                    MessageTitle = table.Column<string>(type: "text", nullable: false),
+                    PayloadJson = table.Column<string>(type: "text", nullable: false),
                     MessageType = table.Column<string>(type: "text", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    HasBeenViewed = table.Column<bool>(type: "boolean", nullable: false)
+                    HasBeenViewed = table.Column<bool>(type: "boolean", nullable: false),
+                    TenantId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -195,7 +423,8 @@ namespace DH.Adapter.Data.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     UserId = table.Column<string>(type: "text", nullable: false),
-                    TotalChallengesCompleted = table.Column<int>(type: "integer", nullable: false)
+                    TotalChallengesCompleted = table.Column<int>(type: "integer", nullable: false),
+                    TenantId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -203,21 +432,20 @@ namespace DH.Adapter.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ChallengeRewardImages",
+                name: "CustomPeriodRewards",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    FileName = table.Column<string>(type: "text", nullable: false),
-                    ContentType = table.Column<string>(type: "text", nullable: false),
-                    Data = table.Column<byte[]>(type: "bytea", nullable: false),
-                    RewardId = table.Column<int>(type: "integer", nullable: false)
+                    RequiredPoints = table.Column<int>(type: "integer", nullable: false),
+                    RewardId = table.Column<int>(type: "integer", nullable: false),
+                    TenantId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ChallengeRewardImages", x => x.Id);
+                    table.PrimaryKey("PK_CustomPeriodRewards", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ChallengeRewardImages_ChallengeRewards_RewardId",
+                        name: "FK_CustomPeriodRewards_ChallengeRewards_RewardId",
                         column: x => x.RewardId,
                         principalTable: "ChallengeRewards",
                         principalColumn: "Id",
@@ -236,7 +464,8 @@ namespace DH.Adapter.Data.Migrations
                     IsExpired = table.Column<bool>(type: "boolean", nullable: false),
                     AvailableFromDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     ClaimedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    ExpiresDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    ExpiresDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    TenantId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -257,14 +486,17 @@ namespace DH.Adapter.Data.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
                     IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false),
+                    Description_EN = table.Column<string>(type: "text", nullable: false),
+                    Description_BG = table.Column<string>(type: "text", nullable: false),
                     MinAge = table.Column<int>(type: "integer", nullable: false),
                     MinPlayers = table.Column<int>(type: "integer", nullable: false),
                     MaxPlayers = table.Column<int>(type: "integer", nullable: false),
                     AveragePlaytime = table.Column<int>(type: "integer", nullable: false),
                     CategoryId = table.Column<int>(type: "integer", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    UpdatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ImageUrl = table.Column<string>(type: "text", nullable: false),
+                    TenantId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -278,6 +510,82 @@ namespace DH.Adapter.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Tenants",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    TenantName = table.Column<string>(type: "text", nullable: false),
+                    Town = table.Column<string>(type: "text", nullable: false),
+                    TenantStatus = table.Column<int>(type: "integer", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    LogoFileName = table.Column<string>(type: "text", nullable: false),
+                    RegisterQrCode = table.Column<string>(type: "text", nullable: false),
+                    TenantSettingId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tenants", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Tenants_TenantSettings_TenantSettingId",
+                        column: x => x.TenantSettingId,
+                        principalTable: "TenantSettings",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CustomPeriodUniversalChallenges",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Attempts = table.Column<int>(type: "integer", nullable: false),
+                    RewardPoints = table.Column<int>(type: "integer", nullable: false),
+                    MinValue = table.Column<decimal>(type: "numeric", nullable: true),
+                    UniversalChallengeId = table.Column<int>(type: "integer", nullable: false),
+                    TenantId = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CustomPeriodUniversalChallenges", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CustomPeriodUniversalChallenges_UniversalChallenges_Univers~",
+                        column: x => x.UniversalChallengeId,
+                        principalTable: "UniversalChallenges",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CustomPeriodUserRewards",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    RequiredPoints = table.Column<int>(type: "integer", nullable: false),
+                    IsCompleted = table.Column<bool>(type: "boolean", nullable: false),
+                    RewardId = table.Column<int>(type: "integer", nullable: false),
+                    UserChallengePeriodPerformanceId = table.Column<int>(type: "integer", nullable: false),
+                    TenantId = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CustomPeriodUserRewards", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CustomPeriodUserRewards_ChallengeRewards_RewardId",
+                        column: x => x.RewardId,
+                        principalTable: "ChallengeRewards",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CustomPeriodUserRewards_UserChallengePeriodPerformances_Use~",
+                        column: x => x.UserChallengePeriodPerformanceId,
+                        principalTable: "UserChallengePeriodPerformances",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserChallengePeriodRewards",
                 columns: table => new
                 {
@@ -285,7 +593,8 @@ namespace DH.Adapter.Data.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     ChallengeRewardId = table.Column<int>(type: "integer", nullable: false),
                     UserChallengePeriodPerformanceId = table.Column<int>(type: "integer", nullable: false),
-                    IsCompleted = table.Column<bool>(type: "boolean", nullable: false)
+                    IsCompleted = table.Column<bool>(type: "boolean", nullable: false),
+                    TenantId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -310,15 +619,14 @@ namespace DH.Adapter.Data.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Description = table.Column<string>(type: "text", nullable: false),
                     RewardPoints = table.Column<int>(type: "integer", nullable: false),
                     Attempts = table.Column<int>(type: "integer", nullable: false),
-                    Type = table.Column<int>(type: "integer", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     CreatedBy = table.Column<string>(type: "text", nullable: false),
                     UpdatedBy = table.Column<string>(type: "text", nullable: false),
-                    GameId = table.Column<int>(type: "integer", nullable: false)
+                    GameId = table.Column<int>(type: "integer", nullable: false),
+                    TenantId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -332,23 +640,21 @@ namespace DH.Adapter.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Events",
+                name: "CustomPeriodChallenges",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    MaxPeople = table.Column<int>(type: "integer", nullable: false),
+                    Attempts = table.Column<int>(type: "integer", nullable: false),
+                    RewardPoints = table.Column<int>(type: "integer", nullable: false),
                     GameId = table.Column<int>(type: "integer", nullable: false),
-                    IsCustomImage = table.Column<bool>(type: "boolean", nullable: false)
+                    TenantId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Events", x => x.Id);
+                    table.PrimaryKey("PK_CustomPeriodChallenges", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Events_Games_GameId",
+                        name: "FK_CustomPeriodChallenges_Games_GameId",
                         column: x => x.GameId,
                         principalTable: "Games",
                         principalColumn: "Id",
@@ -356,21 +662,101 @@ namespace DH.Adapter.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "GameImages",
+                name: "CustomPeriodUserChallenges",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    FileName = table.Column<string>(type: "text", nullable: false),
-                    ContentType = table.Column<string>(type: "text", nullable: false),
-                    Data = table.Column<byte[]>(type: "bytea", nullable: false),
-                    GameId = table.Column<int>(type: "integer", nullable: false)
+                    ChallengeAttempts = table.Column<int>(type: "integer", nullable: false),
+                    UserAttempts = table.Column<int>(type: "integer", nullable: false),
+                    RewardPoints = table.Column<int>(type: "integer", nullable: false),
+                    IsRewardCollected = table.Column<bool>(type: "boolean", nullable: false),
+                    IsCompleted = table.Column<bool>(type: "boolean", nullable: false),
+                    CompletedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    GameId = table.Column<int>(type: "integer", nullable: false),
+                    UserChallengePeriodPerformanceId = table.Column<int>(type: "integer", nullable: false),
+                    TenantId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_GameImages", x => x.Id);
+                    table.PrimaryKey("PK_CustomPeriodUserChallenges", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_GameImages_Games_GameId",
+                        name: "FK_CustomPeriodUserChallenges_Games_GameId",
+                        column: x => x.GameId,
+                        principalTable: "Games",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CustomPeriodUserChallenges_UserChallengePeriodPerformances_~",
+                        column: x => x.UserChallengePeriodPerformanceId,
+                        principalTable: "UserChallengePeriodPerformances",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CustomPeriodUserUniversalChallenges",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ChallengeAttempts = table.Column<int>(type: "integer", nullable: false),
+                    UserAttempts = table.Column<int>(type: "integer", nullable: false),
+                    RewardPoints = table.Column<int>(type: "integer", nullable: false),
+                    IsRewardCollected = table.Column<bool>(type: "boolean", nullable: false),
+                    IsCompleted = table.Column<bool>(type: "boolean", nullable: false),
+                    CompletedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    UniversalChallengeId = table.Column<int>(type: "integer", nullable: false),
+                    MinValue = table.Column<decimal>(type: "numeric", nullable: true),
+                    GameId = table.Column<int>(type: "integer", nullable: true),
+                    UserChallengePeriodPerformanceId = table.Column<int>(type: "integer", nullable: false),
+                    TenantId = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CustomPeriodUserUniversalChallenges", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CustomPeriodUserUniversalChallenges_Games_GameId",
+                        column: x => x.GameId,
+                        principalTable: "Games",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CustomPeriodUserUniversalChallenges_UniversalChallenges_Uni~",
+                        column: x => x.UniversalChallengeId,
+                        principalTable: "UniversalChallenges",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CustomPeriodUserUniversalChallenges_UserChallengePeriodPerf~",
+                        column: x => x.UserChallengePeriodPerformanceId,
+                        principalTable: "UserChallengePeriodPerformances",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Events",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Description_EN = table.Column<string>(type: "text", nullable: false),
+                    Description_BG = table.Column<string>(type: "text", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    MaxPeople = table.Column<int>(type: "integer", nullable: false),
+                    GameId = table.Column<int>(type: "integer", nullable: false),
+                    IsCustomImage = table.Column<bool>(type: "boolean", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
+                    IsJoinChallengeProcessed = table.Column<bool>(type: "boolean", nullable: false),
+                    ImageUrl = table.Column<string>(type: "text", nullable: false),
+                    TenantId = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Events", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Events_Games_GameId",
                         column: x => x.GameId,
                         principalTable: "Games",
                         principalColumn: "Id",
@@ -385,7 +771,8 @@ namespace DH.Adapter.Data.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     TotalCopies = table.Column<int>(type: "integer", nullable: false),
                     AvailableCopies = table.Column<int>(type: "integer", nullable: false),
-                    GameId = table.Column<int>(type: "integer", nullable: false)
+                    GameId = table.Column<int>(type: "integer", nullable: false),
+                    TenantId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -405,33 +792,14 @@ namespace DH.Adapter.Data.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     UserId = table.Column<string>(type: "text", nullable: false),
-                    GameId = table.Column<int>(type: "integer", nullable: false)
+                    GameId = table.Column<int>(type: "integer", nullable: false),
+                    TenantId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_GameLikes", x => x.Id);
                     table.ForeignKey(
                         name: "FK_GameLikes_Games_GameId",
-                        column: x => x.GameId,
-                        principalTable: "Games",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "GameQrCodes",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    FileName = table.Column<string>(type: "text", nullable: false),
-                    GameId = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_GameQrCodes", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_GameQrCodes_Games_GameId",
                         column: x => x.GameId,
                         principalTable: "Games",
                         principalColumn: "Id",
@@ -455,7 +823,8 @@ namespace DH.Adapter.Data.Migrations
                     IsReservationSuccessful = table.Column<bool>(type: "boolean", nullable: false),
                     GameId = table.Column<int>(type: "integer", nullable: false),
                     InternalNote = table.Column<string>(type: "text", nullable: false),
-                    PublicNote = table.Column<string>(type: "text", nullable: false)
+                    PublicNote = table.Column<string>(type: "text", nullable: false),
+                    TenantId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -478,7 +847,8 @@ namespace DH.Adapter.Data.Migrations
                     GameId = table.Column<int>(type: "integer", nullable: false),
                     Review = table.Column<string>(type: "text", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    UpdatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    TenantId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -502,7 +872,8 @@ namespace DH.Adapter.Data.Migrations
                     StartDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     MaxParticipants = table.Column<int>(type: "integer", nullable: false),
                     GameId = table.Column<int>(type: "integer", nullable: false),
-                    UserId = table.Column<string>(type: "text", nullable: false)
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    TenantId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -529,7 +900,8 @@ namespace DH.Adapter.Data.Migrations
                     CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     IsTableActive = table.Column<bool>(type: "boolean", nullable: false),
                     IsSoloModeActive = table.Column<bool>(type: "boolean", nullable: false),
-                    GameId = table.Column<int>(type: "integer", nullable: false)
+                    GameId = table.Column<int>(type: "integer", nullable: false),
+                    TenantId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -549,7 +921,8 @@ namespace DH.Adapter.Data.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     TotalCompletions = table.Column<int>(type: "integer", nullable: false),
-                    ChallengeId = table.Column<int>(type: "integer", nullable: false)
+                    ChallengeId = table.Column<int>(type: "integer", nullable: false),
+                    TenantId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -576,7 +949,10 @@ namespace DH.Adapter.Data.Migrations
                     AttemptCount = table.Column<int>(type: "integer", nullable: false),
                     CompletedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    ChallengeId = table.Column<int>(type: "integer", nullable: false)
+                    ChallengeId = table.Column<int>(type: "integer", nullable: true),
+                    UniversalChallengeId = table.Column<int>(type: "integer", nullable: true),
+                    GameId = table.Column<int>(type: "integer", nullable: true),
+                    TenantId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -585,26 +961,35 @@ namespace DH.Adapter.Data.Migrations
                         name: "FK_UserChallenges_Challenges_ChallengeId",
                         column: x => x.ChallengeId,
                         principalTable: "Challenges",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_UserChallenges_Games_GameId",
+                        column: x => x.GameId,
+                        principalTable: "Games",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_UserChallenges_UniversalChallenges_UniversalChallengeId",
+                        column: x => x.UniversalChallengeId,
+                        principalTable: "UniversalChallenges",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "EventImages",
+                name: "EventNotification",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    FileName = table.Column<string>(type: "text", nullable: false),
-                    ContentType = table.Column<string>(type: "text", nullable: false),
-                    Data = table.Column<byte[]>(type: "bytea", nullable: false),
-                    EventId = table.Column<int>(type: "integer", nullable: false)
+                    SentOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    RecipientCount = table.Column<int>(type: "integer", nullable: false),
+                    EventId = table.Column<int>(type: "integer", nullable: false),
+                    TenantId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EventImages", x => x.Id);
+                    table.PrimaryKey("PK_EventNotification", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_EventImages_Events_EventId",
+                        name: "FK_EventNotification_Events_EventId",
                         column: x => x.EventId,
                         principalTable: "Events",
                         principalColumn: "Id",
@@ -618,7 +1003,8 @@ namespace DH.Adapter.Data.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     UserId = table.Column<string>(type: "text", nullable: false),
-                    EventId = table.Column<int>(type: "integer", nullable: false)
+                    EventId = table.Column<int>(type: "integer", nullable: false),
+                    TenantId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -638,9 +1024,10 @@ namespace DH.Adapter.Data.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     CreatedBy = table.Column<string>(type: "text", nullable: false),
-                    MessageContent = table.Column<string>(type: "text", nullable: false),
+                    MessageContentKey = table.Column<string>(type: "text", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    RoomId = table.Column<int>(type: "integer", nullable: false)
+                    RoomId = table.Column<int>(type: "integer", nullable: false),
+                    TenantId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -662,7 +1049,8 @@ namespace DH.Adapter.Data.Migrations
                     Sender = table.Column<string>(type: "text", nullable: false),
                     MessageContent = table.Column<string>(type: "text", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    RoomId = table.Column<int>(type: "integer", nullable: false)
+                    RoomId = table.Column<int>(type: "integer", nullable: false),
+                    TenantId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -684,7 +1072,8 @@ namespace DH.Adapter.Data.Migrations
                     UserId = table.Column<string>(type: "text", nullable: false),
                     JoinedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    RoomId = table.Column<int>(type: "integer", nullable: false)
+                    RoomId = table.Column<int>(type: "integer", nullable: false),
+                    TenantId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -706,7 +1095,8 @@ namespace DH.Adapter.Data.Migrations
                     UserId = table.Column<string>(type: "text", nullable: false),
                     SpaceTableId = table.Column<int>(type: "integer", nullable: false),
                     JoinedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    IsVirtualParticipant = table.Column<bool>(type: "boolean", nullable: false)
+                    IsVirtualParticipant = table.Column<bool>(type: "boolean", nullable: false),
+                    TenantId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -720,12 +1110,6 @@ namespace DH.Adapter.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ChallengeRewardImages_RewardId",
-                table: "ChallengeRewardImages",
-                column: "RewardId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Challenges_GameId",
                 table: "Challenges",
                 column: "GameId");
@@ -737,10 +1121,59 @@ namespace DH.Adapter.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_EventImages_EventId",
-                table: "EventImages",
-                column: "EventId",
-                unique: true);
+                name: "IX_CustomPeriodChallenges_GameId",
+                table: "CustomPeriodChallenges",
+                column: "GameId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CustomPeriodRewards_RewardId",
+                table: "CustomPeriodRewards",
+                column: "RewardId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CustomPeriodUniversalChallenges_UniversalChallengeId",
+                table: "CustomPeriodUniversalChallenges",
+                column: "UniversalChallengeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CustomPeriodUserChallenges_GameId",
+                table: "CustomPeriodUserChallenges",
+                column: "GameId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CustomPeriodUserChallenges_UserChallengePeriodPerformanceId",
+                table: "CustomPeriodUserChallenges",
+                column: "UserChallengePeriodPerformanceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CustomPeriodUserRewards_RewardId",
+                table: "CustomPeriodUserRewards",
+                column: "RewardId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CustomPeriodUserRewards_UserChallengePeriodPerformanceId",
+                table: "CustomPeriodUserRewards",
+                column: "UserChallengePeriodPerformanceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CustomPeriodUserUniversalChallenges_GameId",
+                table: "CustomPeriodUserUniversalChallenges",
+                column: "GameId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CustomPeriodUserUniversalChallenges_UniversalChallengeId",
+                table: "CustomPeriodUserUniversalChallenges",
+                column: "UniversalChallengeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CustomPeriodUserUniversalChallenges_UserChallengePeriodPerf~",
+                table: "CustomPeriodUserUniversalChallenges",
+                column: "UserChallengePeriodPerformanceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EventNotification_EventId",
+                table: "EventNotification",
+                column: "EventId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_EventParticipants_EventId",
@@ -753,12 +1186,6 @@ namespace DH.Adapter.Data.Migrations
                 column: "GameId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_GameImages_GameId",
-                table: "GameImages",
-                column: "GameId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_GameInventories_GameId",
                 table: "GameInventories",
                 column: "GameId",
@@ -767,11 +1194,6 @@ namespace DH.Adapter.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_GameLikes_GameId",
                 table: "GameLikes",
-                column: "GameId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_GameQrCodes_GameId",
-                table: "GameQrCodes",
                 column: "GameId");
 
             migrationBuilder.CreateIndex(
@@ -820,6 +1242,17 @@ namespace DH.Adapter.Data.Migrations
                 column: "GameId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Tenants_TenantSettingId",
+                table: "Tenants",
+                column: "TenantSettingId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Unique_User_Per_Active_Period",
+                table: "UserChallengePeriodPerformances",
+                columns: new[] { "UserId", "Id" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserChallengePeriodRewards_ChallengeRewardId",
                 table: "UserChallengePeriodRewards",
                 column: "ChallengeRewardId");
@@ -838,19 +1271,59 @@ namespace DH.Adapter.Data.Migrations
                 name: "IX_UserChallenges_ChallengeId",
                 table: "UserChallenges",
                 column: "ChallengeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserChallenges_GameId",
+                table: "UserChallenges",
+                column: "GameId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserChallenges_UniversalChallengeId",
+                table: "UserChallenges",
+                column: "UniversalChallengeId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ChallengeRewardImages");
+                name: "ChallengeHistoryLogs");
 
             migrationBuilder.DropTable(
                 name: "ChallengeStatistics");
 
             migrationBuilder.DropTable(
-                name: "EventImages");
+                name: "ClubVisitorLogs");
+
+            migrationBuilder.DropTable(
+                name: "CustomPeriodChallenges");
+
+            migrationBuilder.DropTable(
+                name: "CustomPeriodRewards");
+
+            migrationBuilder.DropTable(
+                name: "CustomPeriodUniversalChallenges");
+
+            migrationBuilder.DropTable(
+                name: "CustomPeriodUserChallenges");
+
+            migrationBuilder.DropTable(
+                name: "CustomPeriodUserRewards");
+
+            migrationBuilder.DropTable(
+                name: "CustomPeriodUserUniversalChallenges");
+
+            migrationBuilder.DropTable(
+                name: "EmailHistory");
+
+            migrationBuilder.DropTable(
+                name: "EmailTemplates");
+
+            migrationBuilder.DropTable(
+                name: "EventAttendanceLogs");
+
+            migrationBuilder.DropTable(
+                name: "EventNotification");
 
             migrationBuilder.DropTable(
                 name: "EventParticipants");
@@ -859,7 +1332,7 @@ namespace DH.Adapter.Data.Migrations
                 name: "FailedJobs");
 
             migrationBuilder.DropTable(
-                name: "GameImages");
+                name: "GameEngagementLogs");
 
             migrationBuilder.DropTable(
                 name: "GameInventories");
@@ -868,16 +1341,25 @@ namespace DH.Adapter.Data.Migrations
                 name: "GameLikes");
 
             migrationBuilder.DropTable(
-                name: "GameQrCodes");
-
-            migrationBuilder.DropTable(
                 name: "GameReservations");
 
             migrationBuilder.DropTable(
                 name: "GameReviews");
 
             migrationBuilder.DropTable(
+                name: "PartnerInquiries");
+
+            migrationBuilder.DropTable(
                 name: "QrCodeScanAudits");
+
+            migrationBuilder.DropTable(
+                name: "QueuedJobs");
+
+            migrationBuilder.DropTable(
+                name: "ReservationOutcomeLogs");
+
+            migrationBuilder.DropTable(
+                name: "RewardHistoryLogs");
 
             migrationBuilder.DropTable(
                 name: "RoomInfoMessages");
@@ -895,7 +1377,7 @@ namespace DH.Adapter.Data.Migrations
                 name: "SpaceTableReservations");
 
             migrationBuilder.DropTable(
-                name: "TenantSettings");
+                name: "Tenants");
 
             migrationBuilder.DropTable(
                 name: "TenantUserSettings");
@@ -928,6 +1410,9 @@ namespace DH.Adapter.Data.Migrations
                 name: "SpaceTables");
 
             migrationBuilder.DropTable(
+                name: "TenantSettings");
+
+            migrationBuilder.DropTable(
                 name: "UserChallengePeriodPerformances");
 
             migrationBuilder.DropTable(
@@ -935,6 +1420,9 @@ namespace DH.Adapter.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Challenges");
+
+            migrationBuilder.DropTable(
+                name: "UniversalChallenges");
 
             migrationBuilder.DropTable(
                 name: "Games");
