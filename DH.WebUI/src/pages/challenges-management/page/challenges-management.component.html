@@ -253,7 +253,12 @@
             {{ "challenge_management.play" | translate }}
             <strong>{{ challenge.gameName }}</strong>
             {{ challenge.challengeAttempts }}
-            {{ "challenge_management.times" | translate }}
+            {{
+              (challenge.challengeAttempts === 1
+                ? "challenge_management.time"
+                : "challenge_management.times"
+              ) | translate
+            }}
           </span>
           <div class="bar-2">
             <span class="bar-2-span"
