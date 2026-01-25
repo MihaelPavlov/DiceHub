@@ -72,13 +72,21 @@
       [ngClass]="{
         'in-progress': challenge.status === ChallengeStatus.InProgress,
         completed: challenge.status === ChallengeStatus.Completed,
-        shake: shakeStates[i] && challenge.status === ChallengeStatus.InProgress
+        shake:
+          shakeStates[i] && challenge.status === ChallengeStatus.InProgress,
       }"
     >
       <!-- Game Image & Info (only if tied to a game) -->
       <div
         class="challenge_container"
-        (click)="toggleMenu(controls, challenge.description_EN)"
+        (click)="
+          toggleMenu(
+            controls,
+            getCurrentLanguage() === SupportLanguages.EN
+              ? challenge.description_EN
+              : challenge.description_BG
+          )
+        "
       >
         <ng-container *ngIf="challenge.gameImageUrl">
           <div
@@ -163,7 +171,11 @@
         </ng-container> -->
         <div class="info">
           <span class="header">
-            {{ challenge.name_EN }}
+            {{
+              getCurrentLanguage() === SupportLanguages.EN
+                ? challenge.name_EN
+                : challenge.name_BG
+            }}
           </span>
           <div class="bar-2">
             <span class="bar-2-span"
@@ -208,8 +220,8 @@
               challenge.status === ChallengeStatus.InProgress
                 ? '/shared/assets/images/challenge-inprogress.png'
                 : challenge.status === ChallengeStatus.Completed
-                ? '/shared/assets/images/challenge-complete.png'
-                : '/shared/assets/images/locked.png'
+                  ? '/shared/assets/images/challenge-complete.png'
+                  : '/shared/assets/images/locked.png'
             "
             alt="status"
           />
@@ -268,8 +280,8 @@
             !challenge.isCompleted
               ? '/shared/assets/images/challenge-inprogress.png'
               : challenge.isCompleted
-              ? '/shared/assets/images/challenge-complete.png'
-              : '/shared/assets/images/locked.png'
+                ? '/shared/assets/images/challenge-complete.png'
+                : '/shared/assets/images/locked.png'
           "
           alt=""
         />
@@ -286,7 +298,7 @@
       [ngClass]="{
         'in-progress': challenge.status === ChallengeStatus.InProgress,
         completed: challenge.status === ChallengeStatus.Completed,
-        locked: challenge.status === ChallengeStatus.Locked
+        locked: challenge.status === ChallengeStatus.Locked,
       }"
     >
       <div class="image_info_container">
@@ -326,8 +338,8 @@
             challenge.status === ChallengeStatus.InProgress
               ? '/shared/assets/images/challenge-inprogress.png'
               : challenge.status === ChallengeStatus.Completed
-              ? '/shared/assets/images/challenge-complete.png'
-              : '/shared/assets/images/locked.png'
+                ? '/shared/assets/images/challenge-complete.png'
+                : '/shared/assets/images/locked.png'
           "
           alt=""
         />
@@ -342,11 +354,11 @@
       <p class="score">
         {{
           "challenge_management.score"
-            | translate : { points: this.periodPerformance.points }
+            | translate: { points: this.periodPerformance.points }
         }}
       </p>
       <p class="dates">
-        <span>{{ this.periodPerformance.startDate | date : DATE_FORMAT }}</span>
+        <span>{{ this.periodPerformance.startDate | date: DATE_FORMAT }}</span>
         <!-- arrow_range icon -->
         <svg class="icon" viewBox="0 -960 960 960">
           <path
@@ -354,7 +366,7 @@
           />
         </svg>
         <span>{{
-          this.periodPerformance.endDate | date : DATE_FORMAT : "UTC"
+          this.periodPerformance.endDate | date: DATE_FORMAT : "UTC"
         }}</span>
       </p>
     </div>
@@ -381,7 +393,7 @@
               class="item clickable"
               (click)="openImagePreview(reward.rewardImageUrl)"
               [ngClass]="{
-                'completed-img': reward.isCompleted
+                'completed-img': reward.isCompleted,
               }"
             >
               <img [src]="reward.rewardImageUrl" alt="Reward" />
@@ -430,7 +442,7 @@
               class="circle_container"
               *ngFor="let reward of userRewardList; let i = index"
               [ngStyle]="{
-                left: getLeftOffset(reward.rewardRequiredPoints, i) + '%'
+                left: getLeftOffset(reward.rewardRequiredPoints, i) + '%',
               }"
             >
               <div class="circle" [ngClass]="{ activated: reward.isCompleted }">
