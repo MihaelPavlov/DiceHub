@@ -80,63 +80,49 @@ export class QrCodeScannerComponent
       video.srcObject = null;
     }
   }
-
-  private async startCamera(): Promise<void> {
-    const video: HTMLVideoElement = this.videoElement.nativeElement;
-
+  public async startCamera(): Promise<void> {
     try {
       // Stop previous stream if exists
-      if (this.mediaStream) {
-        this.mediaStream.getTracks().forEach((track) => track.stop());
-        this.mediaStream = null;
-      }
+      this.mediaStream?.getTracks().forEach((track) => track.stop());
 
-      if (video.srcObject) {
-        video.pause();
-        video.srcObject = null;
-      }
-
-      // Small delay to let iOS fully release camera
-      await new Promise((r) => setTimeout(r, 150));
-
-      // Try preferred camera (rear)
-      let constraints: MediaStreamConstraints = {
+      const constraints = {
         video: { facingMode: { ideal: 'environment' } },
-        audio: false,
       };
 
-      let stream: MediaStream;
-      try {
-        stream = await navigator.mediaDevices.getUserMedia(constraints);
-      } catch (err) {
-        console.warn('Preferred camera failed, trying any camera...', err);
-        // Fallback to any camera
-        stream = await navigator.mediaDevices.getUserMedia({
-          video: true,
-          audio: false,
-        });
-      }
-
+      const stream = await navigator.mediaDevices.getUserMedia(constraints);
       this.mediaStream = stream;
 
-      // Setup video element
-      video.srcObject = stream;
-      video.muted = true;
-      video.setAttribute('playsinline', 'true'); // HTML attribute
-      video.playsInline = true; // JS property for iOS
+      const video: HTMLVideoElement = this.videoElement.nativeElement;
 
-      // Wait until metadata loaded, then play
-      video.onloadedmetadata = async () => {
-        try {
-          await video.play();
-          requestAnimationFrame(this.tick.bind(this));
-        } catch (playErr) {
-          console.warn('Video play failed:', playErr);
-        }
+      video.setAttribute('playsinline', 'true'); // essential for iOS
+      video.muted = true; // autoplay requires muted
+      video.srcObject = stream;
+
+      // Fallback timeout in case iOS blocks autoplay
+      const fallbackTimeout = setTimeout(() => {
+        console.warn('Video never reached canplay, retrying...');
+        // fallback: restart the camera
+        this.stopCamera().then(() => this.startCamera());
+      }, 3000); // 3s timeout, adjust if needed
+
+      video.oncanplay = () => {
+        clearTimeout(fallbackTimeout);
+        video.play().catch((err) => console.warn('Autoplay failed:', err));
+        requestAnimationFrame(this.tick.bind(this));
       };
-    } catch (finalErr) {
-      console.error('Camera completely failed:', finalErr);
-      alert('Camera could not start on this device.');
+
+      // Some iOS versions may not trigger canplay, so also try loadedmetadata
+      video.onloadedmetadata = () => {
+        video
+          .play()
+          .catch((err) =>
+            console.warn('Autoplay failed on loadedmetadata:', err),
+          );
+        requestAnimationFrame(this.tick.bind(this));
+      };
+    } catch (err) {
+      console.error('Camera error:', err);
+      alert('Camera failed on iPhone');
     }
   }
 

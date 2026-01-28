@@ -29,3 +29,5 @@
 <div class="qr_video_container" [class.hidden]="!isValidQrScanned">
   <video #video width="700" height="700" autoplay muted playsinline></video>
 </div>
+
+<button *ngIf="!isValidQrScanned" (click)="startCamera()">Start Camera</button>
