@@ -10,7 +10,10 @@
     height: 10%;
   }
 }
-
+.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
 .qr_code_error {
   display: flex;
   justify-content: center;
