@@ -26,8 +26,6 @@
   class="after_scan_success_message">{{'qr_scanner.qr_code_is_valid'|translate}} <br />
   {{ this.afterScanSuccessfulMessage }}</span>
 
-<div class="qr_video_container" [class.hidden]="!isValidQrScanned">
+<div class="qr_video_container" *ngIf="!this.isValidQrScanned">
   <video #video width="700" height="700" autoplay muted playsinline></video>
 </div>
-
-<button *ngIf="!isValidQrScanned" (click)="startCamera()">Start Camera</button>
