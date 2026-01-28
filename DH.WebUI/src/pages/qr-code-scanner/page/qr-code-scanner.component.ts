@@ -62,62 +62,83 @@ export class QrCodeScannerComponent
     await this.startCamera();
   }
 
-  public ngOnDestroy(): void {
-    this.stopCamera();
+  public async ngOnDestroy(): Promise<void> {
+    await this.stopCamera();
   }
 
-  private stopCamera(): void {
+  private async stopCamera(): Promise<void> {
     if (this.mediaStream) {
       this.mediaStream.getTracks().forEach((track) => track.stop());
       this.mediaStream = null;
     }
 
     if (this.videoElement?.nativeElement) {
-      this.videoElement.nativeElement.pause();
-      this.videoElement.nativeElement.srcObject = null;
+      const video = this.videoElement.nativeElement;
+      try {
+        await video.pause();
+      } catch {}
+      video.srcObject = null;
     }
   }
 
- private async startCamera(): Promise<void> {
-  try {
-    // Stop previous stream if exists
-    this.mediaStream?.getTracks().forEach(track => track.stop());
+  private async startCamera(): Promise<void> {
+    const video: HTMLVideoElement = this.videoElement.nativeElement;
 
-    const constraints = {
-      video: {
-        facingMode: { ideal: 'environment' }
-      }
-    };
-
-    const stream = await navigator.mediaDevices.getUserMedia(constraints);
-
-    this.mediaStream = stream;
-
-    const video = this.videoElement.nativeElement;
-
-    video.setAttribute('playsinline', 'true');
-    video.muted = true;
-    video.srcObject = stream;
-
-    video.onloadedmetadata = () => {
-      video.play().catch(console.warn);
-      requestAnimationFrame(this.tick.bind(this));
-    };
-
-  } catch (err) {
-    console.error('Camera error:', err);
-
-    // fallback attempt
     try {
-      const fallback = await navigator.mediaDevices.getUserMedia({ video: true });
-      this.videoElement.nativeElement.srcObject = fallback;
-      this.videoElement.nativeElement.play();
-    } catch (fallbackErr) {
-      alert('Camera failed on iPhone');
-      console.error(fallbackErr);
+      // Stop previous stream if exists
+      if (this.mediaStream) {
+        this.mediaStream.getTracks().forEach((track) => track.stop());
+        this.mediaStream = null;
+      }
+
+      if (video.srcObject) {
+        video.pause();
+        video.srcObject = null;
+      }
+
+      // Small delay to let iOS fully release camera
+      await new Promise((r) => setTimeout(r, 150));
+
+      // Try preferred camera (rear)
+      let constraints: MediaStreamConstraints = {
+        video: { facingMode: { ideal: 'environment' } },
+        audio: false,
+      };
+
+      let stream: MediaStream;
+      try {
+        stream = await navigator.mediaDevices.getUserMedia(constraints);
+      } catch (err) {
+        console.warn('Preferred camera failed, trying any camera...', err);
+        // Fallback to any camera
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: true,
+          audio: false,
+        });
+      }
+
+      this.mediaStream = stream;
+
+      // Setup video element
+      video.srcObject = stream;
+      video.muted = true;
+      video.setAttribute('playsinline', 'true'); // HTML attribute
+      video.playsInline = true; // JS property for iOS
+
+      // Wait until metadata loaded, then play
+      video.onloadedmetadata = async () => {
+        try {
+          await video.play();
+          requestAnimationFrame(this.tick.bind(this));
+        } catch (playErr) {
+          console.warn('Video play failed:', playErr);
+        }
+      };
+    } catch (finalErr) {
+      console.error('Camera completely failed:', finalErr);
+      alert('Camera could not start on this device.');
     }
   }
-}
 
   private tick(): void {
     if (!this.videoElement) {
