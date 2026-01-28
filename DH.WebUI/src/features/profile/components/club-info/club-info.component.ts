@@ -6,10 +6,10 @@ import { GetClubInfoModel } from '../../../../entities/profile/models/get-club-i
 import { TenantSettingsService } from '../../../../entities/common/api/tenant-settings.service';
 
 @Component({
-    selector: 'app-club-info',
-    templateUrl: 'club-info.component.html',
-    styleUrl: 'club-info.component.scss',
-    standalone: false
+  selector: 'app-club-info',
+  templateUrl: 'club-info.component.html',
+  styleUrl: 'club-info.component.scss',
+  standalone: false,
 })
 export class ClubInfo implements OnInit {
   public clubInfo: GetClubInfoModel | null = null;
@@ -17,26 +17,28 @@ export class ClubInfo implements OnInit {
   constructor(
     private readonly router: Router,
     private readonly tenantSettingsService: TenantSettingsService,
-    private readonly ts: TranslateService
+    private readonly ts: TranslateService,
   ) {}
 
   public ngOnInit(): void {
     this.tenantSettingsService.getClubInfo().subscribe({
       next: (clubInfo) => {
         console.log(clubInfo);
-        
+
         this.clubInfo = clubInfo;
       },
-      error:(err)=>{
+      error: (err) => {
         console.log(err);
-        
-      }
+      },
     });
   }
 
   public localizeDaysOff(daysOff: string[]): string {
-    daysOff.map((x) => this.ts.instant(`week_days_names.${x}`));
-    return daysOff.join(', ');
+    const translatedDays = daysOff.map((x) =>
+      this.ts.instant(`week_days_names.${x}`),
+    );
+
+    return translatedDays.join(', ');
   }
 
   public backNavigateBtn() {
