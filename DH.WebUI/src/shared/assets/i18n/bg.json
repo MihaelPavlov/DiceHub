@@ -298,10 +298,10 @@
       "room_person_joined_at": "Присъединил се на"
     },
     "add_update": {
-      "create_header": "Създай игрови лагер",
-      "update_header": "Обнови игрови лагер",
-      "btn_update": "Обнови лагера",
-      "btn_create": "Започни лагера",
+      "create_header": "Създай стая",
+      "update_header": "Обнови стая",
+      "btn_update": "Обнови",
+      "btn_create": "Създай",
       "info_message": "Стаята ще бъде достъпна до избраната дата.",
       "validation_message_cannot_be_today": "Не може да зададете началната дата за днес или в миналото.<br/>Моля, изберете бъдеща дата.",
       "controls_display_name": {
@@ -1531,5 +1531,9 @@
     "phone": "Телефонен номер",
     "days_off": "Почивни дни",
     "no_days_off": "Няма почивни дни"
+  },
+  "challenge_type_toggle": {
+    "game": "Игри",
+    "universal": "Общи"
   }
 }

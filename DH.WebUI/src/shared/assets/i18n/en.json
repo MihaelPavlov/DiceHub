@@ -1531,5 +1531,9 @@
     "phone": "Phone Number",
     "days_off": "Days Off",
     "no_days_off": "No days off"
+  },
+  "challenge_type_toggle": {
+    "game": "Game",
+    "universal": "Universal"
   }
 }

@@ -363,7 +363,10 @@
         }}
       </p>
       <p class="dates">
-        <span>{{ this.periodPerformance.startDate | date: DATE_FORMAT }}</span>
+        <span>{{
+          this.periodPerformance.startDate
+            | date: DATE_FORMAT : undefined : getCurrentLanguage()
+        }}</span>
         <!-- arrow_range icon -->
         <svg class="icon" viewBox="0 -960 960 960">
           <path
@@ -371,7 +374,8 @@
           />
         </svg>
         <span>{{
-          this.periodPerformance.endDate | date: DATE_FORMAT : "UTC"
+          this.periodPerformance.endDate
+            | date: DATE_FORMAT : "UTC" : getCurrentLanguage()
         }}</span>
       </p>
     </div>
