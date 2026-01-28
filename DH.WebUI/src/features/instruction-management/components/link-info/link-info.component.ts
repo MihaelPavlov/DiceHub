@@ -49,21 +49,34 @@ export class LinkInfoComponent implements AfterViewInit {
     return this.translateService.instant(key);
   }
 
-  public ngAfterViewInit(): void {
-    // Ensure snapping after manual scrolls
-    if (this.carouselViewport.nativeElement)
-      this.carouselViewport.nativeElement.addEventListener(
-        'scroll',
-        this.onScrollEnd.bind(this)
-      );
-
-    setTimeout(() => {
-      this.gifSrcMap[this.currentIndex] =
-        this.translate(this.linkInfo[this.currentIndex].mediaUrl ?? '') +
-        '?t=' +
-        Date.now();
-    });
+public ngAfterViewInit(): void {
+  if (this.carouselViewport.nativeElement) {
+    this.carouselViewport.nativeElement.addEventListener(
+      'scroll',
+      this.onScrollEnd.bind(this)
+    );
   }
+
+  setTimeout(() => {
+    this.preloadGif(this.currentIndex);
+    this.preloadGif(this.currentIndex + 1); // preload next slide
+  });
+}
+private preloadGif(index: number) {
+  if (!this.linkInfo[index]) return;
+
+  const url = this.translate(this.linkInfo[index].mediaUrl ?? '');
+
+  // Skip if already loaded
+  if (this.gifSrcMap[index] === url) return;
+
+  const img = new Image();
+  img.src = url;
+
+  img.onload = () => {
+    this.gifSrcMap[index] = url;
+  };
+}
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes['linkInfo'] && this.linkInfo?.length) {
@@ -74,8 +87,6 @@ export class LinkInfoComponent implements AfterViewInit {
   }
 
   public openImagePreview(imageUrl: string) {
-    console.log('image preview ->', imageUrl);
-
     this.dialog.open<ImagePreviewDialog, ImagePreviewData>(ImagePreviewDialog, {
       data: {
         imageUrl,

@@ -1190,7 +1190,7 @@
             "reservation_approved": {
               "header": "Резервацията е одобрена: Какво следва",
               "description": "След като резервацията ви бъде одобрена, ще видите QR код и панел с информация.\nМожете да достъпите този панел по всяко време от червения раздел Игри в горния десен ъгъл (той ще свети при обновяване).\nТози панел показва важни детайли и актуализации за вашата резервация.",
-              "media_url": "/shared/assets/images/Instructions/Reservations/Game/game_reservation_part_2.gif"
+              "media_url": "/shared/assets/images/instructions/Reservations/Game/game_reservation_part_2.gif"
             },
             "message_from_staff": {
               "header": "Съобщения от персонала",
