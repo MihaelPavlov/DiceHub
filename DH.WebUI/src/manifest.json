@@ -9,11 +9,11 @@
   "display": "standalone",
   "orientation": "portrait",
   "icons": [
-    { "src": "shared/assets/images/checkpoint-logos/ruse_checkpoint_logo48x48.png", "sizes": "48x48" },
-    { "src": "shared/assets/images/checkpoint-logos/ruse_checkpoint_logo72x72.png", "sizes": "72x72" },
-    { "src": "shared/assets/images/checkpoint-logos/ruse_checkpoint_logo96x96.png", "sizes": "96x96" },
-    { "src": "shared/assets/images/checkpoint-logos/ruse_checkpoint_logo144x144.png", "sizes": "144x144" },
-    { "src": "shared/assets/images/checkpoint-logos/ruse_checkpoint_logo192x192.png", "sizes": "192x192" },
-    { "src": "shared/assets/images/checkpoint-logos/ruse_checkpoint_logo512x512.png", "sizes": "512x512" }
+    { "src": "shared/assets/images/default-logos/dicehub_logo_1.png", "sizes": "48x48" },
+    { "src": "shared/assets/images/default-logos/dicehub_logo_1.png", "sizes": "72x72" },
+    { "src": "shared/assets/images/default-logos/dicehub_logo_1.png", "sizes": "96x96" },
+    { "src": "shared/assets/images/default-logos/dicehub_logo_1.png", "sizes": "144x144" },
+    { "src": "shared/assets/images/default-logos/dicehub_logo_1.png", "sizes": "192x192" },
+    { "src": "shared/assets/images/default-logos/dicehub_logo_1.png", "sizes": "512x512" }
   ]
 }
