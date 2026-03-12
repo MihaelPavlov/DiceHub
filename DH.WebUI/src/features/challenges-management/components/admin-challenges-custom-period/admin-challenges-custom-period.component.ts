@@ -109,7 +109,7 @@ export class AdminChallengesCustomPeriodComponent
     private readonly fb: FormBuilder,
     public override translateService: TranslateService,
     private readonly languageService: LanguageService,
-    private readonly datePipe: DatePipe
+    private readonly datePipe: DatePipe,
   ) {
     super(toastService, translateService);
 
@@ -126,17 +126,20 @@ export class AdminChallengesCustomPeriodComponent
   }
 
   public calculateWeeklyPeriod(nextReset: Date, endDay: WeekDay): WeeklyPeriod {
-    const start = nextReset;
+  const start = new Date(nextReset);
+  const nextEnd = new Date(start);
 
-    // Find the next occurrence of the specified endDay
-    const nextEnd = new Date(start);
-    const currentDay = nextEnd.getDay();
-    let daysUntilEnd = endDay - currentDay;
+  const currentDay = nextEnd.getDay();
+  let daysUntilEnd = endDay - currentDay;
 
-    nextEnd.setDate(nextEnd.getDate() + daysUntilEnd);
-
-    return { start, nextEnd };
+  if (daysUntilEnd <= 0) {
+    daysUntilEnd += 7;
   }
+
+  nextEnd.setDate(nextEnd.getDate() + daysUntilEnd);
+
+  return { start, nextEnd };
+}
 
   // The subtract - 1 from getDay and getDate is intentionally
   // because currently the period reset is happen in 12:00AM which is showing the next day but its the previous
@@ -149,12 +152,12 @@ export class AdminChallengesCustomPeriodComponent
             ? 6
             : date.getDay() - 1) as unknown as keyof typeof WeekDay
         ]
-      }`
+      }`,
     );
 
     return `${translateDay} - ${String(date.getMonth() + 1).padStart(
       2,
-      '0'
+      '0',
     )}.${String(date.getDate() - 1).padStart(2, '0')}`;
   }
 
@@ -164,12 +167,12 @@ export class AdminChallengesCustomPeriodComponent
     const translateDay = this.translateService.instant(
       `week_days_names.${
         WeekDay[date.getDay() as unknown as keyof typeof WeekDay]
-      }`
+      }`,
     );
 
     return `${translateDay} - ${String(date.getMonth() + 1).padStart(
       2,
-      '0'
+      '0',
     )}.${String(date.getDate()).padStart(2, '0')}`;
   }
 
@@ -194,7 +197,7 @@ export class AdminChallengesCustomPeriodComponent
               id: [reward.id],
               selectedReward: [reward.selectedReward],
               requiredPoints: [reward.requiredPoints],
-            })
+            }),
           );
         });
 
@@ -206,7 +209,7 @@ export class AdminChallengesCustomPeriodComponent
               selectedGame: [challenge.selectedGame],
               attempts: [challenge.attempts],
               points: [challenge.points],
-            })
+            }),
           );
         });
 
@@ -227,13 +230,13 @@ export class AdminChallengesCustomPeriodComponent
           // Subscribe to selection changes for this group
           this.subscribeToUniversalChallengeSelection(
             formGroup,
-            challenge.selectedUniversalChallenge
+            challenge.selectedUniversalChallenge,
           );
         });
 
         // Remove the existing universal challenges from the dropdown list
         const universalIds = customPeriod.universalChallenges.map(
-          (x) => x.selectedUniversalChallenge
+          (x) => x.selectedUniversalChallenge,
         );
 
         this.universalChallengesDropdownList =
@@ -248,7 +251,7 @@ export class AdminChallengesCustomPeriodComponent
       error: (error) => {
         this.toastService.error({
           message: this.translateService.instant(
-            'custom_period.failed_to_load_period'
+            'custom_period.failed_to_load_period',
           ),
           type: ToastType.Error,
         });
@@ -269,7 +272,7 @@ export class AdminChallengesCustomPeriodComponent
             if (this.hasDeletedDataChangedButUnsaved) {
               this.toastService.error({
                 message: this.translateService.instant(
-                  'custom_period.has_deleted_data_changed_but_unsaved'
+                  'custom_period.has_deleted_data_changed_but_unsaved',
                 ),
                 type: ToastType.Error,
               });
@@ -371,10 +374,10 @@ export class AdminChallengesCustomPeriodComponent
         message:
           action === PeriodDataAction.Save
             ? this.translateService.instant(
-                'custom_period.validity_period_on_save.challenges_rewards_deleted'
+                'custom_period.validity_period_on_save.challenges_rewards_deleted',
               )
             : this.translateService.instant(
-                'custom_period.validity_period_on_leave.challenges_rewards_deleted'
+                'custom_period.validity_period_on_leave.challenges_rewards_deleted',
               ),
         type: ToastType.Error,
       });
@@ -386,10 +389,10 @@ export class AdminChallengesCustomPeriodComponent
         message:
           action === PeriodDataAction.Save
             ? this.translateService.instant(
-                'custom_period.validity_period_on_save.rewards_deleted'
+                'custom_period.validity_period_on_save.rewards_deleted',
               )
             : this.translateService.instant(
-                'custom_period.validity_period_on_leave.rewards_deleted'
+                'custom_period.validity_period_on_leave.rewards_deleted',
               ),
         type: ToastType.Error,
       });
@@ -402,10 +405,10 @@ export class AdminChallengesCustomPeriodComponent
         message:
           action === PeriodDataAction.Save
             ? this.translateService.instant(
-                'custom_period.validity_period_on_save.games_deleted'
+                'custom_period.validity_period_on_save.games_deleted',
               )
             : this.translateService.instant(
-                'custom_period.validity_period_on_leave.games_deleted'
+                'custom_period.validity_period_on_leave.games_deleted',
               ),
         type: ToastType.Error,
       });
@@ -425,7 +428,7 @@ export class AdminChallengesCustomPeriodComponent
         next: () => {
           this.toastService.success({
             message: this.translateService.instant(
-              AppToastMessage.ChangesSaved
+              AppToastMessage.ChangesSaved,
             ),
             type: ToastType.Success,
           });
@@ -457,7 +460,7 @@ export class AdminChallengesCustomPeriodComponent
 
           this.toastService.error({
             message: this.translateService.instant(
-              AppToastMessage.FailedToSaveChanges
+              AppToastMessage.FailedToSaveChanges,
             ),
             type: ToastType.Error,
           });
@@ -474,7 +477,7 @@ export class AdminChallengesCustomPeriodComponent
       this.toastService.error({
         message: this.translateService.instant(
           'custom_period.max_rewards_reached',
-          { maxRewards: maxRewards }
+          { maxRewards: maxRewards },
         ),
         type: ToastType.Error,
       });
@@ -501,7 +504,7 @@ export class AdminChallengesCustomPeriodComponent
 
   private subscribeToUniversalChallengeSelection(
     control: FormGroup,
-    selectUniversalChallengeId: number | null = null
+    selectUniversalChallengeId: number | null = null,
   ): void {
     const selectedControl = control.get('selectedUniversalChallenge');
     if (!selectedControl) return;
@@ -510,7 +513,7 @@ export class AdminChallengesCustomPeriodComponent
     if (selectUniversalChallengeId) {
       control.addControl(
         'lastSelectedId',
-        new FormControl<number | null>(selectUniversalChallengeId)
+        new FormControl<number | null>(selectUniversalChallengeId),
       );
 
       // Also disable this item in the dropdown initially
@@ -519,7 +522,7 @@ export class AdminChallengesCustomPeriodComponent
     if (!control.contains('lastSelectedId')) {
       control.addControl(
         'lastSelectedId',
-        new FormControl<number | null>(null)
+        new FormControl<number | null>(null),
       );
     }
 
@@ -571,21 +574,21 @@ export class AdminChallengesCustomPeriodComponent
   private setDropdownDisabled(challengeId: number, disabled: boolean): void {
     this.universalChallengesDropdownList =
       this.universalChallengesDropdownList.map((item) =>
-        item.id === challengeId ? { ...item, disabled } : item
+        item.id === challengeId ? { ...item, disabled } : item,
       );
   }
 
   private onUniversalChallengeSelected(
     control: AbstractControl,
-    selectedId: number
+    selectedId: number,
   ): void {
     const selectedChallenge = this.universalChallengeList.find(
-      (c) => c.id === selectedId
+      (c) => c.id === selectedId,
     );
     if (!selectedChallenge) return;
 
     const dropdownItem = this.universalChallengesDropdownList.find(
-      (c) => c.id === selectedId
+      (c) => c.id === selectedId,
     );
     if (dropdownItem) dropdownItem.disabled = true;
 
@@ -609,7 +612,7 @@ export class AdminChallengesCustomPeriodComponent
   public shouldShowMinValue(challengeGroup: AbstractControl): boolean {
     const selectedId = challengeGroup.get('selectedUniversalChallenge')?.value;
     const selected = this.universalChallengeList.find(
-      (c) => c.id === selectedId
+      (c) => c.id === selectedId,
     );
     return selected?.type === UniversalChallengeType.BuyItems;
   }
@@ -629,7 +632,7 @@ export class AdminChallengesCustomPeriodComponent
 
     const removedControl = this.universalChallengeArray.at(index);
     const removedChallengeId = removedControl.get(
-      'selectedUniversalChallenge'
+      'selectedUniversalChallenge',
     )?.value;
 
     if (removedChallengeId) {
@@ -656,7 +659,7 @@ export class AdminChallengesCustomPeriodComponent
             WeekDay[
               this.tenantSettings
                 .resetDayForRewards as unknown as keyof typeof WeekDay
-            ]
+            ],
           );
           this.periodStartDate = result.start;
           this.periodNextResetDate = result.nextEnd;
@@ -680,7 +683,7 @@ export class AdminChallengesCustomPeriodComponent
             {
               id: selectedId,
               name: this.translateService.instant(
-                'custom_period.deleted_placeholder'
+                'custom_period.deleted_placeholder',
               ),
               isDeleted: true,
             },
@@ -703,10 +706,10 @@ export class AdminChallengesCustomPeriodComponent
             {
               id: selectedId,
               name_EN: this.translateService.instant(
-                'custom_period.deleted_placeholder'
+                'custom_period.deleted_placeholder',
               ),
               name_BG: this.translateService.instant(
-                'custom_period.deleted_placeholder'
+                'custom_period.deleted_placeholder',
               ),
               isDeleted: true,
             },
@@ -749,7 +752,7 @@ export class AdminChallengesCustomPeriodComponent
         challenges: this.fb.array([]),
         universalChallenges: this.fb.array([]),
       },
-      { validators: customPeriodValidator() }
+      { validators: customPeriodValidator() },
     );
   }
 
@@ -762,7 +765,7 @@ export class AdminChallengesCustomPeriodComponent
           selectedReward: Number(group.controls['selectedReward'].value ?? 0),
           requiredPoints: Number(group.controls['requiredPoints'].value ?? 0),
         };
-      }
+      },
     );
 
     const challenges: ICustomPeriodChallenge[] =
@@ -783,7 +786,7 @@ export class AdminChallengesCustomPeriodComponent
         return {
           id: group.controls['id'].value ?? null,
           selectedUniversalChallenge: Number(
-            group.controls['selectedUniversalChallenge'].value ?? 0
+            group.controls['selectedUniversalChallenge'].value ?? 0,
           ),
           attempts: Number(group.controls['attempts'].value ?? 0),
           points: Number(group.controls['points'].value ?? 0),
@@ -804,7 +807,7 @@ export class AdminChallengesCustomPeriodComponent
       error: () => {
         this.toastService.error({
           message: this.translateService.instant(
-            AppToastMessage.SomethingWrong
+            AppToastMessage.SomethingWrong,
           ),
           type: ToastType.Error,
         });
@@ -820,7 +823,7 @@ export class AdminChallengesCustomPeriodComponent
       error: () => {
         this.toastService.error({
           message: this.translateService.instant(
-            AppToastMessage.SomethingWrong
+            AppToastMessage.SomethingWrong,
           ),
           type: ToastType.Error,
         });
@@ -838,13 +841,13 @@ export class AdminChallengesCustomPeriodComponent
             name_EN: x.name_EN,
             name_BG: x.name_BG,
             disabled: false,
-          })
+          }),
         );
       },
       error: () => {
         this.toastService.error({
           message: this.translateService.instant(
-            AppToastMessage.SomethingWrong
+            AppToastMessage.SomethingWrong,
           ),
           type: ToastType.Error,
         });
