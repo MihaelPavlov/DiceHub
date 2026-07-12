@@ -49,7 +49,7 @@ export class QrCodeScannerComponent
     private readonly tenantRouter: TenantRouter,
     private readonly dialog: MatDialog,
     private readonly translateService: TranslateService,
-    private readonly qrEncryptService: QrEncryptService
+    private readonly qrEncryptService: QrEncryptService,
   ) {}
 
   public ngOnInit(): void {
@@ -57,47 +57,69 @@ export class QrCodeScannerComponent
     this.initAfterScanErrorMessage();
   }
 
-  public ngAfterViewInit(): void {
+  public async ngAfterViewInit(): Promise<void> {
     this.canvas = document.createElement('canvas');
     this.context = this.canvas.getContext('2d');
-    this.startCamera();
+    await this.startCamera();
   }
 
-  public ngOnDestroy(): void {
-    this.stopCamera();
+  public async ngOnDestroy(): Promise<void> {
+    await this.stopCamera();
   }
 
-  private stopCamera(): void {
-    if (this.mediaStream) {
-      this.mediaStream.getTracks().forEach((track) => track.stop());
-      this.mediaStream = null;
+  private async stopCamera(): Promise<void> {
+  if (this.mediaStream) {
+    this.mediaStream.getTracks().forEach(track => track.stop());
+    this.mediaStream = null;
+  }
+
+  if (this.videoElement?.nativeElement) {
+    const video = this.videoElement.nativeElement;
+    try { await video.pause(); } catch {}
+    video.srcObject = null;
+  }
+}
+
+ private async startCamera(): Promise<void> {
+  try {
+    // Stop previous stream if exists
+    this.mediaStream?.getTracks().forEach(track => track.stop());
+
+    const constraints = {
+      video: {
+        facingMode: { ideal: 'environment' }
+      }
+    };
+
+    const stream = await navigator.mediaDevices.getUserMedia(constraints);
+
+    this.mediaStream = stream;
+
+    const video = this.videoElement.nativeElement;
+
+    video.setAttribute('playsinline', 'true');
+    video.muted = true;
+    video.srcObject = stream;
+
+    video.onloadedmetadata = () => {
+      video.play().catch(console.warn);
+      requestAnimationFrame(this.tick.bind(this));
+    };
+
+  } catch (err) {
+    console.error('Camera error:', err);
+
+    // fallback attempt
+    try {
+      const fallback = await navigator.mediaDevices.getUserMedia({ video: true });
+      this.videoElement.nativeElement.srcObject = fallback;
+      this.videoElement.nativeElement.play();
+    } catch (fallbackErr) {
+      alert('Camera failed on iPhone');
+      console.error(fallbackErr);
     }
-
-    if (this.videoElement?.nativeElement) {
-      this.videoElement.nativeElement.pause();
-      this.videoElement.nativeElement.srcObject = null;
-    }
   }
-
-  private startCamera(): void {
-    navigator.mediaDevices
-      .getUserMedia({ video: { facingMode: 'environment' } })
-      .then((stream) => {
-        try {
-          this.mediaStream = stream;
-
-          this.videoElement.nativeElement.srcObject = stream;
-          this.videoElement.nativeElement.play();
-          requestAnimationFrame(this.tick.bind(this));
-        } catch (err) {
-          alert(err);
-        }
-      })
-      .catch((err) => {
-        alert(err);
-        console.log(err);
-      });
-  }
+}
 
   private tick(): void {
     if (!this.videoElement) {
@@ -111,13 +133,13 @@ export class QrCodeScannerComponent
         0,
         0,
         this.canvas.width,
-        this.canvas.height
+        this.canvas.height,
       );
       const imageData = this.context?.getImageData(
         0,
         0,
         this.canvas.width,
-        this.canvas.height
+        this.canvas.height,
       );
 
       if (imageData) {
@@ -155,7 +177,7 @@ export class QrCodeScannerComponent
                 data: {
                   type: this.currentQrCodeType,
                 },
-              }
+              },
             );
 
             dialogRefConfirmation
@@ -174,12 +196,12 @@ export class QrCodeScannerComponent
                               if (res.isValid) {
                                 this.tenantRouter.navigateTenant(
                                   FULL_ROUTE.SPACE_MANAGEMENT.CREATE(
-                                    res.objectId
-                                  )
+                                    res.objectId,
+                                  ),
                                 );
                               } else {
                                 this.setLocalStorageErrorMessage(
-                                  res.errorMessage
+                                  res.errorMessage,
                                 );
                                 window.location.reload();
                               }
@@ -194,10 +216,10 @@ export class QrCodeScannerComponent
                                       note:
                                         res.internalNote ??
                                         this.translateService.instant(
-                                          'qr_scanner.no_staff_note'
+                                          'qr_scanner.no_staff_note',
                                         ),
-                                    }
-                                  )
+                                    },
+                                  ),
                                 );
                                 window.location.reload();
                               } else {
@@ -205,7 +227,7 @@ export class QrCodeScannerComponent
                                   ScanResultAdminDialog,
                                   {
                                     data: res,
-                                  }
+                                  },
                                 );
 
                                 dialogRef.afterClosed().subscribe({
@@ -224,10 +246,10 @@ export class QrCodeScannerComponent
                                       note:
                                         res.internalNote ??
                                         this.translateService.instant(
-                                          'qr_scanner.no_staff_note'
+                                          'qr_scanner.no_staff_note',
                                         ),
-                                    }
-                                  )
+                                    },
+                                  ),
                                 );
                                 window.location.reload();
                               } else {
@@ -235,7 +257,7 @@ export class QrCodeScannerComponent
                                   ScanResultAdminDialog,
                                   {
                                     data: res,
-                                  }
+                                  },
                                 );
 
                                 dialogRef.afterClosed().subscribe({
@@ -250,7 +272,7 @@ export class QrCodeScannerComponent
                                 ScanResultAdminDialog,
                                 {
                                   data: res,
-                                }
+                                },
                               );
 
                               dialogRef.afterClosed().subscribe({
@@ -265,7 +287,7 @@ export class QrCodeScannerComponent
                                   ScanResultAdminDialog,
                                   {
                                     data: res,
-                                  }
+                                  },
                                 );
 
                                 dialogReference.afterClosed().subscribe({
@@ -325,7 +347,7 @@ export class QrCodeScannerComponent
     this.afterScanSuccessfulMessage = message;
     localStorage.setItem(
       this.KEY_AFTER_SCAN_SUCCESS_MESSAGE,
-      this.afterScanSuccessfulMessage
+      this.afterScanSuccessfulMessage,
     );
   }
 
@@ -333,13 +355,13 @@ export class QrCodeScannerComponent
     this.afterScanErrorMessage = message;
     localStorage.setItem(
       this.KEY_AFTER_SCAN_ERROR_MESSAGE,
-      this.afterScanErrorMessage
+      this.afterScanErrorMessage,
     );
   }
 
   private initAfterScanSuccessMessage(): void {
     const storedMessage = localStorage.getItem(
-      this.KEY_AFTER_SCAN_SUCCESS_MESSAGE
+      this.KEY_AFTER_SCAN_SUCCESS_MESSAGE,
     );
     if (storedMessage) {
       this.afterScanSuccessfulMessage = storedMessage;
@@ -349,7 +371,7 @@ export class QrCodeScannerComponent
 
   public initAfterScanErrorMessage(): void {
     const storedMessage = localStorage.getItem(
-      this.KEY_AFTER_SCAN_ERROR_MESSAGE
+      this.KEY_AFTER_SCAN_ERROR_MESSAGE,
     );
     if (storedMessage) {
       this.afterScanErrorMessage = storedMessage;

@@ -917,6 +917,7 @@
     "challenge_are_being_generated": "Your challenges are being generated.",
     "check_back": "Please check back in a few minutes!",
     "play": "Play",
+    "time": "time",
     "times": "times",
     "score": "Score: {{points}}",
     "no_rewards": "No rewards yet!",
@@ -1532,5 +1533,9 @@
     "phone": "Phone Number",
     "days_off": "Days Off",
     "no_days_off": "No days off"
+  },
+  "challenge_type_toggle": {
+    "game": "Game",
+    "universal": "Universal"
   }
 }

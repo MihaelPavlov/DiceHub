@@ -1,19 +1,22 @@
 <div class="challenge-toggle">
   <div class="toggle-track surface-elevated">
-    <div class="toggle-thumb" [class.right]="activeTab === ChallengeType.Universal"></div>
+    <div
+      class="toggle-thumb"
+      [class.right]="activeTab === ChallengeType.Universal"
+    ></div>
     <button
       class="toggle-button game"
       [class.active]="activeTab === ChallengeType.Game"
       (click)="switchTab(ChallengeType.Game)"
     >
-      🎮 Game
+      🎮 {{ "challenge_type_toggle.game" | translate }}
     </button>
     <button
       class="toggle-button universal"
       [class.active]="activeTab === ChallengeType.Universal"
       (click)="switchTab(ChallengeType.Universal)"
     >
-      🌎 Universal
+      🌎 {{ "challenge_type_toggle.universal" | translate }}
     </button>
   </div>
 </div>

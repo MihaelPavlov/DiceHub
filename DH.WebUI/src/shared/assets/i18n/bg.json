@@ -299,10 +299,10 @@
       "room_person_joined_at": "Присъединил се на"
     },
     "add_update": {
-      "create_header": "Създай игрови лагер",
-      "update_header": "Обнови игрови лагер",
-      "btn_update": "Обнови лагера",
-      "btn_create": "Започни лагера",
+      "create_header": "Създай стая",
+      "update_header": "Обнови стая",
+      "btn_update": "Обнови",
+      "btn_create": "Създай",
       "info_message": "Стаята ще бъде достъпна до избраната дата.",
       "validation_message_cannot_be_today": "Не може да зададете началната дата за днес или в миналото.<br/>Моля, изберете бъдеща дата.",
       "controls_display_name": {
@@ -693,8 +693,8 @@
   },
   "landing": {
     "revolutionizing": "Революционизиране",
-    "game_driven_entertainment": "Игрален Забавен Опит",
-    "info": "Всичко-в-едно платформа за оптимизиране на операциите, повишаване на ангажираността и развитие на вашето гейминг пространство.",
+    "game_driven_entertainment": "На Клубното Пространство",
+    "info": "Всичко в еднa платформа за оптимизиране на операциите, повишаване на ангажираността и развитие на вашето гейминг пространство.",
 
     "club_game_management_title": "Управление на клубни игри",
     "club_game_management_desc": "Лесно организирайте маси, игри и графици на едно място.",
@@ -917,6 +917,7 @@
     "challenge_are_being_generated": "Вашите предизвикателства се генерират.",
     "check_back": "Моля, проверете отново след няколко минути!",
     "play": "Играй",
+    "time": "път",
     "times": "пъти",
     "score": "Резултат: {{points}}",
     "no_rewards": "Все още нямаш награди!",
@@ -1191,7 +1192,7 @@
             "reservation_approved": {
               "header": "Резервацията е одобрена: Какво следва",
               "description": "След като резервацията ви бъде одобрена, ще видите QR код и панел с информация.\nМожете да достъпите този панел по всяко време от червения раздел Игри в горния десен ъгъл (той ще свети при обновяване).\nТози панел показва важни детайли и актуализации за вашата резервация.",
-              "media_url": "/shared/assets/images/Instructions/Reservations/Game/game_reservation_part_2.gif"
+              "media_url": "/shared/assets/images/instructions/Reservations/Game/game_reservation_part_2.gif"
             },
             "message_from_staff": {
               "header": "Съобщения от персонала",
@@ -1532,5 +1533,9 @@
     "phone": "Телефонен номер",
     "days_off": "Почивни дни",
     "no_days_off": "Няма почивни дни"
+  },
+  "challenge_type_toggle": {
+    "game": "Игри",
+    "universal": "Общи"
   }
 }

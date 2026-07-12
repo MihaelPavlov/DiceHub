@@ -17,7 +17,7 @@ export class ClubInfo implements OnInit {
   constructor(
     private readonly tenantRouter: TenantRouter,
     private readonly tenantSettingsService: TenantSettingsService,
-    private readonly ts: TranslateService
+    private readonly ts: TranslateService,
   ) {}
 
   public ngOnInit(): void {
@@ -34,8 +34,11 @@ export class ClubInfo implements OnInit {
   }
 
   public localizeDaysOff(daysOff: string[]): string {
-    daysOff.map((x) => this.ts.instant(`week_days_names.${x}`));
-    return daysOff.join(', ');
+    const translatedDays = daysOff.map((x) =>
+      this.ts.instant(`week_days_names.${x}`),
+    );
+
+    return translatedDays.join(', ');
   }
 
   public backNavigateBtn() {
