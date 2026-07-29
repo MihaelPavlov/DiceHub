@@ -1,0 +1,111 @@
+{
+  "communities": {
+    "0": [
+      "assembly",
+      "dh_database_migrationutility_extensiondi",
+      "dh_database_migrationutility_extensiondi_dh_database_migrationutility_extensiondi",
+      "dh_database_migrationutility_extensiondi_dh_database_migrationutility_extensiondi_gettypesassignablefrom",
+      "dh_database_migrationutility_extensiondi_dh_database_migrationutility_extensiondi_loadseedservices",
+      "iservicecollection",
+      "list",
+      "type"
+    ],
+    "1": [
+      "dh_database_migrationutility_dh_database_migrationutility",
+      "ext_dh_dicehub_dh_application_dh_application_csproj",
+      "framework_net8_0",
+      "nuget_microsoft_entityframeworkcore",
+      "nuget_microsoft_entityframeworkcore_sqlserver",
+      "nuget_microsoft_extensions_configuration_json",
+      "nuget_microsoft_extensions_logging_console",
+      "sdk_microsoft_net_sdk"
+    ],
+    "2": [
+      "bool",
+      "dh_database_migrationutility_consolefilelogger_dh_database_migrationutility_consolefilelogger",
+      "dh_database_migrationutility_consolefilelogger_dh_database_migrationutility_consolefilelogger_dispose",
+      "dh_database_migrationutility_consolefilelogger_dh_database_migrationutility_consolefilelogger_mentionherself",
+      "dh_database_migrationutility_consolefilelogger_dh_database_migrationutility_consolefilelogger_writeline",
+      "idisposable",
+      "streamwriter"
+    ],
+    "3": [
+      "dh_database_migrationutility_program",
+      "ext_dh_dicehub_dh_adapter_authentication_dh_adapter_authentication_csproj",
+      "ext_dh_dicehub_dh_adapter_data_dh_adapter_data_csproj",
+      "ext_dh_dicehub_dh_adapter_scheduling_dh_adapter_scheduling_csproj",
+      "ext_dh_dicehub_dh_api_dh_api_csproj",
+      "ext_dh_dicehub_dh_domain_dh_domain_csproj"
+    ],
+    "4": [
+      "csharp_namespace:7f17da93f590c565",
+      "dh_database_migrationutility_consolefilelogger",
+      "dh_database_migrationutility_environmentsettings",
+      "dh_database_migrationutility_environmentsettings_dh_database_migrationutility_environmentsettings"
+    ]
+  },
+  "cohesion": {
+    "0": 0.25,
+    "1": 0.25,
+    "2": 0.2857142857142857,
+    "3": 0.3333333333333333,
+    "4": 0.5
+  },
+  "gods": [
+    {
+      "id": "dh_database_migrationutility_consolefilelogger_dh_database_migrationutility_consolefilelogger",
+      "label": "ConsoleFileLogger",
+      "degree": 7
+    },
+    {
+      "id": "csharp_namespace:7f17da93f590c565",
+      "label": "DH.Database.MigrationUtility",
+      "degree": 4
+    },
+    {
+      "id": "dh_database_migrationutility_extensiondi_dh_database_migrationutility_extensiondi",
+      "label": "ExtensionDI",
+      "degree": 3
+    },
+    {
+      "id": "framework_net8_0",
+      "label": "net8.0",
+      "degree": 1
+    },
+    {
+      "id": "nuget_microsoft_entityframeworkcore",
+      "label": "Microsoft.EntityFrameworkCore (8.0.10)",
+      "degree": 1
+    },
+    {
+      "id": "nuget_microsoft_entityframeworkcore_sqlserver",
+      "label": "Microsoft.EntityFrameworkCore.SqlServer (8.0.10)",
+      "degree": 1
+    },
+    {
+      "id": "nuget_microsoft_extensions_configuration_json",
+      "label": "Microsoft.Extensions.Configuration.Json (8.0.1)",
+      "degree": 1
+    },
+    {
+      "id": "nuget_microsoft_extensions_logging_console",
+      "label": "Microsoft.Extensions.Logging.Console (8.0.1)",
+      "degree": 1
+    },
+    {
+      "id": "sdk_microsoft_net_sdk",
+      "label": "Microsoft.NET.Sdk",
+      "degree": 1
+    },
+    {
+      "id": "dh_database_migrationutility_environmentsettings_dh_database_migrationutility_environmentsettings",
+      "label": "EnvironmentSettings",
+      "degree": 1
+    }
+  ],
+  "surprises": [],
+  "tokens": {
+    "input": 0,
+    "output": 0
+  }
+}

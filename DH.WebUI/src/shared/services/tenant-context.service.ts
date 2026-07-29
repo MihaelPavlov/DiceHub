@@ -7,6 +7,10 @@ export class TenantContextService {
   private _tenantId: string | null = null;
   constructor() {
     this._tenantId = localStorage.getItem(this.STORAGE_KEY);
+
+    if (this._tenantId === 'system') {
+      this.clearTenant();
+    }
   }
 
   get tenantId(): string | null {
@@ -14,6 +18,11 @@ export class TenantContextService {
   }
 
   set tenantId(id: string | null) {
+    if (id === 'system') {
+      this.clearTenant();
+      return;
+    }
+
     this._tenantId = id;
 
     if (id) {
@@ -28,6 +37,6 @@ export class TenantContextService {
   }
 
   public hasTenant(): boolean {
-    return !!this._tenantId;
+    return !!this._tenantId && this._tenantId !== 'system';
   }
 }

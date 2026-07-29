@@ -95,13 +95,14 @@ public class TokenService : ITokenService
             user.RefreshTokenExpiryTime <= DateTime.UtcNow)
             throw new SecurityTokenException("Invalid refresh token");
 
-        if (tokenTenantId != user.TenantId)
-            throw new SecurityTokenException("Tenant mismatch");
-
         var roles = await userManager.GetRolesAsync(user);
         var roleName = roles.FirstOrDefault();
+        var isSuperAdmin = roleName == Role.SuperAdmin.ToString();
 
-        var claims = await BuildUserClaimsAsync(user.Id);
+        if (!isSuperAdmin && tokenTenantId != user.TenantId)
+            throw new SecurityTokenException("Tenant mismatch");
+
+        var claims = await BuildUserClaimsAsync(user.Id, isSuperAdmin ? tokenTenantId : null);
 
         var newAccessToken = GenerateAccessToken(claims);
         var newRefreshToken = GenerateRefreshToken();
@@ -126,21 +127,27 @@ public class TokenService : ITokenService
         return new TokenResponseModel()
         {
             AccessToken = newAccessToken,
-            RefreshToken = newRefreshToken
+            RefreshToken = newRefreshToken,
+            UserId = user.Id,
+            TenantId = isSuperAdmin ? tokenTenantId : user.TenantId
         };
     }
 
-    public async Task<List<Claim>> BuildUserClaimsAsync(string userId)
+    public async Task<List<Claim>> BuildUserClaimsAsync(string userId, string? tenantId = null)
     {
         var user = await userManager.FindByIdAsync(userId)
             ?? throw new NotFoundException(nameof(ApplicationUser), userId);
+
+        var effectiveTenantId = string.IsNullOrWhiteSpace(tenantId)
+            ? user.TenantId
+            : tenantId;
 
         var claims = new List<Claim>
         {
             new Claim(ClaimTypes.Sid, user.Id),
             new Claim(ClaimTypes.Name, user.UserName!),
             new Claim("TimeZone", user.TimeZone!),
-            new Claim("tenant_id", user.TenantId)
+            new Claim("tenant_id", effectiveTenantId)
         };
 
         var roles = await userManager.GetRolesAsync(user);

@@ -1,0 +1,176 @@
+@use "../../../../shared/assets/styles/palette";
+
+.container {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.back {
+  align-items: center;
+  appearance: none;
+  background: palette.$main-nav-color;
+  border: 0.1rem solid palette.$chip-yellow-color;
+  border-radius: 50%;
+  cursor: pointer;
+  display: inline-flex;
+  height: 3rem;
+  justify-content: center;
+  opacity: 0.75;
+  padding: 0;
+  width: 3rem;
+}
+
+.arrow {
+  display: inline-block;
+  height: 0.85rem;
+  position: relative;
+  width: 0.85rem;
+
+  &::before {
+    border-color: palette.$chip-yellow-color;
+    border-style: solid;
+    border-width: 0.2rem 0.2rem 0 0;
+    content: "";
+    display: block;
+    height: 0.75rem;
+    left: 0.2rem;
+    position: absolute;
+    top: 0.05rem;
+    transform: rotate(-135deg);
+    width: 0.75rem;
+  }
+}
+
+header {
+  align-items: center;
+  background: palette.$main-nav-color;
+  border-left: 0.25rem solid palette.$chip-yellow-color;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+header > div {
+  display: grid;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+h2,
+h3 {
+  margin: 0;
+}
+
+h2 {
+  font-size: 1.25rem;
+  overflow-wrap: anywhere;
+}
+
+h3 {
+  font-size: 1rem;
+}
+
+header > div > span,
+.actions span,
+label {
+  color: palette.$main-font-gray-color;
+}
+
+.empty {
+  padding: 1rem;
+  text-align: center;
+}
+
+.status {
+  border-radius: 0.4rem;
+  flex: 0 0 auto;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.35rem 0.65rem;
+  white-space: nowrap;
+}
+
+.pending {
+  color: palette.$chip-yellow-color;
+}
+
+.verified {
+  color: palette.$main-green-color;
+}
+
+.rejected {
+  color: palette.$main-red-color;
+}
+
+.section {
+  background: palette.$main-nav-color;
+  border-left: 0.25rem solid palette.$main-gray-color;
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.details {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.details div {
+  display: grid;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.wide {
+  grid-column: 1 / -1;
+}
+
+label {
+  font-size: 0.75rem;
+}
+
+a,
+.details span {
+  overflow-wrap: anywhere;
+}
+
+.actions {
+  align-items: center;
+  background: palette.$main-nav-color;
+  border-left: 0.25rem solid palette.$chip-yellow-color;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.actions > div:first-child {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.action-buttons {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 0.5rem;
+}
+
+@media (max-width: 720px) {
+  header,
+  .actions {
+    align-items: stretch;
+    display: grid;
+  }
+
+  .details {
+    grid-template-columns: 1fr;
+  }
+
+  .action-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

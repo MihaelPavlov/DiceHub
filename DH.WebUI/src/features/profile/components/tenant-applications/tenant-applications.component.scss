@@ -1,0 +1,78 @@
+@use "../../../../shared/assets/styles/palette";
+
+.container {
+  padding: 1rem;
+}
+
+h2 {
+  margin: 0 0 1rem;
+}
+
+.empty {
+  color: palette.$main-font-gray-color;
+  padding: 1rem;
+  text-align: center;
+}
+
+.list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.application {
+  align-items: center;
+  background: palette.$main-nav-color;
+  border: 0;
+  border-left: 0.25rem solid palette.$main-gray-color;
+  color: palette.$main-font-color;
+  cursor: pointer;
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: 1.5fr 1.5fr 1fr auto;
+  min-height: 4rem;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+  width: 100%;
+}
+
+.application:hover {
+  border-left-color: palette.$chip-yellow-color;
+  transform: translateY(-1px);
+}
+
+.application > span:first-child {
+  display: grid;
+  gap: 0.25rem;
+}
+
+small {
+  color: palette.$main-font-gray-color;
+}
+
+.status {
+  border-radius: 0.4rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.35rem 0.65rem;
+  white-space: nowrap;
+}
+
+.pending {
+  color: palette.$chip-yellow-color;
+}
+
+.verified {
+  color: palette.$main-green-color;
+}
+
+.rejected {
+  color: palette.$main-red-color;
+}
+
+@media (max-width: 720px) {
+  .application {
+    align-items: start;
+    grid-template-columns: 1fr;
+  }
+}

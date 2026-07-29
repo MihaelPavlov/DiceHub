@@ -25,4 +25,20 @@ export class TenantService {
         catchError(() => of(false))
       );
   }
+
+  public validateTenantSetupToken(token: string | null): Observable<boolean> {
+    const query = token ? `?token=${encodeURIComponent(token)}` : '';
+
+    return this.api
+      .get<boolean>(
+        `/${PATH.TENANT.CORE}/${PATH.TENANT.TENANT_SETUP_EXISTS}${query}`,
+        {
+          requiredTenant: false,
+        }
+      )
+      .pipe(
+        map(() => true),
+        catchError(() => of(false))
+      );
+  }
 }

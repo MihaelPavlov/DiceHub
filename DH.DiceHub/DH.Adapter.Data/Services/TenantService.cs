@@ -11,7 +11,7 @@ public class TenantService(TenantDbContext db) : ITenantService
     public async Task<Tenant?> GetByTenantName(string name)
     {
         return await _db.Tenants
-            .Where(t => t.TenantName == name)
+            .Where(t => t.Id == name || t.TenantName == name)
             .FirstOrDefaultAsync();
     }
 }

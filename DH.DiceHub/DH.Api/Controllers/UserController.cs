@@ -77,6 +77,11 @@ public class UserController : ControllerBase
     [HttpPost("register-user")]
     public async Task<IActionResult> RegisterUser([FromBody] UserRegistrationRequest form, CancellationToken cancellationToken)
     {
+        if (!string.IsNullOrEmpty(form.TenantId))
+        {
+            HttpContext.Items["TenantId"] = form.TenantId;
+        }
+
         var response = await userManagementService.RegisterUser(form);
 
         var isEmailSendedSuccessfully = false;

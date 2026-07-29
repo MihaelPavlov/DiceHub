@@ -21,6 +21,7 @@ import { LoadingInterceptorContextService } from '../../../shared/services/loadi
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../shared/services/language.service';
 import { TenantRouter } from '../../../shared/helpers/tenant-router';
+import { TenantContextService } from '../../../shared/services/tenant-context.service';
 
 interface IRegisterForm {
   username: string;
@@ -55,7 +56,8 @@ export class RegisterComponent extends Form implements OnInit {
     private readonly frontEndLogService: FrontEndLogService,
     private readonly loadingContext: LoadingInterceptorContextService,
     public override translateService: TranslateService,
-    private readonly languageService: LanguageService
+    private readonly languageService: LanguageService,
+    private readonly tenantContextService: TenantContextService
   ) {
     super(toastService, translateService);
     this.form = this.initFormGroup();
@@ -116,6 +118,7 @@ export class RegisterComponent extends Form implements OnInit {
             email: this.form.controls.email.value,
             password: this.form.controls.password.value,
             confirmPassword: this.form.controls.confirmPassword.value,
+            tenantId: this.tenantContextService.tenantId,
             deviceToken: deviceToken,
             language: this.languageService.getCurrentLanguage(),
           })

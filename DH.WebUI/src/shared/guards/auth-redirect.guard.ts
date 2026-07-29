@@ -32,6 +32,12 @@ export class AuthRedirectGuard {
     console.log('auth-redirect.guard.ts');
 
     if (token && !this.jwtHelper.isTokenExpired(token)) {
+      const user = this.jwtHelper.decodeToken(token);
+
+      if (user?.['tenant_id'] === 'system') {
+        return this.router.parseUrl('/admin/applicants');
+      }
+
       const tenantUrl = this.tenantRouter.buildTenantUrl(
         FULL_ROUTE.GAMES.LIBRARY
       );

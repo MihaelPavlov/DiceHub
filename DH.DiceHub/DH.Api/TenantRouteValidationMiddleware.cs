@@ -66,8 +66,10 @@ public class TenantRouteValidationMiddleware
             return;
         }
 
+        var isSuperAdmin = user.IsInRole("SuperAdmin");
+
         // Validate JWT tenant matches route tenant
-        if (tenant.Id.ToString() != tokenTenantId)
+        if (!isSuperAdmin && tenant.Id.ToString() != tokenTenantId)
         {
             context.Response.StatusCode = StatusCodes.Status403Forbidden;
             await context.Response.WriteAsync("Tenant mismatch.");

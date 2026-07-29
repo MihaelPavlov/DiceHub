@@ -2,6 +2,9 @@ import { Routes, CanActivate } from '@angular/router';
 import { LoginComponent } from '../../pages/login/page/login.component';
 import { AuthGuard } from '../../shared/guards/auth.guard';
 import { RegisterComponent } from '../../pages/register/page/register.component';
+import { RegisterChoiceComponent } from '../../pages/register-choice/page/register-choice.component';
+import { VenueApplicationComponent } from '../../pages/venue-application/page/venue-application.component';
+import { TenantSetupComponent } from '../../pages/tenant-setup/page/tenant-setup.component';
 import { ROUTE } from '../../shared/configs/route.config';
 import { ForgotPasswordComponent } from '../../pages/forgot-password/page/forgot-password.component';
 import { ConfirmEmailComponent } from '../../pages/confirm-email/page/confirm-email.component';
@@ -58,6 +61,23 @@ export const ROUTES: Routes = [
     data: { hideMenu: true },
   },
   {
+    path: 'venue-application',
+    component: VenueApplicationComponent,
+    canActivate: [AuthRedirectGuard],
+    data: { hideMenu: true },
+  },
+  {
+    path: 'tenant-setup',
+    component: TenantSetupComponent,
+    data: { hideMenu: true },
+  },
+  {
+    path: 'register',
+    component: RegisterChoiceComponent,
+    canActivate: [AuthRedirectGuard],
+    data: { hideMenu: true },
+  },
+  {
     path: 'unauthorized',
     loadChildren: () =>
       import('../../shared/exceptions/unauthorized/unauthorized.module').then(
@@ -98,6 +118,21 @@ export const ROUTES: Routes = [
     data: { hideMenu: false },
   },
   {
+    path: 'admin/login',
+    component: LoginComponent,
+    canActivate: [AuthRedirectGuard],
+    data: { hideMenu: true },
+  },
+  {
+    path: 'admin',
+    loadChildren: () =>
+      import('../../pages/profile/profile.module').then(
+        (m) => m.ProfileModule
+      ),
+    canActivate: [AuthGuard],
+    data: { hideMenu: false },
+  },
+  {
     path: ':tenant',
     component: TenantLayoutComponent,
     canActivate: [TenantGuard],
@@ -110,8 +145,14 @@ export const ROUTES: Routes = [
         data: { hideMenu: true },
       },
       {
-        path: 'register',
+        path: 'register/player',
         component: RegisterComponent,
+        canActivate: [AuthRedirectGuard],
+        data: { hideMenu: true },
+      },
+      {
+        path: 'register',
+        component: RegisterChoiceComponent,
         canActivate: [AuthRedirectGuard],
         data: { hideMenu: true },
       },

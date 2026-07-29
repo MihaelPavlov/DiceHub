@@ -1,0 +1,63 @@
+<app-language-switch />
+
+<div class="wrapper">
+  <div class="interactive-option">
+    <div class="icon_wrapper" (click)="navigateToLanding()">
+      <svg class="icon svg-color-interaction-option" viewBox="0 -960 960 960">
+        <path
+          d="M480-80 120-280v-400l360-200 360 200v400L480-80Zm0-92 280-155v-306L480-788 200-633v306l280 155Zm0-308Zm-40 190h80v-120h120v-80H520v-120h-80v120H320v80h120v120Z"
+        />
+      </svg>
+    </div>
+  </div>
+
+  <span class="header">Join DiceHub</span>
+  <p class="sub-header">
+    Choose how you want to register. Player accounts belong to a club. Venue
+    applications are reviewed before a tenant is created.
+  </p>
+
+  <div class="choice-container">
+    <article class="choice-card">
+      <div class="choice-icon">♟</div>
+      <div class="choice-content">
+        <h2>I’m a Player</h2>
+        <p>
+          Create a client account to join a club, reserve games, and participate
+          in events.
+        </p>
+      </div>
+      <button
+        type="button"
+        class="btn btn-gray btn-border-blue btn-font-blue"
+        (click)="navigateToPlayerRegistration()"
+      >
+        Create player account
+      </button>
+    </article>
+
+    <article class="choice-card">
+      <div class="choice-icon">🏛</div>
+      <div class="choice-content">
+        <h2>I own a Venue / Club</h2>
+        <p>
+          Apply for DiceHub tenant access. We verify your email, phone, and
+          venue details before approval.
+        </p>
+        <span class="badge">Requires verification</span>
+      </div>
+      <button
+        type="button"
+        class="btn btn-gray btn-border-blue btn-font-blue"
+        (click)="navigateToVenueApplication()"
+      >
+        Apply as venue
+      </button>
+    </article>
+  </div>
+
+  <div class="additional-link">
+    <p>Already have an account?</p>
+    <p><strong class="markup" (click)="navigateToLogin()">Sign in</strong></p>
+  </div>
+</div>

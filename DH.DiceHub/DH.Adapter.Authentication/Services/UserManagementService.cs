@@ -48,7 +48,12 @@ internal class UserManagementService(
         if (existingUserByUsername != null)
             throw new ValidationErrorsException("Username", this.localizer["UserExistUsername"]);
 
-        var user = new ApplicationUser() { UserName = form.Username, Email = form.Email };
+        var user = new ApplicationUser()
+        {
+            UserName = form.Username,
+            Email = form.Email,
+            TenantId = form.TenantId.Trim()
+        };
         var createUserResult = await userManager.CreateAsync(user, form.Password);
 
         if (!createUserResult.Succeeded)

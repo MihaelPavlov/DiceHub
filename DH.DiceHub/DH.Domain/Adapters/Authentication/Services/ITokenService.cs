@@ -32,5 +32,5 @@ public interface ITokenService
 
     ClaimsPrincipal ValidateToken(string accessToken);
 
-    Task<List<Claim>> BuildUserClaimsAsync(string userId);
+    Task<List<Claim>> BuildUserClaimsAsync(string userId, string? tenantId = null);
 }

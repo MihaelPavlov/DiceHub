@@ -34,5 +34,6 @@ public enum UserAction
     UsersRead = 24,
     OwnerCRUD = 25,
     SchedulerCRUD = 26,
-    OwnerStats = 27
+    OwnerStats = 27,
+    TenantApplicationsReview = 28
 }

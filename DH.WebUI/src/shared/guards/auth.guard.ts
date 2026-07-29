@@ -52,6 +52,11 @@ export class AuthGuard {
 
     if (!token) {
       this.authService.userInfoSubject$.next(null);
+      if (state.url.startsWith('/admin')) {
+        this.router.navigateByUrl('/admin/login');
+        return false;
+      }
+
       this.tenantRouter.navigateTenant(ROUTE.LOGIN);
       return false;
     }
@@ -64,7 +69,13 @@ export class AuthGuard {
         if (!isRefreshSuccess) {
           // logout is already an Observable, chain it
           return this.authService.logout().pipe(
-            tap(() => this.tenantRouter.navigateTenant(ROUTE.LOGIN)),
+            tap(() => {
+              if (state.url.startsWith('/admin')) {
+                this.router.navigateByUrl('/admin/login');
+              } else {
+                this.tenantRouter.navigateTenant(ROUTE.LOGIN);
+              }
+            }),
             map(() => false) // emit false after logout
           );
         } else {

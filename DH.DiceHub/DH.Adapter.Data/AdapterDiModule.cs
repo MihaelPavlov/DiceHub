@@ -65,6 +65,7 @@ public static class DataDIModule
             .AddScoped<IUniversalChallengeProcessing, UniversalChallengeProcessing>()
             .AddScoped<IGameSeeder, GameSeeder>()
             .AddScoped<ITenantService, TenantService>()
+            .AddScoped<ITenantSetupService, TenantSetupService>()
             .AddSingleton<TenantDbConnectionInterceptor>();
 
         services.AddMemoryCache();
@@ -100,4 +101,3 @@ public static class DataDIModule
         }
     }
 }
-

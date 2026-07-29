@@ -1,0 +1,147 @@
+<div class="container">
+  <button
+    type="button"
+    class="back"
+    aria-label="Back to applicants"
+    (click)="navigateBack()"
+  >
+    <span class="arrow left"></span>
+  </button>
+
+  <div *ngIf="isLoading" class="empty">Loading applicant...</div>
+
+  <ng-container *ngIf="!isLoading && application">
+    <header class="surface-elevated">
+      <div>
+        <h2>{{ application.contactName }}</h2>
+        <span>{{ application.applicantType }}</span>
+      </div>
+      <span
+        class="status"
+        [class.pending]="application.status === status.PendingVerification"
+        [class.verified]="application.status === status.Verified"
+        [class.rejected]="application.status === status.Rejected"
+      >
+        {{ getStatusLabel(application.status) }}
+      </span>
+    </header>
+
+    <section class="section surface-elevated">
+      <h3>Contact</h3>
+      <div class="details">
+        <div>
+          <label>Email</label>
+          <span>{{ application.email }}</span>
+        </div>
+        <div>
+          <label>Phone</label>
+          <span>{{ application.phoneNumber }}</span>
+        </div>
+        <div>
+          <label>Email verified</label>
+          <span>{{ application.isEmailVerified ? "Yes" : "No" }}</span>
+        </div>
+        <div>
+          <label>Phone verified</label>
+          <span>{{ application.isPhoneVerified ? "Yes" : "No" }}</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section surface-elevated">
+      <h3>Applicant Details</h3>
+      <div class="details">
+        <div class="wide">
+          <label>Address</label>
+          <span>{{ application.address }}</span>
+        </div>
+        <div>
+          <label>Website</label>
+          <a
+            *ngIf="application.publicWebsite"
+            [href]="application.publicWebsite"
+            target="_blank"
+            rel="noopener noreferrer"
+            >{{ application.publicWebsite }}</a
+          >
+          <span *ngIf="!application.publicWebsite">Not provided</span>
+        </div>
+        <div>
+          <label>Social page</label>
+          <a
+            *ngIf="application.socialPage"
+            [href]="application.socialPage"
+            target="_blank"
+            rel="noopener noreferrer"
+            >{{ application.socialPage }}</a
+          >
+          <span *ngIf="!application.socialPage">Not provided</span>
+        </div>
+        <div>
+          <label>Discord</label>
+          <a
+            *ngIf="application.discordServer"
+            [href]="application.discordServer"
+            target="_blank"
+            rel="noopener noreferrer"
+            >{{ application.discordServer }}</a
+          >
+          <span *ngIf="!application.discordServer">Not provided</span>
+        </div>
+        <div>
+          <label>Photo</label>
+          <a
+            *ngIf="application.photoUrl"
+            [href]="application.photoUrl"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Open photo</a
+          >
+          <span *ngIf="!application.photoUrl">Not provided</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section surface-elevated" *ngIf="!isPending()">
+      <h3>Review</h3>
+      <div class="details">
+        <div>
+          <label>Reviewed date</label>
+          <span>{{ application.reviewedDate || "Not provided" }}</span>
+        </div>
+        <div>
+          <label>Reviewed by</label>
+          <span>{{ application.reviewedByUserId || "Not provided" }}</span>
+        </div>
+        <div class="wide">
+          <label>Review note</label>
+          <span>{{ application.reviewNote || "Not provided" }}</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="actions surface-elevated" *ngIf="isPending()">
+      <div>
+        <strong>Review applicant</strong>
+      </div>
+      <div class="action-buttons">
+        <button
+          type="button"
+          class="btn btn__small btn-gray btn-font-red btn-border-red"
+          [disabled]="isSaving"
+          (click)="reject()"
+        >
+          Reject
+        </button>
+        <button
+          type="button"
+          class="btn btn__small btn-gray btn-font-green btn-border-green"
+          [disabled]="isSaving"
+          (click)="verify()"
+        >
+          Verify
+        </button>
+      </div>
+    </div>
+  </ng-container>
+</div>

@@ -36,15 +36,30 @@ internal class AuthenticationService(
         if (!await userManager.CheckPasswordAsync(user!, form.Password))
             throw new ValidationErrorsException("Email", localizer["InvalidEmailOrPass"]);
 
+        var roles = await this.userManager.GetRolesAsync(user);
+        var isSuperAdmin = roles.Contains("SuperAdmin");
+        var effectiveTenantId = isSuperAdmin
+            ? !string.IsNullOrWhiteSpace(form.TenantId) ? form.TenantId : "system"
+            : user.TenantId;
+
+        if (string.IsNullOrWhiteSpace(effectiveTenantId))
+            throw new ValidationErrorsException("TenantId", "TenantId is required.");
+
+        if (!isSuperAdmin && effectiveTenantId != form.TenantId)
+            throw new ValidationErrorsException("TenantId", "Tenant mismatch.");
+
+        this.userContextAccessor.Set(
+            new UserContext(effectiveTenantId, user.Id, null, null, null));
+
         if (!string.IsNullOrEmpty(form.TimeZone) && form.TimeZone != user!.TimeZone)
         {
             user.TimeZone = form.TimeZone!;
             await userManager.UpdateAsync(user);
         }
 
-        await UpdateDeviceTokenAsync(user, form.DeviceToken);
+        await UpdateDeviceTokenAsync(user, form.DeviceToken, effectiveTenantId);
 
-        return await IssueUserTokensAsync(user!);
+        return await IssueUserTokensAsync(user!, effectiveTenantId);
     }
 
     public async Task<TokenResponseModel?> ConfirmEmail(string email, string token, CancellationToken cancellationToken)
@@ -57,7 +72,7 @@ internal class AuthenticationService(
         {
             await this.signInManager.SignInAsync(user!, true);
 
-            return await IssueUserTokensAsync(user!);
+            return await IssueUserTokensAsync(user!, user!.TenantId);
         }
 
         throw new ValidationErrorsException("InvalidToken", this.localizer["ConfirmEmailInvalidToken"]);
@@ -95,9 +110,9 @@ internal class AuthenticationService(
         return true;
     }
 
-    private async Task<TokenResponseModel?> IssueUserTokensAsync(ApplicationUser user)
+    private async Task<TokenResponseModel?> IssueUserTokensAsync(ApplicationUser user, string tenantId)
     {
-        var claims = await this.tokenService.BuildUserClaimsAsync(user.Id);
+        var claims = await this.tokenService.BuildUserClaimsAsync(user.Id, tenantId);
 
         var accessToken = this.tokenService.GenerateAccessToken(claims);
         var refreshToken = this.tokenService.GenerateRefreshToken();
@@ -106,7 +121,7 @@ internal class AuthenticationService(
         user.RefreshTokenExpiryTime = this.tokenService.GetRefreshTokenExpiryTime();
 
         this.userContextAccessor.Set(
-            new UserContext(user.TenantId, user.Id, null, null, null));
+            new UserContext(tenantId, user.Id, null, null, null));
         await this.userManager.UpdateAsync(user);
 
         return new TokenResponseModel
@@ -114,14 +129,14 @@ internal class AuthenticationService(
             AccessToken = accessToken,
             RefreshToken = refreshToken,
             UserId = user.Id,
-            TenantId = user.TenantId
+            TenantId = tenantId
         };
     }
 
-    private async Task UpdateDeviceTokenAsync(ApplicationUser user, string? deviceToken)
+    private async Task UpdateDeviceTokenAsync(ApplicationUser user, string? deviceToken, string tenantId)
     {
         this.userContextAccessor.Set(
-            new UserContext(user.TenantId, user.Id, null, null, null));
+            new UserContext(tenantId, user.Id, null, null, null));
 
         var userDeviceToken = await this.userDeviceTokenRepository.GetByAsyncWithTracking(x => x.UserId == user!.Id, CancellationToken.None);
         if (userDeviceToken is null && deviceToken is not null)

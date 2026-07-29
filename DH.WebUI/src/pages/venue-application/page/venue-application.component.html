@@ -1,0 +1,186 @@
+<app-language-switch />
+
+<div class="wrapper">
+  <div class="interactive-option">
+    <div class="icon_wrapper" (click)="navigateToLanding()">
+      <svg class="icon svg-color-interaction-option" viewBox="0 -960 960 960">
+        <path
+          d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Zm80-80h80v-280h320v280h80v-360L480-740 240-560v360Zm240-270Z"
+        />
+      </svg>
+    </div>
+  </div>
+
+  <span class="header">Venue / Club Application</span>
+  <p class="sub-header">
+    Submit your venue details. DiceHub SuperAdmins will review and verify the
+    application before creating a tenant.
+  </p>
+
+  <ng-container *ngIf="!isSubmitted; else submitted">
+    <form [formGroup]="form" class="container">
+      <section class="section-card">
+        <h2>1. Verify contact</h2>
+        <p class="section-note">
+          Verify the email with a one-time code before entering venue details.
+        </p>
+
+        <div class="input-field">
+          <label class="required">Contact name</label>
+          <input
+            type="text"
+            formControlName="contactName"
+            class="surface-elevated"
+            placeholder="Main contact person"
+          />
+        </div>
+
+        <div class="input-field">
+          <label class="required">Email</label>
+          <input
+            type="email"
+            formControlName="email"
+            class="surface-elevated"
+            placeholder="owner@club.com"
+          />
+        </div>
+
+        <button
+          type="button"
+          class="btn btn-gray btn-border-blue btn-font-blue verify-btn"
+          [disabled]="isEmailVerified || isSendingEmailCode"
+          (click)="sendEmailVerificationCode()"
+        >
+          {{
+            isEmailVerified
+              ? "Email verified"
+              : isSendingEmailCode
+                ? "Sending code..."
+                : isEmailCodeSent
+                  ? "Resend email code"
+                  : "Send email code"
+          }}
+        </button>
+
+        <div class="input-field" *ngIf="isEmailCodeSent && !isEmailVerified">
+          <label class="required">Email code</label>
+          <input
+            type="text"
+            inputmode="numeric"
+            maxlength="6"
+            formControlName="emailVerificationCode"
+            class="surface-elevated"
+            placeholder="6-digit code"
+          />
+        </div>
+
+        <button
+          *ngIf="isEmailCodeSent && !isEmailVerified"
+          type="button"
+          class="btn btn-gray btn-border-blue btn-font-blue verify-btn"
+          [disabled]="isVerifyingEmailCode"
+          (click)="verifyEmailCode()"
+        >
+          {{ isVerifyingEmailCode ? "Verifying..." : "Verify email code" }}
+        </button>
+      </section>
+
+      <section class="section-card" *ngIf="canShowVenueDetails()">
+        <h2>2. Venue details</h2>
+
+        <div class="input-field">
+          <label class="required">Phone number</label>
+          <input
+            type="text"
+            formControlName="phoneNumber"
+            class="surface-elevated"
+            placeholder="+359..."
+          />
+        </div>
+
+        <div class="input-field">
+          <label class="required">Address</label>
+          <input
+            type="text"
+            formControlName="address"
+            class="surface-elevated"
+            placeholder="Venue address"
+          />
+        </div>
+
+        <div class="input-field">
+          <label>Public website</label>
+          <input
+            type="text"
+            formControlName="publicWebsite"
+            class="surface-elevated"
+            placeholder="https://..."
+          />
+        </div>
+
+        <div class="input-field">
+          <label>Social page</label>
+          <input
+            type="text"
+            formControlName="socialPage"
+            class="surface-elevated"
+            placeholder="Facebook / Instagram / other"
+          />
+        </div>
+
+        <div class="input-field">
+          <label>Discord server</label>
+          <input
+            type="text"
+            formControlName="discordServer"
+            class="surface-elevated"
+            placeholder="Discord invite"
+          />
+        </div>
+
+        <div class="input-field">
+          <label>Photo URL</label>
+          <input
+            type="text"
+            formControlName="photoUrl"
+            class="surface-elevated"
+            placeholder="Public venue photo URL"
+          />
+        </div>
+      </section>
+
+      <div *ngIf="serverErrors.length" class="errors">
+        <div *ngFor="let error of serverErrors">{{ error }}</div>
+      </div>
+
+      <div *ngIf="isEmailCodeSent && !canShowVenueDetails()" class="errors">
+        Email must be verified before venue details are available.
+      </div>
+
+      <div *ngIf="canShowVenueDetails() && !hasPublicProof()" class="errors">
+        Provide at least one public website, social page, or Discord server.
+      </div>
+
+      <div class="btn-container" *ngIf="canShowVenueDetails()">
+        <button
+          type="button"
+          class="btn btn-gray btn-border-blue btn-font-blue"
+          [disabled]="form.invalid || !isEmailVerified || !hasPublicProof() || isSaving"
+          (click)="submit()"
+        >
+          {{ isSaving ? "Submitting..." : "Submit application" }}
+        </button>
+      </div>
+    </form>
+  </ng-container>
+
+  <ng-template #submitted>
+    <section class="submitted-card">
+      <h2>Application submitted</h2>
+      <p>
+        Your application is pending verification. DiceHub will review your
+        details and contact you by email.
+      </p>
+    </section>
+  </ng-template>
+</div>
