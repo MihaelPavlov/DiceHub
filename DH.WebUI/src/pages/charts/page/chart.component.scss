@@ -5,3 +5,22 @@
 .wrapper{
     margin-bottom: 10rem;
 }
+
+@media (min-width: 900px) {
+  .wrapper {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    width: min(72rem, calc(100vw - 16rem));
+    margin: 1.5rem auto 3rem;
+  }
+
+  .container {
+    min-height: 20rem;
+    padding: 1rem;
+    border: 0.1rem solid rgba(117, 160, 255, 0.2);
+    border-radius: 0.5rem;
+    background-color: rgba(32, 35, 42, 0.72);
+    box-sizing: border-box;
+  }
+}

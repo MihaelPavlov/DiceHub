@@ -259,6 +259,101 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
               this.visitorActivityChartCanvas.nativeElement.parentElement &&
               this.isVisitorDataAvailable
             ) {
+              if (this.isDesktopViewport()) {
+                this.visitorActivityChartCanvas.nativeElement.parentElement.style.height =
+                  '';
+                ctx.canvas.height = 100;
+
+                let gradient = ctx.createLinearGradient(0, 25, 0, 300);
+                gradient.addColorStop(0, colors.yellow.half);
+                gradient.addColorStop(0.35, colors.yellow.quarter);
+                gradient.addColorStop(1, colors.yellow.zero);
+
+                this.visitorActivityChart = new Chart(ctx, {
+                  type: 'line',
+                  data: {
+                    labels: dailyData.labels,
+                    datasets: [
+                      {
+                        label: 'Daily Visitor Activity',
+                        data: dailyData.values,
+                        fill: true,
+                        backgroundColor: gradient,
+                        tension: 0.5,
+                        borderColor: colors.yellow.quarter,
+                        pointBackgroundColor: colors.yellow.default,
+                      },
+                    ],
+                  },
+                  options: {
+                    maintainAspectRatio: false,
+                    responsive: true,
+                    plugins: {
+                      legend: {
+                        display: false,
+                      },
+                      tooltip: {
+                        callbacks: {
+                          title: (tooltipItems) => {
+                            const rawDate = tooltipItems[0]?.label || '';
+                            const cleanedDate = rawDate
+                              .replace('a.m.', 'AM')
+                              .replace('p.m.', 'PM');
+                            const date = new Date(cleanedDate);
+
+                            const formattedDate = new Intl.DateTimeFormat(
+                              'en-US',
+                              {
+                                year: 'numeric',
+                                month: 'short',
+                                day: 'numeric',
+                              }
+                            ).format(date);
+                            return `Date: ${formattedDate}`;
+                          },
+                          label: (tooltipItem) => {
+                            const value = tooltipItem.raw;
+
+                            return `Activity Count: ${value}`;
+                          },
+                        },
+                      },
+                      datalabels: {
+                        display: false,
+                      },
+                    },
+                    scales: {
+                      x: {
+                        grid: {
+                          display: false,
+                        },
+                        type: 'time',
+                        time: {
+                          unit: 'day',
+                          tooltipFormat: 'MMM dd yyyy',
+                          displayFormats: {
+                            day: 'MMM dd',
+                          },
+                        },
+                      },
+                      y: {
+                        max:
+                          Math.max(
+                            ...activityDataByDay.map((item) => item.userCount)
+                          ) + 5,
+                        grid: {
+                          color: '#31313b',
+                        },
+                        border: {
+                          color: '#31313b',
+                        },
+                      },
+                    },
+                  },
+                });
+                return;
+              }
+
               const barHeight = 30; // Customize this value
               const minHeight = 300; // Minimum height to ensure reasonable display
 
@@ -617,5 +712,9 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
     startOfWeek.setDate(date.getDate() + diff);
     startOfWeek.setHours(0, 0, 0, 0); // Set time to 00:00:00.000
     return startOfWeek;
+  }
+
+  private isDesktopViewport(): boolean {
+    return window.innerWidth >= 900;
   }
 }

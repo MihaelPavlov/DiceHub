@@ -172,3 +172,56 @@
     border: 0.2rem dashed palette.$main-blue-color;
   }
 }
+
+@media (min-width: 900px) {
+  .container,
+  .wrapper_library,
+  .challenge-list-empty {
+    width: min(72rem, calc(100vw - 16rem));
+  }
+
+  .container {
+    .buttons {
+      justify-content: flex-start;
+      gap: 1rem;
+    }
+
+    .reward-container {
+      border-radius: 0.5rem;
+      padding: 1rem;
+    }
+
+    .inputs {
+      .input-group {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+    }
+  }
+
+  .wrapper_library {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(24rem, 1fr));
+    gap: 1rem;
+    padding-top: 1rem;
+    padding-bottom: 3rem;
+
+    &__item {
+      margin: 0;
+      border-radius: 0.5rem;
+      align-items: center;
+
+      .wrapper_image img {
+        width: 4rem;
+        height: 4rem;
+        min-width: 4rem;
+        min-height: 4rem;
+      }
+
+      .wrapper_info .wrapper_title {
+        padding-left: 1rem;
+      }
+    }
+  }
+}

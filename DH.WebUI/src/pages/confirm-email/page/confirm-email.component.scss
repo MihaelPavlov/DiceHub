@@ -84,3 +84,37 @@
   display: inline-block;
   font-size: 1.2rem;
 }
+
+@media (min-width: 900px) {
+  .wrapper {
+    width: min(30rem, calc(100vw - 4rem));
+    min-height: calc(100vh - 5rem);
+    padding: 2rem;
+    border-radius: 0.5rem;
+    background: palette.$main-nav-color;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .interactive-option {
+    margin-top: 0;
+  }
+
+  .interactive-option .icon_wrapper {
+    box-shadow: none;
+  }
+
+  .confirmation-container {
+    margin: 1.5rem 0 0;
+  }
+
+  .fallback-btn {
+    width: 100%;
+    background: palette.$main-nav-color;
+    border: 0.2rem solid palette.$main-blue-color;
+    color: palette.$main-blue-color;
+    font-weight: 600;
+  }
+}

@@ -47,16 +47,20 @@
       .wrapper_right {
         display: flex;
         position: absolute;
-        right: 1rem;
-        bottom: 40%;
+        right: 0.25rem;
+        top: 0.2rem;
+        align-items: center;
         font-size: small;
       }
       .wrapper_menu {
         width: 2rem;
+        height: 2rem;
         fill: palette.$main-font-color;
         background: palette.$main-icon-color;
-        padding: 0.2rem;
-        border-radius: 20%;
+        padding: 0.35rem;
+        border-radius: 0.4rem;
+        box-sizing: border-box;
+        cursor: pointer;
       }
     }
 
@@ -72,5 +76,64 @@
         border: 0.1rem solid black;
       }
     }
+  }
+}
+
+@media (min-width: 900px) {
+  .wrapper_library {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+    gap: 1rem;
+    width: min(74rem, calc(100vw - 16rem));
+    padding-top: 2rem;
+    padding-bottom: 4rem;
+  }
+
+  .wrapper_library__item {
+    min-height: 22rem;
+    padding: 0;
+    border: 1px solid palette.$main-gray-color;
+    border-radius: 0.5rem;
+    background: palette.$main-nav-color;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .wrapper_library__item .wrapper_image img {
+    width: 100%;
+    height: 11rem;
+    min-height: 11rem;
+    max-height: 11rem;
+    border: none;
+    border-radius: 0;
+  }
+
+  .wrapper_library__item .wrapper_info {
+    min-height: 10rem;
+    padding: 1rem;
+  }
+
+  .wrapper_library__item .wrapper_info .wrapper_title {
+    width: 100%;
+    padding: 0;
+    padding-right: 3rem;
+    font-size: 1.05rem;
+    font-weight: 600;
+  }
+
+  .wrapper_library__item .wrapper_info .wrapper_title .wrapper_chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    padding-top: 0.75rem;
+  }
+
+  .wrapper_library__item .wrapper_info .wrapper_title .wrapper_chips app-chip {
+    margin-right: 0;
+  }
+
+  .wrapper_library__item .wrapper_info .wrapper_right {
+    top: 1rem;
+    right: 1rem;
   }
 }

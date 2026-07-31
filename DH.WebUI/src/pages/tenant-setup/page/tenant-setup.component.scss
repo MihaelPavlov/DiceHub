@@ -162,3 +162,82 @@
     width: 100%;
   }
 }
+
+@media (min-width: 900px) {
+  .wrapper {
+    max-width: 74rem;
+    min-height: calc(100vh - 5rem);
+    padding: 2.5rem 0;
+  }
+
+  .header {
+    margin-top: 0;
+    font-size: 1.8rem;
+  }
+
+  .sub-header {
+    max-width: 44rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .container {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(22rem, 0.85fr);
+    align-items: start;
+    gap: 1rem;
+    margin: 2rem;
+  }
+
+  .form-section {
+    height: 100%;
+    min-height: 25rem;
+    margin-bottom: 0;
+    padding: 1.25rem;
+    border: 1px solid palette.$main-gray-color;
+    border-radius: 0.5rem;
+    background: palette.$main-nav-color;
+  }
+
+  .input-field input,
+  .ng-select.app-select-long .ng-select-container {
+    border: 1px solid palette.$main-gray-color;
+    background: palette.$main-background-color;
+  }
+
+  .input-field input:focus {
+    outline: none;
+    border-color: palette.$main-blue-color;
+  }
+
+  .errors,
+  .actions {
+    grid-column: 1 / -1;
+  }
+
+  .actions {
+    justify-content: flex-end;
+    margin: 0 0 1rem;
+  }
+
+  .actions button {
+    width: auto;
+    min-width: 14rem;
+  }
+
+  .state-card {
+    width: min(36rem, calc(100vw - 4rem));
+    margin: 2rem auto;
+    border-radius: 0.5rem;
+  }
+}
+
+@media (min-width: 900px) and (max-width: 1080px) {
+  .container {
+    grid-template-columns: 1fr;
+  }
+
+  .form-section {
+    min-height: auto;
+  }
+}

@@ -176,7 +176,7 @@ export class AuthService {
                 this.userInfoSubject$.value?.role != UserRole.User
               )
                 this.router.navigateByUrl(
-                  FULL_ROUTE.CHALLENGES.ADMIN_CUSTOM_PERIOD
+                  `${user['tenant_id']}/${FULL_ROUTE.CHALLENGES.ADMIN_CUSTOM_PERIOD}`
                 );
             },
           });
@@ -247,7 +247,7 @@ export class AuthService {
                   this.userInfoSubject$.value?.role != UserRole.User
                 )
                   this.router.navigateByUrl(
-                    FULL_ROUTE.CHALLENGES.ADMIN_CUSTOM_PERIOD
+                    `${user['tenant_id']}/${FULL_ROUTE.CHALLENGES.ADMIN_CUSTOM_PERIOD}`
                   );
 
                 resolve();

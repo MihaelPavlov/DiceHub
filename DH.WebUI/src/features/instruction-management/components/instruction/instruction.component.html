@@ -7,5 +7,6 @@
   (backClicked)="navigateBack()"
 ></app-header>
 
-<app-link-info *ngIf="selectedTopic" [linkInfo]="selectedTopic.steps">
-</app-link-info>
+<main class="instruction-detail" *ngIf="selectedTopic">
+  <app-link-info [linkInfo]="selectedTopic.steps"></app-link-info>
+</main>

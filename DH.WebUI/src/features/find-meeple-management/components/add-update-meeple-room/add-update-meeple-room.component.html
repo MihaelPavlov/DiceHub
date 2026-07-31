@@ -33,14 +33,15 @@
   <div class="wrapper_stats">
     <div class="wrapper_stats__chips-left">
       <div class="chip surface-elevated">
-        <span
+        <span *ngIf="this.game"
           >{{ getGame("averagePlaytime") }}
           {{
-            this.game
-              ? ("meeple.add_update.placeholders.minutes" | translate)
-              : ""
+            "meeple.add_update.placeholders.minutes" | translate
           }}
         </span>
+        <span class="chip-placeholder" *ngIf="!this.game">{{
+          "meeple.add_update.chips.average_playtime" | translate
+        }}</span>
         <!-- schedule icon -->
         <svg height="24px" viewBox="0 -960 960 960" width="24px" fill="#fafafa">
           <path
@@ -49,10 +50,12 @@
         </svg>
       </div>
       <div class="chip surface-elevated">
-        <span
-          >{{ getGame("minPlayers") }} {{ this.game ? "-" : "" }}
-          {{ getGame("maxPlayers") }}</span
+        <span *ngIf="this.game"
+          >{{ getGame("minPlayers") }} - {{ getGame("maxPlayers") }}</span
         >
+        <span class="chip-placeholder" *ngIf="!this.game">{{
+          "meeple.add_update.chips.players" | translate
+        }}</span>
         <!-- group icon -->
         <svg height="24px" viewBox="0 -960 960 960" width="24px" fill="#fafafa">
           <path
@@ -80,7 +83,10 @@
             d="M165.23-86q-15.78 0-26.51-10.92Q128-107.83 128-122.77v-189.77q0-38.84 25.88-64.73 25.89-25.88 64.74-25.88H234v-145.16q0-38.84 25.88-64.73 25.89-25.88 64.74-25.88H446v-61.54q-19.23-13.23-29.62-29.04Q406-745.31 406-767.69q0-14.93 4.96-26.58 4.96-11.65 16.89-23.58L480-870l52.15 52.15q11.93 11.93 16.89 23.58 4.96 11.65 4.96 26.58 0 22.38-10.38 38.19-10.39 15.81-29.62 29.04v61.54h121.38q38.85 0 64.74 25.88Q726-587.15 726-548.31v145.16h15.38q38.85 0 64.74 25.88Q832-351.38 832-312.54v189.77q0 14.39-11.19 25.58Q809.62-86 795.23-86h-630ZM300-403.15h360v-145.16q0-10.77-6.92-17.69-6.93-6.92-17.7-6.92H324.62q-10.77 0-17.7 6.92-6.92 6.92-6.92 17.69v145.16ZM194-152h572v-160.54q0-10.77-6.92-17.69-6.93-6.92-17.7-6.92H218.62q-10.77 0-17.7 6.92-6.92 6.92-6.92 17.69V-152Zm106-251.15h360-360ZM194-152h572-572Zm532-251.15H234h492Z"
           />
         </svg>
-        <span>{{ getGame("minAge") }} {{ this.game ? "+" : "" }} </span>
+        <span *ngIf="this.game">{{ getGame("minAge") }} + </span>
+        <span class="chip-placeholder" *ngIf="!this.game">{{
+          "meeple.add_update.chips.min_age" | translate
+        }}</span>
       </div>
       <div class="chip surface-elevated">
         <!-- verified icon -->
@@ -112,6 +118,9 @@
           {{ this.gameInventory.availableCopies }} /
           {{ this.gameInventory.totalCopies }}
         </span>
+        <span class="chip-placeholder" *ngIf="!this.gameInventory">{{
+          "meeple.add_update.chips.availability" | translate
+        }}</span>
       </div>
     </div>
   </div>
@@ -120,7 +129,7 @@
     <span>{{ this.game?.name }}</span>
   </div>
 
-  <div class="wrapper_inputs">
+  <div class="wrapper_inputs date-time-fields">
     <div class="wrapper_inputs__input">
       <label class="required" for="startDate">{{
         "meeple.add_update.labels.choose_date" | translate
@@ -145,7 +154,7 @@
     </div>
   </div>
   <br />
-  <div class="wrapper_inputs">
+  <div class="wrapper_inputs room-fields">
     <div class="wrapper_inputs__input">
       <label class="required" for="name">{{
         "meeple.add_update.labels.name" | translate

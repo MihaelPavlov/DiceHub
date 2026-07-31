@@ -130,3 +130,69 @@
 .prefilled-field {
   opacity: 0.5;
 }
+
+@media (min-width: 900px) {
+  .header,
+  .info,
+  .field-inputs,
+  .wrapper_btn,
+  .expiry-message {
+    width: min(42rem, 100%);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .header,
+  .info,
+  .field-inputs {
+    padding: 1rem;
+    border: 1px solid palette.$main-gray-color;
+    border-radius: 0.5rem;
+    background: palette.$main-nav-color;
+  }
+
+  .header {
+    margin-top: 1rem;
+  }
+
+  .field-inputs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .field-inputs .reservation-indicator {
+    grid-column: 1 / -1;
+    margin-bottom: 0;
+  }
+
+  .input-field {
+    margin-bottom: 0;
+  }
+
+  .ng-select.app-select-long .ng-select-container {
+    border: 1px solid palette.$main-gray-color;
+    background: palette.$main-background-color;
+  }
+
+  .wrapper_btn button,
+  .btn {
+    width: 100%;
+    max-width: 42rem;
+  }
+
+  .wrapper {
+    width: min(24rem, 100%);
+    margin: 1rem auto;
+    padding: 1rem;
+    border: 1px solid palette.$main-gray-color;
+    border-radius: 0.5rem;
+    background: palette.$main-nav-color;
+  }
+}
+
+@media (min-width: 900px) and (max-width: 1080px) {
+  .field-inputs {
+    grid-template-columns: 1fr;
+  }
+}

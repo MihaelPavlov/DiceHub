@@ -1,4 +1,5 @@
-﻿using DH.Domain.Adapters.Authentication.Models;
+﻿using DH.Domain.Adapters.Authentication;
+using DH.Domain.Adapters.Authentication.Models;
 using DH.Domain.Adapters.Authentication.Services;
 using DH.Domain.Adapters.Email;
 using DH.Domain.Adapters.EmailSender;
@@ -21,7 +22,8 @@ internal class SendRegistrationEmailConfirmationCommandHandler(
     IUserManagementService userManagementService,
     IEmailHelperService emailHelperService,
     IEmailSender emailSender,
-    IConfiguration configuration) : IRequestHandler<SendRegistrationEmailConfirmationCommand, bool>
+    IConfiguration configuration,
+    ISystemUserContextAccessor systemUserContextAccessor) : IRequestHandler<SendRegistrationEmailConfirmationCommand, bool>
 {
     readonly ILogger<SendRegistrationEmailConfirmationCommandHandler> logger = logger;
     readonly ITenantSettingsCacheService tenantSettingsCacheService = tenantSettingsCacheService;
@@ -29,6 +31,7 @@ internal class SendRegistrationEmailConfirmationCommandHandler(
     readonly IEmailHelperService emailHelperService = emailHelperService;
     readonly IEmailSender emailSender = emailSender;
     readonly IConfiguration configuration = configuration;
+    readonly ISystemUserContextAccessor systemUserContextAccessor = systemUserContextAccessor;
 
     public async Task<bool> Handle(SendRegistrationEmailConfirmationCommand request, CancellationToken cancellationToken)
     {
@@ -89,8 +92,18 @@ internal class SendRegistrationEmailConfirmationCommandHandler(
             Body = body
         });
 
+        if (string.IsNullOrWhiteSpace(user.TenantId))
+        {
+            this.logger.LogWarning("User {UserId} has no tenant id. {EmailType} history was not saved.",
+                user.Id,
+                emailType);
+            return isEmailSendSuccessfully;
+        }
+
+        this.systemUserContextAccessor.Set(new RegistrationEmailSystemUserContext(user.TenantId, user.Id));
         await this.emailHelperService.CreateEmailHistory(new EmailHistory
         {
+            TenantId = user.TenantId,
             IsSuccessfully = isEmailSendSuccessfully,
             Body = body,
             SendedOn = DateTime.UtcNow,
@@ -105,5 +118,16 @@ internal class SendRegistrationEmailConfirmationCommandHandler(
             return false;
 
         return true;
+    }
+
+    private sealed class RegistrationEmailSystemUserContext(string tenantId, string userId) : IUserContext
+    {
+        public string? TenantId => tenantId;
+        public string? UserId => userId;
+        public int? RoleKey => null;
+        public string? TimeZone => "UTC";
+        public string? Language => "en";
+        public bool IsAuthenticated => false;
+        public bool IsSystem => true;
     }
 }

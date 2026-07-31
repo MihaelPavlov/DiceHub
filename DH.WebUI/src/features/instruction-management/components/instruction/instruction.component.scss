@@ -37,3 +37,24 @@
 :host ::ng-deep app-header .wrapper_header__title {
   text-align: unset !important;
 }
+
+@media (min-width: 900px) {
+  :host {
+    display: block;
+    min-height: calc(100vh - 5rem);
+  }
+
+  .wrapper_info {
+    width: min(72rem, calc(100vw - 16rem));
+    margin: 0 auto;
+    padding: 1rem 0;
+
+    .header {
+      font-size: 1.5rem;
+    }
+  }
+
+  .instruction-detail {
+    width: 100%;
+  }
+}

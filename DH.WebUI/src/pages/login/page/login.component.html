@@ -3,45 +3,60 @@
 <app-language-switch />
 
 <div class="wrapper">
-  <div class="interactive-option">
-    <div class="icon_wrapper" (click)="navigateToLanding()">
-      <svg  class="icon svg-color-interaction-option" viewBox="0 -960 960 960">
-        <path
-          d="M750.54-116.15 638.15-229.31l-88 88-11.07-11.07q-26.39-26.39-26.39-63.47 0-37.07 26.39-63.46l145.61-145.61q26.39-26.39 63.46-26.39 37.08 0 63.47 26.39l11.07 11.07-88 88 113.16 113.39q13.69 13.69 13.69 31.61 0 17.93-13.69 31.62l-33.08 33.08q-13.69 13.69-32.12 13.69-18.42 0-32.11-13.69ZM853-735.92 408.31-290.46l24.61 25.38q16.39 26.39 13.39 57.46-3 31.08-26.39 54.47l-11.07 11.07-88-88-113.39 114.16q-13.69 13.69-31.61 13.69-17.93 0-31.62-13.69L110.15-150q-13.69-13.69-13.69-31.62 0-17.92 13.69-31.61l114.16-113.39-88-88 11.07-11.07q23.39-23.39 54.97-26.39 31.57-3 57.96 14.39l26.15 25.38L731.92-857H853v121.08ZM333-601l14.23-15.77 14-14-14 14L333-601Zm-46.31 45.54L107-735.92V-857h121.08L407-677.31l-45.77 46.54L201-791h-28v28l160 162-46.31 45.54ZM363-337l424-426v-28h-28L334-366l29 29Zm0 0-13.23-15.77L334-366l15.77 13.23L363-337Z"
-        />
-      </svg>
+  <aside class="browser-panel">
+    <div class="browser-panel__eyebrow">DiceHub access</div>
+    <h1>{{ this.clubName ?? ("club" | translate) }}</h1>
+    <p>
+      Sign in to manage reservations, games, events, and rewards from a
+      workspace built for club operations.
+    </p>
+    <div class="browser-panel__metrics">
+      <span>Games</span>
+      <span>Reservations</span>
+      <span>Events</span>
     </div>
-  </div>
-  <span class="header">{{ this.clubName ?? ("club" | translate) }}</span>
+  </aside>
 
-  <form [formGroup]="this.form" class="container">
-    <div class="input-field">
-      <label for="email" class="required">{{
-        "login.labels.email" | translate
-      }}</label>
-      <input
-        [placeholder]="'login.placeholders.email' | translate"
-        type="text"
-        autocomplete="email"
-        formControlName="email"
-        class="surface-elevated"
-      />
+  <section class="auth-card">
+    <div class="interactive-option">
+      <div class="icon_wrapper" (click)="navigateToLanding()">
+        <svg class="icon svg-color-interaction-option" viewBox="0 -960 960 960">
+          <path
+            d="M750.54-116.15 638.15-229.31l-88 88-11.07-11.07q-26.39-26.39-26.39-63.47 0-37.07 26.39-63.46l145.61-145.61q26.39-26.39 63.46-26.39 37.08 0 63.47 26.39l11.07 11.07-88 88 113.16 113.39q13.69 13.69 13.69 31.61 0 17.93-13.69 31.62l-33.08 33.08q-13.69 13.69-32.12 13.69-18.42 0-32.11-13.69ZM853-735.92 408.31-290.46l24.61 25.38q16.39 26.39 13.39 57.46-3 31.08-26.39 54.47l-11.07 11.07-88-88-113.39 114.16q-13.69 13.69-31.61 13.69-17.93 0-31.62-13.69L110.15-150q-13.69-13.69-13.69-31.62 0-17.92 13.69-31.61l114.16-113.39-88-88 11.07-11.07q23.39-23.39 54.97-26.39 31.57-3 57.96 14.39l26.15 25.38L731.92-857H853v121.08ZM333-601l14.23-15.77 14-14-14 14L333-601Zm-46.31 45.54L107-735.92V-857h121.08L407-677.31l-45.77 46.54L201-791h-28v28l160 162-46.31 45.54ZM363-337l424-426v-28h-28L334-366l29 29Zm0 0-13.23-15.77L334-366l15.77 13.23L363-337Z"
+          />
+        </svg>
+      </div>
     </div>
-    <div class="input-field password-field">
-      <label for="password" class="required">{{
-        "login.labels.password" | translate
-      }}</label>
-      <input
-        [placeholder]="'login.placeholders.password' | translate"
-        [type]="showPassword ? 'text' : 'password'"
-        formControlName="password"
-        autocomplete="current-password"
-        class="surface-elevated"
-      />
-      <app-password-visibility-toggle
-        [(isVisible)]="showPassword"
-      ></app-password-visibility-toggle>
-    </div>
+    <span class="header">{{ this.clubName ?? ("club" | translate) }}</span>
+
+    <form [formGroup]="this.form" class="container">
+      <div class="input-field">
+        <label for="email" class="required">{{
+          "login.labels.email" | translate
+        }}</label>
+        <input
+          [placeholder]="'login.placeholders.email' | translate"
+          type="text"
+          autocomplete="email"
+          formControlName="email"
+          class="surface-elevated"
+        />
+      </div>
+      <div class="input-field password-field">
+        <label for="password" class="required">{{
+          "login.labels.password" | translate
+        }}</label>
+        <input
+          [placeholder]="'login.placeholders.password' | translate"
+          [type]="showPassword ? 'text' : 'password'"
+          formControlName="password"
+          autocomplete="current-password"
+          class="surface-elevated"
+        />
+        <app-password-visibility-toggle
+          [(isVisible)]="showPassword"
+        ></app-password-visibility-toggle>
+      </div>
     <!-- <div class="input-checkbox">
       <input
         type="checkbox"
@@ -59,49 +74,50 @@
       </div>
     </div> -->
 
-    <div class="options">
-      <span *ngIf="!isAdminLogin" class="markup" (click)="changeClub()">{{
-        "login.labels.change_club" | translate
-      }}</span>
+      <div class="options">
+        <span *ngIf="!isAdminLogin" class="markup" (click)="changeClub()">{{
+          "login.labels.change_club" | translate
+        }}</span>
 
-      <span class="markup" (click)="navigateToForgotPassword()">{{
-        "login.labels.lost_your_way" | translate
-      }}</span>
-    </div>
+        <span class="markup" (click)="navigateToForgotPassword()">{{
+          "login.labels.lost_your_way" | translate
+        }}</span>
+      </div>
 
-    <div *ngIf="getFirstErrorMessage()" class="errors">
-      {{ getFirstErrorMessage() }}
+      <div *ngIf="getFirstErrorMessage()" class="errors">
+        {{ getFirstErrorMessage() }}
 
-      <span *ngIf="showResend">
-        {{ "login.show_resend.or" | translate }}
-        <a class="resend" (click)="resendConfirmationEmail()">{{
-          "login.show_resend.click_to_resend" | translate
-        }}</a>
-      </span>
-    </div>
+        <span *ngIf="showResend">
+          {{ "login.show_resend.or" | translate }}
+          <a class="resend" (click)="resendConfirmationEmail()">{{
+            "login.show_resend.click_to_resend" | translate
+          }}</a>
+        </span>
+      </div>
 
-    <div *ngIf="getMessageFromRedirect" class="redirect-message">
-      {{ getMessageFromRedirect }}
-    </div>
+      <div *ngIf="getMessageFromRedirect" class="redirect-message">
+        {{ getMessageFromRedirect }}
+      </div>
 
-    <div class="btn-container">
-      <button
-        [disabled]="this.form.invalid"
-        type="button"
-        (click)="onLogin()"
-        class="btn btn-gray btn-border-blue btn-font-blue"
-      >
-        {{ "login.login_btn" | translate }}
-      </button>
-    </div>
-    <div *ngIf="!isAdminLogin" class="additional-link">
-      <p>{{ "login.no_account" | translate }}</p>
-      <p>
-        <strong class="markup" (click)="navigateToRegister()">{{
-          "login.sign_up" | translate
-        }}</strong>
-        {{ "login.enjoy_journey" | translate }}
-      </p>
-    </div>
-  </form>
+      <div class="btn-container">
+        <button
+          [disabled]="this.form.invalid"
+          type="button"
+          (click)="onLogin()"
+          class="btn btn-gray btn-border-blue btn-font-blue"
+        >
+          {{ "login.login_btn" | translate }}
+        </button>
+      </div>
+      <div *ngIf="!isAdminLogin" class="additional-link">
+        <p>{{ "login.no_account" | translate }}</p>
+        <p>
+          <strong class="markup" (click)="navigateToRegister()">{{
+            "login.sign_up" | translate
+          }}</strong>
+          {{ "login.enjoy_journey" | translate }}
+        </p>
+      </div>
+    </form>
+  </section>
 </div>

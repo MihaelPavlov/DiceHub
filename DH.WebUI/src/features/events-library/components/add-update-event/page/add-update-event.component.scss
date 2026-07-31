@@ -99,6 +99,14 @@
 }
 
 .input-field {
+  .field-error {
+    margin-top: 0.35rem;
+    color: palette.$main-red-color;
+    font-size: 0.85rem;
+    line-height: 1.3;
+    text-align: left;
+  }
+
   .label-row {
     display: flex;
     justify-content: space-between;
@@ -139,5 +147,154 @@
         }
       }
     }
+  }
+}
+
+@media (min-width: 900px) {
+  .wrapper_icons {
+    width: min(74rem, calc(100vw - 16rem));
+    margin: 2rem auto 1rem;
+  }
+
+  .arrow {
+    width: 2.5rem;
+    height: 2.5rem;
+    cursor: pointer;
+  }
+
+  .container {
+    width: min(74rem, calc(100vw - 16rem));
+    margin: 0 auto;
+    padding-bottom: 4rem;
+  }
+
+  .upload-section {
+    display: grid;
+    grid-template-columns: minmax(18rem, 0.75fr) minmax(0, 1.25fr);
+    column-gap: 1.5rem;
+    width: 100%;
+    padding: 1.25rem;
+    border: 1px solid palette.$main-gray-color;
+    border-radius: 0.5rem;
+    background: palette.$main-nav-color;
+    text-align: left;
+  }
+
+  .upload-section .upload-icon {
+    grid-row: span 8;
+    width: 100%;
+    margin: 0;
+    border: 1px solid palette.$main-gray-color;
+    background: palette.$main-background-color;
+  }
+
+  .upload-section .upload-icon label {
+    width: 100%;
+    height: 100%;
+  }
+
+  .upload-section .upload-icon label img {
+    width: 100%;
+    height: 100%;
+    padding: 1rem;
+    object-fit: contain;
+  }
+
+  .upload-section .statistics {
+    margin: 0 0 1rem;
+  }
+
+  .upload-section .statistics span {
+    display: inline-flex;
+    border-radius: 0.4rem;
+    background: palette.$main-background-color;
+  }
+
+  .input-group {
+    gap: 1rem;
+  }
+
+  .input-group .input-field:not(:last-child) {
+    margin-right: 0;
+  }
+
+  .input-field input,
+  .input-field select,
+  .input-field textarea {
+    border: 1px solid palette.$main-gray-color;
+    background: palette.$main-background-color;
+  }
+
+  :host ::ng-deep .input-field .ng-select.app-select-long {
+    border-radius: 0.4rem;
+    background: palette.$main-background-color;
+  }
+
+  :host ::ng-deep .input-field .ng-select.app-select-long .ng-select-container {
+    min-height: 2.65rem;
+    border: 1px solid palette.$main-gray-color;
+    border-radius: 0.4rem;
+    background: palette.$main-background-color;
+    color: palette.$main-font-color;
+  }
+
+  :host ::ng-deep
+    .input-field
+    .ng-select.app-select-long
+    .ng-select-container
+    .ng-value-container {
+    padding-left: 0.7rem;
+  }
+
+  :host ::ng-deep
+    .input-field
+    .ng-select.app-select-long
+    .ng-select-container
+    .ng-value-container
+    .ng-input
+    > input {
+    padding: 0;
+  }
+
+  :host ::ng-deep
+    .input-field
+    .ng-select.app-select-long.ng-select-focused:not(.ng-select-opened)
+    > .ng-select-container,
+  .input-field input:focus,
+  .input-field select:focus,
+  .input-field textarea:focus {
+    outline: none;
+    border-color: palette.$main-blue-color;
+    background: palette.$main-background-color;
+  }
+
+  .expand-textarea-mobile {
+    min-height: 9rem;
+  }
+
+  .errors,
+  .upload-section > button {
+    grid-column: 2;
+  }
+
+  .upload-section > button {
+    width: 100%;
+  }
+}
+
+@media (min-width: 900px) and (max-width: 1080px) {
+  .upload-section {
+    grid-template-columns: 1fr;
+  }
+
+  .upload-section .upload-icon {
+    grid-row: auto;
+    max-width: 22rem;
+    margin: 0 auto 1rem;
+  }
+
+  .errors,
+  .upload-section > button {
+    grid-column: 1;
   }
 }

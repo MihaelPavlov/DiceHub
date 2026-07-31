@@ -10,12 +10,12 @@
       [columns]="[
         {
           name: 'reservation_management.navbar_columns.games' | translate,
-          link: 'reservations/games',
+          link: getTenantRoute('reservations/games'),
           isActive: isActiveLink('/reservations/games')
         },
         {
           name: 'reservation_management.navbar_columns.tables' | translate,
-          link: 'reservations/tables',
+          link: getTenantRoute('reservations/tables'),
           isActive: isActiveLink('/reservations/tables')
         }
       ]"

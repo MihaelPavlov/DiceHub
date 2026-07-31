@@ -85,6 +85,7 @@ public class TenantSetupService(
 
         this.systemUserContextAccessor.Set(new TenantSetupSystemUserContext(tenantId));
         await CreateSeededGames(tenantId, selectedSeeds, cancellationToken);
+        await CreateEmailTemplates(tenantId, cancellationToken);
         await this.db.SaveChangesAsync(cancellationToken);
 
         return new CompleteTenantSetupResult
@@ -149,6 +150,22 @@ public class TenantSetupService(
                 TotalCopies = 1,
             }, cancellationToken);
         }
+    }
+
+    async Task CreateEmailTemplates(string tenantId, CancellationToken cancellationToken)
+    {
+        var templates = SeedData.EMAIL_TEMPLATES
+            .Select(x => new EmailTemplate
+            {
+                TenantId = tenantId,
+                Language = x.Language,
+                TemplateName = x.TemplateName,
+                TemplateHtml = x.TemplateHtml,
+                Subject = x.Subject,
+            })
+            .ToList();
+
+        await this.db.EmailTemplates.AddRangeAsync(templates, cancellationToken);
     }
 
     string ResolveSeedImageUrl(SeedGameCatalog seed)

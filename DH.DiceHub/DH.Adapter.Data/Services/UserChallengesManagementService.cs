@@ -801,23 +801,22 @@ public class UserChallengesManagementService : IUserChallengesManagementService
     /// <param name="userPerformanceId">The ID of the user's performance period.</param>
     private void AssignRewards(RewardLevel rewardLevel, int count, List<ChallengeReward> allRewards, List<UserChallengePeriodReward> userRewards, HashSet<RewardRequiredPoint> usedPoints, int userPerformanceId)
     {
-        var availableRewards = allRewards.Where(r => r.Level == rewardLevel).ToList();
-
         for (int i = 0; i < count; i++)
         {
+            var availableRewards = allRewards.Where(r => r.Level == rewardLevel).ToList();
             var selectedReward = SelectUniqueReward(availableRewards, usedPoints);
 
-            if (selectedReward != null)
-            {
-                allRewards.Remove(selectedReward); // Remove the selected reward to ensure uniqueness
+            if (selectedReward is null)
+                break;
 
-                userRewards.Add(new UserChallengePeriodReward
-                {
-                    ChallengeRewardId = selectedReward.Id,
-                    UserChallengePeriodPerformanceId = userPerformanceId,
-                    ChallengeReward = selectedReward
-                });
-            }
+            allRewards.Remove(selectedReward); // Remove the selected reward to ensure uniqueness
+
+            userRewards.Add(new UserChallengePeriodReward
+            {
+                ChallengeRewardId = selectedReward.Id,
+                UserChallengePeriodPerformanceId = userPerformanceId,
+                ChallengeReward = selectedReward
+            });
         }
     }
 
@@ -827,12 +826,19 @@ public class UserChallengesManagementService : IUserChallengesManagementService
     /// <param name="availableRewards">A list of available rewards to select from.</param>
     /// <param name="usedPoints">A set of used points to ensure the selected reward is unique.</param>
     /// <returns>A unique reward if found, otherwise null after multiple attempts.</returns>
-    private ChallengeReward SelectUniqueReward(List<ChallengeReward> availableRewards, HashSet<RewardRequiredPoint> usedPoints)
+    private ChallengeReward? SelectUniqueReward(List<ChallengeReward> availableRewards, HashSet<RewardRequiredPoint> usedPoints)
     {
+        var uniqueRewards = availableRewards
+            .Where(x => !usedPoints.Contains(x.RequiredPoints))
+            .ToList();
+
+        if (uniqueRewards.Count == 0)
+            return null;
+
         for (int attempt = 0; attempt < 10; attempt++)
         {
-            var randomIndex = new Random().Next(availableRewards.Count);
-            var reward = availableRewards[randomIndex];
+            var randomIndex = Random.Shared.Next(uniqueRewards.Count);
+            var reward = uniqueRewards[randomIndex];
 
             // Check if the required points are already used
             if (!usedPoints.Contains(reward.RequiredPoints))

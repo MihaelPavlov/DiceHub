@@ -60,3 +60,30 @@
   padding: 5px 10px;
   width: 100%;
 }
+
+@media (min-width: 900px) {
+  .challenges-grid {
+    width: min(72rem, calc(100vw - 16rem));
+    margin: 1rem auto 3rem;
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    gap: 1rem;
+    padding: 0;
+  }
+
+  .challenge-card {
+    border-radius: 0.5rem;
+    align-items: stretch;
+  }
+
+  .challenge-body {
+    .name-content,
+    .description-content {
+      margin: 0.75rem 0;
+    }
+
+    .input-field input {
+      width: 5rem;
+      border-radius: 0.5rem;
+    }
+  }
+}

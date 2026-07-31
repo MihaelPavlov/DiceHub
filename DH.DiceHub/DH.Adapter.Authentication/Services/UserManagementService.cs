@@ -1,4 +1,5 @@
 ﻿using DH.Adapter.Authentication.Entities;
+using DH.Domain.Adapters.Authentication;
 using DH.Domain.Adapters.Authentication.Models;
 using DH.Domain.Adapters.Authentication.Models.Enums;
 using DH.Domain.Adapters.Authentication.Services;
@@ -8,6 +9,7 @@ using DH.Domain.Entities;
 using DH.Domain.Enums;
 using DH.Domain.Repositories;
 using DH.OperationResultCore.Exceptions;
+using DH.Adapter.Authentication.Helper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -20,6 +22,7 @@ internal class UserManagementService(
     RoleManager<IdentityRole> roleManager,
     ILocalizationService localizer,
     ISynchronizeUsersChallengesQueue queue,
+    ISystemUserContextAccessor systemUserContextAccessor,
     IRepository<UserDeviceToken> userDeviceTokenRepository,
     IRepository<TenantUserSetting> tenantUserSettingRepository) : IUserManagementService
 {
@@ -28,6 +31,7 @@ internal class UserManagementService(
     readonly RoleManager<IdentityRole> roleManager = roleManager;
     readonly ILocalizationService localizer = localizer;
     readonly ISynchronizeUsersChallengesQueue queue = queue;
+    readonly ISystemUserContextAccessor systemUserContextAccessor = systemUserContextAccessor;
     readonly IRepository<UserDeviceToken> userDeviceTokenRepository = userDeviceTokenRepository;
     readonly IRepository<TenantUserSetting> tenantUserSettingRepository = tenantUserSettingRepository;
 
@@ -48,54 +52,82 @@ internal class UserManagementService(
         if (existingUserByUsername != null)
             throw new ValidationErrorsException("Username", this.localizer["UserExistUsername"]);
 
-        var user = new ApplicationUser()
-        {
-            UserName = form.Username,
-            Email = form.Email,
-            TenantId = form.TenantId.Trim()
-        };
-        var createUserResult = await userManager.CreateAsync(user, form.Password);
-
-        if (!createUserResult.Succeeded)
-            throw new ValidationErrorsException("General", this.localizer["UserRegistrationFailed"]);
-
         if (!await this.roleManager.Roles.AnyAsync(x => x.Name == Role.User.ToString()))
         {
             this.logger.LogCritical("User role was not found during registration of user.");
             throw new BadRequestException(this.localizer["UserRegistrationFailed"]);
         }
 
-        await this.userManager.AddToRoleAsync(user, Role.User.ToString());
-
-        user = await this.userManager.Users
-            .Where(x => x.Email == form.Email && !x.IsDeleted).FirstOrDefaultAsync();
-
-        if (user is null)
-            throw new NotFoundException(this.localizer["UserNotCreated"]);
-
-        await this.queue.AddSynchronizeNewUserJob(user.Id);
-
-        if (!string.IsNullOrEmpty(form.DeviceToken))
+        var tenantId = form.TenantId.Trim();
+        var user = new ApplicationUser()
         {
-            await this.userDeviceTokenRepository.AddAsync(new UserDeviceToken
+            UserName = form.Username,
+            Email = form.Email,
+            TenantId = tenantId
+        };
+        var createUserResult = await userManager.CreateAsync(user, form.Password);
+
+        if (!createUserResult.Succeeded)
+            throw new ValidationErrorsException("General", this.localizer["UserRegistrationFailed"]);
+
+        try
+        {
+            var addRoleResult = await this.userManager.AddToRoleAsync(user, Role.User.ToString());
+
+            if (!addRoleResult.Succeeded)
+                throw new BadRequestException(this.localizer["UserRegistrationFailed"]);
+
+            user = await this.userManager.Users
+                .Where(x => x.Email == form.Email && !x.IsDeleted).FirstOrDefaultAsync();
+
+            if (user is null)
+                throw new NotFoundException(this.localizer["UserNotCreated"]);
+
+            if (!string.IsNullOrEmpty(form.DeviceToken))
             {
-                DeviceToken = form.DeviceToken,
-                LastUpdated = DateTime.UtcNow,
-                UserId = user.Id
-            }, CancellationToken.None);
-        }
+                this.SetRegistrationTenantContext(tenantId, user.Id);
+                await this.userDeviceTokenRepository.AddAsync(new UserDeviceToken
+                {
+                    DeviceToken = form.DeviceToken,
+                    LastUpdated = DateTime.UtcNow,
+                    UserId = user.Id
+                }, CancellationToken.None);
+            }
 
-        await this.tenantUserSettingRepository.AddAsync(new TenantUserSetting
+            this.SetRegistrationTenantContext(tenantId, user.Id);
+            await this.tenantUserSettingRepository.AddAsync(new TenantUserSetting
+            {
+                UserId = user.Id,
+                Language = form.Language ?? SupportLanguages.EN.ToString(),
+            }, CancellationToken.None);
+
+            this.SetRegistrationTenantContext(tenantId, user.Id);
+            await this.queue.AddSynchronizeNewUserJob(user.Id);
+        }
+        catch (Exception ex)
         {
-            UserId = user.Id,
-            Language = form.Language ?? SupportLanguages.EN.ToString(),
-        }, CancellationToken.None);
+            this.logger.LogError(ex, "Registration side effects failed for user {UserId}. Removing created account.", user!.Id);
+
+            var deleteResult = await this.userManager.DeleteAsync(user);
+            if (!deleteResult.Succeeded)
+            {
+                this.logger.LogError(
+                    "Failed to remove user {UserId} after registration side effects failed. Errors: {Errors}",
+                    user.Id,
+                    string.Join(", ", deleteResult.Errors.Select(x => x.Description)));
+            }
+
+            throw;
+        }
 
         return new UserRegistrationResponse
         {
             UserId = user.Id,
         };
     }
+
+    private void SetRegistrationTenantContext(string tenantId, string userId)
+        => this.systemUserContextAccessor.Set(new SystemUserContext(tenantId, userId));
 
     public async Task<UserModel?> GetUserById(string id, CancellationToken cancellationToken)
     {
@@ -104,6 +136,7 @@ internal class UserManagementService(
             .Select(x => new UserModel
             {
                 Id = x.Id,
+                TenantId = x.TenantId,
                 UserName = x.UserName ?? this.localizer["NotProvided"],
                 Email = x.Email ?? this.localizer["NotProvided"],
                 PhoneNumber = x.PhoneNumber ?? this.localizer["NotProvided"],
@@ -130,6 +163,7 @@ internal class UserManagementService(
         return new UserModel
         {
             Id = user!.Id,
+            TenantId = user.TenantId,
             UserName = user.UserName ?? this.localizer["NotProvided"],
             Email = user.Email ?? this.localizer["NotProvided"],
         };
@@ -234,6 +268,7 @@ internal class UserManagementService(
             .Select(x => new UserModel
             {
                 Id = x.Id,
+                TenantId = x.TenantId,
                 UserName = x.UserName ?? this.localizer["NotProvided"],
                 Email = x.Email ?? this.localizer["NotProvided"],
                 ImageUrl = string.Empty

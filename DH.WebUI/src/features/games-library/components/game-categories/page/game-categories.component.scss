@@ -34,3 +34,29 @@
     }
   }
 }
+
+@media (min-width: 900px) {
+  .wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+    gap: 1rem;
+    width: min(74rem, calc(100vw - 4rem));
+    margin-top: 2rem;
+    margin-bottom: 4rem;
+  }
+
+  .wrapper_category {
+    max-width: none;
+    min-height: 5.5rem;
+    max-height: none;
+    margin: 0;
+    border: 1px solid palette.$main-gray-color;
+    border-radius: 0.5rem;
+    background: palette.$main-nav-color;
+    cursor: pointer;
+  }
+
+  .wrapper_category-text {
+    font-weight: 600;
+  }
+}

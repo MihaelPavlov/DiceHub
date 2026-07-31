@@ -1,4 +1,5 @@
-﻿using DH.Domain.Entities;
+﻿using DH.Domain.Adapters.Authentication;
+using DH.Domain.Entities;
 using DH.Domain.Enums;
 using DH.Domain.Services.Queue;
 using Microsoft.EntityFrameworkCore;
@@ -10,11 +11,16 @@ public class QueuedJobService : IQueuedJobService
 {
     readonly IDbContextFactory<TenantDbContext> contextFactory;
     readonly ILogger<QueuedJobService> logger;
+    readonly ISystemUserContextAccessor systemUserContextAccessor;
 
-    public QueuedJobService(IDbContextFactory<TenantDbContext> contextFactory, ILogger<QueuedJobService> logger)
+    public QueuedJobService(
+        IDbContextFactory<TenantDbContext> contextFactory,
+        ILogger<QueuedJobService> logger,
+        ISystemUserContextAccessor systemUserContextAccessor)
     {
         this.logger = logger;
         this.contextFactory = contextFactory;
+        this.systemUserContextAccessor = systemUserContextAccessor;
     }
 
     public async Task Create(string queueName, string jobId, string payload, string? jobType = null)
@@ -69,6 +75,7 @@ public class QueuedJobService : IQueuedJobService
             }
 
             job.MessagePayload = payload;
+            this.SetJobTenantContext(job);
             await context.SaveChangesAsync();
         }
     }
@@ -112,11 +119,20 @@ public class QueuedJobService : IQueuedJobService
             if (job != null)
             {
                 job.Status = jobStatus;
+                this.SetJobTenantContext(job);
                 await context.SaveChangesAsync();
                 return true;
             }
             return false;
         }
+    }
+
+    void SetJobTenantContext(QueuedJob job)
+    {
+        if (string.IsNullOrWhiteSpace(job.TenantId))
+            return;
+
+        this.systemUserContextAccessor.Set(new QueuedJobSystemUserContext(job.TenantId));
     }
 
     public List<QueuedJob> GetJobsInPendingStatus()
@@ -125,5 +141,16 @@ public class QueuedJobService : IQueuedJobService
         {
             return context.QueuedJobs.AsNoTracking().Where(x => x.Status == JobStatus.Pending).ToList();
         }
+    }
+
+    private sealed class QueuedJobSystemUserContext(string tenantId) : IUserContext
+    {
+        public string? TenantId => tenantId;
+        public string? UserId => "queued-job-service";
+        public int? RoleKey => null;
+        public string? TimeZone => "UTC";
+        public string? Language => "en";
+        public bool IsAuthenticated => false;
+        public bool IsSystem => true;
     }
 }

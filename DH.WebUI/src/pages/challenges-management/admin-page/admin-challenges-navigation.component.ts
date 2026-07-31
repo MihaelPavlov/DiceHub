@@ -29,19 +29,19 @@ export class AdminChallengesNavigationComponent {
   public columns: Column[] = [
     {
       name: this.translateService.instant('admin_challenge.columns.challenges'),
-      link: this.ADMIN_LIST,
+      link: this.getTenantRoute(this.ADMIN_LIST),
       isActive: this.isActiveLink(this.ADMIN_LIST),
     },
     {
       name: this.translateService.instant('admin_challenge.columns.rewards'),
-      link: this.ADMIN_SYSTEM_REWARDS,
+      link: this.getTenantRoute(this.ADMIN_SYSTEM_REWARDS),
       isActive: this.isActiveLink(this.ADMIN_SYSTEM_REWARDS),
     },
     {
       name: this.translateService.instant(
         'admin_challenge.columns.custom_period'
       ),
-      link: this.ADMIN_CUSTOM_PERIOD,
+      link: this.getTenantRoute(this.ADMIN_CUSTOM_PERIOD),
       isActive: this.isActiveLink(this.ADMIN_CUSTOM_PERIOD),
     },
   ];
@@ -60,6 +60,10 @@ export class AdminChallengesNavigationComponent {
 
   public isActiveLink(link: string): boolean {
     return this.router.url.includes(link);
+  }
+
+  private getTenantRoute(path: string): string {
+    return this.tenantRouter.buildTenantUrl(path);
   }
 
   public onActivate(componentRef: any) {

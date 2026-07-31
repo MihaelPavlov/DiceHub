@@ -74,6 +74,7 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
       )
       .subscribe((navEvent: any) => {        
         this.activeLink = (navEvent as NavigationEnd).url.split('/')[2];
+        this.cd.detectChanges();
       });
     if (this.authService.getUser?.role !== UserRole.User) {
       this.subscriptionRefreshForAnyActiveReservations = setInterval(
@@ -164,6 +165,10 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
 
   public navigateToSpaceManagement(): void {
     this.tenantRouter.navigateTenant('space/home');
+  }
+
+  public isDesktopActionActive(page: string): boolean {
+    return this.activeLink === page;
   }
 
   public navigateToChallenges(): void {
@@ -269,6 +274,7 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
 
   private updateMenuItems() {
     let page: string = location.pathname.split('/')[2];
+    this.activeLink = page;
 
     this.updateMenuItemsWithPage(page);
   }

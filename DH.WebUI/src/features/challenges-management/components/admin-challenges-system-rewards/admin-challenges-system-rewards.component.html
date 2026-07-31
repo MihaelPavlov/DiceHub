@@ -1,6 +1,9 @@
 <div class="container">
   <div class="buttons">
-    <div class="btn-container" (click)="toggleRewardForm()">
+    <div
+      class="btn-container"
+      (click)="showRewardForm ? closeRewardForm($event) : openRewardForm()"
+    >
       <ng-container *ngIf="!editRewardId">
         <span>{{ "admin_rewards.add_reward" | translate }}</span>
         <!-- add icon -->
@@ -79,7 +82,7 @@
         <!-- close icon -->
         <svg
           class="input-remove"
-          (click)="toggleRewardForm()"
+          (click)="closeRewardForm($event)"
           viewBox="0 -960 960 960"
           *ngIf="showRewardForm"
         >
@@ -90,7 +93,7 @@
       </div>
       <div class="wrapper">
         <div class="inputs">
-          <div class="upload-icon surface-elevated">
+          <div class="upload-icon reward-image-field surface-elevated">
             <input
               type="file"
               id="file-upload"
@@ -107,7 +110,7 @@
               </div>
             </label>
           </div>
-          <div class="input-field">
+          <div class="input-field reward-level-field">
             <label for="level" class="required">
               {{ "admin_rewards.labels.select_level" | translate }}</label
             >
@@ -125,7 +128,7 @@
             >
             </ng-select>
           </div>
-          <div class="input-group">
+          <div class="input-group reward-meta-fields">
             <div class="input-field">
               <label for="requiredPoints input-label" class="required">
                 {{ "admin_rewards.labels.required_points" | translate }}
@@ -173,7 +176,7 @@
             </div>
           </div>
 
-          <div class="input-field">
+          <div class="input-field reward-name-field">
             <div class="label-row">
               <label for="description" class="required">{{
                 "admin_rewards.labels.name" | translate
@@ -246,7 +249,7 @@
             />
           </div>
 
-          <div class="input-field">
+          <div class="input-field reward-description-field">
             <div class="label-row">
               <label for="description" class="required">{{
                 "admin_rewards.labels.description" | translate

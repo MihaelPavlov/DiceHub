@@ -45,7 +45,11 @@ export class ChallengeUserAccessGuard {
         );
       }
       if (cachedUser.role !== UserRole.User) {
-        return of(this.router.parseUrl(FULL_ROUTE.CHALLENGES.ADMIN_LIST));
+        return of(
+          this.router.parseUrl(
+            this.tenantRouter.buildTenantUrl(FULL_ROUTE.CHALLENGES.ADMIN_LIST)
+          )
+        );
       }
       return of(true);
     }
@@ -63,7 +67,9 @@ export class ChallengeUserAccessGuard {
             this.tenantRouter.buildTenantUrl(ROUTE.LOGIN)
           );
         if (user.role !== UserRole.User)
-          return this.router.parseUrl(FULL_ROUTE.CHALLENGES.ADMIN_LIST);
+          return this.router.parseUrl(
+            this.tenantRouter.buildTenantUrl(FULL_ROUTE.CHALLENGES.ADMIN_LIST)
+          );
         return true;
       }),
       catchError(() =>

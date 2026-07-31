@@ -97,7 +97,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   public navigateToInstructions(): void {
     this.navigationService.setPreviousUrl(this.router.url);
-    this.tenantRouter.navigateTenant(ROUTE.INSTRUCTIONS);
+    this.router.navigateByUrl(ROUTE.INSTRUCTIONS);
   }
 
   public navigateToVisitorChart(): void {

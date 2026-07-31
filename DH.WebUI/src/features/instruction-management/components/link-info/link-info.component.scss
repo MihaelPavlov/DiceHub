@@ -122,3 +122,102 @@
 .blue {
   color: palette.$main-blue-color;
 }
+
+@media (min-width: 900px) {
+  .carousel {
+    width: min(72rem, calc(100vw - 16rem));
+    margin: 0 auto 3rem;
+    padding: 0 4rem;
+    box-sizing: border-box;
+    overflow: visible;
+  }
+
+  .instruction-steps {
+    padding-top: 0.5rem;
+  }
+
+  .carousel__viewport {
+    overflow: hidden;
+    border: 0.1rem solid rgba(117, 160, 255, 0.2);
+    border-radius: 0.5rem;
+    background-color: rgba(49, 49, 59, 0.28);
+  }
+
+  .carousel__slide {
+    padding: 2rem;
+    box-sizing: border-box;
+  }
+
+  .carousel__slide .wrapper {
+    display: grid;
+    grid-template-columns: minmax(18rem, 1fr) minmax(0, 1fr);
+    align-items: center;
+    gap: 2.5rem;
+    min-height: 27rem;
+    margin: 0;
+  }
+
+  .carousel__slide .wrapper_image,
+  .carousel__slide .wrapper_link {
+    min-width: 0;
+  }
+
+  .wrapper_image {
+    min-height: 22rem;
+    align-items: center;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    background-color: rgba(21, 22, 28, 0.42);
+
+    img {
+      width: 100%;
+      max-height: 24rem;
+      object-fit: contain;
+    }
+  }
+
+  .wrapper_link {
+    margin: 0;
+    text-align: left;
+
+    .name {
+      margin-bottom: 0.75rem;
+      font-size: 1.35rem;
+    }
+
+    .description {
+      color: palette.$main-font-gray-color;
+      line-height: 1.6;
+      white-space: pre-line;
+    }
+
+    .action_link {
+      display: inline-block;
+      margin-top: 1rem;
+    }
+  }
+
+  .carousel__prev,
+  .carousel__next {
+    position: absolute;
+    top: 50%;
+    border-radius: 0.5rem;
+    background-color: palette.$main-nav-color;
+    border: 0.1rem solid rgba(117, 160, 255, 0.25);
+  }
+
+  .carousel__prev {
+    left: -0.9rem;
+  }
+
+  .carousel__next {
+    right: 0.5rem;
+  }
+
+  .carousel__navigation {
+    position: static;
+    width: auto;
+    padding: 1rem 0 0;
+    transform: none;
+  }
+}

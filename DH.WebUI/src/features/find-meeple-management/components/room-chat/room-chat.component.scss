@@ -209,6 +209,7 @@
       font-size: 1rem;
       color: palette.$main-font-gray-color;
       padding-left: 1rem;
+      pointer-events: none;
     }
 
     .form__field:focus {
@@ -225,6 +226,67 @@
       padding-bottom: 0.6rem;
       font-weight: 700;
       border-width: 3px;
+    }
+
+    .svg-color-fill {
+      cursor: pointer;
+    }
+  }
+}
+
+@media (min-width: 900px) {
+  .wrapper_container {
+    width: min(72rem, calc(100vw - 16rem));
+    height: calc(100dvh - 2rem);
+    margin: 1rem auto;
+    overflow: hidden;
+
+    .wrapper_header_container {
+      .wrapper_icons {
+        padding: 0;
+
+        .header_name {
+          width: auto;
+          flex: 1;
+          padding-top: 0.25rem;
+          font-size: 1.6rem;
+        }
+      }
+
+      .wrapper_header {
+        margin: 0.5rem 0 1rem;
+      }
+    }
+
+    .wrapper_lobby {
+      width: auto;
+      flex: 1;
+      margin: 0;
+      padding: 1rem 1.25rem;
+      border-radius: 0.5rem;
+      background-color: palette.$main-background-color;
+      border: 0.1rem solid palette.$main-nav-color;
+
+      &__left-chat .item span,
+      &__right-chat .item span {
+        max-width: 55%;
+        padding: 0.65rem 0.8rem;
+      }
+    }
+
+    .form__group {
+      width: 100%;
+      margin-top: 1rem;
+      padding-top: 0;
+
+      .form__field {
+        border-radius: 0.5rem;
+        padding: 0.85rem 1rem;
+      }
+
+      .form__label {
+        top: 0.75rem;
+      }
     }
   }
 }

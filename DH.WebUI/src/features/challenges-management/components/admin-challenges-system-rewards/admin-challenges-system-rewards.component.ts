@@ -165,14 +165,23 @@ export class AdminChallengesSystemRewardsComponent extends Form {
     return formGroup as FormGroup;
   }
 
-  public toggleRewardForm(isOpenFromEdit: boolean = false) {
-    this.showRewardForm = !this.showRewardForm;
+  public openRewardForm(): void {
+    this.showRewardForm = true;
+  }
 
-    if (!isOpenFromEdit) {
-      this.form.reset();
-      this.imagePreview = null;
-      this.editRewardId = null;
+  public closeRewardForm(event?: Event): void {
+    event?.stopPropagation();
+    this.showRewardForm = false;
+    this.resetRewardForm();
+  }
+
+  public toggleRewardForm(isOpenFromEdit: boolean = false): void {
+    if (this.showRewardForm && !isOpenFromEdit) {
+      this.closeRewardForm();
+      return;
     }
+
+    this.showRewardForm = true;
   }
 
   public onAddReward() {
@@ -379,5 +388,16 @@ export class AdminChallengesSystemRewardsComponent extends Form {
       description_bg: new FormControl<string>('', [Validators.required]),
       image: new FormControl<string | null>('', [Validators.required]),
     });
+  }
+
+  private resetRewardForm(): void {
+    this.form.reset();
+    this.imagePreview = null;
+    this.fileToUpload = null;
+    this.imageError = null;
+    this.editRewardId = null;
+    this.rewardRequiredPointList = [];
+    this.skipFirstSelectedLevelChange = true;
+    this.form.controls.requiredPoints.disable();
   }
 }

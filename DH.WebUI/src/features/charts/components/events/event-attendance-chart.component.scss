@@ -63,6 +63,31 @@
 .wrapper {
   margin: 1rem;
   margin-bottom: 10rem;
+
+  .quick-ranges {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+
+    button {
+      padding: 0.55rem 0.85rem;
+      border: 0.1rem solid rgba(117, 160, 255, 0.22);
+      border-radius: 0.5rem;
+      background-color: palette.$main-nav-color;
+      color: palette.$main-font-gray-color;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    button.active {
+      border-color: palette.$main-blue-color;
+      background-color: palette.$main-blue-color;
+      color: palette.$main-font-color;
+    }
+  }
+
   .container {
     padding: 1rem;
   }
@@ -78,4 +103,100 @@
   display: flex;
   justify-content: center;
   text-align: center;
+}
+
+@media (min-width: 900px) {
+  .wrapper_icons,
+  .mini_header,
+  .wrapper {
+    width: min(72rem, calc(100vw - 16rem));
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .wrapper_icons {
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+
+    .header_name {
+      flex: 1;
+      width: auto;
+      padding: 0;
+      text-align: center;
+      font-size: 1.75rem;
+      line-height: 1.2;
+    }
+
+    .arrow {
+      width: 2.5rem;
+      height: 2.5rem;
+      cursor: pointer;
+    }
+  }
+
+  .mini_header {
+    justify-content: flex-start;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+  }
+
+  .wrapper {
+    display: grid;
+    gap: 0.85rem;
+    margin-top: 0;
+    margin-bottom: 3rem;
+    padding: 1rem;
+    border: 0.1rem solid rgba(117, 160, 255, 0.2);
+    border-radius: 0.5rem;
+    background-color: rgba(49, 49, 59, 0.22);
+    box-sizing: border-box;
+
+    .input-group {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 14rem));
+      justify-content: start;
+      gap: 1rem;
+    }
+
+    .quick-ranges {
+      justify-content: flex-start;
+      margin-bottom: 0;
+
+      button {
+        min-width: 8.25rem;
+        transition: border-color 0.2s ease, background-color 0.2s ease,
+          color 0.2s ease;
+      }
+
+      button:hover {
+        border-color: rgba(117, 160, 255, 0.55);
+        color: palette.$main-font-color;
+      }
+    }
+
+    .input-field {
+      margin-bottom: 0;
+
+      label {
+        text-align: left;
+      }
+
+      input {
+        box-sizing: border-box;
+        min-height: 2.65rem;
+        border: 0.1rem solid rgba(117, 160, 255, 0.18);
+        border-radius: 0.5rem;
+        background-color: palette.$main-background-color;
+      }
+    }
+
+    .container {
+      height: 32rem !important;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      background-color: palette.$main-nav-color;
+      box-sizing: border-box;
+    }
+  }
 }

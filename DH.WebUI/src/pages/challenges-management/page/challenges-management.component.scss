@@ -540,3 +540,39 @@
 .shake {
   animation: shake 1s ease-in-out;
 }
+
+@media (min-width: 900px) {
+  .no-period,
+  .wrapper_stats,
+  .wrapper_challenges,
+  .wrapper_universal_challenges,
+  .challenges-grid {
+    width: min(72rem, calc(100vw - 16rem));
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .wrapper_challenges,
+  .wrapper_universal_challenges {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(24rem, 1fr));
+    gap: 1rem;
+    margin-bottom: 3rem;
+
+    &__item {
+      margin: 0;
+      border-radius: 0.5rem;
+      min-height: 6rem;
+
+      .info {
+        width: 100%;
+        padding-right: 1rem;
+      }
+    }
+  }
+
+  .challenges-grid {
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+    padding: 0;
+  }
+}

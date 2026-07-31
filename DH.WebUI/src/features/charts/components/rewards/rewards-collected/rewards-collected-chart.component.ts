@@ -29,10 +29,16 @@ export class RewardsCollectedChartComponent implements OnDestroy {
   private REQUIRED_MESSAGE_FROM_DATES: string =
     'Specifying from which date we start is required.';
 
-  public fromDateControl = new FormControl(null);
-  public toDateControl = new FormControl(null);
+  public fromDateControl = new FormControl<string | null>(null);
+  public toDateControl = new FormControl<string | null>(null);
   public validationMessageFromDates: string | null =
     this.REQUIRED_MESSAGE_FROM_DATES;
+  public currentQuickRangeMonths: number | null = null;
+  public quickRanges = [
+    { label: 'Last Month', months: 1 },
+    { label: 'Last 3 Months', months: 3 },
+    { label: 'Last 6 Months', months: 6 },
+  ];
 
   constructor(
     private readonly tenantRouter: TenantRouter,
@@ -49,6 +55,7 @@ export class RewardsCollectedChartComponent implements OnDestroy {
   }
 
   public dateValidation(): void {
+    this.currentQuickRangeMonths = null;
     if (this.rewardsChart) {
       this.rewardsChart.destroy();
     }
@@ -71,6 +78,28 @@ export class RewardsCollectedChartComponent implements OnDestroy {
 
     this.validationMessageFromDates = null;
 
+    this.createRewardsStatsChartCanvas(colors);
+  }
+
+  public applyQuickRange(months: number): void {
+    this.currentQuickRangeMonths = months;
+
+    const toDate = new Date();
+    const fromDate = new Date(toDate);
+    fromDate.setMonth(fromDate.getMonth() - months);
+
+    if (this.rewardsChart) {
+      this.rewardsChart.destroy();
+    }
+
+    this.fromDateControl.setValue(this.formatDateInput(fromDate), {
+      emitEvent: false,
+    });
+    this.toDateControl.setValue(this.formatDateInput(toDate), {
+      emitEvent: false,
+    });
+
+    this.validationMessageFromDates = null;
     this.createRewardsStatsChartCanvas(colors);
   }
 
@@ -111,7 +140,8 @@ export class RewardsCollectedChartComponent implements OnDestroy {
               const ctx =
                 this.rewardsChartCanvas.nativeElement.getContext('2d');
               if (ctx) {
-                const barHeight = 30; // Customize this value
+                const isDesktop = window.innerWidth >= 900;
+                const barHeight = isDesktop ? 25 : 30;
                 const minHeight = 300; // Minimum height to ensure reasonable display
 
                 // Dynamically calculate the container height based on data length
@@ -141,7 +171,7 @@ export class RewardsCollectedChartComponent implements OnDestroy {
                         hoverBackgroundColor: gradientPurple,
                         borderRadius: 5,
                         barThickness: 15,
-                        barPercentage: 30,
+                        barPercentage: isDesktop ? 0.58 : 30,
                       },
                     ],
                   },
@@ -213,4 +243,13 @@ export class RewardsCollectedChartComponent implements OnDestroy {
       });
     }
   }
+
+  private formatDateInput(date: Date): string {
+    const year = date.getFullYear();
+    const month = `${date.getMonth() + 1}`.padStart(2, '0');
+    const day = `${date.getDate()}`.padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
+  }
+
 }

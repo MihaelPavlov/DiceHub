@@ -7,6 +7,14 @@
   justify-content: center;
 }
 
+.browser-panel {
+  display: none;
+}
+
+.auth-card {
+  display: contents;
+}
+
 .markup {
   color: palette.$main-blue-color;
 }
@@ -37,6 +45,26 @@
   display: flex;
   justify-content: center;
   font-size: 1.5rem;
+}
+
+.tenant-context {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  margin: 1rem 1rem 0;
+  text-align: center;
+
+  span {
+    color: palette.$main-font-gray-color;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+  }
+
+  strong {
+    color: palette.$main-blue-color;
+    font-size: 1.35rem;
+  }
 }
 
 .container {
@@ -78,4 +106,109 @@
   font-weight: 600;
   color: palette.$main-blue-color;
   border-bottom: 0.15rem solid palette.$main-blue-color;
+}
+
+@media (min-width: 900px) {
+  .wrapper {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(24rem, 29rem);
+    align-items: stretch;
+    gap: 1.5rem;
+    width: min(74rem, calc(100vw - 4rem));
+    min-height: calc(100vh - 5rem);
+    padding: 2.5rem 0;
+  }
+
+  .browser-panel {
+    display: flex;
+    min-height: 36rem;
+    padding: 3rem;
+    border-radius: 0.5rem;
+    background:
+      linear-gradient(135deg, rgba(117, 160, 255, 0.2), transparent 42%),
+      palette.$main-nav-color;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  .browser-panel__eyebrow {
+    margin-bottom: auto;
+    color: palette.$main-blue-color;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+
+  .browser-panel h1 {
+    max-width: 34rem;
+    margin: 0 0 1rem;
+    color: palette.$main-font-color;
+    font-size: 2.5rem;
+    line-height: 1.08;
+  }
+
+  .browser-panel p {
+    max-width: 31rem;
+    margin: 0;
+    color: palette.$main-font-gray-color;
+    font-size: 1.05rem;
+    line-height: 1.55;
+  }
+
+  .browser-panel__steps {
+    display: grid;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
+
+  .browser-panel__steps span {
+    padding: 0.75rem 0.9rem;
+    border: 1px solid palette.$main-gray-color;
+    border-radius: 0.4rem;
+    color: palette.$main-font-color;
+    background: rgba(255, 255, 255, 0.04);
+    font-size: 0.9rem;
+  }
+
+  .auth-card {
+    display: flex;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    background: palette.$main-nav-color;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .interactive-option {
+    margin-top: 0;
+  }
+
+  .interactive-option .icon_wrapper {
+    box-shadow: none;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 23rem;
+    margin: 1.5rem auto 0;
+  }
+
+  .input-field input {
+    border: 1px solid palette.$main-gray-color;
+    background: palette.$main-background-color;
+  }
+
+  .input-field input:focus {
+    outline: none;
+    border-color: palette.$main-blue-color;
+  }
+
+  .tenant-context {
+    margin-top: 1.25rem;
+  }
+
+  .btn-container button {
+    width: 100%;
+  }
 }

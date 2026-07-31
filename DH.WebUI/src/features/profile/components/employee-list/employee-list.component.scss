@@ -151,3 +151,75 @@
     }
   }
 }
+
+@media (min-width: 900px) {
+  .wrapper_library {
+    display: grid;
+    gap: 0.75rem;
+    width: min(72rem, calc(100vw - 16rem));
+    padding-top: 1rem;
+    padding-bottom: 3rem;
+
+    .no_records {
+      margin: 1rem 0;
+      padding: 2rem;
+      border: 0.1rem solid rgba(117, 160, 255, 0.2);
+      border-radius: 0.5rem;
+      background-color: rgba(49, 49, 59, 0.22);
+    }
+
+    &__item,
+    &__item.expanded {
+      padding: 0;
+      border: 0.1rem solid transparent;
+      border-radius: 0.5rem;
+      background-color: rgba(32, 35, 42, 0.72);
+      transition: border-color 0.2s ease, transform 0.2s ease;
+
+      &:hover {
+        border-color: rgba(117, 160, 255, 0.45);
+        transform: translateY(-1px);
+      }
+
+      .content {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 1rem;
+        align-items: center;
+        padding: 0.75rem 1rem;
+        transform: none;
+      }
+
+      .circle-btn {
+        display: none;
+      }
+
+      .expanded-buttons {
+        position: static;
+        display: flex;
+        gap: 0.5rem;
+      }
+
+      .wrapper_info .wrapper_title {
+        width: auto;
+        padding: 0;
+        font-size: 1rem;
+      }
+
+      .btnWithIcon {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.45rem 0.6rem;
+        border-radius: 0.5rem;
+        background-color: palette.$main-background-color;
+
+        .edit,
+        .delete {
+          width: 1.35rem;
+          height: 1.35rem;
+        }
+      }
+    }
+  }
+}

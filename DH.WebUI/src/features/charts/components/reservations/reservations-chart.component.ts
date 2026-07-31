@@ -33,10 +33,16 @@ export class ReservationsChartComponent implements AfterViewInit, OnDestroy {
   private REQUIRED_MESSAGE_FROM_DATES: string =
     'Specifying from which date we start is required.';
 
-  public fromDateControl = new FormControl<Date | null>(null);
-  public toDateControl = new FormControl<Date | null>(null);
+  public fromDateControl = new FormControl<string | null>(null);
+  public toDateControl = new FormControl<string | null>(null);
   public validationMessageFromDates: string | null =
     this.REQUIRED_MESSAGE_FROM_DATES;
+  public currentQuickRangeMonths: number | null = null;
+  public quickRanges = [
+    { label: 'Last Month', months: 1 },
+    { label: 'Last 3 Months', months: 3 },
+    { label: 'Last 6 Months', months: 6 },
+  ];
 
   constructor(
     private readonly tenantRouter: TenantRouter,
@@ -52,6 +58,7 @@ export class ReservationsChartComponent implements AfterViewInit, OnDestroy {
   }
 
   public dateValidation(): void {
+    this.currentQuickRangeMonths = null;
     if (this.reservationChart) {
       this.reservationChart.destroy();
     }
@@ -71,6 +78,28 @@ export class ReservationsChartComponent implements AfterViewInit, OnDestroy {
       this.validationMessageFromDates = this.REQUIRED_MESSAGE_FROM_DATES;
       return;
     }
+
+    this.validationMessageFromDates = null;
+    this.createReservationChartCanvas(colors);
+  }
+
+  public applyQuickRange(months: number): void {
+    this.currentQuickRangeMonths = months;
+
+    const toDate = new Date();
+    const fromDate = new Date(toDate);
+    fromDate.setMonth(fromDate.getMonth() - months);
+
+    if (this.reservationChart) {
+      this.reservationChart.destroy();
+    }
+
+    this.fromDateControl.setValue(this.formatDateInput(fromDate), {
+      emitEvent: false,
+    });
+    this.toDateControl.setValue(this.formatDateInput(toDate), {
+      emitEvent: false,
+    });
 
     this.validationMessageFromDates = null;
     this.createReservationChartCanvas(colors);
@@ -209,5 +238,13 @@ export class ReservationsChartComponent implements AfterViewInit, OnDestroy {
           },
         });
     }
+  }
+
+  private formatDateInput(date: Date): string {
+    const year = date.getFullYear();
+    const month = `${date.getMonth() + 1}`.padStart(2, '0');
+    const day = `${date.getDate()}`.padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
   }
 }

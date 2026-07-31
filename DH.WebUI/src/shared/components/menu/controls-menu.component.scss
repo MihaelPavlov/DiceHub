@@ -1,16 +1,19 @@
 @use "../../../shared/assets/styles/palette";
 
 .menu {
-  width: 90%;
+  width: calc(100vw - 2rem);
+  max-height: calc(100dvh - 7rem);
   display: flex;
   justify-content: center;
   text-align: center;
   flex-direction: column;
   position: fixed;
+  left: 50%;
   bottom: 5rem;
   padding: 1rem;
   z-index: 1000;
-  transform: translateY(20px);
+  overflow-y: auto;
+  transform: translate(-50%, 20px);
   opacity: 0;
   animation: slideUp 0.5s ease-out forwards;
 }
@@ -18,11 +21,11 @@
 /* Keyframes for slide-up animation */
 @keyframes slideUp {
   from {
-    transform: translateY(20px);
+    transform: translate(-50%, 20px);
     opacity: 0;
   }
   to {
-    transform: translateY(0);
+    transform: translate(-50%, 0);
     opacity: 1;
   }
 }
@@ -98,4 +101,26 @@
 .red-text {
   color: palette.$main-red-color;
   font-weight: 600;
+}
+
+@media (min-width: 900px) {
+  .menu {
+    left: 13rem;
+    right: 1rem;
+    width: auto;
+    bottom: 2rem;
+    transform: translateY(20px);
+    animation-name: slideUpDesktop;
+  }
+}
+
+@keyframes slideUpDesktop {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }

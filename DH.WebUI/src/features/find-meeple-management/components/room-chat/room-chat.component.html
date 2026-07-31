@@ -84,13 +84,14 @@
   <div class="form__group">
     <input
       [(ngModel)]="message"
+      (keydown.enter)="addMessage($event)"
       type="text"
       class="form__field surface-elevated"
-      placeholder="search"
-      name="search"
-      id="search"
+      [placeholder]="'meeple.room.write_your_message_placeholder' | translate"
+      name="message"
+      id="message"
     />
-    <label for="search" class="form__label">
+    <label for="message" class="form__label">
       {{ "meeple.room.write_your_message_placeholder" | translate }}</label
     >
     <!-- arrow_forward_ios icon -->

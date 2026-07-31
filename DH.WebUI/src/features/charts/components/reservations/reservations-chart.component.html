@@ -14,6 +14,17 @@
   </div>
 </div>
 <div class="wrapper">
+  <div class="quick-ranges">
+    <button
+      *ngFor="let range of quickRanges"
+      type="button"
+      [class.active]="currentQuickRangeMonths === range.months"
+      (click)="applyQuickRange(range.months)"
+    >
+      {{ range.label }}
+    </button>
+  </div>
+
   <div class="input-group">
     <div class="input-field">
       <label for="fromDate">From Date</label>

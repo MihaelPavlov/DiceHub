@@ -76,3 +76,28 @@ small {
     grid-template-columns: 1fr;
   }
 }
+
+@media (min-width: 900px) {
+  .container {
+    width: min(72rem, calc(100vw - 16rem));
+    margin: 0 auto 3rem;
+    padding: 1.5rem 0 0;
+  }
+
+  h2 {
+    font-size: 1.75rem;
+    line-height: 1.2;
+  }
+
+  .list {
+    gap: 0.75rem;
+  }
+
+  .application {
+    min-height: 4.5rem;
+    border: 0.1rem solid transparent;
+    border-left: 0.25rem solid palette.$main-gray-color;
+    border-radius: 0.5rem;
+    background-color: rgba(32, 35, 42, 0.72);
+  }
+}

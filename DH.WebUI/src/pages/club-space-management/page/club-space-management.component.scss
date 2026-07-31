@@ -105,30 +105,50 @@
   &__tab {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     width: 8rem;
     height: 8rem;
+    overflow: hidden;
     border-radius: 0.5rem;
     background-color: palette.$main-nav-color;
     color: palette.$main-font-gray-color;
 
     &-header {
-      margin: 0.75rem;
+      order: 2;
+      margin: 0 0.7rem 0.7rem;
       font-weight: 600;
+      min-height: 2.3rem;
+      font-size: 0.85rem;
+      line-height: 1.2;
+      display: flex;
+      align-items: flex-end;
     }
 
     .info {
+      order: 1;
       display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 4.8rem;
+      padding: 0.8rem 0.7rem 0;
+      gap: 0.4rem;
 
       .icon {
         width: 3.5rem;
-        margin: 0.7rem;
+        height: 3.5rem;
+        flex: 0 0 3.5rem;
+        margin: 0;
         fill: palette.$main-font-gray-color;
       }
 
       &__count {
-        font-size: 2.5rem;
-        margin-top: 1rem;
-        margin-right: 1rem;
+        flex: 1 1 auto;
+        min-width: 0;
+        font-size: clamp(1.75rem, 9vw, 2.5rem);
+        line-height: 1;
+        margin: 0;
+        text-align: right;
+        overflow-wrap: anywhere;
       }
     }
   }
@@ -163,4 +183,146 @@
   align-items: center;
   flex-direction: column;
   text-align: center;
+}
+
+@media (min-width: 900px) {
+  .wrapper_tabs,
+  .wrapper_btns,
+  .wrapper_active_table {
+    width: min(74rem, calc(100vw - 16rem));
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .wrapper_tabs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+
+    &__tab {
+      width: auto;
+      height: 9rem;
+      padding: 1rem;
+      border: 1px solid palette.$main-gray-color;
+      border-radius: 0.5rem;
+      background: palette.$main-nav-color;
+
+      &-header {
+        order: initial;
+        margin: 0;
+        min-height: unset;
+        font-size: 1rem;
+        display: block;
+      }
+
+      .info {
+        order: initial;
+        align-items: end;
+        justify-content: space-between;
+        margin-top: auto;
+
+        .icon {
+          width: 4rem;
+          height: 4rem;
+          margin: 0;
+        }
+
+        &__count {
+          margin: 0;
+          font-size: 3.15rem;
+          line-height: 1;
+        }
+      }
+    }
+  }
+
+  .wrapper_active_table {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.5rem 1rem;
+    align-items: center;
+    padding: 1rem;
+    border: 1px solid palette.$main-blue-color;
+    border-radius: 0.5rem;
+    background: palette.$main-nav-color;
+    text-align: left;
+
+    &--text {
+      margin: 0;
+    }
+
+    .btn {
+      grid-column: 2;
+      grid-row: 1 / span 2;
+      margin: 0;
+      white-space: nowrap;
+    }
+  }
+
+  .wrapper_btns {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 4rem;
+
+    .btn_container {
+      min-height: 9.5rem;
+      align-items: stretch;
+      flex-direction: column;
+      justify-content: space-between;
+      margin: 0;
+      padding: 1rem;
+      border: 1px solid palette.$main-gray-color;
+      background: palette.$main-nav-color;
+
+      .info {
+        width: 100%;
+        margin: 0;
+        gap: 0.4rem;
+
+        > span:first-child {
+          font-size: 1.05rem;
+          font-weight: 600;
+        }
+
+        .description {
+          font-size: 0.88rem;
+          line-height: 1.35;
+        }
+      }
+
+      .button {
+        justify-content: flex-start;
+        margin-top: 1rem;
+      }
+    }
+
+    .btn_container-center {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 1rem;
+      align-items: center;
+      min-height: unset;
+
+      .booked-info {
+        width: 100%;
+        margin: 0;
+        gap: 0.25rem;
+      }
+    }
+  }
+
+  .qr-info {
+    align-items: flex-end;
+    text-align: right;
+    max-width: 20rem;
+  }
+
+  .description-public-message {
+    margin: 0;
+  }
 }

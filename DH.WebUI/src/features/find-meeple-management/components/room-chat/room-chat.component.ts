@@ -40,7 +40,7 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   public roomInfoMessages: IRoomInfoMessageResult[] = [];
   public room!: IRoomByIdResult;
   public roomMessages: IRoomMessageResult[] = [];
-  public message!: string;
+  public message = '';
   public roomId!: number;
   public isCurrentUserParticipateInRoom: boolean = false;
   private shouldScrollToBottom = false;
@@ -79,17 +79,20 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   public ngOnDestroy(): void {
     this.menuTabsService.resetData();
-    this.hubConnection.stop();
+    this.hubConnection?.stop();
   }
 
-  public addMessage() {
-    if (!this.message) return;
+  public addMessage(event?: Event): void {
+    event?.preventDefault();
+    const message = this.message.trim();
+
+    if (!message) return;
 
     this.hubConnection
       .invoke(
         ROUTE.CHAT_HUB_CLIENT.SEND_MESSAGE_TO_GROUP,
         this.roomId,
-        this.message
+        message
       )
       .then(() => (this.message = ''))
       .catch((err) => {

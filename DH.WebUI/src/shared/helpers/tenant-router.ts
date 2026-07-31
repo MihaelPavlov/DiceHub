@@ -24,6 +24,10 @@ export class TenantRouter {
 
   public buildTenantUrl(path: string): string {
     const tenant = this.tenantService.tenantId;
+    if (path === tenant || path.startsWith(`${tenant}/`)) {
+      return path;
+    }
+
     return [tenant, path].join('/');
   }
 

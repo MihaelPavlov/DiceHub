@@ -43,6 +43,7 @@ import { ControlsMenuComponent } from '../../../shared/components/menu/controls-
 import { QrCodeDialog } from '../../../features/games-library/dialogs/qr-code-dialog/qr-code-dialog.component';
 import { QrCodeType } from '../../../entities/qr-code-scanner/enums/qr-code-type.enum';
 import { AuthService } from '../../../entities/auth/auth.service';
+import { TenantRouter } from '../../../shared/helpers/tenant-router';
 
 @Component({
   selector: 'app-challenges-management',
@@ -82,14 +83,18 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
       name: this.translateService.instant(
         'challenge_management.columns.weekly'
       ),
-      link: FULL_ROUTE.CHALLENGES.CHALLENGES_HOME,
+      link: this.tenantRouter.buildTenantUrl(
+        FULL_ROUTE.CHALLENGES.CHALLENGES_HOME
+      ),
       isActive: true,
     },
     {
       name: this.translateService.instant(
         'challenge_management.columns.rewards'
       ),
-      link: FULL_ROUTE.CHALLENGES.CHALLENGES_REWARDS,
+      link: this.tenantRouter.buildTenantUrl(
+        FULL_ROUTE.CHALLENGES.CHALLENGES_REWARDS
+      ),
       isActive: false,
     },
     // Future Feature: Streak Page
@@ -129,7 +134,8 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
     private readonly loadingContext: LoadingInterceptorContextService,
     private readonly loadingService: LoadingService,
     private readonly translateService: TranslateService,
-    public readonly languageService: LanguageService
+    public readonly languageService: LanguageService,
+    private readonly tenantRouter: TenantRouter
   ) {}
 
   public ngOnDestroy(): void {

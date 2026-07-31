@@ -25,7 +25,8 @@
     "
   ></p>
 
-  <div class="buttons">
+  <section class="custom-period-section rewards-section">
+  <div class="buttons section-action">
     <div class="btn-container" (click)="addReward()">
       <span>{{ "custom_period.add_reward" | translate }}</span>
       <!-- add icon -->
@@ -50,6 +51,7 @@
       >
         <input type="hidden" formControlName="id" />
 
+        <div class="row-fields">
         <div class="input-field">
           <label for="reward" class="required">{{
             "custom_period.labels.select_reward" | translate
@@ -66,7 +68,7 @@
             "
             [searchable]="true"
             formControlName="selectedReward"
-            class="app-select surface-elevated"
+            class="app-select-long surface-elevated"
           >
           </ng-select>
         </div>
@@ -97,11 +99,14 @@
             d="M252-203.69 205.69-252l227-228-227-230L252-758.31l229 230 227-230L754.31-710l-227 230 227 228L708-203.69l-227-230-229 230Z"
           />
         </svg>
+        </div>
       </div>
     </div>
   </form>
+  </section>
 
-  <div class="buttons">
+  <section class="custom-period-section challenges-section">
+  <div class="buttons section-action">
     <div class="btn-container" (click)="addChallenge()">
       <span>{{ "custom_period.add_challenge" | translate }}</span>
       <!-- add icon -->
@@ -120,6 +125,7 @@
       >
         <input type="hidden" formControlName="id" />
 
+        <div class="row-fields">
         <div class="input-field">
           <label for="game" class="required">{{
             "custom_period.labels.select_game" | translate
@@ -132,7 +138,7 @@
             [placeholder]="'custom_period.placeholders.select_game' | translate"
             [searchable]="true"
             formControlName="selectedGame"
-            class="app-select surface-elevated"
+            class="app-select-long surface-elevated"
           >
           </ng-select>
         </div>
@@ -175,11 +181,14 @@
             d="M252-203.69 205.69-252l227-228-227-230L252-758.31l229 230 227-230L754.31-710l-227 230 227 228L708-203.69l-227-230-229 230Z"
           />
         </svg>
+        </div>
       </div>
     </div>
   </form>
+  </section>
 
-  <div class="buttons">
+  <section class="custom-period-section universal-section">
+  <div class="buttons section-action">
     <div class="btn-container" (click)="addUniversalChallenge()">
       <span>{{ "custom_period.add_universal_challenge" | translate }}</span>
       <!-- add icon -->
@@ -293,4 +302,5 @@
       </div>
     </div>
   </form>
+  </section>
 </div>

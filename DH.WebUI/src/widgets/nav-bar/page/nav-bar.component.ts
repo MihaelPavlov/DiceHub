@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { TenantRouter } from '../../../shared/helpers/tenant-router';
 
 export interface Column {
   name: string;
@@ -16,11 +16,11 @@ export interface Column {
 export class NavBarComponent {
   @Input() columns: Column[] = [];
 
-  constructor(private readonly router: Router) {}
+  constructor(private readonly tenantRouter: TenantRouter) {}
 
   public toggleActive(item: Column): void {
     // Don't preemptively mark as active
-    this.router.navigateByUrl(item.link).then((navigated) => {
+    this.tenantRouter.navigateTenant(item.link).then((navigated) => {
       if (navigated) {
         // If navigation succeeded, update active states
         this.columns.forEach((column) => (column.isActive = column === item));

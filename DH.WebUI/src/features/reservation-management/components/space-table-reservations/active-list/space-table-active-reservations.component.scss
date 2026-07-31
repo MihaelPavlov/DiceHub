@@ -155,3 +155,103 @@
     }
   }
 }
+
+@media (min-width: 900px) {
+  .wrapper_library {
+    width: min(74rem, calc(100vw - 16rem));
+    padding: 1.5rem 0 4rem;
+    gap: 0.75rem;
+
+    .no_records {
+      min-height: 26rem;
+      margin: 0;
+      justify-content: center;
+      border: 1px solid palette.$main-gray-color;
+      border-radius: 0.5rem;
+      background: palette.$main-nav-color;
+
+      img {
+        width: 11rem;
+        height: 11rem;
+      }
+    }
+
+    &__item,
+    &__item.expanded {
+      padding: 0;
+      border: 1px solid palette.$main-gray-color;
+      border-radius: 0.5rem;
+      background: palette.$main-nav-color;
+      overflow: visible;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+
+      &:hover {
+        border-color: palette.$main-blue-color;
+        transform: translateY(-1px);
+      }
+
+      .content {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto auto;
+        gap: 1rem;
+        align-items: center;
+        padding: 0.95rem;
+        transform: none;
+      }
+
+      &.expanded .content {
+        transform: none;
+      }
+
+      .wrapper_info {
+        min-width: 0;
+
+        .wrapper_title {
+          padding: 0;
+          font-size: 1.05rem;
+
+          .wrapper_description {
+            font-size: 0.9rem;
+
+            p {
+              margin: 0.25rem 0 0;
+            }
+          }
+        }
+      }
+
+      .circle-btn {
+        display: none;
+      }
+
+      .expanded-buttons {
+        position: static;
+        display: flex;
+        gap: 0.5rem;
+        justify-content: flex-end;
+      }
+
+      .btnWithIcon {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        min-height: 2.5rem;
+        padding: 0.35rem 0.65rem;
+        border: 1px solid palette.$main-gray-color;
+        border-radius: 0.4rem;
+        background: palette.$main-background-color;
+
+        .accept,
+        .decline {
+          width: 1.45rem;
+          height: 1.45rem;
+        }
+
+        .header {
+          font-size: 0.85rem;
+          white-space: nowrap;
+        }
+      }
+    }
+  }
+}

@@ -227,7 +227,7 @@
     },
     "add_update": {
       "event_info": "Event Info",
-      "start_date_validation": "Start Date cannot be in the past.",
+      "start_date_validation": "Start Date must be after today.",
       "labels": {
         "use_custom_image": "Use Custom Image",
         "game": "Game",
@@ -318,6 +318,12 @@
         "name": "name of your room",
         "max_participants": "max participants"
       },
+      "chips": {
+        "average_playtime": "Average playtime",
+        "players": "Players",
+        "min_age": "Minimum age",
+        "availability": "Available copies"
+      },
       "labels": {
         "choose_date": "Choose Date",
         "choose_time": "Choose Time",
@@ -331,7 +337,10 @@
     "meeple": "Meeple",
     "reservations": "Reservations",
     "events": "Events",
-    "profile": "Profile"
+    "profile": "Profile",
+    "space": "Space",
+    "challenges": "Challenges",
+    "qr_scanner": "QR Scanner"
   },
   "qr_scanner": {
     "header": "Scan QR Code",
@@ -772,6 +781,7 @@
     }
   },
   "register": {
+    "tenant_label": "Registering at",
     "successfully_message": "Registration successful! Please check your email to confirm your account.",
     "successfully_with_email_failed": "Registration successful, but we couldn't send the confirmation email. Please try resending it or contact support.",
     "register_error_message": "We couldn't send the confirmation email. Please try resending it or contact support.",

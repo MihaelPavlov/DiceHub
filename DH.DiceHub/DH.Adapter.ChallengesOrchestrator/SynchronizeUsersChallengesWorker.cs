@@ -1,4 +1,5 @@
 ﻿using DH.Domain.Adapters.ChallengesOrchestrator;
+using DH.Domain.Adapters.Authentication;
 using DH.Domain.Services;
 using DH.Domain.Services.Queue;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,24 +31,37 @@ public class SynchronizeUsersChallengesWorker : BackgroundService
 
             var nextJobsForProcessing = queuedJobs
                 .Select(q => JsonSerializer.Deserialize<JobInfo>(q.MessagePayload)!);
+            var tenantIdsByJobId = queuedJobs.ToDictionary(q => q.JobId, q => q.TenantId);
 
             var queuedJobService = scope.ServiceProvider.GetRequiredService<IQueuedJobService>();
             var userChallengesManagementService = scope.ServiceProvider.GetRequiredService<IUserChallengesManagementService>();
+            var systemUserContextAccessor = scope.ServiceProvider.GetRequiredService<ISystemUserContextAccessor>();
             foreach (var nextJob in nextJobsForProcessing)
             {
                 string traceId = Guid.NewGuid().ToString();
 
                 try
                 {
+                    if (!tenantIdsByJobId.TryGetValue(nextJob.JobId, out var tenantId) || string.IsNullOrWhiteSpace(tenantId))
+                    {
+                        throw new InvalidOperationException($"Queued job {nextJob.JobId} has no tenant id.");
+                    }
+
+                    systemUserContextAccessor.Set(new WorkerSystemUserContext(tenantId));
+
                     var jobStartTime = DateTime.UtcNow;
                     logger.LogInformation("Trace Id: {traceId}; Job Id: {jobId} - Started at {startTime} - Job Info: {jobInfo}", traceId, nextJob.JobId, jobStartTime, JsonSerializer.Serialize(nextJob));
 
                     switch (nextJob.TypeOfJob)
                     {
                         case nameof(SynchronizeNewUserJob):
-                            await userChallengesManagementService.InitiateUserChallengePeriod(nextJob.UserId, cancellationToken, forNewUser: true);
+                            var periodCreated = await userChallengesManagementService
+                                .InitiateUserChallengePeriod(nextJob.UserId, cancellationToken, forNewUser: true);
 
-                            await queuedJobService.UpdateStatusToCompleted(queue.QueueName, nextJob.JobId);
+                            if (periodCreated)
+                                await queuedJobService.UpdateStatusToCompleted(queue.QueueName, nextJob.JobId);
+                            else
+                                await queuedJobService.UpdateStatusToFailed(queue.QueueName, nextJob.JobId);
                             break;
                         case nameof(ChallengeInitiationJob):
                             if (nextJob.ScheduledTime.HasValue && DateTime.UtcNow >= nextJob.ScheduledTime)
@@ -87,5 +101,16 @@ public class SynchronizeUsersChallengesWorker : BackgroundService
             if (!nextJobsForProcessing.Any())
                 await Task.Delay(TimeSpan.FromMinutes(5), cancellationToken);
         }
+    }
+
+    private sealed class WorkerSystemUserContext(string tenantId) : IUserContext
+    {
+        public string? TenantId => tenantId;
+        public string? UserId => "challenges-orchestrator";
+        public int? RoleKey => null;
+        public string? TimeZone => "UTC";
+        public string? Language => "en";
+        public bool IsAuthenticated => false;
+        public bool IsSystem => true;
     }
 }

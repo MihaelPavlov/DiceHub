@@ -19,7 +19,12 @@ export class TenantService {
 
   public validateTenant(tenantId: string): Observable<boolean> {
     return this.api
-      .get<boolean>(`/${PATH.TENANT.CORE}/${tenantId}/${PATH.TENANT.EXISTS}`)
+      .get<boolean>(
+        `/${PATH.TENANT.CORE}/${tenantId}/${PATH.TENANT.EXISTS}`,
+        {
+          requiredTenant: false,
+        }
+      )
       .pipe(
         map(() => true),
         catchError(() => of(false))

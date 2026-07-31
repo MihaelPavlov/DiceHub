@@ -27,6 +27,128 @@
   }
 }
 
+@media (min-width: 900px) {
+  .form__group,
+  .container,
+  .wrapper_library,
+  .reward-list-empty {
+    width: min(72rem, calc(100vw - 16rem));
+  }
+
+  .form__group {
+    margin-top: 1rem;
+  }
+
+  .container {
+    .buttons {
+      justify-content: flex-start;
+      gap: 1rem;
+    }
+
+    .reward-container {
+      border-radius: 0.5rem;
+      padding: 1rem 1.25rem 1.25rem;
+    }
+
+    .inputs {
+      display: grid;
+      grid-template-columns: 18rem minmax(0, 1fr);
+      grid-template-areas:
+        "image level"
+        "image meta"
+        "image name"
+        "image description";
+      gap: 1rem 1.25rem;
+      align-items: start;
+
+      .upload-icon {
+        grid-area: image;
+        margin: 0;
+        align-self: stretch;
+        min-height: 18rem;
+
+        label {
+          width: 100%;
+          height: 100%;
+          min-height: 16rem;
+
+          img {
+            width: 15.5rem;
+            height: 15.5rem;
+          }
+        }
+      }
+
+      .reward-level-field {
+        grid-area: level;
+      }
+
+      .input-group {
+        grid-area: meta;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1rem;
+      }
+
+      .reward-name-field {
+        grid-area: name;
+      }
+
+      .reward-description-field {
+        grid-area: description;
+
+        textarea {
+          box-sizing: border-box;
+          width: 100%;
+          min-height: 8rem;
+          resize: vertical;
+          border-radius: 0.5rem;
+        }
+      }
+
+      .input-field {
+        min-width: 0;
+
+        input {
+          box-sizing: border-box;
+          width: 100%;
+          border-radius: 0.5rem;
+        }
+      }
+    }
+
+    .close-container {
+      position: relative;
+      z-index: 2;
+      min-height: 1.5rem;
+    }
+
+    .create-btn {
+      margin-top: 1rem;
+    }
+  }
+
+  .wrapper_library {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(24rem, 1fr));
+    gap: 1rem;
+    padding-bottom: 3rem;
+
+    &__item {
+      margin: 0;
+      border-radius: 0.5rem;
+      align-items: center;
+
+      .wrapper_image img {
+        width: 4rem;
+        height: 4rem;
+        min-width: 4rem;
+        min-height: 4rem;
+      }
+    }
+  }
+}
+
 .form__group {
   position: relative;
 
@@ -244,6 +366,7 @@
       width: 1.5rem;
       height: 1.5rem;
       fill: palette.$main-font-color;
+      cursor: pointer;
     }
   }
 }
@@ -361,6 +484,121 @@
           color: palette.$main-red-color;
         }
       }
+    }
+  }
+}
+
+@media (min-width: 900px) {
+  .container,
+  .form__group,
+  .wrapper_library,
+  .reward-list-empty {
+    width: min(72rem, calc(100vw - 16rem));
+  }
+
+  .container {
+    .reward-container {
+      padding: 1rem 1.25rem 1.25rem;
+      border-radius: 0.5rem;
+    }
+
+    .inputs {
+      display: grid;
+      grid-template-columns: minmax(9rem, 13rem) minmax(0, 1fr);
+      grid-template-areas:
+        "image level"
+        "image meta"
+        "image name"
+        "image description";
+      gap: 0.9rem 1rem;
+      align-items: start;
+
+      .reward-image-field {
+        grid-area: image;
+        box-sizing: border-box;
+        width: 100%;
+        min-width: 0;
+        min-height: 0;
+        margin: 0;
+        align-self: start;
+        aspect-ratio: 1 / 1;
+        overflow: hidden;
+
+        label {
+          box-sizing: border-box;
+          width: 100%;
+          height: 100%;
+          min-width: 0;
+          min-height: 0;
+          padding: 0.75rem;
+          overflow: hidden;
+        }
+
+        .image-preview {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          height: 100%;
+          min-width: 0;
+          min-height: 0;
+          overflow: hidden;
+        }
+
+        img {
+          display: block;
+          width: 100%;
+          height: 100%;
+          max-width: 11rem;
+          max-height: 11rem;
+          object-fit: contain;
+        }
+      }
+
+      .reward-level-field {
+        grid-area: level;
+      }
+
+      .reward-meta-fields {
+        grid-area: meta;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1rem;
+      }
+
+      .reward-name-field {
+        grid-area: name;
+      }
+
+      .reward-description-field {
+        grid-area: description;
+      }
+
+      .input-field {
+        width: 100%;
+        min-width: 0;
+
+        input,
+        textarea,
+        ng-select {
+          box-sizing: border-box;
+          width: 100%;
+        }
+
+        textarea {
+          min-height: 7rem;
+          resize: vertical;
+        }
+      }
+    }
+
+    .buttons {
+      justify-content: flex-start;
+      gap: 1rem;
+    }
+
+    .create-btn {
+      margin-top: 1rem;
     }
   }
 }

@@ -135,6 +135,10 @@ export class ReservationManagementNavigationComponent
     return this.router.url.includes(link);
   }
 
+  public getTenantRoute(path: string): string {
+    return this.tenantRouter.buildTenantUrl(path);
+  }
+
   public onActivate(componentRef: any) {
     this.activeChildComponent = componentRef;
   }

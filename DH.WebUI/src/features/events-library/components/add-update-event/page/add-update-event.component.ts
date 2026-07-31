@@ -50,15 +50,25 @@ function futureDateValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     if (!control.value) return null;
 
-    const selectedDate = new Date(control.value);
-    const today = new Date();
-
-    // Reset times (we only compare dates, not hours)
-    today.setHours(0, 0, 0, 0);
-    selectedDate.setHours(0, 0, 0, 0);
-
-    return selectedDate > today ? null : { notFutureDate: true };
+    return isFutureDate(control.value) ? null : { notFutureDate: true };
   };
+}
+
+function isFutureDate(value: string | Date): boolean {
+  const selectedDate = parseDateInput(value);
+  const today = new Date();
+
+  today.setHours(0, 0, 0, 0);
+  selectedDate.setHours(0, 0, 0, 0);
+
+  return selectedDate > today;
+}
+
+function parseDateInput(value: string | Date): Date {
+  if (value instanceof Date) return value;
+
+  const [year, month, day] = value.split('-').map(Number);
+  return new Date(year, month - 1, day);
 }
 
 @Component({
@@ -274,13 +284,25 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
     this.location.back();
   }
 
+  public getStartDateErrorMessage(): string | null {
+    const control = this.form.get('startDate');
+
+    if (
+      control?.hasError('notFutureDate') &&
+      (control.dirty || control.touched)
+    ) {
+      return this.translateService.instant(
+        'events.add_update.start_date_validation'
+      );
+    }
+
+    return null;
+  }
+
   protected override handleAdditionalErrors(): string | null {
     const startDate = this.form.get('startDate')?.value;
 
-    if (
-      startDate &&
-      new Date(startDate).getTime() < new Date().setHours(0, 0, 0, 0)
-    ) {
+    if (startDate && !isFutureDate(startDate)) {
       return this.translateService.instant(
         'events.add_update.start_date_validation'
       );

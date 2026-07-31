@@ -70,6 +70,9 @@
           formControlName="startDate"
           class="surface-elevated"
         />
+        <div *ngIf="getStartDateErrorMessage()" class="field-error">
+          {{ getStartDateErrorMessage() }}
+        </div>
       </div>
       <div class="input-field">
         <label for="start-time" class="required">{{

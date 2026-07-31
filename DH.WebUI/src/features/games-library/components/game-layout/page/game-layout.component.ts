@@ -22,6 +22,7 @@ import {
   ImagePreviewData,
   ImagePreviewDialog,
 } from '../../../../../shared/dialogs/image-preview/image-preview.dialog';
+import { TenantRouter } from '../../../../../shared/helpers/tenant-router';
 
 @Component({
     selector: 'app-game-layout',
@@ -44,7 +45,8 @@ export class GameLayoutComponent implements OnInit, OnDestroy {
     private readonly menuTabsService: MenuTabsService,
     private readonly authService: AuthService,
     private readonly dialog: MatDialog,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private readonly tenantRouter: TenantRouter
   ) {}
 
   public ngOnDestroy(): void {
@@ -78,30 +80,37 @@ export class GameLayoutComponent implements OnInit, OnDestroy {
   }
 
   public updateMenuItemsWithPage(page: string) {
+    const detailsRoute = FULL_ROUTE.GAMES.DETAILS(this.game.id);
+    const availabilityRoute = FULL_ROUTE.GAMES.AVAILABILITY(this.game.id);
+    const reviewsRoute = FULL_ROUTE.GAMES.REVIEWS(this.game.id);
+
     this.menuItems = [
       {
         label: this.translate.instant('games.game.menu_items.info'),
-        class: page == FULL_ROUTE.GAMES.DETAILS(this.game.id) ? 'active' : '',
+        class: page.endsWith(detailsRoute) ? 'active' : '',
         enabled: true,
         visible: true,
-        route: FULL_ROUTE.GAMES.DETAILS(this.game.id),
+        route: this.buildTenantRoute(detailsRoute),
       },
       {
         label: this.translate.instant('games.game.menu_items.availability'),
-        class:
-          page == FULL_ROUTE.GAMES.AVAILABILITY(this.game.id) ? 'active' : '',
+        class: page.endsWith(availabilityRoute) ? 'active' : '',
         enabled: true,
         visible: true,
-        route: FULL_ROUTE.GAMES.AVAILABILITY(this.game.id),
+        route: this.buildTenantRoute(availabilityRoute),
       },
       {
         label: this.translate.instant('games.game.menu_items.reviews'),
-        class: page == FULL_ROUTE.GAMES.REVIEWS(this.game.id) ? 'active' : '',
+        class: page.endsWith(reviewsRoute) ? 'active' : '',
         enabled: true,
         visible: true,
-        route: FULL_ROUTE.GAMES.REVIEWS(this.game.id),
+        route: this.buildTenantRoute(reviewsRoute),
       },
     ];
+  }
+
+  private buildTenantRoute(route: string): string {
+    return `/${this.tenantRouter.buildTenantUrl(route)}`;
   }
 
   public toggleGameLikeStatus(): void {

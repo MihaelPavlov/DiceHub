@@ -194,3 +194,237 @@ select[disabled] {
     }
   }
 }
+
+@media (min-width: 900px) {
+  .wrapper_icons {
+    width: min(68rem, calc(100vw - 18rem));
+    margin: 2rem auto 0.85rem;
+  }
+
+  .arrow {
+    width: 2.5rem;
+    height: 2.5rem;
+    cursor: pointer;
+  }
+
+  .container {
+    width: min(68rem, calc(100vw - 18rem));
+    margin: 0 auto;
+    padding-bottom: 4rem;
+    align-items: flex-start;
+  }
+
+  .upload-section {
+    display: grid;
+    grid-template-columns: minmax(17rem, 20rem) minmax(0, 1fr);
+    grid-template-areas:
+      "image info"
+      "image category"
+      "image name"
+      "image age-time"
+      "image players"
+      "image description"
+      "image errors"
+      "image action";
+    gap: 0.8rem 1.25rem;
+    align-items: start;
+    width: 100%;
+    padding: 1rem;
+    border: 0.1rem solid rgba(117, 160, 255, 0.2);
+    border-radius: 0.5rem;
+    background: rgba(49, 49, 59, 0.22);
+    text-align: left;
+  }
+
+  .upload-section .upload-icon {
+    grid-area: image;
+    width: 100%;
+    margin: 0;
+    border: 0.1rem solid rgba(117, 160, 255, 0.18);
+    background: palette.$main-background-color;
+    align-self: stretch;
+    min-height: 20rem;
+    max-height: 26rem;
+  }
+
+  .upload-section .upload-icon label {
+    width: 100%;
+    height: 100%;
+  }
+
+  .upload-section .upload-icon label img {
+    width: 100%;
+    height: 100%;
+    padding: 0.9rem;
+    object-fit: contain;
+  }
+
+  .upload-section .statistics {
+    grid-area: info;
+    margin: 0;
+  }
+
+  .upload-section .statistics span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.35rem;
+    border-radius: 0.4rem;
+    background: palette.$main-background-color;
+  }
+
+  .category-field {
+    grid-area: category;
+  }
+
+  .name-field {
+    grid-area: name;
+  }
+
+  .age-time-fields {
+    grid-area: age-time;
+  }
+
+  .players-fields {
+    grid-area: players;
+  }
+
+  .description-field {
+    grid-area: description;
+  }
+
+  .input-group {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .input-group .input-field:not(:last-child) {
+    margin-right: 0;
+  }
+
+  .input-field input,
+  .input-field select,
+  .input-field textarea {
+    box-sizing: border-box;
+    border: 0.1rem solid rgba(117, 160, 255, 0.18);
+    border-radius: 0.5rem;
+    background: palette.$main-background-color;
+  }
+
+  .input-field {
+    margin-bottom: 0;
+
+    label {
+      margin-bottom: 0.25rem;
+      font-size: 0.85rem;
+      color: palette.$main-font-gray-color;
+    }
+
+    input,
+    select {
+      min-height: 2.65rem;
+      padding: 0.6rem 0.75rem;
+    }
+  }
+
+  :host ::ng-deep .input-field .ng-select.app-select-long {
+    background: palette.$main-background-color;
+    border-radius: 0.5rem;
+  }
+
+  :host ::ng-deep .input-field .ng-select.app-select-long .ng-select-container {
+    min-height: 2.65rem;
+    border: 0.1rem solid rgba(117, 160, 255, 0.18);
+    border-radius: 0.5rem;
+    background: palette.$main-background-color;
+    color: palette.$main-font-color;
+  }
+
+  :host ::ng-deep
+    .input-field
+    .ng-select.app-select-long
+    .ng-select-container
+    .ng-value-container {
+    padding-left: 0.7rem;
+  }
+
+  :host ::ng-deep
+    .input-field
+    .ng-select.app-select-long
+    .ng-select-container
+    .ng-value-container
+    .ng-input
+    > input {
+    padding: 0;
+  }
+
+  :host ::ng-deep
+    .input-field
+    .ng-select.app-select-long.ng-select-focused:not(.ng-select-opened)
+    > .ng-select-container {
+    border-color: palette.$main-blue-color;
+    background: palette.$main-background-color;
+  }
+
+  .input-field input:focus,
+  .input-field select:focus,
+  .input-field textarea:focus {
+    outline: none;
+    border-color: palette.$main-blue-color;
+  }
+
+  .expand-textarea-mobile {
+    min-height: 8rem;
+    resize: vertical;
+  }
+
+  .errors,
+  .upload-section > button {
+    grid-column: auto;
+  }
+
+  .errors {
+    grid-area: errors;
+    margin: 0;
+  }
+
+  .upload-section > button {
+    grid-area: action;
+    width: min(18rem, 100%);
+    justify-self: end;
+    margin-top: 0.25rem;
+  }
+}
+
+@media (min-width: 900px) and (max-width: 1080px) {
+  .upload-section {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "image"
+      "info"
+      "category"
+      "name"
+      "age-time"
+      "players"
+      "description"
+      "errors"
+      "action";
+  }
+
+  .upload-section .upload-icon {
+    grid-row: auto;
+    max-width: 22rem;
+    min-height: 18rem;
+    margin: 0 auto 1rem;
+  }
+
+  .errors,
+  .upload-section > button {
+    grid-column: auto;
+  }
+
+  .upload-section > button {
+    justify-self: stretch;
+    width: 100%;
+  }
+}
