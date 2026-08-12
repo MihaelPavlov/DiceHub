@@ -1,4 +1,5 @@
-﻿using DH.Domain.Adapters.Authentication.Services;
+﻿using DH.Domain.Adapters.Authentication;
+using DH.Domain.Adapters.Authentication.Services;
 using DH.Domain.Adapters.Email;
 using DH.Domain.Adapters.EmailSender;
 using DH.Domain.Adapters.Localization;
@@ -23,6 +24,7 @@ internal class SendEmployeeCreatePasswordEmailCommandHandler(
     IEmailHelperService emailHelperService,
     IEmailSender emailSender,
     IConfiguration configuration,
+    ISystemUserContextAccessor systemUserContextAccessor,
     ILocalizationService localizationService) : IRequestHandler<SendEmployeeCreatePasswordEmailCommand, bool>
 {
     readonly ILogger<SendEmployeeCreatePasswordEmailCommandHandler> logger = logger;
@@ -31,6 +33,7 @@ internal class SendEmployeeCreatePasswordEmailCommandHandler(
     readonly IEmailHelperService emailHelperService = emailHelperService;
     readonly IEmailSender emailSender = emailSender;
     readonly IConfiguration configuration = configuration;
+    readonly ISystemUserContextAccessor systemUserContextAccessor = systemUserContextAccessor;
     readonly ILocalizationService localizationService = localizationService;
 
     public async Task<bool> Handle(SendEmployeeCreatePasswordEmailCommand request, CancellationToken cancellationToken)
@@ -79,23 +82,44 @@ internal class SendEmployeeCreatePasswordEmailCommandHandler(
             Body = body
         });
 
-        await this.emailHelperService.CreateEmailHistory(new EmailHistory
+        if (string.IsNullOrWhiteSpace(user.TenantId))
         {
-            TenantId = user.TenantId,
-            IsSuccessfully = isEmailSendSuccessfully,
-            Body = body,
-            SendedOn = DateTime.UtcNow,
-            Subject = subject,
-            TemplateName = emailTemplate.TemplateName,
-            TemplateType = emailType.ToString(),
-            To = user.Email,
-            UserId = user.Id,
-        });
+            this.logger.LogInformation(
+                "Employee create password email history was not saved because user {UserId} has no tenant.",
+                user.Id);
+        }
+        else
+        {
+            this.systemUserContextAccessor.Set(new EmailHistorySystemUserContext(user.TenantId, user.Id));
+            await this.emailHelperService.CreateEmailHistory(new EmailHistory
+            {
+                TenantId = user.TenantId,
+                IsSuccessfully = isEmailSendSuccessfully,
+                Body = body,
+                SendedOn = DateTime.UtcNow,
+                Subject = subject,
+                TemplateName = emailTemplate.TemplateName,
+                TemplateType = emailType.ToString(),
+                To = user.Email,
+                UserId = user.Id,
+            });
+        }
 
         this.logger.LogInformation("Employee Create Password Email was sent to {Email}. Success: {IsEmailSendSuccessfully}",
             request.Email,
             isEmailSendSuccessfully);
 
         return isEmailSendSuccessfully;
+    }
+
+    private sealed class EmailHistorySystemUserContext(string tenantId, string userId) : IUserContext
+    {
+        public string? TenantId => tenantId;
+        public string? UserId => userId;
+        public int? RoleKey => null;
+        public string? TimeZone => "UTC";
+        public string? Language => "en";
+        public bool IsAuthenticated => false;
+        public bool IsSystem => true;
     }
 }

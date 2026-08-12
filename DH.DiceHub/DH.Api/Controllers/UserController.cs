@@ -70,6 +70,11 @@ public class UserController : ControllerBase
         {
             HttpContext.Items["TenantId"] = form.TenantId;
         }
+        else
+        {
+            HttpContext.Request.Headers["X-Requires-Tenant"] = "false";
+        }
+
         var result = await authenticationService.Login(form);
         return this.Ok(result);
     }

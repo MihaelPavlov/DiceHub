@@ -1,4 +1,5 @@
-﻿using DH.Domain.Adapters.Authentication.Services;
+﻿using DH.Domain.Adapters.Authentication;
+using DH.Domain.Adapters.Authentication.Services;
 using DH.Domain.Adapters.Email;
 using DH.Domain.Adapters.EmailSender;
 using DH.Domain.Entities;
@@ -21,7 +22,8 @@ internal class SendOwnerCreatePasswordEmailCommandHandler(
     IUserManagementService userManagementService,
     IEmailHelperService emailHelperService,
     IEmailSender emailSender,
-    IConfiguration configuration) : IRequestHandler<SendOwnerCreatePasswordEmailCommand, bool>
+    IConfiguration configuration,
+    ISystemUserContextAccessor systemUserContextAccessor) : IRequestHandler<SendOwnerCreatePasswordEmailCommand, bool>
 {
     readonly ILogger<SendOwnerCreatePasswordEmailCommandHandler> logger = logger;
     readonly ITenantSettingsCacheService tenantSettingsCacheService = tenantSettingsCacheService;
@@ -29,6 +31,7 @@ internal class SendOwnerCreatePasswordEmailCommandHandler(
     readonly IEmailHelperService emailHelperService = emailHelperService;
     readonly IEmailSender emailSender = emailSender;
     readonly IConfiguration configuration = configuration;
+    readonly ISystemUserContextAccessor systemUserContextAccessor = systemUserContextAccessor;
 
     public async Task<bool> Handle(SendOwnerCreatePasswordEmailCommand request, CancellationToken cancellationToken)
     {
@@ -76,8 +79,18 @@ internal class SendOwnerCreatePasswordEmailCommandHandler(
             Body = body
         });
 
+        if (string.IsNullOrWhiteSpace(user.TenantId))
+        {
+            this.logger.LogInformation(
+                "Owner create password email history was not saved because user {UserId} has no tenant.",
+                user.Id);
+            return isEmailSendSuccessfully;
+        }
+
+        this.systemUserContextAccessor.Set(new EmailHistorySystemUserContext(user.TenantId, user.Id));
         await this.emailHelperService.CreateEmailHistory(new EmailHistory
         {
+            TenantId = user.TenantId,
             IsSuccessfully = isEmailSendSuccessfully,
             Body = body,
             SendedOn = DateTime.UtcNow,
@@ -89,5 +102,16 @@ internal class SendOwnerCreatePasswordEmailCommandHandler(
         });
 
         return isEmailSendSuccessfully;
+    }
+
+    private sealed class EmailHistorySystemUserContext(string tenantId, string userId) : IUserContext
+    {
+        public string? TenantId => tenantId;
+        public string? UserId => userId;
+        public int? RoleKey => null;
+        public string? TimeZone => "UTC";
+        public string? Language => "en";
+        public bool IsAuthenticated => false;
+        public bool IsSystem => true;
     }
 }

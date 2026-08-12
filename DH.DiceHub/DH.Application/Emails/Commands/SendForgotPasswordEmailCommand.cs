@@ -1,4 +1,5 @@
-﻿using DH.Domain.Adapters.Authentication.Services;
+﻿using DH.Domain.Adapters.Authentication;
+using DH.Domain.Adapters.Authentication.Services;
 using DH.Domain.Adapters.Email;
 using DH.Domain.Adapters.EmailSender;
 using DH.Domain.Adapters.Localization;
@@ -23,6 +24,7 @@ internal class SendForgotPasswordEmailCommandHandler(
     IEmailHelperService emailHelperService,
     IEmailSender emailSender,
     IConfiguration configuration,
+    ISystemUserContextAccessor systemUserContextAccessor,
     ILocalizationService localizationService) : IRequestHandler<SendForgotPasswordEmailCommand>
 {
     readonly ILogger<SendForgotPasswordEmailCommandHandler> logger = logger;
@@ -31,6 +33,7 @@ internal class SendForgotPasswordEmailCommandHandler(
     readonly IEmailHelperService emailHelperService = emailHelperService;
     readonly IEmailSender emailSender = emailSender;
     readonly IConfiguration configuration = configuration;
+    readonly ISystemUserContextAccessor systemUserContextAccessor = systemUserContextAccessor;
     readonly ILocalizationService localizationService = localizationService;
 
     public async Task Handle(SendForgotPasswordEmailCommand request, CancellationToken cancellationToken)
@@ -75,8 +78,18 @@ internal class SendForgotPasswordEmailCommandHandler(
             Body = body
         });
 
+        if (string.IsNullOrWhiteSpace(user.TenantId))
+        {
+            this.logger.LogInformation(
+                "Forgot password email history was not saved because user {UserId} has no tenant.",
+                user.Id);
+            return;
+        }
+
+        this.systemUserContextAccessor.Set(new EmailHistorySystemUserContext(user.TenantId, user.Id));
         await this.emailHelperService.CreateEmailHistory(new EmailHistory
         {
+            TenantId = user.TenantId,
             IsSuccessfully = isEmailSendSuccessfully,
             Body = body,
             SendedOn = DateTime.UtcNow,
@@ -86,5 +99,16 @@ internal class SendForgotPasswordEmailCommandHandler(
             To = user.Email,
             UserId = user.Id,
         });
+    }
+
+    private sealed class EmailHistorySystemUserContext(string tenantId, string userId) : IUserContext
+    {
+        public string? TenantId => tenantId;
+        public string? UserId => userId;
+        public int? RoleKey => null;
+        public string? TimeZone => "UTC";
+        public string? Language => "en";
+        public bool IsAuthenticated => false;
+        public bool IsSystem => true;
     }
 }

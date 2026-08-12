@@ -77,16 +77,8 @@ internal class CreatePartnerInquiriesCommandHandle(
             Body = body
         });
 
-        await this.emailHelperService.CreateEmailHistory(new EmailHistory
-        {
-            IsSuccessfully = isEmailSendSuccessfully,
-            Body = body,
-            SendedOn = DateTime.UtcNow,
-            Subject = emailTemplate.Subject,
-            TemplateName = emailTemplate.TemplateName,
-            TemplateType = emailType.ToString(),
-            To = supportEmail,
-            UserId = "support",
-        });
+        this.logger.LogInformation(
+            "Partner inquiry email history was not saved because public partner inquiries do not have a tenant context. Email: {Email}",
+            request.PartnerInquiry.Email);
     }
 }

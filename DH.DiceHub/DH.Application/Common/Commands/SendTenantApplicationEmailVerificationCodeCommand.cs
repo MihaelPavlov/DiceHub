@@ -1,7 +1,5 @@
-using DH.Domain.Adapters.Authentication;
 using DH.Domain.Adapters.Email;
 using DH.Domain.Adapters.EmailSender;
-using DH.Domain.Entities;
 using DH.Domain.Enums;
 using DH.Domain.Models.Common;
 using DH.Domain.Services;
@@ -19,8 +17,7 @@ internal class SendTenantApplicationEmailVerificationCodeCommandHandler(
     ILogger<SendTenantApplicationEmailVerificationCodeCommandHandler> logger,
     IEmailHelperService emailHelperService,
     IEmailSender emailSender,
-    IMemoryCache memoryCache,
-    ISystemUserContextAccessor systemUserContextAccessor) : IRequestHandler<SendTenantApplicationEmailVerificationCodeCommand, bool>
+    IMemoryCache memoryCache) : IRequestHandler<SendTenantApplicationEmailVerificationCodeCommand, bool>
 {
     const int CodeExpirationMinutes = 10;
 
@@ -28,7 +25,6 @@ internal class SendTenantApplicationEmailVerificationCodeCommandHandler(
     readonly IEmailHelperService emailHelperService = emailHelperService;
     readonly IEmailSender emailSender = emailSender;
     readonly IMemoryCache memoryCache = memoryCache;
-    readonly ISystemUserContextAccessor systemUserContextAccessor = systemUserContextAccessor;
 
     public async Task<bool> Handle(SendTenantApplicationEmailVerificationCodeCommand request, CancellationToken cancellationToken)
     {
@@ -58,18 +54,9 @@ internal class SendTenantApplicationEmailVerificationCodeCommandHandler(
             Body = body,
         });
 
-        this.systemUserContextAccessor.Set(new TenantApplicationEmailVerificationSystemUserContext());
-        await this.emailHelperService.CreateEmailHistory(new EmailHistory
-        {
-            IsSuccessfully = isEmailSendSuccessfully,
-            Body = body,
-            SendedOn = DateTime.UtcNow,
-            Subject = subject,
-            TemplateName = emailType.ToString(),
-            TemplateType = emailType.ToString(),
-            To = email,
-            UserId = "tenant-application",
-        });
+        this.logger.LogInformation(
+            "Tenant application email verification history was not saved because the request has no tenant yet. Email: {Email}",
+            email);
 
         if (!isEmailSendSuccessfully)
         {
@@ -83,17 +70,6 @@ internal class SendTenantApplicationEmailVerificationCodeCommandHandler(
             TimeSpan.FromMinutes(CodeExpirationMinutes));
 
         return true;
-    }
-
-    private sealed class TenantApplicationEmailVerificationSystemUserContext : IUserContext
-    {
-        public string? TenantId => null;
-        public string? UserId => "tenant-application-email-verification";
-        public int? RoleKey => null;
-        public string? TimeZone => "UTC";
-        public string? Language => "en";
-        public bool IsAuthenticated => false;
-        public bool IsSystem => true;
     }
 
     static string NormalizeEmail(string email) => email.Trim().ToLowerInvariant();

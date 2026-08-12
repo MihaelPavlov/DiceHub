@@ -22,8 +22,7 @@ internal class SendTenantSetupInvitationCommandHandler(
     IRepository<TenantSetupToken> tenantSetupTokenRepository,
     IEmailHelperService emailHelperService,
     IEmailSender emailSender,
-    IConfiguration configuration,
-    ISystemUserContextAccessor systemUserContextAccessor) : IRequestHandler<SendTenantSetupInvitationCommand, bool>
+    IConfiguration configuration) : IRequestHandler<SendTenantSetupInvitationCommand, bool>
 {
     const int SetupTokenExpirationHours = 24;
 
@@ -33,7 +32,6 @@ internal class SendTenantSetupInvitationCommandHandler(
     readonly IEmailHelperService emailHelperService = emailHelperService;
     readonly IEmailSender emailSender = emailSender;
     readonly IConfiguration configuration = configuration;
-    readonly ISystemUserContextAccessor systemUserContextAccessor = systemUserContextAccessor;
 
     public async Task<bool> Handle(SendTenantSetupInvitationCommand request, CancellationToken cancellationToken)
     {
@@ -85,18 +83,10 @@ internal class SendTenantSetupInvitationCommandHandler(
             Body = body,
         });
 
-        this.systemUserContextAccessor.Set(new TenantSetupInvitationSystemUserContext());
-        await this.emailHelperService.CreateEmailHistory(new EmailHistory
-        {
-            IsSuccessfully = isEmailSendSuccessfully,
-            Body = body,
-            SendedOn = DateTime.UtcNow,
-            Subject = subject,
-            TemplateName = emailTemplate?.TemplateName ?? emailType.ToString(),
-            TemplateType = emailType.ToString(),
-            To = application.Email,
-            UserId = "tenant-setup-invitation",
-        });
+        this.logger.LogInformation(
+            "Tenant setup invitation email history was not saved because the tenant has not been created yet. TenantApplicationId: {TenantApplicationId}, Email: {Email}",
+            application.Id,
+            application.Email);
 
         if (!isEmailSendSuccessfully)
         {
@@ -153,14 +143,4 @@ internal class SendTenantSetupInvitationCommandHandler(
         </html>
         """;
 
-    private sealed class TenantSetupInvitationSystemUserContext : IUserContext
-    {
-        public string? TenantId => null;
-        public string? UserId => "tenant-setup-invitation";
-        public int? RoleKey => null;
-        public string? TimeZone => "UTC";
-        public string? Language => "en";
-        public bool IsAuthenticated => false;
-        public bool IsSystem => true;
-    }
 }
