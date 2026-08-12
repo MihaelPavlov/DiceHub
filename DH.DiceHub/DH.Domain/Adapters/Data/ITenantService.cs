@@ -21,4 +21,9 @@ public interface ITenantService
     /// The matching <see cref="Tenant"/> if found; otherwise, <c>null</c>.
     /// </returns>
     Task<Tenant?> GetByTenantName(string name);
+
+    Task<Tenant?> GetById(string id);
+    Task<Tenant?> GetByRouteIdentifier(string routeIdentifier);
+    Task<Tenant> GetCurrentTenantAsync(CancellationToken cancellationToken);
+    Task<Tenant> CreateAsync(Tenant tenant, CancellationToken cancellationToken);
 }

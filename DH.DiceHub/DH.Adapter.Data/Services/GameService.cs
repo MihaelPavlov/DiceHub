@@ -35,8 +35,9 @@ public class GameService : IGameService
 
     public async Task<int> CreateGame(Game game, string fileName, string contentType, MemoryStream imageStream, CancellationToken cancellationToken)
     {
-        var imageUrl = await this.fileManagerClient.UploadFileAsync(
-            FileManagerFolders.Games.ToString(), fileName, imageStream.ToArray());
+        var imageUrl = imageStream.Length > 0
+            ? await this.fileManagerClient.UploadFileAsync(FileManagerFolders.Games.ToString(), fileName, imageStream.ToArray())
+            : string.Empty;
 
         game.ImageUrl = imageUrl;
         await this.tenantDbContext.Games.AddAsync(game, cancellationToken);

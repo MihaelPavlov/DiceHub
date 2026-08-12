@@ -3,6 +3,7 @@ export const PATH = {
     CORE: 'tenants',
     LIST: 'list',
     EXISTS: 'exists',
+    PROVISION: 'provision',
   },
   GAMES: {
     CORE: 'games',

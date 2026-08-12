@@ -1,4 +1,5 @@
-﻿using DH.Adapter.Authentication.Entities;
+using DH.Adapter.Authentication.Entities;
+using DH.Domain.Adapters.Authentication;
 using DH.Domain.Adapters.Authentication.Models;
 using DH.Domain.Adapters.Authentication.Models.Enums;
 using DH.Domain.Adapters.Authentication.Services;
@@ -21,7 +22,8 @@ internal class UserManagementService(
     ILocalizationService localizer,
     ISynchronizeUsersChallengesQueue queue,
     IRepository<UserDeviceToken> userDeviceTokenRepository,
-    IRepository<TenantUserSetting> tenantUserSettingRepository) : IUserManagementService
+    IRepository<TenantUserSetting> tenantUserSettingRepository,
+    IUserContext userContext) : IUserManagementService
 {
     readonly ILogger<UserManagementService> logger = logger;
     readonly UserManager<ApplicationUser> userManager = userManager;
@@ -30,6 +32,7 @@ internal class UserManagementService(
     readonly ISynchronizeUsersChallengesQueue queue = queue;
     readonly IRepository<UserDeviceToken> userDeviceTokenRepository = userDeviceTokenRepository;
     readonly IRepository<TenantUserSetting> tenantUserSettingRepository = tenantUserSettingRepository;
+    readonly IUserContext userContext = userContext;
 
     public async Task<UserRegistrationResponse> RegisterUser(UserRegistrationRequest form)
     {
@@ -48,8 +51,13 @@ internal class UserManagementService(
         if (existingUserByUsername != null)
             throw new ValidationErrorsException("Username", this.localizer["UserExistUsername"]);
 
-        var user = new ApplicationUser() { UserName = form.Username, Email = form.Email };
-        var createUserResult = await userManager.CreateAsync(user, form.Password);
+        var user = new ApplicationUser()
+        {
+            UserName = form.Username,
+            Email = form.Email,
+            TenantId = this.userContext.TenantId ?? string.Empty
+        };
+        var createUserResult = await this.userManager.CreateAsync(user, form.Password);
 
         if (!createUserResult.Succeeded)
             throw new ValidationErrorsException("General", this.localizer["UserRegistrationFailed"]);
@@ -124,7 +132,7 @@ internal class UserManagementService(
 
         return new UserModel
         {
-            Id = user!.Id,
+            Id = user.Id,
             UserName = user.UserName ?? this.localizer["NotProvided"],
             Email = user.Email ?? this.localizer["NotProvided"],
         };
@@ -132,21 +140,21 @@ internal class UserManagementService(
 
     public async Task<List<GetUserByRoleModel>> GetUserListByRole(Role role, CancellationToken cancellationToken)
     {
-        // Check if the role exists
         if (!await this.roleManager.RoleExistsAsync(role.ToString()))
         {
             this.logger.LogCritical("Request with Role that doesn't exists was initiated! Role: {Role}", role.ToString());
             return [];
         }
 
-        // Get users in the specified role
         var usersInRole = await this.userManager.GetUsersInRoleAsync(role.ToString());
 
-        return usersInRole.Where(x => !x.IsDeleted).Select(x => new GetUserByRoleModel
-        {
-            Id = x.Id,
-            UserName = x.UserName ?? this.localizer["UsernameNotProvided"]
-        }).ToList();
+        return usersInRole
+            .Where(x => !x.IsDeleted && (string.IsNullOrEmpty(this.userContext.TenantId) || x.TenantId == this.userContext.TenantId))
+            .Select(x => new GetUserByRoleModel
+            {
+                Id = x.Id,
+                UserName = x.UserName ?? this.localizer["UsernameNotProvided"]
+            }).ToList();
     }
 
     public async Task<List<GetUserByRoleModel>> GetUserListByRoles(Role[] roles, CancellationToken cancellationToken)
@@ -154,20 +162,21 @@ internal class UserManagementService(
         var result = new List<GetUserByRoleModel>();
         foreach (var role in roles)
         {
-            // Check if the role exists
             if (!await this.roleManager.RoleExistsAsync(role.ToString()))
             {
                 this.logger.LogCritical("Request with Role that doesn't exists was initiated! Role: {Role}", role.ToString());
                 return [];
             }
-            // Get users in the specified role
+
             var usersInRole = await this.userManager.GetUsersInRoleAsync(role.ToString());
 
-            result.AddRange(usersInRole.Where(x => !x.IsDeleted).Select(x => new GetUserByRoleModel
-            {
-                Id = x.Id,
-                UserName = x.UserName ?? this.localizer["UsernameNotProvided"]
-            }).ToList());
+            result.AddRange(usersInRole
+                .Where(x => !x.IsDeleted && (string.IsNullOrEmpty(this.userContext.TenantId) || x.TenantId == this.userContext.TenantId))
+                .Select(x => new GetUserByRoleModel
+                {
+                    Id = x.Id,
+                    UserName = x.UserName ?? this.localizer["UsernameNotProvided"]
+                }).ToList());
         }
 
         return result;
@@ -176,7 +185,7 @@ internal class UserManagementService(
     public async Task<string[]> GetAllUserIds(CancellationToken cancellationToken)
     {
         return await this.userManager.Users
-            .Where(x => !x.IsDeleted)
+            .Where(x => !x.IsDeleted && (string.IsNullOrEmpty(this.userContext.TenantId) || x.TenantId == this.userContext.TenantId))
             .Select(x => x.Id)
             .ToArrayAsync(cancellationToken);
     }
@@ -189,7 +198,7 @@ internal class UserManagementService(
         if (user is null)
             throw new NotFoundException(this.localizer["UserByEmailNotFound"]);
 
-        return user!.TimeZone;
+        return user.TimeZone;
     }
 
     public async Task<bool> IsUserInRole(string userId, Role role, CancellationToken cancellationToken)
@@ -213,7 +222,7 @@ internal class UserManagementService(
 
         foreach (var role in roles)
         {
-            var isInRole = await this.userManager.IsInRoleAsync(user!, role.ToString());
+            var isInRole = await this.userManager.IsInRoleAsync(user, role.ToString());
 
             if (isInRole)
                 return true;
@@ -225,7 +234,7 @@ internal class UserManagementService(
     public async Task<List<UserModel>> GetUserListByIds(string[] ids, CancellationToken cancellationToken)
     {
         return await this.userManager.Users
-            .Where(x => !x.IsDeleted && ids.Contains(x.Id))
+            .Where(x => !x.IsDeleted && ids.Contains(x.Id) && (string.IsNullOrEmpty(this.userContext.TenantId) || x.TenantId == this.userContext.TenantId))
             .Select(x => new UserModel
             {
                 Id = x.Id,
@@ -244,7 +253,7 @@ internal class UserManagementService(
         if (user is null)
             throw new NotFoundException(this.localizer["UserNotFound"]);
 
-        return await userManager.GenerateEmailConfirmationTokenAsync(user!);
+        return await this.userManager.GenerateEmailConfirmationTokenAsync(user);
     }
 
     public async Task<string> GeneratePasswordResetTokenAsync(string email)
@@ -255,7 +264,7 @@ internal class UserManagementService(
         if (user is null)
             throw new NotFoundException(this.localizer["UserNotFound"]);
 
-        return await userManager.GeneratePasswordResetTokenAsync(user!);
+        return await this.userManager.GeneratePasswordResetTokenAsync(user);
     }
 
     public async Task<UserDeviceToken?> GetDeviceTokenByUserEmail(string email)

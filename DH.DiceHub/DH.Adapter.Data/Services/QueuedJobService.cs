@@ -45,6 +45,17 @@ public class QueuedJobService : IQueuedJobService
         }
     }
 
+    public async Task<List<QueuedJob>> GetPendingJobsForSystemProcessingByQueueType(string queueType, CancellationToken cancellationToken)
+    {
+        using (var context = await this.contextFactory.CreateDbContextAsync())
+        {
+            return await context.QueuedJobs.AsNoTracking()
+                .Where(x => x.QueueType == queueType && x.Status == JobStatus.Pending)
+                .OrderBy(x => x.EnqueuedAt)
+                .ToListAsync(cancellationToken);
+        }
+    }
+
     public async Task<QueuedJob?> GetJobByJobId(string queueType, string jobId, CancellationToken cancellationToken)
     {
         using (var context = await this.contextFactory.CreateDbContextAsync())

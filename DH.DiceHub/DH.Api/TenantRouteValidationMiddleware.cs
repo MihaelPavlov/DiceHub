@@ -48,26 +48,28 @@ public class TenantRouteValidationMiddleware
             return;
         }
 
-        // Extract tenantId from JWT claim
-        var tokenTenantId = user.FindFirstValue("tenant_id");
-        if (string.IsNullOrEmpty(tokenTenantId))
-        {
-            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-            await context.Response.WriteAsync("Tenant claim missing in token.");
-            return;
-        }
+        // Pre-seed TenantId so the DB interceptor has a non-empty value during
+        // the tenant-resolution query. The Tenants table has no per-tenant RLS,
+        // so any non-empty candidate value is safe. It is overwritten below with
+        // the authoritative DB id once the lookup succeeds.
+        context.Items["TenantId"] = routeTenant;
 
         // Resolve tenant by slug from route
-        var tenant = await tenantResolver.GetByTenantName(routeTenant);
+        var tenant = await tenantResolver.GetByRouteIdentifier(routeTenant);
         if (tenant == null)
         {
+            context.Items.Remove("TenantId");
             context.Response.StatusCode = StatusCodes.Status404NotFound;
             await context.Response.WriteAsync("Tenant not found.");
             return;
         }
 
-        // Validate JWT tenant matches route tenant
-        if (tenant.Id.ToString() != tokenTenantId)
+        // Extract tenantId from JWT claim
+        var tokenTenantId = user.FindFirstValue("tenant_id");
+
+        // Users with no native tenant (super admins) may access any tenant route.
+        // Regular users must match the route tenant exactly.
+        if (!string.IsNullOrEmpty(tokenTenantId) && tenant.Id != tokenTenantId)
         {
             context.Response.StatusCode = StatusCodes.Status403Forbidden;
             await context.Response.WriteAsync("Tenant mismatch.");

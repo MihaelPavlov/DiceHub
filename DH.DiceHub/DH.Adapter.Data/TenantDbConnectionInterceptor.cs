@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+using DH.Domain.Adapters.Authentication;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using System.Data.Common;
 using System.Security;
@@ -11,16 +12,20 @@ namespace DH.Adapter.Data;
 /// </summary>
 /// <remarks>
 /// This interceptor sets the PostgreSQL session variable <c>app.tenant_id</c>
-/// based on the current HTTP request context.  
+/// based on the current HTTP request context or background execution context.
 /// It is intended to support Row-Level Security (RLS) and tenant isolation.
 /// </remarks>
 public class TenantDbConnectionInterceptor : DbConnectionInterceptor
 {
     private readonly IHttpContextAccessor httpContextAccessor;
+    private readonly ITenantExecutionContextAccessor tenantExecutionContextAccessor;
 
-    public TenantDbConnectionInterceptor(IHttpContextAccessor httpContextAccessor)
+    public TenantDbConnectionInterceptor(
+        IHttpContextAccessor httpContextAccessor,
+        ITenantExecutionContextAccessor tenantExecutionContextAccessor)
     {
         this.httpContextAccessor = httpContextAccessor;
+        this.tenantExecutionContextAccessor = tenantExecutionContextAccessor;
     }
 
     public override async Task ConnectionOpenedAsync(
@@ -28,13 +33,15 @@ public class TenantDbConnectionInterceptor : DbConnectionInterceptor
         ConnectionEndEventData eventData,
         CancellationToken cancellationToken = default)
     {
-        var httpContext = httpContextAccessor.HttpContext;
+        var httpContext = this.httpContextAccessor.HttpContext;
 
-        if (httpContext == null)
+        if (httpContext == null && string.IsNullOrWhiteSpace(this.tenantExecutionContextAccessor.TenantId))
             return;
 
-        var tenantId = httpContext.Items["TenantId"]?.ToString();
-        if (httpContext.Request.Headers.TryGetValue("X-Requires-Tenant", out var value)
+        var tenantId = httpContext?.Items["TenantId"]?.ToString()
+            ?? this.tenantExecutionContextAccessor.TenantId;
+
+        if (httpContext?.Request.Headers.TryGetValue("X-Requires-Tenant", out var value) == true
             && value == "false" && tenantId == null)
         {
             return;
@@ -43,35 +50,27 @@ public class TenantDbConnectionInterceptor : DbConnectionInterceptor
         if (string.IsNullOrEmpty(tenantId))
             throw new SecurityException("Tenant context missing");
 
-        if (!string.IsNullOrEmpty(tenantId))
+        using (var cmd = connection.CreateCommand())
         {
-            using (var cmd = connection.CreateCommand())
-            {
-
-                cmd.CommandText = $"SET app.tenant_id = '{tenantId.Replace("'", "''")}'";
-                await cmd.ExecuteNonQueryAsync(cancellationToken);
-            }
+            cmd.CommandText = $"SET app.tenant_id = '{tenantId.Replace("'", "''")}'";
+            await cmd.ExecuteNonQueryAsync(cancellationToken);
         }
 
         await base.ConnectionOpenedAsync(connection, eventData, cancellationToken);
     }
 
     public override void ConnectionOpened(DbConnection connection, ConnectionEndEventData eventData)
-     {
-        if (this.httpContextAccessor != null && this.httpContextAccessor.HttpContext != null)
+    {
+        var tenantId = this.httpContextAccessor.HttpContext?.Items["TenantId"]?.ToString()
+            ?? this.tenantExecutionContextAccessor.TenantId;
+
+        if (string.IsNullOrEmpty(tenantId))
+            return;
+
+        using (var cmd = connection.CreateCommand())
         {
-            var tenantId = this.httpContextAccessor.HttpContext?
-                .Items["TenantId"]?.ToString();
-
-            if (!string.IsNullOrEmpty(tenantId))
-            {
-                using (var cmd = connection.CreateCommand())
-                {
-
-                    cmd.CommandText = $"SET app.tenant_id = '{tenantId.Replace("'", "''")}'";
-                    cmd.ExecuteNonQuery();
-                }
-            }
+            cmd.CommandText = $"SET app.tenant_id = '{tenantId.Replace("'", "''")}'";
+            cmd.ExecuteNonQuery();
         }
     }
 }

@@ -23,8 +23,9 @@ public class RewardService : IRewardService
 
     public async Task<int> CreateReward(ChallengeReward reward, string fileName, string contentType, MemoryStream imageStream, CancellationToken cancellationToken)
     {
-        var imageUrl = await this.fileManagerClient.UploadFileAsync(
-            FileManagerFolders.Rewards.ToString(), fileName, imageStream.ToArray());
+        var imageUrl = imageStream.Length > 0
+            ? await this.fileManagerClient.UploadFileAsync(FileManagerFolders.Rewards.ToString(), fileName, imageStream.ToArray())
+            : string.Empty;
         using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
         {
             using (var transaction = await context.Database.BeginTransactionAsync(cancellationToken))

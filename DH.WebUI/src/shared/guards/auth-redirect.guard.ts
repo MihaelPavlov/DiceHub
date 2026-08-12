@@ -9,6 +9,7 @@ import { Observable, of } from 'rxjs';
 import { FULL_ROUTE } from '../configs/route.config';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { TenantRouter } from '../helpers/tenant-router';
+import { TenantContextService } from '../services/tenant-context.service';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +18,8 @@ export class AuthRedirectGuard {
   constructor(
     private readonly router: Router,
     private readonly tenantRouter: TenantRouter,
-    private readonly jwtHelper: JwtHelperService
+    private readonly jwtHelper: JwtHelperService,
+    private readonly tenantContextService: TenantContextService
   ) {}
 
   public canActivate(
@@ -29,9 +31,8 @@ export class AuthRedirectGuard {
     | Observable<boolean | UrlTree>
     | Promise<boolean | UrlTree> {
     const token = localStorage.getItem('jwt');
-    console.log('auth-redirect.guard.ts');
 
-    if (token && !this.jwtHelper.isTokenExpired(token)) {
+    if (token && !this.jwtHelper.isTokenExpired(token) && this.tenantContextService.hasTenant()) {
       const tenantUrl = this.tenantRouter.buildTenantUrl(
         FULL_ROUTE.GAMES.LIBRARY
       );

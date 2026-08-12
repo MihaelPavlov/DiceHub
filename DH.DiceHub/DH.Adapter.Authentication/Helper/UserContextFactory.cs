@@ -13,12 +13,18 @@ public class UserContextFactory : IUserContextFactory
     readonly IHttpContextAccessor httpContextAccessor;
     readonly ITokenService jwtService;
     readonly IUserSettingsCache userSettingsCache;
+    readonly ITenantExecutionContextAccessor tenantExecutionContextAccessor;
 
-    public UserContextFactory(IHttpContextAccessor httpContextAccessor, ITokenService jwtService, IUserSettingsCache userSettingsCache)
+    public UserContextFactory(
+        IHttpContextAccessor httpContextAccessor,
+        ITokenService jwtService,
+        IUserSettingsCache userSettingsCache,
+        ITenantExecutionContextAccessor tenantExecutionContextAccessor)
     {
         this.httpContextAccessor = httpContextAccessor;
         this.jwtService = jwtService;
         this.userSettingsCache = userSettingsCache;
+        this.tenantExecutionContextAccessor = tenantExecutionContextAccessor;
     }
 
     /// <summary>
@@ -32,13 +38,19 @@ public class UserContextFactory : IUserContextFactory
 
         if (user?.Identity?.IsAuthenticated != true)
         {
+            if (!string.IsNullOrWhiteSpace(this.tenantExecutionContextAccessor.TenantId))
+            {
+                return new SystemUserContext(this.tenantExecutionContextAccessor.TenantId!, "system");
+            }
+
             return AnonymousUserContext.Instance;
         }
 
         var userId = user.FindFirstValue(ClaimTypes.Sid);
         var roleName = user.FindFirstValue(ClaimTypes.Role);
         var timeZone = user.FindFirstValue("TimeZone");
-        var tenantId = user.FindFirstValue("tenant_id")
+        var jwtTenantId = user.FindFirstValue("tenant_id");
+        var tenantId = (!string.IsNullOrWhiteSpace(jwtTenantId) ? jwtTenantId : null)
             ?? httpContext?.Items["TenantId"]?.ToString();
 
         if (string.IsNullOrWhiteSpace(userId))
@@ -71,7 +83,7 @@ public class UserContextFactory : IUserContextFactory
             var token = this.jwtService.GenerateAccessToken(claims);
 
             return new UserContext(
-                tenantId: "tenant_1",
+                tenantId: this.tenantExecutionContextAccessor.TenantId ?? "tenant_1",
                 userId: "system",
                 roleKey: 1,
                 timeZone: "UTC",

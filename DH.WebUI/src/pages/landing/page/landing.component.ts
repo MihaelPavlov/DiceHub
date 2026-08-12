@@ -58,7 +58,11 @@ export class LandingComponent extends Form {
   }
 
   public onRegister(): void {
-    this.router.navigateByUrl(ROUTE.REGISTER);
+    this.router.navigateByUrl(ROUTE.CHOOSE_CLUB);
+  }
+
+  public onAdminLogin(): void {
+    this.router.navigateByUrl(ROUTE.ADMIN.LOGIN);
   }
 
   public onInstructions(): void {

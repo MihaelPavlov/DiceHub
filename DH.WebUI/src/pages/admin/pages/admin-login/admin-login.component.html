@@ -1,0 +1,55 @@
+<div class="wrapper">
+  <div class="interactive-option">
+    <div class="icon_wrapper" (click)="navigateToLanding()">
+      <svg class="icon svg-color-interaction-option" viewBox="0 -960 960 960">
+        <path
+          d="M240-200h133.85v-237.69h212.3V-200H720v-360L480-740.77 240-560v360Zm-59.23 59.23V-583.08L480-820l299.23 236.92v419.31H527.69v-237.69h-95.38v237.69H180.77Zm299.23-328.38Z"
+        />
+      </svg>
+    </div>
+  </div>
+
+  <span class="header">Super Admin</span>
+
+  <form [formGroup]="form" class="container">
+    <div class="input-field">
+      <label class="required">Email</label>
+      <input
+        type="text"
+        autocomplete="email"
+        formControlName="email"
+        placeholder="admin@dicehub.com"
+        class="surface-elevated"
+      />
+    </div>
+
+    <div class="input-field password-field">
+      <label class="required">Password</label>
+      <input
+        [type]="showPassword ? 'text' : 'password'"
+        formControlName="password"
+        autocomplete="current-password"
+        placeholder="Password"
+        class="surface-elevated"
+      />
+      <app-password-visibility-toggle
+        [(isVisible)]="showPassword"
+      ></app-password-visibility-toggle>
+    </div>
+
+    <div *ngIf="getFirstErrorMessage()" class="errors">
+      {{ getFirstErrorMessage() }}
+    </div>
+
+    <div class="btn-container">
+      <button
+        [disabled]="form.invalid"
+        type="button"
+        (click)="onLogin()"
+        class="btn btn-gray btn-border-blue btn-font-blue"
+      >
+        Login
+      </button>
+    </div>
+  </form>
+</div>

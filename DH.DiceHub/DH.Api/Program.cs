@@ -78,6 +78,7 @@ builder.Services.AddCors(options =>
     });
 });
 builder.Services.AddScoped<IContainerService, ContainerService>();
+builder.Services.AddScoped<TenantProvisioningService>();
 
 builder.Services.AddDomain();
 builder.Services.AddApplication();
@@ -93,12 +94,34 @@ builder.Services.AddGameSessionAdapter();
 builder.Services.AddEmailAdapter(builder.Configuration);
 builder.Services.AddStatisticsAdapter();
 builder.Services.AddFileManager(builder.Configuration);
-var test = FirebaseApp.Create(new AppOptions()
-{
-    Credential = GoogleCredential.FromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "dicehub-8c63f-firebase-adminsdk-y31l3-6026a82c88.json")),
-});
 
-Console.WriteLine(test.Options.ProjectId);
+var firebaseCredentialsPath = builder.Configuration["Firebase:CredentialsPath"];
+
+if (string.IsNullOrWhiteSpace(firebaseCredentialsPath))
+{
+    var localFirebaseCredentials = Path.Combine(
+        AppDomain.CurrentDomain.BaseDirectory,
+        "dicehub-8c63f-firebase-adminsdk-y31l3-6026a82c88.json");
+
+    if (File.Exists(localFirebaseCredentials))
+    {
+        firebaseCredentialsPath = localFirebaseCredentials;
+    }
+}
+
+if (!string.IsNullOrWhiteSpace(firebaseCredentialsPath) && File.Exists(firebaseCredentialsPath))
+{
+    var firebaseApp = FirebaseApp.Create(new AppOptions
+    {
+        Credential = GoogleCredential.FromFile(firebaseCredentialsPath),
+    });
+
+    Console.WriteLine(firebaseApp.Options.ProjectId);
+}
+else
+{
+    Console.WriteLine("Firebase credentials were not found. Push notifications are disabled for this run.");
+}
 
 builder.Services.AddHostedService<MemoryMonitorService>();
 

@@ -4,6 +4,7 @@ using System.Reflection;
 using DH.Domain;
 using Microsoft.EntityFrameworkCore;
 using DH.Domain.Adapters.Authentication;
+using DH.Adapter.Authentication.Helper;
 
 namespace DH.Adapter.Data;
 
@@ -139,9 +140,20 @@ public class TenantDbContext : DbContext, ITenantDbContext
             userContext = this.containerService.Resolve<IUserContext>();
         }
 
-        var tenantId = userContext.TenantId;
+        // IDbContextFactory creates a new DI scope per context, so the scoped SystemUserContextAccessor
+        // won't have the provisioning/background tenant set. Fall back to the singleton
+        // ITenantExecutionContextAccessor which is always correctly set by background workers and
+        // the tenant provisioning service.
+        if (string.IsNullOrEmpty(userContext.TenantId) && !userContext.IsSystem)
+        {
+            var executionTenantId = this.containerService.Resolve<ITenantExecutionContextAccessor>().TenantId;
+            if (!string.IsNullOrEmpty(executionTenantId))
+                userContext = new SystemUserContext(executionTenantId, "system");
+        }
 
-        if (!userContext.IsSystem && userContext.TenantId == null)
+        var hasNewTenantEntities = ChangeTracker.Entries<TenantEntity>()
+            .Any(e => e.State == EntityState.Added);
+        if (!userContext.IsSystem && userContext.TenantId == null && hasNewTenantEntities)
         {
             throw new InvalidOperationException("TenantId is required for non-system operations");
         }

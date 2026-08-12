@@ -13,7 +13,7 @@ public static class DI
         .AddScoped<Supabase.Client>(_ =>
         {
             return new Supabase.Client(
-                 configuration["SupabaseUrl"],
+                 configuration["SupabaseUrl"] ?? string.Empty,
                  configuration["SupabaseKey"]);
         }).AddScoped<IFileManagerClient, SupabaseStorageClient>();
 }

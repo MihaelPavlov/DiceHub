@@ -12,6 +12,7 @@ namespace DH.Api.Controllers;
 [Authorize]
 [ApiController]
 [Route("api/[controller]")]
+[Route("api/{tenant}/[controller]")]
 public class TenantSettingsController : ControllerBase
 {
     readonly IMediator mediator;

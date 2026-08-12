@@ -52,7 +52,8 @@ internal class EmployeeService(
             UserName = username,
             Email = request.Email,
             PhoneNumber = request.PhoneNumber,
-            EmailConfirmed = true
+            EmailConfirmed = true,
+            TenantId = this.userContext.TenantId ?? string.Empty
         };
         var generatedRandomPassword = PasswordGenerator.GenerateRandomPassword();
         var createUserResult = await userManager.CreateAsync(user, generatedRandomPassword);
@@ -87,7 +88,7 @@ internal class EmployeeService(
             throw new ValidationErrorsException(validationErrors);
 
         var existingUser = await this.userManager.Users
-           .Where(x => x.Id == request.Id && !x.IsDeleted).FirstOrDefaultAsync();
+           .Where(x => x.Id == request.Id && !x.IsDeleted && x.TenantId == this.userContext.TenantId).FirstOrDefaultAsync();
 
         if (existingUser is null)
             throw new NotFoundException(this.localizer["UserNotFound"]);
@@ -173,7 +174,7 @@ internal class EmployeeService(
     public async Task<EmployeeModel?> GetEmployeeId(string id, CancellationToken cancellationToken)
     {
         var user = await this.userManager.Users
-            .Where(x => x.Id == id && !x.IsDeleted)
+           .Where(x => x.Id == id && !x.IsDeleted && x.TenantId == this.userContext.TenantId)
             .Select(x => new EmployeeModel
             {
                 Id = x.Id,
@@ -195,7 +196,7 @@ internal class EmployeeService(
     public async Task DeleteEmployee(string employeeId)
     {
         var user = await this.userManager.Users
-           .Where(x => x.Id == employeeId && !x.IsDeleted).FirstOrDefaultAsync()
+           .Where(x => x.Id == employeeId && !x.IsDeleted && x.TenantId == this.userContext.TenantId).FirstOrDefaultAsync()
                 ?? throw new BadRequestException(this.localizer["EmployeeDeletionFailed"]);
 
         var userId = user.Id.Replace("-", "");

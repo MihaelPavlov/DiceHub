@@ -1,4 +1,6 @@
-﻿using DH.Domain.Adapters.Reservations;
+using DH.Adapter.Authentication.Helper;
+using DH.Domain.Adapters.Authentication;
+using DH.Domain.Adapters.Reservations;
 using DH.Domain.Entities;
 using DH.Domain.Enums;
 using DH.Domain.Repositories;
@@ -25,35 +27,38 @@ public class ReservationCleanupWorker : BackgroundService
     {
         while (!cancellationToken.IsCancellationRequested)
         {
-            using var scope = serviceScopeFactory.CreateScope();
+            using var scope = this.serviceScopeFactory.CreateScope();
             var queue = scope.ServiceProvider.GetRequiredService<IReservationCleanupQueue>();
 
-            var queuedJobs = await queue.TryDequeue(cancellationToken);
-
-            var nextJobsForProcessing = queuedJobs
-                .Select(q => JsonSerializer.Deserialize<ReservationCleanupJobInfo>(q.MessagePayload)!)
-                .Where(x => DateTime.UtcNow > x.RemovingTime);
+            var nextJobsForProcessing = (await queue.TryDequeue(cancellationToken))
+                .Select(q => new { Job = q, Payload = JsonSerializer.Deserialize<ReservationCleanupJobInfo>(q.MessagePayload)! })
+                .Where(x => DateTime.UtcNow > x.Payload.RemovingTime)
+                .ToList();
 
             foreach (var nextJob in nextJobsForProcessing)
             {
+                SetTenantExecutionContext(scope, nextJob.Job.TenantId);
                 string traceId = Guid.NewGuid().ToString();
                 try
                 {
                     var jobStartTime = DateTime.UtcNow;
-                    logger.LogInformation("Job ID: {jobId} - Started at {startTime} - Job Info: {jobInfo}", traceId, jobStartTime, JsonSerializer.Serialize(nextJob));
+                    this.logger.LogInformation("Job ID: {jobId} - Started at {startTime} - Job Info: {jobInfo}", traceId, jobStartTime, JsonSerializer.Serialize(nextJob.Payload));
 
-                    await ProcessReservationJobAsync(scope, nextJob, traceId, queue.QueueName, cancellationToken);
+                    await this.ProcessReservationJobAsync(scope, nextJob.Payload, traceId, queue.QueueName, cancellationToken);
                 }
                 catch (TaskCanceledException)
                 {
-                    // Application is stopping, just ignore
-                    logger.LogInformation("Job ID: {jobId} - Canceled at {cancelTime}.", traceId, DateTime.UtcNow);
+                    this.logger.LogInformation("Job ID: {jobId} - Canceled at {cancelTime}.", traceId, DateTime.UtcNow);
                 }
                 catch (Exception ex)
                 {
                     var queuedJobService = scope.ServiceProvider.GetRequiredService<IQueuedJobService>();
-                    await queuedJobService.UpdateStatusToFailed(queue.QueueName, nextJob.JobId);
-                    logger.LogError(ex, "Job ID: {jobId} - Failed at {failureTime}: {jobInfo}", traceId, DateTime.UtcNow, JsonSerializer.Serialize(nextJob));
+                    await queuedJobService.UpdateStatusToFailed(queue.QueueName, nextJob.Payload.JobId);
+                    this.logger.LogError(ex, "Job ID: {jobId} - Failed at {failureTime}: {jobInfo}", traceId, DateTime.UtcNow, JsonSerializer.Serialize(nextJob.Payload));
+                }
+                finally
+                {
+                    ClearTenantExecutionContext(scope);
                 }
             }
 
@@ -73,11 +78,10 @@ public class ReservationCleanupWorker : BackgroundService
 
                 if (reservation == null)
                 {
-                    logger.LogWarning("Job {traceId}: Game Reservation not found for id {reservationId}.", traceId, jobInfo.ReservationId);
+                    this.logger.LogWarning("Job {traceId}: Game Reservation not found for id {reservationId}.", traceId, jobInfo.ReservationId);
                     return;
                 }
 
-                // Handle declined reservations immediately
                 if (reservation.Status == ReservationStatus.Declined)
                 {
                     await this.CleanupGameReservationAsync(scope, jobInfo.JobId, reservation, traceId, cancellationToken, queueName, isDeclined: true);
@@ -90,7 +94,6 @@ public class ReservationCleanupWorker : BackgroundService
                     return;
                 }
 
-                // Handle time-based cleanup for non-declined reservations
                 if (DateTime.UtcNow >= reservation.ReservationDate && reservation.Status == ReservationStatus.Pending)
                 {
                     if (reservation.IsActive)
@@ -117,7 +120,7 @@ public class ReservationCleanupWorker : BackgroundService
                 }
                 else
                 {
-                    logger.LogInformation("Job {traceId}: Game Reservation ID {reservationId} did not meet the necessary processing conditions", traceId, jobInfo.ReservationId);
+                    this.logger.LogInformation("Job {traceId}: Game Reservation ID {reservationId} did not meet the necessary processing conditions", traceId, jobInfo.ReservationId);
                 }
             }
             else if (jobInfo.Type == ReservationType.Table)
@@ -127,11 +130,10 @@ public class ReservationCleanupWorker : BackgroundService
 
                 if (reservation == null)
                 {
-                    logger.LogWarning("Job {traceId}: Table Reservation not found for id {reservationId}.", traceId, jobInfo.ReservationId);
+                    this.logger.LogWarning("Job {traceId}: Table Reservation not found for id {reservationId}.", traceId, jobInfo.ReservationId);
                     return;
                 }
 
-                // Handle declined reservations immediately
                 if (reservation.Status == ReservationStatus.Declined)
                 {
                     await this.CleanupSpaceTableReservationAsync(scope, spaceTableReservationRepo,
@@ -146,7 +148,6 @@ public class ReservationCleanupWorker : BackgroundService
                     return;
                 }
 
-                // Handle time-based cleanup for non-declined reservations
                 if (DateTime.UtcNow >= reservation.ReservationDate && reservation.Status == ReservationStatus.Pending)
                 {
                     if (reservation.IsActive)
@@ -175,13 +176,13 @@ public class ReservationCleanupWorker : BackgroundService
                 }
                 else
                 {
-                    logger.LogInformation("Job {traceId}: Table Reservation ID {reservationId} did not meet the necessary processing conditions", traceId, jobInfo.ReservationId);
+                    this.logger.LogInformation("Job {traceId}: Table Reservation ID {reservationId} did not meet the necessary processing conditions", traceId, jobInfo.ReservationId);
                 }
             }
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Failed to process job {traceId}: {jobInfo}", traceId, JsonSerializer.Serialize(jobInfo));
+            this.logger.LogError(ex, "Failed to process job {traceId}: {jobInfo}", traceId, JsonSerializer.Serialize(jobInfo));
             throw;
         }
     }
@@ -195,7 +196,7 @@ public class ReservationCleanupWorker : BackgroundService
 
         if (inventory == null)
         {
-            logger.LogWarning("Job {traceId}: Game inventory not found for gameId {gameId} and reservationId {reservationId}.", traceId, reservation.GameId, reservation.Id);
+            this.logger.LogWarning("Job {traceId}: Game inventory not found for gameId {gameId} and reservationId {reservationId}.", traceId, reservation.GameId, reservation.Id);
             return;
         }
 
@@ -209,12 +210,13 @@ public class ReservationCleanupWorker : BackgroundService
             reservation.IsReservationSuccessful = false;
             reservation.Status = isDeclined ? ReservationStatus.Declined : ReservationStatus.Expired;
         }
+
         await gameInventoryRepository.SaveChangesAsync(cancellationToken);
 
         var queuedJobService = scope.ServiceProvider.GetRequiredService<IQueuedJobService>();
         await queuedJobService.UpdateStatusToCompleted(queueName, jobId);
 
-        logger.LogInformation("Job {traceId}: Game reservation ID {reservationId}. Cleaning job was processed", traceId, reservation.Id);
+        this.logger.LogInformation("Job {traceId}: Game reservation ID {reservationId}. Cleaning job was processed", traceId, reservation.Id);
     }
 
     private async Task CleanupSpaceTableReservationAsync(
@@ -227,11 +229,23 @@ public class ReservationCleanupWorker : BackgroundService
             reservation.IsReservationSuccessful = false;
             reservation.Status = isDeclined ? ReservationStatus.Declined : ReservationStatus.Expired;
         }
+
         await repository.SaveChangesAsync(cancellationToken);
 
         var queuedJobService = scope.ServiceProvider.GetRequiredService<IQueuedJobService>();
         await queuedJobService.UpdateStatusToCompleted(queueName, jobId);
 
-        logger.LogInformation("Job {traceId}: Table reservation ID {reservationId}. Cleaning job was processed.", traceId, reservation.Id);
+        this.logger.LogInformation("Job {traceId}: Table reservation ID {reservationId}. Cleaning job was processed.", traceId, reservation.Id);
+    }
+
+    private static void SetTenantExecutionContext(IServiceScope scope, string tenantId)
+    {
+        scope.ServiceProvider.GetRequiredService<ITenantExecutionContextAccessor>().TenantId = tenantId;
+        scope.ServiceProvider.GetRequiredService<ISystemUserContextAccessor>().Set(new SystemUserContext(tenantId, "system-worker"));
+    }
+
+    private static void ClearTenantExecutionContext(IServiceScope scope)
+    {
+        scope.ServiceProvider.GetRequiredService<ITenantExecutionContextAccessor>().Clear();
     }
 }

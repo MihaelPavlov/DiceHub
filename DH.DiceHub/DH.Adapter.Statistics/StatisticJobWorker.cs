@@ -1,4 +1,6 @@
-﻿using DH.Domain.Adapters.Statistics;
+using DH.Adapter.Authentication.Helper;
+using DH.Domain.Adapters.Authentication;
+using DH.Domain.Adapters.Statistics;
 using DH.Domain.Entities;
 using DH.Domain.Services.Queue;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,50 +25,53 @@ public class StatisticJobWorker : BackgroundService
     {
         while (!cancellationToken.IsCancellationRequested)
         {
-            using var scope = serviceScopeFactory.CreateScope();
+            using var scope = this.serviceScopeFactory.CreateScope();
 
             var queue = scope.ServiceProvider.GetRequiredService<IStatisticJobQueue>();
             var queuedJobService = scope.ServiceProvider.GetRequiredService<IQueuedJobService>();
             var factory = scope.ServiceProvider.GetRequiredService<IStatisticJobFactory>();
 
-            var queuedJobs = await queue.TryDequeue(cancellationToken);
-            var nextJobsForProcessing = queuedJobs
-                .Select(q => DeserializeJob(q));
+            var nextJobsForProcessing = (await queue.TryDequeue(cancellationToken))
+                .Select(q => new { Job = q, Payload = DeserializeJob(q) })
+                .ToList();
 
             foreach (var jobInfo in nextJobsForProcessing)
             {
+                SetTenantExecutionContext(scope, jobInfo.Job.TenantId);
                 try
                 {
-                    var handler = factory.CreateHandler(jobInfo);
+                    var handler = factory.CreateHandler(jobInfo.Payload);
                     await handler.ExecuteAsync(cancellationToken);
 
-                    await queuedJobService.UpdateStatusToCompleted(queue.QueueName, jobInfo.JobId);
+                    await queuedJobService.UpdateStatusToCompleted(queue.QueueName, jobInfo.Payload.JobId);
                 }
                 catch (TaskCanceledException)
                 {
-                    // Application is stopping, just ignore
-                    this.logger.LogInformation("StatisticJobWorker Job ID: {jobId} - Canceled at {cancelTime}.", jobInfo.JobId, DateTime.UtcNow);
+                    this.logger.LogInformation("StatisticJobWorker Job ID: {jobId} - Canceled at {cancelTime}.", jobInfo.Payload.JobId, DateTime.UtcNow);
                 }
                 catch (NotSupportedException ex)
                 {
                     this.logger.LogCritical(
                         ex, "StatisticJobWorker Job ID: {jobId} - Failed at {failureTime}; Error: {error}; ReservationCleanupJobInfo: {jobInfo}",
-                        jobInfo.JobId, DateTime.UtcNow, ex.Message, JsonSerializer.Serialize(jobInfo));
+                        jobInfo.Payload.JobId, DateTime.UtcNow, ex.Message, JsonSerializer.Serialize(jobInfo.Payload));
                 }
                 catch (Exception ex)
                 {
-                    await queuedJobService.UpdateStatusToFailed(queue.QueueName, jobInfo.JobId);
+                    await queuedJobService.UpdateStatusToFailed(queue.QueueName, jobInfo.Payload.JobId);
 
                     this.logger.LogError(ex,
                         "StatisticJobWorker Job ID: {jobId} - Failed at {failureTime}; Handler was not processed successfully; ReservationCleanupJobInfo: {jobInfo}",
-                        jobInfo.JobId, DateTime.UtcNow, JsonSerializer.Serialize(jobInfo));
+                        jobInfo.Payload.JobId, DateTime.UtcNow, JsonSerializer.Serialize(jobInfo.Payload));
+                }
+                finally
+                {
+                    ClearTenantExecutionContext(scope);
                 }
             }
 
             if (!nextJobsForProcessing.Any())
                 await Task.Delay(TimeSpan.FromMinutes(6), cancellationToken);
         }
-
     }
 
     private IStatisticJobInfo DeserializeJob(QueuedJob job)
@@ -94,5 +99,16 @@ public class StatisticJobWorker : BackgroundService
         this.logger.LogWarning($"StatisticJobWorker cannot determine job type from JobId '{job.JobId}'.");
 
         return null!;
+    }
+
+    private static void SetTenantExecutionContext(IServiceScope scope, string tenantId)
+    {
+        scope.ServiceProvider.GetRequiredService<ITenantExecutionContextAccessor>().TenantId = tenantId;
+        scope.ServiceProvider.GetRequiredService<ISystemUserContextAccessor>().Set(new SystemUserContext(tenantId, "system-worker"));
+    }
+
+    private static void ClearTenantExecutionContext(IServiceScope scope)
+    {
+        scope.ServiceProvider.GetRequiredService<ITenantExecutionContextAccessor>().Clear();
     }
 }

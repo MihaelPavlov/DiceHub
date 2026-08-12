@@ -114,6 +114,19 @@ $button-hover: #2a3150;
     display: flex;
     justify-content: space-evenly;
   }
+  .admin-link-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 0.75rem;
+  }
+  .admin-link {
+    font-size: 0.78rem;
+    opacity: 0.35;
+    cursor: pointer;
+    &:hover {
+      opacity: 0.7;
+    }
+  }
   .btn {
     background: $button-bg;
     border: 1px solid $secondary-color;

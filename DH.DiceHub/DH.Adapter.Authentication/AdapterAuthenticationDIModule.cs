@@ -114,11 +114,9 @@ public static class AuthenticationDIModule
                     {
                         var tenantId = context.Principal?.FindFirst("tenant_id")?.Value;
 
-                        if (string.IsNullOrEmpty(tenantId))
-                            throw new SecurityTokenException("Tenant missing");
-
                         // Expose tenant to DbContext / interceptor
-                        context.HttpContext.Items["TenantId"] = tenantId;
+                        if (!string.IsNullOrEmpty(tenantId))
+                            context.HttpContext.Items["TenantId"] = tenantId;
 
                         return Task.CompletedTask;
                     }
@@ -167,6 +165,7 @@ public static class AuthenticationDIModule
            .AddScoped<IUserContext>(services => services.GetRequiredService<IUserContextFactory>().Create());
 
         services.AddSingleton<ApplicationDbConnectionInterceptor>();
+        services.AddSingleton<ITenantExecutionContextAccessor, TenantExecutionContextAccessor>();
         services.AddScoped<ISystemUserContextAccessor, SystemUserContextAccessor>();
 
         services.AddSingleton(sp =>

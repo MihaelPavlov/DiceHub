@@ -95,7 +95,7 @@ public class TokenService : ITokenService
             user.RefreshTokenExpiryTime <= DateTime.UtcNow)
             throw new SecurityTokenException("Invalid refresh token");
 
-        if (tokenTenantId != user.TenantId)
+        if ((tokenTenantId ?? string.Empty) != (user.TenantId ?? string.Empty))
             throw new SecurityTokenException("Tenant mismatch");
 
         var roles = await userManager.GetRolesAsync(user);
@@ -140,7 +140,7 @@ public class TokenService : ITokenService
             new Claim(ClaimTypes.Sid, user.Id),
             new Claim(ClaimTypes.Name, user.UserName!),
             new Claim("TimeZone", user.TimeZone!),
-            new Claim("tenant_id", user.TenantId)
+            new Claim("tenant_id", user.TenantId ?? string.Empty)
         };
 
         var roles = await userManager.GetRolesAsync(user);

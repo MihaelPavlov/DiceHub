@@ -1,7 +1,9 @@
-﻿using DH.Domain.Entities;
+using DH.Domain.Entities;
+using DH.Domain.Enums;
 using DH.Domain.Models.Common;
 using DH.Domain.Repositories;
 using MediatR;
+
 namespace DH.Application.Common.Queries;
 
 public record GetTenantByIdQuery(string TenantId) : IRequest<GetTenantListQueryModel?>;
@@ -13,7 +15,7 @@ internal class GetTenantByIdQueryHandler(IRepository<Tenant> tenantRepository) :
     public async Task<GetTenantListQueryModel?> Handle(GetTenantByIdQuery request, CancellationToken cancellationToken)
     {
         var result = await this.tenantRepository
-            .GetByAsync(x => x.Id == request.TenantId, cancellationToken);
+            .GetByAsync(x => (x.Id == request.TenantId || x.TenantName == request.TenantId) && x.TenantStatus == TenantStatus.Active, cancellationToken);
 
         if (result == null) return null;
 
@@ -21,7 +23,8 @@ internal class GetTenantByIdQueryHandler(IRepository<Tenant> tenantRepository) :
         {
             Id = result.Id,
             TenantName = result.TenantName,
-            LogoFileName = result.LogoFileName
+            LogoFileName = result.LogoFileName,
+            TenantStatus = result.TenantStatus
         };
     }
 }

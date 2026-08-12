@@ -5,4 +5,5 @@ namespace DH.Domain.Services.TenantSettingsService;
 public interface ITenantSettingsCacheService
 {
     Task<TenantSetting> GetGlobalTenantSettingsAsync(CancellationToken cancellationToken);
+    void Clear(string? tenantId = null);
 }

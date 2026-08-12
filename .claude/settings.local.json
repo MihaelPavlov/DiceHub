@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dotnet build *)",
+      "Bash(grep -i \"regex\\\\|Regex\\\\|pattern\\\\|\\\\\\\\\\\\\\\\\")",
+      "Bash(dotnet run *)",
+      "Bash(taskkill *)",
+      "Bash(npx ng *)"
+    ]
+  }
+}

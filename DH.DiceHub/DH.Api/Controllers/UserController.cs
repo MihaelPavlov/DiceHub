@@ -399,9 +399,15 @@ public class UserController : ControllerBase
     public async Task<IActionResult> Logout()
     {
         var userId = User.FindFirstValue(ClaimTypes.Sid);
-        var tenantId = User.FindFirstValue("tenant_id");
+        // Super admins have no native tenant claim (tenant_id = ""); fall back
+        // to the route-resolved tenant or accept an empty string — the service
+        // handles that case correctly.
+        var jwtTenantId = User.FindFirstValue("tenant_id");
+        var tenantId = (!string.IsNullOrWhiteSpace(jwtTenantId) ? jwtTenantId : null)
+            ?? HttpContext.Items["TenantId"]?.ToString()
+            ?? string.Empty;
 
-        if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(tenantId))
+        if (string.IsNullOrEmpty(userId))
             return Unauthorized();
 
         var isSuccess = await this.authenticationService.Logout(userId, tenantId);

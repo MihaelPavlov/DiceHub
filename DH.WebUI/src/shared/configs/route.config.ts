@@ -3,6 +3,11 @@ export const ROUTE = {
   LOGIN: 'login',
   CHOOSE_CLUB: 'choose-club',
   REGISTER: 'register',
+  ADMIN: {
+    CORE: 'admin',
+    LOGIN: 'admin/login',
+    PROVISION: 'admin/provision',
+  },
   FORGOT_PASSWORD: 'forgot-password',
   INSTRUCTIONS: 'instructions',
   GAMES: {

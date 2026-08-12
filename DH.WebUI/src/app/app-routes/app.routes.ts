@@ -98,6 +98,12 @@ export const ROUTES: Routes = [
     data: { hideMenu: false },
   },
   {
+    path: 'admin',
+    loadChildren: () =>
+      import('../../pages/admin/admin.module').then((m) => m.AdminModule),
+    data: { hideMenu: true },
+  },
+  {
     path: ':tenant',
     component: TenantLayoutComponent,
     canActivate: [TenantGuard],

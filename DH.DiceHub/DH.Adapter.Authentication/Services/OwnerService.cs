@@ -4,8 +4,10 @@ using DH.Domain.Adapters.Authentication.Helpers;
 using DH.Domain.Adapters.Authentication.Models;
 using DH.Domain.Adapters.Authentication.Models.Enums;
 using DH.Domain.Adapters.Authentication.Services;
+using DH.Domain.Adapters.Data;
 using DH.Domain.Adapters.Localization;
 using DH.Domain.Entities;
+using DH.Domain.Services.TenantSettingsService;
 using DH.Domain.Repositories;
 using DH.OperationResultCore.Exceptions;
 using Microsoft.AspNetCore.Identity;
@@ -18,18 +20,22 @@ internal class OwnerService(
     ILogger<OwnerService> logger,
     UserManager<ApplicationUser> userManager,
     RoleManager<IdentityRole> roleManager,
+    ITenantService tenantService,
     IRepository<TenantSetting> tenantSettingsRepository,
     IUserContext userContext,
     ILocalizationService localizer,
-    IUserManagementService userManagementService) : IOwnerService
+    IUserManagementService userManagementService,
+    ITenantSettingsCacheService tenantSettingsCacheService) : IOwnerService
 {
     readonly ILogger<OwnerService> logger = logger;
     readonly UserManager<ApplicationUser> userManager = userManager;
     readonly RoleManager<IdentityRole> roleManager = roleManager;
+    readonly ITenantService tenantService = tenantService;
     readonly IRepository<TenantSetting> tenantSettingsRepository = tenantSettingsRepository;
     readonly IUserContext userContext = userContext;
     readonly ILocalizationService localizer = localizer;
     readonly IUserManagementService userManagementService = userManagementService;
+    readonly ITenantSettingsCacheService tenantSettingsCacheService = tenantSettingsCacheService;
 
     public async Task<OwnerResult> CreateOwner(CreateOwnerRequest request, CancellationToken cancellationToken)
     {
@@ -39,7 +45,9 @@ internal class OwnerService(
         if (!request.FieldsAreValid(out var validationErrors, this.localizer))
             throw new ValidationErrorsException(validationErrors);
 
-        var owner = await this.userManager.GetUsersInRoleAsync(Role.Owner.ToString());
+        var owner = (await this.userManager.GetUsersInRoleAsync(Role.Owner.ToString()))
+            .Where(x => x.TenantId == this.userContext.TenantId && !x.IsDeleted)
+            .ToList();
         if (owner.Count > 1)
             throw new ValidationErrorsException("Owner", this.localizer["OwnerAlreadyExists"]);
 
@@ -57,7 +65,8 @@ internal class OwnerService(
             UserName = username,
             Email = request.Email,
             PhoneNumber = request.ClubPhoneNumber,
-            EmailConfirmed = true
+            EmailConfirmed = true,
+            TenantId = this.userContext.TenantId ?? string.Empty
         };
         var generatedRandomPassword = PasswordGenerator.GenerateRandomPassword();
         var createUserResult = await userManager.CreateAsync(user, generatedRandomPassword);
@@ -76,12 +85,17 @@ internal class OwnerService(
         if (afterRegister is null)
             throw new NotFoundException(this.localizer["UserNotCreated"]);
 
-        var dbSettings = await this.tenantSettingsRepository.GetByAsyncWithTracking(x => x.Id == 1, cancellationToken);
-        if (dbSettings != null)
+        var tenant = await this.tenantService.GetCurrentTenantAsync(cancellationToken);
+        if (tenant.TenantSetting != null)
         {
-            dbSettings.ClubName = request.ClubName;
-            dbSettings.PhoneNumber = request.ClubPhoneNumber;
-            await this.tenantSettingsRepository.SaveChangesAsync(cancellationToken);
+            var dbSettings = await this.tenantSettingsRepository.GetByAsyncWithTracking(x => x.Id == tenant.TenantSettingId, cancellationToken);
+            if (dbSettings != null)
+            {
+                dbSettings.ClubName = request.ClubName;
+                dbSettings.PhoneNumber = request.ClubPhoneNumber;
+                await this.tenantSettingsRepository.SaveChangesAsync(cancellationToken);
+            }
+            this.tenantSettingsCacheService.Clear(tenant.Id);
         }
 
         return new OwnerResult
@@ -98,7 +112,7 @@ internal class OwnerService(
         if (user is null)
             throw new NotFoundException(this.localizer["UserByEmailNotFound"]);
 
-        var dbSettings = await this.tenantSettingsRepository.GetByAsync(x => x.Id == 1, CancellationToken.None);
+        var dbSettings = await this.tenantSettingsCacheService.GetGlobalTenantSettingsAsync(CancellationToken.None);
         if (dbSettings != null)
         {
             if (!request.ClubPhoneNumber.Equals(dbSettings.PhoneNumber))
@@ -143,9 +157,11 @@ internal class OwnerService(
             throw new InfrastructureException("Role Owner does not exist.");
         }
 
-        var usersInRole = await this.userManager.GetUsersInRoleAsync(Role.Owner.ToString());
+        var usersInRole = (await this.userManager.GetUsersInRoleAsync(Role.Owner.ToString()))
+            .Where(x => x.TenantId == this.userContext.TenantId && !x.IsDeleted)
+            .ToList();
 
-        if (usersInRole == null)
+        if (usersInRole.Count == 0)
             return null;
 
         if (usersInRole.Count() > 1)
@@ -168,9 +184,11 @@ internal class OwnerService(
             throw new InfrastructureException("Role Owner does not exist.");
         }
 
-        var usersInRole = await this.userManager.GetUsersInRoleAsync(Role.Owner.ToString());
+        var usersInRole = (await this.userManager.GetUsersInRoleAsync(Role.Owner.ToString()))
+            .Where(x => x.TenantId == this.userContext.TenantId && !x.IsDeleted)
+            .ToList();
 
-        if (usersInRole == null)
+        if (usersInRole.Count == 0)
         {
             this.logger.LogCritical("Owner for deletion was not found.");
             throw new InfrastructureException("Owner for deletion was not found.");

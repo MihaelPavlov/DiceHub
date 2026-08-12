@@ -1,0 +1,145 @@
+<!-- Success state -->
+<div *ngIf="result" class="wrapper">
+  <div class="success-icon">
+    <svg class="icon" viewBox="0 -960 960 960">
+      <path
+        d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"
+      />
+    </svg>
+  </div>
+
+  <span class="header">Tenant Provisioned</span>
+
+  <div class="success-card">
+    <div class="result-row">
+      <span class="result-label">Tenant ID</span>
+      <span class="result-value">{{ result.tenantId }}</span>
+    </div>
+    <div class="result-row">
+      <span class="result-label">Owner Email</span>
+      <span class="result-value">{{ result.ownerEmail }}</span>
+    </div>
+    <div class="result-row">
+      <span class="result-label">Starter Profile</span>
+      <span class="result-value">{{ result.starterProfile }}</span>
+    </div>
+    <p class="result-note">
+      A set-password email has been sent to the owner.
+    </p>
+  </div>
+
+  <div class="action-btns">
+    <button
+      type="button"
+      (click)="provisionAnother()"
+      class="btn btn-gray btn-border-blue btn-font-blue"
+    >
+      Provision Another
+    </button>
+    <button
+      type="button"
+      (click)="navigateToChooseClub()"
+      class="btn btn-gray"
+    >
+      Go to Choose Club
+    </button>
+  </div>
+</div>
+
+<!-- Form state -->
+<div *ngIf="!result" class="wrapper">
+  <div class="page-header">
+    <span class="header">Provision Tenant</span>
+    <span class="logout-link" (click)="logout()">Logout</span>
+  </div>
+
+  <form [formGroup]="form" class="container">
+    <div class="input-field">
+      <label class="required">Tenant ID</label>
+      <input
+        type="text"
+        formControlName="tenantId"
+        placeholder="e.g. my-club"
+        class="surface-elevated"
+      />
+      <span class="field-hint">Unique identifier used in URLs</span>
+    </div>
+
+    <div class="input-field">
+      <label class="required">Club Name</label>
+      <input
+        type="text"
+        formControlName="tenantName"
+        placeholder="e.g. The Board Game Hub"
+        class="surface-elevated"
+      />
+    </div>
+
+    <div class="input-field">
+      <label class="required">Town</label>
+      <input
+        type="text"
+        formControlName="town"
+        placeholder="e.g. Sofia"
+        class="surface-elevated"
+      />
+    </div>
+
+    <div class="input-field">
+      <label class="required">Owner Email</label>
+      <input
+        type="email"
+        formControlName="ownerEmail"
+        placeholder="owner@example.com"
+        class="surface-elevated"
+      />
+    </div>
+
+    <div class="input-field">
+      <label class="required">Club Phone</label>
+      <input
+        type="text"
+        formControlName="clubPhoneNumber"
+        placeholder="+359 88 123 4567"
+        class="surface-elevated"
+      />
+    </div>
+
+    <div class="input-field">
+      <label>Logo File Name</label>
+      <input
+        type="text"
+        formControlName="logoFileName"
+        placeholder="logo.png (optional)"
+        class="surface-elevated"
+      />
+    </div>
+
+    <div class="input-field">
+      <label class="required">Starter Profile</label>
+      <select formControlName="starterProfile" class="surface-elevated">
+        <option
+          *ngFor="let profile of starterProfiles"
+          [value]="profile.value"
+        >
+          {{ profile.label }}
+        </option>
+      </select>
+    </div>
+
+    <div *ngIf="getFirstErrorMessage()" class="errors">
+      {{ getFirstErrorMessage() }}
+    </div>
+
+    <div class="btn-container">
+      <button
+        [disabled]="form.invalid"
+        type="button"
+        (click)="onProvision()"
+        class="btn btn-gray btn-border-blue btn-font-blue"
+      >
+        Provision Tenant
+      </button>
+    </div>
+  </form>
+</div>

@@ -57,7 +57,9 @@ DECLARE
     policy_name text := 'tenant_isolation_policy';
 
     excluded_tables text[] := ARRAY[
-        'AspNetUsers'
+        'AspNetUsers',
+        'QueuedJobs',
+        'FailedJobs'
     ];
 BEGIN
     FOR r IN

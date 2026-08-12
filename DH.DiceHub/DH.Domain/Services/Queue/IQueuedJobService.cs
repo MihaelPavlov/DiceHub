@@ -12,4 +12,5 @@ public interface IQueuedJobService : IDomainService<QueuedJob>
     Task UpdateStatusToCancelled(string queueName, string jobId);
     Task<List<QueuedJob>> GetJobsInPendingStatusByQueueType(string queueType, CancellationToken cancellationToken);
     Task<QueuedJob?> GetJobByJobId(string queueType, string jobId, CancellationToken cancellationToken);
+    Task<List<QueuedJob>> GetPendingJobsForSystemProcessingByQueueType(string queueType, CancellationToken cancellationToken);
 }

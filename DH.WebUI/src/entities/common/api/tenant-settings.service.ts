@@ -23,19 +23,24 @@ export class TenantSettingsService {
     );
   }
 
-   public getClubInfo(): Observable<GetClubInfoModel> {
+  public getClubInfo(): Observable<GetClubInfoModel> {
     return this.api.get<GetClubInfoModel>(
-      `/${PATH.TENANT_SETTINGS.CORE}/${PATH.TENANT_SETTINGS.GET_CLUB_INFO}`
+      `/${PATH.TENANT_SETTINGS.CORE}/${PATH.TENANT_SETTINGS.GET_CLUB_INFO}`,
+      { requiredTenant: true }
     );
   }
 
   public get(): Observable<ITenantSettings> {
-    return this.api.get<ITenantSettings>(`/${PATH.TENANT_SETTINGS.CORE}`);
+    return this.api.get<ITenantSettings>(`/${PATH.TENANT_SETTINGS.CORE}`, {
+      requiredTenant: true,
+    });
   }
 
   public update(command: ITenantSettings): Observable<null> {
-    return this.api.put(`/${PATH.TENANT_SETTINGS.CORE}`, {
-      ...command,
-    });
+    return this.api.put(
+      `/${PATH.TENANT_SETTINGS.CORE}`,
+      { ...command },
+      { requiredTenant: true }
+    );
   }
 }

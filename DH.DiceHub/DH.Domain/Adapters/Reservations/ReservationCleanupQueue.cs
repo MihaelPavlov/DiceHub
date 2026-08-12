@@ -27,7 +27,7 @@ public class ReservationCleanupQueue(IQueuedJobService queuedJobService) : IRese
 
     public async Task<List<QueuedJob>> TryDequeue(CancellationToken cancellationToken)
     {
-        var queuedJobs = await this.queuedJobService.GetJobsInPendingStatusByQueueType(this.QueueName, cancellationToken);
+        var queuedJobs = await this.queuedJobService.GetPendingJobsForSystemProcessingByQueueType(this.QueueName, cancellationToken);
 
         return queuedJobs ?? [];
     }

@@ -43,7 +43,7 @@ public class SynchronizeUsersChallengesQueue(IQueuedJobService queuedJobService)
     /// <returns>True if a job was successfully dequeued; otherwise, false.</returns>
     public async Task<List<QueuedJob>> TryDequeue(CancellationToken cancellationToken)
     {
-        var queuedJobs = await this.queuedJobService.GetJobsInPendingStatusByQueueType(this.QueueName, cancellationToken);
+        var queuedJobs = await this.queuedJobService.GetPendingJobsForSystemProcessingByQueueType(this.QueueName, cancellationToken);
 
         return queuedJobs ?? [];
     }

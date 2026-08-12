@@ -54,7 +54,10 @@ public class AppIdentityDbContext : IdentityDbContext<ApplicationUser>, IIdentit
 
         var tenantId = userContext.TenantId;
 
-        if (!userContext.IsSystem && userContext.TenantId == null)
+        var hasNewTenantEntities = ChangeTracker.Entries<TenantEntity>()
+            .Any(e => e.State == EntityState.Added);
+
+        if (!userContext.IsSystem && userContext.TenantId == null && hasNewTenantEntities)
         {
             throw new InvalidOperationException("TenantId is required for non-system operations");
         }
@@ -63,6 +66,14 @@ public class AppIdentityDbContext : IdentityDbContext<ApplicationUser>, IIdentit
         {
             if (entry.State == EntityState.Added && userContext.TenantId != null)
                 entry.Entity.TenantId = userContext.TenantId;
+        }
+
+        foreach (var entry in ChangeTracker.Entries<ApplicationUser>())
+        {
+            if (entry.State == EntityState.Added && string.IsNullOrWhiteSpace(entry.Entity.TenantId) && userContext.TenantId != null)
+            {
+                entry.Entity.TenantId = userContext.TenantId;
+            }
         }
         return base.SaveChangesAsync(cancellationToken);
     }

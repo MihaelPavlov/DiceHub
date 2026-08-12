@@ -30,6 +30,9 @@ internal class AuthenticationService(
     {
         var user = await GetUserByEmailAsync(form.Email, "InvalidEmailOrPass");
 
+        if (!string.IsNullOrWhiteSpace(user.TenantId) && !string.Equals(user.TenantId, form.TenantId, StringComparison.Ordinal))
+            throw new ValidationErrorsException("Email", this.localizer["InvalidEmailOrPass"]);
+
         if (!await userManager.IsEmailConfirmedAsync(user!))
             throw new ValidationErrorsException("EmailNotConfirmed", this.localizer["EmailNotConfirmed"]);
 
@@ -44,7 +47,14 @@ internal class AuthenticationService(
 
         await UpdateDeviceTokenAsync(user, form.DeviceToken);
 
-        return await IssueUserTokensAsync(user!);
+        var tokenModel = await IssueUserTokensAsync(user!);
+
+        // Super admins have no native tenant; echo back the requested tenant so
+        // the frontend can keep the active club context after login.
+        if (string.IsNullOrWhiteSpace(tokenModel.TenantId) && !string.IsNullOrWhiteSpace(form.TenantId))
+            tokenModel.TenantId = form.TenantId;
+
+        return tokenModel;
     }
 
     public async Task<TokenResponseModel?> ConfirmEmail(string email, string token, CancellationToken cancellationToken)
@@ -80,7 +90,7 @@ internal class AuthenticationService(
     {
         var user = await userManager.FindByIdAsync(userId);
 
-        if (user is null || user.TenantId != tenantId)
+        if (user is null || (!string.IsNullOrWhiteSpace(user.TenantId) && user.TenantId != tenantId))
             return false;
 
         // Invalidate refresh token
