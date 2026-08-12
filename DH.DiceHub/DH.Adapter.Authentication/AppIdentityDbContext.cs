@@ -43,6 +43,14 @@ public class AppIdentityDbContext : IdentityDbContext<ApplicationUser>, IIdentit
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
+        var tenantEntries = ChangeTracker
+            .Entries<TenantEntity>()
+            .Where(x => x.State is EntityState.Added or EntityState.Modified or EntityState.Deleted)
+            .ToList();
+
+        if (tenantEntries.Count == 0)
+            return base.SaveChangesAsync(cancellationToken);
+
         var userContext = this._containerService.Resolve<ISystemUserContextAccessor>().Current;
 
         // Check if the user context is anonymous
@@ -52,19 +60,17 @@ public class AppIdentityDbContext : IdentityDbContext<ApplicationUser>, IIdentit
             userContext = this._containerService.Resolve<IUserContext>();
         }
 
-        var tenantId = userContext.TenantId;
-
         var hasNewTenantEntities = ChangeTracker.Entries<TenantEntity>()
             .Any(e => e.State == EntityState.Added);
 
-        if (!userContext.IsSystem && userContext.TenantId == null && hasNewTenantEntities)
+        if (!userContext.IsSystem && string.IsNullOrWhiteSpace(userContext.TenantId) && hasNewTenantEntities)
         {
             throw new InvalidOperationException("TenantId is required for non-system operations");
         }
 
-        foreach (var entry in ChangeTracker.Entries<TenantEntity>())
+        foreach (var entry in tenantEntries)
         {
-            if (entry.State == EntityState.Added && userContext.TenantId != null)
+            if (entry.State == EntityState.Added && !string.IsNullOrWhiteSpace(userContext.TenantId))
                 entry.Entity.TenantId = userContext.TenantId;
         }
 

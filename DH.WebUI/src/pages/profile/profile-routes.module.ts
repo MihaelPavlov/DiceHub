@@ -12,6 +12,8 @@ import { SettingsSuperAdminAccessGuard } from './guards/settings-super-admin-acc
 import { JobsComponent } from '../../features/profile/components/jobs/jobs.component';
 import { ClubInfo } from '../../features/profile/components/club-info/club-info.component';
 import { AuthGuard } from '../../shared/guards/auth.guard';
+import { TenantApplicationsComponent } from '../../features/profile/components/tenant-applications/tenant-applications.component';
+import { TenantApplicationDetailsComponent } from '../../features/profile/components/tenant-application-details/tenant-application-details.component';
 
 const routes: Routes = [
   {
@@ -52,6 +54,16 @@ const routes: Routes = [
   {
     path: 'jobs',
     component: JobsComponent,
+    canActivate: [AuthGuard, SettingsSuperAdminAccessGuard],
+  },
+  {
+    path: 'applicants',
+    component: TenantApplicationsComponent,
+    canActivate: [AuthGuard, SettingsSuperAdminAccessGuard],
+  },
+  {
+    path: 'applicants/:id',
+    component: TenantApplicationDetailsComponent,
     canActivate: [AuthGuard, SettingsSuperAdminAccessGuard],
   },
   {

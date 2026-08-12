@@ -1,0 +1,337 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "label": "assistive-touch.component.ts",
+      "file_type": "code",
+      "source_file": "assistive-touch-menu/assistive-touch.component.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "assistive_touch_menu_assistive_touch_component",
+      "community": 1,
+      "norm_label": "assistive-touch.component.ts"
+    },
+    {
+      "label": "AssistiveTouchComponent",
+      "file_type": "code",
+      "source_file": "assistive-touch-menu/assistive-touch.component.ts",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "assistive_touch_menu_assistive_touch_component_assistivetouchcomponent",
+      "community": 0,
+      "norm_label": "assistivetouchcomponent"
+    },
+    {
+      "label": "Component",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "component",
+      "community": 0,
+      "norm_label": "component"
+    },
+    {
+      "label": "HostListener",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "hostlistener",
+      "community": 2,
+      "norm_label": "hostlistener"
+    },
+    {
+      "label": ".startDragging()",
+      "file_type": "code",
+      "source_file": "assistive-touch-menu/assistive-touch.component.ts",
+      "source_location": "L30",
+      "_origin": "ast",
+      "id": "assistive_touch_menu_assistive_touch_component_assistivetouchcomponent_startdragging",
+      "community": 0,
+      "norm_label": ".startdragging()"
+    },
+    {
+      "label": ".stopDragging()",
+      "file_type": "code",
+      "source_file": "assistive-touch-menu/assistive-touch.component.ts",
+      "source_location": "L44",
+      "_origin": "ast",
+      "id": "assistive_touch_menu_assistive_touch_component_assistivetouchcomponent_stopdragging",
+      "community": 0,
+      "norm_label": ".stopdragging()"
+    },
+    {
+      "label": ".onMouseMove()",
+      "file_type": "code",
+      "source_file": "assistive-touch-menu/assistive-touch.component.ts",
+      "source_location": "L51",
+      "_origin": "ast",
+      "id": "assistive_touch_menu_assistive_touch_component_assistivetouchcomponent_onmousemove",
+      "community": 2,
+      "norm_label": ".onmousemove()"
+    },
+    {
+      "label": ".onTouchMove()",
+      "file_type": "code",
+      "source_file": "assistive-touch-menu/assistive-touch.component.ts",
+      "source_location": "L58",
+      "_origin": "ast",
+      "id": "assistive_touch_menu_assistive_touch_component_assistivetouchcomponent_ontouchmove",
+      "community": 2,
+      "norm_label": ".ontouchmove()"
+    },
+    {
+      "label": ".updatePosition()",
+      "file_type": "code",
+      "source_file": "assistive-touch-menu/assistive-touch.component.ts",
+      "source_location": "L66",
+      "_origin": "ast",
+      "id": "assistive_touch_menu_assistive_touch_component_assistivetouchcomponent_updateposition",
+      "community": 2,
+      "norm_label": ".updateposition()"
+    },
+    {
+      "label": ".snapToEdge()",
+      "file_type": "code",
+      "source_file": "assistive-touch-menu/assistive-touch.component.ts",
+      "source_location": "L91",
+      "_origin": "ast",
+      "id": "assistive_touch_menu_assistive_touch_component_assistivetouchcomponent_snaptoedge",
+      "community": 0,
+      "norm_label": ".snaptoedge()"
+    },
+    {
+      "label": "assistive-touch.module.ts",
+      "file_type": "code",
+      "source_file": "assistive-touch-menu/assistive-touch.module.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "assistive_touch_menu_assistive_touch_module",
+      "community": 1,
+      "norm_label": "assistive-touch.module.ts"
+    },
+    {
+      "label": "AssistiveTouchModule",
+      "file_type": "code",
+      "source_file": "assistive-touch-menu/assistive-touch.module.ts",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "assistive_touch_menu_assistive_touch_module_assistivetouchmodule",
+      "community": 1,
+      "norm_label": "assistivetouchmodule"
+    },
+    {
+      "label": "NgModule",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "ngmodule",
+      "community": 1,
+      "norm_label": "ngmodule"
+    }
+  ],
+  "links": [
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assistive-touch-menu/assistive-touch.component.ts",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "assistive_touch_menu_assistive_touch_component",
+      "target": "assistive_touch_menu_assistive_touch_component_assistivetouchcomponent",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "assistive-touch-menu/assistive-touch.module.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "assistive_touch_menu_assistive_touch_module",
+      "target": "assistive_touch_menu_assistive_touch_component",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "assistive-touch-menu/assistive-touch.component.ts",
+      "source_location": "L51",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "assistive_touch_menu_assistive_touch_component_assistivetouchcomponent",
+      "target": "assistive_touch_menu_assistive_touch_component_assistivetouchcomponent_onmousemove",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "assistive-touch-menu/assistive-touch.component.ts",
+      "source_location": "L58",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "assistive_touch_menu_assistive_touch_component_assistivetouchcomponent",
+      "target": "assistive_touch_menu_assistive_touch_component_assistivetouchcomponent_ontouchmove",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "assistive-touch-menu/assistive-touch.component.ts",
+      "source_location": "L91",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "assistive_touch_menu_assistive_touch_component_assistivetouchcomponent",
+      "target": "assistive_touch_menu_assistive_touch_component_assistivetouchcomponent_snaptoedge",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "assistive-touch-menu/assistive-touch.component.ts",
+      "source_location": "L30",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "assistive_touch_menu_assistive_touch_component_assistivetouchcomponent",
+      "target": "assistive_touch_menu_assistive_touch_component_assistivetouchcomponent_startdragging",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "assistive-touch-menu/assistive-touch.component.ts",
+      "source_location": "L44",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "assistive_touch_menu_assistive_touch_component_assistivetouchcomponent",
+      "target": "assistive_touch_menu_assistive_touch_component_assistivetouchcomponent_stopdragging",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "assistive-touch-menu/assistive-touch.component.ts",
+      "source_location": "L66",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "assistive_touch_menu_assistive_touch_component_assistivetouchcomponent",
+      "target": "assistive_touch_menu_assistive_touch_component_assistivetouchcomponent_updateposition",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "assistive-touch-menu/assistive-touch.component.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "context": "decorator",
+      "_origin": "ast",
+      "source": "assistive_touch_menu_assistive_touch_component_assistivetouchcomponent",
+      "target": "component",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "assistive-touch-menu/assistive-touch.module.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "assistive_touch_menu_assistive_touch_module",
+      "target": "assistive_touch_menu_assistive_touch_component_assistivetouchcomponent",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "assistive-touch-menu/assistive-touch.component.ts",
+      "source_location": "L50",
+      "weight": 1.0,
+      "context": "decorator",
+      "_origin": "ast",
+      "source": "assistive_touch_menu_assistive_touch_component_assistivetouchcomponent_onmousemove",
+      "target": "hostlistener",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "assistive-touch-menu/assistive-touch.component.ts",
+      "source_location": "L57",
+      "weight": 1.0,
+      "context": "decorator",
+      "_origin": "ast",
+      "source": "assistive_touch_menu_assistive_touch_component_assistivetouchcomponent_ontouchmove",
+      "target": "hostlistener",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assistive-touch-menu/assistive-touch.component.ts",
+      "source_location": "L46",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "assistive_touch_menu_assistive_touch_component_assistivetouchcomponent_stopdragging",
+      "target": "assistive_touch_menu_assistive_touch_component_assistivetouchcomponent_snaptoedge",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assistive-touch-menu/assistive-touch.component.ts",
+      "source_location": "L53",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "assistive_touch_menu_assistive_touch_component_assistivetouchcomponent_onmousemove",
+      "target": "assistive_touch_menu_assistive_touch_component_assistivetouchcomponent_updateposition",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assistive-touch-menu/assistive-touch.component.ts",
+      "source_location": "L62",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "assistive_touch_menu_assistive_touch_component_assistivetouchcomponent_ontouchmove",
+      "target": "assistive_touch_menu_assistive_touch_component_assistivetouchcomponent_updateposition",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assistive-touch-menu/assistive-touch.module.ts",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "assistive_touch_menu_assistive_touch_module",
+      "target": "assistive_touch_menu_assistive_touch_module_assistivetouchmodule",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "assistive-touch-menu/assistive-touch.module.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "context": "decorator",
+      "_origin": "ast",
+      "source": "assistive_touch_menu_assistive_touch_module_assistivetouchmodule",
+      "target": "ngmodule",
+      "confidence_score": 1.0
+    }
+  ],
+  "hyperedges": [],
+  "built_at_commit": "2021e7240cabe06791e499fee34beb80d31c2b45"
+}

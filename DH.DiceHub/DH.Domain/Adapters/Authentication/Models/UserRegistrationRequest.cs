@@ -13,6 +13,7 @@ public class UserRegistrationRequest : IValidableFields
     public string Email { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
     public string ConfirmPassword { get; set; } = string.Empty;
+    public string TenantId { get; set; } = string.Empty;
     public string? DeviceToken { get; set; }
     public string? Language { get; set; }
 
@@ -29,6 +30,9 @@ public class UserRegistrationRequest : IValidableFields
 
         if (Password != ConfirmPassword)
             errors.Add(new ValidationError(nameof(ConfirmPassword), localizationService["UserRegistrationValidationPasswordsDoNotMatch"]));
+
+        if (string.IsNullOrWhiteSpace(TenantId))
+            errors.Add(new ValidationError(nameof(TenantId), "TenantId is required."));
 
         validationErrors = errors;
 

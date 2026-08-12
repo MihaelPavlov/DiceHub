@@ -1,0 +1,3527 @@
+{
+  ".config/dotnet-tools.json": {
+    "mtime": 1784883716.93209,
+    "ast_hash": "ae8d597644e407ab3ac389c3e0917d74",
+    "semantic_hash": "ae8d597644e407ab3ac389c3e0917d74"
+  },
+  "DH.Adapter.Authentication/AdapterAuthenticationDIModule.cs": {
+    "mtime": 1785234121.7476335,
+    "ast_hash": "6622fbe28feb9cb241c86dce45fabdca",
+    "semantic_hash": "6622fbe28feb9cb241c86dce45fabdca"
+  },
+  "DH.Adapter.Authentication/AppIdentityDbContext.cs": {
+    "mtime": 1785258525.1040034,
+    "ast_hash": "6d20e6278ee230f10630ec2b63e9d0da",
+    "semantic_hash": "6d20e6278ee230f10630ec2b63e9d0da"
+  },
+  "DH.Adapter.Authentication/AppIdentityDbContextFactory.cs": {
+    "mtime": 1784883716.9323764,
+    "ast_hash": "2b1128ff1a2b2da7e4851a298089a1fa",
+    "semantic_hash": "2b1128ff1a2b2da7e4851a298089a1fa"
+  },
+  "DH.Adapter.Authentication/ApplicationDbConnectionInterceptor.cs": {
+    "mtime": 1785234121.7476335,
+    "ast_hash": "f55387cd454b0ada1a885b44bc50db44",
+    "semantic_hash": "f55387cd454b0ada1a885b44bc50db44"
+  },
+  "DH.Adapter.Authentication/ApplicationDbContextSeeder.cs": {
+    "mtime": 1784883716.9323764,
+    "ast_hash": "e1b3c0643a26c9879a638391ca1b8827",
+    "semantic_hash": "e1b3c0643a26c9879a638391ca1b8827"
+  },
+  "DH.Adapter.Authentication/DH.Adapter.Authentication.csproj": {
+    "mtime": 1785234121.7476335,
+    "ast_hash": "89d706d6009e1a2f469b89b4a74f74f9",
+    "semantic_hash": "89d706d6009e1a2f469b89b4a74f74f9"
+  },
+  "DH.Adapter.Authentication/Entities/ApplicationUser.cs": {
+    "mtime": 1785234121.7476335,
+    "ast_hash": "cac00b57ae236e271f62999a2fd26c27",
+    "semantic_hash": "cac00b57ae236e271f62999a2fd26c27"
+  },
+  "DH.Adapter.Authentication/Filters/ActionAuthorizeAttribute.cs": {
+    "mtime": 1784883716.9325106,
+    "ast_hash": "273bff11b6bea4c786b40f0dc837b846",
+    "semantic_hash": "273bff11b6bea4c786b40f0dc837b846"
+  },
+  "DH.Adapter.Authentication/Filters/ActionAuthorizeFilter.cs": {
+    "mtime": 1784883716.9328513,
+    "ast_hash": "b0f657d5a26c9bf6cbc821dfa5c33e4c",
+    "semantic_hash": "b0f657d5a26c9bf6cbc821dfa5c33e4c"
+  },
+  "DH.Adapter.Authentication/Helper/SystemUserContextAccessor.cs": {
+    "mtime": 1785234121.7476335,
+    "ast_hash": "e043d671845d4be08f56961330da97c3",
+    "semantic_hash": "e043d671845d4be08f56961330da97c3"
+  },
+  "DH.Adapter.Authentication/Helper/UserContext.cs": {
+    "mtime": 1785234121.7476335,
+    "ast_hash": "5b04762159537b42e8831b7c77e24d1a",
+    "semantic_hash": "5b04762159537b42e8831b7c77e24d1a"
+  },
+  "DH.Adapter.Authentication/Helper/UserContextFactory.cs": {
+    "mtime": 1785234121.7476335,
+    "ast_hash": "53aba4f4c65ce000589ceb84b8863af8",
+    "semantic_hash": "53aba4f4c65ce000589ceb84b8863af8"
+  },
+  "DH.Adapter.Authentication/Helper/VirtualUserContextFactory.cs": {
+    "mtime": 1784883716.9329906,
+    "ast_hash": "194a67aa2cc729811373374e1313f857",
+    "semantic_hash": "194a67aa2cc729811373374e1313f857"
+  },
+  "DH.Adapter.Authentication/Migrations/20260118090050_InitialTenant.Designer.cs": {
+    "mtime": 1785234121.748633,
+    "ast_hash": "5364c833dc59fbc24d3c2062179d88c0",
+    "semantic_hash": "5364c833dc59fbc24d3c2062179d88c0"
+  },
+  "DH.Adapter.Authentication/Migrations/20260118090050_InitialTenant.cs": {
+    "mtime": 1785234121.748633,
+    "ast_hash": "58b02be4caf2e827a1dac7fa181bc6f7",
+    "semantic_hash": "58b02be4caf2e827a1dac7fa181bc6f7"
+  },
+  "DH.Adapter.Authentication/Migrations/AppIdentityDbContextModelSnapshot.cs": {
+    "mtime": 1785234121.748633,
+    "ast_hash": "738232cd5022c30d694c57ec750918fd",
+    "semantic_hash": "738232cd5022c30d694c57ec750918fd"
+  },
+  "DH.Adapter.Authentication/Services/AuthenticationService.cs": {
+    "mtime": 1785260069.2695248,
+    "ast_hash": "3d0d619dbd2a1e2f19b5c5f263f7cecf",
+    "semantic_hash": "3d0d619dbd2a1e2f19b5c5f263f7cecf"
+  },
+  "DH.Adapter.Authentication/Services/EmployeeService.cs": {
+    "mtime": 1785258526.333003,
+    "ast_hash": "a4db9b8b43453b6ad772ba11b57d26af",
+    "semantic_hash": "a4db9b8b43453b6ad772ba11b57d26af"
+  },
+  "DH.Adapter.Authentication/Services/OwnerService.cs": {
+    "mtime": 1785258526.1190033,
+    "ast_hash": "7a3ef87d003f9e13ea3c3de12d783022",
+    "semantic_hash": "7a3ef87d003f9e13ea3c3de12d783022"
+  },
+  "DH.Adapter.Authentication/Services/PermissionStringBuilder.cs": {
+    "mtime": 1784883716.935063,
+    "ast_hash": "fa03546c08ee74eebfb7a19777d114b2",
+    "semantic_hash": "fa03546c08ee74eebfb7a19777d114b2"
+  },
+  "DH.Adapter.Authentication/Services/TokenService.cs": {
+    "mtime": 1785258863.85669,
+    "ast_hash": "5948ef0e903c95b98a29d5fa121a68c2",
+    "semantic_hash": "5948ef0e903c95b98a29d5fa121a68c2"
+  },
+  "DH.Adapter.Authentication/Services/UserActionService.cs": {
+    "mtime": 1784883716.935063,
+    "ast_hash": "c837694bb9d361c584e900aa2ab7419d",
+    "semantic_hash": "c837694bb9d361c584e900aa2ab7419d"
+  },
+  "DH.Adapter.Authentication/Services/UserManagementService.cs": {
+    "mtime": 1785258525.9130032,
+    "ast_hash": "f03740d5541acb24132a9ae32778a80e",
+    "semantic_hash": "f03740d5541acb24132a9ae32778a80e"
+  },
+  "DH.Adapter.ChallengeHub/ChallengeHubClient.cs": {
+    "mtime": 1784883716.935063,
+    "ast_hash": "d2487ea8d37d658ae81bc5d1e3987d00",
+    "semantic_hash": "d2487ea8d37d658ae81bc5d1e3987d00"
+  },
+  "DH.Adapter.ChallengeHub/ChallengeHubClientProxy.cs": {
+    "mtime": 1784883716.9354334,
+    "ast_hash": "5a3abddfd03be77cae62397e306bdb40",
+    "semantic_hash": "5a3abddfd03be77cae62397e306bdb40"
+  },
+  "DH.Adapter.ChallengeHub/ChallengeHubDIModule.cs": {
+    "mtime": 1784883716.9354334,
+    "ast_hash": "31d72b8f2391ff55115dafabc27b7a4f",
+    "semantic_hash": "31d72b8f2391ff55115dafabc27b7a4f"
+  },
+  "DH.Adapter.ChallengeHub/DH.Adapter.ChallengeHub.csproj": {
+    "mtime": 1784883716.9354334,
+    "ast_hash": "ecc5f904d60a9d4c744cc68107e92bbb",
+    "semantic_hash": "ecc5f904d60a9d4c744cc68107e92bbb"
+  },
+  "DH.Adapter.ChallengesOrchestrator/ChallengesOrchestratorAdapterDI.cs": {
+    "mtime": 1784883716.9355106,
+    "ast_hash": "dda3f8e11dd01426f971d69be95d553b",
+    "semantic_hash": "dda3f8e11dd01426f971d69be95d553b"
+  },
+  "DH.Adapter.ChallengesOrchestrator/DH.Adapter.ChallengesOrchestrator.csproj": {
+    "mtime": 1784883716.9357092,
+    "ast_hash": "d07b622fafa94d029b4deb05bbe26ccb",
+    "semantic_hash": "d07b622fafa94d029b4deb05bbe26ccb"
+  },
+  "DH.Adapter.ChallengesOrchestrator/SynchronizeUsersChallengesWorker.cs": {
+    "mtime": 1784883716.9357092,
+    "ast_hash": "c51d8149c7d29bdaead7880c91b8d3a8",
+    "semantic_hash": "c51d8149c7d29bdaead7880c91b8d3a8"
+  },
+  "DH.Adapter.ChatHub/ChatHubClient.cs": {
+    "mtime": 1785234121.7496324,
+    "ast_hash": "4ac6893dc6eeddfb96f2960c7de57f7f",
+    "semantic_hash": "4ac6893dc6eeddfb96f2960c7de57f7f"
+  },
+  "DH.Adapter.ChatHub/ChatHubDIModule.cs": {
+    "mtime": 1784883716.9359207,
+    "ast_hash": "57f89d30565e24f75a527319660fe58e",
+    "semantic_hash": "57f89d30565e24f75a527319660fe58e"
+  },
+  "DH.Adapter.ChatHub/DH.Adapter.ChatHub.csproj": {
+    "mtime": 1784883716.9359207,
+    "ast_hash": "ac3f3759efc0c18859d789a0557b8537",
+    "semantic_hash": "ac3f3759efc0c18859d789a0557b8537"
+  },
+  "DH.Adapter.Data/AdapterDiModule.cs": {
+    "mtime": 1785234121.7496324,
+    "ast_hash": "2a423c7186e443dd3ebea3a8db70d92d",
+    "semantic_hash": "2a423c7186e443dd3ebea3a8db70d92d"
+  },
+  "DH.Adapter.Data/DH.Adapter.Data.csproj": {
+    "mtime": 1785234121.7496324,
+    "ast_hash": "4a5d2f85b79405b0e3f8087091c3069f",
+    "semantic_hash": "4a5d2f85b79405b0e3f8087091c3069f"
+  },
+  "DH.Adapter.Data/DataSeeder.cs": {
+    "mtime": 1785234121.7496324,
+    "ast_hash": "e93f3e5022474d774893bf9421de8765",
+    "semantic_hash": "e93f3e5022474d774893bf9421de8765"
+  },
+  "DH.Adapter.Data/Migrations/20250115170446_InitialSeedQuartzNET.Designer.cs": {
+    "mtime": 1784883716.9365106,
+    "ast_hash": "e5554a57b6aebf7cb1f4509b488a906d",
+    "semantic_hash": "e5554a57b6aebf7cb1f4509b488a906d"
+  },
+  "DH.Adapter.Data/Migrations/20250115170446_InitialSeedQuartzNET.cs": {
+    "mtime": 1784883716.9365106,
+    "ast_hash": "7215b943d9dae115312ca8e1a2e68f3c",
+    "semantic_hash": "7215b943d9dae115312ca8e1a2e68f3c"
+  },
+  "DH.Adapter.Data/Migrations/20260118090503_InitialTenant.Designer.cs": {
+    "mtime": 1785234121.7496324,
+    "ast_hash": "68784719845f3c9237cd4974dbdbb0ec",
+    "semantic_hash": "68784719845f3c9237cd4974dbdbb0ec"
+  },
+  "DH.Adapter.Data/Migrations/20260118090503_InitialTenant.cs": {
+    "mtime": 1785234121.7496324,
+    "ast_hash": "2aec62d538f8aa160be2f66307e37758",
+    "semantic_hash": "2aec62d538f8aa160be2f66307e37758"
+  },
+  "DH.Adapter.Data/Migrations/20260118090517_InitialData.Designer.cs": {
+    "mtime": 1785234121.7496324,
+    "ast_hash": "5a1bfafacea7c01ce407d8d793cc0109",
+    "semantic_hash": "5a1bfafacea7c01ce407d8d793cc0109"
+  },
+  "DH.Adapter.Data/Migrations/20260118090517_InitialData.cs": {
+    "mtime": 1785234121.7496324,
+    "ast_hash": "4e19565947021acfa357af5019878c97",
+    "semantic_hash": "4e19565947021acfa357af5019878c97"
+  },
+  "DH.Adapter.Data/Migrations/20260728140043_AddTenantApplications.Designer.cs": {
+    "mtime": 1785247243.3182867,
+    "ast_hash": "41612bdfa06f4625417c527792ef32d4",
+    "semantic_hash": "41612bdfa06f4625417c527792ef32d4"
+  },
+  "DH.Adapter.Data/Migrations/20260728140043_AddTenantApplications.cs": {
+    "mtime": 1785247243.3182867,
+    "ast_hash": "b007d7574ae365ea09895fa8ca3f6ba0",
+    "semantic_hash": "b007d7574ae365ea09895fa8ca3f6ba0"
+  },
+  "DH.Adapter.Data/Migrations/TenantDbContextModelSnapshot.cs": {
+    "mtime": 1785247243.3192866,
+    "ast_hash": "1d8fe87b698c8e92f86d40e7514100a6",
+    "semantic_hash": "1d8fe87b698c8e92f86d40e7514100a6"
+  },
+  "DH.Adapter.Data/Repositories/DataRepository.cs": {
+    "mtime": 1784883716.9455104,
+    "ast_hash": "39ac8f1734c0d232c3aae70c832bf59e",
+    "semantic_hash": "39ac8f1734c0d232c3aae70c832bf59e"
+  },
+  "DH.Adapter.Data/Seeder/GameSeeder.cs": {
+    "mtime": 1785234121.7506316,
+    "ast_hash": "89eb24fe725d06b887c38a756a83fb79",
+    "semantic_hash": "89eb24fe725d06b887c38a756a83fb79"
+  },
+  "DH.Adapter.Data/Services/ChallengeService.cs": {
+    "mtime": 1784883716.9455104,
+    "ast_hash": "0a1a9f51a88ffac2e4855e410477f7be",
+    "semantic_hash": "0a1a9f51a88ffac2e4855e410477f7be"
+  },
+  "DH.Adapter.Data/Services/EmailHelperService.cs": {
+    "mtime": 1784883716.946131,
+    "ast_hash": "bfc134a1b06a3753504047dc3decc302",
+    "semantic_hash": "bfc134a1b06a3753504047dc3decc302"
+  },
+  "DH.Adapter.Data/Services/EventService.cs": {
+    "mtime": 1784883716.946131,
+    "ast_hash": "26d8f4de4da46576466c6a1882c0614f",
+    "semantic_hash": "26d8f4de4da46576466c6a1882c0614f"
+  },
+  "DH.Adapter.Data/Services/GameCategoryService.cs": {
+    "mtime": 1784883716.946131,
+    "ast_hash": "46f0cba1b3049880375c63711a6714cc",
+    "semantic_hash": "46f0cba1b3049880375c63711a6714cc"
+  },
+  "DH.Adapter.Data/Services/GameService.cs": {
+    "mtime": 1785234121.7506316,
+    "ast_hash": "a49d3d1ea33b0d10ae9b9232b24faa4b",
+    "semantic_hash": "a49d3d1ea33b0d10ae9b9232b24faa4b"
+  },
+  "DH.Adapter.Data/Services/GameSessionService.cs": {
+    "mtime": 1785234121.7506316,
+    "ast_hash": "dddf191b9c58944ae2656eed72ed1d5b",
+    "semantic_hash": "dddf191b9c58944ae2656eed72ed1d5b"
+  },
+  "DH.Adapter.Data/Services/QueuedJobService.cs": {
+    "mtime": 1784883716.9465106,
+    "ast_hash": "192596f5eb7c30e49bd9d2e1e967b4fe",
+    "semantic_hash": "192596f5eb7c30e49bd9d2e1e967b4fe"
+  },
+  "DH.Adapter.Data/Services/RewardService.cs": {
+    "mtime": 1784883716.9465106,
+    "ast_hash": "948ccedc5c68b1d177ac362600a12d8d",
+    "semantic_hash": "948ccedc5c68b1d177ac362600a12d8d"
+  },
+  "DH.Adapter.Data/Services/RoomService.cs": {
+    "mtime": 1784883716.9465106,
+    "ast_hash": "ba785e14c6eef0bd229f09c63c47ee93",
+    "semantic_hash": "ba785e14c6eef0bd229f09c63c47ee93"
+  },
+  "DH.Adapter.Data/Services/SpaceTableService.cs": {
+    "mtime": 1784883716.9465106,
+    "ast_hash": "5d5335deeeb10d2b43e98d0fcec610c8",
+    "semantic_hash": "5d5335deeeb10d2b43e98d0fcec610c8"
+  },
+  "DH.Adapter.Data/Services/StatisticsService.cs": {
+    "mtime": 1784883716.9465106,
+    "ast_hash": "12062f60fac4c906eee083f6c5b2e944",
+    "semantic_hash": "12062f60fac4c906eee083f6c5b2e944"
+  },
+  "DH.Adapter.Data/Services/TenantService.cs": {
+    "mtime": 1785234121.7506316,
+    "ast_hash": "c9fc92b28b466f2bb18420bc991434f2",
+    "semantic_hash": "c9fc92b28b466f2bb18420bc991434f2"
+  },
+  "DH.Adapter.Data/Services/UniversalChallengeProcessing.cs": {
+    "mtime": 1784883716.9465106,
+    "ast_hash": "3942b9c554fcb8e46ff4177d445daf3e",
+    "semantic_hash": "3942b9c554fcb8e46ff4177d445daf3e"
+  },
+  "DH.Adapter.Data/Services/UserChallengesManagementService.cs": {
+    "mtime": 1785234121.751631,
+    "ast_hash": "88fb1a03bcf282026134eae10e094505",
+    "semantic_hash": "88fb1a03bcf282026134eae10e094505"
+  },
+  "DH.Adapter.Data/Services/UserSettingsCache.cs": {
+    "mtime": 1784883716.9465106,
+    "ast_hash": "0e0728a966324415188e6b0446da232d",
+    "semantic_hash": "0e0728a966324415188e6b0446da232d"
+  },
+  "DH.Adapter.Data/TenantDbConnectionInterceptor.cs": {
+    "mtime": 1785234121.751631,
+    "ast_hash": "234eb1ca1a750751dc89bd46b5a238c3",
+    "semantic_hash": "234eb1ca1a750751dc89bd46b5a238c3"
+  },
+  "DH.Adapter.Data/TenantDbContext.cs": {
+    "mtime": 1785258525.3030033,
+    "ast_hash": "3bf615fc5d9de3518c8598f0beb211de",
+    "semantic_hash": "3bf615fc5d9de3518c8598f0beb211de"
+  },
+  "DH.Adapter.Data/TenantDbContextFactory.cs": {
+    "mtime": 1785234121.751631,
+    "ast_hash": "3c6f959511fd1c3cf640aeb87cd90b0c",
+    "semantic_hash": "3c6f959511fd1c3cf640aeb87cd90b0c"
+  },
+  "DH.Adapter.Email/DH.Adapter.Email.csproj": {
+    "mtime": 1784883716.9475105,
+    "ast_hash": "3c4486261ce62af4c462bbcc7d0b4113",
+    "semantic_hash": "3c4486261ce62af4c462bbcc7d0b4113"
+  },
+  "DH.Adapter.Email/DI.cs": {
+    "mtime": 1784883716.9477582,
+    "ast_hash": "e13f737a4bce80c04f000778251f713e",
+    "semantic_hash": "e13f737a4bce80c04f000778251f713e"
+  },
+  "DH.Adapter.Email/SmtpEmailSender.cs": {
+    "mtime": 1784883716.9477582,
+    "ast_hash": "df72c2f7dfbcd75187ada800aaee10fe",
+    "semantic_hash": "df72c2f7dfbcd75187ada800aaee10fe"
+  },
+  "DH.Adapter.FileManager/DH.Adapter.FileManager.csproj": {
+    "mtime": 1784883716.9477582,
+    "ast_hash": "7d3e68ae7855ba1a1ee7f52a760a9ff7",
+    "semantic_hash": "7d3e68ae7855ba1a1ee7f52a760a9ff7"
+  },
+  "DH.Adapter.FileManager/DI.cs": {
+    "mtime": 1784883716.947945,
+    "ast_hash": "de63b73887fd339c9fc742a131135add",
+    "semantic_hash": "de63b73887fd339c9fc742a131135add"
+  },
+  "DH.Adapter.FileManager/SupabaseStorageClient.cs": {
+    "mtime": 1784883716.947945,
+    "ast_hash": "11288e4cdb1ea4656b24f4973de3e5e0",
+    "semantic_hash": "11288e4cdb1ea4656b24f4973de3e5e0"
+  },
+  "DH.Adapter.GameSession/DH.Adapter.GameSession.csproj": {
+    "mtime": 1784883716.947945,
+    "ast_hash": "d07b622fafa94d029b4deb05bbe26ccb",
+    "semantic_hash": "d07b622fafa94d029b4deb05bbe26ccb"
+  },
+  "DH.Adapter.GameSession/GameSessionAdapterDI.cs": {
+    "mtime": 1784883716.948124,
+    "ast_hash": "3bfcc66a2740fa2ab6107e0134b2c38d",
+    "semantic_hash": "3bfcc66a2740fa2ab6107e0134b2c38d"
+  },
+  "DH.Adapter.GameSession/GameSessionWorker.cs": {
+    "mtime": 1784883716.948124,
+    "ast_hash": "199616c955d66fb428d0f5463416eb44",
+    "semantic_hash": "199616c955d66fb428d0f5463416eb44"
+  },
+  "DH.Adapter.Localization/DH.Adapter.Localization.csproj": {
+    "mtime": 1784883716.948124,
+    "ast_hash": "55497dc8fdb3e7b5baaa225eb844dc5d",
+    "semantic_hash": "55497dc8fdb3e7b5baaa225eb844dc5d"
+  },
+  "DH.Adapter.Localization/DI.cs": {
+    "mtime": 1784883716.9483788,
+    "ast_hash": "d457a3891811a045fc7f8af30db88b1d",
+    "semantic_hash": "d457a3891811a045fc7f8af30db88b1d"
+  },
+  "DH.Adapter.Localization/LocalizationService.cs": {
+    "mtime": 1784883716.9483788,
+    "ast_hash": "842e3484f5832f6ccdfe6e38face25c0",
+    "semantic_hash": "842e3484f5832f6ccdfe6e38face25c0"
+  },
+  "DH.Adapter.PushNotifications/DH.Adapter.PushNotifications.csproj": {
+    "mtime": 1784883716.9483788,
+    "ast_hash": "ab28a8d2c8f380028f1e4c46e29884b3",
+    "semantic_hash": "ab28a8d2c8f380028f1e4c46e29884b3"
+  },
+  "DH.Adapter.PushNotifications/DI.cs": {
+    "mtime": 1784883716.948552,
+    "ast_hash": "4fb0a0ffa7c57a90d1e4745ff56bd0c5",
+    "semantic_hash": "4fb0a0ffa7c57a90d1e4745ff56bd0c5"
+  },
+  "DH.Adapter.PushNotifications/PushNotificationsService.cs": {
+    "mtime": 1784883716.948552,
+    "ast_hash": "8cf4ece6412a6a7b0ea818e97f7f9dd6",
+    "semantic_hash": "8cf4ece6412a6a7b0ea818e97f7f9dd6"
+  },
+  "DH.Adapter.QRManager/DH.Adapter.QRManager.csproj": {
+    "mtime": 1784883716.948552,
+    "ast_hash": "067ed8d88fb78602017610fcbb646f01",
+    "semantic_hash": "067ed8d88fb78602017610fcbb646f01"
+  },
+  "DH.Adapter.QRManager/QRCodeContext.cs": {
+    "mtime": 1784883716.9488747,
+    "ast_hash": "649f90a484c29d5c73336d1e92c243c3",
+    "semantic_hash": "649f90a484c29d5c73336d1e92c243c3"
+  },
+  "DH.Adapter.QRManager/QRCodeManager.cs": {
+    "mtime": 1785234121.751631,
+    "ast_hash": "52f0af522f9bdb6746ec61f2611c4077",
+    "semantic_hash": "52f0af522f9bdb6746ec61f2611c4077"
+  },
+  "DH.Adapter.QRManager/QRCodeStates/EventQRCodeState.cs": {
+    "mtime": 1784883716.9488747,
+    "ast_hash": "1e1b5ae3c08d7402ba8b9cad0f414b62",
+    "semantic_hash": "1e1b5ae3c08d7402ba8b9cad0f414b62"
+  },
+  "DH.Adapter.QRManager/QRCodeStates/GameQRCodeState.cs": {
+    "mtime": 1784883716.949083,
+    "ast_hash": "733782e2d4ab4c80ddd3d7443ced0c39",
+    "semantic_hash": "733782e2d4ab4c80ddd3d7443ced0c39"
+  },
+  "DH.Adapter.QRManager/QRCodeStates/GameReservationQRCodeState.cs": {
+    "mtime": 1785234121.751631,
+    "ast_hash": "4833188193e5f8d487fe335d3cf80d27",
+    "semantic_hash": "4833188193e5f8d487fe335d3cf80d27"
+  },
+  "DH.Adapter.QRManager/QRCodeStates/PurchaseChallengeQRCodeState.cs": {
+    "mtime": 1784883716.949083,
+    "ast_hash": "0713e12b402a168b4db211baaf450083",
+    "semantic_hash": "0713e12b402a168b4db211baaf450083"
+  },
+  "DH.Adapter.QRManager/QRCodeStates/RewardQRCodeState.cs": {
+    "mtime": 1784883716.949083,
+    "ast_hash": "aa948c5eb9ca41742cfec8cbf9fd3cb7",
+    "semantic_hash": "aa948c5eb9ca41742cfec8cbf9fd3cb7"
+  },
+  "DH.Adapter.QRManager/QRCodeStates/TableReservationQRCodeState.cs": {
+    "mtime": 1784883716.949083,
+    "ast_hash": "414d049f074770a1e02e5626b3fe92d0",
+    "semantic_hash": "414d049f074770a1e02e5626b3fe92d0"
+  },
+  "DH.Adapter.QRManager/QRCodeStates/UnknownQRCodeState.cs": {
+    "mtime": 1784883716.949083,
+    "ast_hash": "5ba041195a32a34f05290bd5dbbfcd84",
+    "semantic_hash": "5ba041195a32a34f05290bd5dbbfcd84"
+  },
+  "DH.Adapter.QRManager/QRManagerDIModule.cs": {
+    "mtime": 1784883716.949083,
+    "ast_hash": "27e8ae2a9126f0eabf58800833b1044c",
+    "semantic_hash": "27e8ae2a9126f0eabf58800833b1044c"
+  },
+  "DH.Adapter.Reservations/DH.Adapter.Reservations.csproj": {
+    "mtime": 1784883716.949083,
+    "ast_hash": "d07b622fafa94d029b4deb05bbe26ccb",
+    "semantic_hash": "d07b622fafa94d029b4deb05bbe26ccb"
+  },
+  "DH.Adapter.Reservations/ReservationAdapterDI.cs": {
+    "mtime": 1784883716.9494963,
+    "ast_hash": "3c3964beeaac3f08990d223fcc23296e",
+    "semantic_hash": "3c3964beeaac3f08990d223fcc23296e"
+  },
+  "DH.Adapter.Reservations/ReservationCleanupWorker.cs": {
+    "mtime": 1784883716.9494963,
+    "ast_hash": "474179871f836ac19178021a90b68615",
+    "semantic_hash": "474179871f836ac19178021a90b68615"
+  },
+  "DH.Adapter.Scheduling/DH.Adapter.Scheduling.csproj": {
+    "mtime": 1784883716.9495103,
+    "ast_hash": "24c9d1a407b0e3bd73173a664b811299",
+    "semantic_hash": "24c9d1a407b0e3bd73173a664b811299"
+  },
+  "DH.Adapter.Scheduling/Handlers/AddUserChallengePeriodHandler.cs": {
+    "mtime": 1784883716.9497366,
+    "ast_hash": "893cd47208a6b5f1f41bf7cb19a774d2",
+    "semantic_hash": "893cd47208a6b5f1f41bf7cb19a774d2"
+  },
+  "DH.Adapter.Scheduling/Handlers/ReservationExpirationHandler.cs": {
+    "mtime": 1784883716.9498074,
+    "ast_hash": "dc5e0a85f17efe9726ffbfa65d77559d",
+    "semantic_hash": "dc5e0a85f17efe9726ffbfa65d77559d"
+  },
+  "DH.Adapter.Scheduling/Handlers/UserRewardsExpirationReminderHandler.cs": {
+    "mtime": 1784883716.9498074,
+    "ast_hash": "360eb52b354379f386701160ea162a00",
+    "semantic_hash": "360eb52b354379f386701160ea162a00"
+  },
+  "DH.Adapter.Scheduling/Handlers/UserRewardsExpiryHandler.cs": {
+    "mtime": 1784883716.9498074,
+    "ast_hash": "6ef45e1a3fcba306c73d04a14a823bda",
+    "semantic_hash": "6ef45e1a3fcba306c73d04a14a823bda"
+  },
+  "DH.Adapter.Scheduling/JobListenerForDeadLetterQueue.cs": {
+    "mtime": 1784883716.9498074,
+    "ast_hash": "09c0a8a2bf3128bd8cf89957e655b222",
+    "semantic_hash": "09c0a8a2bf3128bd8cf89957e655b222"
+  },
+  "DH.Adapter.Scheduling/Jobs/AddUserChallengePeriodJob.cs": {
+    "mtime": 1784883716.9500823,
+    "ast_hash": "f4e9039af29d22c53dabc33b92463c13",
+    "semantic_hash": "f4e9039af29d22c53dabc33b92463c13"
+  },
+  "DH.Adapter.Scheduling/Jobs/CloseActiveTablesJob.cs": {
+    "mtime": 1784883716.9500823,
+    "ast_hash": "5b4290f7646aadc4745608cd1ffad558",
+    "semantic_hash": "5b4290f7646aadc4745608cd1ffad558"
+  },
+  "DH.Adapter.Scheduling/Jobs/EventChecker.cs": {
+    "mtime": 1784883716.9500823,
+    "ast_hash": "e6fded15c6a2bd8d4353f06e582549af",
+    "semantic_hash": "e6fded15c6a2bd8d4353f06e582549af"
+  },
+  "DH.Adapter.Scheduling/Jobs/ExpireReservationJob.cs": {
+    "mtime": 1784883716.9500823,
+    "ast_hash": "13baef6bfb89655ae78461cee5c82cd2",
+    "semantic_hash": "13baef6bfb89655ae78461cee5c82cd2"
+  },
+  "DH.Adapter.Scheduling/Jobs/UserChallengeTop3StreakTrackerJob.cs": {
+    "mtime": 1784883716.9500823,
+    "ast_hash": "a49c13f89ca5694653bb2a4478dcc2d1",
+    "semantic_hash": "a49c13f89ca5694653bb2a4478dcc2d1"
+  },
+  "DH.Adapter.Scheduling/Jobs/UserChallengeValidationJob.cs": {
+    "mtime": 1784883716.9500823,
+    "ast_hash": "deb9cb3c7dd3691732540e4aaefcc66c",
+    "semantic_hash": "deb9cb3c7dd3691732540e4aaefcc66c"
+  },
+  "DH.Adapter.Scheduling/Jobs/UserRewardsExpirationReminderJob.cs": {
+    "mtime": 1784883716.9500823,
+    "ast_hash": "abe1738a43d89a73ef08f04589f971cb",
+    "semantic_hash": "abe1738a43d89a73ef08f04589f971cb"
+  },
+  "DH.Adapter.Scheduling/Jobs/UserRewardsExpiryJob.cs": {
+    "mtime": 1784883716.9500823,
+    "ast_hash": "7e372f4754c6b6c632ef2b90395cba0d",
+    "semantic_hash": "7e372f4754c6b6c632ef2b90395cba0d"
+  },
+  "DH.Adapter.Scheduling/SchedulerService.cs": {
+    "mtime": 1784883716.950437,
+    "ast_hash": "45630dc516a0866fc02aa7d733d0b60c",
+    "semantic_hash": "45630dc516a0866fc02aa7d733d0b60c"
+  },
+  "DH.Adapter.Scheduling/SchedulingDiModule.cs": {
+    "mtime": 1784883716.950437,
+    "ast_hash": "86e5be096562545cc3993d373cd9ad55",
+    "semantic_hash": "86e5be096562545cc3993d373cd9ad55"
+  },
+  "DH.Adapter.Statistics/DH.Adapter.Statistics.csproj": {
+    "mtime": 1784883716.950706,
+    "ast_hash": "a5325fe986bc25da81e50f2dac045f4f",
+    "semantic_hash": "a5325fe986bc25da81e50f2dac045f4f"
+  },
+  "DH.Adapter.Statistics/DI.cs": {
+    "mtime": 1784883716.9509149,
+    "ast_hash": "5740ed57953cb2ab94d513e512e31333",
+    "semantic_hash": "5740ed57953cb2ab94d513e512e31333"
+  },
+  "DH.Adapter.Statistics/StatisticJobFactory.cs": {
+    "mtime": 1784883716.9509149,
+    "ast_hash": "76d32b7585f67e2a91fb8f10f1b0419b",
+    "semantic_hash": "76d32b7585f67e2a91fb8f10f1b0419b"
+  },
+  "DH.Adapter.Statistics/StatisticJobWorker.cs": {
+    "mtime": 1784883716.9509149,
+    "ast_hash": "9341b45df8528e67fad687e49b7e966d",
+    "semantic_hash": "9341b45df8528e67fad687e49b7e966d"
+  },
+  "DH.Api/.config/dotnet-tools.json": {
+    "mtime": 1784883716.9511468,
+    "ast_hash": "2f3bc734720ef8a1230c8974983da418",
+    "semantic_hash": "2f3bc734720ef8a1230c8974983da418"
+  },
+  "DH.Api/ConfigurationService.cs": {
+    "mtime": 1784883716.9511468,
+    "ast_hash": "d9a6b130bd13c238289dbab9f85a1e34",
+    "semantic_hash": "d9a6b130bd13c238289dbab9f85a1e34"
+  },
+  "DH.Api/ContainerService.cs": {
+    "mtime": 1784883716.9511468,
+    "ast_hash": "dd20773df19bede31221e8de65d8d354",
+    "semantic_hash": "dd20773df19bede31221e8de65d8d354"
+  },
+  "DH.Api/Controllers/ChallengesController.cs": {
+    "mtime": 1784883716.9511468,
+    "ast_hash": "80047068b55d490c6acab67d1cab0464",
+    "semantic_hash": "80047068b55d490c6acab67d1cab0464"
+  },
+  "DH.Api/Controllers/EventsController.cs": {
+    "mtime": 1784883716.9515274,
+    "ast_hash": "f7518c612d45e8d3e4a680bfe4361864",
+    "semantic_hash": "f7518c612d45e8d3e4a680bfe4361864"
+  },
+  "DH.Api/Controllers/FrontendLogController.cs": {
+    "mtime": 1784883716.9515274,
+    "ast_hash": "ed53d291db5fb81de18ba6a90501a55a",
+    "semantic_hash": "ed53d291db5fb81de18ba6a90501a55a"
+  },
+  "DH.Api/Controllers/GameCategoriesController.cs": {
+    "mtime": 1784883716.9515274,
+    "ast_hash": "b356d07f38bee53358ac412f72df5318",
+    "semantic_hash": "b356d07f38bee53358ac412f72df5318"
+  },
+  "DH.Api/Controllers/GameReviewsController.cs": {
+    "mtime": 1784883716.9515274,
+    "ast_hash": "a51187d3ed8e3014ed3e6d54a9e975f6",
+    "semantic_hash": "a51187d3ed8e3014ed3e6d54a9e975f6"
+  },
+  "DH.Api/Controllers/GamesController.cs": {
+    "mtime": 1785234121.751631,
+    "ast_hash": "f65fa1b94b9393372c1c5de58737c3c7",
+    "semantic_hash": "f65fa1b94b9393372c1c5de58737c3c7"
+  },
+  "DH.Api/Controllers/NotificationsController.cs": {
+    "mtime": 1784883716.9515274,
+    "ast_hash": "af46e1dc439c63438600f7e701bfa83c",
+    "semantic_hash": "af46e1dc439c63438600f7e701bfa83c"
+  },
+  "DH.Api/Controllers/PartnerInquiriesController.cs": {
+    "mtime": 1784883716.9515274,
+    "ast_hash": "998578cd5c11170fd596ff760eba9e71",
+    "semantic_hash": "998578cd5c11170fd596ff760eba9e71"
+  },
+  "DH.Api/Controllers/RewardsController.cs": {
+    "mtime": 1784883716.9515274,
+    "ast_hash": "daeebe494cb9c51311c736259a647b25",
+    "semantic_hash": "daeebe494cb9c51311c736259a647b25"
+  },
+  "DH.Api/Controllers/RoomsController.cs": {
+    "mtime": 1784883716.9515274,
+    "ast_hash": "808b96131900b62787dc3f397f623741",
+    "semantic_hash": "808b96131900b62787dc3f397f623741"
+  },
+  "DH.Api/Controllers/ScannerController.cs": {
+    "mtime": 1784883716.9515274,
+    "ast_hash": "a9138ce69d5ef0e00e7b342f9d370a65",
+    "semantic_hash": "a9138ce69d5ef0e00e7b342f9d370a65"
+  },
+  "DH.Api/Controllers/SchedulerController.cs": {
+    "mtime": 1784883716.9515274,
+    "ast_hash": "903cb67bffcf4a5d5c25459859d1eb35",
+    "semantic_hash": "903cb67bffcf4a5d5c25459859d1eb35"
+  },
+  "DH.Api/Controllers/SpaceManagementController.cs": {
+    "mtime": 1784883716.9515274,
+    "ast_hash": "0b76d751b17c9a22767b9db5e608b568",
+    "semantic_hash": "0b76d751b17c9a22767b9db5e608b568"
+  },
+  "DH.Api/Controllers/StatisticsController.cs": {
+    "mtime": 1784883716.9515274,
+    "ast_hash": "99c00cae962ca4e555397d944cbb4d8b",
+    "semantic_hash": "99c00cae962ca4e555397d944cbb4d8b"
+  },
+  "DH.Api/Controllers/TenantApplicationsController.cs": {
+    "mtime": 1785246542.1013124,
+    "ast_hash": "3bed4c2145d99b2849be69c37ed08931",
+    "semantic_hash": "3bed4c2145d99b2849be69c37ed08931"
+  },
+  "DH.Api/Controllers/TenantSettingsController.cs": {
+    "mtime": 1784883716.9515274,
+    "ast_hash": "41bf4f4ab615ece7e7de21682bbf24fd",
+    "semantic_hash": "41bf4f4ab615ece7e7de21682bbf24fd"
+  },
+  "DH.Api/Controllers/TenantUserSettingsController.cs": {
+    "mtime": 1784883716.9515274,
+    "ast_hash": "010076eae3b375b2acc38cb4ce162f47",
+    "semantic_hash": "010076eae3b375b2acc38cb4ce162f47"
+  },
+  "DH.Api/Controllers/TenantsController.cs": {
+    "mtime": 1785234121.7526305,
+    "ast_hash": "b87222841876447660aef5d1afefad7f",
+    "semantic_hash": "b87222841876447660aef5d1afefad7f"
+  },
+  "DH.Api/Controllers/UserController.cs": {
+    "mtime": 1785258525.7120032,
+    "ast_hash": "90ef4bc1d041b0ed671c2027bb208ad3",
+    "semantic_hash": "90ef4bc1d041b0ed671c2027bb208ad3"
+  },
+  "DH.Api/DH.Api.csproj": {
+    "mtime": 1784883716.9525104,
+    "ast_hash": "f1732e3b8b8b8f993308cb399e0ffa08",
+    "semantic_hash": "f1732e3b8b8b8f993308cb399e0ffa08"
+  },
+  "DH.Api/Filters/ApiExceptionFilterAttribute.cs": {
+    "mtime": 1784883716.9525104,
+    "ast_hash": "8c0698fafff9fd2091e3e2403a30dca7",
+    "semantic_hash": "8c0698fafff9fd2091e3e2403a30dca7"
+  },
+  "DH.Api/Filters/ValidationFilterAttribute.cs": {
+    "mtime": 1784883716.952904,
+    "ast_hash": "fcaf915693fdca7c92caa9eac296c2ff",
+    "semantic_hash": "fcaf915693fdca7c92caa9eac296c2ff"
+  },
+  "DH.Api/MemoryMonitorService.cs": {
+    "mtime": 1784883716.952904,
+    "ast_hash": "8feb9ea2cdde6888616282b2b93cc8ce",
+    "semantic_hash": "8feb9ea2cdde6888616282b2b93cc8ce"
+  },
+  "DH.Api/Program.cs": {
+    "mtime": 1785234121.7526305,
+    "ast_hash": "265d1c5acce8526c6512244ee91ff969",
+    "semantic_hash": "265d1c5acce8526c6512244ee91ff969"
+  },
+  "DH.Api/Properties/launchSettings.json": {
+    "mtime": 1784883716.952904,
+    "ast_hash": "caeda6bd94fe9119c54d852f34790ddd",
+    "semantic_hash": "caeda6bd94fe9119c54d852f34790ddd"
+  },
+  "DH.Api/TenantRouteValidationMiddleware.cs": {
+    "mtime": 1785258864.2686894,
+    "ast_hash": "961ce0f3371c7f353ad5ab1721a7b5be",
+    "semantic_hash": "961ce0f3371c7f353ad5ab1721a7b5be"
+  },
+  "DH.Api/appsettings.Production.json": {
+    "mtime": 1784883716.952904,
+    "ast_hash": "fefa930524354c31c25cfa7f65ee334b",
+    "semantic_hash": "fefa930524354c31c25cfa7f65ee334b"
+  },
+  "DH.Api/appsettings.json": {
+    "mtime": 1785088902.0402286,
+    "ast_hash": "980b60e1efaf32980a8f7870794644e0",
+    "semantic_hash": "980b60e1efaf32980a8f7870794644e0"
+  },
+  "DH.Api/dicehub-8c63f-firebase-adminsdk-y31l3-6026a82c88.json": {
+    "mtime": 1785086058.4235122,
+    "ast_hash": "91f2dbce28f1c3431f3c97f71f7789c9",
+    "semantic_hash": "91f2dbce28f1c3431f3c97f71f7789c9"
+  },
+  "DH.Api/libman.json": {
+    "mtime": 1784883716.952904,
+    "ast_hash": "8683bc0b300e68bf1ae5ce59ba1e0e33",
+    "semantic_hash": "8683bc0b300e68bf1ae5ce59ba1e0e33"
+  },
+  "DH.Application/ApplicationDIModule.cs": {
+    "mtime": 1784883716.952904,
+    "ast_hash": "a222f26f0898032a924bfb35e3319892",
+    "semantic_hash": "a222f26f0898032a924bfb35e3319892"
+  },
+  "DH.Application/Challenges/Commands/CreateChallengeCommand.cs": {
+    "mtime": 1784883716.9534078,
+    "ast_hash": "966627cc56f4abfa4583412a9dd1a655",
+    "semantic_hash": "966627cc56f4abfa4583412a9dd1a655"
+  },
+  "DH.Application/Challenges/Commands/DeleteChallengeCommand.cs": {
+    "mtime": 1784883716.9535503,
+    "ast_hash": "d88f2f0c19e3e6aafd500c8f8d4df8fa",
+    "semantic_hash": "d88f2f0c19e3e6aafd500c8f8d4df8fa"
+  },
+  "DH.Application/Challenges/Commands/SaveCustomPeriodCommand.cs": {
+    "mtime": 1784883716.9535503,
+    "ast_hash": "67bb57f3b6eabea82838996e607fdba5",
+    "semantic_hash": "67bb57f3b6eabea82838996e607fdba5"
+  },
+  "DH.Application/Challenges/Commands/UpdateChallengeCommand.cs": {
+    "mtime": 1784883716.9535503,
+    "ast_hash": "46c26fb8c88f79bbf05555829af55529",
+    "semantic_hash": "46c26fb8c88f79bbf05555829af55529"
+  },
+  "DH.Application/Challenges/Commands/UpdateUniversalChallengeCommand.cs": {
+    "mtime": 1784883716.9535503,
+    "ast_hash": "8eee0d42ef1c7f100e427a38cf042245",
+    "semantic_hash": "8eee0d42ef1c7f100e427a38cf042245"
+  },
+  "DH.Application/Challenges/Qureies/GetChallengeByIdQuery.cs": {
+    "mtime": 1784883716.9535503,
+    "ast_hash": "3d16f5fe4e79c24317ef8eb25004e9de",
+    "semantic_hash": "3d16f5fe4e79c24317ef8eb25004e9de"
+  },
+  "DH.Application/Challenges/Qureies/GetChallengeListWithFilterQuery.cs": {
+    "mtime": 1784883716.9538684,
+    "ast_hash": "e518d5e658da19537bfd74a76b01b78a",
+    "semantic_hash": "e518d5e658da19537bfd74a76b01b78a"
+  },
+  "DH.Application/Challenges/Qureies/GetCustomPeriodQuery.cs": {
+    "mtime": 1784883716.9538684,
+    "ast_hash": "c763c158215d54db4121abc5a0a80ed1",
+    "semantic_hash": "c763c158215d54db4121abc5a0a80ed1"
+  },
+  "DH.Application/Challenges/Qureies/GetUniversalChallengeListQuery.cs": {
+    "mtime": 1784883716.9538684,
+    "ast_hash": "4300e0893ea802b3284ffd65bbd71f23",
+    "semantic_hash": "4300e0893ea802b3284ffd65bbd71f23"
+  },
+  "DH.Application/Challenges/Qureies/GetUserChallengeListQuery.cs": {
+    "mtime": 1784883716.9538684,
+    "ast_hash": "3eeb669fd9fb52408429a5e2fea57811",
+    "semantic_hash": "3eeb669fd9fb52408429a5e2fea57811"
+  },
+  "DH.Application/Challenges/Qureies/GetUserChallengePeriodPerformanceQuery.cs": {
+    "mtime": 1784883716.9538684,
+    "ast_hash": "23a93944011dfeda859f6e3d3028d1a4",
+    "semantic_hash": "23a93944011dfeda859f6e3d3028d1a4"
+  },
+  "DH.Application/Challenges/Qureies/GetUserCustomPeriodQuery.cs": {
+    "mtime": 1784883716.9538684,
+    "ast_hash": "2c26d447e8531211122b74f2fc2d9f11",
+    "semantic_hash": "2c26d447e8531211122b74f2fc2d9f11"
+  },
+  "DH.Application/Challenges/Qureies/GetUserUniversalChallengeListQuery.cs": {
+    "mtime": 1784883716.9538684,
+    "ast_hash": "f6670be6a91c52011f55f8b330090099",
+    "semantic_hash": "f6670be6a91c52011f55f8b330090099"
+  },
+  "DH.Application/Challenges/Seeders/ChallengesSeedService.cs": {
+    "mtime": 1784883716.9538684,
+    "ast_hash": "debc547d52b86abec4f76e500ecdc8dd",
+    "semantic_hash": "debc547d52b86abec4f76e500ecdc8dd"
+  },
+  "DH.Application/Common/Commands/CreatePartnerInquiriesCommand.cs": {
+    "mtime": 1784883716.954374,
+    "ast_hash": "811a9271faf6a94bf347eb06e3effd6f",
+    "semantic_hash": "811a9271faf6a94bf347eb06e3effd6f"
+  },
+  "DH.Application/Common/Commands/CreateTenantApplicationCommand.cs": {
+    "mtime": 1785246504.9613245,
+    "ast_hash": "d1c274d25aea47627d21941673890a70",
+    "semantic_hash": "d1c274d25aea47627d21941673890a70"
+  },
+  "DH.Application/Common/Commands/ReviewTenantApplicationCommand.cs": {
+    "mtime": 1785246505.1653242,
+    "ast_hash": "e6701d5cd502365f4a16106a7f1bc7ea",
+    "semantic_hash": "e6701d5cd502365f4a16106a7f1bc7ea"
+  },
+  "DH.Application/Common/Commands/SaveUserDeviceTokenCommand.cs": {
+    "mtime": 1784883716.954468,
+    "ast_hash": "aa66746b2cadb9a4a8fc33cafefd14e4",
+    "semantic_hash": "aa66746b2cadb9a4a8fc33cafefd14e4"
+  },
+  "DH.Application/Common/Commands/UpdateAssistiveTouchSettingsCommand.cs": {
+    "mtime": 1784883716.954468,
+    "ast_hash": "d3e0bbfea151f8bd01399236f10e22cc",
+    "semantic_hash": "d3e0bbfea151f8bd01399236f10e22cc"
+  },
+  "DH.Application/Common/Commands/UpdateTenantSettingsCommand.cs": {
+    "mtime": 1784883716.9545105,
+    "ast_hash": "4a28029929496be221ca8e4c232587a4",
+    "semantic_hash": "4a28029929496be221ca8e4c232587a4"
+  },
+  "DH.Application/Common/Commands/UpdateUserSettingsCommand.cs": {
+    "mtime": 1784883716.9545105,
+    "ast_hash": "6405ca5333ab8867a3211fba618c5290",
+    "semantic_hash": "6405ca5333ab8867a3211fba618c5290"
+  },
+  "DH.Application/Common/Queries/GetAssistiveTouchSettingsQuery.cs": {
+    "mtime": 1784883716.9545105,
+    "ast_hash": "908f8071e31acb78125b0a454ec92475",
+    "semantic_hash": "908f8071e31acb78125b0a454ec92475"
+  },
+  "DH.Application/Common/Queries/GetClubInfoQuery.cs": {
+    "mtime": 1784883716.9548323,
+    "ast_hash": "7582f2e10d9a38b4bd2d9a4b9fd44be5",
+    "semantic_hash": "7582f2e10d9a38b4bd2d9a4b9fd44be5"
+  },
+  "DH.Application/Common/Queries/GetTenantApplicationByIdQuery.cs": {
+    "mtime": 1785246505.5783238,
+    "ast_hash": "e4a90978c59e5ddc20335534e9ce2b2b",
+    "semantic_hash": "e4a90978c59e5ddc20335534e9ce2b2b"
+  },
+  "DH.Application/Common/Queries/GetTenantApplicationsQuery.cs": {
+    "mtime": 1785246505.3703241,
+    "ast_hash": "e025a9ada1af44d33eb92f95c7ba391e",
+    "semantic_hash": "e025a9ada1af44d33eb92f95c7ba391e"
+  },
+  "DH.Application/Common/Queries/GetTenantByIdQuery.cs": {
+    "mtime": 1785234121.7526305,
+    "ast_hash": "66e5a93d72bbdccec817acf3f0856c9b",
+    "semantic_hash": "66e5a93d72bbdccec817acf3f0856c9b"
+  },
+  "DH.Application/Common/Queries/GetTenantListQuery.cs": {
+    "mtime": 1785234121.7526305,
+    "ast_hash": "f9d305611be140ca4b02972f57e685fe",
+    "semantic_hash": "f9d305611be140ca4b02972f57e685fe"
+  },
+  "DH.Application/Common/Queries/GetTenantSettingsQuery.cs": {
+    "mtime": 1784883716.9548323,
+    "ast_hash": "64ad4f9e01a4c216acbc6fec1d75fef3",
+    "semantic_hash": "64ad4f9e01a4c216acbc6fec1d75fef3"
+  },
+  "DH.Application/Common/Queries/GetUserSettingsQuery.cs": {
+    "mtime": 1784883716.9548323,
+    "ast_hash": "5c65fa9eb66c09776b3f0b082786a5c5",
+    "semantic_hash": "5c65fa9eb66c09776b3f0b082786a5c5"
+  },
+  "DH.Application/DH.Application.csproj": {
+    "mtime": 1784883716.9548323,
+    "ast_hash": "6f040edaff173c5b199f814cd7eaf477",
+    "semantic_hash": "6f040edaff173c5b199f814cd7eaf477"
+  },
+  "DH.Application/Emails/Commands/SendEmployeeCreatePasswordEmailCommand.cs": {
+    "mtime": 1785234121.7526305,
+    "ast_hash": "baf2bb4c3d2169bd79389a7556b70735",
+    "semantic_hash": "baf2bb4c3d2169bd79389a7556b70735"
+  },
+  "DH.Application/Emails/Commands/SendForgotPasswordEmailCommand.cs": {
+    "mtime": 1785234121.7526305,
+    "ast_hash": "8af51c3f16e2048cfaea0ae1c239dee3",
+    "semantic_hash": "8af51c3f16e2048cfaea0ae1c239dee3"
+  },
+  "DH.Application/Emails/Commands/SendOwnerCreatePasswordEmailCommand.cs": {
+    "mtime": 1785234121.7526305,
+    "ast_hash": "2e5ded8d6974e2cb94ed84fa1d684ba5",
+    "semantic_hash": "2e5ded8d6974e2cb94ed84fa1d684ba5"
+  },
+  "DH.Application/Emails/Commands/SendRegistrationEmailConfirmationCommand.cs": {
+    "mtime": 1785234121.7526305,
+    "ast_hash": "9df7783a733d43a3f5ff71f5a31cd6fd",
+    "semantic_hash": "9df7783a733d43a3f5ff71f5a31cd6fd"
+  },
+  "DH.Application/Events/Commands/CreateEventCommand.cs": {
+    "mtime": 1785234121.75363,
+    "ast_hash": "757ddcc6cbbdc3ab13c4dbaea873edc1",
+    "semantic_hash": "757ddcc6cbbdc3ab13c4dbaea873edc1"
+  },
+  "DH.Application/Events/Commands/DeleteEventCommand.cs": {
+    "mtime": 1784883716.9554853,
+    "ast_hash": "78af883525c22e9b5a6c3e9bb7e47504",
+    "semantic_hash": "78af883525c22e9b5a6c3e9bb7e47504"
+  },
+  "DH.Application/Events/Commands/ParticipateInEventCommand.cs": {
+    "mtime": 1784883716.9555104,
+    "ast_hash": "adf4981e8ce13ad347c0f6643a3e98d8",
+    "semantic_hash": "adf4981e8ce13ad347c0f6643a3e98d8"
+  },
+  "DH.Application/Events/Commands/RemoveParticipantFromEventCommand.cs": {
+    "mtime": 1784883716.9555104,
+    "ast_hash": "f2f6157ba902d60c066d3810cb32ffa5",
+    "semantic_hash": "f2f6157ba902d60c066d3810cb32ffa5"
+  },
+  "DH.Application/Events/Commands/SendEventParticipantsNotificationsCommand.cs": {
+    "mtime": 1784883716.9555104,
+    "ast_hash": "be50394ac48a67e0d2347948c187246d",
+    "semantic_hash": "be50394ac48a67e0d2347948c187246d"
+  },
+  "DH.Application/Events/Commands/UpdateEventCommand.cs": {
+    "mtime": 1785234121.75363,
+    "ast_hash": "b55fd10d6be5cf74cbd3aaebaf380aa3",
+    "semantic_hash": "b55fd10d6be5cf74cbd3aaebaf380aa3"
+  },
+  "DH.Application/Events/Queries/CheckUserParticipationQuery.cs": {
+    "mtime": 1784883716.9555104,
+    "ast_hash": "a5e39df574ead2b3885cc61dac34f90e",
+    "semantic_hash": "a5e39df574ead2b3885cc61dac34f90e"
+  },
+  "DH.Application/Events/Queries/GetAllEventsDropdownListQuery.cs": {
+    "mtime": 1784883716.9558885,
+    "ast_hash": "c3b89ac2d2dab0b4c63625e03c46b98b",
+    "semantic_hash": "c3b89ac2d2dab0b4c63625e03c46b98b"
+  },
+  "DH.Application/Events/Queries/GetEventByIdQuery.cs": {
+    "mtime": 1784883716.9558885,
+    "ast_hash": "f511fe948b7765c2352e51424895b821",
+    "semantic_hash": "f511fe948b7765c2352e51424895b821"
+  },
+  "DH.Application/Events/Queries/GetEventListForStaffQuery.cs": {
+    "mtime": 1784883716.9558885,
+    "ast_hash": "57d8d617a48e897bbe324fd3d04001a3",
+    "semantic_hash": "57d8d617a48e897bbe324fd3d04001a3"
+  },
+  "DH.Application/Events/Queries/GetEventListForUserQuery.cs": {
+    "mtime": 1784883716.9558885,
+    "ast_hash": "47ab70fd7fc555d2d0f18a4302e3da2d",
+    "semantic_hash": "47ab70fd7fc555d2d0f18a4302e3da2d"
+  },
+  "DH.Application/Events/Queries/GetUserEventListQuery.cs": {
+    "mtime": 1784883716.9558885,
+    "ast_hash": "8a3feb1d474fd292b91c415e01fb43df",
+    "semantic_hash": "8a3feb1d474fd292b91c415e01fb43df"
+  },
+  "DH.Application/Games/Commands/CreateGameReservationCommand.cs": {
+    "mtime": 1785234121.75363,
+    "ast_hash": "37e87bac1e7b34dd59f098c7bf41ffd1",
+    "semantic_hash": "37e87bac1e7b34dd59f098c7bf41ffd1"
+  },
+  "DH.Application/Games/Commands/DeleteGameReservationCommand.cs": {
+    "mtime": 1784883716.9563005,
+    "ast_hash": "c6439fd61b07f8f0014f5ce864df2fd1",
+    "semantic_hash": "c6439fd61b07f8f0014f5ce864df2fd1"
+  },
+  "DH.Application/Games/Commands/Games/ApproveGameReservationCommand.cs": {
+    "mtime": 1784883716.9563005,
+    "ast_hash": "712131f34277712559e3064e46476c27",
+    "semantic_hash": "712131f34277712559e3064e46476c27"
+  },
+  "DH.Application/Games/Commands/Games/CancelGameReservationCommand.cs": {
+    "mtime": 1784883716.9564943,
+    "ast_hash": "00ffebe35de259a64d91d7426bddc402",
+    "semantic_hash": "00ffebe35de259a64d91d7426bddc402"
+  },
+  "DH.Application/Games/Commands/Games/CreateGameCommand.cs": {
+    "mtime": 1784883716.9564943,
+    "ast_hash": "ac858c6629fe6fa14f0ba53e5a04eb30",
+    "semantic_hash": "ac858c6629fe6fa14f0ba53e5a04eb30"
+  },
+  "DH.Application/Games/Commands/Games/CreateGameCopyCommand.cs": {
+    "mtime": 1784883716.9565103,
+    "ast_hash": "1940c384b795f2884c03288f7136caef",
+    "semantic_hash": "1940c384b795f2884c03288f7136caef"
+  },
+  "DH.Application/Games/Commands/Games/CreateGameReviewCommand.cs": {
+    "mtime": 1784883716.9565103,
+    "ast_hash": "2e5e9106ad2fb33a871ec82a9e9f28f3",
+    "semantic_hash": "2e5e9106ad2fb33a871ec82a9e9f28f3"
+  },
+  "DH.Application/Games/Commands/Games/DeclineGameReservationCommand.cs": {
+    "mtime": 1784883716.9565103,
+    "ast_hash": "4d3a477f95dc7d9a97ba40a09c4f0967",
+    "semantic_hash": "4d3a477f95dc7d9a97ba40a09c4f0967"
+  },
+  "DH.Application/Games/Commands/Games/DeleteGameCommand.cs": {
+    "mtime": 1784883716.9565103,
+    "ast_hash": "eef258b535d9f59045c56463a7fa4924",
+    "semantic_hash": "eef258b535d9f59045c56463a7fa4924"
+  },
+  "DH.Application/Games/Commands/Games/DeleteGameReviewByIdCommand.cs": {
+    "mtime": 1784883716.9565103,
+    "ast_hash": "8b77ba5af145d9717c5144fc39c46094",
+    "semantic_hash": "8b77ba5af145d9717c5144fc39c46094"
+  },
+  "DH.Application/Games/Commands/Games/DislikeGameCommand.cs": {
+    "mtime": 1784883716.9565103,
+    "ast_hash": "2ada5d30330cba49a9c93575bdaf8ad7",
+    "semantic_hash": "2ada5d30330cba49a9c93575bdaf8ad7"
+  },
+  "DH.Application/Games/Commands/Games/LikeGameCommand.cs": {
+    "mtime": 1784883716.9565103,
+    "ast_hash": "9b531e1bfc02fbbff4fdb9a14d227985",
+    "semantic_hash": "9b531e1bfc02fbbff4fdb9a14d227985"
+  },
+  "DH.Application/Games/Commands/Games/UpdateGameCommand.cs": {
+    "mtime": 1784883716.9565103,
+    "ast_hash": "5a2ff5cf489fcb89e83c9582c44a5f78",
+    "semantic_hash": "5a2ff5cf489fcb89e83c9582c44a5f78"
+  },
+  "DH.Application/Games/Commands/Games/UpdateGameReviewCommand.cs": {
+    "mtime": 1784883716.9565103,
+    "ast_hash": "8739af7f30405b34397a0541c8d6e674",
+    "semantic_hash": "8739af7f30405b34397a0541c8d6e674"
+  },
+  "DH.Application/Games/Commands/UpdateGameReservationCommand.cs": {
+    "mtime": 1784883716.9565103,
+    "ast_hash": "736f8cdd062682d213973bbd2f9d94c5",
+    "semantic_hash": "736f8cdd062682d213973bbd2f9d94c5"
+  },
+  "DH.Application/Games/Queries/Games/GetActiveGameReservationListQuery.cs": {
+    "mtime": 1785234121.75363,
+    "ast_hash": "b10bd1ff3da3c0292c30e773134446ff",
+    "semantic_hash": "b10bd1ff3da3c0292c30e773134446ff"
+  },
+  "DH.Application/Games/Queries/Games/GetActiveReservedGameQuery.cs": {
+    "mtime": 1784883716.9573793,
+    "ast_hash": "3bc4c85fd5bbe41b36dea75adc4e5db0",
+    "semantic_hash": "3bc4c85fd5bbe41b36dea75adc4e5db0"
+  },
+  "DH.Application/Games/Queries/Games/GetGameByIdQuery.cs": {
+    "mtime": 1784883716.9573793,
+    "ast_hash": "ed5978115bf35b8d50c60fdc8de9dd1b",
+    "semantic_hash": "ed5978115bf35b8d50c60fdc8de9dd1b"
+  },
+  "DH.Application/Games/Queries/Games/GetGameCategoryListQuery.cs": {
+    "mtime": 1784883716.9573793,
+    "ast_hash": "2b0876ba811b6c8c506cb7aa57a844d3",
+    "semantic_hash": "2b0876ba811b6c8c506cb7aa57a844d3"
+  },
+  "DH.Application/Games/Queries/Games/GetGameDropdownListQuery.cs": {
+    "mtime": 1784883716.9573793,
+    "ast_hash": "5d17ed2309b907f2735e41e313e20021",
+    "semantic_hash": "5d17ed2309b907f2735e41e313e20021"
+  },
+  "DH.Application/Games/Queries/Games/GetGameInventoryQuery.cs": {
+    "mtime": 1784883716.9575102,
+    "ast_hash": "abec4fe511e3cfa8c6414d3ca8db770a",
+    "semantic_hash": "abec4fe511e3cfa8c6414d3ca8db770a"
+  },
+  "DH.Application/Games/Queries/Games/GetGameListByCategoryIdQuery.cs": {
+    "mtime": 1784883716.9575102,
+    "ast_hash": "3ae778814621cc949cf21e49b68d730e",
+    "semantic_hash": "3ae778814621cc949cf21e49b68d730e"
+  },
+  "DH.Application/Games/Queries/Games/GetGameListQuery.cs": {
+    "mtime": 1784883716.9575102,
+    "ast_hash": "14dacc0084ae20452fa07b988b1c1470",
+    "semantic_hash": "14dacc0084ae20452fa07b988b1c1470"
+  },
+  "DH.Application/Games/Queries/Games/GetGameReservationStatusQuery.cs": {
+    "mtime": 1784883716.9575102,
+    "ast_hash": "2dd34fcbdfd4bc96a6ae1de71d00ba4e",
+    "semantic_hash": "2dd34fcbdfd4bc96a6ae1de71d00ba4e"
+  },
+  "DH.Application/Games/Queries/Games/GetGameReservedListQuery.cs": {
+    "mtime": 1785234121.75363,
+    "ast_hash": "9f04e55510a5b96eb6a55bd5a9a87d10",
+    "semantic_hash": "9f04e55510a5b96eb6a55bd5a9a87d10"
+  },
+  "DH.Application/Games/Queries/Games/GetGameReviewListQuery.cs": {
+    "mtime": 1785234121.75363,
+    "ast_hash": "e00585bd46a359528b3b69d4a4d3d276",
+    "semantic_hash": "e00585bd46a359528b3b69d4a4d3d276"
+  },
+  "DH.Application/Games/Queries/Games/GetNewGameListQuery.cs": {
+    "mtime": 1784883716.9575102,
+    "ast_hash": "7b784ae8ac7686383712b6abb59f6833",
+    "semantic_hash": "7b784ae8ac7686383712b6abb59f6833"
+  },
+  "DH.Application/Games/Queries/GetActiveGameReservationCountQuery.cs": {
+    "mtime": 1784883716.9575102,
+    "ast_hash": "87616568fa07a82bf77449bad05ce4df",
+    "semantic_hash": "87616568fa07a82bf77449bad05ce4df"
+  },
+  "DH.Application/Games/Queries/GetGameReservationByIdQuery.cs": {
+    "mtime": 1785234121.75363,
+    "ast_hash": "fe274e86bbe8e8ec3670e99ae7324b96",
+    "semantic_hash": "fe274e86bbe8e8ec3670e99ae7324b96"
+  },
+  "DH.Application/Games/Queries/GetGameReservationHistoryModelQuery.cs": {
+    "mtime": 1785234121.75363,
+    "ast_hash": "ba179443aad53e98cfe0a53230fecb8c",
+    "semantic_hash": "ba179443aad53e98cfe0a53230fecb8c"
+  },
+  "DH.Application/Games/Seeders/GamesSeedService.cs": {
+    "mtime": 1784883716.9575102,
+    "ast_hash": "420be3dbb30964fc8ad09f91ec28760e",
+    "semantic_hash": "420be3dbb30964fc8ad09f91ec28760e"
+  },
+  "DH.Application/Rewards/Commands/CreateSystemRewardCommand.cs": {
+    "mtime": 1784883716.958192,
+    "ast_hash": "e1ba160b2a37d8bf5ae41d81898bf48e",
+    "semantic_hash": "e1ba160b2a37d8bf5ae41d81898bf48e"
+  },
+  "DH.Application/Rewards/Commands/DeleteSystemRewardCommand.cs": {
+    "mtime": 1784883716.9582577,
+    "ast_hash": "50c17d9b419f6a09181e430389c3a9c2",
+    "semantic_hash": "50c17d9b419f6a09181e430389c3a9c2"
+  },
+  "DH.Application/Rewards/Commands/UpdateSystemRewardCommand.cs": {
+    "mtime": 1784883716.9582577,
+    "ast_hash": "d90c0575c3d442fa2e6f87f2849b599f",
+    "semantic_hash": "d90c0575c3d442fa2e6f87f2849b599f"
+  },
+  "DH.Application/Rewards/Commands/UserRewardConfirmationCommand.cs": {
+    "mtime": 1784883716.9582577,
+    "ast_hash": "3129b67f995c1b4a4dfe30765df92354",
+    "semantic_hash": "3129b67f995c1b4a4dfe30765df92354"
+  },
+  "DH.Application/Rewards/Queries/GetAllSystemRewardListQuery.cs": {
+    "mtime": 1784883716.9582577,
+    "ast_hash": "c454be464b057f7e84b50cd37a375aff",
+    "semantic_hash": "c454be464b057f7e84b50cd37a375aff"
+  },
+  "DH.Application/Rewards/Queries/GetSystemRewardByIdQuery.cs": {
+    "mtime": 1784883716.9585395,
+    "ast_hash": "c22299dc02d60a4ecff389424bb4901f",
+    "semantic_hash": "c22299dc02d60a4ecff389424bb4901f"
+  },
+  "DH.Application/Rewards/Queries/GetSystemRewardDropdownListQuery.cs": {
+    "mtime": 1784883716.9585395,
+    "ast_hash": "8464c4cc9dc7265a35069b49364098bf",
+    "semantic_hash": "8464c4cc9dc7265a35069b49364098bf"
+  },
+  "DH.Application/Rewards/Queries/GetSystemRewardListQuery.cs": {
+    "mtime": 1784883716.9585395,
+    "ast_hash": "4415e66382a0f390ae28f3922198f84a",
+    "semantic_hash": "4415e66382a0f390ae28f3922198f84a"
+  },
+  "DH.Application/Rewards/Queries/GetUserChallengePeriodRewardListQuery.cs": {
+    "mtime": 1784883716.9585395,
+    "ast_hash": "e13dacd3e08285d833df56ce7c631259",
+    "semantic_hash": "e13dacd3e08285d833df56ce7c631259"
+  },
+  "DH.Application/Rewards/Queries/GetUserRewardListQuery.cs": {
+    "mtime": 1784883716.9585395,
+    "ast_hash": "43d49500a910ec19263dc153b681705f",
+    "semantic_hash": "43d49500a910ec19263dc153b681705f"
+  },
+  "DH.Application/Rewards/Seeders/SystemRewardsSeedService.cs": {
+    "mtime": 1784883716.9585395,
+    "ast_hash": "065ebeb9fb72bc0ef81923a9f0dc2513",
+    "semantic_hash": "065ebeb9fb72bc0ef81923a9f0dc2513"
+  },
+  "DH.Application/Rooms/Commands/CreateRoomCommand.cs": {
+    "mtime": 1784883716.9589505,
+    "ast_hash": "2c01d3d789a63fda9be41a57f278bb5a",
+    "semantic_hash": "2c01d3d789a63fda9be41a57f278bb5a"
+  },
+  "DH.Application/Rooms/Commands/DeleteRoomCommand.cs": {
+    "mtime": 1784883716.9590402,
+    "ast_hash": "4b68af00af65bb43aaa5efe058744b5f",
+    "semantic_hash": "4b68af00af65bb43aaa5efe058744b5f"
+  },
+  "DH.Application/Rooms/Commands/JoinRoomCommand.cs": {
+    "mtime": 1785234121.75363,
+    "ast_hash": "06f4e0ec8754dcbc744faa9cde7d9eb1",
+    "semantic_hash": "06f4e0ec8754dcbc744faa9cde7d9eb1"
+  },
+  "DH.Application/Rooms/Commands/LeaveRoomCommand.cs": {
+    "mtime": 1784883716.9590402,
+    "ast_hash": "df4a95132441a926eed0fc7e3e442770",
+    "semantic_hash": "df4a95132441a926eed0fc7e3e442770"
+  },
+  "DH.Application/Rooms/Commands/RemoveRoomMemberCommand.cs": {
+    "mtime": 1784883716.9590402,
+    "ast_hash": "79592780fcc0643b703484c29aa7c525",
+    "semantic_hash": "79592780fcc0643b703484c29aa7c525"
+  },
+  "DH.Application/Rooms/Commands/UpdateRoomCommand.cs": {
+    "mtime": 1784883716.9590402,
+    "ast_hash": "90ea17413ad08c4e2cd6576237885c53",
+    "semantic_hash": "90ea17413ad08c4e2cd6576237885c53"
+  },
+  "DH.Application/Rooms/Queries/GetRoomByIdQuery.cs": {
+    "mtime": 1785234121.7546294,
+    "ast_hash": "e0b58d95271c75ea5e330516f9fc39da",
+    "semantic_hash": "e0b58d95271c75ea5e330516f9fc39da"
+  },
+  "DH.Application/Rooms/Queries/GetRoomInfoMessageListQuery.cs": {
+    "mtime": 1785234121.7546294,
+    "ast_hash": "13ba47625b08084908c0105700e7583a",
+    "semantic_hash": "13ba47625b08084908c0105700e7583a"
+  },
+  "DH.Application/Rooms/Queries/GetRoomListQuery.cs": {
+    "mtime": 1785234121.7546294,
+    "ast_hash": "53adfad2bffa643e0a591571f4c81782",
+    "semantic_hash": "53adfad2bffa643e0a591571f4c81782"
+  },
+  "DH.Application/Rooms/Queries/GetRoomMemberListQuery.cs": {
+    "mtime": 1785234121.7546294,
+    "ast_hash": "247079bba781fbb6791c791ebcfbded3",
+    "semantic_hash": "247079bba781fbb6791c791ebcfbded3"
+  },
+  "DH.Application/Rooms/Queries/GetRoomMessageListQuery.cs": {
+    "mtime": 1785234121.7546294,
+    "ast_hash": "46d491677939740c7a7dac3c74344eaf",
+    "semantic_hash": "46d491677939740c7a7dac3c74344eaf"
+  },
+  "DH.Application/Rooms/Queries/GetUserRoomParticipationStatusQuery.cs": {
+    "mtime": 1784883716.9595103,
+    "ast_hash": "4ab14278e3d36371456f4359f748d31c",
+    "semantic_hash": "4ab14278e3d36371456f4359f748d31c"
+  },
+  "DH.Application/SpaceManagement/Commands/AddVirtualParticipantCommand.cs": {
+    "mtime": 1784883716.9597986,
+    "ast_hash": "2c2cb06f2ddabb1f046114146e9511ab",
+    "semantic_hash": "2c2cb06f2ddabb1f046114146e9511ab"
+  },
+  "DH.Application/SpaceManagement/Commands/ApproveSpaceTableReservationCommand.cs": {
+    "mtime": 1784883716.9598887,
+    "ast_hash": "ac83b5325bf5518453267c25191a323b",
+    "semantic_hash": "ac83b5325bf5518453267c25191a323b"
+  },
+  "DH.Application/SpaceManagement/Commands/CancelSpaceTableReservationCommand.cs": {
+    "mtime": 1784883716.9598887,
+    "ast_hash": "806a191ccd9d385272d3288adba0f963",
+    "semantic_hash": "806a191ccd9d385272d3288adba0f963"
+  },
+  "DH.Application/SpaceManagement/Commands/CloseSpaceTableCommand.cs": {
+    "mtime": 1784883716.9598887,
+    "ast_hash": "6868280890b11a22d044cb30ad93c6ac",
+    "semantic_hash": "6868280890b11a22d044cb30ad93c6ac"
+  },
+  "DH.Application/SpaceManagement/Commands/CreateSpaceTableCommand.cs": {
+    "mtime": 1784883716.9598887,
+    "ast_hash": "b992f787b0b29e5fb48e34a03e353f98",
+    "semantic_hash": "b992f787b0b29e5fb48e34a03e353f98"
+  },
+  "DH.Application/SpaceManagement/Commands/CreateSpaceTableReservationCommand.cs": {
+    "mtime": 1785234121.7546294,
+    "ast_hash": "f68c43d5cfdb738406aa624b16ce7e88",
+    "semantic_hash": "f68c43d5cfdb738406aa624b16ce7e88"
+  },
+  "DH.Application/SpaceManagement/Commands/DeclineSpaceTableReservationCommand.cs": {
+    "mtime": 1784883716.9598887,
+    "ast_hash": "311640aa8fa7414c6b6c4e9433b0e174",
+    "semantic_hash": "311640aa8fa7414c6b6c4e9433b0e174"
+  },
+  "DH.Application/SpaceManagement/Commands/DeleteSpaceTableReservationCommand.cs": {
+    "mtime": 1784883716.9598887,
+    "ast_hash": "306642e3b57e3d181c87c676f8dab4eb",
+    "semantic_hash": "306642e3b57e3d181c87c676f8dab4eb"
+  },
+  "DH.Application/SpaceManagement/Commands/JoinSpaceTableCommand.cs": {
+    "mtime": 1784883716.9598887,
+    "ast_hash": "f1a4f67282c5afdcc9e4fea0a63684c5",
+    "semantic_hash": "f1a4f67282c5afdcc9e4fea0a63684c5"
+  },
+  "DH.Application/SpaceManagement/Commands/LeaveSpaceTableCommand.cs": {
+    "mtime": 1784883716.9598887,
+    "ast_hash": "ec3d0cc94a80cc71dc9e1016d4a0e66f",
+    "semantic_hash": "ec3d0cc94a80cc71dc9e1016d4a0e66f"
+  },
+  "DH.Application/SpaceManagement/Commands/RemoveUserFromSpaceTableCommand.cs": {
+    "mtime": 1784883716.9598887,
+    "ast_hash": "31a23d8a0b680d6a14743cf9f0b7d592",
+    "semantic_hash": "31a23d8a0b680d6a14743cf9f0b7d592"
+  },
+  "DH.Application/SpaceManagement/Commands/RemoveVirtualParticipantCommand.cs": {
+    "mtime": 1784883716.9598887,
+    "ast_hash": "cad9f73b8bc48d6dbfea32b2057f388e",
+    "semantic_hash": "cad9f73b8bc48d6dbfea32b2057f388e"
+  },
+  "DH.Application/SpaceManagement/Commands/UpdateSpaceTableCommand.cs": {
+    "mtime": 1784883716.9598887,
+    "ast_hash": "69dbe453d26c05278c9521da2562d385",
+    "semantic_hash": "69dbe453d26c05278c9521da2562d385"
+  },
+  "DH.Application/SpaceManagement/Commands/UpdateSpaceTableReservationCommand.cs": {
+    "mtime": 1784883716.9598887,
+    "ast_hash": "f1fe56c49b1592905f8c165715332fe7",
+    "semantic_hash": "f1fe56c49b1592905f8c165715332fe7"
+  },
+  "DH.Application/SpaceManagement/Queries/GetActiveBookedSpaceTableQuery.cs": {
+    "mtime": 1785234121.7546294,
+    "ast_hash": "9f60965cc3907a40c3418c6db686a5d0",
+    "semantic_hash": "9f60965cc3907a40c3418c6db686a5d0"
+  },
+  "DH.Application/SpaceManagement/Queries/GetActiveSpaceTableReservationCountQuery.cs": {
+    "mtime": 1784883716.9606981,
+    "ast_hash": "2749fc6cacc3e3f58478e062b5ad12e6",
+    "semantic_hash": "2749fc6cacc3e3f58478e062b5ad12e6"
+  },
+  "DH.Application/SpaceManagement/Queries/GetActiveSpaceTableReservationListQuery.cs": {
+    "mtime": 1785234121.7556288,
+    "ast_hash": "1859af9a3d6aa57a8ab569ec3bb32107",
+    "semantic_hash": "1859af9a3d6aa57a8ab569ec3bb32107"
+  },
+  "DH.Application/SpaceManagement/Queries/GetSpaceActivityStatsQuery.cs": {
+    "mtime": 1784883716.9606981,
+    "ast_hash": "e60bbfd6f1cbf5efe53ecbb211f2139e",
+    "semantic_hash": "e60bbfd6f1cbf5efe53ecbb211f2139e"
+  },
+  "DH.Application/SpaceManagement/Queries/GetSpaceAvailableTableListQuery.cs": {
+    "mtime": 1784883716.9606981,
+    "ast_hash": "352caa160548e8d790cf8f1e6a179fb5",
+    "semantic_hash": "352caa160548e8d790cf8f1e6a179fb5"
+  },
+  "DH.Application/SpaceManagement/Queries/GetSpaceTableByIdQuery.cs": {
+    "mtime": 1784883716.9606981,
+    "ast_hash": "cab9169f006d36cf32bf37ffe1b63bc1",
+    "semantic_hash": "cab9169f006d36cf32bf37ffe1b63bc1"
+  },
+  "DH.Application/SpaceManagement/Queries/GetSpaceTableParticipantListQuery.cs": {
+    "mtime": 1785234121.7556288,
+    "ast_hash": "888a72d145a85455f8e4e0a0c63e889c",
+    "semantic_hash": "888a72d145a85455f8e4e0a0c63e889c"
+  },
+  "DH.Application/SpaceManagement/Queries/GetSpaceTableReservationByIdQuery.cs": {
+    "mtime": 1785234121.7556288,
+    "ast_hash": "7e020eca24aa642e258dfd664beee84b",
+    "semantic_hash": "7e020eca24aa642e258dfd664beee84b"
+  },
+  "DH.Application/SpaceManagement/Queries/GetSpaceTableReservationHistoryQuery.cs": {
+    "mtime": 1785234121.7556288,
+    "ast_hash": "0abb51944e3d3c85e7ab2fb150d6ae8e",
+    "semantic_hash": "0abb51944e3d3c85e7ab2fb150d6ae8e"
+  },
+  "DH.Application/SpaceManagement/Queries/GetUserActiveTableQuery.cs": {
+    "mtime": 1784883716.9606981,
+    "ast_hash": "a073e4bc0f3fd956378980bb6b59e385",
+    "semantic_hash": "a073e4bc0f3fd956378980bb6b59e385"
+  },
+  "DH.Application/Statistics/Queries/GetActivityChartDataQuery.cs": {
+    "mtime": 1784883716.961236,
+    "ast_hash": "c2dceffd8cca22e9807faea00622605f",
+    "semantic_hash": "c2dceffd8cca22e9807faea00622605f"
+  },
+  "DH.Application/Statistics/Queries/GetChallengeHistoryLogQuery.cs": {
+    "mtime": 1784883716.9613218,
+    "ast_hash": "71493485a5168c2516d5b1ac883afc2d",
+    "semantic_hash": "71493485a5168c2516d5b1ac883afc2d"
+  },
+  "DH.Application/Statistics/Queries/GetCollectedRewardsByDatesQuery.cs": {
+    "mtime": 1784883716.9613218,
+    "ast_hash": "2e8f44a388038d4c1f03f62d74331627",
+    "semantic_hash": "2e8f44a388038d4c1f03f62d74331627"
+  },
+  "DH.Application/Statistics/Queries/GetEventAttendanceByIdsQuery.cs": {
+    "mtime": 1784883716.9613218,
+    "ast_hash": "55c23fdcebd0568b75a1c5a5fd5dfbbd",
+    "semantic_hash": "55c23fdcebd0568b75a1c5a5fd5dfbbd"
+  },
+  "DH.Application/Statistics/Queries/GetEventAttendanceChartDataQuery.cs": {
+    "mtime": 1784883716.9613218,
+    "ast_hash": "89120c8f74b57e8e722226099de07226",
+    "semantic_hash": "89120c8f74b57e8e722226099de07226"
+  },
+  "DH.Application/Statistics/Queries/GetExpiredCollectedRewardsChartDataQuery.cs": {
+    "mtime": 1784883716.9613218,
+    "ast_hash": "7211828accd8984be023d0ea7b59ff93",
+    "semantic_hash": "7211828accd8984be023d0ea7b59ff93"
+  },
+  "DH.Application/Statistics/Queries/GetGameActivityChartDataQuery.cs": {
+    "mtime": 1784883716.9613218,
+    "ast_hash": "b5fbf0d71ba05d80e526536e078b2e7d",
+    "semantic_hash": "b5fbf0d71ba05d80e526536e078b2e7d"
+  },
+  "DH.Application/Statistics/Queries/GetReservationChartDataQuery.cs": {
+    "mtime": 1784883716.9613218,
+    "ast_hash": "95c6b29f6d9c8538524da64603d898ad",
+    "semantic_hash": "95c6b29f6d9c8538524da64603d898ad"
+  },
+  "DH.Application/Statistics/Queries/GetUserWhoPlayedGameChartDataQuery.cs": {
+    "mtime": 1785234121.7556288,
+    "ast_hash": "ceecb8fab8dd12846fe8ed93ae86c3a1",
+    "semantic_hash": "ceecb8fab8dd12846fe8ed93ae86c3a1"
+  },
+  "DH.Application/Stats/Queries/GetOwnerStatsQuery.cs": {
+    "mtime": 1784883716.9617248,
+    "ast_hash": "b72eb605150a7f0f66b82d9d81edc18d",
+    "semantic_hash": "b72eb605150a7f0f66b82d9d81edc18d"
+  },
+  "DH.Application/Stats/Queries/GetUserStatsQuery.cs": {
+    "mtime": 1784883716.961844,
+    "ast_hash": "7ab4d21ec9dec30551dbecb1098601f6",
+    "semantic_hash": "7ab4d21ec9dec30551dbecb1098601f6"
+  },
+  "DH.Authentication.UserContext/DH.Authentication.UserContext.csproj": {
+    "mtime": 1784883716.961844,
+    "ast_hash": "bbc024fc04a0e4f6078df401284b6499",
+    "semantic_hash": "bbc024fc04a0e4f6078df401284b6499"
+  },
+  "DH.Authentication.UserContext/DI.cs": {
+    "mtime": 1784883716.961981,
+    "ast_hash": "48854ef51ed09704e75f57c2b9303464",
+    "semantic_hash": "48854ef51ed09704e75f57c2b9303464"
+  },
+  "DH.Authentication.UserContext/Enums/Role.cs": {
+    "mtime": 1784883716.961981,
+    "ast_hash": "8bbd4d8ae425a13061a409607e1d3204",
+    "semantic_hash": "8bbd4d8ae425a13061a409607e1d3204"
+  },
+  "DH.Authentication.UserContext/IUserContext.cs": {
+    "mtime": 1784883716.961981,
+    "ast_hash": "89a028619ea95f0a877d5b7bbc9ff3fa",
+    "semantic_hash": "89a028619ea95f0a877d5b7bbc9ff3fa"
+  },
+  "DH.Authentication.UserContext/IUserContextFactory.cs": {
+    "mtime": 1784883716.961981,
+    "ast_hash": "5dfdc35218ebf90ca212d6a086afd295",
+    "semantic_hash": "5dfdc35218ebf90ca212d6a086afd295"
+  },
+  "DH.Authentication.UserContext/UserContext.cs": {
+    "mtime": 1784883716.961981,
+    "ast_hash": "0c8382747f6f216e2e896e68f6ddfb02",
+    "semantic_hash": "0c8382747f6f216e2e896e68f6ddfb02"
+  },
+  "DH.Authentication.UserContext/UserContextFactory.cs": {
+    "mtime": 1784883716.961981,
+    "ast_hash": "109568b25794003420707e4e543c057a",
+    "semantic_hash": "109568b25794003420707e4e543c057a"
+  },
+  "DH.Database.Connector/DH.Database.Connector.csproj": {
+    "mtime": 1784883716.961981,
+    "ast_hash": "4c2794b4d94f7b1ba5154a733325e10c",
+    "semantic_hash": "4c2794b4d94f7b1ba5154a733325e10c"
+  },
+  "DH.Database.Connector/DI.cs": {
+    "mtime": 1784883716.9624047,
+    "ast_hash": "8b40ce5c3699363f825f5b92cdc63830",
+    "semantic_hash": "8b40ce5c3699363f825f5b92cdc63830"
+  },
+  "DH.Database.Connector/Models/IDatabaseEntity.cs": {
+    "mtime": 1784883716.9624047,
+    "ast_hash": "ecb0ab6ff4960db044251c792f27df6a",
+    "semantic_hash": "ecb0ab6ff4960db044251c792f27df6a"
+  },
+  "DH.Database.Connector/TenantDbContext .cs": {
+    "mtime": 1784883716.9624047,
+    "ast_hash": "b5ab02d64a4e7b7758ed8536f4ddb808",
+    "semantic_hash": "b5ab02d64a4e7b7758ed8536f4ddb808"
+  },
+  "DH.Database.Connector/TenantDbContextFactory .cs": {
+    "mtime": 1784883716.9625103,
+    "ast_hash": "53f632302271af431d7a768ace132b6a",
+    "semantic_hash": "53f632302271af431d7a768ace132b6a"
+  },
+  "DH.DiceHub.sln": {
+    "mtime": 1784883716.9625103,
+    "ast_hash": "30a4f1efd5ea71518705eead1761f3bc",
+    "semantic_hash": "30a4f1efd5ea71518705eead1761f3bc"
+  },
+  "DH.Domain.Extension/DH.Domain.Extension.csproj": {
+    "mtime": 1784883716.9625103,
+    "ast_hash": "fcead4ea21500350c5d752fc66de2f4d",
+    "semantic_hash": "fcead4ea21500350c5d752fc66de2f4d"
+  },
+  "DH.Domain.Extension/UserChallengePeriodPerformanceExtensions.cs": {
+    "mtime": 1784883716.9628725,
+    "ast_hash": "af80fac95d3bf99ff80d541f7252415f",
+    "semantic_hash": "af80fac95d3bf99ff80d541f7252415f"
+  },
+  "DH.Domain/Adapters/Authentication/AnonymousUserContext.cs": {
+    "mtime": 1785234121.7556288,
+    "ast_hash": "d1eba6dc8bc79f513aa68747346005ac",
+    "semantic_hash": "d1eba6dc8bc79f513aa68747346005ac"
+  },
+  "DH.Domain/Adapters/Authentication/Enums/UserAction.cs": {
+    "mtime": 1785246541.5063124,
+    "ast_hash": "c7bd6e663799c33811d0e39d6e6862c4",
+    "semantic_hash": "c7bd6e663799c33811d0e39d6e6862c4"
+  },
+  "DH.Domain/Adapters/Authentication/Helpers/PasswordGenerator.cs": {
+    "mtime": 1785234121.7556288,
+    "ast_hash": "b803babd3b94252ebc90a93e7a11944b",
+    "semantic_hash": "b803babd3b94252ebc90a93e7a11944b"
+  },
+  "DH.Domain/Adapters/Authentication/IIdentityDbContext.cs": {
+    "mtime": 1784883716.9630632,
+    "ast_hash": "fdfffd3ace0fe96a30d24e3d5a4ba32e",
+    "semantic_hash": "fdfffd3ace0fe96a30d24e3d5a4ba32e"
+  },
+  "DH.Domain/Adapters/Authentication/ISystemUserContextAccessor.cs": {
+    "mtime": 1785234121.7556288,
+    "ast_hash": "a7ef623af814f3a79216feb894f6f166",
+    "semantic_hash": "a7ef623af814f3a79216feb894f6f166"
+  },
+  "DH.Domain/Adapters/Authentication/IUserContext.cs": {
+    "mtime": 1785234121.7556288,
+    "ast_hash": "15a8dfdd9de6565892a05bbb8c363c3b",
+    "semantic_hash": "15a8dfdd9de6565892a05bbb8c363c3b"
+  },
+  "DH.Domain/Adapters/Authentication/IUserContextFactory.cs": {
+    "mtime": 1784883716.9630632,
+    "ast_hash": "a98d470f1c81926453ed77ba05e91c8f",
+    "semantic_hash": "a98d470f1c81926453ed77ba05e91c8f"
+  },
+  "DH.Domain/Adapters/Authentication/Interfaces/IActionPermissions.cs": {
+    "mtime": 1784883716.9630632,
+    "ast_hash": "f2e87c8e409777528f65a4a83453ac3c",
+    "semantic_hash": "f2e87c8e409777528f65a4a83453ac3c"
+  },
+  "DH.Domain/Adapters/Authentication/Interfaces/IMapPermissions.cs": {
+    "mtime": 1784883716.9633696,
+    "ast_hash": "0e2dd4b64ac191383b338d09db29c4ec",
+    "semantic_hash": "0e2dd4b64ac191383b338d09db29c4ec"
+  },
+  "DH.Domain/Adapters/Authentication/MapPermissions.cs": {
+    "mtime": 1785246541.7013123,
+    "ast_hash": "9a894f05546ce557570d997f9b2daaed",
+    "semantic_hash": "9a894f05546ce557570d997f9b2daaed"
+  },
+  "DH.Domain/Adapters/Authentication/Models/CreateEmployeePasswordRequest.cs": {
+    "mtime": 1784883716.9635103,
+    "ast_hash": "1957738195ce6f6f86066bd060e867bc",
+    "semantic_hash": "1957738195ce6f6f86066bd060e867bc"
+  },
+  "DH.Domain/Adapters/Authentication/Models/CreateEmployeeRequest.cs": {
+    "mtime": 1784883716.9635103,
+    "ast_hash": "0d3b2ce48402910a759f668b1be1b4ff",
+    "semantic_hash": "0d3b2ce48402910a759f668b1be1b4ff"
+  },
+  "DH.Domain/Adapters/Authentication/Models/CreateOwnerPasswordRequest.cs": {
+    "mtime": 1784883716.9635103,
+    "ast_hash": "669b310df5eea0adf0ccfd05efdc225a",
+    "semantic_hash": "669b310df5eea0adf0ccfd05efdc225a"
+  },
+  "DH.Domain/Adapters/Authentication/Models/CreateOwnerRequest.cs": {
+    "mtime": 1784883716.9635103,
+    "ast_hash": "19d34600462739d8ae57d0004a6bf273",
+    "semantic_hash": "19d34600462739d8ae57d0004a6bf273"
+  },
+  "DH.Domain/Adapters/Authentication/Models/EmployeeModel.cs": {
+    "mtime": 1784883716.9635103,
+    "ast_hash": "6f7d899545477c2878c30f0363fd3fed",
+    "semantic_hash": "6f7d899545477c2878c30f0363fd3fed"
+  },
+  "DH.Domain/Adapters/Authentication/Models/EmployeeResult.cs": {
+    "mtime": 1784883716.9635103,
+    "ast_hash": "1744153974f5d3b4a50c3a8269cd2c5e",
+    "semantic_hash": "1744153974f5d3b4a50c3a8269cd2c5e"
+  },
+  "DH.Domain/Adapters/Authentication/Models/Enums/Role.cs": {
+    "mtime": 1784883716.9635103,
+    "ast_hash": "6fec01f64a8e49e358dc01b3942340b4",
+    "semantic_hash": "6fec01f64a8e49e358dc01b3942340b4"
+  },
+  "DH.Domain/Adapters/Authentication/Models/GetUserByRoleModel.cs": {
+    "mtime": 1784883716.9635103,
+    "ast_hash": "46f80c9a4065963e76c7094900d19939",
+    "semantic_hash": "46f80c9a4065963e76c7094900d19939"
+  },
+  "DH.Domain/Adapters/Authentication/Models/LoginRequest.cs": {
+    "mtime": 1785262437.4984984,
+    "ast_hash": "2898b44af1e7b7dfee18fa96bf3b8314",
+    "semantic_hash": "2898b44af1e7b7dfee18fa96bf3b8314"
+  },
+  "DH.Domain/Adapters/Authentication/Models/OwnerResult.cs": {
+    "mtime": 1784883716.9635103,
+    "ast_hash": "4db0163bab0b00efc891ed74e3cefaf0",
+    "semantic_hash": "4db0163bab0b00efc891ed74e3cefaf0"
+  },
+  "DH.Domain/Adapters/Authentication/Models/ResetPasswordRequest.cs": {
+    "mtime": 1784883716.9635103,
+    "ast_hash": "c7662b1d4547a21bffeb5b7f3ee6e18f",
+    "semantic_hash": "c7662b1d4547a21bffeb5b7f3ee6e18f"
+  },
+  "DH.Domain/Adapters/Authentication/Models/TokenResponseModel.cs": {
+    "mtime": 1785234121.7566283,
+    "ast_hash": "c23cb190e430eec70f9e1e6aa9c476e4",
+    "semantic_hash": "c23cb190e430eec70f9e1e6aa9c476e4"
+  },
+  "DH.Domain/Adapters/Authentication/Models/UpdateEmployeeRequest.cs": {
+    "mtime": 1784883716.9635103,
+    "ast_hash": "9f67328c8071ba78466754a74cfeca54",
+    "semantic_hash": "9f67328c8071ba78466754a74cfeca54"
+  },
+  "DH.Domain/Adapters/Authentication/Models/UserModel.cs": {
+    "mtime": 1784883716.9635103,
+    "ast_hash": "3d01954205638db2b166c9e5f14fa277",
+    "semantic_hash": "3d01954205638db2b166c9e5f14fa277"
+  },
+  "DH.Domain/Adapters/Authentication/Models/UserRegistrationRequest.cs": {
+    "mtime": 1785258525.5080035,
+    "ast_hash": "f4d0338ccb2209f69a9c5c022c82fc7c",
+    "semantic_hash": "f4d0338ccb2209f69a9c5c022c82fc7c"
+  },
+  "DH.Domain/Adapters/Authentication/Models/UserRegistrationResponse.cs": {
+    "mtime": 1784883716.9635103,
+    "ast_hash": "dd49e89839664cc8f5cb6230965f4e0a",
+    "semantic_hash": "dd49e89839664cc8f5cb6230965f4e0a"
+  },
+  "DH.Domain/Adapters/Authentication/Options/JwtTokenOptions.cs": {
+    "mtime": 1785234121.7566283,
+    "ast_hash": "deaef2ba06cf22d2f4e81ad66a232546",
+    "semantic_hash": "deaef2ba06cf22d2f4e81ad66a232546"
+  },
+  "DH.Domain/Adapters/Authentication/Services/IAuthenticationService.cs": {
+    "mtime": 1785234121.7566283,
+    "ast_hash": "6712d61c8f25581f094ec91c6c4f2cb1",
+    "semantic_hash": "6712d61c8f25581f094ec91c6c4f2cb1"
+  },
+  "DH.Domain/Adapters/Authentication/Services/IEmployeeService.cs": {
+    "mtime": 1785234121.7566283,
+    "ast_hash": "b92560799179d996704f82c585d76dcb",
+    "semantic_hash": "b92560799179d996704f82c585d76dcb"
+  },
+  "DH.Domain/Adapters/Authentication/Services/IOwnerService.cs": {
+    "mtime": 1785234121.7566283,
+    "ast_hash": "5a157ca927b0877f61a8bb85f9fa51f8",
+    "semantic_hash": "5a157ca927b0877f61a8bb85f9fa51f8"
+  },
+  "DH.Domain/Adapters/Authentication/Services/IPermissionStringBuilder.cs": {
+    "mtime": 1784883716.9645224,
+    "ast_hash": "624b8e01abc6b7d6b63a630253ce57b0",
+    "semantic_hash": "624b8e01abc6b7d6b63a630253ce57b0"
+  },
+  "DH.Domain/Adapters/Authentication/Services/ITokenService.cs": {
+    "mtime": 1785258863.6456902,
+    "ast_hash": "fefe3574b904e2b84fa3428a641291bc",
+    "semantic_hash": "fefe3574b904e2b84fa3428a641291bc"
+  },
+  "DH.Domain/Adapters/Authentication/Services/IUserActionService.cs": {
+    "mtime": 1784883716.9645224,
+    "ast_hash": "d4266182bd3013fd22e543d7b5980dc8",
+    "semantic_hash": "d4266182bd3013fd22e543d7b5980dc8"
+  },
+  "DH.Domain/Adapters/Authentication/Services/IUserManagementService.cs": {
+    "mtime": 1785234121.7566283,
+    "ast_hash": "cff134a33eefb74ac5c9347f23c39a7e",
+    "semantic_hash": "cff134a33eefb74ac5c9347f23c39a7e"
+  },
+  "DH.Domain/Adapters/Authentication/SystemUserContext.cs": {
+    "mtime": 1785234121.7566283,
+    "ast_hash": "41184ff7b22ed31dfa27c20e791472de",
+    "semantic_hash": "41184ff7b22ed31dfa27c20e791472de"
+  },
+  "DH.Domain/Adapters/ChallengeHub/IChallengeHubClient.cs": {
+    "mtime": 1784883716.9645224,
+    "ast_hash": "065c03ffe5583b13bf15619a19cad43a",
+    "semantic_hash": "065c03ffe5583b13bf15619a19cad43a"
+  },
+  "DH.Domain/Adapters/ChallengesOrchestrator/ISynchronizeUsersChallengesQueue.cs": {
+    "mtime": 1784883716.9645224,
+    "ast_hash": "d1272395ad0a46f649a0b58be33de88d",
+    "semantic_hash": "d1272395ad0a46f649a0b58be33de88d"
+  },
+  "DH.Domain/Adapters/ChallengesOrchestrator/SynchronizeUsersChallengesJobs.cs": {
+    "mtime": 1784883716.96489,
+    "ast_hash": "8589ddc51502f87a217ebca1a5144696",
+    "semantic_hash": "8589ddc51502f87a217ebca1a5144696"
+  },
+  "DH.Domain/Adapters/ChallengesOrchestrator/SynchronizeUsersChallengesQueue.cs": {
+    "mtime": 1784883716.96489,
+    "ast_hash": "13cd7ed4ef654e09d97438304ba559ba",
+    "semantic_hash": "13cd7ed4ef654e09d97438304ba559ba"
+  },
+  "DH.Domain/Adapters/ChallengesOrchestrator/SynchronizeUsersChallengesQueueHelper.cs": {
+    "mtime": 1784883716.96489,
+    "ast_hash": "e3617bba5616707681e914569a80ed92",
+    "semantic_hash": "e3617bba5616707681e914569a80ed92"
+  },
+  "DH.Domain/Adapters/ChatHub/IChatHubClient.cs": {
+    "mtime": 1784883716.96489,
+    "ast_hash": "7df657ff9910c8f3d8bc9f82fd5aaed9",
+    "semantic_hash": "7df657ff9910c8f3d8bc9f82fd5aaed9"
+  },
+  "DH.Domain/Adapters/Data/IDataSeeder.cs": {
+    "mtime": 1784883716.96489,
+    "ast_hash": "7208b6df3b241a4338e1feaa6804bf0b",
+    "semantic_hash": "7208b6df3b241a4338e1feaa6804bf0b"
+  },
+  "DH.Domain/Adapters/Data/ITenantDbContext.cs": {
+    "mtime": 1784883716.9652607,
+    "ast_hash": "632fb2ed067edab3c02ac4fe488832ce",
+    "semantic_hash": "632fb2ed067edab3c02ac4fe488832ce"
+  },
+  "DH.Domain/Adapters/Data/ITenantService.cs": {
+    "mtime": 1785234121.7566283,
+    "ast_hash": "12efbc7f1dd615b4cc43eb2269f95a88",
+    "semantic_hash": "12efbc7f1dd615b4cc43eb2269f95a88"
+  },
+  "DH.Domain/Adapters/Data/SeedData.cs": {
+    "mtime": 1784883716.9655104,
+    "ast_hash": "bc488d1736fa408fe90068e5354ca636",
+    "semantic_hash": "bc488d1736fa408fe90068e5354ca636"
+  },
+  "DH.Domain/Adapters/Email/EmailMessage.cs": {
+    "mtime": 1784883716.9655104,
+    "ast_hash": "3c202e686f1c0518db7bfe8f54bc9d54",
+    "semantic_hash": "3c202e686f1c0518db7bfe8f54bc9d54"
+  },
+  "DH.Domain/Adapters/Email/EmailSettings.cs": {
+    "mtime": 1784883716.9657547,
+    "ast_hash": "d48d996b232c14afe54da58d63aca318",
+    "semantic_hash": "d48d996b232c14afe54da58d63aca318"
+  },
+  "DH.Domain/Adapters/Email/EmailType.cs": {
+    "mtime": 1784883716.9657547,
+    "ast_hash": "f6bf86abd5e71dcb67f9d40dca559dc9",
+    "semantic_hash": "f6bf86abd5e71dcb67f9d40dca559dc9"
+  },
+  "DH.Domain/Adapters/Email/IEmailSender.cs": {
+    "mtime": 1784883716.9657547,
+    "ast_hash": "5c47fa71a927a3da531168be5a29dd35",
+    "semantic_hash": "5c47fa71a927a3da531168be5a29dd35"
+  },
+  "DH.Domain/Adapters/Email/Models/ConfirmEmailRequest.cs": {
+    "mtime": 1784883716.9657547,
+    "ast_hash": "0bb0b1a575c5ab2875a799d75b036400",
+    "semantic_hash": "0bb0b1a575c5ab2875a799d75b036400"
+  },
+  "DH.Domain/Adapters/FileManager/FileManagerFolders.cs": {
+    "mtime": 1784883716.9657547,
+    "ast_hash": "b84f66e9938fe76c18b1178a661d7a08",
+    "semantic_hash": "b84f66e9938fe76c18b1178a661d7a08"
+  },
+  "DH.Domain/Adapters/FileManager/IFileManagerClient.cs": {
+    "mtime": 1784883716.9660454,
+    "ast_hash": "1ab14f261a285cca510e3f9891fa6924",
+    "semantic_hash": "1ab14f261a285cca510e3f9891fa6924"
+  },
+  "DH.Domain/Adapters/GameSession/GameSessionHelper.cs": {
+    "mtime": 1784883716.9660454,
+    "ast_hash": "d0608c553498b61e91acd69ff95f3de4",
+    "semantic_hash": "d0608c553498b61e91acd69ff95f3de4"
+  },
+  "DH.Domain/Adapters/GameSession/GameSessionQueue.cs": {
+    "mtime": 1784883716.9661782,
+    "ast_hash": "9c14f4f138f90f3aa885d100a997f97f",
+    "semantic_hash": "9c14f4f138f90f3aa885d100a997f97f"
+  },
+  "DH.Domain/Adapters/GameSession/IGameSessionQueue.cs": {
+    "mtime": 1784883716.9661782,
+    "ast_hash": "397f31e2aee89694d1a14c96cc41f8bc",
+    "semantic_hash": "397f31e2aee89694d1a14c96cc41f8bc"
+  },
+  "DH.Domain/Adapters/GameSession/UserPlayTimeEnforcerJob.cs": {
+    "mtime": 1784883716.9661782,
+    "ast_hash": "20efc7519cbd91fff8d1579ee483ab20",
+    "semantic_hash": "20efc7519cbd91fff8d1579ee483ab20"
+  },
+  "DH.Domain/Adapters/Localization/ILocalizationService.cs": {
+    "mtime": 1784883716.9661782,
+    "ast_hash": "d75dfd6d4ec2aed29c4d2577120d6176",
+    "semantic_hash": "d75dfd6d4ec2aed29c4d2577120d6176"
+  },
+  "DH.Domain/Adapters/Localization/SharedResource.cs": {
+    "mtime": 1784883716.9665103,
+    "ast_hash": "cb4bb9f8bb52b4a25bbb08d96babcdae",
+    "semantic_hash": "cb4bb9f8bb52b4a25bbb08d96babcdae"
+  },
+  "DH.Domain/Adapters/PushNotifications/INotificationRenderer.cs": {
+    "mtime": 1784883716.9665103,
+    "ast_hash": "233089c5e7d0cea669b82eee981abda8",
+    "semantic_hash": "233089c5e7d0cea669b82eee981abda8"
+  },
+  "DH.Domain/Adapters/PushNotifications/IPushNotificationsService.cs": {
+    "mtime": 1784883716.967097,
+    "ast_hash": "3bf7a50abae3b021e1b46030e32d4103",
+    "semantic_hash": "3bf7a50abae3b021e1b46030e32d4103"
+  },
+  "DH.Domain/Adapters/PushNotifications/Messages/ChallengeCompletedNotification.cs": {
+    "mtime": 1784883716.967097,
+    "ast_hash": "b5726b478793fc42b9bdfebbba0b8eda",
+    "semantic_hash": "b5726b478793fc42b9bdfebbba0b8eda"
+  },
+  "DH.Domain/Adapters/PushNotifications/Messages/ChallengeUpdatedNotification.cs": {
+    "mtime": 1784883716.9672573,
+    "ast_hash": "2386c95abd334ccfbafb9512be819094",
+    "semantic_hash": "2386c95abd334ccfbafb9512be819094"
+  },
+  "DH.Domain/Adapters/PushNotifications/Messages/Common/MultipleMessageRequest.cs": {
+    "mtime": 1784883716.9672573,
+    "ast_hash": "a53671d1efbaa284cc28a39e8e920b04",
+    "semantic_hash": "a53671d1efbaa284cc28a39e8e920b04"
+  },
+  "DH.Domain/Adapters/PushNotifications/Messages/Common/RenderableNotification.cs": {
+    "mtime": 1784883716.9674013,
+    "ast_hash": "eb271db1a26935d9043be43516a26324",
+    "semantic_hash": "eb271db1a26935d9043be43516a26324"
+  },
+  "DH.Domain/Adapters/PushNotifications/Messages/EventDeletedNotification.cs": {
+    "mtime": 1784883716.9674013,
+    "ast_hash": "3a0cd2faba99c6d124127676b30b4625",
+    "semantic_hash": "3a0cd2faba99c6d124127676b30b4625"
+  },
+  "DH.Domain/Adapters/PushNotifications/Messages/EventReminderNotification.cs": {
+    "mtime": 1784883716.9674013,
+    "ast_hash": "3f4b479470f2f429ed306b88cac7a513",
+    "semantic_hash": "3f4b479470f2f429ed306b88cac7a513"
+  },
+  "DH.Domain/Adapters/PushNotifications/Messages/EventStartDateUpdatedNotification.cs": {
+    "mtime": 1784883716.9674013,
+    "ast_hash": "b7d33c1a29552e959f2533cc49cf41eb",
+    "semantic_hash": "b7d33c1a29552e959f2533cc49cf41eb"
+  },
+  "DH.Domain/Adapters/PushNotifications/Messages/GameReservationApprovedNotification.cs": {
+    "mtime": 1784883716.9674013,
+    "ast_hash": "739ec5a39223270ab2309ff00b200723",
+    "semantic_hash": "739ec5a39223270ab2309ff00b200723"
+  },
+  "DH.Domain/Adapters/PushNotifications/Messages/GameReservationCancelledNotification.cs": {
+    "mtime": 1784883716.9675102,
+    "ast_hash": "a5b504f0b8ecaa5294d9d04acd424aaf",
+    "semantic_hash": "a5b504f0b8ecaa5294d9d04acd424aaf"
+  },
+  "DH.Domain/Adapters/PushNotifications/Messages/GameReservationDeclinedNotification.cs": {
+    "mtime": 1784883716.9675102,
+    "ast_hash": "155aaf1886e61bc2368acfdf9e4159a3",
+    "semantic_hash": "155aaf1886e61bc2368acfdf9e4159a3"
+  },
+  "DH.Domain/Adapters/PushNotifications/Messages/GameReservationPublicNoteUpdatedNotification.cs": {
+    "mtime": 1784883716.9675102,
+    "ast_hash": "0872dc745687d6f1edbdd417660c8c90",
+    "semantic_hash": "0872dc745687d6f1edbdd417660c8c90"
+  },
+  "DH.Domain/Adapters/PushNotifications/Messages/GameReservationReminderNotification.cs": {
+    "mtime": 1784883716.9675102,
+    "ast_hash": "70d633e437be7cd5b976498295d46c16",
+    "semantic_hash": "70d633e437be7cd5b976498295d46c16"
+  },
+  "DH.Domain/Adapters/PushNotifications/Messages/Models/GetUserNotificationsModel.cs": {
+    "mtime": 1784883716.9675102,
+    "ast_hash": "6da0251219e92d00e2014fc3498d59aa",
+    "semantic_hash": "6da0251219e92d00e2014fc3498d59aa"
+  },
+  "DH.Domain/Adapters/PushNotifications/Messages/Models/NotificationPayload.cs": {
+    "mtime": 1784883716.9678988,
+    "ast_hash": "eb612bce7c762e9278c6e20a286fd375",
+    "semantic_hash": "eb612bce7c762e9278c6e20a286fd375"
+  },
+  "DH.Domain/Adapters/PushNotifications/Messages/NewEventAddedNotification.cs": {
+    "mtime": 1784883716.9678988,
+    "ast_hash": "6dfa006181fb4cff5cfa7cdfb3b15c2c",
+    "semantic_hash": "6dfa006181fb4cff5cfa7cdfb3b15c2c"
+  },
+  "DH.Domain/Adapters/PushNotifications/Messages/PeriodPerformanceStartedNotification.cs": {
+    "mtime": 1784883716.9678988,
+    "ast_hash": "9555a5d56a94789c7035fa8521306aa4",
+    "semantic_hash": "9555a5d56a94789c7035fa8521306aa4"
+  },
+  "DH.Domain/Adapters/PushNotifications/Messages/RegistrationNotification.cs": {
+    "mtime": 1784883716.9678988,
+    "ast_hash": "538639d45c879ca998d39e692ea42262",
+    "semantic_hash": "538639d45c879ca998d39e692ea42262"
+  },
+  "DH.Domain/Adapters/PushNotifications/Messages/RewardExpirationReminderNotification.cs": {
+    "mtime": 1784883716.9678988,
+    "ast_hash": "50adab12da5ae357fcd0bd5c664975a3",
+    "semantic_hash": "50adab12da5ae357fcd0bd5c664975a3"
+  },
+  "DH.Domain/Adapters/PushNotifications/Messages/RewardExpiredNotification.cs": {
+    "mtime": 1784883716.9678988,
+    "ast_hash": "c77f60b5efc6a4c1adf712ed5eb38495",
+    "semantic_hash": "c77f60b5efc6a4c1adf712ed5eb38495"
+  },
+  "DH.Domain/Adapters/PushNotifications/Messages/RewardGrantedNotification.cs": {
+    "mtime": 1784883716.9678988,
+    "ast_hash": "db76a934af527dcb50ce3390e6e164fd",
+    "semantic_hash": "db76a934af527dcb50ce3390e6e164fd"
+  },
+  "DH.Domain/Adapters/PushNotifications/Messages/RoomGameChangedNotification.cs": {
+    "mtime": 1784883716.9678988,
+    "ast_hash": "7f157a9a810a8b394fc3d353aadec531",
+    "semantic_hash": "7f157a9a810a8b394fc3d353aadec531"
+  },
+  "DH.Domain/Adapters/PushNotifications/Messages/RoomParticipantJoinedNotification.cs": {
+    "mtime": 1784883716.9678988,
+    "ast_hash": "459a91462a1a4eb7cd33598b39ed9254",
+    "semantic_hash": "459a91462a1a4eb7cd33598b39ed9254"
+  },
+  "DH.Domain/Adapters/PushNotifications/Messages/RoomStartDateChangedNotification.cs": {
+    "mtime": 1784883716.9678988,
+    "ast_hash": "f91a6fbe2094d08970d4c18c5aa3e2a2",
+    "semantic_hash": "f91a6fbe2094d08970d4c18c5aa3e2a2"
+  },
+  "DH.Domain/Adapters/PushNotifications/Messages/SpaceTableApprovedNotification.cs": {
+    "mtime": 1784883716.9678988,
+    "ast_hash": "844ba7ed52ed63ff5c0e57b822f3cdcd",
+    "semantic_hash": "844ba7ed52ed63ff5c0e57b822f3cdcd"
+  },
+  "DH.Domain/Adapters/PushNotifications/Messages/SpaceTableCancelNotification.cs": {
+    "mtime": 1784883716.9678988,
+    "ast_hash": "4ebba102b3e8b95954c49bcef99fbd3d",
+    "semantic_hash": "4ebba102b3e8b95954c49bcef99fbd3d"
+  },
+  "DH.Domain/Adapters/PushNotifications/Messages/SpaceTableDeclinedNotification.cs": {
+    "mtime": 1784883716.9678988,
+    "ast_hash": "e7027af8b47e9141ffcb1610b2e5eaf5",
+    "semantic_hash": "e7027af8b47e9141ffcb1610b2e5eaf5"
+  },
+  "DH.Domain/Adapters/PushNotifications/Messages/SpaceTablePublicNoteUpdatedNotification.cs": {
+    "mtime": 1784883716.9678988,
+    "ast_hash": "3e1ddd9d8608352d5ed18464a9489ee8",
+    "semantic_hash": "3e1ddd9d8608352d5ed18464a9489ee8"
+  },
+  "DH.Domain/Adapters/PushNotifications/Messages/SpaceTableReservationManagementNotification.cs": {
+    "mtime": 1784883716.9678988,
+    "ast_hash": "a5eaf3e787f7e0f9f6cc2532cbd0c0c1",
+    "semantic_hash": "a5eaf3e787f7e0f9f6cc2532cbd0c0c1"
+  },
+  "DH.Domain/Adapters/PushNotifications/Messages/UniversalChallengeCompletedNotification.cs": {
+    "mtime": 1784883716.9678988,
+    "ast_hash": "3c03e082de194830667d7fc566663a61",
+    "semantic_hash": "3c03e082de194830667d7fc566663a61"
+  },
+  "DH.Domain/Adapters/PushNotifications/Messages/UniversalChallengeRestartedNotification.cs": {
+    "mtime": 1784883716.9678988,
+    "ast_hash": "d05dc2482cb9af456f7638da0660c910",
+    "semantic_hash": "d05dc2482cb9af456f7638da0660c910"
+  },
+  "DH.Domain/Adapters/PushNotifications/Messages/UniversalChallengeUpdatedNotification.cs": {
+    "mtime": 1784883716.9685102,
+    "ast_hash": "d0bc533ca88e369361dc995e81fd2951",
+    "semantic_hash": "d0bc533ca88e369361dc995e81fd2951"
+  },
+  "DH.Domain/Adapters/PushNotifications/NotificationRenderer.cs": {
+    "mtime": 1785234121.7566283,
+    "ast_hash": "4729a8ba10fe502657f7fc5a14823e6a",
+    "semantic_hash": "4729a8ba10fe502657f7fc5a14823e6a"
+  },
+  "DH.Domain/Adapters/PushNotifications/NotificationRendererExtensions.cs": {
+    "mtime": 1784883716.9685102,
+    "ast_hash": "ce8f354f8c73e3d5da65c0afac9ad8ed",
+    "semantic_hash": "ce8f354f8c73e3d5da65c0afac9ad8ed"
+  },
+  "DH.Domain/Adapters/PushNotifications/NotificationTypeRegistry.cs": {
+    "mtime": 1784883716.9685102,
+    "ast_hash": "078430f341fe197f34c734a5edb56a1b",
+    "semantic_hash": "078430f341fe197f34c734a5edb56a1b"
+  },
+  "DH.Domain/Adapters/QRManager/IQRCodeContext.cs": {
+    "mtime": 1784883716.9685102,
+    "ast_hash": "867383821b2708cb435394c94d31e9b0",
+    "semantic_hash": "867383821b2708cb435394c94d31e9b0"
+  },
+  "DH.Domain/Adapters/QRManager/IQRCodeManager.cs": {
+    "mtime": 1784883716.96889,
+    "ast_hash": "ba3ff941e75ed579c15a81a4cbd8b2a8",
+    "semantic_hash": "ba3ff941e75ed579c15a81a4cbd8b2a8"
+  },
+  "DH.Domain/Adapters/QRManager/IQRCodeState.cs": {
+    "mtime": 1784883716.96889,
+    "ast_hash": "224dfb5afc1dc4be980cf6796ac68359",
+    "semantic_hash": "224dfb5afc1dc4be980cf6796ac68359"
+  },
+  "DH.Domain/Adapters/QRManager/QrCodeType.cs": {
+    "mtime": 1784883716.96889,
+    "ast_hash": "de2a44d910affdd44c14702c9258881e",
+    "semantic_hash": "de2a44d910affdd44c14702c9258881e"
+  },
+  "DH.Domain/Adapters/QRManager/StateModels/QRReaderModel.cs": {
+    "mtime": 1784883716.96889,
+    "ast_hash": "c0f982facc806904e20ae81574fd7135",
+    "semantic_hash": "c0f982facc806904e20ae81574fd7135"
+  },
+  "DH.Domain/Adapters/QRManager/StateModels/QrCodeValidationResult.cs": {
+    "mtime": 1784883716.9691968,
+    "ast_hash": "944507e9533b83cde3fcc013fd37e80b",
+    "semantic_hash": "944507e9533b83cde3fcc013fd37e80b"
+  },
+  "DH.Domain/Adapters/Reservations/IReservationCleanupQueue.cs": {
+    "mtime": 1784883716.9691968,
+    "ast_hash": "15b66aca9bf6b49062b103054d1ec631",
+    "semantic_hash": "15b66aca9bf6b49062b103054d1ec631"
+  },
+  "DH.Domain/Adapters/Reservations/ReservationCleanupHelper.cs": {
+    "mtime": 1784883716.9693837,
+    "ast_hash": "28a712b7c59744899664ed1915eace51",
+    "semantic_hash": "28a712b7c59744899664ed1915eace51"
+  },
+  "DH.Domain/Adapters/Reservations/ReservationCleanupJobInfo.cs": {
+    "mtime": 1784883716.9693837,
+    "ast_hash": "35358349e013fbc81b27bdab9ff46bd3",
+    "semantic_hash": "35358349e013fbc81b27bdab9ff46bd3"
+  },
+  "DH.Domain/Adapters/Reservations/ReservationCleanupQueue.cs": {
+    "mtime": 1784883716.9693837,
+    "ast_hash": "c221a2c9e15ed6ec0f9d578ceaee1bf9",
+    "semantic_hash": "c221a2c9e15ed6ec0f9d578ceaee1bf9"
+  },
+  "DH.Domain/Adapters/Scheduling/Enums/JobType.cs": {
+    "mtime": 1784883716.9695706,
+    "ast_hash": "aa7681e22694f98bbb3e96461f1f667f",
+    "semantic_hash": "aa7681e22694f98bbb3e96461f1f667f"
+  },
+  "DH.Domain/Adapters/Scheduling/IAddUserChallengePeriodHandler.cs": {
+    "mtime": 1784883716.9695706,
+    "ast_hash": "e135413bcffccf31aa86860a88c15d50",
+    "semantic_hash": "e135413bcffccf31aa86860a88c15d50"
+  },
+  "DH.Domain/Adapters/Scheduling/IReservationExpirationHandler.cs": {
+    "mtime": 1784883716.9695706,
+    "ast_hash": "ed576dae161f33bcde266a7e04f6fe35",
+    "semantic_hash": "ed576dae161f33bcde266a7e04f6fe35"
+  },
+  "DH.Domain/Adapters/Scheduling/ISchedulerService.cs": {
+    "mtime": 1784883716.9695706,
+    "ast_hash": "5ded3dc5f55dad7b1e6b75e22355afa6",
+    "semantic_hash": "5ded3dc5f55dad7b1e6b75e22355afa6"
+  },
+  "DH.Domain/Adapters/Scheduling/IUserRewardsExpirationReminderHandler.cs": {
+    "mtime": 1784883716.9695706,
+    "ast_hash": "9129758472333f45da71f88955968585",
+    "semantic_hash": "9129758472333f45da71f88955968585"
+  },
+  "DH.Domain/Adapters/Scheduling/IUserRewardsExpiryHandler.cs": {
+    "mtime": 1784883716.9695706,
+    "ast_hash": "093abfbbcfb368cf819b4debf047f978",
+    "semantic_hash": "093abfbbcfb368cf819b4debf047f978"
+  },
+  "DH.Domain/Adapters/Scheduling/Models/ScheduleJobInfo.cs": {
+    "mtime": 1784883716.9695706,
+    "ast_hash": "8ce9d9ffcb2c3f48331738435c69c145",
+    "semantic_hash": "8ce9d9ffcb2c3f48331738435c69c145"
+  },
+  "DH.Domain/Adapters/Statistics/Enums/ChallengeHistoryLogType.cs": {
+    "mtime": 1784883716.970078,
+    "ast_hash": "9bdff3b612694815c513f10427dd54fa",
+    "semantic_hash": "9bdff3b612694815c513f10427dd54fa"
+  },
+  "DH.Domain/Adapters/Statistics/IStatisticJob.cs": {
+    "mtime": 1784883716.970078,
+    "ast_hash": "be4b704856186bceb9277181fe5453a4",
+    "semantic_hash": "be4b704856186bceb9277181fe5453a4"
+  },
+  "DH.Domain/Adapters/Statistics/IStatisticJobFactory.cs": {
+    "mtime": 1784883716.970078,
+    "ast_hash": "b40864618ed0ea2ff49ac4b7b3d12b78",
+    "semantic_hash": "b40864618ed0ea2ff49ac4b7b3d12b78"
+  },
+  "DH.Domain/Adapters/Statistics/IStatisticJobQueue.cs": {
+    "mtime": 1784883716.970078,
+    "ast_hash": "14bbb3ab4f7e4faee8bc2270eaa96894",
+    "semantic_hash": "14bbb3ab4f7e4faee8bc2270eaa96894"
+  },
+  "DH.Domain/Adapters/Statistics/JobHandlers/ChallengeProcessingOutcomeJobHandler.cs": {
+    "mtime": 1784883716.970078,
+    "ast_hash": "b94d2d52a74d4442fa9f994145376724",
+    "semantic_hash": "b94d2d52a74d4442fa9f994145376724"
+  },
+  "DH.Domain/Adapters/Statistics/JobHandlers/ClubActivityDetectedJob.cs": {
+    "mtime": 1784883716.970359,
+    "ast_hash": "9821c677aeb06e4090b872895ed600a7",
+    "semantic_hash": "9821c677aeb06e4090b872895ed600a7"
+  },
+  "DH.Domain/Adapters/Statistics/JobHandlers/EventAttendanceDetectedJobHandler.cs": {
+    "mtime": 1784883716.970359,
+    "ast_hash": "fd7161161c2de262b1bb586fb8099d8a",
+    "semantic_hash": "fd7161161c2de262b1bb586fb8099d8a"
+  },
+  "DH.Domain/Adapters/Statistics/JobHandlers/GameEngagementDetectedJobHandler.cs": {
+    "mtime": 1784883716.970359,
+    "ast_hash": "29ae3493dc5bbb2890d8adf2cc932463",
+    "semantic_hash": "29ae3493dc5bbb2890d8adf2cc932463"
+  },
+  "DH.Domain/Adapters/Statistics/JobHandlers/ReservationProcessingOutcomeJobHandler.cs": {
+    "mtime": 1784883716.970359,
+    "ast_hash": "f2a77488c3897c75ec122046a3388e74",
+    "semantic_hash": "f2a77488c3897c75ec122046a3388e74"
+  },
+  "DH.Domain/Adapters/Statistics/JobHandlers/RewardActionDetectedJobHandler.cs": {
+    "mtime": 1784883716.970359,
+    "ast_hash": "59b5caffe109d73ccbc05ee0aecd2ff1",
+    "semantic_hash": "59b5caffe109d73ccbc05ee0aecd2ff1"
+  },
+  "DH.Domain/Adapters/Statistics/Services/IStatisticQueuePublisher.cs": {
+    "mtime": 1784883716.9705102,
+    "ast_hash": "a676fd2221bcc8333b3f2a850f008956",
+    "semantic_hash": "a676fd2221bcc8333b3f2a850f008956"
+  },
+  "DH.Domain/Adapters/Statistics/Services/IStatisticsService.cs": {
+    "mtime": 1784883716.9706697,
+    "ast_hash": "f54fddd95100bae7daedcb0fa952ecb8",
+    "semantic_hash": "f54fddd95100bae7daedcb0fa952ecb8"
+  },
+  "DH.Domain/Adapters/Statistics/Services/StatisticQueuePublisher.cs": {
+    "mtime": 1784883716.9706697,
+    "ast_hash": "cf2690e93d6cd88d60c54146834371e6",
+    "semantic_hash": "cf2690e93d6cd88d60c54146834371e6"
+  },
+  "DH.Domain/Adapters/Statistics/StatisticJobQueue.cs": {
+    "mtime": 1784883716.9706697,
+    "ast_hash": "01c9bb4bc51060467086424051656540",
+    "semantic_hash": "01c9bb4bc51060467086424051656540"
+  },
+  "DH.Domain/Adapters/Statistics/StatisticJobQueueHelper.cs": {
+    "mtime": 1784883716.9706697,
+    "ast_hash": "e85cb1adc42510a21e096cb7bae91dc9",
+    "semantic_hash": "e85cb1adc42510a21e096cb7bae91dc9"
+  },
+  "DH.Domain/Adapters/Statistics/StatisticJobType.cs": {
+    "mtime": 1784883716.9706697,
+    "ast_hash": "d87f7d025239185e1dc3108e9224687f",
+    "semantic_hash": "d87f7d025239185e1dc3108e9224687f"
+  },
+  "DH.Domain/Adapters/Statistics/StatisticsJobs.cs": {
+    "mtime": 1784883716.9706697,
+    "ast_hash": "82350530bc559997f8756d47d208f89b",
+    "semantic_hash": "82350530bc559997f8756d47d208f89b"
+  },
+  "DH.Domain/DH.Domain.csproj": {
+    "mtime": 1784883716.9706697,
+    "ast_hash": "c17b02e83334094c43dd8871950c5166",
+    "semantic_hash": "c17b02e83334094c43dd8871950c5166"
+  },
+  "DH.Domain/DomainDIModule.cs": {
+    "mtime": 1784883716.9706697,
+    "ast_hash": "ed3bced18c7b02943791831d05e2a8af",
+    "semantic_hash": "ed3bced18c7b02943791831d05e2a8af"
+  },
+  "DH.Domain/Entities/Challenge.cs": {
+    "mtime": 1785234121.7576277,
+    "ast_hash": "27dc1b72ac91e4480df3eb6e3734df35",
+    "semantic_hash": "27dc1b72ac91e4480df3eb6e3734df35"
+  },
+  "DH.Domain/Entities/ChallengeHistoryLog.cs": {
+    "mtime": 1785234121.7576277,
+    "ast_hash": "d9c16360d43f521291d3e3c42c6a3033",
+    "semantic_hash": "d9c16360d43f521291d3e3c42c6a3033"
+  },
+  "DH.Domain/Entities/ChallengeReward.cs": {
+    "mtime": 1785234121.7576277,
+    "ast_hash": "5afbab1b9c4a2bf5ae09538b85639186",
+    "semantic_hash": "5afbab1b9c4a2bf5ae09538b85639186"
+  },
+  "DH.Domain/Entities/ChallengeStatistic.cs": {
+    "mtime": 1785234121.7576277,
+    "ast_hash": "bcda7e9297f86ff15828683729c87eb3",
+    "semantic_hash": "bcda7e9297f86ff15828683729c87eb3"
+  },
+  "DH.Domain/Entities/ClubVisitorLog.cs": {
+    "mtime": 1785234121.7576277,
+    "ast_hash": "cbcc009bea7f7aafb00922ccfeeefd54",
+    "semantic_hash": "cbcc009bea7f7aafb00922ccfeeefd54"
+  },
+  "DH.Domain/Entities/CustomPeriodChallenge.cs": {
+    "mtime": 1785234121.7576277,
+    "ast_hash": "22a98bdd8e31b6399579bbea492ff564",
+    "semantic_hash": "22a98bdd8e31b6399579bbea492ff564"
+  },
+  "DH.Domain/Entities/CustomPeriodReward.cs": {
+    "mtime": 1785234121.7576277,
+    "ast_hash": "cf6e6a6db56e95d2f5dd36db0b4c5260",
+    "semantic_hash": "cf6e6a6db56e95d2f5dd36db0b4c5260"
+  },
+  "DH.Domain/Entities/CustomPeriodUniversalChallenge.cs": {
+    "mtime": 1785234121.7576277,
+    "ast_hash": "7fd3c5dae569eced5767136f67d16c75",
+    "semantic_hash": "7fd3c5dae569eced5767136f67d16c75"
+  },
+  "DH.Domain/Entities/CustomPeriodUserChallenge.cs": {
+    "mtime": 1785234121.7576277,
+    "ast_hash": "6bb6389350149d2923a0da5da1db7f06",
+    "semantic_hash": "6bb6389350149d2923a0da5da1db7f06"
+  },
+  "DH.Domain/Entities/CustomPeriodUserReward.cs": {
+    "mtime": 1785234121.7576277,
+    "ast_hash": "bf23c4d5f2abf3e0b36a992d97676f1a",
+    "semantic_hash": "bf23c4d5f2abf3e0b36a992d97676f1a"
+  },
+  "DH.Domain/Entities/CustomPeriodUserUniversalChallenge.cs": {
+    "mtime": 1785234121.7576277,
+    "ast_hash": "d5a329bf8c085b6bda24007f4fb494c6",
+    "semantic_hash": "d5a329bf8c085b6bda24007f4fb494c6"
+  },
+  "DH.Domain/Entities/EmailHistory.cs": {
+    "mtime": 1785234121.7576277,
+    "ast_hash": "ab308332951b5567dfd7282859b3abf4",
+    "semantic_hash": "ab308332951b5567dfd7282859b3abf4"
+  },
+  "DH.Domain/Entities/EmailTemplate.cs": {
+    "mtime": 1785234121.7576277,
+    "ast_hash": "a3296b47522a04a13fd25061d9cbed56",
+    "semantic_hash": "a3296b47522a04a13fd25061d9cbed56"
+  },
+  "DH.Domain/Entities/Event.cs": {
+    "mtime": 1785234121.7586272,
+    "ast_hash": "f8820326684927e89d63ba1e8d4c1276",
+    "semantic_hash": "f8820326684927e89d63ba1e8d4c1276"
+  },
+  "DH.Domain/Entities/EventAttendanceLog.cs": {
+    "mtime": 1785234121.7586272,
+    "ast_hash": "5cdf69c7fab16350f08d65835e5be936",
+    "semantic_hash": "5cdf69c7fab16350f08d65835e5be936"
+  },
+  "DH.Domain/Entities/EventNotification.cs": {
+    "mtime": 1785234121.7586272,
+    "ast_hash": "db9c7a9040ef5e5dd8b07ef018d5c96f",
+    "semantic_hash": "db9c7a9040ef5e5dd8b07ef018d5c96f"
+  },
+  "DH.Domain/Entities/EventParticipant.cs": {
+    "mtime": 1785234121.7586272,
+    "ast_hash": "534151cb5be52a89895b3fc268dd8014",
+    "semantic_hash": "534151cb5be52a89895b3fc268dd8014"
+  },
+  "DH.Domain/Entities/FailedJob.cs": {
+    "mtime": 1785234121.7586272,
+    "ast_hash": "0916da7e53d990839a8a885482b59c08",
+    "semantic_hash": "0916da7e53d990839a8a885482b59c08"
+  },
+  "DH.Domain/Entities/Game.cs": {
+    "mtime": 1785234121.7586272,
+    "ast_hash": "e243763c17feb5b4b7baf9abf9faad1a",
+    "semantic_hash": "e243763c17feb5b4b7baf9abf9faad1a"
+  },
+  "DH.Domain/Entities/GameCategory.cs": {
+    "mtime": 1785234121.7586272,
+    "ast_hash": "464f564cf31f8b9ef96e4a5289921a64",
+    "semantic_hash": "464f564cf31f8b9ef96e4a5289921a64"
+  },
+  "DH.Domain/Entities/GameEngagementLog.cs": {
+    "mtime": 1785234121.7586272,
+    "ast_hash": "ee921bb725eedf2473896c13c34bdf26",
+    "semantic_hash": "ee921bb725eedf2473896c13c34bdf26"
+  },
+  "DH.Domain/Entities/GameInventory.cs": {
+    "mtime": 1785234121.7586272,
+    "ast_hash": "997c8ed1f8ed290725f3100657b7ec65",
+    "semantic_hash": "997c8ed1f8ed290725f3100657b7ec65"
+  },
+  "DH.Domain/Entities/GameLike.cs": {
+    "mtime": 1785234121.7586272,
+    "ast_hash": "16a3664c130b756db74944977792aa77",
+    "semantic_hash": "16a3664c130b756db74944977792aa77"
+  },
+  "DH.Domain/Entities/GameReservation.cs": {
+    "mtime": 1785234121.7586272,
+    "ast_hash": "f80238d187d7085e3fee86ea0dce421e",
+    "semantic_hash": "f80238d187d7085e3fee86ea0dce421e"
+  },
+  "DH.Domain/Entities/GameReview.cs": {
+    "mtime": 1785234121.7586272,
+    "ast_hash": "732653426bab4c1fb87d49d0024b091c",
+    "semantic_hash": "732653426bab4c1fb87d49d0024b091c"
+  },
+  "DH.Domain/Entities/ITenantEntity.cs": {
+    "mtime": 1785234121.7596266,
+    "ast_hash": "4711a28305df4afd16ba62d357136042",
+    "semantic_hash": "4711a28305df4afd16ba62d357136042"
+  },
+  "DH.Domain/Entities/PartnerInquiry.cs": {
+    "mtime": 1785234121.7596266,
+    "ast_hash": "d88448240bbcd846594a79b61820d4c4",
+    "semantic_hash": "d88448240bbcd846594a79b61820d4c4"
+  },
+  "DH.Domain/Entities/QrCodeScanAudit.cs": {
+    "mtime": 1785234121.7596266,
+    "ast_hash": "09492a633eaa59ca79e1932c9529bb9f",
+    "semantic_hash": "09492a633eaa59ca79e1932c9529bb9f"
+  },
+  "DH.Domain/Entities/QueuedJob.cs": {
+    "mtime": 1785234121.7596266,
+    "ast_hash": "abfebf32258d889e49444828fb9d45aa",
+    "semantic_hash": "abfebf32258d889e49444828fb9d45aa"
+  },
+  "DH.Domain/Entities/ReservationOutcomeLog.cs": {
+    "mtime": 1785234121.7596266,
+    "ast_hash": "98650229f25e8a0dcd97256601f6581c",
+    "semantic_hash": "98650229f25e8a0dcd97256601f6581c"
+  },
+  "DH.Domain/Entities/RewardHistoryLog.cs": {
+    "mtime": 1785234121.7596266,
+    "ast_hash": "a457f7fd14da49de2f94a5d039b2cd6e",
+    "semantic_hash": "a457f7fd14da49de2f94a5d039b2cd6e"
+  },
+  "DH.Domain/Entities/Room.cs": {
+    "mtime": 1785234121.7596266,
+    "ast_hash": "812230d85a40237cf6403e0011083454",
+    "semantic_hash": "812230d85a40237cf6403e0011083454"
+  },
+  "DH.Domain/Entities/RoomInfoMessage.cs": {
+    "mtime": 1785234121.7596266,
+    "ast_hash": "c4f83d73cc2911749dd0289a5b43cd99",
+    "semantic_hash": "c4f83d73cc2911749dd0289a5b43cd99"
+  },
+  "DH.Domain/Entities/RoomMessage.cs": {
+    "mtime": 1785234121.7596266,
+    "ast_hash": "e979edf1b1e0f7bdd597fc5c1f1dd012",
+    "semantic_hash": "e979edf1b1e0f7bdd597fc5c1f1dd012"
+  },
+  "DH.Domain/Entities/RoomParticipant.cs": {
+    "mtime": 1785234121.7596266,
+    "ast_hash": "0caf92cd38cdcf02bdda47c6dc9cdabe",
+    "semantic_hash": "0caf92cd38cdcf02bdda47c6dc9cdabe"
+  },
+  "DH.Domain/Entities/SpaceTable.cs": {
+    "mtime": 1785234121.7596266,
+    "ast_hash": "b8d6d134b88d5ada83fcb314dd9eff01",
+    "semantic_hash": "b8d6d134b88d5ada83fcb314dd9eff01"
+  },
+  "DH.Domain/Entities/SpaceTableParticipant.cs": {
+    "mtime": 1785234121.7596266,
+    "ast_hash": "238306c9a1a19ca203bc2c41cafc1d0d",
+    "semantic_hash": "238306c9a1a19ca203bc2c41cafc1d0d"
+  },
+  "DH.Domain/Entities/SpaceTableReservation.cs": {
+    "mtime": 1785234121.7596266,
+    "ast_hash": "57cca420492a4dafe00715e3131c82e0",
+    "semantic_hash": "57cca420492a4dafe00715e3131c82e0"
+  },
+  "DH.Domain/Entities/Tenant.cs": {
+    "mtime": 1785234121.7606258,
+    "ast_hash": "1707597fe12fd988c0757696355662d5",
+    "semantic_hash": "1707597fe12fd988c0757696355662d5"
+  },
+  "DH.Domain/Entities/TenantApplication.cs": {
+    "mtime": 1785246470.3593748,
+    "ast_hash": "5dbae6b0d77ec7cab0ba4c4726fe3af2",
+    "semantic_hash": "5dbae6b0d77ec7cab0ba4c4726fe3af2"
+  },
+  "DH.Domain/Entities/TenantEntity.cs": {
+    "mtime": 1785234121.7606258,
+    "ast_hash": "4e49e57545bbd12e2aed4511c758c2d2",
+    "semantic_hash": "4e49e57545bbd12e2aed4511c758c2d2"
+  },
+  "DH.Domain/Entities/TenantSetting.cs": {
+    "mtime": 1784883716.97251,
+    "ast_hash": "ee06bb1cc5afb8eaa10b905b799e5272",
+    "semantic_hash": "ee06bb1cc5afb8eaa10b905b799e5272"
+  },
+  "DH.Domain/Entities/TenantUserSetting.cs": {
+    "mtime": 1785234121.7606258,
+    "ast_hash": "748ea96da9765048f89f8939fe403fb4",
+    "semantic_hash": "748ea96da9765048f89f8939fe403fb4"
+  },
+  "DH.Domain/Entities/UniversalChallenge.cs": {
+    "mtime": 1785234121.7606258,
+    "ast_hash": "cd789a9b34e783255b1221bd4263ce02",
+    "semantic_hash": "cd789a9b34e783255b1221bd4263ce02"
+  },
+  "DH.Domain/Entities/UserChallenge.cs": {
+    "mtime": 1785234121.7606258,
+    "ast_hash": "076e6e3733169357f7797428fa6c847c",
+    "semantic_hash": "076e6e3733169357f7797428fa6c847c"
+  },
+  "DH.Domain/Entities/UserChallengePeriodPerformance.cs": {
+    "mtime": 1785234121.7606258,
+    "ast_hash": "b4daf286039cd7a8d4d099eb6040b542",
+    "semantic_hash": "b4daf286039cd7a8d4d099eb6040b542"
+  },
+  "DH.Domain/Entities/UserChallengePeriodReward.cs": {
+    "mtime": 1785234121.7606258,
+    "ast_hash": "d4dd38c017b517c1f970c92bb09a6d38",
+    "semantic_hash": "d4dd38c017b517c1f970c92bb09a6d38"
+  },
+  "DH.Domain/Entities/UserChallengeReward.cs": {
+    "mtime": 1785234121.7606258,
+    "ast_hash": "70afd7c4bf6d30988f110128721626ed",
+    "semantic_hash": "70afd7c4bf6d30988f110128721626ed"
+  },
+  "DH.Domain/Entities/UserDeviceToken.cs": {
+    "mtime": 1785234121.7606258,
+    "ast_hash": "a974727e274d293e5abf77d0207b1338",
+    "semantic_hash": "a974727e274d293e5abf77d0207b1338"
+  },
+  "DH.Domain/Entities/UserNotification.cs": {
+    "mtime": 1785234121.7606258,
+    "ast_hash": "19fb6ae400ccee45f06a92ebd82cffcd",
+    "semantic_hash": "19fb6ae400ccee45f06a92ebd82cffcd"
+  },
+  "DH.Domain/Entities/UserStatistic.cs": {
+    "mtime": 1785234121.7606258,
+    "ast_hash": "8373dc625246dd318bc38cde8a9aa97d",
+    "semantic_hash": "8373dc625246dd318bc38cde8a9aa97d"
+  },
+  "DH.Domain/Enums/AttendanceAction.cs": {
+    "mtime": 1784883716.97251,
+    "ast_hash": "4157db1ce1a3d72c1ceb4d5e83b00bf7",
+    "semantic_hash": "4157db1ce1a3d72c1ceb4d5e83b00bf7"
+  },
+  "DH.Domain/Enums/ChallengeOutcome.cs": {
+    "mtime": 1784883716.9732428,
+    "ast_hash": "4c5595dbbb393b053afadb37b8bbb60b",
+    "semantic_hash": "4c5595dbbb393b053afadb37b8bbb60b"
+  },
+  "DH.Domain/Enums/ChallengeRewardPoint.cs": {
+    "mtime": 1784883716.9732428,
+    "ast_hash": "6d242bb4dbaa6989e55a5ab457bca8c6",
+    "semantic_hash": "6d242bb4dbaa6989e55a5ab457bca8c6"
+  },
+  "DH.Domain/Enums/ChallengeStatus.cs": {
+    "mtime": 1784883716.9732428,
+    "ast_hash": "2db4a6ad06dc891b4b93427cca610a01",
+    "semantic_hash": "2db4a6ad06dc891b4b93427cca610a01"
+  },
+  "DH.Domain/Enums/ChartActivityType.cs": {
+    "mtime": 1784883716.9732428,
+    "ast_hash": "35bf524febcee51e8df28371204c2d15",
+    "semantic_hash": "35bf524febcee51e8df28371204c2d15"
+  },
+  "DH.Domain/Enums/ChartGameActivityType.cs": {
+    "mtime": 1784883716.9732428,
+    "ast_hash": "30eebc2397b7cfd9c6adde69cebe90b2",
+    "semantic_hash": "30eebc2397b7cfd9c6adde69cebe90b2"
+  },
+  "DH.Domain/Enums/GameAveragePlaytime.cs": {
+    "mtime": 1784883716.9732428,
+    "ast_hash": "1be3c675a62fb03ee6bfbe4f530d0e0f",
+    "semantic_hash": "1be3c675a62fb03ee6bfbe4f530d0e0f"
+  },
+  "DH.Domain/Enums/JobStatus.cs": {
+    "mtime": 1784883716.9732428,
+    "ast_hash": "ce3cee678ae74ec3d0f247711d621c9f",
+    "semantic_hash": "ce3cee678ae74ec3d0f247711d621c9f"
+  },
+  "DH.Domain/Enums/ReservationOutcome.cs": {
+    "mtime": 1784883716.9732428,
+    "ast_hash": "a06eac916dd47b54e6185a9215dedc9c",
+    "semantic_hash": "a06eac916dd47b54e6185a9215dedc9c"
+  },
+  "DH.Domain/Enums/ReservationStatus.cs": {
+    "mtime": 1784883716.9732428,
+    "ast_hash": "44745b2cb29945f5589ce30b8416a998",
+    "semantic_hash": "44745b2cb29945f5589ce30b8416a998"
+  },
+  "DH.Domain/Enums/ReservationType.cs": {
+    "mtime": 1784883716.9732428,
+    "ast_hash": "aeb6935615c277d91eb091c85d6329ad",
+    "semantic_hash": "aeb6935615c277d91eb091c85d6329ad"
+  },
+  "DH.Domain/Enums/RewardLevel.cs": {
+    "mtime": 1784883716.9735103,
+    "ast_hash": "c73a6448fb87741b1edb58d925993efe",
+    "semantic_hash": "c73a6448fb87741b1edb58d925993efe"
+  },
+  "DH.Domain/Enums/RewardRequiredPoint.cs": {
+    "mtime": 1784883716.9735103,
+    "ast_hash": "e474488d43a58bed8e3c47c73b22fc54",
+    "semantic_hash": "e474488d43a58bed8e3c47c73b22fc54"
+  },
+  "DH.Domain/Enums/SupportLanguages.cs": {
+    "mtime": 1784883716.9735103,
+    "ast_hash": "5ef559d491b1ff4901ffa1c842edd4b6",
+    "semantic_hash": "5ef559d491b1ff4901ffa1c842edd4b6"
+  },
+  "DH.Domain/Enums/TenantApplicationStatus.cs": {
+    "mtime": 1785246470.1553752,
+    "ast_hash": "9f89b2711480aec126ec07e7cdaf035c",
+    "semantic_hash": "9f89b2711480aec126ec07e7cdaf035c"
+  },
+  "DH.Domain/Enums/TenantStatus.cs": {
+    "mtime": 1785234121.7606258,
+    "ast_hash": "035059370901378ed46a5a7988afcd98",
+    "semantic_hash": "035059370901378ed46a5a7988afcd98"
+  },
+  "DH.Domain/Enums/Theme.cs": {
+    "mtime": 1784883716.9735103,
+    "ast_hash": "33dfab4f97bbfc11918601a54b27e291",
+    "semantic_hash": "33dfab4f97bbfc11918601a54b27e291"
+  },
+  "DH.Domain/Enums/TimePeriodType.cs": {
+    "mtime": 1784883716.9735103,
+    "ast_hash": "22d16c6afc260a1315e80aa0be8276c8",
+    "semantic_hash": "22d16c6afc260a1315e80aa0be8276c8"
+  },
+  "DH.Domain/Enums/UniversalChallengeType.cs": {
+    "mtime": 1784883716.9735103,
+    "ast_hash": "c3eb53007c22ffaddfd2af9d6eb6b586",
+    "semantic_hash": "c3eb53007c22ffaddfd2af9d6eb6b586"
+  },
+  "DH.Domain/Enums/WeekDays.cs": {
+    "mtime": 1784883716.9735103,
+    "ast_hash": "f45fe692dc7a938d0e8b4aa7e0fd2073",
+    "semantic_hash": "f45fe692dc7a938d0e8b4aa7e0fd2073"
+  },
+  "DH.Domain/Helpers/DateValidator.cs": {
+    "mtime": 1784883716.9735103,
+    "ast_hash": "7906457666b86912fe686e2f1f251687",
+    "semantic_hash": "7906457666b86912fe686e2f1f251687"
+  },
+  "DH.Domain/Helpers/TenantSettingsExtensions.cs": {
+    "mtime": 1784883716.9739776,
+    "ast_hash": "6c9cdf0994300c273dcafb5ca958ce87",
+    "semantic_hash": "6c9cdf0994300c273dcafb5ca958ce87"
+  },
+  "DH.Domain/Helpers/TimePeriodTypeHelper.cs": {
+    "mtime": 1784883716.9739776,
+    "ast_hash": "74f162594d8a18cfe2ac01f50330a371",
+    "semantic_hash": "74f162594d8a18cfe2ac01f50330a371"
+  },
+  "DH.Domain/Helpers/TimeZoneHelper.cs": {
+    "mtime": 1784883716.9739776,
+    "ast_hash": "d4850ac2437f7600b783c89fc11d5621",
+    "semantic_hash": "d4850ac2437f7600b783c89fc11d5621"
+  },
+  "DH.Domain/IConfigurationService.cs": {
+    "mtime": 1784883716.9739776,
+    "ast_hash": "2f641f50bef4ff78b126a41ca013a91d",
+    "semantic_hash": "2f641f50bef4ff78b126a41ca013a91d"
+  },
+  "DH.Domain/IContainerService.cs": {
+    "mtime": 1784883716.9739776,
+    "ast_hash": "e08fc28182c3ed219ac3f5cf81058d38",
+    "semantic_hash": "e08fc28182c3ed219ac3f5cf81058d38"
+  },
+  "DH.Domain/Models/ChallengeModels/Commands/CreateChallengeDto.cs": {
+    "mtime": 1784883716.974253,
+    "ast_hash": "91af41cecff5311d03cea6a48b53c2d6",
+    "semantic_hash": "91af41cecff5311d03cea6a48b53c2d6"
+  },
+  "DH.Domain/Models/ChallengeModels/Commands/SaveCustomPeriodDto.cs": {
+    "mtime": 1784883716.974384,
+    "ast_hash": "ec36dc5ddc2968ab14e434466486285f",
+    "semantic_hash": "ec36dc5ddc2968ab14e434466486285f"
+  },
+  "DH.Domain/Models/ChallengeModels/Commands/UpdateChallengeDto.cs": {
+    "mtime": 1784883716.974384,
+    "ast_hash": "c92c364d4b2be070a6b393415214671b",
+    "semantic_hash": "c92c364d4b2be070a6b393415214671b"
+  },
+  "DH.Domain/Models/ChallengeModels/Commands/UpdateUniversalChallengeDto.cs": {
+    "mtime": 1784883716.974384,
+    "ast_hash": "bd49dd8c47faefc867c175015c1169af",
+    "semantic_hash": "bd49dd8c47faefc867c175015c1169af"
+  },
+  "DH.Domain/Models/ChallengeModels/Queries/GetChallengeByIdQueryModel.cs": {
+    "mtime": 1784883716.9745102,
+    "ast_hash": "3912b47c0874c080f814f7dc53911cb1",
+    "semantic_hash": "3912b47c0874c080f814f7dc53911cb1"
+  },
+  "DH.Domain/Models/ChallengeModels/Queries/GetChallengeDropdownListQueryModel.cs": {
+    "mtime": 1784883716.9746647,
+    "ast_hash": "b9b6e88ad760af2ba97a8edd95233a2b",
+    "semantic_hash": "b9b6e88ad760af2ba97a8edd95233a2b"
+  },
+  "DH.Domain/Models/ChallengeModels/Queries/GetChallengeListWithFilterQueryModel.cs": {
+    "mtime": 1784883716.9746647,
+    "ast_hash": "7b286957f19aae783d22c43d14aa958a",
+    "semantic_hash": "7b286957f19aae783d22c43d14aa958a"
+  },
+  "DH.Domain/Models/ChallengeModels/Queries/GetCustomPeriodQueryModel.cs": {
+    "mtime": 1784883716.9746647,
+    "ast_hash": "478de12d98c38a0cd8dce4238b217764",
+    "semantic_hash": "478de12d98c38a0cd8dce4238b217764"
+  },
+  "DH.Domain/Models/ChallengeModels/Queries/GetUniversalChallengeListQueryModel.cs": {
+    "mtime": 1784883716.9746647,
+    "ast_hash": "343ff66b714f0837e40b364e2673ed1b",
+    "semantic_hash": "343ff66b714f0837e40b364e2673ed1b"
+  },
+  "DH.Domain/Models/ChallengeModels/Queries/GetUserChallengeListQueryModel.cs": {
+    "mtime": 1784883716.9746647,
+    "ast_hash": "9b991d7922a7e3272f3c2764133da6b6",
+    "semantic_hash": "9b991d7922a7e3272f3c2764133da6b6"
+  },
+  "DH.Domain/Models/ChallengeModels/Queries/GetUserChallengePeriodPerformanceQueryModel.cs": {
+    "mtime": 1784883716.9746647,
+    "ast_hash": "fc3bbaabb3beecd46a0d3303953cf1e5",
+    "semantic_hash": "fc3bbaabb3beecd46a0d3303953cf1e5"
+  },
+  "DH.Domain/Models/ChallengeModels/Queries/GetUserCustomPeriodQueryModel.cs": {
+    "mtime": 1784883716.9746647,
+    "ast_hash": "ab2b8b0ca78397e652a6593c7a8cc0ba",
+    "semantic_hash": "ab2b8b0ca78397e652a6593c7a8cc0ba"
+  },
+  "DH.Domain/Models/ChallengeModels/Queries/GetUserUniversalChallengeListQueryModel.cs": {
+    "mtime": 1784883716.9746647,
+    "ast_hash": "34996923eb4874fce2c8bab99b064eb1",
+    "semantic_hash": "34996923eb4874fce2c8bab99b064eb1"
+  },
+  "DH.Domain/Models/Common/AssistiveTouchSettings.cs": {
+    "mtime": 1784883716.9746647,
+    "ast_hash": "1eb062985cd1f7bbf1bc73a4b92fc377",
+    "semantic_hash": "1eb062985cd1f7bbf1bc73a4b92fc377"
+  },
+  "DH.Domain/Models/Common/GetTenantListQueryModel.cs": {
+    "mtime": 1785234121.7606258,
+    "ast_hash": "453bb22c1c9723473edbe511c28b7158",
+    "semantic_hash": "453bb22c1c9723473edbe511c28b7158"
+  },
+  "DH.Domain/Models/Common/PartnerInquiryDto.cs": {
+    "mtime": 1784883716.9750638,
+    "ast_hash": "90b93bd4d0d4ad5297249ceebdd0008e",
+    "semantic_hash": "90b93bd4d0d4ad5297249ceebdd0008e"
+  },
+  "DH.Domain/Models/Common/RabbitMqOptions.cs": {
+    "mtime": 1784883716.9750638,
+    "ast_hash": "9bfd1709d020cd0b04eb6a4ced895ada",
+    "semantic_hash": "9bfd1709d020cd0b04eb6a4ced895ada"
+  },
+  "DH.Domain/Models/Common/TenantApplicationDto.cs": {
+    "mtime": 1785246470.6063743,
+    "ast_hash": "6eb7daddc0d3bbd24f0acdf1fd74591e",
+    "semantic_hash": "6eb7daddc0d3bbd24f0acdf1fd74591e"
+  },
+  "DH.Domain/Models/Common/TenantSettingsDto.cs": {
+    "mtime": 1784883716.9750638,
+    "ast_hash": "76613987c5f51aaed93371fa1a8ea5b6",
+    "semantic_hash": "76613987c5f51aaed93371fa1a8ea5b6"
+  },
+  "DH.Domain/Models/Common/UserSettingsDto.cs": {
+    "mtime": 1784883716.9750638,
+    "ast_hash": "e3aafb73c6317804ae75ae5fd4712006",
+    "semantic_hash": "e3aafb73c6317804ae75ae5fd4712006"
+  },
+  "DH.Domain/Models/EventModels/Command/CreateEventModel.cs": {
+    "mtime": 1784883716.9752932,
+    "ast_hash": "ab8194b65e6fd105a7f251cd9d65b3af",
+    "semantic_hash": "ab8194b65e6fd105a7f251cd9d65b3af"
+  },
+  "DH.Domain/Models/EventModels/Command/UpdateEventModel.cs": {
+    "mtime": 1784883716.9753828,
+    "ast_hash": "591e30e3421cd61674d9187451f6da26",
+    "semantic_hash": "591e30e3421cd61674d9187451f6da26"
+  },
+  "DH.Domain/Models/EventModels/Command/UpdateEventResponseModel.cs": {
+    "mtime": 1784883716.9753828,
+    "ast_hash": "74b7f47bd6a67af1d725f40f1f2f9f9a",
+    "semantic_hash": "74b7f47bd6a67af1d725f40f1f2f9f9a"
+  },
+  "DH.Domain/Models/EventModels/Queries/GetEventByIdQueryModel.cs": {
+    "mtime": 1784883716.9753828,
+    "ast_hash": "ffdcb57216343471c55788b78f69d154",
+    "semantic_hash": "ffdcb57216343471c55788b78f69d154"
+  },
+  "DH.Domain/Models/EventModels/Queries/GetEventListQueryModel.cs": {
+    "mtime": 1784883716.9755495,
+    "ast_hash": "6f0ff7c7da2bfeef75ca264cde666432",
+    "semantic_hash": "6f0ff7c7da2bfeef75ca264cde666432"
+  },
+  "DH.Domain/Models/GameModels/Commands/CreateGameDto.cs": {
+    "mtime": 1784883716.9756844,
+    "ast_hash": "4ce137b6bb72472a54c455fc071cc780",
+    "semantic_hash": "4ce137b6bb72472a54c455fc071cc780"
+  },
+  "DH.Domain/Models/GameModels/Commands/CreateGameReservationModel.cs": {
+    "mtime": 1784883716.9757714,
+    "ast_hash": "822c8dc40b511c389121fbc38250832f",
+    "semantic_hash": "822c8dc40b511c389121fbc38250832f"
+  },
+  "DH.Domain/Models/GameModels/Commands/CreateGameReviewDto.cs": {
+    "mtime": 1784883716.9757714,
+    "ast_hash": "27049c54ef6ff1a53278640026d8c3f5",
+    "semantic_hash": "27049c54ef6ff1a53278640026d8c3f5"
+  },
+  "DH.Domain/Models/GameModels/Commands/UpdateGameDto.cs": {
+    "mtime": 1784883716.9757714,
+    "ast_hash": "89a9b2dcba00ce56f0cfc0509bb3a4f0",
+    "semantic_hash": "89a9b2dcba00ce56f0cfc0509bb3a4f0"
+  },
+  "DH.Domain/Models/GameModels/Commands/UpdateGameReviewDto.cs": {
+    "mtime": 1784883716.9757714,
+    "ast_hash": "3aba47c6e889be6990a73738c6fb3189",
+    "semantic_hash": "3aba47c6e889be6990a73738c6fb3189"
+  },
+  "DH.Domain/Models/GameModels/GameComplexDataQuery.cs": {
+    "mtime": 1784883716.9757714,
+    "ast_hash": "53d7ed4f34ee1d101bbf1abe9140d29f",
+    "semantic_hash": "53d7ed4f34ee1d101bbf1abe9140d29f"
+  },
+  "DH.Domain/Models/GameModels/Queries/GetActiveGameReservationListQueryModel.cs": {
+    "mtime": 1784883716.9757714,
+    "ast_hash": "a8dcfe235e8444f0d04666213cb81b1c",
+    "semantic_hash": "a8dcfe235e8444f0d04666213cb81b1c"
+  },
+  "DH.Domain/Models/GameModels/Queries/GetActiveReservedGameQueryModel.cs": {
+    "mtime": 1784883716.9760592,
+    "ast_hash": "daedec899e94b703566ee9c36d33e952",
+    "semantic_hash": "daedec899e94b703566ee9c36d33e952"
+  },
+  "DH.Domain/Models/GameModels/Queries/GetGameByIdQueryModel.cs": {
+    "mtime": 1784883716.9760592,
+    "ast_hash": "d76b5464243b6b0add9c2b6a6d71622c",
+    "semantic_hash": "d76b5464243b6b0add9c2b6a6d71622c"
+  },
+  "DH.Domain/Models/GameModels/Queries/GetGameCategoryListQueryModel.cs": {
+    "mtime": 1784883716.9760592,
+    "ast_hash": "5d61c6d7bb69f02cecb9a25db254e2bb",
+    "semantic_hash": "5d61c6d7bb69f02cecb9a25db254e2bb"
+  },
+  "DH.Domain/Models/GameModels/Queries/GetGameDropdownListQueryModel.cs": {
+    "mtime": 1784883716.9760592,
+    "ast_hash": "5f7b6516c8b4e904ff789263961a3e2d",
+    "semantic_hash": "5f7b6516c8b4e904ff789263961a3e2d"
+  },
+  "DH.Domain/Models/GameModels/Queries/GetGameInvetoryQueryModel.cs": {
+    "mtime": 1784883716.9760592,
+    "ast_hash": "eba6e3e22c75f0abe1b5a51e93aa1214",
+    "semantic_hash": "eba6e3e22c75f0abe1b5a51e93aa1214"
+  },
+  "DH.Domain/Models/GameModels/Queries/GetGameListQueryModel.cs": {
+    "mtime": 1784883716.9760592,
+    "ast_hash": "955b3186559d2a56ebaa9fd7b06bdf3f",
+    "semantic_hash": "955b3186559d2a56ebaa9fd7b06bdf3f"
+  },
+  "DH.Domain/Models/GameModels/Queries/GetGameReservationByIdQueryModel.cs": {
+    "mtime": 1784883716.9760592,
+    "ast_hash": "c41773d8a803575b2794ed372ba24242",
+    "semantic_hash": "c41773d8a803575b2794ed372ba24242"
+  },
+  "DH.Domain/Models/GameModels/Queries/GetGameReservationHistoryQueryModel.cs": {
+    "mtime": 1784883716.9760592,
+    "ast_hash": "ca69bcd7e91f4b8eb4ec76a199fa69e5",
+    "semantic_hash": "ca69bcd7e91f4b8eb4ec76a199fa69e5"
+  },
+  "DH.Domain/Models/GameModels/Queries/GetGameReservationListQueryModel.cs": {
+    "mtime": 1784883716.9760592,
+    "ast_hash": "af580efaf7fe0465be9454e7d06fd457",
+    "semantic_hash": "af580efaf7fe0465be9454e7d06fd457"
+  },
+  "DH.Domain/Models/GameModels/Queries/GetGameReservationStatusQueryModel.cs": {
+    "mtime": 1784883716.9760592,
+    "ast_hash": "b2b02e0f0444705bb8658db676836c0a",
+    "semantic_hash": "b2b02e0f0444705bb8658db676836c0a"
+  },
+  "DH.Domain/Models/GameModels/Queries/GetGameReviewListQueryModel.cs": {
+    "mtime": 1784883716.9760592,
+    "ast_hash": "6485b94e643ffa20972bffef233261aa",
+    "semantic_hash": "6485b94e643ffa20972bffef233261aa"
+  },
+  "DH.Domain/Models/IValidableFields.cs": {
+    "mtime": 1784883716.9760592,
+    "ast_hash": "eb73e75b6b2f612722b2de450f232442",
+    "semantic_hash": "eb73e75b6b2f612722b2de450f232442"
+  },
+  "DH.Domain/Models/RewardModels/Commands/CreateRewardDto.cs": {
+    "mtime": 1784883716.9765768,
+    "ast_hash": "45f084516d2491ff6ef1ae8e2bac1afe",
+    "semantic_hash": "45f084516d2491ff6ef1ae8e2bac1afe"
+  },
+  "DH.Domain/Models/RewardModels/Commands/UpdateRewardDto.cs": {
+    "mtime": 1784883716.9767227,
+    "ast_hash": "f72169cf68e2f7aba3574ac98f9a6b92",
+    "semantic_hash": "f72169cf68e2f7aba3574ac98f9a6b92"
+  },
+  "DH.Domain/Models/RewardModels/Queries/GetRewardByIdQueryModel.cs": {
+    "mtime": 1784883716.9767227,
+    "ast_hash": "7193da188059d775724ed7809217eeba",
+    "semantic_hash": "7193da188059d775724ed7809217eeba"
+  },
+  "DH.Domain/Models/RewardModels/Queries/GetSystemRewardDropdownListQueryModel.cs": {
+    "mtime": 1784883716.976842,
+    "ast_hash": "1b808503ced62def25925580ca40731e",
+    "semantic_hash": "1b808503ced62def25925580ca40731e"
+  },
+  "DH.Domain/Models/RewardModels/Queries/GetSystemRewardListQueryModel.cs": {
+    "mtime": 1784883716.976842,
+    "ast_hash": "c73fbb4b46410e03bddca03dfeb95d1a",
+    "semantic_hash": "c73fbb4b46410e03bddca03dfeb95d1a"
+  },
+  "DH.Domain/Models/RewardModels/Queries/GetUserChallengePeriodRewardListQueryModel.cs": {
+    "mtime": 1784883716.976842,
+    "ast_hash": "a7a1b5362f011f745f4abc0468d01e53",
+    "semantic_hash": "a7a1b5362f011f745f4abc0468d01e53"
+  },
+  "DH.Domain/Models/RewardModels/Queries/GetUserRewardListQueryModel.cs": {
+    "mtime": 1784883716.976842,
+    "ast_hash": "1f1b86f6cb82a4dc3753e0d8825e27a7",
+    "semantic_hash": "1f1b86f6cb82a4dc3753e0d8825e27a7"
+  },
+  "DH.Domain/Models/RoomModels/Commands/CreateRoomCommandDto.cs": {
+    "mtime": 1784883716.9770434,
+    "ast_hash": "9960b0335e5de241a05246b8e7691a9c",
+    "semantic_hash": "9960b0335e5de241a05246b8e7691a9c"
+  },
+  "DH.Domain/Models/RoomModels/Commands/UpdateRoomCommandDto.cs": {
+    "mtime": 1784883716.977117,
+    "ast_hash": "31acf2855089bd1ebd9f3592dd0373e1",
+    "semantic_hash": "31acf2855089bd1ebd9f3592dd0373e1"
+  },
+  "DH.Domain/Models/RoomModels/Queries/GetRoomByIdQueryModel.cs": {
+    "mtime": 1784883716.977117,
+    "ast_hash": "0dd9fd914ac5e78fa03a8fc72d330100",
+    "semantic_hash": "0dd9fd914ac5e78fa03a8fc72d330100"
+  },
+  "DH.Domain/Models/RoomModels/Queries/GetRoomInfoMessageListQueryModel.cs": {
+    "mtime": 1784883716.9772382,
+    "ast_hash": "e93690eb0a583149367cac2da87cc7a4",
+    "semantic_hash": "e93690eb0a583149367cac2da87cc7a4"
+  },
+  "DH.Domain/Models/RoomModels/Queries/GetRoomListQueryModel.cs": {
+    "mtime": 1784883716.9772382,
+    "ast_hash": "2a69d5d761af43f4f249dd2901b95afa",
+    "semantic_hash": "2a69d5d761af43f4f249dd2901b95afa"
+  },
+  "DH.Domain/Models/RoomModels/Queries/GetRoomMemberListQueryModel.cs": {
+    "mtime": 1784883716.9772382,
+    "ast_hash": "957d987497563115040cccaf72394411",
+    "semantic_hash": "957d987497563115040cccaf72394411"
+  },
+  "DH.Domain/Models/RoomModels/Queries/GetRoomMessageListQueryModel.cs": {
+    "mtime": 1784883716.9772382,
+    "ast_hash": "513bb6e28d635d0ad0299fe7409e29d8",
+    "semantic_hash": "513bb6e28d635d0ad0299fe7409e29d8"
+  },
+  "DH.Domain/Models/ScannerModels/Queries/QrCodeRequestModel.cs": {
+    "mtime": 1784883716.9774778,
+    "ast_hash": "cd7c88baa0013d3cf842d7f2dc882ec4",
+    "semantic_hash": "cd7c88baa0013d3cf842d7f2dc882ec4"
+  },
+  "DH.Domain/Models/SpaceManagementModels/Commands/CreateSpaceTableDto.cs": {
+    "mtime": 1784883716.9775102,
+    "ast_hash": "e1288d0d495416461c77960cbb66ef5a",
+    "semantic_hash": "e1288d0d495416461c77960cbb66ef5a"
+  },
+  "DH.Domain/Models/SpaceManagementModels/Commands/UpdateSpaceTableDto.cs": {
+    "mtime": 1784883716.9777176,
+    "ast_hash": "0db02e12e24e7dc7e68b91a0cbd78726",
+    "semantic_hash": "0db02e12e24e7dc7e68b91a0cbd78726"
+  },
+  "DH.Domain/Models/SpaceManagementModels/Queries/GetActiveBookedSpaceTableQueryModel.cs": {
+    "mtime": 1784883716.9777176,
+    "ast_hash": "639a892de3f4e0ba0552bf4487089f84",
+    "semantic_hash": "639a892de3f4e0ba0552bf4487089f84"
+  },
+  "DH.Domain/Models/SpaceManagementModels/Queries/GetActiveSpaceTableReservationListQueryModel.cs": {
+    "mtime": 1784883716.9778373,
+    "ast_hash": "3639053d018db92413e42bf0a616c0e4",
+    "semantic_hash": "3639053d018db92413e42bf0a616c0e4"
+  },
+  "DH.Domain/Models/SpaceManagementModels/Queries/GetOwnerStatsQueryModel.cs": {
+    "mtime": 1784883716.9778373,
+    "ast_hash": "c707a89ac95177f5bc2be466b75d5d56",
+    "semantic_hash": "c707a89ac95177f5bc2be466b75d5d56"
+  },
+  "DH.Domain/Models/SpaceManagementModels/Queries/GetSpaceActivityStatsQueryModel.cs": {
+    "mtime": 1784883716.9778373,
+    "ast_hash": "beb45e62ed97de33cb7ca54f0867bb41",
+    "semantic_hash": "beb45e62ed97de33cb7ca54f0867bb41"
+  },
+  "DH.Domain/Models/SpaceManagementModels/Queries/GetSpaceAvailableTableListQueryModel.cs": {
+    "mtime": 1784883716.9778373,
+    "ast_hash": "78ab7617b962d25bada5a35fcbe52eb4",
+    "semantic_hash": "78ab7617b962d25bada5a35fcbe52eb4"
+  },
+  "DH.Domain/Models/SpaceManagementModels/Queries/GetSpaceTableByIdQueryModel.cs": {
+    "mtime": 1784883716.9778373,
+    "ast_hash": "0d88611b4c58a0ea3de0a6a9d36efc1f",
+    "semantic_hash": "0d88611b4c58a0ea3de0a6a9d36efc1f"
+  },
+  "DH.Domain/Models/SpaceManagementModels/Queries/GetSpaceTableParticipantListQueryModel.cs": {
+    "mtime": 1784883716.9778373,
+    "ast_hash": "1241972866dc2a8898afaf09ae7689a3",
+    "semantic_hash": "1241972866dc2a8898afaf09ae7689a3"
+  },
+  "DH.Domain/Models/SpaceManagementModels/Queries/GetSpaceTableReservationByIdQueryModel.cs": {
+    "mtime": 1784883716.9778373,
+    "ast_hash": "04403f9a57481ea56338ab52388c6d98",
+    "semantic_hash": "04403f9a57481ea56338ab52388c6d98"
+  },
+  "DH.Domain/Models/SpaceManagementModels/Queries/GetSpaceTableReservationHistoryQueryModel.cs": {
+    "mtime": 1784883716.9778373,
+    "ast_hash": "c67bd2eb9189b1be67c0bd697e9047ab",
+    "semantic_hash": "c67bd2eb9189b1be67c0bd697e9047ab"
+  },
+  "DH.Domain/Models/SpaceManagementModels/Queries/GetUserActiveTableQueryModel.cs": {
+    "mtime": 1784883716.9778373,
+    "ast_hash": "f579455eaa7d293d57a431db8cea0255",
+    "semantic_hash": "f579455eaa7d293d57a431db8cea0255"
+  },
+  "DH.Domain/Models/SpaceManagementModels/Queries/GetUserStatsQueryModel.cs": {
+    "mtime": 1784883716.9778373,
+    "ast_hash": "25cdd4439f885834def08d6c102fcda0",
+    "semantic_hash": "25cdd4439f885834def08d6c102fcda0"
+  },
+  "DH.Domain/Models/StatisticsModels/Queries/GetActivityChartData.cs": {
+    "mtime": 1784883716.9783077,
+    "ast_hash": "7b2d54c365532cad30c099f5bb5718dd",
+    "semantic_hash": "7b2d54c365532cad30c099f5bb5718dd"
+  },
+  "DH.Domain/Models/StatisticsModels/Queries/GetChallengeHistoryLogQueryResponse.cs": {
+    "mtime": 1784883716.978386,
+    "ast_hash": "1481c6b6454943c2279086ed31dca208",
+    "semantic_hash": "1481c6b6454943c2279086ed31dca208"
+  },
+  "DH.Domain/Models/StatisticsModels/Queries/GetCollectedRewardByDatesModel.cs": {
+    "mtime": 1784883716.978386,
+    "ast_hash": "8360ef90baf522f2bcf03d5cb7cda221",
+    "semantic_hash": "8360ef90baf522f2bcf03d5cb7cda221"
+  },
+  "DH.Domain/Models/StatisticsModels/Queries/GetEventAttendanceChartData.cs": {
+    "mtime": 1784883716.978386,
+    "ast_hash": "23fd979ce45a0152088664affc2cbb34",
+    "semantic_hash": "23fd979ce45a0152088664affc2cbb34"
+  },
+  "DH.Domain/Models/StatisticsModels/Queries/GetExpiredCollectedRewardsChartDataModel.cs": {
+    "mtime": 1784883716.978386,
+    "ast_hash": "a7bd2b06cbd4822f2b829fbc1a984408",
+    "semantic_hash": "a7bd2b06cbd4822f2b829fbc1a984408"
+  },
+  "DH.Domain/Models/StatisticsModels/Queries/GetGameActivityChartData.cs": {
+    "mtime": 1784883716.978386,
+    "ast_hash": "415eafc7cb1af7819b723825052d0e92",
+    "semantic_hash": "415eafc7cb1af7819b723825052d0e92"
+  },
+  "DH.Domain/Models/StatisticsModels/Queries/GetReservationChartData.cs": {
+    "mtime": 1784883716.9785101,
+    "ast_hash": "6433f121f05f8690be6236b0b0d85672",
+    "semantic_hash": "6433f121f05f8690be6236b0b0d85672"
+  },
+  "DH.Domain/Models/StatisticsModels/Queries/GetUsersWhoPlayedGameData.cs": {
+    "mtime": 1784883716.9785101,
+    "ast_hash": "3f50b94fe8d9e7efd1e3d6c9c861ed64",
+    "semantic_hash": "3f50b94fe8d9e7efd1e3d6c9c861ed64"
+  },
+  "DH.Domain/Queue/JobInfoBase.cs": {
+    "mtime": 1784883716.9785101,
+    "ast_hash": "2e1efd467554f9847985e3976b1d9418",
+    "semantic_hash": "2e1efd467554f9847985e3976b1d9418"
+  },
+  "DH.Domain/Queue/QueueBase.cs": {
+    "mtime": 1784883716.9787915,
+    "ast_hash": "90223cc6ed448c0f9e703b4b8dea0f91",
+    "semantic_hash": "90223cc6ed448c0f9e703b4b8dea0f91"
+  },
+  "DH.Domain/Queue/QueueNameKeysConstants.cs": {
+    "mtime": 1784883716.9787915,
+    "ast_hash": "a941c8465017fcf90ba8e855d2ebcf99",
+    "semantic_hash": "a941c8465017fcf90ba8e855d2ebcf99"
+  },
+  "DH.Domain/Repositories/IRepository.cs": {
+    "mtime": 1784883716.9787915,
+    "ast_hash": "a7f56bae5024524f154a60710881a428",
+    "semantic_hash": "a7f56bae5024524f154a60710881a428"
+  },
+  "DH.Domain/Seeder/IGameSeeder.cs": {
+    "mtime": 1784883716.9787915,
+    "ast_hash": "0ed6a8fd5ca4b11e12970401927653ed",
+    "semantic_hash": "0ed6a8fd5ca4b11e12970401927653ed"
+  },
+  "DH.Domain/Services/IChallengeService.cs": {
+    "mtime": 1784883716.9787915,
+    "ast_hash": "ada6844884038303168d6a327fa73869",
+    "semantic_hash": "ada6844884038303168d6a327fa73869"
+  },
+  "DH.Domain/Services/IDomainService.cs": {
+    "mtime": 1784883716.9791858,
+    "ast_hash": "10cc1fff7e246116b5b15b0f52ec645c",
+    "semantic_hash": "10cc1fff7e246116b5b15b0f52ec645c"
+  },
+  "DH.Domain/Services/IEmailHelperService.cs": {
+    "mtime": 1784883716.9791858,
+    "ast_hash": "0ab559b8b9b3aaa38d9459d664ec8656",
+    "semantic_hash": "0ab559b8b9b3aaa38d9459d664ec8656"
+  },
+  "DH.Domain/Services/IEventService.cs": {
+    "mtime": 1784883716.9791858,
+    "ast_hash": "10e2be10d13232a13d3625074c01b8b3",
+    "semantic_hash": "10e2be10d13232a13d3625074c01b8b3"
+  },
+  "DH.Domain/Services/IGameCategoryService.cs": {
+    "mtime": 1784883716.9791858,
+    "ast_hash": "4ccb2797569da925e0751abce38e90c1",
+    "semantic_hash": "4ccb2797569da925e0751abce38e90c1"
+  },
+  "DH.Domain/Services/IGameService.cs": {
+    "mtime": 1784883716.9791858,
+    "ast_hash": "2c3f458b44b0b90cafbe371d44908154",
+    "semantic_hash": "2c3f458b44b0b90cafbe371d44908154"
+  },
+  "DH.Domain/Services/IGameSessionService.cs": {
+    "mtime": 1784883716.9791858,
+    "ast_hash": "28cfd0ebc899b4564be604ffffac52c3",
+    "semantic_hash": "28cfd0ebc899b4564be604ffffac52c3"
+  },
+  "DH.Domain/Services/IRewardService.cs": {
+    "mtime": 1784883716.97951,
+    "ast_hash": "cf34a5c152ffc83a767937e75b610f29",
+    "semantic_hash": "cf34a5c152ffc83a767937e75b610f29"
+  },
+  "DH.Domain/Services/IRoomService.cs": {
+    "mtime": 1784883716.97951,
+    "ast_hash": "a9af2eff7799d45b51b5b59d346d339c",
+    "semantic_hash": "a9af2eff7799d45b51b5b59d346d339c"
+  },
+  "DH.Domain/Services/ISpaceTableService.cs": {
+    "mtime": 1784883716.97951,
+    "ast_hash": "3c72a986d3c66469b176b3c601496fc5",
+    "semantic_hash": "3c72a986d3c66469b176b3c601496fc5"
+  },
+  "DH.Domain/Services/IUniversalChallengeProcessing.cs": {
+    "mtime": 1784883716.97951,
+    "ast_hash": "bbe74f755d8d65bd018da3f5e6b4a8d2",
+    "semantic_hash": "bbe74f755d8d65bd018da3f5e6b4a8d2"
+  },
+  "DH.Domain/Services/IUserChallengesManagementService.cs": {
+    "mtime": 1784883716.97951,
+    "ast_hash": "345b62fa2e06b05e49fa684523c62917",
+    "semantic_hash": "345b62fa2e06b05e49fa684523c62917"
+  },
+  "DH.Domain/Services/Queue/IQueuedJobService.cs": {
+    "mtime": 1784883716.97951,
+    "ast_hash": "f9a05e4b3e08b5083574cc72a97c06f7",
+    "semantic_hash": "f9a05e4b3e08b5083574cc72a97c06f7"
+  },
+  "DH.Domain/Services/Seed/ISeedService.cs": {
+    "mtime": 1784883716.97951,
+    "ast_hash": "e6218c0d8c7fbd40517d32f35c3341b0",
+    "semantic_hash": "e6218c0d8c7fbd40517d32f35c3341b0"
+  },
+  "DH.Domain/Services/TenantSettingsService/ITenantSettingsCacheService.cs": {
+    "mtime": 1784883716.97951,
+    "ast_hash": "bac306fbe4b97877185c1a4cfae161bc",
+    "semantic_hash": "bac306fbe4b97877185c1a4cfae161bc"
+  },
+  "DH.Domain/Services/TenantSettingsService/TenantSettingsCacheService.cs": {
+    "mtime": 1784883716.980224,
+    "ast_hash": "a64fbf4993c901d665e86b702b241c45",
+    "semantic_hash": "a64fbf4993c901d665e86b702b241c45"
+  },
+  "DH.Domain/Services/TenantUserSettingsService/IUserSettingsCache.cs": {
+    "mtime": 1784883716.980224,
+    "ast_hash": "c2330bf05b9e87a82b6594e367af6b50",
+    "semantic_hash": "c2330bf05b9e87a82b6594e367af6b50"
+  },
+  "DH.Messaging.HttpClient/AuthorizedClientFactory.cs": {
+    "mtime": 1784883716.980224,
+    "ast_hash": "7cec28090c936938e406820a5d2be947",
+    "semantic_hash": "7cec28090c936938e406820a5d2be947"
+  },
+  "DH.Messaging.HttpClient/AuthorizedHttpClient.cs": {
+    "mtime": 1784883716.980431,
+    "ast_hash": "e012744784a73db0fc628e24cd970527",
+    "semantic_hash": "e012744784a73db0fc628e24cd970527"
+  },
+  "DH.Messaging.HttpClient/DH.Messaging.HttpClient.csproj": {
+    "mtime": 1784883716.980431,
+    "ast_hash": "2acbbad7fa3ffcff69a50e959687f540",
+    "semantic_hash": "2acbbad7fa3ffcff69a50e959687f540"
+  },
+  "DH.Messaging.HttpClient/DI.cs": {
+    "mtime": 1784883716.98051,
+    "ast_hash": "c12af5517936b9a52ca0d19417f9b7f8",
+    "semantic_hash": "c12af5517936b9a52ca0d19417f9b7f8"
+  },
+  "DH.Messaging.HttpClient/Enums/ApplicationApi.cs": {
+    "mtime": 1784883716.98051,
+    "ast_hash": "4ed88d18eb6e0cd1cc24121e897202b1",
+    "semantic_hash": "4ed88d18eb6e0cd1cc24121e897202b1"
+  },
+  "DH.Messaging.HttpClient/Enums/HttpClientNames.cs": {
+    "mtime": 1784883716.9807405,
+    "ast_hash": "89ffc61f846d469c25bad10f86ea210b",
+    "semantic_hash": "89ffc61f846d469c25bad10f86ea210b"
+  },
+  "DH.Messaging.HttpClient/Helpers/ApplicationUrlHelper.cs": {
+    "mtime": 1784883716.9807405,
+    "ast_hash": "101bdbc3e5c4ec3d91419e8de9757669",
+    "semantic_hash": "101bdbc3e5c4ec3d91419e8de9757669"
+  },
+  "DH.Messaging.HttpClient/Helpers/Sanitizer.cs": {
+    "mtime": 1784883716.9808729,
+    "ast_hash": "6b15e5a3c982ede4d93f46466d35d05c",
+    "semantic_hash": "6b15e5a3c982ede4d93f46466d35d05c"
+  },
+  "DH.Messaging.HttpClient/IAuthorizedClientFactory.cs": {
+    "mtime": 1784883716.9808729,
+    "ast_hash": "8ea080012cd2c97a32eac7a4d6c973d3",
+    "semantic_hash": "8ea080012cd2c97a32eac7a4d6c973d3"
+  },
+  "DH.Messaging.HttpClient/IAuthorizedHttpClient.cs": {
+    "mtime": 1784883716.9808729,
+    "ast_hash": "5e099dea61bf2e59cd3905c1e584835a",
+    "semantic_hash": "5e099dea61bf2e59cd3905c1e584835a"
+  },
+  "DH.Messaging.HttpClient/IAuthorizedHttpClientMessage.cs": {
+    "mtime": 1784883716.9808729,
+    "ast_hash": "aa869b3b8fc37c41b5a884f99b299880",
+    "semantic_hash": "aa869b3b8fc37c41b5a884f99b299880"
+  },
+  "DH.Messaging.Publisher/Authentication/IRabbitMqUserContext.cs": {
+    "mtime": 1784883716.9810898,
+    "ast_hash": "920bc8828f230d86bcd3976ea836e1c5",
+    "semantic_hash": "920bc8828f230d86bcd3976ea836e1c5"
+  },
+  "DH.Messaging.Publisher/Authentication/IRabbitMqUserContextFactory.cs": {
+    "mtime": 1784883716.9811652,
+    "ast_hash": "a16795ccd6be8980bb15015f04de8d8b",
+    "semantic_hash": "a16795ccd6be8980bb15015f04de8d8b"
+  },
+  "DH.Messaging.Publisher/Authentication/RabbitMqUserContextFactory.cs": {
+    "mtime": 1784883716.9811652,
+    "ast_hash": "364fb567d862c5c0f01c67b8c7027dfc",
+    "semantic_hash": "364fb567d862c5c0f01c67b8c7027dfc"
+  },
+  "DH.Messaging.Publisher/DH.Messaging.Publisher.csproj": {
+    "mtime": 1784883716.9811652,
+    "ast_hash": "c69ad60031454a51e274a416310acf33",
+    "semantic_hash": "c69ad60031454a51e274a416310acf33"
+  },
+  "DH.Messaging.Publisher/EventMessage.cs": {
+    "mtime": 1784883716.9811652,
+    "ast_hash": "9e7b95ac93eb118fb183e7fd2c88039f",
+    "semantic_hash": "9e7b95ac93eb118fb183e7fd2c88039f"
+  },
+  "DH.Messaging.Publisher/Extensions/BasicDeliveryEventArgsExtensions.cs": {
+    "mtime": 1784883716.9811652,
+    "ast_hash": "229c19fb25bd3f29240362725184937b",
+    "semantic_hash": "229c19fb25bd3f29240362725184937b"
+  },
+  "DH.Messaging.Publisher/Extensions/RabbitMqPropertiesExtensions.cs": {
+    "mtime": 1784883716.9814417,
+    "ast_hash": "6f3e96320a93350b5a868e8d10f58145",
+    "semantic_hash": "6f3e96320a93350b5a868e8d10f58145"
+  },
+  "DH.Messaging.Publisher/IRabbitMqClient.cs": {
+    "mtime": 1784883716.9814417,
+    "ast_hash": "cf309409414f7fbd1e61b38c740420da",
+    "semantic_hash": "cf309409414f7fbd1e61b38c740420da"
+  },
+  "DH.Messaging.Publisher/IServiceBusHandler.cs": {
+    "mtime": 1784883716.9814417,
+    "ast_hash": "407d299780869de6cd94d6903b9f2d72",
+    "semantic_hash": "407d299780869de6cd94d6903b9f2d72"
+  },
+  "DH.Messaging.Publisher/Messages/ChallengeProcessingOutcomeMessage.cs": {
+    "mtime": 1784883716.9815102,
+    "ast_hash": "715089369d5a0900d1673bfa274a6352",
+    "semantic_hash": "715089369d5a0900d1673bfa274a6352"
+  },
+  "DH.Messaging.Publisher/Messages/ClubActivityDetectedMessage.cs": {
+    "mtime": 1784883716.9816985,
+    "ast_hash": "d6077d08110ace7d5a19a385221d0963",
+    "semantic_hash": "d6077d08110ace7d5a19a385221d0963"
+  },
+  "DH.Messaging.Publisher/Messages/EventAttendanceDetectedMessage.cs": {
+    "mtime": 1784883716.9816985,
+    "ast_hash": "8e8ebc55e09eeb68f19b424fb853bd7c",
+    "semantic_hash": "8e8ebc55e09eeb68f19b424fb853bd7c"
+  },
+  "DH.Messaging.Publisher/Messages/ReservationProcessingOutcomeMessage.cs": {
+    "mtime": 1784883716.9816985,
+    "ast_hash": "0621ff23d4b270eeab39fc5ba3fdf9c5",
+    "semantic_hash": "0621ff23d4b270eeab39fc5ba3fdf9c5"
+  },
+  "DH.Messaging.Publisher/Messages/RewardActionDetectedMessage.cs": {
+    "mtime": 1784883716.9816985,
+    "ast_hash": "af9a95c594387192c9443813b82b95a6",
+    "semantic_hash": "af9a95c594387192c9443813b82b95a6"
+  },
+  "DH.Messaging.Publisher/RabbitMqClient .cs": {
+    "mtime": 1784883716.9816985,
+    "ast_hash": "b5aba31d5402e897e11d1c05709e41b1",
+    "semantic_hash": "b5aba31d5402e897e11d1c05709e41b1"
+  },
+  "DH.OperationResult/DH.OperationResultCore.csproj": {
+    "mtime": 1784883716.9816985,
+    "ast_hash": "a3a8a299e57a66448f91c0818811f467",
+    "semantic_hash": "a3a8a299e57a66448f91c0818811f467"
+  },
+  "DH.OperationResult/Exceptions/BadRequestException.cs": {
+    "mtime": 1784883716.9821563,
+    "ast_hash": "b0770e9c98d617bf3a126088a4cc89ab",
+    "semantic_hash": "b0770e9c98d617bf3a126088a4cc89ab"
+  },
+  "DH.OperationResult/Exceptions/ForbiddenAccessException.cs": {
+    "mtime": 1784883716.982222,
+    "ast_hash": "3b97e2c68c30e69e169fad15270cffcd",
+    "semantic_hash": "3b97e2c68c30e69e169fad15270cffcd"
+  },
+  "DH.OperationResult/Exceptions/InfrastructureException.cs": {
+    "mtime": 1784883716.982222,
+    "ast_hash": "5e7bc1be2b2d85acee3bb409bb6baf34",
+    "semantic_hash": "5e7bc1be2b2d85acee3bb409bb6baf34"
+  },
+  "DH.OperationResult/Exceptions/NotFoundException.cs": {
+    "mtime": 1784883716.982222,
+    "ast_hash": "d6dadd65120faafa4f0d183f2e73a643",
+    "semantic_hash": "d6dadd65120faafa4f0d183f2e73a643"
+  },
+  "DH.OperationResult/Exceptions/ValidationErrorsException.cs": {
+    "mtime": 1784883716.982222,
+    "ast_hash": "ac249185b5ad1413b244b859d49aabbc",
+    "semantic_hash": "ac249185b5ad1413b244b859d49aabbc"
+  },
+  "DH.OperationResult/Extensions/OperationResultExtension.cs": {
+    "mtime": 1784883716.982222,
+    "ast_hash": "2fde3d6e84038763bb11710a5ecd757e",
+    "semantic_hash": "2fde3d6e84038763bb11710a5ecd757e"
+  },
+  "DH.OperationResult/FrontEndErrors/ErrorBody.cs": {
+    "mtime": 1784883716.98251,
+    "ast_hash": "15e6678b587ed78b87b215147b241268",
+    "semantic_hash": "15e6678b587ed78b87b215147b241268"
+  },
+  "DH.OperationResult/IError.cs": {
+    "mtime": 1784883716.98251,
+    "ast_hash": "9774f91b9c21133865318c1ae960c057",
+    "semantic_hash": "9774f91b9c21133865318c1ae960c057"
+  },
+  "DH.OperationResult/Utility/OperationResult.cs": {
+    "mtime": 1784883716.98251,
+    "ast_hash": "50faf70c5bb2f05c713fa6f9e123dbfa",
+    "semantic_hash": "50faf70c5bb2f05c713fa6f9e123dbfa"
+  },
+  "DH.ServiceBusWorker/DH.ServiceBusWorker.csproj": {
+    "mtime": 1784883716.98251,
+    "ast_hash": "d44cd455638b7e9a4a62083412bc281f",
+    "semantic_hash": "d44cd455638b7e9a4a62083412bc281f"
+  },
+  "DH.ServiceBusWorker/RabbitMqWorker.cs": {
+    "mtime": 1784883716.9828985,
+    "ast_hash": "1fad34082dc57b993c02c87ce035bc6b",
+    "semantic_hash": "1fad34082dc57b993c02c87ce035bc6b"
+  },
+  "DH.ServiceBusWorker/RabbitMqWorkerExtensions.cs": {
+    "mtime": 1784883716.9828985,
+    "ast_hash": "b735c68928d5ec3ad37ac4cafc98f50c",
+    "semantic_hash": "b735c68928d5ec3ad37ac4cafc98f50c"
+  },
+  "DH.Statistics.Api/Controllers/StatisticController.cs": {
+    "mtime": 1784883716.983102,
+    "ast_hash": "91f88cb4c799c3836ef02ae1ecc47883",
+    "semantic_hash": "91f88cb4c799c3836ef02ae1ecc47883"
+  },
+  "DH.Statistics.Api/DH.Statistics.Api.csproj": {
+    "mtime": 1784883716.983102,
+    "ast_hash": "616b3e7430258d31958d0dc5f501bf44",
+    "semantic_hash": "616b3e7430258d31958d0dc5f501bf44"
+  },
+  "DH.Statistics.Api/Filters/ApiExceptionFilterAttribute.cs": {
+    "mtime": 1784883716.983102,
+    "ast_hash": "0a0deffd75c6018d6acd41daf63b5808",
+    "semantic_hash": "0a0deffd75c6018d6acd41daf63b5808"
+  },
+  "DH.Statistics.Api/Filters/ValidationFilterAttribute.cs": {
+    "mtime": 1784883716.983536,
+    "ast_hash": "825f00fbfe52e4fd428333cdcb81258d",
+    "semantic_hash": "825f00fbfe52e4fd428333cdcb81258d"
+  },
+  "DH.Statistics.Api/Program.cs": {
+    "mtime": 1784883716.983536,
+    "ast_hash": "42d86a540fd34ef1d9457932e3f2eb5f",
+    "semantic_hash": "42d86a540fd34ef1d9457932e3f2eb5f"
+  },
+  "DH.Statistics.Api/Properties/launchSettings.json": {
+    "mtime": 1784883716.983536,
+    "ast_hash": "ef4b0e51f35538e2b89c6ccdd9846bab",
+    "semantic_hash": "ef4b0e51f35538e2b89c6ccdd9846bab"
+  },
+  "DH.Statistics.Api/appsettings.Development.json": {
+    "mtime": 1784883716.983536,
+    "ast_hash": "477a525a47fc9bdbbf94690e6633d843",
+    "semantic_hash": "477a525a47fc9bdbbf94690e6633d843"
+  },
+  "DH.Statistics.Api/appsettings.json": {
+    "mtime": 1784883716.983536,
+    "ast_hash": "00ce06e5e2365439fcfbd4997bcc822c",
+    "semantic_hash": "00ce06e5e2365439fcfbd4997bcc822c"
+  },
+  "DH.Statistics.Application/Commands/CreateChallengeOutcomeCommand.cs": {
+    "mtime": 1784883716.9839072,
+    "ast_hash": "1f5f212d12a9d82e6757d1a226582979",
+    "semantic_hash": "1f5f212d12a9d82e6757d1a226582979"
+  },
+  "DH.Statistics.Application/Commands/CreateClubVisitorLogCommand.cs": {
+    "mtime": 1784883716.9840255,
+    "ast_hash": "c95dc5f843f81f47fcbf2f39c0c83df3",
+    "semantic_hash": "c95dc5f843f81f47fcbf2f39c0c83df3"
+  },
+  "DH.Statistics.Application/Commands/CreateEventAttendanceLogCommand.cs": {
+    "mtime": 1784883716.9840255,
+    "ast_hash": "5da5db8c578d763f924f3e07dbb0e463",
+    "semantic_hash": "5da5db8c578d763f924f3e07dbb0e463"
+  },
+  "DH.Statistics.Application/Commands/CreateReservationOutcomeCommand.cs": {
+    "mtime": 1784883716.9840255,
+    "ast_hash": "5f0fc3b71f47ebd17b37e704df4f03ea",
+    "semantic_hash": "5f0fc3b71f47ebd17b37e704df4f03ea"
+  },
+  "DH.Statistics.Application/Commands/CreateRewardHistoryLogCommand.cs": {
+    "mtime": 1784883716.9840255,
+    "ast_hash": "82b73f5a3c7c95c728947b74a82f3682",
+    "semantic_hash": "82b73f5a3c7c95c728947b74a82f3682"
+  },
+  "DH.Statistics.Application/Commands/RemoveEventAttendanceLogCommand.cs": {
+    "mtime": 1784883716.9840255,
+    "ast_hash": "bc180cfa54eeafdbc2618b144af3d454",
+    "semantic_hash": "bc180cfa54eeafdbc2618b144af3d454"
+  },
+  "DH.Statistics.Application/DH.Statistics.Application.csproj": {
+    "mtime": 1784883716.9840255,
+    "ast_hash": "24eaacf366a410b1837a2095d439efc0",
+    "semantic_hash": "24eaacf366a410b1837a2095d439efc0"
+  },
+  "DH.Statistics.Application/DI.cs": {
+    "mtime": 1784883716.9840255,
+    "ast_hash": "14e6c592f0af77815eb40ceb2d90561e",
+    "semantic_hash": "14e6c592f0af77815eb40ceb2d90561e"
+  },
+  "DH.Statistics.Application/Queries/GetActivityChartDataQuery.cs": {
+    "mtime": 1784883716.9840255,
+    "ast_hash": "5926ab98296ccaf4176d37106c99ffb8",
+    "semantic_hash": "5926ab98296ccaf4176d37106c99ffb8"
+  },
+  "DH.Statistics.Application/Queries/GetChallengeHistoryLogQuery.cs": {
+    "mtime": 1784883716.9845617,
+    "ast_hash": "183be91748cb7e3962db2e72ec92f6f8",
+    "semantic_hash": "183be91748cb7e3962db2e72ec92f6f8"
+  },
+  "DH.Statistics.Application/Queries/GetCollectedRewardsByDatesQuery.cs": {
+    "mtime": 1784883716.9845617,
+    "ast_hash": "3e4a39b11feb3f156bd1bd0d36e373fe",
+    "semantic_hash": "3e4a39b11feb3f156bd1bd0d36e373fe"
+  },
+  "DH.Statistics.Application/Queries/GetEventAttendanceByIdsQuery.cs": {
+    "mtime": 1784883716.9845617,
+    "ast_hash": "e105bf7904393c8d98d3958104cb0399",
+    "semantic_hash": "e105bf7904393c8d98d3958104cb0399"
+  },
+  "DH.Statistics.Application/Queries/GetEventAttendanceChartDataQuery.cs": {
+    "mtime": 1784883716.9845617,
+    "ast_hash": "939593400f940cd4948d06da6b29def8",
+    "semantic_hash": "939593400f940cd4948d06da6b29def8"
+  },
+  "DH.Statistics.Application/Queries/GetExpiredCollectedRewardsChartDataQuery.cs": {
+    "mtime": 1784883716.9845617,
+    "ast_hash": "81ece187c1a759bfc1f737beadba7107",
+    "semantic_hash": "81ece187c1a759bfc1f737beadba7107"
+  },
+  "DH.Statistics.Application/Queries/GetReservationChartDataQuery.cs": {
+    "mtime": 1784883716.9845617,
+    "ast_hash": "6a694d3177822f9d71d8ad8900423304",
+    "semantic_hash": "6a694d3177822f9d71d8ad8900423304"
+  },
+  "DH.Statistics.Data/DH.Statistics.Data.csproj": {
+    "mtime": 1784883716.9845617,
+    "ast_hash": "f53096d892ca6526c2f0b1a67cd2d72c",
+    "semantic_hash": "f53096d892ca6526c2f0b1a67cd2d72c"
+  },
+  "DH.Statistics.Data/DI.cs": {
+    "mtime": 1784883716.9849997,
+    "ast_hash": "4454a3793bb3079faa698150f97447e1",
+    "semantic_hash": "4454a3793bb3079faa698150f97447e1"
+  },
+  "DH.Statistics.Data/Migrations/20250115180300_InitialCreate.Designer.cs": {
+    "mtime": 1784883716.9849997,
+    "ast_hash": "a59ee71f8c4e079ece8349704b1759d6",
+    "semantic_hash": "a59ee71f8c4e079ece8349704b1759d6"
+  },
+  "DH.Statistics.Data/Migrations/20250115180300_InitialCreate.cs": {
+    "mtime": 1784883716.9851542,
+    "ast_hash": "94d9fb5ceb8c7ff577e884d744d21b20",
+    "semantic_hash": "94d9fb5ceb8c7ff577e884d744d21b20"
+  },
+  "DH.Statistics.Data/Migrations/StatisticsDbContextModelSnapshot.cs": {
+    "mtime": 1784883716.9851542,
+    "ast_hash": "478c38a241bdbdf7196c277d6accc886",
+    "semantic_hash": "478c38a241bdbdf7196c277d6accc886"
+  },
+  "DH.Statistics.Data/StatisticsDbContext.cs": {
+    "mtime": 1784883716.9851542,
+    "ast_hash": "f3ae3dfdc9fc9c42949aaf2a1f101faf",
+    "semantic_hash": "f3ae3dfdc9fc9c42949aaf2a1f101faf"
+  },
+  "DH.Statistics.Data/StatisticsDbContextFactory.cs": {
+    "mtime": 1784883716.9851542,
+    "ast_hash": "ca40d10c29caa73640af3cdcca5b8da6",
+    "semantic_hash": "ca40d10c29caa73640af3cdcca5b8da6"
+  },
+  "DH.Statistics.Domain/DH.Statistics.Domain.csproj": {
+    "mtime": 1784883716.9851542,
+    "ast_hash": "a3a8a299e57a66448f91c0818811f467",
+    "semantic_hash": "a3a8a299e57a66448f91c0818811f467"
+  },
+  "DH.Statistics.Domain/Entities/ChallengeHistoryLog.cs": {
+    "mtime": 1784883716.9854648,
+    "ast_hash": "a8abdf80c1ea4020512db14e6c2c3097",
+    "semantic_hash": "a8abdf80c1ea4020512db14e6c2c3097"
+  },
+  "DH.Statistics.Domain/Entities/ClubVisitorLog.cs": {
+    "mtime": 1784883716.9855347,
+    "ast_hash": "46b897061aa6b389fa227c7c4cda8915",
+    "semantic_hash": "46b897061aa6b389fa227c7c4cda8915"
+  },
+  "DH.Statistics.Domain/Entities/EventAttendanceLog.cs": {
+    "mtime": 1784883716.9855347,
+    "ast_hash": "ce2f089255fce1312e1c65984a43223c",
+    "semantic_hash": "ce2f089255fce1312e1c65984a43223c"
+  },
+  "DH.Statistics.Domain/Entities/ReservationOutcomeLog.cs": {
+    "mtime": 1784883716.9855347,
+    "ast_hash": "3fc258206e34ffb8c0c1bc5f9722d6e9",
+    "semantic_hash": "3fc258206e34ffb8c0c1bc5f9722d6e9"
+  },
+  "DH.Statistics.Domain/Entities/RewardHistoryLog.cs": {
+    "mtime": 1784883716.9855347,
+    "ast_hash": "6f37cfc3f4d700951f4b0fd1bf7c5fea",
+    "semantic_hash": "6f37cfc3f4d700951f4b0fd1bf7c5fea"
+  },
+  "DH.Statistics.Domain/Enums/ChallengeOutcome.cs": {
+    "mtime": 1784883716.9855347,
+    "ast_hash": "ac0fdcd857b20e3508d93b815a341c1e",
+    "semantic_hash": "ac0fdcd857b20e3508d93b815a341c1e"
+  },
+  "DH.Statistics.Domain/Enums/ChartActivityType.cs": {
+    "mtime": 1784883716.9857883,
+    "ast_hash": "a13a1b49a38b905545288de9e73bca53",
+    "semantic_hash": "a13a1b49a38b905545288de9e73bca53"
+  },
+  "DH.Statistics.Domain/Enums/ReservationOutcome.cs": {
+    "mtime": 1784883716.9857883,
+    "ast_hash": "f9e69140fbbac12d0bb26ddefb4ece8a",
+    "semantic_hash": "f9e69140fbbac12d0bb26ddefb4ece8a"
+  },
+  "DH.Statistics.Domain/Enums/ReservationType.cs": {
+    "mtime": 1784883716.9857883,
+    "ast_hash": "00952b84c9134e3d647f288afc4c9078",
+    "semantic_hash": "00952b84c9134e3d647f288afc4c9078"
+  },
+  "DH.Statistics.Domain/Models/Queries/GetActivityChartData.cs": {
+    "mtime": 1784883716.985954,
+    "ast_hash": "26018c07cc9d77536276f5ffc5e1e265",
+    "semantic_hash": "26018c07cc9d77536276f5ffc5e1e265"
+  },
+  "DH.Statistics.Domain/Models/Queries/GetCollectedRewardByDatesModel.cs": {
+    "mtime": 1784883716.9860303,
+    "ast_hash": "53c02b7fb8b8bc7369cecf6f1769e813",
+    "semantic_hash": "53c02b7fb8b8bc7369cecf6f1769e813"
+  },
+  "DH.Statistics.Domain/Models/Queries/GetEventAttendanceChartData.cs": {
+    "mtime": 1784883716.9860303,
+    "ast_hash": "1b948cafadbf40934bdbc382096eeb0b",
+    "semantic_hash": "1b948cafadbf40934bdbc382096eeb0b"
+  },
+  "DH.Statistics.Domain/Models/Queries/GetExpiredCollectedRewardsChartDataModel.cs": {
+    "mtime": 1784883716.9860303,
+    "ast_hash": "b1f969804b960fe199e494f8657e1180",
+    "semantic_hash": "b1f969804b960fe199e494f8657e1180"
+  },
+  "DH.Statistics.Domain/Models/Queries/GetReservationChartData.cs": {
+    "mtime": 1784883716.9860303,
+    "ast_hash": "4fe48e81c500e41a55e83a97f0785a26",
+    "semantic_hash": "4fe48e81c500e41a55e83a97f0785a26"
+  },
+  "DH.Statistics.WorkerService/ApiEndpoints.cs": {
+    "mtime": 1784883716.9860303,
+    "ast_hash": "0aff16bb3f0b6b74deb0654fc69dda0c",
+    "semantic_hash": "0aff16bb3f0b6b74deb0654fc69dda0c"
+  },
+  "DH.Statistics.WorkerService/Common/RabbitMqOptions.cs": {
+    "mtime": 1784883716.9862897,
+    "ast_hash": "a54e95231f0fda7fdef9ee3550d8c343",
+    "semantic_hash": "a54e95231f0fda7fdef9ee3550d8c343"
+  },
+  "DH.Statistics.WorkerService/Common/RabbitMqQueues.cs": {
+    "mtime": 1784883716.9863634,
+    "ast_hash": "f5f1130674eb5c630b2095b31aa25ee0",
+    "semantic_hash": "f5f1130674eb5c630b2095b31aa25ee0"
+  },
+  "DH.Statistics.WorkerService/Common/RabbitMqRoutingKeys.cs": {
+    "mtime": 1784883716.9863634,
+    "ast_hash": "a310be6cc3116b3dc8283822127a6fca",
+    "semantic_hash": "a310be6cc3116b3dc8283822127a6fca"
+  },
+  "DH.Statistics.WorkerService/DH.Statistics.WorkerService.csproj": {
+    "mtime": 1784883716.9863634,
+    "ast_hash": "f72cc284fa29473ff99445fa356de5a9",
+    "semantic_hash": "f72cc284fa29473ff99445fa356de5a9"
+  },
+  "DH.Statistics.WorkerService/Handlers/ChallengeProcessingOutcomeHandler.cs": {
+    "mtime": 1784883716.9863634,
+    "ast_hash": "e4a34b6e4ec902925766b7d31ea15d88",
+    "semantic_hash": "e4a34b6e4ec902925766b7d31ea15d88"
+  },
+  "DH.Statistics.WorkerService/Handlers/ClubActivityDetectedHandler.cs": {
+    "mtime": 1784883716.9865708,
+    "ast_hash": "5686746f0ca4dd2acac120a71227332b",
+    "semantic_hash": "5686746f0ca4dd2acac120a71227332b"
+  },
+  "DH.Statistics.WorkerService/Handlers/EventAttendanceDetectedHandler.cs": {
+    "mtime": 1784883716.9865708,
+    "ast_hash": "393d389ee78a8c97e542dc2ce2ef26b7",
+    "semantic_hash": "393d389ee78a8c97e542dc2ce2ef26b7"
+  },
+  "DH.Statistics.WorkerService/Handlers/ReservationProcessingOutcomeHandler.cs": {
+    "mtime": 1784883716.9865708,
+    "ast_hash": "54d3e8f9c039c2582dc0334959238c01",
+    "semantic_hash": "54d3e8f9c039c2582dc0334959238c01"
+  },
+  "DH.Statistics.WorkerService/Handlers/RewardActionDetectedHandler.cs": {
+    "mtime": 1784883716.9865708,
+    "ast_hash": "1030ae281e34abb11705baa32e40f4b5",
+    "semantic_hash": "1030ae281e34abb11705baa32e40f4b5"
+  },
+  "DH.Statistics.WorkerService/Program.cs": {
+    "mtime": 1784883716.9865708,
+    "ast_hash": "bb9a791dab1ca1488b029251b8b67cea",
+    "semantic_hash": "bb9a791dab1ca1488b029251b8b67cea"
+  },
+  "DH.Statistics.WorkerService/appsettings.json": {
+    "mtime": 1784883716.9865708,
+    "ast_hash": "9bc04d375cfabccb2b6367b9c8d8e9fc",
+    "semantic_hash": "9bc04d375cfabccb2b6367b9c8d8e9fc"
+  },
+  "deploy.sh": {
+    "mtime": 1784883716.9865708,
+    "ast_hash": "9b87a6332f27521efdc00c1aa387e451",
+    "semantic_hash": "9b87a6332f27521efdc00c1aa387e451"
+  }
+}

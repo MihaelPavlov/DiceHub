@@ -66,10 +66,11 @@ public class TenantRouteValidationMiddleware
 
         // Extract tenantId from JWT claim
         var tokenTenantId = user.FindFirstValue("tenant_id");
+        var isSuperAdmin = user.IsInRole("SuperAdmin");
 
-        // Users with no native tenant (super admins) may access any tenant route.
+        // Super admins may access any tenant route regardless of their token's tenant claim.
         // Regular users must match the route tenant exactly.
-        if (!string.IsNullOrEmpty(tokenTenantId) && tenant.Id != tokenTenantId)
+        if (!isSuperAdmin && tenant.Id != tokenTenantId)
         {
             context.Response.StatusCode = StatusCodes.Status403Forbidden;
             await context.Response.WriteAsync("Tenant mismatch.");

@@ -1,0 +1,164 @@
+@use "../../.././shared/assets/styles/palette";
+
+.wrapper {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 46rem;
+  min-height: 100vh;
+}
+
+.header {
+  margin: 1rem;
+  display: flex;
+  justify-content: center;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.sub-header {
+  margin: 0 2rem 1rem;
+  color: palette.$main-font-gray-color;
+  text-align: center;
+  line-height: 1.45;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  margin: 2rem;
+  margin-bottom: 3rem;
+}
+
+.form-section {
+  margin-bottom: 1rem;
+
+  h2 {
+    margin-bottom: 1rem;
+    font-size: 1.15rem;
+    font-weight: 600;
+  }
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.state-card {
+  margin: 2rem;
+  padding: 1.25rem;
+  border-radius: 0.4rem;
+  background: palette.$main-nav-color;
+  color: palette.$main-font-gray-color;
+  line-height: 1.5;
+  text-align: center;
+
+  h2 {
+    margin-bottom: 1rem;
+    color: palette.$main-font-color;
+    font-size: 1.2rem;
+  }
+
+  p {
+    margin-bottom: 1rem;
+  }
+}
+
+.error-state {
+  color: palette.$main-red-color;
+
+  p {
+    color: palette.$main-font-gray-color;
+  }
+}
+
+.success-state {
+  color: palette.$main-green-color;
+
+  p {
+    color: palette.$main-font-gray-color;
+  }
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  margin: 1rem;
+
+  button {
+    width: 60%;
+  }
+}
+
+.errors {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+  margin-bottom: 0;
+  color: palette.$main-red-color;
+  font-size: 1rem;
+  text-align: center;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.seed-game-option {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 3.25rem;
+}
+
+.seed-game-option__image {
+  width: 2.75rem;
+  height: 2.75rem;
+  flex: 0 0 2.75rem;
+  border-radius: 0.25rem;
+  object-fit: cover;
+  background: palette.$main-nav-color;
+}
+
+.seed-game-option__content {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.seed-game-option__name {
+  overflow: hidden;
+  color: palette.$main-font-color;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.seed-game-option__meta {
+  color: palette.$main-font-gray-color;
+  font-size: 0.8rem;
+}
+
+@media (max-width: 720px) {
+  .wrapper {
+    justify-content: flex-start;
+  }
+
+  .container,
+  .sub-header,
+  .state-card {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .actions button {
+    width: 100%;
+  }
+}

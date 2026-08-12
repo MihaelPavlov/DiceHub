@@ -43,6 +43,7 @@ export class LoginComponent extends Form implements OnInit {
   public getMessageFromRedirect: string | null = null;
   public showResend: boolean = false;
   public clubName: string | null = null;
+  public isAdminLogin = false;
 
   constructor(
     public override readonly toastService: ToastService,
@@ -99,6 +100,13 @@ export class LoginComponent extends Form implements OnInit {
   }
 
   public ngOnInit(): void {
+    this.isAdminLogin = window.location.pathname.startsWith('/admin/login');
+
+    if (this.isAdminLogin) {
+      this.clubName = 'DiceHub Admin';
+      return;
+    }
+
     this.tenantSettingsService.getClubName().subscribe({
       next: (clubName) => {
         this.clubName = clubName;
@@ -207,7 +215,7 @@ export class LoginComponent extends Form implements OnInit {
         .login({
           email: this.form.controls.email.value,
           password: this.form.controls.password.value,
-          tenantId: this.tenantContextService.tenantId,
+          tenantId: this.isAdminLogin ? null : this.tenantContextService.tenantId,
           deviceToken,
           timeZone,
         })
@@ -219,15 +227,23 @@ export class LoginComponent extends Form implements OnInit {
                 response.refreshToken
               );
 
-              if (this.challengeOverlayService.overlay.value) {
+              if (
+                response.tenantId !== 'system' &&
+                this.challengeOverlayService.overlay.value
+              ) {
                 this.challengeHubService.initChallengeHubConnection(
                   response.userId,
                   this.challengeOverlayService.overlay.value
                 );
               }
-              this.tenantContextService.tenantId = response.tenantId;
 
-              this.tenantRouter.navigateTenant(FULL_ROUTE.GAMES.LIBRARY);
+              if (response.tenantId === 'system') {
+                this.tenantContextService.clearTenant();
+                this.tenantRouter.navigateGlobal(['admin', 'applicants']);
+              } else {
+                this.tenantContextService.tenantId = response.tenantId;
+                this.tenantRouter.navigateTenant(FULL_ROUTE.GAMES.LIBRARY);
+              }
             }
           },
           error: (error) => {
@@ -293,9 +309,13 @@ export class LoginComponent extends Form implements OnInit {
                 response.refreshToken
               );
 
-              this.tenantContextService.tenantId = response.tenantId;
-
-              this.tenantRouter.navigateTenant(FULL_ROUTE.GAMES.LIBRARY);
+              if (response.tenantId === 'system') {
+                this.tenantContextService.clearTenant();
+                this.tenantRouter.navigateGlobal(['admin', 'applicants']);
+              } else {
+                this.tenantContextService.tenantId = response.tenantId;
+                this.tenantRouter.navigateTenant(FULL_ROUTE.GAMES.LIBRARY);
+              }
             }
           },
           error: (error) => {
@@ -346,7 +366,7 @@ export class LoginComponent extends Form implements OnInit {
         email: 'sa@dicehub.com',
         password: '1qaz!QAZ',
         deviceToken,
-        tenantId: this.tenantContextService.tenantId,
+        tenantId: this.isAdminLogin ? null : this.tenantContextService.tenantId,
         timeZone,
       })
       .subscribe({
@@ -357,9 +377,13 @@ export class LoginComponent extends Form implements OnInit {
               response.refreshToken
             );
 
-            this.tenantContextService.tenantId = response.tenantId;
-
-            this.tenantRouter.navigateTenant(FULL_ROUTE.GAMES.LIBRARY);
+            if (response.tenantId === 'system') {
+              this.tenantContextService.clearTenant();
+              this.tenantRouter.navigateGlobal(['admin', 'applicants']);
+            } else {
+              this.tenantContextService.tenantId = response.tenantId;
+              this.tenantRouter.navigateTenant(FULL_ROUTE.GAMES.LIBRARY);
+            }
           }
         },
         error: (error) => {

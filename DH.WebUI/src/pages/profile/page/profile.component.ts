@@ -83,6 +83,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.tenantRouter.navigateTenant(FULL_ROUTE.PROFILE.JOBS);
   }
 
+  public navigateToApplicants(): void {
+    this.tenantRouter.navigateTenant(FULL_ROUTE.PROFILE.APPLICANTS);
+  }
+
   public navigateToEmployeeList(): void {
     this.tenantRouter.navigateTenant(FULL_ROUTE.PROFILE.EMPLOYEES);
   }

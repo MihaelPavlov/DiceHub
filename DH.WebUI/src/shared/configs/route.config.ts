@@ -87,6 +87,7 @@ export const ROUTE = {
     ADD_EMPLOYEE: 'add-employee',
     UPDATE_EMPLOYEE: 'update-employee',
     CLUB_INFO: 'club-info',
+    APPLICANTS: 'applicants',
   },
   CHART: {
     CORE: 'charts',
@@ -185,6 +186,9 @@ export const FULL_ROUTE = {
     UPDATE_BY_ID: (employeeId: string) =>
       `${ROUTE.PROFILE.CORE}/${employeeId}/${ROUTE.PROFILE.UPDATE_EMPLOYEE}`,
     OWNER_DETAILS: `${ROUTE.PROFILE.CORE}/${ROUTE.PROFILE.OWNER_DETAILS}`,
+    APPLICANTS: `${ROUTE.PROFILE.CORE}/${ROUTE.PROFILE.APPLICANTS}`,
+    APPLICANT_DETAILS_BY_ID: (id: number) =>
+      `${ROUTE.PROFILE.CORE}/${ROUTE.PROFILE.APPLICANTS}/${id}`,
   },
   CHARTS: {
     VISITORS: `${ROUTE.CHART.CORE}/${ROUTE.CHART.VISITORS}`,

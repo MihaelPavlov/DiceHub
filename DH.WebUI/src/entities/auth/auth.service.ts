@@ -161,6 +161,10 @@ export class AuthService {
             permissionString: user['permissions'],
           });
 
+          if (user['tenant_id'] === 'system') {
+            return;
+          }
+
           this.loadUserSettings();
 
           this.tenantSettingsService.get().subscribe({
@@ -226,6 +230,11 @@ export class AuthService {
               username: user[usernameClaim],
               permissionString: user['permissions'],
             });
+
+            if (user['tenant_id'] === 'system') {
+              resolve();
+              return;
+            }
 
             this.loadUserSettings();
 

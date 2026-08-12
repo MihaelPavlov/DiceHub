@@ -28,6 +28,17 @@ public class TenantsController : ControllerBase
         return Ok(result);
     }
 
+    [HttpGet("tenant-setup/exists")]
+    [AllowAnonymous]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<bool>> TenantSetupExists([FromQuery] string? token, CancellationToken cancellationToken)
+    {
+        var exists = await this.mediator.Send(new ValidateTenantSetupTokenQuery(token), cancellationToken);
+        if (!exists) return NotFound();
+        return Ok(true);
+    }
+
     [HttpGet("{tenantId}/exists")]
     [AllowAnonymous]
     public async Task<ActionResult<bool>> TenantExists(string tenantId, CancellationToken cancellationToken)

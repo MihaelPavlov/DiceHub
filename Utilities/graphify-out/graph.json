@@ -1,0 +1,841 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "label": "ConsoleFileLogger.cs",
+      "file_type": "code",
+      "source_file": "DH.Database.MigrationUtility/ConsoleFileLogger.cs",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "dh_database_migrationutility_consolefilelogger",
+      "community": 4,
+      "norm_label": "consolefilelogger.cs"
+    },
+    {
+      "label": "DH.Database.MigrationUtility",
+      "file_type": "code",
+      "source_file": "DH.Database.MigrationUtility/ConsoleFileLogger.cs",
+      "source_location": "L1",
+      "type": "namespace",
+      "metadata": {
+        "kind": "csharp_namespace",
+        "namespace": "DH.Database.MigrationUtility"
+      },
+      "_origin": "ast",
+      "id": "csharp_namespace:7f17da93f590c565",
+      "community": 4,
+      "norm_label": "dh.database.migrationutility"
+    },
+    {
+      "label": "ConsoleFileLogger",
+      "file_type": "code",
+      "source_file": "DH.Database.MigrationUtility/ConsoleFileLogger.cs",
+      "source_location": "L3",
+      "metadata": {
+        "namespace": "DH.Database.MigrationUtility",
+        "scope_chain": [
+          "s3"
+        ]
+      },
+      "_origin": "ast",
+      "id": "dh_database_migrationutility_consolefilelogger_dh_database_migrationutility_consolefilelogger",
+      "community": 2,
+      "norm_label": "consolefilelogger"
+    },
+    {
+      "label": "IDisposable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "idisposable",
+      "community": 2,
+      "norm_label": "idisposable"
+    },
+    {
+      "label": "StreamWriter",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "streamwriter",
+      "community": 2,
+      "norm_label": "streamwriter"
+    },
+    {
+      "label": "bool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "bool",
+      "community": 2,
+      "norm_label": "bool"
+    },
+    {
+      "label": ".WriteLine()",
+      "file_type": "code",
+      "source_file": "DH.Database.MigrationUtility/ConsoleFileLogger.cs",
+      "source_location": "L15",
+      "metadata": {
+        "namespace": "DH.Database.MigrationUtility",
+        "scope_chain": [
+          "s3"
+        ]
+      },
+      "_origin": "ast",
+      "id": "dh_database_migrationutility_consolefilelogger_dh_database_migrationutility_consolefilelogger_writeline",
+      "community": 2,
+      "norm_label": ".writeline()"
+    },
+    {
+      "label": ".MentionHerself()",
+      "file_type": "code",
+      "source_file": "DH.Database.MigrationUtility/ConsoleFileLogger.cs",
+      "source_location": "L27",
+      "metadata": {
+        "namespace": "DH.Database.MigrationUtility",
+        "scope_chain": [
+          "s3"
+        ]
+      },
+      "_origin": "ast",
+      "id": "dh_database_migrationutility_consolefilelogger_dh_database_migrationutility_consolefilelogger_mentionherself",
+      "community": 2,
+      "norm_label": ".mentionherself()"
+    },
+    {
+      "label": ".Dispose()",
+      "file_type": "code",
+      "source_file": "DH.Database.MigrationUtility/ConsoleFileLogger.cs",
+      "source_location": "L34",
+      "metadata": {
+        "namespace": "DH.Database.MigrationUtility",
+        "scope_chain": [
+          "s3"
+        ]
+      },
+      "_origin": "ast",
+      "id": "dh_database_migrationutility_consolefilelogger_dh_database_migrationutility_consolefilelogger_dispose",
+      "community": 2,
+      "norm_label": ".dispose()"
+    },
+    {
+      "label": "DH.Database.MigrationUtility.csproj",
+      "file_type": "code",
+      "source_file": "DH.Database.MigrationUtility/DH.Database.MigrationUtility.csproj",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "dh_database_migrationutility_dh_database_migrationutility",
+      "community": 1,
+      "norm_label": "dh.database.migrationutility.csproj"
+    },
+    {
+      "label": "net8.0",
+      "file_type": "concept",
+      "source_file": "DH.Database.MigrationUtility/DH.Database.MigrationUtility.csproj",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "framework_net8_0",
+      "community": 1,
+      "norm_label": "net8.0"
+    },
+    {
+      "label": "Microsoft.EntityFrameworkCore (8.0.10)",
+      "file_type": "code",
+      "source_file": "DH.Database.MigrationUtility/DH.Database.MigrationUtility.csproj",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "nuget_microsoft_entityframeworkcore",
+      "community": 1,
+      "norm_label": "microsoft.entityframeworkcore (8.0.10)"
+    },
+    {
+      "label": "Microsoft.EntityFrameworkCore.SqlServer (8.0.10)",
+      "file_type": "code",
+      "source_file": "DH.Database.MigrationUtility/DH.Database.MigrationUtility.csproj",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "nuget_microsoft_entityframeworkcore_sqlserver",
+      "community": 1,
+      "norm_label": "microsoft.entityframeworkcore.sqlserver (8.0.10)"
+    },
+    {
+      "label": "Microsoft.Extensions.Configuration.Json (8.0.1)",
+      "file_type": "code",
+      "source_file": "DH.Database.MigrationUtility/DH.Database.MigrationUtility.csproj",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "nuget_microsoft_extensions_configuration_json",
+      "community": 1,
+      "norm_label": "microsoft.extensions.configuration.json (8.0.1)"
+    },
+    {
+      "label": "Microsoft.Extensions.Logging.Console (8.0.1)",
+      "file_type": "code",
+      "source_file": "DH.Database.MigrationUtility/DH.Database.MigrationUtility.csproj",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "nuget_microsoft_extensions_logging_console",
+      "community": 1,
+      "norm_label": "microsoft.extensions.logging.console (8.0.1)"
+    },
+    {
+      "label": "DH.Adapter.Authentication.csproj",
+      "file_type": "code",
+      "source_file": "../DH.DiceHub/DH.Adapter.Authentication/DH.Adapter.Authentication.csproj",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "ext_dh_dicehub_dh_adapter_authentication_dh_adapter_authentication_csproj",
+      "community": 3,
+      "norm_label": "dh.adapter.authentication.csproj"
+    },
+    {
+      "label": "DH.Adapter.Data.csproj",
+      "file_type": "code",
+      "source_file": "../DH.DiceHub/DH.Adapter.Data/DH.Adapter.Data.csproj",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "ext_dh_dicehub_dh_adapter_data_dh_adapter_data_csproj",
+      "community": 3,
+      "norm_label": "dh.adapter.data.csproj"
+    },
+    {
+      "label": "DH.Adapter.Scheduling.csproj",
+      "file_type": "code",
+      "source_file": "../DH.DiceHub/DH.Adapter.Scheduling/DH.Adapter.Scheduling.csproj",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "ext_dh_dicehub_dh_adapter_scheduling_dh_adapter_scheduling_csproj",
+      "community": 3,
+      "norm_label": "dh.adapter.scheduling.csproj"
+    },
+    {
+      "label": "DH.Api.csproj",
+      "file_type": "code",
+      "source_file": "../DH.DiceHub/DH.Api/DH.Api.csproj",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "ext_dh_dicehub_dh_api_dh_api_csproj",
+      "community": 3,
+      "norm_label": "dh.api.csproj"
+    },
+    {
+      "label": "DH.Application.csproj",
+      "file_type": "code",
+      "source_file": "../DH.DiceHub/DH.Application/DH.Application.csproj",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "ext_dh_dicehub_dh_application_dh_application_csproj",
+      "community": 1,
+      "norm_label": "dh.application.csproj"
+    },
+    {
+      "label": "DH.Domain.csproj",
+      "file_type": "code",
+      "source_file": "../DH.DiceHub/DH.Domain/DH.Domain.csproj",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "ext_dh_dicehub_dh_domain_dh_domain_csproj",
+      "community": 3,
+      "norm_label": "dh.domain.csproj"
+    },
+    {
+      "label": "Microsoft.NET.Sdk",
+      "file_type": "concept",
+      "source_file": "DH.Database.MigrationUtility/DH.Database.MigrationUtility.csproj",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "sdk_microsoft_net_sdk",
+      "community": 1,
+      "norm_label": "microsoft.net.sdk"
+    },
+    {
+      "label": "EnvironmentSettings.cs",
+      "file_type": "code",
+      "source_file": "DH.Database.MigrationUtility/EnvironmentSettings.cs",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "dh_database_migrationutility_environmentsettings",
+      "community": 4,
+      "norm_label": "environmentsettings.cs"
+    },
+    {
+      "label": "EnvironmentSettings",
+      "file_type": "code",
+      "source_file": "DH.Database.MigrationUtility/EnvironmentSettings.cs",
+      "source_location": "L3",
+      "metadata": {
+        "namespace": "DH.Database.MigrationUtility",
+        "scope_chain": [
+          "s3"
+        ]
+      },
+      "_origin": "ast",
+      "id": "dh_database_migrationutility_environmentsettings_dh_database_migrationutility_environmentsettings",
+      "community": 4,
+      "norm_label": "environmentsettings"
+    },
+    {
+      "label": "ExtensionDI.cs",
+      "file_type": "code",
+      "source_file": "DH.Database.MigrationUtility/ExtensionDI.cs",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "dh_database_migrationutility_extensiondi",
+      "community": 0,
+      "norm_label": "extensiondi.cs"
+    },
+    {
+      "label": "ExtensionDI",
+      "file_type": "code",
+      "source_file": "DH.Database.MigrationUtility/ExtensionDI.cs",
+      "source_location": "L7",
+      "metadata": {
+        "namespace": "DH.Database.MigrationUtility",
+        "scope_chain": [
+          "s108"
+        ]
+      },
+      "_origin": "ast",
+      "id": "dh_database_migrationutility_extensiondi_dh_database_migrationutility_extensiondi",
+      "community": 0,
+      "norm_label": "extensiondi"
+    },
+    {
+      "label": ".LoadSeedServices()",
+      "file_type": "code",
+      "source_file": "DH.Database.MigrationUtility/ExtensionDI.cs",
+      "source_location": "L9",
+      "metadata": {
+        "namespace": "DH.Database.MigrationUtility",
+        "scope_chain": [
+          "s108"
+        ]
+      },
+      "_origin": "ast",
+      "id": "dh_database_migrationutility_extensiondi_dh_database_migrationutility_extensiondi_loadseedservices",
+      "community": 0,
+      "norm_label": ".loadseedservices()"
+    },
+    {
+      "label": "IServiceCollection",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "iservicecollection",
+      "community": 0,
+      "norm_label": "iservicecollection"
+    },
+    {
+      "label": ".GetTypesAssignableFrom()",
+      "file_type": "code",
+      "source_file": "DH.Database.MigrationUtility/ExtensionDI.cs",
+      "source_location": "L20",
+      "metadata": {
+        "namespace": "DH.Database.MigrationUtility",
+        "scope_chain": [
+          "s108"
+        ]
+      },
+      "_origin": "ast",
+      "id": "dh_database_migrationutility_extensiondi_dh_database_migrationutility_extensiondi_gettypesassignablefrom",
+      "community": 0,
+      "norm_label": ".gettypesassignablefrom()"
+    },
+    {
+      "label": "Assembly",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "assembly",
+      "community": 0,
+      "norm_label": "assembly"
+    },
+    {
+      "label": "List",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "list",
+      "community": 0,
+      "norm_label": "list"
+    },
+    {
+      "label": "Type",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "type",
+      "community": 0,
+      "norm_label": "type"
+    },
+    {
+      "label": "Program.cs",
+      "file_type": "code",
+      "source_file": "DH.Database.MigrationUtility/Program.cs",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "dh_database_migrationutility_program",
+      "community": 3,
+      "norm_label": "program.cs"
+    }
+  ],
+  "links": [
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "DH.Database.MigrationUtility/ConsoleFileLogger.cs",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "dh_database_migrationutility_consolefilelogger",
+      "target": "csharp_namespace:7f17da93f590c565",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "DH.Database.MigrationUtility/ConsoleFileLogger.cs",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "dh_database_migrationutility_consolefilelogger",
+      "target": "dh_database_migrationutility_consolefilelogger_dh_database_migrationutility_consolefilelogger",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "DH.Database.MigrationUtility/EnvironmentSettings.cs",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "dh_database_migrationutility_environmentsettings",
+      "target": "csharp_namespace:7f17da93f590c565",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "DH.Database.MigrationUtility/ExtensionDI.cs",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "dh_database_migrationutility_extensiondi",
+      "target": "csharp_namespace:7f17da93f590c565",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "DH.Database.MigrationUtility/Program.cs",
+      "source_location": "L8",
+      "weight": 1.0,
+      "metadata": {
+        "using_kind": "namespace",
+        "target_fqn": "DH.Database.MigrationUtility",
+        "scope_kind": "file"
+      },
+      "_origin": "ast",
+      "source": "dh_database_migrationutility_program",
+      "target": "csharp_namespace:7f17da93f590c565",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DH.Database.MigrationUtility/ConsoleFileLogger.cs",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "field",
+      "metadata": {
+        "ref_token": "bool"
+      },
+      "_origin": "ast",
+      "source": "dh_database_migrationutility_consolefilelogger_dh_database_migrationutility_consolefilelogger",
+      "target": "bool",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "DH.Database.MigrationUtility/ConsoleFileLogger.cs",
+      "source_location": "L47",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "dh_database_migrationutility_consolefilelogger_dh_database_migrationutility_consolefilelogger",
+      "target": "dh_database_migrationutility_consolefilelogger_dh_database_migrationutility_consolefilelogger_dispose",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "DH.Database.MigrationUtility/ConsoleFileLogger.cs",
+      "source_location": "L27",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "dh_database_migrationutility_consolefilelogger_dh_database_migrationutility_consolefilelogger",
+      "target": "dh_database_migrationutility_consolefilelogger_dh_database_migrationutility_consolefilelogger_mentionherself",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "DH.Database.MigrationUtility/ConsoleFileLogger.cs",
+      "source_location": "L21",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "dh_database_migrationutility_consolefilelogger_dh_database_migrationutility_consolefilelogger",
+      "target": "dh_database_migrationutility_consolefilelogger_dh_database_migrationutility_consolefilelogger_writeline",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "DH.Database.MigrationUtility/ConsoleFileLogger.cs",
+      "source_location": "L3",
+      "weight": 1.0,
+      "metadata": {
+        "ref_token": "IDisposable"
+      },
+      "_origin": "ast",
+      "source": "dh_database_migrationutility_consolefilelogger_dh_database_migrationutility_consolefilelogger",
+      "target": "idisposable",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DH.Database.MigrationUtility/ConsoleFileLogger.cs",
+      "source_location": "L5",
+      "weight": 1.0,
+      "context": "field",
+      "metadata": {
+        "ref_token": "StreamWriter"
+      },
+      "_origin": "ast",
+      "source": "dh_database_migrationutility_consolefilelogger_dh_database_migrationutility_consolefilelogger",
+      "target": "streamwriter",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "DH.Database.MigrationUtility/DH.Database.MigrationUtility.csproj",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "dh_database_migrationutility_dh_database_migrationutility",
+      "target": "ext_dh_dicehub_dh_adapter_authentication_dh_adapter_authentication_csproj",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "DH.Database.MigrationUtility/DH.Database.MigrationUtility.csproj",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "dh_database_migrationutility_dh_database_migrationutility",
+      "target": "ext_dh_dicehub_dh_adapter_data_dh_adapter_data_csproj",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "DH.Database.MigrationUtility/DH.Database.MigrationUtility.csproj",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "dh_database_migrationutility_dh_database_migrationutility",
+      "target": "ext_dh_dicehub_dh_adapter_scheduling_dh_adapter_scheduling_csproj",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "DH.Database.MigrationUtility/DH.Database.MigrationUtility.csproj",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "dh_database_migrationutility_dh_database_migrationutility",
+      "target": "ext_dh_dicehub_dh_api_dh_api_csproj",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "DH.Database.MigrationUtility/DH.Database.MigrationUtility.csproj",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "dh_database_migrationutility_dh_database_migrationutility",
+      "target": "ext_dh_dicehub_dh_application_dh_application_csproj",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "DH.Database.MigrationUtility/DH.Database.MigrationUtility.csproj",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "dh_database_migrationutility_dh_database_migrationutility",
+      "target": "ext_dh_dicehub_dh_domain_dh_domain_csproj",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DH.Database.MigrationUtility/DH.Database.MigrationUtility.csproj",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "dh_database_migrationutility_dh_database_migrationutility",
+      "target": "framework_net8_0",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "DH.Database.MigrationUtility/DH.Database.MigrationUtility.csproj",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "dh_database_migrationutility_dh_database_migrationutility",
+      "target": "nuget_microsoft_entityframeworkcore",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "DH.Database.MigrationUtility/DH.Database.MigrationUtility.csproj",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "dh_database_migrationutility_dh_database_migrationutility",
+      "target": "nuget_microsoft_entityframeworkcore_sqlserver",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "DH.Database.MigrationUtility/DH.Database.MigrationUtility.csproj",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "dh_database_migrationutility_dh_database_migrationutility",
+      "target": "nuget_microsoft_extensions_configuration_json",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "DH.Database.MigrationUtility/DH.Database.MigrationUtility.csproj",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "dh_database_migrationutility_dh_database_migrationutility",
+      "target": "nuget_microsoft_extensions_logging_console",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DH.Database.MigrationUtility/DH.Database.MigrationUtility.csproj",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "dh_database_migrationutility_dh_database_migrationutility",
+      "target": "sdk_microsoft_net_sdk",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "DH.Database.MigrationUtility/Program.cs",
+      "source_location": "L1",
+      "weight": 1.0,
+      "metadata": {
+        "using_kind": "namespace",
+        "target_fqn": "DH.Adapter.Authentication",
+        "scope_kind": "file"
+      },
+      "_origin": "ast",
+      "source": "dh_database_migrationutility_program",
+      "target": "ext_dh_dicehub_dh_adapter_authentication_dh_adapter_authentication_csproj",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "DH.Database.MigrationUtility/Program.cs",
+      "source_location": "L2",
+      "weight": 1.0,
+      "metadata": {
+        "using_kind": "namespace",
+        "target_fqn": "DH.Adapter.Data",
+        "scope_kind": "file"
+      },
+      "_origin": "ast",
+      "source": "dh_database_migrationutility_program",
+      "target": "ext_dh_dicehub_dh_adapter_data_dh_adapter_data_csproj",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "DH.Database.MigrationUtility/Program.cs",
+      "source_location": "L5",
+      "weight": 1.0,
+      "metadata": {
+        "using_kind": "namespace",
+        "target_fqn": "DH.Adapter.Scheduling",
+        "scope_kind": "file"
+      },
+      "_origin": "ast",
+      "source": "dh_database_migrationutility_program",
+      "target": "ext_dh_dicehub_dh_adapter_scheduling_dh_adapter_scheduling_csproj",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "DH.Database.MigrationUtility/Program.cs",
+      "source_location": "L6",
+      "weight": 1.0,
+      "metadata": {
+        "using_kind": "namespace",
+        "target_fqn": "DH.Api",
+        "scope_kind": "file"
+      },
+      "_origin": "ast",
+      "source": "dh_database_migrationutility_program",
+      "target": "ext_dh_dicehub_dh_api_dh_api_csproj",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "DH.Database.MigrationUtility/Program.cs",
+      "source_location": "L9",
+      "weight": 1.0,
+      "metadata": {
+        "using_kind": "namespace",
+        "target_fqn": "DH.Domain",
+        "scope_kind": "file"
+      },
+      "_origin": "ast",
+      "source": "dh_database_migrationutility_program",
+      "target": "ext_dh_dicehub_dh_domain_dh_domain_csproj",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "DH.Database.MigrationUtility/EnvironmentSettings.cs",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "dh_database_migrationutility_environmentsettings",
+      "target": "dh_database_migrationutility_environmentsettings_dh_database_migrationutility_environmentsettings",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "DH.Database.MigrationUtility/ExtensionDI.cs",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "dh_database_migrationutility_extensiondi",
+      "target": "dh_database_migrationutility_extensiondi_dh_database_migrationutility_extensiondi",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "DH.Database.MigrationUtility/ExtensionDI.cs",
+      "source_location": "L25",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "dh_database_migrationutility_extensiondi_dh_database_migrationutility_extensiondi",
+      "target": "dh_database_migrationutility_extensiondi_dh_database_migrationutility_extensiondi_gettypesassignablefrom",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "DH.Database.MigrationUtility/ExtensionDI.cs",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "dh_database_migrationutility_extensiondi_dh_database_migrationutility_extensiondi",
+      "target": "dh_database_migrationutility_extensiondi_dh_database_migrationutility_extensiondi_loadseedservices",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DH.Database.MigrationUtility/ExtensionDI.cs",
+      "source_location": "L9",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": {
+        "ref_token": "IServiceCollection"
+      },
+      "_origin": "ast",
+      "source": "dh_database_migrationutility_extensiondi_dh_database_migrationutility_extensiondi_loadseedservices",
+      "target": "iservicecollection",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DH.Database.MigrationUtility/ExtensionDI.cs",
+      "source_location": "L25",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "metadata": {
+        "ref_token": "Assembly"
+      },
+      "_origin": "ast",
+      "source": "dh_database_migrationutility_extensiondi_dh_database_migrationutility_extensiondi_gettypesassignablefrom",
+      "target": "assembly",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DH.Database.MigrationUtility/ExtensionDI.cs",
+      "source_location": "L25",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": {
+        "ref_token": "List"
+      },
+      "_origin": "ast",
+      "source": "dh_database_migrationutility_extensiondi_dh_database_migrationutility_extensiondi_gettypesassignablefrom",
+      "target": "list",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DH.Database.MigrationUtility/ExtensionDI.cs",
+      "source_location": "L25",
+      "weight": 1.0,
+      "context": "generic_arg",
+      "metadata": {
+        "ref_token": "Type"
+      },
+      "_origin": "ast",
+      "source": "dh_database_migrationutility_extensiondi_dh_database_migrationutility_extensiondi_gettypesassignablefrom",
+      "target": "type",
+      "confidence_score": 1.0
+    }
+  ],
+  "hyperedges": [],
+  "built_at_commit": "2021e7240cabe06791e499fee34beb80d31c2b45"
+}

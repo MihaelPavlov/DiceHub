@@ -921,6 +921,92 @@ public static class SeedData
 </html>
 "
         },
+        new()
+        {
+            Id = 11,
+            Language = SupportLanguages.EN.ToString(),
+            TemplateName = EmailType.TenantApplicationEmailVerification.ToString(),
+            Subject = "DiceHub venue application verification code",
+            TemplateHtml = @"
+<!DOCTYPE html>
+<html lang=""en"">
+  <head>
+    <meta charset=""UTF-8"" />
+    <title>Venue Application Verification</title>
+  </head>
+  <body style=""margin:0;padding:0;background-color:#20232a;font-family:Arial,sans-serif;color:white;"">
+    <table width=""100%"" cellpadding=""0"" cellspacing=""0"" role=""presentation"" style=""background-color:#20232a;padding:20px 0;"">
+      <tr>
+        <td align=""center"">
+          <table width=""500"" cellpadding=""0"" cellspacing=""0"" role=""presentation"" style=""background-color:#20232a;padding:20px;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.5);"">
+            <tr>
+              <td align=""center"">
+                <img src=""https://ifjmepvyiksirgheyqyw.supabase.co/storage/v1/object/public/dicehub/Email/dicehub_logo_1.png"" width=""150"" style=""display:block;"" alt=""DiceHub"" />
+              </td>
+            </tr>
+            <tr>
+              <td align=""center"" style=""font-size:22px;font-weight:bold;padding-bottom:20px;"">
+                Venue application verification
+              </td>
+            </tr>
+            <tr>
+              <td style=""font-size:16px;line-height:1.6;"">
+                <p>Your DiceHub venue application verification code is:</p>
+                <p style=""font-size:32px;font-weight:bold;letter-spacing:6px;color:#75a0ff;text-align:center;"">{{VerificationCode}}</p>
+                <p>This code expires in 10 minutes.</p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
+"
+        },
+        new()
+        {
+            Id = 12,
+            Language = SupportLanguages.BG.ToString(),
+            TemplateName = EmailType.TenantApplicationEmailVerification.ToString(),
+            Subject = "Код за потвърждение на кандидатура за DiceHub",
+            TemplateHtml = @"
+<!DOCTYPE html>
+<html lang=""bg"">
+  <head>
+    <meta charset=""UTF-8"" />
+    <title>Потвърждение на кандидатура</title>
+  </head>
+  <body style=""margin:0;padding:0;background-color:#20232a;font-family:Arial,sans-serif;color:white;"">
+    <table width=""100%"" cellpadding=""0"" cellspacing=""0"" role=""presentation"" style=""background-color:#20232a;padding:20px 0;"">
+      <tr>
+        <td align=""center"">
+          <table width=""500"" cellpadding=""0"" cellspacing=""0"" role=""presentation"" style=""background-color:#20232a;padding:20px;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.5);"">
+            <tr>
+              <td align=""center"">
+                <img src=""https://ifjmepvyiksirgheyqyw.supabase.co/storage/v1/object/public/dicehub/Email/dicehub_logo_1.png"" width=""150"" style=""display:block;"" alt=""DiceHub"" />
+              </td>
+            </tr>
+            <tr>
+              <td align=""center"" style=""font-size:22px;font-weight:bold;padding-bottom:20px;"">
+                Потвърждение на кандидатура за клуб
+              </td>
+            </tr>
+            <tr>
+              <td style=""font-size:16px;line-height:1.6;"">
+                <p>Вашият код за потвърждение е:</p>
+                <p style=""font-size:32px;font-weight:bold;letter-spacing:6px;color:#75a0ff;text-align:center;"">{{VerificationCode}}</p>
+                <p>Кодът е валиден 10 минути.</p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
+"
+        },
     };
 
     public static readonly List<CreateGameDto> GAME_LIST_DTOS = new List<CreateGameDto>

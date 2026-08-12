@@ -189,11 +189,11 @@ if (!app.Environment.IsDevelopment())
 
 app.UseRouting();
 
+app.UseCors("EnableCORS");
+
 app.UseAuthentication();
 app.UseMiddleware<TenantRouteValidationMiddleware>();
 app.UseAuthorization();
-
-app.UseCors("EnableCORS");
 
 // Then map endpoints
 app.UseEndpoints(endpoints =>

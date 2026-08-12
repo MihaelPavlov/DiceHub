@@ -4,6 +4,7 @@ export const PATH = {
     LIST: 'list',
     EXISTS: 'exists',
     PROVISION: 'provision',
+    TENANT_SETUP_EXISTS: 'tenant-setup/exists',
   },
   GAMES: {
     CORE: 'games',
@@ -150,6 +151,15 @@ export const PATH = {
   },
   PARTNER_INQUIRIES: {
     CORE: 'partnerInquiries',
+  },
+  TENANT_APPLICATIONS: {
+    CORE: 'tenantApplications',
+    SEND_EMAIL_VERIFICATION_CODE: 'send-email-verification-code',
+    VERIFY_EMAIL_CODE: 'verify-email-code',
+    SETUP_SEED_GAMES: 'setup/seed-games',
+    COMPLETE_SETUP: 'setup/complete',
+    VERIFY: 'verify',
+    REJECT: 'reject',
   },
   SCHEDULER: {
     CORE: 'scheduler',

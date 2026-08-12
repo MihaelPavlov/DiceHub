@@ -35,6 +35,10 @@ internal class EmployeeService(
         if (!request.FieldsAreValid(out var validationErrors, this.localizer))
             throw new ValidationErrorsException(validationErrors);
 
+        var tenantId = this.userContext.TenantId;
+        if (string.IsNullOrWhiteSpace(tenantId))
+            throw new BadRequestException("TenantId is required.");
+
         var existingUserByEmail = await this.userManager.Users
            .Where(x => x.Email == request.Email && !x.IsDeleted).FirstOrDefaultAsync();
         if (existingUserByEmail != null)
@@ -53,7 +57,7 @@ internal class EmployeeService(
             Email = request.Email,
             PhoneNumber = request.PhoneNumber,
             EmailConfirmed = true,
-            TenantId = this.userContext.TenantId ?? string.Empty
+            TenantId = tenantId
         };
         var generatedRandomPassword = PasswordGenerator.GenerateRandomPassword();
         var createUserResult = await userManager.CreateAsync(user, generatedRandomPassword);

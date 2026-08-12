@@ -45,6 +45,7 @@ public class TenantDbContext : DbContext, ITenantDbContext
     public DbSet<GameCategory> GameCategories { get; set; } = default!;
     public DbSet<GameReservation> GameReservations { get; set; } = default!;
     public DbSet<GameInventory> GameInventories { get; set; } = default!;
+    public DbSet<SeedGameCatalog> SeedGameCatalog { get; set; } = default!;
 
     #endregion games
 
@@ -118,6 +119,8 @@ public class TenantDbContext : DbContext, ITenantDbContext
     public DbSet<QrCodeScanAudit> QrCodeScanAudits { get; set; } = default!;
     public DbSet<TenantSetting> TenantSettings { get; set; } = default!;
     public DbSet<Tenant> Tenants { get; set; } = default!;
+    public DbSet<TenantApplication> TenantApplications { get; set; } = default!;
+    public DbSet<TenantSetupToken> TenantSetupTokens { get; set; } = default!;
     public DbSet<TenantUserSetting> TenantUserSettings { get; set; } = default!;
     public DbSet<PartnerInquiry> PartnerInquiries { get; set; } = default!;
     public DbSet<QueuedJob> QueuedJobs { get; set; } = default!;
@@ -131,6 +134,14 @@ public class TenantDbContext : DbContext, ITenantDbContext
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
+        var tenantEntries = ChangeTracker
+            .Entries<TenantEntity>()
+            .Where(x => x.State is EntityState.Added or EntityState.Modified or EntityState.Deleted)
+            .ToList();
+
+        if (tenantEntries.Count == 0)
+            return base.SaveChangesAsync(cancellationToken);
+
         var userContext = this.containerService.Resolve<ISystemUserContextAccessor>().Current;
 
         // Check if the user context is anonymous
@@ -153,14 +164,14 @@ public class TenantDbContext : DbContext, ITenantDbContext
 
         var hasNewTenantEntities = ChangeTracker.Entries<TenantEntity>()
             .Any(e => e.State == EntityState.Added);
-        if (!userContext.IsSystem && userContext.TenantId == null && hasNewTenantEntities)
+        if (!userContext.IsSystem && string.IsNullOrWhiteSpace(userContext.TenantId) && hasNewTenantEntities)
         {
             throw new InvalidOperationException("TenantId is required for non-system operations");
         }
 
-        foreach (var entry in ChangeTracker.Entries<TenantEntity>())
+        foreach (var entry in tenantEntries)
         {
-            if (entry.State == EntityState.Added && userContext.TenantId != null)
+            if (entry.State == EntityState.Added && !string.IsNullOrWhiteSpace(userContext.TenantId))
                 entry.Entity.TenantId = userContext.TenantId;
         }
         return base.SaveChangesAsync(cancellationToken);
@@ -179,5 +190,9 @@ public class TenantDbContext : DbContext, ITenantDbContext
 
         modelBuilder.Entity<UserChallengePeriodPerformance>()
             .HasAnnotation("Relational:IndexFilter", "\"IsPeriodActive\" = true");
+
+        modelBuilder.Entity<TenantSetupToken>()
+            .HasIndex(x => x.TokenHash)
+            .IsUnique();
     }
 }

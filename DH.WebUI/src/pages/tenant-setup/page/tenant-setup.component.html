@@ -1,0 +1,169 @@
+<app-language-switch />
+
+<main class="wrapper">
+  <span class="header">Finish your club setup</span>
+  <p class="sub-header">
+    Your venue application is approved. Add the operating details and choose the
+    starting game catalog for the new tenant.
+  </p>
+
+    <div *ngIf="isLoading" class="state-card">
+      Checking setup link...
+    </div>
+
+    <div *ngIf="!isLoading && !isTokenValid" class="state-card error-state">
+      <h2>Setup link expired</h2>
+      <p>
+        This setup link is invalid or expired. Confirm your approved venue email
+        again to receive a new 24-hour link.
+      </p>
+      <button
+        type="button"
+        class="btn btn-gray btn-border-blue btn-font-blue"
+        (click)="navigateToApplication()"
+      >
+        Go to venue application
+      </button>
+    </div>
+
+    <ng-container *ngIf="!isLoading && isTokenValid && !isSubmitted">
+      <form [formGroup]="form" class="container">
+        <section class="form-section">
+          <h2>Club details</h2>
+
+          <div class="input-field">
+            <label class="required">Club name</label>
+            <input
+              type="text"
+              formControlName="clubName"
+              class="surface-elevated"
+              placeholder="DiceHub Sofia"
+            />
+          </div>
+
+          <div class="form-grid">
+            <div class="input-field">
+              <label class="required">Average max capacity</label>
+              <input
+                type="number"
+                min="1"
+                formControlName="averageMaxCapacity"
+                class="surface-elevated"
+                placeholder="80"
+              />
+            </div>
+
+            <div class="input-field">
+              <label class="required">Club phone number</label>
+              <input
+                type="text"
+                formControlName="clubPhoneNumber"
+                class="surface-elevated"
+                placeholder="+359..."
+              />
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div class="input-field">
+              <label class="required">Start working hours</label>
+              <input
+                type="time"
+                formControlName="startWorkingHours"
+                class="surface-elevated"
+              />
+            </div>
+
+            <div class="input-field">
+              <label class="required">End working hours</label>
+              <input
+                type="time"
+                formControlName="endWorkingHours"
+                class="surface-elevated"
+              />
+            </div>
+          </div>
+
+          <div class="input-field">
+            <label>Days off</label>
+            <ng-select
+              [items]="dayOptions"
+              bindLabel="name"
+              bindValue="name"
+              [multiple]="true"
+              [closeOnSelect]="false"
+              formControlName="daysOff"
+              class="app-select-long surface-elevated"
+              placeholder="Select days off"
+            >
+            </ng-select>
+          </div>
+        </section>
+
+        <section class="form-section">
+          <h2>Starting games</h2>
+
+          <div class="input-field">
+            <label class="required">Seeded games</label>
+            <ng-select
+              [items]="seedGames"
+              bindLabel="name"
+              bindValue="id"
+              [multiple]="true"
+              [closeOnSelect]="false"
+              formControlName="selectedGameIds"
+              class="app-select-long surface-elevated"
+              placeholder="Choose games"
+            >
+              <ng-template ng-option-tmp let-item="item">
+                <div class="seed-game-option">
+                  <img
+                    class="seed-game-option__image"
+                    [src]="item.imageUrl || '/shared/assets/images/default-no-image.jpg'"
+                    [alt]="item.name"
+                  />
+                  <div class="seed-game-option__content">
+                    <span class="seed-game-option__name">{{ item.name }}</span>
+                    <span class="seed-game-option__meta">
+                      {{ item.minPlayers }}-{{ item.maxPlayers }} players ·
+                      {{ item.minAge }}+
+                    </span>
+                  </div>
+                </div>
+              </ng-template>
+            </ng-select>
+          </div>
+        </section>
+
+        <div *ngIf="serverErrors.length" class="errors">
+          <div *ngFor="let error of serverErrors">{{ error }}</div>
+        </div>
+
+        <div class="actions">
+          <button
+            type="button"
+            class="btn btn-gray btn-border-blue btn-font-blue"
+            [disabled]="form.invalid || isSaving"
+            (click)="submit()"
+          >
+            {{ isSaving ? "Creating tenant..." : "Create tenant" }}
+          </button>
+        </div>
+      </form>
+    </ng-container>
+
+    <section *ngIf="isSubmitted" class="state-card success-state">
+      <h2>Club setup completed</h2>
+      <p>
+        Your club space is ready. We sent the owner login email with the email
+        address and temporary password.
+      </p>
+      <button
+        type="button"
+        class="btn btn-gray btn-border-blue btn-font-blue"
+        (click)="navigateToTenantLogin()"
+      >
+        Go to owner sign in
+      </button>
+    </section>
+</main>

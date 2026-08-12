@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DiceHub Register Choice Mockup</title>
+    <style>
+      :root {
+        --main-background-color: #20232a;
+        --main-nav-color: #31313b;
+        --main-font-color: #ffffff;
+        --main-blue-color: #75a0ff;
+        --main-gray-color: #2b2e35;
+        --main-font-gray-color: #9b9b9b;
+        --input-bg-color: #43434b;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        min-height: 100vh;
+        background: var(--main-background-color);
+        color: var(--main-font-color);
+        font-family: Arial, "Segoe UI", sans-serif;
+      }
+
+      .wrapper {
+        width: min(62rem, 100%);
+        min-height: 100vh;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 2rem;
+      }
+
+      .interactive-option {
+        display: flex;
+        justify-content: center;
+        margin-top: 1rem;
+      }
+
+      .icon-wrapper {
+        width: 5rem;
+        height: 5rem;
+        border-radius: 50px;
+        background: var(--main-blue-color);
+        box-shadow: 0 0 0 12px var(--main-background-color);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .icon {
+        width: 3rem;
+        height: 3rem;
+        fill: var(--main-font-color);
+      }
+
+      .header {
+        margin: 1rem;
+        display: flex;
+        justify-content: center;
+        font-size: 1.5rem;
+        font-weight: 500;
+        text-align: center;
+      }
+
+      .sub-header {
+        margin: 0 auto 2rem;
+        max-width: 34rem;
+        color: var(--main-font-gray-color);
+        text-align: center;
+        line-height: 1.45;
+      }
+
+      .container {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.5rem;
+        margin: 0 2rem 2rem;
+      }
+
+      .choice-card {
+        min-height: 18rem;
+        padding: 1.5rem;
+        border: 0.1rem solid var(--main-background-color);
+        border-radius: 1rem;
+        background: var(--main-nav-color);
+        box-shadow: 0 0 1rem rgba(117, 160, 255, 0.16);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        text-align: center;
+      }
+
+      .choice-card.recommended {
+        border-color: var(--main-blue-color);
+        box-shadow: 0 0 1.2rem rgba(117, 160, 255, 0.34);
+      }
+
+      .choice-icon {
+        width: 4.5rem;
+        height: 4.5rem;
+        border-radius: 1rem;
+        background: var(--main-gray-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--main-blue-color);
+        font-size: 2.2rem;
+      }
+
+      .choice-content {
+        margin: 1rem 0;
+      }
+
+      .choice-content h2 {
+        margin-bottom: 0.75rem;
+        font-size: 1.25rem;
+        font-weight: 600;
+      }
+
+      .choice-content p {
+        color: var(--main-font-gray-color);
+        line-height: 1.45;
+      }
+
+      .btn {
+        appearance: none;
+        border: none;
+        border-radius: 2rem;
+        color: #ffffff;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        padding: 0.65rem 2rem;
+        width: 100%;
+      }
+
+      .btn-gray {
+        background-color: var(--main-nav-color);
+      }
+
+      .btn-border-blue {
+        border: 0.2rem solid var(--main-blue-color);
+      }
+
+      .btn-font-blue {
+        color: var(--main-blue-color);
+      }
+
+      .badge {
+        margin-top: 0.75rem;
+        color: var(--main-blue-color);
+        font-size: 0.9rem;
+      }
+
+      .additional-link {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        color: var(--main-font-gray-color);
+      }
+
+      .markup {
+        color: var(--main-blue-color);
+        font-weight: 600;
+      }
+
+      .design-note {
+        max-width: 42rem;
+        margin: 2rem auto 0;
+        padding: 1rem;
+        border-radius: 0.75rem;
+        background: var(--main-gray-color);
+        color: var(--main-font-gray-color);
+        font-size: 0.9rem;
+        line-height: 1.45;
+      }
+
+      .design-note strong {
+        color: var(--main-font-color);
+      }
+
+      @media (max-width: 720px) {
+        .wrapper {
+          justify-content: flex-start;
+          padding: 1rem;
+        }
+
+        .container {
+          grid-template-columns: 1fr;
+          margin: 1rem 0 2rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="wrapper">
+      <section class="interactive-option" aria-hidden="true">
+        <div class="icon-wrapper">
+          <svg class="icon" viewBox="0 -960 960 960">
+            <path
+              d="M480-80 120-280v-400l360-200 360 200v400L480-80Zm0-92 280-155v-306L480-788 200-633v306l280 155Zm0-308Zm-40 190h80v-120h120v-80H520v-120h-80v120H320v80h120v120Z"
+            />
+          </svg>
+        </div>
+      </section>
+
+      <h1 class="header">Join DiceHub</h1>
+      <p class="sub-header">
+        Choose how you want to register. Player accounts belong to a club.
+        Venue applications are reviewed by DiceHub before a tenant is created.
+      </p>
+
+      <section class="container" aria-label="Registration type choices">
+        <article class="choice-card recommended">
+          <div class="choice-icon">♟</div>
+          <div class="choice-content">
+            <h2>I’m a Player</h2>
+            <p>
+              Create a client account to join a club, reserve games, and
+              participate in events.
+            </p>
+          </div>
+          <button class="btn btn-gray btn-border-blue btn-font-blue">
+            Create player account
+          </button>
+        </article>
+
+        <article class="choice-card">
+          <div class="choice-icon">🏛</div>
+          <div class="choice-content">
+            <h2>I own a Venue / Club</h2>
+            <p>
+              Apply for a DiceHub tenant. We verify your email, phone, and
+              venue details before approval.
+            </p>
+            <div class="badge">Requires verification</div>
+          </div>
+          <button class="btn btn-gray btn-border-blue btn-font-blue">
+            Apply as venue
+          </button>
+        </article>
+      </section>
+
+      <section class="additional-link">
+        <p>Already have an account?</p>
+        <p><span class="markup">Sign in</span></p>
+      </section>
+
+      <aside class="design-note">
+        <strong>Mockup note:</strong> this is intentionally close to the current
+        Register/Login pages: centered layout, circular blue action icon,
+        `main-nav` cards, gray text, and existing button treatment.
+      </aside>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,33 @@
+<div class="container">
+  <h2>Applicants</h2>
+
+  <div *ngIf="isLoading" class="empty">Loading applicants...</div>
+
+  <div *ngIf="!isLoading && applications.length === 0" class="empty">
+    No tenant applicants yet.
+  </div>
+
+  <div class="list" *ngIf="!isLoading && applications.length > 0">
+    <button
+      type="button"
+      class="application surface-elevated"
+      *ngFor="let application of applications"
+      (click)="open(application)"
+    >
+      <span>
+        <strong>{{ application.contactName }}</strong>
+        <small>{{ application.applicantType }}</small>
+      </span>
+      <span>{{ application.email }}</span>
+      <span>{{ application.phoneNumber }}</span>
+      <span
+        class="status"
+        [class.pending]="application.status === status.PendingVerification"
+        [class.verified]="application.status === status.Verified"
+        [class.rejected]="application.status === status.Rejected"
+      >
+        {{ getStatusLabel(application.status) }}
+      </span>
+    </button>
+  </div>
+</div>

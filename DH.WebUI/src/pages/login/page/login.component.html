@@ -60,7 +60,7 @@
     </div> -->
 
     <div class="options">
-      <span class="markup" (click)="changeClub()">{{
+      <span *ngIf="!isAdminLogin" class="markup" (click)="changeClub()">{{
         "login.labels.change_club" | translate
       }}</span>
 
@@ -94,7 +94,7 @@
         {{ "login.login_btn" | translate }}
       </button>
     </div>
-    <div class="additional-link">
+    <div *ngIf="!isAdminLogin" class="additional-link">
       <p>{{ "login.no_account" | translate }}</p>
       <p>
         <strong class="markup" (click)="navigateToRegister()">{{

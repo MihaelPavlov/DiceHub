@@ -55,7 +55,7 @@ internal class UserManagementService(
         {
             UserName = form.Username,
             Email = form.Email,
-            TenantId = this.userContext.TenantId ?? string.Empty
+            TenantId = form.TenantId.Trim()
         };
         var createUserResult = await this.userManager.CreateAsync(user, form.Password);
 

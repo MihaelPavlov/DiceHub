@@ -32,11 +32,19 @@ export class AuthRedirectGuard {
     | Promise<boolean | UrlTree> {
     const token = localStorage.getItem('jwt');
 
-    if (token && !this.jwtHelper.isTokenExpired(token) && this.tenantContextService.hasTenant()) {
-      const tenantUrl = this.tenantRouter.buildTenantUrl(
-        FULL_ROUTE.GAMES.LIBRARY
-      );
-      return this.router.parseUrl(tenantUrl);
+    if (token && !this.jwtHelper.isTokenExpired(token)) {
+      const user = this.jwtHelper.decodeToken(token);
+
+      if (user?.['tenant_id'] === 'system') {
+        return this.router.parseUrl('/admin/applicants');
+      }
+
+      if (this.tenantContextService.hasTenant()) {
+        const tenantUrl = this.tenantRouter.buildTenantUrl(
+          FULL_ROUTE.GAMES.LIBRARY
+        );
+        return this.router.parseUrl(tenantUrl);
+      }
     }
     return of(true);
   }

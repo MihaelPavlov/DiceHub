@@ -1,0 +1,126 @@
+@use "../../.././shared/assets/styles/palette";
+
+.wrapper {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 54rem;
+  min-height: 100vh;
+}
+
+.markup {
+  color: palette.$main-blue-color;
+}
+
+.interactive-option {
+  display: flex;
+  justify-content: center;
+  margin-top: 3rem;
+
+  .icon_wrapper {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50px;
+    background: palette.$main-blue-color;
+    box-shadow: 0 0 0 12px var(--background-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .icon {
+    width: 3rem;
+    height: 3rem;
+  }
+}
+
+.header {
+  margin: 1rem;
+  display: flex;
+  justify-content: center;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.sub-header {
+  margin: 0 auto 2rem;
+  max-width: 34rem;
+  color: palette.$main-font-gray-color;
+  text-align: center;
+  line-height: 1.45;
+}
+
+.choice-container {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 2rem;
+}
+
+.choice-card {
+  min-height: 17rem;
+  padding: 1.25rem;
+  border-radius: 0.4rem;
+  background: palette.$main-nav-color;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+
+  button {
+    width: 100%;
+  }
+}
+
+.choice-icon {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 0.4rem;
+  background: palette.$main-gray-color;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: palette.$main-blue-color;
+  font-size: 2.2rem;
+}
+
+.choice-content {
+  margin: 1rem 0;
+
+  h2 {
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+  }
+
+  p {
+    color: palette.$main-font-gray-color;
+    line-height: 1.45;
+  }
+}
+
+.badge {
+  display: inline-block;
+  margin-top: 0.75rem;
+  color: palette.$main-blue-color;
+  font-size: 0.9rem;
+}
+
+.additional-link {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+@media (max-width: 720px) {
+  .wrapper {
+    justify-content: flex-start;
+  }
+
+  .choice-container {
+    grid-template-columns: 1fr;
+    margin: 1rem;
+  }
+}

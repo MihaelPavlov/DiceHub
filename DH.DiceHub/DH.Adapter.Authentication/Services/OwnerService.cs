@@ -45,8 +45,12 @@ internal class OwnerService(
         if (!request.FieldsAreValid(out var validationErrors, this.localizer))
             throw new ValidationErrorsException(validationErrors);
 
+        var tenantId = this.userContext.TenantId;
+        if (string.IsNullOrWhiteSpace(tenantId))
+            throw new BadRequestException("TenantId is required.");
+
         var owner = (await this.userManager.GetUsersInRoleAsync(Role.Owner.ToString()))
-            .Where(x => x.TenantId == this.userContext.TenantId && !x.IsDeleted)
+            .Where(x => x.TenantId == tenantId && !x.IsDeleted)
             .ToList();
         if (owner.Count > 1)
             throw new ValidationErrorsException("Owner", this.localizer["OwnerAlreadyExists"]);
@@ -66,7 +70,7 @@ internal class OwnerService(
             Email = request.Email,
             PhoneNumber = request.ClubPhoneNumber,
             EmailConfirmed = true,
-            TenantId = this.userContext.TenantId ?? string.Empty
+            TenantId = tenantId
         };
         var generatedRandomPassword = PasswordGenerator.GenerateRandomPassword();
         var createUserResult = await userManager.CreateAsync(user, generatedRandomPassword);
@@ -101,6 +105,59 @@ internal class OwnerService(
         return new OwnerResult
         {
             Email = afterRegister.Email!,
+        };
+    }
+
+    public async Task<CreateOwnerForTenantSetupResult> CreateOwnerForTenantSetup(
+        CreateOwnerForTenantSetupRequest request,
+        CancellationToken cancellationToken)
+    {
+        if (string.IsNullOrWhiteSpace(request.TenantId))
+            throw new BadRequestException("TenantId is required.");
+
+        if (string.IsNullOrWhiteSpace(request.Email))
+            throw new ValidationErrorsException("Email", this.localizer["OwnerValidationEmailRequired"]);
+
+        var existingUserByEmail = await this.userManager.Users
+            .Where(x => x.Email == request.Email && !x.IsDeleted)
+            .FirstOrDefaultAsync(cancellationToken);
+        if (existingUserByEmail != null)
+            throw new ValidationErrorsException("Email", this.localizer["UserExistEmail"]);
+
+        var username = request.Email.Trim();
+        var existingUserByUsername = await this.userManager.Users
+            .Where(x => x.UserName == username && !x.IsDeleted)
+            .FirstOrDefaultAsync(cancellationToken);
+        if (existingUserByUsername != null)
+            throw new ValidationErrorsException("Username", this.localizer["UserExistUsername"]);
+
+        if (!await this.roleManager.RoleExistsAsync(Role.Owner.ToString()))
+        {
+            this.logger.LogCritical("Role {Role} was not found", Role.Owner.ToString());
+            throw new BadRequestException(this.localizer["UserRegistrationFailedDuringRoleAssignment"]);
+        }
+
+        var generatedRandomPassword = PasswordGenerator.GenerateRandomPassword();
+        var user = new ApplicationUser
+        {
+            UserName = username,
+            Email = request.Email.Trim(),
+            PhoneNumber = request.ClubPhoneNumber,
+            EmailConfirmed = true,
+            TenantId = request.TenantId,
+        };
+
+        var createUserResult = await this.userManager.CreateAsync(user, generatedRandomPassword);
+        if (!createUserResult.Succeeded)
+            throw new ValidationErrorsException("General", this.localizer["UserRegistrationFailed"]);
+
+        await this.userManager.AddToRoleAsync(user, Role.Owner.ToString());
+
+        return new CreateOwnerForTenantSetupResult
+        {
+            UserId = user.Id,
+            Email = user.Email!,
+            TemporaryPassword = generatedRandomPassword,
         };
     }
 

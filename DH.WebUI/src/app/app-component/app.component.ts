@@ -26,6 +26,7 @@ export class AppComponent implements OnInit {
   public areAnyActiveNotificationSubject: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
   hideMenu = false;
+  public isSystemAdmin = false;
 
   constructor(
     private readonly authService: AuthService,
@@ -98,6 +99,13 @@ export class AppComponent implements OnInit {
       await this.authService.userinfo$();
     }
 
+    this.isSystemAdmin = this.authService.getUser?.tenantId === 'system';
+
+    if (this.authService.getUser?.tenantId === 'system') {
+      this.challengeOverlayService.init(this.challengeOverlay);
+      return;
+    }
+
     if (this.authService.getUser) {
       await this.challengeHubService.initChallengeHubConnection(
         this.authService.getUser.id,
@@ -114,6 +122,10 @@ export class AppComponent implements OnInit {
    * Initialize Firebase Cloud Messaging related tasks
    */
   private _initializeFCM(): void {
+    if (this.authService.getUser?.tenantId === 'system') {
+      return;
+    }
+
     if (this.authService.getUser) {
       if (this.messagingService.isPushUnsupportedIOS()) {
         this.frontEndLogService
@@ -135,6 +147,10 @@ export class AppComponent implements OnInit {
   }
 
   public onUpdateUserNotifications() {
+    if (this.authService.getUser?.tenantId === 'system') {
+      return;
+    }
+
     this.notificationService
       .areAnyActiveNotifications()
       .pipe(
