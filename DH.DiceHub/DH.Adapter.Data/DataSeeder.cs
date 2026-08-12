@@ -85,40 +85,22 @@ public class DataSeeder : IDataSeeder
         try
         {
             await using var context = await this.dbContextFactory.CreateDbContextAsync();
-            var tenantIds = await context.Tenants
-                .AsNoTracking()
-                .Select(x => x.Id)
-                .ToListAsync();
+            var existingKeys = (await context.EmailTemplates.AsNoTracking()
+                .Select(x => new { x.TemplateName, x.Language }).ToListAsync())
+                .Select(x => CreateTemplateKey(x.TemplateName, x.Language))
+                .ToHashSet(StringComparer.OrdinalIgnoreCase);
+            var tenantId = await context.Tenants.AsNoTracking().Select(x => x.Id).FirstOrDefaultAsync();
+            if (string.IsNullOrWhiteSpace(tenantId)) return;
 
-            foreach (var tenantId in tenantIds.Where(x => !string.IsNullOrWhiteSpace(x)))
-            {
-                var existingTemplates = await context.EmailTemplates
-                    .AsNoTracking()
-                    .Where(x => x.TenantId == tenantId)
-                    .Select(x => new { x.TemplateName, x.Language })
-                    .ToListAsync();
+            var missingTemplates = SeedData.EMAIL_TEMPLATES
+                .Where(x => !existingKeys.Contains(CreateTemplateKey(x.TemplateName, x.Language)))
+                .Select(x => CloneEmailTemplate(x, tenantId)).ToList();
+            if (missingTemplates.Count == 0) return;
 
-                var existingKeys = existingTemplates
-                    .Select(x => CreateTemplateKey(x.TemplateName, x.Language))
-                    .ToHashSet(StringComparer.OrdinalIgnoreCase);
-
-                var missingTemplates = SeedData.EMAIL_TEMPLATES
-                    .Where(x => !existingKeys.Contains(CreateTemplateKey(x.TemplateName, x.Language)))
-                    .Select(x => CloneEmailTemplate(x, tenantId))
-                    .ToList();
-
-                if (missingTemplates.Count == 0)
-                    continue;
-
-                await context.EmailTemplates.AddRangeAsync(missingTemplates);
-                this.systemUserContextAccessor.Set(new DataSeederSystemUserContext(tenantId));
-                await context.SaveChangesAsync();
-
-                this.logger.LogInformation(
-                    "Seeded {TemplateCount} email templates for tenant {TenantId}.",
-                    missingTemplates.Count,
-                    tenantId);
-            }
+            await context.EmailTemplates.AddRangeAsync(missingTemplates);
+            this.systemUserContextAccessor.Set(new DataSeederSystemUserContext(tenantId));
+            await context.SaveChangesAsync();
+            this.logger.LogInformation("Seeded {TemplateCount} shared email templates.", missingTemplates.Count);
         }
         catch (Exception ex)
         {
@@ -131,36 +113,20 @@ public class DataSeeder : IDataSeeder
         try
         {
             await using var context = await this.dbContextFactory.CreateDbContextAsync();
-            var tenantIds = await context.Tenants
-                .AsNoTracking()
-                .Select(x => x.Id)
-                .ToListAsync();
+            var existingTypes = (await context.UniversalChallenges.AsNoTracking()
+                .Select(x => x.Type).ToListAsync()).ToHashSet();
+            var tenantId = await context.Tenants.AsNoTracking().Select(x => x.Id).FirstOrDefaultAsync();
+            if (string.IsNullOrWhiteSpace(tenantId)) return;
 
-            foreach (var tenantId in tenantIds.Where(x => !string.IsNullOrWhiteSpace(x)))
-            {
-                var existingTypes = await context.UniversalChallenges
-                    .AsNoTracking()
-                    .Where(x => x.TenantId == tenantId)
-                    .Select(x => x.Type)
-                    .ToListAsync();
+            var missingChallenges = SeedData.UNIVERSAL_CHALLENGES
+                .Where(x => !existingTypes.Contains(x.Type))
+                .Select(x => CloneUniversalChallenge(x, tenantId)).ToList();
+            if (missingChallenges.Count == 0) return;
 
-                var missingChallenges = SeedData.UNIVERSAL_CHALLENGES
-                    .Where(x => !existingTypes.Contains(x.Type))
-                    .Select(x => CloneUniversalChallenge(x, tenantId))
-                    .ToList();
-
-                if (missingChallenges.Count == 0)
-                    continue;
-
-                await context.UniversalChallenges.AddRangeAsync(missingChallenges);
-                this.systemUserContextAccessor.Set(new DataSeederSystemUserContext(tenantId));
-                await context.SaveChangesAsync();
-
-                this.logger.LogInformation(
-                    "Seeded {ChallengeCount} universal challenges for tenant {TenantId}.",
-                    missingChallenges.Count,
-                    tenantId);
-            }
+            await context.UniversalChallenges.AddRangeAsync(missingChallenges);
+            this.systemUserContextAccessor.Set(new DataSeederSystemUserContext(tenantId));
+            await context.SaveChangesAsync();
+            this.logger.LogInformation("Seeded {ChallengeCount} shared universal challenges.", missingChallenges.Count);
         }
         catch (Exception ex)
         {

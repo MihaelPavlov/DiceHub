@@ -32,33 +32,26 @@ public class TenantRouteValidationMiddleware
         // Extract tenant from route (e.g., /api/{tenant}/...)
         var routeTenant = context.Request.RouteValues["tenant"]?.ToString();
 
-        // If no tenant in route, skip validation
-        if (string.IsNullOrWhiteSpace(routeTenant))
+        var user = context.User;
+        var tokenTenantId = user?.FindFirstValue("tenant_id");
+        var headerTenantId = context.Request.Headers["X-Tenant-Id"].FirstOrDefault();
+        var effectiveTenant = routeTenant ?? headerTenantId;
+
+        if (string.IsNullOrWhiteSpace(effectiveTenant)
+            && user?.Identity?.IsAuthenticated == true
+            && !string.Equals(tokenTenantId, "system", StringComparison.OrdinalIgnoreCase))
+        {
+            effectiveTenant = tokenTenantId;
+        }
+
+        // No tenant means this is an explicitly system/public request.
+        if (string.IsNullOrWhiteSpace(effectiveTenant))
         {
             await _next(context);
             return;
         }
 
-        // Allow anonymous endpoints if JWT is missing
-        var user = context.User;
-        if (user?.Identity?.IsAuthenticated != true)
-        {
-            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-            await context.Response.WriteAsync("Authentication required.");
-            return;
-        }
-
-        // Extract tenantId from JWT claim
-        var tokenTenantId = user.FindFirstValue("tenant_id");
-        if (string.IsNullOrEmpty(tokenTenantId))
-        {
-            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-            await context.Response.WriteAsync("Tenant claim missing in token.");
-            return;
-        }
-
-        // Resolve tenant by slug from route
-        var tenant = await tenantResolver.GetByTenantName(routeTenant);
+        var tenant = await tenantResolver.GetByTenantName(effectiveTenant);
         if (tenant == null)
         {
             context.Response.StatusCode = StatusCodes.Status404NotFound;
@@ -66,10 +59,13 @@ public class TenantRouteValidationMiddleware
             return;
         }
 
-        var isSuperAdmin = user.IsInRole("SuperAdmin");
+        var isSuperAdmin = context.User.IsInRole("SuperAdmin");
 
-        // Validate JWT tenant matches route tenant
-        if (!isSuperAdmin && tenant.Id.ToString() != tokenTenantId)
+        // Normal users can only access their token tenant. SuperAdmin may
+        // select a validated tenant through the route/header.
+        if (context.User.Identity?.IsAuthenticated == true
+            && !isSuperAdmin
+            && tenant.Id != tokenTenantId)
         {
             context.Response.StatusCode = StatusCodes.Status403Forbidden;
             await context.Response.WriteAsync("Tenant mismatch.");
@@ -77,6 +73,15 @@ public class TenantRouteValidationMiddleware
         }
 
         // Expose tenant for DbContext / RLS
+        if (!string.IsNullOrWhiteSpace(routeTenant)
+            && !string.IsNullOrWhiteSpace(headerTenantId)
+            && !string.Equals(routeTenant, headerTenantId, StringComparison.OrdinalIgnoreCase))
+        {
+            context.Response.StatusCode = StatusCodes.Status400BadRequest;
+            await context.Response.WriteAsync("Tenant route and tenant header do not match.");
+            return;
+        }
+
         context.Items["TenantId"] = tenant.Id;
 
         // Continue pipeline

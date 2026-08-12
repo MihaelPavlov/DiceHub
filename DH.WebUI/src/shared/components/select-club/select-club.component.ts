@@ -39,7 +39,10 @@ export class SelectClubComponent implements OnInit {
 
   public navigateToLogin(): void {
     if (this.selectedClub) {
-      this.tenantContextService.tenantId = this.selectedClub.id;
+      this.tenantContextService.setTenant(
+        this.selectedClub.id,
+        this.selectedClub.tenantName
+      );
 
       this.tenantRouter.navigateTenant(ROUTE.LOGIN);
     }

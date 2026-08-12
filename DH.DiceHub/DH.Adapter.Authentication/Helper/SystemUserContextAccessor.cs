@@ -16,6 +16,8 @@ public class SystemUserContextAccessor : ISystemUserContextAccessor
         }
     }
 
+    public IUserContext Peek => _current;
+
     public void Set(IUserContext context)
     {
         _current = context;

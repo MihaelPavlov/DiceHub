@@ -340,7 +340,11 @@
     "profile": "Профил",
     "space": "Зала",
     "challenges": "Предизвикателства",
-    "qr_scanner": "QR скенер"
+    "qr_scanner": "QR скенер",
+    "applicants": "Кандидати",
+    "tenants": "Обекти",
+    "exit_preview": "Изход от преглед",
+    "logout": "Изход"
   },
   "qr_scanner": {
     "header": "Сканирай QR Код",

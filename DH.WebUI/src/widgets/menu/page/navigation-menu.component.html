@@ -8,6 +8,7 @@
         [routerLinkActive]="item.class"
         [routerLink]="item.route"
         class="option"
+        [class.superadmin-section]="item.sectionBreak"
         [ngClass]="{
             'active': rla.isActive && !menuItemWithForceActiveExists || item.forceActive,
           }"
@@ -36,7 +37,7 @@
         <span *ngIf="item.isAlertActive" class="icon-button__badge"> </span>
       </a>
     </ng-container>
-    <a class="interactive-option" #interactiveOption>
+    <a *ngIf="!isSuperAdmin() || isTenantVisit()" class="interactive-option" (click)="toggleInteractive($event)">
       <span class="wrapper">
         <div class="svg_wrapper icon__resize">
           <svg class="svg-color-interaction-option" viewBox="0 -960 960 960">
@@ -137,6 +138,7 @@
     </a>
     <button
       type="button"
+      *ngIf="!isSuperAdmin() || isTenantVisit()"
       class="option desktop-extra-option"
       [class.active]="isDesktopActionActive('space')"
       (click)="navigateToSpaceManagement()"
@@ -152,6 +154,7 @@
     </button>
     <button
       type="button"
+      *ngIf="!isSuperAdmin() || isTenantVisit()"
       class="option desktop-extra-option"
       [class.active]="isDesktopActionActive('challenges')"
       (click)="navigateToChallenges()"
@@ -167,6 +170,7 @@
     </button>
     <button
       type="button"
+      *ngIf="!isSuperAdmin() || isTenantVisit()"
       class="option desktop-extra-option"
       [class.active]="isDesktopActionActive('qr-code-scanner')"
       (click)="navigateToQrCodeScanner()"
@@ -188,6 +192,7 @@
         [routerLinkActive]="item.class"
         [routerLink]="item.route"
         class="option"
+        [class.superadmin-section]="item.sectionBreak"
         [ngClass]="{
             'active': rla.isActive && !menuItemWithForceActiveExists || item.forceActive,
           }"
@@ -215,5 +220,35 @@
         <span> {{ "navigation_menu." + item.label | translate }} </span>
       </a>
     </ng-container>
+    <button
+      type="button"
+      *ngIf="isTenantVisit()"
+      class="option desktop-extra-option exit-preview-option"
+      (click)="exitTenantPreview()"
+    >
+      <span class="desktop-action-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M10.09 15.59 11.5 17l5-5-5-5-1.41 1.41L12.67 11H3v2h9.67l-2.58 2.59ZM19 3h-8c-1.1 0-2 .9-2 2v3h2V5h8v14h-8v-3H9v3c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2Z"
+          ></path>
+        </svg>
+      </span>
+      <span>{{ "navigation_menu.exit_preview" | translate }}</span>
+    </button>
+    <button
+      type="button"
+      *ngIf="isSuperAdmin()"
+      class="option desktop-extra-option logout-option"
+      (click)="logoutSuperAdmin()"
+    >
+      <span class="desktop-action-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M10.09 15.59 11.5 17l5-5-5-5-1.41 1.41L12.67 11H3v2h9.67l-2.58 2.59ZM19 3h-8c-1.1 0-2 .9-2 2v3h2V5h8v14h-8v-3H9v3c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2Z"
+          ></path>
+        </svg>
+      </span>
+      <span>{{ "navigation_menu.logout" | translate }}</span>
+    </button>
   </div>
 </nav>

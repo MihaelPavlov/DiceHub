@@ -38,8 +38,8 @@ public class UserContextFactory : IUserContextFactory
         var userId = user.FindFirstValue(ClaimTypes.Sid);
         var roleName = user.FindFirstValue(ClaimTypes.Role);
         var timeZone = user.FindFirstValue("TimeZone");
-        var tenantId = user.FindFirstValue("tenant_id")
-            ?? httpContext?.Items["TenantId"]?.ToString();
+        var tenantId = httpContext?.Items["TenantId"]?.ToString()
+            ?? user.FindFirstValue("tenant_id");
 
         if (string.IsNullOrWhiteSpace(userId))
         {

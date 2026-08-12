@@ -84,7 +84,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   public navigateToApplicants(): void {
-    this.tenantRouter.navigateTenant(FULL_ROUTE.PROFILE.APPLICANTS);
+    if (this.isSuperAdmin()) this.router.navigate(['/admin/applicants']);
+    else this.tenantRouter.navigateTenant(FULL_ROUTE.PROFILE.APPLICANTS);
+  }
+
+  public navigateToTenants(): void {
+    this.router.navigate(['/admin/tenants']);
   }
 
   public navigateToEmployeeList(): void {

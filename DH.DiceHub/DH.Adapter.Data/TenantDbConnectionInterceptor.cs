@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using DH.Domain.Adapters.Authentication;
 using System.Data.Common;
 using System.Security;
 
@@ -17,10 +18,14 @@ namespace DH.Adapter.Data;
 public class TenantDbConnectionInterceptor : DbConnectionInterceptor
 {
     private readonly IHttpContextAccessor httpContextAccessor;
+    private readonly ISystemUserContextAccessor systemUserContextAccessor;
 
-    public TenantDbConnectionInterceptor(IHttpContextAccessor httpContextAccessor)
+    public TenantDbConnectionInterceptor(
+        IHttpContextAccessor httpContextAccessor,
+        ISystemUserContextAccessor systemUserContextAccessor)
     {
         this.httpContextAccessor = httpContextAccessor;
+        this.systemUserContextAccessor = systemUserContextAccessor;
     }
 
     public override async Task ConnectionOpenedAsync(
@@ -28,29 +33,20 @@ public class TenantDbConnectionInterceptor : DbConnectionInterceptor
         ConnectionEndEventData eventData,
         CancellationToken cancellationToken = default)
     {
-        var httpContext = httpContextAccessor.HttpContext;
-
-        if (httpContext == null)
-            return;
-
-        var tenantId = httpContext.Items["TenantId"]?.ToString();
-        if (httpContext.Request.Headers.TryGetValue("X-Requires-Tenant", out var value)
-            && value == "false" && tenantId == null)
+        using (var resetCommand = connection.CreateCommand())
         {
-            return;
+            // Pooled connections must not retain the previous request's tenant.
+            resetCommand.CommandText = "RESET app.tenant_id";
+            await resetCommand.ExecuteNonQueryAsync(cancellationToken);
         }
 
-        if (string.IsNullOrEmpty(tenantId))
-            throw new SecurityException("Tenant context missing");
-
+        var tenantId = httpContextAccessor.HttpContext?.Items["TenantId"]?.ToString()
+            ?? systemUserContextAccessor.Peek.TenantId;
         if (!string.IsNullOrEmpty(tenantId))
         {
-            using (var cmd = connection.CreateCommand())
-            {
-
-                cmd.CommandText = $"SET app.tenant_id = '{tenantId.Replace("'", "''")}'";
-                await cmd.ExecuteNonQueryAsync(cancellationToken);
-            }
+            using var command = connection.CreateCommand();
+            command.CommandText = $"SET app.tenant_id = '{tenantId.Replace("'", "''")}'";
+            await command.ExecuteNonQueryAsync(cancellationToken);
         }
 
         await base.ConnectionOpenedAsync(connection, eventData, cancellationToken);
@@ -58,20 +54,23 @@ public class TenantDbConnectionInterceptor : DbConnectionInterceptor
 
     public override void ConnectionOpened(DbConnection connection, ConnectionEndEventData eventData)
      {
-        if (this.httpContextAccessor != null && this.httpContextAccessor.HttpContext != null)
+        using (var resetCommand = connection.CreateCommand())
         {
-            var tenantId = this.httpContextAccessor.HttpContext?
-                .Items["TenantId"]?.ToString();
+            resetCommand.CommandText = "RESET app.tenant_id";
+            resetCommand.ExecuteNonQuery();
+        }
 
-            if (!string.IsNullOrEmpty(tenantId))
+        var tenantId = httpContextAccessor.HttpContext?.Items["TenantId"]?.ToString()
+            ?? systemUserContextAccessor.Peek.TenantId;
+        if (!string.IsNullOrEmpty(tenantId))
+        {
+            using (var command = connection.CreateCommand())
             {
-                using (var cmd = connection.CreateCommand())
-                {
-
-                    cmd.CommandText = $"SET app.tenant_id = '{tenantId.Replace("'", "''")}'";
-                    cmd.ExecuteNonQuery();
-                }
+                command.CommandText = $"SET app.tenant_id = '{tenantId.Replace("'", "''")}'";
+                command.ExecuteNonQuery();
             }
         }
+
+        base.ConnectionOpened(connection, eventData);
     }
 }

@@ -107,6 +107,11 @@ export class LoginComponent extends Form implements OnInit {
       return;
     }
 
+    if (this.tenantContextService.tenantName) {
+      this.clubName = this.tenantContextService.tenantName;
+      return;
+    }
+
     this.tenantSettingsService.getClubName().subscribe({
       next: (clubName) => {
         this.clubName = clubName;
@@ -115,6 +120,7 @@ export class LoginComponent extends Form implements OnInit {
   }
 
   public changeClub(): void {
+    this.tenantContextService.clearTenant();
     this.tenantRouter.navigateGlobal(ROUTE.CHOOSE_CLUB);
   }
 
@@ -224,7 +230,8 @@ export class LoginComponent extends Form implements OnInit {
             if (response) {
               this.authService.authenticateUser(
                 response.accessToken,
-                response.refreshToken
+                response.refreshToken,
+                response.tenantId
               );
 
               if (
@@ -306,7 +313,8 @@ export class LoginComponent extends Form implements OnInit {
             if (response) {
               this.authService.authenticateUser(
                 response.accessToken,
-                response.refreshToken
+                response.refreshToken,
+                response.tenantId
               );
 
               if (response.tenantId === 'system') {
@@ -372,9 +380,10 @@ export class LoginComponent extends Form implements OnInit {
       .subscribe({
         next: (response) => {
           if (response) {
-            this.authService.authenticateUser(
-              response.accessToken,
-              response.refreshToken
+              this.authService.authenticateUser(
+                response.accessToken,
+                response.refreshToken,
+                response.tenantId
             );
 
             if (response.tenantId === 'system') {

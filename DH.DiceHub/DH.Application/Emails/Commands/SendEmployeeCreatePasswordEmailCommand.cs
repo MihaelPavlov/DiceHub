@@ -81,6 +81,7 @@ internal class SendEmployeeCreatePasswordEmailCommandHandler(
 
         await this.emailHelperService.CreateEmailHistory(new EmailHistory
         {
+            TenantId = user.TenantId,
             IsSuccessfully = isEmailSendSuccessfully,
             Body = body,
             SendedOn = DateTime.UtcNow,

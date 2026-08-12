@@ -124,6 +124,12 @@ export const ROUTES: Routes = [
     data: { hideMenu: true },
   },
   {
+    path: 'login',
+    component: LoginComponent,
+    canActivate: [RedirectIfTenantGuard],
+    data: { hideMenu: true },
+  },
+  {
     path: 'admin',
     loadChildren: () =>
       import('../../pages/profile/profile.module').then(

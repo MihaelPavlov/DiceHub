@@ -135,7 +135,8 @@ export class ConfirmEmailComponent implements OnInit {
           setTimeout(() => {
             this.authService.authenticateUser(
               response!.accessToken,
-              response!.refreshToken
+              response!.refreshToken,
+              response!.tenantId
             );
 
             if (this.challengeOverlayService.overlay.value) {

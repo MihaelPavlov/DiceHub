@@ -340,7 +340,11 @@
     "profile": "Profile",
     "space": "Space",
     "challenges": "Challenges",
-    "qr_scanner": "QR Scanner"
+    "qr_scanner": "QR Scanner",
+    "applicants": "Applicants",
+    "tenants": "Tenants",
+    "exit_preview": "Exit preview",
+    "logout": "Logout"
   },
   "qr_scanner": {
     "header": "Scan QR Code",

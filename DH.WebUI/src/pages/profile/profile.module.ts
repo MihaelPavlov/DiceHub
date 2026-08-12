@@ -15,6 +15,8 @@ import { JobsComponent } from '../../features/profile/components/jobs/jobs.compo
 import { ClubInfo } from '../../features/profile/components/club-info/club-info.component';
 import { TenantApplicationsComponent } from '../../features/profile/components/tenant-applications/tenant-applications.component';
 import { TenantApplicationDetailsComponent } from '../../features/profile/components/tenant-application-details/tenant-application-details.component';
+import { SuperadminTenantsComponent } from '../../features/profile/components/superadmin-tenants/superadmin-tenants.component';
+import { SuperadminTenantDetailsComponent } from '../../features/profile/components/superadmin-tenant-details/superadmin-tenant-details.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,9 @@ import { TenantApplicationDetailsComponent } from '../../features/profile/compon
     JobsComponent,
     ClubInfo,
     TenantApplicationsComponent,
-    TenantApplicationDetailsComponent
+    TenantApplicationDetailsComponent,
+    SuperadminTenantsComponent,
+    SuperadminTenantDetailsComponent
   ],
   exports: [],
   providers: [],

@@ -1,0 +1,21 @@
+<main class="container">
+  <button type="button" class="back" (click)="back()">&#8592; Tenants</button>
+  <p *ngIf="isLoading" class="state">Loading tenant...</p>
+  <section *ngIf="!isLoading && tenant" class="details">
+    <div class="identity"><span class="tenant-mark">{{ tenant.tenantName.charAt(0) }}</span><div><p class="eyebrow">Tenant details</p><h1>{{ tenant.tenantName }}</h1><p class="id">{{ tenant.id }}</p></div></div>
+    <div class="detail-grid">
+      <div><small>Contact name</small><strong>{{ tenant.contactName || 'Not provided' }}</strong></div>
+      <div><small>Email</small><strong>{{ tenant.email || 'Not provided' }}</strong></div>
+      <div><small>Phone</small><strong>{{ tenant.phoneNumber || tenant.clubPhoneNumber || 'Not provided' }}</strong></div>
+      <div><small>Address</small><strong>{{ tenant.address || 'Not provided' }}</strong></div>
+      <div><small>Capacity</small><strong>{{ tenant.averageMaxCapacity || 'Not provided' }}</strong></div>
+      <div><small>Working hours</small><strong>{{ tenant.startWorkingHours || '-' }} - {{ tenant.endWorkingHours || '-' }}</strong></div>
+      <div><small>Days off</small><strong>{{ tenant.daysOff || 'None' }}</strong></div>
+      <div><small>Created</small><strong>{{ tenant.createdDate | date:'mediumDate' }}</strong></div>
+      <div *ngIf="tenant.publicWebsite"><small>Website</small><strong>{{ tenant.publicWebsite }}</strong></div>
+      <div *ngIf="tenant.socialPage"><small>Social page</small><strong>{{ tenant.socialPage }}</strong></div>
+      <div *ngIf="tenant.discordServer"><small>Discord</small><strong>{{ tenant.discordServer }}</strong></div>
+    </div>
+    <button type="button" class="action primary visit" (click)="visit()"><strong>Visit tenant</strong><small>Open the tenant information views</small></button>
+  </section>
+</main>

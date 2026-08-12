@@ -23,6 +23,7 @@ internal class UserManagementService(
     ILocalizationService localizer,
     ISynchronizeUsersChallengesQueue queue,
     ISystemUserContextAccessor systemUserContextAccessor,
+    IUserContext userContext,
     IRepository<UserDeviceToken> userDeviceTokenRepository,
     IRepository<TenantUserSetting> tenantUserSettingRepository) : IUserManagementService
 {
@@ -32,6 +33,7 @@ internal class UserManagementService(
     readonly ILocalizationService localizer = localizer;
     readonly ISynchronizeUsersChallengesQueue queue = queue;
     readonly ISystemUserContextAccessor systemUserContextAccessor = systemUserContextAccessor;
+    readonly IUserContext userContext = userContext;
     readonly IRepository<UserDeviceToken> userDeviceTokenRepository = userDeviceTokenRepository;
     readonly IRepository<TenantUserSetting> tenantUserSettingRepository = tenantUserSettingRepository;
 
@@ -181,7 +183,9 @@ internal class UserManagementService(
         // Get users in the specified role
         var usersInRole = await this.userManager.GetUsersInRoleAsync(role.ToString());
 
-        return usersInRole.Where(x => !x.IsDeleted).Select(x => new GetUserByRoleModel
+        return usersInRole.Where(x => !x.IsDeleted
+            && (string.IsNullOrWhiteSpace(this.userContext.TenantId) || x.TenantId == this.userContext.TenantId))
+            .Select(x => new GetUserByRoleModel
         {
             Id = x.Id,
             UserName = x.UserName ?? this.localizer["UsernameNotProvided"]
@@ -202,7 +206,9 @@ internal class UserManagementService(
             // Get users in the specified role
             var usersInRole = await this.userManager.GetUsersInRoleAsync(role.ToString());
 
-            result.AddRange(usersInRole.Where(x => !x.IsDeleted).Select(x => new GetUserByRoleModel
+            result.AddRange(usersInRole.Where(x => !x.IsDeleted
+                && (string.IsNullOrWhiteSpace(this.userContext.TenantId) || x.TenantId == this.userContext.TenantId))
+                .Select(x => new GetUserByRoleModel
             {
                 Id = x.Id,
                 UserName = x.UserName ?? this.localizer["UsernameNotProvided"]

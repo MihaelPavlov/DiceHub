@@ -1,12 +1,10 @@
 import { SpaceManagementService } from './../../../entities/space-management/api/space-management.service';
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ElementRef,
   OnInit,
-  ViewChild,
+  HostListener,
 } from '@angular/core';
 import { IMenuItemInterface } from '../models/menu-item.interface';
 import { NavigationEnd, Router } from '@angular/router';
@@ -26,6 +24,7 @@ import { UserRole } from '../../../entities/auth/enums/roles.enum';
 import { GamesService } from '../../../entities/games/api/games.service';
 import { ROUTE } from '../../../shared/configs/route.config';
 import { TenantRouter } from '../../../shared/helpers/tenant-router';
+import { TenantContextService } from '../../../shared/services/tenant-context.service';
 
 @Component({
   selector: 'app-navigation-menu',
@@ -34,9 +33,7 @@ import { TenantRouter } from '../../../shared/helpers/tenant-router';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class NavigationMenuComponent implements OnInit, AfterViewInit {
-  @ViewChild('interactiveOption') interactiveOption!: ElementRef<HTMLElement>;
-
+export class NavigationMenuComponent implements OnInit {
   public areAnyActiveReservation!: BehaviorSubject<boolean>;
   public leftMenuItems: IMenuItemInterface[] = [];
   public rightMenuItems: IMenuItemInterface[] = [];
@@ -52,8 +49,17 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
     private readonly authService: AuthService,
     private readonly cd: ChangeDetectorRef,
     private readonly spaceManagementService: SpaceManagementService,
-    private readonly gameService: GamesService
+    private readonly gameService: GamesService,
+    private readonly tenantContextService: TenantContextService
   ) {}
+
+  public isSuperAdmin(): boolean {
+    return this.authService.getUser?.role === UserRole.SuperAdmin && this.authService.getUser?.tenantId === 'system';
+  }
+
+  public isTenantVisit(): boolean {
+    return this.isSuperAdmin() && this.tenantContextService.hasTenant() && !this.router.url.startsWith('/admin');
+  }
 
   public ngOnInit(): void {
     this.updateMenuItems();
@@ -74,6 +80,7 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
       )
       .subscribe((navEvent: any) => {        
         this.activeLink = (navEvent as NavigationEnd).url.split('/')[2];
+        this.updateMenuItemsWithPage(this.activeLink);
         this.cd.detectChanges();
       });
     if (this.authService.getUser?.role !== UserRole.User) {
@@ -84,19 +91,17 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
     }
   }
 
-  public ngAfterViewInit(): void {
-    this.interactiveOption.nativeElement.addEventListener('click', (event) => {
-      event.stopPropagation();
-      this.interactiveOption.nativeElement.classList.toggle('active');
-    });
+  public toggleInteractive(event: MouseEvent): void {
+    event.stopPropagation();
+    (event.currentTarget as HTMLElement).classList.toggle('active');
+  }
 
-    document.documentElement.addEventListener('click', (event) => {
-      if (
-        !this.interactiveOption.nativeElement.contains(event.target as Node)
-      ) {
-        this.interactiveOption.nativeElement.classList.remove('active');
-      }
-    });
+  @HostListener('document:click', ['$event'])
+  public closeInteractive(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.interactive-option')) {
+      document.querySelector('.interactive-option.active')?.classList.remove('active');
+    }
   }
 
   public refreshForAnyActiveReservations(): void {
@@ -133,6 +138,7 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
     });
   }
   private updateLeftMenuItems(hasActive: boolean): void {
+    if (this.isSuperAdmin()) return;
     const page = location.pathname.split('/')[2];
     const isReservationsPage = page === 'reservations';
 
@@ -175,6 +181,23 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
     this.tenantRouter.navigateTenant('challenges/home');
   }
 
+  public exitTenantPreview(): void {
+    this.tenantContextService.clearTenant();
+    this.router.navigate(['/admin/tenants']);
+  }
+
+  public logoutSuperAdmin(): void {
+    const finishLogout = () => {
+      this.tenantContextService.clearTenant();
+      this.router.navigate(['/admin/login']);
+    };
+
+    this.authService.logout(true).subscribe({
+      next: finishLogout,
+      error: finishLogout,
+    });
+  }
+
   public setActiveTab(label: string) {
     let menuItem = this.leftMenuItems
       .concat(this.rightMenuItems)
@@ -194,6 +217,30 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
   }
 
   public updateMenuItemsWithPage(page: string) {
+    if (this.isSuperAdmin() && !this.isTenantVisit()) {
+      this.leftMenuItems = [{ label: 'tenants', class: page === 'tenants' ? 'active' : '', isAlertActive: false, enabled: true, visible: true, icon: '/shared/assets/images/icons/account_circle-icon.svg', icon_color: '/shared/assets/images/icons/account_circle-icon-blue.svg', route: '/admin/tenants', sectionBreak: true }];
+      this.rightMenuItems = [{ label: 'applicants', class: page === 'applicants' ? 'active' : '', isAlertActive: false, enabled: true, visible: true, icon: '/shared/assets/images/icons/account_circle-icon.svg', icon_color: '/shared/assets/images/icons/account_circle-icon-blue.svg', route: '/admin/applicants' }];
+      return;
+    }
+    if (this.isTenantVisit()) {
+      const tenantRoute = (path: string) => this.tenantRouter.buildTenantUrl(path);
+      const normalizeUrl = (url: string) => url.replace(/^\/+/, '').replace(/\/{2,}/g, '/');
+      const isTenantRouteActive = (path: string) => normalizeUrl(this.router.url) === normalizeUrl(tenantRoute(path));
+      this.leftMenuItems = [
+        { label: 'games', class: isTenantRouteActive('/games/library') ? 'active' : '', isAlertActive: false, enabled: true, visible: true, icon: '/shared/assets/images/icons/kid_star-icon.svg', icon_color: '/shared/assets/images/icons/kid_star-icon-blue.svg', route: tenantRoute('/games/library') },
+        { label: 'meeple', class: isTenantRouteActive('/meeples/find') ? 'active' : '', isAlertActive: false, enabled: true, visible: true, icon: '/shared/assets/images/icons/group-icon.svg', icon_color: '/shared/assets/images/icons/group-icon-blue.svg', route: tenantRoute('/meeples/find') },
+        { label: 'reservations', class: isTenantRouteActive('/reservations') ? 'active' : '', isAlertActive: false, enabled: true, visible: true, icon: '/shared/assets/images/icons/menu_book-icon.svg', icon_color: '/shared/assets/images/icons/menu_book-icon-blue.svg', route: tenantRoute('/reservations') },
+      ];
+      this.leftMenuItems.push(
+        { label: 'events', class: isTenantRouteActive('/events/home') ? 'active' : '', isAlertActive: false, enabled: true, visible: true, icon: '/shared/assets/images/icons/stadium-icon.svg', icon_color: '/shared/assets/images/icons/stadium-icon-blue.svg', route: tenantRoute('/events/home') },
+        { label: 'profile', class: isTenantRouteActive('/profile') ? 'active' : '', isAlertActive: false, enabled: true, visible: true, icon: '/shared/assets/images/icons/account_circle-icon.svg', icon_color: '/shared/assets/images/icons/account_circle-icon-blue.svg', route: tenantRoute('/profile') },
+      );
+      this.rightMenuItems = [
+        { label: 'tenants', class: '', isAlertActive: false, enabled: true, visible: true, icon: '/shared/assets/images/icons/account_circle-icon.svg', icon_color: '/shared/assets/images/icons/account_circle-icon-blue.svg', route: '/admin/tenants', sectionBreak: true },
+        { label: 'applicants', class: '', isAlertActive: false, enabled: true, visible: true, icon: '/shared/assets/images/icons/account_circle-icon.svg', icon_color: '/shared/assets/images/icons/account_circle-icon-blue.svg', route: '/admin/applicants' },
+      ];
+      return;
+    }
     this.leftMenuItems = [
       {
         label: NAV_ITEM_LABELS.GAMES.toLowerCase(),

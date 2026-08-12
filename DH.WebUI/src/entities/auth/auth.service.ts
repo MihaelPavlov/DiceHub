@@ -19,6 +19,7 @@ import { TenantUserSettingsService } from '../common/api/tenant-user-settings.se
 import { SupportLanguages } from '../common/models/support-languages.enum';
 import { ThemeService } from '../../shared/services/theme.service';
 import { UiTheme } from '../../shared/enums/ui-theme.enum';
+import { TenantContextService } from '../../shared/services/tenant-context.service';
 
 @Injectable({
   providedIn: 'root',
@@ -35,7 +36,8 @@ export class AuthService {
     private readonly tenantSettingsService: TenantSettingsService,
     private readonly tenantUserSettingsService: TenantUserSettingsService,
     private readonly languageService: LanguageService,
-    private readonly themeService: ThemeService
+    private readonly themeService: ThemeService,
+    private readonly tenantContextService: TenantContextService
   ) {
     if (!this.userInfoSubject$.value) {
       this.userinfo();
@@ -110,11 +112,15 @@ export class AuthService {
     return this.api.post<ITokenResponse>('/api/user', loginForm);
   }
 
-  public authenticateUser(accessToken: string, refreshToken: string): void {
+
+  public authenticateUser(accessToken: string, refreshToken: string, tenantId?: string | null): void {
     localStorage.setItem('jwt', accessToken);
     localStorage.setItem('refreshToken', refreshToken);
+    if (tenantId === 'system') this.tenantContextService.clearTenant();
+    else if (tenantId) this.tenantContextService.tenantId = tenantId;
     this.userinfo();
   }
+
 
   public initiateNotifications(email: string): void {
     this.registerNotification(email).subscribe({

@@ -3,6 +3,7 @@ using DH.Application.Common.Commands;
 using DH.Application.Emails.Commands;
 using DH.Application.Stats.Queries;
 using DH.Domain.Adapters.Authentication.Enums;
+using DH.Domain.Adapters.Authentication;
 using DH.Domain.Adapters.Authentication.Models;
 using DH.Domain.Adapters.Authentication.Models.Enums;
 using DH.Domain.Adapters.Authentication.Services;
@@ -72,6 +73,7 @@ public class UserController : ControllerBase
         var result = await authenticationService.Login(form);
         return this.Ok(result);
     }
+
 
     [AllowAnonymous]
     [HttpPost("register-user")]
@@ -274,15 +276,23 @@ public class UserController : ControllerBase
     public async Task<IActionResult> CreateEmployee([FromBody] CreateEmployeeRequest request, CancellationToken cancellationToken)
     {
         var employeeResult = await this.employeeService.CreateEmployee(request, cancellationToken);
+        // Capture request data before starting the background operation. HttpContext is
+        // request-scoped and may already be disposed when the task executes.
+        var tenantId = HttpContext.Items["TenantId"]?.ToString();
 
         _ = Task.Run(async () =>
         {
             try
             {
                 using var scope = scopeFactory.CreateScope();
+                if (!string.IsNullOrWhiteSpace(tenantId))
+                    scope.ServiceProvider.GetRequiredService<ISystemUserContextAccessor>()
+                        .Set(new UserContext(tenantId, employeeResult.UserId, null, "UTC", "en"));
                 var scopedMediator = scope.ServiceProvider.GetRequiredService<IMediator>();
 
-                await scopedMediator.Send(new SendEmployeeCreatePasswordEmailCommand(employeeResult.Email));
+                var emailSent = await scopedMediator.Send(new SendEmployeeCreatePasswordEmailCommand(employeeResult.Email));
+                if (!emailSent)
+                    this.logger.LogWarning("Employee create password email was not sent to {EmployeeEmail}", employeeResult.Email);
                 await scopedMediator.Send(new UpdateUserSettingsCommand(new UserSettingsDto
                 {
                     PhoneNumber = request.PhoneNumber,
@@ -305,17 +315,23 @@ public class UserController : ControllerBase
     public async Task<IActionResult> UpdateEmployee([FromBody] UpdateEmployeeRequest request, CancellationToken cancellationToken)
     {
         var employeeResult = await this.employeeService.UpdateEmployee(request, cancellationToken);
+        var tenantId = HttpContext.Items["TenantId"]?.ToString();
 
         _ = Task.Run(async () =>
         {
             try
             {
                 using var scope = scopeFactory.CreateScope();
+                if (!string.IsNullOrWhiteSpace(tenantId))
+                    scope.ServiceProvider.GetRequiredService<ISystemUserContextAccessor>()
+                        .Set(new UserContext(tenantId, employeeResult.UserId, null, "UTC", "en"));
                 var scopedMediator = scope.ServiceProvider.GetRequiredService<IMediator>();
 
                 if (employeeResult.IsEmailChanged)
                 {
-                    await scopedMediator.Send(new SendEmployeeCreatePasswordEmailCommand(employeeResult.Email));
+                    var emailSent = await scopedMediator.Send(new SendEmployeeCreatePasswordEmailCommand(employeeResult.Email));
+                    if (!emailSent)
+                        this.logger.LogWarning("Employee create password email was not sent to {EmployeeEmail}", employeeResult.Email);
                 }
 
                 await scopedMediator.Send(new UpdateUserSettingsCommand(new UserSettingsDto

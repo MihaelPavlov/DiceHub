@@ -22,8 +22,12 @@ export class RedirectIfTenantGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean | UrlTree {
-    if (state.url.includes(ROUTE.LOGIN)) {
-      return true;
+    if (state.url === `/${ROUTE.LOGIN}` || state.url === ROUTE.LOGIN) {
+      if (this.tenantContext.hasTenant()) {
+        return this.router.parseUrl(this.tenantRouter.buildTenantUrl(ROUTE.LOGIN));
+      }
+
+      return this.router.parseUrl(ROUTE.CHOOSE_CLUB);
     }
     if (this.tenantContext.hasTenant()) {
       const tenantUrl = this.tenantRouter.buildTenantUrl(ROUTE.LOGIN);

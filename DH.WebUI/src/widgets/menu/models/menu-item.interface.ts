@@ -9,4 +9,5 @@ export interface IMenuItemInterface {
   route: string;
   translatable?: boolean;
   forceActive?: boolean;
+  sectionBreak?: boolean;
 }

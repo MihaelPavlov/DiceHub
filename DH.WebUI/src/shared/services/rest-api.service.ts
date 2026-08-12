@@ -105,6 +105,7 @@ export class RestApiService {
 
   private buildRequestOptions(config: ApiConfig): any {
     let headers = config.options?.headers || new HttpHeaders();
+    const tenantId = this.tenantContextService.tenantId;
 
     if (config.backgroundRequest) {
       headers = headers.set('X-Background-Request', 'true');
@@ -115,6 +116,12 @@ export class RestApiService {
         'X-Requires-Tenant',
         config.requiredTenant ? 'true' : 'false'
       );
+
+    // Controllers that do not include {tenant} in their route still need the
+    // active tenant for database isolation. Public/system calls opt out with
+    // requiredTenant: false.
+    if (tenantId && config.requiredTenant !== false)
+      headers = headers.set('X-Tenant-Id', tenantId);
 
     if (this.translateService.getCurrentLang())
       headers = headers.set(

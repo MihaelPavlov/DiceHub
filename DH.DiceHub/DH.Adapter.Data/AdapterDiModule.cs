@@ -66,7 +66,7 @@ public static class DataDIModule
             .AddScoped<IGameSeeder, GameSeeder>()
             .AddScoped<ITenantService, TenantService>()
             .AddScoped<ITenantSetupService, TenantSetupService>()
-            .AddSingleton<TenantDbConnectionInterceptor>();
+            .AddScoped<TenantDbConnectionInterceptor>();
 
         services.AddMemoryCache();
         services.AddScoped<IUserSettingsCache, UserSettingsCache>();

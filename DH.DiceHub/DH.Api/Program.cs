@@ -111,6 +111,13 @@ using (var scope = app.Services.CreateScope())
 {
     var tenantDatabase = scope.ServiceProvider.GetRequiredService<TenantDbContext>();
     var appIdentityDatabase = scope.ServiceProvider.GetRequiredService<AppIdentityDbContext>();
+    var migrationConnection = builder.Configuration.GetConnectionString("MigrationConnection");
+    if (!string.IsNullOrWhiteSpace(migrationConnection))
+    {
+        tenantDatabase.Database.SetConnectionString(migrationConnection);
+        appIdentityDatabase.Database.SetConnectionString(migrationConnection);
+    }
+
     tenantDatabase.Database.Migrate();
     appIdentityDatabase.Database.Migrate();
 

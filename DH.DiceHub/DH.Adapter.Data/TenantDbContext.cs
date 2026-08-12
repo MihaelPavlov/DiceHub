@@ -3,6 +3,7 @@ using DH.Domain.Entities;
 using System.Reflection;
 using DH.Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
 using DH.Domain.Adapters.Authentication;
 
 namespace DH.Adapter.Data;
@@ -10,6 +11,24 @@ namespace DH.Adapter.Data;
 public class TenantDbContext : DbContext, ITenantDbContext
 {
     readonly IContainerService containerService;
+
+    private IHttpContextAccessor HttpContextAccessor =>
+        containerService.Resolve<IHttpContextAccessor>();
+
+    private string? CurrentTenantId
+    {
+        get
+        {
+            var requestTenant = HttpContextAccessor.HttpContext?.Items["TenantId"]?.ToString();
+            if (!string.IsNullOrWhiteSpace(requestTenant))
+                return requestTenant;
+
+            return containerService?.Resolve<ISystemUserContextAccessor>().Peek.TenantId;
+        }
+    }
+
+    private bool IsSystemContext =>
+        containerService?.Resolve<ISystemUserContextAccessor>()?.Peek.IsSystem == true;
 
     public TenantDbContext()
     {
@@ -131,7 +150,7 @@ public class TenantDbContext : DbContext, ITenantDbContext
         return containerService.Resolve<T>();
     }
 
-    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         var tenantEntries = ChangeTracker
             .Entries<TenantEntity>()
@@ -139,9 +158,10 @@ public class TenantDbContext : DbContext, ITenantDbContext
             .ToList();
 
         if (tenantEntries.Count == 0)
-            return base.SaveChangesAsync(cancellationToken);
+            return await base.SaveChangesAsync(cancellationToken);
 
-        var userContext = this.containerService.Resolve<ISystemUserContextAccessor>().Current;
+        var systemContextAccessor = this.containerService.Resolve<ISystemUserContextAccessor>();
+        var userContext = systemContextAccessor.Current;
 
         // Check if the user context is anonymous
         if (userContext is AnonymousUserContext)
@@ -160,7 +180,26 @@ public class TenantDbContext : DbContext, ITenantDbContext
             if (entry.State == EntityState.Added && !string.IsNullOrWhiteSpace(userContext.TenantId))
                 entry.Entity.TenantId = userContext.TenantId;
         }
-        return base.SaveChangesAsync(cancellationToken);
+
+        if (!string.IsNullOrWhiteSpace(userContext.TenantId))
+        {
+            var tenantId = userContext.TenantId.Replace("'", "''");
+            // Current is intentionally one-shot. Restore it while the EF
+            // connection is opened so the connection interceptor can apply
+            // the same tenant session variable, then clear it again.
+            systemContextAccessor.Set(userContext);
+            try
+            {
+                await Database.ExecuteSqlRawAsync($"SET app.tenant_id = '{tenantId}'", cancellationToken);
+                return await base.SaveChangesAsync(cancellationToken);
+            }
+            finally
+            {
+                systemContextAccessor.Set(AnonymousUserContext.Instance);
+            }
+        }
+
+        return await base.SaveChangesAsync(cancellationToken);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -168,6 +207,19 @@ public class TenantDbContext : DbContext, ITenantDbContext
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
         base.OnModelCreating(modelBuilder);
+
+        // Defense in depth: tenant entities are filtered in EF even when the
+        // database connection is accidentally configured with a privileged role.
+        foreach (var entityType in modelBuilder.Model.GetEntityTypes()
+                     .Where(x => typeof(TenantEntity).IsAssignableFrom(x.ClrType)
+                         && x.ClrType != typeof(UniversalChallenge)
+                         && x.ClrType != typeof(EmailTemplate)))
+        {
+            var method = typeof(TenantDbContext)
+                .GetMethod(nameof(ApplyTenantQueryFilter), BindingFlags.NonPublic | BindingFlags.Instance)!
+                .MakeGenericMethod(entityType.ClrType);
+            method.Invoke(this, [modelBuilder]);
+        }
 
         modelBuilder.Entity<UserChallengePeriodPerformance>()
             .HasIndex(x => new { x.UserId, x.Id })
@@ -181,4 +233,14 @@ public class TenantDbContext : DbContext, ITenantDbContext
             .HasIndex(x => x.TokenHash)
             .IsUnique();
     }
+
+    void ApplyTenantQueryFilter<TEntity>(ModelBuilder modelBuilder)
+        where TEntity : TenantEntity
+    {
+        modelBuilder.Entity<TEntity>()
+            .HasQueryFilter(entity => IsSystemContext
+                || (!string.IsNullOrWhiteSpace(CurrentTenantId)
+                    && entity.TenantId == CurrentTenantId));
+    }
+
 }

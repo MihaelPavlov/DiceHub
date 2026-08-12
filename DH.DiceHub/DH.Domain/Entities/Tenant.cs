@@ -16,4 +16,7 @@ public class Tenant
 
     public int TenantSettingId { get; set; }
     public virtual TenantSetting TenantSetting { get; set; } = null!;
+
+    public int? TenantApplicationId { get; set; }
+    public virtual TenantApplication? TenantApplication { get; set; }
 }

@@ -27,6 +27,14 @@ public class TenantsController : ControllerBase
         return Ok(result);
     }
 
+    [HttpGet("{tenantId}")]
+    [Authorize(Roles = "SuperAdmin")]
+    public async Task<IActionResult> GetTenant(string tenantId, CancellationToken cancellationToken)
+    {
+        var result = await this.mediator.Send(new GetTenantByIdQuery(tenantId), cancellationToken);
+        return result is null ? NotFound() : Ok(result);
+    }
+
     [HttpGet("tenant-setup/exists")]
     [AllowAnonymous]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]

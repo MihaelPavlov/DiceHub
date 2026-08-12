@@ -97,6 +97,11 @@
 
         <span class="item-header"> {{ "profile.owner" | translate }} </span>
       </div>
+
+      <div *ngIf="isSuperAdmin()" class="item-wrapper" (click)="navigateToTenants()">
+        <div class="item surface-elevated"><span class="svg-color-fill" aria-hidden="true">&#9673;</span></div>
+        <span class="item-header">Tenants</span>
+      </div>
       <div class="item-wrapper" (click)="navigateToSettings()">
         <div class="item surface-elevated">
           <!-- settings icon -->

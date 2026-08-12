@@ -172,6 +172,27 @@ nav {
   }
 }
 
+.superadmin-section {
+  border-left: 1px solid palette.$main-gray-color;
+  padding-left: 0.8rem !important;
+}
+
+.exit-preview-option {
+  color: palette.$main-red-color !important;
+
+  svg {
+    fill: currentColor;
+  }
+}
+
+.logout-option {
+  color: palette.$main-red-color !important;
+
+  svg {
+    fill: currentColor;
+  }
+}
+
 @media (min-width: 900px) {
   nav {
     top: 0;
@@ -226,6 +247,13 @@ nav {
         background: rgba(2, 132, 199, 0.12);
         color: palette.$main-blue-color;
         font-weight: 600;
+      }
+
+      &.superadmin-section {
+        border-top: 1px solid palette.$main-gray-color;
+        border-radius: 0;
+        margin-top: 0.5rem;
+        padding-top: 1rem;
       }
     }
 

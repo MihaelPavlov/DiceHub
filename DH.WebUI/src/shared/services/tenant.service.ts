@@ -17,6 +17,12 @@ export class TenantService {
     );
   }
 
+  public getById(id: string): Observable<ITenantListResult> {
+    return this.api.get<ITenantListResult>(`/${PATH.TENANT.CORE}/${id}`, {
+      requiredTenant: false,
+    });
+  }
+
   public validateTenant(tenantId: string): Observable<boolean> {
     return this.api
       .get<boolean>(

@@ -92,7 +92,7 @@ internal class EmployeeService(
             throw new ValidationErrorsException(validationErrors);
 
         var existingUser = await this.userManager.Users
-           .Where(x => x.Id == request.Id && !x.IsDeleted).FirstOrDefaultAsync();
+           .Where(x => x.Id == request.Id && x.TenantId == this.userContext.TenantId && !x.IsDeleted).FirstOrDefaultAsync();
 
         if (existingUser is null)
             throw new NotFoundException(this.localizer["UserNotFound"]);
@@ -177,8 +177,9 @@ internal class EmployeeService(
 
     public async Task<EmployeeModel?> GetEmployeeId(string id, CancellationToken cancellationToken)
     {
+        var tenantId = this.userContext.TenantId;
         var user = await this.userManager.Users
-            .Where(x => x.Id == id && !x.IsDeleted)
+            .Where(x => x.Id == id && x.TenantId == tenantId && !x.IsDeleted)
             .Select(x => new EmployeeModel
             {
                 Id = x.Id,
@@ -199,8 +200,9 @@ internal class EmployeeService(
 
     public async Task DeleteEmployee(string employeeId)
     {
+        var tenantId = this.userContext.TenantId;
         var user = await this.userManager.Users
-           .Where(x => x.Id == employeeId && !x.IsDeleted).FirstOrDefaultAsync()
+           .Where(x => x.Id == employeeId && x.TenantId == tenantId && !x.IsDeleted).FirstOrDefaultAsync()
                 ?? throw new BadRequestException(this.localizer["EmployeeDeletionFailed"]);
 
         var userId = user.Id.Replace("-", "");

@@ -14,6 +14,8 @@ import { ClubInfo } from '../../features/profile/components/club-info/club-info.
 import { AuthGuard } from '../../shared/guards/auth.guard';
 import { TenantApplicationsComponent } from '../../features/profile/components/tenant-applications/tenant-applications.component';
 import { TenantApplicationDetailsComponent } from '../../features/profile/components/tenant-application-details/tenant-application-details.component';
+import { SuperadminTenantsComponent } from '../../features/profile/components/superadmin-tenants/superadmin-tenants.component';
+import { SuperadminTenantDetailsComponent } from '../../features/profile/components/superadmin-tenant-details/superadmin-tenant-details.component';
 
 const routes: Routes = [
   {
@@ -64,6 +66,16 @@ const routes: Routes = [
   {
     path: 'applicants/:id',
     component: TenantApplicationDetailsComponent,
+    canActivate: [AuthGuard, SettingsSuperAdminAccessGuard],
+  },
+  {
+    path: 'tenants',
+    component: SuperadminTenantsComponent,
+    canActivate: [AuthGuard, SettingsSuperAdminAccessGuard],
+  },
+  {
+    path: 'tenants/:id',
+    component: SuperadminTenantDetailsComponent,
     canActivate: [AuthGuard, SettingsSuperAdminAccessGuard],
   },
   {
