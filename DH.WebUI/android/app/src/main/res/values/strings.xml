@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">DiceHub</string>
+    <string name="title_activity_main">DiceHub</string>
+    <string name="package_name">com.dicehubs.app</string>
+    <string name="custom_url_scheme">com.dicehubs.app</string>
+</resources>
