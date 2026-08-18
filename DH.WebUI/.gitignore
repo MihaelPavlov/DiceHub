@@ -42,5 +42,4 @@ testem.log
 Thumbs.db
 
 # Android release signing
-/android-keystore
 /android/keystore.properties
