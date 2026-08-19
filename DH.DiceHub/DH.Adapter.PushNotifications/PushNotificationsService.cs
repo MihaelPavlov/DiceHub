@@ -139,27 +139,12 @@ internal class PushNotificationsService : IPushNotificationsService
             var responseId = await FirebaseMessaging.DefaultInstance.SendAsync(new Message
             {
                 Token = deviceToken.DeviceToken,
-                //Notification = new Notification
-                //{
-                //    Title = message.Title,
-                //    Body = message.Body
-                //},
-                //Android = new AndroidConfig
-                //{
-                //    Notification = new AndroidNotification
-                //    {
-                //        Title = message.Title,
-                //        Body = message.Body,
-                //        ImageUrl = "https://dicehub.online/shared/assets/images/dicehub_favicon_2.png", // ✅ icon shown in web push
-                //        ClickAction = "https://dicehub.online/login"
-                //    }
-                //},
                 Data = new Dictionary<string, string>
                     {
                         { "title", notificationPayload.Title },
                         { "body", notificationPayload.Body },
-                        { "icon", "https://dicehub.online/shared/assets/images/dicehub_favicon_2.png" },
-                        { "click_action", "https://dicehub.online/login" }
+                        { "icon", "https://dicehubs.com/shared/assets/images/dicehub_favicon_2.png" },
+                        { "click_action", "https://dicehubs.com/login" }
                     },
                 Webpush = new WebpushConfig
                 {
@@ -222,27 +207,12 @@ internal class PushNotificationsService : IPushNotificationsService
                 var responseId = await FirebaseMessaging.DefaultInstance.SendAsync(new Message
                 {
                     Token = deviceToken.DeviceToken,
-                    //Notification = new Notification
-                    //{
-                    //    Title = message.Title,
-                    //    Body = message.Body
-                    //},
-                    //Android = new AndroidConfig
-                    //{
-                    //    Notification = new AndroidNotification
-                    //    {
-                    //        Title = message.Title,
-                    //        Body = message.Body,
-                    //        ImageUrl = "https://dicehub.online/shared/assets/images/dicehub_favicon_2.png", // ✅ icon shown in web push
-                    //        ClickAction = "https://dicehub.online/login"
-                    //    }
-                    //},
                     Data = new Dictionary<string, string>
                     {
                         { "title", notificationPayload.Title },
                         { "body", notificationPayload.Body },
-                        { "icon", "https://dicehub.online/shared/assets/images/dicehub_favicon_2.png" },
-                        { "click_action", "https://dicehub.online/login" }
+                        { "icon", "https://dicehubs.com/shared/assets/images/dicehub_favicon_2.png" },
+                        { "click_action", "https://dicehubs.com/login" }
                     },
                     Webpush = new WebpushConfig
                     {
