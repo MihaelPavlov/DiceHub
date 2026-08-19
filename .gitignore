@@ -192,6 +192,9 @@ publish/
 # in these scripts will be unencrypted
 PublishScripts/
 
+# Firebase Admin SDK service account keys - never commit these
+**/*firebase-adminsdk*.json
+
 # NuGet Packages
 *.nupkg
 # NuGet Symbol Packages

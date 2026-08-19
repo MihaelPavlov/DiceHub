@@ -93,12 +93,26 @@ builder.Services.AddGameSessionAdapter();
 builder.Services.AddEmailAdapter(builder.Configuration);
 builder.Services.AddStatisticsAdapter();
 builder.Services.AddFileManager(builder.Configuration);
-var test = FirebaseApp.Create(new AppOptions()
+var firebaseCredentialsJson = builder.Configuration["Firebase:CredentialsJson"];
+GoogleCredential firebaseCredential;
+if (!string.IsNullOrWhiteSpace(firebaseCredentialsJson))
 {
-    Credential = GoogleCredential.FromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "dicehub-8c63f-firebase-adminsdk-y31l3-6026a82c88.json")),
-});
+    firebaseCredential = GoogleCredential.FromJson(firebaseCredentialsJson);
+}
+else
+{
+    var localCredentialsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "firebase-adminsdk.local.json");
+    if (!File.Exists(localCredentialsPath))
+    {
+        throw new InvalidOperationException(
+            "Firebase credentials not configured. Set Firebase:CredentialsJson (env var Firebase__CredentialsJson) " +
+            "to the service account JSON content, or place a local firebase-adminsdk.local.json next to the app for development.");
+    }
+    firebaseCredential = GoogleCredential.FromFile(localCredentialsPath);
+}
 
-Console.WriteLine(test.Options.ProjectId);
+var firebaseApp = FirebaseApp.Create(new AppOptions() { Credential = firebaseCredential });
+Console.WriteLine(firebaseApp.Options.ProjectId);
 
 builder.Services.AddHostedService<MemoryMonitorService>();
 
