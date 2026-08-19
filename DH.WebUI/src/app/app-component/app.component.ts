@@ -11,6 +11,8 @@ import { FrontEndLogService } from '../../shared/services/frontend-log.service';
 import { ChallengeHubService } from '../../entities/challenges/api/challenge-hub.service';
 import { ChallengeOverlayComponent } from '../../shared/components/challenge-overlay/challenge-overlay.component';
 import { ChallengeOverlayService } from '../../shared/services/challenges-overlay.service';
+import { Capacitor } from '@capacitor/core';
+import { App } from '@capacitor/app';
 
 @Component({
   selector: 'app-root',
@@ -82,6 +84,27 @@ export class AppComponent implements OnInit {
       .subscribe((hideMenu: boolean) => {
         this.hideMenu = hideMenu;
       });
+
+    this._initializeAndroidBackButton();
+  }
+
+  /**
+   * Restores Capacitor's default hardware/gesture back-button behavior on Android:
+   * go back through in-app navigation history, or exit the app if there's none left.
+   * Without this, the WebView has no back-button handler at all and every press exits the app.
+   */
+  private _initializeAndroidBackButton(): void {
+    if (!Capacitor.isNativePlatform()) {
+      return;
+    }
+
+    App.addListener('backButton', ({ canGoBack }) => {
+      if (canGoBack) {
+        window.history.back();
+      } else {
+        App.exitApp();
+      }
+    });
   }
 
   // TODO: Check this tread https://chatgpt.com/c/671602c4-266c-800d-8177-2e9b398333ba
