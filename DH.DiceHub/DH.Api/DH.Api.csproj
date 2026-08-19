@@ -30,4 +30,10 @@
 		<ProjectReference Include="..\DH.Domain\DH.Domain.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+		<!-- Never publish local-only secrets, regardless of the SDK's default content globbing -->
+		<Content Remove="**/*firebase-adminsdk*.json" />
+		<None Remove="**/*firebase-adminsdk*.json" />
+	</ItemGroup>
+
 </Project>
