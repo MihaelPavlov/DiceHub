@@ -1,0 +1,122 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Sora:wght@400;500;600;700&display=swap');
+    :root {
+      --bg: oklch(0.15 0.018 290);
+      --bg-elevated: oklch(0.195 0.02 290);
+      --bg-elevated-2: oklch(0.245 0.022 290);
+      --border: oklch(0.34 0.02 290 / 0.55);
+      --text: oklch(0.96 0.01 90);
+      --text-muted: oklch(0.7 0.02 290);
+      --text-faint: oklch(0.52 0.02 290);
+      --amber: oklch(0.78 0.16 75);
+      --amber-soft: oklch(0.78 0.16 75 / 0.16);
+      --coral: oklch(0.68 0.19 25);
+      --coral-soft: oklch(0.68 0.19 25 / 0.16);
+      --teal: oklch(0.72 0.14 165);
+      --teal-soft: oklch(0.72 0.14 165 / 0.16);
+      --violet: oklch(0.66 0.17 300);
+      --violet-soft: oklch(0.66 0.17 300 / 0.16);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #0b0b0d; font-family: 'Sora', ui-sans-serif, system-ui, sans-serif; }
+    .display { font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif; }
+    .icon-btn { width: 38px; height: 38px; border-radius: 999px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .seg { display: flex; gap: 8px; background: var(--bg-elevated-2); padding: 4px; border-radius: 14px; }
+    .seg span { flex: 1; text-align: center; font-size: 12.5px; font-weight: 600; padding: 9px 0; border-radius: 11px; color: var(--text-faint); }
+    .seg span.active { font-weight: 700; background: var(--amber); color: #2b1a02; }
+    .filter-chip { flex-shrink: 0; display: flex; align-items: center; gap: 5px; font-size: 11.5px; font-weight: 700; padding: 8px 13px; border-radius: 999px; background: var(--bg-elevated); border: 1px solid var(--border); color: var(--text-faint); }
+    .filter-chip.active { background: var(--amber); border-color: var(--amber); color: #2b1a02; }
+    .row { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 18px; padding: 14px; display: flex; flex-direction: column; gap: 12px; }
+    .status-dot { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .action { flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 12px; font-weight: 700; padding: 10px 0; border-radius: 999px; }
+  </style>
+</helmet>
+
+<div style="width:393px;background:var(--bg);color:var(--text);padding:24px 20px 40px;display:flex;flex-direction:column;gap:16px;">
+
+  <div style="display:flex;align-items:center;justify-content:space-between;">
+    <span class="display" style="font-size:20px;font-weight:800;">Reservations</span>
+    <div style="display:flex;gap:8px;">
+      <div class="icon-btn" style="background:var(--bg-elevated);border:1px solid var(--border);">
+        <svg width="16" height="16" viewBox="0 -960 960 960" fill="var(--text-faint)"><path d="M479.87-192q-25.15 0-42.85-17.69-17.69-17.7-17.69-42.85t17.69-42.85q17.7-17.69 42.85-17.69t42.85 17.69q17.69 17.7 17.69 42.85t-17.69 42.85Q505.02-192 479.87-192Zm0-227.87q-25.15 0-42.85-17.69-17.69-17.7-17.69-42.85t17.69-42.85q17.7-17.69 42.85-17.69t42.85 17.69q17.69 17.7 17.69 42.85t-17.69 42.85q-17.7 17.69-42.85 17.69Zm0-227.86q-25.15 0-42.85-17.7-17.69-17.69-17.69-42.85 0-25.15 17.69-42.85Q454.72-768 479.87-768t42.85 17.69q17.69 17.7 17.69 42.85 0 25.16-17.69 42.85-17.7 17.7-42.85 17.7Z"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="seg">
+    <span class="active">Games</span>
+    <span>Tables</span>
+  </div>
+
+  <span class="display" style="font-size:15px;font-weight:700;">History</span>
+
+  <div style="display:flex;gap:7px;overflow-x:auto;padding-bottom:2px;">
+    <div class="filter-chip">All</div>
+    <div class="filter-chip">Expired</div>
+    <div class="filter-chip">Pending</div>
+    <div class="filter-chip active">Approved</div>
+    <div class="filter-chip">Declined</div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px;">
+
+    <!-- Approved, expanded -->
+    <div class="row">
+      <div style="display:flex;gap:12px;align-items:flex-start;">
+        <div style="flex:1;display:flex;flex-direction:column;gap:5px;">
+          <span style="font-size:11px;color:var(--text-faint);">Created Aug 18, 14:02</span>
+          <span style="font-size:13px;color:var(--text-muted);">Game <b style="color:var(--teal);">Catan</b> was booked from <b style="color:var(--teal);">Sara L.</b></span>
+          <span style="font-size:12.5px;font-weight:700;"><span style="color:var(--teal);">4</span> people</span>
+          <span style="font-size:11.5px;color:var(--text-muted);">Reservation date: <b style="color:var(--teal);">Aug 20, 19:30</b></span>
+        </div>
+        <div class="status-dot" style="background:var(--teal-soft);">
+          <svg width="15" height="15" viewBox="0 -960 960 960" fill="var(--teal)"><path d="m422.46-303.69 277.85-277.85L654-627.85 422.46-396.31l-116-116L260.15-466l162.31 162.31Z"/></svg>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;">
+        <a href="#" class="action" style="background:var(--bg-elevated-2);border:1px solid var(--border);color:var(--text-muted);">
+          <svg width="13" height="13" viewBox="0 -960 960 960" fill="var(--text-muted)"><path d="M128-128v-136.77l557.23-558.77q5.15-5.48 11.57-6.97 6.43-1.49 12.49-1.49 6.06 0 11.12.54 5.05.54 11.44 6.15l92.69 91.93q5.61 6.38 6.54 12 .92 5.63.92 12.25 0 6.13-1.74 12.06-1.74 5.92-6.72 11.07L264.77-128H128Z"/></svg>
+          Update
+        </a>
+        <a href="#" class="action" style="background:var(--coral-soft);color:var(--coral);">
+          <svg width="13" height="13" viewBox="0 -960 960 960" fill="var(--coral)"><path d="M300.62-128q-38.35 0-64.48-26.14Q210-180.27 210-218.62V-724h-40v-66h188v-38.77h246V-790h188v66h-40v505.38q0 38.35-26.14 64.48Q699.73-128 661.38-128H300.62Z"/></svg>
+          Delete
+        </a>
+      </div>
+    </div>
+
+    <!-- Expired -->
+    <div class="row" style="opacity:0.6;">
+      <div style="display:flex;gap:12px;align-items:flex-start;">
+        <div style="flex:1;display:flex;flex-direction:column;gap:5px;">
+          <span style="font-size:11px;color:var(--text-faint);">Created Aug 15, 09:20</span>
+          <span style="font-size:13px;color:var(--text-muted);">Game <b style="color:var(--violet);">Splendor</b> was booked from <b style="color:var(--violet);">Priya N.</b></span>
+          <span style="font-size:12.5px;font-weight:700;"><span style="color:var(--violet);">2</span> people</span>
+          <span style="font-size:11.5px;color:var(--text-muted);">Reservation date: <b style="color:var(--violet);">Aug 16, 17:00</b></span>
+        </div>
+        <div class="status-dot" style="background:var(--violet-soft);">
+          <svg width="15" height="15" viewBox="0 -960 960 960" fill="var(--violet)"><path d="M87-168v-66h40v-81.15q0-56.39 28-104.43 28-48.04 82.31-60.42-55.08-11.38-82.69-59.81Q127-588.23 127-645.38V-726H87v-66h483.38v66h-38.46v80.62q0 57.92-28.88 106.46-28.89 48.54-84.96 58.92 56.07 11.38 84.96 59.54 28.88 48.15 28.88 105.31V-234h38.46v66H87Z"/></svg>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

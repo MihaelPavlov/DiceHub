@@ -1,0 +1,20 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html", "x": 0, "y": 0, "w": 393, "h": 1600, "title": "Landing" },
+    { "file": "LoginTenant.dc.html", "x": 453, "y": 0, "w": 393, "h": 780, "title": "Login (Tenant)" },
+    { "file": "LoginAdmin.dc.html", "x": 906, "y": 0, "w": 393, "h": 720, "title": "Login (Admin)" },
+    { "file": "RegisterChoice.dc.html", "x": 1359, "y": 0, "w": 393, "h": 820, "title": "Register Choice" },
+    { "file": "RegisterPlayer.dc.html", "x": 1812, "y": 0, "w": 393, "h": 940, "title": "Register (Player)" },
+
+    { "file": "ChooseClub.dc.html", "x": 0, "y": 1780, "w": 393, "h": 700, "title": "Choose Club" },
+    { "file": "ConfirmEmail.dc.html", "x": 453, "y": 1780, "w": 393, "h": 780, "title": "Confirm Email" },
+    { "file": "ForgotPassword.dc.html", "x": 906, "y": 1780, "w": 393, "h": 680, "title": "Forgot Password" },
+    { "file": "ResetPassword.dc.html", "x": 1359, "y": 1780, "w": 393, "h": 560, "title": "Reset Password" },
+
+    { "file": "CreateEmployeePassword.dc.html", "x": 0, "y": 2560, "w": 393, "h": 620, "title": "Create Employee Password" },
+    { "file": "CreateOwnerPassword.dc.html", "x": 453, "y": 2560, "w": 393, "h": 620, "title": "Create Owner Password" },
+    { "file": "VenueApplication.dc.html", "x": 906, "y": 2560, "w": 393, "h": 1560, "title": "Venue Application" },
+    { "file": "TenantSetup.dc.html", "x": 1359, "y": 2560, "w": 393, "h": 1440, "title": "Tenant Setup" }
+  ],
+  "launch": { "view": "canvas" }
+}

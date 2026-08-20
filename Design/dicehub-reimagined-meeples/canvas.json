@@ -1,0 +1,12 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html", "x": 0, "y": 0, "w": 393, "h": 900, "title": "Find Meeple" },
+    { "file": "RoomDetails.dc.html", "x": 453, "y": 0, "w": 393, "h": 900, "title": "Room Details" },
+    { "file": "RoomChat.dc.html", "x": 906, "y": 0, "w": 393, "h": 820, "title": "Room Chat" },
+
+    { "file": "CreateMeepleRoom.dc.html", "x": 0, "y": 1000, "w": 393, "h": 920, "title": "Create Meeple Room" },
+    { "file": "UpdateMeepleRoom.dc.html", "x": 453, "y": 1000, "w": 393, "h": 920, "title": "Update Meeple Room" },
+    { "file": "RoomMembers.dc.html", "x": 906, "y": 1000, "w": 393, "h": 700, "title": "Room Members" }
+  ],
+  "launch": { "view": "canvas" }
+}

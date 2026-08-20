@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Sora:wght@400;500;600;700&display=swap');
+    :root {
+      --bg: oklch(0.15 0.018 290);
+      --bg-elevated: oklch(0.195 0.02 290);
+      --bg-elevated-2: oklch(0.245 0.022 290);
+      --border: oklch(0.34 0.02 290 / 0.55);
+      --text: oklch(0.96 0.01 90);
+      --text-muted: oklch(0.7 0.02 290);
+      --text-faint: oklch(0.52 0.02 290);
+      --amber: oklch(0.78 0.16 75);
+      --c-fadedpeach: #f6ac85;
+      --shadow-card: 0 10px 30px -12px oklch(0 0 0 / 0.55);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #0b0b0d; font-family: 'Sora', ui-sans-serif, system-ui, sans-serif; }
+    .display { font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif; }
+    .icon-btn { width: 42px; height: 42px; border-radius: 999px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .field-input { width: 100%; background: var(--bg-elevated-2); border: 1px solid var(--border); border-radius: 12px; padding: 11px 13px; font-size: 13px; color: var(--text); font-family: 'Sora', sans-serif; }
+    .field-label { font-size: 10.5px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; display: block; }
+    .hrow { display: flex; align-items: center; gap: 10px; }
+    .hlabel { width: 96px; flex-shrink: 0; font-size: 11.5px; font-weight: 600; color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .htrack { flex: 1; height: 22px; border-radius: 7px; background: var(--bg-elevated-2); overflow: hidden; }
+    .hfill { height: 100%; border-radius: 7px; display: flex; align-items: center; justify-content: flex-end; padding-right: 9px; }
+    .hval { font-size: 10.5px; font-weight: 700; color: #fff; white-space: nowrap; }
+    .chart-card { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 22px; padding: 20px; display: flex; flex-direction: column; gap: 14px; box-shadow: var(--shadow-card); }
+  </style>
+</helmet>
+
+<div style="width:393px;background:var(--bg);color:var(--text);padding:24px 20px 40px;display:flex;flex-direction:column;gap:20px;">
+
+  <div style="display:flex;align-items:center;justify-content:space-between;">
+    <div class="icon-btn" style="background:var(--bg-elevated);border:1px solid var(--border);">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+    </div>
+    <span class="display" style="font-size:17px;font-weight:700;">Rewards Uses</span>
+    <div class="icon-btn" style="background:var(--bg-elevated);border:1px solid var(--border);">
+      <svg width="17" height="17" viewBox="0 -960 960 960" fill="var(--text-faint)"><path d="M448-284h66v-236h-66v236Zm31.82-308.92q14.64 0 24.72-9.9 10.08-9.91 10.08-24.54 0-14.64-9.91-24.72-9.9-10.07-24.53-10.07-14.64 0-24.72 9.9-10.08 9.9-10.08 24.54 0 14.63 9.91 24.71 9.9 10.08 24.53 10.08ZM480.13-88q-81.31 0-152.89-30.86-71.57-30.86-124.52-83.76-52.95-52.9-83.83-124.42Q88-398.55 88-479.87q0-81.56 30.92-153.37 30.92-71.8 83.92-124.91 53-53.12 124.42-83.48Q398.67-872 479.87-872q81.55 0 153.35 30.34 71.79 30.34 124.92 83.42 53.13 53.08 83.49 124.84Q872-561.64 872-480.05q0 81.59-30.34 152.83-30.34 71.23-83.41 124.28-53.07 53.05-124.81 84Q561.7-88 480.13-88Z"/></svg>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:8px;">
+    <span style="font-size:12px;font-weight:700;padding:8px 14px;border-radius:999px;background:var(--amber);color:#2b1a02;">Last month</span>
+    <span style="font-size:12px;font-weight:600;padding:8px 14px;border-radius:999px;background:var(--bg-elevated);border:1px solid var(--border);color:var(--text-faint);">3 months</span>
+    <span style="font-size:12px;font-weight:600;padding:8px 14px;border-radius:999px;background:var(--bg-elevated);border:1px solid var(--border);color:var(--text-faint);">6 months</span>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+    <div>
+      <label class="field-label">From</label>
+      <input class="field-input" type="text" value="Jul 23, 2026" />
+    </div>
+    <div>
+      <label class="field-label">To</label>
+      <input class="field-input" type="text" value="Aug 23, 2026" />
+    </div>
+  </div>
+
+  <div class="chart-card">
+    <span style="font-size:12px;font-weight:700;color:var(--text-muted);">By reward · count / cash value</span>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <div class="hrow"><span class="hlabel">1hr Table T...</span><div class="htrack"><div class="hfill" style="width:100%;background:var(--c-fadedpeach);"><span class="hval">31 / 248 BGN</span></div></div></div>
+      <div class="hrow"><span class="hlabel">Snack on t...</span><div class="htrack"><div class="hfill" style="width:73%;background:var(--c-fadedpeach);"><span class="hval">58 / 116 BGN</span></div></div></div>
+      <div class="hrow"><span class="hlabel">Free Drink...</span><div class="htrack"><div class="hfill" style="width:52%;background:var(--c-fadedpeach);"><span class="hval">42 / 147 BGN</span></div></div></div>
+      <div class="hrow"><span class="hlabel">10% off m...</span><div class="htrack"><div class="hfill" style="width:24%;background:var(--c-fadedpeach);"><span class="hval">19 / 95 BGN</span></div></div></div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

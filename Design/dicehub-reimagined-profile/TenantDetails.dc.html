@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Sora:wght@400;500;600;700&display=swap');
+    :root {
+      --bg: oklch(0.15 0.018 290);
+      --bg-elevated: oklch(0.195 0.02 290);
+      --bg-elevated-2: oklch(0.245 0.022 290);
+      --border: oklch(0.34 0.02 290 / 0.55);
+      --text: oklch(0.96 0.01 90);
+      --text-muted: oklch(0.7 0.02 290);
+      --text-faint: oklch(0.52 0.02 290);
+      --amber: oklch(0.78 0.16 75);
+      --amber-soft: oklch(0.78 0.16 75 / 0.16);
+      --coral: oklch(0.68 0.19 25);
+      --shadow-card: 0 10px 30px -12px oklch(0 0 0 / 0.55);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #0b0b0d; font-family: 'Sora', ui-sans-serif, system-ui, sans-serif; }
+    .display { font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif; }
+    .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; color: var(--amber); text-transform: uppercase; }
+    .section-card { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 20px; padding: 18px; display: flex; flex-direction: column; gap: 12px; }
+    .kv { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+    .kv span:first-child { font-size: 12.5px; color: var(--text-muted); }
+    .kv span:last-child { font-size: 13px; font-weight: 600; text-align: right; }
+  </style>
+</helmet>
+
+<div style="width:393px;background:var(--bg);color:var(--text);padding:24px 20px 40px;display:flex;flex-direction:column;gap:20px;">
+
+  <a href="#" style="display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;color:var(--text-muted);">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+    Tenants
+  </a>
+
+  <div style="display:flex;align-items:center;gap:14px;">
+    <div style="width:58px;height:58px;border-radius:16px;flex-shrink:0;background:linear-gradient(135deg,var(--amber),var(--coral));display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:22px;color:#2b1502;box-shadow:var(--shadow-card);">R</div>
+    <div style="display:flex;flex-direction:column;gap:3px;">
+      <span class="eyebrow">Tenant details</span>
+      <span class="display" style="font-size:20px;font-weight:800;">The Rolling Dice Cafe</span>
+      <span style="font-size:11px;color:var(--text-faint);font-family:monospace;">tn_8f2a91c4</span>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="kv"><span>Contact name</span><span>Elena Petrova</span></div>
+    <div class="kv"><span>Email</span><span>elena@rollingdice.cafe</span></div>
+    <div class="kv"><span>Phone</span><span>+1 (555) 010-2233</span></div>
+    <div class="kv"><span>Address</span><span>123 Main Street, Springfield</span></div>
+    <div class="kv"><span>Capacity</span><span>40</span></div>
+    <div class="kv"><span>Working hours</span><span>10:00 – 23:00</span></div>
+    <div class="kv"><span>Days off</span><span>Monday</span></div>
+    <div class="kv"><span>Website</span><span>rollingdice.cafe</span></div>
+    <div class="kv"><span>Social page</span><span>instagram.com/rollingdice</span></div>
+    <div class="kv"><span>Created</span><span>Jul 02, 2026</span></div>
+  </div>
+
+  <a href="#" style="text-align:center;font-size:14px;font-weight:700;padding:15px 0;border-radius:999px;background:linear-gradient(135deg,var(--amber),var(--coral));color:#2b1502;box-shadow:0 10px 24px -8px var(--amber-soft);">Visit tenant</a>
+  <span style="text-align:center;font-size:11px;color:var(--text-faint);margin-top:-10px;">Opens the tenant's information views as SuperAdmin.</span>
+
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

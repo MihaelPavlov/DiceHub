@@ -1,0 +1,203 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Sora:wght@400;500;600;700&display=swap');
+    :root {
+      --bg: oklch(0.15 0.018 290);
+      --bg-elevated: oklch(0.195 0.02 290);
+      --bg-elevated-2: oklch(0.245 0.022 290);
+      --border: oklch(0.34 0.02 290 / 0.55);
+      --text: oklch(0.96 0.01 90);
+      --text-muted: oklch(0.7 0.02 290);
+      --text-faint: oklch(0.52 0.02 290);
+      --amber: oklch(0.78 0.16 75);
+      --amber-soft: oklch(0.78 0.16 75 / 0.16);
+      --coral: oklch(0.68 0.19 25);
+      --coral-soft: oklch(0.68 0.19 25 / 0.16);
+      --teal: oklch(0.72 0.14 165);
+      --teal-soft: oklch(0.72 0.14 165 / 0.16);
+      --violet: oklch(0.66 0.17 300);
+      --violet-soft: oklch(0.66 0.17 300 / 0.16);
+      --shadow-card: 0 10px 30px -12px oklch(0 0 0 / 0.55);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #0b0b0d; font-family: 'Sora', ui-sans-serif, system-ui, sans-serif; }
+    .display { font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif; }
+    .icon { flex-shrink: 0; }
+  </style>
+</helmet>
+
+<div style="width:393px;background:var(--bg);color:var(--text);padding:24px 20px 140px;display:flex;flex-direction:column;gap:26px;position:relative;">
+
+  <div style="display:flex;align-items:center;justify-content:space-between;">
+    <span class="display" style="font-size:26px;font-weight:800;">Challenges</span>
+    <div style="display:flex;align-items:center;gap:6px;background:var(--amber-soft);padding:8px 13px;border-radius:999px;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--amber)" stroke="var(--amber)" stroke-width="1"><path d="M12 3.5l2.4 5 5.5.7-4 3.8 1 5.5-4.9-2.7-4.9 2.7 1-5.5-4-3.8 5.5-.7z"/></svg>
+      <span style="font-size:12.5px;font-weight:700;color:var(--amber);">1,240 XP</span>
+    </div>
+  </div>
+
+  <!-- Active weekly quest -->
+  <div style="border-radius:28px;padding:22px;background:linear-gradient(155deg,var(--bg-elevated),var(--bg-elevated) 60%,var(--violet-soft));border:1px solid var(--border);box-shadow:var(--shadow-card);display:flex;flex-direction:column;gap:16px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;">
+      <span style="font-size:11px;font-weight:700;letter-spacing:0.08em;color:var(--violet);">WEEKLY QUEST</span>
+      <span style="font-size:11.5px;font-weight:600;color:var(--text-faint);">4 days left</span>
+    </div>
+    <span class="display" style="font-size:20px;font-weight:700;line-height:1.25;">Play 3 new games this week</span>
+
+    <div style="display:flex;align-items:center;gap:16px;">
+      <div style="position:relative;width:64px;height:64px;flex-shrink:0;">
+        <svg width="64" height="64" viewBox="0 0 64 64">
+          <circle cx="32" cy="32" r="27" fill="none" stroke="var(--bg-elevated-2)" stroke-width="7"/>
+          <circle cx="32" cy="32" r="27" fill="none" stroke="var(--violet)" stroke-width="7" stroke-linecap="round" stroke-dasharray="169.6" stroke-dashoffset="56.5" transform="rotate(-90 32 32)"/>
+        </svg>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+          <span class="display" style="font-size:16px;font-weight:800;">2/3</span>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;flex:1;">
+        <span style="font-size:12.5px;color:var(--text-muted);font-weight:500;">Complete to earn</span>
+        <span style="font-size:14px;font-weight:700;color:var(--amber);display:flex;align-items:center;gap:6px;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="var(--amber)" stroke="var(--amber)" stroke-width="1"><path d="M12 3.5l2.4 5 5.5.7-4 3.8 1 5.5-4.9-2.7-4.9 2.7 1-5.5-4-3.8 5.5-.7z"/></svg>
+          +150 XP · Rare badge
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Badges -->
+  <div style="display:flex;flex-direction:column;gap:14px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;">
+      <span class="display" style="font-size:19px;font-weight:700;">Your badges</span>
+      <span style="font-size:12.5px;font-weight:600;color:var(--text-faint);">9 of 24</span>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;">
+
+      <div style="display:flex;flex-direction:column;align-items:center;gap:7px;">
+        <div style="width:100%;aspect-ratio:1;border-radius:50%;background:var(--amber-soft);display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 1px var(--amber-soft),0 6px 18px -6px var(--amber-soft);padding:11px;">
+          <img src="gold_medal.png" alt="" style="width:100%;height:100%;object-fit:contain;">
+        </div>
+        <span style="font-size:10.5px;font-weight:600;color:var(--text-muted);text-align:center;">First Win</span>
+      </div>
+
+      <div style="display:flex;flex-direction:column;align-items:center;gap:7px;">
+        <div style="width:100%;aspect-ratio:1;border-radius:50%;background:var(--teal-soft);display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 1px var(--teal-soft),0 6px 18px -6px var(--teal-soft);padding:11px;">
+          <img src="silver_medal.png" alt="" style="width:100%;height:100%;object-fit:contain;">
+        </div>
+        <span style="font-size:10.5px;font-weight:600;color:var(--text-muted);text-align:center;">100 Points</span>
+      </div>
+
+      <div style="display:flex;flex-direction:column;align-items:center;gap:7px;">
+        <div style="width:100%;aspect-ratio:1;border-radius:50%;background:linear-gradient(155deg,var(--teal),var(--amber));display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 1px var(--teal-soft),0 6px 18px -6px var(--teal-soft);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#062017" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 19c.8-3.3 3-5 6-5s5.2 1.7 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 12.2c2.6.2 4 1.7 4.6 4.3"/></svg>
+        </div>
+        <span style="font-size:10.5px;font-weight:600;color:var(--text-muted);text-align:center;">Table Regular</span>
+      </div>
+
+      <div style="display:flex;flex-direction:column;align-items:center;gap:7px;">
+        <div style="width:100%;aspect-ratio:1;border-radius:50%;background:var(--bg-elevated-2);display:flex;align-items:center;justify-content:center;padding:11px;opacity:0.55;">
+          <img src="locked.png" alt="" style="width:100%;height:100%;object-fit:contain;">
+        </div>
+        <span style="font-size:10.5px;font-weight:600;color:var(--text-faint);text-align:center;">Game Master</span>
+      </div>
+
+      <div style="display:flex;flex-direction:column;align-items:center;gap:7px;">
+        <div style="width:100%;aspect-ratio:1;border-radius:50%;background:linear-gradient(155deg,var(--violet),var(--teal));display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 1px var(--violet-soft),0 6px 18px -6px var(--violet-soft);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 19c.8-3.3 3-5 6-5s5.2 1.7 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 12.2c2.6.2 4 1.7 4.6 4.3"/></svg>
+        </div>
+        <span style="font-size:10.5px;font-weight:600;color:var(--text-muted);text-align:center;">Social Butterfly</span>
+      </div>
+
+      <div style="display:flex;flex-direction:column;align-items:center;gap:7px;">
+        <div style="width:100%;aspect-ratio:1;border-radius:50%;background:var(--bg-elevated-2);display:flex;align-items:center;justify-content:center;padding:11px;opacity:0.55;">
+          <img src="locked.png" alt="" style="width:100%;height:100%;object-fit:contain;">
+        </div>
+        <span style="font-size:10.5px;font-weight:600;color:var(--text-faint);text-align:center;">Speed Runner</span>
+      </div>
+
+      <div style="display:flex;flex-direction:column;align-items:center;gap:7px;">
+        <div style="width:100%;aspect-ratio:1;border-radius:50%;background:var(--amber-soft);display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 1px var(--amber-soft),0 6px 18px -6px var(--amber-soft);padding:11px;">
+          <img src="bronze_medal.png" alt="" style="width:100%;height:100%;object-fit:contain;">
+        </div>
+        <span style="font-size:10.5px;font-weight:600;color:var(--text-muted);text-align:center;">Top Rated</span>
+      </div>
+
+      <div style="display:flex;flex-direction:column;align-items:center;gap:7px;">
+        <div style="width:100%;aspect-ratio:1;border-radius:50%;background:var(--bg-elevated-2);display:flex;align-items:center;justify-content:center;padding:11px;opacity:0.55;">
+          <img src="locked.png" alt="" style="width:100%;height:100%;object-fit:contain;">
+        </div>
+        <span style="font-size:10.5px;font-weight:600;color:var(--text-faint);text-align:center;">Legend</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Active challenges list -->
+  <div style="display:flex;flex-direction:column;gap:14px;">
+    <span class="display" style="font-size:19px;font-weight:700;">Active challenges</span>
+
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div style="position:relative;background:var(--bg-elevated);border:1px solid var(--border);border-radius:20px;padding:16px;display:flex;flex-direction:column;gap:10px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <span style="font-size:13.5px;font-weight:700;padding-right:26px;">Play with 5 different people</span>
+          <span style="font-size:12px;font-weight:700;color:var(--text-faint);">3/5</span>
+        </div>
+        <div style="height:8px;border-radius:999px;background:var(--bg-elevated-2);overflow:hidden;">
+          <div style="width:60%;height:100%;border-radius:999px;background:var(--teal);"></div>
+        </div>
+        <img src="challenge-inprogress.png" alt="In progress" style="position:absolute;top:-8px;right:-8px;width:28px;height:28px;object-fit:contain;">
+      </div>
+
+      <div style="position:relative;background:var(--bg-elevated);border:1px solid var(--border);border-radius:20px;padding:16px;display:flex;flex-direction:column;gap:10px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <span style="font-size:13.5px;font-weight:700;padding-right:26px;">Win 3 games in a row</span>
+          <span style="font-size:12px;font-weight:700;color:var(--text-faint);">3/3</span>
+        </div>
+        <div style="height:8px;border-radius:999px;background:var(--bg-elevated-2);overflow:hidden;">
+          <div style="width:100%;height:100%;border-radius:999px;background:var(--coral);"></div>
+        </div>
+        <img src="challenge-complete.png" alt="Completed" style="position:absolute;top:-8px;right:-8px;width:28px;height:28px;object-fit:contain;">
+      </div>
+
+      <div style="position:relative;background:var(--bg-elevated);border:1px solid var(--border);border-radius:20px;padding:16px;display:flex;flex-direction:column;gap:10px;opacity:0.7;">
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <span style="font-size:13.5px;font-weight:700;padding-right:26px;">Try a co-op game</span>
+          <span style="font-size:12px;font-weight:700;color:var(--text-faint);">0/1</span>
+        </div>
+        <div style="height:8px;border-radius:999px;background:var(--bg-elevated-2);overflow:hidden;">
+          <div style="width:0%;height:100%;border-radius:999px;background:var(--violet);"></div>
+        </div>
+        <img src="locked.png" alt="Locked" style="position:absolute;top:-8px;right:-8px;width:28px;height:28px;object-fit:contain;">
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating bottom nav — real IA: games / meeple / reservations · FAB(challenges) · events / profile -->
+  <div style="position:absolute;left:20px;right:20px;bottom:24px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:999px;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 14px 34px -10px oklch(0 0 0 / 0.6);">
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9a1 1 0 0 0 1 1h4v-6h2v6h4a1 1 0 0 0 1-1v-9"/></svg>
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 19c.8-3.3 3-5 6-5s5.2 1.7 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 12.2c2.6.2 4 1.7 4.6 4.3"/></svg>
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16"/><path d="M8 3v4M16 3v4"/><path d="M9.5 14l1.8 1.8L15 12"/></svg>
+    <div style="width:50px;height:50px;border-radius:999px;background:linear-gradient(135deg,var(--amber),var(--coral));display:flex;align-items:center;justify-content:center;margin-top:-22px;box-shadow:0 0 0 3px var(--amber),0 8px 20px -6px var(--amber-soft),0 0 0 6px var(--bg);">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2b1502" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8v4a4 4 0 0 1-8 0z"/><path d="M8 5H5a3 3 0 0 0 3 5"/><path d="M16 5h3a3 3 0 0 1-3 5"/><path d="M10 13v3M14 13v3"/><path d="M8 20h8"/><path d="M9 17h6l1 3H8z"/></svg>
+    </div>
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2 1.6 1.6 0 0 0 0 6 2 2 0 0 1-2 2H6a2 2 0 0 1-2-2 1.6 1.6 0 0 0 0-6z"/><path d="M9 7.5v2M9 12.5v2M9 17v-2"/></svg>
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c1.2-4 4-5.5 7-5.5s5.8 1.5 7 5.5"/></svg>
+  </div>
+
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

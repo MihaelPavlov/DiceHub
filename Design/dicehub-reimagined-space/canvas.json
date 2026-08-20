@@ -1,0 +1,12 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html", "x": 0, "y": 0, "w": 393, "h": 640, "title": "Club Space Home" },
+    { "file": "SpaceList.dc.html", "x": 453, "y": 0, "w": 393, "h": 900, "title": "Join a Table" },
+    { "file": "SpaceDetails.dc.html", "x": 906, "y": 0, "w": 393, "h": 780, "title": "Space Details" },
+
+    { "file": "CreateTableBooking.dc.html", "x": 0, "y": 1000, "w": 393, "h": 860, "title": "Create Table Booking" },
+    { "file": "UpdateTableBooking.dc.html", "x": 453, "y": 1000, "w": 393, "h": 860, "title": "Update Table Booking" },
+    { "file": "SpaceBooking.dc.html", "x": 906, "y": 1000, "w": 393, "h": 800, "title": "Space Booking (dice picker)" }
+  ],
+  "launch": { "view": "canvas" }
+}

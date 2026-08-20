@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Sora:wght@400;500;600;700&display=swap');
+    :root {
+      --bg: oklch(0.15 0.018 290);
+      --bg-elevated: oklch(0.195 0.02 290);
+      --bg-elevated-2: oklch(0.245 0.022 290);
+      --border: oklch(0.34 0.02 290 / 0.55);
+      --text: oklch(0.96 0.01 90);
+      --text-muted: oklch(0.7 0.02 290);
+      --text-faint: oklch(0.52 0.02 290);
+      --amber: oklch(0.78 0.16 75);
+      --amber-soft: oklch(0.78 0.16 75 / 0.16);
+      --coral: oklch(0.68 0.19 25);
+      --coral-soft: oklch(0.68 0.19 25 / 0.16);
+      --teal: oklch(0.72 0.14 165);
+      --teal-soft: oklch(0.72 0.14 165 / 0.16);
+      --violet: oklch(0.66 0.17 300);
+      --violet-soft: oklch(0.66 0.17 300 / 0.16);
+      --shadow-card: 0 10px 30px -12px oklch(0 0 0 / 0.55);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #0b0b0d; font-family: 'Sora', ui-sans-serif, system-ui, sans-serif; }
+    .display { font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif; }
+    .icon-btn { width: 42px; height: 42px; border-radius: 999px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .stat { flex: 1; background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 18px; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+    .action { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 20px; padding: 16px; display: flex; align-items: center; gap: 14px; }
+  </style>
+</helmet>
+
+<div style="width:393px;background:var(--bg);color:var(--text);padding:24px 20px 40px;display:flex;flex-direction:column;gap:22px;">
+
+  <span class="display" style="font-size:26px;font-weight:800;">Club Space</span>
+
+  <div style="display:flex;gap:12px;">
+    <div class="stat">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <svg width="17" height="17" viewBox="0 -960 960 960" fill="var(--amber)"><path d="M44.85-154.38v-96.85q0-34.85 16.61-59.24t44.57-38.67q56.05-27.78 113.62-44.01 57.58-16.23 136.2-16.23 78.27 0 135.52 16.23 57.25 16.23 113.29 44.01 27.97 14.28 44.58 38.67t16.61 59.24v96.85h-621Zm706 0v-102.7q0-32.77-12.58-73.14-12.57-40.37-42.42-68.47 41.46 6 79.27 18.65 37.8 12.66 72.5 30.96 31.83 16.85 49.68 41.86 17.85 25.01 17.85 50.14v102.7h-164.3Zm-396-357.24q-61.05 0-104.53-43.47-43.47-43.48-43.47-104.53 0-61.05 43.47-104.52 43.48-43.48 104.53-43.48 61.05 0 104.52 43.48 43.48 43.47 43.48 104.52t-43.48 104.53q-43.47 43.47-104.52 43.47Z"/></svg>
+        <span style="font-size:11.5px;font-weight:600;color:var(--text-muted);">People in club</span>
+      </div>
+      <span class="display" style="font-size:26px;font-weight:800;">18</span>
+    </div>
+    <div class="stat">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <svg width="17" height="17" viewBox="0 -960 960 960" fill="var(--teal)"><path d="M236-128.77q-63.31 0-107.27-43.96Q84.77-216.69 84.77-280q0-63.31 43.96-107.27 43.96-43.96 107.27-43.96 63.31 0 107.27 43.96 43.96 43.96 43.96 107.27 0 63.31-43.96 107.27-43.96 43.96-107.27 43.96Zm488 0q-63.31 0-107.27-43.96-43.96-43.96-43.96-107.27 0-63.31 43.96-107.27 43.96-43.96 107.27-43.96 63.31 0 107.27 43.96 43.96 43.96 43.96 107.27 0 63.31-43.96 107.27-43.96 43.96-107.27 43.96Z"/></svg>
+        <span style="font-size:11.5px;font-weight:600;color:var(--text-muted);">Online tables</span>
+      </div>
+      <span class="display" style="font-size:26px;font-weight:800;">5</span>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px;">
+
+    <div class="action">
+      <div class="icon-btn" style="width:46px;height:46px;background:var(--teal-soft);">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;gap:2px;">
+        <span style="font-size:14px;font-weight:700;">Create a table</span>
+        <span style="font-size:11.5px;color:var(--text-muted);">Scan a game's QR code and host a session.</span>
+      </div>
+      <a href="#" style="flex-shrink:0;font-size:12px;font-weight:700;padding:9px 15px;border-radius:999px;background:var(--teal);color:#062420;">Create</a>
+    </div>
+
+    <div class="action">
+      <div class="icon-btn" style="width:46px;height:46px;background:var(--amber-soft);">
+        <svg width="21" height="21" viewBox="0 -960 960 960" fill="var(--amber)"><path d="M236-128.77q-63.31 0-107.27-43.96Q84.77-216.69 84.77-280q0-63.31 43.96-107.27 43.96-43.96 107.27-43.96 63.31 0 107.27 43.96 43.96 43.96 43.96 107.27 0 63.31-43.96 107.27-43.96 43.96-107.27 43.96Zm488 0q-63.31 0-107.27-43.96-43.96-43.96-43.96-107.27 0-63.31 43.96-107.27 43.96-43.96 107.27-43.96 63.31 0 107.27 43.96 43.96 43.96 43.96 107.27 0 63.31-43.96 107.27-43.96 43.96-107.27 43.96Z"/></svg>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;gap:2px;">
+        <span style="font-size:14px;font-weight:700;">Join a table</span>
+        <span style="font-size:11.5px;color:var(--text-muted);">See who's playing right now and hop in.</span>
+      </div>
+      <a href="#" style="flex-shrink:0;font-size:12px;font-weight:700;padding:9px 15px;border-radius:999px;background:var(--amber);color:#2b1a02;">Join</a>
+    </div>
+
+    <div class="action">
+      <div class="icon-btn" style="width:46px;height:46px;background:var(--violet-soft);">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="var(--violet)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16"/><path d="M8 3v4M16 3v4"/></svg>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;gap:2px;">
+        <span style="font-size:14px;font-weight:700;">Book a table</span>
+        <span style="font-size:11.5px;color:var(--text-muted);">Reserve a seat for a future time slot.</span>
+      </div>
+      <a href="#" style="flex-shrink:0;font-size:12px;font-weight:700;padding:9px 15px;border-radius:999px;background:var(--violet);color:#1c0d33;">Book</a>
+    </div>
+
+  </div>
+
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>
