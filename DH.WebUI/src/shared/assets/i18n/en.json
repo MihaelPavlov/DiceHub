@@ -675,6 +675,30 @@
       "info_description": "Manage space-related settings such as contact details, visibility, and preferences to ensure accurate and personalized club usage."
     }
   },
+  "change_password": {
+    "title": "Change Password",
+    "subtitle": "Update the password you use to sign in. You'll stay signed in on this device.",
+    "labels": {
+      "current_password": "Current password",
+      "new_password": "New password",
+      "confirm_password": "Confirm new password"
+    },
+    "placeholders": {
+      "current_password": "Your current password",
+      "new_password": "Your new password",
+      "confirm_password": "Confirm your new password"
+    },
+    "control_display_names": {
+      "current_password": "Current password",
+      "new_password": "New password",
+      "confirm_password": "Confirm password"
+    },
+    "save_button": "Change password",
+    "saving_button": "Changing...",
+    "toast_messages": {
+      "changed_successfully": "Password changed successfully."
+    }
+  },
   "week_days_names": {
     "Sunday": "Sunday",
     "Monday": "Monday",
@@ -708,31 +732,22 @@
     "revolutionizing": "Revolutionizing",
     "game_driven_entertainment": "Game-Driven Entertainment",
     "info": "The all-in-one platform to streamline operations, boost engagement, and grow your gaming-focused venue.",
-
     "club_game_management_title": "Club Game Management",
     "club_game_management_desc": "Effortlessly organize your tables, games, and schedules in one central place.",
-
     "challenge_rewards_title": "Challenge & Rewards System",
     "challenge_rewards_desc": "Keep players coming back with engaging challenges and customizable rewards.",
-
     "activity_tracking_title": "Real-Time Activity Tracking",
     "activity_tracking_desc": "Monitor game sessions and user participation with powerful tracking tools.",
-
     "event_management_title": "Event Management",
     "event_management_desc": "Create, promote, and manage tournaments, weekly events, or private bookings with ease.",
-
     "reservation_system_title": "Smart Reservation System",
     "reservation_system_desc": "Simplify your booking process for tables, games, or events — all from one dashboard.",
-
     "qr_code_game_tracking_title": "QR Code Game Tracking",
-
     "how_it_works": "How it Works",
     "login": "Login",
     "register": "Register",
-
     "partner_with_us_title": "Partner with Us",
     "partner_with_us_text": "Looking to modernize your entertainment space? Whether you run a board game cafe, darts bar, billiards lounge, or a hybrid venue, DiceHub helps you elevate the experience and grow your community.",
-
     "form": {
       "labels": {
         "name": "Name",
@@ -772,6 +787,9 @@
     "control_display_names": {
       "email": "Email",
       "password": "Password"
+    },
+    "errors": {
+      "tenant_mismatch": "This account isn't registered with this club. Choose the correct club and try again."
     },
     "from_message": {
       "register": "Registration successful! Please check your email to confirm your account.",
@@ -815,6 +833,68 @@
     "you_have_registration": "You're already part of the guild!",
     "sign_in_1": "Sign In",
     "sign_in_2": "to jump back into the action!"
+  },
+  "venue_application": {
+    "header": "Venue / Club Application",
+    "sub_header": "Submit your venue details. DiceHub SuperAdmins will review and verify the application before creating a tenant.",
+    "step1_title": "1. Verify contact",
+    "step1_note": "Verify the email with a one-time code before entering venue details.",
+    "step2_title": "2. Venue details",
+    "logo_hint": "PNG, JPEG, WEBP, or SVG. Up to 2 MB.",
+    "labels": {
+      "contact_name": "Contact name",
+      "email": "Email",
+      "email_code": "Email code",
+      "phone_number": "Phone number",
+      "address": "Address",
+      "public_website": "Public website",
+      "social_page": "Social page",
+      "discord_server": "Discord server",
+      "logo": "Venue logo",
+      "photo_url": "Photo URL"
+    },
+    "placeholders": {
+      "contact_name": "Main contact person",
+      "email": "owner@club.com",
+      "email_code": "6-digit code",
+      "phone_number": "+359...",
+      "address": "Venue address",
+      "public_website": "https://...",
+      "social_page": "Facebook / Instagram / other",
+      "discord_server": "Discord invite",
+      "photo_url": "Or link to a public venue photo instead"
+    },
+    "buttons": {
+      "email_verified": "Email verified",
+      "sending_code": "Sending code...",
+      "resend_email_code": "Resend email code",
+      "send_email_code": "Send email code",
+      "verifying": "Verifying...",
+      "verify_email_code": "Verify email code",
+      "submitting": "Submitting...",
+      "submit_application": "Submit application",
+      "remove_logo": "Remove",
+      "choose_image": "Choose an image"
+    },
+    "errors": {
+      "invalid_email": "Enter a valid email before sending the code.",
+      "email_code_not_sent": "Email verification code was not sent.",
+      "email_code_required": "Enter the email code before verifying.",
+      "invalid_code": "Invalid or expired email verification code.",
+      "email_verification_failed": "Email verification failed.",
+      "public_proof_required": "Provide at least one public website, social page, or Discord server.",
+      "email_verification_required": "Email must be verified before venue details are available.",
+      "application_failed": "Application submission failed.",
+      "logo_invalid_type": "Logo must be a PNG, JPEG, WEBP, or SVG image.",
+      "logo_too_large": "Logo must be smaller than 2 MB."
+    },
+    "toasts": {
+      "email_code_sent": "Email verification code sent.",
+      "email_verified": "Email verified.",
+      "application_submitted": "Venue application submitted."
+    },
+    "submitted_title": "Application submitted",
+    "submitted_text": "Your application is pending verification. DiceHub will review your details and contact you by email."
   },
   "reset_password": {
     "reset_was_successfully": "Your password has been reset successfully.",

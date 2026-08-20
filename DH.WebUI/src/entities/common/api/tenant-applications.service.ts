@@ -19,8 +19,17 @@ import {
 export class TenantApplicationsService {
   constructor(private readonly api: RestApiService) {}
 
-  public create(request: ITenantApplicationRequest): Observable<number | null> {
-    return this.api.post<number>(`/${PATH.TENANT_APPLICATIONS.CORE}`, request);
+  public create(
+    request: ITenantApplicationRequest,
+    logoFile?: File | null
+  ): Observable<number | null> {
+    const formData = new FormData();
+    formData.append('application', JSON.stringify(request));
+    if (logoFile) {
+      formData.append('logoFile', logoFile);
+    }
+
+    return this.api.post<number>(`/${PATH.TENANT_APPLICATIONS.CORE}`, formData);
   }
 
   public sendEmailVerificationCode(

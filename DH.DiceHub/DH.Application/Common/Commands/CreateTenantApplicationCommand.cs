@@ -1,4 +1,5 @@
 using DH.Domain.Adapters.Authentication;
+using DH.Domain.Adapters.FileManager;
 using DH.Domain.Adapters.Localization;
 using DH.Domain.Entities;
 using DH.Domain.Models.Common;
@@ -9,17 +10,22 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace DH.Application.Common.Commands;
 
-public record CreateTenantApplicationCommand(TenantApplicationRequest Application) : IRequest<int>;
+public record CreateTenantApplicationCommand(
+    TenantApplicationRequest Application,
+    string? LogoFileName = null,
+    MemoryStream? LogoStream = null) : IRequest<int>;
 
 internal class CreateTenantApplicationCommandHandler(
     IRepository<TenantApplication> repository,
     ISystemUserContextAccessor systemUserContextAccessor,
     ILocalizationService localizer,
+    IFileManagerClient fileManagerClient,
     IMemoryCache memoryCache) : IRequestHandler<CreateTenantApplicationCommand, int>
 {
     readonly IRepository<TenantApplication> repository = repository;
     readonly ISystemUserContextAccessor systemUserContextAccessor = systemUserContextAccessor;
     readonly ILocalizationService localizer = localizer;
+    readonly IFileManagerClient fileManagerClient = fileManagerClient;
     readonly IMemoryCache memoryCache = memoryCache;
 
     public async Task<int> Handle(CreateTenantApplicationCommand request, CancellationToken cancellationToken)
@@ -30,6 +36,14 @@ internal class CreateTenantApplicationCommandHandler(
         var normalizedEmail = request.Application.Email.Trim().ToLowerInvariant();
         if (!this.memoryCache.TryGetValue<bool>(TenantApplicationEmailVerificationCache.BuildVerifiedKey(normalizedEmail), out var isEmailVerified) || !isEmailVerified)
             throw new ValidationErrorsException(nameof(request.Application.Email), "Email verification has expired. Verify the email again.");
+
+        var photoUrl = request.Application.PhotoUrl;
+        if (request.LogoStream is not null && !string.IsNullOrWhiteSpace(request.LogoFileName))
+        {
+            var uniqueFileName = $"{Guid.NewGuid()}{Path.GetExtension(request.LogoFileName)}";
+            photoUrl = await fileManagerClient.UploadFileAsync(
+                FileManagerFolders.TenantApplications.ToString(), uniqueFileName, request.LogoStream.ToArray());
+        }
 
         systemUserContextAccessor.Set(new TenantApplicationSystemUserContext());
 
@@ -45,7 +59,7 @@ internal class CreateTenantApplicationCommandHandler(
             PublicWebsite = request.Application.PublicWebsite,
             SocialPage = request.Application.SocialPage,
             DiscordServer = request.Application.DiscordServer,
-            PhotoUrl = request.Application.PhotoUrl,
+            PhotoUrl = photoUrl,
             CreatedDate = DateTime.UtcNow,
         }, cancellationToken);
 

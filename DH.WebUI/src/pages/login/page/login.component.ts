@@ -264,6 +264,11 @@ export class LoginComponent extends Form implements OnInit {
                 error.error.errors.EmailNotConfirmed[0];
               this.showResend = true;
             }
+            if (error.error.errors.TenantId) {
+              this.getServerErrorMessage = this.translateService.instant(
+                'login.errors.tenant_mismatch'
+              );
+            }
 
             this.toastService.error({
               message: this.translateService.instant(

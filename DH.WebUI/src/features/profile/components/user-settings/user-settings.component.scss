@@ -1,5 +1,9 @@
 @use "../../.././../shared/assets/styles/palette";
 
+:host {
+  --settings-content-width: 42rem;
+}
+
 .container {
   width: 80%;
   margin: 2rem auto;

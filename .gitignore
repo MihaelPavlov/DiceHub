@@ -195,6 +195,9 @@ PublishScripts/
 # Firebase Admin SDK service account keys - never commit these
 **/*firebase-adminsdk*.json
 
+# Local-only dev secrets (Supabase key, etc.) - never commit these
+**/appsettings.Development.json
+
 # NuGet Packages
 *.nupkg
 # NuGet Symbol Packages

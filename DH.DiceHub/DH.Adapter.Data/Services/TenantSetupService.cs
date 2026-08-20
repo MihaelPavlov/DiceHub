@@ -78,7 +78,7 @@ public class TenantSetupService(
             Town = application.Address,
             TenantStatus = TenantStatus.Active,
             CreatedDate = DateTime.UtcNow,
-            LogoFileName = string.Empty,
+            LogoFileName = application.PhotoUrl,
             RegisterQrCode = string.Empty,
             TenantApplicationId = application.Id,
             TenantSetting = settings,

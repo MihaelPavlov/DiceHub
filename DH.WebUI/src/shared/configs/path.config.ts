@@ -134,6 +134,7 @@ export const PATH = {
     DELETE_OWNER: 'delete-owner',
     GET_USER_STATS: 'get-user-stats',
     GET_OWNER_STATS: 'get-owner-stats',
+    CHANGE_PASSWORD: 'change-password',
   },
   STATISTICS: {
     CORE: 'statistics',

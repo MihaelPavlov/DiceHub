@@ -93,6 +93,49 @@
   }
 }
 
+.empty-state {
+  width: 85%;
+  margin: 2rem auto 10rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.5rem;
+
+  &__icon {
+    width: 4rem;
+    height: 4rem;
+    fill: palette.$main-font-gray-color;
+    opacity: 0.6;
+    margin-bottom: 0.5rem;
+  }
+
+  &__title {
+    font-size: 1.15rem;
+    font-weight: bold;
+    margin: 0;
+  }
+
+  &__subtitle {
+    color: palette.$main-font-gray-color;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  &__action {
+    margin-top: 1.25rem;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 1.25rem;
+    background: palette.$main-blue-color;
+    color: palette.$main-font-color;
+    font-weight: bold;
+    font-size: 0.95rem;
+    cursor: pointer;
+  }
+}
+
 .arrow-circle {
   z-index: 10000;
   position: fixed;
@@ -200,6 +243,11 @@
     max-height: 25rem;
     margin-bottom: 1rem;
     overflow-y: auto;
+  }
+
+  .empty-state {
+    width: 100%;
+    margin: 1rem auto;
   }
 
   .club-row {

@@ -70,6 +70,64 @@
   line-height: 1.45;
 }
 
+.logo-upload {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  &__preview {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    img {
+      width: 4rem;
+      height: 4rem;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 1px solid palette.$main-gray-color;
+    }
+  }
+
+  &__remove {
+    padding: 0.4rem 0.9rem;
+    border: 1px solid palette.$main-gray-color;
+    border-radius: 1rem;
+    background: transparent;
+    color: palette.$main-font-color;
+    font-size: 0.85rem;
+    cursor: pointer;
+  }
+
+  &__picker {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem;
+    border: 1px dashed palette.$main-gray-color;
+    border-radius: 0.5rem;
+    color: palette.$main-font-gray-color;
+    font-size: 0.9rem;
+    cursor: pointer;
+
+    input[type='file'] {
+      display: none;
+    }
+  }
+
+  &__hint {
+    margin: 0;
+    color: palette.$main-font-gray-color;
+    font-size: 0.8rem;
+  }
+
+  &__error {
+    margin: 0;
+    color: palette.$main-red-color;
+    font-size: 0.85rem;
+  }
+}
+
 .verify-btn {
   width: 60%;
   margin-bottom: 1rem;

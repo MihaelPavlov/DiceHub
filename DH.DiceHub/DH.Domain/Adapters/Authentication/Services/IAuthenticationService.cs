@@ -8,4 +8,5 @@ public interface IAuthenticationService
     Task<bool> Logout(string userId, string tenantId);
     Task<TokenResponseModel?> ConfirmEmail(string email, string token, CancellationToken cancellationToken);
     Task ResetPassword(ResetPasswordRequest request);
+    Task ChangePassword(string userId, ChangePasswordRequest request);
 }

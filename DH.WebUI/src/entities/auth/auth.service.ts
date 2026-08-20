@@ -8,6 +8,7 @@ import { RestApiService } from '../../shared/services/rest-api.service';
 import { IRegisterRequest } from './models/register.model';
 import { PATH } from '../../shared/configs/path.config';
 import { IResetPasswordRequest } from './models/reset-password-request.model';
+import { IChangePasswordRequest } from './models/change-password-request.model';
 import { IRegisterResponse } from './models/register-response.model';
 import { ICreateEmployeePasswordRequest } from './models/create-employee-password.model';
 import { AppToastMessage } from '../../shared/components/toast/constants/app-toast-messages.constant';
@@ -102,6 +103,13 @@ export class AuthService {
 
   public resetPassword(request: IResetPasswordRequest): Observable<any> {
     return this.api.post(`/api/user/reset-password`, request);
+  }
+
+  public changePassword(request: IChangePasswordRequest): Observable<any> {
+    return this.api.post(
+      `/${PATH.USER.CORE}/${PATH.USER.CHANGE_PASSWORD}`,
+      request
+    );
   }
 
   public get getUser(): IUserInfo | null {

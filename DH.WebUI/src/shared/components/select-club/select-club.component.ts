@@ -14,6 +14,7 @@ import { ITenantListResult } from '../../../entities/common/models/tenant-list.m
 export class SelectClubComponent implements OnInit {
   clubs: ITenantListResult[] = [];
   selectedClub: ITenantListResult | null = null;
+  isLoading = true;
 
   constructor(
     private tenantContextService: TenantContextService,
@@ -23,10 +24,16 @@ export class SelectClubComponent implements OnInit {
 
   public ngOnInit(): void {
     window.scrollTo({ top: 0, behavior: 'auto' });
-    
-    this.tenantService
-      .getList()
-      .subscribe((clubs) => (this.clubs = clubs ?? []));
+
+    this.tenantService.getList().subscribe({
+      next: (clubs) => {
+        this.clubs = clubs ?? [];
+        this.isLoading = false;
+      },
+      error: () => {
+        this.isLoading = false;
+      },
+    });
   }
 
   public selectClub(club: ITenantListResult): void {
@@ -53,6 +60,14 @@ export class SelectClubComponent implements OnInit {
   }
 
   public getLogoFile(logoFileName: string | null): string {
+    if (!logoFileName) {
+      return '/shared/assets/images/default-logos/dicehub_logo_1.png';
+    }
+
+    if (/^https?:\/\//i.test(logoFileName)) {
+      return logoFileName;
+    }
+
     return `/shared/assets/images/tenant_logos/${logoFileName}`;
   }
 }

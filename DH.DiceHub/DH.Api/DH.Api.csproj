@@ -36,4 +36,10 @@
 		<None Remove="**/*firebase-adminsdk*.json" />
 	</ItemGroup>
 
+	<ItemGroup>
+		<!-- Local dev convenience only: this file is gitignored and excluded from the Docker build context,
+		     so it never reaches a real build/publish output; only present on a developer's machine. -->
+		<None Include="firebase-adminsdk.local.json" Condition="Exists('firebase-adminsdk.local.json')" CopyToOutputDirectory="PreserveNewest" />
+	</ItemGroup>
+
 </Project>

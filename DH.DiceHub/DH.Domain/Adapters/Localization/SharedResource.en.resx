@@ -150,6 +150,9 @@
   <data name="PasswordResetFailed" xml:space="preserve">
     <value>Resetting password was not successful. Please try again later or contact us via email.</value>
   </data>
+  <data name="CurrentPasswordIncorrect" xml:space="preserve">
+    <value>The current password you entered is incorrect.</value>
+  </data>
   <data name="NotProvided" xml:space="preserve">
     <value>Not Provided</value>
   </data>

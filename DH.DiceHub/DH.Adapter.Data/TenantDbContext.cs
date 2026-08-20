@@ -188,6 +188,21 @@ public class TenantDbContext : DbContext, ITenantDbContext
             // connection is opened so the connection interceptor can apply
             // the same tenant session variable, then clear it again.
             systemContextAccessor.Set(userContext);
+
+            // The connection can be closed and reopened mid-SaveChanges (e.g. the
+            // ExecuteSqlRawAsync below runs on its own connection lifetime), and
+            // TenantDbConnectionInterceptor prefers HttpContext.Items["TenantId"]
+            // (route/header) over the accessor above. If a stale/unrelated tenant
+            // header is present on the request (e.g. a superadmin logging in with
+            // a leftover X-Tenant-Id from browsing another tenant), the interceptor
+            // would re-apply that tenant to the session on reopen, while the row
+            // itself carries userContext.TenantId - causing an RLS mismatch. Align
+            // the two for the duration of this call, then restore.
+            var httpContext = HttpContextAccessor.HttpContext;
+            var previousItemsTenantId = httpContext?.Items["TenantId"];
+            if (httpContext is not null)
+                httpContext.Items["TenantId"] = userContext.TenantId;
+
             try
             {
                 await Database.ExecuteSqlRawAsync($"SET app.tenant_id = '{tenantId}'", cancellationToken);
@@ -196,6 +211,8 @@ public class TenantDbContext : DbContext, ITenantDbContext
             finally
             {
                 systemContextAccessor.Set(AnonymousUserContext.Instance);
+                if (httpContext is not null)
+                    httpContext.Items["TenantId"] = previousItemsTenantId;
             }
         }
 

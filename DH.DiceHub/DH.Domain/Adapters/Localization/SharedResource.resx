@@ -150,6 +150,9 @@
   <data name="PasswordResetFailed" xml:space="preserve">
     <value>Възстановяването на паролата не беше успешно. Моля, опитайте по-късно или се свържете с нас по имейл.</value>
   </data>
+  <data name="CurrentPasswordIncorrect" xml:space="preserve">
+    <value>Въведената текуща парола е грешна.</value>
+  </data>
   <data name="NotProvided" xml:space="preserve">
     <value>Не е предоставено</value>
   </data>

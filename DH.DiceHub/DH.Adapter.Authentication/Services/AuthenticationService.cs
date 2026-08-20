@@ -91,6 +91,27 @@ internal class AuthenticationService(
             throw new ValidationErrorsException("Password", this.localizer["PasswordResetFailed"]);
     }
 
+    public async Task ChangePassword(string userId, ChangePasswordRequest request)
+    {
+        var user = await userManager.FindByIdAsync(userId)
+            ?? throw new ValidationErrorsException("User", this.localizer["UserNotFound"]);
+
+        if (!string.Equals(request.NewPassword, request.ConfirmPassword, StringComparison.Ordinal))
+            throw new ValidationErrorsException("ConfirmPassword", this.localizer["PasswordMismatch"]);
+
+        var result = await userManager.ChangePasswordAsync(user, request.CurrentPassword, request.NewPassword);
+
+        if (!result.Succeeded)
+        {
+            var isCurrentPasswordWrong = result.Errors.Any(x => x.Code == "PasswordMismatch");
+            throw new ValidationErrorsException(
+                "CurrentPassword",
+                isCurrentPasswordWrong
+                    ? this.localizer["CurrentPasswordIncorrect"]
+                    : (result.Errors.FirstOrDefault()?.Description ?? this.localizer["PasswordResetFailed"]));
+        }
+    }
+
     public async Task<bool> Logout(string userId, string tenantId)
     {
         var user = await userManager.FindByIdAsync(userId);

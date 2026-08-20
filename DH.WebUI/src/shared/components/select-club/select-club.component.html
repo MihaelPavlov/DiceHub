@@ -25,13 +25,13 @@
   </div>
 
   <!-- Header -->
-  <p class="header">
+  <p class="header" *ngIf="isLoading || clubs.length">
     Which club are you in? <br />
     Pick one to continue
   </p>
 
   <!-- Clubs List -->
-  <div class="club-list">
+  <div class="club-list" *ngIf="isLoading || clubs.length">
     <div
       class="club-row"
       *ngFor="let club of clubs"
@@ -53,6 +53,23 @@
         </svg>
       </div>
     </div>
+  </div>
+
+  <!-- Empty state: no clubs available yet -->
+  <div class="empty-state" *ngIf="!isLoading && !clubs.length">
+    <svg class="empty-state__icon" viewBox="0 -960 960 960">
+      <path
+        d="M480-120q-33 0-56.5-23.5T400-200q0-33 23.5-56.5T480-280q33 0 56.5 23.5T560-200q0 33-23.5 56.5T480-120Zm-40-200v-480h80v480h-80Z"
+      />
+    </svg>
+    <p class="empty-state__title">No clubs available yet</p>
+    <p class="empty-state__subtitle">
+      There aren't any clubs to join right now. Check back soon, or head
+      back home in the meantime.
+    </p>
+    <button class="empty-state__action" (click)="navigateToLanding()">
+      Back to home
+    </button>
   </div>
 
   <!-- Forward arrow -->

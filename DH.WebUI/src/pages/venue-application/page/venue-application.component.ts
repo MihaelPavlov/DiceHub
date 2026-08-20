@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { TenantApplicationsService } from '../../../entities/common/api/tenant-applications.service';
 import { AppToastMessage } from '../../../shared/components/toast/constants/app-toast-messages.constant';
 import { ToastType } from '../../../shared/models/toast.model';
@@ -25,7 +26,7 @@ interface IVenueApplicationForm {
   styleUrl: 'venue-application.component.scss',
   standalone: false,
 })
-export class VenueApplicationComponent {
+export class VenueApplicationComponent implements OnDestroy {
   public form: FormGroup;
   public isEmailVerified = false;
   public isEmailCodeSent = false;
@@ -34,13 +35,20 @@ export class VenueApplicationComponent {
   public isSubmitted = false;
   public isSaving = false;
   public serverErrors: string[] = [];
+  public logoFile: File | null = null;
+  public logoPreviewUrl: string | null = null;
+  public logoError: string | null = null;
+
+  private static readonly MaxLogoSizeBytes = 2 * 1024 * 1024;
+  private static readonly AllowedLogoTypes = ['image/png', 'image/jpeg', 'image/webp', 'image/svg+xml'];
 
   constructor(
     private readonly fb: FormBuilder,
     private readonly router: Router,
     private readonly tenantApplicationsService: TenantApplicationsService,
     private readonly languageService: LanguageService,
-    private readonly toastService: ToastService
+    private readonly toastService: ToastService,
+    private readonly translateService: TranslateService
   ) {
     this.form = this.initFormGroup();
     this.listenForContactChanges();
@@ -52,7 +60,9 @@ export class VenueApplicationComponent {
 
     if (!emailControl || emailControl.invalid) {
       emailControl?.markAsTouched();
-      this.serverErrors = ['Enter a valid email before sending the code.'];
+      this.serverErrors = [
+        this.translateService.instant('venue_application.errors.invalid_email'),
+      ];
       return;
     }
 
@@ -65,18 +75,22 @@ export class VenueApplicationComponent {
       .subscribe({
         next: (isSent) => {
           if (!isSent) {
-            this.serverErrors = ['Email verification code was not sent.'];
+            this.serverErrors = [
+              this.translateService.instant('venue_application.errors.email_code_not_sent'),
+            ];
             return;
           }
 
           this.isEmailCodeSent = true;
           this.toastService.success({
-            message: 'Email verification code sent.',
+            message: this.translateService.instant('venue_application.toasts.email_code_sent'),
             type: ToastType.Success,
           });
         },
         error: () => {
-          this.serverErrors = ['Email verification code was not sent.'];
+          this.serverErrors = [
+            this.translateService.instant('venue_application.errors.email_code_not_sent'),
+          ];
           this.toastService.error({
             message: AppToastMessage.SomethingWrong,
             type: ToastType.Error,
@@ -96,7 +110,9 @@ export class VenueApplicationComponent {
     if (!emailControl || !codeControl || emailControl.invalid || codeControl.invalid) {
       emailControl?.markAsTouched();
       codeControl?.markAsTouched();
-      this.serverErrors = ['Enter the email code before verifying.'];
+      this.serverErrors = [
+        this.translateService.instant('venue_application.errors.email_code_required'),
+      ];
       return;
     }
 
@@ -109,7 +125,9 @@ export class VenueApplicationComponent {
       .subscribe({
         next: (isVerified) => {
           if (!isVerified) {
-            this.serverErrors = ['Invalid or expired email verification code.'];
+            this.serverErrors = [
+              this.translateService.instant('venue_application.errors.invalid_code'),
+            ];
             return;
           }
 
@@ -117,12 +135,14 @@ export class VenueApplicationComponent {
           emailControl.disable();
           codeControl.disable();
           this.toastService.success({
-            message: 'Email verified.',
+            message: this.translateService.instant('venue_application.toasts.email_verified'),
             type: ToastType.Success,
           });
         },
         error: () => {
-          this.serverErrors = ['Email verification failed.'];
+          this.serverErrors = [
+            this.translateService.instant('venue_application.errors.email_verification_failed'),
+          ];
           this.toastService.error({
             message: AppToastMessage.SomethingWrong,
             type: ToastType.Error,
@@ -132,6 +152,40 @@ export class VenueApplicationComponent {
           this.isVerifyingEmailCode = false;
         },
       });
+  }
+
+  public onLogoSelected(event: Event): void {
+    this.logoError = null;
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0] ?? null;
+
+    if (!file) {
+      return;
+    }
+
+    if (!VenueApplicationComponent.AllowedLogoTypes.includes(file.type)) {
+      this.logoError = this.translateService.instant('venue_application.errors.logo_invalid_type');
+      input.value = '';
+      return;
+    }
+
+    if (file.size > VenueApplicationComponent.MaxLogoSizeBytes) {
+      this.logoError = this.translateService.instant('venue_application.errors.logo_too_large');
+      input.value = '';
+      return;
+    }
+
+    this.removeLogo();
+    this.logoFile = file;
+    this.logoPreviewUrl = URL.createObjectURL(file);
+  }
+
+  public removeLogo(): void {
+    if (this.logoPreviewUrl) {
+      URL.revokeObjectURL(this.logoPreviewUrl);
+    }
+    this.logoFile = null;
+    this.logoPreviewUrl = null;
   }
 
   public submit(): void {
@@ -145,7 +199,7 @@ export class VenueApplicationComponent {
       this.form.markAllAsTouched();
       if (!this.hasPublicProof()) {
         this.serverErrors = [
-          'Provide at least one public website, social page, or Discord server.',
+          this.translateService.instant('venue_application.errors.public_proof_required'),
         ];
       }
       return;
@@ -155,24 +209,27 @@ export class VenueApplicationComponent {
     const value = this.form.getRawValue() as IVenueApplicationForm;
 
     this.tenantApplicationsService
-      .create({
-        applicantType: 'Venue/Club',
-        contactName: value.contactName,
-        email: value.email,
-        phoneNumber: value.phoneNumber,
-        isEmailVerified: this.isEmailVerified,
-        isPhoneVerified: true,
-        address: value.address,
-        publicWebsite: value.publicWebsite ?? '',
-        socialPage: value.socialPage ?? '',
-        discordServer: value.discordServer ?? '',
-        photoUrl: value.photoUrl ?? '',
-      })
+      .create(
+        {
+          applicantType: 'Venue/Club',
+          contactName: value.contactName,
+          email: value.email,
+          phoneNumber: value.phoneNumber,
+          isEmailVerified: this.isEmailVerified,
+          isPhoneVerified: true,
+          address: value.address,
+          publicWebsite: value.publicWebsite ?? '',
+          socialPage: value.socialPage ?? '',
+          discordServer: value.discordServer ?? '',
+          photoUrl: value.photoUrl ?? '',
+        },
+        this.logoFile
+      )
       .subscribe({
         next: () => {
           this.isSubmitted = true;
           this.toastService.success({
-            message: 'Venue application submitted.',
+            message: this.translateService.instant('venue_application.toasts.application_submitted'),
             type: ToastType.Success,
           });
         },
@@ -194,6 +251,12 @@ export class VenueApplicationComponent {
     this.router.navigateByUrl('/');
   }
 
+  public ngOnDestroy(): void {
+    if (this.logoPreviewUrl) {
+      URL.revokeObjectURL(this.logoPreviewUrl);
+    }
+  }
+
   private initFormGroup(): FormGroup {
     return this.fb.group({
       contactName: new FormControl<string>('', [Validators.required, Validators.maxLength(100)]),
@@ -210,7 +273,9 @@ export class VenueApplicationComponent {
 
   private extractErrors(error: any): string[] {
     const errors = error?.error?.errors;
-    if (!errors) return ['Application submission failed.'];
+    if (!errors) {
+      return [this.translateService.instant('venue_application.errors.application_failed')];
+    }
 
     return Object.values(errors).flat() as string[];
   }

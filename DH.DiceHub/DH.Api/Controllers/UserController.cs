@@ -438,4 +438,19 @@ public class UserController : ControllerBase
         return Ok();
 
     }
+
+    [Authorize]
+    [HttpPost("change-password")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequest request)
+    {
+        var userId = User.FindFirstValue(ClaimTypes.Sid);
+
+        if (string.IsNullOrEmpty(userId))
+            return Unauthorized();
+
+        await this.authenticationService.ChangePassword(userId, request);
+
+        return Ok();
+    }
 }

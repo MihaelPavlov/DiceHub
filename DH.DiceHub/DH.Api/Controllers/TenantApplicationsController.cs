@@ -9,6 +9,7 @@ using DH.Domain.Models.Common;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace DH.Api.Controllers;
 
@@ -16,14 +17,26 @@ namespace DH.Api.Controllers;
 [Route("api/[controller]")]
 public class TenantApplicationsController(IMediator mediator) : ControllerBase
 {
+    static readonly JsonSerializerOptions JsonOptions = new() { PropertyNameCaseInsensitive = true };
+
     readonly IMediator mediator = mediator;
 
     [AllowAnonymous]
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(int))]
-    public async Task<IActionResult> Submit([FromBody] TenantApplicationRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> Submit([FromForm] string application, [FromForm] IFormFile? logoFile, CancellationToken cancellationToken)
     {
-        var id = await mediator.Send(new CreateTenantApplicationCommand(request), cancellationToken);
+        var request = JsonSerializer.Deserialize<TenantApplicationRequest>(application, JsonOptions)
+            ?? throw new JsonException();
+
+        MemoryStream? logoStream = null;
+        if (logoFile != null)
+        {
+            logoStream = new MemoryStream();
+            await logoFile.CopyToAsync(logoStream, cancellationToken);
+        }
+
+        var id = await mediator.Send(new CreateTenantApplicationCommand(request, logoFile?.FileName, logoStream), cancellationToken);
         return CreatedAtAction(nameof(GetById), new { id }, id);
     }
 
