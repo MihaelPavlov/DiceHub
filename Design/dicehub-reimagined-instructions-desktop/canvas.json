@@ -1,0 +1,13 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html", "x": 0, "y": 0, "w": 1440, "h": 880, "title": "Help Center" },
+    { "file": "HowToInstall.dc.html", "x": 1500, "y": 0, "w": 1440, "h": 700, "title": "How to Install" },
+    { "file": "Notifications.dc.html", "x": 3000, "y": 0, "w": 1440, "h": 700, "title": "Notifications" },
+    { "file": "Reservation.dc.html", "x": 4500, "y": 0, "w": 1440, "h": 980, "title": "Reservations" },
+
+    { "file": "Events.dc.html", "x": 0, "y": 1120, "w": 1440, "h": 840, "title": "Events" },
+    { "file": "Challenges.dc.html", "x": 1500, "y": 1120, "w": 1440, "h": 840, "title": "Challenges" },
+    { "file": "Meeples.dc.html", "x": 3000, "y": 1120, "w": 1440, "h": 840, "title": "Meeples" }
+  ],
+  "launch": { "view": "canvas" }
+}

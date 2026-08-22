@@ -1,0 +1,169 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Sora:wght@400;500;600;700&display=swap');
+    :root {
+      --bg: oklch(0.15 0.018 290);
+      --bg-elevated: oklch(0.195 0.02 290);
+      --bg-elevated-2: oklch(0.245 0.022 290);
+      --border: oklch(0.34 0.02 290 / 0.55);
+      --text: oklch(0.96 0.01 90);
+      --text-muted: oklch(0.7 0.02 290);
+      --text-faint: oklch(0.52 0.02 290);
+      --amber: oklch(0.78 0.16 75);
+      --amber-soft: oklch(0.78 0.16 75 / 0.16);
+      --coral: oklch(0.68 0.19 25);
+      --teal: oklch(0.72 0.14 165);
+      --violet: oklch(0.66 0.17 300);
+      --violet-soft: oklch(0.66 0.17 300 / 0.16);
+      --shadow-card: 0 10px 30px -12px oklch(0 0 0 / 0.55);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #0b0b0d; font-family: 'Sora', ui-sans-serif, system-ui, sans-serif; }
+    .display { font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif; }
+    .nav-item { display: flex; align-items: center; gap: 12px; padding: 11px 14px; border-radius: 12px; }
+    .nav-item span { font-size: 13.5px; font-weight: 600; color: var(--text-muted); }
+    .nav-item.active { background: var(--amber-soft); }
+    .nav-item.active span { color: var(--amber); font-weight: 700; }
+    .field-label { font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 8px; display: block; }
+    .field-input { width: 100%; background: var(--bg-elevated-2); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; font-size: 14px; color: var(--text); font-family: 'Sora', sans-serif; }
+    .field-input[disabled] { color: var(--text-faint); }
+    .icon-btn { width: 42px; height: 42px; border-radius: 999px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  </style>
+</helmet>
+
+<div style="width:1440px;min-height:860px;display:flex;background:var(--bg);color:var(--text);">
+
+  <!-- Sidebar -->
+  <div style="width:264px;flex-shrink:0;background:var(--bg-elevated);border-right:1px solid var(--border);padding:28px 18px;display:flex;flex-direction:column;gap:30px;">
+    <div style="display:flex;align-items:center;gap:10px;padding:0 6px;">
+      <div style="width:36px;height:36px;border-radius:11px;background:linear-gradient(135deg,var(--amber),var(--coral));display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#2b1502" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8v4a4 4 0 0 1-8 0z"/><path d="M8 5H5a3 3 0 0 0 3 5"/><path d="M16 5h3a3 3 0 0 1-3 5"/><path d="M10 13v3M14 13v3"/><path d="M8 20h8"/><path d="M9 17h6l1 3H8z"/></svg>
+      </div>
+      <span class="display" style="font-size:17px;font-weight:800;">DiceHub</span>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:3px;">
+      <div class="nav-item active">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9a1 1 0 0 0 1 1h4v-6h2v6h4a1 1 0 0 0 1-1v-9"/></svg>
+        <span>Games</span>
+      </div>
+      <div class="nav-item">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2 1.6 1.6 0 0 0 0 6 2 2 0 0 1-2 2H6a2 2 0 0 1-2-2 1.6 1.6 0 0 0 0-6z"/><path d="M9 7.5v2M9 12.5v2M9 17v-2"/></svg>
+        <span>Events</span>
+      </div>
+      <div class="nav-item">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 19c.8-3.3 3-5 6-5s5.2 1.7 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 12.2c2.6.2 4 1.7 4.6 4.3"/></svg>
+        <span>Meeples</span>
+      </div>
+      <div class="nav-item">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16"/><path d="M8 3v4M16 3v4"/><path d="M9.5 14l1.8 1.8L15 12"/></svg>
+        <span>Reservations</span>
+      </div>
+      <div class="nav-item">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M4 12h10"/><path d="M14 4v16"/><circle cx="9" cy="8" r="1.3"/></svg>
+        <span>Space</span>
+      </div>
+      <div class="nav-item">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8v4a4 4 0 0 1-8 0z"/><path d="M8 5H5a3 3 0 0 0 3 5"/><path d="M16 5h3a3 3 0 0 1-3 5"/><path d="M10 13v3M14 13v3"/><path d="M8 20h8"/><path d="M9 17h6l1 3H8z"/></svg>
+        <span>Challenges</span>
+      </div>
+      <div class="nav-item">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c1.2-4 4-5.5 7-5.5s5.8 1.5 7 5.5"/></svg>
+        <span>Profile</span>
+      </div>
+    </div>
+
+    <div style="margin-top:auto;display:flex;align-items:center;gap:10px;padding:10px;border-radius:14px;background:var(--bg-elevated-2);border:1px solid var(--border);">
+      <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--violet));flex-shrink:0;"></div>
+      <div style="display:flex;flex-direction:column;min-width:0;">
+        <span style="font-size:12.5px;font-weight:700;">Ivan Petrov</span>
+        <span style="font-size:11px;color:var(--text-faint);">Dice &amp; Dragons Club</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div style="flex:1;min-width:0;padding:40px 48px 56px;display:flex;flex-direction:column;gap:28px;">
+
+    <div style="display:flex;align-items:center;gap:16px;">
+      <div class="icon-btn" style="background:var(--bg-elevated);border:1px solid var(--border);">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:4px;">
+        <span class="display" style="font-size:28px;font-weight:800;">Add Existing Game</span>
+        <span style="font-size:13.5px;color:var(--text-muted);">Copy a game already in another club's library into yours</span>
+      </div>
+      <div class="icon-btn" style="background:var(--violet-soft);margin-left:auto;">
+        <svg width="19" height="19" viewBox="0 -960 960 960" fill="var(--violet)"><path d="M448-284h66v-236h-66v236Zm31.82-308.92q14.64 0 24.72-9.9 10.08-9.91 10.08-24.54 0-14.64-9.91-24.72-9.9-10.07-24.53-10.07-14.64 0-24.72 9.9-10.08 9.9-10.08 24.54 0 14.63 9.91 24.71 9.9 10.08 24.53 10.08ZM480.13-88q-81.31 0-152.89-30.86-71.57-30.86-124.52-83.76-52.95-52.9-83.83-124.42Q88-398.55 88-479.87q0-81.56 30.92-153.37 30.92-71.8 83.92-124.91 53-53.12 124.42-83.48Q398.67-872 479.87-872q81.55 0 153.35 30.34 71.79 30.34 124.92 83.42 53.13 53.08 83.49 124.84Q872-561.64 872-480.05q0 81.59-30.34 152.83-30.34 71.23-83.41 124.28-53.07 53.05-124.81 84Q561.7-88 480.13-88Z"/></svg>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:360px 1fr;gap:32px;align-items:start;">
+
+      <!-- Select + preview -->
+      <div style="display:flex;flex-direction:column;gap:18px;">
+        <div>
+          <label class="field-label">Select game</label>
+          <select class="field-input" style="color:var(--violet);font-weight:700;">
+            <option>Search the shared catalog…</option>
+            <option selected>Catan</option>
+            <option>Wingspan</option>
+            <option>Azul</option>
+          </select>
+        </div>
+        <div style="width:100%;aspect-ratio:1;border-radius:24px;overflow:hidden;background:linear-gradient(150deg,#5a4fcf,#8ea2ff);opacity:0.7;"></div>
+      </div>
+
+      <!-- Read-only copy preview -->
+      <div style="display:flex;flex-direction:column;gap:18px;">
+
+        <div>
+          <label class="field-label">Name</label>
+          <input class="field-input" type="text" value="Catan" disabled />
+        </div>
+
+        <div>
+          <label class="field-label">Category</label>
+          <select class="field-input" disabled>
+            <option selected>Strategy</option>
+          </select>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+          <div>
+            <label class="field-label">Min age</label>
+            <input class="field-input" type="number" value="8" disabled />
+          </div>
+          <div>
+            <label class="field-label">Avg. playtime</label>
+            <input class="field-input" type="text" value="60–90 min" disabled />
+          </div>
+        </div>
+
+        <div style="height:1px;background:var(--border);margin:4px 0;"></div>
+
+        <div style="display:flex;justify-content:flex-end;">
+          <a href="#" style="text-align:center;font-size:14px;font-weight:700;padding:15px 32px;border-radius:999px;background:linear-gradient(135deg,var(--violet),var(--amber));color:#1c0d33;box-shadow:0 10px 24px -8px var(--violet-soft);">Add Copy</a>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

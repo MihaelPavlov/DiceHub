@@ -1,0 +1,174 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Sora:wght@400;500;600;700&display=swap');
+    :root {
+      --bg: oklch(0.15 0.018 290);
+      --bg-elevated: oklch(0.195 0.02 290);
+      --bg-elevated-2: oklch(0.245 0.022 290);
+      --border: oklch(0.34 0.02 290 / 0.55);
+      --text: oklch(0.96 0.01 90);
+      --text-muted: oklch(0.7 0.02 290);
+      --text-faint: oklch(0.52 0.02 290);
+      --amber: oklch(0.78 0.16 75);
+      --amber-soft: oklch(0.78 0.16 75 / 0.16);
+      --coral: oklch(0.68 0.19 25);
+      --coral-soft: oklch(0.68 0.19 25 / 0.16);
+      --teal: oklch(0.72 0.14 165);
+      --teal-soft: oklch(0.72 0.14 165 / 0.16);
+      --violet: oklch(0.66 0.17 300);
+      --violet-soft: oklch(0.66 0.17 300 / 0.16);
+      --shadow-card: 0 10px 30px -12px oklch(0 0 0 / 0.55);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #0b0b0d; font-family: 'Sora', ui-sans-serif, system-ui, sans-serif; }
+    a { color: var(--amber); text-decoration: none; }
+    a:hover { color: var(--text); }
+    .display { font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif; }
+    .nav-item { display: flex; align-items: center; gap: 12px; padding: 11px 14px; border-radius: 12px; }
+    .nav-item span { font-size: 13.5px; font-weight: 600; color: var(--text-muted); }
+    .nav-item.active { background: var(--amber-soft); }
+    .nav-item.active span { color: var(--amber); font-weight: 700; }
+    .settings-group-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em; color: var(--text-faint); text-transform: uppercase; margin-bottom: 8px; display: block; }
+    .settings-link { display: block; font-size: 13.5px; font-weight: 600; color: var(--text-muted); padding: 9px 12px; border-radius: 10px; }
+    .settings-link.active { background: var(--amber-soft); color: var(--amber); font-weight: 700; }
+    .chip { font-size: 11px; font-weight: 700; padding: 6px 12px; border-radius: 999px; flex-shrink: 0; }
+    .chip.amber { background: var(--amber-soft); color: var(--amber); }
+    .chip.coral { background: var(--coral-soft); color: var(--coral); }
+    .chip.teal { background: var(--teal-soft); color: var(--teal); }
+    .chip.violet { background: var(--violet-soft); color: var(--violet); }
+    .section-card { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 22px; padding: 24px; display: flex; flex-direction: column; gap: 14px; }
+    .row-icon { width: 42px; height: 42px; border-radius: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: var(--bg-elevated-2); }
+    .step-text { font-size: 13.5px; color: var(--text-muted); line-height: 1.65; }
+    .step-text b { color: var(--text); font-weight: 700; }
+  </style>
+</helmet>
+
+<div style="width:1440px;min-height:840px;display:flex;background:var(--bg);color:var(--text);">
+
+  <!-- Sidebar -->
+  <div style="width:264px;flex-shrink:0;background:var(--bg-elevated);border-right:1px solid var(--border);padding:28px 18px;display:flex;flex-direction:column;gap:30px;">
+    <div style="display:flex;align-items:center;gap:10px;padding:0 6px;">
+      <div style="width:36px;height:36px;border-radius:11px;background:linear-gradient(135deg,var(--amber),var(--coral));display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#2b1502" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8v4a4 4 0 0 1-8 0z"/><path d="M8 5H5a3 3 0 0 0 3 5"/><path d="M16 5h3a3 3 0 0 1-3 5"/><path d="M10 13v3M14 13v3"/><path d="M8 20h8"/><path d="M9 17h6l1 3H8z"/></svg>
+      </div>
+      <span class="display" style="font-size:17px;font-weight:800;">DiceHub</span>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:3px;">
+      <div class="nav-item">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9a1 1 0 0 0 1 1h4v-6h2v6h4a1 1 0 0 0 1-1v-9"/></svg>
+        <span>Games</span>
+      </div>
+      <div class="nav-item">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2 1.6 1.6 0 0 0 0 6 2 2 0 0 1-2 2H6a2 2 0 0 1-2-2 1.6 1.6 0 0 0 0-6z"/><path d="M9 7.5v2M9 12.5v2M9 17v-2"/></svg>
+        <span>Events</span>
+      </div>
+      <div class="nav-item">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 19c.8-3.3 3-5 6-5s5.2 1.7 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 12.2c2.6.2 4 1.7 4.6 4.3"/></svg>
+        <span>Meeples</span>
+      </div>
+      <div class="nav-item">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16"/><path d="M8 3v4M16 3v4"/><path d="M9.5 14l1.8 1.8L15 12"/></svg>
+        <span>Reservations</span>
+      </div>
+      <div class="nav-item">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M4 12h10"/><path d="M14 4v16"/><circle cx="9" cy="8" r="1.3"/></svg>
+        <span>Space</span>
+      </div>
+      <div class="nav-item">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8v4a4 4 0 0 1-8 0z"/><path d="M8 5H5a3 3 0 0 0 3 5"/><path d="M16 5h3a3 3 0 0 1-3 5"/><path d="M10 13v3M14 13v3"/><path d="M8 20h8"/><path d="M9 17h6l1 3H8z"/></svg>
+        <span>Challenges</span>
+      </div>
+      <div class="nav-item active">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c1.2-4 4-5.5 7-5.5s5.8 1.5 7 5.5"/></svg>
+        <span>Profile</span>
+      </div>
+    </div>
+
+    <div style="margin-top:auto;display:flex;align-items:center;gap:10px;padding:10px;border-radius:14px;background:var(--bg-elevated-2);border:1px solid var(--border);">
+      <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--violet));flex-shrink:0;"></div>
+      <div style="display:flex;flex-direction:column;min-width:0;">
+        <span style="font-size:12.5px;font-weight:700;">Ivan Petrov</span>
+        <span style="font-size:11px;color:var(--text-faint);">Dice &amp; Dragons Club</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings sub-nav -->
+  <div style="width:240px;flex-shrink:0;border-right:1px solid var(--border);padding:40px 20px;display:flex;flex-direction:column;gap:24px;">
+    <div>
+      <span class="settings-group-label">Help Center</span>
+      <a href="#" class="settings-link">How to Install</a>
+      <a href="#" class="settings-link">Notifications</a>
+      <a href="#" class="settings-link">Reservations</a>
+      <a href="#" class="settings-link">Events</a>
+      <a href="#" class="settings-link active">Challenges</a>
+      <a href="#" class="settings-link">Meeples</a>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div style="flex:1;min-width:0;padding:40px 48px 56px;display:flex;flex-direction:column;gap:28px;">
+
+    <div style="display:flex;align-items:flex-start;gap:18px;">
+      <div style="width:64px;height:64px;border-radius:20px;background:var(--amber-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:var(--shadow-card);">
+        <svg width="28" height="28" viewBox="0 -960 960 960" fill="var(--amber)"><path d="M346.92-70.77 274.15-195.38l-141.07-31.39 14.46-145.08L51.85-480l95.69-108.15-14.46-145.08 141.07-31.39 72.77-124.61L480-832.92l133.08-56.31 72.77 124.61 141.07 31.39-14.46 145.08L908.15-480l-95.69 108.15 14.46 145.08-141.07 31.39-72.77 124.61L480-127.08 346.92-70.77Z"/></svg>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;padding-top:4px;">
+        <span class="display" style="font-size:26px;font-weight:800;color:var(--amber);">Challenges</span>
+        <span style="font-size:14px;color:var(--text-muted);line-height:1.6;max-width:600px;">Earn points, claim rewards, and see how you rank against the club.</span>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:16px;max-width:760px;">
+
+      <div class="section-card">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div class="row-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg>
+          </div>
+          <span class="display" style="font-size:17px;font-weight:700;">Where to find challenges</span>
+        </div>
+        <span class="step-text">Open the <b>Challenges</b> tab to see active and upcoming challenges. Each one lists what to do and how many points it's worth — progress updates automatically as you play.</span>
+      </div>
+
+      <div class="section-card">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div class="row-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-6"/><path d="M12 2v13M8 6l4-4 4 4"/></svg>
+          </div>
+          <span class="display" style="font-size:17px;font-weight:700;">Claiming rewards</span>
+        </div>
+        <span class="step-text">Once you've earned enough points, open <b>Rewards</b> and tap <b>Claim</b> on anything you can afford — show the confirmation at the front desk to collect it.</span>
+      </div>
+
+      <div class="section-card">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div class="row-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4Z"/><path d="M17 6h3a2 2 0 0 1-2 4M7 6H4a2 2 0 0 0 2 4"/></svg>
+          </div>
+          <span class="display" style="font-size:17px;font-weight:700;">Leaderboard</span>
+        </div>
+        <span class="step-text">The <b>Leaderboard</b> ranks every member of the club by points earned this season — check it from the Challenges tab to see where you stand.</span>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html", "x": 0, "y": 0, "w": 1440, "h": 1040, "title": "Events" },
+    { "file": "EventDetails.dc.html", "x": 1500, "y": 0, "w": 1440, "h": 900, "title": "Event Details" },
+    { "file": "AdminEventDetails.dc.html", "x": 3000, "y": 0, "w": 1440, "h": 980, "title": "Admin Event Details" },
+
+    { "file": "EventsAdmin.dc.html", "x": 0, "y": 1140, "w": 1440, "h": 900, "title": "Manage Events" },
+    { "file": "AddEvent.dc.html", "x": 1500, "y": 1140, "w": 1440, "h": 900, "title": "Add Event" },
+    { "file": "UpdateEvent.dc.html", "x": 3000, "y": 1140, "w": 1440, "h": 900, "title": "Update Event" }
+  ],
+  "launch": { "view": "canvas" }
+}

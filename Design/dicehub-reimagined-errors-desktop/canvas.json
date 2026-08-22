@@ -1,0 +1,9 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html", "x": 0, "y": 0, "w": 1440, "h": 900, "title": "Not Found (404)" },
+    { "file": "Unauthorized.dc.html", "x": 1560, "y": 0, "w": 1440, "h": 900, "title": "Unauthorized (401)" },
+    { "file": "Forbidden.dc.html", "x": 3120, "y": 0, "w": 1440, "h": 900, "title": "Forbidden (403)" },
+    { "file": "ServerError.dc.html", "x": 4680, "y": 0, "w": 1440, "h": 900, "title": "Server Error (500)" }
+  ],
+  "launch": { "view": "canvas" }
+}

@@ -6,7 +6,7 @@ using MediatR;
 
 namespace DH.Application.Games.Queries.Games;
 
-public record GetGameInventoryQuery(int Id) : IRequest<GetGameInvetoryQueryModel>;
+public record GetGameInventoryQuery(int GameId) : IRequest<GetGameInvetoryQueryModel>;
 
 internal class GetGameInventoryQueryHandler : IRequestHandler<GetGameInventoryQuery, GetGameInvetoryQueryModel>
 {
@@ -19,7 +19,7 @@ internal class GetGameInventoryQueryHandler : IRequestHandler<GetGameInventoryQu
 
     public async Task<GetGameInvetoryQueryModel> Handle(GetGameInventoryQuery request, CancellationToken cancellationToken)
     {
-        var inventory = await this.repository.GetByAsync(x => x.Id == request.Id, cancellationToken)
+        var inventory = await this.repository.GetByAsync(x => x.GameId == request.GameId, cancellationToken)
             ?? throw new NotFoundException(nameof(GameInventory));
 
         return new GetGameInvetoryQueryModel(inventory.TotalCopies, inventory.AvailableCopies);
