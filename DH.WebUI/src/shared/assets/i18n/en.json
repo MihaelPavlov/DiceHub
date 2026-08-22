@@ -182,6 +182,13 @@
       "Warfare": "Warfare"
     },
     "library": {
+      "discover": "Discover",
+      "new_arrivals": "New arrivals",
+      "count": "{{count}} games in the library",
+      "featured": "Featured",
+      "open": "Open",
+      "popular_this_week": "Popular this week",
+      "search_placeholder": "Search games, tags...",
       "menu_items": {
         "qr_code": "QR Code",
         "update": "Update",

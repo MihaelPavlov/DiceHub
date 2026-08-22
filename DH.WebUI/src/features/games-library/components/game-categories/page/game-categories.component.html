@@ -1,9 +1,10 @@
-<div class="wrapper">
+<div class="wrapper games-design-surface">
   <div
     *ngFor="let item of categories"
     (click)="navigateToGameLibrary(item.id)"
-    class="wrapper_category surface-elevated"
+    class="wrapper_category games-panel"
   >
+    <span class="wrapper_category-icon">{{ item.name.charAt(0) }}</span>
     <div class="wrapper_category-text">
       <span>{{ "games.categories." + item.name | translate }}</span>
     </div>

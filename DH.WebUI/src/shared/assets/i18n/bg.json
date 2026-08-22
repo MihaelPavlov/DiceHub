@@ -182,6 +182,13 @@
       "Warfare": "Война"
     },
     "library": {
+      "discover": "Открий",
+      "new_arrivals": "Нови игри",
+      "count": "{{count}} игри в библиотеката",
+      "featured": "Препоръчана",
+      "open": "Отвори",
+      "popular_this_week": "Популярни тази седмица",
+      "search_placeholder": "Търси игри, тагове...",
       "menu_items": {
         "qr_code": "QR код",
         "update": "Актуализирай",
