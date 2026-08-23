@@ -6,12 +6,8 @@
 >
   <div class="badge" [@popIn] (click)="$event.stopPropagation()">
     <div class="emoji">
-      <img
-        src="/shared/assets/images/target.gif"
-        alt="target"
-        width="90"
-        height="90"
-      />
+      <div class="emoji-particles"><i></i><i></i><i></i><i></i></div>
+      <img class="emoji-icon" src="/shared/assets/images/target.gif" alt="target" />
     </div>
     <h3 [innerHTML]="challengeCompletionMessage"></h3>
     <p class="reward">{{ challengeCompletionReward }}</p>
@@ -31,6 +27,7 @@
 >
   <div class="badge-mini" [@popIn] (click)="$event.stopPropagation()">
     <div class="emoji">
+      <div class="emoji-particles"><i></i><i></i><i></i><i></i></div>
       <img
         src="/shared/assets/images/loading.gif"
         alt="loading"
@@ -50,12 +47,8 @@
 <div class="overlay" *ngIf="showRewardGranted" (click)="closeRewardGranted()">
   <div class="badge" [@popIn] (click)="$event.stopPropagation()">
     <div class="emoji">
-      <img
-        src="/shared/assets/images/reward.gif"
-        alt="reward"
-        width="90"
-        height="90"
-      />
+      <div class="emoji-particles"><i></i><i></i><i></i><i></i></div>
+      <img class="emoji-icon" src="/shared/assets/images/reward.gif" alt="reward" />
     </div>
     <h3 [innerHTML]="rewardGrantedMessage"></h3>
 

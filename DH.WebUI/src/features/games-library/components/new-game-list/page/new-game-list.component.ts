@@ -11,6 +11,7 @@ import { FULL_ROUTE } from '../../../../../shared/configs/route.config';
 import { LanguageService } from '../../../../../shared/services/language.service';
 import { SupportLanguages } from '../../../../../entities/common/models/support-languages.enum';
 import { TenantRouter } from '../../../../../shared/helpers/tenant-router';
+import { ChallengeOverlayService } from '../../../../../shared/services/challenges-overlay.service';
 
 @Component({
   selector: 'app-new-game-list',
@@ -30,7 +31,8 @@ export class NewGameListComponent implements OnInit, OnDestroy {
     private readonly menuTabsService: MenuTabsService,
     private readonly searchService: SearchService,
     private readonly navigationService: NavigationService,
-    private readonly languageService: LanguageService
+    private readonly languageService: LanguageService,
+    private readonly challengeOverlayService: ChallengeOverlayService
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.GAMES);
   }
@@ -58,8 +60,13 @@ export class NewGameListComponent implements OnInit, OnDestroy {
   }
 
   private fetchGameList(searchExpression: string = '') {
-    this.gameService
-      .getNewGameList(searchExpression)
-      .subscribe((gameList) => (this.games = gameList ?? []));
+    this.gameService.getNewGameList(searchExpression).subscribe((gameList) => {
+      this.games = gameList ?? [];
+
+      // TEMP: hardcoded trigger to visually QA the redesigned challenge-progress overlay — remove after review
+      this.challengeOverlayService.overlay.value?.updateChallengeProgress(
+        'Wingspan'
+      );
+    });
   }
 }
