@@ -2,7 +2,7 @@ import { FULL_ROUTE } from './../../../../../shared/configs/route.config';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { GamesService } from '../../../../../entities/games/api/games.service';
-import { Observable, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 import { IGameByIdResult } from '../../../../../entities/games/models/game-by-id.model';
 import { MenuTabsService } from '../../../../../shared/services/menu-tabs.service';
 import { NAV_ITEM_LABELS } from '../../../../../shared/models/nav-items-labels.const';
@@ -10,7 +10,6 @@ import { NavigationService } from '../../../../../shared/services/navigation-ser
 import { SupportLanguages } from '../../../../../entities/common/models/support-languages.enum';
 import { LanguageService } from '../../../../../shared/services/language.service';
 import { TenantRouter } from '../../../../../shared/helpers/tenant-router';
-import { ChallengeOverlayService } from '../../../../../shared/services/challenges-overlay.service';
 
 @Component({
   selector: 'app-game-details',
@@ -29,8 +28,7 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
     private readonly menuTabsService: MenuTabsService,
     private readonly tenantRouter: TenantRouter,
     private readonly navigationService: NavigationService,
-    private readonly languageService: LanguageService,
-    private readonly challengeOverlayService: ChallengeOverlayService
+    private readonly languageService: LanguageService
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.GAMES);
   }
@@ -58,14 +56,6 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
   }
 
   public fetchGame(): void {
-    this.game$ = this.gameService.getById(this.gameId).pipe(
-      tap(() => {
-        // TEMP: hardcoded trigger to visually QA the redesigned challenge-complete overlay — remove after review
-        this.challengeOverlayService.overlay.value?.completeChallenge(
-          'Wingspan',
-          15
-        );
-      })
-    );
+    this.game$ = this.gameService.getById(this.gameId);
   }
 }
