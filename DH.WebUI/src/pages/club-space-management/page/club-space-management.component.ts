@@ -111,7 +111,7 @@ export class ClubSpaceManagementComponent implements OnInit {
     const dialogData = this.getDialogData(isSameReservationDate);
 
     this.dialog.open(ReservationQrCodeDialog, {
-      width: '17rem',
+      width: '19rem',
       data: dialogData,
     });
   }

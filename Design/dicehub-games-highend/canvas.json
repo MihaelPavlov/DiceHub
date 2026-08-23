@@ -1,0 +1,14 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html", "x": 0, "y": 0, "w": 460, "h": 1440, "title": "Discover" },
+    { "file": "GameDetails.dc.html", "x": 500, "y": 0, "w": 460, "h": 1440, "title": "Game Details" },
+    { "file": "GameCategories.dc.html", "x": 1000, "y": 0, "w": 460, "h": 1440, "title": "Categories" },
+    { "file": "NewGames.dc.html", "x": 1500, "y": 0, "w": 460, "h": 1440, "title": "New Games" },
+    { "file": "AddExistingGame.dc.html", "x": 0, "y": 1560, "w": 460, "h": 1300, "title": "Add Existing Game" },
+    { "file": "CreateGame.dc.html", "x": 500, "y": 1560, "w": 460, "h": 1300, "title": "Create Game" },
+    { "file": "UpdateGame.dc.html", "x": 1000, "y": 1560, "w": 460, "h": 1300, "title": "Update Game" },
+    { "file": "GameAvailability.dc.html", "x": 1500, "y": 1560, "w": 460, "h": 1300, "title": "Availability" },
+    { "file": "GameReviews.dc.html", "x": 2000, "y": 0, "w": 460, "h": 1300, "title": "Reviews" }
+  ],
+  "launch": { "view": "canvas" }
+}

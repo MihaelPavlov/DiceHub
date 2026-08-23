@@ -1,162 +1,201 @@
-@use "../../../shared/assets/styles/palette";
+.instructions-hub {
+  min-height: 100vh;
+  padding: 1.5rem 1.25rem 3rem;
+  background: var(--games-bg);
+  color: var(--games-text);
+  font-family: "Sora", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+}
 
-.wrapper {
-  width: 85%;
+.instructions-hub__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: min(28rem, 100%);
+  margin: 0 auto 1.25rem;
+}
+
+.instructions-hub__title {
+  margin: 0;
+  font-family: "Bricolage Grotesque", "Sora", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 1.125rem;
+}
+
+.instructions-hub__grid {
   display: flex;
   flex-direction: column;
+  gap: 0.625rem;
+  width: min(28rem, 100%);
   margin: 0 auto;
-  margin-top: 1rem;
-  .wrapper_item {
-    position: relative;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    border-bottom: 0.2rem solid palette.$main-gray-color;
-    padding-bottom: 0.3rem;
-    padding-top: 0.5rem;
+}
 
-    .wrapper_title {
-      padding-left: 1rem;
-      font-size: large;
-      padding-top: 0.2rem;
-      align-self: baseline;
-    }
-  }
-  .arrow {
-    width: 2rem;
-    height: 2rem;
+.instructions-hub__card {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  background: var(--games-surface);
+  border: 1px solid var(--games-border);
+  border-radius: 1.125rem;
+  padding: 0.9rem 1rem;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.instructions-hub__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.625rem;
+  height: 2.625rem;
+  border-radius: 0.8125rem;
+  flex-shrink: 0;
+
+  svg {
+    width: 1.1875rem;
+    height: 1.1875rem;
+    stroke-width: 1.9;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
 }
 
+.instructions-hub__icon--amber {
+  background: var(--games-amber-soft);
+  svg { fill: none; stroke: var(--games-amber); }
+}
 
-.wrapper_icons {
+.instructions-hub__icon--coral {
+  background: var(--games-coral-soft);
+  svg { fill: none; stroke: var(--games-coral); }
+}
+
+.instructions-hub__icon--teal {
+  background: var(--games-teal-soft);
+  svg { fill: none; stroke: var(--games-teal); }
+}
+
+.instructions-hub__icon--violet {
+  background: var(--games-violet-soft);
+  svg { fill: var(--games-violet); stroke: none; }
+}
+
+.instructions-hub__card-text {
+  flex: 1;
+  min-width: 0;
   display: flex;
-  justify-content: space-between;
-  padding: 0 1rem;
-  padding-top: 1rem;
-  align-items: center;
+  flex-direction: column;
+  gap: 0.15rem;
+}
 
-  .header_name {
-    font-size: 1.5rem;
-    padding-top: 1rem;
-    padding-bottom: 0.5rem;
-    word-wrap: break-word;
-    width: 70%;
-    text-align: center;
-  }
+.instructions-hub__card-title {
+  font-size: 0.90625rem;
+  font-weight: 700;
+}
 
-  .info-container {
-    position: relative;
+.instructions-hub__card-summary {
+  display: none;
+}
 
-    .info {
-      width: 3rem;
-      height: 3rem;
-      fill: palette.$main-blue-color;
+.instructions-hub__card-chip {
+  display: none;
+}
 
-      &__text {
-        position: absolute;
-        right: 0.5rem;
-        top: 2.25rem;
-        background-color: palette.$main-gray-color;
-        padding: 0.5rem;
-        z-index: 1000;
-        width: 10rem;
-        text-align: center;
-      }
-
-      &__text span {
-        width: 9rem;
-        text-align: center;
-        line-height: 2rem;
-        font-size: 1.2rem;
-      }
-    }
-  }
-
-  .arrow {
-    width: 3rem;
-    height: 3rem;
-    display: inline-block;
-    position: relative;
-    border: 0.1rem solid palette.$main-icon-color;
-    border-radius: 2.5rem;
-
-    &::before {
-      content: "";
-      display: block;
-      width: 0.75rem;
-      height: 0.75rem;
-      top: 65%;
-      left: 63%;
-      border-style: solid;
-      border-color: palette.$main-icon-color;
-      border-width: 0.2rem 0.2rem 0 0;
-      position: absolute;
-      transform-origin: 50% 50%;
-    }
-
-    &.left::before {
-      transform: rotate(-135deg);
-      margin: -0.9rem 0 0 -0.6rem;
-    }
-  }
+.instructions-hub__card-arrow {
+  width: 0.9375rem;
+  height: 0.9375rem;
+  fill: none;
+  stroke: var(--games-faint);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
 }
 
 @media (min-width: 900px) {
-  .wrapper_icons {
-    width: min(72rem, calc(100vw - 16rem));
-    margin: 1.5rem auto 1rem;
-    padding: 0;
+  .instructions-hub {
+    padding: 2.5rem 3rem 4rem;
+  }
 
-    .header_name {
-      flex: 1;
-      width: auto;
-      padding: 0;
-      font-size: 1.75rem;
-      line-height: 1.2;
-    }
+  .instructions-hub__header {
+    width: min(72rem, 100%);
+    justify-content: flex-start;
+    gap: 1rem;
+  }
 
-    .arrow {
-      width: 2.5rem;
-      height: 2.5rem;
+  .instructions-hub__title {
+    font-size: 1.75rem;
+  }
+
+  .instructions-hub__grid {
+    width: min(72rem, 100%);
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+
+  .instructions-hub__card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.375rem;
+    border-radius: 1.25rem;
+    position: relative;
+  }
+
+  .instructions-hub__icon {
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 1rem;
+
+    svg {
+      width: 1.625rem;
+      height: 1.625rem;
     }
   }
 
-  .wrapper {
-    width: min(72rem, calc(100vw - 16rem));
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1rem;
-    margin: 0 auto 3rem;
+  .instructions-hub__card-title {
+    font-family: "Bricolage Grotesque", "Sora", system-ui, sans-serif;
+    font-size: 1.0625rem;
+  }
 
-    .wrapper_item {
-      min-height: 4.5rem;
-      align-items: center;
-      box-sizing: border-box;
-      padding: 1.25rem 1.35rem;
-      border: 0.1rem solid rgba(117, 160, 255, 0.2);
-      border-radius: 0.5rem;
-      background-color: rgba(49, 49, 59, 0.28);
-      cursor: pointer;
-      transition: border-color 0.2s ease, background-color 0.2s ease,
-        transform 0.2s ease;
+  .instructions-hub__card-summary {
+    display: block;
+    font-size: 0.8125rem;
+    color: var(--games-muted);
+    line-height: 1.55;
+  }
 
-      &:hover {
-        border-color: palette.$main-blue-color;
-        background-color: rgba(49, 49, 59, 0.55);
-        transform: translateY(-0.1rem);
-      }
+  .instructions-hub__card-chip {
+    display: inline-flex;
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 0.375rem 0.75rem;
+    border-radius: 999px;
+  }
 
-      .wrapper_title {
-        padding: 0;
-        font-size: 1.05rem;
-      }
-    }
+  .instructions-hub__card-chip--amber {
+    background: var(--games-amber-soft);
+    color: var(--games-amber);
+  }
 
-    .arrow {
-      width: 1.75rem;
-      height: 1.75rem;
-      flex: 0 0 auto;
-    }
+  .instructions-hub__card-chip--coral {
+    background: var(--games-coral-soft);
+    color: var(--games-coral);
+  }
+
+  .instructions-hub__card-chip--teal {
+    background: var(--games-teal-soft);
+    color: var(--games-teal);
+  }
+
+  .instructions-hub__card-chip--violet {
+    background: var(--games-violet-soft);
+    color: var(--games-violet);
+  }
+
+  .instructions-hub__card-arrow {
+    display: none;
   }
 }

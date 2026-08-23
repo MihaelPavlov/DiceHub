@@ -1,0 +1,229 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Sora:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+    :root {
+      --games-bg: #17151d;
+      --games-surface: #221f2a;
+      --games-surface-2: #2c2834;
+      --games-border: rgba(255, 255, 255, 0.13);
+      --games-text: #f7f2e8;
+      --games-muted: #b2aeb8;
+      --games-faint: #817b89;
+      --games-amber: #f3bf3d;
+      --games-amber-soft: rgba(243, 191, 61, 0.16);
+      --games-coral: #bf3c65;
+      --games-coral-soft: rgba(191, 60, 101, 0.16);
+      --games-teal: #5ec7a2;
+      --games-teal-soft: rgba(94, 199, 162, 0.16);
+      --games-violet: #8d66d6;
+      --games-violet-soft: rgba(141, 102, 214, 0.16);
+      --games-shadow: 0 16px 36px -20px rgba(0, 0, 0, 0.72);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--games-bg); font-family: 'Sora', ui-sans-serif, system-ui, sans-serif; text-wrap: pretty; }
+    .display { font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif; }
+    .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+    a { color: var(--games-amber); } a:hover { color: var(--games-coral); }
+
+    .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; }
+    .section-title { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 22px; color: var(--games-text); margin: 0; }
+    .section-note { font-size: 13.5px; color: var(--games-muted); line-height: 1.6; margin: 6px 0 0; max-width: 640px; }
+
+    .token-name { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; font-weight: 500; color: var(--games-text); }
+    .token-value { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--games-faint); }
+  </style>
+</helmet>
+
+<div style="width:1280px;background:var(--games-bg);color:var(--games-text);display:flex;flex-direction:column;padding:64px 72px 96px;gap:64px;">
+
+  <!-- ============ HEADER ============ -->
+  <div style="display:flex;flex-direction:column;gap:10px;padding-bottom:32px;border-bottom:1px solid var(--games-border);">
+    <span class="eyebrow" style="color:var(--games-amber);">Design system</span>
+    <h1 class="display" style="font-size:34px;font-weight:800;margin:0;letter-spacing:-0.01em;">DiceHub Reimagined</h1>
+    <p style="font-size:14.5px;color:var(--games-muted);margin:0;max-width:640px;line-height:1.6;">
+      The shared color and type tokens behind the redesign. Every value here is pulled directly from
+      <span class="mono" style="color:var(--games-text);">styles.scss</span> — this page is a reference, not a new palette.
+    </p>
+  </div>
+
+  <!-- ============ SURFACES & TEXT ============ -->
+  <div style="display:flex;flex-direction:column;gap:28px;">
+    <div>
+      <h2 class="section-title">Surfaces</h2>
+      <p class="section-note">The dark scale everything sits on — page background up through two levels of elevation, plus the hairline border used on cards and dividers.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;">
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div style="height:96px;border-radius:14px;background:#17151d;border:1px solid var(--games-border);"></div>
+        <div><div class="token-name">--games-bg</div><div class="token-value">#17151d</div></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div style="height:96px;border-radius:14px;background:#221f2a;border:1px solid var(--games-border);"></div>
+        <div><div class="token-name">--games-surface</div><div class="token-value">#221f2a</div></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div style="height:96px;border-radius:14px;background:#2c2834;border:1px solid var(--games-border);"></div>
+        <div><div class="token-name">--games-surface-2</div><div class="token-value">#2c2834</div></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div style="height:96px;border-radius:14px;background:#2c2834;border:2px solid rgba(255,255,255,0.13);"></div>
+        <div><div class="token-name">--games-border</div><div class="token-value">rgba(255,255,255,.13)</div></div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;">
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div style="height:96px;border-radius:14px;background:var(--games-surface);border:1px solid var(--games-border);display:flex;align-items:center;justify-content:center;">
+          <span class="display" style="font-size:34px;font-weight:800;color:#f7f2e8;">Aa</span>
+        </div>
+        <div><div class="token-name">--games-text</div><div class="token-value">#f7f2e8</div></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div style="height:96px;border-radius:14px;background:var(--games-surface);border:1px solid var(--games-border);display:flex;align-items:center;justify-content:center;">
+          <span class="display" style="font-size:34px;font-weight:800;color:#b2aeb8;">Aa</span>
+        </div>
+        <div><div class="token-name">--games-muted</div><div class="token-value">#b2aeb8</div></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div style="height:96px;border-radius:14px;background:var(--games-surface);border:1px solid var(--games-border);display:flex;align-items:center;justify-content:center;">
+          <span class="display" style="font-size:34px;font-weight:800;color:#817b89;">Aa</span>
+        </div>
+        <div><div class="token-name">--games-faint</div><div class="token-value">#817b89</div></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div style="height:96px;border-radius:14px;background:var(--games-surface);border:1px solid var(--games-border);box-shadow:var(--games-shadow);display:flex;align-items:center;justify-content:center;">
+          <span class="token-value" style="font-size:11.5px;">0 16px 36px -20px<br/>rgba(0,0,0,.72)</span>
+        </div>
+        <div><div class="token-name">--games-shadow</div><div class="token-value">card / dialog elevation</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ ACCENTS ============ -->
+  <div style="display:flex;flex-direction:column;gap:28px;">
+    <div>
+      <h2 class="section-title">Accents</h2>
+      <p class="section-note">Four hues, each with a solid form (icons, headings, primary actions) and a low-opacity "soft" form (icon tiles, badges, status fills). Hue carries meaning loosely — amber for primary/energy, coral for danger/urgent, teal for success/positive, violet for a secondary highlight.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;">
+      <div style="display:flex;flex-direction:column;gap:20px;">
+        <div style="height:88px;border-radius:14px;background:#f3bf3d;"></div>
+        <div style="height:64px;border-radius:14px;background:rgba(243,191,61,0.16);border:1px solid var(--games-border);"></div>
+        <div style="display:flex;flex-direction:column;gap:2px;">
+          <span style="font-weight:700;font-size:13.5px;color:var(--games-amber);">Amber</span>
+          <span class="token-name">--games-amber</span>
+          <span class="token-value">#f3bf3d</span>
+          <span class="token-name" style="margin-top:6px;">--games-amber-soft</span>
+          <span class="token-value">rgba(243,191,61,.16)</span>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:20px;">
+        <div style="height:88px;border-radius:14px;background:#bf3c65;"></div>
+        <div style="height:64px;border-radius:14px;background:rgba(191,60,101,0.16);border:1px solid var(--games-border);"></div>
+        <div style="display:flex;flex-direction:column;gap:2px;">
+          <span style="font-weight:700;font-size:13.5px;color:var(--games-coral);">Coral</span>
+          <span class="token-name">--games-coral</span>
+          <span class="token-value">#bf3c65</span>
+          <span class="token-name" style="margin-top:6px;">--games-coral-soft</span>
+          <span class="token-value">rgba(191,60,101,.16)</span>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:20px;">
+        <div style="height:88px;border-radius:14px;background:#5ec7a2;"></div>
+        <div style="height:64px;border-radius:14px;background:rgba(94,199,162,0.16);border:1px solid var(--games-border);"></div>
+        <div style="display:flex;flex-direction:column;gap:2px;">
+          <span style="font-weight:700;font-size:13.5px;color:var(--games-teal);">Teal</span>
+          <span class="token-name">--games-teal</span>
+          <span class="token-value">#5ec7a2</span>
+          <span class="token-name" style="margin-top:6px;">--games-teal-soft</span>
+          <span class="token-value">rgba(94,199,162,.16)</span>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:20px;">
+        <div style="height:88px;border-radius:14px;background:#8d66d6;"></div>
+        <div style="height:64px;border-radius:14px;background:rgba(141,102,214,0.16);border:1px solid var(--games-border);"></div>
+        <div style="display:flex;flex-direction:column;gap:2px;">
+          <span style="font-weight:700;font-size:13.5px;color:var(--games-violet);">Violet</span>
+          <span class="token-name">--games-violet</span>
+          <span class="token-value">#8d66d6</span>
+          <span class="token-name" style="margin-top:6px;">--games-violet-soft</span>
+          <span class="token-value">rgba(141,102,214,.16)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ TYPOGRAPHY ============ -->
+  <div style="display:flex;flex-direction:column;gap:28px;">
+    <div>
+      <h2 class="section-title">Typography</h2>
+      <p class="section-note">Bricolage Grotesque carries display type — headings, numerals, anything that should feel a little more crafted. Sora is the body face, used at 400–700 for copy, labels and UI text.</p>
+    </div>
+
+    <div style="display:flex;gap:20px;">
+      <div style="flex:1;background:var(--games-surface);border:1px solid var(--games-border);border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:16px;">
+        <span class="token-name">Bricolage Grotesque · display</span>
+        <span class="display" style="font-size:40px;font-weight:800;line-height:1.1;">Roll the dice.</span>
+        <span class="display" style="font-size:24px;font-weight:700;">Roll the dice.</span>
+        <span class="display" style="font-size:17px;font-weight:700;color:var(--games-muted);">Roll the dice.</span>
+      </div>
+      <div style="flex:1;background:var(--games-surface);border:1px solid var(--games-border);border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:14px;">
+        <span class="token-name">Sora · body</span>
+        <span style="font-size:15px;font-weight:700;">Table reservations, in real time.</span>
+        <span style="font-size:15px;font-weight:600;">Table reservations, in real time.</span>
+        <span style="font-size:15px;font-weight:500;color:var(--games-muted);">Table reservations, in real time.</span>
+        <span style="font-size:15px;font-weight:400;color:var(--games-muted);">Table reservations, in real time.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ TOKENS IN USE ============ -->
+  <div style="display:flex;flex-direction:column;gap:28px;">
+    <div>
+      <h2 class="section-title">Tokens in use</h2>
+      <p class="section-note">The same tokens composed into the small pieces every screen is built from.</p>
+    </div>
+
+    <div style="display:flex;gap:20px;align-items:stretch;">
+      <div style="flex:1;background:var(--games-surface);border:1px solid var(--games-border);border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:14px;box-shadow:var(--games-shadow);">
+        <span class="token-name" style="margin-bottom:4px;">Buttons</span>
+        <span class="display" style="font-size:14.5px;font-weight:700;color:#2b1502;background:linear-gradient(135deg,var(--games-amber),var(--games-coral));padding:11px 20px;border-radius:999px;width:fit-content;">Get Started</span>
+        <span class="display" style="font-size:14.5px;font-weight:700;color:var(--games-text);background:var(--games-surface-2);border:1px solid var(--games-border);padding:11px 20px;border-radius:999px;width:fit-content;">Secondary</span>
+      </div>
+
+      <div style="flex:1;background:var(--games-surface);border:1px solid var(--games-border);border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:12px;box-shadow:var(--games-shadow);">
+        <span class="token-name" style="margin-bottom:4px;">Status badges</span>
+        <span style="font-size:12.5px;font-weight:700;color:var(--games-amber);background:var(--games-amber-soft);padding:6px 12px;border-radius:999px;width:fit-content;">Pending</span>
+        <span style="font-size:12.5px;font-weight:700;color:var(--games-teal);background:var(--games-teal-soft);padding:6px 12px;border-radius:999px;width:fit-content;">Approved</span>
+        <span style="font-size:12.5px;font-weight:700;color:var(--games-coral);background:var(--games-coral-soft);padding:6px 12px;border-radius:999px;width:fit-content;">Declined</span>
+      </div>
+
+      <div style="flex:1;background:var(--games-surface);border:1px solid var(--games-border);border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--games-shadow);">
+        <span class="token-name" style="margin-bottom:4px;">Card + icon tile</span>
+        <div style="width:44px;height:44px;border-radius:13px;background:var(--games-violet-soft);display:flex;align-items:center;justify-content:center;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--games-violet)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9a1 1 0 0 0 1 1h4v-6h2v6h4a1 1 0 0 0 1-1v-9"/></svg>
+        </div>
+        <span class="display" style="font-size:14px;font-weight:700;">Game library</span>
+        <span style="font-size:12.5px;color:var(--games-muted);line-height:1.5;">Catalog every box on the shelf.</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>

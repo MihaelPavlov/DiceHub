@@ -145,6 +145,7 @@ export class AdminChallengesSystemRewardsComponent extends Form {
     const dialogRef = this.dialog.open(
       AdminChallengesRewardConfirmDeleteDialog,
       {
+        panelClass: 'confirm-sheet-pane',
         data: { id: id },
       }
     );

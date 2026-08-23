@@ -119,7 +119,7 @@ export class GameNavigationComponent implements OnInit {
   }
 
   public getTenantLink(path: string): string {
-    return `${this.tenantContextService.tenantId}/${path}`;
+    return `/${this.tenantContextService.tenantId}/${path}`;
   }
 
   public isActiveLink(primaryLink: string): boolean {

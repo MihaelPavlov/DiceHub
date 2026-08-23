@@ -2,6 +2,8 @@ import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
 import 'chartjs-adapter-date-fns';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { TenantRouter } from '../../../shared/helpers/tenant-router';
+import { ROUTE } from '../../../shared/configs/route.config';
 
 @Component({
     selector: 'chart',
@@ -34,11 +36,15 @@ export class Chart2Component implements AfterViewInit {
   private rewardsStatsChartCanvas!: ElementRef<HTMLCanvasElement>;
   rewardsStatsChart: any;
 
-  constructor() {
+  constructor(private readonly tenantRouter: TenantRouter) {
     Chart.register(ChartDataLabels, ...registerables);
   }
   ngAfterViewInit(): void {
     this.loadAllCharts();
+  }
+
+  public backNavigateBtn(): void {
+    this.tenantRouter.navigateTenant(ROUTE.PROFILE.CORE);
   }
 
   ngOnInit(): void {

@@ -5,6 +5,15 @@ import { InstructionSection } from '../../../../entities/instruction-management/
 import { INSTRUCTION_LINK_MAPPINGS } from '../../../../entities/instruction-management/constants/instruction.constant';
 import { TranslateService } from '@ngx-translate/core';
 
+const ACCENT_BY_KEY: { [key: string]: 'amber' | 'coral' | 'teal' | 'violet' } = {
+  how_to_install: 'amber',
+  notifications: 'coral',
+  reservation: 'teal',
+  events: 'violet',
+  challenges: 'amber',
+  meeples: 'coral',
+};
+
 @Component({
     selector: 'app-instruction-links',
     templateUrl: 'instruction-links.component.html',
@@ -13,6 +22,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class InstructionLinksComponent implements OnInit {
   public currentSection!: InstructionSection;
+  public currentKey = '';
 
   constructor(
     private readonly router: Router,
@@ -28,8 +38,13 @@ export class InstructionLinksComponent implements OnInit {
 
       if (currentPath && INSTRUCTION_LINK_MAPPINGS[currentPath]) {
         this.currentSection = INSTRUCTION_LINK_MAPPINGS[currentPath];
+        this.currentKey = currentPath;
       }
     });
+  }
+
+  public get accent(): 'amber' | 'coral' | 'teal' | 'violet' {
+    return ACCENT_BY_KEY[this.currentKey] ?? 'amber';
   }
 
   public navigateBack(): void {

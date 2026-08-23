@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Sora:wght@400;500;600;700&display=swap');
+    :root {
+      --bg: #07070a;
+      --glass: rgba(255,255,255,0.045);
+      --glass-core: rgba(255,255,255,0.065);
+      --hairline: rgba(255,255,255,0.09);
+      --hairline-strong: rgba(255,255,255,0.17);
+      --text: #f4f2ee;
+      --text-muted: rgba(244,242,238,0.6);
+      --text-faint: rgba(244,242,238,0.36);
+      --accent: oklch(0.7 0.13 250);
+      --accent-light: oklch(0.82 0.08 250);
+      --accent-ink: #071022;
+      --accent-glow: oklch(0.7 0.13 250 / 0.22);
+      --accent-glow-strong: oklch(0.7 0.13 250 / 0.42);
+      --shadow: 0 24px 60px -24px oklch(0.1 0.05 260 / 0.8);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); font-family: 'Sora', ui-sans-serif, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+    .display { font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif; }
+    .glow { position: absolute; border-radius: 50%; filter: blur(60px); pointer-events: none; animation: glowBreathe 7s ease-in-out infinite; }
+    @keyframes glowBreathe { 0%,100% { opacity: 0.45; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.15); } }
+    .eyebrow { display: inline-flex; align-items: center; gap: 6px; font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; padding: 6px 11px; border-radius: 999px; }
+    .icon-btn { width: 42px; height: 42px; border-radius: 999px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: var(--glass-core); border: 1px solid var(--hairline); }
+    .field-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 8px; display: block; }
+    .field-input { width: 100%; background: var(--glass-core); border: 1px solid var(--hairline); border-radius: 1rem; padding: 14px 16px; font-size: 14px; color: var(--text); font-family: 'Sora', sans-serif; }
+    .btn-primary { display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 14px; font-weight: 700; padding: 15px 6px 15px 0; border-radius: 999px; background: linear-gradient(135deg, var(--accent-light), var(--accent)); color: var(--accent-ink); box-shadow: 0 16px 32px -14px var(--accent-glow-strong); }
+    .btn-primary__icon { width: 30px; height: 30px; border-radius: 999px; background: rgba(7,16,34,0.14); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); filter: blur(5px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
+    .stagger > * { opacity: 0; animation: fadeUp 650ms cubic-bezier(.32,.72,0,1) forwards; }
+    .stagger > *:nth-child(1) { animation-delay: .03s; } .stagger > *:nth-child(2) { animation-delay: .09s; } .stagger > *:nth-child(3) { animation-delay: .15s; }
+    .stagger > *:nth-child(4) { animation-delay: .21s; } .stagger > *:nth-child(5) { animation-delay: .27s; } .stagger > *:nth-child(6) { animation-delay: .33s; }
+    .stagger > *:nth-child(7) { animation-delay: .39s; }
+  </style>
+</helmet>
+
+<div style="width:393px;background:var(--bg);color:var(--text);padding:26px 20px 50px;display:flex;flex-direction:column;gap:20px;position:relative;overflow:hidden;">
+
+  <div class="glow" style="width:220px;height:220px;top:-70px;right:-70px;background:var(--accent-glow);"></div>
+
+  <div class="stagger" style="display:flex;flex-direction:column;gap:20px;position:relative;">
+
+    <div style="display:flex;align-items:center;gap:14px;">
+      <div class="icon-btn"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></div>
+      <span class="display" style="font-size:21px;font-weight:800;">Add a Game</span>
+    </div>
+
+    <div style="display:flex;flex-direction:column;align-items:center;gap:10px;">
+      <div style="width:120px;height:120px;border-radius:1.6rem;background:var(--glass-core);border:1.5px dashed var(--hairline-strong);display:flex;align-items:center;justify-content:center;">
+        <svg width="34" height="34" viewBox="0 0 312.602 312.602" fill="var(--text-faint)"><path d="M251.52,137.244c-3.966,0-7.889,0.38-11.738,1.134c-1.756-47.268-40.758-85.181-88.448-85.181 c-43.856,0-80.964,32.449-87.474,75.106C28.501,129.167,0,158.201,0,193.764c0,36.106,29.374,65.48,65.48,65.48h54.782 c4.143,0,7.5-3.357,7.5-7.5c0-4.143-3.357-7.5-7.5-7.5H65.48c-27.835,0-50.48-22.645-50.48-50.48c0-27.835,22.646-50.48,50.48-50.48 c1.367,0,2.813,0.067,4.419,0.206l7.6,0.658l0.529-7.61c2.661-38.322,34.861-68.341,73.306-68.341 c40.533,0,73.51,32.977,73.51,73.51c0,1.863-0.089,3.855-0.272,6.088l-0.983,11.968l11.186-4.367 c5.356-2.091,10.99-3.151,16.747-3.151c25.409,0,46.081,20.672,46.081,46.081c0,25.408-20.672,46.08-46.081,46.08 c-0.668,0-20.608-0.04-40.467-0.08c-19.714-0.04-39.347-0.08-39.999-0.08c-4.668,0-7.108-2.248-7.254-6.681v-80.959l8.139,9.667 c2.667,3.17,7.399,3.576,10.567,0.907c3.169-2.667,3.575-7.398,0.907-10.567l-18.037-21.427c-2.272-2.699-5.537-4.247-8.958-4.247 c-3.421,0-6.686,1.548-8.957,4.247l-18.037,21.427c-2.668,3.169-2.262,7.9,0.907,10.567c1.407,1.185,3.121,1.763,4.826,1.763 c2.137,0,4.258-0.908,5.741-2.67l7.901-9.386v80.751c0,8.686,5.927,21.607,22.254,21.607c0.652,0,20.27,0.04,39.968,0.079 c19.874,0.041,39.829,0.081,40.498,0.081c33.681,0,61.081-27.4,61.081-61.08C312.602,164.644,285.201,137.244,251.52,137.244z"/></svg>
+      </div>
+      <span style="font-size:12px;color:var(--text-faint);">Upload a cover image</span>
+    </div>
+
+    <div><label class="field-label">Category</label>
+      <select class="field-input"><option>Strategy</option><option>Party</option><option>Co-op</option><option>Card Game</option></select>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div><label class="field-label">Min age</label><input class="field-input" type="number" placeholder="8" /></div>
+      <div><label class="field-label">Avg. playtime</label><select class="field-input"><option>30–45 min</option><option>60–90 min</option></select></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div><label class="field-label">Min players</label><input class="field-input" type="number" placeholder="3" /></div>
+      <div><label class="field-label">Max players</label><input class="field-input" type="number" placeholder="4" /></div>
+    </div>
+
+    <div><label class="field-label">Name</label><input class="field-input" type="text" placeholder="Game name" /></div>
+
+    <div><label class="field-label">Description</label><textarea class="field-input" rows="4" style="resize:none;" placeholder="What's the game about?"></textarea></div>
+
+    <div class="btn-primary" style="margin-top:6px;"><span style="padding-left:14px;">Create Game</span><span class="btn-primary__icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--accent-ink)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span></div>
+
+  </div>
+
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

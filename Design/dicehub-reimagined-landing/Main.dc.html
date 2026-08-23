@@ -1,0 +1,470 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Sora:wght@400;500;600;700&display=swap');
+
+    :root {
+      --bg: oklch(0.15 0.018 290);
+      --bg-elevated: oklch(0.195 0.02 290);
+      --bg-elevated-2: oklch(0.245 0.022 290);
+      --border: oklch(0.34 0.02 290 / 0.55);
+      --text: oklch(0.96 0.01 90);
+      --text-muted: oklch(0.7 0.02 290);
+      --text-faint: oklch(0.52 0.02 290);
+      --amber: oklch(0.78 0.16 75);
+      --amber-soft: oklch(0.78 0.16 75 / 0.16);
+      --coral: oklch(0.68 0.19 25);
+      --coral-soft: oklch(0.68 0.19 25 / 0.16);
+      --teal: oklch(0.72 0.14 165);
+      --teal-soft: oklch(0.72 0.14 165 / 0.16);
+      --violet: oklch(0.66 0.17 300);
+      --violet-soft: oklch(0.66 0.17 300 / 0.16);
+      --shadow-card: 0 10px 30px -12px oklch(0 0 0 / 0.55);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #0b0b0d; font-family: 'Sora', ui-sans-serif, system-ui, sans-serif; text-wrap: pretty; }
+    .display { font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif; }
+    a { color: var(--amber); text-decoration: none; }
+    a:hover { color: var(--coral); }
+    .icon { flex-shrink: 0; }
+
+    .nav-link { font-size: 14px; font-weight: 600; color: var(--text-muted); }
+    .nav-link:hover { color: var(--text); }
+
+    .btn-primary { font-family: 'Sora', sans-serif; font-size: 14.5px; font-weight: 700; color: #2b1502; background: linear-gradient(135deg, var(--amber), var(--coral)); padding: 13px 26px; border-radius: 999px; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 10px 24px -10px oklch(0.5 0.16 45 / 0.55); }
+    .btn-secondary { font-family: 'Sora', sans-serif; font-size: 14.5px; font-weight: 700; color: var(--text); background: var(--bg-elevated-2); border: 1px solid var(--border); padding: 13px 24px; border-radius: 999px; display: inline-flex; align-items: center; gap: 8px; }
+
+    .eyebrow { font-size: 12.5px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: var(--amber); }
+
+    .feature-card { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 24px; padding: 26px; display: flex; flex-direction: column; gap: 16px; box-shadow: var(--shadow-card); }
+    .feature-tile { width: 52px; height: 52px; border-radius: 16px; display: flex; align-items: center; justify-content: center; }
+
+    .step-card { display: flex; flex-direction: column; gap: 16px; flex: 1; }
+    .step-num { width: 44px; height: 44px; border-radius: 14px; background: var(--bg-elevated-2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 17px; color: var(--amber); }
+
+    .bullet-row { display: flex; align-items: flex-start; gap: 14px; }
+    .bullet-check { width: 26px; height: 26px; border-radius: 999px; background: var(--teal-soft); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+
+    .quote-card { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 24px; padding: 28px; display: flex; flex-direction: column; gap: 20px; box-shadow: var(--shadow-card); flex: 1; }
+
+    .footer-heading { font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-faint); }
+    .footer-link { font-size: 14px; font-weight: 500; color: var(--text-muted); }
+    .footer-link:hover { color: var(--text); }
+  </style>
+</helmet>
+
+<div style="width:1440px;background:var(--bg);color:var(--text);display:flex;flex-direction:column;">
+
+  <!-- ============ NAV ============ -->
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:24px 120px;border-bottom:1px solid var(--border);">
+    <div style="display:flex;align-items:center;gap:11px;">
+      <div style="width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--amber),var(--coral));display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2b1502" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8v4a4 4 0 0 1-8 0z"/><path d="M8 5H5a3 3 0 0 0 3 5"/><path d="M16 5h3a3 3 0 0 1-3 5"/><path d="M10 13v3M14 13v3"/><path d="M8 20h8"/><path d="M9 17h6l1 3H8z"/></svg>
+      </div>
+      <span class="display" style="font-size:19px;font-weight:800;">DiceHub</span>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:38px;">
+      <a class="nav-link" href="#">Product</a>
+      <a class="nav-link" href="#">For Clubs</a>
+      <a class="nav-link" href="#">Community</a>
+      <a class="nav-link" href="#">Pricing</a>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:22px;">
+      <a class="nav-link" href="#" style="color:var(--text-muted);">Log in</a>
+      <a class="btn-primary" href="#">Get Started Free</a>
+    </div>
+  </div>
+
+  <!-- ============ HERO ============ -->
+  <div style="display:flex;align-items:center;gap:64px;padding:110px 120px 100px;">
+    <div style="display:flex;flex-direction:column;gap:26px;max-width:560px;flex-shrink:0;">
+      <div style="display:flex;align-items:center;gap:8px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:999px;padding:7px 14px 7px 8px;width:fit-content;">
+        <div style="width:22px;height:22px;border-radius:999px;background:var(--teal-soft);display:flex;align-items:center;justify-content:center;">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg>
+        </div>
+        <span style="font-size:12.5px;font-weight:600;color:var(--text-muted);">Built with board-game clubs, not just for them</span>
+      </div>
+
+      <h1 class="display" style="font-size:52px;font-weight:800;line-height:1.08;letter-spacing:-0.01em;margin:0;">Your clubhouse,<br/>gamified.</h1>
+
+      <p style="font-size:16.5px;line-height:1.6;color:var(--text-muted);margin:0;">DiceHub turns board-game nights into a living community — table reservations, a shared game library, meeple matchmaking, and XP-driven challenges, all in one app for players and the clubs that host them.</p>
+
+      <div style="display:flex;align-items:center;gap:14px;">
+        <a class="btn-primary" href="#" style="padding:15px 28px;font-size:15px;">Get Started Free</a>
+        <a class="btn-secondary" href="#" style="padding:15px 26px;font-size:15px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4l14 8-14 8z"/></svg>
+          See it in action
+        </a>
+      </div>
+
+    </div>
+
+    <!-- Product visual -->
+    <div style="position:relative;flex:1;height:640px;display:flex;align-items:center;justify-content:center;">
+      <div style="position:absolute;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,var(--amber-soft),transparent 70%);filter:blur(10px);"></div>
+
+      <!-- floating leaderboard card, behind -->
+      <div style="position:absolute;right:18px;top:28px;width:250px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:20px;padding:18px;box-shadow:var(--shadow-card);display:flex;flex-direction:column;gap:12px;transform:rotate(4deg);">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--amber)" stroke="var(--amber)" stroke-width="1" stroke-linejoin="round"><path d="M4 17l-1.5-8L8 12l4-6 4 6 5.5-3L20 17z"/><path d="M4 17h16v2H4z"/></svg>
+          <span style="font-size:12.5px;font-weight:700;">Weekly Leaderboard</span>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <div style="display:flex;align-items:center;gap:8px;"><div style="width:22px;height:22px;border-radius:999px;background:var(--amber);"></div><span style="font-size:12px;font-weight:600;">Maya R.</span></div>
+          <span style="font-size:12px;font-weight:700;color:var(--amber);">1,240 XP</span>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <div style="display:flex;align-items:center;gap:8px;"><div style="width:22px;height:22px;border-radius:999px;background:var(--teal);"></div><span style="font-size:12px;font-weight:600;">Jon P.</span></div>
+          <span style="font-size:12px;font-weight:700;color:var(--text-faint);">1,110 XP</span>
+        </div>
+      </div>
+
+      <!-- phone frame, front -->
+      <div style="position:relative;width:300px;height:600px;border-radius:44px;background:var(--bg-elevated);border:1px solid var(--border);box-shadow:0 30px 60px -20px oklch(0 0 0 / 0.65);padding:22px 16px;display:flex;flex-direction:column;gap:20px;">
+
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <div style="display:flex;flex-direction:column;gap:1px;">
+            <span style="font-size:10.5px;color:var(--text-faint);font-weight:500;">Good evening</span>
+            <span class="display" style="font-size:15px;font-weight:700;">Maya</span>
+          </div>
+          <div style="width:32px;height:32px;border-radius:11px;background:var(--bg-elevated-2);border:1px solid var(--border);"></div>
+        </div>
+
+        <div style="background:var(--bg-elevated-2);border:1px solid var(--border);border-radius:20px;padding:16px;display:flex;flex-direction:column;gap:12px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <div style="display:flex;flex-direction:column;">
+              <span style="font-size:9px;font-weight:700;letter-spacing:0.08em;color:var(--text-faint);">YOUR LEVEL</span>
+              <span class="display" style="font-size:19px;font-weight:800;">Level 14</span>
+            </div>
+            <div style="width:30px;height:30px;border-radius:9px;background:var(--amber);display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:11px;color:#2b1502;">14</div>
+          </div>
+          <div style="height:8px;border-radius:999px;background:var(--bg);overflow:hidden;">
+            <div style="width:74%;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--amber),var(--coral));"></div>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;">
+          <div style="aspect-ratio:1;border-radius:13px;background:var(--amber-soft);display:flex;align-items:center;justify-content:center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16"/></svg></div>
+          <div style="aspect-ratio:1;border-radius:13px;background:var(--teal-soft);display:flex;align-items:center;justify-content:center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9a1 1 0 0 0 1 1h4v-6h2v6h4a1 1 0 0 0 1-1v-9"/></svg></div>
+          <div style="aspect-ratio:1;border-radius:13px;background:var(--violet-soft);display:flex;align-items:center;justify-content:center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--violet)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 19c.8-3.3 3-5 6-5s5.2 1.7 6 5"/><circle cx="17" cy="9" r="2.4"/></svg></div>
+          <div style="aspect-ratio:1;border-radius:13px;background:var(--coral-soft);display:flex;align-items:center;justify-content:center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--coral)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8v4a4 4 0 0 1-8 0z"/><path d="M8 20h8"/><path d="M9 17h6l1 3H8z"/></svg></div>
+        </div>
+
+        <div style="background:var(--bg-elevated-2);border:1px solid var(--border);border-radius:18px;padding:14px;display:flex;align-items:flex-start;gap:12px;">
+          <div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--violet),var(--coral));flex-shrink:0;"></div>
+          <div style="display:flex;flex-direction:column;gap:3px;min-width:0;">
+            <span style="font-size:12.5px;font-weight:700;">Wingspan Tournament</span>
+            <span style="font-size:11px;color:var(--text-faint);">7:00 PM · Table 4 · 6/8 joined</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- floating badge chip -->
+      <div style="position:absolute;left:-10px;bottom:70px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:16px;padding:12px 16px;box-shadow:var(--shadow-card);display:flex;align-items:center;gap:10px;transform:rotate(-3deg);">
+        <div style="width:34px;height:34px;border-radius:11px;background:var(--coral-soft);display:flex;align-items:center;justify-content:center;">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--coral)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5l2.4 5 5.5.7-4 3.8 1 5.5-4.9-2.7-4.9 2.7 1-5.5-4-3.8 5.5-.7z"/></svg>
+        </div>
+        <div style="display:flex;flex-direction:column;">
+          <span style="font-size:11.5px;font-weight:700;">Badge unlocked</span>
+          <span style="font-size:10.5px;color:var(--text-faint);">"Table Regular" · +50 XP</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ WHAT'S BUILT IN ============ -->
+  <div style="padding:0 120px 96px;">
+    <div style="background:var(--bg-elevated);border:1px solid var(--border);border-radius:24px;padding:34px 48px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;">
+      <div style="display:flex;flex-direction:column;gap:4px;border-right:1px solid var(--border);">
+        <span class="display" style="font-size:22px;font-weight:800;color:var(--amber);">Free to start</span>
+        <span style="font-size:13px;color:var(--text-muted);font-weight:500;">No card required for players</span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:4px;border-right:1px solid var(--border);">
+        <span class="display" style="font-size:22px;font-weight:800;color:var(--teal);">Real-time</span>
+        <span style="font-size:13px;color:var(--text-muted);font-weight:500;">Live table availability, not a guess</span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:4px;border-right:1px solid var(--border);">
+        <span class="display" style="font-size:22px;font-weight:800;color:var(--violet);">QR check-in</span>
+        <span style="font-size:13px;color:var(--text-muted);font-weight:500;">Built in from day one</span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:4px;">
+        <span class="display" style="font-size:22px;font-weight:800;color:var(--coral);">New in 2026</span>
+        <span style="font-size:13px;color:var(--text-muted);font-weight:500;">We're just getting started</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ FEATURE GRID ============ -->
+  <div style="padding:0 120px 110px;display:flex;flex-direction:column;gap:48px;">
+    <div style="display:flex;flex-direction:column;gap:14px;max-width:640px;">
+      <span class="eyebrow">Why DiceHub</span>
+      <h2 class="display" style="font-size:38px;font-weight:800;margin:0;line-height:1.15;">Everything a clubhouse runs on, in one app.</h2>
+      <p style="font-size:15.5px;color:var(--text-muted);line-height:1.6;margin:0;">Members get a reason to come back. Owners get the tools to run the place without a clipboard.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;">
+      <div class="feature-card">
+        <div class="feature-tile" style="background:var(--amber-soft);">
+          <svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9a1 1 0 0 0 1 1h4v-6h2v6h4a1 1 0 0 0 1-1v-9"/></svg>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <span class="display" style="font-size:18px;font-weight:700;">A living game library</span>
+          <span style="font-size:14px;color:var(--text-muted);line-height:1.6;">Catalog every box on your shelf — categories, player counts, difficulty, and instant availability so members always know what's free to play.</span>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-tile" style="background:var(--teal-soft);">
+          <svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 19c.8-3.3 3-5 6-5s5.2 1.7 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 12.2c2.6.2 4 1.7 4.6 4.3"/></svg>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <span class="display" style="font-size:18px;font-weight:700;">Find your table</span>
+          <span style="font-size:14px;color:var(--text-muted);line-height:1.6;">Meeple matchmaking connects members by favorite games, skill level, and schedule — so no one's stuck waiting for a fourth player.</span>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-tile" style="background:var(--violet-soft);">
+          <svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--violet)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16"/><path d="M8 3v4M16 3v4"/><path d="M9.5 14l1.8 1.8L15 12"/></svg>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <span class="display" style="font-size:18px;font-weight:700;">Reserve a table in seconds</span>
+          <span style="font-size:14px;color:var(--text-muted);line-height:1.6;">Real-time table availability with QR check-in — book a spot for tonight or lock in next week's campaign session.</span>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-tile" style="background:var(--coral-soft);">
+          <svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--coral)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8v4a4 4 0 0 1-8 0z"/><path d="M8 5H5a3 3 0 0 0 3 5"/><path d="M16 5h3a3 3 0 0 1-3 5"/><path d="M10 13v3M14 13v3"/><path d="M8 20h8"/><path d="M9 17h6l1 3H8z"/></svg>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <span class="display" style="font-size:18px;font-weight:700;">Challenges that hook people</span>
+          <span style="font-size:14px;color:var(--text-muted);line-height:1.6;">Members earn XP, level up, and unlock badges for trying new games, hitting milestones, and just showing up.</span>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-tile" style="background:var(--amber-soft);">
+          <svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2 1.6 1.6 0 0 0 0 6 2 2 0 0 1-2 2H6a2 2 0 0 1-2-2 1.6 1.6 0 0 0 0-6z"/><path d="M9 7.5v2M9 12.5v2M9 17v-2"/></svg>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <span class="display" style="font-size:18px;font-weight:700;">Run events without spreadsheets</span>
+          <span style="font-size:14px;color:var(--text-muted);line-height:1.6;">Tournaments, campaigns, and game nights with RSVP tracking, bracket-ready sign-ups, and automatic reminders.</span>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-tile" style="background:var(--violet-soft);">
+          <svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="var(--violet)" stroke="var(--violet)" stroke-width="1" stroke-linejoin="round"><path d="M4 17l-1.5-8L8 12l4-6 4 6 5.5-3L20 17z"/><path d="M4 17h16v2H4z"/></svg>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <span class="display" style="font-size:18px;font-weight:700;">Bragging rights, built in</span>
+          <span style="font-size:14px;color:var(--text-muted);line-height:1.6;">Club-wide and per-game leaderboards keep the competitive fire alive — win streaks, top scores, season standings.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ HOW IT WORKS ============ -->
+  <div style="padding:0 120px 110px;display:flex;flex-direction:column;gap:48px;">
+    <div style="display:flex;flex-direction:column;gap:14px;max-width:640px;">
+      <span class="eyebrow" style="color:var(--teal);">How it works</span>
+      <h2 class="display" style="font-size:38px;font-weight:800;margin:0;line-height:1.15;">From sign-up to season leaderboard.</h2>
+    </div>
+
+    <div style="display:flex;gap:32px;">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <span class="display" style="font-size:19px;font-weight:700;">Join your club</span>
+        <span style="font-size:14.5px;color:var(--text-muted);line-height:1.6;">Scan a QR code at the venue or accept an invite, then set up your player profile — favorite games, skill level, and availability.</span>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <span class="display" style="font-size:19px;font-weight:700;">Reserve &amp; play</span>
+        <span style="font-size:14.5px;color:var(--text-muted);line-height:1.6;">Grab a table, browse the library for something new, or let meeple matchmaking find you a group for tonight.</span>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <span class="display" style="font-size:19px;font-weight:700;">Level up</span>
+        <span style="font-size:14.5px;color:var(--text-muted);line-height:1.6;">Earn XP, complete challenges, and climb the leaderboard every time you show up and play.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ FOR CLUB OWNERS ============ -->
+  <div style="padding:100px 120px;background:var(--bg-elevated);border-top:1px solid var(--border);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:72px;">
+    <div style="display:flex;flex-direction:column;gap:26px;max-width:520px;flex-shrink:0;">
+      <span class="eyebrow" style="color:var(--coral);">For club owners</span>
+      <h2 class="display" style="font-size:36px;font-weight:800;margin:0;line-height:1.18;">Built for the person who runs the clubhouse, too.</h2>
+      <p style="font-size:15.5px;color:var(--text-muted);line-height:1.6;margin:0;">DiceHub isn't just a member app — it's the operating system for your space.</p>
+
+      <div style="display:flex;flex-direction:column;gap:18px;padding-top:6px;">
+        <div class="bullet-row">
+          <div class="bullet-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></div>
+          <span style="font-size:14.5px;color:var(--text-muted);line-height:1.55;"><strong style="color:var(--text);font-weight:700;">Table &amp; floor management</strong> — see every table's status at a glance, avoid double-bookings.</span>
+        </div>
+        <div class="bullet-row">
+          <div class="bullet-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></div>
+          <span style="font-size:14.5px;color:var(--text-muted);line-height:1.55;"><strong style="color:var(--text);font-weight:700;">Game library &amp; inventory</strong> — track condition, missing pieces, and checkout history.</span>
+        </div>
+        <div class="bullet-row">
+          <div class="bullet-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></div>
+          <span style="font-size:14.5px;color:var(--text-muted);line-height:1.55;"><strong style="color:var(--text);font-weight:700;">Event &amp; tournament tools</strong> — build brackets, manage RSVPs, send reminders automatically.</span>
+        </div>
+        <div class="bullet-row">
+          <div class="bullet-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></div>
+          <span style="font-size:14.5px;color:var(--text-muted);line-height:1.55;"><strong style="color:var(--text);font-weight:700;">Member insights</strong> — attendance trends, popular games, and engagement analytics.</span>
+        </div>
+      </div>
+
+      <a class="btn-secondary" href="#" style="width:fit-content;">Talk to us about your club</a>
+    </div>
+
+    <!-- admin dashboard preview -->
+    <div style="flex:1;background:var(--bg);border:1px solid var(--border);border-radius:24px;padding:28px;box-shadow:var(--shadow-card);display:flex;flex-direction:column;gap:22px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <span class="display" style="font-size:16px;font-weight:700;">This month at your club</span>
+        <div style="display:flex;align-items:center;gap:6px;background:var(--teal-soft);color:var(--teal);font-size:11.5px;font-weight:700;padding:5px 11px;border-radius:999px;">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16l6-6 4 4 6-8"/><path d="M14 6h6v6"/></svg>
+          Up from last month
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:flex-end;gap:14px;height:140px;padding:0 4px;">
+        <div style="flex:1;height:52%;border-radius:8px 8px 0 0;background:var(--bg-elevated-2);"></div>
+        <div style="flex:1;height:68%;border-radius:8px 8px 0 0;background:var(--bg-elevated-2);"></div>
+        <div style="flex:1;height:44%;border-radius:8px 8px 0 0;background:var(--bg-elevated-2);"></div>
+        <div style="flex:1;height:80%;border-radius:8px 8px 0 0;background:linear-gradient(180deg,var(--amber),var(--coral));"></div>
+        <div style="flex:1;height:60%;border-radius:8px 8px 0 0;background:var(--bg-elevated-2);"></div>
+        <div style="flex:1;height:74%;border-radius:8px 8px 0 0;background:var(--bg-elevated-2);"></div>
+        <div style="flex:1;height:90%;border-radius:8px 8px 0 0;background:var(--bg-elevated-2);"></div>
+      </div>
+
+      <div style="height:1px;background:var(--border);"></div>
+
+      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;">
+        <div style="display:flex;flex-direction:column;gap:4px;">
+          <span style="font-size:11px;font-weight:700;letter-spacing:0.06em;color:var(--text-faint);">TABLE USE</span>
+          <span class="display" style="font-size:22px;font-weight:800;">[82%]</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px;">
+          <span style="font-size:11px;font-weight:700;letter-spacing:0.06em;color:var(--text-faint);">TOP GAME</span>
+          <span class="display" style="font-size:22px;font-weight:800;">Wingspan</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px;">
+          <span style="font-size:11px;font-weight:700;letter-spacing:0.06em;color:var(--text-faint);">NEW MEMBERS</span>
+          <span class="display" style="font-size:22px;font-weight:800;">[+46]</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ WHY WE'RE BUILDING THIS ============ -->
+  <div style="padding:110px 120px;display:flex;flex-direction:column;gap:48px;">
+    <div style="display:flex;flex-direction:column;gap:14px;max-width:640px;">
+      <span class="eyebrow" style="color:var(--violet);">Why DiceHub exists</span>
+      <h2 class="display" style="font-size:38px;font-weight:800;margin:0;line-height:1.15;">We're new — here's what that means for you.</h2>
+    </div>
+
+    <div style="display:flex;gap:22px;">
+      <div class="quote-card">
+        <div class="feature-tile" style="background:var(--amber-soft);"><svg class="icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5l2.4 5 5.5.7-4 3.8 1 5.5-4.9-2.7-4.9 2.7 1-5.5-4-3.8 5.5-.7z"/></svg></div>
+        <p style="font-size:15px;line-height:1.6;color:var(--text);margin:0;"><strong style="color:var(--text);">No fake numbers.</strong> We're not going to claim thousands of clubs use DiceHub — we don't have that yet. What we have is a working app, built feature by feature for how clubhouses actually run.</p>
+      </div>
+
+      <div class="quote-card">
+        <div class="feature-tile" style="background:var(--teal-soft);"><svg class="icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></div>
+        <p style="font-size:15px;line-height:1.6;color:var(--text);margin:0;"><strong style="color:var(--text);">Onboarding takes a day or two,</strong> not minutes. Setting up your game library and tables properly is worth doing right — we'll walk you through it.</p>
+      </div>
+
+      <div class="quote-card">
+        <div class="feature-tile" style="background:var(--violet-soft);"><svg class="icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--violet)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 1 1-4-7.2"/><path d="M21 4v6h-6"/></svg></div>
+        <p style="font-size:15px;line-height:1.6;color:var(--text);margin:0;"><strong style="color:var(--text);">Early access means early feedback.</strong> As one of our first clubs, what you tell us directly shapes what gets built next.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ FINAL CTA ============ -->
+  <div style="padding:96px 120px 110px;">
+    <div style="position:relative;overflow:hidden;border-radius:32px;padding:72px 64px;background:linear-gradient(135deg,oklch(0.3 0.06 60),oklch(0.24 0.05 20));display:flex;align-items:center;justify-content:space-between;gap:40px;">
+      <div style="position:absolute;right:-60px;top:-90px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,oklch(0.78 0.16 75/0.35),transparent 70%);"></div>
+      <div style="position:relative;display:flex;flex-direction:column;gap:12px;max-width:520px;">
+        <h2 class="display" style="font-size:36px;font-weight:800;margin:0;color:#fff8ec;line-height:1.15;">Ready to roll the dice?</h2>
+        <p style="font-size:15.5px;color:oklch(0.92 0.02 70);margin:0;line-height:1.6;">Start free as a player, or get your club set up in a day or two — no spreadsheet required.</p>
+      </div>
+      <div style="position:relative;display:flex;align-items:center;gap:14px;flex-shrink:0;">
+        <a href="#" style="font-family:'Sora',sans-serif;font-size:15px;font-weight:700;color:#2b1502;background:#fff8ec;padding:15px 28px;border-radius:999px;">Get Started Free</a>
+        <a href="#" style="font-family:'Sora',sans-serif;font-size:15px;font-weight:700;color:#fff8ec;border:1px solid oklch(0.9 0.02 70/0.4);padding:15px 26px;border-radius:999px;">Set Up Your Club</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ FOOTER ============ -->
+  <div style="padding:64px 120px 48px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:56px;">
+    <div style="display:flex;justify-content:space-between;gap:40px;">
+      <div style="display:flex;flex-direction:column;gap:14px;max-width:280px;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,var(--amber),var(--coral));display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#2b1502" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8v4a4 4 0 0 1-8 0z"/><path d="M8 5H5a3 3 0 0 0 3 5"/><path d="M16 5h3a3 3 0 0 1-3 5"/><path d="M10 13v3M14 13v3"/><path d="M8 20h8"/><path d="M9 17h6l1 3H8z"/></svg>
+          </div>
+          <span class="display" style="font-size:16px;font-weight:800;">DiceHub</span>
+        </div>
+        <span style="font-size:13.5px;color:var(--text-faint);line-height:1.6;">The clubhouse, gamified.</span>
+      </div>
+
+      <div style="display:flex;gap:80px;">
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <span class="footer-heading">Product</span>
+          <a class="footer-link" href="#">Game Library</a>
+          <a class="footer-link" href="#">Reservations</a>
+          <a class="footer-link" href="#">Challenges</a>
+          <a class="footer-link" href="#">Leaderboards</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <span class="footer-heading">For Clubs</span>
+          <a class="footer-link" href="#">Venue Tools</a>
+          <a class="footer-link" href="#">Pricing</a>
+          <a class="footer-link" href="#">Onboarding</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <span class="footer-heading">Company</span>
+          <a class="footer-link" href="#">About</a>
+          <a class="footer-link" href="#">Blog</a>
+          <a class="footer-link" href="#">Contact</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <span class="footer-heading">Legal</span>
+          <a class="footer-link" href="#">Privacy</a>
+          <a class="footer-link" href="#">Terms</a>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:center;justify-content:space-between;padding-top:32px;border-top:1px solid var(--border);">
+      <span style="font-size:12.5px;color:var(--text-faint);">© 2026 DiceHub. All rights reserved.</span>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="width:34px;height:34px;border-radius:999px;background:var(--bg-elevated-2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="5"/><circle cx="12" cy="12" r="3.4"/><circle cx="16.2" cy="7.8" r="0.6" fill="var(--text-faint)"/></svg></div>
+        <div style="width:34px;height:34px;border-radius:999px;background:var(--bg-elevated-2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8.5l7 5 7-5"/><rect x="4" y="5.5" width="16" height="13" rx="3"/></svg></div>
+        <div style="width:34px;height:34px;border-radius:999px;background:var(--bg-elevated-2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.2"/><path d="M4.5 10h15M4.5 14h15"/><path d="M12 3.8c2.4 2.4 3.6 5.2 3.6 8.2s-1.2 5.8-3.6 8.2c-2.4-2.4-3.6-5.2-3.6-8.2S9.6 6.2 12 3.8z"/></svg></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

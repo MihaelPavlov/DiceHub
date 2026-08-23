@@ -257,7 +257,9 @@ export class AddUpdateClubSpaceComponent extends Form implements OnInit {
           this.imagePreview = game.imageUrl;
 
           if (game.minPlayers === 1) {
-            const dialogRef = this.dialog.open(SinglePlayerConfirmDialog, {});
+            const dialogRef = this.dialog.open(SinglePlayerConfirmDialog, {
+              panelClass: 'confirm-sheet-pane',
+            });
 
             dialogRef.afterClosed().subscribe((result) => {
               if (result) {

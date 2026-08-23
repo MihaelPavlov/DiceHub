@@ -144,7 +144,7 @@ export class GamesLibraryComponent implements OnInit, OnDestroy {
       this.openDeleteDialog(this.visibleMenuId);
     } else if (key === 'qr-code') {
       this.dialog.open(QrCodeDialog, {
-        width: '17rem',
+        width: '19rem',
         data: {
           Id: this.visibleMenuId,
           Name:
@@ -203,6 +203,7 @@ export class GamesLibraryComponent implements OnInit, OnDestroy {
 
   private openDeleteDialog(id: number): void {
     const dialogRef = this.dialog.open(GameConfirmDeleteDialog, {
+      panelClass: 'confirm-sheet-pane',
       data: { id: id },
     });
 

@@ -100,7 +100,9 @@ export class AssistiveTouchComponent implements OnInit, OnDestroy {
     this.resetInactivityTimer();
 
     this.dialogOpened = true;
-    const dialogRef = this.dialog.open(NotificationsDialog);
+    const dialogRef = this.dialog.open(NotificationsDialog, {
+      panelClass: 'confirm-sheet-pane',
+    });
 
     dialogRef.componentInstance.notificationsUpdated.subscribe(() => {
       this.updateUserNotifications.emit();

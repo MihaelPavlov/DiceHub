@@ -88,6 +88,7 @@ export class AdminChallengesListComponent extends Form {
 
   public openDeleteDialog(id: number): void {
     const dialogRef = this.dialog.open(AdminChallengesConfirmDeleteDialog, {
+      panelClass: 'confirm-sheet-pane',
       data: { id: id },
     });
 

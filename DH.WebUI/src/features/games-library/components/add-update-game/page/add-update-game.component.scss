@@ -83,40 +83,16 @@
   }
 }
 
-.arrow {
-  width: 3rem;
-  height: 3rem;
-  display: inline-block;
-  position: relative;
-  border: 0.1rem solid palette.$main-icon-color;
-  border-radius: 2.5rem;
-
-  &::before {
-    content: "";
-    display: block;
-    width: 0.75rem;
-    height: 0.75rem;
-    top: 65%;
-    left: 63%;
-    border-style: solid;
-    border-color: palette.$main-icon-color;
-    border-width: 0.2rem 0.2rem 0 0;
-    position: absolute;
-    transform-origin: 50% 50%;
-  }
-
-  &.left::before {
-    transform: rotate(-135deg);
-    margin: -0.9rem 0 0 -0.6rem;
-  }
-}
-
 .wrapper_icons {
   display: flex;
   justify-content: space-between;
-  margin: 1rem;
   align-items: center;
+  margin: 0;
+  padding: 1rem;
   color: var(--games-text);
+  background:
+    radial-gradient(circle at 12% 0%, rgba(141, 102, 214, 0.12), transparent 24rem),
+    var(--games-bg);
 
   .games-select {
     margin-top: 1rem;
@@ -187,8 +163,8 @@ select[disabled] {
           height: 1.25rem;
         }
         &.active {
-          background-color: var(--games-amber);
-          border-color: var(--games-amber);
+          background-color: var(--games-blue);
+          border-color: var(--games-blue);
           color: white;
         }
 
@@ -203,14 +179,7 @@ select[disabled] {
 
 @media (min-width: 900px) {
   .wrapper_icons {
-    width: min(68rem, calc(100vw - 18rem));
-    margin: 2rem auto 0.85rem;
-  }
-
-  .arrow {
-    width: 2.5rem;
-    height: 2.5rem;
-    cursor: pointer;
+    padding: 2rem 3rem 0.85rem;
   }
 
   .container {

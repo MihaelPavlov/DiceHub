@@ -1,28 +1,25 @@
-@use "../../../../shared/assets/styles/palette";
-
 .challenges-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 15px;
-  padding: 15px;
-  margin-bottom: 10rem;
+  padding: 15px 0;
+  margin-bottom: 7rem;
 }
 
 .challenge-card {
-  border: 0.2rem dashed #31313b;
-  border-radius: 1rem;
-  color: palette.$main-font-color;
-  border-radius: 12px;
+  border: 1px solid var(--games-border);
+  border-radius: 1.1rem;
+  color: var(--games-text);
   padding: 12px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  background: var(--games-surface);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--games-shadow);
 
   &:hover {
     transform: translateY(-3px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
   }
 }
 
@@ -34,12 +31,15 @@
     text-align: center;
     margin: 1rem;
     word-break: break-word;
+    font-weight: 700;
   }
 
   .description-content {
     text-align: center;
     margin: 1rem;
     word-break: break-word;
+    color: var(--games-muted);
+    font-size: 0.85rem;
   }
 
   .input-field {
@@ -47,23 +47,40 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 0.5rem;
+
+    label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--games-muted);
+    }
+
     input {
-      width: 20%;
+      width: 5rem;
       text-align: center;
-      padding: 0.3rem;
+      padding: 0.4rem;
+      border: 1px solid var(--games-border);
+      border-radius: 0.6rem;
+      background: var(--games-surface-2);
+      color: var(--games-text);
     }
   }
 }
 
 .challenge-action {
   margin-top: 8px;
-  padding: 5px 10px;
+  padding: 0.65rem 10px;
   width: 100%;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--games-blue-light), var(--games-blue));
+  color: var(--games-blue-ink);
+  font-weight: 700;
+  cursor: pointer;
 }
 
 @media (min-width: 900px) {
   .challenges-grid {
-    width: min(72rem, calc(100vw - 16rem));
+    width: min(72rem, 100%);
     margin: 1rem auto 3rem;
     grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
     gap: 1rem;
@@ -71,7 +88,6 @@
   }
 
   .challenge-card {
-    border-radius: 0.5rem;
     align-items: stretch;
   }
 
@@ -79,11 +95,6 @@
     .name-content,
     .description-content {
       margin: 0.75rem 0;
-    }
-
-    .input-field input {
-      width: 5rem;
-      border-radius: 0.5rem;
     }
   }
 }

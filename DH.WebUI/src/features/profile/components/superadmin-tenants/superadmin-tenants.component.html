@@ -1,23 +1,27 @@
-<main class="container">
-  <header class="page-header">
-    <div>
-      <p class="eyebrow">Platform</p>
-      <h1>Tenants</h1>
-      <p class="description">Select a venue to inspect its platform access.</p>
+<app-profile-settings-nav></app-profile-settings-nav>
+
+<div class="profile-page-body">
+  <div class="profile-page">
+    <div class="profile-page-header">
+      <div>
+        <span class="profile-page-header__eyebrow">Platform</span>
+        <span class="profile-page-header__title">{{ "profile.tenants" | translate }}</span>
+        <p class="profile-page-header__description">Select a venue to inspect its platform access.</p>
+      </div>
     </div>
-  </header>
 
-  <p *ngIf="isLoading" class="state">Loading tenants...</p>
-  <p *ngIf="!isLoading && tenants.length === 0" class="state">No tenants found.</p>
+    <p class="profile-empty-state" *ngIf="isLoading">Loading tenants...</p>
+    <p class="profile-empty-state" *ngIf="!isLoading && tenants.length === 0">No tenants found.</p>
 
-  <section class="tenant-grid" *ngIf="!isLoading && tenants.length">
-    <button class="tenant-card" type="button" *ngFor="let tenant of tenants" (click)="open(tenant)">
-      <span class="tenant-mark">{{ tenant.tenantName.charAt(0) }}</span>
-      <span class="tenant-copy">
-        <strong>{{ tenant.tenantName }}</strong>
-        <small>{{ tenant.id }}</small>
-      </span>
-      <span class="arrow" aria-hidden="true">&#8594;</span>
-    </button>
-  </section>
-</main>
+    <div class="profile-list" *ngIf="!isLoading && tenants.length">
+      <button class="profile-list-row" type="button" *ngFor="let tenant of tenants" (click)="open(tenant)">
+        <span class="profile-list-row__avatar">{{ tenant.tenantName.charAt(0) }}</span>
+        <div class="profile-list-row__body">
+          <span class="profile-list-row__title">{{ tenant.tenantName }}</span>
+          <span class="profile-list-row__subtitle">{{ tenant.id }}</span>
+        </div>
+        <span class="profile-list-row__chevron" aria-hidden="true">&#8594;</span>
+      </button>
+    </div>
+  </div>
+</div>

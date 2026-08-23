@@ -1,327 +1,228 @@
-<div class="container">
-  <div class="buttons">
-    <div
-      class="btn-container"
+<div class="challenges-panel games-design-surface">
+  <div class="challenges-panel__toolbar">
+    <button
+      type="button"
+      class="challenges-panel__add"
       (click)="showRewardForm ? closeRewardForm($event) : openRewardForm()"
     >
       <ng-container *ngIf="!editRewardId">
         <span>{{ "admin_rewards.add_reward" | translate }}</span>
-        <!-- add icon -->
-        <svg
-          class="wrapper_add"
-          *ngIf="!showRewardForm"
-          viewBox="0 -960 960 960"
-        >
+        <svg *ngIf="!showRewardForm" viewBox="0 -960 960 960">
           <path d="M447-448H208v-66h239v-239h66v239h239v66H513v239h-66v-239Z" />
         </svg>
       </ng-container>
       <ng-container *ngIf="editRewardId">
         <span>{{ "admin_rewards.update_reward" | translate }}</span>
       </ng-container>
-      <!-- close icon -->
-      <svg class="wrapper_add" viewBox="0 -960 960 960" *ngIf="showRewardForm">
+      <svg *ngIf="showRewardForm" viewBox="0 -960 960 960">
         <path
           d="M252-203.69 205.69-252l227-228-227-230L252-758.31l229 230 227-230L754.31-710l-227 230 227 228L708-203.69l-227-230-229 230Z"
         />
       </svg>
-    </div>
+    </button>
 
-    <div class="btn-container">
-      <span
-        >{{
-          "admin_rewards.total_rewards"
-            | translate : { totalRewards: rewardList.length }
-        }}
-      </span>
-    </div>
+    <span class="challenges-panel__count">
+      {{
+        "admin_rewards.total_rewards"
+          | translate : { totalRewards: rewardList.length }
+      }}
+    </span>
   </div>
 
-  <div class="buttons">
-    <div class="btn-container" (click)="toggleSearch()">
-      <span>{{ "admin_rewards.search_btn" | translate }}</span>
+  <button type="button" class="challenges-panel__filter" (click)="toggleSearch()">
+    <span>{{ "admin_rewards.search_btn" | translate }}</span>
+    <svg *ngIf="!showSearch" viewBox="0 -960 960 960">
+      <path
+        d="M788.38-127.85 535.92-380.31q-30 24.54-73.5 38.04t-83.88 13.5q-106.1 0-179.67-73.53-73.56-73.53-73.56-179.57 0-106.05 73.53-179.71 73.53-73.65 179.57-73.65 106.05 0 179.71 73.56Q631.77-688.1 631.77-582q0 42.69-13.27 83.69t-37.27 70.69l253.46 253.47-46.31 46.3ZM378.54-394.77q79.61 0 133.42-53.81 53.81-53.8 53.81-133.42 0-79.62-53.81-133.42-53.81-53.81-133.42-53.81-79.62 0-133.42 53.81-53.81 53.8-53.81 133.42 0 79.62 53.81 133.42 53.8 53.81 133.42 53.81Z"
+      />
+    </svg>
+    <svg *ngIf="showSearch" viewBox="0 -960 960 960">
+      <path
+        d="M252-203.69 205.69-252l227-228-227-230L252-758.31l229 230 227-230L754.31-710l-227 230 227 228L708-203.69l-227-230-229 230Z"
+      />
+    </svg>
+  </button>
 
-      <!-- search icon -->
-
-      <svg *ngIf="!showSearch" class="wrapper_filter" viewBox="0 -960 960 960">
-        <path
-          d="M788.38-127.85 535.92-380.31q-30 24.54-73.5 38.04t-83.88 13.5q-106.1 0-179.67-73.53-73.56-73.53-73.56-179.57 0-106.05 73.53-179.71 73.53-73.65 179.57-73.65 106.05 0 179.71 73.56Q631.77-688.1 631.77-582q0 42.69-13.27 83.69t-37.27 70.69l253.46 253.47-46.31 46.3ZM378.54-394.77q79.61 0 133.42-53.81 53.81-53.8 53.81-133.42 0-79.62-53.81-133.42-53.81-53.81-133.42-53.81-79.62 0-133.42 53.81-53.81 53.8-53.81 133.42 0 79.62 53.81 133.42 53.8 53.81 133.42 53.81Z"
-        />
-      </svg>
-      <!-- close -->
-      <svg class="wrapper_filter" *ngIf="showSearch" viewBox="0 -960 960 960">
-        <path
-          d="M252-203.69 205.69-252l227-228-227-230L252-758.31l229 230 227-230L754.31-710l-227 230 227 228L708-203.69l-227-230-229 230Z"
-        />
-      </svg>
-    </div>
-  </div>
-  <div class="input-field" *ngIf="showSearch">
-    <form [formGroup]="searchForm" class="form__group" id="searchForm">
+  <div class="input-field challenges-panel__filter-select" *ngIf="showSearch">
+    <form [formGroup]="searchForm" id="searchForm">
       <input
         type="input"
-        class="form__field"
         [placeholder]="'admin_rewards.placeholders.search' | translate"
         name="search"
         formControlName="search"
         id="search"
       />
-      <label for="search" class="form__label">
-        <svg class="search-icon" viewBox="0 -960 960 960">
-          <path
-            d="M788.38-127.85 535.92-380.31q-30 24.54-73.5 38.04t-83.88 13.5q-106.1 0-179.67-73.53-73.56-73.53-73.56-179.57 0-106.05 73.53-179.71 73.53-73.65 179.57-73.65 106.05 0 179.71 73.56Q631.77-688.1 631.77-582q0 42.69-13.27 83.69t-37.27 70.69l253.46 253.47-46.31 46.3ZM378.54-394.77q79.61 0 133.42-53.81 53.81-53.8 53.81-133.42 0-79.62-53.81-133.42-53.81-53.81-133.42-53.81-79.62 0-133.42 53.81-53.81 53.8-53.81 133.42 0 79.62 53.81 133.42 53.8 53.81 133.42 53.81Z"
-          />
-        </svg>
-        {{ "admin_rewards.labels.search" | translate }}</label
-      >
     </form>
   </div>
 
   <form [formGroup]="form" *ngIf="showRewardForm">
-    <div class="reward-container surface-elevated">
-      <div class="close-container">
-        <!-- close icon -->
-        <svg
-          class="input-remove"
-          (click)="closeRewardForm($event)"
-          viewBox="0 -960 960 960"
-          *ngIf="showRewardForm"
-        >
-          <path
-            d="M252-203.69 205.69-252l227-228-227-230L252-758.31l229 230 227-230L754.31-710l-227 230 227 228L708-203.69l-227-230-229 230Z"
-          />
-        </svg>
-      </div>
-      <div class="wrapper">
-        <div class="inputs">
-          <div class="upload-icon reward-image-field surface-elevated">
+    <div class="challenges-form games-panel">
+      <div class="challenges-form__inputs">
+        <div class="challenges-form__upload">
+          <div class="reward-image-field">
             <input
               type="file"
               id="file-upload"
               accept="image/*"
               (change)="onFileSelected($event)"
-              class="surface-elevated"
             />
             <label for="file-upload">
-              <div class="image-preview">
-                <img
-                  [src]="imagePreview || '/shared/assets/images/upload_img.svg'"
-                  alt="Selected Image"
-                />
-              </div>
+              <img
+                [src]="imagePreview || '/shared/assets/images/upload_img.svg'"
+                alt="Selected Image"
+              />
             </label>
           </div>
-          <div class="input-field reward-level-field">
-            <label for="level" class="required">
-              {{ "admin_rewards.labels.select_level" | translate }}</label
-            >
+        </div>
 
+        <div class="input-field">
+          <label for="level" class="required">
+            {{ "admin_rewards.labels.select_level" | translate }}</label
+          >
+          <ng-select
+            [items]="rewardLevels"
+            bindValue="id"
+            bindLabel="name"
+            [placeholder]="
+              'admin_rewards.placeholders.select_level' | translate
+            "
+            [searchable]="true"
+            formControlName="selectedLevel"
+            class="app-select-long surface-elevated"
+          >
+          </ng-select>
+        </div>
+
+        <div class="challenges-form__group">
+          <div class="input-field">
+            <label for="requiredPoints" class="required">
+              {{ "admin_rewards.labels.required_points" | translate }}
+              <svg
+                *ngIf="form.controls.requiredPoints.disabled"
+                class="challenges-form__lock"
+                viewBox="0 -960 960 960"
+              >
+                <path
+                  d="M260.62-76q-38.85 0-64.74-25.88Q170-127.77 170-166.62v-358.76q0-38.85 25.88-64.74Q221.77-616 260.62-616H292v-80q0-79.85 54.77-134.92Q401.53-886 480-886t133.23 55.08Q668-775.85 668-696v80h31.38q38.85 0 64.74 25.88Q790-564.23 790-525.38v358.76q0 38.85-25.88 64.74Q738.23-76 699.38-76H260.62Zm0-66h438.76q10.77 0 17.7-6.92 6.92-6.93 6.92-17.7v-358.76q0-10.77-6.92-17.7-6.93-6.92-17.7-6.92H260.62q-10.77 0-17.7 6.92-6.92 6.93-6.92 17.7v358.76q0 10.77 6.92 17.7 6.93 6.92 17.7 6.92Zm219.54-128q31.15 0 52.49-21.51Q554-313.01 554-344.16t-21.51-52.49Q510.99-418 479.84-418t-52.49 21.51Q406-374.99 406-343.84t21.51 52.49Q449.01-270 480.16-270ZM358-616h244v-80q0-51-35.62-87.5t-86.5-36.5q-50.88 0-86.38 36.5Q358-747 358-696v80ZM236-142v-408 408Z"
+                />
+              </svg>
+            </label>
             <ng-select
-              [items]="rewardLevels"
+              [items]="rewardRequiredPointList"
               bindValue="id"
               bindLabel="name"
               [placeholder]="
-                'admin_rewards.placeholders.select_level' | translate
+                'admin_rewards.placeholders.required_points' | translate
               "
               [searchable]="true"
-              formControlName="selectedLevel"
+              formControlName="requiredPoints"
+              [disabled]="form.controls.requiredPoints.disabled"
               class="app-select-long surface-elevated"
             >
             </ng-select>
           </div>
-          <div class="input-group reward-meta-fields">
-            <div class="input-field">
-              <label for="requiredPoints input-label" class="required">
-                {{ "admin_rewards.labels.required_points" | translate }}
-                <!-- lock icon -->
-                <svg
-                  *ngIf="form.controls.requiredPoints.disabled"
-                  class="locked"
-                  viewBox="0 -960 960 960"
-                >
-                  <path
-                    d="M260.62-76q-38.85 0-64.74-25.88Q170-127.77 170-166.62v-358.76q0-38.85 25.88-64.74Q221.77-616 260.62-616H292v-80q0-79.85 54.77-134.92Q401.53-886 480-886t133.23 55.08Q668-775.85 668-696v80h31.38q38.85 0 64.74 25.88Q790-564.23 790-525.38v358.76q0 38.85-25.88 64.74Q738.23-76 699.38-76H260.62Zm0-66h438.76q10.77 0 17.7-6.92 6.92-6.93 6.92-17.7v-358.76q0-10.77-6.92-17.7-6.93-6.92-17.7-6.92H260.62q-10.77 0-17.7 6.92-6.92 6.93-6.92 17.7v358.76q0 10.77 6.92 17.7 6.93 6.92 17.7 6.92Zm219.54-128q31.15 0 52.49-21.51Q554-313.01 554-344.16t-21.51-52.49Q510.99-418 479.84-418t-52.49 21.51Q406-374.99 406-343.84t21.51 52.49Q449.01-270 480.16-270ZM358-616h244v-80q0-51-35.62-87.5t-86.5-36.5q-50.88 0-86.38 36.5Q358-747 358-696v80ZM236-142v-408 408Z"
-                  />
-                </svg>
-              </label>
+          <div class="input-field challenges-form__symbol-field">
+            <label for="cashEquivalent" class="required">{{
+              "admin_rewards.labels.cash_equivalent" | translate
+            }}</label>
+            <input
+              name="cashEquivalent"
+              [placeholder]="
+                'admin_rewards.placeholders.cash_equivalent' | translate
+              "
+              type="number"
+              id="cashEquivalent"
+              formControlName="cashEquivalent"
+            />
+            <span class="challenges-form__symbol">$</span>
+          </div>
+        </div>
 
-              <ng-select
-                [items]="rewardRequiredPointList"
-                bindValue="id"
-                bindLabel="name"
-                [placeholder]="
-                  'admin_rewards.placeholders.required_points' | translate
-                "
-                [searchable]="true"
-                formControlName="requiredPoints"
-                [disabled]="form.controls.requiredPoints.disabled"
-                class="app-select-long surface-elevated"
+        <div class="input-field">
+          <div class="challenges-form__label-row">
+            <label for="name" class="required">{{
+              "admin_rewards.labels.name" | translate
+            }}</label>
+            <div class="challenges-form__lang-buttons">
+              <button
+                type="button"
+                [class.active]="currentLangName === 'EN'"
+                (click)="setLangName('EN')"
+                [class.missing]="!form.get('name_en')?.value"
               >
-              </ng-select>
-            </div>
-            <div class="input-field input-with-symbol">
-              <label for="cashEquivalent" class="required">{{
-                "admin_rewards.labels.cash_equivalent" | translate
-              }}</label>
-              <input
-                name="cashEquivalent"
-                [placeholder]="
-                  'admin_rewards.placeholders.cash_equivalent' | translate
-                "
-                type="number"
-                id="cashEquivalent"
-                formControlName="cashEquivalent"
-                class="surface-elevated"
-              />
-              <span class="symbol">$</span>
+                EN
+              </button>
+              <button
+                type="button"
+                [class.active]="currentLangName === 'BG'"
+                (click)="setLangName('BG')"
+                [class.missing]="!form.get('name_bg')?.value"
+              >
+                BG
+              </button>
             </div>
           </div>
 
-          <div class="input-field reward-name-field">
-            <div class="label-row">
-              <label for="description" class="required">{{
-                "admin_rewards.labels.name" | translate
-              }}</label>
-              <div class="lang-buttons">
-                <button
-                  type="button"
-                  [class.active]="currentLangName === 'EN'"
-                  (click)="setLangName('EN')"
-                  [class.missing]="!form.get('name_en')?.value"
-                >
-                  <svg
-                    viewBox="0 0 24 16"
-                    xmlns="http://www.w3.org/2000/svg"
-                    role="img"
-                  >
-                    <rect width="24" height="16" fill="#012169" />
-                    <path
-                      d="M0 0L24 16M24 0L0 16"
-                      stroke="#FFF"
-                      stroke-width="2"
-                    />
-                    <path
-                      d="M0 0L24 16M24 0L0 16"
-                      stroke="#C8102E"
-                      stroke-width="1"
-                    />
-                    <rect x="10" width="4" height="16" fill="#FFF" />
-                    <rect y="6" width="24" height="4" fill="#FFF" />
-                    <rect x="11" width="2" height="16" fill="#C8102E" />
-                    <rect y="7" width="24" height="2" fill="#C8102E" />
-                  </svg>
-                </button>
-                <button
-                  type="button"
-                  [class.active]="currentLangName === 'BG'"
-                  (click)="setLangName('BG')"
-                  [class.missing]="!form.get('name_bg')?.value"
-                >
-                  <svg
-                    viewBox="0 0 24 16"
-                    xmlns="http://www.w3.org/2000/svg"
-                    role="img"
-                  >
-                    <rect width="24" height="5.33" fill="#fff" />
-                    <rect y="5.33" width="24" height="5.33" fill="#00966e" />
-                    <rect y="10.66" width="24" height="5.34" fill="#d62612" />
-                  </svg>
-                </button>
-              </div>
+          <input
+            *ngIf="currentLangName === 'EN'"
+            name="name"
+            [placeholder]="'admin_rewards.placeholders.name_en' | translate"
+            type="text"
+            id="name"
+            formControlName="name_en"
+          />
+          <input
+            *ngIf="currentLangName === 'BG'"
+            name="name"
+            [placeholder]="'admin_rewards.placeholders.name_bg' | translate"
+            type="text"
+            id="name"
+            formControlName="name_bg"
+          />
+        </div>
+
+        <div class="input-field">
+          <div class="challenges-form__label-row">
+            <label for="description" class="required">{{
+              "admin_rewards.labels.description" | translate
+            }}</label>
+            <div class="challenges-form__lang-buttons">
+              <button
+                type="button"
+                [class.active]="currentLangDescription === 'EN'"
+                (click)="setLangDescription('EN')"
+                [class.missing]="!form.get('description_en')?.value"
+              >
+                EN
+              </button>
+              <button
+                type="button"
+                [class.active]="currentLangDescription === 'BG'"
+                (click)="setLangDescription('BG')"
+                [class.missing]="!form.get('description_bg')?.value"
+              >
+                BG
+              </button>
             </div>
-
-            <input
-              *ngIf="currentLangName === 'EN'"
-              name="name"
-              [placeholder]="'admin_rewards.placeholders.name_en' | translate"
-              type="text"
-              id="name"
-              class="surface-elevated"
-              formControlName="name_en"
-            />
-            <input
-              *ngIf="currentLangName === 'BG'"
-              name="name"
-              [placeholder]="'admin_rewards.placeholders.name_bg' | translate"
-              type="text"
-              id="name"
-              class="surface-elevated"
-              formControlName="name_bg"
-            />
           </div>
-
-          <div class="input-field reward-description-field">
-            <div class="label-row">
-              <label for="description" class="required">{{
-                "admin_rewards.labels.description" | translate
-              }}</label>
-              <div class="lang-buttons">
-                <button
-                  type="button"
-                  [class.active]="currentLangDescription === 'EN'"
-                  (click)="setLangDescription('EN')"
-                  [class.missing]="!form.get('description_en')?.value"
-                >
-                  <svg
-                    viewBox="0 0 24 16"
-                    xmlns="http://www.w3.org/2000/svg"
-                    role="img"
-                  >
-                    <rect width="24" height="16" fill="#012169" />
-                    <path
-                      d="M0 0L24 16M24 0L0 16"
-                      stroke="#FFF"
-                      stroke-width="2"
-                    />
-                    <path
-                      d="M0 0L24 16M24 0L0 16"
-                      stroke="#C8102E"
-                      stroke-width="1"
-                    />
-                    <rect x="10" width="4" height="16" fill="#FFF" />
-                    <rect y="6" width="24" height="4" fill="#FFF" />
-                    <rect x="11" width="2" height="16" fill="#C8102E" />
-                    <rect y="7" width="24" height="2" fill="#C8102E" />
-                  </svg>
-                </button>
-                <button
-                  type="button"
-                  [class.active]="currentLangDescription === 'BG'"
-                  (click)="setLangDescription('BG')"
-                  [class.missing]="!form.get('description_bg')?.value"
-                >
-                  <svg
-                    viewBox="0 0 24 16"
-                    xmlns="http://www.w3.org/2000/svg"
-                    role="img"
-                  >
-                    <rect width="24" height="5.33" fill="#fff" />
-                    <rect y="5.33" width="24" height="5.33" fill="#00966e" />
-                    <rect y="10.66" width="24" height="5.34" fill="#d62612" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-            <textarea
-              *ngIf="currentLangDescription === 'EN'"
-              [placeholder]="
-                'admin_rewards.placeholders.description_en' | translate
-              "
-              formControlName="description_en"
-              #descAreaEn
-              class="expand-textarea-mobile surface-elevated"
-            ></textarea>
-
-            <!-- BG Textarea -->
-            <textarea
-              *ngIf="currentLangDescription === 'BG'"
-              [placeholder]="
-                'admin_rewards.placeholders.description_bg' | translate
-              "
-              formControlName="description_bg"
-              #descAreaBg
-              class="expand-textarea-mobile surface-elevated"
-            ></textarea>
-          </div>
+          <textarea
+            *ngIf="currentLangDescription === 'EN'"
+            [placeholder]="
+              'admin_rewards.placeholders.description_en' | translate
+            "
+            formControlName="description_en"
+            #descAreaEn
+            rows="3"
+          ></textarea>
+          <textarea
+            *ngIf="currentLangDescription === 'BG'"
+            [placeholder]="
+              'admin_rewards.placeholders.description_bg' | translate
+            "
+            formControlName="description_bg"
+            #descAreaBg
+            rows="3"
+          ></textarea>
         </div>
       </div>
 
@@ -332,15 +233,9 @@
       <button
         [disabled]="this.form.invalid"
         type="button"
-        class="btn btn-gray create-btn"
+        class="challenges-form__cta"
         *ngIf="!this.editRewardId"
         (click)="onAddReward()"
-        [ngClass]="{
-          'btn-border-green': this.form.valid,
-          'btn-font-green': this.form.valid,
-          'btn-border-red': this.form.invalid,
-          'btn-font-red': this.form.invalid
-        }"
       >
         {{ "admin_rewards.create_btn" | translate }}
       </button>
@@ -348,85 +243,80 @@
       <button
         [disabled]="this.form.invalid"
         type="button"
-        class="btn btn-gray create-btn"
+        class="challenges-form__cta challenges-form__cta--update"
         *ngIf="this.editRewardId"
         (click)="onUpdateReward()"
-        [ngClass]="{
-          'btn-border-yellow': this.form.valid,
-          'btn-font-yellow': this.form.valid,
-          'btn-border-red': this.form.invalid,
-          'btn-font-red': this.form.invalid
-        }"
       >
         {{ "admin_rewards.update_btn" | translate }}
       </button>
     </div>
   </form>
-</div>
 
-<ng-container *ngIf="rewardList.length === 0">
-  <span class="reward-list-empty">
-    {{ "admin_rewards.no_rewards" | translate }}<br />
-    <strong>{{ "admin_rewards.no_rewards_desc_1" | translate }}</strong
-    >{{ "admin_rewards.no_rewards_desc_2" | translate }}
-  </span>
-</ng-container>
+  <div class="challenges-empty games-panel" *ngIf="rewardList.length === 0">
+    <span>{{ "admin_rewards.no_rewards" | translate }}</span>
+    <span
+      ><strong>{{ "admin_rewards.no_rewards_desc_1" | translate }}</strong
+      >{{ "admin_rewards.no_rewards_desc_2" | translate }}</span
+    >
+  </div>
 
-<section class="wrapper_library">
-  <div
-    *ngFor="let reward of rewardList"
-    class="wrapper_library__item surface-elevated"
-    [ngClass]="{ 'wrapper_library__item-active': reward.id === editRewardId }"
-  >
-    <div class="wrapper_image">
-      <img
-        [src]="reward.imageUrl"
-        alt="Reward Image"
-      />
-    </div>
-    <div class="wrapper_info">
-      <div class="wrapper_title">
-        {{
-          currentLanguage === SupportLanguages.EN
-            ? reward.name_EN
-            : reward.name_BG
-        }}
-        <div class="wrapper_description">
+  <section class="challenges-grid">
+    <div
+      *ngFor="let reward of rewardList"
+      class="challenge-row games-panel"
+      [class.challenge-row--active]="reward.id === editRewardId"
+    >
+      <div class="challenge-row__thumb">
+        <img [src]="reward.imageUrl" alt="Reward Image" />
+      </div>
+      <div class="challenge-row__info">
+        <span class="challenge-row__title">
+          {{
+            currentLanguage === SupportLanguages.EN
+              ? reward.name_EN
+              : reward.name_BG
+          }}
+        </span>
+        <span class="challenge-row__meta">
           {{
             currentLanguage === SupportLanguages.EN
               ? reward.description_EN
               : reward.description_BG
           }}
-        </div>
-        <div class="wrapper_description">
+        </span>
+        <span class="challenge-row__meta">
           {{
             reward.cashEquivalent
               | currency : ("admin_rewards.currency" | translate)
           }}
-        </div>
+        </span>
       </div>
-      <div class="wrapper_right">
-        <!-- edit icon -->
-        <svg
-          class="icon"
+      <div class="challenge-row__actions">
+        <button
+          type="button"
+          class="challenge-row__icon-btn"
           (click)="fillEditRewardForm(reward.id)"
-          viewBox="0 -960 960 960"
+          aria-label="Edit reward"
         >
-          <path
-            d="M194-194h43.92l407.93-407.92-43.93-42.93L194-236.92V-194Zm-66 66v-136.77l557.23-558.77q5.15-5.48 11.57-6.97 6.43-1.49 12.49-1.49 6.06 0 11.12.54 5.05.54 11.44 6.15l92.69 91.93q5.61 6.38 6.54 12 .92 5.63.92 12.25 0 6.13-1.74 12.06-1.74 5.92-6.72 11.07L264.77-128H128Zm626.77-581.31-45.46-44.46 45.46 44.46ZM624.5-623.5l-22.58-21.35 43.93 42.93-21.35-21.58Z"
-          />
-        </svg>
-        <!-- delete icon -->
-        <svg
-          class="icon"
+          <svg viewBox="0 -960 960 960">
+            <path
+              d="M194-194h43.92l407.93-407.92-43.93-42.93L194-236.92V-194Zm-66 66v-136.77l557.23-558.77q5.15-5.48 11.57-6.97 6.43-1.49 12.49-1.49 6.06 0 11.12.54 5.05.54 11.44 6.15l92.69 91.93q5.61 6.38 6.54 12 .92 5.63.92 12.25 0 6.13-1.74 12.06-1.74 5.92-6.72 11.07L264.77-128H128Zm626.77-581.31-45.46-44.46 45.46 44.46ZM624.5-623.5l-22.58-21.35 43.93 42.93-21.35-21.58Z"
+            />
+          </svg>
+        </button>
+        <button
+          type="button"
+          class="challenge-row__icon-btn challenge-row__icon-btn--danger"
           (click)="openDeleteDialog(reward.id)"
-          viewBox="0 -960 960 960"
+          aria-label="Delete reward"
         >
-          <path
-            d="M300.62-128q-38.85 0-64.74-25.88Q210-179.77 210-218.62V-724h-40v-66h188v-38.77h246V-790h188v66h-40v505.38q0 38.35-26.14 64.48Q699.73-128 661.38-128H300.62ZM686-724H276v505.38q0 10.77 6.92 17.7 6.93 6.92 17.7 6.92h360.76q9.24 0 16.93-7.69 7.69-7.69 7.69-16.93V-724ZM371.31-275h66v-368h-66v368Zm153.38 0h66v-368h-66v368ZM276-724v530-530Z"
-          />
-        </svg>
+          <svg viewBox="0 -960 960 960">
+            <path
+              d="M300.62-128q-38.85 0-64.74-25.88Q210-179.77 210-218.62V-724h-40v-66h188v-38.77h246V-790h188v66h-40v505.38q0 38.35-26.14 64.48Q699.73-128 661.38-128H300.62ZM686-724H276v505.38q0 10.77 6.92 17.7 6.93 6.92 17.7 6.92h360.76q9.24 0 16.93-7.69 7.69-7.69 7.69-16.93V-724ZM371.31-275h66v-368h-66v368Zm153.38 0h66v-368h-66v368ZM276-724v530-530Z"
+            />
+          </svg>
+        </button>
       </div>
     </div>
-  </div>
-</section>
+  </section>
+</div>

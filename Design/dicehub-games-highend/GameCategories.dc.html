@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Sora:wght@400;500;600;700&display=swap');
+    :root {
+      --bg: #07070a;
+      --glass: rgba(255,255,255,0.045);
+      --glass-core: rgba(255,255,255,0.065);
+      --hairline: rgba(255,255,255,0.09);
+      --hairline-strong: rgba(255,255,255,0.17);
+      --text: #f4f2ee;
+      --text-muted: rgba(244,242,238,0.6);
+      --text-faint: rgba(244,242,238,0.36);
+      --accent: oklch(0.7 0.13 250);
+      --accent-light: oklch(0.82 0.08 250);
+      --accent-ink: #071022;
+      --accent-glow: oklch(0.7 0.13 250 / 0.22);
+      --gold: oklch(0.78 0.13 82);
+      --shadow: 0 24px 60px -24px oklch(0.1 0.05 260 / 0.8);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); font-family: 'Sora', ui-sans-serif, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+    .display { font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif; }
+    .glow { position: absolute; border-radius: 50%; filter: blur(60px); pointer-events: none; animation: glowBreathe 7s ease-in-out infinite; }
+    @keyframes glowBreathe { 0%,100% { opacity: 0.45; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.15); } }
+    .eyebrow { display: inline-flex; align-items: center; gap: 6px; font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; padding: 6px 11px; border-radius: 999px; }
+    .cat { border-radius: 1.25rem; padding: 16px 14px; display: flex; flex-direction: column; gap: 12px; border: 1px solid var(--hairline); background: var(--glass-core); min-height: 84px; justify-content: space-between; }
+    .cat-icon { width: 32px; height: 32px; border-radius: 0.7rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .navbar { position: absolute; left: 18px; right: 18px; bottom: 22px; display: flex; align-items: center; justify-content: space-between; padding: 10px 18px; border-radius: 999px; background: rgba(13,13,18,0.72); backdrop-filter: blur(20px); border: 1px solid var(--hairline-strong); box-shadow: 0 20px 44px -14px rgba(0,0,0,0.75); }
+    .navbar .fab { width: 50px; height: 50px; border-radius: 999px; background: linear-gradient(135deg, var(--gold), #caa53a); display: flex; align-items: center; justify-content: center; margin-top: -24px; box-shadow: 0 10px 24px -8px oklch(0.78 0.13 82 / 0.55), 0 0 0 6px var(--bg); }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); filter: blur(5px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
+    .stagger > * { opacity: 0; animation: fadeUp 650ms cubic-bezier(.32,.72,0,1) forwards; }
+    .stagger > *:nth-child(1) { animation-delay: .03s; } .stagger > *:nth-child(2) { animation-delay: .09s; } .stagger > *:nth-child(3) { animation-delay: .15s; }
+  </style>
+</helmet>
+
+<div style="width:393px;background:var(--bg);color:var(--text);padding:26px 20px 150px;display:flex;flex-direction:column;gap:22px;position:relative;overflow:hidden;">
+
+  <div class="glow" style="width:240px;height:240px;top:-70px;right:-90px;background:var(--accent-glow);"></div>
+
+  <div class="stagger" style="display:flex;flex-direction:column;gap:20px;position:relative;">
+
+    <div style="display:flex;flex-direction:column;gap:4px;">
+      <span class="eyebrow" style="color:var(--accent-light);background:var(--accent-glow);">Browse by type</span>
+      <span class="display" style="font-size:28px;font-weight:800;letter-spacing:-0.01em;margin-top:6px;">Categories</span>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;">
+
+      <div class="cat" style="background:linear-gradient(135deg,var(--accent-light),var(--accent));border-color:transparent;box-shadow:var(--shadow);">
+        <div class="cat-icon" style="background:rgba(7,16,34,0.14);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent-ink)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></div>
+        <span style="font-size:14px;font-weight:700;color:var(--accent-ink);">All Games</span>
+      </div>
+
+      <div class="cat"><div class="cat-icon" style="background:oklch(0.72 0.12 165 / 0.16);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="oklch(0.72 0.12 165)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg></div><span style="font-size:14px;font-weight:700;">Strategy</span></div>
+
+      <div class="cat"><div class="cat-icon" style="background:oklch(0.66 0.17 300 / 0.16);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="oklch(0.66 0.17 300)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/><circle cx="12" cy="12" r="4"/></svg></div><span style="font-size:14px;font-weight:700;">Party</span></div>
+
+      <div class="cat"><div class="cat-icon" style="background:oklch(0.66 0.16 25 / 0.16);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="oklch(0.66 0.16 25)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 19c.8-3.3 3-5 6-5s5.2 1.7 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 12.2c2.6.2 4 1.7 4.6 4.3"/></svg></div><span style="font-size:14px;font-weight:700;">Cooperative</span></div>
+
+      <div class="cat"><div class="cat-icon" style="background:var(--gold) / 0.16;background:oklch(0.78 0.13 82 / 0.16);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2 1.4 1.4 0 0 0 0 4 2 2 0 0 1-2 2H5a2 2 0 0 1-2-2 1.4 1.4 0 0 0 0-4z"/></svg></div><span style="font-size:14px;font-weight:700;">Family</span></div>
+
+      <div class="cat"><div class="cat-icon" style="background:oklch(0.72 0.12 165 / 0.16);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="oklch(0.72 0.12 165)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 9h18"/></svg></div><span style="font-size:14px;font-weight:700;">Card</span></div>
+
+      <div class="cat"><div class="cat-icon" style="background:oklch(0.66 0.17 300 / 0.16);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="oklch(0.66 0.17 300)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l5-8 5 4 5-6 3 10"/><path d="M3 12v7h18v-7"/></svg></div><span style="font-size:14px;font-weight:700;">Adventure</span></div>
+
+      <div class="cat"><div class="cat-icon" style="background:oklch(0.66 0.16 25 / 0.16);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="oklch(0.66 0.16 25)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.5 5 5.5.7-4 3.9 1 5.4L12 14.5 6.9 17l1-5.4-4-3.9L9.5 7z"/></svg></div><span style="font-size:14px;font-weight:700;">Fantasy</span></div>
+
+      <div class="cat"><div class="cat-icon" style="background:oklch(0.78 0.13 82 / 0.16);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/></svg></div><span style="font-size:14px;font-weight:700;">Abstract</span></div>
+
+      <div class="cat"><div class="cat-icon" style="background:oklch(0.72 0.12 165 / 0.16);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="oklch(0.72 0.12 165)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21l7-16 4 9 3-6 4 13"/></svg></div><span style="font-size:14px;font-weight:700;">Economy</span></div>
+
+      <div class="cat"><div class="cat-icon" style="background:oklch(0.66 0.17 300 / 0.16);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="oklch(0.66 0.17 300)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="12" height="16" rx="1.5"/><rect x="8" y="7" width="12" height="16" rx="1.5" fill="var(--bg)"/></svg></div><span style="font-size:14px;font-weight:700;">Deck Building</span></div>
+
+      <div class="cat"><div class="cat-icon" style="background:oklch(0.66 0.16 25 / 0.16);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="oklch(0.66 0.16 25)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="1.3" fill="oklch(0.66 0.16 25)" stroke="none"/></svg></div><span style="font-size:14px;font-weight:700;">Dexterity</span></div>
+
+    </div>
+
+  </div>
+
+  <div class="navbar">
+    <div class="icon-btn" style="width:38px;height:38px;border-radius:999px;display:flex;align-items:center;justify-content:center;background:var(--accent-glow);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-light)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9a1 1 0 0 0 1 1h4v-6h2v6h4a1 1 0 0 0 1-1v-9"/></svg></div>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 19c.8-3.3 3-5 6-5s5.2 1.7 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 12.2c2.6.2 4 1.7 4.6 4.3"/></svg>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16"/><path d="M8 3v4M16 3v4"/><path d="M9.5 14l1.8 1.8L15 12"/></svg>
+    <div class="fab"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="var(--accent-ink)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8v4a4 4 0 0 1-8 0z"/><path d="M8 5H5a3 3 0 0 0 3 5"/><path d="M16 5h3a3 3 0 0 1-3 5"/><path d="M10 13v3M14 13v3"/><path d="M8 20h8"/><path d="M9 17h6l1 3H8z"/></svg></div>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2 1.6 1.6 0 0 0 0 6 2 2 0 0 1-2 2H6a2 2 0 0 1-2-2 1.6 1.6 0 0 0 0-6z"/><path d="M9 7.5v2M9 12.5v2M9 17v-2"/></svg>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c1.2-4 4-5.5 7-5.5s5.8 1.5 7 5.5"/></svg>
+  </div>
+
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

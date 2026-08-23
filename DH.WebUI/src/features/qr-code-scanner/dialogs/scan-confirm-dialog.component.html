@@ -1,27 +1,34 @@
-<div class="dialog-container">
-  <h2 class="dialog-container__header" mat-dialog-title>
-    {{ "qr_scanner.scan_confirm_dialog.header" | translate }}
-  </h2>
-  <div class="wrapper">
-    <p>{{ "qr_scanner.scan_confirm_dialog.description" | translate }}</p>
-    <p class="type" *ngIf="data?.type">
-      {{ "qr_scanner.scan_confirm_dialog.type" | translate }}
-      <strong class="blue">{{ getTranslateType}}</strong>
-    </p>
+<div class="confirm-sheet">
+  <div class="confirm-sheet__handle"></div>
+
+  <div class="confirm-sheet__head">
+    <div class="confirm-sheet__icon confirm-sheet__icon--teal">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 12.5l4.5 4.5L19 7"/>
+      </svg>
+    </div>
+    <div>
+      <div class="confirm-sheet__title" mat-dialog-title>
+        {{ "qr_scanner.scan_confirm_dialog.header" | translate }}
+      </div>
+      <div class="confirm-sheet__subtitle">
+        {{ "qr_scanner.scan_confirm_dialog.description" | translate }}
+      </div>
+    </div>
   </div>
-  <div class="btn_wrapper">
-    <button
-      mat-dialog-close
-      (click)="onCancel()"
-      class="btn btn__extra-small btn-gray btn-border-blue btn-font-blue"
-    >
+
+  <div class="confirm-sheet__info" *ngIf="data?.type">
+    <div class="confirm-sheet__info-row">
+      <span class="confirm-sheet__info-label">{{ "qr_scanner.scan_confirm_dialog.type" | translate }}</span>
+      <span class="confirm-sheet__info-value">{{ getTranslateType }}</span>
+    </div>
+  </div>
+
+  <div class="confirm-sheet__actions">
+    <button type="button" mat-dialog-close (click)="onCancel()" class="confirm-sheet__btn confirm-sheet__btn--ghost">
       {{ "close" | translate }}
     </button>
-    <button
-      mat-flat-button
-      class="btn btn__small btn-gray btn-border-green btn-font-green"
-      (click)="onConfirm()"
-    >
+    <button type="button" class="confirm-sheet__btn confirm-sheet__btn--teal" (click)="onConfirm()">
       {{ "confirm" | translate }}
     </button>
   </div>

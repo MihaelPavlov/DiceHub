@@ -1,8 +1,15 @@
 @use "../../../../shared/assets/styles/palette";
 
+:host {
+  display: block;
+  min-height: 100vh;
+  background: var(--games-bg);
+  color: var(--games-text);
+}
+
 .wrapper_container {
   overflow: auto;
-  margin-bottom: 2.5rem;
+  padding-bottom: 2.5rem;
 
   .wrapper_image {
     text-align: center;
@@ -12,7 +19,7 @@
       width: 10rem;
       height: 10rem;
       object-fit: cover;
-      border-radius: 20px;
+      border-radius: 1.25rem;
     }
   }
 
@@ -21,10 +28,17 @@
     font-size: 1.5rem;
     max-width: 100%;
     margin: 1rem;
+    color: var(--games-muted);
+
+    b {
+      color: var(--games-text);
+    }
   }
 
   .wrapper_chips {
-    background-color: palette.$main-nav-color;
+    background-color: var(--games-surface);
+    border: 1px solid var(--games-border);
+    border-radius: 1.25rem;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -32,11 +46,13 @@
     &__detail {
       margin: 0.5rem;
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
       width: 45%;
       align-items: center;
+      color: var(--games-muted);
+      font-size: 0.9rem;
 
-      span {
+      span:not(.games-pill) {
         margin: 0 0.5rem;
       }
     }
@@ -50,20 +66,27 @@
   .wrapper_tabs {
     display: flex;
     justify-content: space-evenly;
+    gap: 1rem;
     margin-top: 2rem;
 
     &__tab {
       display: flex;
       flex-direction: column;
-      width: 8rem;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      flex: 1;
       height: 8rem;
-      border-radius: 0.5rem;
-      background-color: palette.$main-nav-color;
-      color: palette.$main-font-gray-color;
+      border: 1px solid var(--games-border);
+      border-radius: 1.1rem;
+      background-color: var(--games-surface);
+      color: var(--games-muted);
+      cursor: pointer;
 
       &-header {
         margin: 0 0.75rem;
-        font-weight: 600;
+        font-weight: 700;
+        font-size: 0.85rem;
         text-align: center;
       }
 
@@ -72,11 +95,14 @@
         justify-content: center;
 
         svg {
-          width: 3.5rem;
-          height: 3.5rem;
-          margin: 0.7rem;
-          fill: palette.$main-font-gray-color;
+          width: 2.25rem;
+          height: 2.25rem;
+          fill: var(--games-amber);
         }
+      }
+
+      &:nth-child(2) .info svg {
+        fill: var(--games-teal);
       }
     }
   }
@@ -84,45 +110,16 @@
   .wrapper_icons {
     display: flex;
     justify-content: space-between;
-    padding: 0 1rem;
-    padding-top: 1rem;
     align-items: center;
+    padding: 1rem;
 
     .header_name {
-      font-size: 1.5rem;
-      padding-top: 1rem;
-      padding-bottom: 0.5rem;
+      flex: 1;
+      min-width: 0;
+      font-size: 1.125rem;
+      font-weight: 700;
       word-wrap: break-word;
-      width: 70%;
       text-align: center;
-    }
-
-    .arrow {
-      width: 3rem;
-      height: 3rem;
-      display: inline-block;
-      position: relative;
-      border: 0.1rem solid palette.$main-icon-color;
-      border-radius: 2.5rem;
-
-      &::before {
-        content: "";
-        display: block;
-        width: 0.75rem;
-        height: 0.75rem;
-        top: 65%;
-        left: 63%;
-        border-style: solid;
-        border-color: palette.$main-icon-color;
-        border-width: 0.2rem 0.2rem 0 0;
-        position: absolute;
-        transform-origin: 50% 50%;
-      }
-
-      &.left::before {
-        transform: rotate(-135deg);
-        margin: -0.9rem 0 0 -0.6rem;
-      }
     }
   }
 
@@ -159,13 +156,13 @@
       width: 18rem;
       margin: 1rem 2rem 1rem 0;
       padding: 1rem;
-      border-radius: 0.5rem;
-      background-color: palette.$main-nav-color;
+      border-radius: 1.25rem;
+      background-color: var(--games-surface);
 
       img {
         width: 16rem;
         height: 16rem;
-        border-radius: 0.5rem;
+        border-radius: 0.75rem;
       }
     }
 
@@ -178,14 +175,17 @@
     .wrapper_chips {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 0.5rem;
-      padding: 1rem;
-      border-radius: 0.5rem;
+      gap: 0.85rem;
+      padding: 1.25rem;
+      border-radius: 1.25rem;
 
       &__detail {
         width: auto;
-        justify-content: flex-start;
+        justify-content: space-between;
         margin: 0;
+        padding: 0.75rem 0.9rem;
+        border-radius: 0.85rem;
+        background: var(--games-surface-2);
       }
     }
 
@@ -198,20 +198,21 @@
       &__tab {
         width: 14rem;
         height: 6rem;
-        flex-direction: row;
+        flex: 0 0 auto;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 0.75rem;
-        border-radius: 0.5rem;
+        gap: 0.5rem;
+        border-radius: 1.1rem;
 
         &-header {
           margin: 0;
-          text-align: left;
+          text-align: center;
         }
 
         .info svg {
-          width: 2.5rem;
-          height: 2.5rem;
+          width: 2rem;
+          height: 2rem;
           margin: 0;
         }
       }

@@ -1,24 +1,100 @@
-@use "../../../../shared/assets/styles/palette";
+.games-shell {
+  min-height: 100vh;
+  padding: 1.5rem 1.25rem 7rem;
+  background:
+    radial-gradient(circle at 12% 0%, rgba(141, 102, 214, 0.14), transparent 28rem),
+    var(--games-bg);
+  color: var(--games-text);
+}
+
+.games-shell__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  width: min(72rem, 100%);
+  margin: 0 auto;
+
+  h1 {
+    margin: 0;
+    font-size: 1.65rem;
+    line-height: 1.05;
+    letter-spacing: 0;
+  }
+}
+
+.games-shell__icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  flex-shrink: 0;
+  border: 1px solid var(--games-border);
+  border-radius: 999px;
+  background: var(--games-surface);
+  color: var(--games-text);
+  cursor: pointer;
+
+  svg {
+    width: 1.15rem;
+    height: 1.15rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+.games-shell__tabs {
+  display: flex;
+  gap: 0.55rem;
+  width: min(72rem, 100%);
+  margin: 1rem auto 0;
+}
+
+.games-shell__tabs--seg {
+  padding: 0.3rem;
+  border-radius: 1.1rem;
+  background: var(--games-surface-2);
+  width: fit-content;
+
+  .games-chip {
+    border: 0;
+    background: transparent;
+    color: var(--games-faint);
+  }
+
+  .games-chip--active {
+    background: var(--games-blue);
+    color: var(--games-blue-ink);
+  }
+}
 
 .no-records {
-  font-size: 1.2rem;
+  font-size: 1rem;
   text-align: center;
   margin: 0 auto;
   margin-top: 6rem;
   width: 80%;
+  color: var(--games-muted);
 }
 
 .blue {
-  color: palette.$main-blue-color;
+  color: var(--games-amber);
+  cursor: pointer;
 }
 
 .wrapper_challenges {
   display: flex;
   flex-direction: column;
-  margin-top: 0.5rem;
-  margin-bottom: 10rem;
+  margin-top: 1.25rem;
+  margin-bottom: 3rem;
   align-items: center;
-  width: 100%;
+  width: min(72rem, 100%);
+  margin-left: auto;
+  margin-right: auto;
 
   .completed {
     opacity: 0.5;
@@ -27,9 +103,11 @@
   &__item {
     display: flex;
     margin: 0.5rem 1rem;
-    border-radius: 1rem;
-    background-color: palette.$main-nav-color;
+    border-radius: 1.1rem;
+    background-color: var(--games-surface);
+    border: 1px solid var(--games-border);
     width: 90%;
+    color: var(--games-text);
 
     .info {
       width: 70%;
@@ -37,9 +115,11 @@
       flex-direction: column;
       justify-content: center;
       margin: 0.5rem 0;
+      gap: 0.15rem;
 
       .header {
         margin: 0.1rem 0;
+        font-weight: 700;
       }
     }
 
@@ -65,19 +145,27 @@
         height: 3rem;
         object-fit: cover;
         border-radius: 5rem;
+        border: 1px solid var(--games-border);
       }
     }
   }
 }
 
 @media (min-width: 900px) {
+  .games-shell {
+    padding: 2.5rem 3rem 4rem;
+  }
+
+  .games-shell__header h1 {
+    font-size: 2.25rem;
+  }
+
   .no-records {
-    width: min(36rem, calc(100vw - 16rem));
+    width: min(36rem, 100%);
     margin-top: 5rem;
   }
 
   .wrapper_challenges {
-    width: min(72rem, calc(100vw - 16rem));
     margin: 1rem auto 3rem;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(24rem, 1fr));

@@ -1,6 +1,19 @@
-<div class="wrapper_icons">
-  <span (click)="backNavigateBtn()" class="arrow left"></span>
-</div>
+<header class="events-form-header">
+  <button
+    type="button"
+    class="games-icon-btn"
+    (click)="backNavigateBtn()"
+    aria-label="Back"
+  >
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M15 5l-7 7 7 7" />
+    </svg>
+  </button>
+  <span class="events-form-header__title games-display">{{
+    (this.editEventId ? "events.add_update.buttons.update" : "events.add_update.buttons.create") | translate
+  }}</span>
+  <span class="games-icon-btn games-icon-btn--spacer" aria-hidden="true"></span>
+</header>
 
 <form [formGroup]="form" class="container">
   <div class="upload-section">
@@ -27,19 +40,21 @@
       <span class="surface-elevated">{{ "events.add_update.event_info" | translate }}</span>
     </div>
 
-    <div class="input-field">
+    <div class="input-field custom-image-field">
       <label for="is-custom-image">{{
         "events.add_update.labels.use_custom_image" | translate
       }}</label>
-      <input
-        type="checkbox"
-        id="is-custom-image"
-        formControlName="isCustomImage"
-        class="surface-elevated"
-      />
+      <label class="toggle-switch" for="is-custom-image">
+        <input
+          type="checkbox"
+          id="is-custom-image"
+          formControlName="isCustomImage"
+        />
+        <span class="toggle-switch__track"></span>
+      </label>
     </div>
 
-    <div class="input-field">
+    <div class="input-field game-field">
       <label for="game" class="required">{{
         "events.add_update.labels.game" | translate
       }}</label>
@@ -56,7 +71,7 @@
       </ng-select>
     </div>
 
-    <div class="input-group">
+    <div class="input-group datetime-fields">
       <div class="input-field">
         <label for="start-date" class="required">{{
           "events.add_update.labels.start_date" | translate
@@ -89,7 +104,7 @@
         />
       </div>
     </div>
-    <div class="input-group">
+    <div class="input-group name-max-fields">
       <div class="input-field">
         <label for="name" class="required">{{
           "events.add_update.labels.name" | translate
@@ -117,7 +132,7 @@
         />
       </div>
     </div>
-    <div class="input-field">
+    <div class="input-field description-field">
       <div class="label-row">
         <label for="description" class="required">{{
           "events.add_update.labels.description" | translate
@@ -198,13 +213,7 @@
       [disabled]="this.form.invalid"
       type="button"
       (click)="this.onAdd()"
-      class="btn btn-gray"
-      [ngClass]="{
-        'btn-border-green': this.form.valid,
-        'btn-font-green': this.form.valid,
-        'btn-border-red': this.form.invalid,
-        'btn-font-red': this.form.invalid
-      }"
+      class="events-cta"
     >
       {{ "events.add_update.buttons.create" | translate }}
     </button>
@@ -214,13 +223,7 @@
       [disabled]="this.form.invalid"
       type="button"
       (click)="this.onUpdate()"
-      class="btn btn-gray"
-      [ngClass]="{
-        'btn-border-yellow': this.form.valid,
-        'btn-font-yellow': this.form.valid,
-        'btn-border-red': this.form.invalid,
-        'btn-font-red': this.form.invalid
-      }"
+      class="events-cta events-cta--update"
     >
       {{ "events.add_update.buttons.update" | translate }}
     </button>

@@ -14,6 +14,7 @@ import { TenantContextService } from '../../services/tenant-context.service';
 })
 export class ForbiddenComponent extends ExceptionBaseComponent {
   protected imageCode = '403';
+  protected accent = 'coral' as const;
 
   constructor(
     router: Router,

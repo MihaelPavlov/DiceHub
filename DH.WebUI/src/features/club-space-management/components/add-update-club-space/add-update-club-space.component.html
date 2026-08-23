@@ -95,13 +95,7 @@
       [disabled]="this.form.invalid"
       type="button"
       (click)="this.onAdd()"
-      class="btn btn-gray"
-      [ngClass]="{
-        'btn-border-blue': this.form.valid,
-        'btn-font-blue': this.form.valid,
-        'btn-border-red': this.form.invalid,
-        'btn-font-red': this.form.invalid
-      }"
+      class="games-cta"
     >
       {{ "space_management.add_update.create_btn" | translate }}
     </button>
@@ -110,13 +104,7 @@
       [disabled]="this.form.invalid"
       type="button"
       (click)="this.onUpdate()"
-      class="btn btn-gray"
-      [ngClass]="{
-        'btn-border-yellow': this.form.valid,
-        'btn-font-yellow': this.form.valid,
-        'btn-border-red': this.form.invalid,
-        'btn-font-red': this.form.invalid
-      }"
+      class="games-cta"
     >
       {{ "space_management.add_update.update_btn" | translate }}
     </button>

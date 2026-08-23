@@ -1,16 +1,25 @@
-<div class="dialog-container">
-  <h3 class="dialog-container__header m-4">
-    {{ "events.delete_event.message" | translate }}
-  </h3>
-  <p class="m-4">
-    {{ "events.delete_event.message_dependencies" | translate }}
-  </p>
-  <mat-dialog-actions>
-    <button class="btn btn__small btn-blue" mat-dialog-close>
+<div class="confirm-sheet">
+  <div class="confirm-sheet__handle"></div>
+
+  <div class="confirm-sheet__centered">
+    <div class="confirm-sheet__icon confirm-sheet__icon--lg confirm-sheet__icon--coral">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 7h14"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/><path d="M7 7l1 13a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2l1-13"/><path d="M10 11v6M14 11v6"/>
+      </svg>
+    </div>
+
+    <div>
+      <div class="confirm-sheet__title">{{ "events.delete_event.message" | translate }}</div>
+      <p class="confirm-sheet__message">{{ "events.delete_event.message_dependencies" | translate }}</p>
+    </div>
+  </div>
+
+  <div class="confirm-sheet__actions">
+    <button class="confirm-sheet__btn confirm-sheet__btn--ghost" mat-dialog-close>
       {{ "cancel" | translate }}
     </button>
-    <button class="btn btn__small btn-red btn-border-red" (click)="delete()">
+    <button class="confirm-sheet__btn confirm-sheet__btn--coral" (click)="delete()">
       {{ "delete" | translate }}
     </button>
-  </mat-dialog-actions>
+  </div>
 </div>

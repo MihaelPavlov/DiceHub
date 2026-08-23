@@ -1,12 +1,25 @@
-<app-header
-  [header]="
-    (selectedInstruction?.title | translate) ??
-    ('instruction.instruction_header' | translate)
-  "
-  [withBackBtn]="true"
-  (backClicked)="navigateBack()"
-></app-header>
+<section class="instruction-detail-shell">
+  <header class="instruction-detail-shell__header">
+    <button
+      type="button"
+      class="games-icon-btn"
+      (click)="navigateBack()"
+      aria-label="Back"
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M15 5l-7 7 7 7" />
+      </svg>
+    </button>
+    <h1 class="instruction-detail-shell__title">
+      {{
+        (selectedInstruction?.title | translate) ??
+          ("instruction.instruction_header" | translate)
+      }}
+    </h1>
+    <div class="games-icon-btn games-icon-btn--spacer" aria-hidden="true"></div>
+  </header>
 
-<main class="instruction-detail" *ngIf="selectedTopic">
-  <app-link-info [linkInfo]="selectedTopic.steps"></app-link-info>
-</main>
+  <main class="instruction-detail-shell__body" *ngIf="selectedTopic">
+    <app-link-info [linkInfo]="selectedTopic.steps"></app-link-info>
+  </main>
+</section>

@@ -1,6 +1,43 @@
-<div class="error-wrapper">
-  <img class="error-code-icon" [src]="imgPath" />
-  <button class="btn btn__exception" (click)="redirectTo()">
-    {{ "back_to_home" | translate }}
-  </button>
-</div>
+<section class="exceptions-shell">
+  <div class="exceptions-blob exceptions-blob--violet" aria-hidden="true"></div>
+  <div class="exceptions-blob exceptions-blob--amber" aria-hidden="true"></div>
+
+  <span class="exceptions-watermark" aria-hidden="true">{{ imageCode }}</span>
+
+  <div class="exceptions-brand" aria-hidden="true">
+    <div class="exceptions-brand__icon">
+      <svg viewBox="0 0 24 24">
+        <path d="M8 4h8v4a4 4 0 0 1-8 0z" />
+        <path d="M8 5H5a3 3 0 0 0 3 5" />
+        <path d="M16 5h3a3 3 0 0 1-3 5" />
+        <path d="M10 13v3M14 13v3" />
+        <path d="M8 20h8" />
+        <path d="M9 17h6l1 3H8z" />
+      </svg>
+    </div>
+    <span class="exceptions-brand__name">DiceHub</span>
+  </div>
+
+  <div class="exceptions-content">
+    <img class="exceptions-illustration" [src]="imgPath" alt="" />
+
+    <div class="exceptions-icon-badge" [ngClass]="'exceptions-icon-badge--' + accent">
+      <svg viewBox="0 0 24 24">
+        <rect x="4" y="4.5" width="16" height="6" rx="2" />
+        <rect x="4" y="13.5" width="16" height="6" rx="2" />
+        <circle cx="7.5" cy="7.5" r="0.6" fill="var(--games-coral)" stroke="none" />
+        <circle cx="7.5" cy="16.5" r="0.6" fill="var(--games-coral)" stroke="none" />
+        <path d="M13 7.5h4M13 16.5h4" />
+      </svg>
+    </div>
+
+    <span class="exceptions-eyebrow" [ngClass]="'exceptions-eyebrow--' + accent">{{ "exceptions." + imageCode + ".eyebrow" | translate }}</span>
+
+    <h1 class="exceptions-title">{{ "exceptions." + imageCode + ".title" | translate }}</h1>
+    <p class="exceptions-description">{{ "exceptions." + imageCode + ".description" | translate }}</p>
+
+    <button type="button" class="exceptions-cta" (click)="redirectTo()">
+      {{ "back_to_home" | translate }}
+    </button>
+  </div>
+</section>

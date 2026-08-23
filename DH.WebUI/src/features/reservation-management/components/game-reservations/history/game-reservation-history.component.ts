@@ -76,7 +76,7 @@ export class GameReservationHistory implements OnDestroy {
 
   public updateReservation(id: number): void {
     const dialogRef = this.dialog.open(ReservationDetailsDialog, {
-      width: '17rem',
+      panelClass: 'confirm-sheet-pane',
       data: {
         reservationId: id,
         action: ReservationDetailsActions.Edit,
@@ -96,7 +96,7 @@ export class GameReservationHistory implements OnDestroy {
 
   public deleteReservation(id: number): void {
     const dialogRef = this.dialog.open(ReservationDetailsDialog, {
-      width: '17rem',
+      panelClass: 'confirm-sheet-pane',
       data: {
         reservationId: id,
         action: ReservationDetailsActions.Delete,
@@ -116,7 +116,7 @@ export class GameReservationHistory implements OnDestroy {
 
   public approveReservation(record: IGameReservationHistory): void {
     const dialogRef = this.dialog.open(ReservationConfirmationDialog, {
-      width: '17rem',
+      panelClass: 'confirm-sheet-pane',
       data: {
         type: ReservationType.Game,
         reservationId: record.id,
@@ -140,7 +140,7 @@ export class GameReservationHistory implements OnDestroy {
 
   public declineReservation(record: IGameReservationHistory): void {
     const dialogRef = this.dialog.open(ReservationConfirmationDialog, {
-      width: '17rem',
+      panelClass: 'confirm-sheet-pane',
       data: {
         type: ReservationType.Game,
         reservationId: record.id,

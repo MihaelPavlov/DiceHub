@@ -149,6 +149,10 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
     return this.languageService.getCurrentLanguage();
   }
 
+  public navigateToQrCodeScanner(): void {
+    this.tenantRouter.navigateTenant('/qr-code-scanner');
+  }
+
   public toggleMenu(menu: ControlsMenuComponent, description: string): void {
     menu.infoDescription = description;
     menu.toggleMenu();
@@ -333,7 +337,7 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
 
   public openUniversalChallengeBuyItemsQrCode(): void {
     this.dialog.open(QrCodeDialog, {
-      width: '17rem',
+      width: '19rem',
       data: {
         Id: 14,
         Name: this.translateService.instant(

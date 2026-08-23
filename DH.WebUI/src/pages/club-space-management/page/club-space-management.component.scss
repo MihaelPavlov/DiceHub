@@ -1,19 +1,3 @@
-@use "../../../shared/assets/styles/palette";
-
-.wrapper_in_room {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  margin: 1rem;
-
-  &__header {
-    color: palette.$chip-orange-color;
-  }
-
-  button {
-    margin: 0.5rem;
-  }
-}
 .wrapper_qrCode {
   display: flex;
   align-items: center;
@@ -29,36 +13,47 @@
     object-fit: cover;
   }
 }
+
 .wrapper_btns {
   display: flex;
   flex-direction: column;
+  gap: 0.75rem;
   margin: 1rem;
   margin-bottom: 7rem;
 
   .btn_container {
     display: flex;
     align-items: center;
-    border: 0.2rem solid palette.$main-nav-color;
-    border-radius: 0.5rem;
-    margin: 0.25rem 1rem;
-    padding: 0.5rem;
+    gap: 0.85rem;
+    border: 1px solid var(--games-border);
+    border-radius: 1.25rem;
+    background: var(--games-surface);
+    padding: 0.9rem;
+
     .info {
       display: flex;
       flex-direction: column;
-      width: 75%;
-      margin-right: 0.75rem;
+      flex: 1;
+      min-width: 0;
+      gap: 0.2rem;
+
+      > span:first-child {
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: var(--games-text);
+      }
+
       .description {
-        font-size: 0.8rem;
-        color: palette.$main-font-gray-color;
+        font-size: 0.75rem;
+        color: var(--games-muted);
+        line-height: 1.35;
       }
     }
+
     .button {
       display: flex;
       justify-content: center;
-    }
-
-    .btn {
-      width: max-content;
+      flex-shrink: 0;
     }
   }
 
@@ -66,7 +61,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: 0.2rem solid palette.$main-nav-color;
+    border: 1px solid var(--games-border);
+    border-radius: 1.25rem;
+    background: var(--games-surface);
+    padding: 1.1rem;
   }
 
   .booked-info {
@@ -74,82 +72,146 @@
     flex-direction: column;
     width: 90%;
     margin-right: 0.75rem;
+    gap: 0.3rem;
+
     .declined {
-      color: palette.$main-red-color;
+      color: var(--games-coral);
     }
 
     .approved {
-      color: palette.$main-green-color;
+      color: var(--games-teal);
     }
 
     .waiting {
-      color: palette.$main-icon-color;
+      color: var(--games-amber);
     }
 
     .description {
       font-size: 0.8rem;
-      color: palette.$main-font-gray-color;
+      color: var(--games-muted);
     }
 
     .description-field {
       font-size: 1rem;
-      color: palette.$main-blue-color;
+      color: var(--games-text);
     }
+  }
+}
+
+.action-icon {
+  width: 2.9rem;
+  height: 2.9rem;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  svg {
+    width: 1.3rem;
+    height: 1.3rem;
+    fill: none;
+  }
+
+  &--teal {
+    background: var(--games-teal-soft);
+    svg {
+      stroke: var(--games-teal);
+    }
+  }
+
+  &--amber {
+    background: var(--games-amber-soft);
+    svg {
+      fill: var(--games-amber);
+    }
+  }
+
+  &--violet {
+    background: var(--games-violet-soft);
+    svg {
+      stroke: var(--games-violet);
+    }
+  }
+}
+
+.action-btn {
+  appearance: none;
+  border: none;
+  border-radius: 999px;
+  padding: 0.55rem 1.1rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  &--teal {
+    background: var(--games-teal);
+    color: #062420;
+  }
+
+  &--amber {
+    background: var(--games-amber);
+    color: #2b1a02;
+  }
+
+  &--violet {
+    background: var(--games-violet);
+    color: #1c0d33;
   }
 }
 
 .wrapper_tabs {
   display: flex;
-  justify-content: space-evenly;
-  margin: 2rem 0;
+  gap: 0.85rem;
+  margin: 1.5rem 1rem;
+
   &__tab {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    width: 8rem;
-    height: 8rem;
-    overflow: hidden;
-    border-radius: 0.5rem;
-    background-color: palette.$main-nav-color;
-    color: palette.$main-font-gray-color;
+    gap: 0.65rem;
+    padding: 0.9rem;
+    border-radius: 1.1rem;
+    border: 1px solid var(--games-border);
+    background: var(--games-surface);
 
     &-header {
-      order: 2;
-      margin: 0 0.7rem 0.7rem;
+      font-size: 0.72rem;
       font-weight: 600;
-      min-height: 2.3rem;
-      font-size: 0.85rem;
-      line-height: 1.2;
-      display: flex;
-      align-items: flex-end;
+      color: var(--games-muted);
     }
 
     .info {
-      order: 1;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      min-height: 4.8rem;
-      padding: 0.8rem 0.7rem 0;
-      gap: 0.4rem;
+      gap: 0.5rem;
 
       .icon {
-        width: 3.5rem;
-        height: 3.5rem;
-        flex: 0 0 3.5rem;
-        margin: 0;
-        fill: palette.$main-font-gray-color;
+        width: 1.05rem;
+        height: 1.05rem;
+        flex: 0 0 1.05rem;
       }
+    }
 
-      &__count {
-        flex: 1 1 auto;
-        min-width: 0;
-        font-size: clamp(1.75rem, 9vw, 2.5rem);
-        line-height: 1;
-        margin: 0;
-        text-align: right;
-        overflow-wrap: anywhere;
-      }
+    &__count {
+      font-size: 1.6rem;
+      font-weight: 800;
+      line-height: 1;
+      color: var(--games-text);
+    }
+
+    &--amber .info .icon {
+      fill: var(--games-amber);
+    }
+
+    &--teal .info .icon {
+      fill: var(--games-teal);
     }
   }
 }
@@ -159,22 +221,25 @@
 
   &--text {
     margin: 1rem;
-    color: palette.$main-blue-color;
+    color: var(--games-text);
   }
 
-  .btn {
+  .view-table-btn {
+    appearance: none;
+    border: 1px solid var(--games-amber);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--games-amber);
+    padding: 0.55rem 1.5rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
     margin-bottom: 1rem;
   }
 }
 
-.btn {
-  border-radius: 0.5rem;
-  margin: 0 0.3rem;
-  padding: 0.3rem 0.5rem;
-}
-
 .description-public-message {
-  color: palette.$glow-yellow-color;
+  color: var(--games-amber);
   word-break: break-word;
 }
 
@@ -202,39 +267,11 @@
     margin-bottom: 1rem;
 
     &__tab {
-      width: auto;
-      height: 9rem;
-      padding: 1rem;
-      border: 1px solid palette.$main-gray-color;
-      border-radius: 0.5rem;
-      background: palette.$main-nav-color;
+      padding: 1.1rem 1.25rem;
+    }
 
-      &-header {
-        order: initial;
-        margin: 0;
-        min-height: unset;
-        font-size: 1rem;
-        display: block;
-      }
-
-      .info {
-        order: initial;
-        align-items: end;
-        justify-content: space-between;
-        margin-top: auto;
-
-        .icon {
-          width: 4rem;
-          height: 4rem;
-          margin: 0;
-        }
-
-        &__count {
-          margin: 0;
-          font-size: 3.15rem;
-          line-height: 1;
-        }
-      }
+    &__count {
+      font-size: 2.25rem;
     }
   }
 
@@ -243,17 +280,17 @@
     grid-template-columns: minmax(0, 1fr) auto;
     gap: 0.5rem 1rem;
     align-items: center;
-    padding: 1rem;
-    border: 1px solid palette.$main-blue-color;
-    border-radius: 0.5rem;
-    background: palette.$main-nav-color;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--games-amber);
+    border-radius: 1.1rem;
+    background: var(--games-surface);
     text-align: left;
 
     &--text {
       margin: 0;
     }
 
-    .btn {
+    .view-table-btn {
       grid-column: 2;
       grid-row: 1 / span 2;
       margin: 0;
@@ -269,34 +306,22 @@
     margin-bottom: 4rem;
 
     .btn_container {
-      min-height: 9.5rem;
-      align-items: stretch;
+      min-height: 10.5rem;
+      align-items: flex-start;
       flex-direction: column;
       justify-content: space-between;
       margin: 0;
-      padding: 1rem;
-      border: 1px solid palette.$main-gray-color;
-      background: palette.$main-nav-color;
+      padding: 1.1rem;
+      box-shadow: var(--games-shadow);
 
       .info {
         width: 100%;
-        margin: 0;
-        gap: 0.4rem;
-
-        > span:first-child {
-          font-size: 1.05rem;
-          font-weight: 600;
-        }
-
-        .description {
-          font-size: 0.88rem;
-          line-height: 1.35;
-        }
       }
 
       .button {
         justify-content: flex-start;
-        margin-top: 1rem;
+        margin-top: 0.5rem;
+        width: 100%;
       }
     }
 
@@ -306,7 +331,6 @@
       grid-template-columns: minmax(0, 1fr) auto;
       gap: 1rem;
       align-items: center;
-      min-height: unset;
 
       .booked-info {
         width: 100%;

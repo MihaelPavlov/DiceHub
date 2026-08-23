@@ -1,13 +1,18 @@
-<div class="toast-container">
-  <img
-    class="toast-icon"
-    [src]="getIconPathByType(toastData.type)"
-    alt="toast icon"
-  />
+<div class="toast-container" [class.toast-error]="toastData.type === 'error'" [class.toast-success]="toastData.type === 'success'">
+  <div class="toast-icon">
+    <svg *ngIf="toastData.type === 'success'" viewBox="0 0 24 24" fill="none" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5 12.5l4.5 4.5L19 7"/>
+    </svg>
+    <svg *ngIf="toastData.type === 'error'" viewBox="0 0 24 24" fill="none" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6 6l12 12M18 6l-12 12"/>
+    </svg>
+  </div>
   <div class="toast-message" [innerHTML]="safeMessage"></div>
   <div class="spacer"></div>
   <div class="close" (click)="close()">
-    <img src="../../../shared/assets/images/close_black.svg" alt="close icon" />
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6 6l12 12M18 6l-12 12"/>
+    </svg>
   </div>
 
   <mat-progress-bar

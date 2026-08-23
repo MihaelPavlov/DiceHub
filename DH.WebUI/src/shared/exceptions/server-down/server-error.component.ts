@@ -14,6 +14,7 @@ import { TenantRouter } from '../../helpers/tenant-router';
 })
 export class ServerErrorComponent extends ExceptionBaseComponent {
   protected imageCode = '500';
+  protected accent = 'coral' as const;
 
   constructor(
     router: Router,

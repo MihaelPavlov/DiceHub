@@ -6,17 +6,39 @@
   align-items: center;
   padding-bottom: 8rem;
   font-size: palette.$main-font-color;
+  background:
+    radial-gradient(circle at 12% 0%, rgba(141, 102, 214, 0.12), transparent 24rem),
+    var(--games-bg);
+}
+
+.expand-textarea-mobile {
+  width: 100%;
+  min-height: 3rem;
+  overflow: hidden;
+  resize: none;
+  font-size: 1rem;
+  padding: 0.5rem;
+  box-sizing: border-box;
+  border-radius: 0.5rem;
+  line-height: 1.4;
+  transition: border 0.2s ease;
+
+  &:focus {
+    border-color: #888;
+    outline: none;
+  }
 }
 
 .upload-section {
   padding: 1.3rem;
   padding-top: 0;
-  border-radius: 10px;
+  border-radius: 1rem;
   text-align: center;
 
   .upload-icon {
-    background-color: palette.$main-nav-color;
-    border-radius: 10px;
+    border: 1px solid var(--games-border);
+    background-color: var(--games-surface);
+    border-radius: 1.25rem;
     margin: 1rem auto;
     width: 80%;
     aspect-ratio: 1 / 1;
@@ -52,8 +74,8 @@
     margin: 1.5rem;
 
     span {
-      background-color: palette.$main-nav-color;
-      color: palette.$main-green-color;
+      background-color: var(--games-surface);
+      color: var(--games-teal);
       border: none;
       border-radius: 20px;
       padding: 0.5rem 1rem;
@@ -63,50 +85,96 @@
   }
 }
 
-.arrow {
-  width: 3rem;
-  height: 3rem;
-  display: inline-block;
-  position: relative;
-  border: 0.1rem solid palette.$main-icon-color;
-  border-radius: 2.5rem;
+.events-form-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  color: var(--games-text);
+  background:
+    radial-gradient(circle at 12% 0%, rgba(141, 102, 214, 0.12), transparent 24rem),
+    var(--games-bg);
 
-  &::before {
-    content: "";
-    display: block;
-    width: 0.75rem;
-    height: 0.75rem;
-    top: 65%;
-    left: 63%;
-    border-style: solid;
-    border-color: palette.$main-icon-color;
-    border-width: 0.2rem 0.2rem 0 0;
-    position: absolute;
-    transform-origin: 50% 50%;
-  }
-
-  &.left::before {
-    transform: rotate(-135deg);
-    margin: -0.9rem 0 0 -0.6rem;
+  &__title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    text-align: center;
   }
 }
 
-.wrapper_icons {
+.custom-image-field {
   display: flex;
-  justify-content: space-between;
-  margin: 1rem;
+  flex-direction: row;
   align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--games-border);
+  border-radius: 0.9rem;
+  background: var(--games-surface);
+
+  label:first-child {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+}
+
+.toggle-switch {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  width: 2.75rem;
+  height: 1.55rem;
+  cursor: pointer;
+
+  input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+  }
+
+  &__track {
+    position: absolute;
+    inset: 0;
+    border-radius: 999px;
+    background: var(--games-surface-2);
+    border: 1px solid var(--games-border);
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 1.15rem;
+      height: 1.15rem;
+      border-radius: 999px;
+      background: var(--games-faint);
+      transition: transform 0.2s ease, background-color 0.2s ease;
+    }
+  }
+
+  input:checked + &__track {
+    background: var(--games-teal-soft);
+    border-color: var(--games-teal);
+
+    &::before {
+      background: var(--games-teal);
+      transform: translateX(1.2rem);
+    }
+  }
+}
+
+input[disabled],
+textarea[disabled],
+select[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .input-field {
-  .field-error {
-    margin-top: 0.35rem;
-    color: palette.$main-red-color;
-    font-size: 0.85rem;
-    line-height: 1.3;
-    text-align: left;
-  }
-
   .label-row {
     display: flex;
     justify-content: space-between;
@@ -137,55 +205,93 @@
           height: 1.25rem;
         }
         &.active {
-          background-color: palette.$main-blue-color;
+          background-color: var(--games-blue);
+          border-color: var(--games-blue);
           color: white;
         }
 
         &.missing {
-          border-color: palette.$main-red-color;
-          color: palette.$main-red-color;
+          border-color: var(--games-coral);
+          color: var(--games-coral);
         }
       }
     }
   }
 }
 
-@media (min-width: 900px) {
-  .wrapper_icons {
-    width: min(74rem, calc(100vw - 16rem));
-    margin: 2rem auto 1rem;
-  }
+.events-cta {
+  width: 100%;
+  min-height: 3.15rem;
+  margin-top: 0.5rem;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--games-blue-light), var(--games-blue));
+  color: var(--games-blue-ink);
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 10px 24px -8px var(--games-blue-soft);
 
-  .arrow {
-    width: 2.5rem;
-    height: 2.5rem;
-    cursor: pointer;
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.events-cta--update {
+  background: var(--games-teal);
+  color: #062420;
+  box-shadow: 0 10px 24px -8px var(--games-teal-soft);
+}
+
+@media (min-width: 900px) {
+  .events-form-header {
+    padding: 2rem 3rem 0.85rem;
+
+    &__title {
+      font-size: 1.75rem;
+    }
   }
 
   .container {
-    width: min(74rem, calc(100vw - 16rem));
+    width: min(68rem, calc(100vw - 18rem));
     margin: 0 auto;
     padding-bottom: 4rem;
+    align-items: flex-start;
   }
 
   .upload-section {
     display: grid;
-    grid-template-columns: minmax(18rem, 0.75fr) minmax(0, 1.25fr);
-    column-gap: 1.5rem;
+    grid-template-columns: minmax(17rem, 20rem) minmax(0, 1fr);
+    grid-template-areas:
+      "image info"
+      "image custom-image"
+      "image game"
+      "image datetime"
+      "image name-max"
+      "image description"
+      "image errors"
+      "image action";
+    gap: 0.8rem 1.25rem;
+    align-items: start;
     width: 100%;
-    padding: 1.25rem;
-    border: 1px solid palette.$main-gray-color;
-    border-radius: 0.5rem;
-    background: palette.$main-nav-color;
+    padding: 1rem;
+    border: 1px solid var(--games-border);
+    border-radius: 1.25rem;
+    background: var(--games-surface);
+    box-shadow: var(--games-shadow);
     text-align: left;
   }
 
   .upload-section .upload-icon {
-    grid-row: span 8;
+    grid-area: image;
     width: 100%;
     margin: 0;
-    border: 1px solid palette.$main-gray-color;
-    background: palette.$main-background-color;
+    border: 1px solid var(--games-border);
+    background: var(--games-surface-2);
+    align-self: stretch;
+    min-height: 20rem;
+    max-height: 26rem;
   }
 
   .upload-section .upload-icon label {
@@ -196,21 +302,46 @@
   .upload-section .upload-icon label img {
     width: 100%;
     height: 100%;
-    padding: 1rem;
+    padding: 0.9rem;
     object-fit: contain;
   }
 
   .upload-section .statistics {
-    margin: 0 0 1rem;
+    grid-area: info;
+    margin: 0;
   }
 
   .upload-section .statistics span {
     display: inline-flex;
-    border-radius: 0.4rem;
-    background: palette.$main-background-color;
+    align-items: center;
+    min-height: 2.35rem;
+    border-radius: 999px;
+    background: var(--games-surface-2);
+  }
+
+  .custom-image-field {
+    grid-area: custom-image;
+  }
+
+  .game-field {
+    grid-area: game;
+  }
+
+  .datetime-fields {
+    grid-area: datetime;
+  }
+
+  .name-max-fields {
+    grid-area: name-max;
+  }
+
+  .description-field {
+    grid-area: description;
   }
 
   .input-group {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1rem;
   }
 
@@ -221,20 +352,38 @@
   .input-field input,
   .input-field select,
   .input-field textarea {
-    border: 1px solid palette.$main-gray-color;
-    background: palette.$main-background-color;
+    box-sizing: border-box;
+    border: 1px solid var(--games-border);
+    border-radius: 0.8rem;
+    background: var(--games-surface-2);
+  }
+
+  .input-field {
+    margin-bottom: 0;
+
+    label {
+      margin-bottom: 0.25rem;
+      font-size: 0.85rem;
+      color: palette.$main-font-gray-color;
+    }
+
+    input,
+    select {
+      min-height: 2.65rem;
+      padding: 0.6rem 0.75rem;
+    }
   }
 
   :host ::ng-deep .input-field .ng-select.app-select-long {
-    border-radius: 0.4rem;
-    background: palette.$main-background-color;
+    background: var(--games-surface-2);
+    border-radius: 0.5rem;
   }
 
   :host ::ng-deep .input-field .ng-select.app-select-long .ng-select-container {
     min-height: 2.65rem;
-    border: 1px solid palette.$main-gray-color;
-    border-radius: 0.4rem;
-    background: palette.$main-background-color;
+    border: 1px solid var(--games-border);
+    border-radius: 0.8rem;
+    background: var(--games-surface-2);
     color: palette.$main-font-color;
   }
 
@@ -259,42 +408,64 @@
   :host ::ng-deep
     .input-field
     .ng-select.app-select-long.ng-select-focused:not(.ng-select-opened)
-    > .ng-select-container,
+    > .ng-select-container {
+    border-color: palette.$main-blue-color;
+    background: palette.$main-background-color;
+  }
+
   .input-field input:focus,
   .input-field select:focus,
   .input-field textarea:focus {
     outline: none;
     border-color: palette.$main-blue-color;
-    background: palette.$main-background-color;
   }
 
   .expand-textarea-mobile {
-    min-height: 9rem;
+    min-height: 8rem;
+    resize: vertical;
   }
 
   .errors,
-  .upload-section > button {
-    grid-column: 2;
+  .upload-section > .events-cta {
+    grid-area: action;
   }
 
-  .upload-section > button {
-    width: 100%;
+  .errors {
+    grid-area: errors;
+    margin: 0;
+  }
+
+  .upload-section > .events-cta {
+    width: min(18rem, 100%);
+    justify-self: end;
+    margin-top: 0.25rem;
   }
 }
 
 @media (min-width: 900px) and (max-width: 1080px) {
   .upload-section {
     grid-template-columns: 1fr;
+    grid-template-areas:
+      "image"
+      "info"
+      "custom-image"
+      "game"
+      "datetime"
+      "name-max"
+      "description"
+      "errors"
+      "action";
   }
 
   .upload-section .upload-icon {
     grid-row: auto;
     max-width: 22rem;
+    min-height: 18rem;
     margin: 0 auto 1rem;
   }
 
-  .errors,
-  .upload-section > button {
-    grid-column: 1;
+  .upload-section > .events-cta {
+    justify-self: stretch;
+    width: 100%;
   }
 }

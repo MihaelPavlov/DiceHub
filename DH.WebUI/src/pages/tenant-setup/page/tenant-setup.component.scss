@@ -14,14 +14,20 @@
   display: flex;
   justify-content: center;
   font-size: 1.5rem;
+  font-weight: 800;
   text-align: center;
+  color: var(--games-text);
 }
 
 .sub-header {
   margin: 0 2rem 1rem;
-  color: palette.$main-font-gray-color;
+  color: var(--games-muted);
   text-align: center;
   line-height: 1.45;
+}
+
+.form-section h2 {
+  color: var(--games-text);
 }
 
 .container {
@@ -50,15 +56,17 @@
 .state-card {
   margin: 2rem;
   padding: 1.25rem;
-  border-radius: 0.4rem;
-  background: palette.$main-nav-color;
-  color: palette.$main-font-gray-color;
+  border-radius: 1.35rem;
+  border: 1px solid var(--games-border);
+  background: var(--games-surface);
+  box-shadow: var(--games-shadow);
+  color: var(--games-muted);
   line-height: 1.5;
   text-align: center;
 
   h2 {
     margin-bottom: 1rem;
-    color: palette.$main-font-color;
+    color: var(--games-text);
     font-size: 1.2rem;
   }
 
@@ -68,18 +76,18 @@
 }
 
 .error-state {
-  color: palette.$main-red-color;
+  color: var(--games-coral);
 
   p {
-    color: palette.$main-font-gray-color;
+    color: var(--games-muted);
   }
 }
 
 .success-state {
-  color: palette.$main-green-color;
+  color: var(--games-teal);
 
   p {
-    color: palette.$main-font-gray-color;
+    color: var(--games-muted);
   }
 }
 
@@ -98,7 +106,7 @@
   justify-content: center;
   margin-top: 1rem;
   margin-bottom: 0;
-  color: palette.$main-red-color;
+  color: var(--games-coral);
   font-size: 1rem;
   text-align: center;
   flex-direction: column;
@@ -118,7 +126,7 @@
   flex: 0 0 2.75rem;
   border-radius: 0.25rem;
   object-fit: cover;
-  background: palette.$main-nav-color;
+  background: var(--games-surface);
 }
 
 .seed-game-option__content {
@@ -130,14 +138,14 @@
 
 .seed-game-option__name {
   overflow: hidden;
-  color: palette.$main-font-color;
+  color: var(--games-text);
   font-weight: 600;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .seed-game-option__meta {
-  color: palette.$main-font-gray-color;
+  color: var(--games-muted);
   font-size: 0.8rem;
 }
 
@@ -194,20 +202,21 @@
     min-height: 25rem;
     margin-bottom: 0;
     padding: 1.25rem;
-    border: 1px solid palette.$main-gray-color;
-    border-radius: 0.5rem;
-    background: palette.$main-nav-color;
+    border: 1px solid var(--games-border);
+    border-radius: 1.35rem;
+    background: var(--games-surface);
+    box-shadow: var(--games-shadow);
   }
 
   .input-field input,
   .ng-select.app-select-long .ng-select-container {
-    border: 1px solid palette.$main-gray-color;
-    background: palette.$main-background-color;
+    border: 1px solid var(--games-border);
+    background: var(--games-surface-2);
   }
 
   .input-field input:focus {
     outline: none;
-    border-color: palette.$main-blue-color;
+    border-color: var(--games-amber);
   }
 
   .errors,

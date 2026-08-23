@@ -1,77 +1,75 @@
-<app-header
-  [header]="'events.management_header' | translate"
-  [withBottomLine]="true"
-  [withSearch]="true"
-  [withMenu]="true"
-  [menuItems]="headerMenuItems"
-  [menuItemClickFunction]="handleHeaderMenuItemClick"
-  (searchExpressionResult)="handleSearchExpression($event)"
->
-</app-header>
-
-<section class="wrapper_library">
-  <div
-    class="wrapper_library__item"
-    *ngFor="let event of events"
-    (click)="navigateToDetails(event.id)"
-    [ngClass]="{ expired: isEventExpired(event.startDate) }"
-  >
-    <div class="wrapper_image">
-      <img [src]="event.imageUrl" />
+<section class="events-admin-shell games-design-surface">
+  <div class="events-admin-shell__header">
+    <div class="events-admin-shell__title">
+      <h1 class="games-display">{{ "events.management_header" | translate }}</h1>
+      <p>{{ "events.admin_count" | translate : { total: events.length, upcoming: upcomingCount } }}</p>
     </div>
-    <div class="wrapper_info">
-      <div class="wrapper_title">
-        {{ event.name }}
-        <div class="wrapper_chips">
-          <app-chip
-            [color]="'orange'"
-            [text]="
-              'events.chip_joined'
-                | translate : { peopleJoined: event.peopleJoined }
-            "
-            [size]="'small'"
-          ></app-chip>
-          <app-chip
-            [color]="'red'"
-            [text]="
-              'events.chip_max' | translate : { maxPeople: event.maxPeople }
-            "
-            [size]="'small'"
-          ></app-chip>
-        </div>
-        <div class="wrapper_chips">
-          <app-chip
-            [color]="'yellow'"
-            [text]="event.startDate | calculateRemainingDays"
-            [size]="'small'"
-          ></app-chip>
-          <app-chip
-            [color]="'blue'"
-            [text]="
-              (
-                event.startDate
-                | date : DATE_TIME_FORMAT : undefined : this.currentLanguage
-              )?.toString() ?? ''
-            "
-            [size]="'small'"
-          ></app-chip>
-        </div>
-      </div>
-      <div class="wrapper_right">
-        <!-- menu icon -->
-        <svg
-          class="wrapper_menu"
-          (click)="showEventMenu(event.id, $event, menu)"
-          viewBox="0 -960 960 960"
-        >
-          <path
-            d="M88-170v-103.08h103.08V-170H88Zm213.85 0v-103.08H872V-170H301.85ZM88-428.46v-103.08h103.08v103.08H88Zm213.85 0v-103.08H872v103.08H301.85ZM88-686.92V-790h103.08v103.08H88Zm213.85 0V-790H872v103.08H301.85Z"
-          />
+
+    <div class="events-admin-shell__actions">
+      <form class="events-admin-shell__search">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="10.5" cy="10.5" r="6.5" />
+          <path d="M20 20l-4.8-4.8" />
         </svg>
+        <input
+          type="search"
+          [formControl]="searchControl"
+          [placeholder]="'events.search_placeholder' | translate"
+        />
+      </form>
+
+      <button
+        type="button"
+        class="events-admin-shell__icon-button"
+        (click)="handleHeaderMenuItemClick('add')"
+        aria-label="Add event"
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 5v14M5 12h14" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="events-admin-list">
+    <div class="events-empty games-panel" *ngIf="events.length === 0">
+      <img src="/shared/assets/images/no-events.png" alt="" />
+      <p>{{ "events.no_events_found" | translate }}</p>
+    </div>
+
+    <div
+      class="events-admin-row games-panel"
+      *ngFor="let event of events"
+      (click)="navigateToDetails(event.id)"
+      [class.events-admin-row--expired]="isEventExpired(event.startDate)"
+    >
+      <div class="events-admin-row__thumb">
+        <img [src]="event.imageUrl" alt="" />
       </div>
+      <div class="events-admin-row__info">
+        <span class="events-admin-row__title">{{ event.name }}</span>
+        <div class="chip-row">
+          <span class="games-pill games-pill--amber">{{ "events.chip_joined" | translate : { peopleJoined: event.peopleJoined } }}</span>
+          <span class="games-pill games-pill--coral">{{ "events.chip_max" | translate : { maxPeople: event.maxPeople } }}</span>
+        </div>
+        <div class="chip-row">
+          <span class="games-pill games-pill--teal">{{ (event.startDate | date : DATE_TIME_FORMAT : undefined : this.currentLanguage)?.toString() ?? '' }}</span>
+          <span class="games-pill games-pill--violet">{{ event.startDate | calculateRemainingDays }}</span>
+        </div>
+      </div>
+      <svg
+        class="events-admin-row__menu"
+        (click)="showEventMenu(event.id, $event, menu)"
+        viewBox="0 -960 960 960"
+      >
+        <path
+          d="M88-170v-103.08h103.08V-170H88Zm213.85 0v-103.08H872V-170H301.85ZM88-428.46v-103.08h103.08v103.08H88Zm213.85 0v-103.08H872v103.08H301.85ZM88-686.92V-790h103.08v103.08H88Zm213.85 0V-790H872v103.08H301.85Z"
+        />
+      </svg>
     </div>
   </div>
 </section>
+
 <app-controls-menu
   #menu
   [menuItems]="itemMenuItems.asObservable()"

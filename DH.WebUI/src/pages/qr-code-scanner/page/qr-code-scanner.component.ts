@@ -6,6 +6,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
+import { Location } from '@angular/common';
 import jsQR from 'jsqr';
 import { ScannerService } from '../../../entities/qr-code-scanner/api/scanner.service';
 import { IQrCode } from '../../../entities/qr-code-scanner/models/qr-code.model';
@@ -49,12 +50,17 @@ export class QrCodeScannerComponent
     private readonly tenantRouter: TenantRouter,
     private readonly dialog: MatDialog,
     private readonly translateService: TranslateService,
-    private readonly qrEncryptService: QrEncryptService
+    private readonly qrEncryptService: QrEncryptService,
+    private readonly location: Location
   ) {}
 
   public ngOnInit(): void {
     this.initAfterScanSuccessMessage();
     this.initAfterScanErrorMessage();
+  }
+
+  public goBack(): void {
+    this.location.back();
   }
 
   public ngAfterViewInit(): void {
@@ -151,7 +157,7 @@ export class QrCodeScannerComponent
             const dialogRefConfirmation = this.dialog.open(
               ScanConfirmDialogComponent,
               {
-                width: '17rem',
+                panelClass: 'confirm-sheet-pane',
                 data: {
                   type: this.currentQrCodeType,
                 },
@@ -204,7 +210,7 @@ export class QrCodeScannerComponent
                                 const dialogRef = this.dialog.open(
                                   ScanResultAdminDialog,
                                   {
-                                    data: res,
+                                    panelClass: 'confirm-sheet-pane', data: res,
                                   }
                                 );
 
@@ -234,7 +240,7 @@ export class QrCodeScannerComponent
                                 const dialogRef = this.dialog.open(
                                   ScanResultAdminDialog,
                                   {
-                                    data: res,
+                                    panelClass: 'confirm-sheet-pane', data: res,
                                   }
                                 );
 
@@ -249,7 +255,7 @@ export class QrCodeScannerComponent
                               const dialogRef = this.dialog.open(
                                 ScanResultAdminDialog,
                                 {
-                                  data: res,
+                                  panelClass: 'confirm-sheet-pane', data: res,
                                 }
                               );
 
@@ -264,7 +270,7 @@ export class QrCodeScannerComponent
                                 const dialogReference = this.dialog.open(
                                   ScanResultAdminDialog,
                                   {
-                                    data: res,
+                                    panelClass: 'confirm-sheet-pane', data: res,
                                   }
                                 );
 

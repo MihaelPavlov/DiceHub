@@ -184,7 +184,7 @@ export class GameAvailabilityComponent
 
   public openDialog(id: number): void {
     const dialogRef = this.dialog.open(ReservationQrCodeDialog, {
-      width: '17rem',
+      width: '19rem',
       data: {
         Id: id,
         Name: 'GameReservation',
@@ -198,6 +198,7 @@ export class GameAvailabilityComponent
 
   public openInfo(): void {
     this.dialog.open(AvailabilityReservationInfoDialog, {
+      panelClass: 'confirm-sheet-pane',
       data: {
         publicNote: this.gameReservationStatus?.publicNote ?? '',
         status: this.gameReservationStatus?.status ?? ReservationStatus.Pending,

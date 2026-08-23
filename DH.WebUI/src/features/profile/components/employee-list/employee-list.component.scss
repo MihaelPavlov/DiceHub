@@ -1,9 +1,21 @@
-@use "../../../../shared/assets/styles/palette";
+:host {
+  display: flex;
+  min-height: 100vh;
+  background: var(--games-bg);
+  color: var(--games-text);
+  font-family: "Sora", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+}
+
+.profile-page-body {
+  flex: 1;
+  min-width: 0;
+}
 
 .wrapper_library {
   display: flex;
   flex-direction: column;
-  width: 85%;
+  width: 90%;
   padding-bottom: 7rem;
   margin: 0 auto;
   padding-top: 1.5rem;
@@ -40,7 +52,7 @@
     padding-bottom: 0.3rem;
     padding-top: 0.5rem;
 
-    border-bottom: 0.2rem solid palette.$main-gray-color;
+    border-bottom: 1px solid var(--games-border);
     transition: transform 0.3s ease-in-out;
     overflow: hidden;
     .content {
@@ -56,17 +68,17 @@
       padding: 1rem;
       border: none;
       background: transparent;
-      color: palette.$main-font-color;
+      color: var(--games-text);
       border-radius: 0.25rem;
 
       .decline {
-        fill: palette.$main-red-color;
+        fill: var(--games-coral);
         width: 2.5rem;
         height: 2.5rem;
       }
 
       .edit {
-        fill: palette.$chip-yellow-color;
+        fill: var(--games-amber);
         width: 2rem;
         height: 2rem;
       }
@@ -78,8 +90,7 @@
       margin: 0;
 
       .info {
-        fill: palette.$main-icon-color;
-        opacity: 0.5;
+        fill: var(--games-faint);
         width: 3rem;
         height: 3rem;
         transform: rotate(180deg);
@@ -103,17 +114,17 @@
         padding: 1rem;
         border: none;
         background: transparent;
-        color: palette.$main-font-color;
+        color: var(--games-text);
         border-radius: 0.25rem;
 
         .edit {
-          fill: palette.$chip-yellow-color;
+          fill: var(--games-amber);
           width: 2.5rem;
           height: 2.5rem;
         }
 
         .delete {
-          fill: palette.$main-red-color;
+          fill: var(--games-coral);
           width: 2.5rem;
           height: 2.5rem;
         }
@@ -129,6 +140,7 @@
       .wrapper_title {
         padding-left: 1rem;
         font-size: large;
+        font-weight: 700;
         padding-top: 0.2rem;
         align-self: baseline;
         word-break: break-word;
@@ -138,7 +150,7 @@
           padding-top: 0.5rem;
           width: 100%;
           font-size: 0.6rem;
-          color: palette.$main-font-gray-color;
+          color: var(--games-faint);
           word-break: break-word;
         }
 
@@ -156,28 +168,28 @@
   .wrapper_library {
     display: grid;
     gap: 0.75rem;
-    width: min(72rem, calc(100vw - 16rem));
+    width: min(72rem, 100%);
     padding-top: 1rem;
     padding-bottom: 3rem;
 
     .no_records {
       margin: 1rem 0;
       padding: 2rem;
-      border: 0.1rem solid rgba(117, 160, 255, 0.2);
-      border-radius: 0.5rem;
-      background-color: rgba(49, 49, 59, 0.22);
+      border: 1px solid var(--games-border);
+      border-radius: 1rem;
+      background-color: var(--games-surface);
     }
 
     &__item,
     &__item.expanded {
       padding: 0;
-      border: 0.1rem solid transparent;
-      border-radius: 0.5rem;
-      background-color: rgba(32, 35, 42, 0.72);
+      border: 1px solid var(--games-border);
+      border-radius: 1rem;
+      background-color: var(--games-surface);
       transition: border-color 0.2s ease, transform 0.2s ease;
 
       &:hover {
-        border-color: rgba(117, 160, 255, 0.45);
+        border-color: var(--games-amber);
         transform: translateY(-1px);
       }
 
@@ -212,7 +224,7 @@
         gap: 0.35rem;
         padding: 0.45rem 0.6rem;
         border-radius: 0.5rem;
-        background-color: palette.$main-background-color;
+        background-color: var(--games-surface-2);
 
         .edit,
         .delete {

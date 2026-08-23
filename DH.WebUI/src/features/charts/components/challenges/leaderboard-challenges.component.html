@@ -1,188 +1,121 @@
-<div class="wrapper_icons">
-  <span (click)="backNavigateBtn()" class="arrow left"></span>
-  <span class="header_name">
-    {{ "challenge_leaderboard.header" | translate }}</span
-  >
-  <div class="info-container">
-    <svg
-      class="info bump"
-      (click)="controls.toggleMenu()"
-      viewBox="0 -960 960 960"
-    >
-      <path
-        d="M448-284h66v-236h-66v236Zm31.82-308.92q14.64 0 24.72-9.9 10.08-9.91 10.08-24.54 0-14.64-9.91-24.72-9.9-10.07-24.53-10.07-14.64 0-24.72 9.9-10.08 9.9-10.08 24.54 0 14.63 9.91 24.71 9.9 10.08 24.53 10.08ZM480.13-88q-81.31 0-152.89-30.86-71.57-30.86-124.52-83.76-52.95-52.9-83.83-124.42Q88-398.55 88-479.87q0-81.56 30.92-153.37 30.92-71.8 83.92-124.91 53-53.12 124.42-83.48Q398.67-872 479.87-872q81.55 0 153.35 30.34 71.79 30.34 124.92 83.42 53.13 53.08 83.49 124.84Q872-561.64 872-480.05q0 81.59-30.34 152.83-30.34 71.23-83.41 124.28-53.07 53.05-124.81 84Q561.7-88 480.13-88Z"
-      />
-    </svg>
-  </div>
-</div>
+<section class="charts-shell">
+  <header class="charts-shell__header">
+    <button type="button" class="games-icon-btn" (click)="backNavigateBtn()" aria-label="Back">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" /></svg>
+    </button>
+    <h1 class="charts-shell__title games-display">{{ "challenge_leaderboard.header" | translate }}</h1>
+    <button type="button" class="games-icon-btn" (click)="controls.toggleMenu()" aria-label="Info">
+      <svg viewBox="0 -960 960 960" aria-hidden="true">
+        <path
+          d="M448-284h66v-236h-66v236Zm31.82-308.92q14.64 0 24.72-9.9 10.08-9.91 10.08-24.54 0-14.64-9.91-24.72-9.9-10.07-24.53-10.07-14.64 0-24.72 9.9-10.08 9.9-10.08 24.54 0 14.63 9.91 24.71 9.9 10.08 24.53 10.08ZM480.13-88q-81.31 0-152.89-30.86-71.57-30.86-124.52-83.76-52.95-52.9-83.83-124.42Q88-398.55 88-479.87q0-81.56 30.92-153.37 30.92-71.8 83.92-124.91 53-53.12 124.42-83.48Q398.67-872 479.87-872q81.55 0 153.35 30.34 71.79 30.34 124.92 83.42 53.13 53.08 83.49 124.84Q872-561.64 872-480.05q0 81.59-30.34 152.83-30.34 71.23-83.41 124.28-53.07 53.05-124.81 84Q561.7-88 480.13-88Zm-.13-66q136.51 0 231.26-94.74Q806-343.49 806-480t-94.74-231.26Q616.51-806 480-806t-231.26 94.74Q154-616.51 154-480t94.74 231.26Q343.49-154 480-154Zm0-326Z"
+        />
+      </svg>
+    </button>
+  </header>
 
-<div class="wrapper_users">
-  <div class="filters">
-    <span
-      [ngClass]="{
-        active: currentLeaderboardActiveType === ChallengeLeaderboardType.Weekly
-      }"
+  <nav class="charts-shell__chips" aria-label="Leaderboard range">
+    <button
+      type="button"
+      class="games-chip"
+      [class.games-chip--active]="currentLeaderboardActiveType === ChallengeLeaderboardType.Weekly"
       (click)="fetchLeaderboardData(ChallengeLeaderboardType.Weekly)"
     >
       {{ "challenge_leaderboard.leaderboard_types.weekly" | translate }}
-    </span>
-    <span
-      [ngClass]="{
-        active:
-          currentLeaderboardActiveType === ChallengeLeaderboardType.Monthly
-      }"
+    </button>
+    <button
+      type="button"
+      class="games-chip"
+      [class.games-chip--active]="currentLeaderboardActiveType === ChallengeLeaderboardType.Monthly"
       (click)="fetchLeaderboardData(ChallengeLeaderboardType.Monthly)"
     >
       {{ "challenge_leaderboard.leaderboard_types.monthly" | translate }}
-    </span>
-    <span
-      [ngClass]="{
-        active: currentLeaderboardActiveType === ChallengeLeaderboardType.Yearly
-      }"
+    </button>
+    <button
+      type="button"
+      class="games-chip"
+      [class.games-chip--active]="currentLeaderboardActiveType === ChallengeLeaderboardType.Yearly"
       (click)="fetchLeaderboardData(ChallengeLeaderboardType.Yearly)"
     >
       {{ "challenge_leaderboard.leaderboard_types.yearly" | translate }}
-    </span>
-  </div>
+    </button>
+  </nav>
 
-  <div
-    *ngIf="this.challengeLeaderboardData.length === 0"
-    class="no-challenges-message"
-  >
+  <div class="charts-shell__empty" *ngIf="this.challengeLeaderboardData.length === 0">
     <p>{{ "challenge_leaderboard.no_completed_challenges_1" | translate }}</p>
     <p>{{ "challenge_leaderboard.no_completed_challenges_2" | translate }}</p>
   </div>
 
-  <div class="wrapper_steps" *ngIf="challengeLeaderboardData.length > 3">
-    <div
-      class="wrapper_steps__item second_third_place"
-      [id]="'user-rank-' + user.username"
-      *ngFor="let user of challengeLeaderboardData | slice : 1 : 2"
-    >
-      <div class="wrapper_steps__item__info">
-        <img
-          src="/shared/assets/images/silver_medal.png"
-          class="badge_number"
-        />
-        <span>{{ user.username }}</span>
-        <span class="silver">
-          {{ user.challengeCount }}
-        </span>
-      </div>
+  <div class="leaderboard-podium" *ngIf="challengeLeaderboardData.length > 3">
+    <div class="leaderboard-podium__slot" *ngFor="let user of challengeLeaderboardData | slice : 1 : 2" [id]="'user-rank-' + user.username">
+      <img src="/shared/assets/images/silver_medal.png" class="leaderboard-podium__medal leaderboard-podium__medal--small" alt="" />
+      <span class="leaderboard-podium__name">{{ user.username }}</span>
+      <span class="leaderboard-podium__count">{{ user.challengeCount }} challenges</span>
+      <div class="leaderboard-podium__stand leaderboard-podium__stand--silver">2</div>
     </div>
 
-    <div
-      class="wrapper_steps__item"
-      *ngFor="let user of challengeLeaderboardData | slice : 0 : 1"
-      [id]="'user-rank-' + user.username"
-    >
-      <div class="wrapper_steps__item__info">
-        <img src="/shared/assets/images/gold_medal.png" class="badge_number" />
-        <span>{{ user.username }}</span>
-        <span class="gold">
-          {{ user.challengeCount }}
-        </span>
-      </div>
+    <div class="leaderboard-podium__slot leaderboard-podium__slot--first" *ngFor="let user of challengeLeaderboardData | slice : 0 : 1" [id]="'user-rank-' + user.username">
+      <img src="/shared/assets/images/gold_medal.png" class="leaderboard-podium__medal leaderboard-podium__medal--large" alt="" />
+      <span class="leaderboard-podium__name">{{ user.username }}</span>
+      <span class="leaderboard-podium__count leaderboard-podium__count--gold">{{ user.challengeCount }} challenges</span>
+      <div class="leaderboard-podium__stand leaderboard-podium__stand--gold">1</div>
     </div>
 
-    <div
-      class="wrapper_steps__item second_third_place"
-      *ngFor="let user of challengeLeaderboardData | slice : 2 : 3"
-      [id]="'user-rank-' + user.username"
-    >
-      <div class="wrapper_steps__item__info">
-        <img
-          src="/shared/assets/images/bronze_medal.png"
-          class="badge_number"
-        />
-        <span>{{ user.username }}</span>
-        <span class="bronze">
-          {{ user.challengeCount }}
-        </span>
-      </div>
+    <div class="leaderboard-podium__slot" *ngFor="let user of challengeLeaderboardData | slice : 2 : 3" [id]="'user-rank-' + user.username">
+      <img src="/shared/assets/images/bronze_medal.png" class="leaderboard-podium__medal leaderboard-podium__medal--small" alt="" />
+      <span class="leaderboard-podium__name">{{ user.username }}</span>
+      <span class="leaderboard-podium__count">{{ user.challengeCount }} challenges</span>
+      <div class="leaderboard-podium__stand leaderboard-podium__stand--bronze">3</div>
     </div>
   </div>
 
-  <div class="user_rank_status" (click)="scrollToCurrentUser()">
-    <div class="container">
-      <img src="shared/assets/images/challenge_target.png" />
-      <p *ngIf="getCurrentUserRank == null" class="description">
-        {{
-          "challenge_leaderboard.user_rank.not_any_challenges_completed"
-            | translate
-        }}
+  <div class="leaderboard-rank-card" (click)="scrollToCurrentUser()">
+    <img src="shared/assets/images/challenge_target.png" class="leaderboard-rank-card__icon" alt="" />
+    <div class="leaderboard-rank-card__text">
+      <p *ngIf="getCurrentUserRank == null" class="leaderboard-rank-card__desc">
+        {{ "challenge_leaderboard.user_rank.not_any_challenges_completed" | translate }}
       </p>
-      <div *ngIf="getCurrentUserRank != null" class="description">
-        <p>
+      <ng-container *ngIf="getCurrentUserRank != null">
+        <p class="leaderboard-rank-card__desc">
           {{ "challenge_leaderboard.user_rank.your_rank_is" | translate }}
-          <strong> {{ getCurrentUserRank }}</strong>
+          <strong>{{ getCurrentUserRank }}</strong>
         </p>
-        <p class="max_users">
-          {{
-            "challenge_leaderboard.user_rank.out_of_x_users"
-              | translate : { usersCount: challengeLeaderboardData.length }
-          }}
+        <p class="leaderboard-rank-card__sub">
+          {{ "challenge_leaderboard.user_rank.out_of_x_users" | translate : { usersCount: challengeLeaderboardData.length } }}
         </p>
-      </div>
+      </ng-container>
     </div>
-    <span class="value">{{ getCurrentUserChallengeCountValue }}</span>
+    <span class="leaderboard-rank-card__value">{{ getCurrentUserChallengeCountValue }}</span>
   </div>
 
-  <ng-container *ngIf="challengeLeaderboardData.length > 3">
-    <div class="wrapper_users__items">
-      <div class="headers">
-        <span>{{ "challenge_leaderboard.rankings" | translate }}</span>
-        <span>{{ "challenge_leaderboard.count" | translate }}</span>
-      </div>
+  <div class="leaderboard-list">
+    <div class="leaderboard-list__headers">
+      <span>{{ "challenge_leaderboard.rankings" | translate }}</span>
+      <span>{{ "challenge_leaderboard.count" | translate }}</span>
+    </div>
+    <ng-container *ngIf="challengeLeaderboardData.length > 3; else shortList">
       <div
         *ngFor="let user of challengeLeaderboardData | slice : 3; let i = index"
         [id]="'user-rank-' + user.username"
-        class="wrapper_users__item"
+        class="leaderboard-list__row"
       >
-        <div class="wrapper_users__item__info">
-          <div class="left-side">
-            <span class="th"
-              >{{ i + 4
-              }}<strong>{{
-                "challenge_leaderboard.th" | translate
-              }}</strong></span
-            >
-
-            <span class="name">{{ user.username }}</span>
-          </div>
-          <span class="value" [randomColor]="i">{{ user.challengeCount }}</span>
-        </div>
+        <span class="leaderboard-list__rank">{{ i + 4 }}<sup>{{ "challenge_leaderboard.th" | translate }}</sup></span>
+        <span class="leaderboard-list__name">{{ user.username }}</span>
+        <span class="leaderboard-list__value">{{ user.challengeCount }}</span>
       </div>
-    </div>
-  </ng-container>
-  <ng-container *ngIf="challengeLeaderboardData.length <= 3">
-    <div class="wrapper_users__items">
-      <div class="headers">
-        <span>{{ "challenge_leaderboard.rankings" | translate }}</span>
-        <span>{{ "challenge_leaderboard.count" | translate }}</span>
-      </div>
+    </ng-container>
+    <ng-template #shortList>
       <div
         *ngFor="let user of challengeLeaderboardData; let i = index"
         [id]="'user-rank-' + user.username"
-        class="wrapper_users__item"
+        class="leaderboard-list__row"
       >
-        <div class="wrapper_users__item__info">
-          <div class="left-side">
-            <span class="th"
-              >{{ i + 1
-              }}<strong>{{
-                "challenge_leaderboard.th" | translate
-              }}</strong></span
-            >
-
-            <span class="name">{{ user.username }}</span>
-          </div>
-          <span class="value" [randomColor]="i">{{ user.challengeCount }}</span>
-        </div>
+        <span class="leaderboard-list__rank">{{ i + 1 }}<sup>{{ "challenge_leaderboard.th" | translate }}</sup></span>
+        <span class="leaderboard-list__name">{{ user.username }}</span>
+        <span class="leaderboard-list__value">{{ user.challengeCount }}</span>
       </div>
-    </div>
-  </ng-container>
-</div>
+    </ng-template>
+  </div>
+</section>
 
 <app-controls-menu
   #controls

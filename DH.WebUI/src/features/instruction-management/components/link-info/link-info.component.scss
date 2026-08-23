@@ -1,223 +1,158 @@
-@use "../../../../shared/assets/styles/palette";
+:host {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
 
-.carousel {
+.instruction-steps {
+  width: min(28rem, 100%);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.instruction-steps__track {
   position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.instruction-steps__viewport {
+  flex: 1;
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.instruction-steps__slide {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+}
+
+.instruction-steps__card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: var(--games-surface);
+  border: 1px solid var(--games-border);
+  border-radius: 1.375rem;
+  box-shadow: var(--games-shadow);
   overflow: hidden;
 }
 
-.carousel__viewport {
+.instruction-steps__media {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: var(--games-surface-2);
+}
+
+.instruction-steps__media-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: zoom-in;
+}
+
+.instruction-steps__content {
   display: flex;
-  scroll-snap-type: x mandatory;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  white-space: nowrap;
-}
-*::-webkit-scrollbar {
-  width: 0;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0 1.25rem 1.375rem;
 }
 
-*::-webkit-scrollbar-track {
-  background: transparent;
+.instruction-steps__step-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--games-amber);
 }
 
-*::-webkit-scrollbar-thumb {
-  background: transparent;
-  border: none;
-}
-.carousel__slide {
-  flex: 0 0 100%;
-  text-align: center;
-  position: relative;
+.instruction-steps__header {
+  font-family: "Bricolage Grotesque", "Sora", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 1.0625rem;
 }
 
-.carousel__slide img {
-  width: 80%;
-  height: auto;
+.instruction-steps__description {
+  font-size: 0.8125rem;
+  color: var(--games-muted);
+  line-height: 1.6;
 }
 
-.carousel__prev,
-.carousel__next {
-  position: fixed;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(0, 0, 0, 0.5);
-  color: palette.$main-font-color;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-  z-index: 1000;
+.instruction-steps__action {
+  align-self: flex-start;
+  margin-top: 0.375rem;
+  padding: 0.625rem 1.125rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--games-blue-light), var(--games-blue));
+  color: var(--games-blue-ink);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-decoration: none;
 }
 
-.carousel__prev {
-  left: 10px;
-}
-
-.carousel__next {
-  right: 10px;
-}
-
-.carousel__navigation {
-  position: fixed;
-  bottom: 0;
-  left: 50%;
-  width: 90%;
+.instruction-steps__nav {
+  display: none;
   align-items: center;
-  padding: 1rem;
-  z-index: 1000;
-  display: flex;
   justify-content: center;
-  transform: translateX(-50%);
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 999px;
+  border: 1px solid var(--games-border);
+  background: var(--games-surface);
+  flex-shrink: 0;
+  cursor: pointer;
+
+  svg {
+    width: 1rem;
+    height: 1rem;
+    fill: none;
+    stroke: var(--games-text);
+    stroke-width: 2.1;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
 }
 
-.carousel__navigation_button {
-  background-color: palette.$main-gray-color;
-  margin: 5px;
-  border-radius: 100%;
-  border-color: palette.$main-font-color;
-  padding: 0.3rem;
+.instruction-steps__dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.instruction-steps__dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 999px;
+  background: var(--games-border);
+  border: 0;
+  padding: 0;
   cursor: pointer;
 }
 
-.carousel__navigation--current_button {
-  background-color: palette.$main-font-color;
-  margin: 5px;
-  border-radius: 100%;
-  padding: 0.3rem;
-  cursor: pointer;
-  transform: scale(1.05);
-  transition: transform 0.3s ease-in-out;
-}
-
-.wrapper {
-  white-space: normal;
-  margin-bottom: 10rem;
-}
-.wrapper_image {
-  display: flex;
-  justify-content: center;
-  img {
-    width: 10rem;
-  }
-}
-
-.wrapper_link {
-  margin: 0 2rem;
-  word-break: break-word;
-  text-align: start;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  .name {
-    font-size: 1.4rem;
-    color: palette.$main-blue-color;
-    // margin: 2rem;
-  }
-  .description {
-    white-space: pre-line;
-  }
-  .action_link {
-    color: palette.$main-blue-color;
-  }
-}
-
-.blue {
-  color: palette.$main-blue-color;
+.instruction-steps__dot--active {
+  width: 1.25rem;
+  background: var(--games-blue);
 }
 
 @media (min-width: 900px) {
-  .carousel {
-    width: min(72rem, calc(100vw - 16rem));
-    margin: 0 auto 3rem;
-    padding: 0 4rem;
-    box-sizing: border-box;
-    overflow: visible;
-  }
-
   .instruction-steps {
-    padding-top: 0.5rem;
+    width: min(30rem, 100%);
   }
 
-  .carousel__viewport {
-    overflow: hidden;
-    border: 0.1rem solid rgba(117, 160, 255, 0.2);
-    border-radius: 0.5rem;
-    background-color: rgba(49, 49, 59, 0.28);
+  .instruction-steps__nav {
+    display: inline-flex;
   }
 
-  .carousel__slide {
-    padding: 2rem;
-    box-sizing: border-box;
-  }
-
-  .carousel__slide .wrapper {
-    display: grid;
-    grid-template-columns: minmax(18rem, 1fr) minmax(0, 1fr);
-    align-items: center;
-    gap: 2.5rem;
-    min-height: 27rem;
-    margin: 0;
-  }
-
-  .carousel__slide .wrapper_image,
-  .carousel__slide .wrapper_link {
-    min-width: 0;
-  }
-
-  .wrapper_image {
-    min-height: 22rem;
-    align-items: center;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    background-color: rgba(21, 22, 28, 0.42);
-
-    img {
-      width: 100%;
-      max-height: 24rem;
-      object-fit: contain;
-    }
-  }
-
-  .wrapper_link {
-    margin: 0;
-    text-align: left;
-
-    .name {
-      margin-bottom: 0.75rem;
-      font-size: 1.35rem;
-    }
-
-    .description {
-      color: palette.$main-font-gray-color;
-      line-height: 1.6;
-      white-space: pre-line;
-    }
-
-    .action_link {
-      display: inline-block;
-      margin-top: 1rem;
-    }
-  }
-
-  .carousel__prev,
-  .carousel__next {
-    position: absolute;
-    top: 50%;
-    border-radius: 0.5rem;
-    background-color: palette.$main-nav-color;
-    border: 0.1rem solid rgba(117, 160, 255, 0.25);
-  }
-
-  .carousel__prev {
-    left: -0.9rem;
-  }
-
-  .carousel__next {
-    right: 0.5rem;
-  }
-
-  .carousel__navigation {
-    position: static;
-    width: auto;
-    padding: 1rem 0 0;
-    transform: none;
+  .instruction-steps__media {
+    aspect-ratio: 16 / 10;
   }
 }

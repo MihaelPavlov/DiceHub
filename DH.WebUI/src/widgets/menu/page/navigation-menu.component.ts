@@ -38,6 +38,7 @@ export class NavigationMenuComponent implements OnInit {
   public leftMenuItems: IMenuItemInterface[] = [];
   public rightMenuItems: IMenuItemInterface[] = [];
   public menuItemWithForceActiveExists: boolean = false;
+  private currentForcedLabel: string = '';
   private destroy$: Subject<boolean> = new Subject<boolean>();
   public activeLink = NAV_ITEM_LABELS.GAMES;
   public subscriptionRefreshForAnyActiveReservations!: any;
@@ -78,9 +79,15 @@ export class NavigationMenuComponent implements OnInit {
         takeUntil(this.destroy$),
         filter((event) => event instanceof NavigationEnd)
       )
-      .subscribe((navEvent: any) => {        
+      .subscribe((navEvent: any) => {
         this.activeLink = (navEvent as NavigationEnd).url.split('/')[2];
         this.updateMenuItemsWithPage(this.activeLink);
+        // updateMenuItemsWithPage() rebuilds leftMenuItems/rightMenuItems as
+        // new objects, which would silently drop whichever item setActiveTab()
+        // had marked forceActive on the previous array. Reapply it here so the
+        // forced tab (e.g. a nested page that called menuTabsService.setActive)
+        // still shows as active after the rebuild.
+        this.applyForcedActiveLabel();
         this.cd.detectChanges();
       });
     if (this.authService.getUser?.role !== UserRole.User) {
@@ -199,11 +206,16 @@ export class NavigationMenuComponent implements OnInit {
   }
 
   public setActiveTab(label: string) {
+    this.currentForcedLabel = label;
+    this.applyForcedActiveLabel();
+  }
+
+  private applyForcedActiveLabel(): void {
     let menuItem = this.leftMenuItems
       .concat(this.rightMenuItems)
       .find(
         (item) =>
-          item.label.toString().toLowerCase() === label.toString().toLowerCase()
+          item.label.toString().toLowerCase() === this.currentForcedLabel.toString().toLowerCase()
       );
     if (menuItem) {
       menuItem.forceActive = true;

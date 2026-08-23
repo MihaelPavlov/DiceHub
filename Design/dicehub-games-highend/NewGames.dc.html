@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Sora:wght@400;500;600;700&display=swap');
+    :root {
+      --bg: #07070a;
+      --glass: rgba(255,255,255,0.045);
+      --glass-core: rgba(255,255,255,0.065);
+      --hairline: rgba(255,255,255,0.09);
+      --hairline-strong: rgba(255,255,255,0.17);
+      --text: #f4f2ee;
+      --text-muted: rgba(244,242,238,0.6);
+      --text-faint: rgba(244,242,238,0.36);
+      --accent: oklch(0.7 0.13 250);
+      --accent-light: oklch(0.82 0.08 250);
+      --accent-ink: #071022;
+      --accent-glow: oklch(0.7 0.13 250 / 0.22);
+      --gold: oklch(0.78 0.13 82);
+      --shadow: 0 24px 60px -24px oklch(0.1 0.05 260 / 0.8);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); font-family: 'Sora', ui-sans-serif, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+    .display { font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif; }
+    .grain { position: absolute; inset: 0; background-image: url('grain.png'); background-size: 64px 64px; opacity: 0.5; pointer-events: none; mix-blend-mode: overlay; border-radius: inherit; }
+    .glow { position: absolute; border-radius: 50%; filter: blur(60px); pointer-events: none; animation: glowBreathe 7s ease-in-out infinite; }
+    @keyframes glowBreathe { 0%,100% { opacity: 0.45; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.15); } }
+    .eyebrow { display: inline-flex; align-items: center; gap: 6px; font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; padding: 6px 11px; border-radius: 999px; }
+    .bezel { padding: 0.28rem; border-radius: 1.5rem; background: var(--glass); border: 1px solid var(--hairline); position: relative; }
+    .bezel__core { border-radius: 1.22rem; overflow: hidden; position: relative; background: var(--glass-core); }
+    .navbar { position: absolute; left: 18px; right: 18px; bottom: 22px; display: flex; align-items: center; justify-content: space-between; padding: 10px 18px; border-radius: 999px; background: rgba(13,13,18,0.72); backdrop-filter: blur(20px); border: 1px solid var(--hairline-strong); box-shadow: 0 20px 44px -14px rgba(0,0,0,0.75); }
+    .navbar .fab { width: 50px; height: 50px; border-radius: 999px; background: linear-gradient(135deg, var(--gold), #caa53a); display: flex; align-items: center; justify-content: center; margin-top: -24px; box-shadow: 0 10px 24px -8px oklch(0.78 0.13 82 / 0.55), 0 0 0 6px var(--bg); }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); filter: blur(5px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
+    .stagger > * { opacity: 0; animation: fadeUp 650ms cubic-bezier(.32,.72,0,1) forwards; }
+    .stagger > *:nth-child(1) { animation-delay: .03s; } .stagger > *:nth-child(2) { animation-delay: .1s; }
+    .stagger > *:nth-child(3) { animation-delay: .17s; } .stagger > *:nth-child(4) { animation-delay: .24s; }
+  </style>
+</helmet>
+
+<div style="width:393px;background:var(--bg);color:var(--text);padding:26px 20px 150px;display:flex;flex-direction:column;gap:20px;position:relative;overflow:hidden;">
+
+  <div class="glow" style="width:240px;height:240px;top:-70px;right:-90px;background:var(--accent-glow);"></div>
+
+  <div class="stagger" style="display:flex;flex-direction:column;gap:18px;position:relative;">
+
+    <div style="display:flex;flex-direction:column;gap:4px;">
+      <span class="eyebrow" style="color:var(--accent-light);background:var(--accent-glow);">Just landed</span>
+      <span class="display" style="font-size:26px;font-weight:800;letter-spacing:-0.01em;margin-top:6px;">New Games</span>
+      <span style="font-size:12.5px;color:var(--text-muted);">Just added to the shelf</span>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:12px;">
+
+      <div class="bezel" style="box-shadow:var(--shadow);">
+        <div class="bezel__core" style="display:flex;gap:14px;padding:14px;">
+          <div style="width:70px;height:70px;border-radius:0.9rem;flex-shrink:0;overflow:hidden;position:relative;background:linear-gradient(150deg,#8a4fcf,#c48ea9);"><div class="grain"></div></div>
+          <div style="display:flex;flex-direction:column;gap:6px;min-width:0;flex:1;padding-top:2px;">
+            <span class="eyebrow" style="width:fit-content;color:var(--accent-light);background:var(--accent-glow);font-size:9px;">New</span>
+            <span class="display" style="font-size:16px;font-weight:700;">Cascadia</span>
+            <span style="font-size:12px;color:var(--text-muted);line-height:1.4;">Tile-lay a Pacific Northwest habitat and attract wildlife to score points.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bezel" style="box-shadow:var(--shadow);">
+        <div class="bezel__core" style="display:flex;gap:14px;padding:14px;">
+          <div style="width:70px;height:70px;border-radius:0.9rem;flex-shrink:0;overflow:hidden;position:relative;background:linear-gradient(150deg,#2f7f6a,#8fd4b8);"><div class="grain"></div></div>
+          <div style="display:flex;flex-direction:column;gap:6px;min-width:0;flex:1;padding-top:2px;">
+            <span class="eyebrow" style="width:fit-content;color:var(--accent-light);background:var(--accent-glow);font-size:9px;">New</span>
+            <span class="display" style="font-size:16px;font-weight:700;">Ark Nova</span>
+            <span style="font-size:12px;color:var(--text-muted);line-height:1.4;">Plan and design a modern zoo while balancing conservation projects.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bezel" style="box-shadow:var(--shadow);">
+        <div class="bezel__core" style="display:flex;gap:14px;padding:14px;">
+          <div style="width:70px;height:70px;border-radius:0.9rem;flex-shrink:0;overflow:hidden;position:relative;background:linear-gradient(150deg,#b0463f,#e8a35a);"><div class="grain"></div></div>
+          <div style="display:flex;flex-direction:column;gap:6px;min-width:0;flex:1;padding-top:2px;">
+            <span class="eyebrow" style="width:fit-content;color:var(--accent-light);background:var(--accent-glow);font-size:9px;">New</span>
+            <span class="display" style="font-size:16px;font-weight:700;">Sea Salt &amp; Paper</span>
+            <span style="font-size:12px;color:var(--text-muted);line-height:1.4;">A quick-fire push-your-luck card game about fishermen and pearls.</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="navbar">
+    <div style="width:38px;height:38px;border-radius:999px;display:flex;align-items:center;justify-content:center;background:var(--accent-glow);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-light)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9a1 1 0 0 0 1 1h4v-6h2v6h4a1 1 0 0 0 1-1v-9"/></svg></div>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 19c.8-3.3 3-5 6-5s5.2 1.7 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 12.2c2.6.2 4 1.7 4.6 4.3"/></svg>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16"/><path d="M8 3v4M16 3v4"/><path d="M9.5 14l1.8 1.8L15 12"/></svg>
+    <div class="fab"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="var(--accent-ink)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8v4a4 4 0 0 1-8 0z"/><path d="M8 5H5a3 3 0 0 0 3 5"/><path d="M16 5h3a3 3 0 0 1-3 5"/><path d="M10 13v3M14 13v3"/><path d="M8 20h8"/><path d="M9 17h6l1 3H8z"/></svg></div>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2 1.6 1.6 0 0 0 0 6 2 2 0 0 1-2 2H6a2 2 0 0 1-2-2 1.6 1.6 0 0 0 0-6z"/><path d="M9 7.5v2M9 12.5v2M9 17v-2"/></svg>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c1.2-4 4-5.5 7-5.5s5.8 1.5 7 5.5"/></svg>
+  </div>
+
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

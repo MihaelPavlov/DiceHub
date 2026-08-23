@@ -23,6 +23,7 @@ import { IRoomMessageResult } from '../../../../entities/rooms/models/room-messa
 import { MeepleRoomMenuComponent } from '../meeple-room-menu/meeple-room-menu.component';
 import { GroupedChatMessage } from './models/grouped-chat-messages.model';
 import { IRoomInfoMessageResult } from '../../../../entities/rooms/models/room-info-message.model';
+import { IRoomMemberResult } from '../../../../entities/rooms/models/room-member.model';
 import { environment } from '../../../../shared/environments/environment.development';
 import { FULL_ROUTE, ROUTE } from '../../../../shared/configs/route.config';
 import { TranslateService } from '@ngx-translate/core';
@@ -40,6 +41,7 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   public roomInfoMessages: IRoomInfoMessageResult[] = [];
   public room!: IRoomByIdResult;
   public roomMessages: IRoomMessageResult[] = [];
+  public members: IRoomMemberResult[] = [];
   public message = '';
   public roomId!: number;
   public isCurrentUserParticipateInRoom: boolean = false;
@@ -123,17 +125,39 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.backNavigateBtn();
   }
 
+  public viewAllMembers(): void {
+    this.tenantRouter.navigateTenant(
+      FULL_ROUTE.MEEPLE_ROOM.CHAT_MEMBERS(this.roomId)
+    );
+  }
+
+  public getMemberInitials(username: string): string {
+    return username
+      ?.trim()
+      .split(/\s+/)
+      .slice(0, 2)
+      .map((part) => part.charAt(0).toUpperCase())
+      .join('') || '';
+  }
+
+  public getAvatarClass(index: number): string {
+    const variants = ['amber', 'teal', 'violet', 'coral'];
+    return `meeple-chat__avatar--${variants[index % variants.length]}`;
+  }
+
   private fetchData(): void {
     combineLatest([
       this.roomService.getById(this.roomId),
       this.roomService.getMessageList(this.roomId),
       this.roomService.getInfoMessageList(this.roomId),
       this.roomService.checkUserParticipateInRoom(this.roomId),
+      this.roomService.getMembers(this.roomId),
     ]).subscribe({
-      next: ([room, messages, infoMessages, isParticipate]) => {
+      next: ([room, messages, infoMessages, isParticipate, members]) => {
         if (room && messages) {
           this.room = room;
           this.roomMessages = messages;
+          this.members = members ?? [];
 
           this.roomInfoMessages = infoMessages.map((x) => ({
             ...x,

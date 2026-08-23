@@ -2,7 +2,7 @@
 <button (click)="loginAdmin()">Login ADMIN</button>
 <app-language-switch />
 
-<div class="wrapper">
+<div class="wrapper" [class.admin]="isAdminLogin">
   <aside class="browser-panel">
     <div class="browser-panel__eyebrow">DiceHub access</div>
     <h1>{{ this.clubName ?? ("club" | translate) }}</h1>
@@ -104,7 +104,7 @@
           [disabled]="this.form.invalid"
           type="button"
           (click)="onLogin()"
-          class="btn btn-gray btn-border-blue btn-font-blue"
+          class="login-cta"
         >
           {{ "login.login_btn" | translate }}
         </button>

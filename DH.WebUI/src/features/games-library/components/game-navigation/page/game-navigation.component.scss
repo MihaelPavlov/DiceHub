@@ -10,6 +10,10 @@
 .games-shell__header {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    "title actions"
+    "tabs tabs"
+    "search search";
   gap: 1rem;
   align-items: start;
   width: min(72rem, 100%);
@@ -17,6 +21,8 @@
 }
 
 .games-shell__title {
+  grid-area: title;
+
   h1 {
     margin: 0;
     font-size: 1.65rem;
@@ -33,11 +39,12 @@
 }
 
 .games-shell__search {
-  grid-column: 1 / -1;
+  grid-area: search;
   display: flex;
   align-items: center;
   gap: 0.65rem;
   min-height: 3rem;
+  margin-bottom: 0.85rem;
   padding: 0 1rem;
   border: 1px solid var(--games-border);
   border-radius: 999px;
@@ -83,6 +90,7 @@
 }
 
 .games-shell__actions {
+  grid-area: actions;
   display: flex;
   justify-content: flex-end;
   gap: 0.6rem;
@@ -112,9 +120,8 @@
 }
 
 .games-shell__tabs {
+  grid-area: tabs;
   display: flex;
-  width: min(72rem, 100%);
-  margin: 1rem auto 1.35rem;
   gap: 0.55rem;
   overflow-x: auto;
   scrollbar-width: none;
@@ -131,6 +138,9 @@
 
   .games-shell__header {
     grid-template-columns: minmax(0, 1fr) 20rem auto;
+    grid-template-areas:
+      "title search actions"
+      "tabs tabs tabs";
     align-items: center;
   }
 
@@ -139,7 +149,7 @@
   }
 
   .games-shell__search {
-    grid-column: auto;
+    margin-bottom: 0;
   }
 
   .games-shell__tabs {

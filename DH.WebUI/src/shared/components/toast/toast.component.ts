@@ -60,13 +60,5 @@ export class ToastComponent {
 
   public cleanProgressBarInterval(): void {
     clearInterval(this.currentIntervalId);
-    console.log('progress bar interval(...) cleaned!');
-  }
-
-  public getIconPathByType(type: string): string {
-    if (type) {
-      return `../../../shared/assets/images/${type}-toast-icon.svg`;
-    }
-    return '';
   }
 }

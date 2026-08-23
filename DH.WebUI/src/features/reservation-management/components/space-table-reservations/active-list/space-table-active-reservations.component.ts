@@ -88,7 +88,7 @@ export class SpaceTableActiveReservations implements OnDestroy {
   public onCancel(): void {
     if (this.expandedReservationId) {
       const dialogRef = this.dialog.open(ReservationConfirmationDialog, {
-        width: '17rem',
+        panelClass: 'confirm-sheet-pane',
         data: {
           type: ReservationType.Table,
           reservationId: this.expandedReservationId,
@@ -114,7 +114,7 @@ export class SpaceTableActiveReservations implements OnDestroy {
   ): void {
     if (this.expandedReservationId) {
       const dialogRef = this.dialog.open(ReservationConfirmationDialog, {
-        width: '17rem',
+        panelClass: 'confirm-sheet-pane',
         data: {
           type: ReservationType.Table,
           reservationId: this.expandedReservationId,
@@ -144,7 +144,7 @@ export class SpaceTableActiveReservations implements OnDestroy {
   ): void {
     if (this.expandedReservationId) {
       const dialogRef = this.dialog.open(ReservationConfirmationDialog, {
-        width: '17rem',
+        panelClass: 'confirm-sheet-pane',
         data: {
           type: ReservationType.Table,
           reservationId: this.expandedReservationId,

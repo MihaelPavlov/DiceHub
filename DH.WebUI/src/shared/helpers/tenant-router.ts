@@ -24,11 +24,17 @@ export class TenantRouter {
 
   public buildTenantUrl(path: string): string {
     const tenant = this.tenantService.tenantId;
-    if (path === tenant || path.startsWith(`${tenant}/`)) {
-      return path;
+    // `path` may come in as an absolute URL (e.g. from `Router.url`, which
+    // always has a leading slash) or as a bare route segment. Normalize
+    // before checking for an existing tenant prefix, otherwise
+    // `/tenant/games/library` isn't recognized as already-prefixed and gets
+    // prefixed again into the malformed `tenant//tenant/games/library`.
+    const normalizedPath = path.startsWith('/') ? path.slice(1) : path;
+    if (normalizedPath === tenant || normalizedPath.startsWith(`${tenant}/`)) {
+      return normalizedPath;
     }
 
-    return [tenant, path].join('/');
+    return [tenant, normalizedPath].join('/');
   }
 
   public navigateGlobal(path: string | string[]) {

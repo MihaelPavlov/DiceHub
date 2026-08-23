@@ -7,28 +7,6 @@
       </p>
     </div>
 
-    <form class="games-shell__search" *ngIf="isSearchVisible">
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <circle cx="10.5" cy="10.5" r="6.5" />
-        <path d="M20 20l-4.8-4.8" />
-      </svg>
-      <input
-        type="search"
-        [formControl]="searchControl"
-        [placeholder]="'games.library.search_placeholder' | translate"
-      />
-      <button
-        *ngIf="searchControl.value"
-        type="button"
-        (click)="clearSearch()"
-        aria-label="Clear search"
-      >
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M18 6 6 18M6 6l12 12" />
-        </svg>
-      </button>
-    </form>
-
     <div class="games-shell__actions">
       <button
         type="button"
@@ -58,31 +36,53 @@
         </svg>
       </button>
     </div>
-  </header>
 
-  <nav class="games-shell__tabs" aria-label="Games sections">
-    <a
-      class="games-chip"
-      [class.games-chip--active]="isActiveLink('games/library')"
-      [routerLink]="getTenantLink('games/library')"
-    >
-      {{ "games.navbar.items.popular" | translate }}
-    </a>
-    <a
-      class="games-chip"
-      [class.games-chip--active]="isActiveLink('games/categories')"
-      [routerLink]="getTenantLink('games/categories')"
-    >
-      {{ "games.navbar.items.categories" | translate }}
-    </a>
-    <a
-      class="games-chip"
-      [class.games-chip--active]="isActiveLink('games/new')"
-      [routerLink]="getTenantLink('games/new')"
-    >
-      {{ "games.navbar.items.new" | translate }}
-    </a>
-  </nav>
+    <nav class="games-shell__tabs" aria-label="Games sections">
+      <a
+        class="games-chip"
+        [class.games-chip--active]="isActiveLink('games/library')"
+        [routerLink]="getTenantLink('games/library')"
+      >
+        {{ "games.navbar.items.popular" | translate }}
+      </a>
+      <a
+        class="games-chip"
+        [class.games-chip--active]="isActiveLink('games/categories')"
+        [routerLink]="getTenantLink('games/categories')"
+      >
+        {{ "games.navbar.items.categories" | translate }}
+      </a>
+      <a
+        class="games-chip"
+        [class.games-chip--active]="isActiveLink('games/new')"
+        [routerLink]="getTenantLink('games/new')"
+      >
+        {{ "games.navbar.items.new" | translate }}
+      </a>
+    </nav>
+
+    <form class="games-shell__search" *ngIf="isSearchVisible">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="10.5" cy="10.5" r="6.5" />
+        <path d="M20 20l-4.8-4.8" />
+      </svg>
+      <input
+        type="search"
+        [formControl]="searchControl"
+        [placeholder]="'games.library.search_placeholder' | translate"
+      />
+      <button
+        *ngIf="searchControl.value"
+        type="button"
+        (click)="clearSearch()"
+        aria-label="Clear search"
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M18 6 6 18M6 6l12 12" />
+        </svg>
+      </button>
+    </form>
+  </header>
 
   <app-controls-menu
     #menu

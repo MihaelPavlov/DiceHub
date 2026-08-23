@@ -123,9 +123,9 @@ export class AppComponent implements OnInit {
     }
 
     this.isSystemAdmin = this.authService.getUser?.tenantId === 'system';
+    this.challengeOverlayService.init(this.challengeOverlay);
 
     if (this.authService.getUser?.tenantId === 'system') {
-      this.challengeOverlayService.init(this.challengeOverlay);
       return;
     }
 
@@ -134,8 +134,6 @@ export class AppComponent implements OnInit {
         this.authService.getUser.id,
         this.challengeOverlay
       );
-    } else {
-      this.challengeOverlayService.init(this.challengeOverlay);
     }
 
     this._initializeFCM();

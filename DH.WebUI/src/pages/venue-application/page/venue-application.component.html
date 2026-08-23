@@ -42,7 +42,7 @@
 
         <button
           type="button"
-          class="btn btn-gray btn-border-blue btn-font-blue verify-btn"
+          class="verify-btn"
           [disabled]="isEmailVerified || isSendingEmailCode"
           (click)="sendEmailVerificationCode()"
         >
@@ -72,7 +72,7 @@
         <button
           *ngIf="isEmailCodeSent && !isEmailVerified"
           type="button"
-          class="btn btn-gray btn-border-blue btn-font-blue verify-btn"
+          class="verify-btn"
           [disabled]="isVerifyingEmailCode"
           (click)="verifyEmailCode()"
         >
@@ -186,7 +186,7 @@
       <div class="btn-container" *ngIf="canShowVenueDetails()">
         <button
           type="button"
-          class="btn btn-gray btn-border-blue btn-font-blue"
+          class="games-cta"
           [disabled]="form.invalid || !isEmailVerified || !hasPublicProof() || isSaving"
           (click)="submit()"
         >
@@ -206,7 +206,7 @@
       <p>{{ "venue_application.submitted_text" | translate }}</p>
       <button
         type="button"
-        class="btn btn-gray btn-border-blue btn-font-blue"
+        class="games-cta"
         (click)="navigateToLanding()"
       >
         {{ "back_to_home" | translate }}

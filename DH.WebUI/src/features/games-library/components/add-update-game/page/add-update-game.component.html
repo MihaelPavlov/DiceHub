@@ -1,5 +1,14 @@
 <div class="wrapper_icons">
-  <span (click)="backNavigateBtn()" class="arrow left"></span>
+  <button
+    type="button"
+    class="games-icon-btn"
+    (click)="backNavigateBtn()"
+    aria-label="Back"
+  >
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M15 5l-7 7 7 7" />
+    </svg>
+  </button>
 
   <div class="games-select" *ngIf="addExistingGame">
     <ng-select

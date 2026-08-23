@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Sora:wght@400;500;600;700&display=swap');
+    :root {
+      --bg: #07070a;
+      --glass: rgba(255,255,255,0.045);
+      --glass-core: rgba(255,255,255,0.065);
+      --hairline: rgba(255,255,255,0.09);
+      --hairline-strong: rgba(255,255,255,0.17);
+      --text: #f4f2ee;
+      --text-muted: rgba(244,242,238,0.6);
+      --text-faint: rgba(244,242,238,0.36);
+      --teal: oklch(0.72 0.12 165);
+      --teal-soft: oklch(0.72 0.12 165 / 0.2);
+      --shadow: 0 24px 60px -24px oklch(0.1 0.05 260 / 0.8);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); font-family: 'Sora', ui-sans-serif, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+    .display { font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif; }
+    .grain { position: absolute; inset: 0; background-image: url('grain.png'); background-size: 64px 64px; opacity: 0.5; pointer-events: none; mix-blend-mode: overlay; border-radius: inherit; }
+    .glow { position: absolute; border-radius: 50%; filter: blur(60px); pointer-events: none; animation: glowBreathe 7s ease-in-out infinite; }
+    @keyframes glowBreathe { 0%,100% { opacity: 0.45; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.15); } }
+    .icon-btn { width: 42px; height: 42px; border-radius: 999px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: var(--glass-core); border: 1px solid var(--hairline); }
+    .field-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 8px; display: block; }
+    .field-input { width: 100%; background: var(--glass-core); border: 1px solid var(--hairline); border-radius: 1rem; padding: 14px 16px; font-size: 14px; color: var(--text); font-family: 'Sora', sans-serif; }
+    .btn-primary { display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 14px; font-weight: 700; padding: 15px 6px 15px 0; border-radius: 999px; background: linear-gradient(135deg, oklch(0.82 0.1 165), var(--teal)); color: #062017; box-shadow: 0 16px 32px -14px var(--teal-soft); }
+    .btn-primary__icon { width: 30px; height: 30px; border-radius: 999px; background: rgba(6,32,23,0.16); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); filter: blur(5px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
+    .stagger > * { opacity: 0; animation: fadeUp 650ms cubic-bezier(.32,.72,0,1) forwards; }
+    .stagger > *:nth-child(1) { animation-delay: .03s; } .stagger > *:nth-child(2) { animation-delay: .09s; } .stagger > *:nth-child(3) { animation-delay: .15s; }
+    .stagger > *:nth-child(4) { animation-delay: .21s; } .stagger > *:nth-child(5) { animation-delay: .27s; } .stagger > *:nth-child(6) { animation-delay: .33s; }
+    .stagger > *:nth-child(7) { animation-delay: .39s; }
+  </style>
+</helmet>
+
+<div style="width:393px;background:var(--bg);color:var(--text);padding:26px 20px 50px;display:flex;flex-direction:column;gap:20px;position:relative;overflow:hidden;">
+
+  <div class="glow" style="width:220px;height:220px;top:-70px;right:-70px;background:var(--teal-soft);"></div>
+
+  <div class="stagger" style="display:flex;flex-direction:column;gap:20px;position:relative;">
+
+    <div style="display:flex;align-items:center;justify-content:space-between;">
+      <div style="display:flex;align-items:center;gap:14px;">
+        <div class="icon-btn"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></div>
+        <span class="display" style="font-size:21px;font-weight:800;">Update Game</span>
+      </div>
+      <div class="icon-btn" style="padding:8px;"><img src="qr-code.png" alt="QR code" style="width:100%;height:100%;object-fit:contain;"></div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;align-items:center;gap:10px;">
+      <div style="width:120px;height:120px;border-radius:1.6rem;overflow:hidden;position:relative;background:linear-gradient(150deg,#5a4fcf,#8ea2ff);box-shadow:var(--shadow);"><div class="grain"></div></div>
+      <span style="font-size:12px;color:var(--text-faint);">Tap to change cover image</span>
+    </div>
+
+    <div><label class="field-label">Category</label>
+      <select class="field-input"><option selected>Strategy</option><option>Party</option><option>Co-op</option><option>Card Game</option></select>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div><label class="field-label">Min age</label><input class="field-input" type="number" value="8" /></div>
+      <div><label class="field-label">Avg. playtime</label><select class="field-input"><option selected>60–90 min</option><option>30–45 min</option></select></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div><label class="field-label">Min players</label><input class="field-input" type="number" value="3" /></div>
+      <div><label class="field-label">Max players</label><input class="field-input" type="number" value="4" /></div>
+    </div>
+
+    <div><label class="field-label">Name</label><input class="field-input" type="text" value="Catan" /></div>
+
+    <div><label class="field-label">Description</label><textarea class="field-input" rows="4" style="resize:none;">Trade, build and settle the island of Catan before your rivals do.</textarea></div>
+
+    <div class="btn-primary" style="margin-top:6px;"><span style="padding-left:14px;">Update Game</span><span class="btn-primary__icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#062017" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span></div>
+
+  </div>
+
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

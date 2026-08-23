@@ -1,38 +1,54 @@
-<app-header
-  [header]="'instruction.instructions_header' | translate"
-  [withBackBtn]="true"
-  (backClicked)="navigateBack()"
-></app-header>
-
-<div class="wrapper_info">
-  <div class="image">
-    <img [src]="translate(currentSection.imageUrl)" alt="" />
-  </div>
-  <div class="header blue">
-    {{ translate(currentSection.title) }}
-  </div>
-  <div class="description">
-    {{ translate(currentSection.summary) }}
-  </div>
-</div>
-
-<div class="wrapper">
-  <div
-    *ngFor="let link of currentSection.topics"
-    class="wrapper_item"
-    (click)="navigateToLink(link.route)"
+<section class="instruction-links" *ngIf="currentSection">
+  <button
+    type="button"
+    class="games-icon-btn"
+    (click)="navigateBack()"
+    aria-label="Back"
   >
-    <div class="wrapper_image">
-      <img [src]="translate(link.thumbnailUrl)" alt="Image" />
-    </div>
-    <div class="wrapper_title">
-      <span>{{ translate(link.title) }}</span>
-      <div class="wrapper_description">
-        {{ translate(link.description) }}
-      </div>
-    </div>
-    <svg class="arrow" viewBox="0 -960 960 960" fill="#fafafa">
-      <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z" />
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M15 5l-7 7 7 7" />
     </svg>
+  </button>
+
+  <div class="instruction-links__intro">
+    <div
+      class="instruction-links__badge"
+      [ngClass]="'instruction-links__badge--' + accent"
+    >
+      <img [src]="translate(currentSection.imageUrl)" alt="" />
+    </div>
+    <div class="instruction-links__intro-text">
+      <span
+        class="instruction-links__title"
+        [ngClass]="'instruction-links__title--' + accent"
+        >{{ translate(currentSection.title) }}</span
+      >
+      <span class="instruction-links__summary">{{
+        translate(currentSection.summary)
+      }}</span>
+    </div>
   </div>
-</div>
+
+  <div class="instruction-links__list">
+    <div
+      *ngFor="let link of currentSection.topics"
+      class="instruction-links__row"
+      (click)="navigateToLink(link.route)"
+    >
+      <div class="instruction-links__thumb">
+        <img [src]="translate(link.thumbnailUrl)" alt="" />
+      </div>
+      <div class="instruction-links__row-text">
+        <span class="instruction-links__row-title">{{
+          translate(link.title)
+        }}</span>
+        <span class="instruction-links__row-description">{{
+          translate(link.description)
+        }}</span>
+      </div>
+      <svg class="instruction-links__row-arrow" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M9 5l7 7-7 7" />
+      </svg>
+    </div>
+  </div>
+</section>

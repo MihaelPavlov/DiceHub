@@ -8,6 +8,7 @@ import { TenantContextService } from '../../services/tenant-context.service';
 
 export abstract class ExceptionBaseComponent {
   protected abstract imageCode: string;
+  protected abstract accent: 'amber' | 'coral' | 'violet';
 
   constructor(
     protected readonly router: Router,
