@@ -2,6 +2,7 @@
 using DH.Domain.Entities;
 using DH.Domain.Enums;
 using DH.Domain.Repositories;
+using DH.Domain.Services;
 using DH.Domain.Services.Queue;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -30,19 +31,29 @@ public class ReservationCleanupWorker : BackgroundService
 
             var queuedJobs = await queue.TryDequeue(cancellationToken);
 
+            var tenantIdsByJobId = queuedJobs.ToDictionary(q => q.JobId, q => q.TenantId);
+
             var nextJobsForProcessing = queuedJobs
                 .Select(q => JsonSerializer.Deserialize<ReservationCleanupJobInfo>(q.MessagePayload)!)
                 .Where(x => DateTime.UtcNow > x.RemovingTime);
+
+            var tenantContextScopeRunner = scope.ServiceProvider.GetRequiredService<ITenantContextScopeRunner>();
 
             foreach (var nextJob in nextJobsForProcessing)
             {
                 string traceId = Guid.NewGuid().ToString();
                 try
                 {
+                    if (!tenantIdsByJobId.TryGetValue(nextJob.JobId, out var tenantId) || string.IsNullOrWhiteSpace(tenantId))
+                    {
+                        throw new InvalidOperationException($"Queued job {nextJob.JobId} has no tenant id.");
+                    }
+
                     var jobStartTime = DateTime.UtcNow;
                     logger.LogInformation("Job ID: {jobId} - Started at {startTime} - Job Info: {jobInfo}", traceId, jobStartTime, JsonSerializer.Serialize(nextJob));
 
-                    await ProcessReservationJobAsync(scope, nextJob, traceId, queue.QueueName, cancellationToken);
+                    await tenantContextScopeRunner.RunAsTenantAsync(tenantId,
+                        () => ProcessReservationJobAsync(scope, nextJob, traceId, queue.QueueName, cancellationToken));
                 }
                 catch (TaskCanceledException)
                 {

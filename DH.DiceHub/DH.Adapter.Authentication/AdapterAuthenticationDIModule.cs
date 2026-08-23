@@ -168,6 +168,7 @@ public static class AuthenticationDIModule
 
         services.AddSingleton<ApplicationDbConnectionInterceptor>();
         services.AddScoped<ISystemUserContextAccessor, SystemUserContextAccessor>();
+        services.AddScoped<ITenantContextScopeRunner, TenantContextScopeRunner>();
 
         services.AddSingleton(sp =>
         {

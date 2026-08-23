@@ -29,21 +29,30 @@ public class UserContextFactory : IUserContextFactory
     {
         var httpContext = this.httpContextAccessor.HttpContext;
         var user = httpContext?.User;
+        // Resolved by TenantRouteValidationMiddleware from the route/X-Tenant-Id
+        // header. Available even for anonymous requests (e.g. the pre-auth
+        // login/register/forgot-password pages), so it must not be discarded
+        // just because there's no authenticated user yet.
+        var routeOrHeaderTenantId = httpContext?.Items["TenantId"]?.ToString();
 
         if (user?.Identity?.IsAuthenticated != true)
         {
-            return AnonymousUserContext.Instance;
+            return string.IsNullOrWhiteSpace(routeOrHeaderTenantId)
+                ? AnonymousUserContext.Instance
+                : new UserContext(routeOrHeaderTenantId, null, null, null, null);
         }
 
         var userId = user.FindFirstValue(ClaimTypes.Sid);
         var roleName = user.FindFirstValue(ClaimTypes.Role);
         var timeZone = user.FindFirstValue("TimeZone");
-        var tenantId = httpContext?.Items["TenantId"]?.ToString()
+        var tenantId = routeOrHeaderTenantId
             ?? user.FindFirstValue("tenant_id");
 
         if (string.IsNullOrWhiteSpace(userId))
         {
-            return AnonymousUserContext.Instance;
+            return string.IsNullOrWhiteSpace(routeOrHeaderTenantId)
+                ? AnonymousUserContext.Instance
+                : new UserContext(routeOrHeaderTenantId, null, null, null, null);
         }
 
         var language = await this.userSettingsCache.GetLanguageAsync(userId);

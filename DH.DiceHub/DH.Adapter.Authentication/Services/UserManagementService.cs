@@ -226,6 +226,13 @@ internal class UserManagementService(
             .ToArrayAsync(cancellationToken);
     }
 
+    public async Task<Dictionary<string, string>> GetAllUserTenantIdsAsync(CancellationToken cancellationToken)
+    {
+        return await this.userManager.Users
+            .Where(x => !x.IsDeleted)
+            .ToDictionaryAsync(x => x.Id, x => x.TenantId, cancellationToken);
+    }
+
     public async Task<string> GetUserTimeZone(string userId)
     {
         var user = await this.userManager.Users

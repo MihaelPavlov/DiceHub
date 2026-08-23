@@ -230,7 +230,8 @@ public class TenantDbContext : DbContext, ITenantDbContext
         foreach (var entityType in modelBuilder.Model.GetEntityTypes()
                      .Where(x => typeof(TenantEntity).IsAssignableFrom(x.ClrType)
                          && x.ClrType != typeof(UniversalChallenge)
-                         && x.ClrType != typeof(EmailTemplate)))
+                         && x.ClrType != typeof(EmailTemplate)
+                         && x.ClrType != typeof(QueuedJob)))
         {
             var method = typeof(TenantDbContext)
                 .GetMethod(nameof(ApplyTenantQueryFilter), BindingFlags.NonPublic | BindingFlags.Instance)!

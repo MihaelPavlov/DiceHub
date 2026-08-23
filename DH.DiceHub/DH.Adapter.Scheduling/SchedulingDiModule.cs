@@ -58,8 +58,8 @@ public static class SchedulingDIModule
             .StoreDurably().RequestRecovery());
             q.AddJob<EventChecker>(opts => opts.WithIdentity(nameof(EventChecker))
             .StoreDurably().RequestRecovery());
-            q.AddJob<CloseActiveTablesJob>(opts => opts.WithIdentity(nameof(CloseActiveTablesJob))
-            .StoreDurably().RequestRecovery());
+            // CloseActiveTablesJob is scheduled per tenant (own JobKey/TriggerKey and TenantId
+            // JobDataMap) by SchedulerService.ScheduleCloseActiveTablesJob, not registered here.
 
             TriggerDailyJobs(q, services);
 

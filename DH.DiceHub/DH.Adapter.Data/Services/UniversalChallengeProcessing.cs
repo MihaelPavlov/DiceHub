@@ -20,7 +20,9 @@ internal class UniversalChallengeProcessing(
     ILogger<UniversalChallengeProcessing> logger,
     IChallengeHubClient challengeHubClient,
     IStatisticQueuePublisher statisticQueuePublisher,
-    IStatisticsService statisticsService) : IUniversalChallengeProcessing
+    IStatisticsService statisticsService,
+    ITenantDirectoryService tenantDirectoryService,
+    ITenantContextScopeRunner tenantContextScopeRunner) : IUniversalChallengeProcessing
 {
     readonly IDbContextFactory<TenantDbContext> dbContextFactory = dbContextFactory;
     readonly ITenantSettingsCacheService tenantSettingsCacheService = tenantSettingsCacheService;
@@ -28,8 +30,23 @@ internal class UniversalChallengeProcessing(
     readonly IChallengeHubClient challengeHubClient = challengeHubClient;
     readonly IStatisticQueuePublisher statisticQueuePublisher = statisticQueuePublisher;
     readonly IStatisticsService statisticsService = statisticsService;
+    readonly ITenantDirectoryService tenantDirectoryService = tenantDirectoryService;
+    readonly ITenantContextScopeRunner tenantContextScopeRunner = tenantContextScopeRunner;
 
     public async Task ProcessUserChallengeTop3Streak(CancellationToken cancellationToken)
+    {
+        var tenantIds = await this.tenantDirectoryService.GetActiveTenantIdsAsync(cancellationToken);
+
+        foreach (var tenantId in tenantIds)
+        {
+            await this.tenantContextScopeRunner.RunAsTenantAsync(tenantId, async () =>
+            {
+                await ProcessUserChallengeTop3StreakForTenant(cancellationToken);
+            });
+        }
+    }
+
+    private async Task ProcessUserChallengeTop3StreakForTenant(CancellationToken cancellationToken)
     {
         var tenantSettings = await this.tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
 
@@ -405,27 +422,35 @@ internal class UniversalChallengeProcessing(
 
     public async Task ProcessJoinXEventsChallenge(CancellationToken cancellationToken)
     {
-        using (var context = await this.dbContextFactory.CreateDbContextAsync(cancellationToken))
+        var tenantIds = await this.tenantDirectoryService.GetActiveTenantIdsAsync(cancellationToken);
+
+        foreach (var tenantId in tenantIds)
         {
-            var events = await context.Events
-                .Where(x => !x.IsDeleted && !x.IsJoinChallengeProcessed && x.StartDate < DateTime.UtcNow)
-                .Include(x => x.Participants)
-                .AsSplitQuery()
-                .ToListAsync(cancellationToken);
-
-            foreach (var currentEvent in events)
+            await this.tenantContextScopeRunner.RunAsTenantAsync(tenantId, async () =>
             {
-                foreach (var participant in currentEvent.Participants)
+                using (var context = await this.dbContextFactory.CreateDbContextAsync(cancellationToken))
                 {
-                    await ProcessUniversalChallengeByType(
-                        participant.UserId,
-                        UniversalChallengeType.JoinEvents,
-                        cancellationToken);
-                }
-                currentEvent.IsJoinChallengeProcessed = true;
-            }
+                    var events = await context.Events
+                        .Where(x => !x.IsDeleted && !x.IsJoinChallengeProcessed && x.StartDate < DateTime.UtcNow)
+                        .Include(x => x.Participants)
+                        .AsSplitQuery()
+                        .ToListAsync(cancellationToken);
 
-            await context.SaveChangesAsync(cancellationToken);
+                    foreach (var currentEvent in events)
+                    {
+                        foreach (var participant in currentEvent.Participants)
+                        {
+                            await ProcessUniversalChallengeByType(
+                                participant.UserId,
+                                UniversalChallengeType.JoinEvents,
+                                cancellationToken);
+                        }
+                        currentEvent.IsJoinChallengeProcessed = true;
+                    }
+
+                    await context.SaveChangesAsync(cancellationToken);
+                }
+            });
         }
     }
 }

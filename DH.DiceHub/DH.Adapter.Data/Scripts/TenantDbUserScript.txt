@@ -61,6 +61,7 @@ DECLARE
         'AspNetUsers'
         ,'UniversalChallenges'
         ,'EmailTemplates'
+        ,'QueuedJobs'
     ];
 BEGIN
     FOR r IN

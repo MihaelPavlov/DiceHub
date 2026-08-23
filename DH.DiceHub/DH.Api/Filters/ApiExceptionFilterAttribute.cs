@@ -31,6 +31,15 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
 
     private void HandleException(ExceptionContext context)
     {
+        if (context.Exception is OperationCanceledException)
+        {
+            // The client disconnected or navigated away before the request finished;
+            // this is expected traffic noise, not an application error.
+            _logger.LogInformation("Request canceled by client: {Path}", context.HttpContext.Request.Path);
+            context.ExceptionHandled = true;
+            return;
+        }
+
         Type type = context.Exception.GetType();
 
         _logger.LogError(context.Exception, "Exception occurred: {ExceptionType}", type.Name);

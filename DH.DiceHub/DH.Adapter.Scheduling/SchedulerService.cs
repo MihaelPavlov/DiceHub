@@ -128,6 +128,10 @@ internal class SchedulerService : ISchedulerService
 
     public async Task ScheduleCloseActiveTablesJob(CancellationToken cancellationToken)
     {
+        var tenantId = this.userContext.TenantId;
+        if (string.IsNullOrWhiteSpace(tenantId))
+            throw new InvalidOperationException($"{nameof(ScheduleCloseActiveTablesJob)} requires an ambient tenant context.");
+
         var scheduler = await this.schedulerFactory.GetScheduler(cancellationToken);
         var tenantSettings = await this.tenantSettingsService.GetGlobalTenantSettingsAsync(cancellationToken);
 
@@ -138,8 +142,9 @@ internal class SchedulerService : ISchedulerService
 
         var timeZone = TimeZoneInfo.FindSystemTimeZoneById(this.userContext.TimeZone ?? "Europe/Sofia");
 
-        var jobKey = new JobKey(nameof(CloseActiveTablesJob));
-        var triggerKey = new TriggerKey($"DailyTrigger-{nameof(CloseActiveTablesJob)}");
+        // Every tenant has its own working hours, so each tenant gets its own job/trigger.
+        var jobKey = new JobKey($"{nameof(CloseActiveTablesJob)}-{tenantId}");
+        var triggerKey = new TriggerKey($"DailyTrigger-{nameof(CloseActiveTablesJob)}-{tenantId}");
 
         // Check if job already exists
         if (await scheduler.CheckExists(jobKey, cancellationToken))
@@ -151,6 +156,7 @@ internal class SchedulerService : ISchedulerService
 
         var job = JobBuilder.Create<CloseActiveTablesJob>()
             .WithIdentity(jobKey)
+            .UsingJobData("TenantId", tenantId)
             .Build();
 
         var trigger = TriggerBuilder.Create()
