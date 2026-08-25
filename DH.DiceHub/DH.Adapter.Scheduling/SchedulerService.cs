@@ -16,18 +16,18 @@ internal class SchedulerService : ISchedulerService
     private readonly ISchedulerFactory schedulerFactory;
     private readonly ITenantSettingsCacheService tenantSettingsService;
     private readonly ILogger<SchedulerService> logger;
-    private readonly IUserContext userContext;
+    private readonly IUserContextFactory userContextFactory;
 
     public SchedulerService(
         ISchedulerFactory schedulerFactory,
         ITenantSettingsCacheService tenantSettingsService,
         ILogger<SchedulerService> logger,
-        IUserContext userContext)
+        IUserContextFactory userContextFactory)
     {
         this.schedulerFactory = schedulerFactory;
         this.tenantSettingsService = tenantSettingsService;
         this.logger = logger;
-        this.userContext = userContext;
+        this.userContextFactory = userContextFactory;
     }
 
     public async Task<List<ScheduleJobInfo>> GetScheduleJobs()
@@ -128,7 +128,8 @@ internal class SchedulerService : ISchedulerService
 
     public async Task ScheduleCloseActiveTablesJob(CancellationToken cancellationToken)
     {
-        var tenantId = this.userContext.TenantId;
+        var userContext = await this.userContextFactory.CreateAsync();
+        var tenantId = userContext.TenantId;
         if (string.IsNullOrWhiteSpace(tenantId))
             throw new InvalidOperationException($"{nameof(ScheduleCloseActiveTablesJob)} requires an ambient tenant context.");
 
@@ -140,7 +141,7 @@ internal class SchedulerService : ISchedulerService
 
         var (hour, minute) = (endTime.Hour, endTime.Minute);
 
-        var timeZone = TimeZoneInfo.FindSystemTimeZoneById(this.userContext.TimeZone ?? "Europe/Sofia");
+        var timeZone = TimeZoneInfo.FindSystemTimeZoneById(userContext.TimeZone ?? "Europe/Sofia");
 
         // Every tenant has its own working hours, so each tenant gets its own job/trigger.
         var jobKey = new JobKey($"{nameof(CloseActiveTablesJob)}-{tenantId}");

@@ -12,20 +12,28 @@ internal class TenantSettingsCacheService : ITenantSettingsCacheService
     DateTime _cacheDateTime = DateTime.MinValue;
     IRepository<TenantSetting> repository;
     IRepository<Tenant> tenantRepository;
-    IUserContext userContext;
+    IUserContextFactory userContextFactory;
 
     public TenantSettingsCacheService(
         IRepository<TenantSetting> repository,
         IRepository<Tenant> tenantRepository,
-        IUserContext userContext)
+        IUserContextFactory userContextFactory)
     {
         this.repository = repository;
         this.tenantRepository = tenantRepository;
-        this.userContext = userContext;
+        this.userContextFactory = userContextFactory;
     }
 
     public async Task<TenantSetting> GetGlobalTenantSettingsAsync(CancellationToken cancellationToken)
     {
+        // Resolved fresh on every call rather than taking a constructor-injected
+        // IUserContext: IUserContext is Scoped and memoized on first resolution, but
+        // this service is itself first resolved (via IUserChallengesManagementService)
+        // before ITenantContextScopeRunner.RunAsTenantAsync sets the per-job tenant
+        // for background workers that process multiple tenants' jobs within one scope
+        // - a cached IUserContext would keep reflecting whatever (or no) tenant was
+        // ambient at that first resolution for the rest of the scope's lifetime.
+        var userContext = await this.userContextFactory.CreateAsync();
         var tenantId = userContext.TenantId == "system" ? null : userContext.TenantId;
 
         if (_cache is null || _cacheTenantId != tenantId || _cacheDateTime.AddMinutes(3) < DateTime.UtcNow)

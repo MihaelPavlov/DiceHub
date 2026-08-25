@@ -255,10 +255,17 @@ public class TenantDbContext : DbContext, ITenantDbContext
     void ApplyTenantQueryFilter<TEntity>(ModelBuilder modelBuilder)
         where TEntity : TenantEntity
     {
+        // Deliberately just `entity.TenantId == CurrentTenantId`, not guarded by
+        // `!string.IsNullOrWhiteSpace(CurrentTenantId) && ...`. That extra method-call
+        // conjunction let EF Core's query compiler constant-fold the whole tenant
+        // branch to `false` (baking in whichever ambient CurrentTenantId happened to
+        // be active - often none - the first time a given entity's query shape was
+        // compiled) and cache that poisoned plan for the process's lifetime, so the
+        // row-fetch would keep silently returning nothing for every tenant afterward.
+        // A bare `entity.TenantId == CurrentTenantId` doesn't need the guard: SQL
+        // NULL comparison already makes it false whenever CurrentTenantId is null.
         modelBuilder.Entity<TEntity>()
-            .HasQueryFilter(entity => IsSystemContext
-                || (!string.IsNullOrWhiteSpace(CurrentTenantId)
-                    && entity.TenantId == CurrentTenantId));
+            .HasQueryFilter(entity => IsSystemContext || entity.TenantId == CurrentTenantId);
     }
 
 }

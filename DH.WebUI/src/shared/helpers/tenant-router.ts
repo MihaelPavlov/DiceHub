@@ -43,6 +43,6 @@ export class TenantRouter {
   }
 
    public navigateByUrl(path: string) {
-    return this.router.navigateByUrl(path);
+    return this.router.navigateByUrl(this.buildTenantUrl(path));
   }
 }

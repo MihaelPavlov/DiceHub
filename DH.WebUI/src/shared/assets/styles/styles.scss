@@ -148,6 +148,17 @@ body {
     stroke-linecap: round;
     stroke-linejoin: round;
   }
+
+  // Google Material Symbols icons (viewBox="0 -960 960 960") are solid,
+  // closed-path glyphs meant to be rendered via fill, not stroke. The default
+  // stroke styling above was authored for the Feather/Lucide-style 24x24
+  // outline icons also used in this button, so applying it to a Material
+  // Symbols icon instead traces a hairline around its (unfilled) shape,
+  // rendering as a near-invisible sliver on top of the button background.
+  svg[viewBox="0 -960 960 960"] {
+    fill: var(--games-text);
+    stroke: none;
+  }
 }
 
 .games-icon-btn--spacer {

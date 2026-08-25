@@ -49,11 +49,6 @@ public class UserChallengesManagementService : IUserChallengesManagementService
 
     public async Task InitializeNewPeriodsBatch(CancellationToken cancellationToken)
     {
-        var tenantSettings = await this.tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
-        var settingPeriod = Enum.Parse<TimePeriodType>(tenantSettings.PeriodOfRewardReset);
-        var startDate = DateTime.UtcNow.Date;
-        var nextResetDate = TimePeriodTypeHelper.CalculateNextResetDate(settingPeriod, tenantSettings.ResetDayForRewards);
-
         const int batchSize = 100; // adjust based on memory / load
 
         var tenantIds = await this.tenantDirectoryService.GetActiveTenantIdsAsync(cancellationToken);
@@ -62,6 +57,16 @@ public class UserChallengesManagementService : IUserChallengesManagementService
         {
             await this.tenantContextScopeRunner.RunAsTenantAsync(tenantId, async () =>
             {
+                // Fetched per-tenant, inside the tenant context set just above: each
+                // tenant can have its own reset cadence and IsCustomPeriodOn value.
+                // Fetching this once outside the loop would apply whichever tenant
+                // happened to be ambient at that point (or the orphaned global
+                // fallback row, for the no-HTTP-context case) to every tenant here.
+                var tenantSettings = await this.tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
+                var settingPeriod = Enum.Parse<TimePeriodType>(tenantSettings.PeriodOfRewardReset);
+                var startDate = DateTime.UtcNow.Date;
+                var nextResetDate = TimePeriodTypeHelper.CalculateNextResetDate(settingPeriod, tenantSettings.ResetDayForRewards);
+
                 List<string> userIds;
                 using (var context = await this.dbContextFactory.CreateDbContextAsync(cancellationToken))
                 {
@@ -220,11 +225,6 @@ public class UserChallengesManagementService : IUserChallengesManagementService
     {
         var now = DateTime.UtcNow;
 
-        var tenantSettings = await this.tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
-        var startDate = DateTime.UtcNow.Date;
-        var settingPeriod = Enum.Parse<TimePeriodType>(tenantSettings.PeriodOfRewardReset);
-        DateTime? nextResetDate = TimePeriodTypeHelper.CalculateNextResetDate(settingPeriod, tenantSettings.ResetDayForRewards);
-
         var userTenantIds = await this.userManagementService.GetAllUserTenantIdsAsync(cancellationToken);
         var usersByTenant = userTenantIds
             .Where(x => !string.IsNullOrWhiteSpace(x.Value))
@@ -236,6 +236,13 @@ public class UserChallengesManagementService : IUserChallengesManagementService
 
             await this.tenantContextScopeRunner.RunAsTenantAsync(tenantId, async () =>
             {
+                // Fetched per-tenant, inside the tenant context set just above - see
+                // InitializeNewPeriodsBatch for why this can't be hoisted above the loop.
+                var tenantSettings = await this.tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
+                var startDate = DateTime.UtcNow.Date;
+                var settingPeriod = Enum.Parse<TimePeriodType>(tenantSettings.PeriodOfRewardReset);
+                var nextResetDate = TimePeriodTypeHelper.CalculateNextResetDate(settingPeriod, tenantSettings.ResetDayForRewards);
+
                 using var context = await this.dbContextFactory.CreateDbContextAsync(cancellationToken);
 
                 var customRewards = await context.CustomPeriodRewards.OrderBy(x => x.RequiredPoints).ToListAsync(cancellationToken);
@@ -327,7 +334,7 @@ public class UserChallengesManagementService : IUserChallengesManagementService
                                 IsPeriodActive = true,
                                 Points = 0,
                                 StartDate = startDate,
-                                EndDate = nextResetDate.Value,
+                                EndDate = nextResetDate,
                                 TimePeriodType = settingPeriod,
                                 CreatedDate = DateTime.UtcNow,
                             };
@@ -370,7 +377,7 @@ public class UserChallengesManagementService : IUserChallengesManagementService
         }
 
         var doesAddUserChallengePeriodJobExists = await this.schedulerService.DoesAddUserChallengePeriodJobExists();
-        if (nextResetDate.HasValue && !doesAddUserChallengePeriodJobExists)
+        if (!doesAddUserChallengePeriodJobExists)
             await this.schedulerService.ScheduleAddUserPeriodJob(cancellationToken);
     }
 

@@ -24,7 +24,7 @@ public class GameSessionWorker : BackgroundService
     {
         while (!cancellationToken.IsCancellationRequested)
         {
-            var outerScope = serviceScopeFactory.CreateScope();
+            using var outerScope = serviceScopeFactory.CreateScope();
             var queue = outerScope.ServiceProvider.GetRequiredService<IGameSessionQueue>();
 
             var queuedJobs = await queue.TryDequeue(cancellationToken);
