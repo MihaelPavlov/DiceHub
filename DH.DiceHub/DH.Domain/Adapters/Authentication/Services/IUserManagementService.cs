@@ -10,6 +10,7 @@ public interface IUserManagementService
     Task<string> GetUserTimeZone(string userId);
     Task<List<UserModel>> GetUserListByIds(string[] ids, CancellationToken cancellationToken);
     Task<string[]> GetAllUserIds(CancellationToken cancellationToken);
+    Task<Dictionary<string, string>> GetAllUserTenantIdsAsync(CancellationToken cancellationToken);
     Task<UserModel?> GetUserById(string id, CancellationToken cancellationToken);
     Task<UserModel?> GetUserByEmail(string email);
     Task<List<GetUserByRoleModel>> GetUserListByRole(Role role, CancellationToken cancellationToken);

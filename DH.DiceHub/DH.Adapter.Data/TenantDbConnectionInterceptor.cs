@@ -12,7 +12,7 @@ namespace DH.Adapter.Data;
 /// </summary>
 /// <remarks>
 /// This interceptor sets the PostgreSQL session variable <c>app.tenant_id</c>
-/// based on the current HTTP request context.  
+/// based on the current HTTP request context.
 /// It is intended to support Row-Level Security (RLS) and tenant isolation.
 /// </remarks>
 public class TenantDbConnectionInterceptor : DbConnectionInterceptor
@@ -40,8 +40,7 @@ public class TenantDbConnectionInterceptor : DbConnectionInterceptor
             await resetCommand.ExecuteNonQueryAsync(cancellationToken);
         }
 
-        var tenantId = httpContextAccessor.HttpContext?.Items["TenantId"]?.ToString()
-            ?? systemUserContextAccessor.Peek.TenantId;
+        var tenantId = ResolveTenantId();
         if (!string.IsNullOrEmpty(tenantId))
         {
             using var command = connection.CreateCommand();
@@ -60,8 +59,7 @@ public class TenantDbConnectionInterceptor : DbConnectionInterceptor
             resetCommand.ExecuteNonQuery();
         }
 
-        var tenantId = httpContextAccessor.HttpContext?.Items["TenantId"]?.ToString()
-            ?? systemUserContextAccessor.Peek.TenantId;
+        var tenantId = ResolveTenantId();
         if (!string.IsNullOrEmpty(tenantId))
         {
             using (var command = connection.CreateCommand())
@@ -72,5 +70,25 @@ public class TenantDbConnectionInterceptor : DbConnectionInterceptor
         }
 
         base.ConnectionOpened(connection, eventData);
+    }
+
+    /// <summary>
+    /// Resolves the tenant to apply to this connection's RLS session variable.
+    /// Route/header wins (set by TenantRouteValidationMiddleware on the original
+    /// HTTP request). Falls back to the "tenant_id" JWT claim directly, because
+    /// that middleware only runs once per HTTP request - it never sees the later
+    /// invocations of a long-lived SignalR connection, whose HttpContext.User is
+    /// instead populated after the fact (e.g. ChatHubClient.OnConnectedAsync
+    /// validating the access_token query param). Falls back last to the
+    /// background-job system context (Quartz jobs, hosted workers) which has
+    /// no HttpContext at all.
+    /// </summary>
+    private string? ResolveTenantId()
+    {
+        var httpContext = httpContextAccessor.HttpContext;
+
+        return httpContext?.Items["TenantId"]?.ToString()
+            ?? httpContext?.User?.FindFirst("tenant_id")?.Value
+            ?? systemUserContextAccessor.Peek.TenantId;
     }
 }

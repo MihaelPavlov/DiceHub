@@ -6,62 +6,77 @@ using DH.Domain.Adapters.Statistics;
 using DH.Domain.Adapters.Statistics.Services;
 using DH.Domain.Entities;
 using DH.Domain.Repositories;
+using DH.Domain.Services;
 
 namespace DH.Adapter.Scheduling.Handlers;
 
 /// <summary>
 /// Implementation of <see cref="IUserRewardsExpiryHandler"/>
 /// </summary>
-internal class UserRewardsExpiryHandler(IRepository<UserChallengeReward> repository, IRepository<ChallengeReward> userChallengeRewardsRepository, IStatisticQueuePublisher statisticQueuePublisher, IRepository<FailedJob> failedJobsRepository, IPushNotificationsService pushNotificationsService) : IUserRewardsExpiryHandler
+internal class UserRewardsExpiryHandler(
+    IRepository<UserChallengeReward> repository, IRepository<ChallengeReward> userChallengeRewardsRepository,
+    IStatisticQueuePublisher statisticQueuePublisher, IRepository<FailedJob> failedJobsRepository,
+    IPushNotificationsService pushNotificationsService, ITenantDirectoryService tenantDirectoryService,
+    ITenantContextScopeRunner tenantContextScopeRunner) : IUserRewardsExpiryHandler
 {
     readonly IRepository<UserChallengeReward> repository = repository;
     readonly IRepository<ChallengeReward> userChallengeRewardsRepository = userChallengeRewardsRepository;
     readonly IRepository<FailedJob> failedJobsRepository = failedJobsRepository;
     readonly IPushNotificationsService pushNotificationsService = pushNotificationsService;
     readonly IStatisticQueuePublisher statisticQueuePublisher = statisticQueuePublisher;
+    readonly ITenantDirectoryService tenantDirectoryService = tenantDirectoryService;
+    readonly ITenantContextScopeRunner tenantContextScopeRunner = tenantContextScopeRunner;
 
     /// <inheritdoc/>
     public async Task EvaluateUserRewardsExpiry(CancellationToken cancellationToken)
     {
-        var rewardList = await this.repository.GetWithPropertiesAsTrackingAsync(
-            x => !x.IsClaimed && !x.IsExpired && DateTime.UtcNow.Date >= x.ExpiresDate.Date,
-            x => x,
-            cancellationToken);
+        var tenantIds = await this.tenantDirectoryService.GetActiveTenantIdsAsync(cancellationToken);
 
-        if (rewardList.Count == 0)
-            return;
-
-        var rewardIds = rewardList.Select(x => x.RewardId).ToList();
-        var rewards = await this.userChallengeRewardsRepository.GetWithPropertiesAsync(x => rewardIds.Contains(x.Id), x => x, cancellationToken);
-
-        var currentDate = DateTime.UtcNow;
-
-        var expiredRewards = new List<ExpiredRewardInfo>();
-
-        foreach (var reward in rewardList)
+        foreach (var tenantId in tenantIds)
         {
-            var dbReward = rewards.First(x => x.Id == reward.RewardId);
-            if (currentDate.Date >= reward.ExpiresDate.Date)
+            await this.tenantContextScopeRunner.RunAsTenantAsync(tenantId, async () =>
             {
-                reward.IsExpired = true;
-                expiredRewards.Add(new ExpiredRewardInfo(reward.UserId, reward.RewardId, dbReward.Name_EN, dbReward.Name_BG, reward.ExpiresDate));
-            }
-        }
+                var rewardList = await this.repository.GetWithPropertiesAsTrackingAsync(
+                    x => !x.IsClaimed && !x.IsExpired && DateTime.UtcNow.Date >= x.ExpiresDate.Date,
+                    x => x,
+                    cancellationToken);
 
-        await this.repository.SaveChangesAsync(cancellationToken);
+                if (rewardList.Count == 0)
+                    return;
 
-        foreach (var reward in expiredRewards)
-        {
-            await this.statisticQueuePublisher.PublishAsync(
-                new RewardActionDetectedJob(
-                    reward.UserId, reward.RewardId,
-                    CollectedDate: null, ExpiredDate: reward.ExpiredDate,
-                    IsExpired: true, IsCollected: false));
+                var rewardIds = rewardList.Select(x => x.RewardId).ToList();
+                var rewards = await this.userChallengeRewardsRepository.GetWithPropertiesAsync(x => rewardIds.Contains(x.Id), x => x, cancellationToken);
 
-            var payload = new RewardExpiredNotification { RewardName_EN = reward.Name_EN, RewardName_BG = reward.Name_BG };
+                var currentDate = DateTime.UtcNow;
 
-            await this.pushNotificationsService
-                .SendNotificationToUsersAsync([reward.UserId], payload, cancellationToken);
+                var expiredRewards = new List<ExpiredRewardInfo>();
+
+                foreach (var reward in rewardList)
+                {
+                    var dbReward = rewards.First(x => x.Id == reward.RewardId);
+                    if (currentDate.Date >= reward.ExpiresDate.Date)
+                    {
+                        reward.IsExpired = true;
+                        expiredRewards.Add(new ExpiredRewardInfo(reward.UserId, reward.RewardId, dbReward.Name_EN, dbReward.Name_BG, reward.ExpiresDate));
+                    }
+                }
+
+                await this.repository.SaveChangesAsync(cancellationToken);
+
+                foreach (var reward in expiredRewards)
+                {
+                    await this.statisticQueuePublisher.PublishAsync(
+                        new RewardActionDetectedJob(
+                            reward.UserId, reward.RewardId,
+                            CollectedDate: null, ExpiredDate: reward.ExpiredDate,
+                            IsExpired: true, IsCollected: false));
+
+                    var payload = new RewardExpiredNotification { RewardName_EN = reward.Name_EN, RewardName_BG = reward.Name_BG };
+
+                    await this.pushNotificationsService
+                        .SendNotificationToUsersAsync([reward.UserId], payload, cancellationToken);
+                }
+            });
         }
     }
 

@@ -166,8 +166,9 @@ public static class AuthenticationDIModule
            .AddScoped<IUserContextFactory, UserContextFactory>()
            .AddScoped<IUserContext>(services => services.GetRequiredService<IUserContextFactory>().Create());
 
-        services.AddSingleton<ApplicationDbConnectionInterceptor>();
+        services.AddScoped<ApplicationDbConnectionInterceptor>();
         services.AddScoped<ISystemUserContextAccessor, SystemUserContextAccessor>();
+        services.AddScoped<ITenantContextScopeRunner, TenantContextScopeRunner>();
 
         services.AddSingleton(sp =>
         {

@@ -1,4 +1,5 @@
 ﻿using DH.Domain.Adapters.GameSession;
+using DH.Domain.Entities;
 using DH.Domain.Services;
 using DH.Domain.Services.Queue;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,10 +24,11 @@ public class GameSessionWorker : BackgroundService
     {
         while (!cancellationToken.IsCancellationRequested)
         {
-            var outerScope = serviceScopeFactory.CreateScope();
+            using var outerScope = serviceScopeFactory.CreateScope();
             var queue = outerScope.ServiceProvider.GetRequiredService<IGameSessionQueue>();
 
             var queuedJobs = await queue.TryDequeue(cancellationToken);
+            var tenantIdsByJobId = queuedJobs.ToDictionary(q => q.JobId, q => q.TenantId);
             var nextJobsForProcessing = queuedJobs
                .Select(q => JsonSerializer.Deserialize<UserPlayTimeEnforcerJob>(q.MessagePayload)!)
                .Where(x => DateTime.UtcNow > x.RequiredPlayUntil);
@@ -34,12 +36,18 @@ public class GameSessionWorker : BackgroundService
             var tasks = new List<Task>();
             foreach (var nextJob in nextJobsForProcessing)
             {
-                var scope = serviceScopeFactory.CreateScope();
+                if (!tenantIdsByJobId.TryGetValue(nextJob.JobId, out var tenantId) || string.IsNullOrWhiteSpace(tenantId))
+                {
+                    logger.LogError("Job ID: {jobId} - Queued job has no tenant id.", nextJob.JobId);
+                    continue;
+                }
 
                 tasks.Add(Task.Run(async () =>
                 {
                     using var scope = serviceScopeFactory.CreateScope();
-                    await ProcessJobAsync(nextJob, queue.QueueName, scope, cancellationToken);
+                    var tenantContextScopeRunner = scope.ServiceProvider.GetRequiredService<ITenantContextScopeRunner>();
+                    await tenantContextScopeRunner.RunAsTenantAsync(tenantId,
+                        () => ProcessJobAsync(nextJob, queue.QueueName, scope, cancellationToken));
                 }, cancellationToken));
             }
 

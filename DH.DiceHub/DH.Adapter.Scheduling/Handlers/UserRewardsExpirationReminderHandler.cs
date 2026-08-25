@@ -4,6 +4,7 @@ using DH.Domain.Adapters.Scheduling;
 using DH.Domain.Adapters.Scheduling.Enums;
 using DH.Domain.Entities;
 using DH.Domain.Repositories;
+using DH.Domain.Services;
 
 namespace DH.Adapter.Scheduling.Handlers;
 
@@ -12,48 +13,59 @@ namespace DH.Adapter.Scheduling.Handlers;
 /// </summary>
 internal class UserRewardsExpirationReminderHandler(
     IRepository<UserChallengeReward> repository, IRepository<FailedJob> failedJobsRepository,
-    IPushNotificationsService pushNotificationsService) : IUserRewardsExpirationReminderHandler
+    IPushNotificationsService pushNotificationsService, ITenantDirectoryService tenantDirectoryService,
+    ITenantContextScopeRunner tenantContextScopeRunner) : IUserRewardsExpirationReminderHandler
 {
     readonly IRepository<UserChallengeReward> repository = repository;
     readonly IRepository<FailedJob> failedJobsRepository = failedJobsRepository;
     readonly IPushNotificationsService pushNotificationsService = pushNotificationsService;
+    readonly ITenantDirectoryService tenantDirectoryService = tenantDirectoryService;
+    readonly ITenantContextScopeRunner tenantContextScopeRunner = tenantContextScopeRunner;
 
     /// <inheritdoc/>
     public async Task EvaluateRewardsReminder(CancellationToken cancellationToken)
     {
-        var daysToRemind = new[] { 3, 2, 1 };
+        var tenantIds = await this.tenantDirectoryService.GetActiveTenantIdsAsync(cancellationToken);
 
-        foreach (var days in daysToRemind)
+        foreach (var tenantId in tenantIds)
         {
-            var reminderDate = DateTime.UtcNow.Date.AddDays(days);
-
-            var rewards = await this.repository.GetWithPropertiesAsTrackingAsync(
-                x => x.ExpiresDate.Date == reminderDate && !x.IsExpired && !x.IsClaimed,
-                x => x,
-                cancellationToken);
-
-            foreach (var reward in rewards)
+            await this.tenantContextScopeRunner.RunAsTenantAsync(tenantId, async () =>
             {
-                try
-                {
-                    var payload = new RewardExpirationReminderNotification
-                    {
-                        RewardName_EN = reward.Reward.Name_EN,
-                        RewardName_BG = reward.Reward.Name_BG,
-                        Days = days
-                    };
+                var daysToRemind = new[] { 3, 2, 1 };
 
-                    await this.pushNotificationsService
-                        .SendNotificationToUsersAsync([reward.UserId], payload, cancellationToken);
-                }
-                catch (Exception ex)
+                foreach (var days in daysToRemind)
                 {
-                    await ProcessFailedRewardExpirationReminder(
-                        $"RewardId: {reward.RewardId}, UserId: {reward.UserId}, ReminderDays: {days}",
-                        ex.Message,
+                    var reminderDate = DateTime.UtcNow.Date.AddDays(days);
+
+                    var rewards = await this.repository.GetWithPropertiesAsTrackingAsync(
+                        x => x.ExpiresDate.Date == reminderDate && !x.IsExpired && !x.IsClaimed,
+                        x => x,
                         cancellationToken);
+
+                    foreach (var reward in rewards)
+                    {
+                        try
+                        {
+                            var payload = new RewardExpirationReminderNotification
+                            {
+                                RewardName_EN = reward.Reward.Name_EN,
+                                RewardName_BG = reward.Reward.Name_BG,
+                                Days = days
+                            };
+
+                            await this.pushNotificationsService
+                                .SendNotificationToUsersAsync([reward.UserId], payload, cancellationToken);
+                        }
+                        catch (Exception ex)
+                        {
+                            await ProcessFailedRewardExpirationReminder(
+                                $"RewardId: {reward.RewardId}, UserId: {reward.UserId}, ReminderDays: {days}",
+                                ex.Message,
+                                cancellationToken);
+                        }
+                    }
                 }
-            }
+            });
         }
     }
 

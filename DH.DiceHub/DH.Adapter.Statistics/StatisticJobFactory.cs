@@ -1,23 +1,20 @@
 ﻿using DH.Domain.Adapters.Statistics;
 using DH.Domain.Adapters.Statistics.JobHandlers;
 using DH.Domain.Adapters.Statistics.Services;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace DH.Adapter.Statistics;
 
 public class StatisticJobFactory : IStatisticJobFactory
 {
-    readonly IServiceScopeFactory serviceScopeFactory;
+    readonly IStatisticsService service;
     public StatisticJobFactory(
-        IServiceScopeFactory serviceScopeFactory)
+        IStatisticsService service)
     {
-        this.serviceScopeFactory = serviceScopeFactory;
+        this.service = service;
     }
 
     public IStatisticJob CreateHandler(IStatisticJobInfo jobInfo)
     {
-        using var scope = serviceScopeFactory.CreateScope();
-        var service = scope.ServiceProvider.GetRequiredService<IStatisticsService>();
         return jobInfo switch
         {
             ClubActivityDetectedJob clubJob => new ClubActivityDetectedJobHandler(clubJob, service),

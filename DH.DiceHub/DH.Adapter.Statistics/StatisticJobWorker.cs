@@ -1,5 +1,6 @@
 ﻿using DH.Domain.Adapters.Statistics;
 using DH.Domain.Entities;
+using DH.Domain.Services;
 using DH.Domain.Services.Queue;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -28,8 +29,10 @@ public class StatisticJobWorker : BackgroundService
             var queue = scope.ServiceProvider.GetRequiredService<IStatisticJobQueue>();
             var queuedJobService = scope.ServiceProvider.GetRequiredService<IQueuedJobService>();
             var factory = scope.ServiceProvider.GetRequiredService<IStatisticJobFactory>();
+            var tenantContextScopeRunner = scope.ServiceProvider.GetRequiredService<ITenantContextScopeRunner>();
 
             var queuedJobs = await queue.TryDequeue(cancellationToken);
+            var tenantIdsByJobId = queuedJobs.ToDictionary(q => q.JobId, q => q.TenantId);
             var nextJobsForProcessing = queuedJobs
                 .Select(q => DeserializeJob(q));
 
@@ -37,8 +40,13 @@ public class StatisticJobWorker : BackgroundService
             {
                 try
                 {
+                    if (!tenantIdsByJobId.TryGetValue(jobInfo.JobId, out var tenantId) || string.IsNullOrWhiteSpace(tenantId))
+                    {
+                        throw new InvalidOperationException($"Queued job {jobInfo.JobId} has no tenant id.");
+                    }
+
                     var handler = factory.CreateHandler(jobInfo);
-                    await handler.ExecuteAsync(cancellationToken);
+                    await tenantContextScopeRunner.RunAsTenantAsync(tenantId, () => handler.ExecuteAsync(cancellationToken));
 
                     await queuedJobService.UpdateStatusToCompleted(queue.QueueName, jobInfo.JobId);
                 }
