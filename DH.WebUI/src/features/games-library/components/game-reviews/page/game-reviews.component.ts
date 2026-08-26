@@ -1,7 +1,7 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { IGameByIdResult } from '../../../../../entities/games/models/game-by-id.model';
 import { BehaviorSubject, Subscription } from 'rxjs';
-import { FormDraftService } from '../../../../../shared/services/form-draft.service';
+import { FormDraftService, IFormDraftOptions } from '../../../../../shared/services/form-draft.service';
 import { GamesService } from '../../../../../entities/games/api/games.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -95,6 +95,32 @@ export class GameReviewsComponent implements OnInit, OnDestroy {
     return `gameReview:${gameId}`;
   }
 
+  private readonly reviewDraftOptions: IFormDraftOptions<IGameReviewDraftExtra> = {
+    getExtra: () => ({
+      reviewState: this.currentReviewState,
+      reviewIdForUpdate: this.currentReviewIdForUpdate ?? null,
+      isInputOpen: this.showCommentInput.value,
+    }),
+    applyExtra: (extra) => {
+      this.currentReviewState = extra.reviewState;
+      if (extra.reviewIdForUpdate !== null) {
+        this.currentReviewIdForUpdate = extra.reviewIdForUpdate;
+      }
+      this.showCommentInput.next(extra.isInputOpen);
+    },
+  };
+
+  /**
+   * currentReviewState/currentReviewIdForUpdate/showCommentInput flip from button
+   * clicks, not from typing in the review textarea - the debounced autosave (keyed
+   * off reviewForm.valueChanges) never fires for them on its own. Without this,
+   * opening the compose box then backgrounding the app before typing anything would
+   * restore to a stale draft that still thinks the box is closed.
+   */
+  private saveReviewDraftNow(): void {
+    this.formDraftService.save(this.reviewForm, this.draftKey(this.game.id), this.reviewDraftOptions);
+  }
+
   public openDeleteDialog(id: number): void {
     const dialogRef = this.dialog.open(GameReviewConfirmDeleteDialog, {
       data: { id: id },
@@ -123,23 +149,10 @@ export class GameReviewsComponent implements OnInit, OnDestroy {
 
           // Keyed per-game so an in-progress review on one game doesn't leak into
           // another game's review box after an Android process kill.
-          this.draftSubscription = this.formDraftService.autoSave<IGameReviewDraftExtra>(
+          this.draftSubscription = this.formDraftService.autoSave(
             this.reviewForm,
             this.draftKey(this.game.id),
-            {
-              getExtra: () => ({
-                reviewState: this.currentReviewState,
-                reviewIdForUpdate: this.currentReviewIdForUpdate ?? null,
-                isInputOpen: this.showCommentInput.value,
-              }),
-              applyExtra: (extra) => {
-                this.currentReviewState = extra.reviewState;
-                if (extra.reviewIdForUpdate !== null) {
-                  this.currentReviewIdForUpdate = extra.reviewIdForUpdate;
-                }
-                this.showCommentInput.next(extra.isInputOpen);
-              },
-            }
+            this.reviewDraftOptions
           );
         });
     });
@@ -204,6 +217,9 @@ export class GameReviewsComponent implements OnInit, OnDestroy {
       this.reviewForm.reset();
     }
     this.showCommentInput.next(value);
+    if (!triggerAction) {
+      this.saveReviewDraftNow();
+    }
   }
 
   public startUpdatingComment(id: number, review: string) {
@@ -211,6 +227,7 @@ export class GameReviewsComponent implements OnInit, OnDestroy {
     this.currentReviewIdForUpdate = id;
     this.currentReviewState = ReviewState.update;
     this.showCommentInput.next(true);
+    this.saveReviewDraftNow();
     window.scroll({
       top: 0,
       left: 0,

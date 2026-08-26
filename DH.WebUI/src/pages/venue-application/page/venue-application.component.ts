@@ -8,7 +8,7 @@ import { AppToastMessage } from '../../../shared/components/toast/constants/app-
 import { ToastType } from '../../../shared/models/toast.model';
 import { LanguageService } from '../../../shared/services/language.service';
 import { ToastService } from '../../../shared/services/toast.service';
-import { FormDraftService } from '../../../shared/services/form-draft.service';
+import { FormDraftService, IFormDraftOptions } from '../../../shared/services/form-draft.service';
 
 interface IVenueApplicationForm {
   contactName: string;
@@ -50,6 +50,17 @@ export class VenueApplicationComponent implements OnDestroy {
   private static readonly AllowedLogoTypes = ['image/png', 'image/jpeg', 'image/webp', 'image/svg+xml'];
   private static readonly DraftKey = 'venueApplication';
   private draftSubscription: Subscription | null = null;
+  private readonly draftOptions: IFormDraftOptions<IVenueApplicationDraftExtra> = {
+    getExtra: () => ({ isEmailVerified: this.isEmailVerified, isEmailCodeSent: this.isEmailCodeSent }),
+    applyExtra: (extra) => {
+      this.isEmailCodeSent = extra.isEmailCodeSent;
+      if (extra.isEmailVerified) {
+        this.isEmailVerified = true;
+        this.form.get('email')?.disable();
+        this.form.get('emailVerificationCode')?.disable();
+      }
+    },
+  };
 
   constructor(
     private readonly fb: FormBuilder,
@@ -61,22 +72,23 @@ export class VenueApplicationComponent implements OnDestroy {
     private readonly formDraftService: FormDraftService
   ) {
     this.form = this.initFormGroup();
-    this.draftSubscription = this.formDraftService.autoSave<IVenueApplicationDraftExtra>(
+    this.draftSubscription = this.formDraftService.autoSave(
       this.form,
       VenueApplicationComponent.DraftKey,
-      {
-        getExtra: () => ({ isEmailVerified: this.isEmailVerified, isEmailCodeSent: this.isEmailCodeSent }),
-        applyExtra: (extra) => {
-          this.isEmailCodeSent = extra.isEmailCodeSent;
-          if (extra.isEmailVerified) {
-            this.isEmailVerified = true;
-            this.form.get('email')?.disable();
-            this.form.get('emailVerificationCode')?.disable();
-          }
-        },
-      }
+      this.draftOptions
     );
     this.listenForContactChanges();
+  }
+
+  /**
+   * isEmailCodeSent/isEmailVerified flip inside async HTTP success callbacks, not via
+   * any form control value change - the debounced autosave (keyed off form.valueChanges)
+   * never fires for them on its own. Without this explicit save, clicking "Send Code"
+   * then backgrounding the app before typing anything else would restore to a stale
+   * draft that still thinks no code was ever sent.
+   */
+  private saveDraftNow(): void {
+    this.formDraftService.save(this.form, VenueApplicationComponent.DraftKey, this.draftOptions);
   }
 
   public sendEmailVerificationCode(): void {
@@ -107,6 +119,7 @@ export class VenueApplicationComponent implements OnDestroy {
           }
 
           this.isEmailCodeSent = true;
+          this.saveDraftNow();
           this.toastService.success({
             message: this.translateService.instant('venue_application.toasts.email_code_sent'),
             type: ToastType.Success,
@@ -159,6 +172,7 @@ export class VenueApplicationComponent implements OnDestroy {
           this.isEmailVerified = true;
           emailControl.disable();
           codeControl.disable();
+          this.saveDraftNow();
           this.toastService.success({
             message: this.translateService.instant('venue_application.toasts.email_verified'),
             type: ToastType.Success,
