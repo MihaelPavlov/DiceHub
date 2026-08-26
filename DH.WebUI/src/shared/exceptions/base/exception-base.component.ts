@@ -18,6 +18,15 @@ export abstract class ExceptionBaseComponent {
   ) {}
 
   public redirectTo(): void {
+    // authService.logout() below makes a network call. While offline it fails the
+    // same way the request that landed the user here failed, re-triggering the
+    // ErrorInterceptor and bouncing straight back to this same exception page -
+    // "back to home" appeared to do nothing. Navigate locally instead.
+    if (!navigator.onLine) {
+      this.router.navigateByUrl(ROUTE.LANDING);
+      return;
+    }
+
     if (
       this.authService.getUser?.tenantId !== this.tenantContextService.tenantId
     ) {

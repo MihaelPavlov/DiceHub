@@ -5,6 +5,9 @@ import { AuthService } from '../../../entities/auth/auth.service';
 import { LanguageService } from '../../services/language.service';
 import { ExceptionBaseComponent } from '../base/exception-base.component';
 import { TenantRouter } from '../../helpers/tenant-router';
+import { ConnectivityService } from '../../services/connectivity.service';
+import { Observable } from 'rxjs';
+import { SupportLanguages } from '../../../entities/common/models/support-languages.enum';
 
 @Component({
   selector: 'app-server-error',
@@ -14,13 +17,16 @@ import { TenantRouter } from '../../helpers/tenant-router';
 })
 export class ServerErrorComponent extends ExceptionBaseComponent {
   protected imageCode = '500';
+  public readonly isOnline$: Observable<boolean>;
+  public offlineImageFailed = false;
 
   constructor(
     router: Router,
     authService: AuthService,
     languageService: LanguageService,
     tenantRouter: TenantRouter,
-    tenantContextService: TenantContextService
+    tenantContextService: TenantContextService,
+    private readonly connectivityService: ConnectivityService
   ) {
     super(
       router,
@@ -29,5 +35,16 @@ export class ServerErrorComponent extends ExceptionBaseComponent {
       tenantRouter,
       tenantContextService
     );
+    this.isOnline$ = this.connectivityService.isOnline$;
+  }
+
+  public retry(): void {
+    window.location.reload();
+  }
+
+  public get offlineImgPath(): string {
+    const language = this.languageService.getCurrentLanguage();
+    const langSuffix = language === SupportLanguages.BG ? 'bg' : 'en';
+    return `shared/assets/images/exceptions/offline_${langSuffix}.jpg`;
   }
 }
