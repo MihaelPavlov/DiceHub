@@ -1,6 +1,7 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { IGameByIdResult } from '../../../../../entities/games/models/game-by-id.model';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
+import { FormDraftService } from '../../../../../shared/services/form-draft.service';
 import { GamesService } from '../../../../../entities/games/api/games.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -25,6 +26,12 @@ import { TranslateService } from '@ngx-translate/core';
 enum ReviewState {
   create,
   update,
+}
+
+interface IGameReviewDraftExtra {
+  reviewState: ReviewState;
+  reviewIdForUpdate: number | null;
+  isInputOpen: boolean;
 }
 
 @Component({
@@ -56,6 +63,7 @@ export class GameReviewsComponent implements OnInit, OnDestroy {
   public readonly dialog = inject(MatDialog);
 
   public readonly DATE_FORMAT: string = DateHelper.DATE_FORMAT;
+  private draftSubscription: Subscription | null = null;
 
   constructor(
     private readonly fb: FormBuilder,
@@ -68,7 +76,8 @@ export class GameReviewsComponent implements OnInit, OnDestroy {
     private readonly navigationService: NavigationService,
     private readonly tenantRouter: TenantRouter,
     private readonly languageService: LanguageService,
-    private readonly translateService: TranslateService
+    private readonly translateService: TranslateService,
+    private readonly formDraftService: FormDraftService
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.GAMES);
   }
@@ -79,6 +88,11 @@ export class GameReviewsComponent implements OnInit, OnDestroy {
   }
   public ngOnDestroy(): void {
     this.menuTabsService.resetData();
+    this.draftSubscription?.unsubscribe();
+  }
+
+  private draftKey(gameId: number): string {
+    return `gameReview:${gameId}`;
   }
 
   public openDeleteDialog(id: number): void {
@@ -106,6 +120,27 @@ export class GameReviewsComponent implements OnInit, OnDestroy {
         this.gameService.getById(gameId).subscribe((x) => {
           this.game = x;
           this.fetchGameReviews();
+
+          // Keyed per-game so an in-progress review on one game doesn't leak into
+          // another game's review box after an Android process kill.
+          this.draftSubscription = this.formDraftService.autoSave<IGameReviewDraftExtra>(
+            this.reviewForm,
+            this.draftKey(this.game.id),
+            {
+              getExtra: () => ({
+                reviewState: this.currentReviewState,
+                reviewIdForUpdate: this.currentReviewIdForUpdate ?? null,
+                isInputOpen: this.showCommentInput.value,
+              }),
+              applyExtra: (extra) => {
+                this.currentReviewState = extra.reviewState;
+                if (extra.reviewIdForUpdate !== null) {
+                  this.currentReviewIdForUpdate = extra.reviewIdForUpdate;
+                }
+                this.showCommentInput.next(extra.isInputOpen);
+              },
+            }
+          );
         });
     });
   }
@@ -120,7 +155,11 @@ export class GameReviewsComponent implements OnInit, OnDestroy {
         })
         .subscribe((x) => this.fetchGameReviews());
       this.showCommentInput.next(false);
-      this.reviewForm.reset();
+      // emitEvent: false - a normal reset() fires valueChanges, which would schedule
+      // a new (blank) debounced autosave that clear() below can't prevent, silently
+      // reviving an empty draft.
+      this.reviewForm.reset({}, { emitEvent: false });
+      this.formDraftService.clear(this.draftKey(this.game.id));
     }
   }
 
@@ -147,7 +186,8 @@ export class GameReviewsComponent implements OnInit, OnDestroy {
         });
       this.showCommentInput.next(false);
       this.currentReviewState = ReviewState.create;
-      this.reviewForm.reset();
+      this.reviewForm.reset({}, { emitEvent: false });
+      this.formDraftService.clear(this.draftKey(this.game.id));
     }
   }
 

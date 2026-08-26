@@ -1,5 +1,5 @@
 import { ScrollService } from '../../../../shared/services/scroll.service';
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { ToastService } from '../../../../shared/services/toast.service';
 import { Form } from '../../../../shared/components/form/form.component';
 import { Formify } from '../../../../shared/models/form.model';
@@ -15,7 +15,8 @@ import { RewardsService } from '../../../../entities/rewards/api/rewards.service
 import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { ToastType } from '../../../../shared/models/toast.model';
 import { IRewardListResult } from '../../../../entities/rewards/models/reward-list.model';
-import { debounceTime, distinctUntilChanged, throwError } from 'rxjs';
+import { debounceTime, distinctUntilChanged, Subscription, throwError } from 'rxjs';
+import { FormDraftService } from '../../../../shared/services/form-draft.service';
 import { IRewardGetByIdResult } from '../../../../entities/rewards/models/reward-by-id.model';
 import { AdminChallengesRewardConfirmDeleteDialog } from '../../dialogs/admin-challenges-reward-confirm-delete/admin-challenges-reward-confirm-delete.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -46,8 +47,10 @@ interface ISystemRewardsForm {
     styleUrl: 'admin-challenges-system-rewards.component.scss',
     standalone: false
 })
-export class AdminChallengesSystemRewardsComponent extends Form {
+export class AdminChallengesSystemRewardsComponent extends Form implements OnDestroy {
   override form: Formify<ISystemRewardsForm>;
+  private static readonly DraftKey = 'adminChallengesSystemRewards';
+  private draftSubscription: Subscription | null = null;
 
   public isMenuVisible: boolean = false;
   public imagePreview: string | ArrayBuffer | null = null;
@@ -74,7 +77,8 @@ export class AdminChallengesSystemRewardsComponent extends Form {
     private readonly dialog: MatDialog,
     private readonly scrollService: ScrollService,
     public override translateService: TranslateService,
-    private readonly languageService: LanguageService
+    private readonly languageService: LanguageService,
+    private readonly formDraftService: FormDraftService
   ) {
     super(toastService, translateService);
 
@@ -92,6 +96,16 @@ export class AdminChallengesSystemRewardsComponent extends Form {
     this.form.controls.selectedLevel.valueChanges.subscribe((selectedLevel) => {
       this.updateRequiredPoints(selectedLevel);
     });
+
+    // Wired up after the selectedLevel subscription above, not before: restoring a
+    // draft with a selectedLevel patches that control's value, which needs the
+    // subscription already active to correctly re-enable/populate requiredPoints.
+    // 'image' holds a filename string, but the actual File can't be persisted.
+    this.draftSubscription = this.formDraftService.autoSave(
+      this.form,
+      AdminChallengesSystemRewardsComponent.DraftKey,
+      { exclude: ['image'] }
+    );
 
     this.searchForm = this.fb.group({
       search: [''],
@@ -161,6 +175,10 @@ export class AdminChallengesSystemRewardsComponent extends Form {
     this.isMenuVisible = !this.isMenuVisible;
   }
 
+  public ngOnDestroy(): void {
+    this.draftSubscription?.unsubscribe();
+  }
+
   public getFormGroup(formGroup: AbstractControl<any, any>): FormGroup {
     return formGroup as FormGroup;
   }
@@ -210,6 +228,7 @@ export class AdminChallengesSystemRewardsComponent extends Form {
 
             this.fetchSystemRewardList();
             this.toggleRewardForm();
+            this.formDraftService.clear(AdminChallengesSystemRewardsComponent.DraftKey);
           },
           error: (error) => {
             this.handleServerErrors(error);
@@ -254,6 +273,7 @@ export class AdminChallengesSystemRewardsComponent extends Form {
 
             this.fetchSystemRewardList();
             this.toggleRewardForm();
+            this.formDraftService.clear(AdminChallengesSystemRewardsComponent.DraftKey);
           },
           error: (error) => {
             this.handleServerErrors(error);

@@ -23,7 +23,8 @@ import { ActivatedRoute } from '@angular/router';
 import { NAV_ITEM_LABELS } from '../../../../../shared/models/nav-items-labels.const';
 import { IGameDropdownResult } from '../../../../../entities/games/models/game-dropdown.model';
 import { GamesService } from '../../../../../entities/games/api/games.service';
-import { throwError } from 'rxjs';
+import { Subscription, throwError } from 'rxjs';
+import { FormDraftService } from '../../../../../shared/services/form-draft.service';
 import { EventsService } from '../../../../../entities/events/api/events.service';
 import { AppToastMessage } from '../../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { ToastType } from '../../../../../shared/models/toast.model';
@@ -91,6 +92,8 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
   public isMenuVisible: boolean = false;
   public currentLang: 'EN' | 'BG' = 'EN';
   private lastValue = '';
+  private static readonly DraftKey = 'addUpdateEvent';
+  private draftSubscription: Subscription | null = null;
 
   constructor(
     private readonly fb: FormBuilder,
@@ -103,7 +106,8 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
     private readonly cd: ChangeDetectorRef,
     public override readonly toastService: ToastService,
     private readonly datePipe: DatePipe,
-    public override translateService: TranslateService
+    public override translateService: TranslateService,
+    private readonly formDraftService: FormDraftService
   ) {
     super(toastService, translateService);
     this.form = this.initFormGroup();
@@ -111,6 +115,11 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
       if (this.getServerErrorMessage) {
         this.clearServerErrorMessage();
       }
+    });
+    // 'image' holds a filename string, but the actual File can't be persisted, so it's
+    // excluded to avoid restoring a stale filename with no matching file attached.
+    this.draftSubscription = this.formDraftService.autoSave(this.form, AddUpdateEventComponent.DraftKey, {
+      exclude: ['image'],
     });
     this.activatedRoute.paramMap.subscribe((params) => {
       const id = params.get('id');
@@ -162,6 +171,7 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.menuTabsService.resetData();
+    this.draftSubscription?.unsubscribe();
   }
 
   public showMenu(): void {
@@ -198,6 +208,7 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
               ),
               type: ToastType.Success,
             });
+            this.formDraftService.clear(AddUpdateEventComponent.DraftKey);
 
             this.tenantRouter.navigateTenant(FULL_ROUTE.EVENTS.HOME);
           },
@@ -245,6 +256,7 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
               ),
               type: ToastType.Success,
             });
+            this.formDraftService.clear(AddUpdateEventComponent.DraftKey);
 
             this.tenantRouter.navigateTenant(FULL_ROUTE.EVENTS.HOME);
           },

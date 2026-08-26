@@ -1,5 +1,5 @@
 import { SpaceManagementService } from './../../../../entities/space-management/api/space-management.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Form } from '../../../../shared/components/form/form.component';
 import { Formify } from '../../../../shared/models/form.model';
 import { ToastService } from '../../../../shared/services/toast.service';
@@ -11,7 +11,8 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GamesService } from '../../../../entities/games/api/games.service';
-import { throwError } from 'rxjs';
+import { Subscription, throwError } from 'rxjs';
+import { FormDraftService } from '../../../../shared/services/form-draft.service';
 import { IGameByIdResult } from '../../../../entities/games/models/game-by-id.model';
 import { SafeUrl } from '@angular/platform-browser';
 import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
@@ -41,7 +42,7 @@ interface ICreateSpaceTableForm {
   styleUrl: 'add-update-club-space.component.scss',
   standalone: false,
 })
-export class AddUpdateClubSpaceComponent extends Form implements OnInit {
+export class AddUpdateClubSpaceComponent extends Form implements OnInit, OnDestroy {
   override form: Formify<ICreateSpaceTableForm>;
 
   public imagePreview: string | ArrayBuffer | SafeUrl | null = null;
@@ -49,6 +50,8 @@ export class AddUpdateClubSpaceComponent extends Form implements OnInit {
   public showPassword = false;
 
   private gameId: number | null = null;
+  private static readonly DraftKey = 'addUpdateClubSpace';
+  private draftSubscription: Subscription | null = null;
 
   constructor(
     public override readonly toastService: ToastService,
@@ -59,11 +62,21 @@ export class AddUpdateClubSpaceComponent extends Form implements OnInit {
     private readonly tenantRouter: TenantRouter,
     private readonly dialog: MatDialog,
     private readonly navigationService: NavigationService,
-    public override translateService: TranslateService
+    public override translateService: TranslateService,
+    private readonly formDraftService: FormDraftService
   ) {
     super(toastService, translateService);
     this.form = this.initFormGroup();
     this.navigationService.setPreviousUrl(FULL_ROUTE.SPACE_MANAGEMENT.HOME);
+    // gameId/gameName are derived from the route/server, not user input, and password
+    // isn't persisted for safety - only 'tableName'/'maxPeople' are worth restoring.
+    this.draftSubscription = this.formDraftService.autoSave(this.form, AddUpdateClubSpaceComponent.DraftKey, {
+      exclude: ['password', 'gameId', 'gameName'],
+    });
+  }
+
+  public ngOnDestroy(): void {
+    this.draftSubscription?.unsubscribe();
   }
 
   public ngOnInit(): void {
@@ -145,6 +158,7 @@ export class AddUpdateClubSpaceComponent extends Form implements OnInit {
               ),
               type: ToastType.Success,
             });
+            this.formDraftService.clear(AddUpdateClubSpaceComponent.DraftKey);
             this.tenantRouter.navigateTenant(FULL_ROUTE.SPACE_MANAGEMENT.HOME);
           },
           error: (error) => {
@@ -188,6 +202,7 @@ export class AddUpdateClubSpaceComponent extends Form implements OnInit {
               ),
               type: ToastType.Success,
             });
+            this.formDraftService.clear(AddUpdateClubSpaceComponent.DraftKey);
 
             if (this.editTableId)
               this.tenantRouter.navigateTenant(

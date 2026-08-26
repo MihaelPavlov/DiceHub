@@ -298,6 +298,7 @@ export class AuthService {
     if (forceFrontendOnly) {
       localStorage.removeItem('jwt');
       localStorage.removeItem('refreshToken');
+      localStorage.removeItem('lastRoute');
       this.userInfoSubject$.next(null);
       return of(void 0);
     }
@@ -308,6 +309,7 @@ export class AuthService {
         tap(() => {
           localStorage.removeItem('jwt');
           localStorage.removeItem('refreshToken');
+          localStorage.removeItem('lastRoute');
           this.userInfoSubject$.next(null);
         })
       );

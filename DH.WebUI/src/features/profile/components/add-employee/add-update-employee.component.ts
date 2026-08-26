@@ -16,7 +16,8 @@ import { AppToastMessage } from '../../../../shared/components/toast/constants/a
 import { ToastType } from '../../../../shared/models/toast.model';
 import { NavigationService } from '../../../../shared/services/navigation-service';
 import { FULL_ROUTE } from '../../../../shared/configs/route.config';
-import { throwError } from 'rxjs';
+import { Subscription, throwError } from 'rxjs';
+import { FormDraftService } from '../../../../shared/services/form-draft.service';
 import { TranslateService } from '@ngx-translate/core';
 import { TenantRouter } from '../../../../shared/helpers/tenant-router';
 
@@ -37,6 +38,8 @@ export class AddUpdateEmployeeComponent extends Form implements OnDestroy {
   override form: Formify<IEmployeeForm>;
   public isMenuVisible: boolean = false;
   public editEmployeeId: string | null = null;
+  private static readonly DraftKey = 'addUpdateEmployee';
+  private draftSubscription: Subscription | null = null;
 
   constructor(
     private readonly menuTabsService: MenuTabsService,
@@ -46,7 +49,8 @@ export class AddUpdateEmployeeComponent extends Form implements OnDestroy {
     private readonly activatedRoute: ActivatedRoute,
     private readonly fb: FormBuilder,
     private readonly tenantRouter: TenantRouter,
-    public override translateService: TranslateService
+    public override translateService: TranslateService,
+    private readonly formDraftService: FormDraftService
   ) {
     super(toastService, translateService);
     this.form = this.initFormGroup();
@@ -55,6 +59,7 @@ export class AddUpdateEmployeeComponent extends Form implements OnDestroy {
         this.clearServerErrorMessage();
       }
     });
+    this.draftSubscription = this.formDraftService.autoSave(this.form, AddUpdateEmployeeComponent.DraftKey);
     this.menuTabsService.setActive(NAV_ITEM_LABELS.PROFILE);
 
     this.activatedRoute.paramMap.subscribe((params) => {
@@ -72,6 +77,7 @@ export class AddUpdateEmployeeComponent extends Form implements OnDestroy {
 
   public ngOnDestroy(): void {
     this.menuTabsService.resetData();
+    this.draftSubscription?.unsubscribe();
   }
 
   public onAdd(): void {
@@ -91,6 +97,7 @@ export class AddUpdateEmployeeComponent extends Form implements OnDestroy {
               ),
               type: ToastType.Success,
             });
+            this.formDraftService.clear(AddUpdateEmployeeComponent.DraftKey);
 
             this.onBack();
           },
@@ -129,6 +136,7 @@ export class AddUpdateEmployeeComponent extends Form implements OnDestroy {
               ),
               type: ToastType.Success,
             });
+            this.formDraftService.clear(AddUpdateEmployeeComponent.DraftKey);
 
             this.onBack();
           },

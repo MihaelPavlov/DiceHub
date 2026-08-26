@@ -2,11 +2,13 @@ import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
 import { TenantApplicationsService } from '../../../entities/common/api/tenant-applications.service';
 import { AppToastMessage } from '../../../shared/components/toast/constants/app-toast-messages.constant';
 import { ToastType } from '../../../shared/models/toast.model';
 import { LanguageService } from '../../../shared/services/language.service';
 import { ToastService } from '../../../shared/services/toast.service';
+import { FormDraftService } from '../../../shared/services/form-draft.service';
 
 interface IVenueApplicationForm {
   contactName: string;
@@ -18,6 +20,11 @@ interface IVenueApplicationForm {
   socialPage: string;
   discordServer: string;
   photoUrl: string;
+}
+
+interface IVenueApplicationDraftExtra {
+  isEmailVerified: boolean;
+  isEmailCodeSent: boolean;
 }
 
 @Component({
@@ -41,6 +48,8 @@ export class VenueApplicationComponent implements OnDestroy {
 
   private static readonly MaxLogoSizeBytes = 2 * 1024 * 1024;
   private static readonly AllowedLogoTypes = ['image/png', 'image/jpeg', 'image/webp', 'image/svg+xml'];
+  private static readonly DraftKey = 'venueApplication';
+  private draftSubscription: Subscription | null = null;
 
   constructor(
     private readonly fb: FormBuilder,
@@ -48,9 +57,25 @@ export class VenueApplicationComponent implements OnDestroy {
     private readonly tenantApplicationsService: TenantApplicationsService,
     private readonly languageService: LanguageService,
     private readonly toastService: ToastService,
-    private readonly translateService: TranslateService
+    private readonly translateService: TranslateService,
+    private readonly formDraftService: FormDraftService
   ) {
     this.form = this.initFormGroup();
+    this.draftSubscription = this.formDraftService.autoSave<IVenueApplicationDraftExtra>(
+      this.form,
+      VenueApplicationComponent.DraftKey,
+      {
+        getExtra: () => ({ isEmailVerified: this.isEmailVerified, isEmailCodeSent: this.isEmailCodeSent }),
+        applyExtra: (extra) => {
+          this.isEmailCodeSent = extra.isEmailCodeSent;
+          if (extra.isEmailVerified) {
+            this.isEmailVerified = true;
+            this.form.get('email')?.disable();
+            this.form.get('emailVerificationCode')?.disable();
+          }
+        },
+      }
+    );
     this.listenForContactChanges();
   }
 
@@ -228,6 +253,7 @@ export class VenueApplicationComponent implements OnDestroy {
       .subscribe({
         next: () => {
           this.isSubmitted = true;
+          this.formDraftService.clear(VenueApplicationComponent.DraftKey);
           this.toastService.success({
             message: this.translateService.instant('venue_application.toasts.application_submitted'),
             type: ToastType.Success,
@@ -255,6 +281,7 @@ export class VenueApplicationComponent implements OnDestroy {
     if (this.logoPreviewUrl) {
       URL.revokeObjectURL(this.logoPreviewUrl);
     }
+    this.draftSubscription?.unsubscribe();
   }
 
   private initFormGroup(): FormGroup {

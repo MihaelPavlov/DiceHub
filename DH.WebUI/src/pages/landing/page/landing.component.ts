@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { ROUTE } from '../../../shared/configs/route.config';
 import { Form } from '../../../shared/components/form/form.component';
@@ -10,11 +10,13 @@ import {
   Validators,
   FormBuilder,
 } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { PartnerInquiriesService } from '../../../entities/common/api/partner-inquiries.service';
 import { ToastType } from '../../../shared/models/toast.model';
 import { AppToastMessage } from '../../../shared/components/toast/constants/app-toast-messages.constant';
 import { NavigationService } from '../../../shared/services/navigation-service';
 import { TranslateService } from '@ngx-translate/core';
+import { FormDraftService } from '../../../shared/services/form-draft.service';
 
 interface IPartnerInquiryForm {
   name: string;
@@ -29,8 +31,11 @@ interface IPartnerInquiryForm {
   styleUrl: 'landing.component.scss',
   standalone: false,
 })
-export class LandingComponent extends Form {
+export class LandingComponent extends Form implements OnDestroy {
   override form: Formify<IPartnerInquiryForm>;
+
+  private static readonly DraftKey = 'landingPartnerInquiry';
+  private draftSubscription: Subscription | null = null;
 
   constructor(
     private readonly fb: FormBuilder,
@@ -38,7 +43,8 @@ export class LandingComponent extends Form {
     private readonly partnerInquiriesService: PartnerInquiriesService,
     public override readonly toastService: ToastService,
     private readonly navigationService: NavigationService,
-    public override translateService: TranslateService
+    public override translateService: TranslateService,
+    private readonly formDraftService: FormDraftService
   ) {
     super(toastService, translateService);
 
@@ -48,6 +54,11 @@ export class LandingComponent extends Form {
         this.clearServerErrorMessage();
       }
     });
+    this.draftSubscription = this.formDraftService.autoSave(this.form, LandingComponent.DraftKey);
+  }
+
+  public ngOnDestroy(): void {
+    this.draftSubscription?.unsubscribe();
   }
 
   private clearServerErrorMessage() {
@@ -80,7 +91,11 @@ export class LandingComponent extends Form {
               message: 'Inquiry submitted successfully!',
               type: ToastType.Success,
             });
-            this.form.reset();
+            // emitEvent: false - a normal reset() fires valueChanges, which would
+            // schedule a new (blank) debounced autosave ~500ms later that clear()
+            // below can't prevent, silently reviving an empty draft.
+            this.form.reset({}, { emitEvent: false });
+            this.formDraftService.clear(LandingComponent.DraftKey);
           },
           error: (error) => {
             this.handleServerErrors(error);

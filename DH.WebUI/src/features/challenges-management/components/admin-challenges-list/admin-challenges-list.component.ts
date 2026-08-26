@@ -2,7 +2,7 @@ import { LanguageService } from './../../../../shared/services/language.service'
 import { ChallengeType } from './../../../../pages/challenges-management/shared/challenge-type.enum';
 import { IChallengeResult } from '../../../../entities/challenges/models/challenge-by-id.model';
 import { AdminChallengesConfirmDeleteDialog } from '../../dialogs/admin-challenges-confirm-delete/admin-challenges-confirm-delete.component';
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { IGameDropdownResult } from '../../../../entities/games/models/game-dropdown.model';
 import { IGameListResult } from '../../../../entities/games/models/game-list.model';
 import {
@@ -21,7 +21,8 @@ import { AppToastMessage } from '../../../../shared/components/toast/constants/a
 import { ToastType } from '../../../../shared/models/toast.model';
 import { IChallengeListResult } from '../../../../entities/challenges/models/challenge-list.model';
 import { MatDialog } from '@angular/material/dialog';
-import { throwError } from 'rxjs';
+import { Subscription, throwError } from 'rxjs';
+import { FormDraftService } from '../../../../shared/services/form-draft.service';
 import { ChallengeRewardPoint } from '../../../../entities/challenges/enums/challenge-reward-point.enum';
 import { ScrollService } from '../../../../shared/services/scroll.service';
 import { ImageEntityType } from '../../../../shared/pipe/entity-image.pipe';
@@ -44,7 +45,7 @@ interface IChallengeForm {
     styleUrl: 'admin-challenges-list.component.scss',
     standalone: false
 })
-export class AdminChallengesListComponent extends Form {
+export class AdminChallengesListComponent extends Form implements OnDestroy {
   override form: Formify<IChallengeForm>;
 
   public gameList: IGameDropdownResult[] = [];
@@ -58,6 +59,8 @@ export class AdminChallengesListComponent extends Form {
   public challengeRewardPointList: IDropdown[] = [];
   public readonly ImageEntityType = ImageEntityType;
   public readonly ChallengeType = ChallengeType;
+  private static readonly DraftKey = 'adminChallengesList';
+  private draftSubscription: Subscription | null = null;
 
   constructor(
     public override readonly toastService: ToastService,
@@ -68,7 +71,8 @@ export class AdminChallengesListComponent extends Form {
     private readonly dialog: MatDialog,
     private readonly scrollService: ScrollService,
     public override translateService: TranslateService,
-    public readonly languageService: LanguageService
+    public readonly languageService: LanguageService,
+    private readonly formDraftService: FormDraftService
   ) {
     super(toastService, translateService);
     this.fetchGameList();
@@ -84,6 +88,11 @@ export class AdminChallengesListComponent extends Form {
       },
     });
     this.form = this.initFormGroup();
+    this.draftSubscription = this.formDraftService.autoSave(this.form, AdminChallengesListComponent.DraftKey);
+  }
+
+  public ngOnDestroy(): void {
+    this.draftSubscription?.unsubscribe();
   }
 
   public openDeleteDialog(id: number): void {
@@ -154,6 +163,7 @@ export class AdminChallengesListComponent extends Form {
 
             this.fetchChallengeList();
             this.toggleChallengeForm();
+            this.formDraftService.clear(AdminChallengesListComponent.DraftKey);
           },
           error: (error) => {
             this.handleServerErrors(error);
@@ -188,6 +198,7 @@ export class AdminChallengesListComponent extends Form {
 
             this.fetchChallengeList();
             this.toggleChallengeForm();
+            this.formDraftService.clear(AdminChallengesListComponent.DraftKey);
           },
           error: (error) => {
             this.handleServerErrors(error);

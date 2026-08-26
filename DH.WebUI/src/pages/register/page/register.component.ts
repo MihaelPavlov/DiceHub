@@ -1,5 +1,5 @@
 import { FrontEndLogService } from './../../../shared/services/frontend-log.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Form } from '../../../shared/components/form/form.component';
 import {
   FormBuilder,
@@ -8,6 +8,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { FormDraftService } from '../../../shared/services/form-draft.service';
 import { AuthService } from '../../../entities/auth/auth.service';
 import { MessagingService } from '../../../entities/messaging/api/messaging.service';
 import { Formify } from '../../../shared/models/form.model';
@@ -36,13 +38,16 @@ interface IRegisterForm {
   styleUrl: 'register.component.scss',
   standalone: false,
 })
-export class RegisterComponent extends Form implements OnInit {
+export class RegisterComponent extends Form implements OnInit, OnDestroy {
   override form: Formify<IRegisterForm>;
 
   public showPassword: boolean = false;
   public showConfirmPassword: boolean = false;
   public showResend: boolean = false;
   public clubName: string | null = null;
+
+  private static readonly DraftKey = 'register';
+  private draftSubscription: Subscription | null = null;
 
   constructor(
     private readonly router: Router,
@@ -57,7 +62,8 @@ export class RegisterComponent extends Form implements OnInit {
     private readonly loadingContext: LoadingInterceptorContextService,
     public override translateService: TranslateService,
     private readonly languageService: LanguageService,
-    private readonly tenantContextService: TenantContextService
+    private readonly tenantContextService: TenantContextService,
+    private readonly formDraftService: FormDraftService
   ) {
     super(toastService, translateService);
     this.form = this.initFormGroup();
@@ -66,6 +72,11 @@ export class RegisterComponent extends Form implements OnInit {
         this.clearServerErrorMessage();
       }
     });
+    // Never persist password/confirmPassword - only the username/email are worth
+    // restoring after an Android process kill.
+    this.draftSubscription = this.formDraftService.autoSave(this.form, RegisterComponent.DraftKey, {
+      exclude: ['password', 'confirmPassword'],
+    });
   }
   public ngOnInit(): void {
     this.tenantSettingsService.getClubName().subscribe({
@@ -73,6 +84,10 @@ export class RegisterComponent extends Form implements OnInit {
         this.clubName = clubName;
       },
     });
+  }
+
+  public ngOnDestroy(): void {
+    this.draftSubscription?.unsubscribe();
   }
 
   private clearServerErrorMessage() {
@@ -124,6 +139,10 @@ export class RegisterComponent extends Form implements OnInit {
           })
           .subscribe({
             next: (response) => {
+              if (response?.isRegistrationSuccessfully === true) {
+                this.formDraftService.clear(RegisterComponent.DraftKey);
+              }
+
               if (
                 response &&
                 response.isEmailConfirmationSendedSuccessfully === true &&

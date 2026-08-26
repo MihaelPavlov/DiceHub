@@ -15,6 +15,8 @@ import {
 } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { TenantRouter } from '../../../../shared/helpers/tenant-router';
+import { Subscription } from 'rxjs';
+import { FormDraftService } from '../../../../shared/services/form-draft.service';
 
 interface IOwnerForm {
   email: string;
@@ -33,6 +35,8 @@ export class OwnerDetailsComponent extends Form implements OnDestroy {
 
   public owner: IOwnerResult | null = null;
   public showOwnerForm: boolean = false;
+  private static readonly DraftKey = 'ownerDetails';
+  private draftSubscription: Subscription | null = null;
 
   constructor(
     public override readonly toastService: ToastService,
@@ -40,7 +44,8 @@ export class OwnerDetailsComponent extends Form implements OnDestroy {
     private readonly usersService: UsersService,
     private readonly tenantRouter: TenantRouter,
     private readonly fb: FormBuilder,
-    public override translateService: TranslateService
+    public override translateService: TranslateService,
+    private readonly formDraftService: FormDraftService
   ) {
     super(toastService, translateService);
 
@@ -48,6 +53,7 @@ export class OwnerDetailsComponent extends Form implements OnDestroy {
 
     this.menuTabsService.setActive(NAV_ITEM_LABELS.PROFILE);
     this.form = this.initFormGroup();
+    this.draftSubscription = this.formDraftService.autoSave(this.form, OwnerDetailsComponent.DraftKey);
     this.fetchOwner();
   }
 
@@ -77,6 +83,7 @@ export class OwnerDetailsComponent extends Form implements OnDestroy {
         next: () => {
           this.fetchOwner();
           this.toggleOwnerForm();
+          this.formDraftService.clear(OwnerDetailsComponent.DraftKey);
         },
       });
   }
@@ -99,6 +106,7 @@ export class OwnerDetailsComponent extends Form implements OnDestroy {
 
   public ngOnDestroy(): void {
     this.menuTabsService.resetData();
+    this.draftSubscription?.unsubscribe();
   }
 
   protected override getControlDisplayName(controlName: string): string {

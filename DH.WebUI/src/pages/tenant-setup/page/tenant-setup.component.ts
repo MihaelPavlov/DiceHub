@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { TenantApplicationsService } from '../../../entities/common/api/tenant-applications.service';
 import {
   ICompleteTenantSetupResult,
@@ -8,6 +9,7 @@ import {
 } from '../../../entities/common/models/tenant-application.model';
 import { IDropdown } from '../../../shared/models/dropdown.model';
 import { TenantService } from '../../../shared/services/tenant.service';
+import { FormDraftService } from '../../../shared/services/form-draft.service';
 
 interface ITenantSetupForm {
   clubName: string;
@@ -25,7 +27,9 @@ interface ITenantSetupForm {
   styleUrl: 'tenant-setup.component.scss',
   standalone: false,
 })
-export class TenantSetupComponent implements OnInit {
+export class TenantSetupComponent implements OnInit, OnDestroy {
+  private static readonly DraftKey = 'tenantSetup';
+  private draftSubscription: Subscription | null = null;
   public form: FormGroup;
   public token: string | null = null;
   public isLoading = true;
@@ -51,9 +55,15 @@ export class TenantSetupComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly tenantService: TenantService,
-    private readonly tenantApplicationsService: TenantApplicationsService
+    private readonly tenantApplicationsService: TenantApplicationsService,
+    private readonly formDraftService: FormDraftService
   ) {
     this.form = this.initFormGroup();
+    this.draftSubscription = this.formDraftService.autoSave(this.form, TenantSetupComponent.DraftKey);
+  }
+
+  public ngOnDestroy(): void {
+    this.draftSubscription?.unsubscribe();
   }
 
   public ngOnInit(): void {
@@ -103,6 +113,7 @@ export class TenantSetupComponent implements OnInit {
         next: (result) => {
           this.setupResult = result;
           this.isSubmitted = true;
+          this.formDraftService.clear(TenantSetupComponent.DraftKey);
         },
         error: (error) => {
           this.serverErrors = this.extractErrors(error);

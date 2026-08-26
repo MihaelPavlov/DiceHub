@@ -19,7 +19,8 @@ import { ActivatedRoute } from '@angular/router';
 import { NAV_ITEM_LABELS } from '../../../../../shared/models/nav-items-labels.const';
 import { GameCategoriesService } from '../../../../../entities/games/api/game-categories.service';
 import { IGameCategory } from '../../../../../entities/games/models/game-category.model';
-import { Observable, throwError } from 'rxjs';
+import { Observable, Subscription, throwError } from 'rxjs';
+import { FormDraftService } from '../../../../../shared/services/form-draft.service';
 import { ToastType } from '../../../../../shared/models/toast.model';
 import { Form } from '../../../../../shared/components/form/form.component';
 import { IGameDropdownResult } from '../../../../../entities/games/models/game-dropdown.model';
@@ -71,6 +72,8 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
   public gamAveragePlaytimeValues: IDropdown[] = [];
   public currentLang: 'EN' | 'BG' = 'EN';
   private lastValue = '';
+  private static readonly DraftKey = 'addUpdateGame';
+  private draftSubscription: Subscription | null = null;
 
   constructor(
     private readonly fb: FormBuilder,
@@ -81,7 +84,8 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
     private readonly dialog: MatDialog,
     private readonly activatedRoute: ActivatedRoute,
     public override readonly toastService: ToastService,
-    public override translateService: TranslateService
+    public override translateService: TranslateService,
+    private readonly formDraftService: FormDraftService
   ) {
     super(toastService, translateService);
     this.form = this.initFormGroup();
@@ -89,6 +93,13 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
       if (this.getServerErrorMessage) {
         this.clearServerErrorMessage();
       }
+    });
+    // 'image' holds a filename string, but the actual File can't be persisted, so it's
+    // excluded to avoid restoring a stale filename with no matching file attached.
+    // Mainly benefits the create flow - edit mode re-fetches from the server on init,
+    // which overwrites the restored draft with server truth.
+    this.draftSubscription = this.formDraftService.autoSave(this.form, AddUpdateGameComponent.DraftKey, {
+      exclude: ['image'],
     });
     this.menuTabsService.setActive(NAV_ITEM_LABELS.GAMES);
 
@@ -128,6 +139,7 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.menuTabsService.resetData();
+    this.draftSubscription?.unsubscribe();
   }
   private clearServerErrorMessage() {
     this.getServerErrorMessage = null;
@@ -248,6 +260,7 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
               ),
               type: ToastType.Success,
             });
+            this.formDraftService.clear(AddUpdateGameComponent.DraftKey);
 
             this.tenantRouter.navigateTenant(FULL_ROUTE.GAMES.LIBRARY);
           },
@@ -292,6 +305,7 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
               ),
               type: ToastType.Success,
             });
+            this.formDraftService.clear(AddUpdateGameComponent.DraftKey);
 
             if (this.editGameId)
               this.tenantRouter.navigateTenant(

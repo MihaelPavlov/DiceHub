@@ -1,4 +1,4 @@
-import { BehaviorSubject, catchError, filter, map, Observable, of } from 'rxjs';
+import { BehaviorSubject, catchError, filter, map, Observable, of, take } from 'rxjs';
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from '../../entities/auth/auth.service';
 import { onMessage } from 'firebase/messaging';
@@ -86,6 +86,71 @@ export class AppComponent implements OnInit {
       });
 
     this._initializeAndroidBackButton();
+    this._persistRouteForRestoration();
+    this._restoreLastRouteOnColdBoot();
+  }
+
+  /**
+   * Android can kill the app's background process at any time to reclaim memory
+   * (trivially triggered by this app's own file/photo pickers, e.g. the venue-application
+   * logo upload). On relaunch, Capacitor reloads index.html fresh with no memory of which
+   * in-app route was active, so the router's first navigation always lands on ''. Persist
+   * every real navigation so a cold boot can send the user back where they were instead of
+   * the landing page. Web (non-native) behavior is untouched - a browser refresh at '/' is
+   * expected to show the landing page there.
+   */
+  private static readonly RouteRestorationExcludedSegments = [
+    '/reset-password',
+    '/confirm-email',
+    '/create-employee-password',
+    '/create-owner-password',
+    '/login',
+  ];
+  private static readonly LastRouteStorageKey = 'lastRoute';
+
+  private _persistRouteForRestoration(): void {
+    if (!Capacitor.isNativePlatform()) {
+      return;
+    }
+
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((event) => {
+        const url = (event as NavigationEnd).urlAfterRedirects;
+
+        if (
+          url === '/' ||
+          AppComponent.RouteRestorationExcludedSegments.some((segment) =>
+            url.includes(segment)
+          )
+        ) {
+          return;
+        }
+
+        localStorage.setItem(AppComponent.LastRouteStorageKey, url);
+      });
+  }
+
+  private _restoreLastRouteOnColdBoot(): void {
+    if (!Capacitor.isNativePlatform()) {
+      return;
+    }
+
+    this.router.events
+      .pipe(
+        filter((event) => event instanceof NavigationEnd),
+        take(1)
+      )
+      .subscribe((event) => {
+        if ((event as NavigationEnd).urlAfterRedirects !== '/') {
+          return;
+        }
+
+        const lastRoute = localStorage.getItem(AppComponent.LastRouteStorageKey);
+        if (lastRoute && lastRoute !== '/') {
+          this.router.navigateByUrl(lastRoute);
+        }
+      });
   }
 
   /**

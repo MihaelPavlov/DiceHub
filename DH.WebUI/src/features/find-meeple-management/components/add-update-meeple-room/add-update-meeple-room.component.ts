@@ -16,7 +16,8 @@ import {
 } from '@angular/forms';
 import { NAV_ITEM_LABELS } from '../../../../shared/models/nav-items-labels.const';
 import { IGameDropdownResult } from '../../../../entities/games/models/game-dropdown.model';
-import { combineLatest, throwError } from 'rxjs';
+import { combineLatest, Subscription, throwError } from 'rxjs';
+import { FormDraftService } from '../../../../shared/services/form-draft.service';
 import { IGameByIdResult } from '../../../../entities/games/models/game-by-id.model';
 import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { ToastType } from '../../../../shared/models/toast.model';
@@ -79,6 +80,8 @@ export class AddUpdateMeepleRoomComponent
   public imagePreview: string | ArrayBuffer | SafeUrl | null = null;
   public editRoomId: number | null = null;
   public readonly ImageEntityType = ImageEntityType;
+  private static readonly DraftKey = 'addUpdateMeepleRoom';
+  private draftSubscription: Subscription | null = null;
 
   constructor(
     public override readonly toastService: ToastService,
@@ -90,7 +93,8 @@ export class AddUpdateMeepleRoomComponent
     private readonly activatedRoute: ActivatedRoute,
     private readonly datePipe: DatePipe,
     public override translateService: TranslateService,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly formDraftService: FormDraftService
   ) {
     super(toastService, translateService);
     this.form = this.initFormGroup();
@@ -99,6 +103,7 @@ export class AddUpdateMeepleRoomComponent
         this.clearServerErrorMessage();
       }
     });
+    this.draftSubscription = this.formDraftService.autoSave(this.form, AddUpdateMeepleRoomComponent.DraftKey);
     this.menuTabsService.setActive(NAV_ITEM_LABELS.MEEPLE);
   }
 
@@ -111,6 +116,7 @@ export class AddUpdateMeepleRoomComponent
 
   public ngOnDestroy(): void {
     this.menuTabsService.resetData();
+    this.draftSubscription?.unsubscribe();
   }
 
   public ngOnInit(): void {
@@ -173,6 +179,7 @@ export class AddUpdateMeepleRoomComponent
                 ),
                 type: ToastType.Success,
               });
+              this.formDraftService.clear(AddUpdateMeepleRoomComponent.DraftKey);
 
               if (this.editRoomId)
                 this.tenantRouter.navigateTenant(
@@ -205,6 +212,7 @@ export class AddUpdateMeepleRoomComponent
                 ),
                 type: ToastType.Success,
               });
+              this.formDraftService.clear(AddUpdateMeepleRoomComponent.DraftKey);
 
               this.tenantRouter.navigateTenant(FULL_ROUTE.MEEPLE_ROOM.FIND);
             },
