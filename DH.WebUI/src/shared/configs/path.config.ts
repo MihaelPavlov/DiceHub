@@ -160,6 +160,7 @@ export const PATH = {
     COMPLETE_SETUP: 'setup/complete',
     VERIFY: 'verify',
     REJECT: 'reject',
+    RESEND_SETUP_INVITATION: 'resend-setup-invitation',
   },
   SCHEDULER: {
     CORE: 'scheduler',

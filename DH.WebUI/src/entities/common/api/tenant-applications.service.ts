@@ -82,6 +82,13 @@ export class TenantApplicationsService {
     );
   }
 
+  public resendSetupInvitation(id: number): Observable<boolean | null> {
+    return this.api.post<boolean>(
+      `/${PATH.TENANT_APPLICATIONS.CORE}/${id}/${PATH.TENANT_APPLICATIONS.RESEND_SETUP_INVITATION}`,
+      {}
+    );
+  }
+
   public getSetupSeedGames(): Observable<ISeedGameCatalogDropdown[]> {
     return this.api.get<ISeedGameCatalogDropdown[]>(
       `/${PATH.TENANT_APPLICATIONS.CORE}/${PATH.TENANT_APPLICATIONS.SETUP_SEED_GAMES}`,

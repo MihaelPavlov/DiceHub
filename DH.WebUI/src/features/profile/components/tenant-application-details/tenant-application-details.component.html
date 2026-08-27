@@ -143,5 +143,21 @@
         </button>
       </div>
     </div>
+
+    <div class="actions surface-elevated" *ngIf="isVerified()">
+      <div>
+        <strong>Setup invitation</strong>
+      </div>
+      <div class="action-buttons">
+        <button
+          type="button"
+          class="btn btn__small btn-gray btn-border-blue btn-font-blue"
+          [disabled]="isResendingSetupInvitation"
+          (click)="resendSetupInvitation()"
+        >
+          {{ isResendingSetupInvitation ? "Sending..." : "Resend setup email" }}
+        </button>
+      </div>
+    </div>
   </ng-container>
 </div>

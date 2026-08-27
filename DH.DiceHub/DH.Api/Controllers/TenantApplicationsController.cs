@@ -116,4 +116,14 @@ public class TenantApplicationsController(IMediator mediator) : ControllerBase
         await mediator.Send(new ReviewTenantApplicationCommand(id, TenantApplicationStatus.Rejected, request.Note), cancellationToken);
         return Ok();
     }
+
+    [Authorize]
+    [HttpPost("{id:int}/resend-setup-invitation")]
+    [ActionAuthorize(UserAction.TenantApplicationsReview)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
+    public async Task<IActionResult> ResendSetupInvitation(int id, CancellationToken cancellationToken)
+    {
+        var result = await mediator.Send(new SendTenantSetupInvitationCommand(id), cancellationToken);
+        return Ok(result);
+    }
 }

@@ -1033,9 +1033,9 @@ public static class SeedData
             <tr>
               <td style=""font-size:16px;line-height:1.6;"">
                 <p>Your venue application for {{ClubName}} was approved.</p>
-                <p>Use the secure link below to start setting up your tenant:</p>
+                <p>Use the secure link below to start setting up your venue:</p>
                 <p style=""text-align:center;margin:28px 0;"">
-                  <a href=""{{SetupUrl}}"" style=""background-color:#75a0ff;color:white;padding:12px 28px;border-radius:24px;text-decoration:none;font-weight:bold;display:inline-block;"">Start tenant setup</a>
+                  <a href=""{{SetupUrl}}"" style=""background-color:#75a0ff;color:white;padding:12px 28px;border-radius:24px;text-decoration:none;font-weight:bold;display:inline-block;"">Start venue setup</a>
                 </p>
                 <p>This link expires in {{ExpiresInHours}} hours.</p>
               </td>

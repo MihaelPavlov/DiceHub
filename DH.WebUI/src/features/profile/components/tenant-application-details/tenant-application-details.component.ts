@@ -7,6 +7,9 @@ import {
 } from '../../../../entities/common/models/tenant-application.model';
 import { FULL_ROUTE } from '../../../../shared/configs/route.config';
 import { TenantRouter } from '../../../../shared/helpers/tenant-router';
+import { ToastService } from '../../../../shared/services/toast.service';
+import { ToastType } from '../../../../shared/models/toast.model';
+import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
 
 @Component({
   selector: 'app-tenant-application-details',
@@ -19,11 +22,13 @@ export class TenantApplicationDetailsComponent implements OnInit {
   public readonly status = TenantApplicationStatus;
   public isLoading = true;
   public isSaving = false;
+  public isResendingSetupInvitation = false;
 
   constructor(
     private readonly route: ActivatedRoute,
     private readonly tenantApplicationsService: TenantApplicationsService,
-    private readonly tenantRouter: TenantRouter
+    private readonly tenantRouter: TenantRouter,
+    private readonly toastService: ToastService
   ) {}
 
   public ngOnInit(): void {
@@ -65,6 +70,42 @@ export class TenantApplicationDetailsComponent implements OnInit {
     }
 
     this.tenantRouter.navigateTenant(FULL_ROUTE.PROFILE.APPLICANTS);
+  }
+
+  public isVerified(): boolean {
+    return this.application?.status === TenantApplicationStatus.Verified;
+  }
+
+  public resendSetupInvitation(): void {
+    if (!this.application || this.isResendingSetupInvitation) return;
+
+    this.isResendingSetupInvitation = true;
+    this.tenantApplicationsService
+      .resendSetupInvitation(this.application.id)
+      .subscribe({
+        next: (isSent) => {
+          if (isSent) {
+            this.toastService.success({
+              message: 'Setup invitation email resent.',
+              type: ToastType.Success,
+            });
+          } else {
+            this.toastService.error({
+              message: AppToastMessage.SomethingWrong,
+              type: ToastType.Error,
+            });
+          }
+        },
+        error: () => {
+          this.toastService.error({
+            message: AppToastMessage.SomethingWrong,
+            type: ToastType.Error,
+          });
+        },
+        complete: () => {
+          this.isResendingSetupInvitation = false;
+        },
+      });
   }
 
   public isPending(): boolean {

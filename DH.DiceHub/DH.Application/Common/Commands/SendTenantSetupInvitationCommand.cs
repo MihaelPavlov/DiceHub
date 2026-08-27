@@ -130,8 +130,8 @@ internal class SendTenantSetupInvitationCommandHandler(
                     <tr>
                       <td style="font-size:16px;line-height:1.6;">
                         <p>Your venue application for {{ClubName}} was approved.</p>
-                        <p>Use the secure link below to start setting up your tenant:</p>
-                        <p><a href="{{SetupUrl}}" style="color:#75a0ff;">Start tenant setup</a></p>
+                        <p>Use the secure link below to start setting up your venue:</p>
+                        <p><a href="{{SetupUrl}}" style="color:#75a0ff;">Start venue setup</a></p>
                         <p>This link expires in {{ExpiresInHours}} hours.</p>
                       </td>
                     </tr>
