@@ -1,9 +1,12 @@
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace DH.Adapter.Data.Migrations;
 
+[DbContext(typeof(TenantDbContext))]
+[Migration("20260731120000_AddTenantApplicationLink")]
 public partial class AddTenantApplicationLink : Migration
 {
     protected override void Up(MigrationBuilder migrationBuilder)
