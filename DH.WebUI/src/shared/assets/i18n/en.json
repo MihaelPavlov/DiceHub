@@ -19,6 +19,14 @@
     "message": "Check your internet connection and try again.",
     "retry": "Retry"
   },
+  "install_prompt": {
+    "title": "Get the full DiceHub experience",
+    "message": "It's faster and smoother as an installed app.",
+    "get_on_google_play": "Get it on Google Play",
+    "install_as_pwa": "Install app",
+    "ios_instructions": "Tap Share, then \"Add to Home Screen\" to install.",
+    "manual_instructions": "Use your browser's menu and look for \"Install app\" or \"Add to Home Screen\"."
+  },
   "cannot_be_deleted": "Cannot be Deleted",
   "successfully_updated": "Successfully updated",
   "save": "Save",

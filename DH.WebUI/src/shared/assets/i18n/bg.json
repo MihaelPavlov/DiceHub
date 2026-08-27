@@ -19,6 +19,14 @@
     "message": "Проверете интернет връзката си и опитайте отново.",
     "retry": "Опитай пак"
   },
+  "install_prompt": {
+    "title": "Изживейте DiceHub изцяло",
+    "message": "По-бързо и по-плавно е като инсталирано приложение.",
+    "get_on_google_play": "Изтегли от Google Play",
+    "install_as_pwa": "Инсталирай приложението",
+    "ios_instructions": "Докоснете Share, после \"Add to Home Screen\", за да инсталирате.",
+    "manual_instructions": "Използвайте менюто на браузъра и потърсете \"Install app\" или \"Add to Home Screen\"."
+  },
   "cannot_be_deleted": "Неуспешно изтриване",
   "successfully_updated": "Успешно актуализирано",
   "save": "Запази",
