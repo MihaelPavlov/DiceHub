@@ -30,8 +30,9 @@
       </button>
     </div>
 
-    <p class="install-prompt__hint" *ngIf="showManualInstallHint">
-      {{ (platform === "ios" ? "install_prompt.ios_instructions" : "install_prompt.manual_instructions") | translate }}
+    <p class="install-prompt__help" *ngIf="showInstallHelp">
+      {{ "install_prompt.trouble_message" | translate }}
+      <a (click)="goToInstallInstructions()">{{ "install_prompt.view_instructions" | translate }}</a>
     </p>
   </div>
 </div>

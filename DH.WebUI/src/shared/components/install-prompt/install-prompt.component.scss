@@ -43,12 +43,6 @@
   opacity: 0.8;
 }
 
-.install-prompt__hint {
-  margin: 0;
-  font-size: 0.85rem;
-  opacity: 0.85;
-}
-
 .install-prompt__actions {
   display: flex;
   flex-wrap: wrap;
@@ -61,6 +55,19 @@
   text-decoration: none;
   display: inline-flex;
   align-items: center;
+}
+
+.install-prompt__help {
+  margin: 0.6rem 0 0;
+  font-size: 0.8rem;
+  opacity: 0.75;
+}
+
+.install-prompt__help a {
+  color: #3a5a9c;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .install-prompt__close {
