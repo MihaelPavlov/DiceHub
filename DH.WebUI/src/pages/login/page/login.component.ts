@@ -140,6 +140,35 @@ export class LoginComponent extends Form implements OnInit {
     this.getServerErrorMessage = null;
   }
 
+  /**
+   * This app's login button is type="button" (not "submit"), and the whole
+   * flow runs through Angular's HttpClient rather than a real HTML form POST -
+   * so the browser/WebView's native "detect a form submission, offer to save
+   * the password" heuristic never has anything to trigger on. The Credential
+   * Management API (supported by Chrome/Edge on desktop and Android, which
+   * covers both browser/PWA use and this app's Capacitor WebView) triggers
+   * the same native save-password prompt explicitly instead. No-op on
+   * browsers without support (e.g. Safari) or if the user declines - either
+   * way it must never affect the login flow itself.
+   */
+  private async savePasswordCredential(email: string, password: string): Promise<void> {
+    const PasswordCredentialCtor = (window as any).PasswordCredential;
+    if (!('credentials' in navigator) || !PasswordCredentialCtor) {
+      return;
+    }
+
+    try {
+      const credential = new PasswordCredentialCtor({
+        id: email,
+        password,
+        name: email,
+      });
+      await (navigator.credentials as any).store(credential);
+    } catch {
+      // Best-effort only.
+    }
+  }
+
   protected override getControlDisplayName(controlName: string): string {
     switch (controlName) {
       case 'email':
@@ -217,10 +246,13 @@ export class LoginComponent extends Form implements OnInit {
 
       const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
+      const loginEmail = this.form.controls.email.value;
+      const loginPassword = this.form.controls.password.value;
+
       this.authService
         .login({
-          email: this.form.controls.email.value,
-          password: this.form.controls.password.value,
+          email: loginEmail,
+          password: loginPassword,
           tenantId: this.isAdminLogin ? null : this.tenantContextService.tenantId,
           deviceToken,
           timeZone,
@@ -233,6 +265,7 @@ export class LoginComponent extends Form implements OnInit {
                 response.refreshToken,
                 response.tenantId
               );
+              this.savePasswordCredential(loginEmail, loginPassword);
 
               if (
                 response.tenantId !== 'system' &&
@@ -286,132 +319,6 @@ export class LoginComponent extends Form implements OnInit {
           },
         });
     }
-  }
-
-  public async loginUser(): Promise<void> {
-    try {
-      this.loadingService.loadingOn();
-      let deviceToken: string | null = null;
-      if (this.messagingService.isPushUnsupportedIOS()) {
-        this.frontEndLogService
-          .sendWarning(
-            'Push notifications not supported on this iOS version',
-            'On LoginComponent.onLogin()'
-          )
-          .subscribe();
-      } else {
-        deviceToken =
-          await this.messagingService.getDeviceTokenForRegistration();
-      }
-      const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-      this.authService
-        .login({
-          email: 'rap4obg@abv.bg',
-          password: '1qaz!QAZ',
-          deviceToken,
-          tenantId: this.tenantContextService.tenantId,
-          timeZone,
-        })
-        .subscribe({
-          next: (response) => {
-            if (response) {
-              this.authService.authenticateUser(
-                response.accessToken,
-                response.refreshToken,
-                response.tenantId
-              );
-
-              if (response.tenantId === 'system') {
-                this.tenantContextService.clearTenant();
-                this.tenantRouter.navigateGlobal(['admin', 'applicants']);
-              } else {
-                this.tenantContextService.tenantId = response.tenantId;
-                this.tenantRouter.navigateTenant(FULL_ROUTE.GAMES.LIBRARY);
-              }
-            }
-          },
-          error: (error) => {
-            this.handleServerErrors(error);
-            this.toastService.error({
-              message: AppToastMessage.SomethingWrong,
-              type: ToastType.Error,
-            });
-          },
-          complete: () => {
-            this.loadingService.loadingOff();
-          },
-        });
-    } catch (error: any) {
-      console.error('Error during login:', error);
-      alert(error.message);
-      alert(error);
-    }
-  }
-
-  public async loginAdmin() {
-    this.loadingContext.enableManualMode();
-    this.loadingService.loadingOn();
-    let deviceToken: string | null = null;
-    if (this.messagingService.isPushUnsupportedIOS()) {
-      this.frontEndLogService
-        .sendWarning(
-          'Push notifications not supported on this iOS version',
-          'On LoginComponent.onLogin()'
-        )
-        .subscribe();
-    } else {
-      this.frontEndLogService
-        .sendWarning(
-          'Start Getting device token for registration',
-          'On LoginComponent.onLogin()'
-        )
-        .subscribe();
-      deviceToken = await this.messagingService.getDeviceTokenForRegistration();
-    }
-    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-    this.frontEndLogService
-      .sendWarning('login as admin', 'On LoginComponent.onLogin()')
-      .subscribe();
-    this.authService
-      .login({
-        email: 'sa@dicehub.com',
-        password: '1qaz!QAZ',
-        deviceToken,
-        tenantId: this.isAdminLogin ? null : this.tenantContextService.tenantId,
-        timeZone,
-      })
-      .subscribe({
-        next: (response) => {
-          if (response) {
-              this.authService.authenticateUser(
-                response.accessToken,
-                response.refreshToken,
-                response.tenantId
-            );
-
-            if (response.tenantId === 'system') {
-              this.tenantContextService.clearTenant();
-              this.tenantRouter.navigateGlobal(['admin', 'applicants']);
-            } else {
-              this.tenantContextService.tenantId = response.tenantId;
-              this.tenantRouter.navigateTenant(FULL_ROUTE.GAMES.LIBRARY);
-            }
-          }
-        },
-        error: (error) => {
-          this.handleServerErrors(error);
-          this.toastService.error({
-            message: AppToastMessage.SomethingWrong,
-            type: ToastType.Error,
-          });
-        },
-        complete: () => {
-          this.loadingService.loadingOff();
-          this.loadingContext.disableManualMode();
-        },
-      });
   }
 
   private initFormGroup(): FormGroup {
