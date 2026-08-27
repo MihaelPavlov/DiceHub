@@ -1499,6 +1499,39 @@
         }
       }
     },
+    "troubleshooting": {
+      "title": "Troubleshooting",
+      "summary": "Having trouble with the app closing, resetting, or losing what you were doing? This section covers the most common cause and how to fix it.",
+      "topic": {
+        "app_resets": {
+          "title": "App resets or loses unsaved data",
+          "thumbnail_url": "/shared/assets/images/icons/menu_book-icon-blue.svg",
+          "description": "If the app suddenly shows the loading/landing screen, or a form or picked image you were working on disappears, it's usually your phone closing the app in the background to save battery - not a bug. These steps fix it on most Android phones.",
+          "steps": {
+            "why": {
+              "header": "Why this happens",
+              "description": "Many Android phones (especially Xiaomi/MIUI, Huawei, OnePlus, and Samsung) aggressively close apps that aren't in the foreground to save battery - even if you only switched away for a second, like picking a photo. When the app comes back, it may reload from scratch and lose whatever you hadn't saved yet.",
+              "media_url": "/shared/assets/images/icons/menu_book-icon-blue.svg"
+            },
+            "battery": {
+              "header": "Turn off battery restrictions for DiceHubs",
+              "description": "Go to Settings > Apps > DiceHubs > Battery (wording varies by phone), and choose \"No restrictions\" or \"Unrestricted\" instead of \"Optimized\" or \"Restricted\".",
+              "media_url": "/shared/assets/images/icons/menu_book-icon-blue.svg"
+            },
+            "autostart": {
+              "header": "Enable Autostart",
+              "description": "On some phones (Xiaomi/MIUI, Huawei, OnePlus), go to Settings > Apps > DiceHubs > Autostart (or Permissions > Autostart) and turn it on.",
+              "media_url": "/shared/assets/images/icons/menu_book-icon-blue.svg"
+            },
+            "lock_recents": {
+              "header": "Lock the app in Recent Apps",
+              "description": "Open the Recent Apps switcher, find DiceHubs, and swipe down (or long-press) on its card to \"Lock\" it. This tells the system not to close it while multitasking.",
+              "media_url": "/shared/assets/images/icons/menu_book-icon-blue.svg"
+            }
+          }
+        }
+      }
+    },
     "meeples": {
       "title": "Meeples",
       "summary": "Looking for people to play with?\nThe Meeples section helps you find or create a group of players who want to enjoy the same game as you. Meet new people, connect, and have fun together!",

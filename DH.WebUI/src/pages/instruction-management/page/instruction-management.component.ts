@@ -47,6 +47,10 @@ export class InstructionManagementComponent {
         name: this.ts.instant('instruction.meeples.title'),
         path: '/instructions/meeples',
       },
+      {
+        name: this.ts.instant('instruction.troubleshooting.title'),
+        path: '/instructions/troubleshooting',
+      },
     ];
   }
 

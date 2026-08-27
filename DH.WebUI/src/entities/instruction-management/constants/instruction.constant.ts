@@ -367,6 +367,50 @@ export const INSTRUCTION_LINK_MAPPINGS: { [key: string]: InstructionSection } =
         },
       ],
     },
+    troubleshooting: {
+      title: 'instruction.troubleshooting.title',
+      summary: 'instruction.troubleshooting.summary',
+      imageUrl: '/shared/assets/images/icons/menu_book-icon-blue.svg',
+      topics: [
+        {
+          title: 'instruction.troubleshooting.topic.app_resets.title',
+          route: '/instructions/troubleshooting/app_resets',
+          thumbnailUrl:
+            'instruction.troubleshooting.topic.app_resets.thumbnail_url',
+          description: `instruction.troubleshooting.topic.app_resets.description`,
+          steps: [
+            {
+              header:
+                'instruction.troubleshooting.topic.app_resets.steps.why.header',
+              description: `instruction.troubleshooting.topic.app_resets.steps.why.description`,
+              mediaUrl:
+                'instruction.troubleshooting.topic.app_resets.steps.why.media_url',
+            },
+            {
+              header:
+                'instruction.troubleshooting.topic.app_resets.steps.battery.header',
+              description: `instruction.troubleshooting.topic.app_resets.steps.battery.description`,
+              mediaUrl:
+                'instruction.troubleshooting.topic.app_resets.steps.battery.media_url',
+            },
+            {
+              header:
+                'instruction.troubleshooting.topic.app_resets.steps.autostart.header',
+              description: `instruction.troubleshooting.topic.app_resets.steps.autostart.description`,
+              mediaUrl:
+                'instruction.troubleshooting.topic.app_resets.steps.autostart.media_url',
+            },
+            {
+              header:
+                'instruction.troubleshooting.topic.app_resets.steps.lock_recents.header',
+              description: `instruction.troubleshooting.topic.app_resets.steps.lock_recents.description`,
+              mediaUrl:
+                'instruction.troubleshooting.topic.app_resets.steps.lock_recents.media_url',
+            },
+          ],
+        },
+      ],
+    },
     meeples: {
       title: 'instruction.meeples.title',
       summary: `instruction.meeples.summary`,

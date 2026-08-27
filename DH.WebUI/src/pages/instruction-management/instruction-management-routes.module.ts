@@ -19,6 +19,7 @@ const routes: Routes = [
   { path: 'events', component: InstructionLinksComponent },
   { path: 'challenges', component: InstructionLinksComponent },
   { path: 'meeples', component: InstructionLinksComponent },
+  { path: 'troubleshooting', component: InstructionLinksComponent },
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],

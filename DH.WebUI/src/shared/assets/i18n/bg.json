@@ -1499,6 +1499,39 @@
         }
       }
     },
+    "troubleshooting": {
+      "title": "Отстраняване на проблеми",
+      "summary": "Приложението се затваря, рестартира или губи това, което сте въвели? Тази секция обяснява най-честата причина и как да я поправите.",
+      "topic": {
+        "app_resets": {
+          "title": "Приложението се рестартира или губи незапазени данни",
+          "thumbnail_url": "/shared/assets/images/icons/menu_book-icon-blue.svg",
+          "description": "Ако приложението внезапно покаже началния/зареждащия екран, или формуляр/избрана снимка, върху която сте работили, изчезне, обикновено причината е телефонът ви да затваря приложението във фонов режим, за да пести батерия - не е грешка. Тези стъпки решават проблема на повечето Android телефони.",
+          "steps": {
+            "why": {
+              "header": "Защо се случва това",
+              "description": "Много Android телефони (особено Xiaomi/MIUI, Huawei, OnePlus и Samsung) агресивно затварят приложения, които не са на преден план, за да пестят батерия - дори ако сте превключили само за секунда, например за да изберете снимка. Когато приложението се върне, то може да се презареди от нулата и да загуби всичко незапазено.",
+              "media_url": "/shared/assets/images/icons/menu_book-icon-blue.svg"
+            },
+            "battery": {
+              "header": "Изключете ограниченията на батерията за DiceHubs",
+              "description": "Отидете в Settings > Apps > DiceHubs > Battery (текстът се различава според телефона) и изберете \"No restrictions\" / \"Unrestricted\" вместо \"Optimized\" или \"Restricted\".",
+              "media_url": "/shared/assets/images/icons/menu_book-icon-blue.svg"
+            },
+            "autostart": {
+              "header": "Включете Autostart",
+              "description": "На някои телефони (Xiaomi/MIUI, Huawei, OnePlus) отидете в Settings > Apps > DiceHubs > Autostart (или Permissions > Autostart) и го включете.",
+              "media_url": "/shared/assets/images/icons/menu_book-icon-blue.svg"
+            },
+            "lock_recents": {
+              "header": "Заключете приложението в Recent Apps",
+              "description": "Отворете превключвателя на скорошните приложения, намерете DiceHubs и плъзнете надолу (или задръжте) върху картата му, за да го \"заключите\". Това казва на системата да не го затваря по време на работа с други приложения.",
+              "media_url": "/shared/assets/images/icons/menu_book-icon-blue.svg"
+            }
+          }
+        }
+      }
+    },
     "meeples": {
       "title": "Мипъли",
       "summary": "Търсите хора за игра?\nСекцията Мипъли ви помага да намерите или създадете група играчи, които искат да се забавляват с вас. Срещнете нови хора, свържете се и се забавлявайте заедно!",
