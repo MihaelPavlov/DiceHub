@@ -57,15 +57,6 @@ public class TenantSettingsController : ControllerBase
         return Ok();
     }
 
-    [HttpGet("logo")]
-    [ActionAuthorize(UserAction.TenantSettingsR)]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
-    public async Task<IActionResult> GetLogo(CancellationToken cancellationToken)
-    {
-        var result = await this.mediator.Send(new GetTenantLogoQuery(), cancellationToken);
-        return Ok(result);
-    }
-
     [HttpPost("logo")]
     [ActionAuthorize(UserAction.TenantSettingsCUD)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]

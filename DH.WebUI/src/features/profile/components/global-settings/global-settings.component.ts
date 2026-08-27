@@ -28,6 +28,8 @@ import { ThemeService } from '../../../../shared/services/theme.service';
 import { UiTheme } from '../../../../shared/enums/ui-theme.enum';
 import { WeekDay } from '../../../../shared/enums/week-day.enum';
 import { TenantRouter } from '../../../../shared/helpers/tenant-router';
+import { TenantService } from '../../../../shared/services/tenant.service';
+import { TenantContextService } from '../../../../shared/services/tenant-context.service';
 
 interface ITenantSettingsForm {
   averageMaxCapacity: number;
@@ -98,7 +100,9 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
     private readonly languageService: LanguageService,
     private readonly themeService: ThemeService,
     public override translateService: TranslateService,
-    private readonly translateInPipe: TranslateInPipe
+    private readonly translateInPipe: TranslateInPipe,
+    private readonly tenantService: TenantService,
+    private readonly tenantContextService: TenantContextService
   ) {
     super(toastService, translateService);
     this.form = this.initFormGroup();
@@ -134,9 +138,12 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
   }
 
   public fetchLogo(): void {
-    this.tenantSettingsService.getLogo().subscribe({
-      next: (logoFileName) => {
-        this.logoUrl = this.resolveLogoUrl(logoFileName);
+    const tenantId = this.tenantContextService.tenantId;
+    if (!tenantId) return;
+
+    this.tenantService.getById(tenantId).subscribe({
+      next: (tenant) => {
+        this.logoUrl = this.resolveLogoUrl(tenant?.logoFileName ?? null);
       },
     });
   }

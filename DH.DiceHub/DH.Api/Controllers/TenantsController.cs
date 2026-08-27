@@ -1,4 +1,6 @@
 ﻿using DH.Application.Common.Queries;
+using DH.Domain.Adapters.Authentication;
+using DH.Domain.Adapters.Authentication.Models.Enums;
 using DH.Domain.Models.Common;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -12,10 +14,12 @@ namespace DH.Api.Controllers;
 public class TenantsController : ControllerBase
 {
     readonly IMediator mediator;
+    readonly IUserContext userContext;
 
-    public TenantsController(IMediator mediator)
+    public TenantsController(IMediator mediator, IUserContext userContext)
     {
         this.mediator = mediator;
+        this.userContext = userContext;
     }
 
     [HttpGet("list")]
@@ -28,9 +32,17 @@ public class TenantsController : ControllerBase
     }
 
     [HttpGet("{tenantId}")]
-    [Authorize(Roles = "SuperAdmin")]
+    [Authorize(Roles = "SuperAdmin,Owner")]
     public async Task<IActionResult> GetTenant(string tenantId, CancellationToken cancellationToken)
     {
+        // Owners may only read their own tenant - this query returns full
+        // tenant-application PII (contact email/phone/address), so a non-
+        // SuperAdmin caller must not be able to fetch an arbitrary tenant by id.
+        if (this.userContext.RoleKey != (int)Role.SuperAdmin && tenantId != this.userContext.TenantId)
+        {
+            return Forbid();
+        }
+
         var result = await this.mediator.Send(new GetTenantByIdQuery(tenantId), cancellationToken);
         return result is null ? NotFound() : Ok(result);
     }
