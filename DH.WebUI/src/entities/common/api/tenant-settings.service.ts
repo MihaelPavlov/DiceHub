@@ -38,4 +38,14 @@ export class TenantSettingsService {
       ...command,
     });
   }
+
+  public updateLogo(logoFile: File): Observable<string | null> {
+    const formData = new FormData();
+    formData.append('logoFile', logoFile);
+
+    return this.api.post<string>(
+      `/${PATH.TENANT_SETTINGS.CORE}/${PATH.TENANT_SETTINGS.LOGO}`,
+      formData
+    );
+  }
 }

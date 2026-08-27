@@ -28,6 +28,8 @@ import { ThemeService } from '../../../../shared/services/theme.service';
 import { UiTheme } from '../../../../shared/enums/ui-theme.enum';
 import { WeekDay } from '../../../../shared/enums/week-day.enum';
 import { TenantRouter } from '../../../../shared/helpers/tenant-router';
+import { TenantService } from '../../../../shared/services/tenant.service';
+import { TenantContextService } from '../../../../shared/services/tenant-context.service';
 
 interface ITenantSettingsForm {
   averageMaxCapacity: number;
@@ -79,6 +81,15 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
     { id: 12, name: '12' },
   ];
   public tenantSettingsId: number | null = null;
+
+  public logoUrl: string | null = null;
+  public logoPreviewUrl: string | null = null;
+  public logoFile: File | null = null;
+  public isUploadingLogo = false;
+  public logoError: string | null = null;
+  private static readonly MaxLogoSizeBytes = 2 * 1024 * 1024;
+  private static readonly AllowedLogoTypes = ['image/png', 'image/jpeg', 'image/webp', 'image/svg+xml'];
+
   constructor(
     private readonly fb: FormBuilder,
     public override readonly toastService: ToastService,
@@ -89,7 +100,9 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
     private readonly languageService: LanguageService,
     private readonly themeService: ThemeService,
     public override translateService: TranslateService,
-    private readonly translateInPipe: TranslateInPipe
+    private readonly translateInPipe: TranslateInPipe,
+    private readonly tenantService: TenantService,
+    private readonly tenantContextService: TenantContextService
   ) {
     super(toastService, translateService);
     this.form = this.initFormGroup();
@@ -114,10 +127,94 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.menuTabsService.resetData();
+    if (this.logoPreviewUrl) {
+      URL.revokeObjectURL(this.logoPreviewUrl);
+    }
   }
 
   public ngOnInit(): void {
     this.fetchSettings();
+    this.fetchLogo();
+  }
+
+  public fetchLogo(): void {
+    const tenantId = this.tenantContextService.tenantId;
+    if (!tenantId) return;
+
+    this.tenantService.getById(tenantId).subscribe({
+      next: (tenant) => {
+        this.logoUrl = this.resolveLogoUrl(tenant?.logoFileName ?? null);
+      },
+    });
+  }
+
+  public resolveLogoUrl(logoFileName: string | null): string | null {
+    if (!logoFileName) return null;
+
+    if (/^https?:\/\//i.test(logoFileName)) {
+      return logoFileName;
+    }
+
+    return `/shared/assets/images/tenant_logos/${logoFileName}`;
+  }
+
+  public onLogoSelected(event: Event): void {
+    this.logoError = null;
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0] ?? null;
+
+    if (!file) return;
+
+    if (!GlobalSettingsComponent.AllowedLogoTypes.includes(file.type)) {
+      this.logoError = this.translateService.instant(
+        'venue_application.errors.logo_invalid_type'
+      );
+      input.value = '';
+      return;
+    }
+
+    if (file.size > GlobalSettingsComponent.MaxLogoSizeBytes) {
+      this.logoError = this.translateService.instant(
+        'venue_application.errors.logo_too_large'
+      );
+      input.value = '';
+      return;
+    }
+
+    if (this.logoPreviewUrl) {
+      URL.revokeObjectURL(this.logoPreviewUrl);
+    }
+    this.logoFile = file;
+    this.logoPreviewUrl = URL.createObjectURL(file);
+  }
+
+  public uploadLogo(): void {
+    if (!this.logoFile || this.isUploadingLogo) return;
+
+    this.isUploadingLogo = true;
+    this.tenantSettingsService.updateLogo(this.logoFile).subscribe({
+      next: (logoUrl) => {
+        this.logoUrl = logoUrl;
+        if (this.logoPreviewUrl) {
+          URL.revokeObjectURL(this.logoPreviewUrl);
+        }
+        this.logoPreviewUrl = null;
+        this.logoFile = null;
+        this.toastService.success({
+          message: this.translateService.instant(AppToastMessage.ChangesSaved),
+          type: ToastType.Success,
+        });
+      },
+      error: () => {
+        this.toastService.error({
+          message: this.translateService.instant(AppToastMessage.FailedToSaveChanges),
+          type: ToastType.Error,
+        });
+      },
+      complete: () => {
+        this.isUploadingLogo = false;
+      },
+    });
   }
 
   public fetchSettings(): void {

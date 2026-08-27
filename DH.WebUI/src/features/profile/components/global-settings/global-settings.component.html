@@ -94,6 +94,48 @@
   </div>
 
   <div class="input-field">
+    <label>{{ "space_settings.club_logo.label" | translate }}</label>
+    <span class="input-info">{{
+      "space_settings.club_logo.info" | translate
+    }}</span>
+
+    <div class="logo-row">
+      <img
+        *ngIf="logoPreviewUrl || logoUrl as src"
+        [src]="src"
+        alt="Club logo"
+        class="logo-row__preview surface-elevated"
+      />
+      <div *ngIf="!logoPreviewUrl && !logoUrl" class="logo-row__preview logo-row__preview--empty surface-elevated"></div>
+
+      <label class="btn btn__small btn-gray btn-border-blue btn-font-blue">
+        {{ "space_settings.club_logo.choose_image" | translate }}
+        <input
+          type="file"
+          accept="image/png,image/jpeg,image/webp,image/svg+xml"
+          (change)="onLogoSelected($event)"
+          hidden
+        />
+      </label>
+
+      <button
+        type="button"
+        class="btn btn__small btn-gray btn-border-green btn-font-green"
+        *ngIf="logoFile"
+        [disabled]="isUploadingLogo"
+        (click)="uploadLogo()"
+      >
+        {{
+          isUploadingLogo
+            ? ("space_settings.club_logo.uploading" | translate)
+            : ("space_settings.club_logo.save" | translate)
+        }}
+      </button>
+    </div>
+    <p class="logo-row__error" *ngIf="logoError">{{ logoError }}</p>
+  </div>
+
+  <div class="input-field">
     <label for="daysOff">{{
       "space_settings.days_off.label" | translate
     }}</label>

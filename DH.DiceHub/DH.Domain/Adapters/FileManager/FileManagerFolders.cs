@@ -7,4 +7,5 @@ public enum FileManagerFolders
     Rewards,
     Seed,
     TenantApplications,
+    Tenants,
 }

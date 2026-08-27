@@ -56,4 +56,16 @@ public class TenantSettingsController : ControllerBase
         await this.mediator.Send(new UpdateTenantSettingsCommand(command), cancellationToken);
         return Ok();
     }
+
+    [HttpPost("logo")]
+    [ActionAuthorize(UserAction.TenantSettingsCUD)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
+    public async Task<IActionResult> UpdateLogo([FromForm] IFormFile logoFile, CancellationToken cancellationToken)
+    {
+        using var stream = new MemoryStream();
+        await logoFile.CopyToAsync(stream, cancellationToken);
+
+        var logoUrl = await this.mediator.Send(new UpdateTenantLogoCommand(logoFile.FileName, stream), cancellationToken);
+        return Ok(logoUrl);
+    }
 }

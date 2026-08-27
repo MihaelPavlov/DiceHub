@@ -114,6 +114,7 @@ export const PATH = {
     CORE: 'tenantSettings',
     GET_CLUB_NAME: 'get-club-name',
     GET_CLUB_INFO: 'club-info',
+    LOGO: 'logo',
   },
   USER_SETTINGS: {
     CORE: 'tenantUserSettings',

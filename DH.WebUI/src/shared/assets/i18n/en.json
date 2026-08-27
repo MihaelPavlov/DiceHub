@@ -601,6 +601,13 @@
       "placeholder": "Write your club name",
       "info": "The name of the club that will be displayed to users."
     },
+    "club_logo": {
+      "label": "Club Image",
+      "info": "Shown on the club selection screen when users switch clubs.",
+      "choose_image": "Choose image",
+      "save": "Save",
+      "uploading": "Saving..."
+    },
     "average_max_capacity": {
       "label": "Average Max Capacity",
       "placeholder": "0",
@@ -1119,7 +1126,8 @@
       "important_note_desc_1": "This reward will no longer appear in future challenge periods.",
       "important_note_desc_2": "However, it will remain visible to users who have already earned it and will still be shown in the current challenge period."
     },
-    "image_required": "Image is required."
+    "image_required": "Image is required.",
+    "draft_restored_reselect_image": "Your unsaved reward was restored, but the selected image was lost - please reselect it."
   },
   "reward_level": {
     "Bronze": "Bronze",
