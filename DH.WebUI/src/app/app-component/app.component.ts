@@ -1,4 +1,4 @@
-import { BehaviorSubject, catchError, filter, map, Observable, of, take } from 'rxjs';
+import { BehaviorSubject, catchError, filter, map, Observable, of } from 'rxjs';
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from '../../entities/auth/auth.service';
 import { onMessage } from 'firebase/messaging';
@@ -87,7 +87,6 @@ export class AppComponent implements OnInit {
 
     this._initializeAndroidBackButton();
     this._persistRouteForRestoration();
-    this._restoreLastRouteOnColdBoot();
     this._initializeAppUrlOpenListener();
   }
 
@@ -154,28 +153,6 @@ export class AppComponent implements OnInit {
         }
 
         localStorage.setItem(AppComponent.LastRouteStorageKey, url);
-      });
-  }
-
-  private _restoreLastRouteOnColdBoot(): void {
-    if (!Capacitor.isNativePlatform()) {
-      return;
-    }
-
-    this.router.events
-      .pipe(
-        filter((event) => event instanceof NavigationEnd),
-        take(1)
-      )
-      .subscribe((event) => {
-        if ((event as NavigationEnd).urlAfterRedirects !== '/') {
-          return;
-        }
-
-        const lastRoute = localStorage.getItem(AppComponent.LastRouteStorageKey);
-        if (lastRoute && lastRoute !== '/') {
-          this.router.navigateByUrl(lastRoute);
-        }
       });
   }
 

@@ -17,11 +17,13 @@ import { TenantLayoutComponent } from '../../shared/components/tenant-layout/ten
 import { SelectClubComponent } from '../../shared/components/select-club/select-club.component';
 import { TenantGuard } from '../../shared/guards/tenant.guard';
 import { RedirectIfTenantGuard } from '../../shared/guards/choose-club.guard';
+import { ColdBootRestoreGuard } from '../../shared/guards/cold-boot-restore.guard';
 
 export const ROUTES: Routes = [
   {
     path: '',
     component: LandingComponent,
+    canActivate: [ColdBootRestoreGuard],
     data: { hideMenu: true },
   },
   {

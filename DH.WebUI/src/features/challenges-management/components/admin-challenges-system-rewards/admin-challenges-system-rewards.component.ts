@@ -100,12 +100,27 @@ export class AdminChallengesSystemRewardsComponent extends Form implements OnDes
     // Wired up after the selectedLevel subscription above, not before: restoring a
     // draft with a selectedLevel patches that control's value, which needs the
     // subscription already active to correctly re-enable/populate requiredPoints.
-    // 'image' holds a filename string, but the actual File can't be persisted.
+    // 'image' holds a filename string, but the actual File can't be persisted -
+    // Android can kill the app process while the native image picker is open,
+    // which wipes the pending File selection with no way to recover it. Surface
+    // that gap instead of leaving the user staring at a silently-empty form.
+    const hadDraft = this.formDraftService.hasDraft(
+      AdminChallengesSystemRewardsComponent.DraftKey
+    );
     this.draftSubscription = this.formDraftService.autoSave(
       this.form,
       AdminChallengesSystemRewardsComponent.DraftKey,
       { exclude: ['image'] }
     );
+    if (hadDraft) {
+      this.showRewardForm = true;
+      this.toastService.error({
+        message: this.translateService.instant(
+          'admin_rewards.draft_restored_reselect_image'
+        ),
+        type: ToastType.Error,
+      });
+    }
 
     this.searchForm = this.fb.group({
       search: [''],

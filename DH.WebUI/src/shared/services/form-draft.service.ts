@@ -91,6 +91,11 @@ export class FormDraftService {
     }
   }
 
+  /** Whether a (not-yet-expired-check'd) draft exists for this key - use to decide whether to reopen a form/panel that a restored draft belongs to. */
+  public hasDraft(key: string): boolean {
+    return localStorage.getItem(this.storageKey(key)) !== null;
+  }
+
   public clear(key: string): void {
     localStorage.removeItem(this.storageKey(key));
   }
