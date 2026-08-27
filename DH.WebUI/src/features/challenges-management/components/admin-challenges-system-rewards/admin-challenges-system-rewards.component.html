@@ -93,22 +93,16 @@
       </div>
       <div class="wrapper">
         <div class="inputs">
-          <div class="upload-icon reward-image-field surface-elevated">
-            <input
-              type="file"
-              id="file-upload"
-              accept="image/*"
-              (change)="onFileSelected($event)"
-              class="surface-elevated"
-            />
-            <label for="file-upload">
-              <div class="image-preview">
-                <img
-                  [src]="imagePreview || '/shared/assets/images/upload_img.svg'"
-                  alt="Selected Image"
-                />
-              </div>
-            </label>
+          <div
+            class="upload-icon reward-image-field surface-elevated"
+            (click)="pickRewardImage()"
+          >
+            <div class="image-preview">
+              <img
+                [src]="imagePreview || '/shared/assets/images/upload_img.svg'"
+                alt="Selected Image"
+              />
+            </div>
           </div>
           <div class="input-field reward-level-field">
             <label for="level" class="required">

@@ -29,6 +29,7 @@ import { IDropdown } from '../../../../shared/models/dropdown.model';
 import { TranslateService } from '@ngx-translate/core';
 import { SupportLanguages } from '../../../../entities/common/models/support-languages.enum';
 import { LanguageService } from '../../../../shared/services/language.service';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
 interface ISystemRewardsForm {
   selectedLevel: number;
@@ -330,27 +331,42 @@ export class AdminChallengesSystemRewardsComponent extends Form implements OnDes
     });
   }
 
-  public onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    const file = input.files?.[0];
-
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.imagePreview = reader.result as string;
-        this.form.controls.image.patchValue(file.name);
-        this.fileToUpload = file;
-        this.imageError = null;
-      };
-      reader.readAsDataURL(file);
-    } else {
-      this.imageError = this.translateService.instant(
-        'admin_rewards.image_required'
-      );
-      this.fileToUpload = null;
-      this.imagePreview = null;
-      this.form.controls.image.reset();
+  /**
+   * Uses Capacitor's native Camera plugin instead of a raw <input type="file">.
+   * On Android, opening the WebView's own file-chooser for that raw input has
+   * proven to reliably get the app's process killed while the native picker is
+   * in the foreground, losing the selection entirely. The Camera plugin drives
+   * the OS picker through Android's native Activity-result flow instead, which
+   * doesn't have that failure mode. Works identically on web (Capacitor falls
+   * back to a file input internally there).
+   */
+  public async pickRewardImage(): Promise<void> {
+    let photo;
+    try {
+      photo = await Camera.getPhoto({
+        source: CameraSource.Photos,
+        resultType: CameraResultType.Uri,
+        quality: 90,
+      });
+    } catch {
+      // User cancelled the picker, or permission was denied - nothing to do.
+      return;
     }
+
+    if (!photo.webPath) {
+      return;
+    }
+
+    const blob = await (await fetch(photo.webPath)).blob();
+    const extension = photo.format || 'jpeg';
+    const file = new File([blob], `reward-image.${extension}`, {
+      type: blob.type || `image/${extension}`,
+    });
+
+    this.imagePreview = photo.webPath;
+    this.form.controls.image.patchValue(file.name);
+    this.fileToUpload = file;
+    this.imageError = null;
   }
 
   protected override getControlDisplayName(controlName: string): string {
