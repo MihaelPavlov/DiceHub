@@ -88,6 +88,32 @@ export class AppComponent implements OnInit {
     this._initializeAndroidBackButton();
     this._persistRouteForRestoration();
     this._restoreLastRouteOnColdBoot();
+    this._initializeAppUrlOpenListener();
+  }
+
+  /**
+   * Android App Links (see AndroidManifest.xml's autoVerify intent-filter for
+   * dicehubs.com) launch this app for a matching https://dicehubs.com/... link
+   * clicked anywhere (email, SMS, other apps) - but Capacitor just opens the
+   * Activity, it doesn't know this app is a client-routed SPA. Without this,
+   * a tenant-setup/reset-password/etc. email link would open the app to
+   * whatever its normal default screen is, not the actual linked page. The
+   * WebView runs on its own local origin, not dicehubs.com, so only the
+   * path/query/hash from the incoming URL is meaningful here.
+   */
+  private _initializeAppUrlOpenListener(): void {
+    if (!Capacitor.isNativePlatform()) {
+      return;
+    }
+
+    App.addListener('appUrlOpen', (data: { url: string }) => {
+      try {
+        const url = new URL(data.url);
+        this.router.navigateByUrl(url.pathname + url.search + url.hash);
+      } catch {
+        // Malformed/unexpected URL - nothing sensible to navigate to.
+      }
+    });
   }
 
   /**

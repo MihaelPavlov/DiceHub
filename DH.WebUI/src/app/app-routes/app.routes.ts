@@ -242,4 +242,12 @@ export const ROUTES: Routes = [
       },
     ],
   },
+  // Must stay last - Angular tries routes in array order. Catches anything no
+  // route above matched (e.g. a stray/typo'd URL, or the production SPA
+  // fallback landing on a bare path with nothing else to match), so it shows
+  // a real page instead of a blank router-outlet.
+  {
+    path: '**',
+    redirectTo: 'not-found',
+  },
 ];

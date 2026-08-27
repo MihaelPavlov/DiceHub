@@ -18,6 +18,17 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <!-- Android App Links: verified via /.well-known/assetlinks.json on
+                 dicehubs.com. autoVerify="true" makes any https://dicehubs.com/...
+                 link (email, SMS, other apps) open directly in this app instead of
+                 the browser, once Android has verified the domain association. -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="dicehubs.com" />
+            </intent-filter>
         </activity>
 
         <provider
