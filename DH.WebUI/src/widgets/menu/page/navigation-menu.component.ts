@@ -199,27 +199,32 @@ export class NavigationMenuComponent implements OnInit {
   }
 
   public setActiveTab(label: string) {
-    let menuItem = this.leftMenuItems
+    // Reset every item first - previously this only ever set the new match's
+    // forceActive to true without clearing the rest, so a tab force-activated
+    // once could never be un-stuck by a later navigation.
+    this.leftMenuItems.forEach((item) => (item.forceActive = false));
+    this.rightMenuItems.forEach((item) => (item.forceActive = false));
+
+    const menuItem = this.leftMenuItems
       .concat(this.rightMenuItems)
       .find(
         (item) =>
           item.label.toString().toLowerCase() === label.toString().toLowerCase()
       );
+
     if (menuItem) {
       menuItem.forceActive = true;
       this.menuItemWithForceActiveExists = true;
     } else {
-      this.leftMenuItems.forEach((item) => (item.forceActive = false));
-      this.rightMenuItems.forEach((item) => (item.forceActive = false));
-
       this.menuItemWithForceActiveExists = false;
     }
   }
 
   public updateMenuItemsWithPage(page: string) {
     if (this.isSuperAdmin() && !this.isTenantVisit()) {
-      this.leftMenuItems = [{ label: 'tenants', class: page === 'tenants' ? 'active' : '', isAlertActive: false, enabled: true, visible: true, icon: '/shared/assets/images/icons/account_circle-icon.svg', icon_color: '/shared/assets/images/icons/account_circle-icon-blue.svg', route: '/admin/tenants', sectionBreak: true }];
-      this.rightMenuItems = [{ label: 'applicants', class: page === 'applicants' ? 'active' : '', isAlertActive: false, enabled: true, visible: true, icon: '/shared/assets/images/icons/account_circle-icon.svg', icon_color: '/shared/assets/images/icons/account_circle-icon-blue.svg', route: '/admin/applicants' }];
+      this.leftMenuItems = [{ label: 'tenants', class: page === 'tenants' ? 'active' : '', forceActive: page === 'tenants', isAlertActive: false, enabled: true, visible: true, icon: '/shared/assets/images/icons/account_circle-icon.svg', icon_color: '/shared/assets/images/icons/account_circle-icon-blue.svg', route: '/admin/tenants', sectionBreak: true }];
+      this.rightMenuItems = [{ label: 'applicants', class: page === 'applicants' ? 'active' : '', forceActive: page === 'applicants', isAlertActive: false, enabled: true, visible: true, icon: '/shared/assets/images/icons/account_circle-icon.svg', icon_color: '/shared/assets/images/icons/account_circle-icon-blue.svg', route: '/admin/applicants' }];
+      this.menuItemWithForceActiveExists = this.leftMenuItems.concat(this.rightMenuItems).some((item) => item.forceActive);
       return;
     }
     if (this.isTenantVisit()) {
@@ -227,27 +232,30 @@ export class NavigationMenuComponent implements OnInit {
       const normalizeUrl = (url: string) => url.replace(/^\/+/, '').replace(/\/{2,}/g, '/');
       const isTenantRouteActive = (path: string) => normalizeUrl(this.router.url) === normalizeUrl(tenantRoute(path));
       this.leftMenuItems = [
-        { label: 'games', class: isTenantRouteActive('/games/library') ? 'active' : '', isAlertActive: false, enabled: true, visible: true, icon: '/shared/assets/images/icons/kid_star-icon.svg', icon_color: '/shared/assets/images/icons/kid_star-icon-blue.svg', route: tenantRoute('/games/library') },
-        { label: 'meeple', class: isTenantRouteActive('/meeples/find') ? 'active' : '', isAlertActive: false, enabled: true, visible: true, icon: '/shared/assets/images/icons/group-icon.svg', icon_color: '/shared/assets/images/icons/group-icon-blue.svg', route: tenantRoute('/meeples/find') },
-        { label: 'reservations', class: isTenantRouteActive('/reservations') ? 'active' : '', isAlertActive: false, enabled: true, visible: true, icon: '/shared/assets/images/icons/menu_book-icon.svg', icon_color: '/shared/assets/images/icons/menu_book-icon-blue.svg', route: tenantRoute('/reservations') },
+        { label: 'games', class: isTenantRouteActive('/games/library') ? 'active' : '', forceActive: isTenantRouteActive('/games/library'), isAlertActive: false, enabled: true, visible: true, icon: '/shared/assets/images/icons/kid_star-icon.svg', icon_color: '/shared/assets/images/icons/kid_star-icon-blue.svg', route: tenantRoute('/games/library') },
+        { label: 'meeple', class: isTenantRouteActive('/meeples/find') ? 'active' : '', forceActive: isTenantRouteActive('/meeples/find'), isAlertActive: false, enabled: true, visible: true, icon: '/shared/assets/images/icons/group-icon.svg', icon_color: '/shared/assets/images/icons/group-icon-blue.svg', route: tenantRoute('/meeples/find') },
+        { label: 'reservations', class: isTenantRouteActive('/reservations') ? 'active' : '', forceActive: isTenantRouteActive('/reservations'), isAlertActive: false, enabled: true, visible: true, icon: '/shared/assets/images/icons/menu_book-icon.svg', icon_color: '/shared/assets/images/icons/menu_book-icon-blue.svg', route: tenantRoute('/reservations') },
       ];
       this.leftMenuItems.push(
-        { label: 'events', class: isTenantRouteActive('/events/home') ? 'active' : '', isAlertActive: false, enabled: true, visible: true, icon: '/shared/assets/images/icons/stadium-icon.svg', icon_color: '/shared/assets/images/icons/stadium-icon-blue.svg', route: tenantRoute('/events/home') },
-        { label: 'profile', class: isTenantRouteActive('/profile') ? 'active' : '', isAlertActive: false, enabled: true, visible: true, icon: '/shared/assets/images/icons/account_circle-icon.svg', icon_color: '/shared/assets/images/icons/account_circle-icon-blue.svg', route: tenantRoute('/profile') },
+        { label: 'events', class: isTenantRouteActive('/events/home') ? 'active' : '', forceActive: isTenantRouteActive('/events/home'), isAlertActive: false, enabled: true, visible: true, icon: '/shared/assets/images/icons/stadium-icon.svg', icon_color: '/shared/assets/images/icons/stadium-icon-blue.svg', route: tenantRoute('/events/home') },
+        { label: 'profile', class: isTenantRouteActive('/profile') ? 'active' : '', forceActive: isTenantRouteActive('/profile'), isAlertActive: false, enabled: true, visible: true, icon: '/shared/assets/images/icons/account_circle-icon.svg', icon_color: '/shared/assets/images/icons/account_circle-icon-blue.svg', route: tenantRoute('/profile') },
       );
       this.rightMenuItems = [
-        { label: 'tenants', class: '', isAlertActive: false, enabled: true, visible: true, icon: '/shared/assets/images/icons/account_circle-icon.svg', icon_color: '/shared/assets/images/icons/account_circle-icon-blue.svg', route: '/admin/tenants', sectionBreak: true },
-        { label: 'applicants', class: '', isAlertActive: false, enabled: true, visible: true, icon: '/shared/assets/images/icons/account_circle-icon.svg', icon_color: '/shared/assets/images/icons/account_circle-icon-blue.svg', route: '/admin/applicants' },
+        { label: 'tenants', class: '', forceActive: false, isAlertActive: false, enabled: true, visible: true, icon: '/shared/assets/images/icons/account_circle-icon.svg', icon_color: '/shared/assets/images/icons/account_circle-icon-blue.svg', route: '/admin/tenants', sectionBreak: true },
+        { label: 'applicants', class: '', forceActive: false, isAlertActive: false, enabled: true, visible: true, icon: '/shared/assets/images/icons/account_circle-icon.svg', icon_color: '/shared/assets/images/icons/account_circle-icon-blue.svg', route: '/admin/applicants' },
       ];
+      this.menuItemWithForceActiveExists = this.leftMenuItems.concat(this.rightMenuItems).some((item) => item.forceActive);
       return;
     }
+    // `page` is the bare route segment right after the tenant prefix (e.g.
+    // 'games', 'reservations') - compare against that directly, not against
+    // tenantRouter.buildTenantUrl(...)'s full tenant-prefixed path, which
+    // never equals a single segment and left every tab's active state broken.
     this.leftMenuItems = [
       {
         label: NAV_ITEM_LABELS.GAMES.toLowerCase(),
-        class:
-          page === this.tenantRouter.buildTenantUrl('/games/library')
-            ? 'active'
-            : '',
+        class: page === 'games' ? 'active' : '',
+        forceActive: page === 'games',
         isAlertActive: false,
         enabled: true,
         visible: true,
@@ -260,10 +268,8 @@ export class NavigationMenuComponent implements OnInit {
     if (this.authService.getUser?.role !== UserRole.User) {
       this.leftMenuItems.push({
         label: NAV_ITEM_LABELS.RESERVATIONS.toLowerCase(),
-        class:
-          page === this.tenantRouter.buildTenantUrl('/reservations')
-            ? 'active'
-            : '',
+        class: page === 'reservations' ? 'active' : '',
+        forceActive: page === 'reservations',
         isAlertActive: true,
         enabled: true,
         visible: true,
@@ -274,10 +280,8 @@ export class NavigationMenuComponent implements OnInit {
     } else {
       this.leftMenuItems.push({
         label: NAV_ITEM_LABELS.MEEPLE.toLowerCase(),
-        class:
-          page === this.tenantRouter.buildTenantUrl('/meeples/find')
-            ? 'active'
-            : '',
+        class: page === 'meeples' ? 'active' : '',
+        forceActive: page === 'meeples',
         isAlertActive: false,
         enabled: true,
         visible: true,
@@ -290,10 +294,8 @@ export class NavigationMenuComponent implements OnInit {
     this.rightMenuItems = [
       {
         label: NAV_ITEM_LABELS.EVENTS.toLowerCase(),
-        class:
-          page === this.tenantRouter.buildTenantUrl('/events/home')
-            ? 'active'
-            : '',
+        class: page === 'events' ? 'active' : '',
+        forceActive: page === 'events',
         isAlertActive: false,
         enabled: true,
         visible: true,
@@ -303,8 +305,8 @@ export class NavigationMenuComponent implements OnInit {
       },
       {
         label: NAV_ITEM_LABELS.PROFILE.toLowerCase(),
-        class:
-          page === this.tenantRouter.buildTenantUrl('/profile') ? 'active' : '',
+        class: page === 'profile' ? 'active' : '',
+        forceActive: page === 'profile',
         isAlertActive: false,
         enabled: true,
         visible: true,
@@ -313,6 +315,10 @@ export class NavigationMenuComponent implements OnInit {
         route: this.tenantRouter.buildTenantUrl('/profile'),
       },
     ];
+
+    this.menuItemWithForceActiveExists = this.leftMenuItems
+      .concat(this.rightMenuItems)
+      .some((item) => item.forceActive);
   }
 
   public navigateToQrCodeScanner(): void {
