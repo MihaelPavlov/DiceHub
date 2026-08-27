@@ -1,5 +1,5 @@
 import { ScrollService } from '../../../../shared/services/scroll.service';
-import { Component, OnDestroy } from '@angular/core';
+import { ChangeDetectorRef, Component, NgZone, OnDestroy } from '@angular/core';
 import { ToastService } from '../../../../shared/services/toast.service';
 import { Form } from '../../../../shared/components/form/form.component';
 import { Formify } from '../../../../shared/models/form.model';
@@ -30,6 +30,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { SupportLanguages } from '../../../../entities/common/models/support-languages.enum';
 import { LanguageService } from '../../../../shared/services/language.service';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { FrontEndLogService } from '../../../../shared/services/frontend-log.service';
 
 interface ISystemRewardsForm {
   selectedLevel: number;
@@ -79,7 +80,10 @@ export class AdminChallengesSystemRewardsComponent extends Form implements OnDes
     private readonly scrollService: ScrollService,
     public override translateService: TranslateService,
     private readonly languageService: LanguageService,
-    private readonly formDraftService: FormDraftService
+    private readonly formDraftService: FormDraftService,
+    private readonly frontEndLogService: FrontEndLogService,
+    private readonly ngZone: NgZone,
+    private readonly cd: ChangeDetectorRef
   ) {
     super(toastService, translateService);
 
@@ -341,32 +345,53 @@ export class AdminChallengesSystemRewardsComponent extends Form implements OnDes
    * back to a file input internally there).
    */
   public async pickRewardImage(): Promise<void> {
-    let photo;
     try {
-      photo = await Camera.getPhoto({
+      const photo = await Camera.getPhoto({
         source: CameraSource.Photos,
         resultType: CameraResultType.Uri,
         quality: 90,
       });
-    } catch {
-      // User cancelled the picker, or permission was denied - nothing to do.
-      return;
-    }
 
-    if (!photo.webPath) {
-      return;
-    }
+      if (!photo.webPath) {
+        this.reportImagePickFailure('Camera.getPhoto returned no webPath', '');
+        return;
+      }
 
-    const blob = await (await fetch(photo.webPath)).blob();
-    const extension = photo.format || 'jpeg';
-    const file = new File([blob], `reward-image.${extension}`, {
-      type: blob.type || `image/${extension}`,
+      const webPath = photo.webPath;
+      const blob = await (await fetch(webPath)).blob();
+      const extension = photo.format || 'jpeg';
+      const file = new File([blob], `reward-image.${extension}`, {
+        type: blob.type || `image/${extension}`,
+      });
+
+      // Capacitor plugin callbacks aren't always guaranteed to run inside
+      // Angular's zone - force it explicitly so the preview/form actually
+      // re-render instead of silently updating state nobody sees.
+      this.ngZone.run(() => {
+        this.imagePreview = webPath;
+        this.form.controls.image.patchValue(file.name);
+        this.fileToUpload = file;
+        this.imageError = null;
+        this.cd.markForCheck();
+      });
+    } catch (error: any) {
+      if (error?.message === 'User cancelled photos app') {
+        return;
+      }
+      this.reportImagePickFailure(error?.message ?? String(error), error?.stack ?? '');
+    }
+  }
+
+  private reportImagePickFailure(message: string, stack: string): void {
+    this.frontEndLogService
+      .sendWarning(`Reward image pick failed: ${message}`, stack)
+      .subscribe();
+    this.ngZone.run(() => {
+      this.toastService.error({
+        message: this.translateService.instant(AppToastMessage.SomethingWrong),
+        type: ToastType.Error,
+      });
     });
-
-    this.imagePreview = photo.webPath;
-    this.form.controls.image.patchValue(file.name);
-    this.fileToUpload = file;
-    this.imageError = null;
   }
 
   protected override getControlDisplayName(controlName: string): string {
