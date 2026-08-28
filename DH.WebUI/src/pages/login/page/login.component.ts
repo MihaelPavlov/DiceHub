@@ -43,6 +43,7 @@ export class LoginComponent extends Form implements OnInit {
   public getMessageFromRedirect: string | null = null;
   public showResend: boolean = false;
   public clubName: string | null = null;
+  public clubLogoUrl: string | null = null;
   public isAdminLogin = false;
 
   constructor(
@@ -109,14 +110,26 @@ export class LoginComponent extends Form implements OnInit {
 
     if (this.tenantContextService.tenantName) {
       this.clubName = this.tenantContextService.tenantName;
-      return;
     }
 
+    // Always resolve club branding: the club's owner may have uploaded a
+    // custom logo, which replaces the default DiceHub mark on the login card.
     this.tenantSettingsService.getClubName().subscribe({
-      next: (clubName) => {
-        this.clubName = clubName;
+      next: (res) => {
+        this.clubName ??= res.clubName;
+        this.clubLogoUrl = this.resolveClubLogoUrl(res.logoFileName);
       },
     });
+  }
+
+  private resolveClubLogoUrl(logoFileName: string | null): string | null {
+    if (!logoFileName) return null;
+
+    if (/^https?:\/\//i.test(logoFileName)) {
+      return logoFileName;
+    }
+
+    return `/shared/assets/images/tenant_logos/${logoFileName}`;
   }
 
   public changeClub(): void {

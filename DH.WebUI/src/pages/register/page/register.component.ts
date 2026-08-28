@@ -80,8 +80,8 @@ export class RegisterComponent extends Form implements OnInit, OnDestroy {
   }
   public ngOnInit(): void {
     this.tenantSettingsService.getClubName().subscribe({
-      next: (clubName) => {
-        this.clubName = clubName;
+      next: (res) => {
+        this.clubName = res.clubName;
       },
     });
   }

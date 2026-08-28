@@ -64,8 +64,8 @@ export class CreateEmployeePasswordComponent extends Form implements OnInit {
       this.token = params['token'];
     });
     this.tenantSettingsService.getClubName().subscribe({
-      next: (clubName) => {
-        this.clubName = clubName;
+      next: (res) => {
+        this.clubName = res.clubName;
       },
     });
   }

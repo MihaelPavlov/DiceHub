@@ -1,4 +1,4 @@
-import { ITenantSettings } from './../models/tenant-settings.model';
+import { IClubNameResult, ITenantSettings } from './../models/tenant-settings.model';
 import { Injectable } from '@angular/core';
 import { RestApiService } from '../../../shared/services/rest-api.service';
 import { Observable } from 'rxjs';
@@ -11,15 +11,14 @@ import { GetClubInfoModel } from '../../profile/models/get-club-info.interface';
 export class TenantSettingsService {
   constructor(private readonly api: RestApiService) {}
 
-  public getClubName(): Observable<string> {
-    return this.api.get<string>(
-      `/${PATH.TENANT_SETTINGS.CORE}/${PATH.TENANT_SETTINGS.GET_CLUB_NAME}`,
-      {
-        requiredTenant: false,
-        options: {
-          responseType: 'text',
-        },
-      }
+  // Anonymous endpoint, but it still needs the active tenant (via the
+  // X-Tenant-Id header) to return that club's name and logo rather than the
+  // global default. Omitting `requiredTenant: false` lets rest-api.service
+  // attach the header when a tenant context exists, while pre-tenant flows
+  // (register / forgot-password with no selected club) still work without it.
+  public getClubName(): Observable<IClubNameResult> {
+    return this.api.get<IClubNameResult>(
+      `/${PATH.TENANT_SETTINGS.CORE}/${PATH.TENANT_SETTINGS.GET_CLUB_NAME}`
     );
   }
 

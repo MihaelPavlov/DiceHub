@@ -117,20 +117,6 @@
           hidden
         />
       </label>
-
-      <button
-        type="button"
-        class="btn btn__small btn-gray btn-border-green btn-font-green"
-        *ngIf="logoFile"
-        [disabled]="isUploadingLogo"
-        (click)="uploadLogo()"
-      >
-        {{
-          isUploadingLogo
-            ? ("space_settings.club_logo.uploading" | translate)
-            : ("space_settings.club_logo.save" | translate)
-        }}
-      </button>
     </div>
     <p class="logo-row__error" *ngIf="logoError">{{ logoError }}</p>
   </div>

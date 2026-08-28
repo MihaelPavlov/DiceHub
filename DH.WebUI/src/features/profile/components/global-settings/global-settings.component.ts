@@ -19,7 +19,7 @@ import { ToggleState } from '../../../../entities/common/enum/toggle-state.enum'
 import { FULL_ROUTE, ROUTE } from '../../../../shared/configs/route.config';
 import { SupportLanguages } from '../../../../entities/common/models/support-languages.enum';
 import { TenantUserSettingsService } from '../../../../entities/common/api/tenant-user-settings.service';
-import { combineLatest, forkJoin, switchMap, tap } from 'rxjs';
+import { combineLatest, forkJoin, Observable, switchMap, tap } from 'rxjs';
 import { IUserSettings } from '../../../../entities/common/models/user-settings.model';
 import { LanguageService } from '../../../../shared/services/language.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -85,7 +85,6 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
   public logoUrl: string | null = null;
   public logoPreviewUrl: string | null = null;
   public logoFile: File | null = null;
-  public isUploadingLogo = false;
   public logoError: string | null = null;
   private static readonly MaxLogoSizeBytes = 2 * 1024 * 1024;
   private static readonly AllowedLogoTypes = ['image/png', 'image/jpeg', 'image/webp', 'image/svg+xml'];
@@ -186,35 +185,6 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
     }
     this.logoFile = file;
     this.logoPreviewUrl = URL.createObjectURL(file);
-  }
-
-  public uploadLogo(): void {
-    if (!this.logoFile || this.isUploadingLogo) return;
-
-    this.isUploadingLogo = true;
-    this.tenantSettingsService.updateLogo(this.logoFile).subscribe({
-      next: (logoUrl) => {
-        this.logoUrl = logoUrl;
-        if (this.logoPreviewUrl) {
-          URL.revokeObjectURL(this.logoPreviewUrl);
-        }
-        this.logoPreviewUrl = null;
-        this.logoFile = null;
-        this.toastService.success({
-          message: this.translateService.instant(AppToastMessage.ChangesSaved),
-          type: ToastType.Success,
-        });
-      },
-      error: () => {
-        this.toastService.error({
-          message: this.translateService.instant(AppToastMessage.FailedToSaveChanges),
-          type: ToastType.Error,
-        });
-      },
-      complete: () => {
-        this.isUploadingLogo = false;
-      },
-    });
   }
 
   public fetchSettings(): void {
@@ -331,7 +301,8 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
 
             updatedSettings.language = newLanguage;
             updatedSettings.uiTheme = newTheme;
-            return combineLatest([
+
+            const saveRequests: Observable<unknown>[] = [
               this.tenantSettingsService.update({
                 id: this.tenantSettingsId,
                 averageMaxCapacity: this.form.controls.averageMaxCapacity.value,
@@ -360,7 +331,24 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
               this.tenantUserSettingsService.update(
                 updatedSettings as IUserSettings
               ),
-            ]);
+            ];
+
+            if (this.logoFile) {
+              saveRequests.push(
+                this.tenantSettingsService.updateLogo(this.logoFile).pipe(
+                  tap((logoUrl) => {
+                    this.logoUrl = logoUrl;
+                    if (this.logoPreviewUrl) {
+                      URL.revokeObjectURL(this.logoPreviewUrl);
+                    }
+                    this.logoPreviewUrl = null;
+                    this.logoFile = null;
+                  })
+                )
+              );
+            }
+
+            return combineLatest(saveRequests);
           })
         )
         .subscribe({

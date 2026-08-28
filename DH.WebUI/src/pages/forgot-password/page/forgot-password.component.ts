@@ -53,8 +53,8 @@ export class ForgotPasswordComponent extends Form implements OnInit {
 
   public ngOnInit(): void {
     this.tenantSettingsService.getClubName().subscribe({
-      next: (clubName) => {
-        this.clubName = clubName;
+      next: (res) => {
+        this.clubName = res.clubName;
       },
     });
   }

@@ -71,8 +71,8 @@ export class ResetPasswordComponent extends Form implements OnInit {
       }
     });
     this.tenantSettingsService.getClubName().subscribe({
-      next: (clubName) => {
-        this.clubName = clubName;
+      next: (res) => {
+        this.clubName = res.clubName;
       },
     });
   }

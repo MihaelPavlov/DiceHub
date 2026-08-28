@@ -1,6 +1,11 @@
 import { WeekDay } from '../../../shared/enums/week-day.enum';
 import { TimePeriodType } from '../enum/time-period-type.enum';
 
+export interface IClubNameResult {
+  clubName: string;
+  logoFileName: string;
+}
+
 export interface ITenantSettings {
   id?: number | null;
 

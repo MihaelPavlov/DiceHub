@@ -23,11 +23,11 @@ public class TenantSettingsController : ControllerBase
 
     [HttpGet("get-club-name")]
     [AllowAnonymous]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ClubNameResult))]
     public async Task<IActionResult> GetClubName(CancellationToken cancellationToken)
     {
-        var result = await this.mediator.Send(new GetTenantSettingsQuery(), cancellationToken);
-        return Ok(result.ClubName);
+        var result = await this.mediator.Send(new GetClubNameQuery(), cancellationToken);
+        return Ok(result);
     }
 
     [HttpGet("club-info")]
