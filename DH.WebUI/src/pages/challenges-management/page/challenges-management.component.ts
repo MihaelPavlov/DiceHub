@@ -16,7 +16,15 @@ import {
 import { ChallengesService } from '../../../entities/challenges/api/challenges.service';
 import { RewardsService } from '../../../entities/rewards/api/rewards.service';
 import { IUserChallengePeriodPerformance } from '../../../entities/challenges/models/user-challenge-period-performance.model';
-import { combineLatest, Subscription, timer } from 'rxjs';
+import {
+  combineLatest,
+  finalize,
+  of,
+  Subscription,
+  switchMap,
+  tap,
+  timer,
+} from 'rxjs';
 import { ChallengeStatus } from '../../../entities/challenges/enums/challenge-status.enum';
 import { Column } from '../../../widgets/nav-bar/page/nav-bar.component';
 import { FULL_ROUTE } from '../../../shared/configs/route.config';
@@ -197,138 +205,105 @@ export class ChallengesManagementComponent implements OnInit, OnDestroy {
     this.initUserUniversalChallengesAnimation();
     this.loadingContext.enableManualMode();
     this.loadingService.loadingOn();
+
+    // Multi-phase sequential load: phase 1 decides which phase-2 request to
+    // fire. Kept on manual mode so the spinner stays up across both phases,
+    // and finalize() guarantees it is cleared even if a request errors
+    // (otherwise manual mode would stay on and suppress the spinner app-wide).
     combineLatest([
       this.challengeService.getUserChallengePeriodPerformance(),
       this.tenantSettingsService.get(),
-    ]).subscribe({
-      next: ([periodPerformance, tenantSettings]) => {
-        this.periodPerformance = periodPerformance;
-        this.tenantSettings = tenantSettings;
+    ])
+      .pipe(
+        switchMap(([periodPerformance, tenantSettings]) => {
+          this.periodPerformance = periodPerformance;
+          this.tenantSettings = tenantSettings;
 
-        if (this.periodPerformance && !this.tenantSettings.isCustomPeriodOn) {
-          combineLatest([
-            this.challengeService.getUserChallengeList(),
-            this.rewardsService.getUserChallengePeriodRewardList(
-              this.periodPerformance.id
-            ),
-            this.challengeService.getUserUniversalChallengeList(),
-          ]).subscribe({
-            next: ([
-              userChallengeList,
-              rewardList,
-              userUniversalChallenges,
-            ]) => {
-              this.userChallengeList = userChallengeList;
-              this.userChallengePeriodRewardList = rewardList;
-              this.userUniversalChallengeList = userUniversalChallenges ?? [];
-              this.initUserUniversalChallengesAnimation();
+          if (periodPerformance && !tenantSettings.isCustomPeriodOn) {
+            return combineLatest([
+              this.challengeService.getUserChallengeList(),
+              this.rewardsService.getUserChallengePeriodRewardList(
+                periodPerformance.id
+              ),
+              this.challengeService.getUserUniversalChallengeList(),
+            ]).pipe(
+              tap(([userChallengeList, rewardList, userUniversalChallenges]) => {
+                this.userChallengeList = userChallengeList;
+                this.userChallengePeriodRewardList = rewardList;
+                this.userUniversalChallengeList = userUniversalChallenges ?? [];
+                this.renderChallengesView();
+              })
+            );
+          }
 
-              // Required to detect the changes from the api. Otherwise dom is empty
-              // Force the DOM Update Before Querying
-              this.cd.detectChanges();
-              this.runChallengeAnimation();
-              this.updateRewardProgressBar();
-
-              this.initProgressContainerWidth();
-
-              this.resetRewardsInactivityTimer();
-              this.resetPointsInactivityTimer();
-
-              if (this.rewardsScroller) {
-                this.rewardsListener = this.renderer.listen(
-                  this.rewardsScroller.nativeElement,
-                  'scroll',
-                  () => {
-                    if (!this.rewardsScrolling) {
-                      this.rewardsScrolling = true;
-                      this.resetRewardsInactivityTimer();
-                      // Trigger any function here
-                    }
-                  }
-                );
-              }
-
-              if (this.pointsScroller) {
-                this.pointsListener = this.renderer.listen(
-                  this.pointsScroller.nativeElement,
-                  'scroll',
-                  () => {
-                    if (!this.pointsScrolling) {
-                      this.pointsScrolling = true;
-                      this.resetPointsInactivityTimer();
-                      // Trigger any function here
-                    }
-                  }
-                );
-              }
-
-              this.loadingContext.disableManualMode();
-              this.loadingService.loadingOff();
-            },
-          });
-        } else if (
-          this.periodPerformance &&
-          this.tenantSettings.isCustomPeriodOn
-        ) {
-          this.challengeService.getUserCustomPeriod().subscribe({
-            next: (customPeriod) => {
-              if (customPeriod) {
-                this.userCustomPeriodChallengesList = customPeriod.challenges;
-                this.userCustomPeriodRewardsList = customPeriod.rewards;
-                this.userUniversalChallengeList =
-                  customPeriod.universalChallenges;
-                this.initUserUniversalChallengesAnimation();
-
-                // Required to detect the changes from the api. Otherwise dom is empty
-                // Force the DOM Update Before Querying
-                this.cd.detectChanges();
-                this.runChallengeAnimation();
-                this.updateRewardProgressBar();
-
-                this.initProgressContainerWidth();
-
-                this.resetRewardsInactivityTimer();
-                this.resetPointsInactivityTimer();
-
-                if (this.rewardsScroller) {
-                  this.rewardsListener = this.renderer.listen(
-                    this.rewardsScroller.nativeElement,
-                    'scroll',
-                    () => {
-                      if (!this.rewardsScrolling) {
-                        this.rewardsScrolling = true;
-                        this.resetRewardsInactivityTimer();
-                        // Trigger any function here
-                      }
-                    }
-                  );
+          if (periodPerformance && tenantSettings.isCustomPeriodOn) {
+            return this.challengeService.getUserCustomPeriod().pipe(
+              tap((customPeriod) => {
+                if (customPeriod) {
+                  this.userCustomPeriodChallengesList = customPeriod.challenges;
+                  this.userCustomPeriodRewardsList = customPeriod.rewards;
+                  this.userUniversalChallengeList =
+                    customPeriod.universalChallenges;
+                  this.renderChallengesView();
                 }
+              })
+            );
+          }
 
-                if (this.pointsScroller) {
-                  this.pointsListener = this.renderer.listen(
-                    this.pointsScroller.nativeElement,
-                    'scroll',
-                    () => {
-                      if (!this.pointsScrolling) {
-                        this.pointsScrolling = true;
-                        this.resetPointsInactivityTimer();
-                        // Trigger any function here
-                      }
-                    }
-                  );
-                }
-
-                this.loadingContext.disableManualMode();
-                this.loadingService.loadingOff();
-              }
-            },
-          });
-        } else {
+          return of(null);
+        }),
+        finalize(() => {
           this.loadingContext.disableManualMode();
           this.loadingService.loadingOff();
+        })
+      )
+      .subscribe();
+  }
+
+  // Shared post-load rendering for both the standard and custom-period paths.
+  private renderChallengesView(): void {
+    this.initUserUniversalChallengesAnimation();
+
+    // Required to detect the changes from the api. Otherwise dom is empty
+    // Force the DOM Update Before Querying
+    this.cd.detectChanges();
+    this.runChallengeAnimation();
+    this.updateRewardProgressBar();
+
+    this.initProgressContainerWidth();
+
+    this.resetRewardsInactivityTimer();
+    this.resetPointsInactivityTimer();
+
+    this.attachScrollerListeners();
+  }
+
+  private attachScrollerListeners(): void {
+    if (this.rewardsScroller) {
+      this.rewardsListener = this.renderer.listen(
+        this.rewardsScroller.nativeElement,
+        'scroll',
+        () => {
+          if (!this.rewardsScrolling) {
+            this.rewardsScrolling = true;
+            this.resetRewardsInactivityTimer();
+          }
         }
-      },
-    });
+      );
+    }
+
+    if (this.pointsScroller) {
+      this.pointsListener = this.renderer.listen(
+        this.pointsScroller.nativeElement,
+        'scroll',
+        () => {
+          if (!this.pointsScrolling) {
+            this.pointsScrolling = true;
+            this.resetPointsInactivityTimer();
+          }
+        }
+      );
+    }
   }
 
   public openUniversalChallengeBuyItemsQrCode(): void {

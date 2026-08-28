@@ -276,7 +276,8 @@ export class LoginComponent extends Form implements OnInit {
               this.authService.authenticateUser(
                 response.accessToken,
                 response.refreshToken,
-                response.tenantId
+                response.tenantId,
+                !!this.form.controls.rememberMe.value
               );
               this.savePasswordCredential(loginEmail, loginPassword);
 

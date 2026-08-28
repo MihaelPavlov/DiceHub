@@ -11,6 +11,7 @@ import { FrontEndLogService } from '../../shared/services/frontend-log.service';
 import { ChallengeHubService } from '../../entities/challenges/api/challenge-hub.service';
 import { ChallengeOverlayComponent } from '../../shared/components/challenge-overlay/challenge-overlay.component';
 import { ChallengeOverlayService } from '../../shared/services/challenges-overlay.service';
+import { AuthTokenService } from '../../shared/services/auth-token.service';
 import { Capacitor } from '@capacitor/core';
 import { App } from '@capacitor/app';
 
@@ -40,7 +41,8 @@ export class AppComponent implements OnInit {
     private readonly activatedRoute: ActivatedRoute,
     private readonly frontEndLogService: FrontEndLogService,
     private readonly challengeHubService: ChallengeHubService,
-    private readonly challengeOverlayService: ChallengeOverlayService
+    private readonly challengeOverlayService: ChallengeOverlayService,
+    private readonly authTokenService: AuthTokenService
   ) {
     window.addEventListener(
       'touchstart',
@@ -131,7 +133,6 @@ export class AppComponent implements OnInit {
     '/create-owner-password',
     '/login',
   ];
-  private static readonly LastRouteStorageKey = 'lastRoute';
 
   private _persistRouteForRestoration(): void {
     if (!Capacitor.isNativePlatform()) {
@@ -152,7 +153,7 @@ export class AppComponent implements OnInit {
           return;
         }
 
-        localStorage.setItem(AppComponent.LastRouteStorageKey, url);
+        this.authTokenService.setLastRoute(url);
       });
   }
 

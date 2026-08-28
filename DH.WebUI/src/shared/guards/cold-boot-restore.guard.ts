@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
 import { Capacitor } from '@capacitor/core';
+import { AuthTokenService } from '../services/auth-token.service';
 
 /**
  * Redirects the app's very first navigation (native cold boot only) straight to the
@@ -12,10 +13,12 @@ import { Capacitor } from '@capacitor/core';
  */
 @Injectable({ providedIn: 'root' })
 export class ColdBootRestoreGuard implements CanActivate {
-  private static readonly LastRouteStorageKey = 'lastRoute';
   private hasChecked = false;
 
-  constructor(private readonly router: Router) {}
+  constructor(
+    private readonly router: Router,
+    private readonly authTokenService: AuthTokenService
+  ) {}
 
   public canActivate(): boolean | UrlTree {
     if (this.hasChecked || !Capacitor.isNativePlatform()) {
@@ -23,7 +26,7 @@ export class ColdBootRestoreGuard implements CanActivate {
     }
     this.hasChecked = true;
 
-    const lastRoute = localStorage.getItem(ColdBootRestoreGuard.LastRouteStorageKey);
+    const lastRoute = this.authTokenService.getLastRoute();
     if (lastRoute && lastRoute !== '/') {
       return this.router.parseUrl(lastRoute);
     }

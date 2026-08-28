@@ -19,7 +19,17 @@ import { ToggleState } from '../../../../entities/common/enum/toggle-state.enum'
 import { FULL_ROUTE, ROUTE } from '../../../../shared/configs/route.config';
 import { SupportLanguages } from '../../../../entities/common/models/support-languages.enum';
 import { TenantUserSettingsService } from '../../../../entities/common/api/tenant-user-settings.service';
-import { combineLatest, forkJoin, Observable, switchMap, tap } from 'rxjs';
+import {
+  catchError,
+  combineLatest,
+  forkJoin,
+  Observable,
+  of,
+  switchMap,
+  tap,
+  timeout,
+} from 'rxjs';
+import { FrontEndLogService } from '../../../../shared/services/frontend-log.service';
 import { IUserSettings } from '../../../../entities/common/models/user-settings.model';
 import { LanguageService } from '../../../../shared/services/language.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -85,7 +95,13 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
   public logoUrl: string | null = null;
   public logoPreviewUrl: string | null = null;
   public logoFile: File | null = null;
+  // In-memory snapshot of the picked image, taken at selection time so the
+  // upload does not depend on the File still being readable at Save time.
+  public logoBlob: Blob | null = null;
+  public logoFileName: string | null = null;
   public logoError: string | null = null;
+  private logoUploadFailed = false;
+  private static readonly LogoUploadTimeoutMs = 60_000;
   private static readonly MaxLogoSizeBytes = 2 * 1024 * 1024;
   private static readonly AllowedLogoTypes = ['image/png', 'image/jpeg', 'image/webp', 'image/svg+xml'];
 
@@ -101,7 +117,8 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
     public override translateService: TranslateService,
     private readonly translateInPipe: TranslateInPipe,
     private readonly tenantService: TenantService,
-    private readonly tenantContextService: TenantContextService
+    private readonly tenantContextService: TenantContextService,
+    private readonly frontEndLogService: FrontEndLogService
   ) {
     super(toastService, translateService);
     this.form = this.initFormGroup();
@@ -184,7 +201,22 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
       URL.revokeObjectURL(this.logoPreviewUrl);
     }
     this.logoFile = file;
+    this.logoFileName = file.name || 'logo';
+    this.logoBlob = null;
     this.logoPreviewUrl = URL.createObjectURL(file);
+
+    // Read the bytes now, while the File is still readable. On Android the
+    // picked File can become unreadable later, which makes the upload hang.
+    file.arrayBuffer().then(
+      (buffer) => {
+        this.logoBlob = new Blob([buffer], {
+          type: file.type || 'application/octet-stream',
+        });
+      },
+      () => {
+        this.logoBlob = null;
+      }
+    );
   }
 
   public fetchSettings(): void {
@@ -246,6 +278,7 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
 
   public onSave(): void {
     if (this.form.valid) {
+      this.logoUploadFailed = false;
       let oldLanguage;
       let newLanguage;
 
@@ -333,18 +366,39 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
               ),
             ];
 
-            if (this.logoFile) {
+            const logoUpload = this.logoBlob ?? this.logoFile;
+            if (logoUpload) {
+              this.logoError = null;
               saveRequests.push(
-                this.tenantSettingsService.updateLogo(this.logoFile).pipe(
-                  tap((logoUrl) => {
-                    this.logoUrl = logoUrl;
-                    if (this.logoPreviewUrl) {
-                      URL.revokeObjectURL(this.logoPreviewUrl);
-                    }
-                    this.logoPreviewUrl = null;
-                    this.logoFile = null;
-                  })
-                )
+                this.tenantSettingsService
+                  .updateLogo(logoUpload, this.logoFileName ?? 'logo')
+                  .pipe(
+                    timeout(GlobalSettingsComponent.LogoUploadTimeoutMs),
+                    tap((logoUrl) => {
+                      this.logoUrl = this.resolveLogoUrl(logoUrl);
+                      if (this.logoPreviewUrl) {
+                        URL.revokeObjectURL(this.logoPreviewUrl);
+                      }
+                      this.logoPreviewUrl = null;
+                      this.logoFile = null;
+                      this.logoBlob = null;
+                      this.logoFileName = null;
+                    }),
+                    catchError((error) => {
+                      // Don't let a logo-upload failure sink the whole save -
+                      // report it on its own instead.
+                      this.logoUploadFailed = true;
+                      this.frontEndLogService
+                        .sendWarning(
+                          `Club logo upload failed: ${error?.name ?? ''} ${
+                            error?.status ?? ''
+                          } ${error?.message ?? error}`,
+                          'GlobalSettingsComponent.onSave -> updateLogo'
+                        )
+                        .subscribe();
+                      return of(null);
+                    })
+                  )
               );
             }
 
@@ -380,12 +434,24 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
               );
             }
 
-            this.toastService.success({
-              message: this.translateService.instant(
-                AppToastMessage.ChangesSaved
-              ),
-              type: ToastType.Success,
-            });
+            if (this.logoUploadFailed) {
+              this.logoError = this.translateService.instant(
+                'space_settings.club_logo.upload_failed'
+              );
+              this.toastService.error({
+                message: this.translateService.instant(
+                  'space_settings.club_logo.upload_failed'
+                ),
+                type: ToastType.Error,
+              });
+            } else {
+              this.toastService.success({
+                message: this.translateService.instant(
+                  AppToastMessage.ChangesSaved
+                ),
+                type: ToastType.Success,
+              });
+            }
           },
           error: (error) => {
             this.handleServerErrors(error);

@@ -9,6 +9,7 @@ import { Observable, of } from 'rxjs';
 import { FULL_ROUTE } from '../configs/route.config';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { TenantRouter } from '../helpers/tenant-router';
+import { AuthTokenService } from '../services/auth-token.service';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +18,8 @@ export class AuthRedirectGuard {
   constructor(
     private readonly router: Router,
     private readonly tenantRouter: TenantRouter,
-    private readonly jwtHelper: JwtHelperService
+    private readonly jwtHelper: JwtHelperService,
+    private readonly authTokenService: AuthTokenService
   ) {}
 
   public canActivate(
@@ -28,7 +30,7 @@ export class AuthRedirectGuard {
     | UrlTree
     | Observable<boolean | UrlTree>
     | Promise<boolean | UrlTree> {
-    const token = localStorage.getItem('jwt');
+    const token = this.authTokenService.getToken();
     console.log('auth-redirect.guard.ts');
 
     if (token && !this.jwtHelper.isTokenExpired(token)) {

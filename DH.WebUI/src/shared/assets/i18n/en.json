@@ -606,7 +606,8 @@
       "info": "Shown on the club selection screen when users switch clubs.",
       "choose_image": "Choose image",
       "save": "Save",
-      "uploading": "Saving..."
+      "uploading": "Saving...",
+      "upload_failed": "Settings saved, but the club image couldn't be uploaded. Please try again."
     },
     "average_max_capacity": {
       "label": "Average Max Capacity",

@@ -173,7 +173,7 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   private startConnection(): void {
-    const token = localStorage.getItem('jwt');
+    const token = this.authService.getToken();
     this.hubConnection = new signalR.HubConnectionBuilder()
       .withUrl(`${environment.defaultAppUrl}/${ROUTE.CHAT_HUB_CLIENT.CORE}`, {
         accessTokenFactory: (): any => token,

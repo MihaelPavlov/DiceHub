@@ -21,6 +21,7 @@ import { SupportLanguages } from '../common/models/support-languages.enum';
 import { ThemeService } from '../../shared/services/theme.service';
 import { UiTheme } from '../../shared/enums/ui-theme.enum';
 import { TenantContextService } from '../../shared/services/tenant-context.service';
+import { AuthTokenService } from '../../shared/services/auth-token.service';
 
 @Injectable({
   providedIn: 'root',
@@ -38,7 +39,8 @@ export class AuthService {
     private readonly tenantUserSettingsService: TenantUserSettingsService,
     private readonly languageService: LanguageService,
     private readonly themeService: ThemeService,
-    private readonly tenantContextService: TenantContextService
+    private readonly tenantContextService: TenantContextService,
+    private readonly authTokenService: AuthTokenService
   ) {
     if (!this.userInfoSubject$.value) {
       this.userinfo();
@@ -121,9 +123,13 @@ export class AuthService {
   }
 
 
-  public authenticateUser(accessToken: string, refreshToken: string, tenantId?: string | null): void {
-    localStorage.setItem('jwt', accessToken);
-    localStorage.setItem('refreshToken', refreshToken);
+  public authenticateUser(
+    accessToken: string,
+    refreshToken: string,
+    tenantId?: string | null,
+    remember: boolean = true
+  ): void {
+    this.authTokenService.setTokens(accessToken, refreshToken, remember);
     if (tenantId === 'system') this.tenantContextService.clearTenant();
     else if (tenantId) this.tenantContextService.tenantId = tenantId;
     this.userinfo();
@@ -290,15 +296,13 @@ export class AuthService {
   }
 
   public getToken(): string | null {
-    return localStorage.getItem('jwt');
+    return this.authTokenService.getToken();
   }
 
   public logout(forceFrontendOnly = false): Observable<void | null> {
     this.themeService.applyTheme(UiTheme.Dark);
     if (forceFrontendOnly) {
-      localStorage.removeItem('jwt');
-      localStorage.removeItem('refreshToken');
-      localStorage.removeItem('lastRoute');
+      this.authTokenService.clearToken();
       this.userInfoSubject$.next(null);
       return of(void 0);
     }
@@ -307,9 +311,7 @@ export class AuthService {
       .post<void>(`/${PATH.USER.CORE}/${PATH.USER.LOGOUT}`, {})
       .pipe(
         tap(() => {
-          localStorage.removeItem('jwt');
-          localStorage.removeItem('refreshToken');
-          localStorage.removeItem('lastRoute');
+          this.authTokenService.clearToken();
           this.userInfoSubject$.next(null);
         })
       );

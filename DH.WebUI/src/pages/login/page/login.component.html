@@ -70,22 +70,12 @@
           [(isVisible)]="showPassword"
         ></app-password-visibility-toggle>
       </div>
-    <!-- <div class="input-checkbox">
-      <input
-        type="checkbox"
-        value="lsRememberMe"
-        id="rememberMe"
-        formControlName="rememberMe"
-      />
-      <div class="remember-label">
+      <div class="input-checkbox">
+        <input type="checkbox" id="rememberMe" formControlName="rememberMe" />
         <label for="rememberMe">{{
           "login.labels.remember_me" | translate
         }}</label>
-        <span class="markup" (click)="navigateToForgotPassword()">{{
-          "login.labels.lost_your_way" | translate
-        }}</span>
       </div>
-    </div> -->
 
       <div class="options">
         <span *ngIf="!isAdminLogin" class="markup" (click)="changeClub()">{{

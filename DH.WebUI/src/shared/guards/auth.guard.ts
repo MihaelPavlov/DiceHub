@@ -20,6 +20,7 @@ import {
   tap,
 } from 'rxjs';
 import { RestApiService } from '../services/rest-api.service';
+import { AuthTokenService } from '../services/auth-token.service';
 import { TenantContextService } from '../services/tenant-context.service';
 import { TenantRouter } from '../helpers/tenant-router';
 import { PATH } from '../configs/path.config';
@@ -34,7 +35,8 @@ export class AuthGuard {
     private readonly tenantRouter: TenantRouter,
     private readonly jwtHelper: JwtHelperService,
     private readonly api: RestApiService,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly authTokenService: AuthTokenService
   ) {}
 
   public canActivateChild(
@@ -48,7 +50,7 @@ export class AuthGuard {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | boolean | Promise<boolean> {
-    const token = localStorage.getItem('jwt');
+    const token = this.authTokenService.getToken();
 
     if (!token) {
       this.authService.userInfoSubject$.next(null);
@@ -92,7 +94,7 @@ export class AuthGuard {
   }
 
   private tryRefreshingTokens(token: string | null): Observable<boolean> {
-    const refreshToken: string | null = localStorage.getItem('refreshToken');
+    const refreshToken: string | null = this.authTokenService.getRefreshToken();
     if (!token || !refreshToken) {
       return this.authService.logout().pipe(map(() => false));
     }
@@ -111,8 +113,10 @@ export class AuthGuard {
         take(1),
         tap((res: ITokenResponse | null) => {
           if (res) {
-            localStorage.setItem('jwt', res.accessToken);
-            localStorage.setItem('refreshToken', res.refreshToken);
+            this.authTokenService.updateTokens(
+              res.accessToken,
+              res.refreshToken
+            );
           }
         }),
         map(() => true), // Emit true if refresh is successful

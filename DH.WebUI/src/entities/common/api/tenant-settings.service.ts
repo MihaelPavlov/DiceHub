@@ -38,13 +38,22 @@ export class TenantSettingsService {
     });
   }
 
-  public updateLogo(logoFile: File): Observable<string | null> {
+  // `logo` is passed as an in-memory Blob (not the raw picked File): on Android
+  // the File's backing content URI can stop being readable between picking the
+  // image and submitting, which makes the multipart POST hang with no error.
+  //
+  // The endpoint responds with the logo URL as a bare `text/plain` string, so
+  // responseType must be 'text' - otherwise HttpClient tries to JSON.parse it
+  // and fails with a "200 Http failure during parsing" even though the upload
+  // succeeded server-side.
+  public updateLogo(logo: Blob, fileName: string): Observable<string | null> {
     const formData = new FormData();
-    formData.append('logoFile', logoFile);
+    formData.append('logoFile', logo, fileName);
 
     return this.api.post<string>(
       `/${PATH.TENANT_SETTINGS.CORE}/${PATH.TENANT_SETTINGS.LOGO}`,
-      formData
+      formData,
+      { options: { responseType: 'text' } }
     );
   }
 }
