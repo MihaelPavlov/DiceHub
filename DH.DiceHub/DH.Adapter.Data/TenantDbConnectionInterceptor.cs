@@ -33,18 +33,9 @@ public class TenantDbConnectionInterceptor : DbConnectionInterceptor
         ConnectionEndEventData eventData,
         CancellationToken cancellationToken = default)
     {
-        using (var resetCommand = connection.CreateCommand())
+        using (var command = connection.CreateCommand())
         {
-            // Pooled connections must not retain the previous request's tenant.
-            resetCommand.CommandText = "RESET app.tenant_id";
-            await resetCommand.ExecuteNonQueryAsync(cancellationToken);
-        }
-
-        var tenantId = ResolveTenantId();
-        if (!string.IsNullOrEmpty(tenantId))
-        {
-            using var command = connection.CreateCommand();
-            command.CommandText = $"SET app.tenant_id = '{tenantId.Replace("'", "''")}'";
+            command.CommandText = BuildTenantCommand(ResolveTenantId());
             await command.ExecuteNonQueryAsync(cancellationToken);
         }
 
@@ -52,25 +43,28 @@ public class TenantDbConnectionInterceptor : DbConnectionInterceptor
     }
 
     public override void ConnectionOpened(DbConnection connection, ConnectionEndEventData eventData)
-     {
-        using (var resetCommand = connection.CreateCommand())
+    {
+        using (var command = connection.CreateCommand())
         {
-            resetCommand.CommandText = "RESET app.tenant_id";
-            resetCommand.ExecuteNonQuery();
-        }
-
-        var tenantId = ResolveTenantId();
-        if (!string.IsNullOrEmpty(tenantId))
-        {
-            using (var command = connection.CreateCommand())
-            {
-                command.CommandText = $"SET app.tenant_id = '{tenantId.Replace("'", "''")}'";
-                command.ExecuteNonQuery();
-            }
+            command.CommandText = BuildTenantCommand(ResolveTenantId());
+            command.ExecuteNonQuery();
         }
 
         base.ConnectionOpened(connection, eventData);
     }
+
+    /// <summary>
+    /// One statement per connection open (this fires on every pooled-connection
+    /// checkout, i.e. every DB operation). A bare <c>SET</c> overwrites whatever
+    /// value a reused connection carried from a previous request, so the old
+    /// RESET-then-SET pair (two round-trips) was redundant. <c>RESET</c> is still
+    /// required when this request has no tenant, so a tenant value can't leak
+    /// into a system/anonymous request on a recycled connection.
+    /// </summary>
+    private static string BuildTenantCommand(string? tenantId)
+        => string.IsNullOrEmpty(tenantId)
+            ? "RESET app.tenant_id"
+            : $"SET app.tenant_id = '{tenantId.Replace("'", "''")}'";
 
     /// <summary>
     /// Resolves the tenant to apply to this connection's RLS session variable.

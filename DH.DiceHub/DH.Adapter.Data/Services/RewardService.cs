@@ -25,29 +25,17 @@ public class RewardService : IRewardService
     {
         var imageUrl = await this.fileManagerClient.UploadFileAsync(
             FileManagerFolders.Rewards.ToString(), BuildUniqueImageName(fileName, contentType), imageStream.ToArray());
-        using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
-        {
-            using (var transaction = await context.Database.BeginTransactionAsync(cancellationToken))
-            {
-                try
-                {
-                    reward.CreatedBy = this.userContext.UserId!;
-                    reward.ImageUrl = imageUrl;
-                    await context.ChallengeRewards.AddAsync(reward, cancellationToken);
 
-                    await context.SaveChangesAsync(cancellationToken);
+        // Single INSERT: SaveChangesAsync is already atomic, so an explicit
+        // BEGIN/COMMIT added nothing but two round-trips.
+        using var context = await _contextFactory.CreateDbContextAsync(cancellationToken);
 
-                    await transaction.CommitAsync(cancellationToken);
+        reward.CreatedBy = this.userContext.UserId!;
+        reward.ImageUrl = imageUrl;
+        await context.ChallengeRewards.AddAsync(reward, cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
 
-                    return reward.Id;
-                }
-                catch (Exception)
-                {
-                    await transaction.RollbackAsync(cancellationToken);
-                    throw;
-                }
-            }
-        }
+        return reward.Id;
     }
 
     public async Task UpdateReward(ChallengeReward reward, string? fileName, string? contentType, MemoryStream? imageStream, CancellationToken cancellationToken)
