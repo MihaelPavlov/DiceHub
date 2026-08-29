@@ -40,6 +40,12 @@ export class NavigationMenuComponent implements OnInit {
   public menuItemWithForceActiveExists: boolean = false;
   private destroy$: Subject<boolean> = new Subject<boolean>();
   public activeLink = NAV_ITEM_LABELS.GAMES;
+  // Last known "there is at least one active reservation" result. Drives the red
+  // dot on the Reservations tab. Starts false and is only ever set from the
+  // getReservations/getActiveReservedTableList responses in
+  // refreshForAnyActiveReservations() - never hardcoded, or the dot shows with
+  // no reservations until the first background poll corrects it.
+  public anyActiveReservations = false;
   public subscriptionRefreshForAnyActiveReservations!: any;
   public eventLis: any;
   constructor(
@@ -127,11 +133,11 @@ export class NavigationMenuComponent implements OnInit {
         const tableActiveReservations =
           this.filterActiveReservations(tableReservations);
 
-        const anyActiveReservations =
+        this.anyActiveReservations =
           gameActiveReservations.length > 0 ||
           tableActiveReservations.length > 0;
 
-        this.updateLeftMenuItems(anyActiveReservations);
+        this.updateLeftMenuItems(this.anyActiveReservations);
 
         this.cd.detectChanges();
       },
@@ -267,7 +273,7 @@ export class NavigationMenuComponent implements OnInit {
       this.leftMenuItems.push({
         label: NAV_ITEM_LABELS.RESERVATIONS.toLowerCase(),
         forceActive: page === 'reservations',
-        isAlertActive: true,
+        isAlertActive: this.anyActiveReservations,
         enabled: true,
         visible: true,
         icon: '/shared/assets/images/icons/menu_book-icon.svg',

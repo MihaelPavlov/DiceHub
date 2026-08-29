@@ -64,9 +64,60 @@ export class FormDraftService {
   }
 
   public restore<TExtra>(form: FormGroup, key: string, options: IFormDraftOptions<TExtra> = {}): boolean {
+    const draft = this.readValidDraft<TExtra>(key, options);
+    if (!draft) {
+      return false;
+    }
+
+    (options.exclude ?? []).forEach((field) => delete draft.values[field]);
+    form.patchValue(draft.values);
+
+    if (draft.extra !== undefined) {
+      options.applyExtra?.(draft.extra);
+    }
+
+    return true;
+  }
+
+  /**
+   * Whether a non-expired draft that actually holds user-entered content exists for this
+   * key - use to decide whether to reopen a form/panel and warn the user about a restored
+   * draft. Deliberately ignores drafts that are only present because a programmatic
+   * `form.reset()` re-persisted an all-empty form: those carry nothing to restore and must
+   * not trigger a "your unsaved changes were restored" prompt.
+   */
+  public hasDraft<TExtra = Record<string, unknown>>(
+    key: string,
+    options: IFormDraftOptions<TExtra> = {}
+  ): boolean {
+    const draft = this.readValidDraft<TExtra>(key, options);
+    if (!draft) {
+      return false;
+    }
+
+    const values = { ...draft.values };
+    (options.exclude ?? []).forEach((field) => delete values[field]);
+
+    return Object.values(values).some((value) => {
+      if (value === null || value === undefined) return false;
+      if (typeof value === 'string') return value.trim().length > 0;
+      if (typeof value === 'number') return value !== 0;
+      if (typeof value === 'boolean') return value;
+      return true;
+    });
+  }
+
+  /**
+   * Reads the raw draft for a key, discarding (and clearing) it if it's missing,
+   * unparseable, or older than `maxAgeMs`. Returns null in all of those cases.
+   */
+  private readValidDraft<TExtra>(
+    key: string,
+    options: IFormDraftOptions<TExtra>
+  ): IDraft<TExtra> | null {
     const raw = localStorage.getItem(this.storageKey(key));
     if (!raw) {
-      return false;
+      return null;
     }
 
     try {
@@ -74,26 +125,13 @@ export class FormDraftService {
       const maxAgeMs = options.maxAgeMs ?? FormDraftService.DefaultMaxAgeMs;
       if (Date.now() - draft.savedAt > maxAgeMs) {
         this.clear(key);
-        return false;
+        return null;
       }
-
-      (options.exclude ?? []).forEach((field) => delete draft.values[field]);
-      form.patchValue(draft.values);
-
-      if (draft.extra !== undefined) {
-        options.applyExtra?.(draft.extra);
-      }
-
-      return true;
+      return draft;
     } catch {
       this.clear(key);
-      return false;
+      return null;
     }
-  }
-
-  /** Whether a (not-yet-expired-check'd) draft exists for this key - use to decide whether to reopen a form/panel that a restored draft belongs to. */
-  public hasDraft(key: string): boolean {
-    return localStorage.getItem(this.storageKey(key)) !== null;
   }
 
   public clear(key: string): void {

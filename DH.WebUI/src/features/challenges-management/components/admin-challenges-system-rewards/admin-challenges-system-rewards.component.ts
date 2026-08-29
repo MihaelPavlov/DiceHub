@@ -16,7 +16,10 @@ import { AppToastMessage } from '../../../../shared/components/toast/constants/a
 import { ToastType } from '../../../../shared/models/toast.model';
 import { IRewardListResult } from '../../../../entities/rewards/models/reward-list.model';
 import { debounceTime, distinctUntilChanged, Subscription, throwError } from 'rxjs';
-import { FormDraftService } from '../../../../shared/services/form-draft.service';
+import {
+  FormDraftService,
+  IFormDraftOptions,
+} from '../../../../shared/services/form-draft.service';
 import { IRewardGetByIdResult } from '../../../../entities/rewards/models/reward-by-id.model';
 import { AdminChallengesRewardConfirmDeleteDialog } from '../../dialogs/admin-challenges-reward-confirm-delete/admin-challenges-reward-confirm-delete.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -52,6 +55,8 @@ interface ISystemRewardsForm {
 export class AdminChallengesSystemRewardsComponent extends Form implements OnDestroy {
   override form: Formify<ISystemRewardsForm>;
   private static readonly DraftKey = 'adminChallengesSystemRewards';
+  // 'image' holds only a filename string; the actual File can't be JSON-persisted.
+  private static readonly DraftOptions: IFormDraftOptions = { exclude: ['image'] };
   private draftSubscription: Subscription | null = null;
 
   public isMenuVisible: boolean = false;
@@ -109,14 +114,14 @@ export class AdminChallengesSystemRewardsComponent extends Form implements OnDes
     // Android can kill the app process while the native image picker is open,
     // which wipes the pending File selection with no way to recover it. Surface
     // that gap instead of leaving the user staring at a silently-empty form.
+    // hasDraft() only reports true for a recent draft that still holds real
+    // user input, so a bare form.reset() re-persisting an empty form no longer
+    // produces a bogus "draft restored, image lost" error on the next visit.
     const hadDraft = this.formDraftService.hasDraft(
-      AdminChallengesSystemRewardsComponent.DraftKey
-    );
-    this.draftSubscription = this.formDraftService.autoSave(
-      this.form,
       AdminChallengesSystemRewardsComponent.DraftKey,
-      { exclude: ['image'] }
+      AdminChallengesSystemRewardsComponent.DraftOptions
     );
+    this.startDraftAutoSave();
     if (hadDraft) {
       this.showRewardForm = true;
       this.toastService.error({
@@ -199,6 +204,34 @@ export class AdminChallengesSystemRewardsComponent extends Form implements OnDes
     this.draftSubscription?.unsubscribe();
   }
 
+  private startDraftAutoSave(): void {
+    if (this.draftSubscription) return;
+    this.draftSubscription = this.formDraftService.autoSave(
+      this.form,
+      AdminChallengesSystemRewardsComponent.DraftKey,
+      AdminChallengesSystemRewardsComponent.DraftOptions
+    );
+  }
+
+  /**
+   * Tears down the debounced auto-save, including any write still pending in its
+   * debounce window. Needed before we clear + reset the form on close/submit:
+   * otherwise the programmatic form.reset() re-persists an empty draft moments
+   * after clear(), which then trips the "draft restored, image lost" error on
+   * the next visit even though the user typed nothing.
+   */
+  private stopDraftAutoSave(): void {
+    this.draftSubscription?.unsubscribe();
+    this.draftSubscription = null;
+  }
+
+  private discardDraftAndReset(): void {
+    this.stopDraftAutoSave();
+    this.formDraftService.clear(AdminChallengesSystemRewardsComponent.DraftKey);
+    this.resetRewardForm();
+    this.startDraftAutoSave();
+  }
+
   public getFormGroup(formGroup: AbstractControl<any, any>): FormGroup {
     return formGroup as FormGroup;
   }
@@ -210,7 +243,7 @@ export class AdminChallengesSystemRewardsComponent extends Form implements OnDes
   public closeRewardForm(event?: Event): void {
     event?.stopPropagation();
     this.showRewardForm = false;
-    this.resetRewardForm();
+    this.discardDraftAndReset();
   }
 
   public toggleRewardForm(isOpenFromEdit: boolean = false): void {
@@ -247,8 +280,8 @@ export class AdminChallengesSystemRewardsComponent extends Form implements OnDes
             });
 
             this.fetchSystemRewardList();
+            // Closes the panel, which clears the draft and resets the form.
             this.toggleRewardForm();
-            this.formDraftService.clear(AdminChallengesSystemRewardsComponent.DraftKey);
           },
           error: (error) => {
             this.handleServerErrors(error);
@@ -292,8 +325,8 @@ export class AdminChallengesSystemRewardsComponent extends Form implements OnDes
             });
 
             this.fetchSystemRewardList();
+            // Closes the panel, which clears the draft and resets the form.
             this.toggleRewardForm();
-            this.formDraftService.clear(AdminChallengesSystemRewardsComponent.DraftKey);
           },
           error: (error) => {
             this.handleServerErrors(error);
@@ -467,13 +500,15 @@ export class AdminChallengesSystemRewardsComponent extends Form implements OnDes
   }
 
   private resetRewardForm(): void {
-    this.form.reset();
+    // emitEvent: false - this reset is programmatic form teardown, not user
+    // input; letting it through valueChanges would auto-save an empty draft.
+    this.form.reset(undefined, { emitEvent: false });
     this.imagePreview = null;
     this.fileToUpload = null;
     this.imageError = null;
     this.editRewardId = null;
     this.rewardRequiredPointList = [];
     this.skipFirstSelectedLevelChange = true;
-    this.form.controls.requiredPoints.disable();
+    this.form.controls.requiredPoints.disable({ emitEvent: false });
   }
 }

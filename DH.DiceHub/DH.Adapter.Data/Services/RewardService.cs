@@ -24,7 +24,7 @@ public class RewardService : IRewardService
     public async Task<int> CreateReward(ChallengeReward reward, string fileName, string contentType, MemoryStream imageStream, CancellationToken cancellationToken)
     {
         var imageUrl = await this.fileManagerClient.UploadFileAsync(
-            FileManagerFolders.Rewards.ToString(), fileName, imageStream.ToArray());
+            FileManagerFolders.Rewards.ToString(), BuildUniqueImageName(fileName, contentType), imageStream.ToArray());
         using (var context = await _contextFactory.CreateDbContextAsync(cancellationToken))
         {
             using (var transaction = await context.Database.BeginTransactionAsync(cancellationToken))
@@ -52,12 +52,6 @@ public class RewardService : IRewardService
 
     public async Task UpdateReward(ChallengeReward reward, string? fileName, string? contentType, MemoryStream? imageStream, CancellationToken cancellationToken)
     {
-        string? currenFileImageUrl = null;
-
-        if (!string.IsNullOrEmpty(fileName))
-            currenFileImageUrl = this.fileManagerClient.GetPublicUrl(
-                FileManagerFolders.Games.ToString(), fileName);
-
         using (var context = await this._contextFactory.CreateDbContextAsync(cancellationToken))
         {
             var dbReward = await context.ChallengeRewards
@@ -74,14 +68,44 @@ public class RewardService : IRewardService
             dbReward.Level = reward.Level;
             dbReward.UpdatedDate = DateTime.UtcNow;
             dbReward.UpdatedBy = this.userContext.UserId!;
-            if (currenFileImageUrl != null && currenFileImageUrl != dbReward.ImageUrl && imageStream != null)
+
+            // A new image is present only when the client actually sent a file
+            // (fileName + non-empty stream). Each upload gets a fresh, unique
+            // object name so the resulting public URL changes too - otherwise a
+            // constant name/URL keeps serving the CDN-cached previous image.
+            if (!string.IsNullOrEmpty(fileName) && imageStream != null && imageStream.Length > 0)
             {
-                var imageUrl = await this.fileManagerClient.UploadFileAsync(
-                    FileManagerFolders.Rewards.ToString(), fileName!, imageStream.ToArray());
-                dbReward.ImageUrl = imageUrl;
+                dbReward.ImageUrl = await this.fileManagerClient.UploadFileAsync(
+                    FileManagerFolders.Rewards.ToString(),
+                    BuildUniqueImageName(fileName, contentType),
+                    imageStream.ToArray());
             }
 
             await context.SaveChangesAsync(cancellationToken);
         }
+    }
+
+    /// <summary>
+    /// Produces a collision-free storage object name. The client sends a constant
+    /// filename (e.g. "reward-image.jpeg" from the native camera plugin), so
+    /// trusting it would make every reward resolve to the same storage path and
+    /// the same public URL - new and updated rewards would all show whichever
+    /// image was uploaded/cached first.
+    /// </summary>
+    static string BuildUniqueImageName(string? originalFileName, string? contentType)
+    {
+        var extension = Path.GetExtension(originalFileName);
+        if (string.IsNullOrWhiteSpace(extension))
+        {
+            extension = contentType switch
+            {
+                "image/png" => ".png",
+                "image/webp" => ".webp",
+                "image/gif" => ".gif",
+                _ => ".jpg",
+            };
+        }
+
+        return $"{Guid.NewGuid():N}{extension}";
     }
 }
