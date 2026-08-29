@@ -7,6 +7,7 @@ import { TenantApplicationsService } from '../../../entities/common/api/tenant-a
 import { AppToastMessage } from '../../../shared/components/toast/constants/app-toast-messages.constant';
 import { ToastType } from '../../../shared/models/toast.model';
 import { LanguageService } from '../../../shared/services/language.service';
+import { downscaleImageFile } from '../../../shared/helpers/image-resize.helper';
 import { ToastService } from '../../../shared/services/toast.service';
 import { FormDraftService, IFormDraftOptions } from '../../../shared/services/form-draft.service';
 
@@ -193,26 +194,31 @@ export class VenueApplicationComponent implements OnDestroy {
       });
   }
 
-  public onLogoSelected(event: Event): void {
+  public async onLogoSelected(event: Event): Promise<void> {
     this.logoError = null;
     const input = event.target as HTMLInputElement;
-    const file = input.files?.[0] ?? null;
+    const original = input.files?.[0] ?? null;
 
-    if (!file) {
+    if (!original) {
       return;
     }
 
-    if (!VenueApplicationComponent.AllowedLogoTypes.includes(file.type)) {
+    if (!VenueApplicationComponent.AllowedLogoTypes.includes(original.type)) {
       this.logoError = this.translateService.instant('venue_application.errors.logo_invalid_type');
       input.value = '';
       return;
     }
 
-    if (file.size > VenueApplicationComponent.MaxLogoSizeBytes) {
+    if (original.size > VenueApplicationComponent.MaxLogoSizeBytes) {
       this.logoError = this.translateService.instant('venue_application.errors.logo_too_large');
       input.value = '';
       return;
     }
+
+    // Preserve PNG transparency; SVG passes through untouched (helper handles it).
+    const file = await downscaleImageFile(original, {
+      mimeType: original.type === 'image/png' ? 'image/png' : 'image/jpeg',
+    });
 
     this.removeLogo();
     this.logoFile = file;

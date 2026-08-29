@@ -33,6 +33,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { SupportLanguages } from '../../../../entities/common/models/support-languages.enum';
 import { LanguageService } from '../../../../shared/services/language.service';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { Capacitor } from '@capacitor/core';
+import { downscaleImageFile } from '../../../../shared/helpers/image-resize.helper';
 import { FrontEndLogService } from '../../../../shared/services/frontend-log.service';
 
 interface ISystemRewardsForm {
@@ -382,7 +384,8 @@ export class AdminChallengesSystemRewardsComponent extends Form implements OnDes
       const photo = await Camera.getPhoto({
         source: CameraSource.Photos,
         resultType: CameraResultType.Uri,
-        quality: 90,
+        quality: 70,
+        width: 1280,
       });
 
       if (!photo.webPath) {
@@ -393,9 +396,16 @@ export class AdminChallengesSystemRewardsComponent extends Form implements OnDes
       const webPath = photo.webPath;
       const blob = await (await fetch(webPath)).blob();
       const extension = photo.format || 'jpeg';
-      const file = new File([blob], `reward-image.${extension}`, {
+      let file = new File([blob], `reward-image.${extension}`, {
         type: blob.type || `image/${extension}`,
       });
+
+      // On web the plugin's width/quality hints don't apply - shrink here so a
+      // multi-MB photo isn't relayed through the API. On native the plugin
+      // already downscaled, so skip the extra re-encode.
+      if (Capacitor.getPlatform() === 'web') {
+        file = await downscaleImageFile(file);
+      }
 
       // Capacitor plugin callbacks aren't always guaranteed to run inside
       // Angular's zone - force it explicitly so the preview/form actually

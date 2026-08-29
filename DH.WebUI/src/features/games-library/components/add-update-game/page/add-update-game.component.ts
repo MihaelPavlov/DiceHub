@@ -21,6 +21,7 @@ import { GameCategoriesService } from '../../../../../entities/games/api/game-ca
 import { IGameCategory } from '../../../../../entities/games/models/game-category.model';
 import { Observable, Subscription, throwError } from 'rxjs';
 import { FormDraftService } from '../../../../../shared/services/form-draft.service';
+import { downscaleImageFile } from '../../../../../shared/helpers/image-resize.helper';
 import { ToastType } from '../../../../../shared/models/toast.model';
 import { Form } from '../../../../../shared/components/form/form.component';
 import { IGameDropdownResult } from '../../../../../entities/games/models/game-dropdown.model';
@@ -204,30 +205,31 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
     this.tenantRouter.navigateTenant(FULL_ROUTE.GAMES.LIBRARY);
   }
 
-  public onFileSelected(event: Event): void {
+  public async onFileSelected(event: Event): Promise<void> {
     const input = event.target as HTMLInputElement;
-    console.log(input.files);
+    const original = input.files?.[0];
 
-    const file = input.files?.[0];
-
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.imagePreview = reader.result as string;
-        this.form.controls.image.patchValue(file.name);
-        this.fileToUpload = file;
-        this.imageError = null;
-        console.log(this.form.controls);
-      };
-      reader.readAsDataURL(file);
-    } else {
+    if (!original) {
       this.imageError = this.translateService.instant(
         'games.game.add_update.controls_display_name.image_required'
       );
       this.fileToUpload = null;
       this.imagePreview = null;
       this.form.controls.image.reset();
+      return;
     }
+
+    // Shrink the phone photo before it ever leaves the device / hits the API.
+    const file = await downscaleImageFile(original);
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.imagePreview = reader.result as string;
+      this.form.controls.image.patchValue(file.name);
+      this.fileToUpload = file;
+      this.imageError = null;
+    };
+    reader.readAsDataURL(file);
   }
 
   public onAdd(): void {

@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Form } from '../../../../shared/components/form/form.component';
+import { downscaleImageFile } from '../../../../shared/helpers/image-resize.helper';
 import {
   FormBuilder,
   FormGroup,
@@ -174,14 +175,14 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
     return `/shared/assets/images/tenant_logos/${logoFileName}`;
   }
 
-  public onLogoSelected(event: Event): void {
+  public async onLogoSelected(event: Event): Promise<void> {
     this.logoError = null;
     const input = event.target as HTMLInputElement;
-    const file = input.files?.[0] ?? null;
+    const original = input.files?.[0] ?? null;
 
-    if (!file) return;
+    if (!original) return;
 
-    if (!GlobalSettingsComponent.AllowedLogoTypes.includes(file.type)) {
+    if (!GlobalSettingsComponent.AllowedLogoTypes.includes(original.type)) {
       this.logoError = this.translateService.instant(
         'venue_application.errors.logo_invalid_type'
       );
@@ -189,13 +190,18 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
       return;
     }
 
-    if (file.size > GlobalSettingsComponent.MaxLogoSizeBytes) {
+    if (original.size > GlobalSettingsComponent.MaxLogoSizeBytes) {
       this.logoError = this.translateService.instant(
         'venue_application.errors.logo_too_large'
       );
       input.value = '';
       return;
     }
+
+    // Preserve PNG transparency; SVG passes through untouched (helper handles it).
+    const file = await downscaleImageFile(original, {
+      mimeType: original.type === 'image/png' ? 'image/png' : 'image/jpeg',
+    });
 
     if (this.logoPreviewUrl) {
       URL.revokeObjectURL(this.logoPreviewUrl);

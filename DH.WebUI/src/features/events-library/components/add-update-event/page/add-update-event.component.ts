@@ -7,6 +7,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Form } from '../../../../../shared/components/form/form.component';
+import { downscaleImageFile } from '../../../../../shared/helpers/image-resize.helper';
 import { Formify } from '../../../../../shared/models/form.model';
 import {
   AbstractControl,
@@ -273,23 +274,27 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
     }
   }
 
-  public onFileSelected(event: Event): void {
+  public async onFileSelected(event: Event): Promise<void> {
     const input = event.target as HTMLInputElement;
-    const file = input.files?.[0];
+    const original = input.files?.[0];
 
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.imagePreview = reader.result as string;
-        this.form.controls.image.patchValue(file.name);
-        this.fileToUpload = file;
-      };
-      reader.readAsDataURL(file);
-    } else {
+    if (!original) {
       this.fileToUpload = null;
       this.imagePreview = null;
       this.form.controls.image.reset();
+      return;
     }
+
+    // Shrink the phone photo before it ever leaves the device / hits the API.
+    const file = await downscaleImageFile(original);
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.imagePreview = reader.result as string;
+      this.form.controls.image.patchValue(file.name);
+      this.fileToUpload = file;
+    };
+    reader.readAsDataURL(file);
   }
 
   public backNavigateBtn() {
