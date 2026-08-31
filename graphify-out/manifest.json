@@ -3720,12 +3720,12 @@
     "semantic_hash": ""
   },
   "DH.WebUI/android/app/build.gradle": {
-    "mtime": 1788028385.1219718,
-    "ast_hash": "e3271fcd68d0289bda9c8e569abb1fd7",
+    "mtime": 1788167549.8924148,
+    "ast_hash": "60a1af0d9e06941e601246c1b5bac875",
     "semantic_hash": ""
   },
   "DH.WebUI/android/app/capacitor.build.gradle": {
-    "mtime": 1788028458.7131522,
+    "mtime": 1788165249.762876,
     "ast_hash": "50eaae28a709e8611a8c26b015b7eb45",
     "semantic_hash": ""
   },
@@ -3740,8 +3740,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/android/app/src/main/java/com/dicehubs/app/MainActivity.java": {
-    "mtime": 1787684815.6839335,
-    "ast_hash": "d968eafcce506bd98e88745191177ffb",
+    "mtime": 1788167572.264244,
+    "ast_hash": "8d0e2c285d255a46871c376394d98ffd",
     "semantic_hash": ""
   },
   "DH.WebUI/android/app/src/test/java/com/getcapacitor/myapp/ExampleUnitTest.java": {
@@ -3755,7 +3755,7 @@
     "semantic_hash": ""
   },
   "DH.WebUI/android/capacitor.settings.gradle": {
-    "mtime": 1788028458.7121522,
+    "mtime": 1788165249.762876,
     "ast_hash": "b66e108568f7ac1ce6cdbcbc5a07ff4e",
     "semantic_hash": ""
   },
@@ -3770,8 +3770,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/android/variables.gradle": {
-    "mtime": 1787684815.6920853,
-    "ast_hash": "7f844007d51d16140dbd0903de821b18",
+    "mtime": 1788167545.2374501,
+    "ast_hash": "d0d286755031d47013481846e6607f75",
     "semantic_hash": ""
   },
   "DH.WebUI/angular.json": {
@@ -5100,8 +5100,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/login/page/login.component.ts": {
-    "mtime": 1788027031.8374593,
-    "ast_hash": "3ea3bb68a98317a3ceb13801b26eecbf",
+    "mtime": 1788167611.7179418,
+    "ast_hash": "57d8aea30b5be7db57bad85f529d2047",
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/profile/guards/settings-owner-access.guard.ts": {
@@ -8822,6 +8822,16 @@
   "DH.WebUI/src/shared/helpers/time-zone.helper.ts": {
     "mtime": 1788161228.794426,
     "ast_hash": "9354ae6148c516384bc5ce6bbacce274",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/android/app/src/main/java/com/dicehubs/app/CredentialManagerPlugin.java": {
+    "mtime": 1788167568.5322726,
+    "ast_hash": "6d78b75e112c078aa904c64a24da3079",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/src/shared/plugins/credential-manager.plugin.ts": {
+    "mtime": 1788167582.971162,
+    "ast_hash": "3f5df737d39e590d7bb51435f70b3279",
     "semantic_hash": ""
   }
 }

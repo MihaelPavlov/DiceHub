@@ -24,6 +24,8 @@ import { ChallengeOverlayService } from '../../../shared/services/challenges-ove
 import { ChallengeHubService } from '../../../entities/challenges/api/challenge-hub.service';
 import { TenantRouter } from '../../../shared/helpers/tenant-router';
 import { TenantContextService } from '../../../shared/services/tenant-context.service';
+import { Capacitor } from '@capacitor/core';
+import { CredentialManager } from '../../../shared/plugins/credential-manager.plugin';
 
 interface ILoginForm {
   email: string;
@@ -112,6 +114,8 @@ export class LoginComponent extends Form implements OnInit {
       this.clubName = this.tenantContextService.tenantName;
     }
 
+    this.tryPrefillFromSavedCredential();
+
     // Always resolve club branding: the club's owner may have uploaded a
     // custom logo, which replaces the default DiceHub mark on the login card.
     this.tenantSettingsService.getClubName().subscribe({
@@ -154,17 +158,48 @@ export class LoginComponent extends Form implements OnInit {
   }
 
   /**
+   * On native Android the WebView cannot reach the Credential Management API,
+   * so ask the system credential provider (Google Password Manager et al.)
+   * directly for a saved account and drop it into the form. We do NOT
+   * auto-submit - the user still taps "Log in" after seeing what was filled.
+   * Android-only, best-effort: anything going wrong just means no pre-fill.
+   */
+  private async tryPrefillFromSavedCredential(): Promise<void> {
+    if (Capacitor.getPlatform() !== 'android') return;
+
+    try {
+      const { username, password } = await CredentialManager.getPassword();
+      if (username && password && !this.form.dirty) {
+        this.form.patchValue({ email: username, password });
+      }
+    } catch {
+      // No provider / nothing saved / user dismissed the sheet.
+    }
+  }
+
+  /**
    * This app's login button is type="button" (not "submit"), and the whole
    * flow runs through Angular's HttpClient rather than a real HTML form POST -
    * so the browser/WebView's native "detect a form submission, offer to save
-   * the password" heuristic never has anything to trigger on. The Credential
-   * Management API (supported by Chrome/Edge on desktop and Android, which
-   * covers both browser/PWA use and this app's Capacitor WebView) triggers
-   * the same native save-password prompt explicitly instead. No-op on
-   * browsers without support (e.g. Safari) or if the user declines - either
-   * way it must never affect the login flow itself.
+   * the password" heuristic never has anything to trigger on.
+   *
+   * On native Android we hand the credential to the AndroidX Credential
+   * Manager (the Credential Management API below does not exist in the Android
+   * System WebView). Elsewhere - browser and installed PWA on Chrome/Edge -
+   * the Credential Management API triggers the same native save-password
+   * prompt. No-op on browsers without support (e.g. Safari) or if the user
+   * declines; either way it must never affect the login flow itself.
    */
   private async savePasswordCredential(email: string, password: string): Promise<void> {
+    if (Capacitor.getPlatform() === 'android') {
+      try {
+        await CredentialManager.savePassword({ username: email, password });
+      } catch {
+        // Best-effort only.
+      }
+      return;
+    }
+
     const PasswordCredentialCtor = (window as any).PasswordCredential;
     if (!('credentials' in navigator) || !PasswordCredentialCtor) {
       return;
