@@ -1,35 +1,38 @@
-@use "../../../../shared/assets/styles/palette";
-
 .wrapper_tables {
   display: flex;
   width: 100%;
   flex-direction: column;
   align-items: center;
   margin-bottom: 7rem;
+  gap: 0.85rem;
+
   .no-records {
     font-size: 1.2rem;
     text-align: center;
     margin: 0 auto;
     margin-top: 6rem;
     width: 80%;
+    color: var(--games-muted);
   }
 
   &__item {
     width: 90%;
-    border-bottom: 0.2rem solid palette.$main-nav-color;
-    padding: 0.5rem;
+    padding: 0.85rem;
+    border: 1px solid var(--games-border);
+    border-radius: 1.25rem;
+    background: var(--games-surface);
     word-break: break-word;
 
     .item_top_part {
       display: flex;
+      gap: 0.75rem;
 
       .image {
         img {
-          width: 7rem;
-
+          width: 3.6rem;
+          height: 3.6rem;
           object-fit: cover;
-          border-radius: 20px;
-          border: 0.1rem solid palette.$main-background-color;
+          border-radius: 0.85rem;
         }
       }
     }
@@ -37,39 +40,68 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      gap: 0.4rem;
       width: 80%;
     }
 
     .chips {
       display: flex;
       align-items: center;
-      margin: 0.5rem 0;
-      app-chip {
-        margin-right: 0.4rem;
-      }
+      gap: 0.4rem;
+      margin: 0.25rem 0;
     }
 
     .text {
       display: flex;
       flex-direction: column;
-      font-size: 1.2rem;
+      gap: 0.15rem;
+      font-size: 0.9rem;
+      color: var(--games-muted);
+
+      span:first-child {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--games-text);
+      }
     }
 
     .info-btn {
       display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      margin-top: 0.75rem;
 
       .image_locked {
         display: flex;
-        margin-left: 0.3rem;
         img {
-          width: 2rem;
-          height: 2rem;
-          object-fit: cover;
-          border-radius: 5rem;
-          border: 0.1rem solid palette.$main-background-color;
+          width: 1.85rem;
+          height: 1.85rem;
+          object-fit: contain;
+          border-radius: 50%;
+          background: var(--games-surface-2);
+          border: 1px solid var(--games-border);
+          padding: 0.35rem;
         }
       }
     }
+  }
+}
+
+.join-table-btn {
+  appearance: none;
+  border: none;
+  border-radius: 999px;
+  width: 100%;
+  padding: 0.7rem 0;
+  background: var(--games-amber);
+  color: #2b1a02;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
 }
 
@@ -87,9 +119,9 @@
       justify-content: center;
       margin: 0;
       width: 100%;
-      border: 1px solid palette.$main-gray-color;
-      border-radius: 0.5rem;
-      background: palette.$main-nav-color;
+      border: 1px solid var(--games-border);
+      border-radius: 1.25rem;
+      background: var(--games-surface);
     }
 
     &__item {
@@ -99,19 +131,20 @@
       align-items: center;
       width: 100%;
       padding: 0.85rem;
-      border: 1px solid palette.$main-gray-color;
-      border-radius: 0.5rem;
-      background: palette.$main-nav-color;
+      border: 1px solid var(--games-border);
+      border-radius: 1.25rem;
+      background: var(--games-surface);
+      box-shadow: var(--games-shadow);
       transition: border-color 0.2s ease, transform 0.2s ease;
 
       &:hover {
-        border-color: palette.$main-blue-color;
+        border-color: var(--games-amber);
         transform: translateY(-1px);
       }
 
       .item_top_part {
         display: grid;
-        grid-template-columns: minmax(0, 1fr) 7rem;
+        grid-template-columns: minmax(0, 1fr) 5rem;
         gap: 1rem;
         align-items: center;
       }
@@ -132,16 +165,22 @@
       }
 
       .image img {
-        width: 7rem;
-        height: 7rem;
-        border-radius: 0.5rem;
-        border-color: palette.$main-gray-color;
+        width: 5rem;
+        height: 5rem;
+        border-radius: 0.85rem;
       }
 
       .info-btn {
         justify-content: flex-end;
         align-items: center;
         min-width: 9rem;
+        margin-top: 0;
+      }
+
+      .join-table-btn {
+        width: auto;
+        min-width: 8rem;
+        padding: 0.65rem 1.25rem;
       }
     }
   }

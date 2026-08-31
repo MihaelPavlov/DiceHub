@@ -18,6 +18,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../../shared/services/language.service';
 import { SupportLanguages } from '../../../../entities/common/models/support-languages.enum';
 import { TenantRouter } from '../../../../shared/helpers/tenant-router';
+import { TenantContextService } from '../../../../shared/services/tenant-context.service';
 
 @Component({
   selector: 'app-challenges-rewards',
@@ -38,7 +39,8 @@ export class ChallengesRewardsComponent implements OnInit {
     private readonly dialog: MatDialog,
     private readonly tenantRouter: TenantRouter,
     private readonly translateService: TranslateService,
-    private readonly languageService: LanguageService
+    private readonly languageService: LanguageService,
+    private readonly tenantContextService: TenantContextService
   ) {}
 
   public ngOnInit(): void {
@@ -63,9 +65,17 @@ export class ChallengesRewardsComponent implements OnInit {
     this.tenantRouter.navigateTenant(FULL_ROUTE.CHALLENGES.CHALLENGES_HOME);
   }
 
+  public navigateToQrCodeScanner(): void {
+    this.tenantRouter.navigateTenant('/qr-code-scanner');
+  }
+
+  public getTenantLink(path: string): string {
+    return `${this.tenantContextService.tenantId}/${path}`;
+  }
+
   public openDialog(id: number): void {
     this.dialog.open(UserRewardQrCodeDialog, {
-      width: '17rem',
+      width: '19rem',
       data: {
         Id: id,
         Name: 'UserReward',

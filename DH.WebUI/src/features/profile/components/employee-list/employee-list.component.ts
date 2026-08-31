@@ -89,6 +89,7 @@ export class EmployeeListComponent implements OnDestroy {
     if (event) event.stopPropagation();
 
     const dialogRef = this.dialog.open(EmployeeConfirmDeleteDialog, {
+      panelClass: 'confirm-sheet-pane',
       data: { employeeId },
     });
 

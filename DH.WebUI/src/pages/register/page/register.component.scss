@@ -1,50 +1,106 @@
-@use "../../.././shared/assets/styles/palette";
-
 .wrapper {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  padding: 1.5rem 1.25rem 2.5rem;
+  gap: 1.5rem;
 }
 
 .browser-panel {
-  display: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.browser-panel__eyebrow {
+  color: var(--games-amber);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.browser-panel h1 {
+  margin: 0;
+  color: var(--games-text);
+  font-size: 1.6rem;
+  line-height: 1.15;
+}
+
+.browser-panel p {
+  margin: 0;
+  color: var(--games-muted);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.browser-panel__steps {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.browser-panel__steps span {
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  background: var(--games-surface);
+  border: 1px solid var(--games-border);
+  color: var(--games-muted);
+  font-size: 0.68rem;
+  font-weight: 600;
+}
+
+.browser-panel__steps span:first-child {
+  background: var(--games-amber);
+  border-color: var(--games-amber);
+  color: #2b1a02;
 }
 
 .auth-card {
-  display: contents;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.25rem;
+  border: 1px solid var(--games-border);
+  border-radius: 1.5rem;
+  background: var(--games-surface);
+  box-shadow: var(--games-shadow);
 }
 
 .markup {
-  color: palette.$main-blue-color;
+  color: var(--games-amber);
+  cursor: pointer;
 }
 
 .interactive-option {
   display: flex;
-  justify-content: center;
-  margin-top: 3rem;
+  justify-content: flex-start;
 
   .icon_wrapper {
-    width: 5rem;
-    height: 5rem;
-    border-radius: 50px;
-    background: palette.$main-blue-color;
-    box-shadow: 0 0 0 12px var(--background-color);
+    width: 2.65rem;
+    height: 2.65rem;
+    border-radius: 999px;
+    background: var(--games-surface);
+    border: 1px solid var(--games-border);
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
   }
   .icon {
-    width: 3rem;
-    height: 3rem;
+    width: 1.15rem;
+    height: 1.15rem;
+    fill: var(--games-text);
   }
 }
 
 .header {
-  margin: 1rem;
+  margin: 0;
   display: flex;
   justify-content: center;
   font-size: 1.5rem;
+  color: var(--games-text);
 }
 
 .tenant-context {
@@ -52,36 +108,57 @@
   flex-direction: column;
   align-items: center;
   gap: 0.2rem;
-  margin: 1rem 1rem 0;
+  margin: 0;
   text-align: center;
 
   span {
-    color: palette.$main-font-gray-color;
-    font-size: 0.8rem;
+    color: var(--games-muted);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
     text-transform: uppercase;
   }
 
   strong {
-    color: palette.$main-blue-color;
-    font-size: 1.35rem;
+    color: var(--games-text);
+    font-size: 1.1rem;
   }
 }
 
 .container {
   display: flex;
   flex-direction: column;
-  margin: 2rem;
-  margin-bottom: 3rem;
-  font-size: palette.$main-font-color;
+  margin: 0;
+  color: var(--games-text);
+}
+
+.input-field {
+  label {
+    color: var(--games-muted);
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+
+  input {
+    border: 1px solid var(--games-border);
+    background: var(--games-surface-2);
+    color: var(--games-text);
+    border-radius: 0.9rem;
+  }
+
+  input:focus {
+    outline: none;
+    border-color: var(--games-amber);
+  }
 }
 
 .btn-container {
   display: flex;
   justify-content: center;
-  margin: 1rem;
+  margin-top: 0.5rem;
 
   button {
-    width: 60%;
+    width: 100%;
   }
 }
 
@@ -90,6 +167,8 @@
   flex-direction: column;
   justify-content: center;
   text-align: center;
+  color: var(--games-muted);
+  font-size: 0.85rem;
 }
 
 .errors {
@@ -97,15 +176,17 @@
   justify-content: center;
   margin-top: 1rem;
   margin-bottom: 0;
-  font-size: 1.1rem;
+  font-size: 0.9rem;
+  color: var(--games-coral);
   text-align: center;
   flex-wrap: wrap;
 }
 
 .resend {
   font-weight: 600;
-  color: palette.$main-blue-color;
-  border-bottom: 0.15rem solid palette.$main-blue-color;
+  color: var(--games-coral);
+  border-bottom: 0.15rem solid var(--games-coral);
+  cursor: pointer;
 }
 
 @media (min-width: 900px) {
@@ -120,38 +201,31 @@
   }
 
   .browser-panel {
-    display: flex;
     min-height: 36rem;
     padding: 3rem;
-    border-radius: 0.5rem;
+    border-radius: 1.5rem;
+    border: 1px solid var(--games-border);
     background:
-      linear-gradient(135deg, rgba(117, 160, 255, 0.2), transparent 42%),
-      palette.$main-nav-color;
-    flex-direction: column;
+      radial-gradient(circle at 15% 0%, var(--games-amber-soft), transparent 55%),
+      var(--games-surface);
     justify-content: flex-end;
+    gap: 1rem;
   }
 
   .browser-panel__eyebrow {
     margin-bottom: auto;
-    color: palette.$main-blue-color;
     font-size: 0.85rem;
-    font-weight: 700;
-    letter-spacing: 0;
-    text-transform: uppercase;
   }
 
   .browser-panel h1 {
     max-width: 34rem;
     margin: 0 0 1rem;
-    color: palette.$main-font-color;
     font-size: 2.5rem;
     line-height: 1.08;
   }
 
   .browser-panel p {
     max-width: 31rem;
-    margin: 0;
-    color: palette.$main-font-gray-color;
     font-size: 1.05rem;
     line-height: 1.55;
   }
@@ -164,19 +238,13 @@
 
   .browser-panel__steps span {
     padding: 0.75rem 0.9rem;
-    border: 1px solid palette.$main-gray-color;
-    border-radius: 0.4rem;
-    color: palette.$main-font-color;
-    background: rgba(255, 255, 255, 0.04);
+    border-radius: 0.65rem;
     font-size: 0.9rem;
   }
 
   .auth-card {
-    display: flex;
     padding: 2rem;
-    border-radius: 0.5rem;
-    background: palette.$main-nav-color;
-    flex-direction: column;
+    border-radius: 1.5rem;
     justify-content: center;
   }
 
@@ -184,31 +252,13 @@
     margin-top: 0;
   }
 
-  .interactive-option .icon_wrapper {
-    box-shadow: none;
-  }
-
   .container {
     width: 100%;
     max-width: 23rem;
-    margin: 1.5rem auto 0;
-  }
-
-  .input-field input {
-    border: 1px solid palette.$main-gray-color;
-    background: palette.$main-background-color;
-  }
-
-  .input-field input:focus {
-    outline: none;
-    border-color: palette.$main-blue-color;
+    margin: 0.5rem auto 0;
   }
 
   .tenant-context {
-    margin-top: 1.25rem;
-  }
-
-  .btn-container button {
-    width: 100%;
+    margin-top: 0;
   }
 }

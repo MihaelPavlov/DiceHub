@@ -1,12 +1,12 @@
-@use "../../../shared/assets/styles/palette";
+// Fonts (Bricolage Grotesque + Sora) are imported once globally in
+// shared/assets/styles/styles.scss - importing them again here would inline
+// the remote stylesheet into this component's styles and blow the
+// anyComponentStyle budget.
 
-// Big_screen version scss
-$primary-color: #b9c4ff;
-$secondary-color: #8ea2ff;
-$background-color: #0e111b;
-$card-background: #1a1f2e;
-$button-bg: #1e2333;
-$button-hover: #2a3150;
+:host {
+  display: block;
+  font-family: "Sora", ui-sans-serif, system-ui, sans-serif;
+}
 
 .mobile-screen {
   display: none;
@@ -16,8 +16,7 @@ $button-hover: #2a3150;
   display: block;
 }
 
-// When screen width is 768px or less, show mobile layout
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .mobile-screen {
     display: block;
   }
@@ -26,346 +25,1348 @@ $button-hover: #2a3150;
     display: none;
   }
 }
-.landing-mobile {
-  background-color: $background-color;
-  .landing-header {
+
+// ============ Shared building blocks (used by both breakpoints) ============
+
+.lp-nav,
+.lp-hero,
+.lp-built-in,
+.lp-features,
+.lp-how,
+.lp-owners,
+.lp-why,
+.lp-cta,
+.lp-partner,
+.lp-footer {
+  position: relative;
+}
+
+.lp-eyebrow {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--games-amber);
+  margin-bottom: 0.5rem;
+
+  &--teal {
+    color: var(--games-teal);
+  }
+  &--coral {
+    color: var(--games-coral);
+  }
+  &--violet {
+    color: var(--games-violet);
+  }
+}
+
+.lp-section-title {
+  font-family: "Bricolage Grotesque", "Sora", sans-serif;
+  font-weight: 800;
+  margin: 0;
+  color: var(--games-text);
+  line-height: 1.18;
+}
+
+.lp-section-subtitle {
+  color: var(--games-muted);
+  line-height: 1.6;
+  margin: 0.75rem 0 0;
+}
+
+.lp-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: "Sora", sans-serif;
+  font-weight: 700;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+
+  &--primary {
+    color: var(--games-blue-ink);
+    background: linear-gradient(135deg, var(--games-blue-light), var(--games-blue));
+    box-shadow: 0 10px 24px -10px var(--games-blue-glow);
+  }
+
+  &--secondary {
+    color: var(--games-text);
+    background: var(--games-surface-2);
+    border: 1px solid var(--games-border);
+  }
+
+  &--ghost {
+    color: var(--games-muted);
+    background: transparent;
+    border: 1px solid var(--games-border);
+  }
+
+  &--light {
+    color: #2b1502;
+    background: #fff8ec;
+  }
+
+  &--outline-light {
+    color: #fff8ec;
+    background: transparent;
+    border: 1px solid rgba(255, 248, 236, 0.4);
+  }
+
+  &--owner {
+    color: #2b1502;
+    background: linear-gradient(135deg, var(--games-coral), var(--games-violet));
+    box-shadow: 0 10px 22px -10px rgba(141, 102, 214, 0.5);
+    width: fit-content;
+  }
+
+  &--sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.8125rem;
+  }
+
+  &--lg {
+    padding: 0.95rem 1.75rem;
+    font-size: 0.9375rem;
+  }
+
+  &--block {
+    width: 100%;
+  }
+
+  &:not(&--sm):not(&--lg) {
+    padding: 0.75rem 1.375rem;
+    font-size: 0.875rem;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.lp-bullets {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.lp-bullet {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  color: var(--games-muted);
+  font-size: 0.875rem;
+  line-height: 1.5;
+
+  strong {
+    color: var(--games-text);
+    font-weight: 700;
+  }
+
+  &__check {
+    flex-shrink: 0;
+    width: 1.375rem;
+    height: 1.375rem;
+    border-radius: 999px;
+    background: var(--games-teal-soft);
+    color: var(--games-teal);
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-left: 1.5rem;
-    margin-right: 1rem;
-    padding-top: 2.5rem;
-    padding-bottom: 1rem;
-    .header {
-      font-size: 2rem;
-      font-weight: 700;
-      color: $primary-color;
-    }
-    img {
-      position: absolute;
-      width: 8rem;
-      height: 8rem;
-      object-fit: cover;
-    }
-    .img-left {
-      left: 0;
-    }
-    .img-right {
-      right: 0;
-      transform: scaleX(-1);
+    margin-top: 0.0625rem;
+  }
+}
+
+.lp-feature__icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.875rem;
+
+  &--amber {
+    background: var(--games-amber-soft);
+    color: var(--games-amber);
+  }
+  &--teal {
+    background: var(--games-teal-soft);
+    color: var(--games-teal);
+  }
+  &--violet {
+    background: var(--games-violet-soft);
+    color: var(--games-violet);
+  }
+  &--coral {
+    background: var(--games-coral-soft);
+    color: var(--games-coral);
+  }
+}
+
+.lp-why-card {
+  background: var(--games-surface);
+  border: 1px solid var(--games-border);
+  border-radius: 1.25rem;
+  box-shadow: var(--games-shadow);
+  color: var(--games-text);
+  line-height: 1.6;
+
+  strong {
+    color: var(--games-text);
+  }
+
+  p {
+    margin: 0;
+    color: var(--games-muted);
+  }
+}
+
+.lp-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+
+  label {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--games-muted);
+
+    &.required::after {
+      content: " *";
+      color: var(--games-coral);
     }
   }
 
-  .wrapper_library {
-    display: flex;
-    flex-direction: column;
-    margin: 1rem;
-    text-align: center;
+  input,
+  textarea {
+    font-family: inherit;
+    font-size: 0.875rem;
+    color: var(--games-text);
+    background: var(--games-bg);
+    border: 1px solid var(--games-border);
+    border-radius: 0.75rem;
+    padding: 0.75rem 0.875rem;
 
-    .sub-header {
-      margin: 1rem;
-      color: palette.$main-font-gray-color;
+    &::placeholder {
+      color: var(--games-faint);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: var(--games-amber);
     }
   }
-  .list {
+
+  textarea {
+    min-height: 6rem;
+    resize: vertical;
+  }
+}
+
+.lp-field__error {
+  font-size: 0.8125rem;
+  color: var(--games-coral);
+}
+
+.lp-partner {
+  h2 {
+    font-family: "Bricolage Grotesque", "Sora", sans-serif;
+    font-weight: 800;
+    color: var(--games-text);
+    margin: 0 0 0.75rem;
+  }
+
+  &__text {
+    color: var(--games-muted);
+    line-height: 1.6;
+    margin: 0 0 1.5rem;
+  }
+
+  form {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1rem;
+  }
+}
 
-    .item {
+// ============ MOBILE ============
+
+.landing-mobile {
+  background: var(--games-bg);
+  color: var(--games-text);
+
+  .lp-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.125rem 1.25rem;
+    border-bottom: 1px solid var(--games-border);
+
+    &__brand {
       display: flex;
       align-items: center;
-      justify-content: center;
+      gap: 0.5rem;
 
-      .item-icon {
-        background: $card-background;
-        width: 6rem;
-        height: 6rem;
-        margin-right: 1rem;
-        border-radius: 1rem;
+      img {
+        width: 1.875rem;
+        height: 1.875rem;
+        object-fit: cover;
+        border-radius: 0.625rem;
+      }
+
+      span {
+        font-family: "Bricolage Grotesque", sans-serif;
+        font-weight: 800;
+        font-size: 1.0625rem;
+      }
+    }
+
+    &__actions {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+  }
+
+  .lp-hero {
+    padding: 2rem 1.375rem 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+
+    &__badge {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      width: fit-content;
+      background: var(--games-surface);
+      border: 1px solid var(--games-border);
+      border-radius: 999px;
+      padding: 0.4375rem 0.875rem 0.4375rem 0.5rem;
+      font-size: 0.71875rem;
+      font-weight: 600;
+      color: var(--games-muted);
+
+      &-icon {
+        width: 1.25rem;
+        height: 1.25rem;
+        border-radius: 999px;
+        background: var(--games-teal-soft);
+        color: var(--games-teal);
         display: flex;
         align-items: center;
-        box-shadow: 0 0 1rem rgba(137, 160, 255, 0.7);
-        img {
-          margin: 0 auto;
-          width: 6rem;
-          object-fit: cover;
-        }
+        justify-content: center;
+        flex-shrink: 0;
       }
-      .item-info {
-        width: 12.5rem;
-      }
-      .item-header {
-        text-align: left;
-      }
-      .item-sub-header {
-        color: palette.$main-font-gray-color;
-        margin-top: 0.5rem;
+    }
+
+    &__title {
+      font-family: "Bricolage Grotesque", sans-serif;
+      font-weight: 800;
+      font-size: 2.125rem;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      margin: 0;
+    }
+
+    &__subtitle {
+      font-size: 0.90625rem;
+      line-height: 1.6;
+      color: var(--games-muted);
+      margin: 0;
+    }
+
+    &__actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.625rem;
+
+      .lp-btn {
+        min-height: 2.75rem;
       }
     }
   }
 
-  .how-it-works-btn {
+  .lp-built-in {
+    padding: 2rem 1.375rem;
+
+    &__grid {
+      background: var(--games-surface);
+      border: 1px solid var(--games-border);
+      border-radius: 1.25rem;
+      padding: 1.25rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.125rem;
+    }
+
+    &__item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.1875rem;
+    }
+
+    &__value {
+      font-family: "Bricolage Grotesque", sans-serif;
+      font-weight: 800;
+      font-size: 1.0625rem;
+
+      &--amber {
+        color: var(--games-amber);
+      }
+      &--teal {
+        color: var(--games-teal);
+      }
+      &--violet {
+        color: var(--games-violet);
+      }
+      &--coral {
+        color: var(--games-coral);
+      }
+    }
+
+    &__label {
+      font-size: 0.6875rem;
+      color: var(--games-muted);
+      font-weight: 500;
+    }
+  }
+
+  .lp-owners {
+    margin: 0 1.375rem 2.5rem;
+    background: linear-gradient(160deg, var(--games-surface), var(--games-surface-2));
+    border: 1px solid var(--games-border);
+    border-radius: 1.5rem;
+    padding: 1.625rem 1.375rem;
+    box-shadow: var(--games-shadow);
     display: flex;
-    justify-content: center;
-    margin: 2rem;
-  }
-  .btns-container {
-    display: flex;
-    justify-content: space-evenly;
-  }
-  .btn {
-    background: $button-bg;
-    border: 1px solid $secondary-color;
-    padding: 0.5rem 1.2rem;
-    border-radius: 8px;
-    color: white;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.3s, box-shadow 0.3s;
-    box-shadow: 0 0 10px rgba(137, 160, 255, 0.4);
-    &:hover {
-      background: $button-hover;
-      box-shadow: 0 0 20px rgba(137, 160, 255, 0.6);
-    }
-  }
-  .partner-section {
-    text-align: center;
-    padding: 2rem;
-    background-color: #1c1c1e;
-    border-radius: 1rem;
-    margin: 2rem;
-    color: #efefef;
+    flex-direction: column;
+    gap: 1.125rem;
 
-    .partner-text {
-      color: palette.$main-font-gray-color;
-      margin-bottom: 1rem;
+    .lp-btn--owner {
+      align-self: flex-start;
     }
   }
 
-  .partner-section h2 {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-  }
+  .lp-features {
+    padding: 0 1.375rem 2.75rem;
 
-  // .partner-form {
-  //   display: flex;
-  //   justify-content: center;
-  //   flex-direction: column;
-  // }
-  .partner-container {
-    padding: 2rem;
-    .partner-form {
-      padding: 2rem;
-      background: $card-background;
-      border-radius: 1rem;
-      box-shadow: 0 0 20px rgba(137, 160, 255, 0.2);
-      .partner-text {
-        color: palette.$main-font-gray-color;
-        margin-bottom: 1rem;
-      }
-      h2 {
-        color: $primary-color;
-        margin-bottom: 1.5rem;
-        text-align: center;
+    .lp-feature-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.375rem;
+      margin-top: 1.25rem;
+    }
+
+    .lp-feature {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.875rem;
+
+      &__icon {
+        width: 2.75rem;
+        height: 2.75rem;
       }
 
-      form {
+      &__body {
         display: flex;
         flex-direction: column;
-        gap: 1rem;
-
-        input,
-        textarea {
-          padding: 0.75rem;
-          background: #141828;
-          border: 1px solid $secondary-color;
-          border-radius: 8px;
-          color: white;
-        }
-
-        button {
-          padding: 0.75rem;
-          background: $button-bg;
-          border: 1px solid $secondary-color;
-          color: white;
-          border-radius: 8px;
-          font-weight: bold;
-          cursor: pointer;
-          transition: background 0.3s, box-shadow 0.3s;
-          box-shadow: 0 0 10px rgba(137, 160, 255, 0.4);
-          &:hover {
-            background: $button-hover;
-            box-shadow: 0 0 20px rgba(137, 160, 255, 0.6);
-          }
-        }
+        gap: 0.25rem;
       }
+
+      &__title {
+        font-weight: 700;
+        font-size: 0.9375rem;
+      }
+
+      &__desc {
+        font-size: 0.8125rem;
+        color: var(--games-muted);
+        line-height: 1.55;
+      }
+    }
+  }
+
+  .lp-how {
+    padding: 0 1.375rem 2.75rem;
+
+    .lp-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 1.125rem;
+      margin-top: 1.25rem;
+    }
+
+    .lp-step {
+      display: flex;
+      gap: 0.875rem;
+
+      &__num {
+        flex-shrink: 0;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 0.625rem;
+        background: var(--games-surface-2);
+        border: 1px solid var(--games-border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Bricolage Grotesque", sans-serif;
+        font-weight: 800;
+        font-size: 0.875rem;
+        color: var(--games-amber);
+      }
+
+      &__body {
+        display: flex;
+        flex-direction: column;
+        gap: 0.1875rem;
+      }
+
+      &__title {
+        font-weight: 700;
+        font-size: 0.9375rem;
+      }
+
+      &__desc {
+        font-size: 0.8125rem;
+        color: var(--games-muted);
+        line-height: 1.55;
+      }
+    }
+  }
+
+  .lp-why {
+    padding: 0 1.375rem 2.75rem;
+
+    .lp-why-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 0.875rem;
+      margin-top: 1.25rem;
+    }
+
+    .lp-why-card {
+      padding: 1.125rem;
+      font-size: 0.84375rem;
+    }
+  }
+
+  .lp-cta {
+    padding: 0 1.375rem 2.75rem;
+
+    &__card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 1.5rem;
+      padding: 2rem 1.5rem;
+      background: linear-gradient(135deg, #1a2e4d, #13203d);
+      display: flex;
+      flex-direction: column;
+      gap: 1.125rem;
+
+      h2 {
+        font-family: "Bricolage Grotesque", sans-serif;
+        font-weight: 800;
+        font-size: 1.4375rem;
+        color: #fff8ec;
+        margin: 0 0 0.5rem;
+      }
+
+      p {
+        font-size: 0.8125rem;
+        color: rgba(255, 248, 236, 0.85);
+        margin: 0;
+        line-height: 1.55;
+      }
+    }
+
+    &__actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.625rem;
+    }
+  }
+
+  .lp-partner {
+    margin: 0 1.375rem 2.75rem;
+    background: var(--games-surface);
+    border: 1px solid var(--games-border);
+    border-radius: 1.5rem;
+    padding: 1.625rem 1.375rem;
+    box-shadow: var(--games-shadow);
+  }
+
+  .lp-footer {
+    padding: 2rem 1.375rem;
+    border-top: 1px solid var(--games-border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    text-align: center;
+
+    &__brand {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      img {
+        width: 1.625rem;
+        height: 1.625rem;
+        border-radius: 0.5rem;
+      }
+
+      span {
+        font-family: "Bricolage Grotesque", sans-serif;
+        font-weight: 800;
+        font-size: 0.9375rem;
+      }
+    }
+
+    &__tagline,
+    &__copyright {
+      font-size: 0.75rem;
+      color: var(--games-faint);
     }
   }
 }
 
-// Big_screen version scss
+// ============ DESKTOP ============
+
 .landing-big-screen {
-  background-color: $background-color;
-  color: white;
+  background: var(--games-bg);
+  color: var(--games-text);
   min-height: 100vh;
-  padding: 2rem;
-  font-family: "Segoe UI", sans-serif;
-  app-language-switch {
-    align-items: center;
-    display: flex;
-  }
 
-  .header {
+  .lp-nav {
     display: flex;
+    align-items: center;
     justify-content: space-between;
-    align-items: center;
+    padding: 1.5rem clamp(1.5rem, 5vw, 7.5rem);
+    border-bottom: 1px solid var(--games-border);
 
-    .logo {
+    &__brand {
       display: flex;
       align-items: center;
+      gap: 0.6875rem;
 
-      .logo-icon {
-        position: absolute;
-        width: 7rem;
-        margin-right: 0.5rem;
+      img {
+        width: 2.375rem;
+        height: 2.375rem;
+        object-fit: cover;
+        border-radius: 0.75rem;
       }
 
       span {
-        position: absolute;
-        left: 10rem;
-        font-size: 1.5rem;
-        font-weight: bold;
-        color: $primary-color;
+        font-family: "Bricolage Grotesque", sans-serif;
+        font-weight: 800;
+        font-size: 1.1875rem;
       }
     }
 
-    .auth-buttons {
+    &__links {
       display: flex;
-      gap: 1rem;
+      align-items: center;
+      gap: 2.375rem;
 
-      .btn {
-        background: $button-bg;
-        border: 1px solid $secondary-color;
-        padding: 0.5rem 1.2rem;
-        border-radius: 8px;
-        color: white;
+      a {
+        font-size: 0.875rem;
         font-weight: 600;
-        cursor: pointer;
-        transition: background 0.3s, box-shadow 0.3s;
-        box-shadow: 0 0 10px rgba(137, 160, 255, 0.4);
+        color: var(--games-muted);
+        text-decoration: none;
+
         &:hover {
-          background: $button-hover;
-          box-shadow: 0 0 20px rgba(137, 160, 255, 0.6);
+          color: var(--games-text);
+        }
+      }
+    }
+
+    &__actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+  }
+
+  .lp-hero {
+    display: flex;
+    align-items: center;
+    gap: 4rem;
+    padding: clamp(3rem, 8vw, 6.875rem) clamp(1.5rem, 5vw, 7.5rem) 6.25rem;
+
+    &__copy {
+      display: flex;
+      flex-direction: column;
+      gap: 1.625rem;
+      max-width: 35rem;
+      flex-shrink: 0;
+    }
+
+    &__badge {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      width: fit-content;
+      background: var(--games-surface);
+      border: 1px solid var(--games-border);
+      border-radius: 999px;
+      padding: 0.4375rem 0.875rem 0.4375rem 0.5rem;
+      font-size: 0.78125rem;
+      font-weight: 600;
+      color: var(--games-muted);
+
+      &-icon {
+        width: 1.375rem;
+        height: 1.375rem;
+        border-radius: 999px;
+        background: var(--games-teal-soft);
+        color: var(--games-teal);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+    }
+
+    &__title {
+      font-family: "Bricolage Grotesque", sans-serif;
+      font-weight: 800;
+      font-size: clamp(2.25rem, 3.4vw, 3.25rem);
+      line-height: 1.08;
+      letter-spacing: -0.01em;
+      margin: 0;
+    }
+
+    &__subtitle {
+      font-size: 1.03125rem;
+      line-height: 1.6;
+      color: var(--games-muted);
+      margin: 0;
+    }
+
+    &__actions {
+      display: flex;
+      align-items: center;
+      gap: 0.875rem;
+    }
+
+    &__visual {
+      position: relative;
+      flex: 1;
+      max-width: 34rem;
+      height: 40rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 0;
+    }
+
+    &__glow {
+      position: absolute;
+      width: 26.25rem;
+      height: 26.25rem;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--games-blue-soft), transparent 70%);
+      filter: blur(10px);
+    }
+
+    &__leaderboard {
+      position: absolute;
+      right: 1.125rem;
+      top: 1.75rem;
+      width: 15.625rem;
+      background: var(--games-surface);
+      border: 1px solid var(--games-border);
+      border-radius: 1.25rem;
+      padding: 1.125rem;
+      box-shadow: var(--games-shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      transform: rotate(4deg);
+
+      &-head {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.78125rem;
+        font-weight: 700;
+        color: var(--games-amber);
+      }
+
+      &-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 0.75rem;
+      }
+
+      &-name {
+        font-weight: 600;
+        margin-left: 0.5rem;
+      }
+
+      &-score {
+        font-weight: 700;
+        color: var(--games-amber);
+
+        &--muted {
+          color: var(--games-faint);
+        }
+      }
+    }
+
+    &__avatar {
+      width: 1.375rem;
+      height: 1.375rem;
+      border-radius: 999px;
+      display: inline-block;
+
+      &--amber {
+        background: var(--games-amber);
+      }
+      &--teal {
+        background: var(--games-teal);
+      }
+    }
+
+    &__phone {
+      position: relative;
+      width: 18.75rem;
+      height: 37.5rem;
+      border-radius: 2.75rem;
+      background: var(--games-surface);
+      border: 1px solid var(--games-border);
+      box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.65);
+      padding: 1.375rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+
+      &-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 0.65625rem;
+        color: var(--games-faint);
+
+        strong {
+          font-family: "Bricolage Grotesque", sans-serif;
+          font-size: 0.9375rem;
+          color: var(--games-text);
         }
       }
 
-      .instruction {
-        background-color: #6872a1;
-      }
-    }
-  }
-
-  .headline {
-    text-align: center;
-    margin: 4rem 0 2rem;
-
-    h1 {
-      font-size: 2.5rem;
-      font-weight: 600;
-      color: $primary-color;
-    }
-  }
-
-  .dashboard-mockup {
-    display: flex;
-    justify-content: center;
-    margin: 2rem 0;
-
-    img {
-      width: 100%;
-      max-width: 800px;
-      border-radius: 16px;
-      box-shadow: 0 0 25px rgba(137, 160, 255, 0.2);
-    }
-  }
-
-  .features {
-    display: flex;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
-    margin: 3rem 0;
-    gap: 1rem;
-
-    .feature {
-      background: $card-background;
-      border-radius: 16px;
-      padding: 1.5rem;
-      width: 11.25rem;
-      text-align: center;
-      color: $primary-color;
-      box-shadow: 0 0 25px rgba(137, 160, 255, 0.7);
-
-      img {
-        height: 10rem;
-        margin-bottom: 1rem;
-        filter: drop-shadow(0 0 6px rgba(137, 160, 255, 0.6));
+      &-avatar {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 0.6875rem;
+        background: var(--games-surface-2);
+        border: 1px solid var(--games-border);
       }
 
-      span {
+      &-level {
+        background: var(--games-surface-2);
+        border: 1px solid var(--games-border);
+        border-radius: 1.25rem;
+        padding: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      &-level-label {
         display: block;
-        font-size: 1rem;
-        font-weight: 500;
+        font-size: 0.5625rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        color: var(--games-faint);
+      }
+
+      &-level-value {
+        font-family: "Bricolage Grotesque", sans-serif;
+        font-weight: 800;
+        font-size: 1.1875rem;
+      }
+
+      &-level-badge {
+        width: 1.875rem;
+        height: 1.875rem;
+        border-radius: 0.5625rem;
+        background: var(--games-amber);
+        color: #2b1502;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Bricolage Grotesque", sans-serif;
+        font-weight: 800;
+        font-size: 0.6875rem;
+      }
+
+      &-bar {
+        height: 0.5rem;
+        border-radius: 999px;
+        background: var(--games-bg);
+        overflow: hidden;
+
+        span {
+          display: block;
+          width: 74%;
+          height: 100%;
+          border-radius: 999px;
+          background: linear-gradient(90deg, var(--games-amber), var(--games-coral));
+        }
+      }
+
+      &-tournament {
+        background: var(--games-surface-2);
+        border: 1px solid var(--games-border);
+        border-radius: 1.125rem;
+        padding: 0.875rem;
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+      }
+
+      &-tournament-icon {
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 0.75rem;
+        background: linear-gradient(135deg, var(--games-violet), var(--games-coral));
+        flex-shrink: 0;
+      }
+
+      &-tournament-title {
+        display: block;
+        font-size: 0.78125rem;
+        font-weight: 700;
+      }
+
+      &-tournament-sub {
+        display: block;
+        font-size: 0.6875rem;
+        color: var(--games-faint);
+      }
+    }
+
+    &__badge-chip {
+      position: absolute;
+      left: -0.625rem;
+      bottom: 4.375rem;
+      background: var(--games-surface);
+      border: 1px solid var(--games-border);
+      border-radius: 1rem;
+      padding: 0.75rem 1rem;
+      box-shadow: var(--games-shadow);
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      transform: rotate(-3deg);
+
+      &-icon {
+        width: 2.125rem;
+        height: 2.125rem;
+        border-radius: 0.6875rem;
+        background: var(--games-coral-soft);
+        color: var(--games-coral);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      &-title {
+        display: block;
+        font-size: 0.71875rem;
+        font-weight: 700;
+      }
+
+      &-sub {
+        display: block;
+        font-size: 0.65625rem;
+        color: var(--games-faint);
       }
     }
   }
 
-  .partner-form {
-    background: $card-background;
-    border-radius: 16px;
-    padding: 2rem;
-    max-width: 500px;
-    margin: 2rem auto;
-    box-shadow: 0 0 20px rgba(137, 160, 255, 0.2);
-    .partner-text {
-      color: palette.$main-font-gray-color;
-      margin-bottom: 1rem;
-    }
-    h2 {
-      color: $primary-color;
-      margin-bottom: 1.5rem;
-      text-align: center;
+  .lp-built-in {
+    padding: 0 clamp(1.5rem, 5vw, 7.5rem) 6rem;
+
+    &__grid {
+      background: var(--games-surface);
+      border: 1px solid var(--games-border);
+      border-radius: 1.5rem;
+      padding: 2.125rem 3rem;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1.5rem;
     }
 
-    form {
+    &__item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      border-right: 1px solid var(--games-border);
+
+      &:last-child {
+        border-right: none;
+      }
+    }
+
+    &__value {
+      font-family: "Bricolage Grotesque", sans-serif;
+      font-weight: 800;
+      font-size: 1.375rem;
+
+      &--amber {
+        color: var(--games-amber);
+      }
+      &--teal {
+        color: var(--games-teal);
+      }
+      &--violet {
+        color: var(--games-violet);
+      }
+      &--coral {
+        color: var(--games-coral);
+      }
+    }
+
+    &__label {
+      font-size: 0.8125rem;
+      color: var(--games-muted);
+      font-weight: 500;
+    }
+  }
+
+  .lp-section-head {
+    max-width: 40rem;
+    margin-bottom: 3rem;
+  }
+
+  .lp-features {
+    padding: 0 clamp(1.5rem, 5vw, 7.5rem) 6.875rem;
+
+    .lp-feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.375rem;
+    }
+
+    .lp-feature-card {
+      background: var(--games-surface);
+      border: 1px solid var(--games-border);
+      border-radius: 1.5rem;
+      padding: 1.625rem;
       display: flex;
       flex-direction: column;
       gap: 1rem;
+      box-shadow: var(--games-shadow);
 
-      input,
-      textarea {
-        padding: 0.75rem;
-        background: #141828;
-        border: 1px solid $secondary-color;
-        border-radius: 8px;
-        color: white;
+      .lp-feature__icon {
+        width: 3.25rem;
+        height: 3.25rem;
       }
 
-      button {
-        padding: 0.75rem;
-        background: $button-bg;
-        border: 1px solid $secondary-color;
-        color: white;
-        border-radius: 8px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: background 0.3s, box-shadow 0.3s;
-        box-shadow: 0 0 10px rgba(137, 160, 255, 0.4);
-        &:hover {
-          background: $button-hover;
-          box-shadow: 0 0 20px rgba(137, 160, 255, 0.6);
+      &__title {
+        font-family: "Bricolage Grotesque", sans-serif;
+        font-weight: 700;
+        font-size: 1.125rem;
+      }
+
+      &__desc {
+        font-size: 0.875rem;
+        color: var(--games-muted);
+        line-height: 1.6;
+      }
+    }
+  }
+
+  .lp-how {
+    padding: 0 clamp(1.5rem, 5vw, 7.5rem) 6.875rem;
+
+    .lp-steps--row {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .lp-step {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      flex: 1;
+
+      &__num {
+        width: 2.75rem;
+        height: 2.75rem;
+        border-radius: 0.875rem;
+        background: var(--games-surface-2);
+        border: 1px solid var(--games-border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Bricolage Grotesque", sans-serif;
+        font-weight: 800;
+        font-size: 1.0625rem;
+        color: var(--games-amber);
+      }
+
+      &__title {
+        display: block;
+        font-family: "Bricolage Grotesque", sans-serif;
+        font-weight: 700;
+        font-size: 1.1875rem;
+      }
+
+      &__desc {
+        display: block;
+        font-size: 0.90625rem;
+        color: var(--games-muted);
+        line-height: 1.6;
+      }
+    }
+  }
+
+  .lp-owners {
+    padding: 6.25rem clamp(1.5rem, 5vw, 7.5rem);
+    background: var(--games-surface);
+    border-top: 1px solid var(--games-border);
+    border-bottom: 1px solid var(--games-border);
+    display: flex;
+    align-items: center;
+    gap: 4.5rem;
+
+    &__copy {
+      display: flex;
+      flex-direction: column;
+      gap: 1.625rem;
+      max-width: 32.5rem;
+      flex-shrink: 0;
+
+      .lp-btn--owner {
+        margin-top: 0.25rem;
+      }
+    }
+
+    &__visual {
+      flex: 1;
+    }
+
+    .lp-dash {
+      background: var(--games-bg);
+      border: 1px solid var(--games-border);
+      border-radius: 1.5rem;
+      padding: 1.75rem;
+      box-shadow: var(--games-shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 1.375rem;
+
+      &__head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-family: "Bricolage Grotesque", sans-serif;
+        font-weight: 700;
+        font-size: 1rem;
+      }
+
+      &__trend {
+        display: flex;
+        align-items: center;
+        gap: 0.375rem;
+        background: var(--games-teal-soft);
+        color: var(--games-teal);
+        font-size: 0.71875rem;
+        font-weight: 700;
+        padding: 0.3125rem 0.6875rem;
+        border-radius: 999px;
+      }
+
+      &__bars {
+        display: flex;
+        align-items: flex-end;
+        gap: 0.875rem;
+        height: 8.75rem;
+        padding: 0 0.25rem;
+
+        span {
+          flex: 1;
+          border-radius: 0.5rem 0.5rem 0 0;
+          background: var(--games-surface-2);
         }
       }
+
+      &__bar--accent {
+        background: linear-gradient(180deg, var(--games-blue-light), var(--games-blue)) !important;
+      }
+
+      &__divider {
+        height: 1px;
+        background: var(--games-border);
+      }
+
+      &__stats {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1rem;
+
+        div {
+          display: flex;
+          flex-direction: column;
+          gap: 0.25rem;
+        }
+      }
+
+      &__stat-label {
+        font-size: 0.6875rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        color: var(--games-faint);
+      }
+
+      &__stat-value {
+        font-family: "Bricolage Grotesque", sans-serif;
+        font-weight: 800;
+        font-size: 1.375rem;
+      }
+    }
+  }
+
+  .lp-why {
+    padding: 6.875rem clamp(1.5rem, 5vw, 7.5rem);
+
+    .lp-why-cards--row {
+      display: flex;
+      gap: 1.375rem;
+    }
+
+    .lp-why-card {
+      flex: 1;
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      font-size: 0.9375rem;
+
+      .lp-feature__icon {
+        width: 3.25rem;
+        height: 3.25rem;
+      }
+    }
+  }
+
+  .lp-cta {
+    padding: 0 clamp(1.5rem, 5vw, 7.5rem) 6.875rem;
+
+    &__card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 2rem;
+      padding: 4.5rem 4rem;
+      background: linear-gradient(135deg, #1a2e4d, #13203d);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2.5rem;
+    }
+
+    &__glow {
+      position: absolute;
+      right: -3.75rem;
+      top: -5.625rem;
+      width: 20rem;
+      height: 20rem;
+      border-radius: 50%;
+      background: radial-gradient(circle, oklch(0.7 0.13 250 / 0.35), transparent 70%);
+    }
+
+    &__copy {
+      position: relative;
+      max-width: 32.5rem;
+
+      h2 {
+        font-family: "Bricolage Grotesque", sans-serif;
+        font-weight: 800;
+        font-size: 2.25rem;
+        color: #fff8ec;
+        line-height: 1.15;
+        margin: 0 0 0.75rem;
+      }
+
+      p {
+        font-size: 0.96875rem;
+        color: rgba(255, 248, 236, 0.9);
+        margin: 0;
+        line-height: 1.6;
+      }
+    }
+
+    &__actions {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 0.875rem;
+      flex-shrink: 0;
+    }
+  }
+
+  .lp-partner {
+    max-width: 34.375rem;
+    margin: 0 auto 6.875rem;
+    background: var(--games-surface);
+    border: 1px solid var(--games-border);
+    border-radius: 1.5rem;
+    padding: 2.5rem;
+    box-shadow: var(--games-shadow);
+
+    h2,
+    &__text {
+      text-align: center;
+    }
+  }
+
+  .lp-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2.5rem clamp(1.5rem, 5vw, 7.5rem) 3rem;
+    border-top: 1px solid var(--games-border);
+
+    &__brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+
+      img {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 0.625rem;
+      }
+
+      span:first-of-type {
+        font-family: "Bricolage Grotesque", sans-serif;
+        font-weight: 800;
+        font-size: 1rem;
+      }
+    }
+
+    &__tagline {
+      font-size: 0.8125rem;
+      color: var(--games-faint);
+      margin-left: 0.5rem;
+      padding-left: 0.5rem;
+      border-left: 1px solid var(--games-border);
+    }
+
+    &__copyright {
+      font-size: 0.8125rem;
+      color: var(--games-faint);
     }
   }
 }

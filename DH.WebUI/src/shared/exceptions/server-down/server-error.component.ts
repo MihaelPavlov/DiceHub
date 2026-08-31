@@ -17,6 +17,7 @@ import { SupportLanguages } from '../../../entities/common/models/support-langua
 })
 export class ServerErrorComponent extends ExceptionBaseComponent {
   protected imageCode = '500';
+  protected accent = 'coral' as const;
   public readonly isOnline$: Observable<boolean>;
   public offlineImageFailed = false;
 

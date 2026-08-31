@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Sora:wght@400;500;600;700&display=swap');
+    :root {
+      --bg: oklch(0.15 0.018 290);
+      --bg-elevated: oklch(0.195 0.02 290);
+      --bg-elevated-2: oklch(0.245 0.022 290);
+      --border: oklch(0.34 0.02 290 / 0.55);
+      --text: oklch(0.96 0.01 90);
+      --text-muted: oklch(0.7 0.02 290);
+      --text-faint: oklch(0.52 0.02 290);
+      --teal: oklch(0.72 0.14 165);
+      --teal-soft: oklch(0.72 0.14 165 / 0.16);
+      --violet: oklch(0.66 0.17 300);
+      --shadow-card: 0 -10px 40px -10px oklch(0 0 0 / 0.7);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #0b0b0d; font-family: 'Sora', ui-sans-serif, system-ui, sans-serif; }
+    .display { font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif; }
+    .icon-btn { width: 42px; height: 42px; border-radius: 999px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  </style>
+</helmet>
+
+<div style="width:393px;height:760px;background:var(--bg);color:var(--text);position:relative;overflow:hidden;">
+
+  <div style="padding:24px 20px;display:flex;flex-direction:column;gap:16px;filter:brightness(0.55);">
+    <div style="display:flex;align-items:center;justify-content:space-between;">
+      <span class="display" style="font-size:19px;font-weight:700;">Reservations</span>
+      <div class="icon-btn" style="background:var(--teal-soft);">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v.01M11 11h1v5h1"/></svg>
+      </div>
+    </div>
+    <div style="height:180px;border-radius:20px;background:var(--bg-elevated);border:1px solid var(--border);display:flex;align-items:flex-end;gap:8px;padding:16px;">
+      <div style="flex:1;height:40%;border-radius:6px 6px 0 0;background:var(--violet);opacity:0.5;"></div>
+      <div style="flex:1;height:70%;border-radius:6px 6px 0 0;background:var(--violet);opacity:0.7;"></div>
+      <div style="flex:1;height:55%;border-radius:6px 6px 0 0;background:var(--violet);opacity:0.6;"></div>
+      <div style="flex:1;height:90%;border-radius:6px 6px 0 0;background:var(--violet);"></div>
+      <div style="flex:1;height:65%;border-radius:6px 6px 0 0;background:var(--violet);opacity:0.65;"></div>
+    </div>
+  </div>
+
+  <div style="position:absolute;left:0;right:0;bottom:0;background:var(--bg-elevated);border:1px solid var(--border);border-bottom:none;border-radius:28px 28px 0 0;padding:22px 22px 30px;box-shadow:var(--shadow-card);display:flex;flex-direction:column;gap:16px;">
+
+    <div style="width:40px;height:4px;border-radius:999px;background:var(--border);margin:0 auto;"></div>
+
+    <div style="display:flex;align-items:center;gap:14px;">
+      <div style="width:46px;height:46px;border-radius:14px;background:var(--teal-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v.01M11 11h1v5h1"/></svg>
+      </div>
+      <span class="display" style="font-size:16.5px;font-weight:700;">About this chart</span>
+    </div>
+
+    <p style="margin:0;font-size:13.5px;line-height:1.65;color:var(--text-muted);">
+      Shows table reservations grouped by day for the selected period. Bars include approved and completed bookings — declined and cancelled ones are excluded.
+    </p>
+
+    <a href="#" style="width:100%;text-align:center;font-size:13.5px;font-weight:700;padding:13px 0;border-radius:999px;background:var(--bg-elevated-2);border:1px solid var(--border);color:var(--text-muted);">Close</a>
+  </div>
+
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

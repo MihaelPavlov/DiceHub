@@ -18,10 +18,12 @@ import { TenantApplicationDetailsComponent } from '../../features/profile/compon
 import { SuperadminTenantsComponent } from '../../features/profile/components/superadmin-tenants/superadmin-tenants.component';
 import { SuperadminTenantDetailsComponent } from '../../features/profile/components/superadmin-tenant-details/superadmin-tenant-details.component';
 import { ChangePasswordComponent } from '../../features/profile/components/change-password/change-password.component';
+import { ProfileSettingsNavComponent } from '../../features/profile/components/profile-settings-nav/profile-settings-nav.component';
 
 @NgModule({
   declarations: [
     ProfileComponent,
+    ProfileSettingsNavComponent,
     GlobalSettingsComponent,
     UserSettingsComponent,
     ChangePasswordComponent,

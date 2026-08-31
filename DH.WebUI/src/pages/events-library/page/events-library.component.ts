@@ -42,6 +42,10 @@ export class EventsLibraryComponent implements OnInit, OnDestroy {
     return this.languageService.getCurrentLanguage();
   }
 
+  public get happeningCount(): number {
+    return this.todayEvents.length + this.upcomingEvents.length;
+  }
+
   public ngOnDestroy(): void {
     this.menuTabsService.resetData();
   }

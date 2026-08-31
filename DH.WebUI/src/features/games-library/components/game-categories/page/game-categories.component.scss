@@ -1,62 +1,59 @@
-@use "../../../../../shared/assets/styles/palette";
-
 .wrapper {
-  width: 90%;
-  margin: 1rem auto;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.85rem;
+  padding: 0 0 7rem;
+  background: transparent;
+}
+
+.wrapper_category {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: start;
-  margin-bottom: 7rem;
+  min-width: 0;
+  min-height: 5.25rem;
+  padding: 1rem;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  transition: border-color 0.2s ease, transform 0.2s ease;
 
-  &_category {
-    flex: 1 1 calc(50% - 1rem);
-    margin-bottom: 1rem;
-    max-width: calc(50% - 1rem);
-    min-height: 4rem;
-    max-height: 4rem;
-    margin: 0.5rem;
-    background-color: palette.$main-nav-color;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border-radius: 1rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-
-    &-text {
-      white-space: wrap;
-      text-align: center;
-      margin: auto 0;
-      padding: 0.5rem;
-      word-break: break-word;
-    }
+  &:hover {
+    border-color: rgba(243, 191, 61, 0.42);
+    transform: translateY(-2px);
   }
+}
+
+.wrapper_category-icon {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 0.8rem;
+  background: linear-gradient(135deg, var(--games-blue-light), var(--games-blue));
+  color: var(--games-blue-ink);
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.wrapper_category-text {
+  min-width: 0;
+  color: var(--games-text);
+  font-size: 0.9rem;
+  font-weight: 800;
+  line-height: 1.2;
+  word-break: break-word;
 }
 
 @media (min-width: 900px) {
   .wrapper {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
-    gap: 1rem;
-    width: min(74rem, calc(100vw - 4rem));
-    margin-top: 2rem;
-    margin-bottom: 4rem;
+    grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+    width: 100%;
+    padding: 0 0 4rem;
   }
 
   .wrapper_category {
-    max-width: none;
-    min-height: 5.5rem;
-    max-height: none;
-    margin: 0;
-    border: 1px solid palette.$main-gray-color;
-    border-radius: 0.5rem;
-    background: palette.$main-nav-color;
-    cursor: pointer;
-  }
-
-  .wrapper_category-text {
-    font-weight: 600;
+    min-height: 6.2rem;
+    border-radius: 1.25rem;
   }
 }

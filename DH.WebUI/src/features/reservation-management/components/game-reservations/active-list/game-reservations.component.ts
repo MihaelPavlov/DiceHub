@@ -97,7 +97,7 @@ export class GameReservations implements OnInit, OnDestroy {
   public onCancel(): void {
     if (this.expandedReservationId) {
       const dialogRef = this.dialog.open(ReservationConfirmationDialog, {
-        width: '17rem',
+        panelClass: 'confirm-sheet-pane',
         data: {
           type: ReservationType.Game,
           reservationId: this.expandedReservationId,
@@ -124,7 +124,7 @@ export class GameReservations implements OnInit, OnDestroy {
   ): void {
     if (this.expandedReservationId) {
       const dialogRef = this.dialog.open(ReservationConfirmationDialog, {
-        width: '17rem',
+        panelClass: 'confirm-sheet-pane',
         data: {
           type: ReservationType.Game,
           reservationId: this.expandedReservationId,
@@ -157,7 +157,7 @@ export class GameReservations implements OnInit, OnDestroy {
   ): void {
     if (this.expandedReservationId) {
       const dialogRef = this.dialog.open(ReservationConfirmationDialog, {
-        width: '17rem',
+        panelClass: 'confirm-sheet-pane',
         data: {
           type: ReservationType.Game,
           reservationId: this.expandedReservationId,

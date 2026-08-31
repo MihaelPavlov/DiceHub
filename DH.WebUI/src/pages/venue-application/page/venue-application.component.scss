@@ -11,37 +11,40 @@
 
 .interactive-option {
   display: flex;
-  justify-content: center;
-  margin-top: 3rem;
+  justify-content: flex-start;
 
   .icon_wrapper {
-    width: 5rem;
-    height: 5rem;
-    border-radius: 50px;
-    background: palette.$main-blue-color;
-    box-shadow: 0 0 0 12px var(--background-color);
+    width: 2.65rem;
+    height: 2.65rem;
+    border-radius: 999px;
+    background: var(--games-surface);
+    border: 1px solid var(--games-border);
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
   }
 
   .icon {
-    width: 3rem;
-    height: 3rem;
+    width: 1.15rem;
+    height: 1.15rem;
+    fill: var(--games-text);
   }
 }
 
 .header {
-  margin: 1rem;
+  margin: 1rem 0;
   display: flex;
   justify-content: center;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
+  font-weight: 800;
   text-align: center;
+  color: var(--games-text);
 }
 
 .sub-header {
   margin: 0 2rem 1rem;
-  color: palette.$main-font-gray-color;
+  color: var(--games-muted);
   text-align: center;
   line-height: 1.45;
 }
@@ -55,17 +58,23 @@
 
 .section-card {
   margin-bottom: 1rem;
+  padding: 1.1rem;
+  border: 1px solid var(--games-border);
+  border-radius: 1.35rem;
+  background: var(--games-surface);
+  box-shadow: var(--games-shadow);
 
   h2 {
     margin-bottom: 0.35rem;
     font-size: 1.15rem;
-    font-weight: 600;
+    font-weight: 700;
+    color: var(--games-text);
   }
 }
 
 .section-note {
   margin-bottom: 1rem;
-  color: palette.$main-font-gray-color;
+  color: var(--games-muted);
   font-size: 0.95rem;
   line-height: 1.45;
 }
@@ -85,16 +94,16 @@
       height: 4rem;
       object-fit: cover;
       border-radius: 50%;
-      border: 1px solid palette.$main-gray-color;
+      border: 1px solid var(--games-border);
     }
   }
 
   &__remove {
     padding: 0.4rem 0.9rem;
-    border: 1px solid palette.$main-gray-color;
+    border: 1px solid var(--games-border);
     border-radius: 1rem;
     background: transparent;
-    color: palette.$main-font-color;
+    color: var(--games-text);
     font-size: 0.85rem;
     cursor: pointer;
   }
@@ -104,9 +113,9 @@
     align-items: center;
     justify-content: center;
     padding: 0.75rem;
-    border: 1px dashed palette.$main-gray-color;
+    border: 1px dashed var(--games-border);
     border-radius: 0.5rem;
-    color: palette.$main-font-gray-color;
+    color: var(--games-muted);
     font-size: 0.9rem;
     cursor: pointer;
 
@@ -117,13 +126,13 @@
 
   &__hint {
     margin: 0;
-    color: palette.$main-font-gray-color;
+    color: var(--games-muted);
     font-size: 0.8rem;
   }
 
   &__error {
     margin: 0;
-    color: palette.$main-red-color;
+    color: var(--games-coral);
     font-size: 0.85rem;
   }
 }
@@ -132,19 +141,35 @@
   width: 60%;
   margin-bottom: 1rem;
   align-self: center;
+  appearance: none;
+  border: 1px solid var(--games-border);
+  border-radius: 999px;
+  padding: 0.75rem 1.25rem;
+  background: var(--games-surface-2);
+  color: var(--games-text);
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
 }
 
 .submitted-card {
   margin: 2rem;
   padding: 1.25rem;
-  border-radius: 1rem;
-  background: palette.$main-nav-color;
-  box-shadow: 0 0 1rem rgba(117, 160, 255, 0.12);
+  border: 1px solid var(--games-border);
+  border-radius: 1.35rem;
+  background: var(--games-surface);
+  box-shadow: var(--games-shadow);
   text-align: center;
+  color: var(--games-text);
 
   p {
     margin-bottom: 1rem;
-    color: palette.$main-font-gray-color;
+    color: var(--games-muted);
     line-height: 1.45;
   }
 
@@ -168,7 +193,7 @@
   justify-content: center;
   margin-top: 1rem;
   margin-bottom: 0;
-  color: palette.$main-red-color;
+  color: var(--games-coral);
   font-size: 1rem;
   text-align: center;
   flex-direction: column;
@@ -235,9 +260,7 @@
     min-height: 28rem;
     margin-bottom: 0;
     padding: 1.25rem;
-    border: 1px solid palette.$main-gray-color;
-    border-radius: 0.5rem;
-    background: palette.$main-nav-color;
+    border-radius: 1.35rem;
   }
 
   .section-card:nth-of-type(2) {
@@ -251,13 +274,13 @@
   }
 
   .input-field input {
-    border: 1px solid palette.$main-gray-color;
-    background: palette.$main-background-color;
+    border: 1px solid var(--games-border);
+    background: var(--games-surface-2);
   }
 
   .input-field input:focus {
     outline: none;
-    border-color: palette.$main-blue-color;
+    border-color: var(--games-amber);
   }
 
   .verify-btn,

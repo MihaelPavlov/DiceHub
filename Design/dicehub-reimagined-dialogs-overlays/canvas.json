@@ -1,0 +1,8 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html", "x": 0, "y": 0, "w": 393, "h": 800, "title": "Notifications Panel" },
+    { "file": "ToastMessage.dc.html", "x": 473, "y": 0, "w": 393, "h": 700, "title": "Toast Message" },
+    { "file": "ChallengeCompletion.dc.html", "x": 946, "y": 0, "w": 393, "h": 800, "title": "Challenge Completion Celebration" }
+  ],
+  "launch": { "view": "canvas" }
+}

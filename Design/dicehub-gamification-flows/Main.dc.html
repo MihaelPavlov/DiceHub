@@ -1,0 +1,363 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Sora:wght@400;500;600;700&display=swap');
+
+    :root {
+      --bg: #17151d;
+      --surface: #221f2a;
+      --surface-2: #2c2834;
+      --border: rgba(255,255,255,0.13);
+      --text: #f7f2e8;
+      --muted: #b2aeb8;
+      --faint: #817b89;
+      --amber: #f3bf3d;
+      --amber-soft: rgba(243,191,61,0.16);
+      --coral: #bf3c65;
+      --coral-soft: rgba(191,60,101,0.16);
+      --teal: #5ec7a2;
+      --teal-soft: rgba(94,199,162,0.16);
+      --violet: #8d66d6;
+      --blue: oklch(0.7 0.13 250);
+      --blue-light: oklch(0.82 0.08 250);
+      --blue-soft: oklch(0.7 0.13 250 / 0.16);
+      --blue-glow: oklch(0.7 0.13 250 / 0.55);
+      --blue-ink: #0b1830;
+      --shadow: 0 16px 36px -20px rgba(0,0,0,0.72);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--text); font-family: 'Sora', ui-sans-serif, system-ui, sans-serif; }
+    .display { font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif; }
+    svg { display: block; }
+    code { font-family: 'Sora', monospace; background: var(--surface-2); padding: 1px 5px; border-radius: 4px; font-size: 0.92em; }
+
+    .page { width: 1500px; padding: 64px 72px 100px; display: flex; flex-direction: column; gap: 40px; }
+
+    .hd-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--blue-light); }
+    .hd-title { font-size: 40px; font-weight: 800; margin: 10px 0 12px; max-width: 34ch; line-height: 1.1; text-wrap: balance; }
+    .hd-sub { font-size: 15px; line-height: 1.6; color: var(--muted); max-width: 74ch; }
+    .hd-note { margin-top: 18px; padding: 14px 18px; border-radius: 14px; background: var(--coral-soft); border: 1px solid rgba(191,60,101,0.4); font-size: 13px; line-height: 1.6; color: var(--text); max-width: 74ch; }
+    .hd-note b { color: var(--coral); }
+
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 28px; }
+    .grid > .full { grid-column: 1 / -1; }
+
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 26px; padding: 28px; display: flex; flex-direction: column; gap: 16px; box-shadow: var(--shadow); }
+    .card__top { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+    .card__step { font-family: 'Bricolage Grotesque', sans-serif; font-size: 13px; font-weight: 800; color: var(--faint); }
+    .card__tag { font-size: 10px; font-weight: 700; padding: 5px 10px; border-radius: 7px; background: var(--surface-2); color: var(--muted); font-family: 'Sora', monospace; text-align: right; line-height: 1.5; white-space: nowrap; }
+    .card__title { font-size: 20px; font-weight: 800; margin: 0; }
+
+    .audit { display: flex; flex-direction: column; gap: 6px; font-size: 12.5px; line-height: 1.55; padding: 12px 14px; border-radius: 14px; background: var(--surface-2); border: 1px solid var(--border); }
+    .audit b { color: var(--muted); font-weight: 700; }
+    .audit .now { color: var(--faint); }
+    .audit .next { color: var(--teal); }
+
+    .stage { background: var(--bg); border: 1px solid var(--border); border-radius: 20px; padding: 26px; min-height: 200px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+
+    .meta { display: flex; gap: 8px; flex-wrap: wrap; }
+    .meta span { font-size: 10.5px; font-weight: 600; color: var(--faint); padding: 5px 10px; border: 1px solid var(--border); border-radius: 999px; }
+    .meta b { color: var(--muted); font-weight: 700; }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; }
+    }
+
+    /* ============ shared: seamless-loop opacity wrapper ============ */
+    @keyframes wrapcycle { 0%,3% { opacity: 0; } 8% { opacity: 1; } 92% { opacity: 1; } 100% { opacity: 0; } }
+
+    /* ============ CARD 1 — challenge progress fill ============ */
+    .c1-wrap { width: 100%; max-width: 480px; }
+    .c1-row { display: flex; align-items: center; gap: 12px; }
+    .c1-img { width: 48px; height: 48px; border-radius: 999px; flex-shrink: 0; background: linear-gradient(135deg,#5a4fcf,#8ea2ff); border: 1px solid var(--border); }
+    .c1-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+    .c1-title-row { font-size: 13px; font-weight: 700; }
+    .c1-bar-track { margin-top: 2px; background: var(--surface-2); border-radius: 5rem; height: 1rem; position: relative; display: flex; align-items: center; }
+    .c1-bar-fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 5rem; background: var(--amber); box-shadow: 0 10px 30px -10px var(--amber-soft); width: 20%; animation: c1fill 4.5s cubic-bezier(.22,.9,.32,1) infinite; overflow: hidden; }
+    @keyframes c1fill { 0%,8% { width: 20%; } 55%,100% { width: 78%; } }
+    .c1-bar-fill::after { content:''; position:absolute; top:0; right:0; bottom:0; width: 22px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.55)); animation: c1shine 4.5s cubic-bezier(.22,.9,.32,1) infinite; }
+    @keyframes c1shine { 0%,8% { opacity: 0.8; } 55%,100% { opacity: 0; } }
+    .c1-bar-span { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); font-size: 10.5px; color: var(--muted); z-index: 2; }
+    .c1-pts { width: 26px; height: 26px; border-radius: 50%; background: var(--surface-2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 10.5px; font-weight: 700; flex-shrink: 0; }
+
+    /* ============ CARD 2 — status icon transition ============ */
+    .c2-wrap { display: flex; align-items: center; gap: 40px; }
+    .c2-slot { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .c2-slot span { font-size: 10.5px; color: var(--faint); font-weight: 700; }
+    .c2-icon { width: 54px; height: 54px; border-radius: 999px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border); background: var(--surface-2); position: relative; }
+    .c2-arrow { color: var(--faint); }
+    .c2-final { position: relative; }
+    .c2-final .ring { position: absolute; inset: -8px; border-radius: 999px; border: 2px solid var(--teal); opacity: 0; animation: c2ring 3s ease-out infinite; }
+    @keyframes c2ring { 0%,20% { opacity:0; transform:scale(0.7);} 32% { opacity:0.9; transform:scale(1);} 55% { opacity:0; transform:scale(1.4);} 100% { opacity:0; } }
+    .c2-final .check { opacity: 0; transform: scale(0.3); animation: c2pop 3s cubic-bezier(.34,1.56,.64,1) infinite; }
+    @keyframes c2pop { 0%,20% { opacity:0; transform:scale(0.3); } 32% { opacity:1; transform:scale(1.2); } 40% { transform:scale(1); } 100% { opacity:1; transform:scale(1); } }
+    .c2-final { background: var(--teal-soft); border-color: var(--teal); }
+
+    /* ============ CARD 3 — reward-milestone circle activation ============ */
+    .c3-wrap { width: 100%; max-width: 480px; }
+    .c3-track { position: relative; height: 2rem; margin: 0 8px; }
+    .c3-track::before { content:''; position:absolute; top:50%; left:0; right:0; transform:translateY(-50%); height:0.5rem; background: var(--surface-2); border: 1px solid var(--border); }
+    .c3-fill { position:absolute; top:50%; left:0; transform:translateY(-50%); height:0.5rem; background: var(--amber); border: 1px solid var(--border); animation: c3fill 5s cubic-bezier(.22,.9,.32,1) infinite; }
+    @keyframes c3fill { 0%,6% { width: 8%; } 50%,100% { width: 84%; } }
+    .c3-circle { position: absolute; top: 50%; transform: translate(-50%,-50%); width: 1.7rem; height: 1.7rem; border-radius: 50%; background: var(--surface-2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; color: var(--text); }
+    .c3-circle.will-activate { animation: c3activate 5s cubic-bezier(.34,1.56,.64,1) infinite; }
+    @keyframes c3activate { 0%,44% { border-color: var(--border); box-shadow: none; transform: translate(-50%,-50%) scale(1); } 52% { border-color: var(--amber); border-width: 2px; box-shadow: 0 0 0 6px var(--amber-soft); transform: translate(-50%,-50%) scale(1.3); } 62% { transform: translate(-50%,-50%) scale(1); } 100% { border-color: var(--amber); border-width: 2px; box-shadow: 0 0 0 6px var(--amber-soft); } }
+
+    /* ============ CARD 4 — reward card unlock (net-new) ============ */
+    .c4-wrap { width: 100%; max-width: 480px; }
+    .c4-card { background: var(--surface-2); border: 1px solid var(--border); border-radius: 20px; padding: 15px; display: flex; gap: 13px; align-items: center; position: relative; overflow: hidden; animation: c4pop 5s cubic-bezier(.34,1.56,.64,1) infinite; }
+    @keyframes c4pop { 0%,4% { transform: scale(0.97); } 16% { transform: scale(1.015); } 24%,100% { transform: scale(1); } }
+    .c4-card::before { content:''; position: absolute; top: -60%; bottom: -60%; left: -40%; width: 40%; background: linear-gradient(75deg, transparent, rgba(255,255,255,0.28), transparent); transform: skewX(-18deg); animation: c4shine 5s ease-in-out infinite; }
+    @keyframes c4shine { 0%,20% { left: -40%; } 42% { left: 130%; } 62% { left: -40%; } 84% { left: 130%; } 100% { left: 130%; } }
+    .c4-img { width: 52px; height: 52px; border-radius: 12px; background: var(--surface); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .c4-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 5px; }
+    .c4-name { font-size: 13.5px; font-weight: 700; }
+    .c4-chip { font-size: 10px; font-weight: 700; padding: 4px 9px; border-radius: 999px; background: var(--teal-soft); color: var(--teal); width: fit-content; }
+    .c4-btn { flex-shrink: 0; font-size: 11.5px; font-weight: 700; padding: 9px 15px; border-radius: 999px; background: linear-gradient(135deg, var(--blue-light), var(--blue)); color: var(--blue-ink); }
+    .c4-ribbon { position: absolute; top: 8px; right: 10px; font-size: 9px; font-weight: 800; letter-spacing: 0.04em; padding: 4px 8px; border-radius: 999px; background: var(--coral); color: #2b0a14; opacity: 0; transform: translateY(-6px) scale(0.7); animation: c4ribbon 5s ease-out infinite; }
+    @keyframes c4ribbon { 0%,10% { opacity: 0; transform: translateY(-6px) scale(0.7); } 20% { opacity: 1; transform: translateY(0) scale(1.08); } 26% { transform: translateY(0) scale(1); } 100% { opacity: 1; } }
+
+    /* ============ CARD 5 — streak fire + sparks (elevate existing) ============ */
+    .c5-wrap { display: flex; align-items: center; gap: 24px; }
+    .c5-fire-zone { position: relative; width: 90px; height: 90px; flex-shrink: 0; }
+    .c5-fire-circle { position: absolute; inset: 6px; border-radius: 999px; background: radial-gradient(circle, var(--coral-soft), transparent 70%); animation: c5glow 1.6s ease-in-out infinite; display: flex; align-items: center; justify-content: center; }
+    @keyframes c5glow { 0%,100% { opacity: 0.6; transform: scale(0.95); } 50% { opacity: 1; transform: scale(1.06); } }
+    .c5-flame { width: 42px; height: 42px; animation: c5flicker 1.6s ease-in-out infinite; transform-origin: 50% 90%; }
+    @keyframes c5flicker { 0%,100% { transform: scale(1); } 50% { transform: scale(1.04,0.97); } }
+    .c5-sparks span { position: absolute; width: 5px; height: 5px; border-radius: 50%; background: var(--coral); opacity: 0; animation: c5spark 2.2s infinite cubic-bezier(.22,.9,.32,1); }
+    .c5-sparks span:nth-child(1) { top: 15%; left: 12%; animation-delay: 0s; }
+    .c5-sparks span:nth-child(2) { top: 55%; left: 82%; animation-delay: .3s; background: var(--amber); }
+    .c5-sparks span:nth-child(3) { top: 8%; left: 55%; animation-delay: .6s; }
+    .c5-sparks span:nth-child(4) { top: 65%; left: 25%; animation-delay: .9s; background: var(--amber); }
+    .c5-sparks span:nth-child(5) { top: 40%; left: 70%; animation-delay: 1.2s; }
+    @keyframes c5spark { 0% { transform: translate(0,0) scale(0.3); opacity: 0; } 15% { opacity: 1; transform: scale(1); } 100% { transform: translate(var(--tx,14px),var(--ty,-14px)) scale(0); opacity: 0; } }
+    .c5-sparks span:nth-child(1) { --tx: -12px; --ty: -10px; } .c5-sparks span:nth-child(2) { --tx: 14px; --ty: -12px; }
+    .c5-sparks span:nth-child(3) { --tx: -8px; --ty: 12px; } .c5-sparks span:nth-child(4) { --tx: 12px; --ty: 10px; } .c5-sparks span:nth-child(5) { --tx: -14px; --ty: -8px; }
+    .c5-count { position: relative; height: 52px; overflow: hidden; }
+    .c5-count-inner { display: flex; flex-direction: column; animation: c5odometer 4s steps(1) infinite; }
+    .c5-count-inner span { font-family: 'Bricolage Grotesque', sans-serif; font-size: 44px; font-weight: 800; line-height: 52px; height: 52px; }
+    @keyframes c5odometer { 0%,50% { transform: translateY(0); } 65% { transform: translateY(-52px); } 100% { transform: translateY(-52px); } }
+    .c5-label { display:flex; flex-direction: column; gap: 2px; }
+
+    /* ============ CARD 6 — streak milestone unlock ============ */
+    .c6-wrap { width: 100%; max-width: 460px; display: flex; flex-direction: column; gap: 0; }
+    .c6-item { display: flex; align-items: center; gap: 14px; position: relative; padding-bottom: 26px; }
+    .c6-item::after { content:''; position:absolute; left: 21px; top: 44px; bottom: -4px; width: 3px; background: var(--border); }
+    .c6-item:last-child::after { display: none; }
+    .c6-icon { width: 44px; height: 44px; border-radius: 10px; border: 2px solid var(--border); background: var(--surface-2); flex-shrink: 0; z-index: 1; display: flex; align-items: center; justify-content: center; }
+    .c6-item.pending .c6-icon { animation: c6unlock 5s cubic-bezier(.34,1.56,.64,1) infinite; }
+    @keyframes c6unlock { 0%,44% { border-color: var(--border); background: var(--surface-2); transform: scale(1); } 54% { border-color: var(--amber); background: var(--amber-soft); transform: scale(1.15); } 64% { transform: scale(1); } 100% { border-color: var(--amber); background: var(--amber-soft); } }
+    .c6-item.pending::after { animation: c6line 5s ease-out infinite; background: var(--border); }
+    @keyframes c6line { 0%,48% { background: var(--border); } 60% { background: var(--amber); } 100% { background: var(--amber); } }
+    .c6-text { display: flex; flex-direction: column; gap: 1px; }
+    .c6-text b { font-size: 13px; font-weight: 700; }
+    .c6-text span { font-size: 11.5px; color: var(--faint); }
+
+    /* ============ CARD 7 — your-rank highlight on scroll ============ */
+    .c7-wrap { width: 100%; max-width: 460px; display: flex; flex-direction: column; gap: 8px; }
+    .c7-row { display: flex; align-items: center; gap: 12px; padding: 10px 6px; border-radius: 14px; }
+    .c7-row.me { animation: c7pulse 5s ease-out infinite; }
+    @keyframes c7pulse { 0%,44% { background: transparent; box-shadow: 0 0 0 0 transparent; } 54% { background: var(--blue-soft); box-shadow: 0 0 0 3px var(--blue-glow); } 78% { background: var(--blue-soft); box-shadow: 0 0 0 0 transparent; } 100% { background: transparent; } }
+    .c7-rank { width: 22px; font-size: 13px; font-weight: 700; color: var(--faint); text-align: center; }
+    .c7-avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--surface-2); border: 1px solid var(--border); flex-shrink: 0; }
+    .c7-name { flex: 1; font-size: 13px; font-weight: 600; }
+    .c7-val { font-size: 12px; font-weight: 700; color: var(--muted); }
+    .c7-cursor { position: absolute; opacity: 0; animation: c7cursor 5s ease-out infinite; }
+    @keyframes c7cursor { 0%,30% { opacity: 0; transform: translateY(-90px); } 42% { opacity: 1; transform: translateY(-90px); } 52% { opacity: 1; transform: translateY(0); } 66% { opacity: 0; transform: translateY(0); } 100% { opacity: 0; } }
+
+  </style>
+</helmet>
+
+<div class="page">
+
+  <div>
+    <div class="hd-eyebrow">Gamification · Animation Audit v2</div>
+    <h1 class="hd-title display">Only animate what's actually there</h1>
+    <p class="hd-sub">A correction pass on the first version of this page. Every card below is grounded in a real component, a real CSS class, and — where one already exists — the real current animation, cited by file. Nothing here assumes a feature the app doesn't have.</p>
+    <div class="hd-note"><b>What got cut and why:</b> the first version had a "Level up / XP burst" idea (profile) and a "leaderboard rank climbs +2" idea. Neither exists — there's no XP/level system anywhere in the codebase (only a <code>RewardLevel</code> enum for reward tiers, unrelated), and the leaderboard never stores a previous rank, so there's no delta to animate. Both are dropped below, replaced with real mechanics that do the same emotional job.</div>
+  </div>
+
+  <div class="grid">
+
+    <!-- CARD 1 -->
+    <article class="card">
+      <div class="card__top">
+        <div><div class="card__step">01 · Challenge progress</div><h2 class="card__title">Fill bar, elevated</h2></div>
+        <span class="card__tag">challenges-management<br>.component.scss:364</span>
+      </div>
+      <div class="audit">
+        <div class="now"><b>Now:</b> <code>.bar-2-value</code> width is bound from Angular and transitions with a flat <code>width 1s ease-in-out</code>. There's also a dangling <code>animation: load 3s</code> rule — <code>@keyframes load</code> is never defined anywhere, so it's dead CSS.</div>
+        <div class="next"><b>Proposed:</b> swap the flat ease for a spring cubic-bezier and add a traveling shine on the fill's leading edge, using the glow shadow that's already there (<code>box-shadow: 0 10px 40px -10px var(--games-amber-soft)</code>).</div>
+      </div>
+      <div class="stage">
+        <div class="c1-wrap">
+          <div class="c1-row">
+            <div class="c1-img"></div>
+            <div class="c1-body">
+              <span class="c1-title-row">Play <b>Wingspan</b> 5 times</span>
+              <div class="c1-bar-track">
+                <div class="c1-bar-fill"></div>
+                <span class="c1-bar-span">3 / 5</span>
+              </div>
+            </div>
+            <div class="c1-pts">15</div>
+          </div>
+        </div>
+      </div>
+      <div class="meta"><span>Trigger: <b>currentAttempts changes</b></span><span>Duration: <b>~900ms</b></span><span>Easing: <b>spring cubic-bezier</b></span></div>
+    </article>
+
+    <!-- CARD 2 -->
+    <article class="card">
+      <div class="card__top">
+        <div><div class="card__step">02 · Status icon</div><h2 class="card__title">Locked → in progress → done</h2></div>
+        <span class="card__tag">challenges-management<br>.component.html (status-image)</span>
+      </div>
+      <div class="audit">
+        <div class="now"><b>Now:</b> the status badge is a plain <code>[src]</code> ternary between <code>locked.png</code> / <code>challenge-inprogress.png</code> / <code>challenge-complete.png</code> — a hard, instant image swap, no transition at all.</div>
+        <div class="next"><b>Proposed:</b> crossfade between the real PNGs, and on the transition into "complete" specifically, add a ring pulse + scale-pop — same beat the redesigned challenge-overlay popup already uses, so the two moments feel like one system.</div>
+      </div>
+      <div class="stage">
+        <div class="c2-wrap">
+          <div class="c2-slot"><span>LOCKED</span><div class="c2-icon" style="opacity:0.5;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--faint)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div></div>
+          <svg class="c2-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          <div class="c2-slot"><span>IN PROGRESS</span><div class="c2-icon" style="background:var(--amber-soft);border-color:transparent;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12M6 21h12M7 3c0 5 5 6 5 9s-5 4-5 9M17 3c0 5-5 6-5 9s5 4 5 9"/></svg></div></div>
+          <svg class="c2-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          <div class="c2-slot"><span>COMPLETE</span><div class="c2-icon c2-final"><div class="ring"></div><svg class="check" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></div></div>
+        </div>
+      </div>
+      <div class="meta"><span>Trigger: <b>status → Completed</b></span><span>Duration: <b>~700ms</b></span><span>Easing: <b>spring overshoot</b></span></div>
+    </article>
+
+    <!-- CARD 3 -->
+    <article class="card">
+      <div class="card__top">
+        <div><div class="card__step">03 · Points → reward tier</div><h2 class="card__title">Milestone circle activation</h2></div>
+        <span class="card__tag">challenges-management<br>.component.scss:209–244</span>
+      </div>
+      <div class="audit">
+        <div class="now"><b>Now:</b> this <em>is</em> the app's real leveling mechanic — a horizontal track (<code>.progress</code>) with a checkpoint circle per reward tier (<code>.circle</code>), positioned by <code>getLeftOffset()</code>. Crossing a threshold flips <code>.circle.activated</code>, which already has a <code>0.4s ease</code> border transition — it's just a plain fade, no emphasis.</div>
+        <div class="next"><b>Proposed:</b> the crossed circle gets a spring pop + brief glow ring instead of a flat fade, since this is the actual moment a reward tier unlocks.</div>
+      </div>
+      <div class="stage">
+        <div class="c3-wrap">
+          <div class="c3-track">
+            <div class="c3-fill"></div>
+            <div class="c3-circle" style="left:10%;border-color:var(--amber);background:var(--amber-soft);">25</div>
+            <div class="c3-circle will-activate" style="left:55%;">75</div>
+            <div class="c3-circle" style="left:88%;">150</div>
+          </div>
+        </div>
+      </div>
+      <div class="meta"><span>Trigger: <b>score crosses rewardRequiredPoints</b></span><span>Duration: <b>~600ms</b></span><span>Easing: <b>spring overshoot</b></span></div>
+    </article>
+
+    <!-- CARD 4 -->
+    <article class="card">
+      <div class="card__top">
+        <div><div class="card__step">04 · Reward unlocked</div><h2 class="card__title">Unlock shine <span style="color:var(--faint);font-weight:600;font-size:14px;">— net-new</span></h2></div>
+        <span class="card__tag">challenges-rewards<br>.component.html</span>
+      </div>
+      <div class="audit">
+        <div class="now"><b>Now:</b> the real reward card (<code>wrapper_challenges__item</code>) has zero animation today — it just renders in whatever status it's in (available / used / expired).</div>
+        <div class="next"><b>Proposed:</b> genuinely new, not an upgrade — when a reward flips to newly available, a NEW ribbon pops on and a foil shine sweeps the card twice.</div>
+      </div>
+      <div class="stage">
+        <div class="c4-wrap">
+          <div class="c4-card">
+            <div class="c4-ribbon">NEW</div>
+            <div class="c4-img"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M9 13.5 7 22l5-3 5 3-2-8.5"/></svg></div>
+            <div class="c4-info"><span class="c4-name">Free drink voucher</span><span class="c4-chip">3 days left</span></div>
+            <span class="c4-btn">Use</span>
+          </div>
+        </div>
+      </div>
+      <div class="meta"><span>Trigger: <b>reward status → available</b></span><span>Duration: <b>~2.4s, twice</b></span><span>Easing: <b>ease-in-out</b></span></div>
+    </article>
+
+    <!-- CARD 5 -->
+    <article class="card">
+      <div class="card__top">
+        <div><div class="card__step">05 · Streak kept</div><h2 class="card__title">Fire &amp; sparks, elevated</h2></div>
+        <span class="card__tag">streak-rewards<br>.component.scss:1–129</span>
+      </div>
+      <div class="audit">
+        <div class="now"><b>Now:</b> this already has real motion — a live <code>streak_fire.gif</code> swapped in when active, and a genuine 9-span particle system (<code>.sparks</code>, <code>@keyframes spark</code>) drifting continuously. This page is still on the pre-redesign light palette though, not the <code>games-*</code> dark tokens.</div>
+        <div class="next"><b>Proposed:</b> keep the ambient sparks as-is, add one bigger celebratory burst + a number scale-pop specifically on the moment the streak count increments, and port the whole thing onto <code>games-*</code> tokens.</div>
+      </div>
+      <div class="stage">
+        <div class="c5-wrap">
+          <div class="c5-fire-zone">
+            <div class="c5-fire-circle">
+              <svg class="c5-flame" viewBox="0 0 24 24" fill="url(#flameGrad5)">
+                <defs><linearGradient id="flameGrad5" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="#bf3c65"/><stop offset="100%" stop-color="#f3bf3d"/></linearGradient></defs>
+                <path d="M12 2c1 3-2 4-2 7a3 3 0 1 0 6 0c0-1-.5-1.7-1-2 1.5 1 3 3 3 6a6 6 0 1 1-12 0c0-5 3-6 4-9 .3-1 .8-1.6 2-2z"/>
+              </svg>
+            </div>
+            <div class="c5-sparks"><span></span><span></span><span></span><span></span><span></span></div>
+          </div>
+          <div class="c5-count"><div class="c5-count-inner display"><span>6</span><span>7</span></div></div>
+          <div class="c5-label"><b style="font-size:13.5px;font-weight:700;">Current Streak</b><span style="font-size:11.5px;color:var(--faint);">already animated · sparks live</span></div>
+        </div>
+      </div>
+      <div class="meta"><span>Trigger: <b>streak count increments</b></span><span>Duration: <b>sparks continuous · burst ~800ms</b></span><span>Easing: <b>spring + ease-out</b></span></div>
+    </article>
+
+    <!-- CARD 6 -->
+    <article class="card">
+      <div class="card__top">
+        <div><div class="card__step">06 · Streak milestone</div><h2 class="card__title">Timeline unlock</h2></div>
+        <span class="card__tag">streak-rewards<br>.component.html:70–92</span>
+      </div>
+      <div class="audit">
+        <div class="now"><b>Now:</b> the milestone list (<code>.milestone</code>) already toggles an <code>active</code> class with a connecting line to the next item — but it's an instant class swap, orange border, no motion.</div>
+        <div class="next"><b>Proposed:</b> when a milestone unlocks, its icon pops with a spring bounce and the connecting line fills in over its length instead of snapping.</div>
+      </div>
+      <div class="stage">
+        <div class="c6-wrap">
+          <div class="c6-item"><div class="c6-icon" style="border-color:var(--amber);background:var(--amber-soft);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></div><div class="c6-text"><b>3-day streak</b><span>Unlocked</span></div></div>
+          <div class="c6-item pending"><div class="c6-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--faint)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div><div class="c6-text"><b>7-day streak</b><span>Almost there</span></div></div>
+          <div class="c6-item"><div class="c6-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--faint)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div><div class="c6-text"><b>30-day streak</b><span>Locked</span></div></div>
+        </div>
+      </div>
+      <div class="meta"><span>Trigger: <b>milestone crossed</b></span><span>Duration: <b>icon ~500ms · line ~700ms</b></span><span>Easing: <b>spring overshoot</b></span></div>
+    </article>
+
+    <!-- CARD 7 -->
+    <article class="card full">
+      <div class="card__top">
+        <div><div class="card__step">07 · Finding yourself</div><h2 class="card__title">Rank-row highlight on scroll</h2></div>
+        <span class="card__tag">leaderboard-challenges.component.ts · scrollToCurrentUser() &nbsp;/&nbsp; streak-leaderboard.component.ts</span>
+      </div>
+      <div class="audit">
+        <div class="now"><b>Now:</b> both leaderboards have a real, working <code>scrollToCurrentUser()</code> — tapping the "your rank" card scrolls the list to <code>#user-rank-&lt;username&gt;</code>. It's an instant jump with no visual confirmation once it arrives, easy to lose in a long list. There's no rank-history anywhere, so a "you moved up 2 spots" badge genuinely can't be built — this replaces that dropped idea.</div>
+        <div class="next"><b>Proposed:</b> once the scroll lands, the row gets a brief blue glow-pulse so your eye finds it immediately.</div>
+      </div>
+      <div class="stage" style="min-height:170px;">
+        <div class="c7-wrap">
+          <div class="c7-row"><span class="c7-rank">5</span><div class="c7-avatar"></div><span class="c7-name">David K.</span><span class="c7-val">8 challenges</span></div>
+          <div class="c7-row me" style="position:relative;"><span class="c7-rank">6</span><div class="c7-avatar"></div><span class="c7-name">You</span><span class="c7-val">7 challenges</span></div>
+          <div class="c7-row"><span class="c7-rank">7</span><div class="c7-avatar"></div><span class="c7-name">Priya N.</span><span class="c7-val">6 challenges</span></div>
+        </div>
+      </div>
+      <div class="meta"><span>Trigger: <b>scrollToCurrentUser() completes</b></span><span>Duration: <b>~1.6s</b></span><span>Easing: <b>ease-out</b></span></div>
+    </article>
+
+  </div>
+
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

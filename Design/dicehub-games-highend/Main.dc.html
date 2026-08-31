@@ -1,0 +1,179 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Sora:wght@400;500;600;700&display=swap');
+    :root {
+      --bg: #07070a;
+      --glass: rgba(255,255,255,0.045);
+      --glass-core: rgba(255,255,255,0.065);
+      --glass-core-2: rgba(255,255,255,0.09);
+      --hairline: rgba(255,255,255,0.09);
+      --hairline-strong: rgba(255,255,255,0.17);
+      --text: #f4f2ee;
+      --text-muted: rgba(244,242,238,0.6);
+      --text-faint: rgba(244,242,238,0.36);
+      --accent: oklch(0.7 0.13 250);
+      --accent-light: oklch(0.82 0.08 250);
+      --accent-ink: #071022;
+      --accent-glow: oklch(0.7 0.13 250 / 0.22);
+      --accent-glow-strong: oklch(0.7 0.13 250 / 0.42);
+      --gold: oklch(0.78 0.13 82);
+      --shadow: 0 24px 60px -24px oklch(0.1 0.05 260 / 0.8);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); font-family: 'Sora', ui-sans-serif, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+    .display { font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif; }
+    .grain { position: absolute; inset: 0; background-image: url('grain.png'); background-size: 64px 64px; opacity: 0.5; pointer-events: none; mix-blend-mode: overlay; border-radius: inherit; }
+    .glow { position: absolute; border-radius: 50%; filter: blur(60px); pointer-events: none; animation: glowBreathe 7s ease-in-out infinite; }
+    @keyframes glowBreathe { 0%,100% { opacity: 0.45; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.15); } }
+    .bezel { padding: 0.3rem; border-radius: 1.7rem; background: var(--glass); border: 1px solid var(--hairline); position: relative; }
+    .bezel__core { border-radius: 1.4rem; overflow: hidden; position: relative; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 6px; font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; padding: 6px 11px; border-radius: 999px; }
+    .icon-btn { width: 42px; height: 42px; border-radius: 999px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: var(--glass-core); border: 1px solid var(--hairline); }
+    .btn-primary { display: inline-flex; align-items: center; gap: 10px; font-size: 13.5px; font-weight: 700; padding: 6px 6px 6px 20px; border-radius: 999px; background: linear-gradient(135deg, var(--accent-light), var(--accent)); color: var(--accent-ink); box-shadow: 0 16px 32px -14px var(--accent-glow-strong); }
+    .btn-primary__icon { width: 34px; height: 34px; border-radius: 999px; background: rgba(7,16,34,0.14); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .tile { border-radius: 1.25rem; border: 1px solid var(--hairline); overflow: hidden; position: relative; }
+    .diff-dot { width: 5px; height: 5px; border-radius: 50%; }
+    .navbar { position: absolute; left: 18px; right: 18px; bottom: 22px; display: flex; align-items: center; justify-content: space-between; padding: 10px 18px; border-radius: 999px; background: rgba(13,13,18,0.72); backdrop-filter: blur(20px); border: 1px solid var(--hairline-strong); box-shadow: 0 20px 44px -14px rgba(0,0,0,0.75); }
+    .navbar .fab { width: 50px; height: 50px; border-radius: 999px; background: linear-gradient(135deg, var(--gold), #caa53a); display: flex; align-items: center; justify-content: center; margin-top: -24px; box-shadow: 0 10px 24px -8px oklch(0.78 0.13 82 / 0.55), 0 0 0 6px var(--bg); }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); filter: blur(5px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
+    .stagger > * { opacity: 0; animation: fadeUp 650ms cubic-bezier(.32,.72,0,1) forwards; }
+    .stagger > *:nth-child(1) { animation-delay: .03s; } .stagger > *:nth-child(2) { animation-delay: .09s; }
+    .stagger > *:nth-child(3) { animation-delay: .15s; } .stagger > *:nth-child(4) { animation-delay: .21s; }
+    .stagger > *:nth-child(5) { animation-delay: .27s; }
+  </style>
+</helmet>
+
+<div style="width:393px;background:var(--bg);color:var(--text);padding:26px 20px 150px;display:flex;flex-direction:column;gap:24px;position:relative;overflow:hidden;">
+
+  <div class="glow" style="width:260px;height:260px;top:-80px;right:-90px;background:var(--accent-glow);"></div>
+
+  <div class="stagger" style="display:flex;flex-direction:column;gap:22px;position:relative;">
+
+    <div style="display:flex;flex-direction:column;gap:4px;">
+      <span class="eyebrow" style="color:var(--accent-light);background:var(--accent-glow);">Club library</span>
+      <span class="display" style="font-size:30px;font-weight:800;letter-spacing:-0.01em;margin-top:6px;">Discover</span>
+      <span style="font-size:13px;color:var(--text-muted);font-weight:500;">128 games on the shelf, ready tonight</span>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:10px;background:var(--glass-core);border:1px solid var(--hairline);border-radius:999px;padding:14px 18px;">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M20 20l-4.8-4.8"/></svg>
+      <span style="font-size:13.5px;color:var(--text-faint);font-weight:500;">Search games, tags…</span>
+    </div>
+
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <span style="font-size:12px;font-weight:700;padding:9px 16px;border-radius:999px;background:linear-gradient(135deg,var(--accent-light),var(--accent));color:var(--accent-ink);">All</span>
+      <span style="font-size:12px;font-weight:600;padding:9px 16px;border-radius:999px;background:var(--glass-core);border:1px solid var(--hairline);color:var(--text-muted);">Strategy</span>
+      <span style="font-size:12px;font-weight:600;padding:9px 16px;border-radius:999px;background:var(--glass-core);border:1px solid var(--hairline);color:var(--text-muted);">Party</span>
+      <span style="font-size:12px;font-weight:600;padding:9px 16px;border-radius:999px;background:var(--glass-core);border:1px solid var(--hairline);color:var(--text-muted);">Co-op</span>
+    </div>
+
+    <!-- Featured — double-bezel hero cell -->
+    <div class="bezel" style="box-shadow:var(--shadow);">
+      <div class="bezel__core" style="height:224px;background:linear-gradient(155deg,#6f4fcf,#c65a7c 75%);">
+        <div class="grain"></div>
+        <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(4,3,8,0.7),rgba(4,3,8,0) 58%);"></div>
+        <span class="eyebrow" style="position:absolute;top:16px;left:16px;background:rgba(6,5,10,0.45);backdrop-filter:blur(6px);color:#fff;">Featured tonight</span>
+        <div style="position:absolute;top:16px;right:16px;display:flex;align-items:center;gap:4px;padding:6px 11px;border-radius:999px;background:rgba(6,5,10,0.45);backdrop-filter:blur(6px);">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="var(--gold)" stroke="var(--gold)" stroke-width="1"><path d="M12 3.5l2.4 5 5.5.7-4 3.8 1 5.5-4.9-2.7-4.9 2.7 1-5.5-4-3.8 5.5-.7z"/></svg>
+          <span style="font-size:11.5px;font-weight:700;color:#fff;">4.8</span>
+        </div>
+        <div style="position:absolute;left:18px;right:18px;bottom:18px;display:flex;align-items:flex-end;justify-content:space-between;gap:12px;">
+          <div style="display:flex;flex-direction:column;gap:3px;">
+            <span class="display" style="font-size:22px;font-weight:800;color:#fff;">Wingspan</span>
+            <span style="font-size:12px;color:rgba(255,255,255,0.75);font-weight:500;">1–5 players · 40–70 min</span>
+          </div>
+          <span class="btn-primary" style="flex-shrink:0;">Reserve<span class="btn-primary__icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--accent-ink)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Popular — asymmetric bento -->
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <span class="display" style="font-size:18px;font-weight:700;">Popular this week</span>
+
+      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;">
+
+        <div class="tile" style="grid-column:span 2;aspect-ratio:2.5;background:linear-gradient(135deg,#5a4fcf,#8ea2ff);display:flex;align-items:flex-end;padding:14px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;width:100%;">
+            <div style="display:flex;flex-direction:column;gap:2px;">
+              <span class="display" style="font-size:15px;font-weight:700;color:#fff;">Catan</span>
+              <span style="font-size:11px;color:rgba(255,255,255,0.75);">3–4 players</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:3px;background:rgba(6,5,10,0.4);backdrop-filter:blur(6px);padding:5px 9px;border-radius:999px;">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="var(--gold)" stroke="var(--gold)" stroke-width="1"><path d="M12 3.5l2.4 5 5.5.7-4 3.8 1 5.5-4.9-2.7-4.9 2.7 1-5.5-4-3.8 5.5-.7z"/></svg>
+              <span style="font-size:11px;font-weight:700;color:#fff;">4.6</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div class="tile" style="aspect-ratio:1;background:linear-gradient(135deg,#bf3c65,#e88ea8);"></div>
+          <div style="display:flex;flex-direction:column;gap:5px;padding:0 2px;">
+            <span style="font-size:13.5px;font-weight:700;">Azul</span>
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+              <span style="font-size:11px;color:var(--text-faint);">2–4 players</span>
+              <span style="font-size:11px;font-weight:700;color:var(--text-muted);">4.4</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div class="tile" style="aspect-ratio:1;background:linear-gradient(135deg,#c99a2e,#f0d878);"></div>
+          <div style="display:flex;flex-direction:column;gap:5px;padding:0 2px;">
+            <span style="font-size:13.5px;font-weight:700;">Splendor</span>
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+              <span style="font-size:11px;color:var(--text-faint);">2–4 players</span>
+              <span style="font-size:11px;font-weight:700;color:var(--text-muted);">4.3</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tile" style="grid-column:span 2;aspect-ratio:2.5;background:linear-gradient(135deg,#3f8f6e,#a3d78a);display:flex;align-items:flex-end;padding:14px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;width:100%;">
+            <div style="display:flex;flex-direction:column;gap:2px;">
+              <span class="display" style="font-size:15px;font-weight:700;color:#fff;">Ark Nova</span>
+              <span style="font-size:11px;color:rgba(255,255,255,0.75);">1–4 players</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:3px;background:rgba(6,5,10,0.4);backdrop-filter:blur(6px);padding:5px 9px;border-radius:999px;">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="var(--gold)" stroke="var(--gold)" stroke-width="1"><path d="M12 3.5l2.4 5 5.5.7-4 3.8 1 5.5-4.9-2.7-4.9 2.7 1-5.5-4-3.8 5.5-.7z"/></svg>
+              <span style="font-size:11px;font-weight:700;color:#fff;">4.7</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Floating glass nav — real IA: games / meeple / reservations · FAB(challenges) · events / profile — games active -->
+  <div class="navbar">
+    <div class="icon-btn" style="background:var(--accent-glow);border-color:transparent;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-light)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9a1 1 0 0 0 1 1h4v-6h2v6h4a1 1 0 0 0 1-1v-9"/></svg>
+    </div>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 19c.8-3.3 3-5 6-5s5.2 1.7 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 12.2c2.6.2 4 1.7 4.6 4.3"/></svg>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16"/><path d="M8 3v4M16 3v4"/><path d="M9.5 14l1.8 1.8L15 12"/></svg>
+    <div class="fab">
+      <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="var(--accent-ink)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8v4a4 4 0 0 1-8 0z"/><path d="M8 5H5a3 3 0 0 0 3 5"/><path d="M16 5h3a3 3 0 0 1-3 5"/><path d="M10 13v3M14 13v3"/><path d="M8 20h8"/><path d="M9 17h6l1 3H8z"/></svg>
+    </div>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2 1.6 1.6 0 0 0 0 6 2 2 0 0 1-2 2H6a2 2 0 0 1-2-2 1.6 1.6 0 0 0 0-6z"/><path d="M9 7.5v2M9 12.5v2M9 17v-2"/></svg>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c1.2-4 4-5.5 7-5.5s5.8 1.5 7 5.5"/></svg>
+  </div>
+
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

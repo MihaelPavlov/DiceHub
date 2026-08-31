@@ -1,13 +1,21 @@
-<div class="dialog-container">
-  <h3 class="dialog-container__header m-4">
-    {{ "meeple.room.remove_member_question" | translate }}
-  </h3>
-  <mat-dialog-actions>
-    <button class="btn btn__small btn-blue" mat-dialog-close>
+<div class="confirm-sheet">
+  <div class="confirm-sheet__handle"></div>
+
+  <div class="confirm-sheet__centered">
+    <div class="confirm-sheet__icon confirm-sheet__icon--lg confirm-sheet__icon--coral">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9" cy="8" r="3.2"/><path d="M3.5 20c.7-3.4 3-5.2 5.5-5.2s4.8 1.8 5.5 5.2"/><path d="M16 9h5"/>
+      </svg>
+    </div>
+    <div class="confirm-sheet__title">{{ "meeple.room.remove_member_question" | translate }}</div>
+  </div>
+
+  <div class="confirm-sheet__actions">
+    <button class="confirm-sheet__btn confirm-sheet__btn--ghost" mat-dialog-close>
       {{ "cancel" | translate }}
     </button>
-    <button class="btn btn__small btn-red btn-border-red" (click)="onRemove()">
+    <button class="confirm-sheet__btn confirm-sheet__btn--coral" (click)="onRemove()">
       {{ "remove" | translate }}
     </button>
-  </mat-dialog-actions>
+  </div>
 </div>

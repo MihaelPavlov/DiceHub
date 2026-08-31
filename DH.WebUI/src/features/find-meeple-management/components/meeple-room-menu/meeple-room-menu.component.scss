@@ -4,12 +4,14 @@
     position: fixed;
     right: 2rem;
     top: 4rem;
-    background-color: palette.$main-nav-color;
+    background-color: var(--games-surface);
+    border: 1px solid var(--games-border);
+    border-radius: 0.75rem;
     padding: 1rem;
     z-index: 1000;
 
     .red-text {
-        color: palette.$main-red-color;
+        color: var(--games-coral);
     }
 }
 
@@ -25,11 +27,5 @@
 }
 
 .menu ul li:hover {
-    background-color: #f0f0f0;
-}
-
-.icon {
-    width: 3rem;
-    height: 3rem;
-    fill: palette.$main-blue-color;
+    background-color: var(--games-surface-2);
 }

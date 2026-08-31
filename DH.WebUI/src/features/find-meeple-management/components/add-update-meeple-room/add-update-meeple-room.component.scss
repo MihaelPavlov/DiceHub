@@ -1,640 +1,211 @@
-@use "../../../../shared/assets/styles/palette";
-
-@keyframes realisticFlames {
-  0% {
-    transform: scale(1) rotate(0deg) translateY(0);
-    opacity: 1;
-  }
-
-  10% {
-    transform: scale(1.1) rotate(1deg) translateY(-2px);
-    opacity: 0.95;
-  }
-
-  20% {
-    transform: scale(1.15) rotate(-2deg) translateY(-4px);
-    opacity: 0.9;
-  }
-
-  30% {
-    transform: scale(1.1) rotate(1deg) translateY(-3px);
-    opacity: 0.93;
-  }
-
-  40% {
-    transform: scale(1.2) rotate(-1deg) translateY(-5px);
-    opacity: 0.88;
-  }
-
-  50% {
-    transform: scale(1.1) rotate(0deg) translateY(-2px);
-    opacity: 0.92;
-  }
-
-  60% {
-    transform: scale(1.15) rotate(-2deg) translateY(-6px);
-    opacity: 0.85;
-  }
-
-  70% {
-    transform: scale(1.2) rotate(1deg) translateY(-4px);
-    opacity: 0.9;
-  }
-
-  80% {
-    transform: scale(1.1) rotate(-1deg) translateY(-3px);
-    opacity: 0.95;
-  }
-
-  90% {
-    transform: scale(1.15) rotate(2deg) translateY(-5px);
-    opacity: 0.9;
-  }
-
-  100% {
-    transform: scale(1) rotate(0deg) translateY(0);
-    opacity: 1;
-  }
-}
-
-@media (min-width: 900px) {
-  .wrapper_icons,
-  .select-container,
-  form,
-  .container-errors {
-    width: min(72rem, calc(100vw - 16rem));
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .wrapper_icons {
-    padding: 1.25rem 0 0;
-
-    .header_name {
-      width: auto;
-      flex: 1;
-      padding-top: 0.25rem;
-      font-size: 1.7rem;
-    }
-  }
-
-  .select-container {
-    justify-content: flex-start;
-    margin-top: 1.5rem;
-  }
-
-  form {
-    display: grid;
-    grid-template-columns: 18rem minmax(0, 1fr);
-    column-gap: 2rem;
-    align-items: start;
-    margin-top: 1.25rem;
-  }
-
-  .wrapper_stats {
-    grid-row: 1 / span 4;
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1rem;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    background-color: palette.$main-nav-color;
-
-    .wrapper_image {
-      position: static;
-      transform: none;
-      order: -1;
-      display: flex;
-      justify-content: center;
-
-      img {
-        width: 13rem;
-        height: 13rem;
-        border-radius: 0.5rem;
-      }
-    }
-
-    &__chips-left,
-    &__chips-right {
-      position: static;
-      margin-top: 0;
-
-      .chip {
-        width: auto;
-        min-height: 2.75rem;
-        margin: 0 0 0.6rem;
-        border-radius: 0.5rem;
-        background-color: palette.$main-background-color;
-      }
-    }
-  }
-
-  .wrapper_title {
-    margin: 0 0 1rem;
-    text-align: left;
-    font-size: 1.5rem;
-  }
-
-  .wrapper_inputs {
-    gap: 1rem;
-    margin-bottom: 1rem;
-
-    &__input,
-    &__time {
-      width: 50%;
-      text-align: left;
-
-      input {
-        box-sizing: border-box;
-        width: 100%;
-        min-width: 0;
-        border-radius: 0.5rem;
-        padding: 0.75rem 1rem;
-      }
-    }
-
-    label {
-      justify-content: flex-start;
-      margin: 0 0 0.35rem;
-      font-size: 0.95rem;
-    }
-  }
-
-  .container-errors {
-    margin-top: 1rem;
-  }
-
-  .btn-container {
-    justify-content: flex-start;
-
-    .wrapper_btn {
-      width: min(24rem, 100%);
-      border-radius: 0.5rem;
-      margin: 1rem 0 3rem;
-    }
-  }
-}
-
-.select-container {
-  display: flex;
-  justify-content: center;
-  margin-top: 1rem;
+:host {
+  display: block;
+  min-height: 100vh;
+  background: var(--games-bg);
+  color: var(--games-text);
 }
 
 .wrapper_icons {
   display: flex;
   justify-content: space-between;
-  padding: 0 1rem;
-  padding-top: 1rem;
   align-items: center;
+  padding: 1rem;
 
   .header_name {
-    font-size: 1.5rem;
-    padding-top: 1rem;
-    padding-bottom: 0.5rem;
+    flex: 1;
+    min-width: 0;
+    font-size: 1.125rem;
+    font-weight: 700;
     word-wrap: break-word;
-    width: 70%;
     text-align: center;
   }
-
-  .arrow {
-    width: 3rem;
-    height: 3rem;
-    display: inline-block;
-    position: relative;
-    border: 0.1rem solid palette.$main-icon-color;
-    border-radius: 2.5rem;
-
-    &::before {
-      content: "";
-      display: block;
-      width: 0.75rem;
-      height: 0.75rem;
-      top: 65%;
-      left: 63%;
-      border-style: solid;
-      border-color: palette.$main-icon-color;
-      border-width: 0.2rem 0.2rem 0 0;
-      position: absolute;
-      transform-origin: 50% 50%;
-    }
-
-    &.left::before {
-      transform: rotate(-135deg);
-      margin: -0.9rem 0 0 -0.6rem;
-    }
-  }
 }
 
-.info-container {
-  position: relative;
-
-  .info {
-    width: 3rem;
-    height: 3rem;
-    fill: palette.$main-blue-color;
-  }
-
-}
-
-.chip-placeholder {
-  display: none;
-}
-
-.container-errors {
+.meeple-form {
+  width: min(28rem, 100%);
+  margin: 0 auto;
+  padding: 0 1.25rem 3rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  gap: 1.125rem;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.125rem;
+  }
+}
+
+.meeple-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.meeple-form__label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--games-muted);
+
+  &.required::after {
+    content: " *";
+    color: var(--games-coral);
+  }
+}
+
+.meeple-form__input {
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--games-surface-2);
+  border: 1px solid var(--games-border);
+  border-radius: 0.875rem;
+  padding: 0.8rem 0.9375rem;
+  font: inherit;
+  font-size: 0.875rem;
+  color: var(--games-text);
+  color-scheme: dark;
+
+  &.ng-touched.ng-invalid {
+    border-color: var(--games-coral);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--games-amber);
+  }
+}
+
+.meeple-form__stats {
+  display: flex;
   align-items: center;
-  margin-top: 2rem;
-
-  .errors {
-    margin: 1rem;
-  }
+  gap: 0.75rem;
 }
 
-.wrapper_stats {
+.meeple-form__chip-col {
+  flex: 1;
+  min-width: 0;
   display: flex;
-  position: relative;
+  flex-direction: column;
+  gap: 0.5rem;
+}
 
-  .wrapper_image {
-    position: absolute;
-    top: 55%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+.meeple-form__chip {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.875rem;
+  background: var(--games-surface);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--games-text);
 
-    img {
-      width: 8rem;
-      height: 8rem;
-      object-fit: cover;
-      border-radius: 5rem;
-    }
-
-    .red {
-      border: solid palette.$main-red-color 1px;
-    }
-
-    .green {
-      border: solid palette.$main-green-color 1px;
-    }
+  svg {
+    width: 1rem;
+    height: 1rem;
+    fill: var(--games-faint);
+    flex-shrink: 0;
   }
 
-  &__chips-left {
-    margin-top: 2rem;
-
-    .chip {
-      width: 30vw;
-      margin: 1.5rem 0;
-      background-color: palette.$main-nav-color;
-      padding: 0.5rem 1rem;
-      display: flex;
-      justify-content: space-between;
-      border-top-right-radius: 2rem;
-      border-bottom-right-radius: 2rem;
-      align-items: center;
-    }
+  .available {
+    fill: var(--games-teal);
   }
 
-  &__chips-right {
-    position: absolute;
-    right: 0;
-    margin-top: 2rem;
+  .unavailable {
+    fill: var(--games-coral);
+  }
+}
 
-    .chip {
-      width: 30vw;
-      margin: 1.5rem 0;
-      background-color: palette.$main-nav-color;
-      padding: 0.5rem 1rem;
-      display: flex;
-      justify-content: space-between;
-      border-top-left-radius: 2rem;
-      border-bottom-left-radius: 2rem;
-      align-items: center;
+.meeple-form__chip-placeholder {
+  color: var(--games-faint);
+  font-weight: 500;
+}
 
-      .available {
-        fill: palette.$main-green-color;
-      }
+.meeple-form__thumb {
+  flex-shrink: 0;
+  width: 6.25rem;
+  height: 6.25rem;
 
-      .unavailable {
-        fill: palette.$main-red-color;
-      }
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 1.25rem;
+    box-shadow: var(--games-shadow);
+
+    &.red {
+      border: 1px solid var(--games-coral);
+    }
+
+    &.green {
+      border: 1px solid var(--games-teal);
     }
   }
 }
 
-.wrapper_title {
-  margin: 1rem 1rem;
-  word-break: break-word;
+.meeple-form__game-name {
   text-align: center;
-  font-size: 1.4rem;
+  font-family: "Bricolage Grotesque", "Sora", system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 1.125rem;
 }
 
-.wrapper_inputs {
-  display: flex;
-  justify-content: space-between;
+.meeple-form__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
 
-  .ng-touched.ng-invalid {
-    border: 0.1rem solid palette.$main-red-color;
-  }
-
-  &__input {
-    width: 50%;
-
-    input {
-      width: 70%;
-      border: none;
-      min-width: 80%;
-      border-radius: 5px;
-      background-color: palette.$main-nav-color;
-      padding: 0.4rem 0.8rem;
-      color: palette.$main-font-gray-color;
-      border-top-right-radius: 2rem;
-      border-bottom-right-radius: 2rem;
-    }
-  }
-
-  &__time {
-    text-align: end;
-    width: 50%;
-
-    input {
-      width: 70%;
-      border: none;
-      min-width: 80%;
-      border-radius: 5px;
-      background-color: palette.$main-nav-color;
-      padding: 0.3rem 0.6rem;
-      color: palette.$main-font-gray-color;
-      border-top-left-radius: 2rem;
-      border-bottom-left-radius: 2rem;
-    }
-  }
-
-  label {
-    font-size: 1.1rem;
-    color: palette.$main-font-gray-color;
-    margin: 0 1.5rem;
-    display: flex;
-    justify-content: center;
-  }
-
-  input:focus {
-    outline-style: solid;
-    outline-color: palette.$main-icon-color;
-    outline-width: 0.05rem;
+.meeple-form__errors {
+  .errors {
+    color: var(--games-coral);
+    font-size: 0.8rem;
+    text-align: center;
   }
 }
 
-.btn-container {
-  display: flex;
-  justify-content: center;
+.meeple-form__submit {
+  width: 100%;
+  margin-top: 0.25rem;
+  white-space: nowrap;
 
-  .wrapper_btn {
-    border-radius: 2rem;
-    width: 70%;
-    font-size: 1.4rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 2rem;
-    margin-bottom: 10rem;
-    background-color: palette.$main-nav-color;
-    padding: 1rem;
-
-    svg {
-      width: 2rem;
-      height: 2rem;
-    }
-
-    .gray-flames {
-      fill: palette.$main-font-gray-color;
-    }
-
-    .red-flames {
-      fill: palette.$main-red-color;
-      animation: realisticFlames 3s infinite;
-    }
+  svg {
+    width: 1.0625rem;
+    height: 1.0625rem;
+    flex-shrink: 0;
   }
 }
 
 @media (min-width: 900px) {
-  .wrapper_icons,
-  .select-container,
-  form {
-    width: min(68rem, calc(100vw - 18rem));
-    margin-left: auto;
-    margin-right: auto;
-  }
-
   .wrapper_icons {
-    padding: 1.5rem 0 0;
-    gap: 1rem;
-
-    .header_name {
-      flex: 1;
-      width: auto;
-      padding: 0;
-      text-align: left;
-      font-size: 1.75rem;
-      line-height: 1.2;
-    }
-
-    .arrow {
-      flex: 0 0 2.5rem;
-      width: 2.5rem;
-      height: 2.5rem;
-      cursor: pointer;
-    }
+    width: min(56rem, 100%);
+    margin: 0 auto;
+    padding: 1.5rem 0;
   }
 
-  .select-container {
-    justify-content: flex-start;
-    margin-top: 1rem;
+  .meeple-form {
+    width: min(56rem, 100%);
+    padding: 0 0 4rem;
   }
 
-  .select-container .ng-select.app-select,
-  .select-container .ng-select.app-select .ng-select-container {
-    min-width: min(24rem, 100%);
-    max-width: min(24rem, 100%);
-    width: min(24rem, 100%);
+  .meeple-form__field--game {
+    max-width: 22rem;
   }
 
-  form {
-    display: grid;
-    grid-template-columns: minmax(18rem, 21rem) minmax(0, 1fr);
-    grid-template-areas:
-      "summary title"
-      "summary date"
-      "summary room"
-      "summary errors"
-      "summary action";
-    gap: 0.85rem 1.25rem;
-    align-items: start;
-    margin-top: 1rem;
+  .meeple-form__stats {
     padding: 1rem;
-    border: 0.1rem solid rgba(117, 160, 255, 0.2);
-    border-radius: 0.5rem;
-    background-color: rgba(49, 49, 59, 0.22);
-    box-sizing: border-box;
+    border: 1px solid var(--games-border);
+    border-radius: 1.25rem;
+    background: var(--games-surface);
   }
 
-  form > br {
-    display: none;
+  .meeple-form__thumb {
+    width: 7.5rem;
+    height: 7.5rem;
   }
 
-  .wrapper_stats {
-    grid-area: summary;
-    align-self: stretch;
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 0.75rem;
-    min-height: 100%;
-    padding: 0.85rem;
-    border: 0.1rem solid rgba(117, 160, 255, 0.18);
-    border-radius: 0.5rem;
-    background-color: rgba(32, 35, 42, 0.72);
-    box-sizing: border-box;
-
-    .wrapper_image {
-      position: static;
-      order: -1;
-      transform: none;
-      display: flex;
-      justify-content: center;
-
-      img {
-        width: 100%;
-        max-width: 15rem;
-        height: auto;
-        aspect-ratio: 1 / 1;
-        object-fit: cover;
-        border-radius: 0.5rem;
-      }
-    }
-
-    &__chips-left,
-    &__chips-right {
-      position: static;
-      display: grid;
-      gap: 0.55rem;
-      margin: 0;
-
-      .chip {
-        width: auto;
-        min-height: 2.6rem;
-        margin: 0;
-        padding: 0.55rem 0.75rem;
-        border-radius: 0.5rem;
-        background-color: palette.$main-background-color;
-        box-sizing: border-box;
-
-        .chip-placeholder {
-          display: inline;
-          color: palette.$main-font-gray-color;
-          font-size: 0.85rem;
-          line-height: 1.2;
-        }
-      }
-    }
-  }
-
-  .wrapper_title {
-    grid-area: title;
-    margin: 0;
-    padding: 0.85rem 1rem;
-    border-radius: 0.5rem;
-    background-color: palette.$main-nav-color;
-    text-align: left;
-    font-size: 1.35rem;
-    line-height: 1.3;
-    min-height: 3.2rem;
-    box-sizing: border-box;
-  }
-
-  .date-time-fields {
-    grid-area: date;
-  }
-
-  .room-fields {
-    grid-area: room;
-  }
-
-  .wrapper_inputs {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.85rem;
-    margin: 0;
-
-    &__input,
-    &__time {
-      width: auto;
-      min-width: 0;
-      text-align: left;
-
-      input {
-        width: 100%;
-        min-width: 0;
-        box-sizing: border-box;
-        min-height: 2.65rem;
-        padding: 0.6rem 0.75rem;
-        border: 0.1rem solid rgba(117, 160, 255, 0.18);
-        border-radius: 0.5rem;
-        background-color: palette.$main-background-color;
-        color: palette.$main-font-color;
-      }
-    }
-
-    label {
-      justify-content: flex-start;
-      margin: 0 0 0.25rem;
-      font-size: 0.85rem;
-      line-height: 1.2;
-    }
-  }
-
-  .container-errors {
-    grid-area: errors;
-    width: auto;
-    margin: 0;
-    align-items: stretch;
-
-    .errors {
-      margin: 0;
-    }
-  }
-
-  .btn-container {
-    grid-area: action;
-    justify-content: flex-end;
-
-    .wrapper_btn {
-      width: min(20rem, 100%);
-      margin: 0.25rem 0 0;
-      border-radius: 0.5rem;
-      font-size: 1.15rem;
-      padding: 0.75rem 1rem;
-    }
-  }
-}
-
-@media (min-width: 900px) and (max-width: 1120px) {
-  form {
-    grid-template-columns: 1fr;
-    grid-template-areas:
-      "summary"
-      "title"
-      "date"
-      "room"
-      "errors"
-      "action";
-  }
-
-  .wrapper_stats {
-    grid-template-columns: minmax(10rem, 14rem) minmax(0, 1fr);
-    align-items: center;
-
-    .wrapper_image {
-      grid-row: span 2;
-    }
+  .meeple-form__submit {
+    width: fit-content;
   }
 }

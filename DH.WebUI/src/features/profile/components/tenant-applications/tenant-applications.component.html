@@ -1,33 +1,38 @@
-<div class="container">
-  <h2>Applicants</h2>
+<app-profile-settings-nav></app-profile-settings-nav>
 
-  <div *ngIf="isLoading" class="empty">Loading applicants...</div>
+<div class="profile-page-body">
+  <div class="profile-page">
+    <div class="profile-page-header">
+      <span class="profile-page-header__title">{{ "profile.applicants" | translate }}</span>
+    </div>
 
-  <div *ngIf="!isLoading && applications.length === 0" class="empty">
-    No tenant applicants yet.
-  </div>
+    <div class="profile-empty-state" *ngIf="isLoading">Loading applicants...</div>
+    <div class="profile-empty-state" *ngIf="!isLoading && applications.length === 0">
+      No tenant applicants yet.
+    </div>
 
-  <div class="list" *ngIf="!isLoading && applications.length > 0">
-    <button
-      type="button"
-      class="application surface-elevated"
-      *ngFor="let application of applications"
-      (click)="open(application)"
-    >
-      <span>
-        <strong>{{ application.contactName }}</strong>
-        <small>{{ application.applicantType }}</small>
-      </span>
-      <span>{{ application.email }}</span>
-      <span>{{ application.phoneNumber }}</span>
-      <span
-        class="status"
-        [class.pending]="application.status === status.PendingVerification"
-        [class.verified]="application.status === status.Verified"
-        [class.rejected]="application.status === status.Rejected"
+    <div class="profile-list" *ngIf="!isLoading && applications.length > 0">
+      <button
+        type="button"
+        class="profile-list-row applicant-row"
+        *ngFor="let application of applications"
+        (click)="open(application)"
       >
-        {{ getStatusLabel(application.status) }}
-      </span>
-    </button>
+        <div class="profile-list-row__body">
+          <span class="profile-list-row__title">{{ application.contactName }}</span>
+          <span class="profile-list-row__subtitle">{{ application.applicantType }}</span>
+          <span class="profile-list-row__subtitle">{{ application.email }}</span>
+          <span class="profile-list-row__subtitle">{{ application.phoneNumber }}</span>
+        </div>
+        <span
+          class="profile-status"
+          [class.profile-status--pending]="application.status === status.PendingVerification"
+          [class.profile-status--verified]="application.status === status.Verified"
+          [class.profile-status--rejected]="application.status === status.Rejected"
+        >
+          {{ getStatusLabel(application.status) }}
+        </span>
+      </button>
+    </div>
   </div>
 </div>

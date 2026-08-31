@@ -1,11 +1,22 @@
-@use "../../.././../shared/assets/styles/palette";
+:host {
+  display: flex;
+  min-height: 100vh;
+  background: var(--games-bg);
+  color: var(--games-text);
+  font-family: "Sora", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+}
+
+.profile-page-body {
+  flex: 1;
+  min-width: 0;
+}
 
 .container {
   display: flex;
   flex-direction: column;
   margin: 2rem;
   margin-bottom: 3rem;
-  font-size: palette.$main-font-color;
 }
 
 .btn-container {
@@ -22,6 +33,8 @@
   align-items: center;
 
   .header_name {
+    font-family: "Bricolage Grotesque", "Sora", system-ui, sans-serif;
+    font-weight: 800;
     font-size: 1.5rem;
     padding-top: 1rem;
     padding-bottom: 0.5rem;
@@ -35,8 +48,9 @@
     height: 3rem;
     display: inline-block;
     position: relative;
-    border: 0.1rem solid palette.$main-icon-color;
+    border: 0.1rem solid var(--games-border);
     border-radius: 2.5rem;
+    cursor: pointer;
 
     &::before {
       content: "";
@@ -46,7 +60,7 @@
       top: 65%;
       left: 63%;
       border-style: solid;
-      border-color: palette.$main-icon-color;
+      border-color: var(--games-text);
       border-width: 0.2rem 0.2rem 0 0;
       position: absolute;
       transform-origin: 50% 50%;
@@ -65,7 +79,7 @@
   .info {
     width: 3rem;
     height: 3rem;
-    fill: palette.$main-blue-color;
+    fill: var(--games-amber);
   }
 }
 
@@ -76,18 +90,26 @@
   margin-bottom: 0;
   font-size: 1.1rem;
   text-align: center;
+  color: var(--games-coral);
+}
+
+input {
+  background-color: var(--games-surface-2);
+  border: 1px solid var(--games-border);
+  border-radius: 0.5rem;
+  color: var(--games-text);
 }
 
 @media (min-width: 900px) {
   .wrapper_icons,
   .container {
-    width: min(42rem, calc(100vw - 16rem));
+    width: min(42rem, 100%);
     margin-left: auto;
     margin-right: auto;
   }
 
   .wrapper_icons {
-    padding: 1.5rem 0 0;
+    padding: 2.5rem 3rem 0;
     gap: 1rem;
 
     .header_name {
@@ -112,10 +134,10 @@
     gap: 0.85rem 1rem;
     margin-top: 1rem;
     margin-bottom: 3rem;
-    padding: 1rem;
-    border: 0.1rem solid rgba(117, 160, 255, 0.2);
-    border-radius: 0.5rem;
-    background-color: rgba(49, 49, 59, 0.22);
+    padding: 1.25rem;
+    border: 1px solid var(--games-border);
+    border-radius: 1.375rem;
+    background-color: var(--games-surface);
     box-sizing: border-box;
 
     .input-field {
@@ -133,13 +155,10 @@
     input {
       box-sizing: border-box;
       min-height: 2.65rem;
-      border: 0.1rem solid rgba(117, 160, 255, 0.18);
-      border-radius: 0.5rem;
-      background-color: palette.$main-background-color;
     }
 
     label {
-      color: palette.$main-font-gray-color;
+      color: var(--games-muted);
     }
   }
 

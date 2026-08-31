@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Sora:wght@400;500;600;700&display=swap');
+    :root {
+      --bg: oklch(0.15 0.018 290);
+      --bg-elevated: oklch(0.195 0.02 290);
+      --bg-elevated-2: oklch(0.245 0.022 290);
+      --border: oklch(0.34 0.02 290 / 0.55);
+      --text: oklch(0.96 0.01 90);
+      --text-muted: oklch(0.7 0.02 290);
+      --text-faint: oklch(0.52 0.02 290);
+      --coral: oklch(0.68 0.19 25);
+      --coral-soft: oklch(0.68 0.19 25 / 0.16);
+      --teal: oklch(0.72 0.14 165);
+      --teal-soft: oklch(0.72 0.14 165 / 0.16);
+      --shadow-card: 0 -10px 40px -10px oklch(0 0 0 / 0.7);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #0b0b0d; font-family: 'Sora', ui-sans-serif, system-ui, sans-serif; }
+    .display { font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif; }
+    .icon-btn { width: 42px; height: 42px; border-radius: 999px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  </style>
+</helmet>
+
+<div style="width:393px;height:980px;background:var(--bg);color:var(--text);position:relative;overflow:hidden;">
+
+  <div style="padding:24px 20px;display:flex;flex-direction:column;gap:18px;filter:brightness(0.55);">
+    <div style="display:flex;align-items:center;justify-content:space-between;">
+      <div class="icon-btn" style="background:var(--bg-elevated);border:1px solid var(--border);">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+      </div>
+      <span class="display" style="font-size:18px;font-weight:700;">History</span>
+      <div style="width:42px;"></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <div style="background:var(--bg-elevated);border:1px solid var(--border);border-radius:18px;padding:16px;display:flex;align-items:center;gap:12px;">
+        <div style="width:44px;height:44px;border-radius:12px;background:var(--teal-soft);flex-shrink:0;"></div>
+        <div style="display:flex;flex-direction:column;gap:3px;">
+          <span style="font-size:14px;font-weight:700;">Table for 3 — Azul</span>
+          <span style="font-size:12px;color:var(--text-muted);">Completed · Tue, 7:00 PM</span>
+        </div>
+      </div>
+      <div style="background:var(--bg-elevated);border:1px solid var(--border);border-radius:18px;padding:16px;display:flex;align-items:center;gap:12px;">
+        <div style="width:44px;height:44px;border-radius:12px;background:var(--coral-soft);flex-shrink:0;"></div>
+        <div style="display:flex;flex-direction:column;gap:3px;">
+          <span style="font-size:14px;font-weight:700;">Table for 5 — Root</span>
+          <span style="font-size:12px;color:var(--text-muted);">Declined · Mon, 8:00 PM</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="position:absolute;left:0;right:0;bottom:0;background:var(--bg-elevated);border:1px solid var(--border);border-bottom:none;border-radius:28px 28px 0 0;padding:22px 22px 30px;box-shadow:var(--shadow-card);display:flex;flex-direction:column;gap:14px;">
+
+    <div style="width:40px;height:4px;border-radius:999px;background:var(--border);margin:0 auto;"></div>
+
+    <div style="display:flex;align-items:center;gap:14px;">
+      <div style="width:46px;height:46px;border-radius:14px;background:var(--teal-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h8l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M9 9h6M9 13h6M9 17h3"/></svg>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:2px;">
+        <span class="display" style="font-size:16.5px;font-weight:700;">Table for 3 — Azul</span>
+        <span style="font-size:12px;color:var(--text-muted);">Completed · Tue, 7:00 PM</span>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:6px;">
+      <span style="font-size:11.5px;font-weight:700;color:var(--text-faint);letter-spacing:0.02em;">NOTE TO GUEST · shown to them</span>
+      <textarea rows="2" style="width:100%;resize:none;background:var(--bg-elevated-2);border:1px solid var(--border);border-radius:12px;padding:10px 12px;color:var(--text);font-size:13px;line-height:1.5;">Thanks for visiting — see you again soon!</textarea>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:6px;">
+      <span style="font-size:11.5px;font-weight:700;color:var(--text-faint);letter-spacing:0.02em;">INTERNAL NOTE · staff only</span>
+      <textarea rows="2" style="width:100%;resize:none;background:var(--bg-elevated-2);border:1px solid var(--border);border-radius:12px;padding:10px 12px;color:var(--text);font-size:13px;line-height:1.5;">Regulars — prefers the corner table.</textarea>
+    </div>
+
+    <div style="display:flex;gap:10px;">
+      <a href="#" style="flex:1;text-align:center;font-size:13.5px;font-weight:700;padding:13px 0;border-radius:999px;background:var(--coral-soft);color:var(--coral);">Delete</a>
+      <a href="#" style="flex:1;text-align:center;font-size:13.5px;font-weight:700;padding:13px 0;border-radius:999px;background:var(--teal);color:#062420;">Save changes</a>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

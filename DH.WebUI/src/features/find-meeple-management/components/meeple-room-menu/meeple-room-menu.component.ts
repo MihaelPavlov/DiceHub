@@ -110,6 +110,7 @@ export class MeepleRoomMenuComponent implements OnInit {
 
   public openDeleteRoomDialog(): void {
     const dialogRef = this.dialog.open(RoomConfirmDeleteDialog, {
+      panelClass: 'confirm-sheet-pane',
       data: { id: this.room.id },
     });
 
@@ -122,6 +123,7 @@ export class MeepleRoomMenuComponent implements OnInit {
 
   public openLeaveRoomDialog(): void {
     const dialogRef = this.dialog.open(RoomConfirmLeaveDialog, {
+      panelClass: 'confirm-sheet-pane',
       data: { id: this.room.id },
     });
 

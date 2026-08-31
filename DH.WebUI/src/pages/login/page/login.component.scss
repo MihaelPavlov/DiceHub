@@ -1,22 +1,72 @@
 @use "../../.././shared/assets/styles/palette";
 
 .wrapper {
+  --accent: var(--games-blue);
+  --accent-2: var(--games-blue-light);
+  --accent-soft: var(--games-blue-soft);
+  --accent-ink: var(--games-blue-ink);
+
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  padding: 1.5rem 1.25rem 2.5rem;
+  gap: 1.5rem;
+
+  &.admin {
+    --accent: var(--games-violet);
+    --accent-2: var(--games-violet);
+    --accent-soft: var(--games-violet-soft);
+    --accent-ink: #1c0d33;
+  }
 }
 
 .browser-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.browser-panel__eyebrow {
+  color: var(--accent);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.browser-panel h1 {
+  margin: 0;
+  color: var(--games-text);
+  font-size: 1.6rem;
+  line-height: 1.15;
+}
+
+.browser-panel p {
+  margin: 0;
+  color: var(--games-muted);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.browser-panel__metrics {
   display: none;
 }
 
 .auth-card {
-  display: contents;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.25rem;
+  border: 1px solid var(--games-border);
+  border-radius: 1.5rem;
+  background: var(--games-surface);
+  box-shadow: var(--games-shadow);
 }
 
 .markup {
-  color: palette.$main-blue-color;
+  color: var(--accent);
+  cursor: pointer;
 }
 .options {
   display: flex;
@@ -25,19 +75,20 @@
 
 .interactive-option {
   display: flex;
-  justify-content: center;
-  margin-top: 3rem;
+  justify-content: flex-start;
 
   .icon_wrapper {
-    width: 5rem;
-    height: 5rem;
-    border-radius: 50px;
-    background: palette.$main-blue-color;
-    box-shadow: 0 0 0 12px var(--background-color);
+    width: 2.65rem;
+    height: 2.65rem;
+    border-radius: 999px;
+    background: var(--games-surface);
+    border: 1px solid var(--games-border);
+    box-shadow: none;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    cursor: pointer;
   }
   // When a tenant logo is shown, drop the blue disc so the logo stands alone.
   .icon_wrapper--has-logo {
@@ -45,8 +96,9 @@
     box-shadow: none;
   }
   .icon {
-    width: 3rem;
-    height: 3rem;
+    width: 1.15rem;
+    height: 1.15rem;
+    fill: var(--games-text);
   }
   .club-logo {
     width: 100%;
@@ -57,18 +109,39 @@
 }
 
 .header {
-  margin: 1rem;
+  margin: 0;
   display: flex;
   justify-content: center;
-  font-size: 1.5rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--games-text);
 }
 
 .container {
   display: flex;
   flex-direction: column;
-  margin: 2rem;
-  margin-bottom: 8rem;
-  font-size: palette.$main-font-color;
+  margin: 0;
+  color: var(--games-text);
+}
+
+.input-field {
+  label {
+    color: var(--games-muted);
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+
+  input {
+    border: 1px solid var(--games-border);
+    background: var(--games-surface-2);
+    color: var(--games-text);
+    border-radius: 0.9rem;
+  }
+
+  input:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
 }
 
 .input-checkbox {
@@ -78,7 +151,7 @@
   align-items: center;
   gap: 0.5rem;
   input[type="checkbox"] {
-    accent-color: palette.$main-blue-color;
+    accent-color: var(--accent);
   }
 
   .remember-label {
@@ -94,10 +167,29 @@
 .btn-container {
   display: flex;
   justify-content: center;
-  margin: 1rem;
+  margin-top: 0.5rem;
 
   button {
-    width: 60%;
+    width: 100%;
+  }
+}
+
+.login-cta {
+  appearance: none;
+  border: none;
+  border-radius: 999px;
+  padding: 0.9rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent-ink);
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  box-shadow: 0 10px 24px -8px var(--accent-soft);
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    box-shadow: none;
   }
 }
 
@@ -106,6 +198,8 @@
   text-align: center;
   justify-content: center;
   flex-direction: column;
+  color: var(--games-muted);
+  font-size: 0.85rem;
 }
 
 .errors {
@@ -113,7 +207,8 @@
   justify-content: center;
   margin-top: 1rem;
   margin-bottom: 0;
-  font-size: 1.1rem;
+  font-size: 0.9rem;
+  color: var(--games-coral);
   flex-wrap: wrap;
 }
 
@@ -123,13 +218,15 @@
   text-align: center;
   margin-top: 1rem;
   margin-bottom: 0;
-  font-size: 1.1rem;
-  color: palette.$main-green-color;
+  font-size: 0.9rem;
+  color: var(--games-teal);
 }
 
 .resend {
   font-weight: 600;
-  border-bottom: 0.15rem solid palette.$main-red-color;
+  color: var(--games-coral);
+  border-bottom: 0.15rem solid var(--games-coral);
+  cursor: pointer;
 }
 
 @media (min-width: 900px) {
@@ -144,38 +241,31 @@
   }
 
   .browser-panel {
-    display: flex;
     min-height: 34rem;
     padding: 3rem;
-    border-radius: 0.5rem;
+    border-radius: 1.5rem;
+    border: 1px solid var(--games-border);
     background:
-      linear-gradient(135deg, rgba(117, 160, 255, 0.2), transparent 42%),
-      palette.$main-nav-color;
-    flex-direction: column;
+      radial-gradient(circle at 15% 0%, var(--accent-soft), transparent 55%),
+      var(--games-surface);
     justify-content: flex-end;
+    gap: 1rem;
   }
 
   .browser-panel__eyebrow {
     margin-bottom: auto;
-    color: palette.$main-blue-color;
     font-size: 0.85rem;
-    font-weight: 700;
-    letter-spacing: 0;
-    text-transform: uppercase;
   }
 
   .browser-panel h1 {
     max-width: 34rem;
     margin: 0 0 1rem;
-    color: palette.$main-font-color;
     font-size: 2.6rem;
     line-height: 1.05;
   }
 
   .browser-panel p {
     max-width: 31rem;
-    margin: 0;
-    color: palette.$main-font-gray-color;
     font-size: 1.05rem;
     line-height: 1.55;
   }
@@ -189,51 +279,26 @@
 
   .browser-panel__metrics span {
     padding: 0.45rem 0.7rem;
-    border: 1px solid palette.$main-gray-color;
+    border: 1px solid var(--games-border);
     border-radius: 0.4rem;
-    color: palette.$main-font-color;
-    background: rgba(255, 255, 255, 0.04);
+    color: var(--games-text);
+    background: var(--games-surface-2);
     font-size: 0.85rem;
   }
 
   .auth-card {
-    display: flex;
     padding: 2rem;
-    border-radius: 0.5rem;
-    background: palette.$main-nav-color;
-    flex-direction: column;
+    border-radius: 1.5rem;
     justify-content: center;
-  }
-
-  .interactive-option {
-    margin-top: 0;
-  }
-
-  .interactive-option .icon_wrapper {
-    box-shadow: none;
   }
 
   .container {
     width: 100%;
     max-width: 22rem;
-    margin: 1.5rem auto 0;
-  }
-
-  .input-field input {
-    border: 1px solid palette.$main-gray-color;
-    background: palette.$main-background-color;
-  }
-
-  .input-field input:focus {
-    outline: none;
-    border-color: palette.$main-blue-color;
+    margin: 0.5rem auto 0;
   }
 
   .header {
-    margin-top: 1.25rem;
-  }
-
-  .btn-container button {
-    width: 100%;
+    font-size: 1.2rem;
   }
 }

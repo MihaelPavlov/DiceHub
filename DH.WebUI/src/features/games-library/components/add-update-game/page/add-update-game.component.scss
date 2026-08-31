@@ -6,6 +6,9 @@
   align-items: center;
   padding-bottom: 8rem;
   font-size: palette.$main-font-color;
+  background:
+    radial-gradient(circle at 12% 0%, rgba(141, 102, 214, 0.12), transparent 24rem),
+    var(--games-bg);
 }
 .expand-textarea-mobile {
   width: 100%;
@@ -27,12 +30,13 @@
 .upload-section {
   padding: 1.3rem;
   padding-top: 0;
-  border-radius: 10px;
+  border-radius: 1rem;
   text-align: center;
 
   .upload-icon {
-    background-color: palette.$main-nav-color;
-    border-radius: 10px;
+    border: 1px solid var(--games-border);
+    background-color: var(--games-surface);
+    border-radius: 1.25rem;
     margin: 1rem auto;
     width: 80%;
     aspect-ratio: 1 / 1;
@@ -68,8 +72,8 @@
     margin: 1.5rem;
 
     span {
-      background-color: palette.$main-nav-color;
-      color: palette.$main-green-color;
+      background-color: var(--games-surface);
+      color: var(--games-teal);
       border: none;
       border-radius: 20px;
       padding: 0.5rem 1rem;
@@ -79,39 +83,16 @@
   }
 }
 
-.arrow {
-  width: 3rem;
-  height: 3rem;
-  display: inline-block;
-  position: relative;
-  border: 0.1rem solid palette.$main-icon-color;
-  border-radius: 2.5rem;
-
-  &::before {
-    content: "";
-    display: block;
-    width: 0.75rem;
-    height: 0.75rem;
-    top: 65%;
-    left: 63%;
-    border-style: solid;
-    border-color: palette.$main-icon-color;
-    border-width: 0.2rem 0.2rem 0 0;
-    position: absolute;
-    transform-origin: 50% 50%;
-  }
-
-  &.left::before {
-    transform: rotate(-135deg);
-    margin: -0.9rem 0 0 -0.6rem;
-  }
-}
-
 .wrapper_icons {
   display: flex;
   justify-content: space-between;
-  margin: 1rem;
   align-items: center;
+  margin: 0;
+  padding: 1rem;
+  color: var(--games-text);
+  background:
+    radial-gradient(circle at 12% 0%, rgba(141, 102, 214, 0.12), transparent 24rem),
+    var(--games-bg);
 
   .games-select {
     margin-top: 1rem;
@@ -123,7 +104,7 @@
     .info {
       width: 3rem;
       height: 3rem;
-      fill: palette.$main-red-color;
+      fill: var(--games-coral);
     }
   }
 
@@ -182,13 +163,14 @@ select[disabled] {
           height: 1.25rem;
         }
         &.active {
-          background-color: palette.$main-blue-color;
+          background-color: var(--games-blue);
+          border-color: var(--games-blue);
           color: white;
         }
 
         &.missing {
-          border-color: palette.$main-red-color;
-          color: palette.$main-red-color;
+          border-color: var(--games-coral);
+          color: var(--games-coral);
         }
       }
     }
@@ -197,14 +179,7 @@ select[disabled] {
 
 @media (min-width: 900px) {
   .wrapper_icons {
-    width: min(68rem, calc(100vw - 18rem));
-    margin: 2rem auto 0.85rem;
-  }
-
-  .arrow {
-    width: 2.5rem;
-    height: 2.5rem;
-    cursor: pointer;
+    padding: 2rem 3rem 0.85rem;
   }
 
   .container {
@@ -230,9 +205,10 @@ select[disabled] {
     align-items: start;
     width: 100%;
     padding: 1rem;
-    border: 0.1rem solid rgba(117, 160, 255, 0.2);
-    border-radius: 0.5rem;
-    background: rgba(49, 49, 59, 0.22);
+    border: 1px solid var(--games-border);
+    border-radius: 1.25rem;
+    background: var(--games-surface);
+    box-shadow: var(--games-shadow);
     text-align: left;
   }
 
@@ -240,8 +216,8 @@ select[disabled] {
     grid-area: image;
     width: 100%;
     margin: 0;
-    border: 0.1rem solid rgba(117, 160, 255, 0.18);
-    background: palette.$main-background-color;
+    border: 1px solid var(--games-border);
+    background: var(--games-surface-2);
     align-self: stretch;
     min-height: 20rem;
     max-height: 26rem;
@@ -268,8 +244,8 @@ select[disabled] {
     display: inline-flex;
     align-items: center;
     min-height: 2.35rem;
-    border-radius: 0.4rem;
-    background: palette.$main-background-color;
+    border-radius: 999px;
+    background: var(--games-surface-2);
   }
 
   .category-field {
@@ -306,9 +282,9 @@ select[disabled] {
   .input-field select,
   .input-field textarea {
     box-sizing: border-box;
-    border: 0.1rem solid rgba(117, 160, 255, 0.18);
-    border-radius: 0.5rem;
-    background: palette.$main-background-color;
+    border: 1px solid var(--games-border);
+    border-radius: 0.8rem;
+    background: var(--games-surface-2);
   }
 
   .input-field {
@@ -328,15 +304,15 @@ select[disabled] {
   }
 
   :host ::ng-deep .input-field .ng-select.app-select-long {
-    background: palette.$main-background-color;
+    background: var(--games-surface-2);
     border-radius: 0.5rem;
   }
 
   :host ::ng-deep .input-field .ng-select.app-select-long .ng-select-container {
     min-height: 2.65rem;
-    border: 0.1rem solid rgba(117, 160, 255, 0.18);
-    border-radius: 0.5rem;
-    background: palette.$main-background-color;
+    border: 1px solid var(--games-border);
+    border-radius: 0.8rem;
+    background: var(--games-surface-2);
     color: palette.$main-font-color;
   }
 

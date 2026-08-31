@@ -1,342 +1,653 @@
 <div class="landing-mobile mobile-screen">
-  <app-language-switch />
-
-  <section class="landing-header">
-    <img class="img-left" src="shared/assets/images/dicehub_logo_1.png" />
-    <div class="header">DiceHub</div>
-    <img class="img-right" src="shared/assets/images/dicehub_logo_1.png" />
-  </section>
-
-  <section>
-    <div class="wrapper_library">
-      <h1>{{ "landing.revolutionizing" | translate }}</h1>
-      <h1>{{ "landing.game_driven_entertainment" | translate }}</h1>
-      <p class="sub-header">
-        {{ "landing.info" | translate }}
-      </p>
-    </div>
-    <div class="list">
-      <div class="item">
-        <div class="item-icon">
-          <img src="shared/assets/images/landing_item_1.png" />
-        </div>
-        <div class="item-info">
-          <p class="item-header">
-            {{ "landing.club_game_management_title" | translate }}
-          </p>
-          <p class="item-sub-header">
-            {{ "landing.club_game_management_desc" | translate }}
-          </p>
-        </div>
-      </div>
-      <div class="item">
-        <div class="item-icon">
-          <img src="shared/assets/images/landing_item_2.png" />
-        </div>
-        <div class="item-info">
-          <p class="item-header">
-            {{ "landing.challenge_rewards_title" | translate }}
-          </p>
-          <p class="item-sub-header">
-            {{ "landing.challenge_rewards_desc" | translate }}
-          </p>
-        </div>
-      </div>
-      <div class="item">
-        <div class="item-icon">
-          <img src="shared/assets/images/landing_item_3.png" />
-        </div>
-        <div class="item-info">
-          <p class="item-header">
-            {{ "landing.activity_tracking_title" | translate }}
-          </p>
-          <p class="item-sub-header">
-            {{ "landing.activity_tracking_desc" | translate }}
-          </p>
-        </div>
-      </div>
-      <div class="item">
-        <div class="item-icon">
-          <img src="shared/assets/images/landing_item_4.png" />
-        </div>
-        <div class="item-info">
-          <p class="item-header">
-            {{ "landing.event_management_title" | translate }}
-          </p>
-          <p class="item-sub-header">
-            {{ "landing.event_management_desc" | translate }}
-          </p>
-        </div>
-      </div>
-      <div class="item">
-        <div class="item-icon">
-          <img src="shared/assets/images/landing_item_5.png" />
-        </div>
-        <div class="item-info">
-          <p class="item-header">
-            {{ "landing.reservation_system_title" | translate }}
-          </p>
-          <p class="item-sub-header">
-            {{ "landing.reservation_system_desc" | translate }}
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class="how-it-works-btn">
-      <button
-        (click)="onInstructions()"
-        type="button"
-        class="btn btn-gray create-btn btn-font-blue"
-      >
-        {{ "landing.how_it_works" | translate }}
-      </button>
-    </div>
-    <div class="btns-container">
-      <button
-        (click)="onLogin()"
-        type="button"
-        class="btn btn-gray create-btn btn-font-gray btn-border-blue"
-      >
-        {{ "landing.login" | translate }}
-      </button>
-
-      <button
-        (click)="onRegister()"
-        type="button"
-        class="btn btn-blue create-btn btn-font-gray btn-border-blue"
-      >
-        {{ "landing.register" | translate }}
-      </button>
-    </div>
-  </section>
-
-  <div class="partner-container">
-    <section class="partner-form">
-      <h2>{{ "landing.partner_with_us_title" | translate }}</h2>
-      <p class="partner-text">
-        {{ "landing.partner_with_us_text" | translate }}
-      </p>
-      <form [formGroup]="form" class="">
-        <div class="input-field">
-          <label for="name" class="required">{{
-            "landing.form.labels.name" | translate
-          }}</label>
-
-          <input
-            formControlName="name"
-            type="text"
-            [placeholder]="'landing.form.placeholders.name' | translate"
-            required
-          />
-        </div>
-        <div class="input-field">
-          <label for="email" class="required">{{
-            "landing.form.labels.email" | translate
-          }}</label>
-
-          <input
-            formControlName="email"
-            type="email"
-            [placeholder]="'landing.form.placeholders.email' | translate"
-            required
-          />
-        </div>
-        <div class="input-field">
-          <label for="phoneNumber" class="required">{{
-            "landing.form.labels.phone_number" | translate
-          }}</label>
-
-          <input
-            formControlName="phoneNumber"
-            type="text"
-            [placeholder]="'landing.form.placeholders.phone_number' | translate"
-            required
-          />
-        </div>
-        <div class="input-field">
-          <label for="message" class="required">{{
-            "landing.form.labels.message" | translate
-          }}</label>
-
-          <textarea
-            formControlName="message"
-            [placeholder]="'landing.form.placeholders.message' | translate"
-            id="message"
-            formControlName="message"
-          ></textarea>
-        </div>
-        <div *ngIf="getFirstErrorMessage()" class="errors">
-          {{ getFirstErrorMessage() }}
-        </div>
-        <button
-          [disabled]="this.form.invalid"
-          (click)="this.onSubmit()"
-          [ngClass]="{
-            'btn-border-green': this.form.valid,
-            'btn-font-green': this.form.valid,
-            'btn-border-red': this.form.invalid,
-            'btn-font-red': this.form.invalid
-          }"
-          type="button"
-          class="submit btn btn-gray create-btn btn-font-gray btn-border-blue"
-        >
-          {{ "landing.form.send_btn" | translate }}
-        </button>
-      </form>
-    </section>
-  </div>
-</div>
-
-<div class="landing-big-screen big-screen">
-  <header class="header">
-    <div class="logo">
-      <img
-        src="shared/assets/images/dicehub_logo_1.png"
-        alt="DiceHub logo"
-        class="logo-icon"
-      />
+  <nav class="lp-nav">
+    <div class="lp-nav__brand">
+      <img src="shared/assets/images/dicehub_logo_1.png" alt="DiceHub" />
       <span>DiceHub</span>
     </div>
-    <div class="auth-buttons">
+    <div class="lp-nav__actions">
       <app-language-switch />
-
-      <button class="btn" (click)="onLogin()">
+      <button (click)="onLogin()" type="button" class="lp-btn lp-btn--ghost lp-btn--sm">
         {{ "landing.login" | translate }}
       </button>
-      <button class="btn" (click)="onRegister()">
+    </div>
+  </nav>
+
+  <section class="lp-hero">
+    <div class="lp-hero__badge">
+      <span class="lp-hero__badge-icon">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg>
+      </span>
+      {{ "landing.hero.badge" | translate }}
+    </div>
+    <h1 class="lp-hero__title">{{ "landing.hero.title_line1" | translate }} {{ "landing.hero.title_line2" | translate }}</h1>
+    <p class="lp-hero__subtitle">{{ "landing.hero.subtitle" | translate }}</p>
+    <div class="lp-hero__actions">
+      <button (click)="onRegister()" type="button" class="lp-btn lp-btn--primary">
         {{ "landing.register" | translate }}
       </button>
-      <button class="btn instruction" (click)="onInstructions()">
+      <button (click)="onInstructions()" type="button" class="lp-btn lp-btn--secondary">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4l14 8-14 8z"/></svg>
         {{ "landing.how_it_works" | translate }}
       </button>
     </div>
-  </header>
-
-  <section class="headline">
-    <h1>
-      {{ "landing.revolutionizing" | translate }} <br />{{
-        "landing.game_driven_entertainment" | translate
-      }}
-    </h1>
-    <br />
-    <h3>
-      {{ "landing.info" | translate }}
-    </h3>
   </section>
 
-  <section class="dashboard-mockup">
-    <img src="shared/assets/images/dashboard.png" alt="Dashboard mockup" />
+  <section class="lp-built-in">
+    <div class="lp-built-in__grid">
+      <div class="lp-built-in__item">
+        <span class="lp-built-in__value lp-built-in__value--amber">{{ "landing.built_in.free_title" | translate }}</span>
+        <span class="lp-built-in__label">{{ "landing.built_in.free_desc" | translate }}</span>
+      </div>
+      <div class="lp-built-in__item">
+        <span class="lp-built-in__value lp-built-in__value--teal">{{ "landing.built_in.realtime_title" | translate }}</span>
+        <span class="lp-built-in__label">{{ "landing.built_in.realtime_desc" | translate }}</span>
+      </div>
+      <div class="lp-built-in__item">
+        <span class="lp-built-in__value lp-built-in__value--violet">{{ "landing.built_in.qr_title" | translate }}</span>
+        <span class="lp-built-in__label">{{ "landing.built_in.qr_desc" | translate }}</span>
+      </div>
+      <div class="lp-built-in__item">
+        <span class="lp-built-in__value lp-built-in__value--coral">{{ "landing.built_in.new_title" | translate }}</span>
+        <span class="lp-built-in__label">{{ "landing.built_in.new_desc" | translate }}</span>
+      </div>
+    </div>
   </section>
 
-  <section class="features">
-    <div class="feature">
-      <img
-        src="shared/assets/images/landing_item_1.png"
-        [alt]="'landing.club_game_management_title' | translate"
-      />
-      <span>{{ "landing.club_game_management_title" | translate }}</span>
+  <section class="lp-owners" id="for-clubs">
+    <span class="lp-eyebrow lp-eyebrow--coral">{{ "landing.for_clubs.eyebrow" | translate }}</span>
+    <h2 class="lp-section-title">{{ "landing.for_clubs.title" | translate }}</h2>
+    <p class="lp-section-subtitle">{{ "landing.for_clubs.subtitle" | translate }}</p>
+
+    <div class="lp-bullets">
+      <div class="lp-bullet">
+        <span class="lp-bullet__check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span>
+        <span><strong>{{ "landing.for_clubs.bullet1_title" | translate }}</strong> — {{ "landing.for_clubs.bullet1_desc" | translate }}</span>
+      </div>
+      <div class="lp-bullet">
+        <span class="lp-bullet__check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span>
+        <span><strong>{{ "landing.for_clubs.bullet2_title" | translate }}</strong> — {{ "landing.for_clubs.bullet2_desc" | translate }}</span>
+      </div>
+      <div class="lp-bullet">
+        <span class="lp-bullet__check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span>
+        <span><strong>{{ "landing.for_clubs.bullet3_title" | translate }}</strong> — {{ "landing.for_clubs.bullet3_desc" | translate }}</span>
+      </div>
+      <div class="lp-bullet">
+        <span class="lp-bullet__check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span>
+        <span><strong>{{ "landing.for_clubs.bullet4_title" | translate }}</strong> — {{ "landing.for_clubs.bullet4_desc" | translate }}</span>
+      </div>
     </div>
-    <div class="feature">
-      <img
-        src="shared/assets/images/landing_item_2.png"
-        [alt]="'challenge_rewards_title' | translate"
-      />
-      <span>{{ "landing.challenge_rewards_title" | translate }}</span>
-    </div>
-    <div class="feature">
-      <img
-        src="shared/assets/images/landing_item_3.png"
-        [alt]="'landing.qr_code_game_tracking_title' | translate"
-      />
-      <span>{{ "landing.qr_code_game_tracking_title" | translate }}</span>
-    </div>
-    <div class="feature">
-      <img
-        src="shared/assets/images/landing_item_4.png"
-        [alt]="'landing.event_management_title' | translate"
-      />
-      <span>{{ "landing.event_management_title" | translate }}</span>
-    </div>
-    <div class="feature">
-      <img
-        src="shared/assets/images/landing_item_5.png"
-        [alt]="'landing.reservation_system_title' | translate"
-      />
-      <span>{{ "landing.reservation_system_title" | translate }}</span>
+
+    <a href="#partner-form" class="lp-btn lp-btn--owner">{{ "landing.for_clubs.cta" | translate }}</a>
+  </section>
+
+  <section class="lp-features">
+    <span class="lp-eyebrow">{{ "landing.features.eyebrow" | translate }}</span>
+    <h2 class="lp-section-title">{{ "landing.features.title" | translate }}</h2>
+    <p class="lp-section-subtitle">{{ "landing.features.subtitle" | translate }}</p>
+
+    <div class="lp-feature-list">
+      <div class="lp-feature">
+        <div class="lp-feature__icon lp-feature__icon--amber">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9a1 1 0 0 0 1 1h4v-6h2v6h4a1 1 0 0 0 1-1v-9"/></svg>
+        </div>
+        <div class="lp-feature__body">
+          <span class="lp-feature__title">{{ "landing.features.library_title" | translate }}</span>
+          <span class="lp-feature__desc">{{ "landing.features.library_desc" | translate }}</span>
+        </div>
+      </div>
+      <div class="lp-feature">
+        <div class="lp-feature__icon lp-feature__icon--teal">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 19c.8-3.3 3-5 6-5s5.2 1.7 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 12.2c2.6.2 4 1.7 4.6 4.3"/></svg>
+        </div>
+        <div class="lp-feature__body">
+          <span class="lp-feature__title">{{ "landing.features.meeples_title" | translate }}</span>
+          <span class="lp-feature__desc">{{ "landing.features.meeples_desc" | translate }}</span>
+        </div>
+      </div>
+      <div class="lp-feature">
+        <div class="lp-feature__icon lp-feature__icon--violet">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16"/><path d="M8 3v4M16 3v4"/><path d="M9.5 14l1.8 1.8L15 12"/></svg>
+        </div>
+        <div class="lp-feature__body">
+          <span class="lp-feature__title">{{ "landing.features.reservations_title" | translate }}</span>
+          <span class="lp-feature__desc">{{ "landing.features.reservations_desc" | translate }}</span>
+        </div>
+      </div>
+      <div class="lp-feature">
+        <div class="lp-feature__icon lp-feature__icon--coral">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8v4a4 4 0 0 1-8 0z"/><path d="M8 5H5a3 3 0 0 0 3 5"/><path d="M16 5h3a3 3 0 0 1-3 5"/><path d="M10 13v3M14 13v3"/><path d="M8 20h8"/><path d="M9 17h6l1 3H8z"/></svg>
+        </div>
+        <div class="lp-feature__body">
+          <span class="lp-feature__title">{{ "landing.features.challenges_title" | translate }}</span>
+          <span class="lp-feature__desc">{{ "landing.features.challenges_desc" | translate }}</span>
+        </div>
+      </div>
+      <div class="lp-feature">
+        <div class="lp-feature__icon lp-feature__icon--amber">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2 1.6 1.6 0 0 0 0 6 2 2 0 0 1-2 2H6a2 2 0 0 1-2-2 1.6 1.6 0 0 0 0-6z"/><path d="M9 7.5v2M9 12.5v2M9 17v-2"/></svg>
+        </div>
+        <div class="lp-feature__body">
+          <span class="lp-feature__title">{{ "landing.features.events_title" | translate }}</span>
+          <span class="lp-feature__desc">{{ "landing.features.events_desc" | translate }}</span>
+        </div>
+      </div>
+      <div class="lp-feature">
+        <div class="lp-feature__icon lp-feature__icon--violet">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"><path d="M4 17l-1.5-8L8 12l4-6 4 6 5.5-3L20 17z"/><path d="M4 17h16v2H4z"/></svg>
+        </div>
+        <div class="lp-feature__body">
+          <span class="lp-feature__title">{{ "landing.features.leaderboards_title" | translate }}</span>
+          <span class="lp-feature__desc">{{ "landing.features.leaderboards_desc" | translate }}</span>
+        </div>
+      </div>
     </div>
   </section>
-  <section class="partner-form">
+
+  <section class="lp-how">
+    <span class="lp-eyebrow lp-eyebrow--teal">{{ "landing.how_it_works_section.eyebrow" | translate }}</span>
+    <h2 class="lp-section-title">{{ "landing.how_it_works_section.title" | translate }}</h2>
+
+    <div class="lp-steps">
+      <div class="lp-step">
+        <div class="lp-step__num">1</div>
+        <div class="lp-step__body">
+          <span class="lp-step__title">{{ "landing.how_it_works_section.step1_title" | translate }}</span>
+          <span class="lp-step__desc">{{ "landing.how_it_works_section.step1_desc" | translate }}</span>
+        </div>
+      </div>
+      <div class="lp-step">
+        <div class="lp-step__num">2</div>
+        <div class="lp-step__body">
+          <span class="lp-step__title">{{ "landing.how_it_works_section.step2_title" | translate }}</span>
+          <span class="lp-step__desc">{{ "landing.how_it_works_section.step2_desc" | translate }}</span>
+        </div>
+      </div>
+      <div class="lp-step">
+        <div class="lp-step__num">3</div>
+        <div class="lp-step__body">
+          <span class="lp-step__title">{{ "landing.how_it_works_section.step3_title" | translate }}</span>
+          <span class="lp-step__desc">{{ "landing.how_it_works_section.step3_desc" | translate }}</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="lp-why">
+    <span class="lp-eyebrow lp-eyebrow--violet">{{ "landing.why.eyebrow" | translate }}</span>
+    <h2 class="lp-section-title">{{ "landing.why.title" | translate }}</h2>
+
+    <div class="lp-why-cards">
+      <div class="lp-why-card">
+        <p><strong>{{ "landing.why.card1_title" | translate }}</strong> {{ "landing.why.card1_desc" | translate }}</p>
+      </div>
+      <div class="lp-why-card">
+        <p><strong>{{ "landing.why.card2_title" | translate }}</strong> {{ "landing.why.card2_desc" | translate }}</p>
+      </div>
+      <div class="lp-why-card">
+        <p><strong>{{ "landing.why.card3_title" | translate }}</strong> {{ "landing.why.card3_desc" | translate }}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="lp-cta">
+    <div class="lp-cta__card">
+      <h2>{{ "landing.final_cta.title" | translate }}</h2>
+      <p>{{ "landing.final_cta.subtitle" | translate }}</p>
+      <div class="lp-cta__actions">
+        <button (click)="onRegister()" type="button" class="lp-btn lp-btn--light">
+          {{ "landing.register" | translate }}
+        </button>
+        <a href="#partner-form" class="lp-btn lp-btn--outline-light">
+          {{ "landing.final_cta.secondary" | translate }}
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="lp-partner" id="partner-form">
     <h2>{{ "landing.partner_with_us_title" | translate }}</h2>
-    <p class="partner-text">
+    <p class="lp-partner__text">
       {{ "landing.partner_with_us_text" | translate }}
     </p>
-    <form [formGroup]="form" class="partner-form">
-      <div class="input-field">
-        <label for="name" class="required">{{
+    <form [formGroup]="form">
+      <div class="lp-field">
+        <label for="name-mobile" class="required">{{
           "landing.form.labels.name" | translate
         }}</label>
-
         <input
+          id="name-mobile"
           formControlName="name"
           type="text"
           [placeholder]="'landing.form.placeholders.name' | translate"
           required
         />
       </div>
-      <div class="input-field">
-        <label for="email" class="required">{{
+      <div class="lp-field">
+        <label for="email-mobile" class="required">{{
           "landing.form.labels.email" | translate
         }}</label>
-
         <input
+          id="email-mobile"
           formControlName="email"
           type="email"
           [placeholder]="'landing.form.placeholders.email' | translate"
           required
         />
       </div>
-      <div class="input-field">
-        <label for="phoneNumber" class="required">{{
+      <div class="lp-field">
+        <label for="phoneNumber-mobile" class="required">{{
           "landing.form.labels.phone_number" | translate
         }}</label>
-
         <input
+          id="phoneNumber-mobile"
           formControlName="phoneNumber"
           type="text"
           [placeholder]="'landing.form.placeholders.phone_number' | translate"
           required
         />
       </div>
-      <div class="input-field">
-        <label for="message" class="required">{{
+      <div class="lp-field">
+        <label for="message-mobile" class="required">{{
           "landing.form.labels.message" | translate
         }}</label>
-
         <textarea
+          id="message-mobile"
           formControlName="message"
           [placeholder]="'landing.form.placeholders.message' | translate"
-          id="message"
-          formControlName="message"
         ></textarea>
       </div>
-
-      <div *ngIf="getFirstErrorMessage()" class="errors">
+      <div *ngIf="getFirstErrorMessage()" class="lp-field__error">
         {{ getFirstErrorMessage() }}
       </div>
-
       <button
         [disabled]="this.form.invalid"
         (click)="this.onSubmit()"
-        [ngClass]="{
-          'btn-border-green': this.form.valid,
-          'btn-font-green': this.form.valid,
-          'btn-border-red': this.form.invalid,
-          'btn-font-red': this.form.invalid
-        }"
-        type="submit"
+        type="button"
+        class="lp-btn lp-btn--primary lp-btn--block"
       >
         {{ "landing.form.send_btn" | translate }}
       </button>
     </form>
   </section>
+
+  <footer class="lp-footer">
+    <div class="lp-footer__brand">
+      <img src="shared/assets/images/dicehub_logo_1.png" alt="DiceHub" />
+      <span>DiceHub</span>
+    </div>
+    <span class="lp-footer__tagline">{{ "landing.footer.tagline" | translate }}</span>
+    <span class="lp-footer__copyright">© 2026 DiceHub.</span>
+  </footer>
+</div>
+
+<div class="landing-big-screen big-screen">
+  <nav class="lp-nav">
+    <div class="lp-nav__brand">
+      <img src="shared/assets/images/dicehub_logo_1.png" alt="DiceHub" />
+      <span>DiceHub</span>
+    </div>
+    <div class="lp-nav__links">
+      <a href="#features">{{ "landing.nav.features" | translate }}</a>
+      <a href="#for-clubs">{{ "landing.nav.for_clubs" | translate }}</a>
+    </div>
+    <div class="lp-nav__actions">
+      <app-language-switch />
+      <button (click)="onLogin()" type="button" class="lp-btn lp-btn--ghost lp-btn--sm">
+        {{ "landing.login" | translate }}
+      </button>
+      <button (click)="onRegister()" type="button" class="lp-btn lp-btn--primary lp-btn--sm">
+        {{ "landing.register" | translate }}
+      </button>
+    </div>
+  </nav>
+
+  <section class="lp-hero">
+    <div class="lp-hero__copy">
+      <div class="lp-hero__badge">
+        <span class="lp-hero__badge-icon">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg>
+        </span>
+        {{ "landing.hero.badge" | translate }}
+      </div>
+      <h1 class="lp-hero__title">{{ "landing.hero.title_line1" | translate }}<br />{{ "landing.hero.title_line2" | translate }}</h1>
+      <p class="lp-hero__subtitle">{{ "landing.hero.subtitle" | translate }}</p>
+      <div class="lp-hero__actions">
+        <button (click)="onRegister()" type="button" class="lp-btn lp-btn--primary lp-btn--lg">
+          {{ "landing.register" | translate }}
+        </button>
+        <button (click)="onInstructions()" type="button" class="lp-btn lp-btn--secondary lp-btn--lg">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4l14 8-14 8z"/></svg>
+          {{ "landing.how_it_works" | translate }}
+        </button>
+      </div>
+    </div>
+
+    <div class="lp-hero__visual">
+      <div class="lp-hero__glow"></div>
+      <div class="lp-hero__leaderboard">
+        <div class="lp-hero__leaderboard-head">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"><path d="M4 17l-1.5-8L8 12l4-6 4 6 5.5-3L20 17z"/><path d="M4 17h16v2H4z"/></svg>
+          <span>Leaderboard</span>
+        </div>
+        <div class="lp-hero__leaderboard-row">
+          <span class="lp-hero__avatar lp-hero__avatar--amber"></span>
+          <span class="lp-hero__leaderboard-name">Maya R.</span>
+          <span class="lp-hero__leaderboard-score">1,240 XP</span>
+        </div>
+        <div class="lp-hero__leaderboard-row">
+          <span class="lp-hero__avatar lp-hero__avatar--teal"></span>
+          <span class="lp-hero__leaderboard-name">Jon P.</span>
+          <span class="lp-hero__leaderboard-score lp-hero__leaderboard-score--muted">1,110 XP</span>
+        </div>
+      </div>
+
+      <div class="lp-hero__phone">
+        <div class="lp-hero__phone-top">
+          <span class="lp-hero__phone-greeting">Good evening<br /><strong>Maya</strong></span>
+          <span class="lp-hero__phone-avatar"></span>
+        </div>
+        <div class="lp-hero__phone-level">
+          <div>
+            <span class="lp-hero__phone-level-label">YOUR LEVEL</span>
+            <span class="lp-hero__phone-level-value">Level 14</span>
+          </div>
+          <span class="lp-hero__phone-level-badge">14</span>
+        </div>
+        <div class="lp-hero__phone-bar"><span></span></div>
+        <div class="lp-hero__phone-tournament">
+          <span class="lp-hero__phone-tournament-icon"></span>
+          <div>
+            <span class="lp-hero__phone-tournament-title">Wingspan Tournament</span>
+            <span class="lp-hero__phone-tournament-sub">7:00 PM · Table 4 · 6/8 joined</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="lp-hero__badge-chip">
+        <span class="lp-hero__badge-chip-icon">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5l2.4 5 5.5.7-4 3.8 1 5.5-4.9-2.7-4.9 2.7 1-5.5-4-3.8 5.5-.7z"/></svg>
+        </span>
+        <div>
+          <span class="lp-hero__badge-chip-title">Badge unlocked</span>
+          <span class="lp-hero__badge-chip-sub">"Table Regular" · +50 XP</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="lp-built-in">
+    <div class="lp-built-in__grid">
+      <div class="lp-built-in__item">
+        <span class="lp-built-in__value lp-built-in__value--amber">{{ "landing.built_in.free_title" | translate }}</span>
+        <span class="lp-built-in__label">{{ "landing.built_in.free_desc" | translate }}</span>
+      </div>
+      <div class="lp-built-in__item">
+        <span class="lp-built-in__value lp-built-in__value--teal">{{ "landing.built_in.realtime_title" | translate }}</span>
+        <span class="lp-built-in__label">{{ "landing.built_in.realtime_desc" | translate }}</span>
+      </div>
+      <div class="lp-built-in__item">
+        <span class="lp-built-in__value lp-built-in__value--violet">{{ "landing.built_in.qr_title" | translate }}</span>
+        <span class="lp-built-in__label">{{ "landing.built_in.qr_desc" | translate }}</span>
+      </div>
+      <div class="lp-built-in__item">
+        <span class="lp-built-in__value lp-built-in__value--coral">{{ "landing.built_in.new_title" | translate }}</span>
+        <span class="lp-built-in__label">{{ "landing.built_in.new_desc" | translate }}</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="lp-features" id="features">
+    <div class="lp-section-head">
+      <span class="lp-eyebrow">{{ "landing.features.eyebrow" | translate }}</span>
+      <h2 class="lp-section-title">{{ "landing.features.title" | translate }}</h2>
+      <p class="lp-section-subtitle">{{ "landing.features.subtitle" | translate }}</p>
+    </div>
+
+    <div class="lp-feature-grid">
+      <div class="lp-feature-card">
+        <div class="lp-feature__icon lp-feature__icon--amber">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9a1 1 0 0 0 1 1h4v-6h2v6h4a1 1 0 0 0 1-1v-9"/></svg>
+        </div>
+        <span class="lp-feature-card__title">{{ "landing.features.library_title" | translate }}</span>
+        <span class="lp-feature-card__desc">{{ "landing.features.library_desc" | translate }}</span>
+      </div>
+      <div class="lp-feature-card">
+        <div class="lp-feature__icon lp-feature__icon--teal">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 19c.8-3.3 3-5 6-5s5.2 1.7 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 12.2c2.6.2 4 1.7 4.6 4.3"/></svg>
+        </div>
+        <span class="lp-feature-card__title">{{ "landing.features.meeples_title" | translate }}</span>
+        <span class="lp-feature-card__desc">{{ "landing.features.meeples_desc" | translate }}</span>
+      </div>
+      <div class="lp-feature-card">
+        <div class="lp-feature__icon lp-feature__icon--violet">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16"/><path d="M8 3v4M16 3v4"/><path d="M9.5 14l1.8 1.8L15 12"/></svg>
+        </div>
+        <span class="lp-feature-card__title">{{ "landing.features.reservations_title" | translate }}</span>
+        <span class="lp-feature-card__desc">{{ "landing.features.reservations_desc" | translate }}</span>
+      </div>
+      <div class="lp-feature-card">
+        <div class="lp-feature__icon lp-feature__icon--coral">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8v4a4 4 0 0 1-8 0z"/><path d="M8 5H5a3 3 0 0 0 3 5"/><path d="M16 5h3a3 3 0 0 1-3 5"/><path d="M10 13v3M14 13v3"/><path d="M8 20h8"/><path d="M9 17h6l1 3H8z"/></svg>
+        </div>
+        <span class="lp-feature-card__title">{{ "landing.features.challenges_title" | translate }}</span>
+        <span class="lp-feature-card__desc">{{ "landing.features.challenges_desc" | translate }}</span>
+      </div>
+      <div class="lp-feature-card">
+        <div class="lp-feature__icon lp-feature__icon--amber">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2 1.6 1.6 0 0 0 0 6 2 2 0 0 1-2 2H6a2 2 0 0 1-2-2 1.6 1.6 0 0 0 0-6z"/><path d="M9 7.5v2M9 12.5v2M9 17v-2"/></svg>
+        </div>
+        <span class="lp-feature-card__title">{{ "landing.features.events_title" | translate }}</span>
+        <span class="lp-feature-card__desc">{{ "landing.features.events_desc" | translate }}</span>
+      </div>
+      <div class="lp-feature-card">
+        <div class="lp-feature__icon lp-feature__icon--violet">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"><path d="M4 17l-1.5-8L8 12l4-6 4 6 5.5-3L20 17z"/><path d="M4 17h16v2H4z"/></svg>
+        </div>
+        <span class="lp-feature-card__title">{{ "landing.features.leaderboards_title" | translate }}</span>
+        <span class="lp-feature-card__desc">{{ "landing.features.leaderboards_desc" | translate }}</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="lp-how">
+    <div class="lp-section-head">
+      <span class="lp-eyebrow lp-eyebrow--teal">{{ "landing.how_it_works_section.eyebrow" | translate }}</span>
+      <h2 class="lp-section-title">{{ "landing.how_it_works_section.title" | translate }}</h2>
+    </div>
+
+    <div class="lp-steps lp-steps--row">
+      <div class="lp-step">
+        <div class="lp-step__num">1</div>
+        <span class="lp-step__title">{{ "landing.how_it_works_section.step1_title" | translate }}</span>
+        <span class="lp-step__desc">{{ "landing.how_it_works_section.step1_desc" | translate }}</span>
+      </div>
+      <div class="lp-step">
+        <div class="lp-step__num">2</div>
+        <span class="lp-step__title">{{ "landing.how_it_works_section.step2_title" | translate }}</span>
+        <span class="lp-step__desc">{{ "landing.how_it_works_section.step2_desc" | translate }}</span>
+      </div>
+      <div class="lp-step">
+        <div class="lp-step__num">3</div>
+        <span class="lp-step__title">{{ "landing.how_it_works_section.step3_title" | translate }}</span>
+        <span class="lp-step__desc">{{ "landing.how_it_works_section.step3_desc" | translate }}</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="lp-owners" id="for-clubs">
+    <div class="lp-owners__copy">
+      <span class="lp-eyebrow lp-eyebrow--coral">{{ "landing.for_clubs.eyebrow" | translate }}</span>
+      <h2 class="lp-section-title">{{ "landing.for_clubs.title" | translate }}</h2>
+      <p class="lp-section-subtitle">{{ "landing.for_clubs.subtitle" | translate }}</p>
+
+      <div class="lp-bullets">
+        <div class="lp-bullet">
+          <span class="lp-bullet__check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span>
+          <span><strong>{{ "landing.for_clubs.bullet1_title" | translate }}</strong> — {{ "landing.for_clubs.bullet1_desc" | translate }}</span>
+        </div>
+        <div class="lp-bullet">
+          <span class="lp-bullet__check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span>
+          <span><strong>{{ "landing.for_clubs.bullet2_title" | translate }}</strong> — {{ "landing.for_clubs.bullet2_desc" | translate }}</span>
+        </div>
+        <div class="lp-bullet">
+          <span class="lp-bullet__check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span>
+          <span><strong>{{ "landing.for_clubs.bullet3_title" | translate }}</strong> — {{ "landing.for_clubs.bullet3_desc" | translate }}</span>
+        </div>
+        <div class="lp-bullet">
+          <span class="lp-bullet__check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg></span>
+          <span><strong>{{ "landing.for_clubs.bullet4_title" | translate }}</strong> — {{ "landing.for_clubs.bullet4_desc" | translate }}</span>
+        </div>
+      </div>
+
+      <a href="#partner-form" class="lp-btn lp-btn--owner">{{ "landing.for_clubs.cta" | translate }}</a>
+    </div>
+
+    <div class="lp-owners__visual">
+      <div class="lp-dash">
+        <div class="lp-dash__head">
+          <span>This month at your club</span>
+          <span class="lp-dash__trend">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16l6-6 4 4 6-8"/><path d="M14 6h6v6"/></svg>
+            Up from last month
+          </span>
+        </div>
+        <div class="lp-dash__bars">
+          <span style="height:52%"></span>
+          <span style="height:68%"></span>
+          <span style="height:44%"></span>
+          <span style="height:80%" class="lp-dash__bar--accent"></span>
+          <span style="height:60%"></span>
+          <span style="height:74%"></span>
+          <span style="height:90%"></span>
+        </div>
+        <div class="lp-dash__divider"></div>
+        <div class="lp-dash__stats">
+          <div><span class="lp-dash__stat-label">TABLE USE</span><span class="lp-dash__stat-value">82%</span></div>
+          <div><span class="lp-dash__stat-label">TOP GAME</span><span class="lp-dash__stat-value">Wingspan</span></div>
+          <div><span class="lp-dash__stat-label">NEW MEMBERS</span><span class="lp-dash__stat-value">+46</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="lp-why">
+    <div class="lp-section-head">
+      <span class="lp-eyebrow lp-eyebrow--violet">{{ "landing.why.eyebrow" | translate }}</span>
+      <h2 class="lp-section-title">{{ "landing.why.title" | translate }}</h2>
+    </div>
+
+    <div class="lp-why-cards lp-why-cards--row">
+      <div class="lp-why-card">
+        <div class="lp-feature__icon lp-feature__icon--amber">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5l2.4 5 5.5.7-4 3.8 1 5.5-4.9-2.7-4.9 2.7 1-5.5-4-3.8 5.5-.7z"/></svg>
+        </div>
+        <p><strong>{{ "landing.why.card1_title" | translate }}</strong> {{ "landing.why.card1_desc" | translate }}</p>
+      </div>
+      <div class="lp-why-card">
+        <div class="lp-feature__icon lp-feature__icon--teal">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg>
+        </div>
+        <p><strong>{{ "landing.why.card2_title" | translate }}</strong> {{ "landing.why.card2_desc" | translate }}</p>
+      </div>
+      <div class="lp-why-card">
+        <div class="lp-feature__icon lp-feature__icon--violet">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 1 1-4-7.2"/><path d="M21 4v6h-6"/></svg>
+        </div>
+        <p><strong>{{ "landing.why.card3_title" | translate }}</strong> {{ "landing.why.card3_desc" | translate }}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="lp-cta">
+    <div class="lp-cta__card">
+      <div class="lp-cta__glow"></div>
+      <div class="lp-cta__copy">
+        <h2>{{ "landing.final_cta.title" | translate }}</h2>
+        <p>{{ "landing.final_cta.subtitle" | translate }}</p>
+      </div>
+      <div class="lp-cta__actions">
+        <button (click)="onRegister()" type="button" class="lp-btn lp-btn--light">
+          {{ "landing.register" | translate }}
+        </button>
+        <a href="#partner-form" class="lp-btn lp-btn--outline-light">
+          {{ "landing.final_cta.secondary" | translate }}
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="lp-partner" id="partner-form">
+    <h2>{{ "landing.partner_with_us_title" | translate }}</h2>
+    <p class="lp-partner__text">
+      {{ "landing.partner_with_us_text" | translate }}
+    </p>
+    <form [formGroup]="form">
+      <div class="lp-field">
+        <label for="name" class="required">{{
+          "landing.form.labels.name" | translate
+        }}</label>
+        <input
+          id="name"
+          formControlName="name"
+          type="text"
+          [placeholder]="'landing.form.placeholders.name' | translate"
+          required
+        />
+      </div>
+      <div class="lp-field">
+        <label for="email" class="required">{{
+          "landing.form.labels.email" | translate
+        }}</label>
+        <input
+          id="email"
+          formControlName="email"
+          type="email"
+          [placeholder]="'landing.form.placeholders.email' | translate"
+          required
+        />
+      </div>
+      <div class="lp-field">
+        <label for="phoneNumber" class="required">{{
+          "landing.form.labels.phone_number" | translate
+        }}</label>
+        <input
+          id="phoneNumber"
+          formControlName="phoneNumber"
+          type="text"
+          [placeholder]="'landing.form.placeholders.phone_number' | translate"
+          required
+        />
+      </div>
+      <div class="lp-field">
+        <label for="message" class="required">{{
+          "landing.form.labels.message" | translate
+        }}</label>
+        <textarea
+          id="message"
+          formControlName="message"
+          [placeholder]="'landing.form.placeholders.message' | translate"
+        ></textarea>
+      </div>
+      <div *ngIf="getFirstErrorMessage()" class="lp-field__error">
+        {{ getFirstErrorMessage() }}
+      </div>
+      <button
+        [disabled]="this.form.invalid"
+        (click)="this.onSubmit()"
+        type="submit"
+        class="lp-btn lp-btn--primary lp-btn--block"
+      >
+        {{ "landing.form.send_btn" | translate }}
+      </button>
+    </form>
+  </section>
+
+  <footer class="lp-footer">
+    <div class="lp-footer__brand">
+      <img src="shared/assets/images/dicehub_logo_1.png" alt="DiceHub" />
+      <span>DiceHub</span>
+      <span class="lp-footer__tagline">{{ "landing.footer.tagline" | translate }}</span>
+    </div>
+    <span class="lp-footer__copyright">© 2026 DiceHub. All rights reserved.</span>
+  </footer>
 </div>

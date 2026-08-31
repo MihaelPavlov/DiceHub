@@ -1,193 +1,36 @@
-@use "../../../../../shared/assets/styles/palette";
-
-:host {
-  display: block;
+.events-select {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  width: min(28rem, 100%);
+  margin: 0 auto;
 }
 
-.wrapper_icons {
-  display: flex;
-  justify-content: space-between;
-  margin: 1rem;
-  align-items: center;
-  .arrow {
-    width: 3rem;
-    height: 3rem;
-    display: inline-block;
-    position: relative;
-    border: 0.1rem solid palette.$main-icon-color;
-    border-radius: 2.5rem;
+.events-select__label {
+  font-size: 0.65625rem;
+  font-weight: 700;
+  color: var(--games-muted);
+}
 
-    &::before {
-      content: "";
-      display: block;
-      width: 0.75rem;
-      height: 0.75rem;
-      top: 65%;
-      left: 63%;
-      border-style: solid;
-      border-color: palette.$main-icon-color;
-      border-width: 0.2rem 0.2rem 0 0;
-      position: absolute;
-      transform-origin: 50% 50%;
-    }
+.rewards-expired-card {
+  width: min(28rem, 100%);
+  margin: 0 auto;
+  padding: 1.125rem;
+}
 
-    &.left::before {
-      transform: rotate(-135deg);
-      margin: -0.9rem 0 0 -0.6rem;
-    }
-  }
-
-  .header_name {
-    font-size: 1.5rem;
-    padding-top: 1rem;
-    padding-bottom: 0.5rem;
-    word-wrap: break-word;
-    width: 70%;
-    text-align: center;
-  }
-
-  .info-container {
-    position: relative;
-
-    .info {
-      width: 3rem;
-      height: 3rem;
-      fill: palette.$main-blue-color;
-    }
-  }
+.rewards-expired-card__canvas {
+  position: relative;
+  width: 100%;
+  height: 22rem;
 }
 
 @media (min-width: 900px) {
-  .wrapper_icons,
-  .wrapper {
-    width: min(64rem, 100%);
-    margin: 0 auto;
-    box-sizing: border-box;
+  .events-select,
+  .rewards-expired-card {
+    width: min(60rem, 100%);
   }
 
-  .wrapper_icons {
-    margin-top: 1.5rem;
-    margin-bottom: 1rem;
-
-    .header_name {
-      flex: 1;
-      width: auto;
-      padding: 0;
-      text-align: center;
-      font-size: 1.75rem;
-      line-height: 1.2;
-    }
-
-    .arrow {
-      width: 2.5rem;
-      height: 2.5rem;
-      cursor: pointer;
-    }
-  }
-
-  .wrapper {
-    display: grid;
-    gap: 0.85rem;
-    margin: 0 auto 3rem;
-    padding: 1rem;
-    border: 0.1rem solid rgba(117, 160, 255, 0.2);
-    border-radius: 0.5rem;
-    background-color: rgba(49, 49, 59, 0.22);
-    box-sizing: border-box;
-
-    .date_stepper {
-      justify-content: center;
-      gap: 0.75rem;
-
-      .arrow {
-        width: 2.5rem;
-        height: 2.5rem;
-        cursor: pointer;
-      }
-    }
-
-    .month_filter {
-      justify-content: center;
-      margin: 0 0 0.35rem;
-      font-size: 0.9rem;
-    }
-
-    > div:not(.date_stepper):not(.container) {
-      width: min(24rem, 100%);
-      margin-left: auto;
-      margin-right: auto;
-      margin-bottom: 0 !important;
-    }
-
-    :host ::ng-deep .ng-select.app-select-long,
-    :host ::ng-deep .ng-select.app-select-long .ng-select-container {
-      min-width: 0;
-      max-width: none;
-      width: 100%;
-      border-radius: 0.5rem;
-    }
-
-    .container {
-      height: 32rem !important;
-      padding: 1rem;
-      border-radius: 0.5rem;
-      background-color: palette.$main-nav-color;
-      box-sizing: border-box;
-    }
-  }
-}
-
-.month_filter {
-  display: flex;
-  justify-content: center;
-  color: palette.$main-font-gray-color;
-  font-size: 1.2rem;
-  margin: 1rem;
-}
-
-.wrapper {
-  margin: 1rem;
-  margin-bottom: 10rem;
-  .container {
-    padding: 1rem;
-  }
-
-  .input-field {
-    label {
-      text-align: center;
-    }
-  }
-
-  .date_stepper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    .date {
-      font-weight: 700;
-    }
-    .arrow {
-      width: 4rem;
-      height: 4rem;
-      fill: palette.$main-font-color;
-    }
-
-    .left {
-      transform: rotate(180deg);
-    }
-
-    .blue {
-      color: palette.$main-blue-color;
-    }
-  }
-}
-
-@media (min-width: 900px) {
-  .wrapper_icons {
-    margin: 1.5rem auto 1rem;
-  }
-
-  .wrapper {
-    margin: 0 auto 3rem;
+  .rewards-expired-card__canvas {
+    height: 26rem;
   }
 }

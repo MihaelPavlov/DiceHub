@@ -129,6 +129,17 @@ export class AddUpdateMeepleRoomComponent
     }
   }
 
+  public openPicker(input: HTMLInputElement): void {
+    const pickerInput = input as HTMLInputElement & { showPicker?: () => void };
+    if (typeof pickerInput.showPicker === 'function') {
+      try {
+        pickerInput.showPicker();
+      } catch {
+        // Native date/time segments already handle the tap; nothing else to do.
+      }
+    }
+  }
+
   public handleSelectGame(): void {
     if (this.selectedGame?.id) {
       this.fetchGameById(this.selectedGame.id);

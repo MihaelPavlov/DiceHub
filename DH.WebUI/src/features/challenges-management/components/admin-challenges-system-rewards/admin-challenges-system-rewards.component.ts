@@ -186,6 +186,7 @@ export class AdminChallengesSystemRewardsComponent extends Form implements OnDes
     const dialogRef = this.dialog.open(
       AdminChallengesRewardConfirmDeleteDialog,
       {
+        panelClass: 'confirm-sheet-pane',
         data: { id: id },
       }
     );

@@ -9,24 +9,30 @@
     width: 7rem;
     height: 7rem;
     object-fit: cover;
-    border-radius: 20px;
-    border: 0.15rem solid black;
+    border-radius: 1.25rem;
+    border: 1px solid var(--games-border);
   }
 }
 
 .container {
-  font-size: palette.$main-font-color;
+  color: var(--games-text);
   text-align: center;
   padding: 1.3rem;
   padding-top: 1rem;
-  border-radius: 10px;
-  text-align: center;
   padding-bottom: 8rem;
   .info-message {
     display: block;
-    color: palette.$main-font-gray-color;
+    color: var(--games-muted);
     margin-bottom: 1rem;
   }
+  .wrapper_btn {
+    margin-top: 0.5rem;
+
+    .games-cta {
+      width: 100%;
+    }
+  }
+
   .qr-code-field {
     position: relative;
 
@@ -51,9 +57,10 @@
     grid-template-columns: minmax(16rem, 0.7fr) minmax(0, 1.3fr);
     gap: 1rem 1.25rem;
     padding: 1.25rem;
-    border: 1px solid palette.$main-gray-color;
-    border-radius: 0.5rem;
-    background: palette.$main-nav-color;
+    border: 1px solid var(--games-border);
+    border-radius: 1.25rem;
+    background: var(--games-surface);
+    box-shadow: var(--games-shadow);
     text-align: left;
 
     .qr-code-field {
@@ -70,17 +77,17 @@
       align-self: start;
       margin: 0;
       padding: 1rem;
-      border: 1px solid palette.$main-gray-color;
-      border-radius: 0.5rem;
-      background: palette.$main-background-color;
+      border: 1px solid var(--games-border);
+      border-radius: 1.25rem;
+      background: var(--games-surface-2);
       cursor: pointer;
 
       img {
         width: 100%;
         aspect-ratio: 1 / 1;
         height: auto;
-        border-radius: 0.5rem;
-        border-color: palette.$main-gray-color;
+        border-radius: 0.85rem;
+        border-color: var(--games-border);
       }
     }
 
@@ -93,8 +100,8 @@
     }
 
     .input-field input {
-      border: 1px solid palette.$main-gray-color;
-      background: palette.$main-background-color;
+      border: 1px solid var(--games-border);
+      background: var(--games-surface-2);
     }
 
     .input-group {
@@ -115,7 +122,7 @@
       display: flex;
       justify-content: flex-start;
 
-      .btn {
+      .games-cta {
         width: 100%;
       }
     }

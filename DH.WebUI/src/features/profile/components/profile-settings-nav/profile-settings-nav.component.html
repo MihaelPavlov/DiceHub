@@ -1,0 +1,80 @@
+<nav class="profile-subnav" aria-label="Profile sections">
+  <div class="profile-subnav__group">
+    <span class="profile-subnav__label">{{ "profile.nav.personal" | translate }}</span>
+    <a
+      class="profile-subnav__link"
+      [routerLink]="link.profile"
+      routerLinkActive="profile-subnav__link--active"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      {{ "profile.nav.profile" | translate }}
+    </a>
+    <a
+      *ngIf="isUser"
+      class="profile-subnav__link"
+      [routerLink]="link.userSettings"
+      routerLinkActive="profile-subnav__link--active"
+    >
+      {{ "profile.nav.user_settings" | translate }}
+    </a>
+  </div>
+
+  <div class="profile-subnav__group">
+    <span class="profile-subnav__label">{{ "profile.nav.club_management" | translate }}</span>
+    <a
+      *ngIf="isOwnerOrSuperAdmin"
+      class="profile-subnav__link"
+      [routerLink]="link.settings"
+      routerLinkActive="profile-subnav__link--active"
+    >
+      {{ "profile.nav.global_settings" | translate }}
+    </a>
+    <a
+      class="profile-subnav__link"
+      [routerLink]="link.clubInfo"
+      routerLinkActive="profile-subnav__link--active"
+    >
+      {{ "profile.nav.club_info" | translate }}
+    </a>
+    <a
+      *ngIf="isOwnerOrSuperAdmin"
+      class="profile-subnav__link"
+      [routerLink]="link.employees"
+      routerLinkActive="profile-subnav__link--active"
+    >
+      {{ "profile.nav.employees" | translate }}
+    </a>
+  </div>
+
+  <div class="profile-subnav__group" *ngIf="isSuperAdmin">
+    <span class="profile-subnav__label">{{ "profile.nav.platform_admin" | translate }}</span>
+    <a
+      class="profile-subnav__link"
+      [routerLink]="link.ownerDetails"
+      routerLinkActive="profile-subnav__link--active"
+    >
+      {{ "profile.nav.owner_details" | translate }}
+    </a>
+    <a
+      class="profile-subnav__link"
+      [routerLink]="link.jobs"
+      routerLinkActive="profile-subnav__link--active"
+    >
+      {{ "profile.nav.jobs" | translate }}
+    </a>
+    <a
+      class="profile-subnav__link"
+      [routerLink]="link.applicants"
+      routerLinkActive="profile-subnav__link--active"
+    >
+      {{ "profile.nav.applicants" | translate }}
+    </a>
+    <a
+      class="profile-subnav__link"
+      [routerLink]="link.tenants"
+      routerLinkActive="profile-subnav__link--active"
+    >
+      {{ "profile.nav.tenants" | translate }}
+    </a>
+  </div>
+</nav>

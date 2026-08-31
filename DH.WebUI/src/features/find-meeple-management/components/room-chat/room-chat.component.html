@@ -1,110 +1,143 @@
-<div class="wrapper_container">
-  <div class="wrapper_header_container">
+<div class="meeple-chat-layout">
+  <div class="wrapper_container">
     <ng-container *ngIf="this.room">
-      <div class="wrapper_icons">
-        <span (click)="backNavigateBtn()" class="arrow left"></span>
-        <span class="header">{{ "meeple.room.lobby" | translate }}</span>
+      <header class="meeple-chat__header">
+        <button
+          type="button"
+          class="games-icon-btn"
+          (click)="backNavigateBtn()"
+          aria-label="Back"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M15 5l-7 7 7 7" />
+          </svg>
+        </button>
+        <div class="meeple-chat__title">
+          <span class="meeple-chat__title-eyebrow">{{
+            "meeple.room.lobby" | translate
+          }}</span>
+          <span class="meeple-chat__title-name games-display">{{
+            room.name
+          }}</span>
+        </div>
         <app-meeple-room-menu
           *ngIf="this.room"
           [room]="this.room"
           [isCurrentUserParticipateInRoom]="this.isCurrentUserParticipateInRoom"
           (fetchData)="onLeaveCompleted()"
         ></app-meeple-room-menu>
-      </div>
-      <div class="wrapper_header">{{ room.name }}</div>
+      </header>
     </ng-container>
-  </div>
 
-  <div #chat class="wrapper_lobby">
-    <div class="wrapper_lobby__chat">
-      <ng-container
-        *ngFor="
-          let group of currentChatMessagesSubject$.asObservable() | async;
-          let index = index
-        "
+    <div #chat class="wrapper_lobby">
+      <div class="wrapper_lobby__chat">
+        <ng-container
+          *ngFor="
+            let group of currentChatMessagesSubject$.asObservable() | async;
+            let index = index
+          "
+        >
+          <div
+            class="wrapper_lobby__left-chat"
+            *ngIf="group.senderId !== getActiveUserIdFromChat()"
+          >
+            <ng-container
+              *ngFor="let message of group.messages; let isFirst = first"
+            >
+              <ng-container
+                *ngIf="group.senderUsername !== getPreviousSenderUsername(index)"
+              >
+                <span class="username">{{ group.senderUsername }}</span>
+              </ng-container>
+              <div class="item">
+                <span>{{ message.text }}</span>
+              </div>
+            </ng-container>
+          </div>
+          <div
+            class="wrapper_lobby__right-chat"
+            *ngIf="group.senderId === getActiveUserIdFromChat()"
+          >
+            <ng-container
+              *ngFor="let message of group.messages; let isFirst = first"
+            >
+              <ng-container
+                *ngIf="group.senderUsername !== getPreviousSenderUsername(index)"
+              >
+                <span class="username">{{ group.senderUsername }}</span>
+              </ng-container>
+              <div class="item">
+                <span class="surface-elevated">{{ message.text }}</span>
+              </div>
+            </ng-container>
+          </div>
+
+          <div class="wrapper_lobby__info-messages">
+            <ng-container *ngFor="let infoMessage of group.infoMessages">
+              <span class="info-message">{{ infoMessage.text }}</span>
+            </ng-container>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="meeple-chat__composer">
+      <input
+        [(ngModel)]="message"
+        (keydown.enter)="addMessage($event)"
+        type="text"
+        class="meeple-chat__composer-input"
+        [placeholder]="'meeple.room.write_your_message_placeholder' | translate"
+        name="message"
+        id="message"
+      />
+      <button
+        type="button"
+        class="meeple-chat__composer-send"
+        (click)="addMessage()"
+        aria-label="Send"
       >
-        <div
-          class="wrapper_lobby__left-chat"
-          *ngIf="group.senderId !== getActiveUserIdFromChat()"
-        >
-          <ng-container
-            *ngFor="let message of group.messages; let isFirst = first"
-          >
-            <ng-container
-              *ngIf="group.senderUsername !== getPreviousSenderUsername(index)"
-            >
-              <span class="username">{{ group.senderUsername }}</span>
-            </ng-container>
-            <div class="item">
-              <!-- FUTURE IMPROVEMENTS -->
-              <!-- <div id="user-image" class="item__image ">
-                <img
-                  src="https://cf.geekdo-images.com/fvhkcw4s6Q4-nMwwok1J6A__opengraph/img/bbHffM-AIBac7jMM8sgOM1sC0zk=/0x274:1314x964/fit-in/1200x630/filters:strip_icc()/pic6569894.png"
-                  alt=""
-                />
-              </div> -->
-              <span>{{ message.text }}</span>
-            </div>
-          </ng-container>
-        </div>
-        <div
-          class="wrapper_lobby__right-chat"
-          *ngIf="group.senderId === getActiveUserIdFromChat()"
-        >
-          <ng-container
-            *ngFor="let message of group.messages; let isFirst = first"
-          >
-            <!-- TODO: Change with real username -->
-            <ng-container
-              *ngIf="group.senderUsername !== getPreviousSenderUsername(index)"
-            >
-              <span class="username">{{ group.senderUsername }}</span>
-            </ng-container>
-            <div class="item">
-              <span class="surface-elevated">{{ message.text }}</span>
-              <!-- FUTURE IMPROVEMENTS -->
-              <!-- <div id="user-image" class="item__image">
-                <img
-                  src="https://cf.geekdo-images.com/fvhkcw4s6Q4-nMwwok1J6A__opengraph/img/bbHffM-AIBac7jMM8sgOM1sC0zk=/0x274:1314x964/fit-in/1200x630/filters:strip_icc()/pic6569894.png"
-                  alt=""
-                />
-              </div> -->
-            </div>
-          </ng-container>
-        </div>
-
-        <div class="wrapper_lobby__info-messages">
-          <ng-container *ngFor="let infoMessage of group.infoMessages">
-            <span class="info-message">{{ infoMessage.text }}</span>
-          </ng-container>
-        </div>
-      </ng-container>
+        <svg viewBox="0 -960 960 960" aria-hidden="true">
+          <path
+            d="m317.23-83.69-59.54-59.54L595.46-481 257.69-818.77l59.54-59.54L714.54-481 317.23-83.69Z"
+          />
+        </svg>
+      </button>
     </div>
   </div>
-  <div class="form__group">
-    <input
-      [(ngModel)]="message"
-      (keydown.enter)="addMessage($event)"
-      type="text"
-      class="form__field surface-elevated"
-      [placeholder]="'meeple.room.write_your_message_placeholder' | translate"
-      name="message"
-      id="message"
-    />
-    <label for="message" class="form__label">
-      {{ "meeple.room.write_your_message_placeholder" | translate }}</label
+
+  <aside class="meeple-chat__members" *ngIf="this.room">
+    <span class="meeple-chat__members-title games-display">{{
+      "meeple.room.room_members" | translate
+    }}</span>
+
+    <ul class="meeple-chat__members-list">
+      <li
+        class="meeple-chat__member"
+        *ngFor="let member of members | slice : 0 : 6; let i = index"
+      >
+        <span
+          class="meeple-chat__avatar"
+          [ngClass]="getAvatarClass(i)"
+          >{{ getMemberInitials(member.username) }}</span
+        >
+        <div class="meeple-chat__member-info">
+          <span class="meeple-chat__member-name">{{ member.username }}</span>
+          <span
+            class="meeple-chat__member-owner"
+            *ngIf="room.createdBy === member.userId"
+            >{{ "meeple.room.room_owner_badge" | translate }}</span
+          >
+        </div>
+      </li>
+    </ul>
+
+    <button
+      type="button"
+      class="meeple-chat__members-view-all"
+      (click)="viewAllMembers()"
     >
-    <!-- arrow_forward_ios icon -->
-    <svg
-      (click)="addMessage()"
-      height="24px"
-      viewBox="0 -960 960 960"
-      width="24px"
-      class="svg-color-fill"
-    >
-      <path
-        d="m317.23-83.69-59.54-59.54L595.46-481 257.69-818.77l59.54-59.54L714.54-481 317.23-83.69Z"
-      />
-    </svg>
-  </div>
+      {{ "meeple.room.view_all_members" | translate }}
+    </button>
+  </aside>
 </div>

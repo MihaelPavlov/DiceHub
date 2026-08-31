@@ -14,6 +14,7 @@ import { TenantRouter } from '../../helpers/tenant-router';
 })
 export class NotFoundComponent extends ExceptionBaseComponent {
   protected imageCode = '404';
+  protected accent = 'violet' as const;
 
   constructor(
     router: Router,

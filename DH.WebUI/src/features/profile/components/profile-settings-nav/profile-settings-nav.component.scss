@@ -1,0 +1,47 @@
+:host {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  :host {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 15rem;
+    flex-shrink: 0;
+    padding: 2.5rem 1.25rem;
+    border-right: 1px solid var(--games-border);
+  }
+}
+
+.profile-subnav {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.profile-subnav__label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.65625rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--games-faint);
+}
+
+.profile-subnav__link {
+  display: block;
+  padding: 0.5625rem 0.75rem;
+  border-radius: 0.625rem;
+  font-size: 0.84375rem;
+  font-weight: 600;
+  color: var(--games-muted);
+  text-decoration: none;
+}
+
+.profile-subnav__link--active {
+  background: var(--games-blue-soft);
+  color: var(--games-blue);
+  font-weight: 700;
+}

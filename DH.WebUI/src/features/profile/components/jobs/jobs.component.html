@@ -1,34 +1,55 @@
-<p>{{ "WELCOME" | translate }}</p>
-<button (click)="setLanguage('en')">English</button>
-<button (click)="setLanguage('bg')">Български</button>
+<app-profile-settings-nav></app-profile-settings-nav>
 
-<div>iphone version -> {{ iphoneVersion }}</div>
-<br />
-<div>native platform -> {{ nativePlatform }}</div>
-<div class="wrapper">
-  <div class="header">
-    <span class="title">Run Challenge Period Job</span>
-    <br />
-    <button (click)="runChallengePeriodJob()" class="title">Execute</button>
-  </div>
-  <br />
-  <div class="header">
-    <span class="title">Jobs</span>
-    <br />
-    <button (click)="executePeriodJobs()" class="title">
-      Execute Period Jobs
-    </button>
-  </div>
+<div class="profile-page-body">
+  <div class="profile-page">
+    <div class="profile-page-header">
+      <span class="profile-page-header__title">{{ "profile.jobs" | translate }}</span>
+    </div>
 
-  <div *ngFor="let item of jobs">
-    <br />
+    <div class="profile-list">
+      <div class="profile-list-row" (click)="runChallengePeriodJob()">
+        <div class="profile-list-row__body">
+          <span class="profile-list-row__title">Challenge period job</span>
+          <span class="profile-list-row__subtitle">Run the weekly/monthly challenge rollover now</span>
+        </div>
+        <button type="button" class="games-cta">Execute</button>
+      </div>
 
-    <p>Job Key Name - {{ item.jobKeyName }}</p>
-    <p>Trigger Key Name - {{ item.triggerKeyName }}</p>
+      <div class="profile-list-row" (click)="executePeriodJobs()">
+        <div class="profile-list-row__body">
+          <span class="profile-list-row__title">Execute period jobs</span>
+          <span class="profile-list-row__subtitle">Force-run all period jobs across every tenant</span>
+        </div>
+        <button type="button" class="games-cta">Execute</button>
+      </div>
+    </div>
 
-    <p>Next Fire Time - {{ item.nextFireTime }}</p>
-    <p>Previous Fire Time - {{ item.previousFireTime }}</p>
+    <div class="profile-panel">
+      <span class="profile-panel__title">Scheduler</span>
 
-    <br />
+      <div class="profile-list">
+        <div class="profile-list-row profile-list-row--static" *ngFor="let item of jobs">
+          <div class="profile-list-row__body">
+            <span class="profile-list-row__title">{{ item.jobKeyName }}</span>
+            <span class="profile-list-row__subtitle">Trigger key: {{ item.triggerKeyName }}</span>
+            <span class="profile-list-row__subtitle">Next fire: {{ item.nextFireTime }}</span>
+            <span class="profile-list-row__subtitle">Previous fire: {{ item.previousFireTime }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="profile-panel profile-panel--debug">
+      <span class="profile-panel__title">Debug</span>
+      <div class="profile-panel__debug-row">
+        <span>{{ "WELCOME" | translate }}</span>
+        <button type="button" (click)="setLanguage('en')">English</button>
+        <button type="button" (click)="setLanguage('bg')">Български</button>
+      </div>
+      <div class="profile-panel__debug-row">
+        <span>iOS version: {{ iphoneVersion }}</span>
+        <span>Native platform: {{ nativePlatform }}</span>
+      </div>
+    </div>
   </div>
 </div>

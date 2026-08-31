@@ -62,7 +62,7 @@ export class ClubSpaceListComponent implements OnDestroy {
     error: string = ''
   ): void {
     const dialogRef = this.dialog.open(JoinTableConfirmDialog, {
-      width: '18rem',
+      panelClass: 'confirm-sheet-pane',
       data: { roomId, withPassword, error },
     });
 

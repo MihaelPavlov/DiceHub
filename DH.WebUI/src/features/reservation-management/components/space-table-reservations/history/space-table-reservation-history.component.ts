@@ -76,7 +76,7 @@ export class SpaceTableReservationHistory implements OnDestroy {
 
   public updateReservation(id: number): void {
     const dialogRef = this.dialog.open(ReservationDetailsDialog, {
-      width: '17rem',
+      panelClass: 'confirm-sheet-pane',
       data: {
         reservationId: id,
         action: ReservationDetailsActions.Edit,
@@ -97,7 +97,7 @@ export class SpaceTableReservationHistory implements OnDestroy {
 
   public deleteReservation(id: number): void {
     const dialogRef = this.dialog.open(ReservationDetailsDialog, {
-      width: '17rem',
+      panelClass: 'confirm-sheet-pane',
       data: {
         reservationId: id,
         action: ReservationDetailsActions.Delete,
@@ -118,7 +118,7 @@ export class SpaceTableReservationHistory implements OnDestroy {
 
   public approveReservation(record: ITableReservationHistory): void {
     const dialogRef = this.dialog.open(ReservationConfirmationDialog, {
-      width: '17rem',
+      panelClass: 'confirm-sheet-pane',
       data: {
         type: ReservationType.Table,
         reservationId: record.id,
@@ -141,7 +141,7 @@ export class SpaceTableReservationHistory implements OnDestroy {
 
   public declineReservation(record: ITableReservationHistory): void {
     const dialogRef = this.dialog.open(ReservationConfirmationDialog, {
-      width: '17rem',
+      panelClass: 'confirm-sheet-pane',
       data: {
         type: ReservationType.Table,
         reservationId: record.id,
