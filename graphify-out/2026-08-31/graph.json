@@ -1545,8 +1545,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_adapter_authentication_helper_tenantcontextscoperunner_dh_adapter_authentication_helper_tenantcontextscoperunner",
-      "community": 58,
-      "community_name": ".RunAsTenantAsync",
+      "community": 107,
+      "community_name": ".GetGlobalTenantSettingsAsync",
       "norm_label": "tenantcontextscoperunner"
     },
     {
@@ -1562,8 +1562,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_adapter_authentication_helper_tenantcontextscoperunner_dh_adapter_authentication_helper_tenantcontextscoperunner_runastenantasync",
-      "community": 58,
-      "community_name": ".RunAsTenantAsync",
+      "community": 107,
+      "community_name": ".GetGlobalTenantSettingsAsync",
       "norm_label": ".runastenantasync()"
     },
     {
@@ -1573,8 +1573,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_adapter_authentication_helper_tenantcontextscoperunner_cs_func",
-      "community": 58,
-      "community_name": ".RunAsTenantAsync",
+      "community": 107,
+      "community_name": ".GetGlobalTenantSettingsAsync",
       "norm_label": "func"
     },
     {
@@ -1584,8 +1584,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_adapter_authentication_helper_tenantcontextscoperunner_cs_task",
-      "community": 58,
-      "community_name": ".RunAsTenantAsync",
+      "community": 107,
+      "community_name": ".GetGlobalTenantSettingsAsync",
       "norm_label": "task"
     },
     {
@@ -3326,8 +3326,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "hub",
-      "community": 58,
-      "community_name": ".RunAsTenantAsync",
+      "community": 107,
+      "community_name": ".GetGlobalTenantSettingsAsync",
       "norm_label": "hub"
     },
     {
@@ -4046,8 +4046,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_adapter_chathub_chathubclient_dh_adapter_chathub_chathubclient",
-      "community": 58,
-      "community_name": ".RunAsTenantAsync",
+      "community": 107,
+      "community_name": ".GetGlobalTenantSettingsAsync",
       "norm_label": "chathubclient"
     },
     {
@@ -4063,8 +4063,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_adapter_chathub_chathubclient_dh_adapter_chathub_chathubclient_onconnectedasync",
-      "community": 58,
-      "community_name": ".RunAsTenantAsync",
+      "community": 107,
+      "community_name": ".GetGlobalTenantSettingsAsync",
       "norm_label": ".onconnectedasync()"
     },
     {
@@ -4074,8 +4074,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_adapter_chathub_chathubclient_cs_task",
-      "community": 58,
-      "community_name": ".RunAsTenantAsync",
+      "community": 107,
+      "community_name": ".GetGlobalTenantSettingsAsync",
       "norm_label": "task"
     },
     {
@@ -4091,8 +4091,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_adapter_chathub_chathubclient_dh_adapter_chathub_chathubclient_sendmessagetogroup",
-      "community": 58,
-      "community_name": ".RunAsTenantAsync",
+      "community": 107,
+      "community_name": ".GetGlobalTenantSettingsAsync",
       "norm_label": ".sendmessagetogroup()"
     },
     {
@@ -4108,8 +4108,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_adapter_chathub_chathubclient_dh_adapter_chathub_chathubclient_connecttogroup",
-      "community": 58,
-      "community_name": ".RunAsTenantAsync",
+      "community": 107,
+      "community_name": ".GetGlobalTenantSettingsAsync",
       "norm_label": ".connecttogroup()"
     },
     {
@@ -4125,8 +4125,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_adapter_chathub_chathubclient_dh_adapter_chathub_chathubclient_gettenantanduserid",
-      "community": 58,
-      "community_name": ".RunAsTenantAsync",
+      "community": 107,
+      "community_name": ".GetGlobalTenantSettingsAsync",
       "norm_label": ".gettenantanduserid()"
     },
     {
@@ -4136,8 +4136,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "tenantid",
-      "community": 58,
-      "community_name": ".RunAsTenantAsync",
+      "community": 107,
+      "community_name": ".GetGlobalTenantSettingsAsync",
       "norm_label": "tenantid"
     },
     {
@@ -4147,8 +4147,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "userid",
-      "community": 58,
-      "community_name": ".RunAsTenantAsync",
+      "community": 107,
+      "community_name": ".GetGlobalTenantSettingsAsync",
       "norm_label": "userid"
     },
     {
@@ -4710,8 +4710,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dh_dicehub_dh_adapter_data_migrations_20250115170446_initialseedquartznet_designer",
-      "community": 308,
-      "community_name": "20250115170446_InitialSeedQuartzNET.Designer.cs",
+      "community": 158,
+      "community_name": "DH.Adapter.Data.Migrations",
       "norm_label": "20250115170446_initialseedquartznet.designer.cs"
     },
     {
@@ -4743,8 +4743,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_adapter_data_migrations_20250115170446_initialseedquartznet_designer_dh_adapter_data_migrations_initialseedquartznet",
-      "community": 308,
-      "community_name": "20250115170446_InitialSeedQuartzNET.Designer.cs",
+      "community": 158,
+      "community_name": "DH.Adapter.Data.Migrations",
       "norm_label": "initialseedquartznet"
     },
     {
@@ -4760,8 +4760,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_adapter_data_migrations_20250115170446_initialseedquartznet_designer_dh_adapter_data_migrations_initialseedquartznet_buildtargetmodel",
-      "community": 308,
-      "community_name": "20250115170446_InitialSeedQuartzNET.Designer.cs",
+      "community": 158,
+      "community_name": "DH.Adapter.Data.Migrations",
       "norm_label": ".buildtargetmodel()"
     },
     {
@@ -4771,8 +4771,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_adapter_data_migrations_20250115170446_initialseedquartznet_designer_cs_modelbuilder",
-      "community": 308,
-      "community_name": "20250115170446_InitialSeedQuartzNET.Designer.cs",
+      "community": 158,
+      "community_name": "DH.Adapter.Data.Migrations",
       "norm_label": "modelbuilder"
     },
     {
@@ -4855,8 +4855,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dh_dicehub_dh_adapter_data_migrations_20260118090503_initialtenant_designer",
-      "community": 309,
-      "community_name": "20260118090503_InitialTenant.Designer.cs",
+      "community": 158,
+      "community_name": "DH.Adapter.Data.Migrations",
       "norm_label": "20260118090503_initialtenant.designer.cs"
     },
     {
@@ -4872,8 +4872,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_adapter_data_migrations_20260118090503_initialtenant_designer_dh_adapter_data_migrations_initialtenant",
-      "community": 309,
-      "community_name": "20260118090503_InitialTenant.Designer.cs",
+      "community": 158,
+      "community_name": "DH.Adapter.Data.Migrations",
       "norm_label": "initialtenant"
     },
     {
@@ -4889,8 +4889,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_adapter_data_migrations_20260118090503_initialtenant_designer_dh_adapter_data_migrations_initialtenant_buildtargetmodel",
-      "community": 309,
-      "community_name": "20260118090503_InitialTenant.Designer.cs",
+      "community": 158,
+      "community_name": "DH.Adapter.Data.Migrations",
       "norm_label": ".buildtargetmodel()"
     },
     {
@@ -4900,8 +4900,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_adapter_data_migrations_20260118090503_initialtenant_designer_cs_modelbuilder",
-      "community": 309,
-      "community_name": "20260118090503_InitialTenant.Designer.cs",
+      "community": 158,
+      "community_name": "DH.Adapter.Data.Migrations",
       "norm_label": "modelbuilder"
     },
     {
@@ -4984,8 +4984,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dh_dicehub_dh_adapter_data_migrations_20260118090517_initialdata_designer",
-      "community": 158,
-      "community_name": "DH.Adapter.Data.Migrations",
+      "community": 308,
+      "community_name": "20260118090517_InitialData.Designer.cs",
       "norm_label": "20260118090517_initialdata.designer.cs"
     },
     {
@@ -5001,8 +5001,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_adapter_data_migrations_20260118090517_initialdata_designer_dh_adapter_data_migrations_initialdata",
-      "community": 158,
-      "community_name": "DH.Adapter.Data.Migrations",
+      "community": 308,
+      "community_name": "20260118090517_InitialData.Designer.cs",
       "norm_label": "initialdata"
     },
     {
@@ -5018,8 +5018,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_adapter_data_migrations_20260118090517_initialdata_designer_dh_adapter_data_migrations_initialdata_buildtargetmodel",
-      "community": 158,
-      "community_name": "DH.Adapter.Data.Migrations",
+      "community": 308,
+      "community_name": "20260118090517_InitialData.Designer.cs",
       "norm_label": ".buildtargetmodel()"
     },
     {
@@ -5029,8 +5029,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_adapter_data_migrations_20260118090517_initialdata_designer_cs_modelbuilder",
-      "community": 158,
-      "community_name": "DH.Adapter.Data.Migrations",
+      "community": 308,
+      "community_name": "20260118090517_InitialData.Designer.cs",
       "norm_label": "modelbuilder"
     },
     {
@@ -5371,8 +5371,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dh_dicehub_dh_adapter_data_migrations_20260729094735_addtenantsetuptokens_designer",
-      "community": 158,
-      "community_name": "DH.Adapter.Data.Migrations",
+      "community": 309,
+      "community_name": "20260729094735_AddTenantSetupTokens.Designer.cs",
       "norm_label": "20260729094735_addtenantsetuptokens.designer.cs"
     },
     {
@@ -5388,8 +5388,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_adapter_data_migrations_20260729094735_addtenantsetuptokens_designer_dh_adapter_data_migrations_addtenantsetuptokens",
-      "community": 158,
-      "community_name": "DH.Adapter.Data.Migrations",
+      "community": 309,
+      "community_name": "20260729094735_AddTenantSetupTokens.Designer.cs",
       "norm_label": "addtenantsetuptokens"
     },
     {
@@ -5405,8 +5405,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_adapter_data_migrations_20260729094735_addtenantsetuptokens_designer_dh_adapter_data_migrations_addtenantsetuptokens_buildtargetmodel",
-      "community": 158,
-      "community_name": "DH.Adapter.Data.Migrations",
+      "community": 309,
+      "community_name": "20260729094735_AddTenantSetupTokens.Designer.cs",
       "norm_label": ".buildtargetmodel()"
     },
     {
@@ -5416,8 +5416,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_adapter_data_migrations_20260729094735_addtenantsetuptokens_designer_cs_modelbuilder",
-      "community": 158,
-      "community_name": "DH.Adapter.Data.Migrations",
+      "community": 309,
+      "community_name": "20260729094735_AddTenantSetupTokens.Designer.cs",
       "norm_label": "modelbuilder"
     },
     {
@@ -6228,8 +6228,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_adapter_data_seeder_gameseeder_dh_adapter_data_seeder_gameseeder",
-      "community": 145,
-      "community_name": "IFileManagerClient",
+      "community": 321,
+      "community_name": ".GetPublicUrl",
       "norm_label": "gameseeder"
     },
     {
@@ -6239,8 +6239,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_adapter_data_seeder_gameseeder_cs_idbcontextfactory",
-      "community": 145,
-      "community_name": "IFileManagerClient",
+      "community": 321,
+      "community_name": ".GetPublicUrl",
       "norm_label": "idbcontextfactory"
     },
     {
@@ -6256,8 +6256,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_adapter_data_seeder_gameseeder_dh_adapter_data_seeder_gameseeder_seedasync",
-      "community": 145,
-      "community_name": "IFileManagerClient",
+      "community": 321,
+      "community_name": ".GetPublicUrl",
       "norm_label": ".seedasync()"
     },
     {
@@ -6267,8 +6267,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_adapter_data_seeder_gameseeder_cs_task",
-      "community": 145,
-      "community_name": "IFileManagerClient",
+      "community": 321,
+      "community_name": ".GetPublicUrl",
       "norm_label": "task"
     },
     {
@@ -11869,8 +11869,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_adapter_qrmanager_qrcodestates_gameqrcodestate_dh_adapter_qrmanager_qrcodestates_gameqrcodestate_handleasync",
-      "community": 149,
-      "community_name": "QRReaderModel",
+      "community": 234,
+      "community_name": "QrCodeValidationResult",
       "norm_label": ".handleasync()"
     },
     {
@@ -11880,8 +11880,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_adapter_qrmanager_qrcodestates_gameqrcodestate_cs_cancellationtoken",
-      "community": 149,
-      "community_name": "QRReaderModel",
+      "community": 234,
+      "community_name": "QrCodeValidationResult",
       "norm_label": "cancellationtoken"
     },
     {
@@ -11891,8 +11891,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_adapter_qrmanager_qrcodestates_gameqrcodestate_cs_task",
-      "community": 149,
-      "community_name": "QRReaderModel",
+      "community": 234,
+      "community_name": "QrCodeValidationResult",
       "norm_label": "task"
     },
     {
@@ -12020,8 +12020,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_adapter_qrmanager_qrcodestates_purchasechallengeqrcodestate_dh_adapter_qrmanager_qrcodestates_purchasechallengeqrcodestate_handleasync",
-      "community": 234,
-      "community_name": "QrCodeValidationResult",
+      "community": 149,
+      "community_name": "QRReaderModel",
       "norm_label": ".handleasync()"
     },
     {
@@ -12031,8 +12031,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_adapter_qrmanager_qrcodestates_purchasechallengeqrcodestate_cs_cancellationtoken",
-      "community": 234,
-      "community_name": "QrCodeValidationResult",
+      "community": 149,
+      "community_name": "QRReaderModel",
       "norm_label": "cancellationtoken"
     },
     {
@@ -12042,8 +12042,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_adapter_qrmanager_qrcodestates_purchasechallengeqrcodestate_cs_task",
-      "community": 234,
-      "community_name": "QrCodeValidationResult",
+      "community": 149,
+      "community_name": "QRReaderModel",
       "norm_label": "task"
     },
     {
@@ -12059,8 +12059,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_adapter_qrmanager_qrcodestates_purchasechallengeqrcodestate_dh_adapter_qrmanager_qrcodestates_purchasechallengeqrcodestate_seterror",
-      "community": 234,
-      "community_name": "QrCodeValidationResult",
+      "community": 149,
+      "community_name": "QRReaderModel",
       "norm_label": ".seterror()"
     },
     {
@@ -12944,8 +12944,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_adapter_scheduling_handlers_userrewardsexpirationreminderhandler_dh_adapter_scheduling_handlers_userrewardsexpirationreminderhandler",
-      "community": 58,
-      "community_name": ".RunAsTenantAsync",
+      "community": 107,
+      "community_name": ".GetGlobalTenantSettingsAsync",
       "norm_label": "userrewardsexpirationreminderhandler"
     },
     {
@@ -12961,8 +12961,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_adapter_scheduling_handlers_userrewardsexpirationreminderhandler_dh_adapter_scheduling_handlers_userrewardsexpirationreminderhandler_evaluaterewardsreminder",
-      "community": 58,
-      "community_name": ".RunAsTenantAsync",
+      "community": 107,
+      "community_name": ".GetGlobalTenantSettingsAsync",
       "norm_label": ".evaluaterewardsreminder()"
     },
     {
@@ -12972,8 +12972,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_adapter_scheduling_handlers_userrewardsexpirationreminderhandler_cs_cancellationtoken",
-      "community": 58,
-      "community_name": ".RunAsTenantAsync",
+      "community": 107,
+      "community_name": ".GetGlobalTenantSettingsAsync",
       "norm_label": "cancellationtoken"
     },
     {
@@ -12983,8 +12983,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_adapter_scheduling_handlers_userrewardsexpirationreminderhandler_cs_task",
-      "community": 58,
-      "community_name": ".RunAsTenantAsync",
+      "community": 107,
+      "community_name": ".GetGlobalTenantSettingsAsync",
       "norm_label": "task"
     },
     {
@@ -13000,8 +13000,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_adapter_scheduling_handlers_userrewardsexpirationreminderhandler_dh_adapter_scheduling_handlers_userrewardsexpirationreminderhandler_processfailedrewardexpirationreminder",
-      "community": 58,
-      "community_name": ".RunAsTenantAsync",
+      "community": 107,
+      "community_name": ".GetGlobalTenantSettingsAsync",
       "norm_label": ".processfailedrewardexpirationreminder()"
     },
     {
@@ -13028,8 +13028,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_adapter_scheduling_handlers_userrewardsexpiryhandler_dh_adapter_scheduling_handlers_userrewardsexpiryhandler",
-      "community": 236,
-      "community_name": "IRepository",
+      "community": 107,
+      "community_name": ".GetGlobalTenantSettingsAsync",
       "norm_label": "userrewardsexpiryhandler"
     },
     {
@@ -13045,8 +13045,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_adapter_scheduling_handlers_userrewardsexpiryhandler_dh_adapter_scheduling_handlers_userrewardsexpiryhandler_evaluateuserrewardsexpiry",
-      "community": 236,
-      "community_name": "IRepository",
+      "community": 107,
+      "community_name": ".GetGlobalTenantSettingsAsync",
       "norm_label": ".evaluateuserrewardsexpiry()"
     },
     {
@@ -13056,8 +13056,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_adapter_scheduling_handlers_userrewardsexpiryhandler_cs_cancellationtoken",
-      "community": 236,
-      "community_name": "IRepository",
+      "community": 107,
+      "community_name": ".GetGlobalTenantSettingsAsync",
       "norm_label": "cancellationtoken"
     },
     {
@@ -13067,8 +13067,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_adapter_scheduling_handlers_userrewardsexpiryhandler_cs_task",
-      "community": 236,
-      "community_name": "IRepository",
+      "community": 107,
+      "community_name": ".GetGlobalTenantSettingsAsync",
       "norm_label": "task"
     },
     {
@@ -13084,8 +13084,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_adapter_scheduling_handlers_userrewardsexpiryhandler_dh_adapter_scheduling_handlers_userrewardsexpiryhandler_processfailedexpirycheck",
-      "community": 236,
-      "community_name": "IRepository",
+      "community": 107,
+      "community_name": ".GetGlobalTenantSettingsAsync",
       "norm_label": ".processfailedexpirycheck()"
     },
     {
@@ -13102,8 +13102,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_adapter_scheduling_handlers_userrewardsexpiryhandler_dh_adapter_scheduling_handlers_expiredrewardinfo",
-      "community": 236,
-      "community_name": "IRepository",
+      "community": 107,
+      "community_name": ".GetGlobalTenantSettingsAsync",
       "norm_label": "expiredrewardinfo"
     },
     {
@@ -21196,8 +21196,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_challenges_commands_updateuniversalchallengecommand_dh_application_challenges_commands_updateuniversalchallengecommand",
-      "community": 297,
-      "community_name": "UpdateUniversalChallengeCommandHandler",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": "updateuniversalchallengecommand"
     },
     {
@@ -21213,8 +21213,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_challenges_commands_updateuniversalchallengecommand_dh_application_challenges_commands_updateuniversalchallengecommandhandler",
-      "community": 297,
-      "community_name": "UpdateUniversalChallengeCommandHandler",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": "updateuniversalchallengecommandhandler"
     },
     {
@@ -21230,8 +21230,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_challenges_commands_updateuniversalchallengecommand_dh_application_challenges_commands_updateuniversalchallengecommandhandler_handle",
-      "community": 297,
-      "community_name": "UpdateUniversalChallengeCommandHandler",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": ".handle()"
     },
     {
@@ -21241,8 +21241,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_challenges_commands_updateuniversalchallengecommand_cs_cancellationtoken",
-      "community": 297,
-      "community_name": "UpdateUniversalChallengeCommandHandler",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": "cancellationtoken"
     },
     {
@@ -21252,8 +21252,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_challenges_commands_updateuniversalchallengecommand_cs_task",
-      "community": 297,
-      "community_name": "UpdateUniversalChallengeCommandHandler",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": "task"
     },
     {
@@ -21560,7 +21560,7 @@
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_challenges_qureies_getuniversalchallengelistquery_dh_application_challenges_qureies_getuniversalchallengelistquery",
       "community": 312,
-      "community_name": "UserChallenge",
+      "community_name": "Challenge",
       "norm_label": "getuniversalchallengelistquery"
     },
     {
@@ -21571,7 +21571,7 @@
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_challenges_qureies_getuniversalchallengelistquery_cs_list",
       "community": 312,
-      "community_name": "UserChallenge",
+      "community_name": "Challenge",
       "norm_label": "list"
     },
     {
@@ -21588,7 +21588,7 @@
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_challenges_qureies_getuniversalchallengelistquery_dh_application_challenges_qureies_getuniversalchallengelistqueryhandler",
       "community": 312,
-      "community_name": "UserChallenge",
+      "community_name": "Challenge",
       "norm_label": "getuniversalchallengelistqueryhandler"
     },
     {
@@ -21605,7 +21605,7 @@
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_challenges_qureies_getuniversalchallengelistquery_dh_application_challenges_qureies_getuniversalchallengelistqueryhandler_handle",
       "community": 312,
-      "community_name": "UserChallenge",
+      "community_name": "Challenge",
       "norm_label": ".handle()"
     },
     {
@@ -21616,7 +21616,7 @@
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_challenges_qureies_getuniversalchallengelistquery_cs_cancellationtoken",
       "community": 312,
-      "community_name": "UserChallenge",
+      "community_name": "Challenge",
       "norm_label": "cancellationtoken"
     },
     {
@@ -21627,7 +21627,7 @@
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_challenges_qureies_getuniversalchallengelistquery_cs_task",
       "community": 312,
-      "community_name": "UserChallenge",
+      "community_name": "Challenge",
       "norm_label": "task"
     },
     {
@@ -23314,8 +23314,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_common_commands_updatetenantlogocommand_dh_application_common_commands_updatetenantlogocommand",
-      "community": 163,
-      "community_name": "IRequest",
+      "community": 35,
+      "community_name": "IUserContext",
       "norm_label": "updatetenantlogocommand"
     },
     {
@@ -23331,8 +23331,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_common_commands_updatetenantlogocommand_dh_application_common_commands_updatetenantlogocommandhandler",
-      "community": 163,
-      "community_name": "IRequest",
+      "community": 35,
+      "community_name": "IUserContext",
       "norm_label": "updatetenantlogocommandhandler"
     },
     {
@@ -23348,8 +23348,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_common_commands_updatetenantlogocommand_dh_application_common_commands_updatetenantlogocommandhandler_handle",
-      "community": 163,
-      "community_name": "IRequest",
+      "community": 35,
+      "community_name": "IUserContext",
       "norm_label": ".handle()"
     },
     {
@@ -23359,8 +23359,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_common_commands_updatetenantlogocommand_cs_cancellationtoken",
-      "community": 163,
-      "community_name": "IRequest",
+      "community": 35,
+      "community_name": "IUserContext",
       "norm_label": "cancellationtoken"
     },
     {
@@ -23370,8 +23370,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_common_commands_updatetenantlogocommand_cs_task",
-      "community": 163,
-      "community_name": "IRequest",
+      "community": 35,
+      "community_name": "IUserContext",
       "norm_label": "task"
     },
     {
@@ -23733,8 +23733,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_common_queries_getassistivetouchsettingsquery_dh_application_common_queries_getassistivetouchsettingsquery",
-      "community": 35,
-      "community_name": "IUserContext",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": "getassistivetouchsettingsquery"
     },
     {
@@ -23750,8 +23750,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_common_queries_getassistivetouchsettingsquery_dh_application_common_queries_getassistivetouchsettingsqueryhandler",
-      "community": 35,
-      "community_name": "IUserContext",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": "getassistivetouchsettingsqueryhandler"
     },
     {
@@ -23767,8 +23767,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_common_queries_getassistivetouchsettingsquery_dh_application_common_queries_getassistivetouchsettingsqueryhandler_handle",
-      "community": 35,
-      "community_name": "IUserContext",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": ".handle()"
     },
     {
@@ -23778,8 +23778,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_common_queries_getassistivetouchsettingsquery_cs_cancellationtoken",
-      "community": 35,
-      "community_name": "IUserContext",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": "cancellationtoken"
     },
     {
@@ -23789,8 +23789,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_common_queries_getassistivetouchsettingsquery_cs_task",
-      "community": 35,
-      "community_name": "IUserContext",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": "task"
     },
     {
@@ -24030,8 +24030,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_common_queries_gettenantapplicationbyidquery_dh_application_common_queries_gettenantapplicationbyidquery",
-      "community": 163,
-      "community_name": "IRequest",
+      "community": 58,
+      "community_name": "TenantApplicationDto",
       "norm_label": "gettenantapplicationbyidquery"
     },
     {
@@ -24047,8 +24047,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_common_queries_gettenantapplicationbyidquery_dh_application_common_queries_gettenantapplicationbyidqueryhandler",
-      "community": 163,
-      "community_name": "IRequest",
+      "community": 58,
+      "community_name": "TenantApplicationDto",
       "norm_label": "gettenantapplicationbyidqueryhandler"
     },
     {
@@ -24064,8 +24064,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_common_queries_gettenantapplicationbyidquery_dh_application_common_queries_gettenantapplicationbyidqueryhandler_handle",
-      "community": 163,
-      "community_name": "IRequest",
+      "community": 58,
+      "community_name": "TenantApplicationDto",
       "norm_label": ".handle()"
     },
     {
@@ -24075,8 +24075,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_common_queries_gettenantapplicationbyidquery_cs_cancellationtoken",
-      "community": 163,
-      "community_name": "IRequest",
+      "community": 58,
+      "community_name": "TenantApplicationDto",
       "norm_label": "cancellationtoken"
     },
     {
@@ -24086,8 +24086,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_common_queries_gettenantapplicationbyidquery_cs_task",
-      "community": 163,
-      "community_name": "IRequest",
+      "community": 58,
+      "community_name": "TenantApplicationDto",
       "norm_label": "task"
     },
     {
@@ -24114,8 +24114,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_common_queries_gettenantapplicationsquery_dh_application_common_queries_gettenantapplicationsquery",
-      "community": 163,
-      "community_name": "IRequest",
+      "community": 58,
+      "community_name": "TenantApplicationDto",
       "norm_label": "gettenantapplicationsquery"
     },
     {
@@ -24125,8 +24125,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_common_queries_gettenantapplicationsquery_cs_list",
-      "community": 163,
-      "community_name": "IRequest",
+      "community": 58,
+      "community_name": "TenantApplicationDto",
       "norm_label": "list"
     },
     {
@@ -24142,8 +24142,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_common_queries_gettenantapplicationsquery_dh_application_common_queries_gettenantapplicationsqueryhandler",
-      "community": 163,
-      "community_name": "IRequest",
+      "community": 58,
+      "community_name": "TenantApplicationDto",
       "norm_label": "gettenantapplicationsqueryhandler"
     },
     {
@@ -24159,8 +24159,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_common_queries_gettenantapplicationsquery_dh_application_common_queries_gettenantapplicationsqueryhandler_handle",
-      "community": 163,
-      "community_name": "IRequest",
+      "community": 58,
+      "community_name": "TenantApplicationDto",
       "norm_label": ".handle()"
     },
     {
@@ -24170,8 +24170,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_common_queries_gettenantapplicationsquery_cs_cancellationtoken",
-      "community": 163,
-      "community_name": "IRequest",
+      "community": 58,
+      "community_name": "TenantApplicationDto",
       "norm_label": "cancellationtoken"
     },
     {
@@ -24181,8 +24181,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_common_queries_gettenantapplicationsquery_cs_task",
-      "community": 163,
-      "community_name": "IRequest",
+      "community": 58,
+      "community_name": "TenantApplicationDto",
       "norm_label": "task"
     },
     {
@@ -25122,8 +25122,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_emails_commands_sendregistrationemailconfirmationcommand_dh_application_emails_commands_sendregistrationemailconfirmationcommand",
-      "community": 200,
-      "community_name": "IUserManagementService",
+      "community": 54,
+      "community_name": "SendTenantSetupInvitationCommandHandler",
       "norm_label": "sendregistrationemailconfirmationcommand"
     },
     {
@@ -25139,8 +25139,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_emails_commands_sendregistrationemailconfirmationcommand_dh_application_emails_commands_sendregistrationemailconfirmationcommandhandler",
-      "community": 200,
-      "community_name": "IUserManagementService",
+      "community": 54,
+      "community_name": "SendTenantSetupInvitationCommandHandler",
       "norm_label": "sendregistrationemailconfirmationcommandhandler"
     },
     {
@@ -25150,8 +25150,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_emails_commands_sendregistrationemailconfirmationcommand_cs_ilogger",
-      "community": 200,
-      "community_name": "IUserManagementService",
+      "community": 54,
+      "community_name": "SendTenantSetupInvitationCommandHandler",
       "norm_label": "ilogger"
     },
     {
@@ -25161,8 +25161,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_emails_commands_sendregistrationemailconfirmationcommand_cs_iconfiguration",
-      "community": 200,
-      "community_name": "IUserManagementService",
+      "community": 54,
+      "community_name": "SendTenantSetupInvitationCommandHandler",
       "norm_label": "iconfiguration"
     },
     {
@@ -25178,8 +25178,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_emails_commands_sendregistrationemailconfirmationcommand_dh_application_emails_commands_sendregistrationemailconfirmationcommandhandler_handle",
-      "community": 200,
-      "community_name": "IUserManagementService",
+      "community": 54,
+      "community_name": "SendTenantSetupInvitationCommandHandler",
       "norm_label": ".handle()"
     },
     {
@@ -25189,8 +25189,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_emails_commands_sendregistrationemailconfirmationcommand_cs_cancellationtoken",
-      "community": 200,
-      "community_name": "IUserManagementService",
+      "community": 54,
+      "community_name": "SendTenantSetupInvitationCommandHandler",
       "norm_label": "cancellationtoken"
     },
     {
@@ -25200,8 +25200,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_emails_commands_sendregistrationemailconfirmationcommand_cs_task",
-      "community": 200,
-      "community_name": "IUserManagementService",
+      "community": 54,
+      "community_name": "SendTenantSetupInvitationCommandHandler",
       "norm_label": "task"
     },
     {
@@ -25218,8 +25218,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_emails_commands_sendregistrationemailconfirmationcommand_dh_application_emails_commands_registrationemailsystemusercontext",
-      "community": 200,
-      "community_name": "IUserManagementService",
+      "community": 54,
+      "community_name": "SendTenantSetupInvitationCommandHandler",
       "norm_label": "registrationemailsystemusercontext"
     },
     {
@@ -25346,8 +25346,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_events_commands_deleteeventcommand_dh_application_events_commands_deleteeventcommand",
-      "community": 15,
-      "community_name": "IPushNotificationsService",
+      "community": 236,
+      "community_name": "IRepository",
       "norm_label": "deleteeventcommand"
     },
     {
@@ -25363,8 +25363,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_events_commands_deleteeventcommand_dh_application_events_commands_deleteeventcommandhandler",
-      "community": 15,
-      "community_name": "IPushNotificationsService",
+      "community": 236,
+      "community_name": "IRepository",
       "norm_label": "deleteeventcommandhandler"
     },
     {
@@ -25380,8 +25380,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_events_commands_deleteeventcommand_dh_application_events_commands_deleteeventcommandhandler_handle",
-      "community": 15,
-      "community_name": "IPushNotificationsService",
+      "community": 236,
+      "community_name": "IRepository",
       "norm_label": ".handle()"
     },
     {
@@ -25391,8 +25391,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_events_commands_deleteeventcommand_cs_cancellationtoken",
-      "community": 15,
-      "community_name": "IPushNotificationsService",
+      "community": 236,
+      "community_name": "IRepository",
       "norm_label": "cancellationtoken"
     },
     {
@@ -25402,8 +25402,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_events_commands_deleteeventcommand_cs_task",
-      "community": 15,
-      "community_name": "IPushNotificationsService",
+      "community": 236,
+      "community_name": "IRepository",
       "norm_label": "task"
     },
     {
@@ -25693,8 +25693,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_events_commands_updateeventcommand_dh_application_events_commands_updateeventcommand",
-      "community": 15,
-      "community_name": "IPushNotificationsService",
+      "community": 200,
+      "community_name": "IUserManagementService",
       "norm_label": "updateeventcommand"
     },
     {
@@ -25710,8 +25710,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_events_commands_updateeventcommand_dh_application_events_commands_updateeventcommandhandler",
-      "community": 15,
-      "community_name": "IPushNotificationsService",
+      "community": 200,
+      "community_name": "IUserManagementService",
       "norm_label": "updateeventcommandhandler"
     },
     {
@@ -25727,8 +25727,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_events_commands_updateeventcommand_dh_application_events_commands_updateeventcommandhandler_handle",
-      "community": 15,
-      "community_name": "IPushNotificationsService",
+      "community": 200,
+      "community_name": "IUserManagementService",
       "norm_label": ".handle()"
     },
     {
@@ -25738,8 +25738,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_events_commands_updateeventcommand_cs_cancellationtoken",
-      "community": 15,
-      "community_name": "IPushNotificationsService",
+      "community": 200,
+      "community_name": "IUserManagementService",
       "norm_label": "cancellationtoken"
     },
     {
@@ -25749,8 +25749,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_events_commands_updateeventcommand_cs_task",
-      "community": 15,
-      "community_name": "IPushNotificationsService",
+      "community": 200,
+      "community_name": "IUserManagementService",
       "norm_label": "task"
     },
     {
@@ -25793,8 +25793,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_events_queries_checkuserparticipationquery_dh_application_events_queries_checkuserparticipationquery",
-      "community": 35,
-      "community_name": "IUserContext",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": "checkuserparticipationquery"
     },
     {
@@ -25810,8 +25810,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_events_queries_checkuserparticipationquery_dh_application_events_queries_checkuserparticipationqueryhandler",
-      "community": 35,
-      "community_name": "IUserContext",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": "checkuserparticipationqueryhandler"
     },
     {
@@ -25827,8 +25827,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_events_queries_checkuserparticipationquery_dh_application_events_queries_checkuserparticipationqueryhandler_handle",
-      "community": 35,
-      "community_name": "IUserContext",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": ".handle()"
     },
     {
@@ -25838,8 +25838,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_events_queries_checkuserparticipationquery_cs_cancellationtoken",
-      "community": 35,
-      "community_name": "IUserContext",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": "cancellationtoken"
     },
     {
@@ -25849,8 +25849,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_events_queries_checkuserparticipationquery_cs_task",
-      "community": 35,
-      "community_name": "IUserContext",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": "task"
     },
     {
@@ -26374,8 +26374,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_commands_creategamereservationcommand_dh_application_games_commands_creategamereservationcommand",
-      "community": 107,
-      "community_name": ".GetGlobalTenantSettingsAsync",
+      "community": 15,
+      "community_name": "IPushNotificationsService",
       "norm_label": "creategamereservationcommand"
     },
     {
@@ -26391,8 +26391,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_commands_creategamereservationcommand_dh_application_games_commands_creategamereservationcommandhandler",
-      "community": 107,
-      "community_name": ".GetGlobalTenantSettingsAsync",
+      "community": 15,
+      "community_name": "IPushNotificationsService",
       "norm_label": "creategamereservationcommandhandler"
     },
     {
@@ -26408,8 +26408,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_commands_creategamereservationcommand_dh_application_games_commands_creategamereservationcommandhandler_handle",
-      "community": 107,
-      "community_name": ".GetGlobalTenantSettingsAsync",
+      "community": 15,
+      "community_name": "IPushNotificationsService",
       "norm_label": ".handle()"
     },
     {
@@ -26419,8 +26419,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_commands_creategamereservationcommand_cs_cancellationtoken",
-      "community": 107,
-      "community_name": ".GetGlobalTenantSettingsAsync",
+      "community": 15,
+      "community_name": "IPushNotificationsService",
       "norm_label": "cancellationtoken"
     },
     {
@@ -26430,8 +26430,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_commands_creategamereservationcommand_cs_task",
-      "community": 107,
-      "community_name": ".GetGlobalTenantSettingsAsync",
+      "community": 15,
+      "community_name": "IPushNotificationsService",
       "norm_label": "task"
     },
     {
@@ -26558,8 +26558,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_commands_games_approvegamereservationcommand_dh_application_games_commands_games_approvegamereservationcommand",
-      "community": 15,
-      "community_name": "IPushNotificationsService",
+      "community": 236,
+      "community_name": "IRepository",
       "norm_label": "approvegamereservationcommand"
     },
     {
@@ -26575,8 +26575,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_commands_games_approvegamereservationcommand_dh_application_games_commands_games_approvegamereservationcommandhandler",
-      "community": 15,
-      "community_name": "IPushNotificationsService",
+      "community": 236,
+      "community_name": "IRepository",
       "norm_label": "approvegamereservationcommandhandler"
     },
     {
@@ -26592,8 +26592,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_commands_games_approvegamereservationcommand_dh_application_games_commands_games_approvegamereservationcommandhandler_handle",
-      "community": 15,
-      "community_name": "IPushNotificationsService",
+      "community": 236,
+      "community_name": "IRepository",
       "norm_label": ".handle()"
     },
     {
@@ -26603,8 +26603,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_commands_games_approvegamereservationcommand_cs_cancellationtoken",
-      "community": 15,
-      "community_name": "IPushNotificationsService",
+      "community": 236,
+      "community_name": "IRepository",
       "norm_label": "cancellationtoken"
     },
     {
@@ -26614,8 +26614,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_commands_games_approvegamereservationcommand_cs_task",
-      "community": 15,
-      "community_name": "IPushNotificationsService",
+      "community": 236,
+      "community_name": "IRepository",
       "norm_label": "task"
     },
     {
@@ -26810,8 +26810,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_commands_games_creategamecopycommand_dh_application_games_commands_games_creategamecopycommand",
-      "community": 163,
-      "community_name": "IRequest",
+      "community": 267,
+      "community_name": ".Handle",
       "norm_label": "creategamecopycommand"
     },
     {
@@ -26827,8 +26827,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_commands_games_creategamecopycommand_dh_application_games_commands_games_creategamecopycommandhandler",
-      "community": 163,
-      "community_name": "IRequest",
+      "community": 267,
+      "community_name": ".Handle",
       "norm_label": "creategamecopycommandhandler"
     },
     {
@@ -26844,8 +26844,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_commands_games_creategamecopycommand_dh_application_games_commands_games_creategamecopycommandhandler_handle",
-      "community": 163,
-      "community_name": "IRequest",
+      "community": 267,
+      "community_name": ".Handle",
       "norm_label": ".handle()"
     },
     {
@@ -26855,8 +26855,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_commands_games_creategamecopycommand_cs_cancellationtoken",
-      "community": 163,
-      "community_name": "IRequest",
+      "community": 267,
+      "community_name": ".Handle",
       "norm_label": "cancellationtoken"
     },
     {
@@ -26866,8 +26866,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_commands_games_creategamecopycommand_cs_task",
-      "community": 163,
-      "community_name": "IRequest",
+      "community": 267,
+      "community_name": ".Handle",
       "norm_label": "task"
     },
     {
@@ -26894,8 +26894,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_commands_games_creategamereviewcommand_dh_application_games_commands_games_creategamereviewcommand",
-      "community": 5,
-      "community_name": "ITenantDbContext",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": "creategamereviewcommand"
     },
     {
@@ -26911,8 +26911,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_commands_games_creategamereviewcommand_dh_application_games_commands_games_creategamereviewcommandhandler",
-      "community": 5,
-      "community_name": "ITenantDbContext",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": "creategamereviewcommandhandler"
     },
     {
@@ -26928,8 +26928,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_commands_games_creategamereviewcommand_dh_application_games_commands_games_creategamereviewcommandhandler_handle",
-      "community": 5,
-      "community_name": "ITenantDbContext",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": ".handle()"
     },
     {
@@ -26939,8 +26939,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_commands_games_creategamereviewcommand_cs_cancellationtoken",
-      "community": 5,
-      "community_name": "ITenantDbContext",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": "cancellationtoken"
     },
     {
@@ -26950,8 +26950,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_commands_games_creategamereviewcommand_cs_task",
-      "community": 5,
-      "community_name": "ITenantDbContext",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": "task"
     },
     {
@@ -26978,8 +26978,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_commands_games_declinegamereservationcommand_dh_application_games_commands_games_declinegamereservationcommand",
-      "community": 236,
-      "community_name": "IRepository",
+      "community": 15,
+      "community_name": "IPushNotificationsService",
       "norm_label": "declinegamereservationcommand"
     },
     {
@@ -26995,8 +26995,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_commands_games_declinegamereservationcommand_dh_application_games_commands_games_declinegamereservationcommandhandler",
-      "community": 236,
-      "community_name": "IRepository",
+      "community": 15,
+      "community_name": "IPushNotificationsService",
       "norm_label": "declinegamereservationcommandhandler"
     },
     {
@@ -27146,8 +27146,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_commands_games_deletegamereviewbyidcommand_dh_application_games_commands_games_deletegamereviewbyidcommand",
-      "community": 5,
-      "community_name": "ITenantDbContext",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": "deletegamereviewbyidcommand"
     },
     {
@@ -27163,8 +27163,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_commands_games_deletegamereviewbyidcommand_dh_application_games_commands_games_deletegamereviewbyidcommandhandler",
-      "community": 5,
-      "community_name": "ITenantDbContext",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": "deletegamereviewbyidcommandhandler"
     },
     {
@@ -27180,8 +27180,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_commands_games_deletegamereviewbyidcommand_dh_application_games_commands_games_deletegamereviewbyidcommandhandler_handle",
-      "community": 5,
-      "community_name": "ITenantDbContext",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": ".handle()"
     },
     {
@@ -27191,8 +27191,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_commands_games_deletegamereviewbyidcommand_cs_cancellationtoken",
-      "community": 5,
-      "community_name": "ITenantDbContext",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": "cancellationtoken"
     },
     {
@@ -27202,8 +27202,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_commands_games_deletegamereviewbyidcommand_cs_task",
-      "community": 5,
-      "community_name": "ITenantDbContext",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": "task"
     },
     {
@@ -27230,8 +27230,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_commands_games_dislikegamecommand_dh_application_games_commands_games_dislikegamecommand",
-      "community": 5,
-      "community_name": "ITenantDbContext",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": "dislikegamecommand"
     },
     {
@@ -27247,8 +27247,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_commands_games_dislikegamecommand_dh_application_games_commands_games_dislikegamecommandhandler",
-      "community": 5,
-      "community_name": "ITenantDbContext",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": "dislikegamecommandhandler"
     },
     {
@@ -27264,8 +27264,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_commands_games_dislikegamecommand_dh_application_games_commands_games_dislikegamecommandhandler_handle",
-      "community": 5,
-      "community_name": "ITenantDbContext",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": ".handle()"
     },
     {
@@ -27275,8 +27275,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_commands_games_dislikegamecommand_cs_cancellationtoken",
-      "community": 5,
-      "community_name": "ITenantDbContext",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": "cancellationtoken"
     },
     {
@@ -27286,8 +27286,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_commands_games_dislikegamecommand_cs_task",
-      "community": 5,
-      "community_name": "ITenantDbContext",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": "task"
     },
     {
@@ -27314,8 +27314,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_commands_games_likegamecommand_dh_application_games_commands_games_likegamecommand",
-      "community": 5,
-      "community_name": "ITenantDbContext",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": "likegamecommand"
     },
     {
@@ -27331,8 +27331,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_commands_games_likegamecommand_dh_application_games_commands_games_likegamecommandhanlder",
-      "community": 5,
-      "community_name": "ITenantDbContext",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": "likegamecommandhanlder"
     },
     {
@@ -27348,8 +27348,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_commands_games_likegamecommand_dh_application_games_commands_games_likegamecommandhanlder_handle",
-      "community": 5,
-      "community_name": "ITenantDbContext",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": ".handle()"
     },
     {
@@ -27359,8 +27359,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_commands_games_likegamecommand_cs_cancellationtoken",
-      "community": 5,
-      "community_name": "ITenantDbContext",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": "cancellationtoken"
     },
     {
@@ -27370,8 +27370,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_commands_games_likegamecommand_cs_task",
-      "community": 5,
-      "community_name": "ITenantDbContext",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": "task"
     },
     {
@@ -27482,8 +27482,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_commands_games_updategamereviewcommand_dh_application_games_commands_games_updategamereviewcommand",
-      "community": 5,
-      "community_name": "ITenantDbContext",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": "updategamereviewcommand"
     },
     {
@@ -27499,8 +27499,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_commands_games_updategamereviewcommand_dh_application_games_commands_games_updategamereviewcommandhandler",
-      "community": 5,
-      "community_name": "ITenantDbContext",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": "updategamereviewcommandhandler"
     },
     {
@@ -27516,8 +27516,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_commands_games_updategamereviewcommand_dh_application_games_commands_games_updategamereviewcommandhandler_handle",
-      "community": 5,
-      "community_name": "ITenantDbContext",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": ".handle()"
     },
     {
@@ -27527,8 +27527,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_commands_games_updategamereviewcommand_cs_cancellationtoken",
-      "community": 5,
-      "community_name": "ITenantDbContext",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": "cancellationtoken"
     },
     {
@@ -27538,8 +27538,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_commands_games_updategamereviewcommand_cs_task",
-      "community": 5,
-      "community_name": "ITenantDbContext",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": "task"
     },
     {
@@ -28024,8 +28024,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_queries_games_getgamedropdownlistquery_dh_application_games_queries_games_getgamedropdownlistquery",
-      "community": 163,
-      "community_name": "IRequest",
+      "community": 239,
+      "community_name": "GetGameDropdownListQueryHandler",
       "norm_label": "getgamedropdownlistquery"
     },
     {
@@ -28035,8 +28035,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_queries_games_getgamedropdownlistquery_cs_list",
-      "community": 163,
-      "community_name": "IRequest",
+      "community": 239,
+      "community_name": "GetGameDropdownListQueryHandler",
       "norm_label": "list"
     },
     {
@@ -28052,8 +28052,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_queries_games_getgamedropdownlistquery_dh_application_games_queries_games_getgamedropdownlistqueryhandler",
-      "community": 163,
-      "community_name": "IRequest",
+      "community": 239,
+      "community_name": "GetGameDropdownListQueryHandler",
       "norm_label": "getgamedropdownlistqueryhandler"
     },
     {
@@ -28069,8 +28069,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_queries_games_getgamedropdownlistquery_dh_application_games_queries_games_getgamedropdownlistqueryhandler_handle",
-      "community": 163,
-      "community_name": "IRequest",
+      "community": 239,
+      "community_name": "GetGameDropdownListQueryHandler",
       "norm_label": ".handle()"
     },
     {
@@ -28080,8 +28080,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_queries_games_getgamedropdownlistquery_cs_cancellationtoken",
-      "community": 163,
-      "community_name": "IRequest",
+      "community": 239,
+      "community_name": "GetGameDropdownListQueryHandler",
       "norm_label": "cancellationtoken"
     },
     {
@@ -28091,8 +28091,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_queries_games_getgamedropdownlistquery_cs_task",
-      "community": 163,
-      "community_name": "IRequest",
+      "community": 239,
+      "community_name": "GetGameDropdownListQueryHandler",
       "norm_label": "task"
     },
     {
@@ -28119,8 +28119,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_queries_games_getgameinventoryquery_dh_application_games_queries_games_getgameinventoryquery",
-      "community": 258,
-      "community_name": "GetGameInventoryQueryHandler",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": "getgameinventoryquery"
     },
     {
@@ -28136,8 +28136,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_queries_games_getgameinventoryquery_dh_application_games_queries_games_getgameinventoryqueryhandler",
-      "community": 258,
-      "community_name": "GetGameInventoryQueryHandler",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": "getgameinventoryqueryhandler"
     },
     {
@@ -28153,8 +28153,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_queries_games_getgameinventoryquery_dh_application_games_queries_games_getgameinventoryqueryhandler_handle",
-      "community": 258,
-      "community_name": "GetGameInventoryQueryHandler",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": ".handle()"
     },
     {
@@ -28164,8 +28164,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_queries_games_getgameinventoryquery_cs_cancellationtoken",
-      "community": 258,
-      "community_name": "GetGameInventoryQueryHandler",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": "cancellationtoken"
     },
     {
@@ -28175,8 +28175,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_queries_games_getgameinventoryquery_cs_task",
-      "community": 258,
-      "community_name": "GetGameInventoryQueryHandler",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": "task"
     },
     {
@@ -28393,8 +28393,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_queries_games_getgamereservationstatusquery_dh_application_games_queries_games_getgamereservationstatusquery",
-      "community": 163,
-      "community_name": "IRequest",
+      "community": 258,
+      "community_name": "GetGameReservationStatusQueryHandler",
       "norm_label": "getgamereservationstatusquery"
     },
     {
@@ -28410,8 +28410,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_queries_games_getgamereservationstatusquery_dh_application_games_queries_games_getgamereservationstatusqueryhandler",
-      "community": 163,
-      "community_name": "IRequest",
+      "community": 258,
+      "community_name": "GetGameReservationStatusQueryHandler",
       "norm_label": "getgamereservationstatusqueryhandler"
     },
     {
@@ -28427,8 +28427,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_queries_games_getgamereservationstatusquery_dh_application_games_queries_games_getgamereservationstatusqueryhandler_handle",
-      "community": 163,
-      "community_name": "IRequest",
+      "community": 258,
+      "community_name": "GetGameReservationStatusQueryHandler",
       "norm_label": ".handle()"
     },
     {
@@ -28438,8 +28438,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_queries_games_getgamereservationstatusquery_cs_cancellationtoken",
-      "community": 163,
-      "community_name": "IRequest",
+      "community": 258,
+      "community_name": "GetGameReservationStatusQueryHandler",
       "norm_label": "cancellationtoken"
     },
     {
@@ -28449,8 +28449,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_queries_games_getgamereservationstatusquery_cs_task",
-      "community": 163,
-      "community_name": "IRequest",
+      "community": 258,
+      "community_name": "GetGameReservationStatusQueryHandler",
       "norm_label": "task"
     },
     {
@@ -28477,8 +28477,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_queries_games_getgamereservedlistquery_dh_application_games_queries_games_getgamereservedlistquery",
-      "community": 200,
-      "community_name": "IUserManagementService",
+      "community": 91,
+      "community_name": "GetGameReservedListQueryHandler",
       "norm_label": "getgamereservedlistquery"
     },
     {
@@ -28488,8 +28488,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_queries_games_getgamereservedlistquery_cs_list",
-      "community": 200,
-      "community_name": "IUserManagementService",
+      "community": 91,
+      "community_name": "GetGameReservedListQueryHandler",
       "norm_label": "list"
     },
     {
@@ -28505,8 +28505,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_queries_games_getgamereservedlistquery_dh_application_games_queries_games_getgamereservedlistqueryhandler",
-      "community": 200,
-      "community_name": "IUserManagementService",
+      "community": 91,
+      "community_name": "GetGameReservedListQueryHandler",
       "norm_label": "getgamereservedlistqueryhandler"
     },
     {
@@ -28522,8 +28522,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_queries_games_getgamereservedlistquery_dh_application_games_queries_games_getgamereservedlistqueryhandler_handle",
-      "community": 200,
-      "community_name": "IUserManagementService",
+      "community": 91,
+      "community_name": "GetGameReservedListQueryHandler",
       "norm_label": ".handle()"
     },
     {
@@ -28533,8 +28533,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_queries_games_getgamereservedlistquery_cs_cancellationtoken",
-      "community": 200,
-      "community_name": "IUserManagementService",
+      "community": 91,
+      "community_name": "GetGameReservedListQueryHandler",
       "norm_label": "cancellationtoken"
     },
     {
@@ -28544,8 +28544,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_queries_games_getgamereservedlistquery_cs_task",
-      "community": 200,
-      "community_name": "IUserManagementService",
+      "community": 91,
+      "community_name": "GetGameReservedListQueryHandler",
       "norm_label": "task"
     },
     {
@@ -28562,8 +28562,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_queries_games_getgamereservedlistquery_dh_application_games_queries_games_gamerecord",
-      "community": 200,
-      "community_name": "IUserManagementService",
+      "community": 91,
+      "community_name": "GetGameReservedListQueryHandler",
       "norm_label": "gamerecord"
     },
     {
@@ -28590,8 +28590,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_queries_games_getgamereviewlistquery_dh_application_games_queries_games_getgamereviewlistquery",
-      "community": 239,
-      "community_name": "GetGameReviewListQueryHandler",
+      "community": 200,
+      "community_name": "IUserManagementService",
       "norm_label": "getgamereviewlistquery"
     },
     {
@@ -28601,8 +28601,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_queries_games_getgamereviewlistquery_cs_list",
-      "community": 239,
-      "community_name": "GetGameReviewListQueryHandler",
+      "community": 200,
+      "community_name": "IUserManagementService",
       "norm_label": "list"
     },
     {
@@ -28618,8 +28618,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_queries_games_getgamereviewlistquery_dh_application_games_queries_games_getgamereviewlistqueryhandler",
-      "community": 239,
-      "community_name": "GetGameReviewListQueryHandler",
+      "community": 200,
+      "community_name": "IUserManagementService",
       "norm_label": "getgamereviewlistqueryhandler"
     },
     {
@@ -28635,8 +28635,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_queries_games_getgamereviewlistquery_dh_application_games_queries_games_getgamereviewlistqueryhandler_handle",
-      "community": 239,
-      "community_name": "GetGameReviewListQueryHandler",
+      "community": 200,
+      "community_name": "IUserManagementService",
       "norm_label": ".handle()"
     },
     {
@@ -28646,8 +28646,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_queries_games_getgamereviewlistquery_cs_cancellationtoken",
-      "community": 239,
-      "community_name": "GetGameReviewListQueryHandler",
+      "community": 200,
+      "community_name": "IUserManagementService",
       "norm_label": "cancellationtoken"
     },
     {
@@ -28657,8 +28657,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_games_queries_games_getgamereviewlistquery_cs_task",
-      "community": 239,
-      "community_name": "GetGameReviewListQueryHandler",
+      "community": 200,
+      "community_name": "IUserManagementService",
       "norm_label": "task"
     },
     {
@@ -29991,8 +29991,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_rewards_queries_getuserchallengeperiodrewardlistquery_dh_application_rewards_queries_getuserchallengeperiodrewardlistquery",
-      "community": 233,
-      "community_name": "GetUserChallengePeriodRewardListQueryHandler",
+      "community": 35,
+      "community_name": "IUserContext",
       "norm_label": "getuserchallengeperiodrewardlistquery"
     },
     {
@@ -30002,8 +30002,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_rewards_queries_getuserchallengeperiodrewardlistquery_cs_list",
-      "community": 233,
-      "community_name": "GetUserChallengePeriodRewardListQueryHandler",
+      "community": 35,
+      "community_name": "IUserContext",
       "norm_label": "list"
     },
     {
@@ -30019,8 +30019,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_rewards_queries_getuserchallengeperiodrewardlistquery_dh_application_rewards_queries_getuserchallengeperiodrewardlistqueryhandler",
-      "community": 233,
-      "community_name": "GetUserChallengePeriodRewardListQueryHandler",
+      "community": 35,
+      "community_name": "IUserContext",
       "norm_label": "getuserchallengeperiodrewardlistqueryhandler"
     },
     {
@@ -30036,8 +30036,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_rewards_queries_getuserchallengeperiodrewardlistquery_dh_application_rewards_queries_getuserchallengeperiodrewardlistqueryhandler_handle",
-      "community": 233,
-      "community_name": "GetUserChallengePeriodRewardListQueryHandler",
+      "community": 35,
+      "community_name": "IUserContext",
       "norm_label": ".handle()"
     },
     {
@@ -30047,8 +30047,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_rewards_queries_getuserchallengeperiodrewardlistquery_cs_cancellationtoken",
-      "community": 233,
-      "community_name": "GetUserChallengePeriodRewardListQueryHandler",
+      "community": 35,
+      "community_name": "IUserContext",
       "norm_label": "cancellationtoken"
     },
     {
@@ -30058,8 +30058,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_rewards_queries_getuserchallengeperiodrewardlistquery_cs_task",
-      "community": 233,
-      "community_name": "GetUserChallengePeriodRewardListQueryHandler",
+      "community": 35,
+      "community_name": "IUserContext",
       "norm_label": "task"
     },
     {
@@ -30532,8 +30532,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_rooms_commands_leaveroomcommand_dh_application_rooms_commands_leaveroomcommand",
-      "community": 163,
-      "community_name": "IRequest",
+      "community": 297,
+      "community_name": "LeaveRoomCommandHandler",
       "norm_label": "leaveroomcommand"
     },
     {
@@ -30549,8 +30549,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_rooms_commands_leaveroomcommand_dh_application_rooms_commands_leaveroomcommandhandler",
-      "community": 163,
-      "community_name": "IRequest",
+      "community": 297,
+      "community_name": "LeaveRoomCommandHandler",
       "norm_label": "leaveroomcommandhandler"
     },
     {
@@ -30566,8 +30566,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_rooms_commands_leaveroomcommand_dh_application_rooms_commands_leaveroomcommandhandler_handle",
-      "community": 163,
-      "community_name": "IRequest",
+      "community": 297,
+      "community_name": "LeaveRoomCommandHandler",
       "norm_label": ".handle()"
     },
     {
@@ -30577,8 +30577,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_rooms_commands_leaveroomcommand_cs_cancellationtoken",
-      "community": 163,
-      "community_name": "IRequest",
+      "community": 297,
+      "community_name": "LeaveRoomCommandHandler",
       "norm_label": "cancellationtoken"
     },
     {
@@ -30588,8 +30588,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_rooms_commands_leaveroomcommand_cs_task",
-      "community": 163,
-      "community_name": "IRequest",
+      "community": 297,
+      "community_name": "LeaveRoomCommandHandler",
       "norm_label": "task"
     },
     {
@@ -31074,8 +31074,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_rooms_queries_getroommemberlistquery_dh_application_rooms_queries_getroommemberlistquery",
-      "community": 267,
-      "community_name": ".Handle",
+      "community": 200,
+      "community_name": "IUserManagementService",
       "norm_label": "getroommemberlistquery"
     },
     {
@@ -31085,8 +31085,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_rooms_queries_getroommemberlistquery_cs_list",
-      "community": 267,
-      "community_name": ".Handle",
+      "community": 200,
+      "community_name": "IUserManagementService",
       "norm_label": "list"
     },
     {
@@ -31102,8 +31102,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_rooms_queries_getroommemberlistquery_dh_application_rooms_queries_getroommemberlistqueryhandler",
-      "community": 267,
-      "community_name": ".Handle",
+      "community": 200,
+      "community_name": "IUserManagementService",
       "norm_label": "getroommemberlistqueryhandler"
     },
     {
@@ -31119,8 +31119,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_rooms_queries_getroommemberlistquery_dh_application_rooms_queries_getroommemberlistqueryhandler_handle",
-      "community": 267,
-      "community_name": ".Handle",
+      "community": 200,
+      "community_name": "IUserManagementService",
       "norm_label": ".handle()"
     },
     {
@@ -31130,8 +31130,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_rooms_queries_getroommemberlistquery_cs_cancellationtoken",
-      "community": 267,
-      "community_name": ".Handle",
+      "community": 200,
+      "community_name": "IUserManagementService",
       "norm_label": "cancellationtoken"
     },
     {
@@ -31141,8 +31141,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_rooms_queries_getroommemberlistquery_cs_task",
-      "community": 267,
-      "community_name": ".Handle",
+      "community": 200,
+      "community_name": "IUserManagementService",
       "norm_label": "task"
     },
     {
@@ -31169,8 +31169,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_rooms_queries_getroommessagelistquery_dh_application_rooms_queries_getroommessagelistquery",
-      "community": 200,
-      "community_name": "IUserManagementService",
+      "community": 233,
+      "community_name": "GetRoomMessageListQueryHandler",
       "norm_label": "getroommessagelistquery"
     },
     {
@@ -31180,8 +31180,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_rooms_queries_getroommessagelistquery_cs_list",
-      "community": 200,
-      "community_name": "IUserManagementService",
+      "community": 233,
+      "community_name": "GetRoomMessageListQueryHandler",
       "norm_label": "list"
     },
     {
@@ -31197,8 +31197,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_rooms_queries_getroommessagelistquery_dh_application_rooms_queries_getroommessagelistqueryhandler",
-      "community": 200,
-      "community_name": "IUserManagementService",
+      "community": 233,
+      "community_name": "GetRoomMessageListQueryHandler",
       "norm_label": "getroommessagelistqueryhandler"
     },
     {
@@ -31214,8 +31214,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_rooms_queries_getroommessagelistquery_dh_application_rooms_queries_getroommessagelistqueryhandler_handle",
-      "community": 200,
-      "community_name": "IUserManagementService",
+      "community": 233,
+      "community_name": "GetRoomMessageListQueryHandler",
       "norm_label": ".handle()"
     },
     {
@@ -31225,8 +31225,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_rooms_queries_getroommessagelistquery_cs_cancellationtoken",
-      "community": 200,
-      "community_name": "IUserManagementService",
+      "community": 233,
+      "community_name": "GetRoomMessageListQueryHandler",
       "norm_label": "cancellationtoken"
     },
     {
@@ -31236,8 +31236,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_rooms_queries_getroommessagelistquery_cs_task",
-      "community": 200,
-      "community_name": "IUserManagementService",
+      "community": 233,
+      "community_name": "GetRoomMessageListQueryHandler",
       "norm_label": "task"
     },
     {
@@ -31264,8 +31264,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_rooms_queries_getuserroomparticipationstatusquery_dh_application_rooms_queries_getuserroomparticipationstatusquery",
-      "community": 35,
-      "community_name": "IUserContext",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": "getuserroomparticipationstatusquery"
     },
     {
@@ -31281,8 +31281,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_rooms_queries_getuserroomparticipationstatusquery_dh_application_rooms_queries_getuserroomparticipationstatusqueryhandler",
-      "community": 35,
-      "community_name": "IUserContext",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": "getuserroomparticipationstatusqueryhandler"
     },
     {
@@ -31298,8 +31298,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_rooms_queries_getuserroomparticipationstatusquery_dh_application_rooms_queries_getuserroomparticipationstatusqueryhandler_handle",
-      "community": 35,
-      "community_name": "IUserContext",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": ".handle()"
     },
     {
@@ -31309,8 +31309,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_rooms_queries_getuserroomparticipationstatusquery_cs_cancellationtoken",
-      "community": 35,
-      "community_name": "IUserContext",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": "cancellationtoken"
     },
     {
@@ -31320,8 +31320,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_rooms_queries_getuserroomparticipationstatusquery_cs_task",
-      "community": 35,
-      "community_name": "IUserContext",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": "task"
     },
     {
@@ -31448,8 +31448,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_spacemanagement_commands_approvespacetablereservationcommand_dh_application_spacemanagement_commands_approvespacetablereservationcommand",
-      "community": 107,
-      "community_name": ".GetGlobalTenantSettingsAsync",
+      "community": 15,
+      "community_name": "IPushNotificationsService",
       "norm_label": "approvespacetablereservationcommand"
     },
     {
@@ -31465,8 +31465,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_spacemanagement_commands_approvespacetablereservationcommand_dh_application_spacemanagement_commands_approvespacetablereservationcommandhandler",
-      "community": 107,
-      "community_name": ".GetGlobalTenantSettingsAsync",
+      "community": 15,
+      "community_name": "IPushNotificationsService",
       "norm_label": "approvespacetablereservationcommandhandler"
     },
     {
@@ -31482,8 +31482,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_spacemanagement_commands_approvespacetablereservationcommand_dh_application_spacemanagement_commands_approvespacetablereservationcommandhandler_handle",
-      "community": 107,
-      "community_name": ".GetGlobalTenantSettingsAsync",
+      "community": 15,
+      "community_name": "IPushNotificationsService",
       "norm_label": ".handle()"
     },
     {
@@ -31493,8 +31493,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_spacemanagement_commands_approvespacetablereservationcommand_cs_cancellationtoken",
-      "community": 107,
-      "community_name": ".GetGlobalTenantSettingsAsync",
+      "community": 15,
+      "community_name": "IPushNotificationsService",
       "norm_label": "cancellationtoken"
     },
     {
@@ -31504,8 +31504,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_spacemanagement_commands_approvespacetablereservationcommand_cs_task",
-      "community": 107,
-      "community_name": ".GetGlobalTenantSettingsAsync",
+      "community": 15,
+      "community_name": "IPushNotificationsService",
       "norm_label": "task"
     },
     {
@@ -31806,8 +31806,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_spacemanagement_commands_createspacetablereservationcommand_dh_application_spacemanagement_commands_createspacetablereservationcommand",
-      "community": 107,
-      "community_name": ".GetGlobalTenantSettingsAsync",
+      "community": 15,
+      "community_name": "IPushNotificationsService",
       "norm_label": "createspacetablereservationcommand"
     },
     {
@@ -31823,8 +31823,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_spacemanagement_commands_createspacetablereservationcommand_dh_application_spacemanagement_commands_createspacetablereservationcommandhandler",
-      "community": 107,
-      "community_name": ".GetGlobalTenantSettingsAsync",
+      "community": 15,
+      "community_name": "IPushNotificationsService",
       "norm_label": "createspacetablereservationcommandhandler"
     },
     {
@@ -31840,8 +31840,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_spacemanagement_commands_createspacetablereservationcommand_dh_application_spacemanagement_commands_createspacetablereservationcommandhandler_handle",
-      "community": 107,
-      "community_name": ".GetGlobalTenantSettingsAsync",
+      "community": 15,
+      "community_name": "IPushNotificationsService",
       "norm_label": ".handle()"
     },
     {
@@ -31851,8 +31851,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_spacemanagement_commands_createspacetablereservationcommand_cs_cancellationtoken",
-      "community": 107,
-      "community_name": ".GetGlobalTenantSettingsAsync",
+      "community": 15,
+      "community_name": "IPushNotificationsService",
       "norm_label": "cancellationtoken"
     },
     {
@@ -31862,8 +31862,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_spacemanagement_commands_createspacetablereservationcommand_cs_task",
-      "community": 107,
-      "community_name": ".GetGlobalTenantSettingsAsync",
+      "community": 15,
+      "community_name": "IPushNotificationsService",
       "norm_label": "task"
     },
     {
@@ -31890,8 +31890,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_spacemanagement_commands_declinespacetablereservationcommand_dh_application_spacemanagement_commands_declinespacetablereservationcommand",
-      "community": 107,
-      "community_name": ".GetGlobalTenantSettingsAsync",
+      "community": 15,
+      "community_name": "IPushNotificationsService",
       "norm_label": "declinespacetablereservationcommand"
     },
     {
@@ -31907,8 +31907,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_spacemanagement_commands_declinespacetablereservationcommand_dh_application_spacemanagement_commands_declinespacetablereservationcommandhandler",
-      "community": 107,
-      "community_name": ".GetGlobalTenantSettingsAsync",
+      "community": 15,
+      "community_name": "IPushNotificationsService",
       "norm_label": "declinespacetablereservationcommandhandler"
     },
     {
@@ -31924,8 +31924,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_spacemanagement_commands_declinespacetablereservationcommand_dh_application_spacemanagement_commands_declinespacetablereservationcommandhandler_handle",
-      "community": 107,
-      "community_name": ".GetGlobalTenantSettingsAsync",
+      "community": 15,
+      "community_name": "IPushNotificationsService",
       "norm_label": ".handle()"
     },
     {
@@ -31935,8 +31935,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_spacemanagement_commands_declinespacetablereservationcommand_cs_cancellationtoken",
-      "community": 107,
-      "community_name": ".GetGlobalTenantSettingsAsync",
+      "community": 15,
+      "community_name": "IPushNotificationsService",
       "norm_label": "cancellationtoken"
     },
     {
@@ -31946,8 +31946,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_spacemanagement_commands_declinespacetablereservationcommand_cs_task",
-      "community": 107,
-      "community_name": ".GetGlobalTenantSettingsAsync",
+      "community": 15,
+      "community_name": "IPushNotificationsService",
       "norm_label": "task"
     },
     {
@@ -32416,8 +32416,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_spacemanagement_commands_updatespacetablecommand_dh_application_spacemanagement_commands_updatespacetablecommand",
-      "community": 163,
-      "community_name": "IRequest",
+      "community": 35,
+      "community_name": "IUserContext",
       "norm_label": "updatespacetablecommand"
     },
     {
@@ -32433,8 +32433,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_spacemanagement_commands_updatespacetablecommand_dh_application_spacemanagement_commands_updatespacetablecommandhandler",
-      "community": 163,
-      "community_name": "IRequest",
+      "community": 35,
+      "community_name": "IUserContext",
       "norm_label": "updatespacetablecommandhandler"
     },
     {
@@ -32450,8 +32450,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_spacemanagement_commands_updatespacetablecommand_dh_application_spacemanagement_commands_updatespacetablecommandhandler_handle",
-      "community": 163,
-      "community_name": "IRequest",
+      "community": 35,
+      "community_name": "IUserContext",
       "norm_label": ".handle()"
     },
     {
@@ -32461,8 +32461,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_spacemanagement_commands_updatespacetablecommand_cs_cancellationtoken",
-      "community": 163,
-      "community_name": "IRequest",
+      "community": 35,
+      "community_name": "IUserContext",
       "norm_label": "cancellationtoken"
     },
     {
@@ -32472,8 +32472,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_spacemanagement_commands_updatespacetablecommand_cs_task",
-      "community": 163,
-      "community_name": "IRequest",
+      "community": 35,
+      "community_name": "IUserContext",
       "norm_label": "task"
     },
     {
@@ -33137,8 +33137,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_spacemanagement_queries_getspacetableparticipantlistquery_dh_application_spacemanagement_queries_getspacetableparticipantlistquery",
-      "community": 341,
-      "community_name": "GetSpaceTableParticipantListQueryHandler",
+      "community": 200,
+      "community_name": "IUserManagementService",
       "norm_label": "getspacetableparticipantlistquery"
     },
     {
@@ -33148,8 +33148,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_spacemanagement_queries_getspacetableparticipantlistquery_cs_list",
-      "community": 341,
-      "community_name": "GetSpaceTableParticipantListQueryHandler",
+      "community": 200,
+      "community_name": "IUserManagementService",
       "norm_label": "list"
     },
     {
@@ -33165,8 +33165,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_spacemanagement_queries_getspacetableparticipantlistquery_dh_application_spacemanagement_queries_getspacetableparticipantlistqueryhandler",
-      "community": 341,
-      "community_name": "GetSpaceTableParticipantListQueryHandler",
+      "community": 200,
+      "community_name": "IUserManagementService",
       "norm_label": "getspacetableparticipantlistqueryhandler"
     },
     {
@@ -33182,8 +33182,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_spacemanagement_queries_getspacetableparticipantlistquery_dh_application_spacemanagement_queries_getspacetableparticipantlistqueryhandler_handle",
-      "community": 341,
-      "community_name": "GetSpaceTableParticipantListQueryHandler",
+      "community": 200,
+      "community_name": "IUserManagementService",
       "norm_label": ".handle()"
     },
     {
@@ -33193,8 +33193,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_spacemanagement_queries_getspacetableparticipantlistquery_cs_cancellationtoken",
-      "community": 341,
-      "community_name": "GetSpaceTableParticipantListQueryHandler",
+      "community": 200,
+      "community_name": "IUserManagementService",
       "norm_label": "cancellationtoken"
     },
     {
@@ -33204,8 +33204,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_application_spacemanagement_queries_getspacetableparticipantlistquery_cs_task",
-      "community": 341,
-      "community_name": "GetSpaceTableParticipantListQueryHandler",
+      "community": 200,
+      "community_name": "IUserManagementService",
       "norm_label": "task"
     },
     {
@@ -38738,8 +38738,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_adapters_data_itenantdbcontext_dh_domain_adapters_data_itenantdbcontext",
-      "community": 5,
-      "community_name": "ITenantDbContext",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": "itenantdbcontext"
     },
     {
@@ -38766,8 +38766,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_adapters_data_itenantdbcontext_dh_domain_adapters_data_itenantdbcontext_acquirerepository",
-      "community": 5,
-      "community_name": "ITenantDbContext",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": ".acquirerepository()"
     },
     {
@@ -38783,8 +38783,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_adapters_data_itenantdbcontext_dh_domain_adapters_data_itenantdbcontext_savechangesasync",
-      "community": 5,
-      "community_name": "ITenantDbContext",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": ".savechangesasync()"
     },
     {
@@ -38794,8 +38794,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_adapters_data_itenantdbcontext_cs_cancellationtoken",
-      "community": 5,
-      "community_name": "ITenantDbContext",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": "cancellationtoken"
     },
     {
@@ -38805,8 +38805,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_adapters_data_itenantdbcontext_cs_task",
-      "community": 5,
-      "community_name": "ITenantDbContext",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": "task"
     },
     {
@@ -39453,8 +39453,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_adapters_filemanager_ifilemanagerclient_dh_domain_adapters_filemanager_ifilemanagerclient_getpublicurl",
-      "community": 145,
-      "community_name": "IFileManagerClient",
+      "community": 321,
+      "community_name": ".GetPublicUrl",
       "norm_label": ".getpublicurl()"
     },
     {
@@ -41894,8 +41894,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_adapters_pushnotifications_notificationtyperegistry_dh_domain_adapters_pushnotifications_notificationtyperegistry",
-      "community": 236,
-      "community_name": "IRepository",
+      "community": 59,
+      "community_name": "ILocalizationService",
       "norm_label": "notificationtyperegistry"
     },
     {
@@ -41905,8 +41905,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_adapters_pushnotifications_notificationtyperegistry_cs_dictionary",
-      "community": 236,
-      "community_name": "IRepository",
+      "community": 59,
+      "community_name": "ILocalizationService",
       "norm_label": "dictionary"
     },
     {
@@ -41922,8 +41922,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_adapters_pushnotifications_notificationtyperegistry_dh_domain_adapters_pushnotifications_notificationtyperegistry_trygettype",
-      "community": 236,
-      "community_name": "IRepository",
+      "community": 59,
+      "community_name": "ILocalizationService",
       "norm_label": ".trygettype()"
     },
     {
@@ -41933,8 +41933,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_adapters_pushnotifications_notificationtyperegistry_cs_type",
-      "community": 236,
-      "community_name": "IRepository",
+      "community": 59,
+      "community_name": "ILocalizationService",
       "norm_label": "type"
     },
     {
@@ -41950,8 +41950,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_adapters_pushnotifications_notificationtyperegistry_dh_domain_adapters_pushnotifications_notificationtyperegistry_deserializenotification",
-      "community": 236,
-      "community_name": "IRepository",
+      "community": 59,
+      "community_name": "ILocalizationService",
       "norm_label": ".deserializenotification()"
     },
     {
@@ -42411,8 +42411,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_adapters_reservations_ireservationcleanupqueue_dh_domain_adapters_reservations_ireservationcleanupqueue",
-      "community": 107,
-      "community_name": ".GetGlobalTenantSettingsAsync",
+      "community": 15,
+      "community_name": "IPushNotificationsService",
       "norm_label": "ireservationcleanupqueue"
     },
     {
@@ -42428,8 +42428,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_adapters_reservations_ireservationcleanupqueue_dh_domain_adapters_reservations_ireservationcleanupqueue_addreservationcleaningjob",
-      "community": 107,
-      "community_name": ".GetGlobalTenantSettingsAsync",
+      "community": 15,
+      "community_name": "IPushNotificationsService",
       "norm_label": ".addreservationcleaningjob()"
     },
     {
@@ -42439,8 +42439,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_adapters_reservations_ireservationcleanupqueue_cs_datetime",
-      "community": 107,
-      "community_name": ".GetGlobalTenantSettingsAsync",
+      "community": 15,
+      "community_name": "IPushNotificationsService",
       "norm_label": "datetime"
     },
     {
@@ -42450,8 +42450,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_adapters_reservations_ireservationcleanupqueue_cs_task",
-      "community": 107,
-      "community_name": ".GetGlobalTenantSettingsAsync",
+      "community": 15,
+      "community_name": "IPushNotificationsService",
       "norm_label": "task"
     },
     {
@@ -42467,8 +42467,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_adapters_reservations_ireservationcleanupqueue_dh_domain_adapters_reservations_ireservationcleanupqueue_updatereservationcleaningjob",
-      "community": 107,
-      "community_name": ".GetGlobalTenantSettingsAsync",
+      "community": 15,
+      "community_name": "IPushNotificationsService",
       "norm_label": ".updatereservationcleaningjob()"
     },
     {
@@ -42484,8 +42484,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_adapters_reservations_ireservationcleanupqueue_dh_domain_adapters_reservations_ireservationcleanupqueue_trydequeue",
-      "community": 107,
-      "community_name": ".GetGlobalTenantSettingsAsync",
+      "community": 15,
+      "community_name": "IPushNotificationsService",
       "norm_label": ".trydequeue()"
     },
     {
@@ -42495,8 +42495,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_adapters_reservations_ireservationcleanupqueue_cs_cancellationtoken",
-      "community": 107,
-      "community_name": ".GetGlobalTenantSettingsAsync",
+      "community": 15,
+      "community_name": "IPushNotificationsService",
       "norm_label": "cancellationtoken"
     },
     {
@@ -42506,8 +42506,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_adapters_reservations_ireservationcleanupqueue_cs_list",
-      "community": 107,
-      "community_name": ".GetGlobalTenantSettingsAsync",
+      "community": 15,
+      "community_name": "IPushNotificationsService",
       "norm_label": "list"
     },
     {
@@ -42523,8 +42523,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_adapters_reservations_ireservationcleanupqueue_dh_domain_adapters_reservations_ireservationcleanupqueue_cancelreservationcleaningjob",
-      "community": 107,
-      "community_name": ".GetGlobalTenantSettingsAsync",
+      "community": 15,
+      "community_name": "IPushNotificationsService",
       "norm_label": ".cancelreservationcleaningjob()"
     },
     {
@@ -45086,7 +45086,7 @@
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_entities_challenge_dh_domain_entities_challenge",
       "community": 312,
-      "community_name": "UserChallenge",
+      "community_name": "Challenge",
       "norm_label": "challenge"
     },
     {
@@ -45097,7 +45097,7 @@
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_entities_challenge_cs_datetime",
       "community": 312,
-      "community_name": "UserChallenge",
+      "community_name": "Challenge",
       "norm_label": "datetime"
     },
     {
@@ -45108,7 +45108,7 @@
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_entities_challenge_cs_icollection",
       "community": 312,
-      "community_name": "UserChallenge",
+      "community_name": "Challenge",
       "norm_label": "icollection"
     },
     {
@@ -45207,8 +45207,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_entities_challengestatistic",
-      "community": 312,
-      "community_name": "UserChallenge",
+      "community": 4,
+      "community_name": "TenantDbContext",
       "norm_label": "challengestatistic.cs"
     },
     {
@@ -45224,8 +45224,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_entities_challengestatistic_dh_domain_entities_challengestatistic",
-      "community": 312,
-      "community_name": "UserChallenge",
+      "community": 4,
+      "community_name": "TenantDbContext",
       "norm_label": "challengestatistic"
     },
     {
@@ -45302,8 +45302,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_entities_customperiodreward",
-      "community": 23,
-      "community_name": "ChallengeReward",
+      "community": 4,
+      "community_name": "TenantDbContext",
       "norm_label": "customperiodreward.cs"
     },
     {
@@ -45319,8 +45319,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_entities_customperiodreward_dh_domain_entities_customperiodreward",
-      "community": 23,
-      "community_name": "ChallengeReward",
+      "community": 4,
+      "community_name": "TenantDbContext",
       "norm_label": "customperiodreward"
     },
     {
@@ -45331,7 +45331,7 @@
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_entities_customperioduniversalchallenge",
       "community": 312,
-      "community_name": "UserChallenge",
+      "community_name": "Challenge",
       "norm_label": "customperioduniversalchallenge.cs"
     },
     {
@@ -45348,7 +45348,7 @@
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_entities_customperioduniversalchallenge_dh_domain_entities_customperioduniversalchallenge",
       "community": 312,
-      "community_name": "UserChallenge",
+      "community_name": "Challenge",
       "norm_label": "customperioduniversalchallenge"
     },
     {
@@ -45426,7 +45426,7 @@
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_entities_customperioduseruniversalchallenge",
       "community": 312,
-      "community_name": "UserChallenge",
+      "community_name": "Challenge",
       "norm_label": "customperioduseruniversalchallenge.cs"
     },
     {
@@ -45443,7 +45443,7 @@
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_entities_customperioduseruniversalchallenge_dh_domain_entities_customperioduseruniversalchallenge",
       "community": 312,
-      "community_name": "UserChallenge",
+      "community_name": "Challenge",
       "norm_label": "customperioduseruniversalchallenge"
     },
     {
@@ -45454,7 +45454,7 @@
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_entities_customperioduseruniversalchallenge_cs_datetime",
       "community": 312,
-      "community_name": "UserChallenge",
+      "community_name": "Challenge",
       "norm_label": "datetime"
     },
     {
@@ -46139,8 +46139,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_entities_reservationoutcomelog_dh_domain_entities_reservationoutcomelog",
-      "community": 4,
-      "community_name": "TenantDbContext",
+      "community": 341,
+      "community_name": "ReservationOutcomeLog",
       "norm_label": "reservationoutcomelog"
     },
     {
@@ -46150,8 +46150,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_entities_reservationoutcomelog_cs_datetime",
-      "community": 4,
-      "community_name": "TenantDbContext",
+      "community": 341,
+      "community_name": "ReservationOutcomeLog",
       "norm_label": "datetime"
     },
     {
@@ -46764,7 +46764,7 @@
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_entities_universalchallenge_dh_domain_entities_universalchallenge",
       "community": 312,
-      "community_name": "UserChallenge",
+      "community_name": "Challenge",
       "norm_label": "universalchallenge"
     },
     {
@@ -46775,7 +46775,7 @@
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_entities_universalchallenge_cs_datetime",
       "community": 312,
-      "community_name": "UserChallenge",
+      "community_name": "Challenge",
       "norm_label": "datetime"
     },
     {
@@ -46786,7 +46786,7 @@
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_entities_universalchallenge_cs_icollection",
       "community": 312,
-      "community_name": "UserChallenge",
+      "community_name": "Challenge",
       "norm_label": "icollection"
     },
     {
@@ -46813,8 +46813,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_entities_userchallenge_dh_domain_entities_userchallenge",
-      "community": 312,
-      "community_name": "UserChallenge",
+      "community": 47,
+      "community_name": "GameSessionService",
       "norm_label": "userchallenge"
     },
     {
@@ -46824,8 +46824,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_entities_userchallenge_cs_datetime",
-      "community": 312,
-      "community_name": "UserChallenge",
+      "community": 47,
+      "community_name": "GameSessionService",
       "norm_label": "datetime"
     },
     {
@@ -47131,7 +47131,7 @@
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_enums_challengerewardpoint",
       "community": 312,
-      "community_name": "UserChallenge",
+      "community_name": "Challenge",
       "norm_label": "challengerewardpoint.cs"
     },
     {
@@ -47148,7 +47148,7 @@
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_enums_challengerewardpoint_dh_domain_enums_challengerewardpoint",
       "community": 312,
-      "community_name": "UserChallenge",
+      "community_name": "Challenge",
       "norm_label": "challengerewardpoint"
     },
     {
@@ -47298,8 +47298,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_enums_reservationoutcome",
-      "community": 4,
-      "community_name": "TenantDbContext",
+      "community": 341,
+      "community_name": "ReservationOutcomeLog",
       "norm_label": "dh.domain/enums/reservationoutcome.cs"
     },
     {
@@ -47315,8 +47315,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_enums_reservationoutcome_dh_domain_enums_reservationoutcome",
-      "community": 4,
-      "community_name": "TenantDbContext",
+      "community": 341,
+      "community_name": "ReservationOutcomeLog",
       "norm_label": "reservationoutcome"
     },
     {
@@ -48731,7 +48731,7 @@
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_models_challengemodels_queries_getuniversalchallengelistquerymodel_dh_domain_models_challengemodels_queries_getuniversalchallengelistquerymodel",
       "community": 312,
-      "community_name": "UserChallenge",
+      "community_name": "Challenge",
       "norm_label": "getuniversalchallengelistquerymodel"
     },
     {
@@ -48926,8 +48926,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_models_common_assistivetouchsettings",
-      "community": 35,
-      "community_name": "IUserContext",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": "assistivetouchsettings.cs"
     },
     {
@@ -48959,8 +48959,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_models_common_assistivetouchsettings_dh_domain_models_common_assistivetouchsettings",
-      "community": 35,
-      "community_name": "IUserContext",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": "assistivetouchsettings"
     },
     {
@@ -49306,8 +49306,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_models_common_tenantapplicationdto_dh_domain_models_common_tenantapplicationdto",
-      "community": 163,
-      "community_name": "IRequest",
+      "community": 58,
+      "community_name": "TenantApplicationDto",
       "norm_label": "tenantapplicationdto"
     },
     {
@@ -49317,8 +49317,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_models_common_tenantapplicationdto_cs_datetime",
-      "community": 163,
-      "community_name": "IRequest",
+      "community": 58,
+      "community_name": "TenantApplicationDto",
       "norm_label": "datetime"
     },
     {
@@ -50384,8 +50384,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_models_gamemodels_queries_getgamedropdownlistquerymodel",
-      "community": 163,
-      "community_name": "IRequest",
+      "community": 239,
+      "community_name": "GetGameDropdownListQueryHandler",
       "norm_label": "getgamedropdownlistquerymodel.cs"
     },
     {
@@ -50401,8 +50401,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_models_gamemodels_queries_getgamedropdownlistquerymodel_dh_domain_models_gamemodels_queries_getgamedropdownlistquerymodel",
-      "community": 163,
-      "community_name": "IRequest",
+      "community": 239,
+      "community_name": "GetGameDropdownListQueryHandler",
       "norm_label": "getgamedropdownlistquerymodel"
     },
     {
@@ -50412,8 +50412,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_models_gamemodels_queries_getgameinvetoryquerymodel",
-      "community": 258,
-      "community_name": "GetGameInventoryQueryHandler",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": "getgameinvetoryquerymodel.cs"
     },
     {
@@ -50429,8 +50429,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_models_gamemodels_queries_getgameinvetoryquerymodel_dh_domain_models_gamemodels_queries_getgameinvetoryquerymodel",
-      "community": 258,
-      "community_name": "GetGameInventoryQueryHandler",
+      "community": 163,
+      "community_name": "IRequest",
       "norm_label": "getgameinvetoryquerymodel"
     },
     {
@@ -50546,8 +50546,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_models_gamemodels_queries_getgamereservationlistquerymodel",
-      "community": 200,
-      "community_name": "IUserManagementService",
+      "community": 91,
+      "community_name": "GetGameReservedListQueryHandler",
       "norm_label": "getgamereservationlistquerymodel.cs"
     },
     {
@@ -50563,8 +50563,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_models_gamemodels_queries_getgamereservationlistquerymodel_dh_domain_models_gamemodels_queries_getgamereservationlistquerymodel",
-      "community": 200,
-      "community_name": "IUserManagementService",
+      "community": 91,
+      "community_name": "GetGameReservedListQueryHandler",
       "norm_label": "getgamereservationlistquerymodel"
     },
     {
@@ -50574,8 +50574,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_models_gamemodels_queries_getgamereservationlistquerymodel_cs_datetime",
-      "community": 200,
-      "community_name": "IUserManagementService",
+      "community": 91,
+      "community_name": "GetGameReservedListQueryHandler",
       "norm_label": "datetime"
     },
     {
@@ -50602,8 +50602,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_models_gamemodels_queries_getgamereservationstatusquerymodel_dh_domain_models_gamemodels_queries_getgamereservationstatusquerymodel",
-      "community": 163,
-      "community_name": "IRequest",
+      "community": 258,
+      "community_name": "GetGameReservationStatusQueryHandler",
       "norm_label": "getgamereservationstatusquerymodel"
     },
     {
@@ -50613,8 +50613,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_models_gamemodels_queries_getgamereservationstatusquerymodel_cs_datetime",
-      "community": 163,
-      "community_name": "IRequest",
+      "community": 258,
+      "community_name": "GetGameReservationStatusQueryHandler",
       "norm_label": "datetime"
     },
     {
@@ -50624,8 +50624,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_models_gamemodels_queries_getgamereviewlistquerymodel",
-      "community": 239,
-      "community_name": "GetGameReviewListQueryHandler",
+      "community": 200,
+      "community_name": "IUserManagementService",
       "norm_label": "getgamereviewlistquerymodel.cs"
     },
     {
@@ -50641,8 +50641,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_models_gamemodels_queries_getgamereviewlistquerymodel_dh_domain_models_gamemodels_queries_getgamereviewlistquerymodel",
-      "community": 239,
-      "community_name": "GetGameReviewListQueryHandler",
+      "community": 200,
+      "community_name": "IUserManagementService",
       "norm_label": "getgamereviewlistquerymodel"
     },
     {
@@ -50652,8 +50652,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_models_gamemodels_queries_getgamereviewlistquerymodel_cs_datetime",
-      "community": 239,
-      "community_name": "GetGameReviewListQueryHandler",
+      "community": 200,
+      "community_name": "IUserManagementService",
       "norm_label": "datetime"
     },
     {
@@ -51046,8 +51046,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_models_rewardmodels_queries_getuserchallengeperiodrewardlistquerymodel",
-      "community": 233,
-      "community_name": "GetUserChallengePeriodRewardListQueryHandler",
+      "community": 35,
+      "community_name": "IUserContext",
       "norm_label": "getuserchallengeperiodrewardlistquerymodel.cs"
     },
     {
@@ -51063,8 +51063,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_models_rewardmodels_queries_getuserchallengeperiodrewardlistquerymodel_dh_domain_models_rewardmodels_queries_getuserchallengeperiodrewardlistquerymodel",
-      "community": 233,
-      "community_name": "GetUserChallengePeriodRewardListQueryHandler",
+      "community": 35,
+      "community_name": "IUserContext",
       "norm_label": "getuserchallengeperiodrewardlistquerymodel"
     },
     {
@@ -51424,8 +51424,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_models_roommodels_queries_getroommemberlistquerymodel",
-      "community": 267,
-      "community_name": ".Handle",
+      "community": 200,
+      "community_name": "IUserManagementService",
       "norm_label": "getroommemberlistquerymodel.cs"
     },
     {
@@ -51441,8 +51441,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_models_roommodels_queries_getroommemberlistquerymodel_dh_domain_models_roommodels_queries_getroommemberlistquerymodel",
-      "community": 267,
-      "community_name": ".Handle",
+      "community": 200,
+      "community_name": "IUserManagementService",
       "norm_label": "getroommemberlistquerymodel"
     },
     {
@@ -51452,8 +51452,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_models_roommodels_queries_getroommemberlistquerymodel_cs_datetime",
-      "community": 267,
-      "community_name": ".Handle",
+      "community": 200,
+      "community_name": "IUserManagementService",
       "norm_label": "datetime"
     },
     {
@@ -51463,8 +51463,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_models_roommodels_queries_getroommessagelistquerymodel",
-      "community": 200,
-      "community_name": "IUserManagementService",
+      "community": 233,
+      "community_name": "GetRoomMessageListQueryHandler",
       "norm_label": "getroommessagelistquerymodel.cs"
     },
     {
@@ -51480,8 +51480,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_models_roommodels_queries_getroommessagelistquerymodel_dh_domain_models_roommodels_queries_getroommessagelistquerymodel",
-      "community": 200,
-      "community_name": "IUserManagementService",
+      "community": 233,
+      "community_name": "GetRoomMessageListQueryHandler",
       "norm_label": "getroommessagelistquerymodel"
     },
     {
@@ -51491,8 +51491,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_models_roommodels_queries_getroommessagelistquerymodel_cs_datetime",
-      "community": 200,
-      "community_name": "IUserManagementService",
+      "community": 233,
+      "community_name": "GetRoomMessageListQueryHandler",
       "norm_label": "datetime"
     },
     {
@@ -51902,8 +51902,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_models_spacemanagementmodels_queries_getspacetableparticipantlistquerymodel",
-      "community": 341,
-      "community_name": "GetSpaceTableParticipantListQueryHandler",
+      "community": 200,
+      "community_name": "IUserManagementService",
       "norm_label": "getspacetableparticipantlistquerymodel.cs"
     },
     {
@@ -51919,8 +51919,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_models_spacemanagementmodels_queries_getspacetableparticipantlistquerymodel_dh_domain_models_spacemanagementmodels_queries_getspacetableparticipantlistquerymodel",
-      "community": 341,
-      "community_name": "GetSpaceTableParticipantListQueryHandler",
+      "community": 200,
+      "community_name": "IUserManagementService",
       "norm_label": "getspacetableparticipantlistquerymodel"
     },
     {
@@ -52886,7 +52886,7 @@
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_seeder_igameseeder",
       "community": 321,
-      "community_name": "IGameSeeder",
+      "community_name": ".GetPublicUrl",
       "norm_label": "igameseeder.cs"
     },
     {
@@ -52919,7 +52919,7 @@
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_seeder_igameseeder_dh_domain_seeder_igameseeder",
       "community": 321,
-      "community_name": "IGameSeeder",
+      "community_name": ".GetPublicUrl",
       "norm_label": "igameseeder"
     },
     {
@@ -52936,7 +52936,7 @@
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_seeder_igameseeder_dh_domain_seeder_igameseeder_seedasync",
       "community": 321,
-      "community_name": "IGameSeeder",
+      "community_name": ".GetPublicUrl",
       "norm_label": ".seedasync()"
     },
     {
@@ -52947,7 +52947,7 @@
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_seeder_igameseeder_cs_task",
       "community": 321,
-      "community_name": "IGameSeeder",
+      "community_name": ".GetPublicUrl",
       "norm_label": "task"
     },
     {
@@ -54241,8 +54241,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_services_itenantcontextscoperunner",
-      "community": 58,
-      "community_name": ".RunAsTenantAsync",
+      "community": 107,
+      "community_name": ".GetGlobalTenantSettingsAsync",
       "norm_label": "itenantcontextscoperunner.cs"
     },
     {
@@ -54258,8 +54258,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_services_itenantcontextscoperunner_dh_domain_services_itenantcontextscoperunner",
-      "community": 58,
-      "community_name": ".RunAsTenantAsync",
+      "community": 107,
+      "community_name": ".GetGlobalTenantSettingsAsync",
       "norm_label": "itenantcontextscoperunner"
     },
     {
@@ -54275,8 +54275,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_services_itenantcontextscoperunner_dh_domain_services_itenantcontextscoperunner_runastenantasync",
-      "community": 58,
-      "community_name": ".RunAsTenantAsync",
+      "community": 107,
+      "community_name": ".GetGlobalTenantSettingsAsync",
       "norm_label": ".runastenantasync()"
     },
     {
@@ -54286,8 +54286,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_services_itenantcontextscoperunner_cs_func",
-      "community": 58,
-      "community_name": ".RunAsTenantAsync",
+      "community": 107,
+      "community_name": ".GetGlobalTenantSettingsAsync",
       "norm_label": "func"
     },
     {
@@ -54297,8 +54297,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_services_itenantcontextscoperunner_cs_task",
-      "community": 58,
-      "community_name": ".RunAsTenantAsync",
+      "community": 107,
+      "community_name": ".GetGlobalTenantSettingsAsync",
       "norm_label": "task"
     },
     {
@@ -55058,8 +55058,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_services_tenantsettingsservice_tenantsettingscacheservice_dh_domain_services_tenantsettingsservice_tenantsettingscacheservice",
-      "community": 35,
-      "community_name": "IUserContext",
+      "community": 107,
+      "community_name": ".GetGlobalTenantSettingsAsync",
       "norm_label": "tenantsettingscacheservice"
     },
     {
@@ -55069,8 +55069,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "readerwriterlockslim",
-      "community": 35,
-      "community_name": "IUserContext",
+      "community": 107,
+      "community_name": ".GetGlobalTenantSettingsAsync",
       "norm_label": "readerwriterlockslim"
     },
     {
@@ -55080,8 +55080,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_services_tenantsettingsservice_tenantsettingscacheservice_cs_string",
-      "community": 35,
-      "community_name": "IUserContext",
+      "community": 107,
+      "community_name": ".GetGlobalTenantSettingsAsync",
       "norm_label": "string"
     },
     {
@@ -55091,8 +55091,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_services_tenantsettingsservice_tenantsettingscacheservice_cs_datetime",
-      "community": 35,
-      "community_name": "IUserContext",
+      "community": 107,
+      "community_name": ".GetGlobalTenantSettingsAsync",
       "norm_label": "datetime"
     },
     {
@@ -55108,8 +55108,8 @@
       },
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_services_tenantsettingsservice_tenantsettingscacheservice_dh_domain_services_tenantsettingsservice_tenantsettingscacheservice_getglobaltenantsettingsasync",
-      "community": 35,
-      "community_name": "IUserContext",
+      "community": 236,
+      "community_name": "IRepository",
       "norm_label": ".getglobaltenantsettingsasync()"
     },
     {
@@ -55119,8 +55119,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_services_tenantsettingsservice_tenantsettingscacheservice_cs_cancellationtoken",
-      "community": 35,
-      "community_name": "IUserContext",
+      "community": 236,
+      "community_name": "IRepository",
       "norm_label": "cancellationtoken"
     },
     {
@@ -55130,8 +55130,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_dicehub_dh_domain_services_tenantsettingsservice_tenantsettingscacheservice_cs_task",
-      "community": 35,
-      "community_name": "IUserContext",
+      "community": 236,
+      "community_name": "IRepository",
       "norm_label": "task"
     },
     {
@@ -64230,8 +64230,8 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "dh_webui_package_dependencies_angular_compiler",
-      "community": 70,
-      "community_name": "dependencies",
+      "community": 344,
+      "community_name": "@angular/compiler",
       "norm_label": "@angular/compiler"
     },
     {
@@ -64241,8 +64241,8 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "angular_compiler",
-      "community": 70,
-      "community_name": "dependencies",
+      "community": 344,
+      "community_name": "@angular/compiler",
       "norm_label": "@angular/compiler"
     },
     {
@@ -64362,8 +64362,8 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "dh_webui_package_dependencies_angular_platform_browser_dynamic",
-      "community": 401,
-      "community_name": "@angular/platform-browser-dynamic",
+      "community": 70,
+      "community_name": "dependencies",
       "norm_label": "@angular/platform-browser-dynamic"
     },
     {
@@ -64373,8 +64373,8 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "angular_platform_browser_dynamic",
-      "community": 401,
-      "community_name": "@angular/platform-browser-dynamic",
+      "community": 70,
+      "community_name": "dependencies",
       "norm_label": "@angular/platform-browser-dynamic"
     },
     {
@@ -67068,8 +67068,8 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "dh_webui_src_entities_common_api_tenant_settings_service_tenantsettingsservice_get",
-      "community": 213,
-      "community_name": "ToastService",
+      "community": 39,
+      "community_name": "challenges-management.component.ts",
       "norm_label": ".get()"
     },
     {
@@ -67101,8 +67101,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dh_webui_src_entities_common_api_tenant_user_settings_service",
-      "community": 91,
-      "community_name": "global-settings.component.ts",
+      "community": 213,
+      "community_name": "ToastService",
       "norm_label": "tenant-user-settings.service.ts"
     },
     {
@@ -67409,8 +67409,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dh_webui_src_entities_common_models_tenant_list_model",
-      "community": 171,
-      "community_name": ".get",
+      "community": 5,
+      "community_name": "TenantService",
       "norm_label": "tenant-list.model.ts"
     },
     {
@@ -67420,8 +67420,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dh_webui_src_entities_common_models_tenant_list_model_itenantlistresult",
-      "community": 171,
-      "community_name": ".get",
+      "community": 5,
+      "community_name": "TenantService",
       "norm_label": "itenantlistresult"
     },
     {
@@ -67486,8 +67486,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dh_webui_src_entities_common_models_user_settings_model",
-      "community": 91,
-      "community_name": "global-settings.component.ts",
+      "community": 213,
+      "community_name": "ToastService",
       "norm_label": "user-settings.model.ts"
     },
     {
@@ -67497,8 +67497,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "dh_webui_src_entities_common_models_user_settings_model_iusersettings",
-      "community": 91,
-      "community_name": "global-settings.component.ts",
+      "community": 213,
+      "community_name": "ToastService",
       "norm_label": "iusersettings"
     },
     {
@@ -67992,8 +67992,8 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "dh_webui_src_entities_games_api_games_service_gamesservice_getreservationbyid",
-      "community": 1,
-      "community_name": "SupportLanguages",
+      "community": 171,
+      "community_name": ".get",
       "norm_label": ".getreservationbyid()"
     },
     {
@@ -69488,8 +69488,8 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "dh_webui_src_entities_rewards_api_rewards_service_rewardsservice_getdropdownlist",
-      "community": 20,
-      "community_name": "RewardsService",
+      "community": 39,
+      "community_name": "challenges-management.component.ts",
       "norm_label": ".getdropdownlist()"
     },
     {
@@ -69664,8 +69664,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dh_webui_src_entities_rewards_models_reward_dropdown_model",
-      "community": 20,
-      "community_name": "RewardsService",
+      "community": 39,
+      "community_name": "challenges-management.component.ts",
       "norm_label": "reward-dropdown.model.ts"
     },
     {
@@ -69675,8 +69675,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dh_webui_src_entities_rewards_models_reward_dropdown_model_irewarddropdownresult",
-      "community": 20,
-      "community_name": "RewardsService",
+      "community": 39,
+      "community_name": "challenges-management.component.ts",
       "norm_label": "irewarddropdownresult"
     },
     {
@@ -70203,8 +70203,8 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "dh_webui_src_entities_space_management_api_space_management_service_spacemanagementservice",
-      "community": 1,
-      "community_name": "SupportLanguages",
+      "community": 171,
+      "community_name": ".get",
       "norm_label": "spacemanagementservice"
     },
     {
@@ -70214,8 +70214,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_webui_src_entities_space_management_api_space_management_service_ts_injectable",
-      "community": 1,
-      "community_name": "SupportLanguages",
+      "community": 171,
+      "community_name": ".get",
       "norm_label": "injectable"
     },
     {
@@ -70225,8 +70225,8 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "dh_webui_src_entities_space_management_api_space_management_service_spacemanagementservice_constructor",
-      "community": 1,
-      "community_name": "SupportLanguages",
+      "community": 171,
+      "community_name": ".get",
       "norm_label": ".constructor()"
     },
     {
@@ -70247,8 +70247,8 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "dh_webui_src_entities_space_management_api_space_management_service_spacemanagementservice_getreservationbyid",
-      "community": 1,
-      "community_name": "SupportLanguages",
+      "community": 171,
+      "community_name": ".get",
       "norm_label": ".getreservationbyid()"
     },
     {
@@ -70280,8 +70280,8 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "dh_webui_src_entities_space_management_api_space_management_service_spacemanagementservice_getactivereservedtablelist_backgroundrequest",
-      "community": 1,
-      "community_name": "SupportLanguages",
+      "community": 171,
+      "community_name": ".get",
       "norm_label": ".getactivereservedtablelist_backgroundrequest()"
     },
     {
@@ -70610,8 +70610,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dh_webui_src_entities_space_management_models_get_space_table_by_id_model",
-      "community": 16,
-      "community_name": "AuthService",
+      "community": 1,
+      "community_name": "SupportLanguages",
       "norm_label": "get-space-table-by-id.model.ts"
     },
     {
@@ -70621,8 +70621,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dh_webui_src_entities_space_management_models_get_space_table_by_id_model_ispacetablebyid",
-      "community": 16,
-      "community_name": "AuthService",
+      "community": 1,
+      "community_name": "SupportLanguages",
       "norm_label": "ispacetablebyid"
     },
     {
@@ -71710,8 +71710,8 @@
       "source_location": "L802",
       "_origin": "ast",
       "id": "dh_webui_src_features_challenges_management_components_admin_challenges_custom_period_admin_challenges_custom_period_component_adminchallengescustomperiodcomponent_fetchrewardlist",
-      "community": 20,
-      "community_name": "RewardsService",
+      "community": 39,
+      "community_name": "challenges-management.component.ts",
       "norm_label": ".fetchrewardlist()"
     },
     {
@@ -75208,8 +75208,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dh_webui_src_features_club_space_management_dialogs_join_table_confirm_dialog_join_table_confirm_dialog_component",
-      "community": 1,
-      "community_name": "SupportLanguages",
+      "community": 20,
+      "community_name": "RewardsService",
       "norm_label": "join-table-confirm-dialog.component.ts"
     },
     {
@@ -75219,8 +75219,8 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "dh_webui_src_features_club_space_management_dialogs_join_table_confirm_dialog_join_table_confirm_dialog_component_jointableconfirmdialogdata",
-      "community": 1,
-      "community_name": "SupportLanguages",
+      "community": 20,
+      "community_name": "RewardsService",
       "norm_label": "jointableconfirmdialogdata"
     },
     {
@@ -75230,8 +75230,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "dh_webui_src_features_club_space_management_dialogs_join_table_confirm_dialog_join_table_confirm_dialog_component_jointableconfirmdialog",
-      "community": 1,
-      "community_name": "SupportLanguages",
+      "community": 20,
+      "community_name": "RewardsService",
       "norm_label": "jointableconfirmdialog"
     },
     {
@@ -75241,8 +75241,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_webui_src_features_club_space_management_dialogs_join_table_confirm_dialog_join_table_confirm_dialog_component_ts_component",
-      "community": 1,
-      "community_name": "SupportLanguages",
+      "community": 20,
+      "community_name": "RewardsService",
       "norm_label": "component"
     },
     {
@@ -75252,8 +75252,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_webui_src_features_club_space_management_dialogs_join_table_confirm_dialog_join_table_confirm_dialog_component_ts_inject",
-      "community": 1,
-      "community_name": "SupportLanguages",
+      "community": 20,
+      "community_name": "RewardsService",
       "norm_label": "inject"
     },
     {
@@ -75263,8 +75263,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "dh_webui_src_features_club_space_management_dialogs_join_table_confirm_dialog_join_table_confirm_dialog_component_jointableconfirmdialog_constructor",
-      "community": 1,
-      "community_name": "SupportLanguages",
+      "community": 20,
+      "community_name": "RewardsService",
       "norm_label": ".constructor()"
     },
     {
@@ -79619,8 +79619,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dh_webui_src_features_profile_components_global_settings_global_settings_component",
-      "community": 91,
-      "community_name": "global-settings.component.ts",
+      "community": 213,
+      "community_name": "ToastService",
       "norm_label": "global-settings.component.ts"
     },
     {
@@ -79630,8 +79630,8 @@
       "source_location": "L49",
       "_origin": "ast",
       "id": "dh_webui_src_features_profile_components_global_settings_global_settings_component_itenantsettingsform",
-      "community": 91,
-      "community_name": "global-settings.component.ts",
+      "community": 213,
+      "community_name": "ToastService",
       "norm_label": "itenantsettingsform"
     },
     {
@@ -80037,8 +80037,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dh_webui_src_features_profile_components_superadmin_tenant_details_superadmin_tenant_details_component",
-      "community": 171,
-      "community_name": ".get",
+      "community": 5,
+      "community_name": "TenantService",
       "norm_label": "superadmin-tenant-details.component.ts"
     },
     {
@@ -80048,8 +80048,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "dh_webui_src_features_profile_components_superadmin_tenant_details_superadmin_tenant_details_component_superadmintenantdetailscomponent",
-      "community": 171,
-      "community_name": ".get",
+      "community": 5,
+      "community_name": "TenantService",
       "norm_label": "superadmintenantdetailscomponent"
     },
     {
@@ -80059,8 +80059,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_webui_src_features_profile_components_superadmin_tenant_details_superadmin_tenant_details_component_ts_component",
-      "community": 171,
-      "community_name": ".get",
+      "community": 5,
+      "community_name": "TenantService",
       "norm_label": "component"
     },
     {
@@ -80070,8 +80070,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "dh_webui_src_features_profile_components_superadmin_tenant_details_superadmin_tenant_details_component_superadmintenantdetailscomponent_constructor",
-      "community": 171,
-      "community_name": ".get",
+      "community": 5,
+      "community_name": "TenantService",
       "norm_label": ".constructor()"
     },
     {
@@ -80081,8 +80081,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "dh_webui_src_features_profile_components_superadmin_tenant_details_superadmin_tenant_details_component_superadmintenantdetailscomponent_ngoninit",
-      "community": 171,
-      "community_name": ".get",
+      "community": 5,
+      "community_name": "TenantService",
       "norm_label": ".ngoninit()"
     },
     {
@@ -80092,8 +80092,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "dh_webui_src_features_profile_components_superadmin_tenant_details_superadmin_tenant_details_component_superadmintenantdetailscomponent_visit",
-      "community": 171,
-      "community_name": ".get",
+      "community": 5,
+      "community_name": "TenantService",
       "norm_label": ".visit()"
     },
     {
@@ -80103,8 +80103,8 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "dh_webui_src_features_profile_components_superadmin_tenant_details_superadmin_tenant_details_component_superadmintenantdetailscomponent_back",
-      "community": 171,
-      "community_name": ".get",
+      "community": 5,
+      "community_name": "TenantService",
       "norm_label": ".back()"
     },
     {
@@ -80114,8 +80114,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dh_webui_src_features_profile_components_superadmin_tenants_superadmin_tenants_component",
-      "community": 171,
-      "community_name": ".get",
+      "community": 5,
+      "community_name": "TenantService",
       "norm_label": "superadmin-tenants.component.ts"
     },
     {
@@ -80125,8 +80125,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "dh_webui_src_features_profile_components_superadmin_tenants_superadmin_tenants_component_superadmintenantscomponent",
-      "community": 171,
-      "community_name": ".get",
+      "community": 5,
+      "community_name": "TenantService",
       "norm_label": "superadmintenantscomponent"
     },
     {
@@ -80136,8 +80136,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_webui_src_features_profile_components_superadmin_tenants_superadmin_tenants_component_ts_component",
-      "community": 171,
-      "community_name": ".get",
+      "community": 5,
+      "community_name": "TenantService",
       "norm_label": "component"
     },
     {
@@ -80147,8 +80147,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "dh_webui_src_features_profile_components_superadmin_tenants_superadmin_tenants_component_superadmintenantscomponent_constructor",
-      "community": 171,
-      "community_name": ".get",
+      "community": 5,
+      "community_name": "TenantService",
       "norm_label": ".constructor()"
     },
     {
@@ -80158,8 +80158,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "dh_webui_src_features_profile_components_superadmin_tenants_superadmin_tenants_component_superadmintenantscomponent_ngoninit",
-      "community": 171,
-      "community_name": ".get",
+      "community": 5,
+      "community_name": "TenantService",
       "norm_label": ".ngoninit()"
     },
     {
@@ -80169,8 +80169,8 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "dh_webui_src_features_profile_components_superadmin_tenants_superadmin_tenants_component_superadmintenantscomponent_open",
-      "community": 171,
-      "community_name": ".get",
+      "community": 5,
+      "community_name": "TenantService",
       "norm_label": ".open()"
     },
     {
@@ -80400,8 +80400,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dh_webui_src_features_profile_components_user_settings_user_settings_component",
-      "community": 91,
-      "community_name": "global-settings.component.ts",
+      "community": 213,
+      "community_name": "ToastService",
       "norm_label": "user-settings.component.ts"
     },
     {
@@ -80411,8 +80411,8 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "dh_webui_src_features_profile_components_user_settings_user_settings_component_iusersettingsform",
-      "community": 91,
-      "community_name": "global-settings.component.ts",
+      "community": 213,
+      "community_name": "ToastService",
       "norm_label": "iusersettingsform"
     },
     {
@@ -81269,8 +81269,8 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "dh_webui_src_features_reservation_management_components_space_table_reservations_active_list_space_table_active_reservations_component_spacetableactivereservations_constructor",
-      "community": 1,
-      "community_name": "SupportLanguages",
+      "community": 171,
+      "community_name": ".get",
       "norm_label": ".constructor()"
     },
     {
@@ -81434,8 +81434,8 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "dh_webui_src_features_reservation_management_components_space_table_reservations_history_space_table_reservation_history_component_spacetablereservationhistory_constructor",
-      "community": 1,
-      "community_name": "SupportLanguages",
+      "community": 171,
+      "community_name": ".get",
       "norm_label": ".constructor()"
     },
     {
@@ -81643,8 +81643,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_webui_src_features_reservation_management_dialogs_reservation_details_reservation_details_dialog_ts_inject",
-      "community": 1,
-      "community_name": "SupportLanguages",
+      "community": 171,
+      "community_name": ".get",
       "norm_label": "inject"
     },
     {
@@ -81654,8 +81654,8 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "dh_webui_src_features_reservation_management_dialogs_reservation_details_reservation_details_dialog_reservationdetailsdialog_constructor",
-      "community": 1,
-      "community_name": "SupportLanguages",
+      "community": 171,
+      "community_name": ".get",
       "norm_label": ".constructor()"
     },
     {
@@ -81709,8 +81709,8 @@
       "source_location": "L191",
       "_origin": "ast",
       "id": "dh_webui_src_features_reservation_management_dialogs_reservation_details_reservation_details_dialog_reservationdetailsdialog_initformgroup",
-      "community": 1,
-      "community_name": "SupportLanguages",
+      "community": 171,
+      "community_name": ".get",
       "norm_label": ".initformgroup()"
     },
     {
@@ -83073,8 +83073,8 @@
       "source_location": "L57",
       "_origin": "ast",
       "id": "dh_webui_src_pages_club_space_management_page_club_space_management_component_clubspacemanagementcomponent_constructor",
-      "community": 1,
-      "community_name": "SupportLanguages",
+      "community": 171,
+      "community_name": ".get",
       "norm_label": ".constructor()"
     },
     {
@@ -87162,7 +87162,7 @@
       "label": ".ngOnInit()",
       "file_type": "code",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts",
-      "source_location": "L76",
+      "source_location": "L82",
       "_origin": "ast",
       "id": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent_ngoninit",
       "community": 203,
@@ -87173,7 +87173,7 @@
       "label": ".refreshForAnyActiveNotifications()",
       "file_type": "code",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts",
-      "source_location": "L83",
+      "source_location": "L89",
       "_origin": "ast",
       "id": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent_refreshforanyactivenotifications",
       "community": 203,
@@ -87184,7 +87184,7 @@
       "label": ".ngOnDestroy()",
       "file_type": "code",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts",
-      "source_location": "L90",
+      "source_location": "L96",
       "_origin": "ast",
       "id": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent_ngondestroy",
       "community": 203,
@@ -87195,7 +87195,7 @@
       "label": ".openNotifications()",
       "file_type": "code",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts",
-      "source_location": "L96",
+      "source_location": "L102",
       "_origin": "ast",
       "id": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent_opennotifications",
       "community": 203,
@@ -87206,7 +87206,7 @@
       "label": ".startDragging()",
       "file_type": "code",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts",
-      "source_location": "L116",
+      "source_location": "L122",
       "_origin": "ast",
       "id": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent_startdragging",
       "community": 203,
@@ -87217,7 +87217,7 @@
       "label": ".stopDragging()",
       "file_type": "code",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts",
-      "source_location": "L137",
+      "source_location": "L143",
       "_origin": "ast",
       "id": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent_stopdragging",
       "community": 203,
@@ -87228,7 +87228,7 @@
       "label": ".onMouseMove()",
       "file_type": "code",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts",
-      "source_location": "L180",
+      "source_location": "L186",
       "_origin": "ast",
       "id": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent_onmousemove",
       "community": 203,
@@ -87239,7 +87239,7 @@
       "label": ".onTouchMove()",
       "file_type": "code",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts",
-      "source_location": "L188",
+      "source_location": "L194",
       "_origin": "ast",
       "id": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent_ontouchmove",
       "community": 203,
@@ -87250,7 +87250,7 @@
       "label": ".onTouchStart()",
       "file_type": "code",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts",
-      "source_location": "L200",
+      "source_location": "L206",
       "_origin": "ast",
       "id": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent_ontouchstart",
       "community": 203,
@@ -87261,7 +87261,7 @@
       "label": ".onTouchEnd()",
       "file_type": "code",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts",
-      "source_location": "L207",
+      "source_location": "L213",
       "_origin": "ast",
       "id": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent_ontouchend",
       "community": 203,
@@ -87272,7 +87272,7 @@
       "label": ".updatePosition()",
       "file_type": "code",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts",
-      "source_location": "L214",
+      "source_location": "L220",
       "_origin": "ast",
       "id": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent_updateposition",
       "community": 203,
@@ -87283,7 +87283,7 @@
       "label": ".resetInactivityTimer()",
       "file_type": "code",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts",
-      "source_location": "L244",
+      "source_location": "L250",
       "_origin": "ast",
       "id": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent_resetinactivitytimer",
       "community": 203,
@@ -87294,7 +87294,7 @@
       "label": ".snapToEdge()",
       "file_type": "code",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts",
-      "source_location": "L252",
+      "source_location": "L258",
       "_origin": "ast",
       "id": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent_snaptoedge",
       "community": 203,
@@ -87305,7 +87305,7 @@
       "label": ".initiatePosition()",
       "file_type": "code",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts",
-      "source_location": "L270",
+      "source_location": "L276",
       "_origin": "ast",
       "id": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent_initiateposition",
       "community": 203,
@@ -87426,7 +87426,7 @@
       "label": ".currentLanguage()",
       "file_type": "code",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/notifications/notifications.dialog.ts",
-      "source_location": "L77",
+      "source_location": "L79",
       "_origin": "ast",
       "id": "dh_webui_src_shared_components_assistive_touch_notifications_notifications_dialog_notificationsdialog_currentlanguage",
       "community": 84,
@@ -87437,7 +87437,7 @@
       "label": ".ngAfterViewInit()",
       "file_type": "code",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/notifications/notifications.dialog.ts",
-      "source_location": "L81",
+      "source_location": "L83",
       "_origin": "ast",
       "id": "dh_webui_src_shared_components_assistive_touch_notifications_notifications_dialog_notificationsdialog_ngafterviewinit",
       "community": 84,
@@ -87448,7 +87448,7 @@
       "label": ".loadNotifications()",
       "file_type": "code",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/notifications/notifications.dialog.ts",
-      "source_location": "L92",
+      "source_location": "L94",
       "_origin": "ast",
       "id": "dh_webui_src_shared_components_assistive_touch_notifications_notifications_dialog_notificationsdialog_loadnotifications",
       "community": 84,
@@ -87459,7 +87459,7 @@
       "label": ".dismissWarning()",
       "file_type": "code",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/notifications/notifications.dialog.ts",
-      "source_location": "L124",
+      "source_location": "L126",
       "_origin": "ast",
       "id": "dh_webui_src_shared_components_assistive_touch_notifications_notifications_dialog_notificationsdialog_dismisswarning",
       "community": 84,
@@ -87470,7 +87470,7 @@
       "label": ".navigateToEnableBrowserNotificationInstruction()",
       "file_type": "code",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/notifications/notifications.dialog.ts",
-      "source_location": "L129",
+      "source_location": "L131",
       "_origin": "ast",
       "id": "dh_webui_src_shared_components_assistive_touch_notifications_notifications_dialog_notificationsdialog_navigatetoenablebrowsernotificationinstruction",
       "community": 84,
@@ -87481,7 +87481,7 @@
       "label": ".isAllMarkedAsViewed()",
       "file_type": "code",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/notifications/notifications.dialog.ts",
-      "source_location": "L134",
+      "source_location": "L136",
       "_origin": "ast",
       "id": "dh_webui_src_shared_components_assistive_touch_notifications_notifications_dialog_notificationsdialog_isallmarkedasviewed",
       "community": 84,
@@ -87492,7 +87492,7 @@
       "label": ".trackByNotification()",
       "file_type": "code",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/notifications/notifications.dialog.ts",
-      "source_location": "L138",
+      "source_location": "L140",
       "_origin": "ast",
       "id": "dh_webui_src_shared_components_assistive_touch_notifications_notifications_dialog_notificationsdialog_trackbynotification",
       "community": 84,
@@ -87503,7 +87503,7 @@
       "label": ".markedAsViewed()",
       "file_type": "code",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/notifications/notifications.dialog.ts",
-      "source_location": "L142",
+      "source_location": "L144",
       "_origin": "ast",
       "id": "dh_webui_src_shared_components_assistive_touch_notifications_notifications_dialog_notificationsdialog_markedasviewed",
       "community": 84,
@@ -87514,7 +87514,7 @@
       "label": ".clearAll()",
       "file_type": "code",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/notifications/notifications.dialog.ts",
-      "source_location": "L152",
+      "source_location": "L154",
       "_origin": "ast",
       "id": "dh_webui_src_shared_components_assistive_touch_notifications_notifications_dialog_notificationsdialog_clearall",
       "community": 84,
@@ -87525,7 +87525,7 @@
       "label": ".markAll()",
       "file_type": "code",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/notifications/notifications.dialog.ts",
-      "source_location": "L160",
+      "source_location": "L162",
       "_origin": "ast",
       "id": "dh_webui_src_shared_components_assistive_touch_notifications_notifications_dialog_notificationsdialog_markall",
       "community": 84,
@@ -87536,7 +87536,7 @@
       "label": ".closeDialog()",
       "file_type": "code",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/notifications/notifications.dialog.ts",
-      "source_location": "L168",
+      "source_location": "L170",
       "_origin": "ast",
       "id": "dh_webui_src_shared_components_assistive_touch_notifications_notifications_dialog_notificationsdialog_closedialog",
       "community": 84,
@@ -88474,8 +88474,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dh_webui_src_shared_components_select_club_select_club_component",
-      "community": 171,
-      "community_name": ".get",
+      "community": 5,
+      "community_name": "TenantService",
       "norm_label": "select-club.component.ts"
     },
     {
@@ -88485,8 +88485,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "dh_webui_src_shared_components_select_club_select_club_component_selectclubcomponent",
-      "community": 171,
-      "community_name": ".get",
+      "community": 5,
+      "community_name": "TenantService",
       "norm_label": "selectclubcomponent"
     },
     {
@@ -88496,8 +88496,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_webui_src_shared_components_select_club_select_club_component_ts_component",
-      "community": 171,
-      "community_name": ".get",
+      "community": 5,
+      "community_name": "TenantService",
       "norm_label": "component"
     },
     {
@@ -88507,8 +88507,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "dh_webui_src_shared_components_select_club_select_club_component_selectclubcomponent_constructor",
-      "community": 171,
-      "community_name": ".get",
+      "community": 5,
+      "community_name": "TenantService",
       "norm_label": ".constructor()"
     },
     {
@@ -88518,8 +88518,8 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "dh_webui_src_shared_components_select_club_select_club_component_selectclubcomponent_ngoninit",
-      "community": 171,
-      "community_name": ".get",
+      "community": 5,
+      "community_name": "TenantService",
       "norm_label": ".ngoninit()"
     },
     {
@@ -88529,8 +88529,8 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "dh_webui_src_shared_components_select_club_select_club_component_selectclubcomponent_selectclub",
-      "community": 171,
-      "community_name": ".get",
+      "community": 5,
+      "community_name": "TenantService",
       "norm_label": ".selectclub()"
     },
     {
@@ -88540,8 +88540,8 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "dh_webui_src_shared_components_select_club_select_club_component_selectclubcomponent_navigatetologin",
-      "community": 171,
-      "community_name": ".get",
+      "community": 5,
+      "community_name": "TenantService",
       "norm_label": ".navigatetologin()"
     },
     {
@@ -88551,8 +88551,8 @@
       "source_location": "L58",
       "_origin": "ast",
       "id": "dh_webui_src_shared_components_select_club_select_club_component_selectclubcomponent_navigatetolanding",
-      "community": 171,
-      "community_name": ".get",
+      "community": 5,
+      "community_name": "TenantService",
       "norm_label": ".navigatetolanding()"
     },
     {
@@ -88562,8 +88562,8 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "dh_webui_src_shared_components_select_club_select_club_component_selectclubcomponent_getlogofile",
-      "community": 171,
-      "community_name": ".get",
+      "community": 5,
+      "community_name": "TenantService",
       "norm_label": ".getlogofile()"
     },
     {
@@ -89332,8 +89332,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dh_webui_src_shared_enums_ui_theme_enum",
-      "community": 91,
-      "community_name": "global-settings.component.ts",
+      "community": 213,
+      "community_name": "ToastService",
       "norm_label": "ui-theme.enum.ts"
     },
     {
@@ -89343,8 +89343,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dh_webui_src_shared_enums_ui_theme_enum_uitheme",
-      "community": 91,
-      "community_name": "global-settings.component.ts",
+      "community": 213,
+      "community_name": "ToastService",
       "norm_label": "uitheme"
     },
     {
@@ -90520,8 +90520,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dh_webui_src_shared_guards_tenant_guard",
-      "community": 171,
-      "community_name": ".get",
+      "community": 5,
+      "community_name": "TenantService",
       "norm_label": "tenant.guard.ts"
     },
     {
@@ -90531,8 +90531,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "dh_webui_src_shared_guards_tenant_guard_tenantguard",
-      "community": 171,
-      "community_name": ".get",
+      "community": 5,
+      "community_name": "TenantService",
       "norm_label": "tenantguard"
     },
     {
@@ -90542,8 +90542,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_webui_src_shared_guards_tenant_guard_ts_injectable",
-      "community": 171,
-      "community_name": ".get",
+      "community": 5,
+      "community_name": "TenantService",
       "norm_label": "injectable"
     },
     {
@@ -90553,8 +90553,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "dh_webui_src_shared_guards_tenant_guard_tenantguard_constructor",
-      "community": 171,
-      "community_name": ".get",
+      "community": 5,
+      "community_name": "TenantService",
       "norm_label": ".constructor()"
     },
     {
@@ -90564,8 +90564,8 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "dh_webui_src_shared_guards_tenant_guard_tenantguard_canactivate",
-      "community": 171,
-      "community_name": ".get",
+      "community": 5,
+      "community_name": "TenantService",
       "norm_label": ".canactivate()"
     },
     {
@@ -91301,8 +91301,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dh_webui_src_shared_pipe_translate_in_pipe",
-      "community": 91,
-      "community_name": "global-settings.component.ts",
+      "community": 213,
+      "community_name": "ToastService",
       "norm_label": "translate-in.pipe.ts"
     },
     {
@@ -91312,8 +91312,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "dh_webui_src_shared_pipe_translate_in_pipe_translateinpipe",
-      "community": 91,
-      "community_name": "global-settings.component.ts",
+      "community": 213,
+      "community_name": "ToastService",
       "norm_label": "translateinpipe"
     },
     {
@@ -91323,8 +91323,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_webui_src_shared_pipe_translate_in_pipe_ts_pipe",
-      "community": 91,
-      "community_name": "global-settings.component.ts",
+      "community": 213,
+      "community_name": "ToastService",
       "norm_label": "pipe"
     },
     {
@@ -91334,8 +91334,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "dh_webui_src_shared_pipe_translate_in_pipe_translateinpipe_constructor",
-      "community": 91,
-      "community_name": "global-settings.component.ts",
+      "community": 213,
+      "community_name": "ToastService",
       "norm_label": ".constructor()"
     },
     {
@@ -92819,8 +92819,8 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "dh_webui_src_shared_services_tenant_context_service_tenantcontextservice_settenant",
-      "community": 171,
-      "community_name": ".get",
+      "community": 5,
+      "community_name": "TenantService",
       "norm_label": ".settenant()"
     },
     {
@@ -92852,8 +92852,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dh_webui_src_shared_services_tenant_service",
-      "community": 171,
-      "community_name": ".get",
+      "community": 5,
+      "community_name": "TenantService",
       "norm_label": "tenant.service.ts"
     },
     {
@@ -92863,8 +92863,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "dh_webui_src_shared_services_tenant_service_tenantservice",
-      "community": 171,
-      "community_name": ".get",
+      "community": 5,
+      "community_name": "TenantService",
       "norm_label": "tenantservice"
     },
     {
@@ -92874,8 +92874,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_webui_src_shared_services_tenant_service_ts_injectable",
-      "community": 171,
-      "community_name": ".get",
+      "community": 5,
+      "community_name": "TenantService",
       "norm_label": "injectable"
     },
     {
@@ -92896,8 +92896,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "dh_webui_src_shared_services_tenant_service_tenantservice_getlist",
-      "community": 171,
-      "community_name": ".get",
+      "community": 5,
+      "community_name": "TenantService",
       "norm_label": ".getlist()"
     },
     {
@@ -92907,8 +92907,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "dh_webui_src_shared_services_tenant_service_tenantservice_getbyid",
-      "community": 171,
-      "community_name": ".get",
+      "community": 5,
+      "community_name": "TenantService",
       "norm_label": ".getbyid()"
     },
     {
@@ -92940,8 +92940,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dh_webui_src_shared_services_theme_service",
-      "community": 91,
-      "community_name": "global-settings.component.ts",
+      "community": 213,
+      "community_name": "ToastService",
       "norm_label": "theme.service.ts"
     },
     {
@@ -92951,8 +92951,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "dh_webui_src_shared_services_theme_service_themeservice",
-      "community": 91,
-      "community_name": "global-settings.component.ts",
+      "community": 213,
+      "community_name": "ToastService",
       "norm_label": "themeservice"
     },
     {
@@ -92962,8 +92962,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "dh_webui_src_shared_services_theme_service_ts_injectable",
-      "community": 91,
-      "community_name": "global-settings.component.ts",
+      "community": 213,
+      "community_name": "ToastService",
       "norm_label": "injectable"
     },
     {
@@ -258817,7 +258817,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/notifications/notifications.dialog.ts",
-      "source_location": "L105",
+      "source_location": "L107",
       "weight": 1.0,
       "_origin": "ast",
       "source": "dh_webui_src_shared_components_assistive_touch_notifications_notifications_dialog_notificationsdialog_loadnotifications",
@@ -258841,7 +258841,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts",
-      "source_location": "L84",
+      "source_location": "L90",
       "weight": 1.0,
       "_origin": "ast",
       "source": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent_refreshforanyactivenotifications",
@@ -258865,7 +258865,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/notifications/notifications.dialog.ts",
-      "source_location": "L144",
+      "source_location": "L146",
       "weight": 1.0,
       "_origin": "ast",
       "source": "dh_webui_src_shared_components_assistive_touch_notifications_notifications_dialog_notificationsdialog_markedasviewed",
@@ -258889,7 +258889,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/notifications/notifications.dialog.ts",
-      "source_location": "L161",
+      "source_location": "L163",
       "weight": 1.0,
       "_origin": "ast",
       "source": "dh_webui_src_shared_components_assistive_touch_notifications_notifications_dialog_notificationsdialog_markall",
@@ -258913,7 +258913,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/notifications/notifications.dialog.ts",
-      "source_location": "L153",
+      "source_location": "L155",
       "weight": 1.0,
       "_origin": "ast",
       "source": "dh_webui_src_shared_components_assistive_touch_notifications_notifications_dialog_notificationsdialog_clearall",
@@ -261309,7 +261309,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts",
-      "source_location": "L55",
+      "source_location": "L61",
       "weight": 1.0,
       "_origin": "ast",
       "source": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent_constructor",
@@ -261345,7 +261345,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts",
-      "source_location": "L61",
+      "source_location": "L67",
       "weight": 1.0,
       "_origin": "ast",
       "source": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent_constructor",
@@ -261357,7 +261357,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts",
-      "source_location": "L264",
+      "source_location": "L270",
       "weight": 1.0,
       "_origin": "ast",
       "source": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent_snaptoedge",
@@ -262539,7 +262539,7 @@
       "context": "return_type",
       "confidence": "EXTRACTED",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/notifications/notifications.dialog.ts",
-      "source_location": "L77",
+      "source_location": "L79",
       "weight": 1.0,
       "_origin": "ast",
       "source": "dh_webui_src_shared_components_assistive_touch_notifications_notifications_dialog_notificationsdialog_currentlanguage",
@@ -263306,7 +263306,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/notifications/notifications.dialog.ts",
-      "source_location": "L138",
+      "source_location": "L140",
       "weight": 1.0,
       "_origin": "ast",
       "source": "dh_webui_src_shared_components_assistive_touch_notifications_notifications_dialog_notificationsdialog_trackbynotification",
@@ -270576,7 +270576,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/notifications/notifications.dialog.ts",
-      "source_location": "L69",
+      "source_location": "L71",
       "weight": 1.0,
       "_origin": "ast",
       "source": "dh_webui_src_shared_components_assistive_touch_notifications_notifications_dialog_notificationsdialog_ngoninit",
@@ -331445,7 +331445,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts",
-      "source_location": "L270",
+      "source_location": "L276",
       "weight": 1.0,
       "_origin": "ast",
       "source": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent",
@@ -331456,7 +331456,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts",
-      "source_location": "L90",
+      "source_location": "L96",
       "weight": 1.0,
       "_origin": "ast",
       "source": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent",
@@ -331467,7 +331467,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts",
-      "source_location": "L76",
+      "source_location": "L82",
       "weight": 1.0,
       "_origin": "ast",
       "source": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent",
@@ -331478,7 +331478,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts",
-      "source_location": "L180",
+      "source_location": "L186",
       "weight": 1.0,
       "_origin": "ast",
       "source": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent",
@@ -331489,7 +331489,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts",
-      "source_location": "L207",
+      "source_location": "L213",
       "weight": 1.0,
       "_origin": "ast",
       "source": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent",
@@ -331500,7 +331500,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts",
-      "source_location": "L188",
+      "source_location": "L194",
       "weight": 1.0,
       "_origin": "ast",
       "source": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent",
@@ -331511,7 +331511,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts",
-      "source_location": "L200",
+      "source_location": "L206",
       "weight": 1.0,
       "_origin": "ast",
       "source": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent",
@@ -331522,7 +331522,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts",
-      "source_location": "L96",
+      "source_location": "L102",
       "weight": 1.0,
       "_origin": "ast",
       "source": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent",
@@ -331533,7 +331533,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts",
-      "source_location": "L83",
+      "source_location": "L89",
       "weight": 1.0,
       "_origin": "ast",
       "source": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent",
@@ -331544,7 +331544,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts",
-      "source_location": "L244",
+      "source_location": "L250",
       "weight": 1.0,
       "_origin": "ast",
       "source": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent",
@@ -331555,7 +331555,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts",
-      "source_location": "L252",
+      "source_location": "L258",
       "weight": 1.0,
       "_origin": "ast",
       "source": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent",
@@ -331566,7 +331566,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts",
-      "source_location": "L116",
+      "source_location": "L122",
       "weight": 1.0,
       "_origin": "ast",
       "source": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent",
@@ -331577,7 +331577,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts",
-      "source_location": "L137",
+      "source_location": "L143",
       "weight": 1.0,
       "_origin": "ast",
       "source": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent",
@@ -331588,7 +331588,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts",
-      "source_location": "L214",
+      "source_location": "L220",
       "weight": 1.0,
       "_origin": "ast",
       "source": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent",
@@ -331647,7 +331647,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts",
-      "source_location": "L179",
+      "source_location": "L185",
       "weight": 1.0,
       "context": "decorator",
       "_origin": "ast",
@@ -331659,7 +331659,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts",
-      "source_location": "L206",
+      "source_location": "L212",
       "weight": 1.0,
       "context": "decorator",
       "_origin": "ast",
@@ -331671,7 +331671,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts",
-      "source_location": "L187",
+      "source_location": "L193",
       "weight": 1.0,
       "context": "decorator",
       "_origin": "ast",
@@ -331683,7 +331683,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts",
-      "source_location": "L199",
+      "source_location": "L205",
       "weight": 1.0,
       "context": "decorator",
       "_origin": "ast",
@@ -331696,7 +331696,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts",
-      "source_location": "L59",
+      "source_location": "L65",
       "weight": 1.0,
       "_origin": "ast",
       "source": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent_constructor",
@@ -331708,7 +331708,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts",
-      "source_location": "L73",
+      "source_location": "L79",
       "weight": 1.0,
       "_origin": "ast",
       "source": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent_constructor",
@@ -331720,7 +331720,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts",
-      "source_location": "L77",
+      "source_location": "L83",
       "weight": 1.0,
       "_origin": "ast",
       "source": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent_ngoninit",
@@ -331732,10 +331732,34 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts",
-      "source_location": "L100",
+      "source_location": "L106",
       "weight": 1.0,
       "_origin": "ast",
       "source": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent_opennotifications",
+      "target": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent_resetinactivitytimer",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts",
+      "source_location": "L178",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent_stopdragging",
+      "target": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent_opennotifications",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts",
+      "source_location": "L181",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent_stopdragging",
       "target": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent_resetinactivitytimer",
       "confidence_score": 1.0
     },
@@ -331748,30 +331772,6 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent_stopdragging",
-      "target": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent_opennotifications",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts",
-      "source_location": "L175",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent_stopdragging",
-      "target": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent_resetinactivitytimer",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts",
-      "source_location": "L166",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent_stopdragging",
       "target": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent_snaptoedge",
       "confidence_score": 1.0
     },
@@ -331780,7 +331780,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts",
-      "source_location": "L182",
+      "source_location": "L188",
       "weight": 1.0,
       "_origin": "ast",
       "source": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent_onmousemove",
@@ -331792,7 +331792,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts",
-      "source_location": "L183",
+      "source_location": "L189",
       "weight": 1.0,
       "_origin": "ast",
       "source": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent_onmousemove",
@@ -331804,7 +331804,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts",
-      "source_location": "L192",
+      "source_location": "L198",
       "weight": 1.0,
       "_origin": "ast",
       "source": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent_ontouchmove",
@@ -331816,7 +331816,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts",
-      "source_location": "L195",
+      "source_location": "L201",
       "weight": 1.0,
       "_origin": "ast",
       "source": "dh_webui_src_shared_components_assistive_touch_assistive_touch_component_assistivetouchcomponent_ontouchmove",
@@ -331981,7 +331981,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/notifications/notifications.dialog.ts",
-      "source_location": "L152",
+      "source_location": "L154",
       "weight": 1.0,
       "_origin": "ast",
       "source": "dh_webui_src_shared_components_assistive_touch_notifications_notifications_dialog_notificationsdialog",
@@ -331992,7 +331992,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/notifications/notifications.dialog.ts",
-      "source_location": "L168",
+      "source_location": "L170",
       "weight": 1.0,
       "_origin": "ast",
       "source": "dh_webui_src_shared_components_assistive_touch_notifications_notifications_dialog_notificationsdialog",
@@ -332014,7 +332014,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/notifications/notifications.dialog.ts",
-      "source_location": "L77",
+      "source_location": "L79",
       "weight": 1.0,
       "_origin": "ast",
       "source": "dh_webui_src_shared_components_assistive_touch_notifications_notifications_dialog_notificationsdialog",
@@ -332025,7 +332025,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/notifications/notifications.dialog.ts",
-      "source_location": "L124",
+      "source_location": "L126",
       "weight": 1.0,
       "_origin": "ast",
       "source": "dh_webui_src_shared_components_assistive_touch_notifications_notifications_dialog_notificationsdialog",
@@ -332036,7 +332036,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/notifications/notifications.dialog.ts",
-      "source_location": "L134",
+      "source_location": "L136",
       "weight": 1.0,
       "_origin": "ast",
       "source": "dh_webui_src_shared_components_assistive_touch_notifications_notifications_dialog_notificationsdialog",
@@ -332047,7 +332047,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/notifications/notifications.dialog.ts",
-      "source_location": "L92",
+      "source_location": "L94",
       "weight": 1.0,
       "_origin": "ast",
       "source": "dh_webui_src_shared_components_assistive_touch_notifications_notifications_dialog_notificationsdialog",
@@ -332058,7 +332058,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/notifications/notifications.dialog.ts",
-      "source_location": "L160",
+      "source_location": "L162",
       "weight": 1.0,
       "_origin": "ast",
       "source": "dh_webui_src_shared_components_assistive_touch_notifications_notifications_dialog_notificationsdialog",
@@ -332069,7 +332069,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/notifications/notifications.dialog.ts",
-      "source_location": "L142",
+      "source_location": "L144",
       "weight": 1.0,
       "_origin": "ast",
       "source": "dh_webui_src_shared_components_assistive_touch_notifications_notifications_dialog_notificationsdialog",
@@ -332080,7 +332080,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/notifications/notifications.dialog.ts",
-      "source_location": "L129",
+      "source_location": "L131",
       "weight": 1.0,
       "_origin": "ast",
       "source": "dh_webui_src_shared_components_assistive_touch_notifications_notifications_dialog_notificationsdialog",
@@ -332091,7 +332091,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/notifications/notifications.dialog.ts",
-      "source_location": "L81",
+      "source_location": "L83",
       "weight": 1.0,
       "_origin": "ast",
       "source": "dh_webui_src_shared_components_assistive_touch_notifications_notifications_dialog_notificationsdialog",
@@ -332113,7 +332113,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/notifications/notifications.dialog.ts",
-      "source_location": "L138",
+      "source_location": "L140",
       "weight": 1.0,
       "_origin": "ast",
       "source": "dh_webui_src_shared_components_assistive_touch_notifications_notifications_dialog_notificationsdialog",
@@ -332136,7 +332136,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/notifications/notifications.dialog.ts",
-      "source_location": "L74",
+      "source_location": "L76",
       "weight": 1.0,
       "context": "decorator",
       "_origin": "ast",
@@ -332186,7 +332186,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/notifications/notifications.dialog.ts",
-      "source_location": "L78",
+      "source_location": "L80",
       "weight": 1.0,
       "_origin": "ast",
       "source": "dh_webui_src_shared_components_assistive_touch_notifications_notifications_dialog_notificationsdialog_currentlanguage",
@@ -332197,7 +332197,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/notifications/notifications.dialog.ts",
-      "source_location": "L86",
+      "source_location": "L88",
       "weight": 1.0,
       "_origin": "ast",
       "source": "dh_webui_src_shared_components_assistive_touch_notifications_notifications_dialog_notificationsdialog_ngafterviewinit",
@@ -332209,7 +332209,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/notifications/notifications.dialog.ts",
-      "source_location": "L155",
+      "source_location": "L157",
       "weight": 1.0,
       "_origin": "ast",
       "source": "dh_webui_src_shared_components_assistive_touch_notifications_notifications_dialog_notificationsdialog_clearall",
@@ -332221,7 +332221,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "DH.WebUI/src/shared/components/assistive-touch/notifications/notifications.dialog.ts",
-      "source_location": "L163",
+      "source_location": "L165",
       "weight": 1.0,
       "_origin": "ast",
       "source": "dh_webui_src_shared_components_assistive_touch_notifications_notifications_dialog_notificationsdialog_markall",
@@ -344112,5 +344112,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "acc4754bd8710ee6f0aad25660a4f3483f88afec"
+  "built_at_commit": "cb2f31a90e2dedbfcf50ab5c36a1f120aa6adcb8"
 }

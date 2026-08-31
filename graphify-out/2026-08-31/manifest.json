@@ -3720,8 +3720,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/android/app/build.gradle": {
-    "mtime": 1788175138.2699504,
-    "ast_hash": "a58648b1f5888e397ea1e1de1ae3da1e",
+    "mtime": 1788176883.7802658,
+    "ast_hash": "0994fb2572d73067921119bb864a4ae4",
     "semantic_hash": ""
   },
   "DH.WebUI/android/app/capacitor.build.gradle": {
@@ -5210,8 +5210,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts": {
-    "mtime": 1787684823.0902262,
-    "ast_hash": "f274e589db687fcec4dc2fc100064e56",
+    "mtime": 1788176784.330538,
+    "ast_hash": "a0732a84322adc522a584a340110906e",
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.module.ts": {
@@ -5220,8 +5220,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/components/assistive-touch/notifications/notifications.dialog.ts": {
-    "mtime": 1784883718.0128706,
-    "ast_hash": "5f278fb906e556949ac33ade0dbd4784",
+    "mtime": 1788176790.3044615,
+    "ast_hash": "d5bb46f9c8a28a2179991e6e20995d1a",
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/components/challenge-overlay/challenge-overlay.component.ts": {

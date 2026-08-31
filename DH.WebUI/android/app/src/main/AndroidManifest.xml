@@ -32,6 +32,16 @@
             </intent-filter>
         </activity>
 
+        <!-- FCM: the channel every backend push is pinned to
+             (AndroidNotification.ChannelId = "default"). Declaring it here makes
+             the Firebase SDK create it at app startup, so a notification that
+             arrives before the WebView has run its own createChannel() still
+             shows on Android 8+ - a message targeting a missing channel is
+             otherwise dropped silently. -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/default_notification_channel_id" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"

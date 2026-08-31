@@ -15,6 +15,8 @@ import { MessagingService } from '../../../../entities/messaging/api/messaging.s
 import { LanguageService } from '../../../services/language.service';
 import { SupportLanguages } from '../../../../entities/common/models/support-languages.enum';
 import { Router } from '@angular/router';
+import { Capacitor } from '@capacitor/core';
+import { FirebaseMessaging } from '@capacitor-firebase/messaging';
 
 @Component({
     selector: 'app-notifications-dialog',
@@ -65,9 +67,26 @@ export class NotificationsDialog implements OnInit {
 
   public ngOnInit(): void {
     this.loadNotifications();
-    // `Notification` is undefined in the Android System WebView (Capacitor).
-    this.notificationPermission =
-      typeof Notification !== 'undefined' ? Notification.permission : 'default';
+    // `Notification` is undefined in the Android System WebView (Capacitor) -
+    // there the OS-level permission is what matters, so ask the FCM plugin
+    // instead of showing a misleading "browser notifications disabled" warning.
+    if (Capacitor.isNativePlatform()) {
+      FirebaseMessaging.checkPermissions()
+        .then((status) => {
+          this.notificationPermission =
+            status.receive === 'granted'
+              ? 'granted'
+              : status.receive === 'denied'
+              ? 'denied'
+              : 'default';
+        })
+        .catch(() => (this.notificationPermission = 'granted'));
+    } else {
+      this.notificationPermission =
+        typeof Notification !== 'undefined'
+          ? Notification.permission
+          : 'default';
+    }
     this.pushUnsupported = this.messagingService.isPushUnsupportedIOS();
     const dismissed = localStorage.getItem('pushUnsupportedWarningDismissed');
     this.showWarning = !dismissed;
