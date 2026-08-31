@@ -27,7 +27,11 @@ public class GameSessionWorker : BackgroundService
             using var outerScope = serviceScopeFactory.CreateScope();
             var queue = outerScope.ServiceProvider.GetRequiredService<IGameSessionQueue>();
 
-            var queuedJobs = await queue.TryDequeue(cancellationToken);
+            // One pending row per JobId - duplicates would make ToDictionary
+            // throw, and an unhandled exception here stops the whole host.
+            var queuedJobs = (await queue.TryDequeue(cancellationToken))
+                .DistinctBy(q => q.JobId)
+                .ToList();
             var tenantIdsByJobId = queuedJobs.ToDictionary(q => q.JobId, q => q.TenantId);
             var nextJobsForProcessing = queuedJobs
                .Select(q => JsonSerializer.Deserialize<UserPlayTimeEnforcerJob>(q.MessagePayload)!)

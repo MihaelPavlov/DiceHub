@@ -190,8 +190,8 @@
     "semantic_hash": ""
   },
   "DH.DiceHub/DH.Adapter.ChallengesOrchestrator/SynchronizeUsersChallengesWorker.cs": {
-    "mtime": 1787684815.6115596,
-    "ast_hash": "1c486bbe55595c0a66f2a3ed857d5259",
+    "mtime": 1788180979.3018787,
+    "ast_hash": "92403f30e3ff2d411b6eed2640a9315c",
     "semantic_hash": ""
   },
   "DH.DiceHub/DH.Adapter.ChatHub/ChatHubClient.cs": {
@@ -455,8 +455,8 @@
     "semantic_hash": ""
   },
   "DH.DiceHub/DH.Adapter.GameSession/GameSessionWorker.cs": {
-    "mtime": 1787684815.61409,
-    "ast_hash": "5b6a937325ae3527019f43d215aa171c",
+    "mtime": 1788180987.070804,
+    "ast_hash": "44f95188be25a27a7f0e066171813a18",
     "semantic_hash": ""
   },
   "DH.DiceHub/DH.Adapter.Localization/DH.Adapter.Localization.csproj": {
@@ -555,8 +555,8 @@
     "semantic_hash": ""
   },
   "DH.DiceHub/DH.Adapter.Reservations/ReservationCleanupWorker.cs": {
-    "mtime": 1787684815.61509,
-    "ast_hash": "470f287efb5199a3268f31a78f802e01",
+    "mtime": 1788180994.4647334,
+    "ast_hash": "a6818b7c8816d810352cfb545f294a48",
     "semantic_hash": ""
   },
   "DH.DiceHub/DH.Adapter.Scheduling/DH.Adapter.Scheduling.csproj": {
@@ -655,8 +655,8 @@
     "semantic_hash": ""
   },
   "DH.DiceHub/DH.Adapter.Statistics/StatisticJobWorker.cs": {
-    "mtime": 1787684815.61695,
-    "ast_hash": "05295c078784c16feb6d0b49a966cb25",
+    "mtime": 1788180970.081967,
+    "ast_hash": "d547123ecca2a26c2c973813c9e77c76",
     "semantic_hash": ""
   },
   "DH.DiceHub/DH.Api/.config/dotnet-tools.json": {

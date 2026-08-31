@@ -3720,12 +3720,12 @@
     "semantic_hash": ""
   },
   "DH.WebUI/android/app/build.gradle": {
-    "mtime": 1788178381.3058982,
-    "ast_hash": "6147ef205eaf371108a09ada9519d6f4",
+    "mtime": 1788179789.344554,
+    "ast_hash": "669ec9d10f20f9c6a7898bbf3b009132",
     "semantic_hash": ""
   },
   "DH.WebUI/android/app/capacitor.build.gradle": {
-    "mtime": 1788178472.3250103,
+    "mtime": 1788179438.8409226,
     "ast_hash": "50eaae28a709e8611a8c26b015b7eb45",
     "semantic_hash": ""
   },
@@ -3755,7 +3755,7 @@
     "semantic_hash": ""
   },
   "DH.WebUI/android/capacitor.settings.gradle": {
-    "mtime": 1788178472.2670107,
+    "mtime": 1788179438.8399227,
     "ast_hash": "b66e108568f7ac1ce6cdbcbc5a07ff4e",
     "semantic_hash": ""
   },
@@ -5210,8 +5210,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts": {
-    "mtime": 1788176784.330538,
-    "ast_hash": "a0732a84322adc522a584a340110906e",
+    "mtime": 1788179395.6111567,
+    "ast_hash": "0157d60f50bf283a0cd128d8d300ba7a",
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.module.ts": {
