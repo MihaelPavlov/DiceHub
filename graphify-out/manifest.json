@@ -3720,8 +3720,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/android/app/build.gradle": {
-    "mtime": 1788179399.174138,
-    "ast_hash": "b194a7fe46dcc949d2bfc68bf4803f58",
+    "mtime": 1788179789.344554,
+    "ast_hash": "669ec9d10f20f9c6a7898bbf3b009132",
     "semantic_hash": ""
   },
   "DH.WebUI/android/app/capacitor.build.gradle": {

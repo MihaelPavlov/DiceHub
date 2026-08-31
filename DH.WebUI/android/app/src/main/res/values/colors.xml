@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Accent colour applied to the notification small icon and title. -->
+    <color name="notification_color">#8EA2FF</color>
+</resources>
