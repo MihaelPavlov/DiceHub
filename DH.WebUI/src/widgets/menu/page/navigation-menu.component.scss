@@ -117,7 +117,7 @@ nav {
       bottom: calc(100% + 0.85rem);
       left: 50%;
       display: flex;
-      gap: 0.6rem;
+      gap: 0.7rem;
       pointer-events: none;
       transform: translateX(-50%);
 
@@ -125,8 +125,8 @@ nav {
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 2.6rem;
-        height: 2.6rem;
+        width: 3rem;
+        height: 3rem;
         border-radius: 999px;
         background: var(--games-surface-2);
         border: 1px solid var(--games-border);
@@ -138,8 +138,8 @@ nav {
         pointer-events: none;
 
         svg {
-          width: 1.15rem;
-          height: 1.15rem;
+          width: 1.4rem;
+          height: 1.4rem;
           fill: var(--games-text);
         }
       }
