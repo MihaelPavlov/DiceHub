@@ -4905,8 +4905,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/manifest.json": {
-    "mtime": 1787684815.7774446,
-    "ast_hash": "42d5aac82cc08f2c2bbfa90c5a556e74",
+    "mtime": 1788185872.6113594,
+    "ast_hash": "6b7aab643ff38b9c64ff0c49b50f8588",
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/challenges-management/admin-page/admin-challenges-navigation.component.ts": {
@@ -6355,8 +6355,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/index.html": {
-    "mtime": 1784883717.0215254,
-    "ast_hash": "66b71f9c25b9e410810fefccfd889dc5",
+    "mtime": 1788185875.8313537,
+    "ast_hash": "edfeb8cca5cc5b36ddb8c0655498c57d",
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/challenges-management/admin-page/admin-challenges-navigation.component.html": {
@@ -8832,6 +8832,16 @@
   "DH.WebUI/src/shared/plugins/credential-manager.plugin.ts": {
     "mtime": 1788167582.971162,
     "ast_hash": "3f5df737d39e590d7bb51435f70b3279",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/src/shared/assets/icons/icon-192.png": {
+    "mtime": 1788185868.1243703,
+    "ast_hash": "67e8817d1737ffbf83466d95e0cfbcf3",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/src/shared/assets/icons/icon-maskable-432.png": {
+    "mtime": 1788185868.1278827,
+    "ast_hash": "eb715a054d146048cf77459a4ae40c85",
     "semantic_hash": ""
   }
 }
