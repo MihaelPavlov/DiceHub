@@ -13,10 +13,10 @@
       <div
         *ngFor="let reservation of reservedGames"
         class="reservations-row"
-        [class.reservations-row--interactive]="reservation.status === this.ReservationStatus.Approved"
+        [class.reservations-row--interactive]="reservation.status !== this.ReservationStatus.Declined"
         [class.reservations-row--muted]="reservation.status === this.ReservationStatus.Declined"
         [class.reservations-row--expanded]="isExpanded(reservation.id)"
-        (click)="toggleTopItem(reservation.id, reservation.status)"
+        (click)="toggleTopItem($event, reservation.id, reservation.status)"
       >
         <div class="reservations-row__content">
           <div class="reservations-thumb">

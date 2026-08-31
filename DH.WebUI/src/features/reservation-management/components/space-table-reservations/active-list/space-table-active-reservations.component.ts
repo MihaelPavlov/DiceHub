@@ -72,13 +72,19 @@ export class SpaceTableActiveReservations implements OnDestroy {
   }
 
   public toggleTopItem(
+    event: Event,
     reservationId: number,
     reservationStatus: ReservationStatus
   ): void {
-    if (reservationStatus === ReservationStatus.Approved) {
-      this.expandedReservationId =
-        this.expandedReservationId === reservationId ? null : reservationId;
+    if (reservationStatus === ReservationStatus.Declined) return;
+    // The whole row toggles the expand, but not when the tap landed on an
+    // action button or the chevron - those run their own handlers.
+    const el = event.target as HTMLElement | null;
+    if (el?.closest('button, .reservations-actions, .reservations-menu-btn')) {
+      return;
     }
+    this.expandedReservationId =
+      this.expandedReservationId === reservationId ? null : reservationId;
   }
 
   public isExpanded(reservationId: number): boolean {
