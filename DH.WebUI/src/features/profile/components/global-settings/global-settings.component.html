@@ -181,6 +181,26 @@
   </div>
 
   <div class="input-field">
+    <label for="timeZoneId" class="required">{{
+      "space_settings.time_zone.label" | translate
+    }}</label>
+    <span class="input-info">{{
+      "space_settings.time_zone.info" | translate
+    }}</span>
+
+    <ng-select
+      id="timeZoneId"
+      [items]="timeZoneValues"
+      [placeholder]="'space_settings.time_zone.placeholder' | translate"
+      [searchable]="true"
+      [clearable]="false"
+      formControlName="timeZoneId"
+      class="app-select-long surface-elevated"
+    >
+    </ng-select>
+  </div>
+
+  <div class="input-field">
     <label for="averageMaxCapacity" class="required">{{
       "space_settings.average_max_capacity.label" | translate
     }}</label>

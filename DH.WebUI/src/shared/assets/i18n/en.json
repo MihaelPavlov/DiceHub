@@ -579,6 +579,7 @@
       "days_off": "Days Off",
       "start_working_hours": "Start Working Hours",
       "end_working_hours": "End Working Hours",
+      "time_zone_id": "Time Zone",
       "challenge_initiation_delay_hours": "Challenge Initiation Delay Hours",
       "reservation_hours": "Reservation Hours",
       "phone_number": "Phone Number",
@@ -643,6 +644,11 @@
       "label": "End Hour",
       "placeholder": "21:00",
       "info": "The hour when the club closes for the day."
+    },
+    "time_zone": {
+      "label": "Time Zone",
+      "placeholder": "Europe/Sofia",
+      "info": "Working hours and the club's automated daily jobs (closing tables, challenge resets) run in this time zone."
     },
     "reservation_hours": {
       "label": "Reservation Hours",
@@ -787,14 +793,14 @@
   },
   "login": {
     "labels": {
-      "email": "Email",
+      "email": "Email or username",
       "password": "Password",
       "remember_me": "Remember Me",
       "lost_your_way": "Lost your way?",
       "change_club": "Change Club"
     },
     "placeholders": {
-      "email": "Your Email",
+      "email": "Your email or username",
       "password": "Your Password"
     },
     "show_resend": {
@@ -806,7 +812,7 @@
     "sign_up": "Sign Up",
     "enjoy_journey": "and embark on your journey!",
     "control_display_names": {
-      "email": "Email",
+      "email": "Email or username",
       "password": "Password"
     },
     "errors": {

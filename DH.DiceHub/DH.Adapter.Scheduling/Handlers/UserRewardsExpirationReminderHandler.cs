@@ -3,8 +3,10 @@ using DH.Domain.Adapters.PushNotifications.Messages;
 using DH.Domain.Adapters.Scheduling;
 using DH.Domain.Adapters.Scheduling.Enums;
 using DH.Domain.Entities;
+using DH.Domain.Helpers;
 using DH.Domain.Repositories;
 using DH.Domain.Services;
+using DH.Domain.Services.TenantSettingsService;
 
 namespace DH.Adapter.Scheduling.Handlers;
 
@@ -14,12 +16,14 @@ namespace DH.Adapter.Scheduling.Handlers;
 internal class UserRewardsExpirationReminderHandler(
     IRepository<UserChallengeReward> repository, IRepository<FailedJob> failedJobsRepository,
     IPushNotificationsService pushNotificationsService, ITenantDirectoryService tenantDirectoryService,
+    ITenantSettingsCacheService tenantSettingsCacheService,
     ITenantContextScopeRunner tenantContextScopeRunner) : IUserRewardsExpirationReminderHandler
 {
     readonly IRepository<UserChallengeReward> repository = repository;
     readonly IRepository<FailedJob> failedJobsRepository = failedJobsRepository;
     readonly IPushNotificationsService pushNotificationsService = pushNotificationsService;
     readonly ITenantDirectoryService tenantDirectoryService = tenantDirectoryService;
+    readonly ITenantSettingsCacheService tenantSettingsCacheService = tenantSettingsCacheService;
     readonly ITenantContextScopeRunner tenantContextScopeRunner = tenantContextScopeRunner;
 
     /// <inheritdoc/>
@@ -28,19 +32,29 @@ internal class UserRewardsExpirationReminderHandler(
         var tenantIds = await this.tenantDirectoryService.GetActiveTenantIdsAsync(cancellationToken);
 
         foreach (var tenantId in tenantIds)
+            await EvaluateRewardsReminder(tenantId, cancellationToken);
+    }
+
+    /// <inheritdoc/>
+    public async Task EvaluateRewardsReminder(string tenantId, CancellationToken cancellationToken)
+    {
+        await this.tenantContextScopeRunner.RunAsTenantAsync(tenantId, async () =>
         {
-            await this.tenantContextScopeRunner.RunAsTenantAsync(tenantId, async () =>
+            var tenantSettings = await this.tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
+            var todayLocal = TimeZoneInfo
+                .ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneResolver.Resolve(tenantSettings.TimeZoneId))
+                .Date;
+
+            var daysToRemind = new[] { 3, 2, 1 };
+
+            foreach (var days in daysToRemind)
             {
-                var daysToRemind = new[] { 3, 2, 1 };
+                var reminderDate = todayLocal.AddDays(days);
 
-                foreach (var days in daysToRemind)
-                {
-                    var reminderDate = DateTime.UtcNow.Date.AddDays(days);
-
-                    var rewards = await this.repository.GetWithPropertiesAsTrackingAsync(
-                        x => x.ExpiresDate.Date == reminderDate && !x.IsExpired && !x.IsClaimed,
-                        x => x,
-                        cancellationToken);
+                var rewards = await this.repository.GetWithPropertiesAsTrackingAsync(
+                    x => x.ExpiresDate.Date == reminderDate && !x.IsExpired && !x.IsClaimed,
+                    x => x,
+                    cancellationToken);
 
                     foreach (var reward in rewards)
                     {
@@ -66,7 +80,6 @@ internal class UserRewardsExpirationReminderHandler(
                     }
                 }
             });
-        }
     }
 
     /// <inheritdoc/>

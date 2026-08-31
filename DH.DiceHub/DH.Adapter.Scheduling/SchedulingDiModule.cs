@@ -46,20 +46,14 @@ public static class SchedulingDIModule
             // Register the job and trigger
             q.AddJob<ExpireReservationJob>(opts => opts.WithIdentity(nameof(ExpireReservationJob))
             .StoreDurably().RequestRecovery());
-            q.AddJob<UserRewardsExpiryJob>(opts => opts.WithIdentity(nameof(UserRewardsExpiryJob))
-            .StoreDurably().RequestRecovery());
-            q.AddJob<UserRewardsExpirationReminderJob>(opts => opts.WithIdentity(nameof(UserRewardsExpirationReminderJob))
-            .StoreDurably().RequestRecovery());
-            q.AddJob<UserChallengeValidationJob>(opts => opts.WithIdentity(nameof(UserChallengeValidationJob))
-            .StoreDurably().RequestRecovery());
-            q.AddJob<AddUserChallengePeriodJob>(opts => opts.WithIdentity(nameof(AddUserChallengePeriodJob))
-            .StoreDurably().RequestRecovery());
-            q.AddJob<UserChallengeTop3StreakTrackerJob>(opts => opts.WithIdentity(nameof(UserChallengeTop3StreakTrackerJob))
-            .StoreDurably().RequestRecovery());
             q.AddJob<EventChecker>(opts => opts.WithIdentity(nameof(EventChecker))
             .StoreDurably().RequestRecovery());
-            // CloseActiveTablesJob is scheduled per tenant (own JobKey/TriggerKey and TenantId
-            // JobDataMap) by SchedulerService.ScheduleCloseActiveTablesJob, not registered here.
+            // CloseActiveTablesJob, UserChallengeValidationJob, UserChallengeTop3StreakTrackerJob,
+            // UserRewardsExpiryJob, UserRewardsExpirationReminderJob and AddUserChallengePeriodJob
+            // all fire at tenant-local times, so they are scheduled per tenant (own JobKey/TriggerKey
+            // + TenantId JobDataMap) by SchedulerService.ScheduleTenantDailyJobsAsync /
+            // ScheduleAddUserPeriodJobForTenant, reconciled on startup by
+            // ReconcileTenantDailyJobsAsync - not registered here.
 
             TriggerDailyJobs(q, services);
 
@@ -74,30 +68,14 @@ public static class SchedulingDIModule
 
     private static void TriggerDailyJobs(IServiceCollectionQuartzConfigurator service, IServiceCollection services)
     {
-        service.AddTrigger(opts => opts
-            .ForJob(nameof(UserRewardsExpiryJob))
-            .WithIdentity($"DailyJobTriggers-{nameof(UserRewardsExpiryJob)}")
-            .WithCronSchedule("0 0 0 * * ?", cronScheduleBuilder =>
-                cronScheduleBuilder.InTimeZone(TimeZoneInfo.Utc)));// Every night 00:00 UTC 
-
-        service.AddTrigger(opts => opts
-            .ForJob(nameof(UserRewardsExpirationReminderJob))
-            .WithIdentity($"DailyJobTriggers-{nameof(UserRewardsExpirationReminderJob)}")
-            .WithCronSchedule("0 10 0 * * ?", cronScheduleBuilder =>
-                cronScheduleBuilder.InTimeZone(TimeZoneInfo.Utc)));// Every night 00:00 UTC 
-
+        // ExpireReservationJob compares UtcNow against each reservation's exact
+        // timestamp, so it just needs to run periodically - the fire time is
+        // sweep latency, not a club-local event. It stays a single global cron.
         service.AddTrigger(opts => opts
             .ForJob(nameof(ExpireReservationJob))
             .WithIdentity($"DailyJobTriggers-{nameof(ExpireReservationJob)}")
             .WithCronSchedule("0 20 0 * * ?", cronScheduleBuilder =>
-                cronScheduleBuilder.InTimeZone(TimeZoneInfo.Utc)));// Every night 00:00 UTC 
-
-        //FUTURE TODO: Change it in different way 
-        service.AddTrigger(opts => opts
-            .ForJob(nameof(UserChallengeTop3StreakTrackerJob))
-            .WithIdentity($"DailyJobTriggers-{nameof(UserChallengeTop3StreakTrackerJob)}")
-            .WithCronSchedule("0 30 23 * * ?", cronScheduleBuilder =>
-                cronScheduleBuilder.InTimeZone(TimeZoneInfo.FindSystemTimeZoneById("Europe/Sofia"))));
+                cronScheduleBuilder.InTimeZone(TimeZoneInfo.Utc)));// Every night 00:20 UTC
 
         service.AddTrigger(opts => opts
             .ForJob(nameof(EventChecker))
@@ -108,10 +86,9 @@ public static class SchedulingDIModule
 
         // .WithCronSchedule("0 0/2 * * * ?")); // Every two mins
 
-        service.AddTrigger(opts => opts
-            .ForJob(nameof(UserChallengeValidationJob))
-            .WithIdentity($"DailyJobTriggers-{nameof(UserChallengeValidationJob)}")
-            .WithCronSchedule("0 0 6 * * ?", cronScheduleBuilder =>
-                cronScheduleBuilder.InTimeZone(TimeZoneInfo.FindSystemTimeZoneById("Europe/Sofia")))); // Every morning 6:00 Sofia time
+        // UserChallengeValidationJob (was 06:00 Sofia), UserChallengeTop3StreakTrackerJob (23:30),
+        // UserRewardsExpiryJob (00:00) and UserRewardsExpirationReminderJob (00:10) are now
+        // per-tenant: SchedulerService schedules "{JobName}-{tenantId}" triggers at those hours in
+        // each tenant's own time zone.
     }
 }

@@ -1,5 +1,6 @@
 using DH.Domain.Adapters.Localization;
 using DH.Domain.Enums;
+using DH.Domain.Helpers;
 using DH.Domain.Models;
 using static DH.OperationResultCore.Exceptions.ValidationErrorsException;
 
@@ -48,6 +49,12 @@ public class TenantSettingDto : IValidableFields
     /// Defines the end of working hours for the facility
     /// </summary>
     public string EndWorkingHours { get; set; } = string.Empty;
+
+    /// <summary>
+    /// IANA time zone id of the club (e.g. "Europe/Sofia"). Defaults to the
+    /// historical value so older clients that don't send the field keep working.
+    /// </summary>
+    public string TimeZoneId { get; set; } = TimeZoneResolver.DefaultTimeZoneId;
 
     /// <summary>
     /// Defines the number of hours to delay the initiation of the new challenge
@@ -114,6 +121,9 @@ public class TenantSettingDto : IValidableFields
 
         if (string.IsNullOrEmpty(EndWorkingHours))
             errors.Add(new ValidationError(nameof(EndWorkingHours), localizationService["TenantSettingsEndWorkingHours"]));
+
+        if (!TimeZoneResolver.IsValid(TimeZoneId))
+            errors.Add(new ValidationError(nameof(TimeZoneId), localizationService["TenantSettingsTimeZoneId"]));
 
         if (ChallengeInitiationDelayHours <= 1 || ChallengeInitiationDelayHours > 12)
             errors.Add(new ValidationError(nameof(ChallengeInitiationDelayHours), localizationService["TenantSettingsChallengeInitiationDelayHours"]));

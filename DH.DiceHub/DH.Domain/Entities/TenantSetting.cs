@@ -45,6 +45,15 @@ public class TenantSetting
     public string EndWorkingHours { get; set; } = string.Empty;
 
     /// <summary>
+    /// IANA time zone id of the club (e.g. "Europe/Sofia"). Working hours, the
+    /// nightly "close active tables" job and the reward-reset date are all
+    /// interpreted in this zone. Null on rows created before per-tenant time
+    /// zones existed - <see cref="Helpers.TimeZoneResolver"/> treats null as
+    /// <see cref="Helpers.TimeZoneResolver.DefaultTimeZoneId"/>.
+    /// </summary>
+    public string? TimeZoneId { get; set; }
+
+    /// <summary>
     /// Defines the number of hours to delay the initiation of the new challenge
     /// </summary>
     public int ChallengeInitiationDelayHours { get; set; }

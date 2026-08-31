@@ -51,7 +51,7 @@ internal class SendRegistrationEmailConfirmationCommandHandler(
             user = await this.userManagementService.GetUserById(request.ByUserId, cancellationToken);
 
         if (user == null && !string.IsNullOrWhiteSpace(request.ByEmail))
-            user = await this.userManagementService.GetUserByEmail(request.ByEmail);
+            user = await this.userManagementService.GetUserByEmailOrUsername(request.ByEmail);
 
         if (user == null)
         {

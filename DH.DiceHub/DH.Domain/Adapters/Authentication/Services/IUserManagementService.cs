@@ -13,6 +13,7 @@ public interface IUserManagementService
     Task<Dictionary<string, string>> GetAllUserTenantIdsAsync(CancellationToken cancellationToken);
     Task<UserModel?> GetUserById(string id, CancellationToken cancellationToken);
     Task<UserModel?> GetUserByEmail(string email);
+    Task<UserModel?> GetUserByEmailOrUsername(string emailOrUsername);
     Task<List<GetUserByRoleModel>> GetUserListByRole(Role role, CancellationToken cancellationToken);
     Task<List<GetUserByRoleModel>> GetUserListByRoles(Role[] roles, CancellationToken cancellationToken);
     Task<bool> IsUserInRole(string userId, Role role, CancellationToken cancellationToken);

@@ -1,3 +1,5 @@
+using DH.Domain.Helpers;
+
 namespace DH.Domain.Models.Common;
 
 public class CompleteTenantSetupRequest
@@ -7,6 +9,12 @@ public class CompleteTenantSetupRequest
     public int AverageMaxCapacity { get; set; }
     public string StartWorkingHours { get; set; } = string.Empty;
     public string EndWorkingHours { get; set; } = string.Empty;
+
+    /// <summary>
+    /// IANA time zone id of the club (e.g. "Europe/Sofia"). Defaults to the
+    /// historical value so an older client that doesn't send it still works.
+    /// </summary>
+    public string TimeZoneId { get; set; } = TimeZoneResolver.DefaultTimeZoneId;
     public string ClubPhoneNumber { get; set; } = string.Empty;
     public List<string> DaysOff { get; set; } = [];
     public List<int> SelectedGameIds { get; set; } = [];

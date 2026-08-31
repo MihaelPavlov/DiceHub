@@ -39,6 +39,10 @@ import { ThemeService } from '../../../../shared/services/theme.service';
 import { UiTheme } from '../../../../shared/enums/ui-theme.enum';
 import { WeekDay } from '../../../../shared/enums/week-day.enum';
 import { TenantRouter } from '../../../../shared/helpers/tenant-router';
+import {
+  DEFAULT_TIME_ZONE_ID,
+  getSupportedTimeZones,
+} from '../../../../shared/helpers/time-zone.helper';
 import { TenantService } from '../../../../shared/services/tenant.service';
 import { TenantContextService } from '../../../../shared/services/tenant-context.service';
 
@@ -52,6 +56,7 @@ interface ITenantSettingsForm {
   daysOff: string[] | null;
   startWorkingHours: string;
   endWorkingHours: string;
+  timeZoneId: string;
   challengeInitiationDelayHours: number;
   reservationHours: string[];
   bonusTimeAfterReservationExpiration: number;
@@ -74,6 +79,7 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
   public periodTimeValues: IDropdown[] = [];
   public toggleStateValues: IDropdown[] = [];
   public reservationHours: IDropdown[] = [];
+  public timeZoneValues: string[] = getSupportedTimeZones();
   public languagesValues: IDropdown[] = [];
   public themeValues: IDropdown[] = [];
   public oldCustomPeriodValue: ToggleState | null = null;
@@ -250,6 +256,7 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
               : tenantSettings.daysOff.map((day) => WeekDay[day]),
           startWorkingHours: tenantSettings.startWorkingHours,
           endWorkingHours: tenantSettings.endWorkingHours,
+          timeZoneId: tenantSettings.timeZoneId || DEFAULT_TIME_ZONE_ID,
           language:
             userSettings !== null
               ? SupportLanguages[userSettings.language]
@@ -357,6 +364,7 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
                     : [],
                 startWorkingHours: this.form.controls.startWorkingHours.value,
                 endWorkingHours: this.form.controls.endWorkingHours.value,
+                timeZoneId: this.form.controls.timeZoneId.value,
                 challengeInitiationDelayHours:
                   this.form.controls.challengeInitiationDelayHours.value,
                 reservationHours: this.form.controls.reservationHours.value,
@@ -514,6 +522,10 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
         return this.translateService.instant(
           'space_settings.control_display_names.end_working_hours'
         );
+      case 'timeZoneId':
+        return this.translateService.instant(
+          'space_settings.control_display_names.time_zone_id'
+        );
       case 'challengeInitiationDelayHours':
         return this.translateService.instant(
           'space_settings.control_display_names.challenge_initiation_delay_hours'
@@ -603,6 +615,9 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
         Validators.required,
       ]),
       endWorkingHours: new FormControl<Date | null>(null, [
+        Validators.required,
+      ]),
+      timeZoneId: new FormControl<string | null>(DEFAULT_TIME_ZONE_ID, [
         Validators.required,
       ]),
       daysOff: new FormControl<string[] | null>(null),

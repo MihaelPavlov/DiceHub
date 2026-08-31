@@ -22,4 +22,34 @@ public class TenantDirectoryService : ITenantDirectoryService
             .Select(t => t.Id)
             .ToListAsync(cancellationToken);
     }
+
+    public async Task<List<TenantScheduleInfo>> GetActiveTenantWorkingHoursAsync(CancellationToken cancellationToken)
+    {
+        using var context = await this.contextFactory.CreateDbContextAsync(cancellationToken);
+
+        return await context.Tenants
+            .Where(t => t.TenantStatus == TenantStatus.Active)
+            .Select(t => new TenantScheduleInfo(
+                t.Id,
+                t.TenantSetting.EndWorkingHours,
+                t.TenantSetting.TimeZoneId,
+                t.TenantSetting.PeriodOfRewardReset,
+                t.TenantSetting.ResetDayForRewards))
+            .ToListAsync(cancellationToken);
+    }
+
+    public async Task<TenantScheduleInfo?> GetTenantScheduleInfoAsync(string tenantId, CancellationToken cancellationToken)
+    {
+        using var context = await this.contextFactory.CreateDbContextAsync(cancellationToken);
+
+        return await context.Tenants
+            .Where(t => t.Id == tenantId)
+            .Select(t => new TenantScheduleInfo(
+                t.Id,
+                t.TenantSetting.EndWorkingHours,
+                t.TenantSetting.TimeZoneId,
+                t.TenantSetting.PeriodOfRewardReset,
+                t.TenantSetting.ResetDayForRewards))
+            .FirstOrDefaultAsync(cancellationToken);
+    }
 }

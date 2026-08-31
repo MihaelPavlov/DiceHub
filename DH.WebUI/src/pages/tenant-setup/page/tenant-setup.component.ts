@@ -10,12 +10,17 @@ import {
 import { IDropdown } from '../../../shared/models/dropdown.model';
 import { TenantService } from '../../../shared/services/tenant.service';
 import { FormDraftService } from '../../../shared/services/form-draft.service';
+import {
+  detectBrowserTimeZone,
+  getSupportedTimeZones,
+} from '../../../shared/helpers/time-zone.helper';
 
 interface ITenantSetupForm {
   clubName: string;
   averageMaxCapacity: number | null;
   startWorkingHours: string;
   endWorkingHours: string;
+  timeZoneId: string;
   clubPhoneNumber: string;
   daysOff: string[];
   selectedGameIds: number[];
@@ -39,6 +44,7 @@ export class TenantSetupComponent implements OnInit, OnDestroy {
   public setupResult: ICompleteTenantSetupResult | null = null;
   public seedGames: ISeedGameCatalogDropdown[] = [];
   public serverErrors: string[] = [];
+  public readonly timeZoneValues: string[] = getSupportedTimeZones();
 
   public readonly dayOptions: IDropdown[] = [
     { id: 1, name: 'Monday' },
@@ -105,6 +111,7 @@ export class TenantSetupComponent implements OnInit, OnDestroy {
         averageMaxCapacity: value.averageMaxCapacity ?? 0,
         startWorkingHours: value.startWorkingHours,
         endWorkingHours: value.endWorkingHours,
+        timeZoneId: value.timeZoneId,
         clubPhoneNumber: value.clubPhoneNumber,
         daysOff: value.daysOff,
         selectedGameIds: value.selectedGameIds,
@@ -160,6 +167,9 @@ export class TenantSetupComponent implements OnInit, OnDestroy {
       ]),
       startWorkingHours: new FormControl<string>('', [Validators.required]),
       endWorkingHours: new FormControl<string>('', [Validators.required]),
+      timeZoneId: new FormControl<string>(detectBrowserTimeZone(), [
+        Validators.required,
+      ]),
       clubPhoneNumber: new FormControl<string>('', [
         Validators.required,
         Validators.maxLength(20),

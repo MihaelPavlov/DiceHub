@@ -156,15 +156,37 @@ internal class UserManagementService(
 
     public async Task<UserModel?> GetUserByEmail(string email)
     {
-        var user = await this.userManager.Users
-            .Where(x => x.Email == email && !x.IsDeleted).FirstOrDefaultAsync();
+        var normalizedEmail = this.userManager.NormalizeEmail(email);
 
+        var user = await this.userManager.Users
+            .Where(x => x.NormalizedEmail == normalizedEmail && !x.IsDeleted).FirstOrDefaultAsync();
+
+        return MapToUserModel(user);
+    }
+
+    public async Task<UserModel?> GetUserByEmailOrUsername(string emailOrUsername)
+    {
+        // The login screen accepts either identifier, so the "resend confirmation"
+        // link next to its error must resolve the account the same way.
+        var normalizedEmail = this.userManager.NormalizeEmail(emailOrUsername);
+        var normalizedUserName = this.userManager.NormalizeName(emailOrUsername);
+
+        var user = await this.userManager.Users
+            .Where(x => !x.IsDeleted
+                && (x.NormalizedEmail == normalizedEmail || x.NormalizedUserName == normalizedUserName))
+            .FirstOrDefaultAsync();
+
+        return MapToUserModel(user);
+    }
+
+    private UserModel? MapToUserModel(ApplicationUser? user)
+    {
         if (user == null)
             return null;
 
         return new UserModel
         {
-            Id = user!.Id,
+            Id = user.Id,
             TenantId = user.TenantId,
             UserName = user.UserName ?? this.localizer["NotProvided"],
             Email = user.Email ?? this.localizer["NotProvided"],

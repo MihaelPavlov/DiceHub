@@ -39,11 +39,16 @@ internal class UniversalChallengeProcessing(
 
         foreach (var tenantId in tenantIds)
         {
-            await this.tenantContextScopeRunner.RunAsTenantAsync(tenantId, async () =>
-            {
-                await ProcessUserChallengeTop3StreakForTenant(cancellationToken);
-            });
+            await ProcessUserChallengeTop3Streak(tenantId, cancellationToken);
         }
+    }
+
+    public async Task ProcessUserChallengeTop3Streak(string tenantId, CancellationToken cancellationToken)
+    {
+        await this.tenantContextScopeRunner.RunAsTenantAsync(tenantId, async () =>
+        {
+            await ProcessUserChallengeTop3StreakForTenant(cancellationToken);
+        });
     }
 
     private async Task ProcessUserChallengeTop3StreakForTenant(CancellationToken cancellationToken)

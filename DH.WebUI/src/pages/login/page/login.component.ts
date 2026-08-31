@@ -304,16 +304,23 @@ export class LoginComponent extends Form implements OnInit {
             this.frontEndLogService
               .sendWarning(error.message, error.stack)
               .subscribe();
-            if (error.error.errors.Email)
-              this.getServerErrorMessage = error.error.errors.Email[0];
-            if (error.error.errors.EmailNotConfirmed) {
-              this.getServerErrorMessage =
-                error.error.errors.EmailNotConfirmed[0];
-              this.showResend = true;
-            }
-            if (error.error.errors.TenantId) {
+
+            // Only a 422 validation response carries error.error.errors; a 404/500/
+            // network failure does not, so guard every access or the handler throws
+            // ("undefined is not an object") and the user is left on a blank error page.
+            const serverErrors = error?.error?.errors;
+            if (serverErrors?.TenantId) {
               this.getServerErrorMessage = this.translateService.instant(
                 'login.errors.tenant_mismatch'
+              );
+            } else if (serverErrors?.EmailNotConfirmed) {
+              this.getServerErrorMessage = serverErrors.EmailNotConfirmed[0];
+              this.showResend = true;
+            } else if (serverErrors?.Email) {
+              this.getServerErrorMessage = serverErrors.Email[0];
+            } else {
+              this.getServerErrorMessage = this.translateService.instant(
+                AppToastMessage.SomethingWrong
               );
             }
 

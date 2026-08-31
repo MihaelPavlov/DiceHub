@@ -85,6 +85,23 @@
           </div>
 
           <div class="input-field">
+            <label class="required">Time zone</label>
+            <span class="input-info">
+              Working hours and the club's automated daily jobs run in this time
+              zone. We've guessed it from your browser — change it if it's wrong.
+            </span>
+            <ng-select
+              [items]="timeZoneValues"
+              [searchable]="true"
+              [clearable]="false"
+              formControlName="timeZoneId"
+              class="app-select-long surface-elevated"
+              placeholder="Select time zone"
+            >
+            </ng-select>
+          </div>
+
+          <div class="input-field">
             <label>Days off</label>
             <ng-select
               [items]="dayOptions"

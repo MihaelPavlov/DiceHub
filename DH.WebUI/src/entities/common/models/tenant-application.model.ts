@@ -58,6 +58,7 @@ export interface ICompleteTenantSetupRequest {
   averageMaxCapacity: number;
   startWorkingHours: string;
   endWorkingHours: string;
+  timeZoneId: string;
   clubPhoneNumber: string;
   daysOff: string[];
   selectedGameIds: number[];

@@ -597,6 +597,9 @@
   <data name="TenantSettingsEndWorkingHours" xml:space="preserve">
     <value>End working hours are required.</value>
   </data>
+  <data name="TenantSettingsTimeZoneId" xml:space="preserve">
+    <value>The club time zone is not valid.</value>
+  </data>
   <data name="SpaceTableCancelledTitle" xml:space="preserve">
     <value>Your table reservation has been Cancelled</value>
   </data>

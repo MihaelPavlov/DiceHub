@@ -50,6 +50,12 @@ export interface ITenantSettings {
   endWorkingHours: string;
 
   /// <summary>
+  /// IANA time zone id of the club (e.g. "Europe/Sofia"). Working hours and the
+  /// nightly / daily jobs are interpreted in this zone.
+  /// </summary>
+  timeZoneId: string;
+
+  /// <summary>
   /// Defines the number of hours to delay the initiation of the new challenge
   /// </summary>
   challengeInitiationDelayHours: number;

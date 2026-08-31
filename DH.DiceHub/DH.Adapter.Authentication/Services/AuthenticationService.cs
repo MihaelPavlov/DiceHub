@@ -28,7 +28,11 @@ internal class AuthenticationService(
 
     public async Task<TokenResponseModel?> Login(LoginRequest form)
     {
-        var user = await GetUserByEmailAsync(form.Email, "InvalidEmailOrPass");
+        // The single login field accepts either the email or the username. A miss on
+        // both is a credential validation failure (422), not a 404 - the UI only knows
+        // how to render the former (error.errors.*).
+        var user = await FindActiveUserByEmailOrUserNameAsync(form.Email)
+            ?? throw new ValidationErrorsException("Email", this.localizer["InvalidEmailOrPass"]);
 
         if (!await userManager.IsEmailConfirmedAsync(user!))
             throw new ValidationErrorsException("EmailNotConfirmed", this.localizer["EmailNotConfirmed"]);
@@ -178,12 +182,37 @@ internal class AuthenticationService(
 
     private async Task<ApplicationUser> GetUserByEmailAsync(string email, string errorKey)
     {
-        var user = await this.userManager.Users
-            .FirstOrDefaultAsync(x => x.Email == email && !x.IsDeleted);
+        return await FindActiveUserByEmailAsync(email)
+            ?? throw new NotFoundException(this.localizer[errorKey]);
+    }
 
-        if (user == null)
-            throw new NotFoundException(this.localizer[errorKey]);
+    /// <summary>
+    /// Looks up a non-deleted user by email. Matches on <see cref="ApplicationUser.NormalizedEmail"/>
+    /// (as <see cref="UserManager{T}.FindByEmailAsync"/> does) so a differently-cased address -
+    /// e.g. a mobile keyboard capitalising the first letter on the login screen but not at
+    /// registration - still resolves to the same account instead of looking unknown.
+    /// </summary>
+    private async Task<ApplicationUser?> FindActiveUserByEmailAsync(string email)
+    {
+        var normalizedEmail = this.userManager.NormalizeEmail(email);
 
-        return user;
+        return await this.userManager.Users
+            .FirstOrDefaultAsync(x => x.NormalizedEmail == normalizedEmail && !x.IsDeleted);
+    }
+
+    /// <summary>
+    /// Login lookup: the single credential field accepts the email OR the username
+    /// (registration collects both). Matches on the normalized forms, case-insensitively,
+    /// the same way <see cref="UserManager{T}.FindByEmailAsync"/> / <c>FindByNameAsync</c> do.
+    /// </summary>
+    private async Task<ApplicationUser?> FindActiveUserByEmailOrUserNameAsync(string emailOrUserName)
+    {
+        var normalizedEmail = this.userManager.NormalizeEmail(emailOrUserName);
+        var normalizedUserName = this.userManager.NormalizeName(emailOrUserName);
+
+        return await this.userManager.Users
+            .FirstOrDefaultAsync(x =>
+                !x.IsDeleted
+                && (x.NormalizedEmail == normalizedEmail || x.NormalizedUserName == normalizedUserName));
     }
 }

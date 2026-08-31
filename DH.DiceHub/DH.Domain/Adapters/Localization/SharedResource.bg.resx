@@ -597,6 +597,9 @@
   <data name="TenantSettingsEndWorkingHours" xml:space="preserve">
     <value>Крайният час на работното време е задължителен.</value>
   </data>
+  <data name="TenantSettingsTimeZoneId" xml:space="preserve">
+    <value>Часовата зона на клуба не е валидна.</value>
+  </data>
   <data name="SpaceTableCancelledTitle" xml:space="preserve">
     <value>Вашата резервация беше отменена</value>
   </data>

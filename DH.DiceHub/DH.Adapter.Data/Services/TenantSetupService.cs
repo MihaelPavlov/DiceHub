@@ -61,6 +61,7 @@ public class TenantSetupService(
             DaysOff = string.Join(",", request.DaysOff.Select(x => x.Trim()).Where(x => x.Length > 0).Distinct()),
             StartWorkingHours = request.StartWorkingHours.Trim(),
             EndWorkingHours = request.EndWorkingHours.Trim(),
+            TimeZoneId = request.TimeZoneId.Trim(),
             ChallengeRewardsCountForPeriod = 5,
             PeriodOfRewardReset = "Weekly",
             ResetDayForRewards = "Sunday",
@@ -199,6 +200,8 @@ public class TenantSetupService(
             errors[nameof(request.StartWorkingHours)] = ["Start working hours are required."];
         if (string.IsNullOrWhiteSpace(request.EndWorkingHours))
             errors[nameof(request.EndWorkingHours)] = ["End working hours are required."];
+        if (!DH.Domain.Helpers.TimeZoneResolver.IsValid(request.TimeZoneId))
+            errors[nameof(request.TimeZoneId)] = ["A valid club time zone is required."];
         if (string.IsNullOrWhiteSpace(request.ClubPhoneNumber))
             errors[nameof(request.ClubPhoneNumber)] = ["Club phone number is required."];
         if (request.SelectedGameIds.Count == 0)

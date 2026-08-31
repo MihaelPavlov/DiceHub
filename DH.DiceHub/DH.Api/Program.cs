@@ -17,7 +17,9 @@ using DH.Api.Filters;
 using DH.Application;
 using DH.Domain;
 using DH.Domain.Adapters.Data;
+using DH.Domain.Adapters.Scheduling;
 using FirebaseAdmin;
+using Microsoft.Extensions.Logging;
 using Google.Apis.Auth.OAuth2;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
@@ -161,6 +163,25 @@ using (var scope = app.Services.CreateScope())
         }
     }
     #endregion Testing Purposes
+}
+
+using (var scope = app.Services.CreateScope())
+{
+    // Back-fill the per-tenant daily job triggers (CloseActiveTablesJob,
+    // UserChallengeValidationJob, UserChallengeTop3StreakTrackerJob) for any
+    // active tenant that is missing one, and drop the obsolete global triggers
+    // the last two used before they became per-tenant. Existing per-tenant
+    // triggers are left untouched.
+    var schedulerService = scope.ServiceProvider.GetRequiredService<ISchedulerService>();
+    try
+    {
+        await schedulerService.ReconcileTenantDailyJobsAsync(CancellationToken.None);
+    }
+    catch (Exception ex)
+    {
+        app.Services.GetRequiredService<ILogger<Program>>()
+            .LogError(ex, "Failed to reconcile per-tenant daily job triggers on startup.");
+    }
 }
 
 using (var scope = app.Services.CreateScope())

@@ -5,8 +5,10 @@ using DH.Domain.Adapters.Scheduling.Enums;
 using DH.Domain.Adapters.Statistics;
 using DH.Domain.Adapters.Statistics.Services;
 using DH.Domain.Entities;
+using DH.Domain.Helpers;
 using DH.Domain.Repositories;
 using DH.Domain.Services;
+using DH.Domain.Services.TenantSettingsService;
 
 namespace DH.Adapter.Scheduling.Handlers;
 
@@ -17,6 +19,7 @@ internal class UserRewardsExpiryHandler(
     IRepository<UserChallengeReward> repository, IRepository<ChallengeReward> userChallengeRewardsRepository,
     IStatisticQueuePublisher statisticQueuePublisher, IRepository<FailedJob> failedJobsRepository,
     IPushNotificationsService pushNotificationsService, ITenantDirectoryService tenantDirectoryService,
+    ITenantSettingsCacheService tenantSettingsCacheService,
     ITenantContextScopeRunner tenantContextScopeRunner) : IUserRewardsExpiryHandler
 {
     readonly IRepository<UserChallengeReward> repository = repository;
@@ -25,6 +28,7 @@ internal class UserRewardsExpiryHandler(
     readonly IPushNotificationsService pushNotificationsService = pushNotificationsService;
     readonly IStatisticQueuePublisher statisticQueuePublisher = statisticQueuePublisher;
     readonly ITenantDirectoryService tenantDirectoryService = tenantDirectoryService;
+    readonly ITenantSettingsCacheService tenantSettingsCacheService = tenantSettingsCacheService;
     readonly ITenantContextScopeRunner tenantContextScopeRunner = tenantContextScopeRunner;
 
     /// <inheritdoc/>
@@ -33,51 +37,58 @@ internal class UserRewardsExpiryHandler(
         var tenantIds = await this.tenantDirectoryService.GetActiveTenantIdsAsync(cancellationToken);
 
         foreach (var tenantId in tenantIds)
+            await EvaluateUserRewardsExpiry(tenantId, cancellationToken);
+    }
+
+    /// <inheritdoc/>
+    public async Task EvaluateUserRewardsExpiry(string tenantId, CancellationToken cancellationToken)
+    {
+        await this.tenantContextScopeRunner.RunAsTenantAsync(tenantId, async () =>
         {
-            await this.tenantContextScopeRunner.RunAsTenantAsync(tenantId, async () =>
+            var tenantSettings = await this.tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
+            var todayLocal = TimeZoneInfo
+                .ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneResolver.Resolve(tenantSettings.TimeZoneId))
+                .Date;
+
+            var rewardList = await this.repository.GetWithPropertiesAsTrackingAsync(
+                x => !x.IsClaimed && !x.IsExpired && todayLocal >= x.ExpiresDate.Date,
+                x => x,
+                cancellationToken);
+
+            if (rewardList.Count == 0)
+                return;
+
+            var rewardIds = rewardList.Select(x => x.RewardId).ToList();
+            var rewards = await this.userChallengeRewardsRepository.GetWithPropertiesAsync(x => rewardIds.Contains(x.Id), x => x, cancellationToken);
+
+            var expiredRewards = new List<ExpiredRewardInfo>();
+
+            foreach (var reward in rewardList)
             {
-                var rewardList = await this.repository.GetWithPropertiesAsTrackingAsync(
-                    x => !x.IsClaimed && !x.IsExpired && DateTime.UtcNow.Date >= x.ExpiresDate.Date,
-                    x => x,
-                    cancellationToken);
-
-                if (rewardList.Count == 0)
-                    return;
-
-                var rewardIds = rewardList.Select(x => x.RewardId).ToList();
-                var rewards = await this.userChallengeRewardsRepository.GetWithPropertiesAsync(x => rewardIds.Contains(x.Id), x => x, cancellationToken);
-
-                var currentDate = DateTime.UtcNow;
-
-                var expiredRewards = new List<ExpiredRewardInfo>();
-
-                foreach (var reward in rewardList)
+                var dbReward = rewards.First(x => x.Id == reward.RewardId);
+                if (todayLocal >= reward.ExpiresDate.Date)
                 {
-                    var dbReward = rewards.First(x => x.Id == reward.RewardId);
-                    if (currentDate.Date >= reward.ExpiresDate.Date)
-                    {
-                        reward.IsExpired = true;
-                        expiredRewards.Add(new ExpiredRewardInfo(reward.UserId, reward.RewardId, dbReward.Name_EN, dbReward.Name_BG, reward.ExpiresDate));
-                    }
+                    reward.IsExpired = true;
+                    expiredRewards.Add(new ExpiredRewardInfo(reward.UserId, reward.RewardId, dbReward.Name_EN, dbReward.Name_BG, reward.ExpiresDate));
                 }
+            }
 
-                await this.repository.SaveChangesAsync(cancellationToken);
+            await this.repository.SaveChangesAsync(cancellationToken);
 
-                foreach (var reward in expiredRewards)
-                {
-                    await this.statisticQueuePublisher.PublishAsync(
-                        new RewardActionDetectedJob(
-                            reward.UserId, reward.RewardId,
-                            CollectedDate: null, ExpiredDate: reward.ExpiredDate,
-                            IsExpired: true, IsCollected: false));
+            foreach (var reward in expiredRewards)
+            {
+                await this.statisticQueuePublisher.PublishAsync(
+                    new RewardActionDetectedJob(
+                        reward.UserId, reward.RewardId,
+                        CollectedDate: null, ExpiredDate: reward.ExpiredDate,
+                        IsExpired: true, IsCollected: false));
 
-                    var payload = new RewardExpiredNotification { RewardName_EN = reward.Name_EN, RewardName_BG = reward.Name_BG };
+                var payload = new RewardExpiredNotification { RewardName_EN = reward.Name_EN, RewardName_BG = reward.Name_BG };
 
-                    await this.pushNotificationsService
-                        .SendNotificationToUsersAsync([reward.UserId], payload, cancellationToken);
-                }
-            });
-        }
+                await this.pushNotificationsService
+                    .SendNotificationToUsersAsync([reward.UserId], payload, cancellationToken);
+            }
+        });
     }
 
     /// <inheritdoc/>
