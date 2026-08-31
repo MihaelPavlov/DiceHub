@@ -3720,12 +3720,12 @@
     "semantic_hash": ""
   },
   "DH.WebUI/android/app/build.gradle": {
-    "mtime": 1788209881.1413395,
-    "ast_hash": "05513545177c661c0fc52ee20adc5bba",
+    "mtime": 1788179789.344554,
+    "ast_hash": "669ec9d10f20f9c6a7898bbf3b009132",
     "semantic_hash": ""
   },
   "DH.WebUI/android/app/capacitor.build.gradle": {
-    "mtime": 1788209913.6289897,
+    "mtime": 1788179438.8409226,
     "ast_hash": "50eaae28a709e8611a8c26b015b7eb45",
     "semantic_hash": ""
   },
@@ -3755,7 +3755,7 @@
     "semantic_hash": ""
   },
   "DH.WebUI/android/capacitor.settings.gradle": {
-    "mtime": 1788209913.6279898,
+    "mtime": 1788179438.8399227,
     "ast_hash": "b66e108568f7ac1ce6cdbcbc5a07ff4e",
     "semantic_hash": ""
   },
@@ -5695,8 +5695,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/shared.module.ts": {
-    "mtime": 1788210382.1886473,
-    "ast_hash": "82c53aee0a66d780266e2fc1348e4e5e",
+    "mtime": 1787819264.3735642,
+    "ast_hash": "8ddeed4039233776a8dbbf183a91c778",
     "semantic_hash": ""
   },
   "DH.WebUI/src/widgets/chip/chip.module.ts": {
@@ -6005,18 +6005,18 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/challenges-management/dialogs/admin-challenges-confirm-delete/admin-challenges-confirm-delete.component.html": {
-    "mtime": 1788210388.5373535,
-    "ast_hash": "f77d6283d2fb9f93c9d559c9673fbdeb",
+    "mtime": 1788201582.1365116,
+    "ast_hash": "b0ad824146cbb768c0dc0d2a1b468bcb",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/challenges-management/dialogs/admin-challenges-reward-confirm-delete/admin-challenges-reward-confirm-delete.component.html": {
-    "mtime": 1788210388.5548935,
-    "ast_hash": "98ab54fb9f4026cb7f740e678582d498",
+    "mtime": 1788201582.1365116,
+    "ast_hash": "8fbba5026adc4c167dc4d9a02fde64fc",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/challenges-management/dialogs/custom-period-leave-confirmation/custom-period-leave-confirmation.component.html": {
-    "mtime": 1788210388.5463808,
-    "ast_hash": "2cf6b6bf87a77ca168c29743cf71145b",
+    "mtime": 1788201582.1365116,
+    "ast_hash": "b7dd46c67a0ab8e0fb46c57cba3215ba",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/challenges-management/dialogs/user-reward-qr-code-dialog/user-reward-qr-code.component.html": {
@@ -6100,13 +6100,13 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/club-space-management/dialogs/join-table-confirm-dialog/join-table-confirm-dialog.component.html": {
-    "mtime": 1788210388.590918,
-    "ast_hash": "896ae6e7b3f88103d2ecb3216b5dfab5",
+    "mtime": 1788201582.1425116,
+    "ast_hash": "5f950836fabd46e22dfeb95d5ecbe7fd",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/club-space-management/dialogs/single-player-confirm-dialog/single-player-confirm-dialog.component.html": {
-    "mtime": 1788210388.5808616,
-    "ast_hash": "65a732bd1c7c5e7d53c85fd128b9298f",
+    "mtime": 1788201582.1425116,
+    "ast_hash": "1450f82d99665e60046743c491518f3f",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/events-library/components/add-update-event/page/add-update-event.component.html": {
@@ -6125,8 +6125,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/events-library/dialogs/event-confirm-delete/event-confirm-delete.component.html": {
-    "mtime": 1788210388.4610412,
-    "ast_hash": "2b6db46031eb4b0cb180b8da5da82c40",
+    "mtime": 1788201582.1435115,
+    "ast_hash": "aeb618699aa11e56119ca7666f4b4b71",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/find-meeple-management/components/add-update-meeple-room/add-update-meeple-room.component.html": {
@@ -6155,18 +6155,18 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/find-meeple-management/dialogs/room-confirm-delete/room-confirm-delete.component.html": {
-    "mtime": 1788210388.5284944,
-    "ast_hash": "82eaf6d8b3fc40b9a13e10bc4ae38f3f",
+    "mtime": 1788201582.1465116,
+    "ast_hash": "37a066247591273eb90caad3dbc00e9f",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/find-meeple-management/dialogs/room-confirm-leave/room-confirm-leave.component.html": {
-    "mtime": 1788210388.5197127,
-    "ast_hash": "f4c2d2ca0601f85144b1f93007eaa0c7",
+    "mtime": 1788201582.1465116,
+    "ast_hash": "682459b9521eb7ec7786d0f2517f1728",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/find-meeple-management/dialogs/room-member-confirm-delete/room-member-confirm-delete.component.html": {
-    "mtime": 1788210388.5096073,
-    "ast_hash": "d8378c3951ba85f78f4bbe31c203c658",
+    "mtime": 1788201582.1465116,
+    "ast_hash": "8b6c3fd7064cfd4638b06bc2fe89a82e",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/games-library/components/add-update-game/page/add-update-game.component.html": {
@@ -6215,13 +6215,13 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/games-library/dialogs/availability-reservation-info-dialog/availability-reservation-info-dialog.component.html": {
-    "mtime": 1788210388.4699492,
-    "ast_hash": "39f9b4833e3944cc01488c8ba7ed21c5",
+    "mtime": 1788201582.1495116,
+    "ast_hash": "f8f00273234e037cf4ea34a482aee9c9",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/games-library/dialogs/game-confirm-delete-dialog/game-confirm-delete.component.html": {
-    "mtime": 1788210388.4794474,
-    "ast_hash": "79d6e942fa8f8343cb5f4787ef249644",
+    "mtime": 1788201582.1495116,
+    "ast_hash": "342679c0a71b80c692ad20c89998268a",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/games-library/dialogs/qr-code-dialog/qr-code-dialog.component.html": {
@@ -6305,13 +6305,13 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/profile/dialogs/employee-confirm-delete/employee-confirm-delete.component.html": {
-    "mtime": 1788210388.5635588,
-    "ast_hash": "08b240f2bac566e2b5607974793b955a",
+    "mtime": 1788201582.1555114,
+    "ast_hash": "69bbc7b8439b98aacdacb19f0616b992",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/qr-code-scanner/dialogs/scan-confirm-dialog.component.html": {
-    "mtime": 1788210388.5719483,
-    "ast_hash": "36a1d63b8374d4469a0a9638703574b7",
+    "mtime": 1788201582.1555114,
+    "ast_hash": "186dbcf5bd0b7202f30df2f5a4cceb34",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/reservation-management/components/game-reservations/active-list/game-reservations.component.html": {
@@ -6345,13 +6345,13 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/reservation-management/dialogs/reservation-details/reservation-details.dialog.html": {
-    "mtime": 1788210388.500652,
-    "ast_hash": "84bcf1f9c8f45e085f30890ad5b71c59",
+    "mtime": 1788201582.1575115,
+    "ast_hash": "c5d3805d3b7df7121778eecc4fb00172",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/reservation-management/dialogs/reservation-status-confirmation/reservation-confirmation.dialog.html": {
-    "mtime": 1788210388.4889674,
-    "ast_hash": "c18ef2d3c7200ae48067169fb895ca4f",
+    "mtime": 1788201582.1575115,
+    "ast_hash": "4da0be234dee1a3ce9f0faf1c9540c78",
     "semantic_hash": ""
   },
   "DH.WebUI/src/index.html": {
@@ -6490,8 +6490,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/components/assistive-touch/notifications/notifications.dialog.html": {
-    "mtime": 1788210388.441962,
-    "ast_hash": "46130139f90a21ec30a971e50ade774c",
+    "mtime": 1788201582.1695113,
+    "ast_hash": "c7772cf775f9506599c51d487c191462",
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/components/challenge-overlay/challenge-overlay.component.html": {
@@ -6550,13 +6550,13 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/dialogs/scan-result-admin/scan-result-admin.dialog.html": {
-    "mtime": 1788210388.4319496,
-    "ast_hash": "6c489b0cc375753cd1e72d3e97417679",
+    "mtime": 1788201582.1705112,
+    "ast_hash": "cdfe26d76139852559472025be41b4b7",
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/dialogs/unsaved-changes-confirmation/unsaved-changes-confirmation.dialog.html": {
-    "mtime": 1788210388.4519496,
-    "ast_hash": "7037561e1abeb7dddae6acfa87e778e3",
+    "mtime": 1788201582.1715112,
+    "ast_hash": "e20dd77b264f1ff68cfbfcef62b027e8",
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/exceptions/forbidden/forbidden.component.html": {
@@ -10747,11 +10747,6 @@
   "Design/dicehub-games-highend/grain.png": {
     "mtime": 1788201582.2135108,
     "ast_hash": "dd408fc0101efcfe7ce27c059f017a9f",
-    "semantic_hash": ""
-  },
-  "DH.WebUI/src/shared/directives/sheet-dismiss/sheet-dismiss.directive.ts": {
-    "mtime": 1788210370.8581345,
-    "ast_hash": "9330d36cb8dd7b7f9abcfa4d69aa26db",
     "semantic_hash": ""
   }
 }

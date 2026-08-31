@@ -1515,11 +1515,22 @@ a:active {
 }
 
 .confirm-sheet__handle {
+  position: relative;
   width: 2.5rem;
   height: 0.25rem;
   border-radius: 999px;
   background: var(--games-border);
   margin: 0 auto;
+  // swipe-down-to-dismiss (SheetDismissDirective) grabs here - claim the
+  // vertical gesture and give the tiny bar a finger-sized hit area.
+  touch-action: none;
+  cursor: grab;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: -0.85rem -2.5rem;
+  }
 }
 
 @media (min-width: 900px) {
