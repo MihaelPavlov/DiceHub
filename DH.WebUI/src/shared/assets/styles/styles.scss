@@ -23,30 +23,51 @@ $color-danger-10-percent: #f6e8eb;
 // spinners + calendar/clock button). As grid/flex items they default to
 // min-width:auto, so they refuse to shrink and overflow / overlap on narrow
 // screens. Force them to their box at every breakpoint.
+//
+// iOS Safari is the stubborn one: it renders date/time inputs as a
+// button-like control that ignores `width` until `-webkit-appearance` is
+// cleared, and defaults to `display: inline-block`, so two of them sit on one
+// line and spill off-screen. Normalise all of that here.
 input[type="date"],
 input[type="time"],
 input[type="datetime-local"],
 input[type="month"],
 input[type="week"] {
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
   min-width: 0;
   max-width: 100%;
   width: 100%;
   box-sizing: border-box;
+  min-height: 2.6rem; // consistent tap target; iOS otherwise shrinks it
+  line-height: normal;
 }
 
 // The editable value inside a WebKit/Blink date input keeps its own
 // min-content width and can push past the control's box (Android System
-// WebView + iOS). Let it shrink and clip instead.
+// WebView + iOS). Let it shrink, left-align, and drop iOS's stray margins.
 input[type="date"]::-webkit-date-and-time-value,
 input[type="time"]::-webkit-date-and-time-value,
 input[type="datetime-local"]::-webkit-date-and-time-value {
   min-width: 0;
+  margin: 0;
   text-align: left;
 }
 input::-webkit-datetime-edit,
 input::-webkit-datetime-edit-fields-wrapper {
   min-width: 0;
   padding: 0;
+}
+// iOS shows the "clear" (×) button which adds width - hide it
+input[type="date"]::-webkit-clear-button,
+input[type="time"]::-webkit-clear-button,
+input[type="datetime-local"]::-webkit-clear-button,
+input[type="date"]::-webkit-inner-spin-button,
+input[type="time"]::-webkit-inner-spin-button,
+input[type="datetime-local"]::-webkit-inner-spin-button {
+  display: none;
+  -webkit-appearance: none;
 }
 
 html,
