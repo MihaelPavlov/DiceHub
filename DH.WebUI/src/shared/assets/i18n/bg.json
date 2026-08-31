@@ -1225,7 +1225,7 @@
       "search": "Търсене",
       "select_level": "Изберете ниво",
       "required_points": "Tочки",
-      "cash_equivalent": "Стойност Лв",
+      "cash_equivalent": "Стойност €",
       "name": "Име",
       "description": "Описание"
     },
@@ -1233,7 +1233,7 @@
       "search": "Търсене",
       "select_level": "Изберете ниво",
       "required_points": "Точки",
-      "cash_equivalent": "Стойност Лв",
+      "cash_equivalent": "Стойност €",
       "name_en": "Име на английски",
       "name_bg": "Име на български",
       "description_en": "Описание / Английски",
@@ -1254,7 +1254,7 @@
     "no_rewards": "Няма налични награди.",
     "no_rewards_desc_1": "Добавете нова награда",
     "no_rewards_desc_2": " за да започнете.",
-    "currency": "ЛВ ",
+    "currency": "€ ",
     "delete_dialog": {
       "important_note": "Важно съобщение!",
       "important_note_desc_1": "Тази награда повече няма да се показва в бъдещи периоди на предизвикателства.",

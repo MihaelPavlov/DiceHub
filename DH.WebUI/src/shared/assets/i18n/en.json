@@ -1254,7 +1254,7 @@
     "no_rewards": "No rewards to show.",
     "no_rewards_desc_1": "Add a new reward",
     "no_rewards_desc_2": " to get started.",
-    "currency": "BGN ",
+    "currency": "€ ",
     "delete_dialog": {
       "important_note": "Important Note!",
       "important_note_desc_1": "This reward will no longer appear in future challenge periods.",
