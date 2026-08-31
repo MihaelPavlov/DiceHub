@@ -42,6 +42,9 @@ input[type="week"] {
   box-sizing: border-box;
   min-height: 2.6rem; // consistent tap target; iOS otherwise shrinks it
   line-height: normal;
+  // MUST be >= 16px or iOS Safari zooms the whole page on focus (it ignores
+  // user-scalable=no). That zoom is what makes the field look huge/buggy.
+  font-size: 16px;
 }
 
 // The editable value inside a WebKit/Blink date input keeps its own
