@@ -3720,12 +3720,12 @@
     "semantic_hash": ""
   },
   "DH.WebUI/android/app/build.gradle": {
-    "mtime": 1788176883.7802658,
-    "ast_hash": "0994fb2572d73067921119bb864a4ae4",
+    "mtime": 1788178381.3058982,
+    "ast_hash": "6147ef205eaf371108a09ada9519d6f4",
     "semantic_hash": ""
   },
   "DH.WebUI/android/app/capacitor.build.gradle": {
-    "mtime": 1788175147.777716,
+    "mtime": 1788178472.3250103,
     "ast_hash": "50eaae28a709e8611a8c26b015b7eb45",
     "semantic_hash": ""
   },
@@ -3755,7 +3755,7 @@
     "semantic_hash": ""
   },
   "DH.WebUI/android/capacitor.settings.gradle": {
-    "mtime": 1788175147.776716,
+    "mtime": 1788178472.2670107,
     "ast_hash": "b66e108568f7ac1ce6cdbcbc5a07ff4e",
     "semantic_hash": ""
   },
@@ -5220,8 +5220,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/components/assistive-touch/notifications/notifications.dialog.ts": {
-    "mtime": 1788176790.3044615,
-    "ast_hash": "d5bb46f9c8a28a2179991e6e20995d1a",
+    "mtime": 1788178435.3405664,
+    "ast_hash": "f14bb1eef90650eba38d9dbdef695e74",
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/components/challenge-overlay/challenge-overlay.component.ts": {
