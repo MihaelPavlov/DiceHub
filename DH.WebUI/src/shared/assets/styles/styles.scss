@@ -21,8 +21,8 @@ $color-danger-10-percent: #f6e8eb;
 
 // Native date/time pickers have an intrinsic min-content width (their segment
 // spinners + calendar/clock button). As grid/flex items they default to
-// min-width:auto, so they refuse to shrink and overflow narrow containers on
-// mobile. Neutralise it everywhere - components still set their own width.
+// min-width:auto, so they refuse to shrink and overflow / overlap on narrow
+// screens. Force them to their box at every breakpoint.
 input[type="date"],
 input[type="time"],
 input[type="datetime-local"],
@@ -30,6 +30,23 @@ input[type="month"],
 input[type="week"] {
   min-width: 0;
   max-width: 100%;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+// The editable value inside a WebKit/Blink date input keeps its own
+// min-content width and can push past the control's box (Android System
+// WebView + iOS). Let it shrink and clip instead.
+input[type="date"]::-webkit-date-and-time-value,
+input[type="time"]::-webkit-date-and-time-value,
+input[type="datetime-local"]::-webkit-date-and-time-value {
+  min-width: 0;
+  text-align: left;
+}
+input::-webkit-datetime-edit,
+input::-webkit-datetime-edit-fields-wrapper {
+  min-width: 0;
+  padding: 0;
 }
 
 html,
@@ -290,6 +307,11 @@ body {
   gap: 0.75rem;
   width: min(28rem, 100%);
   margin: 0 auto;
+
+  // two native date inputs won't fit side by side on the narrowest phones
+  @media (max-width: 24rem) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .charts-shell__date-field {
