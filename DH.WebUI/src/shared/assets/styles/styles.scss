@@ -18,6 +18,20 @@ $color-danger-10-percent: #f6e8eb;
   margin: 0;
   padding: 0;
 }
+
+// Native date/time pickers have an intrinsic min-content width (their segment
+// spinners + calendar/clock button). As grid/flex items they default to
+// min-width:auto, so they refuse to shrink and overflow narrow containers on
+// mobile. Neutralise it everywhere - components still set their own width.
+input[type="date"],
+input[type="time"],
+input[type="datetime-local"],
+input[type="month"],
+input[type="week"] {
+  min-width: 0;
+  max-width: 100%;
+}
+
 html,
 body {
   overscroll-behavior: none;
@@ -270,7 +284,9 @@ body {
 /* From/To date-range picker, shared by reservations/rewards-collected/event-attendance-by-dates charts */
 .charts-shell__date-range {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  // minmax(0, ...) lets the tracks shrink; a plain 1fr keeps its min-content
+  // width, which for a native date input is wide enough to overflow on phones.
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 0.75rem;
   width: min(28rem, 100%);
   margin: 0 auto;
@@ -290,6 +306,10 @@ body {
 
 .charts-shell__date-input {
   width: 100%;
+  max-width: 100%;
+  // native date/time inputs carry an intrinsic min-content width - without this
+  // they refuse to shrink inside the grid and spill outside .charts-shell__date-range
+  min-width: 0;
   padding: 0.75rem 0.875rem;
   border: 1px solid var(--games-border);
   border-radius: 0.75rem;
