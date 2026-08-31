@@ -485,8 +485,8 @@
     "semantic_hash": ""
   },
   "DH.DiceHub/DH.Adapter.PushNotifications/PushNotificationsService.cs": {
-    "mtime": 1787684815.6150234,
-    "ast_hash": "07dfcc8bc6009df72dd851a4c8741c14",
+    "mtime": 1788174872.5311425,
+    "ast_hash": "e79b6c86142867e51ffca9257e618448",
     "semantic_hash": ""
   },
   "DH.DiceHub/DH.Adapter.QRManager/DH.Adapter.QRManager.csproj": {
@@ -3720,12 +3720,12 @@
     "semantic_hash": ""
   },
   "DH.WebUI/android/app/build.gradle": {
-    "mtime": 1788167549.8924148,
-    "ast_hash": "60a1af0d9e06941e601246c1b5bac875",
+    "mtime": 1788175138.2699504,
+    "ast_hash": "a58648b1f5888e397ea1e1de1ae3da1e",
     "semantic_hash": ""
   },
   "DH.WebUI/android/app/capacitor.build.gradle": {
-    "mtime": 1788165249.762876,
+    "mtime": 1788175147.777716,
     "ast_hash": "50eaae28a709e8611a8c26b015b7eb45",
     "semantic_hash": ""
   },
@@ -3755,7 +3755,7 @@
     "semantic_hash": ""
   },
   "DH.WebUI/android/capacitor.settings.gradle": {
-    "mtime": 1788165249.762876,
+    "mtime": 1788175147.776716,
     "ast_hash": "b66e108568f7ac1ce6cdbcbc5a07ff4e",
     "semantic_hash": ""
   },
@@ -3800,8 +3800,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/app/app-component/app.component.ts": {
-    "mtime": 1787917240.2697172,
-    "ast_hash": "81a1a64a0b029bc25ea85157c8a66af2",
+    "mtime": 1788175050.664218,
+    "ast_hash": "d67a2ae564ceecedfdfa2470c072dfe4",
     "semantic_hash": ""
   },
   "DH.WebUI/src/app/app-routes/app-routes.module.ts": {
@@ -4175,8 +4175,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/entities/messaging/api/messaging.service.ts": {
-    "mtime": 1784883716.9965339,
-    "ast_hash": "514c7efe8b7d7aebe32c7737e6db6d2b",
+    "mtime": 1788175027.8485036,
+    "ast_hash": "8340523e7f4300e9520add4db0cb3cc9",
     "semantic_hash": ""
   },
   "DH.WebUI/src/entities/profile/api/user.service.ts": {

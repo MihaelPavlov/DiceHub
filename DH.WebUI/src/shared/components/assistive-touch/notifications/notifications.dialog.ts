@@ -65,7 +65,9 @@ export class NotificationsDialog implements OnInit {
 
   public ngOnInit(): void {
     this.loadNotifications();
-    this.notificationPermission = Notification.permission;
+    // `Notification` is undefined in the Android System WebView (Capacitor).
+    this.notificationPermission =
+      typeof Notification !== 'undefined' ? Notification.permission : 'default';
     this.pushUnsupported = this.messagingService.isPushUnsupportedIOS();
     const dismissed = localStorage.getItem('pushUnsupportedWarningDismissed');
     this.showWarning = !dismissed;

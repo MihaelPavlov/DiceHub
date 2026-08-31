@@ -50,7 +50,13 @@ export class AssistiveTouchComponent implements OnInit, OnDestroy {
     private readonly tenantUserSettingsService: TenantUserSettingsService,
     private readonly notificationService: NotificationsService
   ) {
-    this.notificationsAllowed = Notification.permission === 'granted';
+    // `Notification` is undefined in the Android System WebView (Capacitor).
+    // A bare reference here throws a ReferenceError *in the constructor*, which
+    // kills this component - and with it the whole in-app notification UI - on
+    // every native Android launch.
+    this.notificationsAllowed =
+      typeof Notification !== 'undefined' &&
+      Notification.permission === 'granted';
 
     this.tenantUserSettingsService.getAssistiveTouchSettings().subscribe({
       next: (setting) => {
