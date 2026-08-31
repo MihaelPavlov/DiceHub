@@ -370,7 +370,7 @@
     "semantic_hash": ""
   },
   "DH.DiceHub/DH.Adapter.Data/Services/TenantDirectoryService.cs": {
-    "mtime": 1788164061.627795,
+    "mtime": 1788201594.039386,
     "ast_hash": "8f508a7feb6043d9227f28acdd2257dc",
     "semantic_hash": ""
   },
@@ -385,12 +385,12 @@
     "semantic_hash": ""
   },
   "DH.DiceHub/DH.Adapter.Data/Services/UniversalChallengeProcessing.cs": {
-    "mtime": 1788160747.3245819,
+    "mtime": 1788201594.039386,
     "ast_hash": "6bd53293b38ae269e3957e8571d795a0",
     "semantic_hash": ""
   },
   "DH.DiceHub/DH.Adapter.Data/Services/UserChallengesManagementService.cs": {
-    "mtime": 1788162956.0855966,
+    "mtime": 1788201594.040386,
     "ast_hash": "ccee66187edac6a6fd1becd9bd7eceed",
     "semantic_hash": ""
   },
@@ -400,7 +400,7 @@
     "semantic_hash": ""
   },
   "DH.DiceHub/DH.Adapter.Data/TenantDbConnectionInterceptor.cs": {
-    "mtime": 1788026217.8638313,
+    "mtime": 1788201594.040386,
     "ast_hash": "1a26182dbe1c84fe4d191ba405384832",
     "semantic_hash": ""
   },
@@ -455,7 +455,7 @@
     "semantic_hash": ""
   },
   "DH.DiceHub/DH.Adapter.GameSession/GameSessionWorker.cs": {
-    "mtime": 1788180987.070804,
+    "mtime": 1788201594.0413861,
     "ast_hash": "44f95188be25a27a7f0e066171813a18",
     "semantic_hash": ""
   },
@@ -555,7 +555,7 @@
     "semantic_hash": ""
   },
   "DH.DiceHub/DH.Adapter.Reservations/ReservationCleanupWorker.cs": {
-    "mtime": 1788199359.1187758,
+    "mtime": 1788202086.672603,
     "ast_hash": "77dcffe5daea07dc5490f6525fb35550",
     "semantic_hash": ""
   },
@@ -575,12 +575,12 @@
     "semantic_hash": ""
   },
   "DH.DiceHub/DH.Adapter.Scheduling/Handlers/UserRewardsExpirationReminderHandler.cs": {
-    "mtime": 1788162543.1563082,
+    "mtime": 1788201594.0413861,
     "ast_hash": "6a1fb000a1cbd0945c1813d04265f971",
     "semantic_hash": ""
   },
   "DH.DiceHub/DH.Adapter.Scheduling/Handlers/UserRewardsExpiryHandler.cs": {
-    "mtime": 1788162494.25374,
+    "mtime": 1788201594.0413861,
     "ast_hash": "ef92dc295111d0d8b798bdb61743a82b",
     "semantic_hash": ""
   },
@@ -630,12 +630,12 @@
     "semantic_hash": ""
   },
   "DH.DiceHub/DH.Adapter.Scheduling/SchedulerService.cs": {
-    "mtime": 1788164334.2997663,
+    "mtime": 1788201594.042386,
     "ast_hash": "b9de62537e42f413107a812b3740b912",
     "semantic_hash": ""
   },
   "DH.DiceHub/DH.Adapter.Scheduling/SchedulingDiModule.cs": {
-    "mtime": 1788162942.722833,
+    "mtime": 1788201594.042386,
     "ast_hash": "26a2085a75d98875e2168b81139ae2db",
     "semantic_hash": ""
   },
@@ -655,7 +655,7 @@
     "semantic_hash": ""
   },
   "DH.DiceHub/DH.Adapter.Statistics/StatisticJobWorker.cs": {
-    "mtime": 1788180970.081967,
+    "mtime": 1788201594.042386,
     "ast_hash": "d547123ecca2a26c2c973813c9e77c76",
     "semantic_hash": ""
   },
@@ -3170,7 +3170,7 @@
     "semantic_hash": ""
   },
   "DH.DiceHub/DH.Domain/Services/ITenantDirectoryService.cs": {
-    "mtime": 1788164049.6579304,
+    "mtime": 1788201594.043386,
     "ast_hash": "ff132209b9f141bfeac1266cf7487e71",
     "semantic_hash": ""
   },
@@ -3775,8 +3775,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/angular.json": {
-    "mtime": 1787829400.5869706,
-    "ast_hash": "2d7b17e7288063500da7854ce7c50ef3",
+    "mtime": 1788202334.9471831,
+    "ast_hash": "6fcdec299bc77a2816b382e9cbd33b3e",
     "semantic_hash": ""
   },
   "DH.WebUI/capacitor.config.ts": {
@@ -3800,8 +3800,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/app/app-component/app.component.ts": {
-    "mtime": 1788175050.664218,
-    "ast_hash": "d67a2ae564ceecedfdfa2470c072dfe4",
+    "mtime": 1788201582.1335118,
+    "ast_hash": "2f1b9c297f64a2e0eff4fe3c95103c4c",
     "semantic_hash": ""
   },
   "DH.WebUI/src/app/app-routes/app-routes.module.ts": {
@@ -3970,7 +3970,7 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/entities/common/api/tenant-settings.service.ts": {
-    "mtime": 1787915684.4001021,
+    "mtime": 1788201691.3415449,
     "ast_hash": "eb4203d9d026558e9f3f1f0a4dc7ed12",
     "semantic_hash": ""
   },
@@ -4460,8 +4460,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/challenges-management/components/admin-challenges-custom-period/admin-challenges-custom-period.component.ts": {
-    "mtime": 1787684823.0385635,
-    "ast_hash": "f2d617bdf135accfb97a7396a0c6e510",
+    "mtime": 1788201582.1345117,
+    "ast_hash": "a8eaf6bf4d8441881e815ebca1b21ba0",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/challenges-management/components/admin-challenges-history-log/admin-challenges-history-log.component.ts": {
@@ -4470,13 +4470,13 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/challenges-management/components/admin-challenges-list/admin-challenges-list.component.ts": {
-    "mtime": 1787721798.7125225,
-    "ast_hash": "a0fc51367c02a63f60eb8e9f9c860c93",
+    "mtime": 1788201582.1358526,
+    "ast_hash": "87a362fa4f24ea1782eb4e3b7d8de598",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/challenges-management/components/admin-challenges-system-rewards/admin-challenges-system-rewards.component.ts": {
-    "mtime": 1788026305.5702739,
-    "ast_hash": "d80aa0707bc45d9d332c6ad23ed63a77",
+    "mtime": 1788201582.1358526,
+    "ast_hash": "812f3b8ccdcfdc07bb2cd73ebb8febef",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/challenges-management/components/admin-challenges/admin-challenges.component.ts": {
@@ -4490,8 +4490,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/challenges-management/components/challenges-rewards/challenges-rewards.component.ts": {
-    "mtime": 1787684823.0420156,
-    "ast_hash": "543aed89bdab55a6449ba618b82e44b7",
+    "mtime": 1788201582.1365116,
+    "ast_hash": "0368258de69467e7a5c48c59f374cdc1",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/challenges-management/components/streak-leaderboard/streak-leaderboard.component.ts": {
@@ -4580,8 +4580,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/charts/consts/colors.const.ts": {
-    "mtime": 1787684823.0497873,
-    "ast_hash": "797c195cd394dd814589b694d64b2661",
+    "mtime": 1788201582.1405115,
+    "ast_hash": "075f20f48e9b748389fabdc21c14cfc6",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/charts/models/color-shades.model.ts": {
@@ -4590,8 +4590,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/club-space-management/components/add-update-club-space/add-update-club-space.component.ts": {
-    "mtime": 1787720949.1001012,
-    "ast_hash": "a5dfcea9bf44f83e99586b676fc2154a",
+    "mtime": 1788201582.1405115,
+    "ast_hash": "895b5a2873b0f163aa141456eb377b3d",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/club-space-management/components/club-space-details/club-space-details.component.ts": {
@@ -4600,8 +4600,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/club-space-management/components/club-space-list/club-space-list.component.ts": {
-    "mtime": 1787684823.0521843,
-    "ast_hash": "2251df432c385cbca1c89d8fa5a31c79",
+    "mtime": 1788201582.142043,
+    "ast_hash": "ceb839e3a801de1996bf38b77dbd7b7a",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/club-space-management/components/space-booking/components/dice-scroller/dice-roller.component.ts": {
@@ -4645,8 +4645,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/find-meeple-management/components/add-update-meeple-room/add-update-meeple-room.component.ts": {
-    "mtime": 1787721718.8381295,
-    "ast_hash": "7777c3f823086c11dad967bc9316f58a",
+    "mtime": 1788201582.1445115,
+    "ast_hash": "3bac056edb78e642438f985868259617",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/find-meeple-management/components/meeple-room-details/meeple-room-details.component.ts": {
@@ -4655,8 +4655,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/find-meeple-management/components/meeple-room-menu/meeple-room-menu.component.ts": {
-    "mtime": 1787684823.0579162,
-    "ast_hash": "657da9ef14382666f7a3451968768c4c",
+    "mtime": 1788201582.1445115,
+    "ast_hash": "f57cb158d1054486b4607472b47438b6",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/find-meeple-management/components/room-chat/models/grouped-chat-messages.model.ts": {
@@ -4665,13 +4665,13 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/find-meeple-management/components/room-chat/room-chat.component.ts": {
-    "mtime": 1787917210.0601614,
-    "ast_hash": "595a25b23f1236549ecf165370b64e26",
+    "mtime": 1788201582.1455116,
+    "ast_hash": "374b237addee6bb86e4e2b3d272154e1",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/find-meeple-management/components/room-members/room-members.component.ts": {
-    "mtime": 1787684823.0590096,
-    "ast_hash": "4343850681a23fc2088b541279101549",
+    "mtime": 1788201582.1455116,
+    "ast_hash": "3b1e16751ef3e7e72552a5eccc3eadfc",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/find-meeple-management/dialogs/room-confirm-delete/room-confirm-delete.component.ts": {
@@ -4690,13 +4690,13 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/games-library/components/add-update-game/page/add-update-game.component.ts": {
-    "mtime": 1788026330.50389,
-    "ast_hash": "e0303c83ae2078e7b550416fe3ba6ecf",
+    "mtime": 1788201582.1483052,
+    "ast_hash": "1a2e333ea5f8b04caa6c7265b059567e",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/games-library/components/game-availability/page/game-availability.component.ts": {
-    "mtime": 1787684823.0606406,
-    "ast_hash": "a13d145eb2c7382c9dfb5b677d5ee9a1",
+    "mtime": 1788201582.1483052,
+    "ast_hash": "8d77d2b3f1917fbf447c91d09f7ccbb0",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/games-library/components/game-categories/page/game-categories.component.ts": {
@@ -4710,13 +4710,13 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/games-library/components/game-layout/page/game-layout.component.ts": {
-    "mtime": 1787684823.0616405,
-    "ast_hash": "f3b767b0672c14000918230070b31314",
+    "mtime": 1788201582.1485114,
+    "ast_hash": "06b54ffdaaea5f8d9a12a550130ae950",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/games-library/components/game-navigation/page/game-navigation.component.ts": {
-    "mtime": 1787684823.0616405,
-    "ast_hash": "4933de2fa885fe04f17983885f78a671",
+    "mtime": 1788201582.1485114,
+    "ast_hash": "fcf2d6efe486cb6c0489d22367a1dbb4",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/games-library/components/game-reviews/components/game-review-confirm-delete/game-review-confirm-delete.component.ts": {
@@ -4745,13 +4745,13 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/games-library/dialogs/qr-code-dialog/qr-code-dialog.component.ts": {
-    "mtime": 1787684823.0643249,
-    "ast_hash": "f01e89e074c80db84f561a34f0421c6a",
+    "mtime": 1788201582.1505115,
+    "ast_hash": "5d9f51720c18fd536406b9440c088c6d",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/instruction-management/components/instruction-links/instruction-links.component.ts": {
-    "mtime": 1787684823.0651917,
-    "ast_hash": "2741760dfa02bbf4b4f31faaf5fa5a39",
+    "mtime": 1788201582.1505115,
+    "ast_hash": "5d72808b41017447d020b583fb7e5833",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/instruction-management/components/instruction/instruction.component.ts": {
@@ -4780,8 +4780,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/profile/components/employee-list/employee-list.component.ts": {
-    "mtime": 1787684823.067653,
-    "ast_hash": "4dd0657a1d52326e88d52393ef4f7dcf",
+    "mtime": 1788201582.1525114,
+    "ast_hash": "728219db3ff2265bca83d2f618aee610",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/profile/components/global-settings/global-settings.component.ts": {
@@ -4835,13 +4835,13 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/reservation-management/components/game-reservations/active-list/game-reservations.component.ts": {
-    "mtime": 1787684823.0719986,
-    "ast_hash": "a96d989b9d4c858eaf25181bb95f95ee",
+    "mtime": 1788201582.1555114,
+    "ast_hash": "b5d7fa0d5ae6fc51df1832dd7274a6e5",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/reservation-management/components/game-reservations/history/game-reservation-history.component.ts": {
-    "mtime": 1787684823.0727813,
-    "ast_hash": "6ff0ab3c016d0e91efb996811b1d7450",
+    "mtime": 1788201582.1565115,
+    "ast_hash": "517d5dde9875764af97e5a44b77f774b",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/reservation-management/components/shared/reservation-history-actions/reservation-history-actions.component.ts": {
@@ -4855,13 +4855,13 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/reservation-management/components/space-table-reservations/active-list/space-table-active-reservations.component.ts": {
-    "mtime": 1787684823.074109,
-    "ast_hash": "457137781267211b3d0ddd6d1e9d0482",
+    "mtime": 1788201582.1565115,
+    "ast_hash": "c5fbd152862ba85847aade37e3f67e3a",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/reservation-management/components/space-table-reservations/history/space-table-reservation-history.component.ts": {
-    "mtime": 1787684823.0748057,
-    "ast_hash": "c5cd133af385d6b4e17d892228d77ca8",
+    "mtime": 1788201582.1575115,
+    "ast_hash": "8e7803725e7d823943fef7c358384f6e",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/reservation-management/dialogs/enums/reservation-details-actions.enum.ts": {
@@ -4910,8 +4910,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/challenges-management/admin-page/admin-challenges-navigation.component.ts": {
-    "mtime": 1787684823.0760248,
-    "ast_hash": "ae2f911af4718e8da6633253668ede60",
+    "mtime": 1788201582.1585114,
+    "ast_hash": "9ebaa698e7989ee88888db5de6625d3e",
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/challenges-management/challenges-management-routes.module.ts": {
@@ -4925,8 +4925,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/challenges-management/page/challenges-management.component.ts": {
-    "mtime": 1787916782.2253652,
-    "ast_hash": "31f1fd8522169d26c1d68b6ec9bc1ed4",
+    "mtime": 1788201582.1585114,
+    "ast_hash": "a262838570f22a8dc7d9dd1bf451d036",
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/challenges-management/shared/challenge-type-toggle/challenge-type-toggle.component.ts": {
@@ -4955,8 +4955,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/charts/page/chart.component.ts": {
-    "mtime": 1787684823.0779223,
-    "ast_hash": "1f9d3036d75719e80f66b12236064519",
+    "mtime": 1788201582.1595113,
+    "ast_hash": "ee952ee7e17ad1f0e39b02dfe0fcc184",
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/club-space-management/club-space-management-routes.module.ts": {
@@ -4975,8 +4975,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/club-space-management/page/club-space-management.component.ts": {
-    "mtime": 1787684823.0783553,
-    "ast_hash": "c248a8e8b0be5c7d0aa169b177d047a9",
+    "mtime": 1788201582.1605115,
+    "ast_hash": "a103f7bcd5209f5f6430e52dbdd341e4",
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/club-space-management/test/dice.component.ts": {
@@ -5015,8 +5015,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/events-library/admin-page/admin-event-management.component.ts": {
-    "mtime": 1787684823.0800083,
-    "ast_hash": "fc5ae821b21a61c411bcb8efea191402",
+    "mtime": 1788201582.1615114,
+    "ast_hash": "d03b5bd19fad5eeb7f330b5d0c8f22a6",
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/events-library/events-library-routes.module.ts": {
@@ -5030,8 +5030,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/events-library/page/events-library.component.ts": {
-    "mtime": 1787684823.0805757,
-    "ast_hash": "85a7aca389928526e9321d91bba27d53",
+    "mtime": 1788201582.1615114,
+    "ast_hash": "3155778a3d56f83263650f2cf2a5b337",
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/find-meeple-management/find-meeple-management-routes.module.ts": {
@@ -5070,8 +5070,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/games-library/page/games-library.component.ts": {
-    "mtime": 1787684823.0817983,
-    "ast_hash": "12232be6beb1e4bf79dae649c2c5de3b",
+    "mtime": 1788201582.1629925,
+    "ast_hash": "c2e730acf9dc8a881c865fade50866bf",
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/instruction-management/instruction-management-routes.module.ts": {
@@ -5085,8 +5085,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/instruction-management/page/instruction-management.component.ts": {
-    "mtime": 1787866135.447515,
-    "ast_hash": "c6194aee5d254800c06a09c97ad22bf2",
+    "mtime": 1788202220.7728906,
+    "ast_hash": "67fbb13d9db874c979364c5e1863399c",
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/landing/page/landing.component.ts": {
@@ -5130,13 +5130,13 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/profile/profile.module.ts": {
-    "mtime": 1787684823.0846481,
-    "ast_hash": "3e347e1dcf4fa1aeb1cd1b86a5f057bd",
+    "mtime": 1788201582.1645114,
+    "ast_hash": "cb4ca1ae22e861114bdb83c63a74b773",
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/qr-code-scanner/page/qr-code-scanner.component.ts": {
-    "mtime": 1787684823.0855887,
-    "ast_hash": "93c2523e1a37674edb03614b42fed5f5",
+    "mtime": 1788201582.1655114,
+    "ast_hash": "719ff66233370b0b62c7b1c9338ca5c1",
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/qr-code-scanner/qr-code-scanner-routes.module.ts": {
@@ -5200,18 +5200,18 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/assets/i18n/bg.json": {
-    "mtime": 1788161348.8747616,
-    "ast_hash": "14b39fed4f57cf24ac0ce4070dff11f8",
+    "mtime": 1788201740.557555,
+    "ast_hash": "0b8904a6d5851b612249eecce84595f3",
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/assets/i18n/en.json": {
-    "mtime": 1788161328.4368818,
-    "ast_hash": "a78110cd8de1cdf335c6853e9a661841",
+    "mtime": 1788201728.4475567,
+    "ast_hash": "4011e54d67559a36b3830d2be9467a0a",
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts": {
-    "mtime": 1788179395.6111567,
-    "ast_hash": "0157d60f50bf283a0cd128d8d300ba7a",
+    "mtime": 1788201582.1685114,
+    "ast_hash": "8031ecbbe04016a3d5f3ec1d43102c73",
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.module.ts": {
@@ -5300,8 +5300,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/components/toast/toast.component.ts": {
-    "mtime": 1787684823.0917742,
-    "ast_hash": "31e01e908a91ddc129c548d5590bc7fb",
+    "mtime": 1788201582.1705112,
+    "ast_hash": "6d8708107d9c28cf3dfbb20b6e033aca",
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/configs/path.config.ts": {
@@ -5390,8 +5390,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/exceptions/base/exception-base.component.ts": {
-    "mtime": 1787758339.518291,
-    "ast_hash": "d3b3ce321ef53819017e0b4296f99a66",
+    "mtime": 1788201582.1715112,
+    "ast_hash": "8ec50b993da5d67cb0df639ac4e74c14",
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/exceptions/forbidden/forbidden-routes.module.ts": {
@@ -5400,8 +5400,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/exceptions/forbidden/forbidden.component.ts": {
-    "mtime": 1787684823.0930867,
-    "ast_hash": "4ebdbbfc62e5c5e1f89d769059d35e90",
+    "mtime": 1788201582.1715112,
+    "ast_hash": "b2e529148b6a438e724bb4a2edaf2b84",
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/exceptions/forbidden/forbidden.module.ts": {
@@ -5415,8 +5415,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/exceptions/not-found/not-found.component.ts": {
-    "mtime": 1787684823.0939043,
-    "ast_hash": "7a8986d6fa353bdd9299c7f65bb175f1",
+    "mtime": 1788201582.1725113,
+    "ast_hash": "af7b8aeadd5328efea00775ef9977d6b",
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/exceptions/not-found/not-found.module.ts": {
@@ -5430,8 +5430,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/exceptions/server-down/server-error.component.ts": {
-    "mtime": 1787759648.8708346,
-    "ast_hash": "994e91e148e1f39b8bd9a0814c6f300c",
+    "mtime": 1788201778.4005332,
+    "ast_hash": "7e6e5e953fda1f6d7347dc1d7a1a5798",
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/exceptions/server-down/server-error.module.ts": {
@@ -5445,8 +5445,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/exceptions/unauthorized/unauthorized.component.ts": {
-    "mtime": 1787684823.0944183,
-    "ast_hash": "2e22195d8102de33f26d889986187fa4",
+    "mtime": 1788201582.1725113,
+    "ast_hash": "c3331f87aabf2026eb7be302fcd238ee",
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/exceptions/unauthorized/unauthorized.module.ts": {
@@ -5730,8 +5730,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/widgets/menu/page/navigation-menu.component.ts": {
-    "mtime": 1788022271.6907718,
-    "ast_hash": "c55ebe50e346fa9003bb504d201a6502",
+    "mtime": 1788201760.9775462,
+    "ast_hash": "5c112bd8c8a60dbd1dabe350c57c8e64",
     "semantic_hash": ""
   },
   "DH.WebUI/src/widgets/nav-bar/nav-bar.module.ts": {
@@ -5955,8 +5955,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/challenges-management/components/admin-challenges-custom-period/admin-challenges-custom-period.component.html": {
-    "mtime": 1787684823.0372908,
-    "ast_hash": "b49f66b9b4847ff4c612d7d8e4e90375",
+    "mtime": 1788201582.1335118,
+    "ast_hash": "4308c245977327a721f2d84e2dbbaacd",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/challenges-management/components/admin-challenges-history-log/admin-challenges-history-log.component.html": {
@@ -5965,13 +5965,13 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/challenges-management/components/admin-challenges-list/admin-challenges-list.component.html": {
-    "mtime": 1787684823.038937,
-    "ast_hash": "99e0435068f0419bde353ed87125a84a",
+    "mtime": 1788201582.1345117,
+    "ast_hash": "064628a330f061fd117e923f057e5990",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/challenges-management/components/admin-challenges-system-rewards/admin-challenges-system-rewards.component.html": {
-    "mtime": 1787851462.3675203,
-    "ast_hash": "c539570fed959e5751804334941810e1",
+    "mtime": 1788201909.4782836,
+    "ast_hash": "46bb01a06cd56c52ea7f97d4483ba7fc",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/challenges-management/components/admin-challenges/admin-challenges.component.html": {
@@ -5985,8 +5985,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/challenges-management/components/challenges-rewards/challenges-rewards.component.html": {
-    "mtime": 1787684823.041428,
-    "ast_hash": "9a636b340ad662c6282ce95e5e1f0653",
+    "mtime": 1788201582.1358526,
+    "ast_hash": "1d5c4fdf6000ff4bc125e120944c7c2e",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/challenges-management/components/streak-leaderboard/streak-leaderboard.component.html": {
@@ -6005,88 +6005,88 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/challenges-management/dialogs/admin-challenges-confirm-delete/admin-challenges-confirm-delete.component.html": {
-    "mtime": 1787684823.0420156,
-    "ast_hash": "c32ce18f0f3f29eb081aa18e48c12aac",
+    "mtime": 1788201582.1365116,
+    "ast_hash": "b0ad824146cbb768c0dc0d2a1b468bcb",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/challenges-management/dialogs/admin-challenges-reward-confirm-delete/admin-challenges-reward-confirm-delete.component.html": {
-    "mtime": 1787684823.0427547,
-    "ast_hash": "ed5db08c6d69f49f79112b9e6bc33d68",
+    "mtime": 1788201582.1365116,
+    "ast_hash": "8fbba5026adc4c167dc4d9a02fde64fc",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/challenges-management/dialogs/custom-period-leave-confirmation/custom-period-leave-confirmation.component.html": {
-    "mtime": 1787684823.042953,
-    "ast_hash": "f44b3ec8ee49b2efe2d246c90284b937",
+    "mtime": 1788201582.1365116,
+    "ast_hash": "b7dd46c67a0ab8e0fb46c57cba3215ba",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/challenges-management/dialogs/user-reward-qr-code-dialog/user-reward-qr-code.component.html": {
-    "mtime": 1787684823.0435815,
-    "ast_hash": "68eee6294f1328362f0d833bae0fe9ad",
+    "mtime": 1788201582.137971,
+    "ast_hash": "bc0e4ded71c9de15d7b0a69a00272158",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/charts/components/challenges/leaderboard-challenges.component.html": {
-    "mtime": 1787684823.0440328,
-    "ast_hash": "0ead25b0ca8224336486fb69d56a94fc",
+    "mtime": 1788201582.137971,
+    "ast_hash": "e1d459c48e0dd091664dcc1f71c30dd0",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/charts/components/events/event-attendance-by-ids/event-attendance-by-events-chart.component.html": {
-    "mtime": 1787684823.044858,
-    "ast_hash": "90c3500a6779337647935f2552defaa1",
+    "mtime": 1788201582.137971,
+    "ast_hash": "d062aa0c54e14b853ae5cf8183031060",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/charts/components/events/event-attendance-chart.component.html": {
-    "mtime": 1787684823.04537,
-    "ast_hash": "b202f51c372768f290a5e32984e0190d",
+    "mtime": 1788201582.1385117,
+    "ast_hash": "6a0e4fdb53c50ee30bf261a914a399bc",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/charts/components/events/events-charts-layout/events-charts-layout.component.html": {
-    "mtime": 1787684823.045917,
-    "ast_hash": "aae459672b8ae401d670869540263c62",
+    "mtime": 1788201582.1393092,
+    "ast_hash": "3bf241f3b2699e8dc008450d917250ee",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/charts/components/games/games-chart.component.html": {
-    "mtime": 1787684823.0464075,
-    "ast_hash": "410099c43fcc1605657107fe28be6433",
+    "mtime": 1788201582.1393092,
+    "ast_hash": "ae121fc89ddee6c86120d950aa138af9",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/charts/components/reservations/reservations-chart.component.html": {
-    "mtime": 1787684823.0468657,
-    "ast_hash": "6f6eddf8bfc4aba3943dadfb88d18259",
+    "mtime": 1788201582.1393092,
+    "ast_hash": "f2f553c8e2dac4ffbde2e502d4497ff3",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/charts/components/rewards/collected-expired-rewards/collected-expired-rewards-chart.component.html": {
-    "mtime": 1787684823.0471418,
-    "ast_hash": "b7982a8e495d293a940bb8bb9a0df480",
+    "mtime": 1788201582.1395116,
+    "ast_hash": "f533a0817da6b5d51e5bd1b163895dd4",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/charts/components/rewards/rewards-charts-layout/rewards-charts-layout.component.html": {
-    "mtime": 1787684823.0482452,
-    "ast_hash": "829c6ee7a2a4167fc0043909fe9983e7",
+    "mtime": 1788201582.1395116,
+    "ast_hash": "e50e3338a273193804140980e78bd389",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/charts/components/rewards/rewards-collected/rewards-collected-chart.component.html": {
-    "mtime": 1787684823.049229,
-    "ast_hash": "18eba20717e51f1b23a4608cfe0ea7c1",
+    "mtime": 1788201582.1395116,
+    "ast_hash": "0535c2cf424cdc1cc750ab253609eec2",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/charts/components/visitors-chart/visitors-chart.component.html": {
-    "mtime": 1787684823.049229,
-    "ast_hash": "71bcd43c6dfd49de6ae0a59f4da77556",
+    "mtime": 1788201582.1405115,
+    "ast_hash": "f69cd55d5402093dea0fe1b68e2d1a71",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/club-space-management/components/add-update-club-space/add-update-club-space.component.html": {
-    "mtime": 1787684823.0503907,
-    "ast_hash": "1fffd5a8c36f625120a0cd9f3e82b35e",
+    "mtime": 1788201582.1405115,
+    "ast_hash": "6ea21201e07636ba976961f72039d094",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/club-space-management/components/club-space-details/club-space-details.component.html": {
-    "mtime": 1787684823.0508964,
-    "ast_hash": "263656b01b56711d182b806c3bf6a434",
+    "mtime": 1788201582.142043,
+    "ast_hash": "bb2acda686cb3971e0c075e4a6552111",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/club-space-management/components/club-space-list/club-space-list.component.html": {
-    "mtime": 1787684823.0517592,
-    "ast_hash": "9ba13faf6bed575247fb82a225c7f80d",
+    "mtime": 1788201582.142043,
+    "ast_hash": "17b03d970f9a001bb281cf7024f10f52",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/club-space-management/components/space-booking/components/dice-scroller/dice-roller.component.html": {
@@ -6095,83 +6095,83 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/club-space-management/components/space-booking/space-booking.component.html": {
-    "mtime": 1787684823.0521843,
-    "ast_hash": "5b864408fa2c87b829c7030040a241d3",
+    "mtime": 1788201582.142043,
+    "ast_hash": "b573f3aaa7312ce8f916d74cc19172cd",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/club-space-management/dialogs/join-table-confirm-dialog/join-table-confirm-dialog.component.html": {
-    "mtime": 1787684823.0526412,
-    "ast_hash": "14552d03f932d3ef260b22bd6ae227d6",
+    "mtime": 1788201582.1425116,
+    "ast_hash": "5f950836fabd46e22dfeb95d5ecbe7fd",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/club-space-management/dialogs/single-player-confirm-dialog/single-player-confirm-dialog.component.html": {
-    "mtime": 1787684823.0526412,
-    "ast_hash": "b9d8105858c74e6b89aa939d96dae61b",
+    "mtime": 1788201582.1425116,
+    "ast_hash": "1450f82d99665e60046743c491518f3f",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/events-library/components/add-update-event/page/add-update-event.component.html": {
-    "mtime": 1787684823.053641,
-    "ast_hash": "5028528e46dbecf9152aeb8cacefaf1d",
+    "mtime": 1788201582.1425116,
+    "ast_hash": "1ff82fc3f4f1f55be26e6d0f84a974f0",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/events-library/components/admin-event-details/page/admin-event-details.component.html": {
-    "mtime": 1787684823.053641,
-    "ast_hash": "ef624e6fcd14b9c7daf1a837063daaeb",
+    "mtime": 1788201582.1435115,
+    "ast_hash": "b5baf270d5cc0324c277faef200ff46e",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/events-library/components/event-details/page/event-details.component.html": {
-    "mtime": 1787684823.054641,
-    "ast_hash": "2eabeac500928d70cedcd1174067b69b",
+    "mtime": 1788201582.1435115,
+    "ast_hash": "22cc9ac7e8145d65d9c135d23f99bc14",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/events-library/dialogs/event-confirm-delete/event-confirm-delete.component.html": {
-    "mtime": 1787684823.054641,
-    "ast_hash": "a8eed22b57cf0aef731e3a584e76d8b0",
+    "mtime": 1788201582.1435115,
+    "ast_hash": "aeb618699aa11e56119ca7666f4b4b71",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/find-meeple-management/components/add-update-meeple-room/add-update-meeple-room.component.html": {
-    "mtime": 1787684823.055641,
-    "ast_hash": "4a3855931accd992e5522bc6990b49a6",
+    "mtime": 1788201582.1435115,
+    "ast_hash": "4937accd294754f292e55eecaa16de59",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/find-meeple-management/components/meeple-room-details/meeple-room-details.component.html": {
-    "mtime": 1787684823.055641,
-    "ast_hash": "229093886be1c22e9f3e735753dff8a0",
+    "mtime": 1788201582.1445115,
+    "ast_hash": "406817d5fcd4cfeb2cb7252a10e9b6df",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/find-meeple-management/components/meeple-room-menu/meeple-room-menu.component.html": {
-    "mtime": 1787684823.0566409,
-    "ast_hash": "c944c27a6cdbe3c91dfbeb1c999229fd",
+    "mtime": 1788201582.1445115,
+    "ast_hash": "961098c241678ebbdd95f530d0de6eb4",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/find-meeple-management/components/room-chat/room-chat.component.html": {
-    "mtime": 1787684823.0579162,
-    "ast_hash": "9f934074bcf19bdcab5697bda85c6f61",
+    "mtime": 1788201582.1455116,
+    "ast_hash": "5bb2f68427a1d31d83a1d83afb1bb3b7",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/find-meeple-management/components/room-members/room-members.component.html": {
-    "mtime": 1787684823.0579162,
-    "ast_hash": "92151bd16f66ff14a388dd001b7aeb4f",
+    "mtime": 1788201582.1455116,
+    "ast_hash": "b3ebd80b755b3b351a12e68555ce35c4",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/find-meeple-management/dialogs/room-confirm-delete/room-confirm-delete.component.html": {
-    "mtime": 1787684823.0590096,
-    "ast_hash": "d63e13a0a133d627f9a8b95060cc47b8",
+    "mtime": 1788201582.1465116,
+    "ast_hash": "37a066247591273eb90caad3dbc00e9f",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/find-meeple-management/dialogs/room-confirm-leave/room-confirm-leave.component.html": {
-    "mtime": 1787684823.0590096,
-    "ast_hash": "88b1a5626f807e31a896efd1d518c0ed",
+    "mtime": 1788201582.1465116,
+    "ast_hash": "682459b9521eb7ec7786d0f2517f1728",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/find-meeple-management/dialogs/room-member-confirm-delete/room-member-confirm-delete.component.html": {
-    "mtime": 1787684823.0590096,
-    "ast_hash": "69c77c3e399981c5574611f3d1fe83f4",
+    "mtime": 1788201582.1465116,
+    "ast_hash": "8b6c3fd7064cfd4638b06bc2fe89a82e",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/games-library/components/add-update-game/page/add-update-game.component.html": {
-    "mtime": 1787684823.0596406,
-    "ast_hash": "5640cf5d4a66940d39f981cebf403606",
+    "mtime": 1788201582.1465116,
+    "ast_hash": "104fe34806e37269baef5dbd893df2cf",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/games-library/components/game-availability/page/game-availability.component.html": {
@@ -6180,8 +6180,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/games-library/components/game-categories/page/game-categories.component.html": {
-    "mtime": 1787684823.0606406,
-    "ast_hash": "dd969f858a0c7017b8a9f8fda9ecadad",
+    "mtime": 1788201582.1483052,
+    "ast_hash": "cc2046606074d5539e6a4e9221dfc64f",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/games-library/components/game-details/page/game-details.component.html": {
@@ -6190,13 +6190,13 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/games-library/components/game-layout/page/game-layout.component.html": {
-    "mtime": 1787684823.0606406,
-    "ast_hash": "5b42918fb81682044ba46876941bcd0d",
+    "mtime": 1788201582.1485114,
+    "ast_hash": "750f74f8b31edc3e8e2f0b9ddeb1c876",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/games-library/components/game-navigation/page/game-navigation.component.html": {
-    "mtime": 1787684823.0616405,
-    "ast_hash": "82a7beecc10a7f5358af28b282d17cb6",
+    "mtime": 1788201582.1485114,
+    "ast_hash": "3508bc8219a861abb5e8aefec23094e9",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/games-library/components/game-reviews/components/game-review-confirm-delete/game-review-confirm-delete.component.html": {
@@ -6210,43 +6210,43 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/games-library/components/new-game-list/page/new-game-list.component.html": {
-    "mtime": 1787684823.0626404,
-    "ast_hash": "3ca0d030945822d9745bd124f67e51bb",
+    "mtime": 1788201582.1495116,
+    "ast_hash": "6e205bc6ecc655adb1bfdc4387f37728",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/games-library/dialogs/availability-reservation-info-dialog/availability-reservation-info-dialog.component.html": {
-    "mtime": 1787684823.0638812,
-    "ast_hash": "42c7351274aa6030306ceeaa1267de2c",
+    "mtime": 1788201582.1495116,
+    "ast_hash": "f8f00273234e037cf4ea34a482aee9c9",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/games-library/dialogs/game-confirm-delete-dialog/game-confirm-delete.component.html": {
-    "mtime": 1787684823.0640304,
-    "ast_hash": "15a60535455e24c78a2ed8e2a733f74d",
+    "mtime": 1788201582.1495116,
+    "ast_hash": "342679c0a71b80c692ad20c89998268a",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/games-library/dialogs/qr-code-dialog/qr-code-dialog.component.html": {
-    "mtime": 1787684823.0643249,
-    "ast_hash": "97064601307e47d53c9e3aacb748cf34",
+    "mtime": 1788201582.1505115,
+    "ast_hash": "90f081ee031852315335b222bd7f28a4",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/instruction-management/components/instruction-links/instruction-links.component.html": {
-    "mtime": 1787684823.0643249,
-    "ast_hash": "d298ce598fd33e3199dec5b6d3162362",
+    "mtime": 1788201582.1505115,
+    "ast_hash": "ad5e6a70537479956d4e5992b2db76fb",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/instruction-management/components/instruction/instruction.component.html": {
-    "mtime": 1787684823.0651917,
-    "ast_hash": "e3aa22acda5641c5fd78fd8cb0c993eb",
+    "mtime": 1788201582.1505115,
+    "ast_hash": "a119f832c72aed2b6a5c6e19186abbff",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/instruction-management/components/link-info/link-info.component.html": {
-    "mtime": 1787684823.0659022,
-    "ast_hash": "049645e366ec4231c6944fd7d8e7422a",
+    "mtime": 1788201582.1515114,
+    "ast_hash": "6f083ca29e86854d8f006595216c1584",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/profile/components/add-employee/add-update-employee.component.html": {
-    "mtime": 1787684823.06629,
-    "ast_hash": "94e1386e20ae66d80d57c915c964b0ee",
+    "mtime": 1788201582.1515114,
+    "ast_hash": "584e019bd3e29dae37327e233fec5002",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/profile/components/change-password/change-password.component.html": {
@@ -6255,103 +6255,103 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/profile/components/club-info/club-info.component.html": {
-    "mtime": 1787684823.0664997,
-    "ast_hash": "7585e08d48cec5386c87c4b165768c6f",
+    "mtime": 1788201582.1515114,
+    "ast_hash": "f3b19b32ac30484d6d659e68bbd3f798",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/profile/components/employee-list/employee-list.component.html": {
-    "mtime": 1787684823.0671506,
-    "ast_hash": "07aa86e3569f1a83cf0fa2142350e582",
+    "mtime": 1788201582.1515114,
+    "ast_hash": "d5793fe17b9116afe4b6b9b9b76673d5",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/profile/components/global-settings/global-settings.component.html": {
-    "mtime": 1788161265.2352355,
-    "ast_hash": "23c4d5409c6c8ff4268f653982c5eabf",
+    "mtime": 1788201582.1525114,
+    "ast_hash": "2673c09610ad3480d64e529f4c9d9692",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/profile/components/jobs/jobs.component.html": {
-    "mtime": 1787684823.0680912,
-    "ast_hash": "655a5d8becfc4f5b01c0cc3d4e7c4241",
+    "mtime": 1788201582.1525114,
+    "ast_hash": "024be75d97b4e8b1e4809e1cdb22ca07",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/profile/components/owner-details/owner-details.component.html": {
-    "mtime": 1787684823.0686262,
-    "ast_hash": "28a227298637dc3898b47caec5164c79",
+    "mtime": 1788201582.1535115,
+    "ast_hash": "f66fd507cd8ee0701b43c699fec34d47",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/profile/components/superadmin-tenant-details/superadmin-tenant-details.component.html": {
-    "mtime": 1787684823.069031,
-    "ast_hash": "c0f31ddf0ea4daaa00a60d8627b2f9b7",
+    "mtime": 1788201582.1545048,
+    "ast_hash": "15347e8bdfac23842a2c4f790ebd8ee8",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/profile/components/superadmin-tenants/superadmin-tenants.component.html": {
-    "mtime": 1787684823.0692225,
-    "ast_hash": "9ee33efbefc7226598ee979459fac2cf",
+    "mtime": 1788201582.1545048,
+    "ast_hash": "666e2e88707abe81ba50524b8608d9a3",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/profile/components/tenant-application-details/tenant-application-details.component.html": {
-    "mtime": 1787832007.9656968,
-    "ast_hash": "ab9a5d1a46dcb66b9692406f5fe8c03f",
+    "mtime": 1788201993.4260037,
+    "ast_hash": "01cf4702ebb0d6b457cba5acd5849548",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/profile/components/tenant-applications/tenant-applications.component.html": {
-    "mtime": 1787684823.0702305,
-    "ast_hash": "23b79e174a4145c287848b777711d805",
+    "mtime": 1788201582.1545115,
+    "ast_hash": "19c4062c5c4f4c4a5dcd83c59ee3709c",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/profile/components/user-settings/user-settings.component.html": {
-    "mtime": 1787684823.0702305,
-    "ast_hash": "e8144c0337021747da6c1222afb28f4c",
+    "mtime": 1788201582.1545115,
+    "ast_hash": "81cf13e4fc82821125d8ac1c77c4fce8",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/profile/dialogs/employee-confirm-delete/employee-confirm-delete.component.html": {
-    "mtime": 1787684823.0702305,
-    "ast_hash": "cc755a0c0ff28e1b5bff7ebfcaeb4913",
+    "mtime": 1788201582.1555114,
+    "ast_hash": "69bbc7b8439b98aacdacb19f0616b992",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/qr-code-scanner/dialogs/scan-confirm-dialog.component.html": {
-    "mtime": 1787684823.0713894,
-    "ast_hash": "8bb2fa6df0d18e888776d6f1f9b749c2",
+    "mtime": 1788201582.1555114,
+    "ast_hash": "186dbcf5bd0b7202f30df2f5a4cceb34",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/reservation-management/components/game-reservations/active-list/game-reservations.component.html": {
-    "mtime": 1787684823.0717902,
-    "ast_hash": "9f94ee1b8b210f48cd99ff55df2cba35",
+    "mtime": 1788201582.1555114,
+    "ast_hash": "f0cb32d696defa472959a37a9af5e281",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/reservation-management/components/game-reservations/history/game-reservation-history.component.html": {
-    "mtime": 1787684823.0719986,
-    "ast_hash": "2465341cfd5079b5c1827d2ca8c3b4f0",
+    "mtime": 1788201582.1555114,
+    "ast_hash": "69abc55fbf2732d39805cd140ab7c444",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/reservation-management/components/shared/reservation-history-actions/reservation-history-actions.component.html": {
-    "mtime": 1787684823.0727813,
-    "ast_hash": "6a252cf259551bb43c745a6c95073420",
+    "mtime": 1788201582.1565115,
+    "ast_hash": "bb50ac69097f43ad2e6942dd92634798",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/reservation-management/components/shared/reservation-history-filters/reservation-history-filters.component.html": {
-    "mtime": 1787684823.0732024,
-    "ast_hash": "982573007bd4fb09808c5fd72414cf3c",
+    "mtime": 1788201582.1565115,
+    "ast_hash": "28d38bf45f7ae3b96c852a77106f07f5",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/reservation-management/components/space-table-reservations/active-list/space-table-active-reservations.component.html": {
-    "mtime": 1787684823.0737247,
-    "ast_hash": "5196fe2e3cde66b8fdcc81977513b194",
+    "mtime": 1788201582.1565115,
+    "ast_hash": "88caade07d6777af2cbf3c55d6fafa66",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/reservation-management/components/space-table-reservations/history/space-table-reservation-history.component.html": {
-    "mtime": 1787684823.0745165,
-    "ast_hash": "a134b81e13b0959fbb4eff08803a7381",
+    "mtime": 1788201582.1575115,
+    "ast_hash": "dee7c67dcd4b2cc22f99f4c81a7dc8fc",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/reservation-management/dialogs/reservation-details/reservation-details.dialog.html": {
-    "mtime": 1787684823.0748057,
-    "ast_hash": "45f950ad76a26eeb0003cf28e02c9dbc",
+    "mtime": 1788201582.1575115,
+    "ast_hash": "c5d3805d3b7df7121778eecc4fb00172",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/reservation-management/dialogs/reservation-status-confirmation/reservation-confirmation.dialog.html": {
-    "mtime": 1787684823.0751607,
-    "ast_hash": "a4c191463c6107fe9b69b57c278b1849",
+    "mtime": 1788201582.1575115,
+    "ast_hash": "4da0be234dee1a3ce9f0faf1c9540c78",
     "semantic_hash": ""
   },
   "DH.WebUI/src/index.html": {
@@ -6360,13 +6360,13 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/challenges-management/admin-page/admin-challenges-navigation.component.html": {
-    "mtime": 1787684823.0751607,
-    "ast_hash": "ff7ff5e6ce96b93e10e2b6746391d869",
+    "mtime": 1788201582.1575115,
+    "ast_hash": "88629bfb77a6d47b477eaa1dc4c82895",
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/challenges-management/page/challenges-management.component.html": {
-    "mtime": 1787684823.0760248,
-    "ast_hash": "a8f70262c4e2327389696fe923771e48",
+    "mtime": 1788201582.1585114,
+    "ast_hash": "e835e5023aa582e2e78234876f14106f",
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/challenges-management/shared/challenge-type-toggle/challenge-type-toggle.component.html": {
@@ -6375,13 +6375,13 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/charts/page/chart.component.html": {
-    "mtime": 1787684823.0766397,
-    "ast_hash": "01213c98be8e8839b9276902d98d91f1",
+    "mtime": 1788201582.1595113,
+    "ast_hash": "5217b063a4a84935c8a5e1554653b4ba",
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/club-space-management/page/club-space-management.component.html": {
-    "mtime": 1787684823.0779223,
-    "ast_hash": "eed1a2a36ad62a5fb3908d117cc65676",
+    "mtime": 1788201582.1595113,
+    "ast_hash": "ce98f323b07e3742d8342cc6a0ffc7dc",
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/club-space-management/test/dice.component.html": {
@@ -6395,93 +6395,93 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/create-employee-password/page/create-employee-password.component.html": {
-    "mtime": 1787684823.0789807,
-    "ast_hash": "02c6b895eb8990b2e5c192d7fdb9dab3",
+    "mtime": 1788201582.1605115,
+    "ast_hash": "495039e132c245c3d4139278aeecd2da",
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/create-owner-password/page/create-owner-password.component.html": {
-    "mtime": 1787684823.0791433,
-    "ast_hash": "2d3a66d2e761bec63b11830bd5eb42f3",
+    "mtime": 1788201582.1605115,
+    "ast_hash": "9a2d41c517b15dda1ea128dccadfb46a",
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/events-library/admin-page/admin-event-management.component.html": {
-    "mtime": 1787684823.07967,
-    "ast_hash": "a7c1ea4dc8566b93b6ae356501270162",
+    "mtime": 1788201582.1615114,
+    "ast_hash": "e02bdc0a313068f9b80cb3cae2d2cc3b",
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/events-library/page/events-library.component.html": {
-    "mtime": 1787684823.0800083,
-    "ast_hash": "22eb27405b307bc8465e0db9e202d7aa",
+    "mtime": 1788201582.1615114,
+    "ast_hash": "0a1bf11f0088b88da937c9b66889cfa3",
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/find-meeple-management/page/find-meeple-management.component.html": {
-    "mtime": 1787684823.0805757,
-    "ast_hash": "653c983d2b1416bfd15a36be45a3805f",
+    "mtime": 1788201582.1629925,
+    "ast_hash": "cead60e84f5cb7faaf12cee81b12d8fe",
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/forgot-password/page/forgot-password.component.html": {
-    "mtime": 1787684823.0809224,
-    "ast_hash": "791f793795ecf3a1f2d7edc64abb6ba9",
+    "mtime": 1788201582.1629925,
+    "ast_hash": "d126a656c78b066a328a0d1f7a389630",
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/games-library/page/games-library.component.html": {
-    "mtime": 1787684823.0812888,
-    "ast_hash": "566b8c7c11c010e62623d13744c6982e",
+    "mtime": 1788201582.1629925,
+    "ast_hash": "10de20922800d1926c61abce8decbe8c",
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/instruction-management/page/instruction-management.component.html": {
-    "mtime": 1787684823.0820534,
-    "ast_hash": "fa888cc4fd30418f39538f3b1d24ff90",
+    "mtime": 1788201582.1635113,
+    "ast_hash": "11ea25a907e3b5a44729f26d6fcb6bb6",
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/landing/page/landing.component.html": {
-    "mtime": 1787684823.082837,
-    "ast_hash": "b78fac559cb8ea9f88703b3f218cb6d1",
+    "mtime": 1788201582.1635113,
+    "ast_hash": "75b8aad6767f4973df0dfff13ed40f37",
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/login/page/login.component.html": {
-    "mtime": 1788031064.2851307,
-    "ast_hash": "ed39760794f5c1c14900ff5fbf91ab2f",
+    "mtime": 1788201582.1645114,
+    "ast_hash": "9a83ba07e582215b435c6041b539df88",
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/profile/page/profile.component.html": {
-    "mtime": 1787684823.0842652,
-    "ast_hash": "2e58515c12a129d333346cef5727152a",
+    "mtime": 1788201582.1645114,
+    "ast_hash": "480a59efc048a87478bf73ed931a773f",
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/qr-code-scanner/page/qr-code-scanner.component.html": {
-    "mtime": 1787684823.0846481,
-    "ast_hash": "f278f58e33e22c886d2ed6566ed356e9",
+    "mtime": 1788201582.1645114,
+    "ast_hash": "8902450f85951a4a5065531744d801f6",
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/register-choice/page/register-choice.component.html": {
-    "mtime": 1787819284.2799168,
-    "ast_hash": "d102af75ca706109c89940503c66f920",
+    "mtime": 1788201582.1655114,
+    "ast_hash": "faf49ce69001be32cee9b794fa77b4e4",
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/register/page/register.component.html": {
-    "mtime": 1787819288.2697735,
-    "ast_hash": "7649cb4b48e92a540b71185a08c214b8",
+    "mtime": 1788201582.1655114,
+    "ast_hash": "6196fa8a0fd4852084b8f25d3c863138",
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/reservation-management/page/reservation-management-navigation.component.html": {
-    "mtime": 1787684823.0866773,
-    "ast_hash": "1ff11223fe5e28904a748792932392b2",
+    "mtime": 1788201582.1655114,
+    "ast_hash": "35acfe450ac8b2d4d9c265822fe4be8f",
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/reset-password/page/reset-password.component.html": {
-    "mtime": 1787684823.0868416,
-    "ast_hash": "8093d89a9958c6c916927286be0a115f",
+    "mtime": 1788201582.1665113,
+    "ast_hash": "f532856cfb351f787630b92945aa0305",
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/tenant-setup/page/tenant-setup.component.html": {
-    "mtime": 1788161310.4649851,
-    "ast_hash": "3703766b62038532bf6627b0260ff0ca",
+    "mtime": 1788201582.1665113,
+    "ast_hash": "0ac1ebee6f2f91f0eea9bd90e7d6a021",
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/venue-application/page/venue-application.component.html": {
-    "mtime": 1787684823.0875945,
-    "ast_hash": "0e6ab40b52adc4aa26f74e4468d273f8",
+    "mtime": 1788201582.1665113,
+    "ast_hash": "85185f607c2314a61f3d4ce8f0b04f06",
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.html": {
@@ -6490,13 +6490,13 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/components/assistive-touch/notifications/notifications.dialog.html": {
-    "mtime": 1787684823.0902262,
-    "ast_hash": "4bdcc5046446f5ca47403453067fda75",
+    "mtime": 1788201582.1695113,
+    "ast_hash": "c7772cf775f9506599c51d487c191462",
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/components/challenge-overlay/challenge-overlay.component.html": {
-    "mtime": 1787684823.0907307,
-    "ast_hash": "930625c25fb31c171c0290d41736aecf",
+    "mtime": 1788201582.1695113,
+    "ast_hash": "b0025abec7189957e04041f518ebf237",
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/components/install-prompt/install-prompt.component.html": {
@@ -6530,53 +6530,53 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/components/select-club/select-club.component.html": {
-    "mtime": 1787684823.0912702,
-    "ast_hash": "a6b643c30081da7cc256ac7f4eda7778",
+    "mtime": 1788201582.1695113,
+    "ast_hash": "415db83be9c617329612049e92256021",
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/components/toast/toast.component.html": {
-    "mtime": 1787684823.0914724,
-    "ast_hash": "6c65bd5d44fe5f836a8ef70afc1e95b4",
+    "mtime": 1788201582.1705112,
+    "ast_hash": "2a89c55665816546929630debc20e6e4",
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/dialogs/image-preview/image-preview.dialog.html": {
-    "mtime": 1787684823.091928,
-    "ast_hash": "a128b7fe614656881e1b9632e676e294",
+    "mtime": 1788201582.1705112,
+    "ast_hash": "1c84c51eb6e7ba8b8b541f212ec0d73c",
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/dialogs/reservation-qr-code/reservation-qr-code.component.html": {
-    "mtime": 1787684823.091928,
-    "ast_hash": "f5d3608b633e7755de372458b32035c3",
+    "mtime": 1788201582.1705112,
+    "ast_hash": "19c25cdc5a80299177c9545584372747",
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/dialogs/scan-result-admin/scan-result-admin.dialog.html": {
-    "mtime": 1787684823.092489,
-    "ast_hash": "03a322f1a57c3c2ffb48e99493e8b7fa",
+    "mtime": 1788201582.1705112,
+    "ast_hash": "cdfe26d76139852559472025be41b4b7",
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/dialogs/unsaved-changes-confirmation/unsaved-changes-confirmation.dialog.html": {
-    "mtime": 1787684823.0927918,
-    "ast_hash": "a3a0ea0b5ec1787ad0c4b1049b548b1a",
+    "mtime": 1788201582.1715112,
+    "ast_hash": "e20dd77b264f1ff68cfbfcef62b027e8",
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/exceptions/forbidden/forbidden.component.html": {
-    "mtime": 1787684823.0930867,
-    "ast_hash": "bfd2b8ed274435a4322bccab00b02ecf",
+    "mtime": 1788201582.1715112,
+    "ast_hash": "411c1e9d046e776dd59575acdbb1c8de",
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/exceptions/not-found/not-found.component.html": {
-    "mtime": 1787684823.0936897,
-    "ast_hash": "bfd2b8ed274435a4322bccab00b02ecf",
+    "mtime": 1788201582.1715112,
+    "ast_hash": "83ba6ef96025a8e50a881a330e681e53",
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/exceptions/server-down/server-error.component.html": {
-    "mtime": 1787759658.967908,
-    "ast_hash": "6c550de2f62b69f390859374e4a95397",
+    "mtime": 1788201804.3575044,
+    "ast_hash": "ca70319aa03d58da6375b47b4e465d53",
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/exceptions/unauthorized/unauthorized.component.html": {
-    "mtime": 1787684823.0944183,
-    "ast_hash": "bfd2b8ed274435a4322bccab00b02ecf",
+    "mtime": 1788201582.1725113,
+    "ast_hash": "148f79cf724adc5b70bc8976122ed758",
     "semantic_hash": ""
   },
   "DH.WebUI/src/widgets/chip/page/chip.component.html": {
@@ -6590,8 +6590,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/widgets/menu/page/navigation-menu.component.html": {
-    "mtime": 1787851161.820839,
-    "ast_hash": "62cf9e890f3d605deb0bdfb66694e2a7",
+    "mtime": 1788201582.1725113,
+    "ast_hash": "ded1d4a6d1b89dcd992021c0c893a46c",
     "semantic_hash": ""
   },
   "DH.WebUI/src/widgets/nav-bar/page/nav-bar.component.html": {
@@ -8842,6 +8842,1911 @@
   "DH.WebUI/src/shared/assets/icons/icon-maskable-432.png": {
     "mtime": 1788185868.1278827,
     "ast_hash": "eb715a054d146048cf77459a4ae40c85",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/deploy-to-vercel/resources/deploy-codex.sh": {
+    "mtime": 1788201582.0816908,
+    "ast_hash": "b048868554d8c8966860dec24b10e519",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/deploy-to-vercel/resources/deploy.sh": {
+    "mtime": 1788201582.08184,
+    "ast_hash": "c20b8a4b9e0ff5d191662848d6f46781",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-composition-patterns/metadata.json": {
+    "mtime": 1788201582.0823596,
+    "ast_hash": "e6f6bf659ca1d8af9bcc607597e304c6",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/auth-route.mjs": {
+    "mtime": 1788201582.0835862,
+    "ast_hash": "78cdbc7a226b9da274748ace45b23bc6",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/budget-summary.mjs": {
+    "mtime": 1788201582.0840425,
+    "ast_hash": "2a2842a9ff6376c473511c6c3763adc0",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/citations.mjs": {
+    "mtime": 1788201582.0840425,
+    "ast_hash": "7edbdf850ac19ad8b0b569b5e3fd03d9",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/cost-coverage.mjs": {
+    "mtime": 1788201582.0840425,
+    "ast_hash": "9ed214ea7982f9587a61331f0ac88327",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/dedup-recs.mjs": {
+    "mtime": 1788201582.0840425,
+    "ast_hash": "77ff166f2686617f66cfad313b389c67",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/deep-dive.mjs": {
+    "mtime": 1788201582.0840425,
+    "ast_hash": "9cc73392e21340df7c41a630317e927e",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/display-labels.mjs": {
+    "mtime": 1788201582.0840425,
+    "ast_hash": "54b65a0880979c5e1dfe0737a74a21bb",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/extract-claims.mjs": {
+    "mtime": 1788201582.0840425,
+    "ast_hash": "d3eac12d03968493e63e71b00e966599",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/framework-support.mjs": {
+    "mtime": 1788201582.0840425,
+    "ast_hash": "104f9d1f3efe7a04ad45043abf2db5d6",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/gates/build-minutes-fanout.mjs": {
+    "mtime": 1788201582.0840425,
+    "ast_hash": "16a3fdbf56f9cdd4f6dcc6046d8c253b",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/gates/cold-start.mjs": {
+    "mtime": 1788201582.0850422,
+    "ast_hash": "88e2425e26d6fd567d073b1099d0a8ba",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/gates/contract.mjs": {
+    "mtime": 1788201582.0850422,
+    "ast_hash": "d86f2b288e5ae732706def4c862ed432",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/gates/cwv-poor.mjs": {
+    "mtime": 1788201582.0850422,
+    "ast_hash": "613d31a09490a155b20e3f252c73bdbf",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/gates/external-api-slow.mjs": {
+    "mtime": 1788201582.0850422,
+    "ast_hash": "0a148d6b9aa296b13a21fa466ad55996",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/gates/hard-gates.mjs": {
+    "mtime": 1788201582.0850422,
+    "ast_hash": "1b2791d58914849515fe90eafe1e13c8",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/gates/index.mjs": {
+    "mtime": 1788201582.0850422,
+    "ast_hash": "533b96a998b36cbee99f86f2709299fa",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/gates/isr-overrevalidation.mjs": {
+    "mtime": 1788201582.0850422,
+    "ast_hash": "3a002a49db769a30af36c8526cc90b74",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/gates/middleware-heavy.mjs": {
+    "mtime": 1788201582.0850422,
+    "ast_hash": "3d9486e794b113a8b7926411503559b2",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/gates/observability-events-attribution.mjs": {
+    "mtime": 1788201582.0850422,
+    "ast_hash": "3605e97d9e4ea6978ab808ea5af245f5",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/gates/platform-bot-protection.mjs": {
+    "mtime": 1788201582.0850422,
+    "ast_hash": "07011b1bd7e16367e152c60e135ca7fd",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/gates/platform-fluid-compute.mjs": {
+    "mtime": 1788201582.0850422,
+    "ast_hash": "0de35c4dc12390edc0df8ebf65ee9f37",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/gates/region-misconfig.mjs": {
+    "mtime": 1788201582.0850422,
+    "ast_hash": "0c318e6274284c1c7b982595632862b2",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/gates/route-errors.mjs": {
+    "mtime": 1788201582.0855122,
+    "ast_hash": "f137c9122cc9a3b04b0d42fbb0c12641",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/gates/scanner-driven.mjs": {
+    "mtime": 1788201582.0855122,
+    "ast_hash": "5b1043a88db5e853e3c004735823a508",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/gates/select-candidates.mjs": {
+    "mtime": 1788201582.0855122,
+    "ast_hash": "078a5c17c4dfe1da1381f619c15f8ad7",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/gates/slow-route.mjs": {
+    "mtime": 1788201582.0855122,
+    "ast_hash": "2c33f62a826f9ef6f609c489fd492655",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/gates/types.d.ts": {
+    "mtime": 1788201582.0855122,
+    "ast_hash": "3675d0b23e038ad038d2dd118d040f49",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/gates/uncached-route.mjs": {
+    "mtime": 1788201582.0855122,
+    "ast_hash": "06bf4d3038400e117eff496830c4be0c",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/gates/usage-spike-triage.mjs": {
+    "mtime": 1788201582.0855122,
+    "ast_hash": "0a1dfe71ecd613775b0a86d2c8020215",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/grade-recommendation.mjs": {
+    "mtime": 1788201582.0855122,
+    "ast_hash": "81b336c79af1be8b8f420aa4c6b3f3c0",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/impact-label.mjs": {
+    "mtime": 1788201582.0855122,
+    "ast_hash": "90c7d906346221e3b6a88497888f27d9",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/impact-magnitude.mjs": {
+    "mtime": 1788201582.0855122,
+    "ast_hash": "721ba1c4fdd66046463f44648dba77d0",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/investigation-brief.mjs": {
+    "mtime": 1788201582.086512,
+    "ast_hash": "c041803b1f962926166f4c8b130a67f5",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/observation-safety.mjs": {
+    "mtime": 1788201582.086512,
+    "ast_hash": "f76b563b7914a849dc978e95fea4286c",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/project-facts.mjs": {
+    "mtime": 1788201582.086512,
+    "ast_hash": "02791b20eeae4b1951af06def8d306ec",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/queries.mjs": {
+    "mtime": 1788201582.086512,
+    "ast_hash": "39d4ad0f5805707d81427bee74969328",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/reconcile-candidates.mjs": {
+    "mtime": 1788201582.086512,
+    "ast_hash": "b671c1352680e5014f4cb53926dcbe11",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/render-report.mjs": {
+    "mtime": 1788201582.086512,
+    "ast_hash": "5c12e95ac489d2f905f38867b56598d2",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/repo-root.mjs": {
+    "mtime": 1788201582.086512,
+    "ast_hash": "60c8b364dfc2fec7ad34ba29ad491564",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/route-normalize.mjs": {
+    "mtime": 1788201582.0875123,
+    "ast_hash": "ea3d1fba63bc3e383b5764df8a3fbe95",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/sanitizers/bot-protection-certainty.mjs": {
+    "mtime": 1788201582.0875123,
+    "ast_hash": "394bd5042e31472b9443841f071d1329",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/sanitizers/cache-tag-invalidation-certainty.mjs": {
+    "mtime": 1788201582.0883038,
+    "ast_hash": "dfb82ddae8e417a1624a95340cd04f96",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/sanitizers/count-correct.mjs": {
+    "mtime": 1788201582.0883038,
+    "ast_hash": "38243897ba6b475f4e08ad1a7dcdfb90",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/sanitizers/function-duration-invocations.mjs": {
+    "mtime": 1788201582.0883038,
+    "ast_hash": "3dd8526ef8dc313cab7ceb9542bda1c0",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/sanitizers/index.mjs": {
+    "mtime": 1788201582.0883038,
+    "ast_hash": "a11776f94f283a4ef1d86a7f30633aeb",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/sanitizers/middleware-conflict.mjs": {
+    "mtime": 1788201582.0883038,
+    "ast_hash": "1530758ddb12b7b9f71a371fa2b8ff36",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/sanitizers/missing-citation.mjs": {
+    "mtime": 1788201582.0883038,
+    "ast_hash": "3e8d685a5ee62f125d8a1d71cb3c060b",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/sanitizers/pre-release.mjs": {
+    "mtime": 1788201582.0883038,
+    "ast_hash": "546d43b449ceefafbdf9773d2531a0ec",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/sanitizers/rate-limit.mjs": {
+    "mtime": 1788201582.0883038,
+    "ast_hash": "10da5507e8e847f62c07f411de55b127",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/sanitizers/rendering-mode-mislabel.mjs": {
+    "mtime": 1788201582.0883038,
+    "ast_hash": "0249a788a556251284e30adc45e0c501",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/sanitizers/undeclared-dep.mjs": {
+    "mtime": 1788201582.0883038,
+    "ast_hash": "2b128a19e8e3483c647edc9829655767",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/sanitizers/vercel-directive-strip.mjs": {
+    "mtime": 1788201582.0885122,
+    "ast_hash": "c1b0e8a613c0e79b4c8f4f07bba88267",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/sanitizers/window-units.mjs": {
+    "mtime": 1788201582.0885122,
+    "ast_hash": "f8fa0ff330864f2ae44158ab60beb3a2",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/scanners/cache-components-suspense-dedupe.mjs": {
+    "mtime": 1788201582.0885122,
+    "ast_hash": "15f95c3594740dcf476a6510fc53d22c",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/scanners/edge-heavy-import.mjs": {
+    "mtime": 1788201582.0893927,
+    "ast_hash": "633620834149e6a63ff8e16ab172c780",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/scanners/force-dynamic.mjs": {
+    "mtime": 1788201582.0893927,
+    "ast_hash": "2cd6beda0d49786f601e2458a8a5c5b4",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/scanners/headers-in-page.mjs": {
+    "mtime": 1788201582.0893927,
+    "ast_hash": "300828055cc429057cb18aa344f7fc3d",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/scanners/index.mjs": {
+    "mtime": 1788201582.0893927,
+    "ast_hash": "9284e4ff9aed9cf623b1aee0be316bdc",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/scanners/large-static-asset.mjs": {
+    "mtime": 1788201582.0893927,
+    "ast_hash": "617d7ac9be8b697f117afea4c77945fe",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/scanners/max-age-without-s-maxage.mjs": {
+    "mtime": 1788201582.0893927,
+    "ast_hash": "9c1e0394512e914cc3a4403fdfd11b5d",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/scanners/middleware-broad-matcher.mjs": {
+    "mtime": 1788201582.0893927,
+    "ast_hash": "7e2c8ef92840dc2836da837dad68e3c0",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/scanners/missing-cache-headers.mjs": {
+    "mtime": 1788201582.0893927,
+    "ast_hash": "39d7132d2386e47ef76ec8b09d1fc1b3",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/scanners/prisma-include-tree.mjs": {
+    "mtime": 1788201582.089512,
+    "ast_hash": "a8665d784f7e6272b064a9c4429803a0",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/scanners/region-pin-in-config.mjs": {
+    "mtime": 1788201582.089512,
+    "ast_hash": "7560feeed1f82e6690c6a689b9571b67",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/scanners/source-maps-production.mjs": {
+    "mtime": 1788201582.089512,
+    "ast_hash": "7d4439ca5c03c20e0ecca42e3abef718",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/scanners/sveltekit-prerender-missing.mjs": {
+    "mtime": 1788201582.089512,
+    "ast_hash": "1cb3a6759bf30fa07b3bb4bac648838f",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/scanners/turbo-force-bypass.mjs": {
+    "mtime": 1788201582.089512,
+    "ast_hash": "c6c40516726ccb8cc698a487cd6b8a42",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/scanners/unoptimized-image.mjs": {
+    "mtime": 1788201582.089512,
+    "ast_hash": "676516e0724bc2da16216f92349663b2",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/scanners/use-cache-date-stamp.mjs": {
+    "mtime": 1788201582.089512,
+    "ast_hash": "343197740e83344ba6001ed45c9fda87",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/support-topics.mjs": {
+    "mtime": 1788201582.089512,
+    "ast_hash": "3d78376e165ff6f46c97bff4d14df02b",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/throttle.mjs": {
+    "mtime": 1788201582.089512,
+    "ast_hash": "25b47cfb7aa5b0ad869712b5c75adac4",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/util.mjs": {
+    "mtime": 1788201582.089512,
+    "ast_hash": "c3f274e07a2dfda1b1ad8a7881a4b36f",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/vercel.mjs": {
+    "mtime": 1788201582.090512,
+    "ast_hash": "366ce02c49803242703d467b29815575",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/verify-claim.mjs": {
+    "mtime": 1788201582.090512,
+    "ast_hash": "14bfa477526dcf0ba14c78b06622413e",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/lib/workspace-resolver.mjs": {
+    "mtime": 1788201582.090512,
+    "ast_hash": "03cf55034b85c6c60e21ab2a17cf6788",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/metadata.json": {
+    "mtime": 1788201582.090512,
+    "ast_hash": "19a5bc8e678e4b878aaed277773d1d85",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/docs-library.json": {
+    "mtime": 1788201582.0919366,
+    "ast_hash": "289afe73523f5d9b44b7f873b909b050",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/scripts/budget-summary.mjs": {
+    "mtime": 1788201582.096512,
+    "ast_hash": "0e76296fa235c31e4fbf1d58299a2bfe",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/scripts/build-docs.mjs": {
+    "mtime": 1788201582.0975192,
+    "ast_hash": "19f6462b607c6c93accdd1fdd22098f7",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/scripts/check-citations.mjs": {
+    "mtime": 1788201582.0975192,
+    "ast_hash": "aaeff7c5aa6f635cefd810d7b2aa2753",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/scripts/check-docs-fresh.mjs": {
+    "mtime": 1788201582.0975192,
+    "ast_hash": "e86c603e49af933f0408357aef8844cd",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/scripts/collect-signals.mjs": {
+    "mtime": 1788201582.0975192,
+    "ast_hash": "ecb3a1b378b91b05745ea8118cc92f7d",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/scripts/collect-sub-agent-outputs.mjs": {
+    "mtime": 1788201582.0975192,
+    "ast_hash": "138160a89f9df94ac246fbd0812a482d",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/scripts/deep-dive.mjs": {
+    "mtime": 1788201582.0975192,
+    "ast_hash": "1baf1a582ae27e0fdcc7be05ac26278e",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/scripts/gate-investigations.mjs": {
+    "mtime": 1788201582.0975192,
+    "ast_hash": "51d1d6f03ed6fffc9887a4ae527ba134",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/scripts/merge-signals.mjs": {
+    "mtime": 1788201582.0975192,
+    "ast_hash": "c93b4298464e923f843e88e0fb327415",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/scripts/prepare-investigation-brief.mjs": {
+    "mtime": 1788201582.0975192,
+    "ast_hash": "879505a13d8bebfbd52377cd1af73d50",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/scripts/reconcile-candidates.mjs": {
+    "mtime": 1788201582.0975192,
+    "ast_hash": "bd6b7aa98e3c486b80d7b930f9e6fada",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/scripts/render-report.mjs": {
+    "mtime": 1788201582.0975192,
+    "ast_hash": "24d42646872200cac6b05968a1b27e23",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/scripts/scan-codebase.mjs": {
+    "mtime": 1788201582.0975192,
+    "ast_hash": "db9a0362514377710c4c0595a4650aa8",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/scripts/verify-and-regen.mjs": {
+    "mtime": 1788201582.0975192,
+    "ast_hash": "d31c72c70524cc88d097f3c4be2336a1",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/scripts/verify-finding.mjs": {
+    "mtime": 1788201582.0975192,
+    "ast_hash": "50ef4240d5ed73d139843f240729030a",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/metadata.json": {
+    "mtime": 1788201582.0997252,
+    "ast_hash": "5cd9ae4fc688353236c3b92e8f06dfcc",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-native-skills/metadata.json": {
+    "mtime": 1788201582.105512,
+    "ast_hash": "2e946917539aeeb34c07d726457a7e87",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-view-transitions/metadata.json": {
+    "mtime": 1788201582.1098332,
+    "ast_hash": "16f67a56e7a7ef85859927694dee0d9f",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/skills-lock.json": {
+    "mtime": 1788201582.1125119,
+    "ast_hash": "770c6e9acd74b369a2d76b7e14747718",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/skills-lock.json": {
+    "mtime": 1788201582.1335118,
+    "ast_hash": "1fdb54277684f41969c8d0aad8f2329f",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/src/features/profile/components/profile-settings-nav/profile-settings-nav.component.ts": {
+    "mtime": 1788201582.1545048,
+    "ast_hash": "34bb3cf82ca374b7e13a633b762bc105",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-blue-proposal/canvas.json": {
+    "mtime": 1788201582.1746485,
+    "ast_hash": "2d453ea978697809462f2a827537c719",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-design-system/canvas.json": {
+    "mtime": 1788201582.186511,
+    "ast_hash": "cb73e47ce2725b5a6cd0da09dbf72b0e",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-games-highend/canvas.json": {
+    "mtime": 1788201582.2015858,
+    "ast_hash": "494fe9d3b7de23fdf165118aba3d3b76",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-gamification-flows/canvas.json": {
+    "mtime": 1788201582.2144558,
+    "ast_hash": "f1beab30afb917efd889d289e36b4139",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-notification-icon/canvas.json": {
+    "mtime": 1788201582.2255106,
+    "ast_hash": "894a3e2596a4aaec9ec28ed888b14e23",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-reimagined-dialogs-confirm/canvas.json": {
+    "mtime": 1788201582.2375107,
+    "ast_hash": "2e241f03ae1d0a8bbfdd906fadb2a740",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-reimagined-dialogs-info/canvas.json": {
+    "mtime": 1788201582.2495105,
+    "ast_hash": "9271ad0b5461e15328ed05f5a8e1c95f",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-reimagined-dialogs-overlays/canvas.json": {
+    "mtime": 1788201582.2622762,
+    "ast_hash": "edc1fd442b3d6c4363e15543989ca7b2",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-reimagined-dialogs-sheets/canvas.json": {
+    "mtime": 1788201582.2744164,
+    "ast_hash": "eda182fa27aa214f1d5d7e7a349f08b1",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-reimagined-landing/canvas.json": {
+    "mtime": 1788201582.28551,
+    "ast_hash": "c29a9451731e42c96bd02abc7db11d1b",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/deploy-to-vercel/SKILL.md": {
+    "mtime": 1788201582.0814567,
+    "ast_hash": "bd596f082654a053cfbe0fc27a4e40b9",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-cli-with-tokens/SKILL.md": {
+    "mtime": 1788201582.08184,
+    "ast_hash": "d3812667da9f3544461878d697308d8b",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-composition-patterns/AGENTS.md": {
+    "mtime": 1788201582.08184,
+    "ast_hash": "d64d288377dc2b80160b55423e5fa199",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-composition-patterns/README.md": {
+    "mtime": 1788201582.0823596,
+    "ast_hash": "7c684a3925dac6c75fc740954191278f",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-composition-patterns/SKILL.md": {
+    "mtime": 1788201582.0823596,
+    "ast_hash": "bdf71be24018b7f091603a93b24e2c02",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-composition-patterns/rules/_sections.md": {
+    "mtime": 1788201582.0823596,
+    "ast_hash": "1a688da708bbb2a637a3f505ce56d33d",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-composition-patterns/rules/_template.md": {
+    "mtime": 1788201582.08272,
+    "ast_hash": "6c8b3f27850d6394325937117dc1321e",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-composition-patterns/rules/architecture-avoid-boolean-props.md": {
+    "mtime": 1788201582.08272,
+    "ast_hash": "2558f13a654d1175c7ab596e654c60a1",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-composition-patterns/rules/architecture-compound-components.md": {
+    "mtime": 1788201582.08272,
+    "ast_hash": "0160f5506c4d32cb4fd9adeae6dc93e2",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-composition-patterns/rules/patterns-children-over-render-props.md": {
+    "mtime": 1788201582.08272,
+    "ast_hash": "72322b106f78a8ee8e77829f8e9da3fb",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-composition-patterns/rules/patterns-explicit-variants.md": {
+    "mtime": 1788201582.08272,
+    "ast_hash": "bcd9bf42cbd8afa6ecf4a2847482e9b3",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-composition-patterns/rules/react19-no-forwardref.md": {
+    "mtime": 1788201582.08272,
+    "ast_hash": "b82a772209424c72a0aa4924621e362b",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-composition-patterns/rules/state-context-interface.md": {
+    "mtime": 1788201582.08272,
+    "ast_hash": "ed7f4ad08be2bdc9b727f7ddce0ead55",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-composition-patterns/rules/state-decouple-implementation.md": {
+    "mtime": 1788201582.08272,
+    "ast_hash": "237a1eae3697f07470b800c55b0e4ab0",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-composition-patterns/rules/state-lift-state.md": {
+    "mtime": 1788201582.08272,
+    "ast_hash": "890bbc1d7fde2496a7c47f12153f9856",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/AGENTS.md": {
+    "mtime": 1788201582.08272,
+    "ast_hash": "c548947809d491268b100a45cd2da745",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/CONTRIBUTING.md": {
+    "mtime": 1788201582.0835862,
+    "ast_hash": "edd4e874da0e09d30c38edc90021f3a8",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/README.md": {
+    "mtime": 1788201582.0835862,
+    "ast_hash": "3b81f88a695a25dc72f8968f57b0099a",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/SKILL.md": {
+    "mtime": 1788201582.0835862,
+    "ast_hash": "3004ff145ea50b74278a5a51a9d4cc87",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/candidates.md": {
+    "mtime": 1788201582.090512,
+    "ast_hash": "36c828877d4239f1a68f50be90a0029f",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/data-collection.md": {
+    "mtime": 1788201582.0919366,
+    "ast_hash": "ac3de32b03b6f19ccfb8186695c5a065",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/doctrine.md": {
+    "mtime": 1788201582.0919366,
+    "ast_hash": "557fedf75a91a396977aa9135b5ac909",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/observability-plus.md": {
+    "mtime": 1788201582.0919366,
+    "ast_hash": "75b3fb11b1cbc73d5cfa44e4e7e8af25",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/playbooks/README.md": {
+    "mtime": 1788201582.0919366,
+    "ast_hash": "38e40783767b998712937ffafdfa2b31",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/playbooks/ai-application.md": {
+    "mtime": 1788201582.092692,
+    "ast_hash": "e8a6b82a43bed3cbb7b9f3b491058469",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/playbooks/api-service.md": {
+    "mtime": 1788201582.092692,
+    "ast_hash": "1b264c3cb4eee14f7db6cd1f7f279b83",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/playbooks/content-site.md": {
+    "mtime": 1788201582.092692,
+    "ast_hash": "cf86a2150a2cafc354301475762dc6db",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/playbooks/ecommerce.md": {
+    "mtime": 1788201582.092692,
+    "ast_hash": "eeb87a5f1fd4b446f44b10ae49ca455b",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/playbooks/marketing.md": {
+    "mtime": 1788201582.092692,
+    "ast_hash": "3c36ca77f9e04032633d4ad7688dfe55",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/playbooks/saas.md": {
+    "mtime": 1788201582.092692,
+    "ast_hash": "506a0acf7f039a5b8a3dd0df8cb6a995",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/playbooks/sveltekit.md": {
+    "mtime": 1788201582.092692,
+    "ast_hash": "294da8cca4eae9aeb14511f93ebfb33b",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/recommendations.md": {
+    "mtime": 1788201582.092692,
+    "ast_hash": "ab03dd1b132aa49617ff97194cd162ac",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/scanner-patterns.md": {
+    "mtime": 1788201582.092692,
+    "ast_hash": "1f6b850d2cb815cdd77929bba0ca1f60",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/scoring.md": {
+    "mtime": 1788201582.092692,
+    "ast_hash": "069183aa8901c91cca0e2beb1d3b79c3",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/support-topics/README.md": {
+    "mtime": 1788201582.092692,
+    "ast_hash": "b6d96d3eca36725dc0cf89e26047330c",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/support-topics/astro-edge-middleware-scope.md": {
+    "mtime": 1788201582.0938497,
+    "ast_hash": "83acf1a1e3ec6ef8b6b3fce3a7a015e2",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/support-topics/astro-output-mode-and-isr.md": {
+    "mtime": 1788201582.0938497,
+    "ast_hash": "1d4e263a33c98fe5147101e8543f108d",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/support-topics/auth-preserving-parallelization.md": {
+    "mtime": 1788201582.0938497,
+    "ast_hash": "8c71e95cd4df9bcc58060fba190e774c",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/support-topics/bot-protection-product-guardrails.md": {
+    "mtime": 1788201582.0938497,
+    "ast_hash": "88602781f17cb922bdcbcfee997d1965",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/support-topics/build-minutes-monorepo-fanout.md": {
+    "mtime": 1788201582.0938497,
+    "ast_hash": "10cb1ce35b66314408b363abcaf6eade",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/support-topics/cache-components-static-shell-boundaries.md": {
+    "mtime": 1788201582.0938497,
+    "ast_hash": "ee9d881970a1aeb314edec7d2cd8f4a9",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/support-topics/cache-components-suspense-dedupe-pitfall.md": {
+    "mtime": 1788201582.0938497,
+    "ast_hash": "2a9936eb4e8eb1bf1fa86e92b39bdaee",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/support-topics/cdn-cache-auth-safety.md": {
+    "mtime": 1788201582.0938497,
+    "ast_hash": "cfe8f2180c5ecdec210b333cfd7be60c",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/support-topics/cold-start-initialization-bundle.md": {
+    "mtime": 1788201582.0938497,
+    "ast_hash": "9785f0643358284b6c80ec02714afb99",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/support-topics/core-web-vitals-client-bottlenecks.md": {
+    "mtime": 1788201582.0938497,
+    "ast_hash": "05cc43ebf92360ba71d089dda1a859d6",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/support-topics/database-egress-pooling-region.md": {
+    "mtime": 1788201582.0938497,
+    "ast_hash": "46aa8e5e1ebb3e37b3fedf4767bc1c8d",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/support-topics/dynamic-rendering-traps.md": {
+    "mtime": 1788201582.0938497,
+    "ast_hash": "93de8b4141d413455911f3b0d36d324d",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/support-topics/external-api-critical-path-platform.md": {
+    "mtime": 1788201582.0938497,
+    "ast_hash": "a1f01e7b62f3a8e0d2b7ecb35d072108",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/support-topics/external-api-critical-path.md": {
+    "mtime": 1788201582.0938497,
+    "ast_hash": "9099ef3c3ad113cd615bbe797d37c12f",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/support-topics/fast-data-transfer-payloads.md": {
+    "mtime": 1788201582.0938497,
+    "ast_hash": "d2828aeb0084ed7796c7ee79325e4709",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/support-topics/fluid-compute-caveats.md": {
+    "mtime": 1788201582.0938497,
+    "ast_hash": "c38d06d869f74ac49ec151be0e1623f8",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/support-topics/function-duration-io-and-after.md": {
+    "mtime": 1788201582.094512,
+    "ast_hash": "ea7a0aa2cf6dc2965930064092d3c1c0",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/support-topics/function-invocation-reduction.md": {
+    "mtime": 1788201582.094512,
+    "ast_hash": "08a6bee7c1d97e78e68f83cbd0d9e9f3",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/support-topics/function-region-misconfiguration-ttfb.md": {
+    "mtime": 1788201582.094512,
+    "ast_hash": "1fca083069a94c53ad8af5897aa8c4f9",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/support-topics/image-optimization-cost-control.md": {
+    "mtime": 1788201582.094512,
+    "ast_hash": "41eeac94aecd292e9966d904698840bd",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/support-topics/isr-revalidation-static-generation.md": {
+    "mtime": 1788201582.094512,
+    "ast_hash": "ea73104b6cdfb2b0dbfabe3f5189d36f",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/support-topics/middleware-proxy-edge-cost.md": {
+    "mtime": 1788201582.094512,
+    "ast_hash": "651ec158b522e9e6a04fe1b2d600c00c",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/support-topics/next-fetch-revalidate-floor.md": {
+    "mtime": 1788201582.094512,
+    "ast_hash": "ad9f0af0630c982544d743617a531722",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/support-topics/next-font-cls-self-hosting.md": {
+    "mtime": 1788201582.094512,
+    "ast_hash": "2d6c1addae6cba6966d73a714dd96ecb",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/support-topics/next-heavy-ui-lazy-load-boundaries.md": {
+    "mtime": 1788201582.094512,
+    "ast_hash": "7a443cccd5b085554029249f041ad893",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/support-topics/next-image-lcp-preload-sizes.md": {
+    "mtime": 1788201582.094512,
+    "ast_hash": "207450610d64cb368ae834d0d80b4ae6",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/support-topics/next-route-handler-get-cache-defaults.md": {
+    "mtime": 1788201582.094512,
+    "ast_hash": "0ba364c7af7fa96633df888cd1d99653",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/support-topics/next-script-third-party-strategy.md": {
+    "mtime": 1788201582.094512,
+    "ast_hash": "7816b4963eeb460f9be6eb6999398ed9",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/support-topics/nextjs-version-cache-semantics.md": {
+    "mtime": 1788201582.0955122,
+    "ast_hash": "4ee9a56442df8ffd68a392a855044347",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/support-topics/not-found-catchall-request-waste.md": {
+    "mtime": 1788201582.0955122,
+    "ast_hash": "63bb220bdb2d1099e8c4864cee9978c6",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/support-topics/nuxt-route-rules-cache-isr.md": {
+    "mtime": 1788201582.0955122,
+    "ast_hash": "99223476ee2c97b465105e49f2d743cb",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/support-topics/observability-events-cost-attribution.md": {
+    "mtime": 1788201582.0955122,
+    "ast_hash": "ba32debf8256f23be68f410eb7304e4d",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/support-topics/post-response-work-waituntil.md": {
+    "mtime": 1788201582.0955122,
+    "ast_hash": "b866b921acf4422e51b71e637fd11934",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/support-topics/route-error-durable-offload.md": {
+    "mtime": 1788201582.0955122,
+    "ast_hash": "a68a6bcc0e822aebc2dea37a573d7513",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/support-topics/route-error-runtime-limits.md": {
+    "mtime": 1788201582.0955122,
+    "ast_hash": "f56972293da723c05ce6db807b68f6ae",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/support-topics/runtime-cache-reusable-data.md": {
+    "mtime": 1788201582.0955122,
+    "ast_hash": "a6b18061833e015b43a3874189e68116",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/support-topics/sveltekit-isr-prerender-safety.md": {
+    "mtime": 1788201582.0955122,
+    "ast_hash": "5d13712af56abdf69d4d5179c3eac5f8",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/support-topics/sveltekit-split-cold-start-tradeoff.md": {
+    "mtime": 1788201582.0955122,
+    "ast_hash": "059a23adfcc098033001aee7d077fc7c",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/support-topics/usage-spike-triage.md": {
+    "mtime": 1788201582.0955122,
+    "ast_hash": "887ac2e9ab3b438924c11cafb90d80fa",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/support-topics/use-cache-date-stamp-isr-write-amplifier.md": {
+    "mtime": 1788201582.0955122,
+    "ast_hash": "268e14dfae67c84de16bcbed4e30b1ea",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/support-topics/use-cache-remote-shared-origin-data.md": {
+    "mtime": 1788201582.0955122,
+    "ast_hash": "d7d6fc890fd4ef116219a18d331a6422",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/support-topics/workflow-resumable-stream-routes.md": {
+    "mtime": 1788201582.096512,
+    "ast_hash": "630e048528a31c0437048cfe2cd58bd6",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/verification.md": {
+    "mtime": 1788201582.096512,
+    "ast_hash": "8a6f7bbb51103f644d7464ccc3cda5bc",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-optimize/references/voice.md": {
+    "mtime": 1788201582.096512,
+    "ast_hash": "069a5b7210e6a4ae9f90fc88a1e064b1",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/AGENTS.md": {
+    "mtime": 1788201582.098512,
+    "ast_hash": "fc8f9b0218d2173112a8418bf9d8abe7",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/README.md": {
+    "mtime": 1788201582.0997252,
+    "ast_hash": "abb5236c535db0bf7ce6f38c8998bc47",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/SKILL.md": {
+    "mtime": 1788201582.0997252,
+    "ast_hash": "995a667ef0b53598f56ff897d9e4b334",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/_sections.md": {
+    "mtime": 1788201582.0997252,
+    "ast_hash": "b8c110b45145ded6919562772afe067c",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/_template.md": {
+    "mtime": 1788201582.1001356,
+    "ast_hash": "a0d76a2f87f3f80e9a8f3a2a1054aaaf",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/advanced-effect-event-deps.md": {
+    "mtime": 1788201582.1001356,
+    "ast_hash": "3a0e314bb9576bab61f68d5de5afaf3e",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/advanced-event-handler-refs.md": {
+    "mtime": 1788201582.1001356,
+    "ast_hash": "f2a0d125f3773bfda91e187fa5bed48a",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/advanced-init-once.md": {
+    "mtime": 1788201582.1001356,
+    "ast_hash": "0100519098b834e69a3515657a39bdc9",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/advanced-use-latest.md": {
+    "mtime": 1788201582.1001356,
+    "ast_hash": "60309961293388c9b9e9fd4e0db344e3",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/async-api-routes.md": {
+    "mtime": 1788201582.1001356,
+    "ast_hash": "344fa543b37e303660404e1ef3a4638b",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/async-cheap-condition-before-await.md": {
+    "mtime": 1788201582.1001356,
+    "ast_hash": "96352f626f328e15a6213d485e29e36f",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/async-defer-await.md": {
+    "mtime": 1788201582.1001356,
+    "ast_hash": "235a6b5760c2e4843d778167e462cb0e",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/async-dependencies.md": {
+    "mtime": 1788201582.1001356,
+    "ast_hash": "9c5622d97b20b9e0cb79455b4322061a",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/async-parallel.md": {
+    "mtime": 1788201582.1001356,
+    "ast_hash": "a0e06a8e9985cdff4ece0312d8ee35db",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/async-suspense-boundaries.md": {
+    "mtime": 1788201582.1001356,
+    "ast_hash": "dbb2fc80721ca1ce32426f43219d314f",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/bundle-analyzable-paths.md": {
+    "mtime": 1788201582.1001356,
+    "ast_hash": "8cfe6e284cafd2be33f09c6a1abc78fd",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/bundle-barrel-imports.md": {
+    "mtime": 1788201582.100512,
+    "ast_hash": "fcba301df7f11c6847dca5962ac78828",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/bundle-conditional.md": {
+    "mtime": 1788201582.100512,
+    "ast_hash": "585be2b6fc418c766e5b91cc2141d334",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/bundle-defer-third-party.md": {
+    "mtime": 1788201582.100512,
+    "ast_hash": "6d4d1d4fac411f724071428dd0bc93ba",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/bundle-dynamic-imports.md": {
+    "mtime": 1788201582.100512,
+    "ast_hash": "72d89583306887810f67e9f7860f06af",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/bundle-preload.md": {
+    "mtime": 1788201582.100512,
+    "ast_hash": "924ec7e7502ca042070326d38e88f8cd",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/client-event-listeners.md": {
+    "mtime": 1788201582.100512,
+    "ast_hash": "71062add972f9735348b7ae77e778eb8",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/client-localstorage-schema.md": {
+    "mtime": 1788201582.100512,
+    "ast_hash": "982a459b07cbec2f8386e526b924c339",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/client-passive-event-listeners.md": {
+    "mtime": 1788201582.100512,
+    "ast_hash": "3853533fd5f49fa2fc98296f9c34d84f",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/client-swr-dedup.md": {
+    "mtime": 1788201582.100512,
+    "ast_hash": "e565fcba7836d339ca4707aad6fdaa4a",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/js-batch-dom-css.md": {
+    "mtime": 1788201582.100512,
+    "ast_hash": "869dbc06a931ccfb899b739316c348af",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/js-cache-function-results.md": {
+    "mtime": 1788201582.100512,
+    "ast_hash": "5d641ce87ef753d59e3205244e2851a1",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/js-cache-property-access.md": {
+    "mtime": 1788201582.100512,
+    "ast_hash": "5b4ae3cd853b92222a8fd8c8d8202426",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/js-cache-storage.md": {
+    "mtime": 1788201582.100512,
+    "ast_hash": "828f260566ff92df56089321fa41c116",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/js-combine-iterations.md": {
+    "mtime": 1788201582.101512,
+    "ast_hash": "4f241532133637fee75304d40f016713",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/js-early-exit.md": {
+    "mtime": 1788201582.101512,
+    "ast_hash": "d300cb3e57255029e446bdfa49dc4074",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/js-flatmap-filter.md": {
+    "mtime": 1788201582.101512,
+    "ast_hash": "161d9d8b444e5ec9cb58bffb0e1b76cd",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/js-hoist-regexp.md": {
+    "mtime": 1788201582.101512,
+    "ast_hash": "ced4609a5916db47bbaccfcc3f2dcdbb",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/js-index-maps.md": {
+    "mtime": 1788201582.101512,
+    "ast_hash": "db5bcfde02e1ce9f41d6ed1f5aafc8c5",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/js-length-check-first.md": {
+    "mtime": 1788201582.101512,
+    "ast_hash": "2ba208759dd91578f1085c28e6a92ce9",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/js-min-max-loop.md": {
+    "mtime": 1788201582.101512,
+    "ast_hash": "82f654d27529dd80be7ae33d45dcdf8c",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/js-request-idle-callback.md": {
+    "mtime": 1788201582.101512,
+    "ast_hash": "91d7e7fca676efb7cecb4ccff1eaec01",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/js-set-map-lookups.md": {
+    "mtime": 1788201582.101512,
+    "ast_hash": "59a278e21ecd322bff566ba4ad7f5a30",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/js-tosorted-immutable.md": {
+    "mtime": 1788201582.101512,
+    "ast_hash": "fd0804905877b6b7b1858e5df1b5f3c4",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/rendering-activity.md": {
+    "mtime": 1788201582.101512,
+    "ast_hash": "b66bde1377564aa196ba15fc94215cd3",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/rendering-animate-svg-wrapper.md": {
+    "mtime": 1788201582.101512,
+    "ast_hash": "7301cbe48bf0e1c44934847861384d03",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/rendering-conditional-render.md": {
+    "mtime": 1788201582.101512,
+    "ast_hash": "7aa6112d7544d55147e183b84add9c31",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/rendering-content-visibility.md": {
+    "mtime": 1788201582.102512,
+    "ast_hash": "a4ec0125d3a9d79ac2ab5f7a7b5b4d7d",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/rendering-hoist-jsx.md": {
+    "mtime": 1788201582.102512,
+    "ast_hash": "00519c11155c5c2a6f493d7980211a71",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/rendering-hydration-no-flicker.md": {
+    "mtime": 1788201582.102512,
+    "ast_hash": "a33ebc96d26525f94c460342d913e47a",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/rendering-hydration-suppress-warning.md": {
+    "mtime": 1788201582.102512,
+    "ast_hash": "23bc895f5697c19a59712bf19474ec12",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/rendering-resource-hints.md": {
+    "mtime": 1788201582.102512,
+    "ast_hash": "a612b2d1d86d1b8205b92ff7dfd81eb8",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/rendering-script-defer-async.md": {
+    "mtime": 1788201582.102512,
+    "ast_hash": "d62596aed565dd3ad7bddd38bc8f7798",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/rendering-svg-precision.md": {
+    "mtime": 1788201582.102512,
+    "ast_hash": "1b880754ee449c52ccc725481f8b2e90",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/rendering-usetransition-loading.md": {
+    "mtime": 1788201582.102512,
+    "ast_hash": "3cea04ec76a76183cebc6571ac6365a2",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/rerender-defer-reads.md": {
+    "mtime": 1788201582.102512,
+    "ast_hash": "2b754062eb7b203632859f6515ed3561",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/rerender-dependencies.md": {
+    "mtime": 1788201582.102512,
+    "ast_hash": "ad0e42cd0616237f62f8a5abbc2138bc",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/rerender-derived-state-no-effect.md": {
+    "mtime": 1788201582.102512,
+    "ast_hash": "c83ba3c8ea58015fd30072790a4959c4",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/rerender-derived-state.md": {
+    "mtime": 1788201582.102512,
+    "ast_hash": "fadd31941e355786cb0cc7bba3c672fd",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/rerender-functional-setstate.md": {
+    "mtime": 1788201582.102512,
+    "ast_hash": "188c0b949d23c11885914c573f4a770a",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/rerender-lazy-state-init.md": {
+    "mtime": 1788201582.103512,
+    "ast_hash": "6f9fc3d826cea2ca484912256149b077",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/rerender-memo-with-default-value.md": {
+    "mtime": 1788201582.103512,
+    "ast_hash": "9bfa45660e0a4d4f180e1d12d9ed44ea",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/rerender-memo.md": {
+    "mtime": 1788201582.103512,
+    "ast_hash": "f0decabf1e4cf032c36f0977c81167b7",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/rerender-move-effect-to-event.md": {
+    "mtime": 1788201582.103512,
+    "ast_hash": "599463fe624afd8822ba2bfa7c0138d5",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/rerender-no-inline-components.md": {
+    "mtime": 1788201582.103512,
+    "ast_hash": "713855e0060cfe2ce549d08ea77e1af6",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/rerender-simple-expression-in-memo.md": {
+    "mtime": 1788201582.103512,
+    "ast_hash": "42c37552160cff86a0fcbd93a27aa74e",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/rerender-split-combined-hooks.md": {
+    "mtime": 1788201582.103512,
+    "ast_hash": "b7485878ff82ce8468078a31fc1b7f19",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/rerender-transitions.md": {
+    "mtime": 1788201582.103512,
+    "ast_hash": "3f275bbfb966fcb39c554ad959fdf016",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/rerender-use-deferred-value.md": {
+    "mtime": 1788201582.103512,
+    "ast_hash": "913dc783397142c25ec997b5dc11245b",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/rerender-use-ref-transient-values.md": {
+    "mtime": 1788201582.103512,
+    "ast_hash": "24d2e82617e2da4207afaf049e1314f3",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/server-after-nonblocking.md": {
+    "mtime": 1788201582.103512,
+    "ast_hash": "c88a79384f87826bf1b20aa3637093a5",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/server-auth-actions.md": {
+    "mtime": 1788201582.103512,
+    "ast_hash": "d8691820d666e5dd9094ccc6996398e3",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/server-cache-lru.md": {
+    "mtime": 1788201582.103512,
+    "ast_hash": "723195ea460bfbc4d43b4eb0c47b246b",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/server-cache-react.md": {
+    "mtime": 1788201582.104512,
+    "ast_hash": "bc168ee66c4378854c7aa23cb9ca1369",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/server-dedup-props.md": {
+    "mtime": 1788201582.104512,
+    "ast_hash": "86bf6f2d562ca98bca778a5b9d2f0251",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/server-hoist-static-io.md": {
+    "mtime": 1788201582.104512,
+    "ast_hash": "05789c4ba35f68cc0ed6deba3078f7ab",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/server-no-shared-module-state.md": {
+    "mtime": 1788201582.104512,
+    "ast_hash": "7733faf82c146008e8f1c65660bac4bb",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/server-parallel-fetching.md": {
+    "mtime": 1788201582.104512,
+    "ast_hash": "1a36cf0b49a1a498fc1150afbf7a42c2",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/server-parallel-nested-fetching.md": {
+    "mtime": 1788201582.104512,
+    "ast_hash": "eaa7835a15d41842406acc34002f0d6c",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-best-practices/rules/server-serialization.md": {
+    "mtime": 1788201582.104512,
+    "ast_hash": "e6d34426614852685f43609dd9e3b250",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-native-skills/AGENTS.md": {
+    "mtime": 1788201582.105512,
+    "ast_hash": "a7f295fbcd5a372ed6f1b4a1c50aee13",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-native-skills/README.md": {
+    "mtime": 1788201582.105512,
+    "ast_hash": "38350975dd95620c4302d10ea5b47460",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-native-skills/SKILL.md": {
+    "mtime": 1788201582.105512,
+    "ast_hash": "df16bdb3ce4f231c9fd7dc1bafb06200",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-native-skills/rules/_sections.md": {
+    "mtime": 1788201582.105512,
+    "ast_hash": "851c15b486b00bf4e1c389878b124669",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-native-skills/rules/_template.md": {
+    "mtime": 1788201582.1065683,
+    "ast_hash": "a0d76a2f87f3f80e9a8f3a2a1054aaaf",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-native-skills/rules/animation-derived-value.md": {
+    "mtime": 1788201582.1065683,
+    "ast_hash": "f0599d205ed6de80db3055fb83722615",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-native-skills/rules/animation-gesture-detector-press.md": {
+    "mtime": 1788201582.1065683,
+    "ast_hash": "d30b27fd78f9147b74c9eb42990b6a8d",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-native-skills/rules/animation-gpu-properties.md": {
+    "mtime": 1788201582.1065683,
+    "ast_hash": "37e5e175f8bd1604bcfc4d9a5d53e8ae",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-native-skills/rules/design-system-compound-components.md": {
+    "mtime": 1788201582.1065683,
+    "ast_hash": "52ee96aa27d9a2330b52141d38ca24e5",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-native-skills/rules/fonts-config-plugin.md": {
+    "mtime": 1788201582.1065683,
+    "ast_hash": "b2a5d6c412f7867a42e672a06ac4f436",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-native-skills/rules/imports-design-system-folder.md": {
+    "mtime": 1788201582.1065683,
+    "ast_hash": "e89aeb7af71acbf01287aeefd057fa10",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-native-skills/rules/js-hoist-intl.md": {
+    "mtime": 1788201582.1065683,
+    "ast_hash": "bf78a30effbd5b6af1520260c730aa5c",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-native-skills/rules/list-performance-callbacks.md": {
+    "mtime": 1788201582.1065683,
+    "ast_hash": "723df5b1103ecd701d16c30df420c0ea",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-native-skills/rules/list-performance-function-references.md": {
+    "mtime": 1788201582.1065683,
+    "ast_hash": "062fb2e84bf916e0cf38af473d3b7c6f",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-native-skills/rules/list-performance-images.md": {
+    "mtime": 1788201582.1065683,
+    "ast_hash": "1940d205310cb42b4809c826934d5745",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-native-skills/rules/list-performance-inline-objects.md": {
+    "mtime": 1788201582.1065683,
+    "ast_hash": "ab4adac51370b43b3765ce6ef9dd7264",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-native-skills/rules/list-performance-item-expensive.md": {
+    "mtime": 1788201582.1065683,
+    "ast_hash": "05e4697b1c6ab89869e7fff5ea6e2b12",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-native-skills/rules/list-performance-item-memo.md": {
+    "mtime": 1788201582.1065683,
+    "ast_hash": "6ac45b5987903f2bfab8965a508ae401",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-native-skills/rules/list-performance-item-types.md": {
+    "mtime": 1788201582.1065683,
+    "ast_hash": "9a159b1164b930435f153273d07f1405",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-native-skills/rules/list-performance-virtualize.md": {
+    "mtime": 1788201582.1065683,
+    "ast_hash": "e1ed04cfb75f03ffb8150899ddbb23d5",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-native-skills/rules/monorepo-native-deps-in-app.md": {
+    "mtime": 1788201582.1065683,
+    "ast_hash": "ef3d6a5fd58eb528a8b81c86f9dd636e",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-native-skills/rules/monorepo-single-dependency-versions.md": {
+    "mtime": 1788201582.1065683,
+    "ast_hash": "80216bd247efd1f8c99b1bf5c3bfaed9",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-native-skills/rules/navigation-native-navigators.md": {
+    "mtime": 1788201582.1065683,
+    "ast_hash": "cc53576f061e66d451ee16925fe96e67",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-native-skills/rules/react-compiler-destructure-functions.md": {
+    "mtime": 1788201582.107512,
+    "ast_hash": "1be93625ce6f755f48ca9e433028285e",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-native-skills/rules/react-compiler-reanimated-shared-values.md": {
+    "mtime": 1788201582.107512,
+    "ast_hash": "a6ff2e0671e40460e9ecd345ad53271c",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-native-skills/rules/react-state-dispatcher.md": {
+    "mtime": 1788201582.107512,
+    "ast_hash": "c30859d9911d367de349dd78f43e446a",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-native-skills/rules/react-state-fallback.md": {
+    "mtime": 1788201582.107512,
+    "ast_hash": "b160097ffd02c23ff1a93d51526a6a79",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-native-skills/rules/react-state-minimize.md": {
+    "mtime": 1788201582.107512,
+    "ast_hash": "3e05e3633f19cf6f7e45d6fcfa742aff",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-native-skills/rules/rendering-no-falsy-and.md": {
+    "mtime": 1788201582.107512,
+    "ast_hash": "a2987592659980405233283ccbb26b54",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-native-skills/rules/rendering-text-in-text-component.md": {
+    "mtime": 1788201582.107512,
+    "ast_hash": "d209ace2a27b27482dc98bb79e5547ce",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-native-skills/rules/scroll-position-no-state.md": {
+    "mtime": 1788201582.107512,
+    "ast_hash": "76110657f34d6fa06bad5bf071e90cde",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-native-skills/rules/state-ground-truth.md": {
+    "mtime": 1788201582.107512,
+    "ast_hash": "fe9b42cb8318d18f6e63d28ec8a91787",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-native-skills/rules/ui-expo-image.md": {
+    "mtime": 1788201582.107512,
+    "ast_hash": "0781c37f5dd7fc732cc9ff4af4c2c163",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-native-skills/rules/ui-image-gallery.md": {
+    "mtime": 1788201582.107512,
+    "ast_hash": "3246e4e07eff360683ee0f0851d9524a",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-native-skills/rules/ui-measure-views.md": {
+    "mtime": 1788201582.107512,
+    "ast_hash": "e36e93d6f87919ee93a91efdc09bebb6",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-native-skills/rules/ui-menus.md": {
+    "mtime": 1788201582.108512,
+    "ast_hash": "8e43905f0aad34cb9b9b472e14c3d74d",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-native-skills/rules/ui-native-modals.md": {
+    "mtime": 1788201582.108512,
+    "ast_hash": "6d74ae19ad32b118fcc879f812c8547a",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-native-skills/rules/ui-pressable.md": {
+    "mtime": 1788201582.108512,
+    "ast_hash": "39b479b1abcf4b703ace48134fe34de0",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-native-skills/rules/ui-safe-area-scroll.md": {
+    "mtime": 1788201582.108512,
+    "ast_hash": "dca3b75e7799909b76be978d69b9b19e",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-native-skills/rules/ui-scrollview-content-inset.md": {
+    "mtime": 1788201582.108512,
+    "ast_hash": "33ec3e84bfd9b8db0869f2446b52dee7",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-native-skills/rules/ui-styling.md": {
+    "mtime": 1788201582.108512,
+    "ast_hash": "08e2a5d2945a406ac44c5d031f1d9066",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-view-transitions/AGENTS.md": {
+    "mtime": 1788201582.108512,
+    "ast_hash": "48f52ad4859f14e68809d453db065db1",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-view-transitions/README.md": {
+    "mtime": 1788201582.1098332,
+    "ast_hash": "346f8174b7a10749b9e804a651f73767",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-view-transitions/SKILL.md": {
+    "mtime": 1788201582.1098332,
+    "ast_hash": "c170f8f33548e8c56a05bcf7a27ee4ce",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-view-transitions/references/css-recipes.md": {
+    "mtime": 1788201582.1098332,
+    "ast_hash": "82ad6e02fd82a6b4ed12eff2ae67dcca",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-view-transitions/references/implementation.md": {
+    "mtime": 1788201582.1103172,
+    "ast_hash": "0d9ace20ad86a0e260dd7f3c50da2ce7",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-view-transitions/references/nextjs.md": {
+    "mtime": 1788201582.1103172,
+    "ast_hash": "8407bb8e1e4d58978bebada679baf9c7",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/vercel-react-view-transitions/references/patterns.md": {
+    "mtime": 1788201582.1103172,
+    "ast_hash": "3369b406c987fd76525252120f1bcf5f",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/web-design-guidelines/SKILL.md": {
+    "mtime": 1788201582.1103172,
+    "ast_hash": "98087aedd18375666dbb093c859b2949",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/.agents/skills/writing-guidelines/SKILL.md": {
+    "mtime": 1788201582.1103172,
+    "ast_hash": "29f58ed0b13c290b859979bab77fa97d",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/brandkit/SKILL.md": {
+    "mtime": 1788201582.110512,
+    "ast_hash": "cd3701c774e9bd7ce4fc9078377d517f",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/design-taste-frontend-v1/SKILL.md": {
+    "mtime": 1788201582.110512,
+    "ast_hash": "d0ee97b35983cf5e786e5b65994a2ecb",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/design-taste-frontend/SKILL.md": {
+    "mtime": 1788201582.110512,
+    "ast_hash": "6f73606d20cd948b471b1ce1767aab50",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/full-output-enforcement/SKILL.md": {
+    "mtime": 1788201582.111512,
+    "ast_hash": "5ed528ceb72c5d089757ba70c5a434e8",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/gpt-taste/SKILL.md": {
+    "mtime": 1788201582.111512,
+    "ast_hash": "0968d17fda872b36dc35e6bcc0c9af36",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/high-end-visual-design/SKILL.md": {
+    "mtime": 1788201582.111512,
+    "ast_hash": "269e37851b3a17693d8052f5f8002cfc",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/image-to-code/SKILL.md": {
+    "mtime": 1788201582.111512,
+    "ast_hash": "442613e4710f0005b94f1c4b1d3ac246",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/imagegen-frontend-mobile/SKILL.md": {
+    "mtime": 1788201582.111512,
+    "ast_hash": "4c84e37e50e610779a71e0fb0a198963",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/imagegen-frontend-web/SKILL.md": {
+    "mtime": 1788201582.1125119,
+    "ast_hash": "208c5866f7320c7f842283b312a00e17",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/industrial-brutalist-ui/SKILL.md": {
+    "mtime": 1788201582.1125119,
+    "ast_hash": "9e673477ecc2eaf4a230c8326cbc2f0d",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/minimalist-ui/SKILL.md": {
+    "mtime": 1788201582.1125119,
+    "ast_hash": "c7f814d7df4b1b0e3eebf706a6d74adf",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/redesign-existing-projects/SKILL.md": {
+    "mtime": 1788201582.1125119,
+    "ast_hash": "31d802d02ccb9f5da82d99156af36317",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/stitch-design-taste/DESIGN.md": {
+    "mtime": 1788201582.1135118,
+    "ast_hash": "ee7cc02dcc99eda38299a5a6f6727563",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/.agents/skills/stitch-design-taste/SKILL.md": {
+    "mtime": 1788201582.1135118,
+    "ast_hash": "82dc71a62461f956b5666c1041efc886",
+    "semantic_hash": ""
+  },
+  "DH.WebUI/src/features/profile/components/profile-settings-nav/profile-settings-nav.component.html": {
+    "mtime": 1788201582.1535115,
+    "ast_hash": "9c9bcd8a19b21e3d5f5b27f8625b261d",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-blue-proposal/Main.dc.html": {
+    "mtime": 1788201582.1735113,
+    "ast_hash": "820415d4a90ab5594083e01afac9caaa",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-blue-proposal/dicehub-blue-proposal.html": {
+    "mtime": 1788201582.185511,
+    "ast_hash": "11f9741f777ca9acb2d07e8e7210bab8",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-design-system/Main.dc.html": {
+    "mtime": 1788201582.185511,
+    "ast_hash": "f107f740acc805b7e85a2b37fa9e4a34",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-design-system/dicehub-design-system.html": {
+    "mtime": 1788201582.200511,
+    "ast_hash": "0b15b3b103f39152bb8ab298925fd25d",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-games-highend/AddExistingGame.dc.html": {
+    "mtime": 1788201582.200511,
+    "ast_hash": "b12fbe7833a35072c19134571abaf519",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-games-highend/CreateGame.dc.html": {
+    "mtime": 1788201582.2015858,
+    "ast_hash": "60981c69e2bf48ab5ac4d97b49ceb753",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-games-highend/GameAvailability.dc.html": {
+    "mtime": 1788201582.2015858,
+    "ast_hash": "dcae6674ab25dbddbb7f607344a63855",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-games-highend/GameCategories.dc.html": {
+    "mtime": 1788201582.2015858,
+    "ast_hash": "5270016f2ab56698cbf8174888c06479",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-games-highend/GameDetails.dc.html": {
+    "mtime": 1788201582.2015858,
+    "ast_hash": "3617b1cf1dfc7383d353e2d76996c214",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-games-highend/GameReviews.dc.html": {
+    "mtime": 1788201582.2015858,
+    "ast_hash": "d9db97c82095e1fd09f9bc8ed094ded6",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-games-highend/Main.dc.html": {
+    "mtime": 1788201582.2015858,
+    "ast_hash": "56f7138e1e54f6a7ebb0d58fd87244a2",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-games-highend/NewGames.dc.html": {
+    "mtime": 1788201582.2015858,
+    "ast_hash": "782e27bd791e201f3e015bde42f534b0",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-games-highend/UpdateGame.dc.html": {
+    "mtime": 1788201582.2015858,
+    "ast_hash": "11fa47dedcbc37e90abb6783d3160f06",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-games-highend/dicehub-games-highend.html": {
+    "mtime": 1788201582.2125108,
+    "ast_hash": "2537451f8f19dfca54eb4033d610f749",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-gamification-flows/Main.dc.html": {
+    "mtime": 1788201582.2135108,
+    "ast_hash": "b0895f591b9da2a0d882f7d9c93c29b1",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-gamification-flows/dicehub-gamification-flows.html": {
+    "mtime": 1788201582.2245107,
+    "ast_hash": "d4b251b8443d87c690c2b2e2df85127d",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-notification-icon/Main.dc.html": {
+    "mtime": 1788201582.2255106,
+    "ast_hash": "87b8ee2cb76c6e77dc0e78f802d32461",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-notification-icon/dicehub-notification-icon.html": {
+    "mtime": 1788201582.2365105,
+    "ast_hash": "d346e8079cae35dc152dd19d36c0b8e2",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-reimagined-dialogs-confirm/DeleteChallenge.dc.html": {
+    "mtime": 1788201582.2365105,
+    "ast_hash": "df79b5f961df6cdb6861ec6a73386f82",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-reimagined-dialogs-confirm/DeleteChallengeReward.dc.html": {
+    "mtime": 1788201582.2375107,
+    "ast_hash": "a60a360e478804ad7b3896c110ac25ec",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-reimagined-dialogs-confirm/DeleteEmployee.dc.html": {
+    "mtime": 1788201582.2375107,
+    "ast_hash": "9235287b3e1f8f45014c68991d8edb50",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-reimagined-dialogs-confirm/DeleteEvent.dc.html": {
+    "mtime": 1788201582.2375107,
+    "ast_hash": "ef702a1c1092dd4819bc27a7932e2069",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-reimagined-dialogs-confirm/DeleteGame.dc.html": {
+    "mtime": 1788201582.2375107,
+    "ast_hash": "1813a7a345c6ab29afabc44cef952f2b",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-reimagined-dialogs-confirm/DeleteMeepleRoom.dc.html": {
+    "mtime": 1788201582.2375107,
+    "ast_hash": "32c00583cf6e0d06edbd65377ad3409b",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-reimagined-dialogs-confirm/DiscardChanges.dc.html": {
+    "mtime": 1788201582.2375107,
+    "ast_hash": "54988e39b19e0bbeb5694283213ec818",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-reimagined-dialogs-confirm/JoinTable.dc.html": {
+    "mtime": 1788201582.2375107,
+    "ast_hash": "e72bc1e26821602bae41d693d7e5fbb8",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-reimagined-dialogs-confirm/LeaveCustomPeriod.dc.html": {
+    "mtime": 1788201582.2375107,
+    "ast_hash": "c781f18ba18230008e8b2fc4bf6b5187",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-reimagined-dialogs-confirm/LeaveMeepleRoom.dc.html": {
+    "mtime": 1788201582.2375107,
+    "ast_hash": "e4a3f81b6e9fcafe8b6a4a6612ba7f54",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-reimagined-dialogs-confirm/Main.dc.html": {
+    "mtime": 1788201582.2375107,
+    "ast_hash": "7af5667762560f333e5d90366df35b81",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-reimagined-dialogs-confirm/PlaySolo.dc.html": {
+    "mtime": 1788201582.2375107,
+    "ast_hash": "5040a99ce1825e9895e4b99d9f03f2e3",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-reimagined-dialogs-confirm/RemoveRoomMember.dc.html": {
+    "mtime": 1788201582.2375107,
+    "ast_hash": "e62da3ec381d294d14af76660bb2c0fe",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-reimagined-dialogs-confirm/ReservationNotes.dc.html": {
+    "mtime": 1788201582.2375107,
+    "ast_hash": "c599ce5bbe089360a3dcf6a21c09103a",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-reimagined-dialogs-confirm/dicehub-reimagined-dialogs-confirm.html": {
+    "mtime": 1788201582.2485104,
+    "ast_hash": "b8c7246a4c2c2f032ee19dc9c12bdbd5",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-reimagined-dialogs-info/AvailabilityInfo.dc.html": {
+    "mtime": 1788201582.2495105,
+    "ast_hash": "9771c28f06e82aa5dd0106e53710494b",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-reimagined-dialogs-info/ImagePreview.dc.html": {
+    "mtime": 1788201582.2495105,
+    "ast_hash": "cf195c84275fa3b470818779f027158f",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-reimagined-dialogs-info/Main.dc.html": {
+    "mtime": 1788201582.2495105,
+    "ast_hash": "061e86f98f1dcd66796357d0d674445a",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-reimagined-dialogs-info/ReservationQrCode.dc.html": {
+    "mtime": 1788201582.2495105,
+    "ast_hash": "9c4d3969fbafb0300dd851f387cac04b",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-reimagined-dialogs-info/RewardQrCode.dc.html": {
+    "mtime": 1788201582.2495105,
+    "ast_hash": "d556fbb6184c9630e23a346551fd4b47",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-reimagined-dialogs-info/ScanResult.dc.html": {
+    "mtime": 1788201582.2495105,
+    "ast_hash": "d2d76b3fb3b7e93ba941a3bcf9dbf22b",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-reimagined-dialogs-info/dicehub-reimagined-dialogs-info.html": {
+    "mtime": 1788201582.2605104,
+    "ast_hash": "20f61e4e85c41fdb44bf3e86d39e72cd",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-reimagined-dialogs-overlays/ChallengeCompletion.dc.html": {
+    "mtime": 1788201582.2615104,
+    "ast_hash": "a4fd7dee98c603de8575ae166fc7c823",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-reimagined-dialogs-overlays/Main.dc.html": {
+    "mtime": 1788201582.2622762,
+    "ast_hash": "7675d49cb48c3f6914aad72bcb66ba20",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-reimagined-dialogs-overlays/ToastMessage.dc.html": {
+    "mtime": 1788201582.2622762,
+    "ast_hash": "c173db258a72ae3e91d2c58b172dea27",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-reimagined-dialogs-overlays/dicehub-reimagined-dialogs-overlays.html": {
+    "mtime": 1788201582.2725103,
+    "ast_hash": "38cbcc74dd51c1bcd15c610c4051bbf8",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-reimagined-dialogs-sheets/InfoPopover.dc.html": {
+    "mtime": 1788201582.2735102,
+    "ast_hash": "0d77ea60aeafeaccd60f8fcceeca98bb",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-reimagined-dialogs-sheets/Main.dc.html": {
+    "mtime": 1788201582.2744164,
+    "ast_hash": "ea62dde3ae8df810f616590d3f0cd106",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-reimagined-dialogs-sheets/dicehub-reimagined-dialogs-sheets.html": {
+    "mtime": 1788201582.2845101,
+    "ast_hash": "dd0532c62a80a19663df986fea4e26b4",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-reimagined-landing/Main.dc.html": {
+    "mtime": 1788201582.28551,
+    "ast_hash": "de0a4e60b416b16878fb41b09c6ced75",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-reimagined-landing/Mobile.dc.html": {
+    "mtime": 1788201582.28551,
+    "ast_hash": "8bc91e9697fe2e62c5dcb3523f176085",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-reimagined-landing/dicehub-reimagined-landing.html": {
+    "mtime": 1788201582.29651,
+    "ast_hash": "26deebf63adfbf272701c0231041f92e",
+    "semantic_hash": ""
+  },
+  "Design/dicehub-games-highend/grain.png": {
+    "mtime": 1788201582.2135108,
+    "ast_hash": "dd408fc0101efcfe7ce27c059f017a9f",
     "semantic_hash": ""
   }
 }

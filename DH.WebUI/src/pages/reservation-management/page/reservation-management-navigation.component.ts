@@ -136,7 +136,10 @@ export class ReservationManagementNavigationComponent
   }
 
   public getTenantRoute(path: string): string {
-    return this.tenantRouter.buildTenantUrl(path);
+    // Must be absolute: this feeds [routerLink], and a slash-less string is
+    // treated as navigation relative to the current route - switching the
+    // games/tables tabs would otherwise append onto the current URL and 404.
+    return `/${this.tenantRouter.buildTenantUrl(path)}`;
   }
 
   public onActivate(componentRef: any) {

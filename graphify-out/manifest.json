@@ -5165,8 +5165,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/reservation-management/page/reservation-management-navigation.component.ts": {
-    "mtime": 1785405237.6157663,
-    "ast_hash": "5ff52350ab347ac0c168be9d981631bd",
+    "mtime": 1788209652.5237315,
+    "ast_hash": "2d5960520b4709d312cde896f93939b0",
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/reservation-management/reservation-management-routes.module.ts": {
