@@ -19,7 +19,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1.2rem;
+  // match the old footprint: ~38.4px square (0.2rem pad + 2rem icon)
+  padding: 0.2rem;
   background: palette.$main-blue-color;
   border-radius: 0.5rem;
   cursor: pointer;
@@ -27,8 +28,8 @@
 
   .bell {
     display: block;
-    width: 1.9rem;
-    height: 1.9rem;
+    width: 2rem;
+    height: 2rem;
     color: var(--games-text, #e8eaed);
     transform-origin: 50% 8%;
   }
