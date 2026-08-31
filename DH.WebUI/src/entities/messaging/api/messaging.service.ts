@@ -4,7 +4,12 @@ import { Messaging } from '@angular/fire/messaging';
 import { environment } from '../../../shared/environments/environment.development';
 import { AuthService } from '../../auth/auth.service';
 import { Subscription } from 'rxjs';
-import { FirebaseMessaging } from '@capacitor-firebase/messaging';
+import {
+  FirebaseMessaging,
+  Importance,
+  Visibility,
+} from '@capacitor-firebase/messaging';
+import { Capacitor } from '@capacitor/core';
 import { Platform } from '@angular/cdk/platform';
 import { FrontEndLogService } from '../../../shared/services/frontend-log.service';
 import { ToastType } from '../../../shared/models/toast.model';
@@ -173,6 +178,112 @@ export class MessagingService {
     }
   }
 
+  private nativeListenersReady = false;
+
+  /**
+   * Native (Capacitor) FCM wiring. The web `onMessage` / service-worker path
+   * never fires inside the Android WebView, so foreground messages, token
+   * rotation and notification taps all have to go through the plugin instead.
+   * Idempotent - the listeners are process-global and only registered once.
+   */
+  public async initNativeMessaging(handlers: {
+    onForegroundMessage: () => void;
+    onNotificationTap: (data?: Record<string, string>) => void;
+  }): Promise<void> {
+    if (!this.isNativePlatform() || this.nativeListenersReady) {
+      return;
+    }
+    this.nativeListenersReady = true;
+
+    await this.createDefaultChannel();
+
+    await FirebaseMessaging.addListener('notificationReceived', (event) => {
+      console.log('[FCM Native] foreground message', event.notification);
+      handlers.onForegroundMessage();
+    });
+
+    await FirebaseMessaging.addListener(
+      'notificationActionPerformed',
+      (event) => {
+        console.log('[FCM Native] notification tapped', event.notification);
+        handlers.onNotificationTap(
+          event.notification?.data as Record<string, string> | undefined
+        );
+      }
+    );
+
+    await FirebaseMessaging.addListener('tokenReceived', (event) => {
+      console.log('[FCM Native] token rotated');
+      this.saveTokenIfLoggedIn(event.token, 'rotation');
+    });
+  }
+
+  /**
+   * Native startup registration: make sure permission is granted, the Android
+   * channel the backend targets exists, and the backend has this device's
+   * current token. Safe to call on every app launch.
+   */
+  public async ensureNativeRegistration(): Promise<void> {
+    if (!this.isNativePlatform()) {
+      return;
+    }
+    try {
+      const perm = await FirebaseMessaging.requestPermissions();
+      if (perm.receive !== 'granted') {
+        console.warn('[FCM Native] notification permission not granted');
+        return;
+      }
+      await this.createDefaultChannel();
+      const { token } = await FirebaseMessaging.getToken();
+      this.saveTokenIfLoggedIn(token, 'startup');
+    } catch (error: any) {
+      console.error(
+        '[FCM Native] ensureNativeRegistration failed',
+        error?.message
+      );
+      this.frontEndLogService
+        .sendError(
+          'ensureNativeRegistration failed: ' + error?.message,
+          'messaging.service.ts'
+        )
+        .subscribe();
+    }
+  }
+
+  /**
+   * Create (idempotently) the Android notification channel the backend pins
+   * every message to via `AndroidNotification.ChannelId`. No-op off Android.
+   */
+  private async createDefaultChannel(): Promise<void> {
+    if (Capacitor.getPlatform() !== 'android') {
+      return;
+    }
+    try {
+      await FirebaseMessaging.createChannel({
+        id: 'default',
+        name: 'General notifications',
+        description: 'Reservations, events, rewards and challenge updates',
+        importance: Importance.High,
+        visibility: Visibility.Public,
+      });
+    } catch (error: any) {
+      console.warn('[FCM Native] createChannel failed', error?.message);
+    }
+  }
+
+  private saveTokenIfLoggedIn(
+    token: string | null | undefined,
+    reason: string
+  ): void {
+    if (!token || !this.authService.getUser) {
+      return;
+    }
+    this.authService.saveToken(token).subscribe({
+      error: (err) =>
+        console.error(`[FCM Native] saveToken (${reason}) failed`, err?.message),
+    });
+  }
+
   // 90% I think is working, but need to test on iOS 16.4 and higher
   public isPushUnsupportedIOS(): boolean {
     const ua = navigator.userAgent.toLowerCase();
@@ -234,6 +345,14 @@ export class MessagingService {
   }
 
   public async requestNotificationPermission(): Promise<void> {
+    // Native asks via FirebaseMessaging.requestPermissions(); the web
+    // Notification API is unreliable/absent in the Android WebView and its
+    // "denied" result would otherwise pop a misleading "notifications are
+    // blocked in your browser settings" toast inside the app.
+    if (this.isNativePlatform() || typeof Notification === 'undefined') {
+      return;
+    }
+
     try {
       if (Notification.permission === 'granted') {
         this.frontEndLogService

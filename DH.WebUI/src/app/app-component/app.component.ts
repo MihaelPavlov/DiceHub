@@ -233,8 +233,56 @@ export class AppComponent implements OnInit {
         .sendInfo('Initializing Firebase Cloud Messaging...', 'none')
         .subscribe();
 
-      this.messagingService.getDeviceToken();
-      this._listenForMessages();
+      if (Capacitor.isNativePlatform()) {
+        // The web SDK's onMessage / service worker never fire in the Android
+        // WebView - go through the Capacitor plugin for token + delivery.
+        this.messagingService.ensureNativeRegistration();
+        this.messagingService.initNativeMessaging({
+          onForegroundMessage: () => this._refreshNotificationBadge(),
+          onNotificationTap: (data) => this._handleNotificationNavigation(data),
+        });
+      } else {
+        this.messagingService.getDeviceToken();
+        this._listenForMessages();
+      }
+    }
+  }
+
+  /** Re-check the unread-notifications flag that drives the nav-bar dot. */
+  private _refreshNotificationBadge(): void {
+    this.notificationService.areAnyActiveNotifications().subscribe({
+      next: (result) => {
+        this.areAnyActiveNotificationSubject.next(result);
+        this.cd.detectChanges();
+      },
+      error: (err) =>
+        console.warn('areAnyActiveNotifications failed silently', err),
+    });
+  }
+
+  /**
+   * Route the user when they tap a native push. The backend currently only
+   * puts a generic "/login" in `click_action`, so anything that resolves to
+   * root or the login page is treated as "no deep link" and the user is left
+   * where they are; a real in-app path (added later) would be honoured.
+   */
+  private _handleNotificationNavigation(data?: Record<string, string>): void {
+    const target = data?.['click_action'] ?? data?.['route'];
+    if (!target) {
+      return;
+    }
+    try {
+      const url = new URL(target, 'https://dicehubs.com');
+      if (url.hostname !== 'dicehubs.com') {
+        return;
+      }
+      const path = url.pathname + url.search + url.hash;
+      if (path === '/' || path.startsWith('/login')) {
+        return;
+      }
+      this.router.navigateByUrl(path);
+    } catch {
+      // Not a URL - nothing sensible to navigate to.
     }
   }
 
@@ -265,14 +313,7 @@ export class AppComponent implements OnInit {
     onMessage(this._messaging, {
       next: (res) => {
         console.log('Received foreground message:', res);
-
-        this.notificationService.areAnyActiveNotifications().subscribe({
-          next: (result) => {
-            console.log('------------Are any active notifications:', result);
-            this.areAnyActiveNotificationSubject.next(result);
-            this.cd.detectChanges();
-          },
-        });
+        this._refreshNotificationBadge();
       },
       error: (error) => {
         console.log('Error receiving message:', error);
