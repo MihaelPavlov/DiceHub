@@ -55,6 +55,11 @@
 
 .meeple-form__input {
   width: 100%;
+  max-width: 100%;
+  // Native date/time inputs carry an intrinsic min-content width (their spinner
+  // segments). Without min-width:0 they refuse to shrink inside .meeple-form__grid
+  // and overflow the form on narrow screens.
+  min-width: 0;
   box-sizing: border-box;
   background: var(--games-surface-2);
   border: 1px solid var(--games-border);

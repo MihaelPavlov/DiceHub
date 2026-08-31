@@ -219,6 +219,23 @@ select[disabled] {
   }
 }
 
+// Native date/time inputs carry an intrinsic min-content width (their spinner
+// segments) and, as grid/flex items, default to min-width:auto - so they refuse
+// to shrink and spill outside .datetime-fields on narrow screens. Force them to
+// the column width at every breakpoint.
+.datetime-fields {
+  .input-field {
+    min-width: 0;
+  }
+
+  .input-field input {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+}
+
 .events-cta {
   width: 100%;
   min-height: 3.15rem;
