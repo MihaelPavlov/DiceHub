@@ -39,6 +39,7 @@ export class QrCodeScannerComponent
   public imageSrc: string | null = null;
   public canvas!: HTMLCanvasElement;
   public context!: CanvasRenderingContext2D | null;
+  private scanning = false;
   public invalidQrCode = false;
   public isValidQrScanned = false;
   public currentQrCodeType: QrCodeType | null = null;
@@ -72,10 +73,12 @@ export class QrCodeScannerComponent
   }
 
   public ngOnDestroy(): void {
+    this.scanning = false;
     this.stopCamera();
   }
 
   private stopCamera(): void {
+    this.scanning = false;
     if (this.mediaStream) {
       this.mediaStream.getTracks().forEach((track) => track.stop());
       this.mediaStream = null;
@@ -110,17 +113,41 @@ export class QrCodeScannerComponent
     }
 
     navigator.mediaDevices
-      .getUserMedia({ video: { facingMode: 'environment' } })
-      .then((stream) => {
-        try {
-          this.mediaStream = stream;
+      .getUserMedia({
+        video: {
+          facingMode: 'environment',
+          width: { ideal: 1280 },
+          height: { ideal: 720 },
+        },
+      })
+      .then(async (stream) => {
+        this.mediaStream = stream;
 
-          this.videoElement.nativeElement.srcObject = stream;
-          this.videoElement.nativeElement.play();
-          requestAnimationFrame(this.tick.bind(this));
+        const video = this.videoElement.nativeElement;
+        video.srcObject = stream;
+        // Android WebView / iOS: without playsinline + muted the element goes
+        // fullscreen or play() is rejected by the autoplay policy, which looked
+        // like the "zoom in/out" jitter.
+        video.setAttribute('playsinline', 'true');
+        video.setAttribute('webkit-playsinline', 'true');
+        video.muted = true;
+
+        try {
+          await video.play();
         } catch (err) {
+          this.afterScanErrorMessage = this.translateService.instant(
+            'qr_scanner.camera_unavailable'
+          );
           console.log(err);
+          return;
         }
+
+        // Size the decode canvas to the real frame - it defaults to 300x150,
+        // which squashes the QR beyond what jsQR can read.
+        this.syncCanvasToVideo();
+
+        this.scanning = true;
+        requestAnimationFrame(this.tick.bind(this));
       })
       .catch((err) => {
         this.afterScanErrorMessage = this.translateService.instant(
@@ -132,13 +159,32 @@ export class QrCodeScannerComponent
       });
   }
 
+  private syncCanvasToVideo(): void {
+    const video = this.videoElement?.nativeElement;
+    if (!video || !video.videoWidth || !video.videoHeight) return;
+    if (
+      this.canvas.width !== video.videoWidth ||
+      this.canvas.height !== video.videoHeight
+    ) {
+      this.canvas.width = video.videoWidth;
+      this.canvas.height = video.videoHeight;
+    }
+  }
+
   private tick(): void {
-    if (!this.videoElement) {
+    if (!this.scanning || !this.videoElement) {
       return;
     }
     const video = this.videoElement.nativeElement;
 
     if (video.readyState === video.HAVE_ENOUGH_DATA) {
+      this.syncCanvasToVideo();
+
+      if (!this.canvas.width || !this.canvas.height) {
+        requestAnimationFrame(this.tick.bind(this));
+        return;
+      }
+
       this.context?.drawImage(
         video,
         0,
@@ -154,7 +200,9 @@ export class QrCodeScannerComponent
       );
 
       if (imageData) {
-        const code = jsQR(imageData.data, imageData.width, imageData.height);
+        const code = jsQR(imageData.data, imageData.width, imageData.height, {
+          inversionAttempts: 'dontInvert',
+        });
 
         if (code) {
           this.afterScanSuccessfulMessage = null;
@@ -191,6 +239,7 @@ export class QrCodeScannerComponent
             this.invalidQrCode = false;
             const request = { data: scanned };
             this.isValidQrScanned = true;
+            this.scanning = false; // stop the rAF loop; the video is now hidden
 
             const dialogRefConfirmation = this.dialog.open(
               ScanConfirmDialogComponent,

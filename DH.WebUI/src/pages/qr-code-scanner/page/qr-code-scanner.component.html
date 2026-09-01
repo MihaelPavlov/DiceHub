@@ -15,7 +15,7 @@
   </header>
 
   <div class="qr-viewfinder" *ngIf="!this.isValidQrScanned">
-    <video #video width="700" height="700" autoplay></video>
+    <video #video autoplay muted playsinline webkit-playsinline></video>
 
     <div class="qr-viewfinder__frame">
       <span class="qr-viewfinder__corner qr-viewfinder__corner--tl"></span>

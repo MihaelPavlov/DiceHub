@@ -5135,8 +5135,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/qr-code-scanner/page/qr-code-scanner.component.ts": {
-    "mtime": 1788240690.4934814,
-    "ast_hash": "5cd178de3a1cbc0e1f74f34227127c05",
+    "mtime": 1788243529.5265648,
+    "ast_hash": "faa150d959084af46ee6fdb37c56c801",
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/qr-code-scanner/qr-code-scanner-routes.module.ts": {
@@ -6450,8 +6450,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/qr-code-scanner/page/qr-code-scanner.component.html": {
-    "mtime": 1788201582.1645114,
-    "ast_hash": "8902450f85951a4a5065531744d801f6",
+    "mtime": 1788243476.147247,
+    "ast_hash": "2bf2604c70a1b20b9a5f476a6c67a97c",
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/register-choice/page/register-choice.component.html": {
