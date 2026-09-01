@@ -117,6 +117,10 @@
 
 .games-shell__icon-button--warning {
   background: var(--games-coral);
+  // Same active-reservation pulse as before the redesign: the global `breathe`
+  // + `glow` keyframes from shared/assets/styles/_animations.scss.
+  animation: breathe 1s ease-in-out infinite, glow 3s ease-in-out infinite;
+  will-change: transform, filter;
 }
 
 .games-shell__tabs {

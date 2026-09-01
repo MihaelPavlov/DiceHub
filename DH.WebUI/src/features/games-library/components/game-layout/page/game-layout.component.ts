@@ -12,6 +12,7 @@ import { MenuTabsService } from '../../../../../shared/services/menu-tabs.servic
 import { NavItemInterface } from '../../../../../shared/models/nav-item.mode';
 import { MatDialog } from '@angular/material/dialog';
 import { QrCodeDialog } from '../../../dialogs/qr-code-dialog/qr-code-dialog.component';
+import { GameConfirmDeleteDialog } from '../../../dialogs/game-confirm-delete-dialog/game-confirm-delete.component';
 import { AuthService } from '../../../../../entities/auth/auth.service';
 import { UserRole } from '../../../../../entities/auth/enums/roles.enum';
 import { FULL_ROUTE } from '../../../../../shared/configs/route.config';
@@ -23,6 +24,11 @@ import {
   ImagePreviewDialog,
 } from '../../../../../shared/dialogs/image-preview/image-preview.dialog';
 import { TenantRouter } from '../../../../../shared/helpers/tenant-router';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { IMenuItem } from '../../../../../shared/models/menu-item.model';
+import { PermissionService } from '../../../../../shared/services/permission.service';
+import { UserAction } from '../../../../../shared/constants/user-action';
+import { ControlsMenuComponent } from '../../../../../shared/components/menu/controls-menu.component';
 
 @Component({
     selector: 'app-game-layout',
@@ -40,13 +46,23 @@ export class GameLayoutComponent implements OnInit, OnDestroy {
   public menuItems: NavItemInterface[] = [];
   public readonly ImageEntityType = ImageEntityType;
 
+  // Same game-actions menu as the games library cards, reachable from any game
+  // sub-page (info / availability / reviews).
+  public isAdmin$: Observable<boolean> = this.permissionService.hasUserAction(
+    UserAction.GamesCUD
+  );
+  public gameMenuItems: BehaviorSubject<IMenuItem[]> = new BehaviorSubject<
+    IMenuItem[]
+  >([]);
+
   constructor(
     private readonly gameService: GamesService,
     private readonly menuTabsService: MenuTabsService,
     private readonly authService: AuthService,
     private readonly dialog: MatDialog,
     private translate: TranslateService,
-    private readonly tenantRouter: TenantRouter
+    private readonly tenantRouter: TenantRouter,
+    private readonly permissionService: PermissionService
   ) {}
 
   public ngOnDestroy(): void {
@@ -56,6 +72,56 @@ export class GameLayoutComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     let page: string = location.pathname;
     this.updateMenuItemsWithPage(page);
+
+    this.gameMenuItems.next([
+      {
+        key: 'qr-code',
+        label: this.translate.instant('games.library.menu_items.qr_code'),
+      },
+      {
+        key: 'update',
+        label: this.translate.instant('games.library.menu_items.update'),
+      },
+      {
+        key: 'copy',
+        label: this.translate.instant('games.library.menu_items.add_copy'),
+      },
+      {
+        key: 'delete',
+        label: this.translate.instant('games.library.menu_items.delete'),
+      },
+    ]);
+  }
+
+  public showGameMenu(event: MouseEvent, menu: ControlsMenuComponent): void {
+    event.stopPropagation();
+    menu.toggleMenu();
+  }
+
+  public onGameMenuOption(key: string, event: MouseEvent): void {
+    event.stopPropagation();
+
+    if (key === 'qr-code') {
+      this.openQrCodeDialog();
+    } else if (key === 'update') {
+      this.tenantRouter.navigateTenant(FULL_ROUTE.GAMES.UPDATE(this.game.id));
+    } else if (key === 'copy') {
+      this.tenantRouter.navigateTenant(
+        FULL_ROUTE.GAMES.ADD_EXISTING_GAME_BY_ID(this.game.id)
+      );
+    } else if (key === 'delete') {
+      this.dialog
+        .open(GameConfirmDeleteDialog, {
+          panelClass: 'confirm-sheet-pane',
+          data: { id: this.game.id },
+        })
+        .afterClosed()
+        .subscribe((result) => {
+          if (result) {
+            this.tenantRouter.navigateTenant(FULL_ROUTE.GAMES.LIBRARY);
+          }
+        });
+    }
   }
 
   public openImagePreview(imageUrl: string) {

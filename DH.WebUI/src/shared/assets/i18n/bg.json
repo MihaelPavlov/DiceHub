@@ -1350,6 +1350,7 @@
       "date": "дата",
       "from": "От: {{username}}",
       "phone_number": "Телефонен номер: {{phoneNumber}}",
+      "phone_number_label": "Телефонен номер:",
       "none": "Няма",
       "internal_note": "Вътрешна бележка",
       "public_note": "Публична бележка",

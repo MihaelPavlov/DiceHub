@@ -40,19 +40,21 @@
                   | translate : { username: reservation.username }
               }}
               ·
-              {{
-                "reservation_management.details.phone_number"
-                  | translate : { phoneNumber: getPhoneNumber(reservation.phoneNumber) }
-              }}
+              {{ "reservation_management.details.phone_number_label" | translate }}
+              <strong class="reservations-highlight">{{
+                getPhoneNumber(reservation.phoneNumber)
+              }}</strong>
             </p>
             <p class="reservations-meta">
               {{
                 "reservation_management.details.table_reservation_date"
                   | translate
               }}
-              <span *ngIf="!reservation.userHaveActiveTableReservation">{{
-                "reservation_management.details.none" | translate
-              }}</span>
+              <strong
+                class="reservations-highlight"
+                *ngIf="!reservation.userHaveActiveTableReservation"
+                >{{ "reservation_management.details.none" | translate }}</strong
+              >
               <strong
                 class="reservations-highlight"
                 *ngIf="reservation.userHaveActiveTableReservation"

@@ -11,7 +11,7 @@
 
 .wrapper_icons {
   display: grid;
-  grid-template-columns: 3rem minmax(0, 1fr) 3rem;
+  grid-template-columns: 3rem minmax(0, 1fr) auto;
   gap: 0.75rem;
   align-items: center;
 
@@ -25,9 +25,18 @@
     word-break: break-word;
   }
 
-  .wrapper_qrCode,
-  .heart {
+  .wrapper_header_actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     justify-self: end;
+  }
+
+  .wrapper_game_menu {
+    width: 2rem;
+    height: 2rem;
+    fill: var(--games-text);
+    cursor: pointer;
   }
 
   .wrapper_qrCode img {
@@ -164,7 +173,7 @@
   }
 
   .wrapper_icons {
-    grid-template-columns: 3rem minmax(0, 1fr) 3rem;
+    grid-template-columns: 3rem minmax(0, 1fr) auto;
   }
 
   .wrapper_icons .header_name {

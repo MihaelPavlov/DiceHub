@@ -1350,6 +1350,7 @@
       "date": "date",
       "from": "From: {{username}}",
       "phone_number": "Phone Number: {{phoneNumber}}",
+      "phone_number_label": "Phone Number:",
       "none": "None",
       "internal_note": "Internal Note",
       "public_note": "Public Note",

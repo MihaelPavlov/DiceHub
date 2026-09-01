@@ -104,6 +104,11 @@ nav {
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      // NOTE: keep the transform ON .svg_wrapper only. A transform on .wrapper
+      // turns it into a containing block and its `overflow: hidden` then clips
+      // the fan-out .icons-container.
+      transition: transform 240ms cubic-bezier(0.34, 1.56, 0.64, 1),
+        box-shadow 220ms ease;
 
       svg {
         width: 1.35rem !important;
@@ -111,6 +116,33 @@ nav {
         max-width: 1.35rem;
         max-height: 1.35rem;
         fill: var(--games-blue-ink) !important;
+      }
+    }
+
+    // soft squish while the finger is down
+    &:active .svg_wrapper {
+      transform: scale(0.88, 0.92);
+    }
+
+    // toggle: quick squash-and-stretch + glow
+    &.active .svg_wrapper {
+      animation: interactive-squish 360ms cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 0 0 0.55rem var(--games-bg),
+        0 0 0.9rem var(--games-blue-light);
+    }
+
+    @keyframes interactive-squish {
+      0% {
+        transform: scale(1);
+      }
+      35% {
+        transform: scale(1.16, 0.86);
+      }
+      70% {
+        transform: scale(0.95, 1.05);
+      }
+      100% {
+        transform: scale(1);
       }
     }
 
@@ -135,8 +167,8 @@ nav {
         cursor: pointer;
         opacity: 0;
         transform: translateY(0.5rem) scale(0.7);
-        transition: transform 260ms cubic-bezier(0.65, -0.25, 0.25, 1.15), opacity 180ms ease;
-        transition-delay: calc(var(--index) * 45ms);
+        transition: transform 140ms cubic-bezier(0.65, -0.25, 0.25, 1.15), opacity 110ms ease;
+        transition-delay: calc(var(--index) * 22ms);
         pointer-events: none;
 
         svg {

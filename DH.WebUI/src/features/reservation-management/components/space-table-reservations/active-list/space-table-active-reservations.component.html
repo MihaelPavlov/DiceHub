@@ -31,10 +31,10 @@
               }}
             </span>
             <p class="reservations-meta">
-              {{
-                "reservation_management.details.phone_number"
-                  | translate : { phoneNumber: getPhoneNumber(reservation.phoneNumber) }
-              }}
+              {{ "reservation_management.details.phone_number_label" | translate }}
+              <strong class="reservations-highlight">{{
+                getPhoneNumber(reservation.phoneNumber)
+              }}</strong>
             </p>
             <p class="reservations-meta">
               {{ "reservation_management.history.reservation_date" | translate }}
