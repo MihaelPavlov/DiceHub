@@ -406,6 +406,8 @@
     "header": "Scan QR Code",
     "hint": "Point your camera at a QR code",
     "description": "Scan a game, event, reward, or reservation code posted around the club.",
+    "camera_permission_denied": "Camera access is blocked. Enable the Camera permission for DiceHubs in your phone's Settings, then reopen the scanner.",
+    "camera_unavailable": "Couldn't start the camera. Make sure no other app is using it and try again.",
     "game_reservation_valid": "Game Reservation is VALID \n\n {{note}}",
     "table_reservation_valid": "Table Reservation is VALID \n\n {{note}}",
     "no_staff_note": "No Note From Staff",

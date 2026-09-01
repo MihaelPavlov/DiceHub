@@ -63,4 +63,10 @@
     <!-- Permissions -->
 
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- QR scanner uses getUserMedia in the WebView; without CAMERA declared
+         here Android auto-denies the WebChromeClient permission request with no
+         prompt, so the scanner just stays black. -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
 </manifest>

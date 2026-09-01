@@ -7,6 +7,8 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Location } from '@angular/common';
+import { Capacitor } from '@capacitor/core';
+import { Camera } from '@capacitor/camera';
 import jsQR from 'jsqr';
 import { ScannerService } from '../../../entities/qr-code-scanner/api/scanner.service';
 import { IQrCode } from '../../../entities/qr-code-scanner/models/qr-code.model';
@@ -85,7 +87,28 @@ export class QrCodeScannerComponent
     }
   }
 
-  private startCamera(): void {
+  private async startCamera(): Promise<void> {
+    // On Android the WebView's getUserMedia permission request is auto-denied
+    // (no prompt) unless the OS CAMERA permission has been granted first. Ask
+    // for it explicitly through the Capacitor plugin so the user sees a dialog.
+    if (Capacitor.isNativePlatform()) {
+      try {
+        let state = (await Camera.checkPermissions()).camera;
+        if (state !== 'granted') {
+          state = (await Camera.requestPermissions({ permissions: ['camera'] }))
+            .camera;
+        }
+        if (state !== 'granted') {
+          this.afterScanErrorMessage = this.translateService.instant(
+            'qr_scanner.camera_permission_denied'
+          );
+          return;
+        }
+      } catch {
+        // fall through - getUserMedia below will surface any remaining error
+      }
+    }
+
     navigator.mediaDevices
       .getUserMedia({ video: { facingMode: 'environment' } })
       .then((stream) => {
@@ -96,11 +119,15 @@ export class QrCodeScannerComponent
           this.videoElement.nativeElement.play();
           requestAnimationFrame(this.tick.bind(this));
         } catch (err) {
-          alert(err);
+          console.log(err);
         }
       })
       .catch((err) => {
-        alert(err);
+        this.afterScanErrorMessage = this.translateService.instant(
+          err?.name === 'NotAllowedError'
+            ? 'qr_scanner.camera_permission_denied'
+            : 'qr_scanner.camera_unavailable'
+        );
         console.log(err);
       });
   }
