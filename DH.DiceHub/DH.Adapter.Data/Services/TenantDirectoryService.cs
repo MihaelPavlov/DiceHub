@@ -27,14 +27,18 @@ public class TenantDirectoryService : ITenantDirectoryService
     {
         using var context = await this.contextFactory.CreateDbContextAsync(cancellationToken);
 
+        // Null-safe member access on the navigation so EF emits a LEFT JOIN. A plain
+        // `t.TenantSetting.X` projects a required navigation -> INNER JOIN, which
+        // silently drops any tenant whose settings row can't be joined, so that
+        // tenant never gets its per-tenant scheduled jobs reconciled.
         return await context.Tenants
             .Where(t => t.TenantStatus == TenantStatus.Active)
             .Select(t => new TenantScheduleInfo(
                 t.Id,
-                t.TenantSetting.EndWorkingHours,
-                t.TenantSetting.TimeZoneId,
-                t.TenantSetting.PeriodOfRewardReset,
-                t.TenantSetting.ResetDayForRewards))
+                t.TenantSetting != null ? t.TenantSetting.EndWorkingHours : string.Empty,
+                t.TenantSetting != null ? t.TenantSetting.TimeZoneId : null,
+                t.TenantSetting != null ? t.TenantSetting.PeriodOfRewardReset : string.Empty,
+                t.TenantSetting != null ? t.TenantSetting.ResetDayForRewards : string.Empty))
             .ToListAsync(cancellationToken);
     }
 
@@ -42,14 +46,15 @@ public class TenantDirectoryService : ITenantDirectoryService
     {
         using var context = await this.contextFactory.CreateDbContextAsync(cancellationToken);
 
+        // Null-safe member access -> LEFT JOIN (see GetActiveTenantWorkingHoursAsync).
         return await context.Tenants
             .Where(t => t.Id == tenantId)
             .Select(t => new TenantScheduleInfo(
                 t.Id,
-                t.TenantSetting.EndWorkingHours,
-                t.TenantSetting.TimeZoneId,
-                t.TenantSetting.PeriodOfRewardReset,
-                t.TenantSetting.ResetDayForRewards))
+                t.TenantSetting != null ? t.TenantSetting.EndWorkingHours : string.Empty,
+                t.TenantSetting != null ? t.TenantSetting.TimeZoneId : null,
+                t.TenantSetting != null ? t.TenantSetting.PeriodOfRewardReset : string.Empty,
+                t.TenantSetting != null ? t.TenantSetting.ResetDayForRewards : string.Empty))
             .FirstOrDefaultAsync(cancellationToken);
     }
 }

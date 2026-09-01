@@ -18,6 +18,7 @@ using DH.Application;
 using DH.Domain;
 using DH.Domain.Adapters.Data;
 using DH.Domain.Adapters.Scheduling;
+using DH.Domain.Services;
 using FirebaseAdmin;
 using Microsoft.Extensions.Logging;
 using Google.Apis.Auth.OAuth2;
@@ -181,6 +182,21 @@ using (var scope = app.Services.CreateScope())
     {
         app.Services.GetRequiredService<ILogger<Program>>()
             .LogError(ex, "Failed to reconcile per-tenant daily job triggers on startup.");
+    }
+
+    // Heal any reward periods that expired while their per-tenant Quartz trigger
+    // was stuck (idempotent - guarded by a same-day check and a unique index).
+    // Without this a frozen trigger leaves users on an expired period until the
+    // next 06:00 local validation run, and completed challenges can't be credited.
+    try
+    {
+        var userChallengesManagementService = scope.ServiceProvider.GetRequiredService<IUserChallengesManagementService>();
+        await userChallengesManagementService.EnsureValidUserChallengePeriodsAsync(CancellationToken.None);
+    }
+    catch (Exception ex)
+    {
+        app.Services.GetRequiredService<ILogger<Program>>()
+            .LogError(ex, "Failed to ensure valid user challenge periods on startup.");
     }
 }
 

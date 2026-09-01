@@ -196,6 +196,8 @@ internal class SchedulerService : ISchedulerService
 
     public async Task ReconcileTenantDailyJobsAsync(CancellationToken cancellationToken)
     {
+        await ResetErroredTriggersAsync(cancellationToken);
+
         await PurgeObsoleteGlobalDailySchedulesAsync(cancellationToken);
 
         List<TenantScheduleInfo> tenants;
@@ -301,6 +303,42 @@ internal class SchedulerService : ISchedulerService
         this.logger.LogInformation(
             "Scheduled {Job} for tenant {TenantId} at {Hour:D2}:{Minute:D2} ({TimeZone}).",
             spec.Name, tenantId, hour, minute, timeZone.Id);
+    }
+
+    /// <summary>
+    /// Any trigger whose job threw is parked in ERROR state by Quartz and never fires
+    /// again. That is invisible until someone notices a whole feature has silently
+    /// stopped (per-tenant reward periods froze this way after the jobs went
+    /// per-tenant). Reset every ERROR trigger back to WAITING on startup so a single
+    /// transient failure can't permanently disable a schedule.
+    /// </summary>
+    private async Task ResetErroredTriggersAsync(CancellationToken cancellationToken)
+    {
+        try
+        {
+            var scheduler = await this.schedulerFactory.GetScheduler(cancellationToken);
+            var triggerKeys = await scheduler.GetTriggerKeys(GroupMatcher<TriggerKey>.AnyGroup(), cancellationToken);
+
+            foreach (var triggerKey in triggerKeys)
+            {
+                try
+                {
+                    if (await scheduler.GetTriggerState(triggerKey, cancellationToken) != TriggerState.Error)
+                        continue;
+
+                    await scheduler.ResetTriggerFromErrorState(triggerKey, cancellationToken);
+                    this.logger.LogWarning("Reset trigger {Trigger} from ERROR state back to WAITING.", triggerKey);
+                }
+                catch (Exception ex)
+                {
+                    this.logger.LogError(ex, "Failed to reset trigger {Trigger} from ERROR state.", triggerKey);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            this.logger.LogError(ex, "Failed to enumerate triggers while resetting ERROR-state schedules.");
+        }
     }
 
     /// <summary>

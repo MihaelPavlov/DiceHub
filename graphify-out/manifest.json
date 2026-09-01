@@ -370,8 +370,8 @@
     "semantic_hash": ""
   },
   "DH.DiceHub/DH.Adapter.Data/Services/TenantDirectoryService.cs": {
-    "mtime": 1788201594.039386,
-    "ast_hash": "8f508a7feb6043d9227f28acdd2257dc",
+    "mtime": 1788256009.0111983,
+    "ast_hash": "2b56fb15f940f82e8ce1c53f6ee52acf",
     "semantic_hash": ""
   },
   "DH.DiceHub/DH.Adapter.Data/Services/TenantService.cs": {
@@ -590,8 +590,8 @@
     "semantic_hash": ""
   },
   "DH.DiceHub/DH.Adapter.Scheduling/Jobs/AddUserChallengePeriodJob.cs": {
-    "mtime": 1788162931.4460344,
-    "ast_hash": "360d9c9befb0894105881319a3bd4fed",
+    "mtime": 1788255972.2496626,
+    "ast_hash": "8f79c7aecb50c4436a4d131bfde41713",
     "semantic_hash": ""
   },
   "DH.DiceHub/DH.Adapter.Scheduling/Jobs/CloseActiveTablesJob.cs": {
@@ -630,8 +630,8 @@
     "semantic_hash": ""
   },
   "DH.DiceHub/DH.Adapter.Scheduling/SchedulerService.cs": {
-    "mtime": 1788201594.042386,
-    "ast_hash": "b9de62537e42f413107a812b3740b912",
+    "mtime": 1788255990.9584253,
+    "ast_hash": "686675106eab1de2619d7bffe3baf393",
     "semantic_hash": ""
   },
   "DH.DiceHub/DH.Adapter.Scheduling/SchedulingDiModule.cs": {
@@ -790,8 +790,8 @@
     "semantic_hash": ""
   },
   "DH.DiceHub/DH.Api/Program.cs": {
-    "mtime": 1788160876.2675898,
-    "ast_hash": "e032551592aefbce3eb1b230cac86b28",
+    "mtime": 1788256039.5845222,
+    "ast_hash": "70ca7d8340cf21361a7a2c15a1e0d734",
     "semantic_hash": ""
   },
   "DH.DiceHub/DH.Api/Properties/launchSettings.json": {
@@ -3720,12 +3720,12 @@
     "semantic_hash": ""
   },
   "DH.WebUI/android/app/build.gradle": {
-    "mtime": 1788251322.0094144,
-    "ast_hash": "b299f7fbfa332cf6a2fa59160d9e8c6a",
+    "mtime": 1788252864.1046097,
+    "ast_hash": "4d5c2a3a458001d992f9f484141a4fde",
     "semantic_hash": ""
   },
   "DH.WebUI/android/app/capacitor.build.gradle": {
-    "mtime": 1788251379.578672,
+    "mtime": 1788252915.2038164,
     "ast_hash": "50eaae28a709e8611a8c26b015b7eb45",
     "semantic_hash": ""
   },
@@ -3755,7 +3755,7 @@
     "semantic_hash": ""
   },
   "DH.WebUI/android/capacitor.settings.gradle": {
-    "mtime": 1788251379.577672,
+    "mtime": 1788252915.2028165,
     "ast_hash": "b66e108568f7ac1ce6cdbcbc5a07ff4e",
     "semantic_hash": ""
   },
@@ -6450,8 +6450,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/qr-code-scanner/page/qr-code-scanner.component.html": {
-    "mtime": 1788243476.147247,
-    "ast_hash": "2bf2604c70a1b20b9a5f476a6c67a97c",
+    "mtime": 1788253875.1031947,
+    "ast_hash": "9428796221f63baa9107643d8e478b21",
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/register-choice/page/register-choice.component.html": {
