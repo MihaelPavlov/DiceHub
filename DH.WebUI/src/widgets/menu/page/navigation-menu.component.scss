@@ -69,7 +69,9 @@ nav {
     color: var(--games-faint);
     text-align: center;
 
-    span {
+    // hide the label text on the compact bottom bar - but NOT the alert dot,
+    // which is also a <span>; that rule was what killed the mobile red dot.
+    span:not(.icon-button__badge) {
       display: none;
     }
 
@@ -265,7 +267,7 @@ nav {
       text-align: left;
       transition: background-color 0.2s ease, color 0.2s ease;
 
-      span {
+      span:not(.icon-button__badge) {
         display: inline;
         white-space: nowrap;
       }

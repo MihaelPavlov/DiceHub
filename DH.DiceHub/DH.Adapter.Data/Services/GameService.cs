@@ -91,15 +91,22 @@ public class GameService : IGameService
             from gameReservation in this.tenantDbContext.GameReservations.AsNoTracking()
             where gameReservation.IsActive
             orderby gameReservation.ReservationDate descending
+            // LEFT join the game: a reservation whose game row is gone / in
+            // another tenant (data drift from the tenant migration) must still
+            // show up, otherwise the list silently returns fewer rows than the
+            // count and staff can't action it.
+            join g in this.tenantDbContext.Games.AsNoTracking()
+                on gameReservation.GameId equals g.Id into gj
+            from game in gj.DefaultIfEmpty()
             let tableReservation = this.tenantDbContext.SpaceTableReservations.AsNoTracking()
                 .Where(t => t.IsActive && t.UserId == gameReservation.UserId && gameReservation.ReservationDate.Date == t.ReservationDate.Date)
                 .FirstOrDefault()
             select new GetActiveGameReservationListQueryModel
             {
                 Id = gameReservation.Id,
-                GameId = gameReservation.Game.Id,
-                GameName = gameReservation.Game.Name,
-                GameImageUrl = gameReservation.Game.ImageUrl,
+                GameId = gameReservation.GameId,
+                GameName = game != null ? game.Name : string.Empty,
+                GameImageUrl = game != null ? game.ImageUrl : string.Empty,
                 CreatedDate = gameReservation.CreatedDate,
                 ReservationDate = gameReservation.ReservationDate,
                 ReservedDurationMinutes = gameReservation.ReservedDurationMinutes,
