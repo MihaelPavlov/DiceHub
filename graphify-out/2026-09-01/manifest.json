@@ -3720,12 +3720,12 @@
     "semantic_hash": ""
   },
   "DH.WebUI/android/app/build.gradle": {
-    "mtime": 1788269447.935342,
-    "ast_hash": "6f52259a09330d333683efd422fd2d9d",
+    "mtime": 1788270605.7263427,
+    "ast_hash": "078bff63ebfa4a6cb3094810e44c1631",
     "semantic_hash": ""
   },
   "DH.WebUI/android/app/capacitor.build.gradle": {
-    "mtime": 1788256765.1008162,
+    "mtime": 1788269499.592465,
     "ast_hash": "50eaae28a709e8611a8c26b015b7eb45",
     "semantic_hash": ""
   },
@@ -3755,7 +3755,7 @@
     "semantic_hash": ""
   },
   "DH.WebUI/android/capacitor.settings.gradle": {
-    "mtime": 1788256765.0998163,
+    "mtime": 1788269499.5914648,
     "ast_hash": "b66e108568f7ac1ce6cdbcbc5a07ff4e",
     "semantic_hash": ""
   },
@@ -3770,8 +3770,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/android/variables.gradle": {
-    "mtime": 1788167545.2374501,
-    "ast_hash": "d0d286755031d47013481846e6607f75",
+    "mtime": 1788270203.6667354,
+    "ast_hash": "d102fd51c99fae181dcccc19ca145180",
     "semantic_hash": ""
   },
   "DH.WebUI/angular.json": {
@@ -10750,8 +10750,8 @@
     "semantic_hash": ""
   },
   "DH.DiceHub/DH.Adapter.Data/Migrations/20260901120000_AddQrTokens.cs": {
-    "mtime": 1788240571.257877,
-    "ast_hash": "81e8b11ed7f5f383a07a3d92d443a7f3",
+    "mtime": 1788272327.0280585,
+    "ast_hash": "338802c3607e9512e8b5bd018594f5b1",
     "semantic_hash": ""
   },
   "DH.DiceHub/DH.Adapter.QRManager/QrTokenService.cs": {
@@ -10772,6 +10772,11 @@
   "DH.DiceHub/DH.Domain/Models/ScannerModels/Queries/QrIssueModels.cs": {
     "mtime": 1788240438.3850582,
     "ast_hash": "a90823a51a94d55a9f192b0bd9e4390c",
+    "semantic_hash": ""
+  },
+  "DH.DiceHub/DH.Adapter.Data/Migrations/20260901130000_GrantQrTokensToAppUser.cs": {
+    "mtime": 1788272338.4599736,
+    "ast_hash": "f2cf21d00232f2d92873a05f0b4280fd",
     "semantic_hash": ""
   }
 }

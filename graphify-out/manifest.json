@@ -3720,12 +3720,12 @@
     "semantic_hash": ""
   },
   "DH.WebUI/android/app/build.gradle": {
-    "mtime": 1788270605.7263427,
-    "ast_hash": "078bff63ebfa4a6cb3094810e44c1631",
+    "mtime": 1788276476.8428273,
+    "ast_hash": "f82385ed847c4fb2b7683acd500bd8ef",
     "semantic_hash": ""
   },
   "DH.WebUI/android/app/capacitor.build.gradle": {
-    "mtime": 1788269499.592465,
+    "mtime": 1788276576.0760107,
     "ast_hash": "50eaae28a709e8611a8c26b015b7eb45",
     "semantic_hash": ""
   },
@@ -3755,7 +3755,7 @@
     "semantic_hash": ""
   },
   "DH.WebUI/android/capacitor.settings.gradle": {
-    "mtime": 1788269499.5914648,
+    "mtime": 1788276576.0750108,
     "ast_hash": "b66e108568f7ac1ce6cdbcbc5a07ff4e",
     "semantic_hash": ""
   },
@@ -5135,8 +5135,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/qr-code-scanner/page/qr-code-scanner.component.ts": {
-    "mtime": 1788245009.070749,
-    "ast_hash": "4316198462e16f815ba9810f1002ce63",
+    "mtime": 1788272797.3915498,
+    "ast_hash": "c73f94a28641c21e7eebadd6b34e2cd3",
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/qr-code-scanner/qr-code-scanner-routes.module.ts": {
