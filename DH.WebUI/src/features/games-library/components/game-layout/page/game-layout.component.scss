@@ -4,7 +4,9 @@
   min-height: 100vh;
   padding: 1rem 1.25rem 7rem;
   overflow-y: visible;
-  background: var(--games-bg);
+  background:
+    radial-gradient(circle at 10% 0%, rgba(141, 102, 214, 0.14), transparent 24rem),
+    var(--games-bg);
 }
 
 .wrapper_icons {
