@@ -405,8 +405,8 @@
     "semantic_hash": ""
   },
   "DH.DiceHub/DH.Adapter.Data/TenantDbContext.cs": {
-    "mtime": 1787684815.61409,
-    "ast_hash": "54bf71495cd8916b074b30033e212e0e",
+    "mtime": 1788240432.208113,
+    "ast_hash": "c577610c8fcc371b28beeac4a2adf6d1",
     "semantic_hash": ""
   },
   "DH.DiceHub/DH.Adapter.Data/TenantDbContextFactory.cs": {
@@ -500,8 +500,8 @@
     "semantic_hash": ""
   },
   "DH.DiceHub/DH.Adapter.QRManager/QRCodeManager.cs": {
-    "mtime": 1785234121.751631,
-    "ast_hash": "52f0af522f9bdb6746ec61f2611c4077",
+    "mtime": 1788240407.1063347,
+    "ast_hash": "603abadee794e1285608517f802d8c2a",
     "semantic_hash": ""
   },
   "DH.DiceHub/DH.Adapter.QRManager/QRCodeStates/EventQRCodeState.cs": {
@@ -540,8 +540,8 @@
     "semantic_hash": ""
   },
   "DH.DiceHub/DH.Adapter.QRManager/QRManagerDIModule.cs": {
-    "mtime": 1784883716.949083,
-    "ast_hash": "27e8ae2a9126f0eabf58800833b1044c",
+    "mtime": 1788240412.043291,
+    "ast_hash": "22fde2db95a1fd6ba6688a594b1c896a",
     "semantic_hash": ""
   },
   "DH.DiceHub/DH.Adapter.Reservations/DH.Adapter.Reservations.csproj": {
@@ -725,8 +725,8 @@
     "semantic_hash": ""
   },
   "DH.DiceHub/DH.Api/Controllers/ScannerController.cs": {
-    "mtime": 1784883716.9515274,
-    "ast_hash": "a9138ce69d5ef0e00e7b342f9d370a65",
+    "mtime": 1788240448.738365,
+    "ast_hash": "a6b75131f3d359cd7fbbd036c32df739",
     "semantic_hash": ""
   },
   "DH.DiceHub/DH.Api/Controllers/SchedulerController.cs": {
@@ -3720,12 +3720,12 @@
     "semantic_hash": ""
   },
   "DH.WebUI/android/app/build.gradle": {
-    "mtime": 1788213213.3660765,
-    "ast_hash": "ba61cfb53fc00c3d0603985cb7a36515",
+    "mtime": 1788238968.4506772,
+    "ast_hash": "2f4aa8c1da94107d7ae10469c7ef33c8",
     "semantic_hash": ""
   },
   "DH.WebUI/android/app/capacitor.build.gradle": {
-    "mtime": 1788213245.0958238,
+    "mtime": 1788238999.7045712,
     "ast_hash": "50eaae28a709e8611a8c26b015b7eb45",
     "semantic_hash": ""
   },
@@ -3755,7 +3755,7 @@
     "semantic_hash": ""
   },
   "DH.WebUI/android/capacitor.settings.gradle": {
-    "mtime": 1788213245.0948238,
+    "mtime": 1788238999.7045712,
     "ast_hash": "b66e108568f7ac1ce6cdbcbc5a07ff4e",
     "semantic_hash": ""
   },
@@ -4215,8 +4215,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/entities/qr-code-scanner/api/scanner.service.ts": {
-    "mtime": 1784883716.9971411,
-    "ast_hash": "80fff402993232c9ce604641cf8d5d58",
+    "mtime": 1788240743.3158522,
+    "ast_hash": "db98a2787d4ff2c14152f28b468b06fc",
     "semantic_hash": ""
   },
   "DH.WebUI/src/entities/qr-code-scanner/enums/qr-code-type.enum.ts": {
@@ -4525,8 +4525,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/challenges-management/dialogs/user-reward-qr-code-dialog/user-reward-qr-code.component.ts": {
-    "mtime": 1784883717.0045469,
-    "ast_hash": "59ce99d629b8b8b1ca943d8c28d4f21f",
+    "mtime": 1788240751.9792938,
+    "ast_hash": "a534c9ebf52c9560b30e7fd33f3464c4",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/charts/components/challenges/leaderboard-challenges.component.ts": {
@@ -4745,8 +4745,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/games-library/dialogs/qr-code-dialog/qr-code-dialog.component.ts": {
-    "mtime": 1788201582.1505115,
-    "ast_hash": "5d9f51720c18fd536406b9440c088c6d",
+    "mtime": 1788240751.9485354,
+    "ast_hash": "514a07c26933ebd74e2a791d65a3cbd6",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/instruction-management/components/instruction-links/instruction-links.component.ts": {
@@ -5135,8 +5135,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/qr-code-scanner/page/qr-code-scanner.component.ts": {
-    "mtime": 1788201582.1655114,
-    "ast_hash": "719ff66233370b0b62c7b1c9338ca5c1",
+    "mtime": 1788240690.4934814,
+    "ast_hash": "5cd178de3a1cbc0e1f74f34227127c05",
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/qr-code-scanner/qr-code-scanner-routes.module.ts": {
@@ -5200,13 +5200,13 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/assets/i18n/bg.json": {
-    "mtime": 1788210810.500183,
-    "ast_hash": "66317cd9985fb432f63fe3432564d71b",
+    "mtime": 1788240657.9607704,
+    "ast_hash": "c6605a3a36f4bd461e88122673bed2fa",
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/assets/i18n/en.json": {
-    "mtime": 1788210810.488602,
-    "ast_hash": "d1b76487363e685436fd686523376a60",
+    "mtime": 1788240657.9573917,
+    "ast_hash": "c33465f6fae6d022c301d8c46115a500",
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts": {
@@ -5305,8 +5305,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/configs/path.config.ts": {
-    "mtime": 1787845983.949318,
-    "ast_hash": "300d54ee38a2cd277e0aa180ade1445c",
+    "mtime": 1788240592.9056804,
+    "ast_hash": "42e6bb5f6df3cffff9a9e3361546f279",
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/configs/route.config.ts": {
@@ -5330,8 +5330,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/dialogs/reservation-qr-code/reservation-qr-code.component.ts": {
-    "mtime": 1784883718.015312,
-    "ast_hash": "b7350a20e0d14a152c0174ca2b713481",
+    "mtime": 1788240751.9639633,
+    "ast_hash": "9dfa87e586e6d265e8305049c4f9a142",
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/dialogs/reservation-qr-code/reservation-qr-code.module.ts": {
@@ -6020,8 +6020,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/challenges-management/dialogs/user-reward-qr-code-dialog/user-reward-qr-code.component.html": {
-    "mtime": 1788201582.137971,
-    "ast_hash": "bc0e4ded71c9de15d7b0a69a00272158",
+    "mtime": 1788240667.4817595,
+    "ast_hash": "b29e5089e5ad9d07d42f78cdbeb375cd",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/charts/components/challenges/leaderboard-challenges.component.html": {
@@ -6225,8 +6225,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/games-library/dialogs/qr-code-dialog/qr-code-dialog.component.html": {
-    "mtime": 1788201582.1505115,
-    "ast_hash": "90f081ee031852315335b222bd7f28a4",
+    "mtime": 1788240667.4678776,
+    "ast_hash": "84aae26bede6ebe754c2f317e6b2d814",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/instruction-management/components/instruction-links/instruction-links.component.html": {
@@ -6545,8 +6545,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/dialogs/reservation-qr-code/reservation-qr-code.component.html": {
-    "mtime": 1788201582.1705112,
-    "ast_hash": "19c25cdc5a80299177c9545584372747",
+    "mtime": 1788240667.4529333,
+    "ast_hash": "40fa11717d773987f4a541d3ccb57e80",
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/dialogs/scan-result-admin/scan-result-admin.dialog.html": {
@@ -10747,6 +10747,31 @@
   "DH.WebUI/src/shared/directives/sheet-dismiss/sheet-dismiss.directive.ts": {
     "mtime": 1788210370.8581345,
     "ast_hash": "9330d36cb8dd7b7f9abcfa4d69aa26db",
+    "semantic_hash": ""
+  },
+  "DH.DiceHub/DH.Adapter.Data/Migrations/20260901120000_AddQrTokens.cs": {
+    "mtime": 1788240571.257877,
+    "ast_hash": "81e8b11ed7f5f383a07a3d92d443a7f3",
+    "semantic_hash": ""
+  },
+  "DH.DiceHub/DH.Adapter.QRManager/QrTokenService.cs": {
+    "mtime": 1788240383.0775466,
+    "ast_hash": "19e46fe49006f27739aeae9621a3ac6e",
+    "semantic_hash": ""
+  },
+  "DH.DiceHub/DH.Domain/Adapters/QRManager/IQrTokenService.cs": {
+    "mtime": 1788240359.5917532,
+    "ast_hash": "c35a134ddf1c75e725273e280d16b6f2",
+    "semantic_hash": ""
+  },
+  "DH.DiceHub/DH.Domain/Entities/QrToken.cs": {
+    "mtime": 1788240352.2048182,
+    "ast_hash": "d16074d00d7362f19157458b6e75ce81",
+    "semantic_hash": ""
+  },
+  "DH.DiceHub/DH.Domain/Models/ScannerModels/Queries/QrIssueModels.cs": {
+    "mtime": 1788240438.3850582,
+    "ast_hash": "a90823a51a94d55a9f192b0bd9e4390c",
     "semantic_hash": ""
   }
 }

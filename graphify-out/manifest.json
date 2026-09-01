@@ -3720,12 +3720,12 @@
     "semantic_hash": ""
   },
   "DH.WebUI/android/app/build.gradle": {
-    "mtime": 1788238968.4506772,
-    "ast_hash": "2f4aa8c1da94107d7ae10469c7ef33c8",
+    "mtime": 1788241736.8093755,
+    "ast_hash": "95010a99df8cb02ed7c34031ca7f1064",
     "semantic_hash": ""
   },
   "DH.WebUI/android/app/capacitor.build.gradle": {
-    "mtime": 1788238999.7045712,
+    "mtime": 1788241767.538072,
     "ast_hash": "50eaae28a709e8611a8c26b015b7eb45",
     "semantic_hash": ""
   },
@@ -3755,7 +3755,7 @@
     "semantic_hash": ""
   },
   "DH.WebUI/android/capacitor.settings.gradle": {
-    "mtime": 1788238999.7045712,
+    "mtime": 1788241767.5370722,
     "ast_hash": "b66e108568f7ac1ce6cdbcbc5a07ff4e",
     "semantic_hash": ""
   },
@@ -5730,8 +5730,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/widgets/menu/page/navigation-menu.component.ts": {
-    "mtime": 1788201760.9775462,
-    "ast_hash": "5c112bd8c8a60dbd1dabe350c57c8e64",
+    "mtime": 1788243088.4636319,
+    "ast_hash": "168d38ad159d69c91344e7c86a607f9b",
     "semantic_hash": ""
   },
   "DH.WebUI/src/widgets/nav-bar/nav-bar.module.ts": {

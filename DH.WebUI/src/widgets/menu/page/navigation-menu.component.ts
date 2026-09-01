@@ -12,6 +12,7 @@ import {
   BehaviorSubject,
   catchError,
   combineLatest,
+  defaultIfEmpty,
   filter,
   of,
   Subject,
@@ -123,7 +124,11 @@ export class NavigationMenuComponent implements OnInit {
         catchError((err) => {
           console.warn('Game reservations failed silently', err);
           return of([]);
-        })
+        }),
+        // The auth interceptor turns a background 401 into EMPTY - the stream
+        // completes without ever emitting, which makes combineLatest hang and
+        // the red dot never update. Guarantee a value.
+        defaultIfEmpty<any[], any[]>([])
       ),
       this.spaceManagementService
         .getActiveReservedTableList_BackgroundRequest()
@@ -131,7 +136,8 @@ export class NavigationMenuComponent implements OnInit {
           catchError((err) => {
             console.warn('Table reservations failed silently', err);
             return of([]);
-          })
+          }),
+          defaultIfEmpty<any[], any[]>([])
         ),
     ]).subscribe({
       next: ([gameReservations, tableReservations]) => {
