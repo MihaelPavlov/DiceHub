@@ -192,7 +192,7 @@ export class RewardsCollectedChartComponent implements OnDestroy {
                           const reward = rewardsData[index];
                           return `${
                             reward.collectionCount
-                          } / ${reward.totalCashEquivalent.toFixed(2)} BGN`;
+                          } / ${reward.totalCashEquivalent.toFixed(2)} €`;
                         },
                       },
                       legend: {
@@ -207,7 +207,7 @@ export class RewardsCollectedChartComponent implements OnDestroy {
                               reward.collectionCount
                             } | Total Cash: ${reward.totalCashEquivalent.toFixed(
                               2
-                            )} BGN`;
+                            )} €`;
                           },
                         },
                       },

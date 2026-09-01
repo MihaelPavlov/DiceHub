@@ -174,7 +174,7 @@ export class CollectedExpiredRewardsChartComponent
                           return item && item.countRewards > 0
                             ? `${
                                 item.countRewards
-                              } / ${item.totalCashEquivalent.toFixed(2)} BGN`
+                              } / ${item.totalCashEquivalent.toFixed(2)} €`
                             : '';
                         },
                       },
@@ -193,7 +193,7 @@ export class CollectedExpiredRewardsChartComponent
                                   item.countRewards
                                 } | Cash: ${item.totalCashEquivalent.toFixed(
                                   2
-                                )} BGN`
+                                )} €`
                               : '';
                           },
                         },
