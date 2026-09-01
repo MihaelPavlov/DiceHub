@@ -215,14 +215,14 @@
       .headers {
         margin: 0;
         padding: 0.9rem 1.25rem;
-        background-color: palette.$main-background-color;
+        background-color: var(--games-surface-2);
       }
     }
 
     &__item {
       margin: 0;
       padding: 0.85rem 1.25rem;
-      border-top: 0.1rem solid palette.$main-background-color;
+      border-top: 0.1rem solid var(--games-border);
     }
   }
 
