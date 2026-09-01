@@ -12,7 +12,7 @@ interface InstructionHubLink {
   summary: string;
   path: string;
   icon:
-    | 'checklist'
+    | 'rocket'
     | 'install'
     | 'bell'
     | 'table'
@@ -44,7 +44,7 @@ export class InstructionManagementComponent {
         name: this.ts.instant('instruction.owner_setup.title'),
         summary: this.ts.instant('instruction.owner_setup.summary'),
         path: '/instructions/owner_setup',
-        icon: 'checklist',
+        icon: 'rocket',
         accent: 'violet',
         count: INSTRUCTION_LINK_MAPPINGS['owner_setup'].topics.length,
       },
