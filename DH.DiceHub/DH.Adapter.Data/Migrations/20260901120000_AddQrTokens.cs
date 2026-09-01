@@ -57,6 +57,18 @@ namespace DH.Adapter.Data.Migrations
                     FOR ALL
                     USING (""TenantId"" = current_setting('app.tenant_id', true))
                     WITH CHECK (""TenantId"" = current_setting('app.tenant_id', true));
+
+                -- The runtime role (dicehub_user) is not the table owner and gets
+                -- no privileges by default; ALTER DEFAULT PRIVILEGES doesn't cover
+                -- a table created by a different connection. Grant explicitly, like
+                -- TenantDbUserScript.txt does for the rest.
+                DO $$
+                BEGIN
+                    IF EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'dicehub_user') THEN
+                        GRANT SELECT, INSERT, UPDATE, DELETE ON public.""QrTokens"" TO dicehub_user;
+                        GRANT USAGE, SELECT ON SEQUENCE public.""QrTokens_Id_seq"" TO dicehub_user;
+                    END IF;
+                END $$;
             ");
         }
 
