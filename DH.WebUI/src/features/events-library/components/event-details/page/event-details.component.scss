@@ -11,8 +11,6 @@
 }
 
 .event-details__header {
-  // header carries the same top glow as the shell
-  background: radial-gradient(circle at 12% 0%, rgba(141, 102, 214, 0.14), transparent 28rem), var(--games-bg);
   display: flex;
   align-items: center;
   justify-content: space-between;
