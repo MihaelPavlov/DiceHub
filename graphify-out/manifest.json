@@ -390,8 +390,8 @@
     "semantic_hash": ""
   },
   "DH.DiceHub/DH.Adapter.Data/Services/UserChallengesManagementService.cs": {
-    "mtime": 1788201594.040386,
-    "ast_hash": "ccee66187edac6a6fd1becd9bd7eceed",
+    "mtime": 1788257946.3621066,
+    "ast_hash": "925e2f26c2f24932bffb3e3c1a180bbb",
     "semantic_hash": ""
   },
   "DH.DiceHub/DH.Adapter.Data/Services/UserSettingsCache.cs": {
@@ -3720,12 +3720,12 @@
     "semantic_hash": ""
   },
   "DH.WebUI/android/app/build.gradle": {
-    "mtime": 1788252864.1046097,
-    "ast_hash": "4d5c2a3a458001d992f9f484141a4fde",
+    "mtime": 1788256710.4543757,
+    "ast_hash": "0ed87d528af274be52fea0b10f68600c",
     "semantic_hash": ""
   },
   "DH.WebUI/android/app/capacitor.build.gradle": {
-    "mtime": 1788252915.2038164,
+    "mtime": 1788256765.1008162,
     "ast_hash": "50eaae28a709e8611a8c26b015b7eb45",
     "semantic_hash": ""
   },
@@ -3755,7 +3755,7 @@
     "semantic_hash": ""
   },
   "DH.WebUI/android/capacitor.settings.gradle": {
-    "mtime": 1788252915.2028165,
+    "mtime": 1788256765.0998163,
     "ast_hash": "b66e108568f7ac1ce6cdbcbc5a07ff4e",
     "semantic_hash": ""
   },
