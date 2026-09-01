@@ -1,4 +1,5 @@
-﻿using DH.Domain.Adapters.Authentication.Models.Enums;
+﻿using DH.Domain.Adapters.Authentication;
+using DH.Domain.Adapters.Authentication.Models.Enums;
 using DH.Domain.Adapters.Authentication.Services;
 using DH.Domain.Adapters.PushNotifications;
 using DH.Domain.Adapters.PushNotifications.Messages;
@@ -26,6 +27,7 @@ public class UserChallengesManagementService : IUserChallengesManagementService
     readonly IPushNotificationsService pushNotificationsService;
     readonly ITenantContextScopeRunner tenantContextScopeRunner;
     readonly ITenantDirectoryService tenantDirectoryService;
+    readonly ISystemUserContextAccessor systemUserContextAccessor;
 
     public UserChallengesManagementService(
         IDbContextFactory<TenantDbContext> dbContextFactory,
@@ -35,7 +37,8 @@ public class UserChallengesManagementService : IUserChallengesManagementService
         ISchedulerService schedulerService,
         IPushNotificationsService pushNotificationsService,
         ITenantContextScopeRunner tenantContextScopeRunner,
-        ITenantDirectoryService tenantDirectoryService)
+        ITenantDirectoryService tenantDirectoryService,
+        ISystemUserContextAccessor systemUserContextAccessor)
     {
         this.dbContextFactory = dbContextFactory;
         this.tenantSettingsCacheService = tenantSettingsCacheService;
@@ -45,6 +48,7 @@ public class UserChallengesManagementService : IUserChallengesManagementService
         this.pushNotificationsService = pushNotificationsService;
         this.tenantContextScopeRunner = tenantContextScopeRunner;
         this.tenantDirectoryService = tenantDirectoryService;
+        this.systemUserContextAccessor = systemUserContextAccessor;
     }
 
     public async Task InitializeNewPeriodsBatch(CancellationToken cancellationToken)
@@ -278,6 +282,13 @@ public class UserChallengesManagementService : IUserChallengesManagementService
                         this.logger.LogWarning("EnsureValidUserChallengePeriodsAsync for {UserId} was skipped because the user is not in User Role", userId);
                         continue;
                     }
+
+                    // Re-arm the ambient tenant context for every iteration. RunAsTenantAsync
+                    // primes SystemUserContextAccessor once, but its `.Current` is a
+                    // destructive one-shot - the previous user's SaveChangesAsync consumed it
+                    // and left it anonymous, which would both hide this user's rows (query
+                    // filter) and throw "TenantId is required" on write.
+                    this.systemUserContextAccessor.Set(new BackgroundJobUserContext(tenantId));
 
                     using (var transaction = await context.Database.BeginTransactionAsync(cancellationToken))
                     {
