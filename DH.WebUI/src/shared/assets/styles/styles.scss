@@ -76,6 +76,9 @@ input[type="datetime-local"]::-webkit-inner-spin-button {
 html,
 body {
   overscroll-behavior: none;
+  // Same ground colour on the root too, so the iOS safe-area / status-bar strip
+  // above the page shell isn't a different shade.
+  background-color: var(--games-bg);
 }
 
 app-root {
