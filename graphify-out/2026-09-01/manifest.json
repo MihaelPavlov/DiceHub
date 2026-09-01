@@ -3725,7 +3725,7 @@
     "semantic_hash": ""
   },
   "DH.WebUI/android/app/capacitor.build.gradle": {
-    "mtime": 1788209913.6289897,
+    "mtime": 1788211334.9520829,
     "ast_hash": "50eaae28a709e8611a8c26b015b7eb45",
     "semantic_hash": ""
   },
@@ -3755,7 +3755,7 @@
     "semantic_hash": ""
   },
   "DH.WebUI/android/capacitor.settings.gradle": {
-    "mtime": 1788209913.6279898,
+    "mtime": 1788211334.9510827,
     "ast_hash": "b66e108568f7ac1ce6cdbcbc5a07ff4e",
     "semantic_hash": ""
   },
@@ -4835,8 +4835,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/reservation-management/components/game-reservations/active-list/game-reservations.component.ts": {
-    "mtime": 1788201582.1555114,
-    "ast_hash": "b5d7fa0d5ae6fc51df1832dd7274a6e5",
+    "mtime": 1788211920.1970513,
+    "ast_hash": "1e15e119b22c76fcb35204795febce2f",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/reservation-management/components/game-reservations/history/game-reservation-history.component.ts": {
@@ -4855,8 +4855,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/reservation-management/components/space-table-reservations/active-list/space-table-active-reservations.component.ts": {
-    "mtime": 1788201582.1565115,
-    "ast_hash": "c5fbd152862ba85847aade37e3f67e3a",
+    "mtime": 1788211935.2960541,
+    "ast_hash": "2586d624ac3959ba063d1d31edc03f7b",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/reservation-management/components/space-table-reservations/history/space-table-reservation-history.component.ts": {
@@ -5200,13 +5200,13 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/assets/i18n/bg.json": {
-    "mtime": 1788201740.557555,
-    "ast_hash": "0b8904a6d5851b612249eecce84595f3",
+    "mtime": 1788210810.500183,
+    "ast_hash": "66317cd9985fb432f63fe3432564d71b",
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/assets/i18n/en.json": {
-    "mtime": 1788201728.4475567,
-    "ast_hash": "4011e54d67559a36b3830d2be9467a0a",
+    "mtime": 1788210810.488602,
+    "ast_hash": "d1b76487363e685436fd686523376a60",
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts": {
@@ -5955,8 +5955,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/challenges-management/components/admin-challenges-custom-period/admin-challenges-custom-period.component.html": {
-    "mtime": 1788201582.1335118,
-    "ast_hash": "4308c245977327a721f2d84e2dbbaacd",
+    "mtime": 1788210810.5097873,
+    "ast_hash": "2195e9b9634996fecee6aa3d6444bf0e",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/challenges-management/components/admin-challenges-history-log/admin-challenges-history-log.component.html": {
@@ -5970,8 +5970,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/challenges-management/components/admin-challenges-system-rewards/admin-challenges-system-rewards.component.html": {
-    "mtime": 1788201909.4782836,
-    "ast_hash": "46bb01a06cd56c52ea7f97d4483ba7fc",
+    "mtime": 1788210810.5048976,
+    "ast_hash": "082e8f4e5f192805566cd1fa156a080a",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/challenges-management/components/admin-challenges/admin-challenges.component.html": {
@@ -6315,8 +6315,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/reservation-management/components/game-reservations/active-list/game-reservations.component.html": {
-    "mtime": 1788201582.1555114,
-    "ast_hash": "f0cb32d696defa472959a37a9af5e281",
+    "mtime": 1788211925.3100526,
+    "ast_hash": "3d1689ab8c640ed985cac8f8857051aa",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/reservation-management/components/game-reservations/history/game-reservation-history.component.html": {
@@ -6335,8 +6335,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/reservation-management/components/space-table-reservations/active-list/space-table-active-reservations.component.html": {
-    "mtime": 1788201582.1565115,
-    "ast_hash": "88caade07d6777af2cbf3c55d6fafa66",
+    "mtime": 1788211943.736054,
+    "ast_hash": "1763f432d11ccc3e9ef72ce19b1adcf7",
     "semantic_hash": ""
   },
   "DH.WebUI/src/features/reservation-management/components/space-table-reservations/history/space-table-reservation-history.component.html": {
@@ -6485,8 +6485,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.html": {
-    "mtime": 1784883718.01243,
-    "ast_hash": "1b5b580ae0238c6071306e399dc2d03b",
+    "mtime": 1788211108.7274318,
+    "ast_hash": "a52755d52b6670dccc2de3da5ff9455b",
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/components/assistive-touch/notifications/notifications.dialog.html": {
@@ -8637,11 +8637,6 @@
   "DH.WebUI/src/shared/assets/images/no-rooms-found.png": {
     "mtime": 1784883717.9515,
     "ast_hash": "8f79b81e21f0a272c40694aa219ed7b1",
-    "semantic_hash": ""
-  },
-  "DH.WebUI/src/shared/assets/images/notification_active.gif": {
-    "mtime": 1787684816.2064154,
-    "ast_hash": "14af8d7edefe3f33f63850fc00540495",
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/assets/images/qr-code.png": {

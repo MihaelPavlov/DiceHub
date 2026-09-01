@@ -27,10 +27,29 @@ export class ColdBootRestoreGuard implements CanActivate {
     this.hasChecked = true;
 
     const lastRoute = this.authTokenService.getLastRoute();
-    if (lastRoute && lastRoute !== '/') {
-      return this.router.parseUrl(lastRoute);
+    if (!lastRoute || lastRoute === '/') {
+      return true;
     }
 
-    return true;
+    // Don't restore straight onto an error page, and don't trust a route that
+    // won't parse (e.g. saved by an older app version) - clear it and show
+    // landing instead of bouncing the user into a 404 on every launch.
+    const errorSegments = [
+      '/not-found',
+      '/unauthorized',
+      '/forbidden',
+      '/server-error',
+    ];
+    if (errorSegments.some((segment) => lastRoute.includes(segment))) {
+      this.authTokenService.clearLastRoute();
+      return true;
+    }
+
+    try {
+      return this.router.parseUrl(lastRoute);
+    } catch {
+      this.authTokenService.clearLastRoute();
+      return true;
+    }
   }
 }

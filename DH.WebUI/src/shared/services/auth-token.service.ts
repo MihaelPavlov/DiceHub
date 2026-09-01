@@ -75,6 +75,10 @@ export class AuthTokenService {
     return this.readFromEither(AuthTokenService.LastRouteKey);
   }
 
+  public clearLastRoute(): void {
+    this.removeFromBoth(AuthTokenService.LastRouteKey);
+  }
+
   public clearToken(): void {
     this.removeFromBoth(AuthTokenService.AccessKey);
     this.removeFromBoth(AuthTokenService.RefreshKey);

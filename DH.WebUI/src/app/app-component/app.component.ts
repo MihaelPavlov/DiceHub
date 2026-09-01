@@ -134,15 +134,32 @@ export class AppComponent implements OnInit {
     '/login',
   ];
 
-  private _persistRouteForRestoration(): void {
-    if (!Capacitor.isNativePlatform()) {
-      return;
-    }
+  // Landing on one of these means the route we tried to restore (or a stale
+  // deep link / pre-update path) no longer resolves. Never persist them, and
+  // wipe whatever was stored so the next cold boot doesn't loop back into it.
+  private static readonly ErrorRouteSegments = [
+    '/not-found',
+    '/unauthorized',
+    '/forbidden',
+    '/server-error',
+  ];
 
+  private _persistRouteForRestoration(): void {
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((event) => {
         const url = (event as NavigationEnd).urlAfterRedirects;
+
+        if (
+          AppComponent.ErrorRouteSegments.some((segment) => url.includes(segment))
+        ) {
+          this.authTokenService.clearLastRoute();
+          return;
+        }
+
+        if (!Capacitor.isNativePlatform()) {
+          return;
+        }
 
         if (
           url === '/' ||
