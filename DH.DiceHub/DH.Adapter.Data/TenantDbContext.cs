@@ -185,9 +185,15 @@ public class TenantDbContext : DbContext, ITenantDbContext
         if (!string.IsNullOrWhiteSpace(userContext.TenantId))
         {
             var tenantId = userContext.TenantId.Replace("'", "''");
-            // Current is intentionally one-shot. Restore it while the EF
-            // connection is opened so the connection interceptor can apply
-            // the same tenant session variable, then clear it again.
+            // `Current` is a destructive one-shot - reading it above already reset the
+            // accessor to anonymous. Re-set the context we just consumed so the EF
+            // connection interceptor can apply the tenant session variable, and (see
+            // the finally) leave it in place afterwards: a background job driven by
+            // RunAsTenantAsync does several DB operations under one ambient scope, and
+            // wiping the context here made every operation after the first SaveChanges
+            // lose its tenant (reads returned nothing, writes threw "TenantId is
+            // required"). RunAsTenantAsync / request teardown still resets to anonymous
+            // when the unit of work ends.
             systemContextAccessor.Set(userContext);
 
             // The connection can be closed and reopened mid-SaveChanges (e.g. the
@@ -211,7 +217,11 @@ public class TenantDbContext : DbContext, ITenantDbContext
             }
             finally
             {
-                systemContextAccessor.Set(AnonymousUserContext.Instance);
+                // Keep the consumed context available for the next operation in this
+                // scope instead of forcing anonymous (which broke multi-step
+                // background jobs). Harmless for HTTP requests - CurrentTenantId and
+                // the connection interceptor both read HttpContext.Items first.
+                systemContextAccessor.Set(userContext);
                 if (httpContext is not null)
                     httpContext.Items["TenantId"] = previousItemsTenantId;
             }
