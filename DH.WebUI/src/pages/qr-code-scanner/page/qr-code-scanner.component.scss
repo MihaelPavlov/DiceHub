@@ -1,6 +1,7 @@
 .qr-shell {
   min-height: 100vh;
-  padding: 1.5rem 1.25rem 2.5rem;
+  // extra bottom room so nothing sits under the fixed bottom nav
+  padding: 1.5rem 1.25rem 6rem;
   display: flex;
   flex-direction: column;
   gap: 1.375rem;

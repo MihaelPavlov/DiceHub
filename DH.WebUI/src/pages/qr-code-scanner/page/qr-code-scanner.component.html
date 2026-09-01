@@ -14,22 +14,8 @@
     <div class="games-icon-btn games-icon-btn--spacer" aria-hidden="true"></div>
   </header>
 
-  <div class="qr-viewfinder" *ngIf="!this.isValidQrScanned">
-    <video #video autoplay muted playsinline webkit-playsinline></video>
-
-    <div class="qr-viewfinder__frame">
-      <span class="qr-viewfinder__corner qr-viewfinder__corner--tl"></span>
-      <span class="qr-viewfinder__corner qr-viewfinder__corner--tr"></span>
-      <span class="qr-viewfinder__corner qr-viewfinder__corner--bl"></span>
-      <span class="qr-viewfinder__corner qr-viewfinder__corner--br"></span>
-      <span class="qr-viewfinder__scanline"></span>
-    </div>
-
-    <span class="qr-viewfinder__hint">{{ "qr_scanner.hint" | translate }}</span>
-  </div>
-
-  <span class="qr-shell__description">{{ "qr_scanner.description" | translate }}</span>
-
+  <!-- Result banners live above the viewfinder so they're never hidden behind
+       the fixed bottom nav. -->
   <span
     class="qr-banner qr-banner--error"
     *ngIf="this.invalidQrCode"
@@ -50,4 +36,20 @@
     >{{ "qr_scanner.qr_code_is_valid" | translate }} <br />
     {{ this.afterScanSuccessfulMessage }}</span
   >
+
+  <div class="qr-viewfinder" *ngIf="!this.isValidQrScanned">
+    <video #video autoplay muted playsinline webkit-playsinline></video>
+
+    <div class="qr-viewfinder__frame">
+      <span class="qr-viewfinder__corner qr-viewfinder__corner--tl"></span>
+      <span class="qr-viewfinder__corner qr-viewfinder__corner--tr"></span>
+      <span class="qr-viewfinder__corner qr-viewfinder__corner--bl"></span>
+      <span class="qr-viewfinder__corner qr-viewfinder__corner--br"></span>
+      <span class="qr-viewfinder__scanline"></span>
+    </div>
+
+    <span class="qr-viewfinder__hint">{{ "qr_scanner.hint" | translate }}</span>
+  </div>
+
+  <span class="qr-shell__description">{{ "qr_scanner.description" | translate }}</span>
 </section>
