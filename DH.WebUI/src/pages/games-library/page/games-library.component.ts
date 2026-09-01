@@ -32,6 +32,22 @@ import { TenantRouter } from '../../../shared/helpers/tenant-router';
 })
 export class GamesLibraryComponent implements OnInit, OnDestroy {
   public games: IGameListResult[] = [];
+
+  /**
+   * The "Featured" hero card shows the newest game. The list model carries no
+   * date, but game ids are an auto-increment sequence, so the highest id is the
+   * most recently added game.
+   */
+  public get featuredGame(): IGameListResult | null {
+    return this.games.length
+      ? this.games.reduce((newest, g) => (g.id > newest.id ? g : newest))
+      : null;
+  }
+
+  public get otherGames(): IGameListResult[] {
+    const featuredId = this.featuredGame?.id;
+    return this.games.filter((g) => g.id !== featuredId);
+  }
   public menuItems: BehaviorSubject<IMenuItem[]> = new BehaviorSubject<
     IMenuItem[]
   >([]);

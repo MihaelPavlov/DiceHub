@@ -5,12 +5,12 @@
   </div>
 
   <div
-    *ngIf="games.length > 0"
+    *ngIf="featuredGame as featured"
     class="featured-game games-panel"
-    (click)="navigateToGameDetails(games[0].id)"
+    (click)="navigateToGameDetails(featured.id)"
   >
     <img
-      [src]="games[0].imageUrl"
+      [src]="featured.imageUrl"
       [alt]="'games.library.game_image' | translate"
     />
     <div class="featured-game__shade"></div>
@@ -23,16 +23,16 @@
           d="m480-137.85-46.31-43.38q-106.92-99.46-174.5-167.65-67.57-68.2-105.65-118.35-38.08-50.15-51.81-91.04Q88-599.15 88-642q0-87.31 60.85-147.65Q209.69-850 298-850q48.77 0 96 24.5t86 71.04q38.77-46.54 86-71.04 47.23-24.5 96-24.5 88.31 0 149.15 60.35Q872-729.31 872-642q0 42.85-13.73 83.73-13.73 40.89-51.81 91.04-38.08 50.15-105.27 118.35Q634-280.69 526.31-181.23L480-137.85Z"
         />
       </svg>
-      {{ games[0].likes }}
+      {{ featured.likes }}
     </div>
     <div class="featured-game__content">
       <div>
-        <h2 class="games-display">{{ games[0].name }}</h2>
+        <h2 class="games-display">{{ featured.name }}</h2>
         <p>
           {{
             (currentLanguage === SupportLanguages.EN
-              ? games[0].description_EN
-              : games[0].description_BG
+              ? featured.description_EN
+              : featured.description_BG
             ) | truncate
           }}
         </p>
@@ -45,14 +45,14 @@
 
   <h2
     class="games-library__section-title games-display"
-    *ngIf="games.length > 1"
+    *ngIf="otherGames.length > 0"
   >
     {{ "games.library.popular_this_week" | translate }}
   </h2>
 
   <div class="games-grid">
     <div
-      *ngFor="let game of games.slice(1)"
+      *ngFor="let game of otherGames"
       class="wrapper_library__item"
       (click)="navigateToGameDetails(game.id)"
     >

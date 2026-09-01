@@ -5070,8 +5070,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/games-library/page/games-library.component.ts": {
-    "mtime": 1788201582.1629925,
-    "ast_hash": "c2e730acf9dc8a881c865fade50866bf",
+    "mtime": 1788238288.9373932,
+    "ast_hash": "dabdeed1a72ce2e8de31f1332d862d47",
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/instruction-management/instruction-management-routes.module.ts": {
@@ -6425,8 +6425,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/games-library/page/games-library.component.html": {
-    "mtime": 1788201582.1629925,
-    "ast_hash": "10de20922800d1926c61abce8decbe8c",
+    "mtime": 1788238310.511159,
+    "ast_hash": "6e08a0391faaeb402497b796e71cf39b",
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/instruction-management/page/instruction-management.component.html": {

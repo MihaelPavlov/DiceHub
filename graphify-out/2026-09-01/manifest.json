@@ -3720,12 +3720,12 @@
     "semantic_hash": ""
   },
   "DH.WebUI/android/app/build.gradle": {
-    "mtime": 1788209881.1413395,
-    "ast_hash": "05513545177c661c0fc52ee20adc5bba",
+    "mtime": 1788213213.3660765,
+    "ast_hash": "ba61cfb53fc00c3d0603985cb7a36515",
     "semantic_hash": ""
   },
   "DH.WebUI/android/app/capacitor.build.gradle": {
-    "mtime": 1788211334.9520829,
+    "mtime": 1788213245.0958238,
     "ast_hash": "50eaae28a709e8611a8c26b015b7eb45",
     "semantic_hash": ""
   },
@@ -3755,7 +3755,7 @@
     "semantic_hash": ""
   },
   "DH.WebUI/android/capacitor.settings.gradle": {
-    "mtime": 1788211334.9510827,
+    "mtime": 1788213245.0948238,
     "ast_hash": "b66e108568f7ac1ce6cdbcbc5a07ff4e",
     "semantic_hash": ""
   },
@@ -3800,8 +3800,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/app/app-component/app.component.ts": {
-    "mtime": 1788201582.1335118,
-    "ast_hash": "2f1b9c297f64a2e0eff4fe3c95103c4c",
+    "mtime": 1788237958.6969714,
+    "ast_hash": "c118934a8a37f3f5ad7bf65aa19996e6",
     "semantic_hash": ""
   },
   "DH.WebUI/src/app/app-routes/app-routes.module.ts": {
@@ -5495,8 +5495,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/guards/cold-boot-restore.guard.ts": {
-    "mtime": 1787917251.5256505,
-    "ast_hash": "99a2cb4de878b08aac434cc9d8ff0c28",
+    "mtime": 1788237969.5978537,
+    "ast_hash": "951c995722aa394d79312a586cd476d9",
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/guards/event-admin-access.guard.ts": {
@@ -5595,8 +5595,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/services/auth-token.service.ts": {
-    "mtime": 1787917142.9701278,
-    "ast_hash": "3d605e08d1d59870e2b64603b4115d86",
+    "mtime": 1788237963.166923,
+    "ast_hash": "994ac73b89b3505eb412e7b64e8c6503",
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/services/challenges-overlay.service.ts": {
