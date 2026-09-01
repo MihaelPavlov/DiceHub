@@ -1439,89 +1439,94 @@
       "topic": {
         "games_qr": {
           "title": "Игри и QR кодове",
-          "thumbnail_url": "/shared/assets/images/qr-code.png",
+          "thumbnail_url": "/shared/assets/images/instructions/OwnerSetup/game-qr-dialog.png",
           "description": "Всяка игра получава свой QR код веднага щом я създадете — разпечатайте го и го поставете върху нея.",
           "steps": {
             "every_game_gets_a_code": {
               "header": "Всяка игра получава свой QR код",
               "description": "Веднага щом добавите игра в библиотеката, DiceHub генерира QR код за нея. Отворете играта, докоснете менюто и изберете опцията за QR код, за да го видите или разпечатате.",
-              "media_url": "/shared/assets/images/qr-code.png"
+              "media_url": "/shared/assets/images/instructions/OwnerSetup/game-qr-dialog.png"
             },
             "print_and_attach": {
               "header": "Разпечатайте го и го поставете върху играта",
               "description": "Разпечатайте QR кода и го залепете върху кутията на играта или на нейното място на рафта, за да могат играчите да го сканират в клуба и да проверят наличност или да направят резервация.",
-              "media_url": "/shared/assets/images/qr-code.png"
+              "media_url": "/shared/assets/images/instructions/OwnerSetup/game-qr-dialog.png"
             },
             "pick_good_images": {
               "header": "Изберете ясни снимки на игрите",
               "description": "Добавете ясна, добре осветена корица за всяка игра — това е първото, което играчите виждат в библиотеката и в картата на играта.",
-              "media_url": "/shared/assets/images/qr-code.png"
+              "media_url": "/shared/assets/images/instructions/OwnerSetup/games-library.jpeg"
             }
           }
         },
         "rewards_and_custom_period": {
           "title": "Награди и персонализирани периоди",
-          "thumbnail_url": "/shared/assets/images/icons/kid_star-icon-blue.svg",
+          "thumbnail_url": "/shared/assets/images/instructions/OwnerSetup/rewards-tab.png",
           "description": "Настройте наградите си, след което създайте своя персонализиран период, за да могат играчите да започнат да печелят точки.",
           "steps": {
             "setup_rewards_first": {
               "header": "Първо настройте наградите си",
-              "description": "Отидете в раздел Награди и добавете наградите, които играчите могат да отключат. Направете това, преди да включите Персонализиран период.",
-              "media_url": "/shared/assets/images/icons/kid_star-icon-blue.svg"
+              "description": "Отидете в раздел Награди в Мениджъра на предизвикателства и добавете наградите, които играчите могат да отключат. Направете това, преди да включите Персонализиран период.",
+              "media_url": "/shared/assets/images/instructions/OwnerSetup/rewards-tab.png"
             },
             "recommended_order": {
               "header": "Препоръчителен ред на настройка",
-              "description": "Преди да включите Персонализиран период, се уверете, че имате: 1) добавени всички ваши игри, 2) настроени награди, 3) настроени предизвикателства, системни награди и универсални предизвикателства. Винаги можете да добавяте още по-късно — това е само за да не бъде празен първият период.",
-              "media_url": "/shared/assets/images/icons/kid_star-icon-blue.svg"
+              "description": "Преди да включите Персонализиран период, се уверете, че имате: 1) добавени всички ваши игри, 2) настроени награди, 3) настроени награди за периода, предизвикателства за периода и универсални предизвикателства в раздел Персонализиран период. Винаги можете да добавяте още по-късно — това е само за да не бъде празен първият период.",
+              "media_url": "/shared/assets/images/instructions/OwnerSetup/custom-period-tab.png"
             },
             "turn_on_custom_period": {
               "header": "Включете Персонализиран период",
-              "description": "След като игрите, наградите и предизвикателствата са готови, отидете в Настройки, включете Персонализиран период и настройте своя период.",
-              "media_url": "/shared/assets/images/icons/kid_star-icon-blue.svg"
+              "description": "След като игрите, наградите и предизвикателствата са готови, отворете Настройки, задайте „Персонализиран период“ на Вкл. и запазете. Ще бъдете отведени към раздел Персонализиран период, за да завършите настройката.",
+              "media_url": "/shared/assets/images/instructions/OwnerSetup/global-settings.jpeg"
             }
           }
         },
         "club_settings": {
           "title": "Настройки на клуба, които имат значение",
-          "thumbnail_url": "/shared/assets/images/icons/menu_book-icon-blue.svg",
+          "thumbnail_url": "/shared/assets/images/instructions/OwnerSetup/global-settings.jpeg",
           "description": "Тези настройки управляват периодите на наградите и фоновите процеси — уверете се, че са правилни, преди да отворите.",
           "steps": {
             "reset_day": {
-              "header": "Ден за нулиране на наградите",
-              "description": "Това е моментът, в който периодът на наградите се рестартира и точките на играчите започват отначало. Играчите запазват вече спечелените награди — нулира се само текущият брой точки.",
-              "media_url": "/shared/assets/images/icons/menu_book-icon-blue.svg"
+              "header": "Период на нулиране на наградите",
+              "description": "Колко често се рестартира периодът на наградите (седмично или месечно). При нулиране точките на играчите започват отначало — те запазват вече спечелените награди, нулира се само текущият брой точки.",
+              "media_url": "/shared/assets/images/instructions/OwnerSetup/global-settings.jpeg"
             },
             "reservation_hours": {
               "header": "Часове за резервации",
               "description": "Задава часовете, в които играчите могат да резервират игри и маси. Променяйте ги по всяко време, за да отговарят на работното време на клуба.",
-              "media_url": "/shared/assets/images/icons/menu_book-icon-blue.svg"
+              "media_url": "/shared/assets/images/instructions/OwnerSetup/global-settings.jpeg"
             },
             "challenge_rewards_count": {
               "header": "Брой награди за предизвикателства за период",
               "description": "Колко награди са налични за един период — 5, 10 или колкото пасва на вашия клуб. Променяйте по всяко време.",
-              "media_url": "/shared/assets/images/icons/menu_book-icon-blue.svg"
+              "media_url": "/shared/assets/images/instructions/OwnerSetup/global-settings.jpeg"
             },
             "time_zone": {
               "header": "Часова зона",
               "description": "Уверете се, че е зададена правилно. Всеки фонов процес — затваряне на маси, нулиране на периоди на наградите, изтичане на награди — работи според тази часова зона.",
-              "media_url": "/shared/assets/images/icons/menu_book-icon-blue.svg"
+              "media_url": "/shared/assets/images/instructions/OwnerSetup/global-settings.jpeg"
             },
             "days_off": {
               "header": "Почивни дни",
               "description": "Също захранва фоновите процеси, затова я поддържайте актуална според реалните почивни дни на клуба.",
-              "media_url": "/shared/assets/images/icons/menu_book-icon-blue.svg"
+              "media_url": "/shared/assets/images/instructions/OwnerSetup/global-settings.jpeg"
             }
           }
         },
         "employees": {
           "title": "Добавете вашите служители",
-          "thumbnail_url": "/shared/assets/images/icons/account_circle-icon-blue.svg",
+          "thumbnail_url": "/shared/assets/images/instructions/OwnerSetup/employees-list.png",
           "description": "Дайте на персонала си собствени акаунти с допълнителни права.",
           "steps": {
             "add_from_profile": {
-              "header": "Добавете служители от профила си",
-              "description": "Отворете раздел Профил, отидете на Служители и добавете персонала си. Те получават специални роли извън тези на обикновен потребител, така че могат да одобряват резервации, да управляват игри и други.",
-              "media_url": "/shared/assets/images/icons/account_circle-icon-blue.svg"
+              "header": "Отворете Профил → Служители",
+              "description": "От раздел Профил докоснете плочката Служители. Списъкът с персонала ви е тук — използвайте бутона +, за да добавите човек. Те получават специални роли извън тези на обикновен потребител, така че могат да одобряват резервации, да управляват игри и други.",
+              "media_url": "/shared/assets/images/instructions/OwnerSetup/owner-profile.png"
+            },
+            "fill_the_form": {
+              "header": "Попълнете новия служител",
+              "description": "Въведете име, фамилия, имейл и телефонен номер, след което докоснете Създай. Служителят ще получи имейл, за да зададе паролата си, и ще може да влезе със своята роля.",
+              "media_url": "/shared/assets/images/instructions/OwnerSetup/new-employee-form.png"
             }
           }
         }

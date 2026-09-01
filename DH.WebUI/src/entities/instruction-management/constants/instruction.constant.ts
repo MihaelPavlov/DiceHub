@@ -136,6 +136,14 @@ export const INSTRUCTION_LINK_MAPPINGS: { [key: string]: InstructionSection } =
               mediaUrl:
                 'instruction.owner_setup.topic.employees.steps.add_from_profile.media_url',
             },
+            {
+              header:
+                'instruction.owner_setup.topic.employees.steps.fill_the_form.header',
+              description:
+                'instruction.owner_setup.topic.employees.steps.fill_the_form.description',
+              mediaUrl:
+                'instruction.owner_setup.topic.employees.steps.fill_the_form.media_url',
+            },
           ],
         },
       ],

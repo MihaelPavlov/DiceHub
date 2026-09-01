@@ -1439,89 +1439,94 @@
       "topic": {
         "games_qr": {
           "title": "Games & QR Codes",
-          "thumbnail_url": "/shared/assets/images/qr-code.png",
+          "thumbnail_url": "/shared/assets/images/instructions/OwnerSetup/game-qr-dialog.png",
           "description": "Every game gets its own QR code the moment you create it — print it and put it on the game.",
           "steps": {
             "every_game_gets_a_code": {
               "header": "Every game gets its own QR code",
               "description": "As soon as you add a game to the library, DiceHub generates a QR code for it. Open the game, tap the menu, and choose the QR code option to view or print it.",
-              "media_url": "/shared/assets/images/qr-code.png"
+              "media_url": "/shared/assets/images/instructions/OwnerSetup/game-qr-dialog.png"
             },
             "print_and_attach": {
               "header": "Print it and put it on the game",
               "description": "Print the QR code and stick it on the game box or its shelf spot, so players can scan it in the club to check availability or start a reservation.",
-              "media_url": "/shared/assets/images/qr-code.png"
+              "media_url": "/shared/assets/images/instructions/OwnerSetup/game-qr-dialog.png"
             },
             "pick_good_images": {
               "header": "Pick clear game images",
               "description": "Add a clear, well-lit cover image for every game — it's the first thing players see in the library and on the game card.",
-              "media_url": "/shared/assets/images/qr-code.png"
+              "media_url": "/shared/assets/images/instructions/OwnerSetup/games-library.jpeg"
             }
           }
         },
         "rewards_and_custom_period": {
           "title": "Rewards & Custom Periods",
-          "thumbnail_url": "/shared/assets/images/icons/kid_star-icon-blue.svg",
+          "thumbnail_url": "/shared/assets/images/instructions/OwnerSetup/rewards-tab.png",
           "description": "Set up your rewards, then create your custom period so players start earning.",
           "steps": {
             "setup_rewards_first": {
               "header": "Set up your rewards first",
-              "description": "Go to the Rewards tab and add the rewards your players can unlock. Do this before switching Custom Period on.",
-              "media_url": "/shared/assets/images/icons/kid_star-icon-blue.svg"
+              "description": "Go to the Rewards tab in the Challenges Manager and add the rewards your players can unlock. Do this before switching Custom Period on.",
+              "media_url": "/shared/assets/images/instructions/OwnerSetup/rewards-tab.png"
             },
             "recommended_order": {
               "header": "Recommended setup order",
-              "description": "Before turning Custom Period on, make sure you have: 1) all your games added, 2) your rewards set up, 3) your challenges, system rewards, and universal challenges set up. You can always add more later — this first pass just makes sure the first period isn't empty.",
-              "media_url": "/shared/assets/images/icons/kid_star-icon-blue.svg"
+              "description": "Before turning Custom Period on, make sure you have: 1) all your games added, 2) your rewards set up, 3) your period rewards, period challenges, and universal challenges set up on the Custom Period tab. You can always add more later — this first pass just makes sure the first period isn't empty.",
+              "media_url": "/shared/assets/images/instructions/OwnerSetup/custom-period-tab.png"
             },
             "turn_on_custom_period": {
               "header": "Turn Custom Period on",
-              "description": "Once your games, rewards and challenges are ready, go to Settings, switch Custom Period on, and set up your period.",
-              "media_url": "/shared/assets/images/icons/kid_star-icon-blue.svg"
+              "description": "Once your games, rewards and challenges are ready, open Settings, set \"Is Custom Period On\" to On and Save. You'll be taken to the Custom Period tab to finish the setup.",
+              "media_url": "/shared/assets/images/instructions/OwnerSetup/global-settings.jpeg"
             }
           }
         },
         "club_settings": {
           "title": "Club Settings That Matter",
-          "thumbnail_url": "/shared/assets/images/icons/menu_book-icon-blue.svg",
+          "thumbnail_url": "/shared/assets/images/instructions/OwnerSetup/global-settings.jpeg",
           "description": "These settings drive reward periods and background jobs — get them right before you open.",
           "steps": {
             "reset_day": {
-              "header": "Reset Day for Rewards",
-              "description": "This is when the reward period restarts and players' point progress starts over. Players keep any rewards they've already earned — only the running point count resets.",
-              "media_url": "/shared/assets/images/icons/menu_book-icon-blue.svg"
+              "header": "Period Of Reward Reset",
+              "description": "How often the reward period restarts (weekly or monthly). When it resets, players' point progress starts over — they keep any rewards they've already earned, only the running point count resets.",
+              "media_url": "/shared/assets/images/instructions/OwnerSetup/global-settings.jpeg"
             },
             "reservation_hours": {
               "header": "Reservation Hours",
               "description": "Sets the hours players are allowed to reserve games and tables. Change it anytime to match your club's opening hours.",
-              "media_url": "/shared/assets/images/icons/menu_book-icon-blue.svg"
+              "media_url": "/shared/assets/images/instructions/OwnerSetup/global-settings.jpeg"
             },
             "challenge_rewards_count": {
               "header": "Challenge Rewards Count for Period",
               "description": "How many rewards are available in a single period — 5, 10, or whatever fits your club. Change it whenever you like.",
-              "media_url": "/shared/assets/images/icons/menu_book-icon-blue.svg"
+              "media_url": "/shared/assets/images/instructions/OwnerSetup/global-settings.jpeg"
             },
             "time_zone": {
               "header": "Time Zone",
               "description": "Make sure this is set correctly. Every background job — closing tables, resetting reward periods, expiring rewards — runs on this time zone.",
-              "media_url": "/shared/assets/images/icons/menu_book-icon-blue.svg"
+              "media_url": "/shared/assets/images/instructions/OwnerSetup/global-settings.jpeg"
             },
             "days_off": {
               "header": "Days Off",
               "description": "Also feeds the background jobs, so keep it up to date with your club's actual closing days.",
-              "media_url": "/shared/assets/images/icons/menu_book-icon-blue.svg"
+              "media_url": "/shared/assets/images/instructions/OwnerSetup/global-settings.jpeg"
             }
           }
         },
         "employees": {
           "title": "Add Your Employees",
-          "thumbnail_url": "/shared/assets/images/icons/account_circle-icon-blue.svg",
+          "thumbnail_url": "/shared/assets/images/instructions/OwnerSetup/employees-list.png",
           "description": "Give your staff their own accounts with extra permissions.",
           "steps": {
             "add_from_profile": {
-              "header": "Add employees from your profile",
-              "description": "Open the Profile tab, go to Employees, and add your staff. They get special roles beyond a normal user, so they can approve reservations, manage games, and more.",
-              "media_url": "/shared/assets/images/icons/account_circle-icon-blue.svg"
+              "header": "Open Profile → Employees",
+              "description": "From the Profile tab, tap the Employees tile. Your staff list lives here — use the + button to add someone. They get special roles beyond a normal user, so they can approve reservations, manage games, and more.",
+              "media_url": "/shared/assets/images/instructions/OwnerSetup/owner-profile.png"
+            },
+            "fill_the_form": {
+              "header": "Fill in the new employee",
+              "description": "Enter their first name, last name, email and phone number, then tap Create. They'll get an email to set their password and can sign in with their staff role.",
+              "media_url": "/shared/assets/images/instructions/OwnerSetup/new-employee-form.png"
             }
           }
         }
