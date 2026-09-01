@@ -62,6 +62,7 @@ export const PATH = {
   SCANNER: {
     CORE: 'scanner',
     UPLOAD: 'upload',
+    ISSUE: 'issue',
   },
   REWARDS: {
     CORE: 'rewards',

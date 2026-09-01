@@ -135,6 +135,7 @@ public class TenantDbContext : DbContext, ITenantDbContext
     public DbSet<UserStatistic> UserStatistics { get; set; } = default!;
     public DbSet<FailedJob> FailedJobs { get; set; } = default!;
     public DbSet<QrCodeScanAudit> QrCodeScanAudits { get; set; } = default!;
+    public DbSet<QrToken> QrTokens { get; set; } = default!;
     public DbSet<TenantSetting> TenantSettings { get; set; } = default!;
     public DbSet<Tenant> Tenants { get; set; } = default!;
     public DbSet<TenantApplication> TenantApplications { get; set; } = default!;

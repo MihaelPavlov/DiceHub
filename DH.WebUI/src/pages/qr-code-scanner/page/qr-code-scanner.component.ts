@@ -159,26 +159,37 @@ export class QrCodeScannerComponent
         if (code) {
           this.afterScanSuccessfulMessage = null;
           video.pause();
-          let decryptQrCode: string | null = null;
 
-          try {
-            decryptQrCode = this.qrEncryptService.decryptObjectSync(code.data);
-          } catch {
-            decryptQrCode = null;
+          const scanned = code.data;
+          let qrType: QrCodeType | null = null;
+
+          if (/^[1-6][0-9A-Z]{11}$/.test(scanned)) {
+            // New short token - the leading digit is the type; the server
+            // resolves the rest. No client-side decrypt.
+            qrType = Number(scanned[0]) as QrCodeType;
+          } else {
+            // Legacy encrypted-JSON blob (QR codes printed before the token scheme).
+            let decrypted: string | null = null;
+            try {
+              decrypted = this.qrEncryptService.decryptObjectSync(scanned);
+            } catch {
+              decrypted = null;
+            }
+            if (decrypted && this.isQrCodeValid(decrypted)) {
+              qrType = (JSON.parse(decrypted) as IQrCode).Type;
+            }
           }
 
-          if (!decryptQrCode || !this.isQrCodeValid(decryptQrCode)) {
+          if (qrType === null) {
             this.invalidQrCode = true;
             video.play();
             setTimeout(() => {
               this.invalidQrCode = false;
             }, 3000);
           } else {
-            this.currentQrCodeType = (
-              JSON.parse(decryptQrCode) as IQrCode
-            ).Type;
+            this.currentQrCodeType = qrType;
             this.invalidQrCode = false;
-            const request = { data: code.data };
+            const request = { data: scanned };
             this.isValidQrScanned = true;
 
             const dialogRefConfirmation = this.dialog.open(

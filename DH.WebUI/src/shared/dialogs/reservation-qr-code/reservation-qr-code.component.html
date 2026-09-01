@@ -11,14 +11,17 @@
     {{ "games.game.availability.reservation_qr_code.show_to_staff" | translate }}
   </span>
 
-  <div class="qr-ticket__code" *ngIf="this.encryptedQrData">
+  <div class="qr-ticket__code" *ngIf="qrData">
     <qrcode
-      [qrdata]="this.encryptedQrData"
-      [width]="176"
-      [margin]="0"
-      [errorCorrectionLevel]="'M'"
+      [qrdata]="qrData"
+      [width]="240"
+      [margin]="2"
+      [errorCorrectionLevel]="'L'"
     ></qrcode>
   </div>
+  <span *ngIf="qrError" class="qr-ticket__title">
+    {{ "qr_scanner.qr_generate_failed" | translate }}
+  </span>
 
   <button class="qr-ticket__btn" style="background:var(--games-violet);color:#1c0e33;" mat-dialog-close>
     {{ "close" | translate }}
