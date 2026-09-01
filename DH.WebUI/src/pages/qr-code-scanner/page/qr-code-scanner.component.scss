@@ -1,7 +1,8 @@
 .qr-shell {
   min-height: 100vh;
-  // extra bottom room so nothing sits under the fixed bottom nav
-  padding: 1.5rem 1.25rem 6rem;
+  // extra bottom room so nothing sits under the fixed bottom nav, plus slack
+  // so the page can be nudged/scrolled a little
+  padding: 1.5rem 1.25rem 10rem;
   display: flex;
   flex-direction: column;
   gap: 1.375rem;
@@ -163,7 +164,7 @@
 
 @media (min-width: 900px) {
   .qr-shell {
-    padding: 2.5rem 3rem 3rem;
+    padding: 2.5rem 3rem 6rem;
     align-items: center;
   }
 

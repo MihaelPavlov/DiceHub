@@ -205,7 +205,10 @@ export class QrCodeScannerComponent
         });
 
         if (code) {
+          // a fresh code clears any banner left over from the previous scan
           this.afterScanSuccessfulMessage = null;
+          this.afterScanErrorMessage = null;
+          this.invalidQrCode = false;
 
           const scanned = code.data;
           let qrType: QrCodeType | null = null;
@@ -407,8 +410,12 @@ export class QrCodeScannerComponent
                           this.resumeScanning();
                         }
                       },
-                      error: () => {
+                      error: (err: any) => {
+                        // 400s come back as ProblemDetails { detail }; show the
+                        // server's message ("This QR code is invalid or has
+                        // expired.") rather than the generic fallback.
                         this.afterScanErrorMessage =
+                          err?.error?.detail ??
                           this.translateService.instant('qr_scanner.scan_failed');
                         this.resumeScanning();
                       },
@@ -431,8 +438,9 @@ export class QrCodeScannerComponent
   }
 
   private resumeScanning(): void {
-    this.invalidQrCode = false;
-    this.afterScanErrorMessage = null;
+    // NOTE: don't clear invalidQrCode / afterScanErrorMessage here - the banner
+    // must stay visible after we go back to scanning. It's cleared when the next
+    // code is decoded (see tick()).
     const wasHidden = this.isValidQrScanned;
     this.isValidQrScanned = false;
     this.scanning = true;
