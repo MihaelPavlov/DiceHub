@@ -294,11 +294,15 @@ public class UserChallengesManagementService : IUserChallengesManagementService
                                     "Found user with more then one UserChallengePeriodPerformance during UserChallengesManagementService.EnsureValidUserChallengePeriodsAsync for UserId {UserId}.",
                                     userId);
 
+                                // Marked in memory only - a single SaveChangesAsync at the
+                                // end of this block persists the deactivation together with
+                                // the new period. TenantDbContext.SaveChangesAsync consumes
+                                // the tenant context as a one-shot, so a second save in the
+                                // same transaction would throw "TenantId is required".
                                 foreach (var performance in userPerformances)
                                 {
                                     performance.IsPeriodActive = false;
                                 }
-                                await context.SaveChangesAsync(cancellationToken);
                             }
 
                             var userPerformance = userPerformances.FirstOrDefault(x => x.IsPeriodActive);
@@ -327,8 +331,9 @@ public class UserChallengesManagementService : IUserChallengesManagementService
 
                             if (userPerformance != null)
                             {
+                                // In-memory only; persisted by the single SaveAndCommitTransaction
+                                // below (see the count > 1 branch for why a second save here fails).
                                 userPerformance.IsPeriodActive = false;
-                                await context.SaveChangesAsync(cancellationToken);
                             }
 
                             var alreadyExists = await context.UserChallengePeriodPerformances
@@ -344,6 +349,9 @@ public class UserChallengesManagementService : IUserChallengesManagementService
                                 this.logger.LogWarning(
                                     "Concurrent insert avoided. Active UserChallengePeriodPerformance already exists for UserId {UserId} from {StartDate} to {EndDate}",
                                     userId, startDate, nextResetDate);
+                                // Persist any in-memory deactivations from above. Single save on
+                                // this path, so the one-shot tenant context is still valid.
+                                await context.SaveChangesAsync(cancellationToken);
                                 await transaction.CommitAsync(cancellationToken);
                                 continue;
                             }
