@@ -3720,12 +3720,12 @@
     "semantic_hash": ""
   },
   "DH.WebUI/android/app/build.gradle": {
-    "mtime": 1788241736.8093755,
-    "ast_hash": "95010a99df8cb02ed7c34031ca7f1064",
+    "mtime": 1788243748.3118641,
+    "ast_hash": "c37f4b11cd633ffe00b973d1494a1efa",
     "semantic_hash": ""
   },
   "DH.WebUI/android/app/capacitor.build.gradle": {
-    "mtime": 1788241767.538072,
+    "mtime": 1788243781.3914669,
     "ast_hash": "50eaae28a709e8611a8c26b015b7eb45",
     "semantic_hash": ""
   },
@@ -3755,7 +3755,7 @@
     "semantic_hash": ""
   },
   "DH.WebUI/android/capacitor.settings.gradle": {
-    "mtime": 1788241767.5370722,
+    "mtime": 1788243781.3914669,
     "ast_hash": "b66e108568f7ac1ce6cdbcbc5a07ff4e",
     "semantic_hash": ""
   },
@@ -4070,8 +4070,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/entities/games/api/games.service.ts": {
-    "mtime": 1785234121.7616253,
-    "ast_hash": "f3ab4ed7f8da7b52ee9342c0a346ea6e",
+    "mtime": 1788244353.0434837,
+    "ast_hash": "39e8dacdbc864417fc026df95a3d5148",
     "semantic_hash": ""
   },
   "DH.WebUI/src/entities/games/enums/game-average-playtime.enum.ts": {
@@ -4335,8 +4335,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/entities/space-management/api/space-management.service.ts": {
-    "mtime": 1784883716.998965,
-    "ast_hash": "e8b2d874e123e2aaab3953b53060aec2",
+    "mtime": 1788244359.2198064,
+    "ast_hash": "eb803677872005f2e3cb55f24179346c",
     "semantic_hash": ""
   },
   "DH.WebUI/src/entities/space-management/models/active-booked-table.model.ts": {
@@ -5730,8 +5730,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/widgets/menu/page/navigation-menu.component.ts": {
-    "mtime": 1788243088.4636319,
-    "ast_hash": "168d38ad159d69c91344e7c86a607f9b",
+    "mtime": 1788244385.3415136,
+    "ast_hash": "2bfe9551430abb945844791796ea3bb2",
     "semantic_hash": ""
   },
   "DH.WebUI/src/widgets/nav-bar/nav-bar.module.ts": {

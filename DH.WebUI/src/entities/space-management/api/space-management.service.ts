@@ -45,6 +45,13 @@ export class SpaceManagementService {
     );
   }
 
+  public getActiveReservedTablesCount_BackgroundRequest(): Observable<number> {
+    return this.api.get<number>(
+      `/${PATH.SPACE_MANAGEMENT.CORE}/${PATH.SPACE_MANAGEMENT.GET_ACTIVE_RESERVED_TABLES_COUNT}`,
+      { backgroundRequest: true }
+    );
+  }
+
   public getActiveReservedTableList_BackgroundRequest(): Observable<
     IActiveReservedTable[]
   > {

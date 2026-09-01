@@ -119,41 +119,27 @@ export class NavigationMenuComponent implements OnInit {
   }
 
   public refreshForAnyActiveReservations(): void {
+    // Use the dedicated count endpoints (same "IsActive" criterion the server
+    // uses everywhere) instead of pulling the whole reservation list and
+    // re-filtering it client-side - no field-casing guesswork, tiny payload.
     combineLatest([
-      this.gameService.getReservations_BackgroundRequest().pipe(
-        catchError((err) => {
-          console.warn('Game reservations failed silently', err);
-          return of([]);
-        }),
-        // The auth interceptor turns a background 401 into EMPTY - the stream
-        // completes without ever emitting, which makes combineLatest hang and
-        // the red dot never update. Guarantee a value.
-        defaultIfEmpty<any[], any[]>([])
+      this.gameService.getActiveReservationsCount_BackgroundRequest().pipe(
+        catchError(() => of(0)),
+        // the auth interceptor turns a background 401 into EMPTY (completes,
+        // never emits) - without this combineLatest hangs and the dot never
+        // updates.
+        defaultIfEmpty<number, number>(0)
       ),
       this.spaceManagementService
-        .getActiveReservedTableList_BackgroundRequest()
+        .getActiveReservedTablesCount_BackgroundRequest()
         .pipe(
-          catchError((err) => {
-            console.warn('Table reservations failed silently', err);
-            return of([]);
-          }),
-          defaultIfEmpty<any[], any[]>([])
+          catchError(() => of(0)),
+          defaultIfEmpty<number, number>(0)
         ),
-    ]).subscribe({
-      next: ([gameReservations, tableReservations]) => {
-        const gameActiveReservations =
-          this.filterActiveReservations(gameReservations);
-        const tableActiveReservations =
-          this.filterActiveReservations(tableReservations);
-
-        this.anyActiveReservations =
-          gameActiveReservations.length > 0 ||
-          tableActiveReservations.length > 0;
-
-        this.updateLeftMenuItems(this.anyActiveReservations);
-
-        this.cd.detectChanges();
-      },
+    ]).subscribe(([gameCount, tableCount]) => {
+      this.anyActiveReservations = (gameCount ?? 0) > 0 || (tableCount ?? 0) > 0;
+      this.updateLeftMenuItems(this.anyActiveReservations);
+      this.cd.detectChanges();
     });
   }
   private updateLeftMenuItems(hasActive: boolean): void {
@@ -176,10 +162,6 @@ export class NavigationMenuComponent implements OnInit {
       route: this.tenantRouter.buildTenantUrl('/reservations'),
     });
   }
-  private filterActiveReservations(reservations: any[]): any[] {
-    return reservations?.filter((x) => x.isActive) || [];
-  }
-
   public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
