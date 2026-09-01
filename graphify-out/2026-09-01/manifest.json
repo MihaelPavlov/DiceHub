@@ -335,8 +335,8 @@
     "semantic_hash": ""
   },
   "DH.DiceHub/DH.Adapter.Data/Services/GameService.cs": {
-    "mtime": 1788244670.0263476,
-    "ast_hash": "6235ed7667e51038cd6aec221d21bebc",
+    "mtime": 1788250612.192851,
+    "ast_hash": "38941b0268f74c35457207d007eb9510",
     "semantic_hash": ""
   },
   "DH.DiceHub/DH.Adapter.Data/Services/GameSessionService.cs": {
@@ -3720,12 +3720,12 @@
     "semantic_hash": ""
   },
   "DH.WebUI/android/app/build.gradle": {
-    "mtime": 1788243748.3118641,
-    "ast_hash": "c37f4b11cd633ffe00b973d1494a1efa",
+    "mtime": 1788246150.2411735,
+    "ast_hash": "7988e398b49e89a4439b0ba175cea199",
     "semantic_hash": ""
   },
   "DH.WebUI/android/app/capacitor.build.gradle": {
-    "mtime": 1788243781.3914669,
+    "mtime": 1788246192.5687,
     "ast_hash": "50eaae28a709e8611a8c26b015b7eb45",
     "semantic_hash": ""
   },
@@ -3755,7 +3755,7 @@
     "semantic_hash": ""
   },
   "DH.WebUI/android/capacitor.settings.gradle": {
-    "mtime": 1788243781.3914669,
+    "mtime": 1788246192.567889,
     "ast_hash": "b66e108568f7ac1ce6cdbcbc5a07ff4e",
     "semantic_hash": ""
   },
@@ -6425,8 +6425,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/games-library/page/games-library.component.html": {
-    "mtime": 1788238310.511159,
-    "ast_hash": "6e08a0391faaeb402497b796e71cf39b",
+    "mtime": 1788251025.5926232,
+    "ast_hash": "37eed6549cf55330378ff180f1ef8f49",
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/instruction-management/page/instruction-management.component.html": {

@@ -125,15 +125,12 @@ public class SpaceTableService : ISpaceTableService
 
     public async Task<int> GetActiveSpaceTableReservationsCount(CancellationToken cancellationToken)
     {
-        // "Upcoming" = still to happen (today onward) and not declined/expired -
-        // i.e. pending approval OR approved. Drives the Reservations nav dot.
-        var fromDate = DateTime.UtcNow.Date;
+        // Must match the active table reservation list: IsActive already means
+        // "upcoming/live" - set on create, kept through approval, cleared only
+        // on cancel/decline/expiry.
         using (var context = await dbContextFactory.CreateDbContextAsync(cancellationToken))
         {
-            return await context.SpaceTableReservations.AsNoTracking()
-                .Where(x => x.ReservationDate >= fromDate
-                            && (x.Status == ReservationStatus.Pending || x.Status == ReservationStatus.Accepted))
-                .CountAsync(cancellationToken);
+            return await context.SpaceTableReservations.AsNoTracking().Where(x => x.IsActive).CountAsync(cancellationToken);
         }
     }
 

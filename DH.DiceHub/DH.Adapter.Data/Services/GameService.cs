@@ -266,13 +266,10 @@ public class GameService : IGameService
 
     public async Task<int> GetActiveGameReservationsCount(CancellationToken cancellationToken)
     {
-        // "Upcoming" = still to happen (today onward) and not declined/expired -
-        // i.e. pending approval OR approved. Drives the Reservations nav dot.
-        var fromDate = DateTime.UtcNow.Date;
-        return await this.tenantDbContext.GameReservations
-            .Where(x => x.ReservationDate >= fromDate
-                        && (x.Status == ReservationStatus.Pending || x.Status == ReservationStatus.Accepted))
-            .CountAsync(cancellationToken);
+        // Must match GetActiveGameReservation (the list): IsActive already means
+        // "upcoming/live" - it's set on create, stays through approval, and only
+        // clears on cancel/decline/expiry.
+        return await this.tenantDbContext.GameReservations.Where(x => x.IsActive).CountAsync(cancellationToken);
     }
 
     public async Task DeleteGame(int id, CancellationToken cancellationToken)
