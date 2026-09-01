@@ -111,6 +111,19 @@
     }
   }
 
+  // admin edit/delete menu for the featured game (it's lifted out of the grid,
+  // which is the only other place the menu renders)
+  &__menu {
+    position: absolute;
+    top: 3.6rem;
+    right: 1rem;
+    z-index: 2;
+    background: rgba(15, 14, 18, 0.52);
+    border-color: rgba(255, 255, 255, 0.18);
+    fill: #fff;
+    backdrop-filter: blur(8px);
+  }
+
   &__content {
     position: absolute;
     right: 1rem;

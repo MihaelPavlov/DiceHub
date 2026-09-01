@@ -25,6 +25,19 @@
       </svg>
       {{ featured.likes }}
     </div>
+    <svg
+      *ngIf="(isAdmin$ | async) ?? false"
+      class="wrapper_menu featured-game__menu"
+      (click)="showMenu(featured.id, $event, controls)"
+      height="2rem"
+      viewBox="0 -960 960 960"
+      width="2rem"
+      fill="#FFFFFF"
+    >
+      <path
+        d="M88-170v-103.08h103.08V-170H88Zm213.85 0v-103.08H872V-170H301.85ZM88-428.46v-103.08h103.08v103.08H88Zm213.85 0v-103.08H872v103.08H301.85ZM88-686.92V-790h103.08v103.08H88Zm213.85 0V-790H872v103.08H301.85Z"
+      />
+    </svg>
     <div class="featured-game__content">
       <div>
         <h2 class="games-display">{{ featured.name }}</h2>
