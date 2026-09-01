@@ -390,8 +390,8 @@
     "semantic_hash": ""
   },
   "DH.DiceHub/DH.Adapter.Data/Services/UserChallengesManagementService.cs": {
-    "mtime": 1788257946.3621066,
-    "ast_hash": "925e2f26c2f24932bffb3e3c1a180bbb",
+    "mtime": 1788261059.059313,
+    "ast_hash": "8ab62d8993216e63a9f96c9466dc15ca",
     "semantic_hash": ""
   },
   "DH.DiceHub/DH.Adapter.Data/Services/UserSettingsCache.cs": {
