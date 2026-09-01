@@ -82,7 +82,10 @@ app-root {
   overscroll-behavior: contain;
 }
 body {
-  background-color: palette.$main-background-color;
+  // Match the redesigned page shells (var(--games-bg)); the legacy
+  // $main-background-color (#20232a) is a slightly different dark and shows
+  // through behind headers / on short pages as an off-colour band.
+  background-color: var(--games-bg);
   color: palette.$main-font-color;
   height: 100%;
 }
