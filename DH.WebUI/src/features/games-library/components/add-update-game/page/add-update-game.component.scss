@@ -84,6 +84,8 @@
 }
 
 .wrapper_icons {
+  // header carries the same top glow as the shell
+  background: radial-gradient(circle at 12% 0%, rgba(141, 102, 214, 0.12), transparent 24rem), var(--games-bg);
   display: flex;
   justify-content: space-between;
   align-items: center;

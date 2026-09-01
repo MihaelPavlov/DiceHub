@@ -8,6 +8,8 @@
 }
 
 .games-shell__header {
+  // header carries the same top glow as the shell
+  background: radial-gradient(circle at 12% 0%, rgba(141, 102, 214, 0.14), transparent 28rem), var(--games-bg);
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   grid-template-areas:
