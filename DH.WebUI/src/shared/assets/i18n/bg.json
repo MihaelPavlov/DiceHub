@@ -1455,7 +1455,7 @@
             "pick_good_images": {
               "header": "Изберете ясни снимки на игрите",
               "description": "Добавете ясна, добре осветена корица за всяка игра — това е първото, което играчите виждат в библиотеката и в картата на играта.",
-              "media_url": "/shared/assets/images/instructions/OwnerSetup/games-library.jpeg"
+              "media_url": "/shared/assets/images/instructions/OwnerSetup/game-covers.png"
             }
           }
         },

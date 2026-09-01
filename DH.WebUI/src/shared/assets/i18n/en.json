@@ -1455,7 +1455,7 @@
             "pick_good_images": {
               "header": "Pick clear game images",
               "description": "Add a clear, well-lit cover image for every game — it's the first thing players see in the library and on the game card.",
-              "media_url": "/shared/assets/images/instructions/OwnerSetup/games-library.jpeg"
+              "media_url": "/shared/assets/images/instructions/OwnerSetup/game-covers.png"
             }
           }
         },
