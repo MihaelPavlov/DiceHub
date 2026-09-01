@@ -25,7 +25,7 @@ export class ErrorInterceptor implements HttpInterceptor {
         if (error.error instanceof ErrorEvent) {
           return throwError(() => error);
         } else {
-          // Server-side error          
+          // Server-side error
           switch (error.status) {
             case 400:
               errorMessage = 'Bad Request: ' + error.error.detail;
@@ -36,9 +36,12 @@ export class ErrorInterceptor implements HttpInterceptor {
             case 403:
               this.router.navigate(['/forbidden']);
               break;
-            case 404:
-              this.router.navigate(['/not-found']);
-              break;
+            // A 404 from a data request is NOT a "page not found" - it means the
+            // requested resource is missing, which the calling service handles.
+            // Redirecting the whole app to /not-found here bounced users onto a
+            // 404 page whenever a cold-boot request (token refresh, tenant
+            // check, first page fetch) transiently 404'd. Genuinely unmatched
+            // URLs are handled by the router's "**" route.
             case 0:
               this.router.navigate(['/server-error']);
               break;
