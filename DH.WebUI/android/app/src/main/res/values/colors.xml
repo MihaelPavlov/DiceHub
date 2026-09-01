@@ -2,4 +2,12 @@
 <resources>
     <!-- Accent colour applied to the notification small icon and title. -->
     <color name="notification_color">#8EA2FF</color>
+
+    <!-- Match the web app background (--games-bg) so the status / navigation
+         bars don't show Capacitor's default indigo behind the battery/signal. -->
+    <color name="statusBar">#17151D</color>
+
+    <!-- Override Capacitor's default (#303F9F) which the theme uses for the
+         status bar colour. -->
+    <color name="colorPrimaryDark">#17151D</color>
 </resources>

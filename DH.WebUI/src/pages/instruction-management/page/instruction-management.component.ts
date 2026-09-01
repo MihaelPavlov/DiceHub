@@ -11,7 +11,14 @@ interface InstructionHubLink {
   name: string;
   summary: string;
   path: string;
-  icon: 'install' | 'bell' | 'table' | 'calendar' | 'trophy' | 'meeple';
+  icon:
+    | 'checklist'
+    | 'install'
+    | 'bell'
+    | 'table'
+    | 'calendar'
+    | 'trophy'
+    | 'meeple';
   accent: 'amber' | 'coral' | 'teal' | 'violet';
   count: number;
 }
@@ -33,6 +40,14 @@ export class InstructionManagementComponent {
     private readonly ts: TranslateService
   ) {
     this.defaultLinks = [
+      {
+        name: this.ts.instant('instruction.owner_setup.title'),
+        summary: this.ts.instant('instruction.owner_setup.summary'),
+        path: '/instructions/owner_setup',
+        icon: 'checklist',
+        accent: 'violet',
+        count: INSTRUCTION_LINK_MAPPINGS['owner_setup'].topics.length,
+      },
       {
         name: this.ts.instant('instruction.how_to_install.title'),
         summary: this.ts.instant('instruction.how_to_install.summary'),

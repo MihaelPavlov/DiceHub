@@ -1433,6 +1433,100 @@
     "previous": "Previous",
     "next": "Next",
     "articles_count": "{{count}} articles",
+    "owner_setup": {
+      "title": "Getting Started as an Owner",
+      "summary": "What to set up before you open the club to players",
+      "topic": {
+        "games_qr": {
+          "title": "Games & QR Codes",
+          "thumbnail_url": "/shared/assets/images/qr-code.png",
+          "description": "Every game gets its own QR code the moment you create it — print it and put it on the game.",
+          "steps": {
+            "every_game_gets_a_code": {
+              "header": "Every game gets its own QR code",
+              "description": "As soon as you add a game to the library, DiceHub generates a QR code for it. Open the game, tap the menu, and choose the QR code option to view or print it.",
+              "media_url": "/shared/assets/images/qr-code.png"
+            },
+            "print_and_attach": {
+              "header": "Print it and put it on the game",
+              "description": "Print the QR code and stick it on the game box or its shelf spot, so players can scan it in the club to check availability or start a reservation.",
+              "media_url": "/shared/assets/images/qr-code.png"
+            },
+            "pick_good_images": {
+              "header": "Pick clear game images",
+              "description": "Add a clear, well-lit cover image for every game — it's the first thing players see in the library and on the game card.",
+              "media_url": "/shared/assets/images/qr-code.png"
+            }
+          }
+        },
+        "rewards_and_custom_period": {
+          "title": "Rewards & Custom Periods",
+          "thumbnail_url": "/shared/assets/images/icons/kid_star-icon-blue.svg",
+          "description": "Set up your rewards, then create your custom period so players start earning.",
+          "steps": {
+            "setup_rewards_first": {
+              "header": "Set up your rewards first",
+              "description": "Go to the Rewards tab and add the rewards your players can unlock. Do this before switching Custom Period on.",
+              "media_url": "/shared/assets/images/icons/kid_star-icon-blue.svg"
+            },
+            "recommended_order": {
+              "header": "Recommended setup order",
+              "description": "Before turning Custom Period on, make sure you have: 1) all your games added, 2) your rewards set up, 3) your challenges, system rewards, and universal challenges set up. You can always add more later — this first pass just makes sure the first period isn't empty.",
+              "media_url": "/shared/assets/images/icons/kid_star-icon-blue.svg"
+            },
+            "turn_on_custom_period": {
+              "header": "Turn Custom Period on",
+              "description": "Once your games, rewards and challenges are ready, go to Settings, switch Custom Period on, and set up your period.",
+              "media_url": "/shared/assets/images/icons/kid_star-icon-blue.svg"
+            }
+          }
+        },
+        "club_settings": {
+          "title": "Club Settings That Matter",
+          "thumbnail_url": "/shared/assets/images/icons/menu_book-icon-blue.svg",
+          "description": "These settings drive reward periods and background jobs — get them right before you open.",
+          "steps": {
+            "reset_day": {
+              "header": "Reset Day for Rewards",
+              "description": "This is when the reward period restarts and players' point progress starts over. Players keep any rewards they've already earned — only the running point count resets.",
+              "media_url": "/shared/assets/images/icons/menu_book-icon-blue.svg"
+            },
+            "reservation_hours": {
+              "header": "Reservation Hours",
+              "description": "Sets the hours players are allowed to reserve games and tables. Change it anytime to match your club's opening hours.",
+              "media_url": "/shared/assets/images/icons/menu_book-icon-blue.svg"
+            },
+            "challenge_rewards_count": {
+              "header": "Challenge Rewards Count for Period",
+              "description": "How many rewards are available in a single period — 5, 10, or whatever fits your club. Change it whenever you like.",
+              "media_url": "/shared/assets/images/icons/menu_book-icon-blue.svg"
+            },
+            "time_zone": {
+              "header": "Time Zone",
+              "description": "Make sure this is set correctly. Every background job — closing tables, resetting reward periods, expiring rewards — runs on this time zone.",
+              "media_url": "/shared/assets/images/icons/menu_book-icon-blue.svg"
+            },
+            "days_off": {
+              "header": "Days Off",
+              "description": "Also feeds the background jobs, so keep it up to date with your club's actual closing days.",
+              "media_url": "/shared/assets/images/icons/menu_book-icon-blue.svg"
+            }
+          }
+        },
+        "employees": {
+          "title": "Add Your Employees",
+          "thumbnail_url": "/shared/assets/images/icons/account_circle-icon-blue.svg",
+          "description": "Give your staff their own accounts with extra permissions.",
+          "steps": {
+            "add_from_profile": {
+              "header": "Add employees from your profile",
+              "description": "Open the Profile tab, go to Employees, and add your staff. They get special roles beyond a normal user, so they can approve reservations, manage games, and more.",
+              "media_url": "/shared/assets/images/icons/account_circle-icon-blue.svg"
+            }
+          }
+        }
+      }
+    },
     "reservation": {
       "title": "Reservations",
       "summary": "Reserve a game, table, or a combination of both",

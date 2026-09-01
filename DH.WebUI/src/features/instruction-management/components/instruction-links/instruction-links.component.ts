@@ -6,6 +6,7 @@ import { INSTRUCTION_LINK_MAPPINGS } from '../../../../entities/instruction-mana
 import { TranslateService } from '@ngx-translate/core';
 
 const ACCENT_BY_KEY: { [key: string]: 'amber' | 'coral' | 'teal' | 'violet' } = {
+  owner_setup: 'violet',
   how_to_install: 'amber',
   notifications: 'coral',
   reservation: 'teal',
