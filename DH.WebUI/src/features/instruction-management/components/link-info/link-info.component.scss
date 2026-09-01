@@ -67,6 +67,11 @@
   padding: 0 1.25rem 1.375rem;
 }
 
+// text-only step (no screenshot): the media block normally supplies the top gap
+.instruction-steps__card--no-media .instruction-steps__content {
+  padding-top: 1.375rem;
+}
+
 .instruction-steps__step-label {
   font-size: 0.7rem;
   font-weight: 700;

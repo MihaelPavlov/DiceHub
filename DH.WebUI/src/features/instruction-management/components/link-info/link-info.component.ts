@@ -63,7 +63,7 @@ public ngAfterViewInit(): void {
   });
 }
 private preloadGif(index: number) {
-  if (!this.linkInfo[index]) return;
+  if (!this.linkInfo[index] || !this.linkInfo[index].mediaUrl) return;
 
   const url = this.translate(this.linkInfo[index].mediaUrl ?? '');
 
@@ -111,10 +111,12 @@ private preloadGif(index: number) {
     // Wait 2 seconds before scrolling to top
     window.scrollTo({ top: 0, behavior: 'instant' });
 
-    // Reset the GIF/Image source
+    // Reset the GIF/Image source (text-only steps have no media)
     this.currentIndex = index;
-    const imagePath = this.translate(this.linkInfo[index].mediaUrl ?? '');
-    this.gifSrcMap[index] = `${imagePath}?t=${Date.now()}`;
+    if (this.linkInfo[index]?.mediaUrl) {
+      const imagePath = this.translate(this.linkInfo[index].mediaUrl ?? '');
+      this.gifSrcMap[index] = `${imagePath}?t=${Date.now()}`;
+    }
   }
 
   // Handle manual scrolling and snap to the nearest slide

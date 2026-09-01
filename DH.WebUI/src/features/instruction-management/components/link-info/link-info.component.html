@@ -14,8 +14,11 @@
 
     <div class="instruction-steps__viewport" #carouselViewport>
       <div *ngFor="let slide of slides; let i = index" class="instruction-steps__slide">
-        <div class="instruction-steps__card">
-          <div class="instruction-steps__media">
+        <div
+          class="instruction-steps__card"
+          [class.instruction-steps__card--no-media]="!linkInfo[i].mediaUrl"
+        >
+          <div class="instruction-steps__media" *ngIf="linkInfo[i].mediaUrl">
             <img
               class="instruction-steps__media-img"
               (click)="openImagePreview(gifSrcMap[i])"

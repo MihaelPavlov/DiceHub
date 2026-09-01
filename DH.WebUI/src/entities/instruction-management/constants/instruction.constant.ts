@@ -85,40 +85,35 @@ export const INSTRUCTION_LINK_MAPPINGS: { [key: string]: InstructionSection } =
                 'instruction.owner_setup.topic.club_settings.steps.reset_day.header',
               description:
                 'instruction.owner_setup.topic.club_settings.steps.reset_day.description',
-              mediaUrl:
-                'instruction.owner_setup.topic.club_settings.steps.reset_day.media_url',
+              mediaUrl: null,
             },
             {
               header:
                 'instruction.owner_setup.topic.club_settings.steps.reservation_hours.header',
               description:
                 'instruction.owner_setup.topic.club_settings.steps.reservation_hours.description',
-              mediaUrl:
-                'instruction.owner_setup.topic.club_settings.steps.reservation_hours.media_url',
+              mediaUrl: null,
             },
             {
               header:
                 'instruction.owner_setup.topic.club_settings.steps.challenge_rewards_count.header',
               description:
                 'instruction.owner_setup.topic.club_settings.steps.challenge_rewards_count.description',
-              mediaUrl:
-                'instruction.owner_setup.topic.club_settings.steps.challenge_rewards_count.media_url',
+              mediaUrl: null,
             },
             {
               header:
                 'instruction.owner_setup.topic.club_settings.steps.time_zone.header',
               description:
                 'instruction.owner_setup.topic.club_settings.steps.time_zone.description',
-              mediaUrl:
-                'instruction.owner_setup.topic.club_settings.steps.time_zone.media_url',
+              mediaUrl: null,
             },
             {
               header:
                 'instruction.owner_setup.topic.club_settings.steps.days_off.header',
               description:
                 'instruction.owner_setup.topic.club_settings.steps.days_off.description',
-              mediaUrl:
-                'instruction.owner_setup.topic.club_settings.steps.days_off.media_url',
+              mediaUrl: null,
             },
           ],
         },
