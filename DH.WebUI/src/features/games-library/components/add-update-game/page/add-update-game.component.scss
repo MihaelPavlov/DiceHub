@@ -6,9 +6,7 @@
   align-items: center;
   padding-bottom: 8rem;
   font-size: palette.$main-font-color;
-  background:
-    radial-gradient(circle at 12% 0%, rgba(141, 102, 214, 0.12), transparent 24rem),
-    var(--games-bg);
+  background: var(--games-bg);
 }
 .expand-textarea-mobile {
   width: 100%;
@@ -90,9 +88,7 @@
   margin: 0;
   padding: 1rem;
   color: var(--games-text);
-  background:
-    radial-gradient(circle at 12% 0%, rgba(141, 102, 214, 0.12), transparent 24rem),
-    var(--games-bg);
+  background: var(--games-bg);
 
   .games-select {
     margin-top: 1rem;
