@@ -9,10 +9,13 @@ namespace DH.Application.SpaceManagement.Queries;
 
 public record GetActiveBookedSpaceTableQuery : IRequest<GetActiveBookedSpaceTableQueryModel?>;
 
-internal class GetActiveBookedSpaceTableQueryHandler(IUserContext userContext, IUserService userService, IRepository<SpaceTableReservation> repository) : IRequestHandler<GetActiveBookedSpaceTableQuery, GetActiveBookedSpaceTableQueryModel?>
+internal class GetActiveBookedSpaceTableQueryHandler(
+    IUserContext userContext, 
+    IUserManagementService userManagementService, 
+    IRepository<SpaceTableReservation> repository) : IRequestHandler<GetActiveBookedSpaceTableQuery, GetActiveBookedSpaceTableQueryModel?>
 {
     readonly IUserContext userContext = userContext;
-    readonly IUserService userService = userService;
+    readonly IUserManagementService userManagementService = userManagementService;
     readonly IRepository<SpaceTableReservation> repository = repository;
 
     public async Task<GetActiveBookedSpaceTableQueryModel?> Handle(GetActiveBookedSpaceTableQuery request, CancellationToken cancellationToken)
@@ -22,7 +25,7 @@ internal class GetActiveBookedSpaceTableQueryHandler(IUserContext userContext, I
         if (userReservation == null)
             return null;
 
-        var users = await this.userService.GetUserListByIds([userReservation.UserId], cancellationToken);
+        var users = await this.userManagementService.GetUserListByIds([userReservation.UserId], cancellationToken);
 
         return new GetActiveBookedSpaceTableQueryModel
         {

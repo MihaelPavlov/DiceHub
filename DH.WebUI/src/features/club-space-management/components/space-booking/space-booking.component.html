@@ -120,14 +120,8 @@
   <div class="btn_container">
     <button
       [disabled]="this.form.invalid"
-      class="btn btn-gray create-btn"
+      class="create-btn"
       (click)="this.bookTable()"
-      [ngClass]="{
-        'btn-border-green': this.form.valid,
-        'btn-font-green': this.form.valid,
-        'btn-border-red': this.form.invalid,
-        'btn-font-red': this.form.invalid
-      }"
     >
       {{ "space_management.booking.book_btn" | translate }}
     </button>

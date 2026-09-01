@@ -1,5 +1,5 @@
 import { FrontEndLogService } from './../../../shared/services/frontend-log.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Form } from '../../../shared/components/form/form.component';
 import {
   FormBuilder,
@@ -8,6 +8,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { FormDraftService } from '../../../shared/services/form-draft.service';
 import { AuthService } from '../../../entities/auth/auth.service';
 import { MessagingService } from '../../../entities/messaging/api/messaging.service';
 import { Formify } from '../../../shared/models/form.model';
@@ -20,6 +22,8 @@ import { LoadingService } from '../../../shared/services/loading.service';
 import { LoadingInterceptorContextService } from '../../../shared/services/loading-context.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../shared/services/language.service';
+import { TenantRouter } from '../../../shared/helpers/tenant-router';
+import { TenantContextService } from '../../../shared/services/tenant-context.service';
 
 interface IRegisterForm {
   username: string;
@@ -29,12 +33,12 @@ interface IRegisterForm {
 }
 
 @Component({
-    selector: 'app-register',
-    templateUrl: 'register.component.html',
-    styleUrl: 'register.component.scss',
-    standalone: false
+  selector: 'app-register',
+  templateUrl: 'register.component.html',
+  styleUrl: 'register.component.scss',
+  standalone: false,
 })
-export class RegisterComponent extends Form implements OnInit {
+export class RegisterComponent extends Form implements OnInit, OnDestroy {
   override form: Formify<IRegisterForm>;
 
   public showPassword: boolean = false;
@@ -42,8 +46,12 @@ export class RegisterComponent extends Form implements OnInit {
   public showResend: boolean = false;
   public clubName: string | null = null;
 
+  private static readonly DraftKey = 'register';
+  private draftSubscription: Subscription | null = null;
+
   constructor(
     private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly authService: AuthService,
     private readonly messagingService: MessagingService,
     public override readonly toastService: ToastService,
@@ -53,7 +61,9 @@ export class RegisterComponent extends Form implements OnInit {
     private readonly frontEndLogService: FrontEndLogService,
     private readonly loadingContext: LoadingInterceptorContextService,
     public override translateService: TranslateService,
-    private readonly languageService: LanguageService
+    private readonly languageService: LanguageService,
+    private readonly tenantContextService: TenantContextService,
+    private readonly formDraftService: FormDraftService
   ) {
     super(toastService, translateService);
     this.form = this.initFormGroup();
@@ -62,13 +72,22 @@ export class RegisterComponent extends Form implements OnInit {
         this.clearServerErrorMessage();
       }
     });
+    // Never persist password/confirmPassword - only the username/email are worth
+    // restoring after an Android process kill.
+    this.draftSubscription = this.formDraftService.autoSave(this.form, RegisterComponent.DraftKey, {
+      exclude: ['password', 'confirmPassword'],
+    });
   }
   public ngOnInit(): void {
     this.tenantSettingsService.getClubName().subscribe({
-      next: (clubName) => {
-        this.clubName = clubName;
+      next: (res) => {
+        this.clubName = res.clubName;
       },
     });
+  }
+
+  public ngOnDestroy(): void {
+    this.draftSubscription?.unsubscribe();
   }
 
   private clearServerErrorMessage() {
@@ -76,7 +95,7 @@ export class RegisterComponent extends Form implements OnInit {
   }
 
   public navigateToLogin(): void {
-    this.router.navigateByUrl(ROUTE.LOGIN);
+    this.tenantRouter.navigateTenant(ROUTE.LOGIN);
   }
 
   public navigateToLanding(): void {
@@ -114,11 +133,16 @@ export class RegisterComponent extends Form implements OnInit {
             email: this.form.controls.email.value,
             password: this.form.controls.password.value,
             confirmPassword: this.form.controls.confirmPassword.value,
+            tenantId: this.tenantContextService.tenantId,
             deviceToken: deviceToken,
             language: this.languageService.getCurrentLanguage(),
           })
           .subscribe({
             next: (response) => {
+              if (response?.isRegistrationSuccessfully === true) {
+                this.formDraftService.clear(RegisterComponent.DraftKey);
+              }
+
               if (
                 response &&
                 response.isEmailConfirmationSendedSuccessfully === true &&
@@ -131,9 +155,12 @@ export class RegisterComponent extends Form implements OnInit {
                   type: ToastType.Success,
                 });
                 setTimeout(() => {
-                  this.router.navigate([ROUTE.LOGIN], {
-                    queryParams: { fromRegister: 'true' },
-                  });
+                  this.router.navigate(
+                    [this.tenantRouter.buildTenantUrl(ROUTE.LOGIN)],
+                    {
+                      queryParams: { fromRegister: 'true' },
+                    }
+                  );
                 }, 5000);
               } else if (
                 response &&
@@ -203,9 +230,12 @@ export class RegisterComponent extends Form implements OnInit {
               });
               this.clearServerErrorMessage();
               setTimeout(() => {
-                this.router.navigate([ROUTE.LOGIN], {
-                  queryParams: { fromRegister: 'true' },
-                });
+                this.router.navigate(
+                  [this.tenantRouter.buildTenantUrl(ROUTE.LOGIN)],
+                  {
+                    queryParams: { fromRegister: 'true' },
+                  }
+                );
               }, 4000);
             } else {
               this.toastService.error({

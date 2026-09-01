@@ -9,11 +9,17 @@
   "display": "standalone",
   "orientation": "portrait",
   "icons": [
-    { "src": "shared/assets/images/default-logos/dicehub_logo_1.png", "sizes": "48x48" },
-    { "src": "shared/assets/images/default-logos/dicehub_logo_1.png", "sizes": "72x72" },
-    { "src": "shared/assets/images/default-logos/dicehub_logo_1.png", "sizes": "96x96" },
-    { "src": "shared/assets/images/default-logos/dicehub_logo_1.png", "sizes": "144x144" },
-    { "src": "shared/assets/images/default-logos/dicehub_logo_1.png", "sizes": "192x192" },
-    { "src": "shared/assets/images/default-logos/dicehub_logo_1.png", "sizes": "512x512" }
+    {
+      "src": "shared/assets/icons/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any"
+    },
+    {
+      "src": "shared/assets/icons/icon-maskable-432.png",
+      "type": "image/png",
+      "sizes": "432x432",
+      "purpose": "maskable"
+    }
   ]
 }

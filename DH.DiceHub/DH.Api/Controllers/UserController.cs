@@ -3,6 +3,7 @@ using DH.Application.Common.Commands;
 using DH.Application.Emails.Commands;
 using DH.Application.Stats.Queries;
 using DH.Domain.Adapters.Authentication.Enums;
+using DH.Domain.Adapters.Authentication;
 using DH.Domain.Adapters.Authentication.Models;
 using DH.Domain.Adapters.Authentication.Models.Enums;
 using DH.Domain.Adapters.Authentication.Services;
@@ -27,43 +28,68 @@ namespace DH.Api.Controllers;
 public class UserController : ControllerBase
 {
     readonly IConfiguration configuration;
-    readonly IUserService userService;
-    readonly IJwtService jwtService;
+    readonly IUserManagementService userManagementService;
+    readonly IOwnerService ownerService;
+    readonly IEmployeeService employeeService;
+    readonly ITokenService jwtService;
     readonly IMediator mediator;
     readonly IPushNotificationsService pushNotificationsService;
     readonly ITenantSettingsCacheService tenantSettingsCacheService;
     readonly ILogger<UserController> logger;
     private readonly IServiceScopeFactory scopeFactory;
+    private readonly IAuthenticationService authenticationService;
 
     public UserController(
-        IConfiguration configuration, IJwtService jwtService,
-        IUserService userService, IMediator mediator,
-        IPushNotificationsService pushNotificationsService, ITenantSettingsCacheService tenantSettingsCacheService,
-        ILogger<UserController> logger, IServiceScopeFactory scopeFactory)
+        IConfiguration configuration, ITokenService jwtService,
+        IUserManagementService userManagementService, IOwnerService ownerService,
+        IEmployeeService employeeService,IMediator mediator,
+        IPushNotificationsService pushNotificationsService, 
+        ITenantSettingsCacheService tenantSettingsCacheService,
+        ILogger<UserController> logger, IServiceScopeFactory scopeFactory,
+        IAuthenticationService authenticationService)
     {
         this.configuration = configuration;
-        this.userService = userService;
+        this.userManagementService = userManagementService;
+        this.ownerService = ownerService;
+        this.employeeService = employeeService;
         this.jwtService = jwtService;
         this.mediator = mediator;
         this.pushNotificationsService = pushNotificationsService;
         this.tenantSettingsCacheService = tenantSettingsCacheService;
         this.logger = logger;
         this.scopeFactory = scopeFactory;
+        this.authenticationService = authenticationService;
+
     }
 
     [AllowAnonymous]
     [HttpPost]
     public async Task<IActionResult> Login([FromBody] LoginRequest form)
     {
-        var result = await userService.Login(form);
+        if (!string.IsNullOrEmpty(form.TenantId))
+        {
+            HttpContext.Items["TenantId"] = form.TenantId;
+        }
+        else
+        {
+            HttpContext.Request.Headers["X-Requires-Tenant"] = "false";
+        }
+
+        var result = await authenticationService.Login(form);
         return this.Ok(result);
     }
+
 
     [AllowAnonymous]
     [HttpPost("register-user")]
     public async Task<IActionResult> RegisterUser([FromBody] UserRegistrationRequest form, CancellationToken cancellationToken)
     {
-        var response = await userService.RegisterUser(form);
+        if (!string.IsNullOrEmpty(form.TenantId))
+        {
+            HttpContext.Items["TenantId"] = form.TenantId;
+        }
+
+        var response = await userManagementService.RegisterUser(form);
 
         var isEmailSendedSuccessfully = false;
         if (response.IsRegistrationSuccessfully)
@@ -101,7 +127,7 @@ public class UserController : ControllerBase
     [HttpPost("confirm-email")]
     public async Task<IActionResult> ConfirmEmail([FromBody] ConfirmEmailRequest request, CancellationToken cancellationToken)
     {
-        var result = await this.userService.ConfirmEmail(request.Email, request.Token, cancellationToken);
+        var result = await this.authenticationService.ConfirmEmail(request.Email, request.Token, cancellationToken);
         return this.Ok(result);
     }
 
@@ -117,7 +143,7 @@ public class UserController : ControllerBase
     [HttpPost("reset-password")]
     public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequest request)
     {
-        await this.userService.ResetPassword(request);
+        await this.authenticationService.ResetPassword(request);
         return this.Ok();
     }
 
@@ -125,7 +151,7 @@ public class UserController : ControllerBase
     [HttpPost("create-employee-password")]
     public async Task<IActionResult> CreateEmployeePassword([FromBody] CreateEmployeePasswordRequest request)
     {
-        await this.userService.CreateEmployeePassword(request);
+        await this.employeeService.CreateEmployeePassword(request);
         return this.Ok();
     }
 
@@ -133,7 +159,7 @@ public class UserController : ControllerBase
     [HttpPost("create-owner-password")]
     public async Task<IActionResult> CreateOwnerPassword([FromBody] CreateOwnerPasswordRequest request)
     {
-        await this.userService.CreateOwnerPassword(request);
+        await this.ownerService.CreateOwnerPassword(request);
         return this.Ok();
     }
 
@@ -141,7 +167,7 @@ public class UserController : ControllerBase
     [HttpPost("register-notification")]
     public async Task<IActionResult> RegisterNotification([FromBody] RegistrationNotifcation form, CancellationToken cancellationToken)
     {
-        var userDeviceToken = await userService.GetDeviceTokenByUserEmail(form.Email);
+        var userDeviceToken = await this.userManagementService.GetDeviceTokenByUserEmail(form.Email);
         var tenantSettings = await this.tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
 
         if (userDeviceToken != null && tenantSettings != null)
@@ -224,7 +250,7 @@ public class UserController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetUserByRoleModel>))]
     public async Task<IActionResult> GetUserList(CancellationToken cancellationToken)
     {
-        var employees = await this.userService.GetUserListByRoles([Role.User, Role.Staff, Role.Owner], cancellationToken);
+        var employees = await this.userManagementService.GetUserListByRoles([Role.User, Role.Staff, Role.Owner], cancellationToken);
         return Ok(employees);
     }
 
@@ -234,17 +260,17 @@ public class UserController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetUserByRoleModel>))]
     public async Task<IActionResult> GetEmployeeList(CancellationToken cancellationToken)
     {
-        var employees = await this.userService.GetUserListByRole(Role.Staff, cancellationToken);
+        var employees = await this.userManagementService.GetUserListByRole(Role.Staff, cancellationToken);
         return Ok(employees);
     }
 
     [Authorize]
     [HttpGet("get-employee-by-id/{id}")]
     [ActionAuthorize(UserAction.EmployeesCRUD)]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<UserModel>))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(EmployeeModel))]
     public async Task<IActionResult> GetEmployeeById(string id, CancellationToken cancellationToken)
     {
-        var employee = await this.userService.GetEmployeeId(id, cancellationToken);
+        var employee = await this.employeeService.GetEmployeeId(id, cancellationToken);
         return Ok(employee);
     }
 
@@ -254,16 +280,24 @@ public class UserController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> CreateEmployee([FromBody] CreateEmployeeRequest request, CancellationToken cancellationToken)
     {
-        var employeeResult = await this.userService.CreateEmployee(request, cancellationToken);
+        var employeeResult = await this.employeeService.CreateEmployee(request, cancellationToken);
+        // Capture request data before starting the background operation. HttpContext is
+        // request-scoped and may already be disposed when the task executes.
+        var tenantId = HttpContext.Items["TenantId"]?.ToString();
 
         _ = Task.Run(async () =>
         {
             try
             {
                 using var scope = scopeFactory.CreateScope();
+                if (!string.IsNullOrWhiteSpace(tenantId))
+                    scope.ServiceProvider.GetRequiredService<ISystemUserContextAccessor>()
+                        .Set(new UserContext(tenantId, employeeResult.UserId, null, "UTC", "en"));
                 var scopedMediator = scope.ServiceProvider.GetRequiredService<IMediator>();
 
-                await scopedMediator.Send(new SendEmployeeCreatePasswordEmailCommand(employeeResult.Email));
+                var emailSent = await scopedMediator.Send(new SendEmployeeCreatePasswordEmailCommand(employeeResult.Email));
+                if (!emailSent)
+                    this.logger.LogWarning("Employee create password email was not sent to {EmployeeEmail}", employeeResult.Email);
                 await scopedMediator.Send(new UpdateUserSettingsCommand(new UserSettingsDto
                 {
                     PhoneNumber = request.PhoneNumber,
@@ -285,18 +319,24 @@ public class UserController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> UpdateEmployee([FromBody] UpdateEmployeeRequest request, CancellationToken cancellationToken)
     {
-        var employeeResult = await this.userService.UpdateEmployee(request, cancellationToken);
+        var employeeResult = await this.employeeService.UpdateEmployee(request, cancellationToken);
+        var tenantId = HttpContext.Items["TenantId"]?.ToString();
 
         _ = Task.Run(async () =>
         {
             try
             {
                 using var scope = scopeFactory.CreateScope();
+                if (!string.IsNullOrWhiteSpace(tenantId))
+                    scope.ServiceProvider.GetRequiredService<ISystemUserContextAccessor>()
+                        .Set(new UserContext(tenantId, employeeResult.UserId, null, "UTC", "en"));
                 var scopedMediator = scope.ServiceProvider.GetRequiredService<IMediator>();
 
                 if (employeeResult.IsEmailChanged)
                 {
-                    await scopedMediator.Send(new SendEmployeeCreatePasswordEmailCommand(employeeResult.Email));
+                    var emailSent = await scopedMediator.Send(new SendEmployeeCreatePasswordEmailCommand(employeeResult.Email));
+                    if (!emailSent)
+                        this.logger.LogWarning("Employee create password email was not sent to {EmployeeEmail}", employeeResult.Email);
                 }
 
                 await scopedMediator.Send(new UpdateUserSettingsCommand(new UserSettingsDto
@@ -320,7 +360,7 @@ public class UserController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> DeleteEmployee(string employeeId, CancellationToken cancellationToken)
     {
-        await this.userService.DeleteEmployee(employeeId);
+        await this.employeeService.DeleteEmployee(employeeId);
         //TODO: ON Delete employee we should delete the TenantUserSettings for the deleted user
         return Ok();
     }
@@ -331,7 +371,7 @@ public class UserController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OwnerResult))]
     public async Task<IActionResult> GetOwner(CancellationToken cancellationToken)
     {
-        var owner = await this.userService.GetOwner(cancellationToken);
+        var owner = await this.ownerService.GetOwner(cancellationToken);
         return Ok(owner);
     }
 
@@ -341,7 +381,7 @@ public class UserController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> CreateOwner([FromBody] CreateOwnerRequest request, CancellationToken cancellationToken)
     {
-        var ownerResult = await this.userService.CreateOwner(request, cancellationToken);
+        var ownerResult = await this.ownerService.CreateOwner(request, cancellationToken);
 
         await this.mediator.Send(new SendOwnerCreatePasswordEmailCommand(
             ownerResult.Email), cancellationToken);
@@ -355,7 +395,7 @@ public class UserController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> DeleteOwner(CancellationToken cancellationToken)
     {
-        await this.userService.DeleteOwner(cancellationToken);
+        await this.ownerService.DeleteOwner(cancellationToken);
 
         return Ok();
     }
@@ -385,11 +425,31 @@ public class UserController : ControllerBase
     public async Task<IActionResult> Logout()
     {
         var userId = User.FindFirstValue(ClaimTypes.Sid);
+        var tenantId = User.FindFirstValue("tenant_id");
+
+        if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(tenantId))
+            return Unauthorized();
+
+        var isSuccess = await this.authenticationService.Logout(userId, tenantId);
+
+        if (!isSuccess)
+            return Unauthorized();
+
+        return Ok();
+
+    }
+
+    [Authorize]
+    [HttpPost("change-password")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequest request)
+    {
+        var userId = User.FindFirstValue(ClaimTypes.Sid);
 
         if (string.IsNullOrEmpty(userId))
             return Unauthorized();
 
-        await this.userService.Logout(userId);
+        await this.authenticationService.ChangePassword(userId, request);
 
         return Ok();
     }

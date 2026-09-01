@@ -11,6 +11,9 @@ import { FrontEndLogService } from '../../shared/services/frontend-log.service';
 import { ChallengeHubService } from '../../entities/challenges/api/challenge-hub.service';
 import { ChallengeOverlayComponent } from '../../shared/components/challenge-overlay/challenge-overlay.component';
 import { ChallengeOverlayService } from '../../shared/services/challenges-overlay.service';
+import { AuthTokenService } from '../../shared/services/auth-token.service';
+import { Capacitor } from '@capacitor/core';
+import { App } from '@capacitor/app';
 
 @Component({
   selector: 'app-root',
@@ -26,6 +29,7 @@ export class AppComponent implements OnInit {
   public areAnyActiveNotificationSubject: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
   hideMenu = false;
+  public isSystemAdmin = false;
 
   constructor(
     private readonly authService: AuthService,
@@ -37,7 +41,8 @@ export class AppComponent implements OnInit {
     private readonly activatedRoute: ActivatedRoute,
     private readonly frontEndLogService: FrontEndLogService,
     private readonly challengeHubService: ChallengeHubService,
-    private readonly challengeOverlayService: ChallengeOverlayService
+    private readonly challengeOverlayService: ChallengeOverlayService,
+    private readonly authTokenService: AuthTokenService
   ) {
     window.addEventListener(
       'touchstart',
@@ -81,6 +86,111 @@ export class AppComponent implements OnInit {
       .subscribe((hideMenu: boolean) => {
         this.hideMenu = hideMenu;
       });
+
+    this._initializeAndroidBackButton();
+    this._persistRouteForRestoration();
+    this._initializeAppUrlOpenListener();
+  }
+
+  /**
+   * Android App Links (see AndroidManifest.xml's autoVerify intent-filter for
+   * dicehubs.com) launch this app for a matching https://dicehubs.com/... link
+   * clicked anywhere (email, SMS, other apps) - but Capacitor just opens the
+   * Activity, it doesn't know this app is a client-routed SPA. Without this,
+   * a tenant-setup/reset-password/etc. email link would open the app to
+   * whatever its normal default screen is, not the actual linked page. The
+   * WebView runs on its own local origin, not dicehubs.com, so only the
+   * path/query/hash from the incoming URL is meaningful here.
+   */
+  private _initializeAppUrlOpenListener(): void {
+    if (!Capacitor.isNativePlatform()) {
+      return;
+    }
+
+    App.addListener('appUrlOpen', (data: { url: string }) => {
+      try {
+        const url = new URL(data.url);
+        this.router.navigateByUrl(url.pathname + url.search + url.hash);
+      } catch {
+        // Malformed/unexpected URL - nothing sensible to navigate to.
+      }
+    });
+  }
+
+  /**
+   * Android can kill the app's background process at any time to reclaim memory
+   * (trivially triggered by this app's own file/photo pickers, e.g. the venue-application
+   * logo upload). On relaunch, Capacitor reloads index.html fresh with no memory of which
+   * in-app route was active, so the router's first navigation always lands on ''. Persist
+   * every real navigation so a cold boot can send the user back where they were instead of
+   * the landing page. Web (non-native) behavior is untouched - a browser refresh at '/' is
+   * expected to show the landing page there.
+   */
+  private static readonly RouteRestorationExcludedSegments = [
+    '/reset-password',
+    '/confirm-email',
+    '/create-employee-password',
+    '/create-owner-password',
+    '/login',
+  ];
+
+  // Landing on one of these means the route we tried to restore (or a stale
+  // deep link / pre-update path) no longer resolves. Never persist them, and
+  // wipe whatever was stored so the next cold boot doesn't loop back into it.
+  private static readonly ErrorRouteSegments = [
+    '/not-found',
+    '/unauthorized',
+    '/forbidden',
+    '/server-error',
+  ];
+
+  private _persistRouteForRestoration(): void {
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((event) => {
+        const url = (event as NavigationEnd).urlAfterRedirects;
+
+        if (
+          AppComponent.ErrorRouteSegments.some((segment) => url.includes(segment))
+        ) {
+          this.authTokenService.clearLastRoute();
+          return;
+        }
+
+        if (!Capacitor.isNativePlatform()) {
+          return;
+        }
+
+        if (
+          url === '/' ||
+          AppComponent.RouteRestorationExcludedSegments.some((segment) =>
+            url.includes(segment)
+          )
+        ) {
+          return;
+        }
+
+        this.authTokenService.setLastRoute(url);
+      });
+  }
+
+  /**
+   * Restores Capacitor's default hardware/gesture back-button behavior on Android:
+   * go back through in-app navigation history, or exit the app if there's none left.
+   * Without this, the WebView has no back-button handler at all and every press exits the app.
+   */
+  private _initializeAndroidBackButton(): void {
+    if (!Capacitor.isNativePlatform()) {
+      return;
+    }
+
+    App.addListener('backButton', ({ canGoBack }) => {
+      if (canGoBack) {
+        window.history.back();
+      } else {
+        App.exitApp();
+      }
+    });
   }
 
   // TODO: Check this tread https://chatgpt.com/c/671602c4-266c-800d-8177-2e9b398333ba
@@ -98,13 +208,18 @@ export class AppComponent implements OnInit {
       await this.authService.userinfo$();
     }
 
+    this.isSystemAdmin = this.authService.getUser?.tenantId === 'system';
+    this.challengeOverlayService.init(this.challengeOverlay);
+
+    if (this.authService.getUser?.tenantId === 'system') {
+      return;
+    }
+
     if (this.authService.getUser) {
       await this.challengeHubService.initChallengeHubConnection(
         this.authService.getUser.id,
         this.challengeOverlay
       );
-    } else {
-      this.challengeOverlayService.init(this.challengeOverlay);
     }
 
     this._initializeFCM();
@@ -114,6 +229,10 @@ export class AppComponent implements OnInit {
    * Initialize Firebase Cloud Messaging related tasks
    */
   private _initializeFCM(): void {
+    if (this.authService.getUser?.tenantId === 'system') {
+      return;
+    }
+
     if (this.authService.getUser) {
       if (this.messagingService.isPushUnsupportedIOS()) {
         this.frontEndLogService
@@ -129,12 +248,64 @@ export class AppComponent implements OnInit {
         .sendInfo('Initializing Firebase Cloud Messaging...', 'none')
         .subscribe();
 
-      this.messagingService.getDeviceToken();
-      this._listenForMessages();
+      if (Capacitor.isNativePlatform()) {
+        // The web SDK's onMessage / service worker never fire in the Android
+        // WebView - go through the Capacitor plugin for token + delivery.
+        this.messagingService.ensureNativeRegistration();
+        this.messagingService.initNativeMessaging({
+          onForegroundMessage: () => this._refreshNotificationBadge(),
+          onNotificationTap: (data) => this._handleNotificationNavigation(data),
+        });
+      } else {
+        this.messagingService.getDeviceToken();
+        this._listenForMessages();
+      }
+    }
+  }
+
+  /** Re-check the unread-notifications flag that drives the nav-bar dot. */
+  private _refreshNotificationBadge(): void {
+    this.notificationService.areAnyActiveNotifications().subscribe({
+      next: (result) => {
+        this.areAnyActiveNotificationSubject.next(result);
+        this.cd.detectChanges();
+      },
+      error: (err) =>
+        console.warn('areAnyActiveNotifications failed silently', err),
+    });
+  }
+
+  /**
+   * Route the user when they tap a native push. The backend currently only
+   * puts a generic "/login" in `click_action`, so anything that resolves to
+   * root or the login page is treated as "no deep link" and the user is left
+   * where they are; a real in-app path (added later) would be honoured.
+   */
+  private _handleNotificationNavigation(data?: Record<string, string>): void {
+    const target = data?.['click_action'] ?? data?.['route'];
+    if (!target) {
+      return;
+    }
+    try {
+      const url = new URL(target, 'https://dicehubs.com');
+      if (url.hostname !== 'dicehubs.com') {
+        return;
+      }
+      const path = url.pathname + url.search + url.hash;
+      if (path === '/' || path.startsWith('/login')) {
+        return;
+      }
+      this.router.navigateByUrl(path);
+    } catch {
+      // Not a URL - nothing sensible to navigate to.
     }
   }
 
   public onUpdateUserNotifications() {
+    if (this.authService.getUser?.tenantId === 'system') {
+      return;
+    }
+
     this.notificationService
       .areAnyActiveNotifications()
       .pipe(
@@ -157,14 +328,7 @@ export class AppComponent implements OnInit {
     onMessage(this._messaging, {
       next: (res) => {
         console.log('Received foreground message:', res);
-
-        this.notificationService.areAnyActiveNotifications().subscribe({
-          next: (result) => {
-            console.log('------------Are any active notifications:', result);
-            this.areAnyActiveNotificationSubject.next(result);
-            this.cd.detectChanges();
-          },
-        });
+        this._refreshNotificationBadge();
       },
       error: (error) => {
         console.log('Error receiving message:', error);

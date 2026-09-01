@@ -1,0 +1,79 @@
+<app-profile-settings-nav></app-profile-settings-nav>
+
+<div class="profile-page-body">
+  <div class="profile-page">
+    <button type="button" class="profile-back-link" (click)="back()">&#8592; {{ "profile.tenants" | translate }}</button>
+
+    <p class="profile-empty-state" *ngIf="isLoading">Loading tenant...</p>
+
+    <ng-container *ngIf="!isLoading && tenant">
+      <div class="profile-page-header">
+        <div class="profile-page-header__identity">
+          <span class="profile-list-row__avatar profile-list-row__avatar--lg">{{ tenant.tenantName.charAt(0) }}</span>
+          <div>
+            <span class="profile-page-header__eyebrow">Tenant details</span>
+            <span class="profile-page-header__title">{{ tenant.tenantName }}</span>
+            <p class="profile-page-header__description">{{ tenant.id }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-panel">
+        <div class="profile-detail-grid">
+          <div class="profile-detail-item">
+            <small>Contact name</small>
+            <strong>{{ tenant.contactName || 'Not provided' }}</strong>
+          </div>
+          <div class="profile-detail-item">
+            <small>Email</small>
+            <strong>{{ tenant.email || 'Not provided' }}</strong>
+          </div>
+          <div class="profile-detail-item">
+            <small>Phone</small>
+            <strong>{{ tenant.phoneNumber || tenant.clubPhoneNumber || 'Not provided' }}</strong>
+          </div>
+          <div class="profile-detail-item">
+            <small>Address</small>
+            <strong>{{ tenant.address || 'Not provided' }}</strong>
+          </div>
+          <div class="profile-detail-item">
+            <small>Capacity</small>
+            <strong>{{ tenant.averageMaxCapacity || 'Not provided' }}</strong>
+          </div>
+          <div class="profile-detail-item">
+            <small>Working hours</small>
+            <strong>{{ tenant.startWorkingHours || '-' }} - {{ tenant.endWorkingHours || '-' }}</strong>
+          </div>
+          <div class="profile-detail-item">
+            <small>Days off</small>
+            <strong>{{ tenant.daysOff || 'None' }}</strong>
+          </div>
+          <div class="profile-detail-item">
+            <small>Created</small>
+            <strong>{{ tenant.createdDate | date : "mediumDate" }}</strong>
+          </div>
+          <div class="profile-detail-item" *ngIf="tenant.publicWebsite">
+            <small>Website</small>
+            <strong>{{ tenant.publicWebsite }}</strong>
+          </div>
+          <div class="profile-detail-item" *ngIf="tenant.socialPage">
+            <small>Social page</small>
+            <strong>{{ tenant.socialPage }}</strong>
+          </div>
+          <div class="profile-detail-item" *ngIf="tenant.discordServer">
+            <small>Discord</small>
+            <strong>{{ tenant.discordServer }}</strong>
+          </div>
+        </div>
+      </div>
+
+      <button type="button" class="profile-list-row" (click)="visit()">
+        <div class="profile-list-row__body">
+          <span class="profile-list-row__title">Visit tenant</span>
+          <span class="profile-list-row__subtitle">Open the tenant information views</span>
+        </div>
+        <span class="profile-list-row__chevron" aria-hidden="true">&#8594;</span>
+      </button>
+    </ng-container>
+  </div>
+</div>

@@ -16,15 +16,15 @@ import {
 } from '@angular/forms';
 import { NAV_ITEM_LABELS } from '../../../../shared/models/nav-items-labels.const';
 import { IGameDropdownResult } from '../../../../entities/games/models/game-dropdown.model';
-import { combineLatest, throwError } from 'rxjs';
+import { combineLatest, Subscription, throwError } from 'rxjs';
+import { FormDraftService } from '../../../../shared/services/form-draft.service';
 import { IGameByIdResult } from '../../../../entities/games/models/game-by-id.model';
 import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { ToastType } from '../../../../shared/models/toast.model';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { IGameInventory } from '../../../../entities/games/models/game-inventory.mode';
 import { SafeUrl } from '@angular/platform-browser';
 import {
-  EntityImagePipe,
   ImageEntityType,
 } from '../../../../shared/pipe/entity-image.pipe';
 import { DateHelper } from '../../../../shared/helpers/date-helper';
@@ -36,6 +36,7 @@ import {
   ImagePreviewData,
 } from '../../../../shared/dialogs/image-preview/image-preview.dialog';
 import { MatDialog } from '@angular/material/dialog';
+import { TenantRouter } from '../../../../shared/helpers/tenant-router';
 
 interface IAddUpdateRoomForm {
   name: string;
@@ -79,6 +80,8 @@ export class AddUpdateMeepleRoomComponent
   public imagePreview: string | ArrayBuffer | SafeUrl | null = null;
   public editRoomId: number | null = null;
   public readonly ImageEntityType = ImageEntityType;
+  private static readonly DraftKey = 'addUpdateMeepleRoom';
+  private draftSubscription: Subscription | null = null;
 
   constructor(
     public override readonly toastService: ToastService,
@@ -86,12 +89,12 @@ export class AddUpdateMeepleRoomComponent
     private readonly roomService: RoomsService,
     private readonly menuTabsService: MenuTabsService,
     private readonly fb: FormBuilder,
-    private readonly entityImagePipe: EntityImagePipe,
-    private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly activatedRoute: ActivatedRoute,
     private readonly datePipe: DatePipe,
     public override translateService: TranslateService,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly formDraftService: FormDraftService
   ) {
     super(toastService, translateService);
     this.form = this.initFormGroup();
@@ -100,6 +103,7 @@ export class AddUpdateMeepleRoomComponent
         this.clearServerErrorMessage();
       }
     });
+    this.draftSubscription = this.formDraftService.autoSave(this.form, AddUpdateMeepleRoomComponent.DraftKey);
     this.menuTabsService.setActive(NAV_ITEM_LABELS.MEEPLE);
   }
 
@@ -112,6 +116,7 @@ export class AddUpdateMeepleRoomComponent
 
   public ngOnDestroy(): void {
     this.menuTabsService.resetData();
+    this.draftSubscription?.unsubscribe();
   }
 
   public ngOnInit(): void {
@@ -121,6 +126,17 @@ export class AddUpdateMeepleRoomComponent
       this.fetchRoom(this.editRoomId);
     } else {
       this.fetchGameList();
+    }
+  }
+
+  public openPicker(input: HTMLInputElement): void {
+    const pickerInput = input as HTMLInputElement & { showPicker?: () => void };
+    if (typeof pickerInput.showPicker === 'function') {
+      try {
+        pickerInput.showPicker();
+      } catch {
+        // Native date/time segments already handle the tap; nothing else to do.
+      }
     }
   }
 
@@ -142,10 +158,10 @@ export class AddUpdateMeepleRoomComponent
 
   public backNavigateBtn() {
     if (this.editRoomId)
-      this.router.navigateByUrl(
+      this.tenantRouter.navigateTenant(
         FULL_ROUTE.MEEPLE_ROOM.DETAILS_BY_ID(this.editRoomId)
       );
-    else this.router.navigateByUrl(FULL_ROUTE.MEEPLE_ROOM.FIND);
+    else this.tenantRouter.navigateTenant(FULL_ROUTE.MEEPLE_ROOM.FIND);
   }
 
   public onSubmit(): void {
@@ -174,9 +190,10 @@ export class AddUpdateMeepleRoomComponent
                 ),
                 type: ToastType.Success,
               });
+              this.formDraftService.clear(AddUpdateMeepleRoomComponent.DraftKey);
 
               if (this.editRoomId)
-                this.router.navigateByUrl(
+                this.tenantRouter.navigateTenant(
                   FULL_ROUTE.MEEPLE_ROOM.DETAILS_BY_ID(this.editRoomId)
                 );
             },
@@ -206,8 +223,9 @@ export class AddUpdateMeepleRoomComponent
                 ),
                 type: ToastType.Success,
               });
+              this.formDraftService.clear(AddUpdateMeepleRoomComponent.DraftKey);
 
-              this.router.navigateByUrl(FULL_ROUTE.MEEPLE_ROOM.FIND);
+              this.tenantRouter.navigateTenant(FULL_ROUTE.MEEPLE_ROOM.FIND);
             },
             error: (error) => {
               this.handleServerErrors(error);

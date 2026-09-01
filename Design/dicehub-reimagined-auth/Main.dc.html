@@ -1,0 +1,120 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Sora:wght@400;500;600;700&display=swap');
+    :root {
+      --bg: oklch(0.15 0.018 290);
+      --bg-elevated: oklch(0.195 0.02 290);
+      --bg-elevated-2: oklch(0.245 0.022 290);
+      --border: oklch(0.34 0.02 290 / 0.55);
+      --text: oklch(0.96 0.01 90);
+      --text-muted: oklch(0.7 0.02 290);
+      --text-faint: oklch(0.52 0.02 290);
+      --amber: oklch(0.78 0.16 75);
+      --amber-soft: oklch(0.78 0.16 75 / 0.16);
+      --coral: oklch(0.68 0.19 25);
+      --teal: oklch(0.72 0.14 165);
+      --teal-soft: oklch(0.72 0.14 165 / 0.16);
+      --violet: oklch(0.66 0.17 300);
+      --shadow-card: 0 10px 30px -12px oklch(0 0 0 / 0.55);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #0b0b0d; font-family: 'Sora', ui-sans-serif, system-ui, sans-serif; }
+    .display { font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif; }
+    .feat { display: flex; gap: 14px; align-items: center; background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 20px; padding: 14px; }
+    .feat-img { width: 56px; height: 56px; border-radius: 14px; flex-shrink: 0; background: var(--bg-elevated-2); display: flex; align-items: center; justify-content: center; padding: 8px; }
+    .field-input { width: 100%; background: var(--bg-elevated-2); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; font-size: 13.5px; color: var(--text); font-family: 'Sora', sans-serif; }
+    .field-input::placeholder { color: var(--text-faint); }
+  </style>
+</helmet>
+
+<div style="width:393px;background:var(--bg);color:var(--text);padding:26px 20px 40px;display:flex;flex-direction:column;gap:30px;">
+
+  <span class="display" style="font-size:19px;font-weight:800;letter-spacing:-0.01em;">DiceHub</span>
+
+  <div style="display:flex;flex-direction:column;gap:14px;">
+    <span class="display" style="font-size:32px;font-weight:800;line-height:1.1;">Revolutionizing <span style="color:var(--amber);">game-driven</span> entertainment</span>
+    <span style="font-size:14px;color:var(--text-muted);line-height:1.6;">The all-in-one platform to streamline operations, boost engagement, and grow your gaming-focused venue.</span>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:10px;">
+    <a href="#" style="text-align:center;font-size:14px;font-weight:700;padding:15px 0;border-radius:999px;background:linear-gradient(135deg,var(--amber),var(--coral));color:#2b1502;box-shadow:0 10px 24px -8px var(--amber-soft);">Register your club</a>
+    <div style="display:flex;gap:10px;">
+      <a href="#" style="flex:1;text-align:center;font-size:13px;font-weight:700;padding:13px 0;border-radius:999px;background:var(--bg-elevated);border:1px solid var(--border);">Login</a>
+      <a href="#" style="flex:1;text-align:center;font-size:13px;font-weight:700;padding:13px 0;border-radius:999px;background:var(--bg-elevated);border:1px solid var(--border);color:var(--text-muted);">How it works</a>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px;">
+    <span class="display" style="font-size:18px;font-weight:700;">Everything your club needs</span>
+
+    <div class="feat">
+      <div class="feat-img"><img src="landing-games.png" style="width:100%;height:100%;object-fit:contain;"></div>
+      <div style="display:flex;flex-direction:column;gap:3px;">
+        <span style="font-size:13.5px;font-weight:700;">Club Game Management</span>
+        <span style="font-size:11.5px;color:var(--text-muted);line-height:1.5;">Catalog your games, track availability, let members browse and review.</span>
+      </div>
+    </div>
+
+    <div class="feat">
+      <div class="feat-img"><img src="landing-rewards.png" style="width:100%;height:100%;object-fit:contain;"></div>
+      <div style="display:flex;flex-direction:column;gap:3px;">
+        <span style="font-size:13.5px;font-weight:700;">Challenge &amp; Reward System</span>
+        <span style="font-size:11.5px;color:var(--text-muted);line-height:1.5;">Weekly challenges and redeemable rewards that keep members coming back.</span>
+      </div>
+    </div>
+
+    <div class="feat">
+      <div class="feat-img"><img src="landing-activity.png" style="width:100%;height:100%;object-fit:contain;"></div>
+      <div style="display:flex;flex-direction:column;gap:3px;">
+        <span style="font-size:13.5px;font-weight:700;">Real-Time Activity Tracking</span>
+        <span style="font-size:11.5px;color:var(--text-muted);line-height:1.5;">See who's in the club and which tables are live, right now.</span>
+      </div>
+    </div>
+
+    <div class="feat">
+      <div class="feat-img"><img src="landing-events.png" style="width:100%;height:100%;object-fit:contain;"></div>
+      <div style="display:flex;flex-direction:column;gap:3px;">
+        <span style="font-size:13.5px;font-weight:700;">Event Management</span>
+        <span style="font-size:11.5px;color:var(--text-muted);line-height:1.5;">Schedule game nights, manage RSVPs, track attendance in one place.</span>
+      </div>
+    </div>
+
+    <div class="feat">
+      <div class="feat-img"><img src="landing-reservation.png" style="width:100%;height:100%;object-fit:contain;"></div>
+      <div style="display:flex;flex-direction:column;gap:3px;">
+        <span style="font-size:13.5px;font-weight:700;">Smart Reservation System</span>
+        <span style="font-size:11.5px;color:var(--text-muted);line-height:1.5;">Members book tables and reserve games in seconds — no spreadsheets.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Partner with us -->
+  <div style="display:flex;flex-direction:column;gap:14px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:24px;padding:20px;box-shadow:var(--shadow-card);">
+    <div style="display:flex;flex-direction:column;gap:6px;">
+      <span class="display" style="font-size:18px;font-weight:700;">Partner with us</span>
+      <span style="font-size:12.5px;color:var(--text-muted);line-height:1.55;">Run a board-game cafe, darts bar, or billiards lounge? Let's talk about bringing DiceHub to your venue.</span>
+    </div>
+    <input class="field-input" type="text" placeholder="Your name" />
+    <input class="field-input" type="text" placeholder="Email address" />
+    <input class="field-input" type="text" placeholder="Phone number" />
+    <textarea class="field-input" rows="3" placeholder="Tell us about your venue…" style="resize:none;"></textarea>
+    <a href="#" style="text-align:center;font-size:13px;font-weight:700;padding:13px 0;border-radius:999px;background:var(--teal);color:#062420;">Send</a>
+  </div>
+
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

@@ -178,6 +178,60 @@
   }
 }
 
+@media (min-width: 900px) {
+  .wrapper_users {
+    width: min(72rem, calc(100vw - 16rem));
+    margin: 1.5rem auto 3rem;
+
+    .filters {
+      justify-content: center;
+      gap: 0.75rem;
+
+      span {
+        border-radius: 0.5rem;
+        background-color: palette.$main-nav-color;
+      }
+    }
+
+    .wrapper_steps {
+      width: min(46rem, 100%);
+      margin: 0 auto 1.5rem;
+    }
+
+    .user_rank_status {
+      position: sticky;
+      bottom: 1rem;
+      width: min(38rem, 100%);
+      margin: 1rem auto;
+      transform: none;
+      left: auto;
+    }
+
+    &__items {
+      margin: 0;
+      border-radius: 0.5rem;
+      overflow: hidden;
+
+      .headers {
+        margin: 0;
+        padding: 0.9rem 1.25rem;
+        background-color: var(--games-surface-2);
+      }
+    }
+
+    &__item {
+      margin: 0;
+      padding: 0.85rem 1.25rem;
+      border-top: 0.1rem solid var(--games-border);
+    }
+  }
+
+  .no-streak-message {
+    width: min(36rem, calc(100vw - 16rem));
+    margin: 2rem auto;
+  }
+}
+
 .no-streak-message {
   text-align: center;
   margin-top: 2rem;

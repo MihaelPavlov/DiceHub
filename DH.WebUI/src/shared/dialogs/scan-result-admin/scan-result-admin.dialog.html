@@ -1,32 +1,43 @@
-<div class="dialog-container">
-  <ng-container *ngIf="!this.data.isValid">
-    <h3 class="dialog-container__header m-4">
-      {{'qr_scanner.problem_with_qr_code' | translate : {qrCode:getTypeOfQrCode}
-      }}
-    </h3>
-    <h4 class="dialog-container__header error">{{this.data.errorMessage}}</h4>
-  </ng-container>
-  <ng-container
-    *ngIf="this.data.isValid && this.data.type === QrCodeType.Reward"
-  >
-    <h3 class="dialog-container__header m-4">
-      {{'qr_scanner.reward_is_valid' | translate}}
-    </h3>
-    <h4 class="dialog-container__header m-4">
-      {{'qr_scanner.please_confirm_giving_reward' | translate}}
-    </h4>
-  </ng-container>
+<div class="confirm-sheet" appSheetDismiss>
+  <div class="confirm-sheet__handle"></div>
 
-  <mat-dialog-actions>
-    <button class="btn btn__small btn-border-red btn-red" mat-dialog-close>
-      {{'close'| translate}}
+  <div class="confirm-sheet__centered">
+    <div
+      class="confirm-sheet__icon confirm-sheet__icon--lg"
+      [class.confirm-sheet__icon--coral]="!this.data.isValid"
+      [class.confirm-sheet__icon--teal]="this.data.isValid"
+    >
+      <svg *ngIf="!this.data.isValid" viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 6l12 12M18 6l-12 12"/>
+      </svg>
+      <svg *ngIf="this.data.isValid" viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 12.5l4.5 4.5L19 7"/>
+      </svg>
+    </div>
+
+    <div *ngIf="!this.data.isValid">
+      <div class="confirm-sheet__title">
+        {{ 'qr_scanner.problem_with_qr_code' | translate : { qrCode: getTypeOfQrCode } }}
+      </div>
+      <p class="confirm-sheet__message" style="color:var(--games-coral);">{{ this.data.errorMessage }}</p>
+    </div>
+
+    <div *ngIf="this.data.isValid && this.data.type === QrCodeType.Reward">
+      <div class="confirm-sheet__title">{{ 'qr_scanner.reward_is_valid' | translate }}</div>
+      <p class="confirm-sheet__message">{{ 'qr_scanner.please_confirm_giving_reward' | translate }}</p>
+    </div>
+  </div>
+
+  <div class="confirm-sheet__actions">
+    <button class="confirm-sheet__btn confirm-sheet__btn--ghost" mat-dialog-close>
+      {{ 'close' | translate }}
     </button>
     <button
-      class="btn btn-border-blue btn-blue"
       *ngIf="this.data.isValid"
+      class="confirm-sheet__btn confirm-sheet__btn--teal"
       (click)="confirm()"
     >
-      {{'confirm'| translate}}
+      {{ 'confirm' | translate }}
     </button>
-  </mat-dialog-actions>
+  </div>
 </div>

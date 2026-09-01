@@ -2,6 +2,7 @@
 using DH.Domain.Entities;
 using DH.Domain.Enums;
 using DH.Domain.Repositories;
+using DH.Domain.Services;
 using DH.Domain.Services.Queue;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -28,21 +29,36 @@ public class ReservationCleanupWorker : BackgroundService
             using var scope = serviceScopeFactory.CreateScope();
             var queue = scope.ServiceProvider.GetRequiredService<IReservationCleanupQueue>();
 
-            var queuedJobs = await queue.TryDequeue(cancellationToken);
+            // One pending row per JobId - duplicates would make ToDictionary
+            // throw, and an unhandled exception here stops the whole host.
+            var queuedJobs = (await queue.TryDequeue(cancellationToken))
+                .DistinctBy(q => q.JobId)
+                .ToList();
+
+            var tenantIdsByJobId = queuedJobs.ToDictionary(q => q.JobId, q => q.TenantId);
 
             var nextJobsForProcessing = queuedJobs
                 .Select(q => JsonSerializer.Deserialize<ReservationCleanupJobInfo>(q.MessagePayload)!)
-                .Where(x => DateTime.UtcNow > x.RemovingTime);
+                .Where(x => DateTime.UtcNow > x.RemovingTime)
+                .ToList();
+
+            var tenantContextScopeRunner = scope.ServiceProvider.GetRequiredService<ITenantContextScopeRunner>();
 
             foreach (var nextJob in nextJobsForProcessing)
             {
                 string traceId = Guid.NewGuid().ToString();
                 try
                 {
+                    if (!tenantIdsByJobId.TryGetValue(nextJob.JobId, out var tenantId) || string.IsNullOrWhiteSpace(tenantId))
+                    {
+                        throw new InvalidOperationException($"Queued job {nextJob.JobId} has no tenant id.");
+                    }
+
                     var jobStartTime = DateTime.UtcNow;
                     logger.LogInformation("Job ID: {jobId} - Started at {startTime} - Job Info: {jobInfo}", traceId, jobStartTime, JsonSerializer.Serialize(nextJob));
 
-                    await ProcessReservationJobAsync(scope, nextJob, traceId, queue.QueueName, cancellationToken);
+                    await tenantContextScopeRunner.RunAsTenantAsync(tenantId,
+                        () => ProcessReservationJobAsync(scope, nextJob, traceId, queue.QueueName, cancellationToken));
                 }
                 catch (TaskCanceledException)
                 {
@@ -57,8 +73,12 @@ public class ReservationCleanupWorker : BackgroundService
                 }
             }
 
-            if (!nextJobsForProcessing.Any())
-                await Task.Delay(TimeSpan.FromMinutes(3), cancellationToken);
+            // Always pause between passes. Without a floor here, any job that can
+            // never complete (e.g. its reservation was deleted) is re-read every
+            // iteration and the worker hot-spins the CPU and the database.
+            await Task.Delay(
+                nextJobsForProcessing.Count > 0 ? TimeSpan.FromSeconds(10) : TimeSpan.FromMinutes(3),
+                cancellationToken);
         }
     }
 
@@ -73,7 +93,12 @@ public class ReservationCleanupWorker : BackgroundService
 
                 if (reservation == null)
                 {
-                    logger.LogWarning("Job {traceId}: Game Reservation not found for id {reservationId}.", traceId, jobInfo.ReservationId);
+                    // The reservation was already deleted - the cleanup has
+                    // nothing to do. Complete the job so it stops being re-read
+                    // on every pass (this was an infinite loop).
+                    logger.LogWarning("Job {traceId}: Game Reservation not found for id {reservationId}; completing orphaned cleanup job.", traceId, jobInfo.ReservationId);
+                    var queuedJobService = scope.ServiceProvider.GetRequiredService<IQueuedJobService>();
+                    await queuedJobService.UpdateStatusToCompleted(queueName, jobInfo.JobId);
                     return;
                 }
 
@@ -127,7 +152,11 @@ public class ReservationCleanupWorker : BackgroundService
 
                 if (reservation == null)
                 {
-                    logger.LogWarning("Job {traceId}: Table Reservation not found for id {reservationId}.", traceId, jobInfo.ReservationId);
+                    // The reservation was already deleted - nothing to clean up.
+                    // Complete the job so it stops being re-read every pass.
+                    logger.LogWarning("Job {traceId}: Table Reservation not found for id {reservationId}; completing orphaned cleanup job.", traceId, jobInfo.ReservationId);
+                    var queuedJobService = scope.ServiceProvider.GetRequiredService<IQueuedJobService>();
+                    await queuedJobService.UpdateStatusToCompleted(queueName, jobInfo.JobId);
                     return;
                 }
 

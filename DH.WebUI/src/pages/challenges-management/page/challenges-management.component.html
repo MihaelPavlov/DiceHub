@@ -1,9 +1,37 @@
-<app-header
-  [header]="'challenge_management.challenges_header' | translate"
-  [withQRcode]="true"
->
-  <app-nav-bar [columns]="columns"></app-nav-bar
-></app-header>
+<section class="games-shell games-design-surface">
+  <header class="games-shell__header">
+    <div class="games-shell__title">
+      <h1 class="games-display">
+        {{ "challenge_management.challenges_header" | translate }}
+      </h1>
+    </div>
+
+    <button
+      type="button"
+      class="games-shell__icon-button"
+      (click)="navigateToQrCodeScanner()"
+      aria-label="Open QR scanner"
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <rect x="3" y="3" width="7" height="7" rx="1.5" />
+        <rect x="14" y="3" width="7" height="7" rx="1.5" />
+        <rect x="3" y="14" width="7" height="7" rx="1.5" />
+        <path d="M14 14h3v3M20 20v.01M14 20h3M20 14v3" />
+      </svg>
+    </button>
+  </header>
+
+  <nav class="games-shell__tabs games-shell__tabs--seg" aria-label="Challenges sections">
+    <a
+      *ngFor="let column of columns"
+      class="games-chip"
+      [class.games-chip--active]="column.isActive"
+      [routerLink]="'/' + column.link"
+    >
+      {{ column.name }}
+    </a>
+  </nav>
+
 <ng-container *ngIf="!periodPerformance">
   <span class="no-period">
     {{ "challenge_management.challenge_are_being_generated" | translate }}<br />
@@ -363,10 +391,7 @@
         }}
       </p>
       <p class="dates">
-        <span>{{
-          this.periodPerformance.startDate
-            | date: DATE_FORMAT : undefined : getCurrentLanguage()
-        }}</span>
+        <span>{{ this.periodPerformance.startDate | date: DATE_FORMAT }}</span>
         <!-- arrow_range icon -->
         <svg class="icon" viewBox="0 -960 960 960">
           <path
@@ -374,8 +399,7 @@
           />
         </svg>
         <span>{{
-          this.periodPerformance.endDate
-            | date: DATE_FORMAT : "UTC" : getCurrentLanguage()
+          this.periodPerformance.endDate | date: DATE_FORMAT : "UTC"
         }}</span>
       </p>
     </div>
@@ -478,5 +502,7 @@
     </div>
   </div>
 </ng-template>
+
+</section>
 
 <app-controls-menu #controls [isInfo]="true">></app-controls-menu>

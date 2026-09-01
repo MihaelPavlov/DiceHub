@@ -22,7 +22,7 @@ self.addEventListener('push', function (event) {
   const data = event.data.json();
 
   // ❌ Ignore system update notifications
-  if (data.notification?.title === 'dicehub.online') {
+  if (data.notification?.title === 'dicehubs.com') {
     console.log('Ignored system update notification');
     return;
   }

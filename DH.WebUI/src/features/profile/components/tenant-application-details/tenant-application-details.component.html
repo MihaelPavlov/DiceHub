@@ -1,0 +1,163 @@
+<app-profile-settings-nav></app-profile-settings-nav>
+
+<div class="profile-page-body">
+  <div class="profile-page">
+    <button
+      type="button"
+      class="profile-back-link"
+      aria-label="Back to applicants"
+      (click)="navigateBack()"
+    >
+      &#8592; {{ "profile.applicants" | translate }}
+    </button>
+
+    <div class="profile-empty-state" *ngIf="isLoading">Loading applicant...</div>
+
+    <ng-container *ngIf="!isLoading && application">
+      <div class="profile-page-header">
+        <div>
+          <span class="profile-page-header__title">{{ application.contactName }}</span>
+          <p class="profile-page-header__description">{{ application.applicantType }}</p>
+        </div>
+        <span
+          class="profile-status"
+          [class.profile-status--pending]="application.status === status.PendingVerification"
+          [class.profile-status--verified]="application.status === status.Verified"
+          [class.profile-status--rejected]="application.status === status.Rejected"
+        >
+          {{ getStatusLabel(application.status) }}
+        </span>
+      </div>
+
+      <div class="profile-panel">
+        <span class="profile-panel__title">Contact</span>
+        <div class="profile-detail-grid">
+          <div class="profile-detail-item">
+            <label>Email</label>
+            <span>{{ application.email }}</span>
+          </div>
+          <div class="profile-detail-item">
+            <label>Phone</label>
+            <span>{{ application.phoneNumber }}</span>
+          </div>
+          <div class="profile-detail-item">
+            <label>Email verified</label>
+            <span>{{ application.isEmailVerified ? "Yes" : "No" }}</span>
+          </div>
+          <div class="profile-detail-item">
+            <label>Phone verified</label>
+            <span>{{ application.isPhoneVerified ? "Yes" : "No" }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-panel">
+        <span class="profile-panel__title">Applicant Details</span>
+        <div class="profile-detail-grid">
+          <div class="profile-detail-item profile-detail-item--wide">
+            <label>Address</label>
+            <span>{{ application.address }}</span>
+          </div>
+          <div class="profile-detail-item">
+            <label>Website</label>
+            <a
+              *ngIf="application.publicWebsite"
+              [href]="application.publicWebsite"
+              target="_blank"
+              rel="noopener noreferrer"
+              >{{ application.publicWebsite }}</a
+            >
+            <span *ngIf="!application.publicWebsite">Not provided</span>
+          </div>
+          <div class="profile-detail-item">
+            <label>Social page</label>
+            <a
+              *ngIf="application.socialPage"
+              [href]="application.socialPage"
+              target="_blank"
+              rel="noopener noreferrer"
+              >{{ application.socialPage }}</a
+            >
+            <span *ngIf="!application.socialPage">Not provided</span>
+          </div>
+          <div class="profile-detail-item">
+            <label>Discord</label>
+            <a
+              *ngIf="application.discordServer"
+              [href]="application.discordServer"
+              target="_blank"
+              rel="noopener noreferrer"
+              >{{ application.discordServer }}</a
+            >
+            <span *ngIf="!application.discordServer">Not provided</span>
+          </div>
+          <div class="profile-detail-item">
+            <label>Photo</label>
+            <a
+              *ngIf="application.photoUrl"
+              [href]="application.photoUrl"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Open photo</a
+            >
+            <span *ngIf="!application.photoUrl">Not provided</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-panel" *ngIf="!isPending()">
+        <span class="profile-panel__title">Review</span>
+        <div class="profile-detail-grid">
+          <div class="profile-detail-item">
+            <label>Reviewed date</label>
+            <span>{{ application.reviewedDate || "Not provided" }}</span>
+          </div>
+          <div class="profile-detail-item">
+            <label>Reviewed by</label>
+            <span>{{ application.reviewedByUserId || "Not provided" }}</span>
+          </div>
+          <div class="profile-detail-item profile-detail-item--wide">
+            <label>Review note</label>
+            <span>{{ application.reviewNote || "Not provided" }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-panel" *ngIf="isPending()">
+        <span class="profile-panel__title">Review applicant</span>
+        <div class="profile-review-actions">
+          <button
+            type="button"
+            class="btn btn__small btn-gray btn-font-red btn-border-red"
+            [disabled]="isSaving"
+            (click)="reject()"
+          >
+            Reject
+          </button>
+          <button
+            type="button"
+            class="btn btn__small btn-gray btn-font-green btn-border-green"
+            [disabled]="isSaving"
+            (click)="verify()"
+          >
+            Verify
+          </button>
+        </div>
+      </div>
+
+      <div class="profile-panel" *ngIf="isVerified()">
+        <span class="profile-panel__title">Setup invitation</span>
+        <div class="profile-review-actions">
+          <button
+            type="button"
+            class="btn btn__small btn-gray btn-border-blue btn-font-blue"
+            [disabled]="isResendingSetupInvitation"
+            (click)="resendSetupInvitation()"
+          >
+            {{ isResendingSetupInvitation ? "Sending..." : "Resend setup email" }}
+          </button>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

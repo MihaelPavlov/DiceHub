@@ -1,6 +1,6 @@
 ﻿namespace DH.Domain.Entities;
 
-public class GameEngagementLog
+public class GameEngagementLog : TenantEntity
 {
     public int Id { get; set; }
     public int GameId { get; set; }

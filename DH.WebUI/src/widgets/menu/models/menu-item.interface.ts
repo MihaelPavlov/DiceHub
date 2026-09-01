@@ -1,6 +1,5 @@
 export interface IMenuItemInterface {
   label: string;
-  class: string;
   enabled: boolean;
   isAlertActive: boolean;
   visible: boolean;
@@ -9,4 +8,5 @@ export interface IMenuItemInterface {
   route: string;
   translatable?: boolean;
   forceActive?: boolean;
+  sectionBreak?: boolean;
 }

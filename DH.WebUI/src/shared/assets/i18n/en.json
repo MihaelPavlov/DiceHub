@@ -14,7 +14,43 @@
   "confirm": "Confirm",
   "club": "Club",
   "back_to_home": "Back to Home",
+  "offline": {
+    "title": "You're offline",
+    "message": "Check your internet connection and try again.",
+    "retry": "Retry"
+  },
+  "install_prompt": {
+    "title": "Get the full DiceHub experience",
+    "message": "It's faster and smoother as an installed app.",
+    "get_on_google_play": "Get it on Google Play",
+    "install_as_pwa": "Install app",
+    "trouble_message": "Having trouble installing?",
+    "view_instructions": "View instructions"
+  },
+  "exceptions": {
+    "404": {
+      "eyebrow": "Error 404",
+      "title": "This page wandered off the board",
+      "description": "The page you're looking for doesn't exist, or it may have been moved."
+    },
+    "403": {
+      "eyebrow": "Error 403",
+      "title": "This area is off-limits",
+      "description": "You don't have permission to view this page. Reach out to a club owner if you think this is a mistake."
+    },
+    "401": {
+      "eyebrow": "Error 401",
+      "title": "Sign in to keep going",
+      "description": "Your session has expired or you're not signed in. Log back in to view this page."
+    },
+    "500": {
+      "eyebrow": "Error 500",
+      "title": "Something broke on our end",
+      "description": "Our servers hit a snag. We're on it — please try again in a moment."
+    }
+  },
   "cannot_be_deleted": "Cannot be Deleted",
+  "successfully_updated": "Successfully updated",
   "save": "Save",
   "toast_messages": {
     "something_wrong": "Something wrong!",
@@ -181,6 +217,13 @@
       "Warfare": "Warfare"
     },
     "library": {
+      "discover": "Discover",
+      "new_arrivals": "New arrivals",
+      "count": "{{count}} games in the library",
+      "featured": "Featured",
+      "open": "Open",
+      "popular_this_week": "Popular this week",
+      "search_placeholder": "Search games, tags...",
       "menu_items": {
         "qr_code": "QR Code",
         "update": "Update",
@@ -192,6 +235,15 @@
     }
   },
   "events": {
+    "title": "Events",
+    "count": "{{count}} happening this week",
+    "section_my_events": "My events",
+    "joined_count": "{{count}} joined",
+    "section_today": "Today",
+    "section_upcoming": "Upcoming",
+    "search_placeholder": "Search events…",
+    "admin_count": "{{total}} events · {{upcoming}} upcoming",
+    "no_events_found": "No events found",
     "header_upcoming_events": "Upcoming Events",
     "header_todays_events": "Todays Events",
     "header_my_events": "My Events",
@@ -226,7 +278,7 @@
     },
     "add_update": {
       "event_info": "Event Info",
-      "start_date_validation": "Start Date cannot be in the past.",
+      "start_date_validation": "Start Date must be after today.",
       "labels": {
         "use_custom_image": "Use Custom Image",
         "game": "Game",
@@ -264,6 +316,7 @@
   "meeple": {
     "no_rooms_available": "No Rooms Available",
     "header": "Find Meeple",
+    "search_placeholder": "Search rooms…",
     "game_image_alt": "Game Image",
     "game": "Game: {{gameName}}",
     "chip_joined": "{{peopleJoined}} joined",
@@ -293,7 +346,10 @@
       "remove_member_successfully": "Member removed successfully",
       "remove_member_question": "Remove Member?",
       "room_members": "Room Members",
+      "search_members_placeholder": "Search members…",
       "room_owner": "Owner - ",
+      "room_owner_badge": "Room owner",
+      "view_all_members": "View all members",
       "room_person_age": "age {{age}}",
       "room_person_joined_at": "Joined at"
     },
@@ -317,7 +373,14 @@
         "name": "name of your room",
         "max_participants": "max participants"
       },
+      "chips": {
+        "average_playtime": "Playtime",
+        "players": "Players",
+        "min_age": "Min age",
+        "availability": "Copies"
+      },
       "labels": {
+        "game": "Game",
         "choose_date": "Choose Date",
         "choose_time": "Choose Time",
         "name": "Name",
@@ -330,10 +393,23 @@
     "meeple": "Meeple",
     "reservations": "Reservations",
     "events": "Events",
-    "profile": "Profile"
+    "profile": "Profile",
+    "space": "Space",
+    "challenges": "Challenges",
+    "qr_scanner": "QR Scanner",
+    "applicants": "Applicants",
+    "tenants": "Tenants",
+    "exit_preview": "Exit preview",
+    "logout": "Logout"
   },
   "qr_scanner": {
     "header": "Scan QR Code",
+    "hint": "Point your camera at a QR code",
+    "description": "Scan a game, event, reward, or reservation code posted around the club.",
+    "scan_failed": "Couldn't process the scan. Please try again.",
+    "qr_generate_failed": "Couldn't generate the QR code. Close this and try again.",
+    "camera_permission_denied": "Camera access is blocked. Enable the Camera permission for DiceHubs in your phone's Settings, then reopen the scanner.",
+    "camera_unavailable": "Couldn't start the camera. Make sure no other app is using it and try again.",
     "game_reservation_valid": "Game Reservation is VALID \n\n {{note}}",
     "table_reservation_valid": "Table Reservation is VALID \n\n {{note}}",
     "no_staff_note": "No Note From Staff",
@@ -496,6 +572,23 @@
     "employees": "Employees",
     "jobs": "Jobs",
     "club_info": "Club Info",
+    "applicants": "Applicants",
+    "tenants": "Tenants",
+    "club_analytics": "Club analytics",
+    "nav": {
+      "personal": "Personal",
+      "profile": "Profile",
+      "user_settings": "User Settings",
+      "club_management": "Club Management",
+      "global_settings": "Global Settings",
+      "club_info": "Club Info",
+      "employees": "Employees",
+      "platform_admin": "Platform Admin",
+      "owner_details": "Owner Details",
+      "jobs": "Jobs",
+      "applicants": "Applicants",
+      "tenants": "Tenants"
+    },
     "charts": {
       "challenge_leaderboard": "Challenge Leaderboard",
       "streak_leaderboard": "Streak Leaderboard",
@@ -552,6 +645,7 @@
       "days_off": "Days Off",
       "start_working_hours": "Start Working Hours",
       "end_working_hours": "End Working Hours",
+      "time_zone_id": "Time Zone",
       "challenge_initiation_delay_hours": "Challenge Initiation Delay Hours",
       "reservation_hours": "Reservation Hours",
       "phone_number": "Phone Number",
@@ -573,6 +667,14 @@
       "label": "Club Name",
       "placeholder": "Write your club name",
       "info": "The name of the club that will be displayed to users."
+    },
+    "club_logo": {
+      "label": "Club Image",
+      "info": "Shown on the club selection screen when users switch clubs.",
+      "choose_image": "Choose image",
+      "save": "Save",
+      "uploading": "Saving...",
+      "upload_failed": "Settings saved, but the club image couldn't be uploaded. Please try again."
     },
     "average_max_capacity": {
       "label": "Average Max Capacity",
@@ -608,6 +710,11 @@
       "label": "End Hour",
       "placeholder": "21:00",
       "info": "The hour when the club closes for the day."
+    },
+    "time_zone": {
+      "label": "Time Zone",
+      "placeholder": "Europe/Sofia",
+      "info": "Working hours and the club's automated daily jobs (closing tables, challenge resets) run in this time zone."
     },
     "reservation_hours": {
       "label": "Reservation Hours",
@@ -661,6 +768,30 @@
       "info_description": "Manage space-related settings such as contact details, visibility, and preferences to ensure accurate and personalized club usage."
     }
   },
+  "change_password": {
+    "title": "Change Password",
+    "subtitle": "Update the password you use to sign in. You'll stay signed in on this device.",
+    "labels": {
+      "current_password": "Current password",
+      "new_password": "New password",
+      "confirm_password": "Confirm new password"
+    },
+    "placeholders": {
+      "current_password": "Your current password",
+      "new_password": "Your new password",
+      "confirm_password": "Confirm your new password"
+    },
+    "control_display_names": {
+      "current_password": "Current password",
+      "new_password": "New password",
+      "confirm_password": "Confirm password"
+    },
+    "save_button": "Change password",
+    "saving_button": "Changing...",
+    "toast_messages": {
+      "changed_successfully": "Password changed successfully."
+    }
+  },
   "week_days_names": {
     "Sunday": "Sunday",
     "Monday": "Monday",
@@ -691,34 +822,87 @@
     "Light": "Light"
   },
   "landing": {
-    "revolutionizing": "Revolutionizing",
-    "game_driven_entertainment": "Game-Driven Entertainment",
-    "info": "The all-in-one platform to streamline operations, boost engagement, and grow your gaming-focused venue.",
-
-    "club_game_management_title": "Club Game Management",
-    "club_game_management_desc": "Effortlessly organize your tables, games, and schedules in one central place.",
-
-    "challenge_rewards_title": "Challenge & Rewards System",
-    "challenge_rewards_desc": "Keep players coming back with engaging challenges and customizable rewards.",
-
-    "activity_tracking_title": "Real-Time Activity Tracking",
-    "activity_tracking_desc": "Monitor game sessions and user participation with powerful tracking tools.",
-
-    "event_management_title": "Event Management",
-    "event_management_desc": "Create, promote, and manage tournaments, weekly events, or private bookings with ease.",
-
-    "reservation_system_title": "Smart Reservation System",
-    "reservation_system_desc": "Simplify your booking process for tables, games, or events — all from one dashboard.",
-
-    "qr_code_game_tracking_title": "QR Code Game Tracking",
-
+    "nav": {
+      "features": "Features",
+      "for_clubs": "For Clubs"
+    },
+    "hero": {
+      "badge": "Built with board-game clubs, not just for them",
+      "title_line1": "Your clubhouse,",
+      "title_line2": "gamified.",
+      "subtitle": "DiceHub turns board-game nights into a living community — table reservations, a shared game library, meeple matchmaking, and XP-driven challenges, all in one app for players and the clubs that host them."
+    },
+    "built_in": {
+      "free_title": "Free to start",
+      "free_desc": "No card required for players",
+      "realtime_title": "Real-time",
+      "realtime_desc": "Live table availability, not a guess",
+      "qr_title": "QR check-in",
+      "qr_desc": "Built in from day one",
+      "new_title": "New in 2026",
+      "new_desc": "We're just getting started"
+    },
+    "features": {
+      "eyebrow": "Why DiceHub",
+      "title": "Everything a clubhouse runs on, in one app.",
+      "subtitle": "Members get a reason to come back. Owners get the tools to run the place without a clipboard.",
+      "library_title": "A living game library",
+      "library_desc": "Catalog every box on your shelf — categories, player counts, difficulty, and instant availability so members always know what's free to play.",
+      "meeples_title": "Find your table",
+      "meeples_desc": "Meeple matchmaking connects members by favorite games, skill level, and schedule — so no one's stuck waiting for a fourth player.",
+      "reservations_title": "Reserve a table in seconds",
+      "reservations_desc": "Real-time table availability with QR check-in — book a spot for tonight or lock in next week's campaign session.",
+      "challenges_title": "Challenges that hook people",
+      "challenges_desc": "Members earn XP, level up, and unlock badges for trying new games, hitting milestones, and just showing up.",
+      "events_title": "Run events without spreadsheets",
+      "events_desc": "Tournaments, campaigns, and game nights with RSVP tracking, bracket-ready sign-ups, and automatic reminders.",
+      "leaderboards_title": "Bragging rights, built in",
+      "leaderboards_desc": "Club-wide and per-game leaderboards keep the competitive fire alive — win streaks, top scores, season standings."
+    },
+    "how_it_works_section": {
+      "eyebrow": "How it works",
+      "title": "From sign-up to season leaderboard.",
+      "step1_title": "Join your club",
+      "step1_desc": "Scan a QR code at the venue or accept an invite, then set up your player profile — favorite games, skill level, and availability.",
+      "step2_title": "Reserve & play",
+      "step2_desc": "Grab a table, browse the library for something new, or let meeple matchmaking find you a group for tonight.",
+      "step3_title": "Level up",
+      "step3_desc": "Earn XP, complete challenges, and climb the leaderboard every time you show up and play."
+    },
+    "for_clubs": {
+      "eyebrow": "For club owners",
+      "title": "Built for the person who runs the clubhouse, too.",
+      "subtitle": "DiceHub isn't just a member app — it's the operating system for your space.",
+      "bullet1_title": "Table & floor management",
+      "bullet1_desc": "see every table's status at a glance, avoid double-bookings.",
+      "bullet2_title": "Game library & inventory",
+      "bullet2_desc": "track condition, missing pieces, and checkout history.",
+      "bullet3_title": "Event & tournament tools",
+      "bullet3_desc": "build brackets, manage RSVPs, send reminders automatically.",
+      "bullet4_title": "Member insights",
+      "bullet4_desc": "attendance trends, popular games, and engagement analytics.",
+      "cta": "Talk to us about your club"
+    },
+    "why": {
+      "eyebrow": "Why DiceHub exists",
+      "title": "We're new — here's what that means for you.",
+      "card1_title": "No fake numbers.",
+      "card1_desc": "We're not going to claim thousands of clubs use DiceHub — we don't have that yet. What we have is a working app, built feature by feature for how clubhouses actually run.",
+      "card2_title": "Onboarding takes a day or two,",
+      "card2_desc": "not minutes. Setting up your game library and tables properly is worth doing right — we'll walk you through it.",
+      "card3_title": "Early access means early feedback.",
+      "card3_desc": "As one of our first clubs, what you tell us directly shapes what gets built next."
+    },
+    "final_cta": {
+      "title": "Ready to roll the dice?",
+      "subtitle": "Start free as a player, or get your club set up in a day or two — no spreadsheet required.",
+      "secondary": "Set Up Your Club"
+    },
     "how_it_works": "How it Works",
     "login": "Login",
-    "register": "Register",
-
+    "register": "Get Started Free",
     "partner_with_us_title": "Partner with Us",
     "partner_with_us_text": "Looking to modernize your entertainment space? Whether you run a board game cafe, darts bar, billiards lounge, or a hybrid venue, DiceHub helps you elevate the experience and grow your community.",
-
     "form": {
       "labels": {
         "name": "Name",
@@ -733,17 +917,21 @@
         "phone_number": "+359 .....",
         "message": "Tell us about your venue or questions you have"
       }
+    },
+    "footer": {
+      "tagline": "The clubhouse, gamified."
     }
   },
   "login": {
     "labels": {
-      "email": "Email",
+      "email": "Email or username",
       "password": "Password",
       "remember_me": "Remember Me",
-      "lost_your_way": "Lost your way?"
+      "lost_your_way": "Lost your way?",
+      "change_club": "Change Club"
     },
     "placeholders": {
-      "email": "Your Email",
+      "email": "Your email or username",
       "password": "Your Password"
     },
     "show_resend": {
@@ -755,8 +943,11 @@
     "sign_up": "Sign Up",
     "enjoy_journey": "and embark on your journey!",
     "control_display_names": {
-      "email": "Email",
+      "email": "Email or username",
       "password": "Password"
+    },
+    "errors": {
+      "tenant_mismatch": "This account isn't registered with this club. Choose the correct club and try again."
     },
     "from_message": {
       "register": "Registration successful! Please check your email to confirm your account.",
@@ -770,6 +961,7 @@
     }
   },
   "register": {
+    "tenant_label": "Registering at",
     "successfully_message": "Registration successful! Please check your email to confirm your account.",
     "successfully_with_email_failed": "Registration successful, but we couldn't send the confirmation email. Please try resending it or contact support.",
     "register_error_message": "We couldn't send the confirmation email. Please try resending it or contact support.",
@@ -799,6 +991,68 @@
     "you_have_registration": "You're already part of the guild!",
     "sign_in_1": "Sign In",
     "sign_in_2": "to jump back into the action!"
+  },
+  "venue_application": {
+    "header": "Venue / Club Application",
+    "sub_header": "Submit your venue details. DiceHub SuperAdmins will review and verify the application before creating a tenant.",
+    "step1_title": "1. Verify contact",
+    "step1_note": "Verify the email with a one-time code before entering venue details.",
+    "step2_title": "2. Venue details",
+    "logo_hint": "PNG, JPEG, WEBP, or SVG. Up to 2 MB.",
+    "labels": {
+      "contact_name": "Contact name",
+      "email": "Email",
+      "email_code": "Email code",
+      "phone_number": "Phone number",
+      "address": "Address",
+      "public_website": "Public website",
+      "social_page": "Social page",
+      "discord_server": "Discord server",
+      "logo": "Venue logo",
+      "photo_url": "Photo URL"
+    },
+    "placeholders": {
+      "contact_name": "Main contact person",
+      "email": "owner@club.com",
+      "email_code": "6-digit code",
+      "phone_number": "+359...",
+      "address": "Venue address",
+      "public_website": "https://...",
+      "social_page": "Facebook / Instagram / other",
+      "discord_server": "Discord invite",
+      "photo_url": "Or link to a public venue photo instead"
+    },
+    "buttons": {
+      "email_verified": "Email verified",
+      "sending_code": "Sending code...",
+      "resend_email_code": "Resend email code",
+      "send_email_code": "Send email code",
+      "verifying": "Verifying...",
+      "verify_email_code": "Verify email code",
+      "submitting": "Submitting...",
+      "submit_application": "Submit application",
+      "remove_logo": "Remove",
+      "choose_image": "Choose an image"
+    },
+    "errors": {
+      "invalid_email": "Enter a valid email before sending the code.",
+      "email_code_not_sent": "Email verification code was not sent.",
+      "email_code_required": "Enter the email code before verifying.",
+      "invalid_code": "Invalid or expired email verification code.",
+      "email_verification_failed": "Email verification failed.",
+      "public_proof_required": "Provide at least one public website, social page, or Discord server.",
+      "email_verification_required": "Email must be verified before venue details are available.",
+      "application_failed": "Application submission failed.",
+      "logo_invalid_type": "Logo must be a PNG, JPEG, WEBP, or SVG image.",
+      "logo_too_large": "Logo must be smaller than 2 MB."
+    },
+    "toasts": {
+      "email_code_sent": "Email verification code sent.",
+      "email_verified": "Email verified.",
+      "application_submitted": "Venue application submitted."
+    },
+    "submitted_title": "Application submitted",
+    "submitted_text": "Your application is pending verification. DiceHub will review your details and contact you by email."
   },
   "reset_password": {
     "reset_was_successfully": "Your password has been reset successfully.",
@@ -1004,13 +1258,14 @@
     "no_rewards": "No rewards to show.",
     "no_rewards_desc_1": "Add a new reward",
     "no_rewards_desc_2": " to get started.",
-    "currency": "BGN ",
+    "currency": "€ ",
     "delete_dialog": {
       "important_note": "Important Note!",
       "important_note_desc_1": "This reward will no longer appear in future challenge periods.",
       "important_note_desc_2": "However, it will remain visible to users who have already earned it and will still be shown in the current challenge period."
     },
-    "image_required": "Image is required."
+    "image_required": "Image is required.",
+    "draft_restored_reselect_image": "Your unsaved reward was restored, but the selected image was lost - please reselect it."
   },
   "reward_level": {
     "Bronze": "Bronze",
@@ -1024,6 +1279,9 @@
     "add_reward": "Add Reward",
     "add_challenge": "Add Challenge",
     "add_universal_challenge": "Add Universal Challenge",
+    "rewards_section_title": "Period rewards",
+    "challenges_section_title": "Period challenges",
+    "universal_section_title": "Universal challenges",
     "labels": {
       "select_reward": "Select Reward",
       "required_points": "Required Points",
@@ -1092,6 +1350,7 @@
       "date": "date",
       "from": "From: {{username}}",
       "phone_number": "Phone Number: {{phoneNumber}}",
+      "phone_number_label": "Phone Number:",
       "none": "None",
       "internal_note": "Internal Note",
       "public_note": "Public Note",
@@ -1173,6 +1432,106 @@
     "info_description": "Learn how to use the app, including how to reserve games, table,\nearn rewards, and explore other important features to enhance your club experience.",
     "previous": "Previous",
     "next": "Next",
+    "articles_count": "{{count}} articles",
+    "owner_setup": {
+      "title": "Getting Started as an Owner",
+      "summary": "What to set up before you open the club to players",
+      "topic": {
+        "games_qr": {
+          "title": "Games & QR Codes",
+          "thumbnail_url": "/shared/assets/images/instructions/OwnerSetup/game-qr-dialog.png",
+          "description": "Every game gets its own QR code the moment you create it — print it and put it on the game.",
+          "steps": {
+            "every_game_gets_a_code": {
+              "header": "Every game gets its own QR code",
+              "description": "As soon as you add a game to the library, DiceHub generates a QR code for it. Open the game, tap the menu, and choose the QR code option to view or print it.",
+              "media_url": "/shared/assets/images/instructions/OwnerSetup/game-qr-dialog.png"
+            },
+            "print_and_attach": {
+              "header": "Print it and put it on the game",
+              "description": "Print the QR code and stick it on the game box or its shelf spot, so players can scan it in the club to check availability or start a reservation.",
+              "media_url": "/shared/assets/images/instructions/OwnerSetup/game-qr-dialog.png"
+            },
+            "pick_good_images": {
+              "header": "Pick clear game images",
+              "description": "Add a clear, well-lit cover image for every game — it's the first thing players see in the library and on the game card.",
+              "media_url": "/shared/assets/images/instructions/OwnerSetup/game-covers.png"
+            }
+          }
+        },
+        "rewards_and_custom_period": {
+          "title": "Rewards & Custom Periods",
+          "thumbnail_url": "/shared/assets/images/instructions/OwnerSetup/rewards-tab.png",
+          "description": "Set up your rewards, then create your custom period so players start earning.",
+          "steps": {
+            "setup_rewards_first": {
+              "header": "Set up your rewards first",
+              "description": "Go to the Rewards tab in the Challenges Manager and add the rewards your players can unlock. Do this before switching Custom Period on.",
+              "media_url": "/shared/assets/images/instructions/OwnerSetup/rewards-tab.png"
+            },
+            "recommended_order": {
+              "header": "Recommended setup order",
+              "description": "Before turning Custom Period on, make sure you have: 1) all your games added, 2) your rewards set up, 3) your period rewards, period challenges, and universal challenges set up on the Custom Period tab. You can always add more later — this first pass just makes sure the first period isn't empty.",
+              "media_url": "/shared/assets/images/instructions/OwnerSetup/custom-period-tab.png"
+            },
+            "turn_on_custom_period": {
+              "header": "Turn Custom Period on",
+              "description": "Once your games, rewards and challenges are ready, open Settings, set \"Is Custom Period On\" to On and Save. You'll be taken to the Custom Period tab to finish the setup.",
+              "media_url": "/shared/assets/images/instructions/OwnerSetup/global-settings.jpeg"
+            }
+          }
+        },
+        "club_settings": {
+          "title": "Club Settings That Matter",
+          "thumbnail_url": "/shared/assets/images/instructions/OwnerSetup/global-settings.jpeg",
+          "description": "These settings drive reward periods and background jobs — get them right before you open.",
+          "steps": {
+            "reset_day": {
+              "header": "Period Of Reward Reset",
+              "description": "How often the reward period restarts (weekly or monthly). When it resets, players' point progress starts over — they keep any rewards they've already earned, only the running point count resets.",
+              "media_url": "/shared/assets/images/instructions/OwnerSetup/global-settings.jpeg"
+            },
+            "reservation_hours": {
+              "header": "Reservation Hours",
+              "description": "Sets the hours players are allowed to reserve games and tables. Change it anytime to match your club's opening hours.",
+              "media_url": "/shared/assets/images/instructions/OwnerSetup/global-settings.jpeg"
+            },
+            "challenge_rewards_count": {
+              "header": "Challenge Rewards Count for Period",
+              "description": "How many rewards are available in a single period — 5, 10, or whatever fits your club. Change it whenever you like.",
+              "media_url": "/shared/assets/images/instructions/OwnerSetup/global-settings.jpeg"
+            },
+            "time_zone": {
+              "header": "Time Zone",
+              "description": "Make sure this is set correctly. Every background job — closing tables, resetting reward periods, expiring rewards — runs on this time zone.",
+              "media_url": "/shared/assets/images/instructions/OwnerSetup/global-settings.jpeg"
+            },
+            "days_off": {
+              "header": "Days Off",
+              "description": "Also feeds the background jobs, so keep it up to date with your club's actual closing days.",
+              "media_url": "/shared/assets/images/instructions/OwnerSetup/global-settings.jpeg"
+            }
+          }
+        },
+        "employees": {
+          "title": "Add Your Employees",
+          "thumbnail_url": "/shared/assets/images/instructions/OwnerSetup/employees-list.png",
+          "description": "Give your staff their own accounts with extra permissions.",
+          "steps": {
+            "add_from_profile": {
+              "header": "Open Profile → Employees",
+              "description": "From the Profile tab, tap the Employees tile. Your staff list lives here — use the + button to add someone. They get special roles beyond a normal user, so they can approve reservations, manage games, and more.",
+              "media_url": "/shared/assets/images/instructions/OwnerSetup/owner-profile.png"
+            },
+            "fill_the_form": {
+              "header": "Fill in the new employee",
+              "description": "Enter their first name, last name, email and phone number, then tap Create. They'll get an email to set their password and can sign in with their staff role.",
+              "media_url": "/shared/assets/images/instructions/OwnerSetup/new-employee-form.png"
+            }
+          }
+        }
+      }
+    },
     "reservation": {
       "title": "Reservations",
       "summary": "Reserve a game, table, or a combination of both",
@@ -1382,6 +1741,39 @@
         }
       }
     },
+    "troubleshooting": {
+      "title": "Troubleshooting",
+      "summary": "Having trouble with the app closing, resetting, or losing what you were doing? This section covers the most common cause and how to fix it.",
+      "topic": {
+        "app_resets": {
+          "title": "App resets or loses unsaved data",
+          "thumbnail_url": "/shared/assets/images/icons/menu_book-icon-blue.svg",
+          "description": "If the app suddenly shows the loading/landing screen, or a form or picked image you were working on disappears, it's usually your phone closing the app in the background to save battery - not a bug. These steps fix it on most Android phones.",
+          "steps": {
+            "why": {
+              "header": "Why this happens",
+              "description": "Many Android phones (especially Xiaomi/MIUI, Huawei, OnePlus, and Samsung) aggressively close apps that aren't in the foreground to save battery - even if you only switched away for a second, like picking a photo. When the app comes back, it may reload from scratch and lose whatever you hadn't saved yet.",
+              "media_url": "/shared/assets/images/icons/menu_book-icon-blue.svg"
+            },
+            "battery": {
+              "header": "Turn off battery restrictions for DiceHubs",
+              "description": "Go to Settings > Apps > DiceHubs > Battery (wording varies by phone), and choose \"No restrictions\" or \"Unrestricted\" instead of \"Optimized\" or \"Restricted\".",
+              "media_url": "/shared/assets/images/icons/menu_book-icon-blue.svg"
+            },
+            "autostart": {
+              "header": "Enable Autostart",
+              "description": "On some phones (Xiaomi/MIUI, Huawei, OnePlus), go to Settings > Apps > DiceHubs > Autostart (or Permissions > Autostart) and turn it on.",
+              "media_url": "/shared/assets/images/icons/menu_book-icon-blue.svg"
+            },
+            "lock_recents": {
+              "header": "Lock the app in Recent Apps",
+              "description": "Open the Recent Apps switcher, find DiceHubs, and swipe down (or long-press) on its card to \"Lock\" it. This tells the system not to close it while multitasking.",
+              "media_url": "/shared/assets/images/icons/menu_book-icon-blue.svg"
+            }
+          }
+        }
+      }
+    },
     "meeples": {
       "title": "Meeples",
       "summary": "Looking for people to play with?\nThe Meeples section helps you find or create a group of players who want to enjoy the same game as you. Meet new people, connect, and have fun together!",
@@ -1531,9 +1923,5 @@
     "phone": "Phone Number",
     "days_off": "Days Off",
     "no_days_off": "No days off"
-  },
-  "challenge_type_toggle": {
-    "game": "Game",
-    "universal": "Universal"
   }
 }

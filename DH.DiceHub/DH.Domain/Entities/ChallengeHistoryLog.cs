@@ -2,7 +2,7 @@
 
 namespace DH.Domain.Entities;
 
-public class ChallengeHistoryLog
+public class ChallengeHistoryLog : TenantEntity
 {
     public int Id { get; set; }
     public string UserId { get; set; } = string.Empty;

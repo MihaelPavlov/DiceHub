@@ -43,6 +43,7 @@ public class MapPermissions : IMapPermissions, IActionPermissions<UserAction>
         { UserAction.OwnerCRUD, new List<Role> { Role.SuperAdmin} },
         { UserAction.OwnerStats, new List<Role> { Role.SuperAdmin, Role.Owner} },
         { UserAction.SchedulerCRUD, new List<Role> { Role.SuperAdmin} },
+        { UserAction.TenantApplicationsReview, new List<Role> { Role.SuperAdmin} },
     };
 
     public IDictionary<int, List<Role>> GetActionsMapping()

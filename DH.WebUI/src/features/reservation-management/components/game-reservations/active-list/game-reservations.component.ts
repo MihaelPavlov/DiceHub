@@ -14,6 +14,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { FULL_ROUTE } from '../../../../../shared/configs/route.config';
 import { LanguageService } from '../../../../../shared/services/language.service';
 import { SupportLanguages } from '../../../../../entities/common/models/support-languages.enum';
+import { TenantRouter } from '../../../../../shared/helpers/tenant-router';
 
 @Component({
     selector: 'app-game-reservations',
@@ -35,7 +36,7 @@ export class GameReservations implements OnInit, OnDestroy {
   constructor(
     private readonly injector: Injector,
     private readonly gameService: GamesService,
-    private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly dialog: MatDialog,
     private readonly translateService: TranslateService,
     private readonly languageService: LanguageService
@@ -67,13 +68,19 @@ export class GameReservations implements OnInit, OnDestroy {
   }
 
   public toggleTopItem(
+    event: Event,
     reservationId: number,
     reservationStatus: ReservationStatus
   ): void {
-    if (reservationStatus === ReservationStatus.Approved) {
-      this.expandedReservationId =
-        this.expandedReservationId === reservationId ? null : reservationId;
+    if (reservationStatus === ReservationStatus.Declined) return;
+    // The whole row toggles the expand, but not when the tap landed on an
+    // action button or the chevron - those run their own handlers.
+    const el = event.target as HTMLElement | null;
+    if (el?.closest('button, .reservations-actions, .reservations-menu-btn')) {
+      return;
     }
+    this.expandedReservationId =
+      this.expandedReservationId === reservationId ? null : reservationId;
   }
 
   public isExpanded(reservationId: number): boolean {
@@ -90,13 +97,13 @@ export class GameReservations implements OnInit, OnDestroy {
   }
 
   public onHistory(): void {
-    this.router.navigateByUrl(FULL_ROUTE.RESERVATION_MANAGEMENT.GAME_HISTORY);
+   this.tenantRouter.navigateTenant(FULL_ROUTE.RESERVATION_MANAGEMENT.GAME_HISTORY);
   }
 
   public onCancel(): void {
     if (this.expandedReservationId) {
       const dialogRef = this.dialog.open(ReservationConfirmationDialog, {
-        width: '17rem',
+        panelClass: 'confirm-sheet-pane',
         data: {
           type: ReservationType.Game,
           reservationId: this.expandedReservationId,
@@ -123,7 +130,7 @@ export class GameReservations implements OnInit, OnDestroy {
   ): void {
     if (this.expandedReservationId) {
       const dialogRef = this.dialog.open(ReservationConfirmationDialog, {
-        width: '17rem',
+        panelClass: 'confirm-sheet-pane',
         data: {
           type: ReservationType.Game,
           reservationId: this.expandedReservationId,
@@ -156,7 +163,7 @@ export class GameReservations implements OnInit, OnDestroy {
   ): void {
     if (this.expandedReservationId) {
       const dialogRef = this.dialog.open(ReservationConfirmationDialog, {
-        width: '17rem',
+        panelClass: 'confirm-sheet-pane',
         data: {
           type: ReservationType.Game,
           reservationId: this.expandedReservationId,

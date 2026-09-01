@@ -23,18 +23,33 @@ public class QRCodeManager : IQRCodeManager
 {
     readonly IQRCodeContext qRCodeContext;
     readonly IContainerService containerService;
+    readonly IQrTokenService qrTokenService;
 
-    public QRCodeManager(IQRCodeContext qRCodeContext, IContainerService containerService)
+    public QRCodeManager(IQRCodeContext qRCodeContext, IContainerService containerService, IQrTokenService qrTokenService)
     {
         this.qRCodeContext = qRCodeContext;
         this.containerService = containerService;
+        this.qrTokenService = qrTokenService;
     }
 
     /// <inheritdoc/>
     public async Task<QrCodeValidationResult> ValidateQRCodeAsync(string data, CancellationToken cancellationToken)
     {
-        data = QrCodeDecryptor.Decrypt(data);
-        var qrReader = this.ValidateCode(data);
+        var isToken = false;
+        QRReaderModel qrReader;
+
+        if (LooksLikeToken(data))
+        {
+            qrReader = await this.qrTokenService.ResolveAsync(data, cancellationToken)
+                ?? throw new BadRequestException("This QR code is invalid or has expired.");
+            isToken = true;
+        }
+        else
+        {
+            // Legacy encrypted-JSON blob (QR codes printed before the token scheme).
+            var decrypted = QrCodeDecryptor.Decrypt(data);
+            qrReader = this.ValidateCode(decrypted);
+        }
 
         switch (qrReader.Type)
         {
@@ -52,7 +67,7 @@ public class QRCodeManager : IQRCodeManager
                         this.containerService.Resolve<IUserContext>(),
                         this.containerService.Resolve<IRepository<GameReservation>>(),
                         this.containerService.Resolve<IRepository<SpaceTableReservation>>(),
-                        this.containerService.Resolve<IUserService>(),
+                        this.containerService.Resolve<IUserManagementService>(),
                         this.containerService.Resolve<ISpaceTableService>(),
                         this.containerService.Resolve<IRepository<SpaceTable>>(),
                         this.containerService.Resolve<IGameSessionQueue>(),
@@ -101,7 +116,33 @@ public class QRCodeManager : IQRCodeManager
                 break;
         }
 
-        return await this.qRCodeContext.HandleAsync(qrReader, cancellationToken);
+        var result = await this.qRCodeContext.HandleAsync(qrReader, cancellationToken);
+
+        // Burn a per-user token once it has done its job so it can't be replayed.
+        if (isToken && result.IsValid)
+            await this.qrTokenService.MarkConsumedAsync(data, cancellationToken);
+
+        return result;
+    }
+
+    /// <summary>
+    /// Opaque token shape produced by <see cref="QrTokenService"/>: 1 type digit
+    /// (1-6) followed by 11 uppercase base32 chars. Anything else is treated as a
+    /// legacy encrypted blob.
+    /// </summary>
+    private static bool LooksLikeToken(string data)
+    {
+        if (string.IsNullOrEmpty(data) || data.Length != 12 || data[0] < '1' || data[0] > '6')
+            return false;
+
+        foreach (var c in data)
+        {
+            var ok = (c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z');
+            if (!ok)
+                return false;
+        }
+
+        return true;
     }
 
     /// <summary>

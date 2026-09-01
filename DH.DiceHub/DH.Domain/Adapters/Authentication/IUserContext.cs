@@ -13,6 +13,12 @@ public interface IUserContext
     string? UserId { get; }
 
     /// <summary>
+    /// Gets the unique identifier of the current user.
+    /// Null when the user is anonymous or system-level.
+    /// </summary>
+    string? TenantId { get; }
+
+    /// <summary>
     /// Gets the role key of the current user.
     /// Null when unauthenticated.
     /// </summary>
@@ -34,4 +40,9 @@ public interface IUserContext
     /// Indicates whether the current user is authenticated.
     /// </summary>
     bool IsAuthenticated { get; }
+
+    /// <summary>
+    /// Is system
+    /// </summary>
+    bool IsSystem { get; }
 }

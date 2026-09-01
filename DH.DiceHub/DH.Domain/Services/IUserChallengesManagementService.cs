@@ -7,6 +7,12 @@
 public interface IUserChallengesManagementService
 {
     Task InitializeNewPeriodsBatch(CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Same as <see cref="InitializeNewPeriodsBatch(CancellationToken)"/> but scoped to a single
+    /// tenant. Called by the per-tenant <c>AddUserChallengePeriodJob</c> when its reset time fires.
+    /// </summary>
+    Task InitializeNewPeriodsBatch(string tenantId, CancellationToken cancellationToken);
     /// <summary>
     /// Initiate challenge period for user. 
     /// The system generates rewards and assigns initial challenges.
@@ -41,4 +47,11 @@ public interface IUserChallengesManagementService
     /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
     Task EnsureValidUserChallengePeriodsAsync(CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Same as <see cref="EnsureValidUserChallengePeriodsAsync(CancellationToken)"/> but scoped to a
+    /// single tenant. Called by the per-tenant <c>UserChallengeValidationJob</c> trigger, which fires
+    /// at that tenant's configured local time.
+    /// </summary>
+    Task EnsureValidUserChallengePeriodsAsync(string tenantId, CancellationToken cancellationToken);
 }

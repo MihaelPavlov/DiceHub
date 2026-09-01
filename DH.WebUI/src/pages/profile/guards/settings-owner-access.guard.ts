@@ -8,6 +8,8 @@ import {
 import { Observable } from 'rxjs';
 import { AuthService } from '../../../entities/auth/auth.service';
 import { UserRole } from '../../../entities/auth/enums/roles.enum';
+import { TenantRouter } from '../../../shared/helpers/tenant-router';
+import { ROUTE } from '../../../shared/configs/route.config';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +17,8 @@ import { UserRole } from '../../../entities/auth/enums/roles.enum';
 export class SettingsOwnerAccessGuard {
   constructor(
     private readonly authService: AuthService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly tenantRouter: TenantRouter
   ) {}
 
   public canActivate(
@@ -28,7 +31,7 @@ export class SettingsOwnerAccessGuard {
     ) {
       return true;
     }
-
-    return this.router.parseUrl('profile');
+    const tenantUrl = this.tenantRouter.buildTenantUrl(ROUTE.PROFILE.CORE);
+    return this.router.parseUrl(tenantUrl);
   }
 }

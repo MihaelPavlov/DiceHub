@@ -1,6 +1,6 @@
 ﻿namespace DH.Domain.Entities;
 
-public class FailedJob
+public class FailedJob : TenantEntity
 {
     public int Id { get; set; }
     public int Type { get; set; }

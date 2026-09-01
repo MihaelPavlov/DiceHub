@@ -1,6 +1,6 @@
 ﻿namespace DH.Domain.Entities;
 
-public class EventNotification
+public class EventNotification : TenantEntity
 {
     public int Id { get; set; }
     public DateTime SentOn { get; set; }

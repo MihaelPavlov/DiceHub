@@ -1,13 +1,41 @@
-<app-header
-  [header]="'admin_challenge.challenges_manager' | translate"
->
-  <app-nav-bar [columns]="columns"></app-nav-bar
-></app-header>
+<section class="games-shell games-design-surface">
+  <header class="games-shell__header">
+    <div class="games-shell__title">
+      <h1 class="games-display">
+        {{ "admin_challenge.challenges_manager" | translate }}
+      </h1>
+    </div>
 
-<app-controls-menu
-  #menu
-  [menuItems]="menuItems.asObservable()"
-  (menuItemClick)="handleMenuItemClick($event.value)"
-></app-controls-menu>
+    <nav class="games-shell__tabs games-shell__tabs--seg" aria-label="Challenges admin sections">
+      <a
+        class="games-chip"
+        [class.games-chip--active]="isActiveLink(ADMIN_LIST)"
+        [routerLink]="getTenantLink(ADMIN_LIST)"
+      >
+        {{ "admin_challenge.columns.challenges" | translate }}
+      </a>
+      <a
+        class="games-chip"
+        [class.games-chip--active]="isActiveLink(ADMIN_SYSTEM_REWARDS)"
+        [routerLink]="getTenantLink(ADMIN_SYSTEM_REWARDS)"
+      >
+        {{ "admin_challenge.columns.rewards" | translate }}
+      </a>
+      <a
+        class="games-chip"
+        [class.games-chip--active]="isActiveLink(ADMIN_CUSTOM_PERIOD)"
+        [routerLink]="getTenantLink(ADMIN_CUSTOM_PERIOD)"
+      >
+        {{ "admin_challenge.columns.custom_period" | translate }}
+      </a>
+    </nav>
+  </header>
 
-<router-outlet (activate)="onActivate($event)"></router-outlet>
+  <app-controls-menu
+    #menu
+    [menuItems]="menuItems.asObservable()"
+    (menuItemClick)="handleMenuItemClick($event.value)"
+  ></app-controls-menu>
+
+  <router-outlet (activate)="onActivate($event)"></router-outlet>
+</section>

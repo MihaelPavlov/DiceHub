@@ -1,118 +1,16 @@
-@use "../../../../shared/assets/styles/palette";
-
-.input-field {
-  .ng-touched.ng-invalid {
-    border: none;
-  }
-}
-.input-info {
-  color: palette.$main-icon-color;
-  margin-bottom: 1rem;
-  display: block;
-  margin-bottom: 0.3rem;
-}
-
-.input-warning {
-  color: palette.$main-red-color;
-  border-left: 4px solid palette.$glow-yellow-color;
-  padding: 0.75rem 1rem;
-  display: block;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-  border-radius: 4px;
-  font-size: 0.95rem;
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
-    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
-    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
-}
-
-.container {
-  display: flex;
-  flex-direction: column;
-  width: 85%;
-  margin: 0 auto;
-  margin-bottom: 15rem;
-
-  .btn-init {
-    display: flex;
-    justify-content: center;
-    margin: 1rem;
-  }
-
-  .save-period-message {
-    text-align: center;
-  }
-
-  .buttons {
-    display: flex;
-    justify-content: space-between;
-
-    .btn-container {
-      display: flex;
-      align-items: center;
-      margin: 0.75rem 0;
-
-      .wrapper_add {
-        background: palette.$main-red-color;
-        fill: palette.$main-font-color;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 1.5rem;
-        height: 1.5rem;
-        border-radius: 50%;
-        margin: 0 0.2rem;
-      }
-    }
-  }
-
-  .reward-container {
-    display: flex;
-    align-items: center;
-  }
-
-  .universal-challenge-container {
-    .input-remove {
-      fill: palette.$main-font-color;
-      width: 2rem;
-      height: 2rem;
-      display: flex;
-      align-items: center;
-    }
-  }
-  .universal-center {
-    align-items: center;
-  }
-
-  .input-field input {
-    padding: 0.6rem;
-  }
-
-  .input-field label {
-    font-size: 0.7rem;
-    color: palette.$main-font-gray-color;
-  }
-
-  .input-remove {
-    fill: palette.$main-font-color;
-    width: 2rem;
-    height: 2rem;
-    display: flex;
-    align-items: center;
-  }
-}
+@use "../../../../shared/assets/styles/challenges-admin-panel";
 
 ::ng-deep .ng-option-disabled {
-  color: #888 !important;         // dim text
-  background-color: #2b2e35 !important; // subtle background if you use dark mode
+  color: var(--games-faint) !important;
+  background-color: var(--games-surface-2) !important;
   opacity: 0.6;
   cursor: not-allowed;
   font-style: italic;
 }
 
 ::ng-deep .ng-option-disabled:hover {
-  background-color: #2b2e35 !important; // prevent hover color
-  color: #999 !important;
+  background-color: var(--games-surface-2) !important;
+  color: var(--games-faint) !important;
   transform: none !important;
 }
 
@@ -121,12 +19,29 @@
 }
 
 ::ng-deep .ng-option:not(.ng-option-disabled):hover {
-  background-color: #3b3f47 !important;
-  transform: translateX(2px);
+  background-color: var(--games-surface-2) !important;
 }
 
-::ng-deep .ng-option-label{
+::ng-deep .ng-option-label {
   white-space: normal !important;
   overflow: visible !important;
   text-overflow: unset !important;
+}
+
+@media (min-width: 900px) {
+  .period-entry {
+    align-items: flex-end;
+  }
+
+  .period-entry__main {
+    max-width: 24rem;
+  }
+
+  .period-entry__points {
+    width: 8rem;
+  }
+
+  .universal-entry__row {
+    grid-template-columns: repeat(3, minmax(7rem, 10rem)) auto;
+  }
 }

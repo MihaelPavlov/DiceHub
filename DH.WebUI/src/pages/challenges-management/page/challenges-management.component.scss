@@ -1,4 +1,74 @@
-@use "../../../shared/assets/styles/palette";
+.games-shell {
+  min-height: 100vh;
+  padding: 1.5rem 1.25rem 7rem;
+  background: var(--games-bg);
+  color: var(--games-text);
+}
+
+.games-shell__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  width: min(72rem, 100%);
+  margin: 0 auto;
+
+  h1 {
+    margin: 0;
+    font-size: 1.65rem;
+    line-height: 1.05;
+    letter-spacing: 0;
+  }
+}
+
+.games-shell__icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  flex-shrink: 0;
+  border: 1px solid var(--games-border);
+  border-radius: 999px;
+  background: var(--games-surface);
+  color: var(--games-text);
+  cursor: pointer;
+
+  svg {
+    width: 1.15rem;
+    height: 1.15rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+.games-shell__tabs {
+  display: flex;
+  gap: 0.55rem;
+  width: min(72rem, 100%);
+  margin: 1rem auto 0;
+}
+
+.games-shell__tabs--seg {
+  padding: 0.3rem;
+  border-radius: 1.1rem;
+  background: var(--games-surface-2);
+  width: fit-content;
+
+  .games-chip {
+    border: 0;
+    background: transparent;
+    color: var(--games-faint);
+  }
+
+  .games-chip--active {
+    background: var(--games-blue);
+    color: var(--games-blue-ink);
+  }
+}
 
 .no-period {
   display: flex;
@@ -8,29 +78,33 @@
   margin: 0 auto;
   margin-top: 6rem;
   width: 80%;
+  color: var(--games-muted);
 }
 .wrapper_score {
   .score {
     display: flex;
     font-size: 1rem;
     justify-content: center;
+    color: var(--games-text);
   }
 
   .dates {
     display: flex;
     justify-content: space-evenly;
-    color: palette.$main-blue-color;
+    color: var(--games-amber);
     align-items: center;
 
     .icon {
       width: 2rem;
-      fill: palette.$main-font-gray-color;
+      fill: var(--games-faint);
     }
   }
 }
 
 .wrapper_stats {
-  background-color: palette.$main-nav-color;
+  background-color: var(--games-surface);
+  border: 1px solid var(--games-border);
+  border-radius: 1.25rem;
   margin: 1rem 0;
   display: flex;
   justify-content: center;
@@ -59,7 +133,7 @@
   .arrow {
     min-width: 2.5rem;
     width: 2.5rem;
-    fill: palette.$main-font-color;
+    fill: var(--games-text);
     display: flex;
     align-items: center;
     transition: opacity 0.3s ease-in-out, width 0.3s ease-in-out,
@@ -75,8 +149,8 @@
     display: flex;
 
     .item {
-      background-color: palette.$main-nav-color;
-      border: 0.1rem solid palette.$main-font-color;
+      background-color: var(--games-surface-2);
+      border: 1px solid var(--games-border);
       border-radius: 0.5rem;
       width: 3rem;
       height: 3rem;
@@ -102,12 +176,12 @@
     align-items: center;
     justify-content: space-around;
 
-    --line-border-fill: #3498db;
-    --line-border-empty: black;
+    --line-border-fill: var(--games-amber);
+    --line-border-empty: var(--games-bg);
 
     .progress-container::before {
       content: "";
-      background-color: palette.$main-background-color;
+      background-color: var(--games-surface-2);
       position: absolute;
       top: 50%;
       left: 0;
@@ -115,7 +189,7 @@
       height: 0.5rem;
       width: 100%;
       z-index: 1;
-      border: 0.1rem solid palette.$main-font-color;
+      border: 1px solid var(--games-border);
     }
 
     .progress-container {
@@ -136,12 +210,11 @@
       top: 50%;
       left: 0;
       transform: translateY(-50%);
-      // animation: load 3s normal forwards;
       height: 0.5rem;
       width: 0%;
       z-index: 1;
       transition: 2s ease;
-      border: 0.1rem solid palette.$main-font-color;
+      border: 1px solid var(--games-border);
     }
     .circle_container {
       z-index: 3;
@@ -150,8 +223,8 @@
       display: flex;
     }
     .circle {
-      background: palette.$main-background-color;
-      color: palette.$main-font-color;
+      background: var(--games-surface-2);
+      color: var(--games-text);
       font-size: 0.7rem;
       border-radius: 50%;
       height: 1.5rem;
@@ -159,135 +232,18 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      border: 0.1rem solid palette.$main-font-color;
+      border: 1px solid var(--games-border);
       transition: 0.4s ease;
       z-index: 3;
     }
 
     .circle.activated {
-      border: 0.2rem solid palette.$main-font-color;
+      border: 2px solid var(--games-amber);
     }
   }
 }
 
-.wrapper_challenges {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 10rem;
-
-  .completed {
-    opacity: 0.5;
-  }
-
-  &__item {
-    display: flex;
-    margin: 0.5rem 1rem;
-    border-radius: 1rem;
-    background-color: palette.$main-nav-color;
-
-    .image_info_container {
-      display: flex;
-      width: 80%;
-    }
-    .status-image {
-      display: flex;
-      width: 20%;
-      justify-content: center;
-      position: relative;
-      align-items: center;
-      img {
-        width: 2rem;
-        height: 2rem;
-        object-fit: cover;
-        border-radius: 5rem;
-      }
-    }
-
-    .image {
-      display: flex;
-      justify-content: start;
-      margin: 0.5rem 0;
-      margin-left: 1rem;
-      margin-right: 0.75rem;
-      text-align: center;
-      align-items: center;
-      img {
-        width: 3rem;
-        height: 3rem;
-        object-fit: cover;
-        border-radius: 5rem;
-        border: 0.1rem solid palette.$main-background-color;
-      }
-    }
-
-    .info {
-      display: flex;
-      flex-direction: column;
-      justify-content: start;
-      position: relative;
-      width: 110%;
-      .header {
-        margin-top: 0.75rem;
-        word-break: break-word;
-        width: 100%;
-      }
-
-      .bar-2 {
-        margin-top: 0.25rem;
-        background:palette.$challenge-card-bar-color;
-        justify-content: flex-start;
-        border-radius: 5rem;
-        align-items: center;
-        position: relative;
-        display: flex;
-        height: 1rem;
-        width: 11rem;
-        margin-bottom: 0.7rem;
-        width: 100%;
-      }
-
-      .bar-2-span {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-      }
-
-      .bar-2-value {
-        animation: load 3s normal forwards;
-        box-shadow: 0 10px 40px -10px palette.$main-blue-color;
-        border-radius: 5rem;
-        background: palette.$main-blue-color;
-        height: 1rem;
-        width: 0%;
-      }
-
-      .points {
-        background: palette.$main-background-color;
-        color: palette.$main-font-color;
-        font-size: 0.7rem;
-        border-radius: 50%;
-        height: 1.5rem;
-        width: 1.5rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: 0.1rem solid palette.$main-font-color;
-        transition: 0.4s ease;
-        z-index: 3;
-        position: absolute;
-        left: 100%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-      }
-
-      .points.active {
-        border: 0.2rem solid palette.$main-font-color;
-      }
-    }
-  }
-}
-
+.wrapper_challenges,
 .wrapper_universal_challenges {
   display: flex;
   flex-direction: column;
@@ -300,9 +256,11 @@
   &__item {
     display: flex;
     margin: 0.5rem 1rem;
-    border-radius: 1rem;
-    background-color: palette.$main-nav-color;
+    border-radius: 1.1rem;
+    background-color: var(--games-surface);
+    border: 1px solid var(--games-border);
 
+    .image_info_container,
     .challenge_container {
       display: flex;
       width: 80%;
@@ -319,7 +277,7 @@
       .info {
         width: 3rem;
         height: 3rem;
-        fill: palette.$main-blue-color;
+        fill: var(--games-amber);
       }
     }
 
@@ -329,6 +287,7 @@
       justify-content: center;
       position: relative;
       align-items: center;
+      img,
       .img {
         width: 2rem;
         height: 2rem;
@@ -356,7 +315,7 @@
         height: 3rem;
         object-fit: cover;
         border-radius: 5rem;
-        border: 0.1rem solid palette.$main-background-color;
+        border: 1px solid var(--games-border);
       }
 
       .image_type {
@@ -371,6 +330,7 @@
       justify-content: start;
       position: relative;
       width: 110%;
+      color: var(--games-text);
       .header {
         margin-top: 0.75rem;
         word-break: break-word;
@@ -379,14 +339,13 @@
 
       .bar-2 {
         margin-top: 0.25rem;
-        background: palette.$challenge-card-bar-color;
+        background: var(--games-surface-2);
         justify-content: flex-start;
         border-radius: 5rem;
         align-items: center;
         position: relative;
         display: flex;
         height: 1rem;
-        width: 11rem;
         margin-bottom: 0.7rem;
         width: 100%;
       }
@@ -396,20 +355,22 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
+        color: var(--games-muted);
+        font-size: 0.7rem;
       }
 
       .bar-2-value {
         animation: load 3s normal forwards;
-        box-shadow: 0 10px 40px -10px palette.$main-blue-color;
+        box-shadow: 0 10px 40px -10px var(--games-amber-soft);
         border-radius: 5rem;
-        background: palette.$main-blue-color;
+        background: var(--games-amber);
         height: 1rem;
         width: 0%;
       }
 
       .points {
-        background: palette.$main-background-color;
-        color: palette.$main-font-color;
+        background: var(--games-surface-2);
+        color: var(--games-text);
         font-size: 0.7rem;
         border-radius: 50%;
         height: 1.5rem;
@@ -417,7 +378,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        border: 0.1rem solid palette.$main-font-color;
+        border: 1px solid var(--games-border);
         transition: 0.4s ease;
         z-index: 3;
         position: absolute;
@@ -427,7 +388,7 @@
       }
 
       .points.active {
-        border: 0.2rem solid palette.$main-font-color;
+        border: 2px solid var(--games-blue);
       }
     }
   }
@@ -449,20 +410,19 @@
 }
 
 .challenge-card {
-  border: 0.2rem dashed #31313b;
+  border: 1px solid var(--games-border);
   border-radius: 1rem;
-  color: palette.$main-font-color;
-  border-radius: 12px;
+  color: var(--games-text);
   padding: 12px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  background: var(--games-surface);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--games-shadow);
 
   &:hover {
     transform: translateY(-3px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
   }
 }
 
@@ -480,6 +440,7 @@
     text-align: center;
     margin: 1rem;
     word-break: break-word;
+    color: var(--games-muted);
   }
 
   .input-field {
@@ -539,4 +500,48 @@
 
 .shake {
   animation: shake 1s ease-in-out;
+}
+
+@media (min-width: 900px) {
+  .games-shell {
+    padding: 2.5rem 3rem 4rem;
+  }
+
+  .games-shell__header h1 {
+    font-size: 2.25rem;
+  }
+
+  .no-period,
+  .wrapper_stats,
+  .wrapper_challenges,
+  .wrapper_universal_challenges,
+  .challenges-grid {
+    width: min(72rem, 100%);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .wrapper_challenges,
+  .wrapper_universal_challenges {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(24rem, 1fr));
+    gap: 1rem;
+    margin-bottom: 3rem;
+
+    &__item {
+      margin: 0;
+      border-radius: 0.5rem;
+      min-height: 6rem;
+
+      .info {
+        width: 100%;
+        padding-right: 1rem;
+      }
+    }
+  }
+
+  .challenges-grid {
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+    padding: 0;
+  }
 }

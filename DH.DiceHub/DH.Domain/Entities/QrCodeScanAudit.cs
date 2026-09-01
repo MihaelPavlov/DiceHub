@@ -1,6 +1,6 @@
 ﻿namespace DH.Domain.Entities;
 
-public class QrCodeScanAudit
+public class QrCodeScanAudit : TenantEntity
 {
     public int Id { get; set; }
     public string TraceId { get; set; } = string.Empty;

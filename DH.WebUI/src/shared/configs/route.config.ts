@@ -1,6 +1,7 @@
 export const ROUTE = {
   LANDING: '/',
   LOGIN: 'login',
+  CHOOSE_CLUB: 'choose-club',
   REGISTER: 'register',
   FORGOT_PASSWORD: 'forgot-password',
   INSTRUCTIONS: 'instructions',
@@ -11,6 +12,7 @@ export const ROUTE = {
     AVAILABILITY: 'availability',
     REVIEWS: 'reviews',
     UPDATE: 'update',
+    ADD: 'add',
     ADD_EXISTING_GAME: 'add-existing-game',
     RESERVATIONS: 'reservations',
   },
@@ -80,6 +82,7 @@ export const ROUTE = {
     ADD_EMPLOYEE: 'add-employee',
     UPDATE_EMPLOYEE: 'update-employee',
     CLUB_INFO: 'club-info',
+    APPLICANTS: 'applicants',
   },
   CHART: {
     CORE: 'charts',
@@ -87,6 +90,8 @@ export const ROUTE = {
     GAMES: 'games',
     RESERVATIONS: 'reservations',
     REWARDS: 'rewards',
+    REWARDS_EXPIRED_COLLECTED: 'expired-collected',
+    REWARDS_COLLECTED: 'collected',
     EVENTS: 'events',
     CHALLENGES: 'challenges',
     LEADERBOARD: 'leaderboard',
@@ -105,15 +110,17 @@ export const FULL_ROUTE = {
     LIBRARY_BY_CATEGORY_ID: (categoryId: number) =>
       `${ROUTE.GAMES.CORE}/${ROUTE.GAMES.LIBRARY}/${categoryId}`,
     DETAILS: (gameId: number) =>
-      `/${ROUTE.GAMES.CORE}/${gameId}/${ROUTE.GAMES.DETAILS}`,
+      `${ROUTE.GAMES.CORE}/${gameId}/${ROUTE.GAMES.DETAILS}`,
     AVAILABILITY: (gameId: number) =>
-      `/${ROUTE.GAMES.CORE}/${gameId}/${ROUTE.GAMES.AVAILABILITY}`,
+      `${ROUTE.GAMES.CORE}/${gameId}/${ROUTE.GAMES.AVAILABILITY}`,
     REVIEWS: (gameId: number) =>
-      `/${ROUTE.GAMES.CORE}/${gameId}/${ROUTE.GAMES.REVIEWS}`,
+      `${ROUTE.GAMES.CORE}/${gameId}/${ROUTE.GAMES.REVIEWS}`,
+    ADD: `${ROUTE.GAMES.CORE}/${ROUTE.GAMES.ADD}`,
     UPDATE: (gameId: number) =>
-      `/${ROUTE.GAMES.CORE}/${gameId}/${ROUTE.GAMES.UPDATE}`,
-    ADD_EXISTING_GAME: (gameId: number) =>
-      `/${ROUTE.GAMES.CORE}/${gameId}/${ROUTE.GAMES.ADD_EXISTING_GAME}`,
+      `${ROUTE.GAMES.CORE}/${gameId}/${ROUTE.GAMES.UPDATE}`,
+    ADD_EXISTING_GAME: `${ROUTE.GAMES.CORE}/${ROUTE.GAMES.ADD_EXISTING_GAME}`,
+    ADD_EXISTING_GAME_BY_ID: (gameId: number) =>
+      `${ROUTE.GAMES.CORE}/${gameId}/${ROUTE.GAMES.ADD_EXISTING_GAME}`,
     ACTIVE_RESERVATIONS: `${ROUTE.GAMES.RESERVATIONS}/${ROUTE.GAMES.CORE}`,
   },
   EVENTS: {
@@ -174,12 +181,17 @@ export const FULL_ROUTE = {
     UPDATE_BY_ID: (employeeId: string) =>
       `${ROUTE.PROFILE.CORE}/${employeeId}/${ROUTE.PROFILE.UPDATE_EMPLOYEE}`,
     OWNER_DETAILS: `${ROUTE.PROFILE.CORE}/${ROUTE.PROFILE.OWNER_DETAILS}`,
+    APPLICANTS: `${ROUTE.PROFILE.CORE}/${ROUTE.PROFILE.APPLICANTS}`,
+    APPLICANT_DETAILS_BY_ID: (id: number) =>
+      `${ROUTE.PROFILE.CORE}/${ROUTE.PROFILE.APPLICANTS}/${id}`,
   },
   CHARTS: {
     VISITORS: `${ROUTE.CHART.CORE}/${ROUTE.CHART.VISITORS}`,
     GAMES: `${ROUTE.CHART.CORE}/${ROUTE.CHART.GAMES}`,
     RESERVATIONS: `${ROUTE.CHART.CORE}/${ROUTE.CHART.RESERVATIONS}`,
     REWARDS: `${ROUTE.CHART.CORE}/${ROUTE.CHART.REWARDS}`,
+    REWARDS_EXPIRED_COLLECTED: `${ROUTE.CHART.CORE}/${ROUTE.CHART.REWARDS}/${ROUTE.CHART.REWARDS_EXPIRED_COLLECTED}`,
+    REWARDS_COLLECTED: `${ROUTE.CHART.CORE}/${ROUTE.CHART.REWARDS}/${ROUTE.CHART.REWARDS_COLLECTED}`,
     EVENTS: `${ROUTE.CHART.CORE}/${ROUTE.CHART.EVENTS}`,
     CHALLENGES_LEADERBOARD: `${ROUTE.CHART.CORE}/${ROUTE.CHART.CHALLENGES}/${ROUTE.CHART.LEADERBOARD}`,
     STREAK_LEADERBOARD: `${ROUTE.CHALLENGES.CORE}/${ROUTE.CHALLENGES.STREAKS}?tab=leaderboard`,

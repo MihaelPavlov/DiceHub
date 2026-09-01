@@ -1,7 +1,7 @@
 import { NavigationService } from './../../../../shared/services/navigation-service';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { RoomsService } from '../../../../entities/rooms/api/rooms.service';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { MenuTabsService } from '../../../../shared/services/menu-tabs.service';
 import { NAV_ITEM_LABELS } from '../../../../shared/models/nav-items-labels.const';
 import { IRoomByIdResult } from '../../../../entities/rooms/models/room-by-id.model';
@@ -22,12 +22,13 @@ import { AppToastMessage } from '../../../../shared/components/toast/constants/a
 import { ToastType } from '../../../../shared/models/toast.model';
 import { LanguageService } from '../../../../shared/services/language.service';
 import { SupportLanguages } from '../../../../entities/common/models/support-languages.enum';
+import { TenantRouter } from '../../../../shared/helpers/tenant-router';
 
 @Component({
-    selector: 'app-meeple-room-details',
-    templateUrl: 'meeple-room-details.component.html',
-    styleUrl: 'meeple-room-details.component.scss',
-    standalone: false
+  selector: 'app-meeple-room-details',
+  templateUrl: 'meeple-room-details.component.html',
+  styleUrl: 'meeple-room-details.component.scss',
+  standalone: false,
 })
 export class MeepleRoomDetailsComponent implements OnInit, OnDestroy {
   @ViewChild(MeepleRoomMenuComponent) menu!: MeepleRoomMenuComponent;
@@ -46,7 +47,7 @@ export class MeepleRoomDetailsComponent implements OnInit, OnDestroy {
     private readonly activeRoute: ActivatedRoute,
     private readonly authService: AuthService,
     private readonly menuTabsService: MenuTabsService,
-    private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly navigationService: NavigationService,
     private readonly dialog: MatDialog,
     private readonly translateService: TranslateService,
@@ -82,18 +83,20 @@ export class MeepleRoomDetailsComponent implements OnInit, OnDestroy {
   }
 
   public backNavigateBtn(): void {
-    this.router.navigateByUrl(FULL_ROUTE.MEEPLE_ROOM.FIND);
+    this.tenantRouter.navigateTenant(FULL_ROUTE.MEEPLE_ROOM.FIND);
   }
 
   public navigateToGameDetails(id: number): void {
     this.navigationService.setPreviousUrl(
       FULL_ROUTE.MEEPLE_ROOM.DETAILS_BY_ID(this.roomId)
     );
-    this.router.navigateByUrl(FULL_ROUTE.GAMES.DETAILS(id));
+    this.tenantRouter.navigateTenant(FULL_ROUTE.GAMES.DETAILS(id));
   }
 
   public navigateToChat(id: number): void {
-    this.router.navigateByUrl(FULL_ROUTE.MEEPLE_ROOM.CHAT_ROOM_BY_ID(id));
+    this.tenantRouter.navigateTenant(
+      FULL_ROUTE.MEEPLE_ROOM.CHAT_ROOM_BY_ID(id)
+    );
   }
 
   public onJoinRoom(): void {

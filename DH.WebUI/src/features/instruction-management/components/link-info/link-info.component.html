@@ -1,57 +1,73 @@
-<section class="carousel" aria-label="Gallery">
-  <button
-    class="carousel__prev"
-    (click)="scrollToSlide(currentSlideIndex - 1)"
-    *ngIf="currentSlideIndex > 0"
-  >
-    {{ "instruction.previous" | translate }}
-  </button>
-  <div class="carousel__viewport" #carouselViewport>
-    <div *ngFor="let slide of slides; let i = index" class="carousel__slide">
-      <ng-container>
-        <div class="wrapper">
-          <div class="wrapper_image">
+<section class="instruction-steps" aria-label="Instruction steps">
+  <div class="instruction-steps__track">
+    <button
+      type="button"
+      class="instruction-steps__nav instruction-steps__nav--prev"
+      (click)="scrollToSlide(currentSlideIndex - 1)"
+      *ngIf="currentSlideIndex > 0"
+      [attr.aria-label]="'instruction.previous' | translate"
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M15 5l-7 7 7 7" />
+      </svg>
+    </button>
+
+    <div class="instruction-steps__viewport" #carouselViewport>
+      <div *ngFor="let slide of slides; let i = index" class="instruction-steps__slide">
+        <div
+          class="instruction-steps__card"
+          [class.instruction-steps__card--no-media]="!linkInfo[i].mediaUrl"
+        >
+          <div class="instruction-steps__media" *ngIf="linkInfo[i].mediaUrl">
             <img
-              class="clickable"
+              class="instruction-steps__media-img"
               (click)="openImagePreview(gifSrcMap[i])"
               [src]="gifSrcMap[i]"
-              alt="Image"
+              alt=""
             />
           </div>
-          <div class="wrapper_link">
-            <div class="name">{{ translate(linkInfo[i].header) }}</div>
-            <div class="description">
-              {{ translate(linkInfo[i].description) }}
-            </div>
+          <div class="instruction-steps__content">
+            <span class="instruction-steps__step-label">{{ i + 1 }}/{{ slides.length }}</span>
+            <span class="instruction-steps__header">{{ translate(linkInfo[i].header) }}</span>
+            <span class="instruction-steps__description">{{
+              translate(linkInfo[i].description)
+            }}</span>
             <a
-              class="action_link"
+              class="instruction-steps__action"
               *ngIf="linkInfo[i].action"
               [routerLink]="linkInfo[i].action?.url"
             >
-              {{ translate(linkInfo[i].action?.label ?? "") }}</a
-            >
+              {{ translate(linkInfo[i].action?.label ?? "") }}
+            </a>
           </div>
         </div>
-      </ng-container>
+      </div>
     </div>
-  </div>
-  <button
-    class="carousel__next"
-    (click)="scrollToSlide(currentSlideIndex + 1)"
-    *ngIf="currentSlideIndex < slides.length - 1"
-  >
-    {{ "instruction.next" | translate }}
-  </button>
 
-  <nav class="carousel__navigation">
     <button
+      type="button"
+      class="instruction-steps__nav instruction-steps__nav--next"
+      (click)="scrollToSlide(currentSlideIndex + 1)"
+      *ngIf="currentSlideIndex < slides.length - 1"
+      [attr.aria-label]="'instruction.next' | translate"
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M9 5l7 7-7 7" />
+      </svg>
+    </button>
+  </div>
+
+  <nav class="instruction-steps__dots" *ngIf="slides.length > 1">
+    <button
+      type="button"
       *ngFor="let slide of slides; let i = index"
       (click)="scrollToSlide(i)"
       [ngClass]="
         i === currentSlideIndex
-          ? 'carousel__navigation--current_button'
-          : 'carousel__navigation_button'
+          ? 'instruction-steps__dot instruction-steps__dot--active'
+          : 'instruction-steps__dot'
       "
+      [attr.aria-label]="'Go to step ' + (i + 1)"
     ></button>
   </nav>
 </section>

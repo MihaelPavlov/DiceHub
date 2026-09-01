@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Sora:wght@400;500;600;700&display=swap');
+    :root {
+      --bg: oklch(0.15 0.018 290);
+      --bg-elevated: oklch(0.195 0.02 290);
+      --bg-elevated-2: oklch(0.245 0.022 290);
+      --border: oklch(0.34 0.02 290 / 0.55);
+      --text: oklch(0.96 0.01 90);
+      --text-muted: oklch(0.7 0.02 290);
+      --text-faint: oklch(0.52 0.02 290);
+      --violet: oklch(0.66 0.17 300);
+      --violet-soft: oklch(0.66 0.17 300 / 0.16);
+      --shadow-card: 0 10px 30px -12px oklch(0 0 0 / 0.55);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #0b0b0d; font-family: 'Sora', ui-sans-serif, system-ui, sans-serif; }
+    .display { font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif; }
+    .icon-btn { width: 42px; height: 42px; border-radius: 999px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .row { display: flex; align-items: center; gap: 14px; background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 18px; padding: 14px; }
+    .thumb { width: 52px; height: 52px; border-radius: 14px; flex-shrink: 0; background: var(--bg-elevated-2); display: flex; align-items: center; justify-content: center; }
+  </style>
+</helmet>
+
+<div style="width:393px;background:var(--bg);color:var(--text);padding:24px 20px 40px;display:flex;flex-direction:column;gap:22px;">
+
+  <div class="icon-btn" style="background:var(--bg-elevated);border:1px solid var(--border);">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+  </div>
+
+  <div style="display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;">
+    <div style="width:64px;height:64px;border-radius:20px;background:var(--violet-soft);display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-card);">
+      <svg width="28" height="28" viewBox="0 -960 960 960" fill="var(--violet)"><path d="M204.62-100q-27.62 0-46.12-18.5T140-164.62v-566.76q0-27.62 18.5-46.12T204.62-796h49.23v-63.85h68.3V-796h324v-63.85h66.16V-796h49.07q27.62 0 46.28 18.5Q826-759 826-731.38v566.76q0 27.62-18.5 46.12T761.38-100H204.62Z"/></svg>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:4px;">
+      <span class="display" style="font-size:19px;font-weight:800;color:var(--violet);">Events</span>
+      <span style="font-size:12.5px;color:var(--text-muted);line-height:1.55;max-width:280px;">How to join, leave, and stay on top of club events.</span>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:10px;">
+
+    <a href="#" class="row">
+      <div class="thumb">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;gap:3px;">
+        <span style="font-size:14px;font-weight:700;">Join an event</span>
+        <span style="font-size:11.5px;color:var(--text-muted);">Find an event and reserve your seat in one tap.</span>
+      </div>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M9 5l7 7-7 7"/></svg>
+    </a>
+
+    <a href="#" class="row">
+      <div class="thumb">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18L18 6M6 6l12 12"/></svg>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;gap:3px;">
+        <span style="font-size:14px;font-weight:700;">Leave an event</span>
+        <span style="font-size:11.5px;color:var(--text-muted);">Free up your seat if plans change.</span>
+      </div>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M9 5l7 7-7 7"/></svg>
+    </a>
+
+    <a href="#" class="row">
+      <div class="thumb">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;gap:3px;">
+        <span style="font-size:14px;font-weight:700;">Event notifications</span>
+        <span style="font-size:11.5px;color:var(--text-muted);">Get reminders before an event you joined starts.</span>
+      </div>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M9 5l7 7-7 7"/></svg>
+    </a>
+
+  </div>
+
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

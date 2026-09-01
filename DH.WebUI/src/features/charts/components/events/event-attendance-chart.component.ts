@@ -17,6 +17,7 @@ import { combineLatest } from 'rxjs';
 import { ToastService } from '../../../../shared/services/toast.service';
 import { ToastType } from '../../../../shared/models/toast.model';
 import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
+import { TenantRouter } from '../../../../shared/helpers/tenant-router';
 
 @Component({
     selector: 'event-attendance-chart',
@@ -31,13 +32,19 @@ export class EventAttendanceChartComponent implements AfterViewInit, OnDestroy {
   private REQUIRED_MESSAGE_FROM_DATES: string =
     'Specifying from which date we start is required.';
 
-  public fromDateControl = new FormControl(null);
-  public toDateControl = new FormControl(null);
+  public fromDateControl = new FormControl<string | null>(null);
+  public toDateControl = new FormControl<string | null>(null);
   public validationMessageFromDates: string | null =
     this.REQUIRED_MESSAGE_FROM_DATES;
+  public currentQuickRangeMonths: number | null = null;
+  public quickRanges = [
+    { label: 'Last Month', months: 1 },
+    { label: 'Last 3 Months', months: 3 },
+    { label: 'Last 6 Months', months: 6 },
+  ];
 
   constructor(
-    private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly menuTabsService: MenuTabsService,
     private readonly eventsService: EventsService,
     private readonly statisticsService: StatisticsService,
@@ -51,6 +58,7 @@ export class EventAttendanceChartComponent implements AfterViewInit, OnDestroy {
   }
 
   public dateValidation(): void {
+    this.currentQuickRangeMonths = null;
     if (this.eventAttendanceChart) {
       this.eventAttendanceChart.destroy();
     }
@@ -76,8 +84,30 @@ export class EventAttendanceChartComponent implements AfterViewInit, OnDestroy {
     this.createDoughnutChart();
   }
 
+  public applyQuickRange(months: number): void {
+    this.currentQuickRangeMonths = months;
+
+    const toDate = new Date();
+    const fromDate = new Date(toDate);
+    fromDate.setMonth(fromDate.getMonth() - months);
+
+    if (this.eventAttendanceChart) {
+      this.eventAttendanceChart.destroy();
+    }
+
+    this.fromDateControl.setValue(this.formatDateInput(fromDate), {
+      emitEvent: false,
+    });
+    this.toDateControl.setValue(this.formatDateInput(toDate), {
+      emitEvent: false,
+    });
+
+    this.validationMessageFromDates = null;
+    this.createDoughnutChart();
+  }
+
   public backNavigateBtn(): void {
-    this.router.navigateByUrl('charts/events');
+    this.tenantRouter.navigateTenant('charts/events');
   }
 
   public ngAfterViewInit(): void {
@@ -267,5 +297,13 @@ export class EventAttendanceChartComponent implements AfterViewInit, OnDestroy {
       quarter: toRgba(0.25), // 25% transparency
       zero: toRgba(0), // Fully transparent
     };
+  }
+
+  private formatDateInput(date: Date): string {
+    const year = date.getFullYear();
+    const month = `${date.getMonth() + 1}`.padStart(2, '0');
+    const day = `${date.getDate()}`.padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
   }
 }

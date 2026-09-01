@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "566204429306",
+    "project_id": "dicehub-8c63f",
+    "storage_bucket": "dicehub-8c63f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:566204429306:android:f78ca9fcbfd4dda3d02a43",
+        "android_client_info": {
+          "package_name": "com.dicehubs.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuPCH-yb33V6Ugs5KVdYpbzkiK0iPPC3k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

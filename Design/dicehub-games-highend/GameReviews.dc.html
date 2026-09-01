@@ -1,0 +1,131 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Sora:wght@400;500;600;700&display=swap');
+    :root {
+      --bg: #07070a;
+      --glass: rgba(255,255,255,0.045);
+      --glass-core: rgba(255,255,255,0.065);
+      --glass-core-2: rgba(255,255,255,0.09);
+      --hairline: rgba(255,255,255,0.09);
+      --hairline-strong: rgba(255,255,255,0.17);
+      --text: #f4f2ee;
+      --text-muted: rgba(244,242,238,0.6);
+      --text-faint: rgba(244,242,238,0.36);
+      --accent: oklch(0.7 0.13 250);
+      --accent-light: oklch(0.82 0.08 250);
+      --accent-glow: oklch(0.7 0.13 250 / 0.22);
+      --coral: oklch(0.66 0.16 25);
+      --coral-soft: oklch(0.66 0.16 25 / 0.16);
+      --gold: oklch(0.78 0.13 82);
+      --shadow: 0 24px 60px -24px oklch(0.1 0.05 260 / 0.8);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); font-family: 'Sora', ui-sans-serif, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+    .display { font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif; }
+    .glow { position: absolute; border-radius: 50%; filter: blur(60px); pointer-events: none; animation: glowBreathe 7s ease-in-out infinite; }
+    @keyframes glowBreathe { 0%,100% { opacity: 0.45; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.15); } }
+    .icon-btn { width: 42px; height: 42px; border-radius: 999px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: var(--glass-core); border: 1px solid var(--hairline); }
+    .tabs { display: flex; gap: 4px; background: var(--glass); border: 1px solid var(--hairline); padding: 4px; border-radius: 1.1rem; }
+    .tabs span { flex: 1; text-align: center; font-size: 12.5px; font-weight: 700; padding: 10px 0; border-radius: 0.85rem; color: var(--text-faint); }
+    .tabs span.active { background: var(--glass-core-2); color: var(--text); box-shadow: inset 0 1px 0 rgba(255,255,255,0.08); }
+    .review { background: var(--glass-core); border: 1px solid var(--hairline); border-radius: 1.25rem; padding: 16px; display: flex; flex-direction: column; gap: 9px; }
+    .navbar { position: absolute; left: 18px; right: 18px; bottom: 22px; display: flex; align-items: center; justify-content: space-between; padding: 10px 18px; border-radius: 999px; background: rgba(13,13,18,0.72); backdrop-filter: blur(20px); border: 1px solid var(--hairline-strong); box-shadow: 0 20px 44px -14px rgba(0,0,0,0.75); }
+    .navbar .fab { width: 50px; height: 50px; border-radius: 999px; background: linear-gradient(135deg, var(--gold), #caa53a); display: flex; align-items: center; justify-content: center; margin-top: -24px; box-shadow: 0 10px 24px -8px oklch(0.78 0.13 82 / 0.55), 0 0 0 6px var(--bg); }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); filter: blur(5px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
+    .stagger > * { opacity: 0; animation: fadeUp 650ms cubic-bezier(.32,.72,0,1) forwards; }
+    .stagger > *:nth-child(1) { animation-delay: .03s; } .stagger > *:nth-child(2) { animation-delay: .09s; } .stagger > *:nth-child(3) { animation-delay: .15s; }
+    .stagger > *:nth-child(4) { animation-delay: .21s; } .stagger > *:nth-child(5) { animation-delay: .27s; }
+  </style>
+</helmet>
+
+<div style="width:393px;background:var(--bg);color:var(--text);padding:26px 20px 150px;display:flex;flex-direction:column;gap:22px;position:relative;overflow:hidden;">
+
+  <div class="glow" style="width:240px;height:240px;top:-70px;right:-90px;background:oklch(0.78 0.13 82 / 0.14);"></div>
+
+  <div class="stagger" style="display:flex;flex-direction:column;gap:18px;position:relative;">
+
+    <div style="display:flex;align-items:center;justify-content:space-between;">
+      <div class="icon-btn"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></div>
+      <span class="display" style="font-size:18px;font-weight:700;">Catan</span>
+      <div class="icon-btn" style="background:var(--coral-soft);border-color:transparent;">
+        <svg width="18" height="18" viewBox="0 -960 960 960" fill="var(--coral)"><path d="m480-137.85-46.31-43.38q-106.92-99.46-174.5-167.65-67.57-68.2-105.65-118.35-38.08-50.15-51.81-91.04Q88-599.15 88-642q0-87.31 60.85-147.65Q209.69-850 298-850q48.77 0 96 24.5t86 71.04q38.77-46.54 86-71.04 47.23-24.5 96-24.5 88.31 0 149.15 60.35Q872-729.31 872-642q0 42.85-13.73 83.73-13.73 40.89-51.81 91.04-38.08 50.15-105.27 118.35Q634-280.69 526.31-181.23L480-137.85Z"/></svg>
+      </div>
+    </div>
+
+    <div style="width:110px;height:110px;border-radius:1.5rem;margin:0 auto;background:linear-gradient(150deg,#5a4fcf,#8ea2ff);box-shadow:var(--shadow);"></div>
+
+    <div class="tabs"><span>Details</span><span>Availability</span><span class="active">Reviews</span></div>
+
+    <div style="display:flex;align-items:center;justify-content:space-between;">
+      <span style="font-size:13.5px;font-weight:600;color:var(--text-muted);">18 reviews</span>
+      <a href="#" style="font-size:12.5px;font-weight:700;color:var(--gold);display:flex;align-items:center;gap:6px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+        Write a review
+      </a>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:12px;">
+
+      <div class="review">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#c98a2e);flex-shrink:0;"></div>
+          <div style="display:flex;flex-direction:column;">
+            <span style="font-size:13.5px;font-weight:700;">Ivan Petrov</span>
+            <span style="font-size:11px;color:var(--text-faint);">Aug 12, 2026</span>
+          </div>
+        </div>
+        <span style="font-size:13px;color:var(--text-muted);line-height:1.55;">Perfect gateway game for our Thursday group — easy to teach, always a close finish.</span>
+      </div>
+
+      <div class="review">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--accent-light),var(--accent));flex-shrink:0;"></div>
+          <div style="display:flex;flex-direction:column;">
+            <span style="font-size:13.5px;font-weight:700;">Maria Ivanova</span>
+            <span style="font-size:11px;color:var(--text-faint);">Aug 8, 2026</span>
+          </div>
+        </div>
+        <span style="font-size:13px;color:var(--text-muted);line-height:1.55;">A club favorite — the trading phase gets loud every single time. Highly recommend.</span>
+      </div>
+
+      <div class="review">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,oklch(0.66 0.17 300),var(--coral));flex-shrink:0;"></div>
+          <div style="display:flex;flex-direction:column;">
+            <span style="font-size:13.5px;font-weight:700;">Georgi Dimitrov</span>
+            <span style="font-size:11px;color:var(--text-faint);">Jul 29, 2026</span>
+          </div>
+        </div>
+        <span style="font-size:13px;color:var(--text-muted);line-height:1.55;">Great with 4 players, drags a little at 6 — still our go-to for new members.</span>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="navbar">
+    <div style="width:38px;height:38px;border-radius:999px;display:flex;align-items:center;justify-content:center;background:var(--accent-glow);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-light)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9a1 1 0 0 0 1 1h4v-6h2v6h4a1 1 0 0 0 1-1v-9"/></svg></div>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 19c.8-3.3 3-5 6-5s5.2 1.7 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 12.2c2.6.2 4 1.7 4.6 4.3"/></svg>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16"/><path d="M8 3v4M16 3v4"/><path d="M9.5 14l1.8 1.8L15 12"/></svg>
+    <div class="fab"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="var(--accent-ink)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8v4a4 4 0 0 1-8 0z"/><path d="M8 5H5a3 3 0 0 0 3 5"/><path d="M16 5h3a3 3 0 0 1-3 5"/><path d="M10 13v3M14 13v3"/><path d="M8 20h8"/><path d="M9 17h6l1 3H8z"/></svg></div>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2 1.6 1.6 0 0 0 0 6 2 2 0 0 1-2 2H6a2 2 0 0 1-2-2 1.6 1.6 0 0 0 0-6z"/><path d="M9 7.5v2M9 12.5v2M9 17v-2"/></svg>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c1.2-4 4-5.5 7-5.5s5.8 1.5 7 5.5"/></svg>
+  </div>
+
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

@@ -1,12 +1,34 @@
-<app-header
-  [header]="'meeple.room.room_members' | translate"
-  [withSearch]="true"
-  [withBackBtn]="true"
-  [withBottomLine]="true"
-  (searchExpressionResult)="handleSearchExpression($event)"
-  (backClicked)="onBack()"
-></app-header>
-<div class="wrapper">
+<section class="room-members-shell games-design-surface">
+  <header class="room-members-shell__header">
+    <button
+      type="button"
+      class="games-icon-btn"
+      (click)="onBack()"
+      aria-label="Back"
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M15 5l-7 7 7 7" />
+      </svg>
+    </button>
+    <span class="room-members-shell__title games-display">{{
+      "meeple.room.room_members" | translate
+    }}</span>
+    <span class="games-icon-btn games-icon-btn--spacer" aria-hidden="true"></span>
+  </header>
+
+  <form class="room-members-shell__search">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="10.5" cy="10.5" r="6.5" />
+      <path d="M20 20l-4.8-4.8" />
+    </svg>
+    <input
+      type="search"
+      [placeholder]="'meeple.room.search_members_placeholder' | translate"
+      (input)="handleSearchExpression($any($event.target).value)"
+    />
+  </form>
+
+  <div class="wrapper">
   <div class="guestlist">
     <ul class="attendes">
       <li *ngFor="let member of members">
@@ -60,4 +82,5 @@
       </li>
     </ul>
   </div>
-</div>
+  </div>
+</section>

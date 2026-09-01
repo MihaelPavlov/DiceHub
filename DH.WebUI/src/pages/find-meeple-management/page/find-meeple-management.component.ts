@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { MenuTabsService } from '../../../shared/services/menu-tabs.service';
 import { NAV_ITEM_LABELS } from '../../../shared/models/nav-items-labels.const';
 import { RoomsService } from '../../../entities/rooms/api/rooms.service';
@@ -12,12 +11,13 @@ import { NavigationService } from '../../../shared/services/navigation-service';
 import { DateHelper } from '../../../shared/helpers/date-helper';
 import { LanguageService } from '../../../shared/services/language.service';
 import { SupportLanguages } from '../../../entities/common/models/support-languages.enum';
+import { TenantRouter } from '../../../shared/helpers/tenant-router';
 
 @Component({
-    selector: 'app-find-meeple-manager',
-    templateUrl: 'find-meeple-management.component.html',
-    styleUrl: 'find-meeple-management.component.scss',
-    standalone: false
+  selector: 'app-find-meeple-manager',
+  templateUrl: 'find-meeple-management.component.html',
+  styleUrl: 'find-meeple-management.component.scss',
+  standalone: false,
 })
 export class FindMeepleManagementComponent implements OnInit, OnDestroy {
   public roomList$!: Observable<IRoomListResult[] | null>;
@@ -26,7 +26,7 @@ export class FindMeepleManagementComponent implements OnInit, OnDestroy {
   public readonly DATE_TIME_FORMAT: string = DateHelper.DATE_TIME_FORMAT;
 
   constructor(
-    private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly menuTabsService: MenuTabsService,
     private readonly roomService: RoomsService,
     private readonly searchService: SearchService,
@@ -57,10 +57,10 @@ export class FindMeepleManagementComponent implements OnInit, OnDestroy {
     this.navigationService.setPreviousUrl(
       FULL_ROUTE.MEEPLE_ROOM.DETAILS_BY_ID(id)
     );
-    this.router.navigateByUrl(FULL_ROUTE.MEEPLE_ROOM.DETAILS_BY_ID(id));
+    this.tenantRouter.navigateTenant(FULL_ROUTE.MEEPLE_ROOM.DETAILS_BY_ID(id));
   }
 
   public navigateToCreateMeepleRoom(): void {
-    this.router.navigateByUrl(FULL_ROUTE.MEEPLE_ROOM.CREATE);
+    this.tenantRouter.navigateTenant(FULL_ROUTE.MEEPLE_ROOM.CREATE);
   }
 }

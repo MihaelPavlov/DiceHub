@@ -13,6 +13,8 @@ import { ParseDateTagPipe } from './pipe/parse-date-tag.pipe';
 import { PasswordVisibilityToggleComponent } from './components/password-visibility-toggle/password-visibility-toggle.component';
 import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
 import { TranslateInPipe } from './pipe/translate-in.pipe';
+import { InstallPromptComponent } from './components/install-prompt/install-prompt.component';
+import { SheetDismissDirective } from './directives/sheet-dismiss/sheet-dismiss.directive';
 
 @NgModule({
   declarations: [
@@ -25,12 +27,14 @@ import { TranslateInPipe } from './pipe/translate-in.pipe';
     ControlsMenuComponent,
     RandomColorDirective,
     PasswordVisibilityToggleComponent,
+    InstallPromptComponent,
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     MatProgressBarModule,
     TranslateModule,
+    SheetDismissDirective,
   ],
   exports: [
     TranslateModule,
@@ -45,6 +49,8 @@ import { TranslateInPipe } from './pipe/translate-in.pipe';
     RandomColorDirective,
     DatePipe,
     PasswordVisibilityToggleComponent,
+    InstallPromptComponent,
+    SheetDismissDirective,
   ],
   providers: [
     EntityImagePipe,

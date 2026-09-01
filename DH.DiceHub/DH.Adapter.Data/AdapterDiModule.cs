@@ -33,10 +33,12 @@ public static class DataDIModule
         };
 
         services
-            .AddDbContext<TenantDbContext>(options => options
+            .AddDbContext<TenantDbContext>((provider, options) =>
+                options
+                .AddInterceptors(provider.GetRequiredService<TenantDbConnectionInterceptor>())
                 .UseNpgsql(
                     builder.ConnectionString,
-                    npgsqlOptions => 
+                    npgsqlOptions =>
                         npgsqlOptions
                         .EnableRetryOnFailure(
                             maxRetryCount: 5,
@@ -61,7 +63,11 @@ public static class DataDIModule
             .AddScoped<IEmailHelperService, EmailHelperService>()
             .AddScoped<IStatisticsService, StatisticsService>()
             .AddScoped<IUniversalChallengeProcessing, UniversalChallengeProcessing>()
-            .AddScoped<IGameSeeder, GameSeeder>();
+            .AddScoped<IGameSeeder, GameSeeder>()
+            .AddScoped<ITenantService, TenantService>()
+            .AddScoped<ITenantSetupService, TenantSetupService>()
+            .AddScoped<ITenantDirectoryService, TenantDirectoryService>()
+            .AddScoped<TenantDbConnectionInterceptor>();
 
         services.AddMemoryCache();
         services.AddScoped<IUserSettingsCache, UserSettingsCache>();
@@ -96,4 +102,3 @@ public static class DataDIModule
         }
     }
 }
-

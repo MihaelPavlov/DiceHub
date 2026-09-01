@@ -1,0 +1,37 @@
+{
+  "DH.Database.MigrationUtility/ConsoleFileLogger.cs": {
+    "mtime": 1784883718.0224993,
+    "ast_hash": "c72dba26a084e0fb8d3295296fa1a436",
+    "semantic_hash": "c72dba26a084e0fb8d3295296fa1a436"
+  },
+  "DH.Database.MigrationUtility/DH.Database.MigrationUtility.csproj": {
+    "mtime": 1784883718.0226955,
+    "ast_hash": "740aebe55df5f036c02157cec3730c0f",
+    "semantic_hash": "740aebe55df5f036c02157cec3730c0f"
+  },
+  "DH.Database.MigrationUtility/EnvironmentSettings.cs": {
+    "mtime": 1784883718.0226955,
+    "ast_hash": "38e23f61bc488c23d782c0a08ecc9d8b",
+    "semantic_hash": "38e23f61bc488c23d782c0a08ecc9d8b"
+  },
+  "DH.Database.MigrationUtility/ExtensionDI.cs": {
+    "mtime": 1784883718.0226955,
+    "ast_hash": "47bba47a2b145c2a929c7f5705e23721",
+    "semantic_hash": "47bba47a2b145c2a929c7f5705e23721"
+  },
+  "DH.Database.MigrationUtility/Program.cs": {
+    "mtime": 1784883718.0226955,
+    "ast_hash": "2ce65c031f9d42539cfdb139d24db525",
+    "semantic_hash": "2ce65c031f9d42539cfdb139d24db525"
+  },
+  "DH.Database.MigrationUtility/appsettings.Production.json": {
+    "mtime": 1784883718.0226955,
+    "ast_hash": "dbe39a2ffa801c723694130a5b9eec9d",
+    "semantic_hash": "dbe39a2ffa801c723694130a5b9eec9d"
+  },
+  "DH.Database.MigrationUtility/appsettings.json": {
+    "mtime": 1784883718.0226955,
+    "ast_hash": "dbe39a2ffa801c723694130a5b9eec9d",
+    "semantic_hash": "dbe39a2ffa801c723694130a5b9eec9d"
+  }
+}

@@ -1,18 +1,25 @@
 @use "../../../../../shared/assets/styles/palette";
 
 .wrapper {
-  color: palette.$main-font-gray-color;
+  color: var(--games-muted);
 }
 
 .wrapper_info {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 0 1rem;
+  margin: 0;
+  padding: 1rem;
+  border: 1px solid var(--games-border);
+  border-radius: 1rem;
+  background: var(--games-surface);
 
   &__write-review {
     display: flex;
     align-items: center;
+    color: var(--games-amber);
+    font-weight: 800;
+    cursor: pointer;
 
     span {
       display: flex;
@@ -25,12 +32,69 @@
   }
 }
 
+@media (min-width: 900px) {
+  .wrapper_info,
+  .form__group,
+  .wrapper_reviews {
+    width: min(46rem, 100%);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .wrapper_info {
+    margin-top: 1rem;
+    padding: 1rem;
+    border: 1px solid var(--games-border);
+    border-radius: 1rem;
+    background: var(--games-surface);
+  }
+
+  .form__group {
+    margin-top: 1rem;
+    padding: 1rem;
+    border: 1px solid var(--games-border);
+    border-radius: 1rem;
+    background: var(--games-surface);
+  }
+
+  .form__group .form__field {
+    border: 1px solid var(--games-border);
+    border-radius: 0.8rem;
+    background: var(--games-surface-2);
+    font-size: 0.95rem;
+  }
+
+  .wrapper_reviews {
+    display: grid;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .wrapper_reviews__item {
+    margin: 0;
+    padding: 1rem;
+    border: 1px solid var(--games-border);
+    border-radius: 1rem;
+    background: var(--games-surface);
+  }
+
+  .wrapper_reviews__item__info .review {
+    margin-top: 0.5rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+}
+
 .wrapper_reviews {
   margin-top: 1rem;
 
   &__item {
     display: flex;
-    margin: 1rem 1.5rem;
+    margin: 0.75rem 0;
+    padding: 1rem;
+    border: 1px solid var(--games-border);
+    border-radius: 1rem;
+    background: var(--games-surface);
 
     &__info {
       display: flex;
@@ -47,6 +111,7 @@
           font-size: 0.75rem;
           display: flex;
           align-items: center;
+          color: var(--games-faint);
 
           .my-review {
             width: 1.5rem;
@@ -57,7 +122,10 @@
       }
 
       .review {
-        font-size: 0.8rem;
+        margin-top: 0.45rem;
+        color: var(--games-text);
+        font-size: 0.85rem;
+        line-height: 1.5;
         word-break: break-word;
       }
     }
@@ -99,7 +167,7 @@
     border-radius: 1rem;
     outline: 0;
     font-size: small;
-    color: palette.$main-font-color;
+    color: var(--games-text);
     padding: 0.6rem 1rem;
     transition: border-color 0.2s;
 

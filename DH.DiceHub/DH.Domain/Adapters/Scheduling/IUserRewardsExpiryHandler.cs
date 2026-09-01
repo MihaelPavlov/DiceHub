@@ -15,6 +15,13 @@ public interface IUserRewardsExpiryHandler
     Task EvaluateUserRewardsExpiry(CancellationToken cancellationToken);
 
     /// <summary>
+    /// Same as <see cref="EvaluateUserRewardsExpiry(CancellationToken)"/> but scoped to a single
+    /// tenant. Called by the per-tenant <c>UserRewardsExpiryJob</c> trigger, which fires at that
+    /// tenant's local midnight. "Expired" is judged against the current date in the tenant's zone.
+    /// </summary>
+    Task EvaluateUserRewardsExpiry(string tenantId, CancellationToken cancellationToken);
+
+    /// <summary>
     /// Processes failed attempts at evaluating the expiration status of rewards.
     /// This method logs the failed job details, such as data and error messages,
     /// to a repository for future analysis or reprocessing.

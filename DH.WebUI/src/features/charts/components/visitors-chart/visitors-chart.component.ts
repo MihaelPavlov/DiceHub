@@ -1,3 +1,4 @@
+import { TenantRouter } from './../../../../shared/helpers/tenant-router';
 import { StatisticsService } from './../../../../entities/statistics/api/statistics.service';
 import {
   AfterViewInit,
@@ -6,7 +7,6 @@ import {
   OnDestroy,
   ViewChild,
 } from '@angular/core';
-import { Router } from '@angular/router';
 import { NAV_ITEM_LABELS } from '../../../../shared/models/nav-items-labels.const';
 import { MenuTabsService } from '../../../../shared/services/menu-tabs.service';
 import { FormControl } from '@angular/forms';
@@ -22,7 +22,7 @@ import { ToastService } from '../../../../shared/services/toast.service';
 import { ToastType } from '../../../../shared/models/toast.model';
 import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { IDropdown } from '../../../../shared/models/dropdown.model';
-import { DatePipe } from '@angular/common';
+import { ROUTE } from '../../../../shared/configs/route.config';
 
 @Component({
     selector: 'visitors-chart',
@@ -43,9 +43,8 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
   constructor(
     private readonly menuTabsService: MenuTabsService,
     private readonly toastService: ToastService,
-    private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly statisticsService: StatisticsService,
-    private datePipe: DatePipe
   ) {
     Chart.register(ChartDataLabels, ...registerables);
 
@@ -66,7 +65,7 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
   }
 
   public backNavigateBtn(): void {
-    this.router.navigateByUrl('profile');
+    this.tenantRouter.navigateTenant(ROUTE.PROFILE.CORE);
   }
 
   public updateDateRange(direction: 'forward' | 'backward'): void {
@@ -260,6 +259,101 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
               this.visitorActivityChartCanvas.nativeElement.parentElement &&
               this.isVisitorDataAvailable
             ) {
+              if (this.isDesktopViewport()) {
+                this.visitorActivityChartCanvas.nativeElement.parentElement.style.height =
+                  '';
+                ctx.canvas.height = 100;
+
+                let gradient = ctx.createLinearGradient(0, 25, 0, 300);
+                gradient.addColorStop(0, colors.yellow.half);
+                gradient.addColorStop(0.35, colors.yellow.quarter);
+                gradient.addColorStop(1, colors.yellow.zero);
+
+                this.visitorActivityChart = new Chart(ctx, {
+                  type: 'line',
+                  data: {
+                    labels: dailyData.labels,
+                    datasets: [
+                      {
+                        label: 'Daily Visitor Activity',
+                        data: dailyData.values,
+                        fill: true,
+                        backgroundColor: gradient,
+                        tension: 0.5,
+                        borderColor: colors.yellow.quarter,
+                        pointBackgroundColor: colors.yellow.default,
+                      },
+                    ],
+                  },
+                  options: {
+                    maintainAspectRatio: false,
+                    responsive: true,
+                    plugins: {
+                      legend: {
+                        display: false,
+                      },
+                      tooltip: {
+                        callbacks: {
+                          title: (tooltipItems) => {
+                            const rawDate = tooltipItems[0]?.label || '';
+                            const cleanedDate = rawDate
+                              .replace('a.m.', 'AM')
+                              .replace('p.m.', 'PM');
+                            const date = new Date(cleanedDate);
+
+                            const formattedDate = new Intl.DateTimeFormat(
+                              'en-US',
+                              {
+                                year: 'numeric',
+                                month: 'short',
+                                day: 'numeric',
+                              }
+                            ).format(date);
+                            return `Date: ${formattedDate}`;
+                          },
+                          label: (tooltipItem) => {
+                            const value = tooltipItem.raw;
+
+                            return `Activity Count: ${value}`;
+                          },
+                        },
+                      },
+                      datalabels: {
+                        display: false,
+                      },
+                    },
+                    scales: {
+                      x: {
+                        grid: {
+                          display: false,
+                        },
+                        type: 'time',
+                        time: {
+                          unit: 'day',
+                          tooltipFormat: 'MMM dd yyyy',
+                          displayFormats: {
+                            day: 'MMM dd',
+                          },
+                        },
+                      },
+                      y: {
+                        max:
+                          Math.max(
+                            ...activityDataByDay.map((item) => item.userCount)
+                          ) + 5,
+                        grid: {
+                          color: '#31313b',
+                        },
+                        border: {
+                          color: '#31313b',
+                        },
+                      },
+                    },
+                  },
+                });
+                return;
+              }
+
               const barHeight = 30; // Customize this value
               const minHeight = 300; // Minimum height to ensure reasonable display
 
@@ -618,5 +712,9 @@ export class VisitorsChartComponent implements AfterViewInit, OnDestroy {
     startOfWeek.setDate(date.getDate() + diff);
     startOfWeek.setHours(0, 0, 0, 0); // Set time to 00:00:00.000
     return startOfWeek;
+  }
+
+  private isDesktopViewport(): boolean {
+    return window.innerWidth >= 900;
   }
 }

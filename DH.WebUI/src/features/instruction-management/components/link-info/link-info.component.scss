@@ -1,124 +1,163 @@
-@use "../../../../shared/assets/styles/palette";
+:host {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
 
-.carousel {
+.instruction-steps {
+  width: min(28rem, 100%);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.instruction-steps__track {
   position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.instruction-steps__viewport {
+  flex: 1;
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.instruction-steps__slide {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+}
+
+.instruction-steps__card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: var(--games-surface);
+  border: 1px solid var(--games-border);
+  border-radius: 1.375rem;
+  box-shadow: var(--games-shadow);
   overflow: hidden;
 }
 
-.carousel__viewport {
+.instruction-steps__media {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: var(--games-surface-2);
+}
+
+.instruction-steps__media-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: zoom-in;
+}
+
+.instruction-steps__content {
   display: flex;
-  scroll-snap-type: x mandatory;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  white-space: nowrap;
-}
-*::-webkit-scrollbar {
-  width: 0;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0 1.25rem 1.375rem;
 }
 
-*::-webkit-scrollbar-track {
-  background: transparent;
+// text-only step (no screenshot): the media block normally supplies the top gap
+.instruction-steps__card--no-media .instruction-steps__content {
+  padding-top: 1.375rem;
 }
 
-*::-webkit-scrollbar-thumb {
-  background: transparent;
-  border: none;
-}
-.carousel__slide {
-  flex: 0 0 100%;
-  text-align: center;
-  position: relative;
+.instruction-steps__step-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--games-amber);
 }
 
-.carousel__slide img {
-  width: 80%;
-  height: auto;
+.instruction-steps__header {
+  font-family: "Bricolage Grotesque", "Sora", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 1.0625rem;
 }
 
-.carousel__prev,
-.carousel__next {
-  position: fixed;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(0, 0, 0, 0.5);
-  color: palette.$main-font-color;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-  z-index: 1000;
+.instruction-steps__description {
+  font-size: 0.8125rem;
+  color: var(--games-muted);
+  line-height: 1.6;
 }
 
-.carousel__prev {
-  left: 10px;
+.instruction-steps__action {
+  align-self: flex-start;
+  margin-top: 0.375rem;
+  padding: 0.625rem 1.125rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--games-blue-light), var(--games-blue));
+  color: var(--games-blue-ink);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-decoration: none;
 }
 
-.carousel__next {
-  right: 10px;
-}
-
-.carousel__navigation {
-  position: fixed;
-  bottom: 0;
-  left: 50%;
-  width: 90%;
+.instruction-steps__nav {
+  display: none;
   align-items: center;
-  padding: 1rem;
-  z-index: 1000;
-  display: flex;
   justify-content: center;
-  transform: translateX(-50%);
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 999px;
+  border: 1px solid var(--games-border);
+  background: var(--games-surface);
+  flex-shrink: 0;
+  cursor: pointer;
+
+  svg {
+    width: 1rem;
+    height: 1rem;
+    fill: none;
+    stroke: var(--games-text);
+    stroke-width: 2.1;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
 }
 
-.carousel__navigation_button {
-  background-color: palette.$main-gray-color;
-  margin: 5px;
-  border-radius: 100%;
-  border-color: palette.$main-font-color;
-  padding: 0.3rem;
+.instruction-steps__dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.instruction-steps__dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 999px;
+  background: var(--games-border);
+  border: 0;
+  padding: 0;
   cursor: pointer;
 }
 
-.carousel__navigation--current_button {
-  background-color: palette.$main-font-color;
-  margin: 5px;
-  border-radius: 100%;
-  padding: 0.3rem;
-  cursor: pointer;
-  transform: scale(1.05);
-  transition: transform 0.3s ease-in-out;
+.instruction-steps__dot--active {
+  width: 1.25rem;
+  background: var(--games-blue);
 }
 
-.wrapper {
-  white-space: normal;
-  margin-bottom: 10rem;
-}
-.wrapper_image {
-  display: flex;
-  justify-content: center;
-  img {
-    width: 10rem;
+@media (min-width: 900px) {
+  .instruction-steps {
+    width: min(30rem, 100%);
   }
-}
 
-.wrapper_link {
-  margin: 0 2rem;
-  word-break: break-word;
-  text-align: start;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  .name {
-    font-size: 1.4rem;
-    color: palette.$main-blue-color;
-    // margin: 2rem;
+  .instruction-steps__nav {
+    display: inline-flex;
   }
-  .description {
-    white-space: pre-line;
-  }
-  .action_link {
-    color: palette.$main-blue-color;
-  }
-}
 
-.blue {
-  color: palette.$main-blue-color;
+  .instruction-steps__media {
+    aspect-ratio: 16 / 10;
+  }
 }

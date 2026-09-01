@@ -1,0 +1,45 @@
+{
+  "communities": {
+    "0": [
+      "assistive_touch_menu_assistive_touch_component_assistivetouchcomponent",
+      "assistive_touch_menu_assistive_touch_component_assistivetouchcomponent_snaptoedge",
+      "assistive_touch_menu_assistive_touch_component_assistivetouchcomponent_startdragging",
+      "assistive_touch_menu_assistive_touch_component_assistivetouchcomponent_stopdragging",
+      "component"
+    ],
+    "1": [
+      "assistive_touch_menu_assistive_touch_component",
+      "assistive_touch_menu_assistive_touch_module",
+      "assistive_touch_menu_assistive_touch_module_assistivetouchmodule",
+      "ngmodule"
+    ],
+    "2": [
+      "assistive_touch_menu_assistive_touch_component_assistivetouchcomponent_onmousemove",
+      "assistive_touch_menu_assistive_touch_component_assistivetouchcomponent_ontouchmove",
+      "assistive_touch_menu_assistive_touch_component_assistivetouchcomponent_updateposition",
+      "hostlistener"
+    ]
+  },
+  "cohesion": {
+    "0": 0.5,
+    "1": 0.5,
+    "2": 0.6666666666666666
+  },
+  "gods": [
+    {
+      "id": "assistive_touch_menu_assistive_touch_component_assistivetouchcomponent",
+      "label": "AssistiveTouchComponent",
+      "degree": 9
+    },
+    {
+      "id": "assistive_touch_menu_assistive_touch_module_assistivetouchmodule",
+      "label": "AssistiveTouchModule",
+      "degree": 2
+    }
+  ],
+  "surprises": [],
+  "tokens": {
+    "input": 0,
+    "output": 0
+  }
+}

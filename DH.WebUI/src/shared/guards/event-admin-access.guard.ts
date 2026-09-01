@@ -9,6 +9,7 @@ import { AuthService } from '../../entities/auth/auth.service';
 import { UserRole } from '../../entities/auth/enums/roles.enum';
 import { Observable } from 'rxjs';
 import { FULL_ROUTE } from '../configs/route.config';
+import { TenantRouter } from '../helpers/tenant-router';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +17,8 @@ import { FULL_ROUTE } from '../configs/route.config';
 export class EventAdminAccessGuard {
   constructor(
     private readonly authService: AuthService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly tenantRouter: TenantRouter
   ) {}
 
   public canActivate(
@@ -24,7 +26,9 @@ export class EventAdminAccessGuard {
     state: RouterStateSnapshot
   ): Observable<boolean> | boolean | Promise<boolean> | UrlTree {
     if (this.authService.getUser?.role === UserRole.User) {
-      return this.router.parseUrl(FULL_ROUTE.EVENTS.HOME);
+      return this.router.parseUrl(
+        this.tenantRouter.buildTenantUrl(FULL_ROUTE.EVENTS.HOME)
+      );
     }
 
     return true;

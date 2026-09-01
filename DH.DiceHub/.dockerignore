@@ -1,6 +1,7 @@
 **/.classpath
 **/.dockerignore
 **/.env
+**/firebase-adminsdk*.json
 **/.git
 **/.gitignore
 **/.project

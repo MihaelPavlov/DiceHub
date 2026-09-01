@@ -31,9 +31,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Content Update="dicehub-8c63f-firebase-adminsdk-y31l3-6026a82c88.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</Content>
+		<!-- Never publish local-only secrets, regardless of the SDK's default content globbing -->
+		<Content Remove="**/*firebase-adminsdk*.json" />
+		<None Remove="**/*firebase-adminsdk*.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<!-- Local dev convenience only: this file is gitignored and excluded from the Docker build context,
+		     so it never reaches a real build/publish output; only present on a developer's machine. -->
+		<None Include="firebase-adminsdk.local.json" Condition="Exists('firebase-adminsdk.local.json')" CopyToOutputDirectory="PreserveNewest" />
 	</ItemGroup>
 
 </Project>

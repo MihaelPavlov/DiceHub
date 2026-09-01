@@ -1,21 +1,24 @@
-<div class="dialog-container">
-  <h2 class="dialog-container__header m-4">
-    {{'unsaved_changes_dialog.unsaved_changes'|translate}}
-  </h2>
-  <p class="dialog-container__description">
-    {{'unsaved_changes_dialog.message'|translate}}
-  </p>
+<div class="confirm-sheet" appSheetDismiss>
+  <div class="confirm-sheet__handle"></div>
 
-  <mat-dialog-actions>
-    <button class="btn btn__small btn-red" mat-button [mat-dialog-close]="true">
-      {{'unsaved_changes_dialog.leave'|translate}}
+  <div class="confirm-sheet__centered">
+    <div class="confirm-sheet__icon confirm-sheet__icon--lg confirm-sheet__icon--amber">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 4 3 20h18z"/><path d="M12 10v5"/><circle cx="12" cy="18" r="0.6" fill="currentColor" stroke="none"/>
+      </svg>
+    </div>
+    <div>
+      <div class="confirm-sheet__title">{{ 'unsaved_changes_dialog.unsaved_changes' | translate }}</div>
+      <p class="confirm-sheet__message">{{ 'unsaved_changes_dialog.message' | translate }}</p>
+    </div>
+  </div>
+
+  <div class="confirm-sheet__actions">
+    <button class="confirm-sheet__btn confirm-sheet__btn--ghost" mat-button [mat-dialog-close]="false">
+      {{ 'unsaved_changes_dialog.stay' | translate }}
     </button>
-    <button
-      class="btn btn__small btn-blue"
-      mat-button
-      [mat-dialog-close]="false"
-    >
-      {{'unsaved_changes_dialog.stay'|translate}}
+    <button class="confirm-sheet__btn confirm-sheet__btn--amber" mat-button [mat-dialog-close]="true">
+      {{ 'unsaved_changes_dialog.leave' | translate }}
     </button>
-  </mat-dialog-actions>
+  </div>
 </div>

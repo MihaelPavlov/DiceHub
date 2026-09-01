@@ -7,6 +7,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Form } from '../../../../../shared/components/form/form.component';
+import { downscaleImageFile } from '../../../../../shared/helpers/image-resize.helper';
 import { Formify } from '../../../../../shared/models/form.model';
 import {
   AbstractControl,
@@ -19,23 +20,21 @@ import {
 } from '@angular/forms';
 import { MenuTabsService } from '../../../../../shared/services/menu-tabs.service';
 import { ToastService } from '../../../../../shared/services/toast.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { NAV_ITEM_LABELS } from '../../../../../shared/models/nav-items-labels.const';
 import { IGameDropdownResult } from '../../../../../entities/games/models/game-dropdown.model';
 import { GamesService } from '../../../../../entities/games/api/games.service';
-import { throwError } from 'rxjs';
+import { Subscription, throwError } from 'rxjs';
+import { FormDraftService } from '../../../../../shared/services/form-draft.service';
 import { EventsService } from '../../../../../entities/events/api/events.service';
 import { AppToastMessage } from '../../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { ToastType } from '../../../../../shared/models/toast.model';
 import { DatePipe, Location } from '@angular/common';
 import { SafeUrl } from '@angular/platform-browser';
-import {
-  EntityImagePipe,
-  ImageEntityType,
-} from '../../../../../shared/pipe/entity-image.pipe';
 import { DateHelper } from '../../../../../shared/helpers/date-helper';
 import { TranslateService } from '@ngx-translate/core';
 import { FULL_ROUTE } from '../../../../../shared/configs/route.config';
+import { TenantRouter } from '../../../../../shared/helpers/tenant-router';
 
 interface ICreateEventForm {
   name: string;
@@ -53,15 +52,25 @@ function futureDateValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     if (!control.value) return null;
 
-    const selectedDate = new Date(control.value);
-    const today = new Date();
-
-    // Reset times (we only compare dates, not hours)
-    today.setHours(0, 0, 0, 0);
-    selectedDate.setHours(0, 0, 0, 0);
-
-    return selectedDate > today ? null : { notFutureDate: true };
+    return isFutureDate(control.value) ? null : { notFutureDate: true };
   };
+}
+
+function isFutureDate(value: string | Date): boolean {
+  const selectedDate = parseDateInput(value);
+  const today = new Date();
+
+  today.setHours(0, 0, 0, 0);
+  selectedDate.setHours(0, 0, 0, 0);
+
+  return selectedDate > today;
+}
+
+function parseDateInput(value: string | Date): Date {
+  if (value instanceof Date) return value;
+
+  const [year, month, day] = value.split('-').map(Number);
+  return new Date(year, month - 1, day);
 }
 
 @Component({
@@ -84,20 +93,22 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
   public isMenuVisible: boolean = false;
   public currentLang: 'EN' | 'BG' = 'EN';
   private lastValue = '';
+  private static readonly DraftKey = 'addUpdateEvent';
+  private draftSubscription: Subscription | null = null;
 
   constructor(
     private readonly fb: FormBuilder,
     private readonly menuTabsService: MenuTabsService,
-    private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly activatedRoute: ActivatedRoute,
     private readonly gameService: GamesService,
     private readonly eventService: EventsService,
     private readonly location: Location,
-    private readonly entityImagePipe: EntityImagePipe,
     private readonly cd: ChangeDetectorRef,
     public override readonly toastService: ToastService,
     private readonly datePipe: DatePipe,
-    public override translateService: TranslateService
+    public override translateService: TranslateService,
+    private readonly formDraftService: FormDraftService
   ) {
     super(toastService, translateService);
     this.form = this.initFormGroup();
@@ -105,6 +116,11 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
       if (this.getServerErrorMessage) {
         this.clearServerErrorMessage();
       }
+    });
+    // 'image' holds a filename string, but the actual File can't be persisted, so it's
+    // excluded to avoid restoring a stale filename with no matching file attached.
+    this.draftSubscription = this.formDraftService.autoSave(this.form, AddUpdateEventComponent.DraftKey, {
+      exclude: ['image'],
     });
     this.activatedRoute.paramMap.subscribe((params) => {
       const id = params.get('id');
@@ -156,6 +172,7 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.menuTabsService.resetData();
+    this.draftSubscription?.unsubscribe();
   }
 
   public showMenu(): void {
@@ -192,8 +209,9 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
               ),
               type: ToastType.Success,
             });
+            this.formDraftService.clear(AddUpdateEventComponent.DraftKey);
 
-            this.router.navigateByUrl(FULL_ROUTE.EVENTS.HOME);
+            this.tenantRouter.navigateTenant(FULL_ROUTE.EVENTS.HOME);
           },
           error: (error) => {
             this.handleServerErrors(error);
@@ -239,8 +257,9 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
               ),
               type: ToastType.Success,
             });
+            this.formDraftService.clear(AddUpdateEventComponent.DraftKey);
 
-            this.router.navigateByUrl(FULL_ROUTE.EVENTS.HOME);
+            this.tenantRouter.navigateTenant(FULL_ROUTE.EVENTS.HOME);
           },
           error: (error) => {
             this.handleServerErrors(error);
@@ -255,36 +274,52 @@ export class AddUpdateEventComponent extends Form implements OnInit, OnDestroy {
     }
   }
 
-  public onFileSelected(event: Event): void {
+  public async onFileSelected(event: Event): Promise<void> {
     const input = event.target as HTMLInputElement;
-    const file = input.files?.[0];
+    const original = input.files?.[0];
 
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.imagePreview = reader.result as string;
-        this.form.controls.image.patchValue(file.name);
-        this.fileToUpload = file;
-      };
-      reader.readAsDataURL(file);
-    } else {
+    if (!original) {
       this.fileToUpload = null;
       this.imagePreview = null;
       this.form.controls.image.reset();
+      return;
     }
+
+    // Shrink the phone photo before it ever leaves the device / hits the API.
+    const file = await downscaleImageFile(original);
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.imagePreview = reader.result as string;
+      this.form.controls.image.patchValue(file.name);
+      this.fileToUpload = file;
+    };
+    reader.readAsDataURL(file);
   }
 
   public backNavigateBtn() {
     this.location.back();
   }
 
+  public getStartDateErrorMessage(): string | null {
+    const control = this.form.get('startDate');
+
+    if (
+      control?.hasError('notFutureDate') &&
+      (control.dirty || control.touched)
+    ) {
+      return this.translateService.instant(
+        'events.add_update.start_date_validation'
+      );
+    }
+
+    return null;
+  }
+
   protected override handleAdditionalErrors(): string | null {
     const startDate = this.form.get('startDate')?.value;
 
-    if (
-      startDate &&
-      new Date(startDate).getTime() < new Date().setHours(0, 0, 0, 0)
-    ) {
+    if (startDate && !isFutureDate(startDate)) {
       return this.translateService.instant(
         'events.add_update.start_date_validation'
       );

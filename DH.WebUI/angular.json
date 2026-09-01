@@ -29,7 +29,8 @@
               "src/shared/assets",
               "src/shared/assets/images",
               "src/firebase-messaging-sw.js",
-              "src/manifest.json"
+              "src/manifest.json",
+              "src/.well-known"
             ],
             "styles": ["src/shared/assets/styles/styles.scss"],
             "scripts": []
@@ -51,7 +52,7 @@
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "10kb",
-                  "maximumError": "10kb"
+                  "maximumError": "30kb"
                 }
               ],
               "outputHashing": "all"

@@ -44,6 +44,7 @@ import { LanguageSwitchModule } from '../shared/components/language-switch/langu
 import { ChallengeOverlayComponent } from '../shared/components/challenge-overlay/challenge-overlay.component';
 import { LandingComponent } from '../pages/landing/page/landing.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { SelectClubModule } from '../shared/components/select-club/select-club.module';
 
 export function initializeUserFactory(authService: AuthService): () => void {
   return () => authService.userinfo$();
@@ -76,6 +77,7 @@ registerLocaleData(localeEn, 'en');
     FirebaseModule,
     ScrollToTopModule,
     LanguageSwitchModule,
+    SelectClubModule,
   ],
   providers: [
     AuthGuard,

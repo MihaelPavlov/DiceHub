@@ -1,5 +1,5 @@
 import { ScrollService } from '../../../../shared/services/scroll.service';
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, NgZone, OnDestroy } from '@angular/core';
 import { ToastService } from '../../../../shared/services/toast.service';
 import { Form } from '../../../../shared/components/form/form.component';
 import { Formify } from '../../../../shared/models/form.model';
@@ -15,7 +15,11 @@ import { RewardsService } from '../../../../entities/rewards/api/rewards.service
 import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { ToastType } from '../../../../shared/models/toast.model';
 import { IRewardListResult } from '../../../../entities/rewards/models/reward-list.model';
-import { debounceTime, distinctUntilChanged, throwError } from 'rxjs';
+import { debounceTime, distinctUntilChanged, Subscription, throwError } from 'rxjs';
+import {
+  FormDraftService,
+  IFormDraftOptions,
+} from '../../../../shared/services/form-draft.service';
 import { IRewardGetByIdResult } from '../../../../entities/rewards/models/reward-by-id.model';
 import { AdminChallengesRewardConfirmDeleteDialog } from '../../dialogs/admin-challenges-reward-confirm-delete/admin-challenges-reward-confirm-delete.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -28,6 +32,10 @@ import { IDropdown } from '../../../../shared/models/dropdown.model';
 import { TranslateService } from '@ngx-translate/core';
 import { SupportLanguages } from '../../../../entities/common/models/support-languages.enum';
 import { LanguageService } from '../../../../shared/services/language.service';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { Capacitor } from '@capacitor/core';
+import { downscaleImageFile } from '../../../../shared/helpers/image-resize.helper';
+import { FrontEndLogService } from '../../../../shared/services/frontend-log.service';
 
 interface ISystemRewardsForm {
   selectedLevel: number;
@@ -46,8 +54,12 @@ interface ISystemRewardsForm {
     styleUrl: 'admin-challenges-system-rewards.component.scss',
     standalone: false
 })
-export class AdminChallengesSystemRewardsComponent extends Form {
+export class AdminChallengesSystemRewardsComponent extends Form implements OnDestroy {
   override form: Formify<ISystemRewardsForm>;
+  private static readonly DraftKey = 'adminChallengesSystemRewards';
+  // 'image' holds only a filename string; the actual File can't be JSON-persisted.
+  private static readonly DraftOptions: IFormDraftOptions = { exclude: ['image'] };
+  private draftSubscription: Subscription | null = null;
 
   public isMenuVisible: boolean = false;
   public imagePreview: string | ArrayBuffer | null = null;
@@ -74,7 +86,11 @@ export class AdminChallengesSystemRewardsComponent extends Form {
     private readonly dialog: MatDialog,
     private readonly scrollService: ScrollService,
     public override translateService: TranslateService,
-    private readonly languageService: LanguageService
+    private readonly languageService: LanguageService,
+    private readonly formDraftService: FormDraftService,
+    private readonly frontEndLogService: FrontEndLogService,
+    private readonly ngZone: NgZone,
+    private readonly cd: ChangeDetectorRef
   ) {
     super(toastService, translateService);
 
@@ -92,6 +108,31 @@ export class AdminChallengesSystemRewardsComponent extends Form {
     this.form.controls.selectedLevel.valueChanges.subscribe((selectedLevel) => {
       this.updateRequiredPoints(selectedLevel);
     });
+
+    // Wired up after the selectedLevel subscription above, not before: restoring a
+    // draft with a selectedLevel patches that control's value, which needs the
+    // subscription already active to correctly re-enable/populate requiredPoints.
+    // 'image' holds a filename string, but the actual File can't be persisted -
+    // Android can kill the app process while the native image picker is open,
+    // which wipes the pending File selection with no way to recover it. Surface
+    // that gap instead of leaving the user staring at a silently-empty form.
+    // hasDraft() only reports true for a recent draft that still holds real
+    // user input, so a bare form.reset() re-persisting an empty form no longer
+    // produces a bogus "draft restored, image lost" error on the next visit.
+    const hadDraft = this.formDraftService.hasDraft(
+      AdminChallengesSystemRewardsComponent.DraftKey,
+      AdminChallengesSystemRewardsComponent.DraftOptions
+    );
+    this.startDraftAutoSave();
+    if (hadDraft) {
+      this.showRewardForm = true;
+      this.toastService.error({
+        message: this.translateService.instant(
+          'admin_rewards.draft_restored_reselect_image'
+        ),
+        type: ToastType.Error,
+      });
+    }
 
     this.searchForm = this.fb.group({
       search: [''],
@@ -145,6 +186,7 @@ export class AdminChallengesSystemRewardsComponent extends Form {
     const dialogRef = this.dialog.open(
       AdminChallengesRewardConfirmDeleteDialog,
       {
+        panelClass: 'confirm-sheet-pane',
         data: { id: id },
       }
     );
@@ -161,18 +203,59 @@ export class AdminChallengesSystemRewardsComponent extends Form {
     this.isMenuVisible = !this.isMenuVisible;
   }
 
+  public ngOnDestroy(): void {
+    this.draftSubscription?.unsubscribe();
+  }
+
+  private startDraftAutoSave(): void {
+    if (this.draftSubscription) return;
+    this.draftSubscription = this.formDraftService.autoSave(
+      this.form,
+      AdminChallengesSystemRewardsComponent.DraftKey,
+      AdminChallengesSystemRewardsComponent.DraftOptions
+    );
+  }
+
+  /**
+   * Tears down the debounced auto-save, including any write still pending in its
+   * debounce window. Needed before we clear + reset the form on close/submit:
+   * otherwise the programmatic form.reset() re-persists an empty draft moments
+   * after clear(), which then trips the "draft restored, image lost" error on
+   * the next visit even though the user typed nothing.
+   */
+  private stopDraftAutoSave(): void {
+    this.draftSubscription?.unsubscribe();
+    this.draftSubscription = null;
+  }
+
+  private discardDraftAndReset(): void {
+    this.stopDraftAutoSave();
+    this.formDraftService.clear(AdminChallengesSystemRewardsComponent.DraftKey);
+    this.resetRewardForm();
+    this.startDraftAutoSave();
+  }
+
   public getFormGroup(formGroup: AbstractControl<any, any>): FormGroup {
     return formGroup as FormGroup;
   }
 
-  public toggleRewardForm(isOpenFromEdit: boolean = false) {
-    this.showRewardForm = !this.showRewardForm;
+  public openRewardForm(): void {
+    this.showRewardForm = true;
+  }
 
-    if (!isOpenFromEdit) {
-      this.form.reset();
-      this.imagePreview = null;
-      this.editRewardId = null;
+  public closeRewardForm(event?: Event): void {
+    event?.stopPropagation();
+    this.showRewardForm = false;
+    this.discardDraftAndReset();
+  }
+
+  public toggleRewardForm(isOpenFromEdit: boolean = false): void {
+    if (this.showRewardForm && !isOpenFromEdit) {
+      this.closeRewardForm();
+      return;
     }
+
+    this.showRewardForm = true;
   }
 
   public onAddReward() {
@@ -200,6 +283,7 @@ export class AdminChallengesSystemRewardsComponent extends Form {
             });
 
             this.fetchSystemRewardList();
+            // Closes the panel, which clears the draft and resets the form.
             this.toggleRewardForm();
           },
           error: (error) => {
@@ -244,6 +328,7 @@ export class AdminChallengesSystemRewardsComponent extends Form {
             });
 
             this.fetchSystemRewardList();
+            // Closes the panel, which clears the draft and resets the form.
             this.toggleRewardForm();
           },
           error: (error) => {
@@ -286,27 +371,71 @@ export class AdminChallengesSystemRewardsComponent extends Form {
     });
   }
 
-  public onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    const file = input.files?.[0];
+  /**
+   * Uses Capacitor's native Camera plugin instead of a raw <input type="file">.
+   * On Android, opening the WebView's own file-chooser for that raw input has
+   * proven to reliably get the app's process killed while the native picker is
+   * in the foreground, losing the selection entirely. The Camera plugin drives
+   * the OS picker through Android's native Activity-result flow instead, which
+   * doesn't have that failure mode. Works identically on web (Capacitor falls
+   * back to a file input internally there).
+   */
+  public async pickRewardImage(): Promise<void> {
+    try {
+      const photo = await Camera.getPhoto({
+        source: CameraSource.Photos,
+        resultType: CameraResultType.Uri,
+        quality: 70,
+        width: 1280,
+      });
 
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.imagePreview = reader.result as string;
+      if (!photo.webPath) {
+        this.reportImagePickFailure('Camera.getPhoto returned no webPath', '');
+        return;
+      }
+
+      const webPath = photo.webPath;
+      const blob = await (await fetch(webPath)).blob();
+      const extension = photo.format || 'jpeg';
+      let file = new File([blob], `reward-image.${extension}`, {
+        type: blob.type || `image/${extension}`,
+      });
+
+      // On web the plugin's width/quality hints don't apply - shrink here so a
+      // multi-MB photo isn't relayed through the API. On native the plugin
+      // already downscaled, so skip the extra re-encode.
+      if (Capacitor.getPlatform() === 'web') {
+        file = await downscaleImageFile(file);
+      }
+
+      // Capacitor plugin callbacks aren't always guaranteed to run inside
+      // Angular's zone - force it explicitly so the preview/form actually
+      // re-render instead of silently updating state nobody sees.
+      this.ngZone.run(() => {
+        this.imagePreview = webPath;
         this.form.controls.image.patchValue(file.name);
         this.fileToUpload = file;
         this.imageError = null;
-      };
-      reader.readAsDataURL(file);
-    } else {
-      this.imageError = this.translateService.instant(
-        'admin_rewards.image_required'
-      );
-      this.fileToUpload = null;
-      this.imagePreview = null;
-      this.form.controls.image.reset();
+        this.cd.markForCheck();
+      });
+    } catch (error: any) {
+      if (error?.message === 'User cancelled photos app') {
+        return;
+      }
+      this.reportImagePickFailure(error?.message ?? String(error), error?.stack ?? '');
     }
+  }
+
+  private reportImagePickFailure(message: string, stack: string): void {
+    this.frontEndLogService
+      .sendWarning(`Reward image pick failed: ${message}`, stack)
+      .subscribe();
+    this.ngZone.run(() => {
+      this.toastService.error({
+        message: this.translateService.instant(AppToastMessage.SomethingWrong),
+        type: ToastType.Error,
+      });
+    });
   }
 
   protected override getControlDisplayName(controlName: string): string {
@@ -379,5 +508,18 @@ export class AdminChallengesSystemRewardsComponent extends Form {
       description_bg: new FormControl<string>('', [Validators.required]),
       image: new FormControl<string | null>('', [Validators.required]),
     });
+  }
+
+  private resetRewardForm(): void {
+    // emitEvent: false - this reset is programmatic form teardown, not user
+    // input; letting it through valueChanges would auto-save an empty draft.
+    this.form.reset(undefined, { emitEvent: false });
+    this.imagePreview = null;
+    this.fileToUpload = null;
+    this.imageError = null;
+    this.editRewardId = null;
+    this.rewardRequiredPointList = [];
+    this.skipFirstSelectedLevelChange = true;
+    this.form.controls.requiredPoints.disable({ emitEvent: false });
   }
 }

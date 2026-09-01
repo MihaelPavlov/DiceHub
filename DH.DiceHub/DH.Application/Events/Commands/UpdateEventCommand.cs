@@ -1,5 +1,4 @@
-﻿using DH.Domain.Adapters.Authentication;
-using DH.Domain.Adapters.Authentication.Models.Enums;
+﻿using DH.Domain.Adapters.Authentication.Models.Enums;
 using DH.Domain.Adapters.Authentication.Services;
 using DH.Domain.Adapters.PushNotifications;
 using DH.Domain.Adapters.PushNotifications.Messages;
@@ -8,7 +7,6 @@ using DH.Domain.Models.EventModels.Command;
 using DH.Domain.Services;
 using Mapster;
 using MediatR;
-using Microsoft.Extensions.Logging;
 
 namespace DH.Application.Events.Commands;
 
@@ -17,20 +15,17 @@ public record UpdateEventCommand(UpdateEventModel Event, string? FileName, strin
 internal class UpdateEventCommandHandler : IRequestHandler<UpdateEventCommand>
 {
     readonly IEventService eventService;
-    readonly IUserService userService;
+    readonly IUserManagementService userManagementService;
     readonly IPushNotificationsService pushNotificationsService;
-    readonly ILogger<UpdateEventCommandHandler> logger;
-    readonly IUserContext userContext;
+
     public UpdateEventCommandHandler(
-        IEventService eventService, IPushNotificationsService pushNotificationsService,
-        ILogger<UpdateEventCommandHandler> logger, IUserContext userContext,
-        IUserService userService)
+        IEventService eventService,
+        IPushNotificationsService pushNotificationsService,
+        IUserManagementService userManagementService)
     {
         this.eventService = eventService;
         this.pushNotificationsService = pushNotificationsService;
-        this.logger = logger;
-        this.userContext = userContext;
-        this.userService = userService;
+        this.userManagementService = userManagementService;
     }
 
     public async Task Handle(UpdateEventCommand request, CancellationToken cancellationToken)
@@ -42,7 +37,7 @@ internal class UpdateEventCommandHandler : IRequestHandler<UpdateEventCommand>
 
         if (response.ShouldSendStarDateUpdatedNotification)
         {
-            var users = await this.userService.GetUserListByRoles([Role.User, Role.Staff], cancellationToken);
+            var users = await this.userManagementService.GetUserListByRoles([Role.User, Role.Staff], cancellationToken);
 
             var userIds = users.Select(x => x.Id).ToList();
 

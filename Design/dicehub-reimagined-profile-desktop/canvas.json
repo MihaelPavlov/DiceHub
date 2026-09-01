@@ -1,0 +1,21 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html", "x": 0, "y": 0, "w": 1440, "h": 900, "title": "Profile (own)" },
+    { "file": "UserSettings.dc.html", "x": 1500, "y": 0, "w": 1440, "h": 760, "title": "User Settings" },
+    { "file": "GlobalSettings.dc.html", "x": 3000, "y": 0, "w": 1440, "h": 900, "title": "Global Settings (Owner)" },
+    { "file": "ClubInfo.dc.html", "x": 4500, "y": 0, "w": 1440, "h": 640, "title": "Club Info" },
+
+    { "file": "EmployeeList.dc.html", "x": 0, "y": 960, "w": 1440, "h": 680, "title": "Employee List (Owner)" },
+    { "file": "AddEmployee.dc.html", "x": 1500, "y": 960, "w": 1440, "h": 700, "title": "Add Employee" },
+    { "file": "UpdateEmployee.dc.html", "x": 3000, "y": 960, "w": 1440, "h": 700, "title": "Update Employee" },
+    { "file": "OwnerDetails.dc.html", "x": 4500, "y": 960, "w": 1440, "h": 760, "title": "Owner Details (SuperAdmin)" },
+
+    { "file": "Jobs.dc.html", "x": 0, "y": 1740, "w": 1440, "h": 780, "title": "Jobs (SuperAdmin)" },
+    { "file": "ApplicantsList.dc.html", "x": 1500, "y": 1740, "w": 1440, "h": 640, "title": "Applicants List (SuperAdmin)" },
+    { "file": "ApplicantDetails.dc.html", "x": 3000, "y": 1740, "w": 1440, "h": 700, "title": "Applicant Details (SuperAdmin)" },
+
+    { "file": "TenantsList.dc.html", "x": 0, "y": 2600, "w": 1440, "h": 640, "title": "Tenants List (SuperAdmin)" },
+    { "file": "TenantDetails.dc.html", "x": 1500, "y": 2600, "w": 1440, "h": 720, "title": "Tenant Details (SuperAdmin)" }
+  ],
+  "launch": { "view": "canvas" }
+}

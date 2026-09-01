@@ -294,7 +294,11 @@ public class ChallengeService : IChallengeService
 
         if (customPeriod.Rewards.Count != 0 && customPeriod.Challenges.Count != 0)
         {
-            var settings = await context.TenantSettings.AsTracking().FirstAsync(x => x.Id == 1, cancellationToken);
+            var settings = await context.Tenants
+                .Where(x => x.Id == this.userContext.TenantId)
+                .Select(x => x.TenantSetting)
+                .AsTracking()
+                .FirstAsync(cancellationToken);
             settings.IsCustomPeriodSetupComplete = true;
         }
 

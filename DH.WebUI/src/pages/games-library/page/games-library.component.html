@@ -1,67 +1,129 @@
-<section class="wrapper_library">
+<section class="games-library games-design-surface">
   <div class="no_records" *ngIf="games.length === 0">
     <img src="/shared/assets/images/no-games-found.png" alt="" />
     <p class="first-header">{{ "games.not_found" | translate }}</p>
   </div>
+
   <div
-    *ngFor="let game of games"
-    class="wrapper_library__item"
-    (click)="navigateToGameDetails(game.id)"
+    *ngIf="featuredGame as featured"
+    class="featured-game games-panel"
+    (click)="navigateToGameDetails(featured.id)"
   >
-    <div class="wrapper_image">
-      <img
-        [src]="game.imageUrl"
-        [alt]="'games.library.game_image' | translate"
-      />
+    <img
+      [src]="featured.imageUrl"
+      [alt]="'games.library.game_image' | translate"
+    />
+    <div class="featured-game__shade"></div>
+    <div class="featured-game__badge">
+      {{ "games.library.featured" | translate }}
     </div>
-    <div class="wrapper_info">
-      <div class="wrapper_title">
-        {{ game.name }}
-        <div class="wrapper_description">
+    <div class="featured-game__likes">
+      <svg viewBox="0 -960 960 960">
+        <path
+          d="m480-137.85-46.31-43.38q-106.92-99.46-174.5-167.65-67.57-68.2-105.65-118.35-38.08-50.15-51.81-91.04Q88-599.15 88-642q0-87.31 60.85-147.65Q209.69-850 298-850q48.77 0 96 24.5t86 71.04q38.77-46.54 86-71.04 47.23-24.5 96-24.5 88.31 0 149.15 60.35Q872-729.31 872-642q0 42.85-13.73 83.73-13.73 40.89-51.81 91.04-38.08 50.15-105.27 118.35Q634-280.69 526.31-181.23L480-137.85Z"
+        />
+      </svg>
+      {{ featured.likes }}
+    </div>
+    <svg
+      *ngIf="(isAdmin$ | async) ?? false"
+      class="wrapper_menu featured-game__menu"
+      (click)="showMenu(featured.id, $event, controls)"
+      height="2rem"
+      viewBox="0 -960 960 960"
+      width="2rem"
+      fill="#FFFFFF"
+    >
+      <path
+        d="M88-170v-103.08h103.08V-170H88Zm213.85 0v-103.08H872V-170H301.85ZM88-428.46v-103.08h103.08v103.08H88Zm213.85 0v-103.08H872v103.08H301.85ZM88-686.92V-790h103.08v103.08H88Zm213.85 0V-790H872v103.08H301.85Z"
+      />
+    </svg>
+    <div class="featured-game__content">
+      <div>
+        <h2 class="games-display">{{ featured.name }}</h2>
+        <p>
           {{
             (currentLanguage === SupportLanguages.EN
-              ? game.description_EN
-              : game.description_BG
+              ? featured.description_EN
+              : featured.description_BG
             ) | truncate
           }}
-        </div>
+        </p>
       </div>
-      <div class="wrapper_right">
-        <div class="wrapper_likes">
-          <svg
-            class="like-icon"
-            *ngIf="!game.isLiked"
-            viewBox="0 -960 960 960"
-            fill="#e8eaed"
-          >
-            <path
-              d="m480-137.85-46.31-43.38q-106.92-99.46-174.5-167.65-67.57-68.2-105.65-118.35-38.08-50.15-51.81-91.04Q88-599.15 88-642q0-87.31 60.85-147.65Q209.69-850 298-850q48.77 0 96 24.5t86 71.04q38.77-46.54 86-71.04 47.23-24.5 96-24.5 88.31 0 149.15 60.35Q872-729.31 872-642q0 42.85-13.73 83.73-13.73 40.89-51.81 91.04-38.08 50.15-105.27 118.35Q634-280.69 526.31-181.23L480-137.85Zm0-90.15q98-89.77 161-152.65 63-62.89 100-109.39t51-81.61q14-35.12 14-70.35 0-61-40.5-101.5T662-784q-45.77 0-87.15 27.77-41.39 27.77-63.31 73.61h-63.08q-22.69-46.61-63.69-74Q343.77-784 298-784q-62.23 0-103.12 40.5Q154-703 154-642q0 35.23 14 70.35 14 35.11 51 81.61t100 109q63 62.5 161 153.04Zm0-278Z"
-            />
-          </svg>
-          <svg
-            *ngIf="game.isLiked"
-            class="like-icon heart-full"
-            viewBox="0 -960 960 960"
-          >
-            <path
-              d="m480-137.85-46.31-43.38q-106.92-99.46-174.5-167.65-67.57-68.2-105.65-118.35-38.08-50.15-51.81-91.04Q88-599.15 88-642q0-87.31 60.85-147.65Q209.69-850 298-850q48.77 0 96 24.5t86 71.04q38.77-46.54 86-71.04 47.23-24.5 96-24.5 88.31 0 149.15 60.35Q872-729.31 872-642q0 42.85-13.73 83.73-13.73 40.89-51.81 91.04-38.08 50.15-105.27 118.35Q634-280.69 526.31-181.23L480-137.85Z"
-            />
-          </svg>
-          {{ game.likes }}
+      <button type="button">
+        {{ "games.library.open" | translate }}
+      </button>
+    </div>
+  </div>
+
+  <h2
+    class="games-library__section-title games-display"
+    *ngIf="otherGames.length > 0"
+  >
+    {{ "games.library.popular_this_week" | translate }}
+  </h2>
+
+  <div class="games-grid">
+    <div
+      *ngFor="let game of otherGames"
+      class="wrapper_library__item"
+      (click)="navigateToGameDetails(game.id)"
+    >
+      <div class="wrapper_image">
+        <img
+          [src]="game.imageUrl"
+          [alt]="'games.library.game_image' | translate"
+        />
+      </div>
+      <div class="wrapper_info">
+        <div class="wrapper_title">
+          {{ game.name }}
+          <div class="wrapper_description">
+            {{
+              (currentLanguage === SupportLanguages.EN
+                ? game.description_EN
+                : game.description_BG
+              ) | truncate
+            }}
+          </div>
         </div>
-        <svg
-          *ngIf="(isAdmin$ | async) ?? false"
-          class="wrapper_menu"
-          (click)="showMenu(game.id, $event, controls)"
-          height="2rem"
-          viewBox="0 -960 960 960"
-          width="2rem"
-          fill="#FFFFFF"
-        >
-          <path
-            d="M88-170v-103.08h103.08V-170H88Zm213.85 0v-103.08H872V-170H301.85ZM88-428.46v-103.08h103.08v103.08H88Zm213.85 0v-103.08H872v103.08H301.85ZM88-686.92V-790h103.08v103.08H88Zm213.85 0V-790H872v103.08H301.85Z"
-          />
-        </svg>
+        <div class="wrapper_right">
+          <div class="wrapper_likes">
+            <svg
+              class="like-icon"
+              *ngIf="!game.isLiked"
+              viewBox="0 -960 960 960"
+              fill="#e8eaed"
+            >
+              <path
+                d="m480-137.85-46.31-43.38q-106.92-99.46-174.5-167.65-67.57-68.2-105.65-118.35-38.08-50.15-51.81-91.04Q88-599.15 88-642q0-87.31 60.85-147.65Q209.69-850 298-850q48.77 0 96 24.5t86 71.04q38.77-46.54 86-71.04 47.23-24.5 96-24.5 88.31 0 149.15 60.35Q872-729.31 872-642q0 42.85-13.73 83.73-13.73 40.89-51.81 91.04-38.08 50.15-105.27 118.35Q634-280.69 526.31-181.23L480-137.85Zm0-90.15q98-89.77 161-152.65 63-62.89 100-109.39t51-81.61q14-35.12 14-70.35 0-61-40.5-101.5T662-784q-45.77 0-87.15 27.77-41.39 27.77-63.31 73.61h-63.08q-22.69-46.61-63.69-74Q343.77-784 298-784q-62.23 0-103.12 40.5Q154-703 154-642q0 35.23 14 70.35 14 35.11 51 81.61t100 109q63 62.5 161 153.04Zm0-278Z"
+              />
+            </svg>
+            <svg
+              *ngIf="game.isLiked"
+              class="like-icon heart-full"
+              viewBox="0 -960 960 960"
+            >
+              <path
+                d="m480-137.85-46.31-43.38q-106.92-99.46-174.5-167.65-67.57-68.2-105.65-118.35-38.08-50.15-51.81-91.04Q88-599.15 88-642q0-87.31 60.85-147.65Q209.69-850 298-850q48.77 0 96 24.5t86 71.04q38.77-46.54 86-71.04 47.23-24.5 96-24.5 88.31 0 149.15 60.35Q872-729.31 872-642q0 42.85-13.73 83.73-13.73 40.89-51.81 91.04-38.08 50.15-105.27 118.35Q634-280.69 526.31-181.23L480-137.85Z"
+              />
+            </svg>
+            {{ game.likes }}
+          </div>
+          <svg
+            *ngIf="(isAdmin$ | async) ?? false"
+            class="wrapper_menu"
+            (click)="showMenu(game.id, $event, controls)"
+            height="2rem"
+            viewBox="0 -960 960 960"
+            width="2rem"
+            fill="#FFFFFF"
+          >
+            <path
+              d="M88-170v-103.08h103.08V-170H88Zm213.85 0v-103.08H872V-170H301.85ZM88-428.46v-103.08h103.08v103.08H88Zm213.85 0v-103.08H872v103.08H301.85ZM88-686.92V-790h103.08v103.08H88Zm213.85 0V-790H872v103.08H301.85Z"
+            />
+          </svg>
+        </div>
       </div>
     </div>
   </div>

@@ -1,60 +1,157 @@
 @use "../../.././shared/assets/styles/palette";
 
 .wrapper {
+  --accent: var(--games-blue);
+  --accent-2: var(--games-blue-light);
+  --accent-soft: var(--games-blue-soft);
+  --accent-ink: var(--games-blue-ink);
+
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  padding: 1.5rem 1.25rem 2.5rem;
+  gap: 1.5rem;
+
+  &.admin {
+    --accent: var(--games-violet);
+    --accent-2: var(--games-violet);
+    --accent-soft: var(--games-violet-soft);
+    --accent-ink: #1c0d33;
+  }
+}
+
+.browser-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.browser-panel__eyebrow {
+  color: var(--accent);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.browser-panel h1 {
+  margin: 0;
+  color: var(--games-text);
+  font-size: 1.6rem;
+  line-height: 1.15;
+}
+
+.browser-panel p {
+  margin: 0;
+  color: var(--games-muted);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.browser-panel__metrics {
+  display: none;
+}
+
+.auth-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.25rem;
+  border: 1px solid var(--games-border);
+  border-radius: 1.5rem;
+  background: var(--games-surface);
+  box-shadow: var(--games-shadow);
 }
 
 .markup {
-  color: palette.$main-blue-color;
+  color: var(--accent);
+  cursor: pointer;
 }
-.forgot-password{
-display: flex;
-justify-content: end;
+.options {
+  display: flex;
+  justify-content: space-between;
 }
+
 .interactive-option {
   display: flex;
-  justify-content: center;
-  margin-top: 3rem;
+  justify-content: flex-start;
 
   .icon_wrapper {
-    width: 5rem;
-    height: 5rem;
-    border-radius: 50px;
-    background: palette.$main-blue-color;
-    box-shadow: 0 0 0 12px var(--background-color);
+    width: 2.65rem;
+    height: 2.65rem;
+    border-radius: 999px;
+    background: var(--games-surface);
+    border: 1px solid var(--games-border);
+    box-shadow: none;
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  // When a tenant logo is shown, drop the blue disc so the logo stands alone.
+  .icon_wrapper--has-logo {
+    background: transparent;
+    box-shadow: none;
   }
   .icon {
-    width: 3rem;
-    height: 3rem;
+    width: 1.15rem;
+    height: 1.15rem;
+    fill: var(--games-text);
+  }
+  .club-logo {
+    width: 100%;
+    height: 100%;
+    // No blue disc behind it, so show the whole logo rather than a circle crop.
+    object-fit: contain;
   }
 }
 
 .header {
-  margin: 1rem;
+  margin: 0;
   display: flex;
   justify-content: center;
-  font-size: 1.5rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--games-text);
 }
 
 .container {
   display: flex;
   flex-direction: column;
-  margin: 2rem;
-  margin-bottom: 8rem;
-  font-size: palette.$main-font-color;
+  margin: 0;
+  color: var(--games-text);
+}
+
+.input-field {
+  label {
+    color: var(--games-muted);
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+
+  input {
+    border: 1px solid var(--games-border);
+    background: var(--games-surface-2);
+    color: var(--games-text);
+    border-radius: 0.9rem;
+  }
+
+  input:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
 }
 
 .input-checkbox {
   margin-left: 0.5rem;
+  margin-bottom: 0.75rem;
   display: flex;
+  align-items: center;
+  gap: 0.5rem;
   input[type="checkbox"] {
-    accent-color: palette.$main-blue-color;
+    accent-color: var(--accent);
   }
 
   .remember-label {
@@ -70,10 +167,29 @@ justify-content: end;
 .btn-container {
   display: flex;
   justify-content: center;
-  margin: 1rem;
+  margin-top: 0.5rem;
 
   button {
-    width: 60%;
+    width: 100%;
+  }
+}
+
+.login-cta {
+  appearance: none;
+  border: none;
+  border-radius: 999px;
+  padding: 0.9rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent-ink);
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  box-shadow: 0 10px 24px -8px var(--accent-soft);
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    box-shadow: none;
   }
 }
 
@@ -82,6 +198,8 @@ justify-content: end;
   text-align: center;
   justify-content: center;
   flex-direction: column;
+  color: var(--games-muted);
+  font-size: 0.85rem;
 }
 
 .errors {
@@ -89,7 +207,8 @@ justify-content: end;
   justify-content: center;
   margin-top: 1rem;
   margin-bottom: 0;
-  font-size: 1.1rem;
+  font-size: 0.9rem;
+  color: var(--games-coral);
   flex-wrap: wrap;
 }
 
@@ -99,11 +218,87 @@ justify-content: end;
   text-align: center;
   margin-top: 1rem;
   margin-bottom: 0;
-  font-size: 1.1rem;
-  color: palette.$main-green-color;
+  font-size: 0.9rem;
+  color: var(--games-teal);
 }
 
 .resend {
   font-weight: 600;
-  border-bottom: 0.15rem solid palette.$main-red-color;
+  color: var(--games-coral);
+  border-bottom: 0.15rem solid var(--games-coral);
+  cursor: pointer;
+}
+
+@media (min-width: 900px) {
+  .wrapper {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(23rem, 27rem);
+    align-items: stretch;
+    gap: 1.5rem;
+    width: min(72rem, calc(100vw - 4rem));
+    min-height: calc(100vh - 5rem);
+    padding: 2.5rem 0;
+  }
+
+  .browser-panel {
+    min-height: 34rem;
+    padding: 3rem;
+    border-radius: 1.5rem;
+    border: 1px solid var(--games-border);
+    background:
+      radial-gradient(circle at 15% 0%, var(--accent-soft), transparent 55%),
+      var(--games-surface);
+    justify-content: flex-end;
+    gap: 1rem;
+  }
+
+  .browser-panel__eyebrow {
+    margin-bottom: auto;
+    font-size: 0.85rem;
+  }
+
+  .browser-panel h1 {
+    max-width: 34rem;
+    margin: 0 0 1rem;
+    font-size: 2.6rem;
+    line-height: 1.05;
+  }
+
+  .browser-panel p {
+    max-width: 31rem;
+    font-size: 1.05rem;
+    line-height: 1.55;
+  }
+
+  .browser-panel__metrics {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .browser-panel__metrics span {
+    padding: 0.45rem 0.7rem;
+    border: 1px solid var(--games-border);
+    border-radius: 0.4rem;
+    color: var(--games-text);
+    background: var(--games-surface-2);
+    font-size: 0.85rem;
+  }
+
+  .auth-card {
+    padding: 2rem;
+    border-radius: 1.5rem;
+    justify-content: center;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 22rem;
+    margin: 0.5rem auto 0;
+  }
+
+  .header {
+    font-size: 1.2rem;
+  }
 }

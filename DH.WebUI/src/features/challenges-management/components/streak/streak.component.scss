@@ -48,3 +48,23 @@
     }
   }
 }
+
+@media (min-width: 900px) {
+  .streak-toggle {
+    margin-top: 1.5rem;
+
+    .toggle-track {
+      width: 22rem;
+      border-radius: 0.5rem;
+    }
+
+    .toggle-thumb {
+      width: 10.5rem;
+      border-radius: 0.4rem;
+
+      &.right {
+        left: calc(100% - 11rem);
+      }
+    }
+  }
+}

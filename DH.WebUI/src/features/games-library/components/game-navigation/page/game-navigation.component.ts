@@ -1,4 +1,5 @@
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { TenantContextService } from './../../../../../shared/services/tenant-context.service';
+import { BehaviorSubject, Observable, debounceTime, distinctUntilChanged } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { GamesLibraryComponent } from '../../../../../pages/games-library/page/games-library.component';
@@ -12,12 +13,14 @@ import { IGameReservationStatus } from '../../../../../entities/games/models/gam
 import { FULL_ROUTE } from '../../../../../shared/configs/route.config';
 import { NavigationService } from '../../../../../shared/services/navigation-service';
 import { TranslateService } from '@ngx-translate/core';
+import { TenantRouter } from '../../../../../shared/helpers/tenant-router';
+import { FormControl } from '@angular/forms';
 
 @Component({
-    selector: 'app-game-navigation',
-    templateUrl: 'game-navigation.component.html',
-    styleUrl: 'game-navigation.component.scss',
-    standalone: false
+  selector: 'app-game-navigation',
+  templateUrl: 'game-navigation.component.html',
+  styleUrl: 'game-navigation.component.scss',
+  standalone: false,
 })
 export class GameNavigationComponent implements OnInit {
   private activeChildComponent!:
@@ -34,13 +37,16 @@ export class GameNavigationComponent implements OnInit {
 
   public headerSectionName: string = 'Games';
   public gameReservationStatus: IGameReservationStatus | null = null;
+  public searchControl = new FormControl('');
 
   constructor(
+    private readonly tenantRouter: TenantRouter,
     private readonly router: Router,
     private readonly permissionService: PermissionService,
     private readonly gameService: GamesService,
     private readonly navigationService: NavigationService,
-    private readonly ts: TranslateService
+    private readonly ts: TranslateService,
+    private readonly tenantContextService: TenantContextService
   ) {
     this.handleMenuItemClick = this.handleMenuItemClick.bind(this);
   }
@@ -62,13 +68,19 @@ export class GameNavigationComponent implements OnInit {
         this.gameReservationStatus = null;
       },
     });
+
+    this.searchControl.valueChanges
+      .pipe(debounceTime(350), distinctUntilChanged())
+      .subscribe((searchExpression) => {
+        this.handleSearchExpression(searchExpression ?? '');
+      });
   }
 
   public handleMenuItemClick(key: string): void {
     if (key === 'add-game') {
-      this.router.navigateByUrl('/games/add');
+      this.tenantRouter.navigateTenant(FULL_ROUTE.GAMES.ADD);
     } else if (key === 'add-existing-game') {
-      this.router.navigateByUrl('/games/add-existing-game');
+      this.tenantRouter.navigateTenant(FULL_ROUTE.GAMES.ADD_EXISTING_GAME);
     }
   }
 
@@ -91,7 +103,7 @@ export class GameNavigationComponent implements OnInit {
   public handleReservationWarningClick(): void {
     if (this.gameReservationStatus) {
       this.navigationService.setPreviousUrl(this.router.url);
-      this.router.navigateByUrl(
+      this.tenantRouter.navigateTenant(
         FULL_ROUTE.GAMES.AVAILABILITY(this.gameReservationStatus.gameId)
       );
     }
@@ -106,18 +118,46 @@ export class GameNavigationComponent implements OnInit {
     }
   }
 
-  public isActiveLink(
-    primaryLink: string,
-    secondaryLink: string | null = null,
-    strictMatch: boolean = false
-  ): boolean {
-    if (strictMatch) {
-      return this.router.url === primaryLink;
+  public getTenantLink(path: string): string {
+    return `/${this.tenantContextService.tenantId}/${path}`;
+  }
+
+  public isActiveLink(primaryLink: string): boolean {
+    primaryLink = `/${this.tenantRouter.buildTenantUrl(primaryLink)}`;
+    return this.router.url === primaryLink;
+  }
+
+  public get pageTitle(): string {
+    if (this.isActiveLink('games/categories')) {
+      return this.ts.instant('games.navbar.items.categories');
     }
 
+    if (this.isActiveLink('games/new')) {
+      return this.ts.instant('games.library.new_arrivals');
+    }
+
+    return this.ts.instant('games.library.discover');
+  }
+
+  public get gameCount(): number | null {
+    if (
+      this.activeChildComponent instanceof GamesLibraryComponent ||
+      this.activeChildComponent instanceof NewGameListComponent
+    ) {
+      return this.activeChildComponent.games.length;
+    }
+
+    return null;
+  }
+
+  public get isSearchVisible(): boolean {
     return (
-      this.router.url.includes(primaryLink) ||
-      (secondaryLink !== null && this.router.url.includes(secondaryLink))
+      this.activeChildComponent instanceof GamesLibraryComponent ||
+      this.activeChildComponent instanceof NewGameListComponent
     );
+  }
+
+  public clearSearch(): void {
+    this.searchControl.setValue('');
   }
 }

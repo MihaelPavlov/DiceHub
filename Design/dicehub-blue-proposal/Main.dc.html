@@ -1,0 +1,247 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Sora:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+    :root {
+      --games-bg: #17151d;
+      --games-surface: #221f2a;
+      --games-surface-2: #2c2834;
+      --games-border: rgba(255, 255, 255, 0.13);
+      --games-text: #f7f2e8;
+      --games-muted: #b2aeb8;
+      --games-faint: #817b89;
+      --games-amber: #f3bf3d;
+      --games-amber-soft: rgba(243, 191, 61, 0.16);
+      --games-coral: #bf3c65;
+      --games-coral-soft: rgba(191, 60, 101, 0.16);
+      --games-teal: #5ec7a2;
+      --games-teal-soft: rgba(94, 199, 162, 0.16);
+      --games-violet: #8d66d6;
+      --games-violet-soft: rgba(141, 102, 214, 0.16);
+      --games-shadow: 0 16px 36px -20px rgba(0, 0, 0, 0.72);
+
+      /* Heritage blue — still live today in _dark.scss / _light.scss / _button.scss */
+      --heritage-blue-dark: #75a0ff;
+      --heritage-blue-light: #8ea2ff;
+      --heritage-blue-soft: rgba(117, 160, 255, 0.16);
+
+      /* Harmonized alternate — same L/C envelope as the other accents, hue rotated to blue */
+      --harmonized-blue: oklch(0.72 0.15 255);
+      --harmonized-blue-soft: oklch(0.72 0.15 255 / 0.16);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--games-bg); font-family: 'Sora', ui-sans-serif, system-ui, sans-serif; text-wrap: pretty; }
+    .display { font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif; }
+    .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+    a { color: var(--heritage-blue-dark); } a:hover { color: var(--games-coral); }
+
+    .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; }
+    .section-title { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 21px; color: var(--games-text); margin: 0; }
+    .section-note { font-size: 13.5px; color: var(--games-muted); line-height: 1.6; margin: 6px 0 0; max-width: 700px; }
+    .token-name { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500; color: var(--games-text); }
+    .token-value { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: var(--games-faint); }
+
+    .pill-btn { display: inline-flex; align-items: center; justify-content: center; border: none; border-radius: 2rem; color: #fff; font-family: 'Sora', sans-serif; font-weight: 600; font-size: 14px; padding: 0.65rem 1.75rem; width: fit-content; }
+    .lp-btn { display: inline-flex; align-items: center; gap: 8px; border: none; border-radius: 999px; font-family: 'Sora', sans-serif; font-weight: 700; font-size: 14px; padding: 0.75rem 1.5rem; width: fit-content; cursor: pointer; }
+  </style>
+</helmet>
+
+<div style="width:1280px;background:var(--games-bg);color:var(--games-text);display:flex;flex-direction:column;padding:64px 72px 96px;gap:56px;">
+
+  <!-- ============ HEADER ============ -->
+  <div style="display:flex;flex-direction:column;gap:10px;padding-bottom:32px;border-bottom:1px solid var(--games-border);">
+    <span class="eyebrow" style="color:var(--heritage-blue-dark);">Color proposal</span>
+    <h1 class="display" style="font-size:32px;font-weight:800;margin:0;letter-spacing:-0.01em;">Bringing blue back as the primary color</h1>
+    <p style="font-size:14.5px;color:var(--games-muted);margin:0;max-width:760px;line-height:1.6;">
+      DiceHub's identity was built around blue — <span class="mono" style="color:var(--games-text);">--main-blue-color</span> still drives every primary button
+      across the app today (<span class="mono" style="color:var(--games-text);">_dark.scss</span>, <span class="mono" style="color:var(--games-text);">_light.scss</span>, <span class="mono" style="color:var(--games-text);">_button.scss</span>).
+      The Reimagined redesign replaced it with an amber → coral gradient. This page finds the original blue and proposes putting it back as the
+      primary accent, in the Reimagined system's own token structure.
+    </p>
+  </div>
+
+  <!-- ============ HERITAGE (what's real today) ============ -->
+  <div style="display:flex;flex-direction:column;gap:24px;">
+    <div>
+      <h2 class="section-title">What's live today</h2>
+      <p class="section-note">The blue the app already ships with, outside the reimagined pages — plus the full old button suite it belongs to, pulled straight from <span class="mono" style="color:var(--games-text);">_button.scss</span>.</p>
+    </div>
+
+    <div style="display:flex;gap:20px;">
+      <div style="width:220px;display:flex;flex-direction:column;gap:12px;">
+        <div style="height:80px;border-radius:14px;background:#75a0ff;"></div>
+        <div><div class="token-name">--main-blue-color (dark)</div><div class="token-value">#75a0ff</div></div>
+      </div>
+      <div style="width:220px;display:flex;flex-direction:column;gap:12px;">
+        <div style="height:80px;border-radius:14px;background:#8ea2ff;"></div>
+        <div><div class="token-name">--main-blue-color (light)</div><div class="token-value">#8ea2ff</div></div>
+      </div>
+      <div style="flex:1;background:var(--games-surface);border:1px solid var(--games-border);border-radius:14px;padding:20px 24px;display:flex;flex-direction:column;gap:10px;justify-content:center;">
+        <span class="token-name" style="margin-bottom:2px;">Old button suite — .btn-blue / -green / -red / -yellow / -orange / -gray</span>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <span class="pill-btn" style="background:#75a0ff;">Primary</span>
+          <span class="pill-btn" style="background:#46945b;">Success</span>
+          <span class="pill-btn" style="background:#bf3c65;">Danger</span>
+          <span class="pill-btn" style="background:#977f33;">Warning</span>
+          <span class="pill-btn" style="background:#98542b;">Orange</span>
+          <span class="pill-btn" style="background:#31313b;border:1px solid rgba(255,255,255,0.13);">Neutral</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ TWO CANDIDATE BLUES ============ -->
+  <div style="display:flex;flex-direction:column;gap:24px;">
+    <div>
+      <h2 class="section-title">Two ways to bring it into Reimagined</h2>
+      <p class="section-note">The Reimagined accents (amber, coral, teal, violet) all sit in a similar lightness/chroma band, which is part of why they read as one family. Heritage blue is a touch cooler and lighter than that band. Two options — recommending the first.</p>
+    </div>
+
+    <div style="display:flex;gap:20px;">
+      <div style="flex:1;background:var(--games-surface);border:2px solid var(--heritage-blue-dark);border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:16px;box-shadow:var(--games-shadow);">
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <span class="display" style="font-size:16px;font-weight:700;">Option A — Heritage</span>
+          <span style="font-size:11px;font-weight:700;color:var(--heritage-blue-dark);background:var(--heritage-blue-soft);padding:4px 10px;border-radius:999px;">Recommended</span>
+        </div>
+        <div style="height:64px;border-radius:12px;background:#75a0ff;"></div>
+        <div style="height:44px;border-radius:12px;background:var(--heritage-blue-soft);border:1px solid var(--games-border);"></div>
+        <p style="font-size:12.5px;color:var(--games-muted);line-height:1.6;margin:0;">
+          The exact <span class="mono" style="color:var(--games-text);">#75a0ff</span> already in the codebase, unchanged. Keeps real continuity with the app's existing identity —
+          same blue whether you're on a reimagined screen or not.
+        </p>
+        <div><div class="token-name">--games-blue</div><div class="token-value">#75a0ff</div></div>
+      </div>
+
+      <div style="flex:1;background:var(--games-surface);border:1px solid var(--games-border);border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:16px;">
+        <span class="display" style="font-size:16px;font-weight:700;">Option B — Harmonized</span>
+        <div style="height:64px;border-radius:12px;background:oklch(0.72 0.15 255);"></div>
+        <div style="height:44px;border-radius:12px;background:oklch(0.72 0.15 255 / 0.16);border:1px solid var(--games-border);"></div>
+        <p style="font-size:12.5px;color:var(--games-muted);line-height:1.6;margin:0;">
+          Same hue, nudged onto the exact lightness/chroma curve the other four accents share. Blends a little more seamlessly next to
+          amber/coral/teal/violet — at the cost of no longer being the literal old hex.
+        </p>
+        <div><div class="token-name">--games-blue</div><div class="token-value">oklch(0.72 0.15 255)</div></div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:12px;align-items:center;background:var(--games-surface-2);border:1px solid var(--games-border);border-radius:12px;padding:16px 20px;">
+      <span style="font-size:12px;font-weight:700;color:var(--games-faint);text-transform:uppercase;letter-spacing:0.06em;">Family, for reference</span>
+      <div style="display:flex;gap:10px;">
+        <div style="width:36px;height:36px;border-radius:9px;background:var(--games-amber);"></div>
+        <div style="width:36px;height:36px;border-radius:9px;background:var(--games-coral);"></div>
+        <div style="width:36px;height:36px;border-radius:9px;background:var(--games-teal);"></div>
+        <div style="width:36px;height:36px;border-radius:9px;background:var(--games-violet);"></div>
+        <div style="width:36px;height:36px;border-radius:9px;background:#75a0ff;border:2px solid var(--games-text);"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ MORE SHADES CLOSE TO HERITAGE BLUE ============ -->
+  <div style="display:flex;flex-direction:column;gap:24px;">
+    <div>
+      <h2 class="section-title">A few more shades nearby</h2>
+      <p class="section-note">All within the same family as #75a0ff, just leaning a little differently — deeper and punchier, lighter and softer, or shifted slightly toward teal or violet so it echoes a neighboring accent. Each shown as a swatch and as the actual primary button.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px;">
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div style="height:64px;border-radius:12px;background:oklch(0.62 0.18 258);"></div>
+        <span class="lp-btn" style="color:#fff;background:oklch(0.62 0.18 258);font-size:12.5px;padding:0.6rem 1.1rem;">Get Started</span>
+        <div><div class="token-name">Deep royal</div><div class="token-value">oklch(0.62 0.18 258)</div></div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div style="height:64px;border-radius:12px;background:oklch(0.79 0.09 258);"></div>
+        <span class="lp-btn" style="color:#12213f;background:oklch(0.79 0.09 258);font-size:12.5px;padding:0.6rem 1.1rem;">Get Started</span>
+        <div><div class="token-name">Soft periwinkle</div><div class="token-value">oklch(0.79 0.09 258)</div></div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div style="height:64px;border-radius:12px;background:oklch(0.72 0.14 232);"></div>
+        <span class="lp-btn" style="color:#0b2436;background:oklch(0.72 0.14 232);font-size:12.5px;padding:0.6rem 1.1rem;">Get Started</span>
+        <div><div class="token-name">Toward teal</div><div class="token-value">oklch(0.72 0.14 232)</div></div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div style="height:64px;border-radius:12px;background:oklch(0.68 0.17 280);"></div>
+        <span class="lp-btn" style="color:#fff;background:oklch(0.68 0.17 280);font-size:12.5px;padding:0.6rem 1.1rem;">Get Started</span>
+        <div><div class="token-name">Toward violet</div><div class="token-value">oklch(0.68 0.17 280)</div></div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div style="height:64px;border-radius:12px;background:oklch(0.70 0.06 255);"></div>
+        <span class="lp-btn" style="color:#12213f;background:oklch(0.70 0.06 255);font-size:12.5px;padding:0.6rem 1.1rem;">Get Started</span>
+        <div><div class="token-name">Muted slate</div><div class="token-value">oklch(0.70 0.06 255)</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ BUTTONS: BEFORE / AFTER ============ -->
+  <div style="display:flex;flex-direction:column;gap:24px;">
+    <div>
+      <h2 class="section-title">Buttons — before and after</h2>
+      <p class="section-note">Swapping the primary role from amber to heritage blue. Secondary and ghost stay exactly as they are today — only the primary action changes.</p>
+    </div>
+
+    <div style="display:flex;gap:20px;">
+      <div style="flex:1;background:var(--games-surface);border:1px solid var(--games-border);border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:16px;">
+        <span class="token-name">Current — amber → coral</span>
+        <div style="display:flex;gap:12px;">
+          <span class="lp-btn" style="color:#2b1502;background:linear-gradient(135deg,#f3bf3d,#bf3c65);">Get Started Free</span>
+          <span class="lp-btn" style="color:var(--games-text);background:var(--games-surface-2);border:1px solid var(--games-border);">Secondary</span>
+        </div>
+      </div>
+      <div style="flex:1;background:var(--games-surface);border:2px solid var(--heritage-blue-dark);border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:16px;">
+        <span class="token-name">Proposed — heritage blue</span>
+        <div style="display:flex;gap:12px;">
+          <span class="lp-btn" style="color:#0b1830;background:linear-gradient(135deg,#8fb4ff,#75a0ff);">Get Started Free</span>
+          <span class="lp-btn" style="color:var(--games-text);background:var(--games-surface-2);border:1px solid var(--games-border);">Secondary</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:var(--games-surface);border:1px solid var(--games-border);border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:18px;">
+      <span class="token-name">Full suite in the proposed direction — semantic colors need no change</span>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
+        <span class="lp-btn" style="color:#0b1830;background:linear-gradient(135deg,#8fb4ff,#75a0ff);">Primary</span>
+        <span class="lp-btn" style="color:var(--games-text);background:var(--games-surface-2);border:1px solid var(--games-border);">Secondary</span>
+        <span class="lp-btn" style="color:var(--games-muted);background:transparent;border:1px solid var(--games-border);">Ghost</span>
+        <span class="lp-btn" style="color:#0b2e22;background:var(--games-teal);">Success</span>
+        <span class="lp-btn" style="color:#38070f;background:var(--games-coral);">Danger</span>
+        <span class="lp-btn" style="color:#2b1502;background:var(--games-amber);">Warning</span>
+      </div>
+      <p style="font-size:12px;color:var(--games-faint);margin:0;line-height:1.5;">
+        Teal already covers "success", coral already covers "danger" — amber is freed up to become the warning/attention color instead of the primary one.
+      </p>
+    </div>
+  </div>
+
+  <!-- ============ APPLIED EXAMPLE ============ -->
+  <div style="display:flex;flex-direction:column;gap:24px;">
+    <div>
+      <h2 class="section-title">In context</h2>
+      <p class="section-note">The heritage blue applied to a real piece of UI — an icon tile and a primary CTA, the way they'd appear on a card.</p>
+    </div>
+
+    <div style="width:360px;background:var(--games-surface);border:1px solid var(--games-border);border-radius:20px;padding:24px;display:flex;flex-direction:column;gap:14px;box-shadow:var(--games-shadow);">
+      <div style="width:44px;height:44px;border-radius:13px;background:var(--heritage-blue-soft);display:flex;align-items:center;justify-content:center;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#75a0ff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16"/><path d="M8 3v4M16 3v4"/><path d="M9.5 14l1.8 1.8L15 12"/></svg>
+      </div>
+      <span class="display" style="font-size:16px;font-weight:700;">Reserve a table in seconds</span>
+      <span style="font-size:13px;color:var(--games-muted);line-height:1.55;">Real-time table availability with QR check-in.</span>
+      <span class="lp-btn" style="color:#0b1830;background:linear-gradient(135deg,#8fb4ff,#75a0ff);margin-top:4px;">Reserve now</span>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>

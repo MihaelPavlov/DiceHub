@@ -6,6 +6,9 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
+import { Location } from '@angular/common';
+import { Capacitor } from '@capacitor/core';
+import { Camera } from '@capacitor/camera';
 import jsQR from 'jsqr';
 import { ScannerService } from '../../../entities/qr-code-scanner/api/scanner.service';
 import { IQrCode } from '../../../entities/qr-code-scanner/models/qr-code.model';
@@ -19,6 +22,7 @@ import { FULL_ROUTE } from '../../../shared/configs/route.config';
 import { TranslateService } from '@ngx-translate/core';
 import { QrEncryptService } from '../../../shared/services/qr-code-encrypt.service';
 import { ScanConfirmDialogComponent } from '../../../features/qr-code-scanner/dialogs/scan-confirm-dialog.component';
+import { TenantRouter } from '../../../shared/helpers/tenant-router';
 
 @Component({
   selector: 'app-qr-code-scanner',
@@ -35,6 +39,7 @@ export class QrCodeScannerComponent
   public imageSrc: string | null = null;
   public canvas!: HTMLCanvasElement;
   public context!: CanvasRenderingContext2D | null;
+  private scanning = false;
   public invalidQrCode = false;
   public isValidQrScanned = false;
   public currentQrCodeType: QrCodeType | null = null;
@@ -45,10 +50,11 @@ export class QrCodeScannerComponent
 
   constructor(
     private readonly scannerService: ScannerService,
-    private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly dialog: MatDialog,
     private readonly translateService: TranslateService,
     private readonly qrEncryptService: QrEncryptService,
+    private readonly location: Location
   ) {}
 
   public ngOnInit(): void {
@@ -56,127 +62,200 @@ export class QrCodeScannerComponent
     this.initAfterScanErrorMessage();
   }
 
-  public async ngAfterViewInit(): Promise<void> {
+  public goBack(): void {
+    this.location.back();
+  }
+
+  public ngAfterViewInit(): void {
     this.canvas = document.createElement('canvas');
     this.context = this.canvas.getContext('2d');
-    await this.startCamera();
+    this.startCamera();
   }
 
-  public async ngOnDestroy(): Promise<void> {
-    await this.stopCamera();
+  public ngOnDestroy(): void {
+    this.scanning = false;
+    this.stopCamera();
   }
 
-  private async stopCamera(): Promise<void> {
-  if (this.mediaStream) {
-    this.mediaStream.getTracks().forEach(track => track.stop());
-    this.mediaStream = null;
-  }
+  private stopCamera(): void {
+    this.scanning = false;
+    if (this.mediaStream) {
+      this.mediaStream.getTracks().forEach((track) => track.stop());
+      this.mediaStream = null;
+    }
 
-  if (this.videoElement?.nativeElement) {
-    const video = this.videoElement.nativeElement;
-    try { await video.pause(); } catch {}
-    video.srcObject = null;
-  }
-}
-
- private async startCamera(): Promise<void> {
-  try {
-    // Stop previous stream if exists
-    this.mediaStream?.getTracks().forEach(track => track.stop());
-
-    const constraints = {
-      video: {
-        facingMode: { ideal: 'environment' }
-      }
-    };
-
-    const stream = await navigator.mediaDevices.getUserMedia(constraints);
-
-    this.mediaStream = stream;
-
-    const video = this.videoElement.nativeElement;
-
-    video.setAttribute('playsinline', 'true');
-    video.muted = true;
-    video.srcObject = stream;
-
-    video.onloadedmetadata = () => {
-      video.play().catch(console.warn);
-      requestAnimationFrame(this.tick.bind(this));
-    };
-
-  } catch (err) {
-    console.error('Camera error:', err);
-
-    // fallback attempt
-    try {
-      const fallback = await navigator.mediaDevices.getUserMedia({ video: true });
-      this.videoElement.nativeElement.srcObject = fallback;
-      this.videoElement.nativeElement.play();
-    } catch (fallbackErr) {
-      alert('Camera failed on iPhone');
-      console.error(fallbackErr);
+    if (this.videoElement?.nativeElement) {
+      this.videoElement.nativeElement.pause();
+      this.videoElement.nativeElement.srcObject = null;
     }
   }
-}
+
+  private async startCamera(): Promise<void> {
+    // On Android the WebView's getUserMedia permission request is auto-denied
+    // (no prompt) unless the OS CAMERA permission has been granted first. Ask
+    // for it explicitly through the Capacitor plugin so the user sees a dialog.
+    if (Capacitor.isNativePlatform()) {
+      try {
+        let state = (await Camera.checkPermissions()).camera;
+        if (state !== 'granted') {
+          state = (await Camera.requestPermissions({ permissions: ['camera'] }))
+            .camera;
+        }
+        if (state !== 'granted') {
+          this.afterScanErrorMessage = this.translateService.instant(
+            'qr_scanner.camera_permission_denied'
+          );
+          return;
+        }
+      } catch {
+        // fall through - getUserMedia below will surface any remaining error
+      }
+    }
+
+    navigator.mediaDevices
+      .getUserMedia({
+        video: {
+          facingMode: 'environment',
+          width: { ideal: 1280 },
+          height: { ideal: 720 },
+        },
+      })
+      .then(async (stream) => {
+        this.mediaStream = stream;
+
+        const video = this.videoElement.nativeElement;
+        video.srcObject = stream;
+        // Android WebView / iOS: without playsinline + muted the element goes
+        // fullscreen or play() is rejected by the autoplay policy, which looked
+        // like the "zoom in/out" jitter.
+        video.setAttribute('playsinline', 'true');
+        video.setAttribute('webkit-playsinline', 'true');
+        video.muted = true;
+
+        try {
+          await video.play();
+        } catch (err) {
+          this.afterScanErrorMessage = this.translateService.instant(
+            'qr_scanner.camera_unavailable'
+          );
+          console.log(err);
+          return;
+        }
+
+        // Size the decode canvas to the real frame - it defaults to 300x150,
+        // which squashes the QR beyond what jsQR can read.
+        this.syncCanvasToVideo();
+
+        this.scanning = true;
+        requestAnimationFrame(this.tick.bind(this));
+      })
+      .catch((err) => {
+        this.afterScanErrorMessage = this.translateService.instant(
+          err?.name === 'NotAllowedError'
+            ? 'qr_scanner.camera_permission_denied'
+            : 'qr_scanner.camera_unavailable'
+        );
+        console.log(err);
+      });
+  }
+
+  private syncCanvasToVideo(): void {
+    const video = this.videoElement?.nativeElement;
+    if (!video || !video.videoWidth || !video.videoHeight) return;
+    if (
+      this.canvas.width !== video.videoWidth ||
+      this.canvas.height !== video.videoHeight
+    ) {
+      this.canvas.width = video.videoWidth;
+      this.canvas.height = video.videoHeight;
+    }
+  }
 
   private tick(): void {
-    if (!this.videoElement) {
+    if (!this.scanning || !this.videoElement) {
       return;
     }
     const video = this.videoElement.nativeElement;
 
     if (video.readyState === video.HAVE_ENOUGH_DATA) {
+      this.syncCanvasToVideo();
+
+      if (!this.canvas.width || !this.canvas.height) {
+        requestAnimationFrame(this.tick.bind(this));
+        return;
+      }
+
       this.context?.drawImage(
         video,
         0,
         0,
         this.canvas.width,
-        this.canvas.height,
+        this.canvas.height
       );
       const imageData = this.context?.getImageData(
         0,
         0,
         this.canvas.width,
-        this.canvas.height,
+        this.canvas.height
       );
 
       if (imageData) {
-        const code = jsQR(imageData.data, imageData.width, imageData.height);
+        const code = jsQR(imageData.data, imageData.width, imageData.height, {
+          inversionAttempts: 'dontInvert',
+        });
 
         if (code) {
+          // a fresh code clears any banner left over from the previous scan
           this.afterScanSuccessfulMessage = null;
-          video.pause();
-          let decryptQrCode: string | null = null;
+          this.afterScanErrorMessage = null;
+          this.invalidQrCode = false;
 
-          try {
-            decryptQrCode = this.qrEncryptService.decryptObjectSync(code.data);
-          } catch {
-            decryptQrCode = null;
+          const scanned = code.data;
+          let qrType: QrCodeType | null = null;
+
+          if (/^[1-6][0-9A-Z]{11}$/.test(scanned)) {
+            // New short token - the leading digit is the type; the server
+            // resolves the rest. No client-side decrypt.
+            qrType = Number(scanned[0]) as QrCodeType;
+          } else {
+            // Legacy encrypted-JSON blob (QR codes printed before the token scheme).
+            let decrypted: string | null = null;
+            try {
+              decrypted = this.qrEncryptService.decryptObjectSync(scanned);
+            } catch {
+              decrypted = null;
+            }
+            if (decrypted && this.isQrCodeValid(decrypted)) {
+              qrType = (JSON.parse(decrypted) as IQrCode).Type;
+            }
           }
 
-          if (!decryptQrCode || !this.isQrCodeValid(decryptQrCode)) {
+          // A code was decoded - freeze the loop so the same frame isn't
+          // processed again while the phone is still in view.
+          this.scanning = false;
+          video.pause();
+
+          if (qrType === null) {
             this.invalidQrCode = true;
-            video.play();
+            // resume scanning after the "invalid" banner, not every frame
             setTimeout(() => {
               this.invalidQrCode = false;
-            }, 3000);
+              this.resumeScanning();
+            }, 2000);
           } else {
-            this.currentQrCodeType = (
-              JSON.parse(decryptQrCode) as IQrCode
-            ).Type;
+            this.currentQrCodeType = qrType;
             this.invalidQrCode = false;
-            const request = { data: code.data };
+            const request = { data: scanned };
             this.isValidQrScanned = true;
 
             const dialogRefConfirmation = this.dialog.open(
               ScanConfirmDialogComponent,
               {
-                width: '17rem',
+                panelClass: 'confirm-sheet-pane',
                 data: {
                   type: this.currentQrCodeType,
                 },
-              },
+              }
             );
 
             dialogRefConfirmation
@@ -193,14 +272,14 @@ export class QrCodeScannerComponent
                           switch (res.type) {
                             case QrCodeType.Game:
                               if (res.isValid) {
-                                this.router.navigateByUrl(
+                                this.tenantRouter.navigateTenant(
                                   FULL_ROUTE.SPACE_MANAGEMENT.CREATE(
-                                    res.objectId,
-                                  ),
+                                    res.objectId
+                                  )
                                 );
                               } else {
                                 this.setLocalStorageErrorMessage(
-                                  res.errorMessage,
+                                  res.errorMessage
                                 );
                                 window.location.reload();
                               }
@@ -215,18 +294,18 @@ export class QrCodeScannerComponent
                                       note:
                                         res.internalNote ??
                                         this.translateService.instant(
-                                          'qr_scanner.no_staff_note',
+                                          'qr_scanner.no_staff_note'
                                         ),
-                                    },
-                                  ),
+                                    }
+                                  )
                                 );
                                 window.location.reload();
                               } else {
                                 const dialogRef = this.dialog.open(
                                   ScanResultAdminDialog,
                                   {
-                                    data: res,
-                                  },
+                                    panelClass: 'confirm-sheet-pane', data: res,
+                                  }
                                 );
 
                                 dialogRef.afterClosed().subscribe({
@@ -245,18 +324,18 @@ export class QrCodeScannerComponent
                                       note:
                                         res.internalNote ??
                                         this.translateService.instant(
-                                          'qr_scanner.no_staff_note',
+                                          'qr_scanner.no_staff_note'
                                         ),
-                                    },
-                                  ),
+                                    }
+                                  )
                                 );
                                 window.location.reload();
                               } else {
                                 const dialogRef = this.dialog.open(
                                   ScanResultAdminDialog,
                                   {
-                                    data: res,
-                                  },
+                                    panelClass: 'confirm-sheet-pane', data: res,
+                                  }
                                 );
 
                                 dialogRef.afterClosed().subscribe({
@@ -270,8 +349,8 @@ export class QrCodeScannerComponent
                               const dialogRef = this.dialog.open(
                                 ScanResultAdminDialog,
                                 {
-                                  data: res,
-                                },
+                                  panelClass: 'confirm-sheet-pane', data: res,
+                                }
                               );
 
                               dialogRef.afterClosed().subscribe({
@@ -285,8 +364,8 @@ export class QrCodeScannerComponent
                                 const dialogReference = this.dialog.open(
                                   ScanResultAdminDialog,
                                   {
-                                    data: res,
-                                  },
+                                    panelClass: 'confirm-sheet-pane', data: res,
+                                  }
                                 );
 
                                 dialogReference.afterClosed().subscribe({
@@ -298,27 +377,88 @@ export class QrCodeScannerComponent
                                 window.location.reload();
                               }
                               break;
+
+                            // Event, or any type without a dedicated flow -
+                            // never leave the screen doing nothing after
+                            // "confirm".
+                            case QrCodeType.Event:
+                            default: {
+                              if (res.isValid) {
+                                this.setLocalStorageSuccessMessage(
+                                  this.translateService.instant(
+                                    'qr_scanner.qr_code_is_valid'
+                                  )
+                                );
+                                window.location.reload();
+                              } else {
+                                this.dialog
+                                  .open(ScanResultAdminDialog, {
+                                    panelClass: 'confirm-sheet-pane',
+                                    data: res,
+                                  })
+                                  .afterClosed()
+                                  .subscribe(() => window.location.reload());
+                              }
+                              break;
+                            }
                           }
+                        } else {
+                          this.afterScanErrorMessage =
+                            this.translateService.instant(
+                              'qr_scanner.scan_failed'
+                            );
+                          this.resumeScanning();
                         }
                       },
-                      error: (err) => {
-                        this.invalidQrCode = true;
-                        this.isValidQrScanned = false;
-                        this.startCamera();
+                      error: (err: any) => {
+                        // 400s come back as ProblemDetails { detail }; show the
+                        // server's message ("This QR code is invalid or has
+                        // expired.") rather than the generic fallback.
+                        this.afterScanErrorMessage =
+                          err?.error?.detail ??
+                          this.translateService.instant('qr_scanner.scan_failed');
+                        this.resumeScanning();
                       },
                     });
                 } else {
-                  window.location.reload();
+                  // confirm cancelled - back to scanning, don't reload the app
+                  this.resumeScanning();
                 }
               });
           }
         }
       }
 
-      requestAnimationFrame(this.tick.bind(this));
-    } else {
+      if (this.scanning) {
+        requestAnimationFrame(this.tick.bind(this));
+      }
+    } else if (this.scanning) {
       setTimeout(this.tick.bind(this), 10);
     }
+  }
+
+  private resumeScanning(): void {
+    // NOTE: don't clear invalidQrCode / afterScanErrorMessage here - the banner
+    // must stay visible after we go back to scanning. It's cleared when the next
+    // code is decoded (see tick()).
+    const wasHidden = this.isValidQrScanned;
+    this.isValidQrScanned = false;
+    this.scanning = true;
+
+    // the *ngIf re-adds the <video>; give Angular a tick to update the ViewChild
+    setTimeout(() => {
+      const video = this.videoElement?.nativeElement;
+      if (!video) {
+        this.startCamera();
+        return;
+      }
+      if (wasHidden && this.mediaStream && !video.srcObject) {
+        video.srcObject = this.mediaStream;
+      }
+      video.play().catch(() => {});
+      this.syncCanvasToVideo();
+      requestAnimationFrame(this.tick.bind(this));
+    }, 0);
   }
 
   public isQrCodeValid(data: string): boolean {
@@ -346,7 +486,7 @@ export class QrCodeScannerComponent
     this.afterScanSuccessfulMessage = message;
     localStorage.setItem(
       this.KEY_AFTER_SCAN_SUCCESS_MESSAGE,
-      this.afterScanSuccessfulMessage,
+      this.afterScanSuccessfulMessage
     );
   }
 
@@ -354,13 +494,13 @@ export class QrCodeScannerComponent
     this.afterScanErrorMessage = message;
     localStorage.setItem(
       this.KEY_AFTER_SCAN_ERROR_MESSAGE,
-      this.afterScanErrorMessage,
+      this.afterScanErrorMessage
     );
   }
 
   private initAfterScanSuccessMessage(): void {
     const storedMessage = localStorage.getItem(
-      this.KEY_AFTER_SCAN_SUCCESS_MESSAGE,
+      this.KEY_AFTER_SCAN_SUCCESS_MESSAGE
     );
     if (storedMessage) {
       this.afterScanSuccessfulMessage = storedMessage;
@@ -370,7 +510,7 @@ export class QrCodeScannerComponent
 
   public initAfterScanErrorMessage(): void {
     const storedMessage = localStorage.getItem(
-      this.KEY_AFTER_SCAN_ERROR_MESSAGE,
+      this.KEY_AFTER_SCAN_ERROR_MESSAGE
     );
     if (storedMessage) {
       this.afterScanErrorMessage = storedMessage;

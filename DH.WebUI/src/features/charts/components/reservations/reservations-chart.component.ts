@@ -8,17 +8,17 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
-import { Router } from '@angular/router';
 import { MenuTabsService } from '../../../../shared/services/menu-tabs.service';
 import { NAV_ITEM_LABELS } from '../../../../shared/models/nav-items-labels.const';
 import { FormControl } from '@angular/forms';
 import { colors } from '../../consts/colors.const';
-import { ControlsMenuComponent } from '../../../../shared/components/menu/controls-menu.component';
 import { StatisticsService } from '../../../../entities/statistics/api/statistics.service';
 import { GetReservationChartData } from '../../../../entities/statistics/models/reservation-chart.model';
 import { OperationResult } from '../../../../shared/models/operation-result.model';
 import { AppToastMessage } from '../../../../shared/components/toast/constants/app-toast-messages.constant';
 import { ToastType } from '../../../../shared/models/toast.model';
+import { ROUTE } from '../../../../shared/configs/route.config';
+import { TenantRouter } from '../../../../shared/helpers/tenant-router';
 
 @Component({
     selector: 'reservations-chart',
@@ -33,13 +33,19 @@ export class ReservationsChartComponent implements AfterViewInit, OnDestroy {
   private REQUIRED_MESSAGE_FROM_DATES: string =
     'Specifying from which date we start is required.';
 
-  public fromDateControl = new FormControl<Date | null>(null);
-  public toDateControl = new FormControl<Date | null>(null);
+  public fromDateControl = new FormControl<string | null>(null);
+  public toDateControl = new FormControl<string | null>(null);
   public validationMessageFromDates: string | null =
     this.REQUIRED_MESSAGE_FROM_DATES;
+  public currentQuickRangeMonths: number | null = null;
+  public quickRanges = [
+    { label: 'Last Month', months: 1 },
+    { label: 'Last 3 Months', months: 3 },
+    { label: 'Last 6 Months', months: 6 },
+  ];
 
   constructor(
-    private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly statisticsService: StatisticsService,
     private readonly menuTabsService: MenuTabsService,
     private readonly toastService: ToastService
@@ -52,6 +58,7 @@ export class ReservationsChartComponent implements AfterViewInit, OnDestroy {
   }
 
   public dateValidation(): void {
+    this.currentQuickRangeMonths = null;
     if (this.reservationChart) {
       this.reservationChart.destroy();
     }
@@ -76,6 +83,28 @@ export class ReservationsChartComponent implements AfterViewInit, OnDestroy {
     this.createReservationChartCanvas(colors);
   }
 
+  public applyQuickRange(months: number): void {
+    this.currentQuickRangeMonths = months;
+
+    const toDate = new Date();
+    const fromDate = new Date(toDate);
+    fromDate.setMonth(fromDate.getMonth() - months);
+
+    if (this.reservationChart) {
+      this.reservationChart.destroy();
+    }
+
+    this.fromDateControl.setValue(this.formatDateInput(fromDate), {
+      emitEvent: false,
+    });
+    this.toDateControl.setValue(this.formatDateInput(toDate), {
+      emitEvent: false,
+    });
+
+    this.validationMessageFromDates = null;
+    this.createReservationChartCanvas(colors);
+  }
+
   public ngOnDestroy(): void {
     this.menuTabsService.resetData();
   }
@@ -84,7 +113,7 @@ export class ReservationsChartComponent implements AfterViewInit, OnDestroy {
   }
 
   public backNavigateBtn(): void {
-    this.router.navigateByUrl('profile');
+    this.tenantRouter.navigateTenant(ROUTE.PROFILE.CORE);
   }
 
   private createReservationChartCanvas(colors): void {
@@ -209,5 +238,13 @@ export class ReservationsChartComponent implements AfterViewInit, OnDestroy {
           },
         });
     }
+  }
+
+  private formatDateInput(date: Date): string {
+    const year = date.getFullYear();
+    const month = `${date.getMonth() + 1}`.padStart(2, '0');
+    const day = `${date.getDate()}`.padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
   }
 }

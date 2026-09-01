@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IEventByIdResult } from '../../../../../entities/events/models/event-by-id.mode';
 import { Observable } from 'rxjs';
 import { EventsService } from '../../../../../entities/events/api/events.service';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { NAV_ITEM_LABELS } from '../../../../../shared/models/nav-items-labels.const';
 import { MenuTabsService } from '../../../../../shared/services/menu-tabs.service';
 import { ToastService } from '../../../../../shared/services/toast.service';
@@ -18,12 +18,13 @@ import {
   ImagePreviewData,
 } from '../../../../../shared/dialogs/image-preview/image-preview.dialog';
 import { MatDialog } from '@angular/material/dialog';
+import { TenantRouter } from '../../../../../shared/helpers/tenant-router';
 
 @Component({
-    selector: 'app-event-details',
-    templateUrl: 'event-details.component.html',
-    styleUrl: 'event-details.component.scss',
-    standalone: false
+  selector: 'app-event-details',
+  templateUrl: 'event-details.component.html',
+  styleUrl: 'event-details.component.scss',
+  standalone: false,
 })
 export class EventDetailsComponent {
   public event$!: Observable<IEventByIdResult>;
@@ -38,7 +39,7 @@ export class EventDetailsComponent {
     private readonly activeRoute: ActivatedRoute,
     private readonly menuTabsService: MenuTabsService,
     private readonly toastService: ToastService,
-    private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly translateService: TranslateService,
     private readonly languageService: LanguageService,
     private readonly dialog: MatDialog
@@ -71,7 +72,7 @@ export class EventDetailsComponent {
           type: ToastType.Success,
         });
 
-        this.router.navigateByUrl(FULL_ROUTE.EVENTS.HOME);
+        this.tenantRouter.navigateTenant(FULL_ROUTE.EVENTS.HOME);
       },
       error: (error) => {
         const errorMessage = error.error.errors['maxPeople'][0];
@@ -101,7 +102,7 @@ export class EventDetailsComponent {
             ),
             type: ToastType.Success,
           });
-          this.router.navigateByUrl(FULL_ROUTE.EVENTS.HOME);
+          this.tenantRouter.navigateTenant(FULL_ROUTE.EVENTS.HOME);
         } else {
           this.toastService.error({
             message: this.translateService.instant(
@@ -123,9 +124,9 @@ export class EventDetailsComponent {
   }
 
   public navigateBackToEventList(): void {
-    this.router.navigateByUrl(FULL_ROUTE.EVENTS.HOME);
+    this.tenantRouter.navigateTenant(FULL_ROUTE.EVENTS.HOME);
   }
-  
+
   public openImagePreview(imageUrl: string) {
     this.dialog.open<ImagePreviewDialog, ImagePreviewData>(ImagePreviewDialog, {
       data: {

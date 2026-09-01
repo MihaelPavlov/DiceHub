@@ -3,6 +3,7 @@ import { HttpHeaders } from '@angular/common/http';
 import {
   ActivatedRouteSnapshot,
   Router,
+  ROUTER_CONFIGURATION,
   RouterStateSnapshot,
 } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -19,6 +20,11 @@ import {
   tap,
 } from 'rxjs';
 import { RestApiService } from '../services/rest-api.service';
+import { AuthTokenService } from '../services/auth-token.service';
+import { TenantContextService } from '../services/tenant-context.service';
+import { TenantRouter } from '../helpers/tenant-router';
+import { PATH } from '../configs/path.config';
+import { ROUTE } from '../configs/route.config';
 
 @Injectable({
   providedIn: 'root',
@@ -26,9 +32,11 @@ import { RestApiService } from '../services/rest-api.service';
 export class AuthGuard {
   constructor(
     private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly jwtHelper: JwtHelperService,
     private readonly api: RestApiService,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly authTokenService: AuthTokenService
   ) {}
 
   public canActivateChild(
@@ -42,11 +50,16 @@ export class AuthGuard {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | boolean | Promise<boolean> {
-    const token = localStorage.getItem('jwt');
+    const token = this.authTokenService.getToken();
 
     if (!token) {
       this.authService.userInfoSubject$.next(null);
-      this.router.navigateByUrl('login');
+      if (state.url.startsWith('/admin')) {
+        this.router.navigateByUrl('/admin/login');
+        return false;
+      }
+
+      this.tenantRouter.navigateTenant(ROUTE.LOGIN);
       return false;
     }
 
@@ -58,7 +71,13 @@ export class AuthGuard {
         if (!isRefreshSuccess) {
           // logout is already an Observable, chain it
           return this.authService.logout().pipe(
-            tap(() => this.router.navigateByUrl('login')),
+            tap(() => {
+              if (state.url.startsWith('/admin')) {
+                this.router.navigateByUrl('/admin/login');
+              } else {
+                this.tenantRouter.navigateTenant(ROUTE.LOGIN);
+              }
+            }),
             map(() => false) // emit false after logout
           );
         } else {
@@ -75,7 +94,7 @@ export class AuthGuard {
   }
 
   private tryRefreshingTokens(token: string | null): Observable<boolean> {
-    const refreshToken: string | null = localStorage.getItem('refreshToken');
+    const refreshToken: string | null = this.authTokenService.getRefreshToken();
     if (!token || !refreshToken) {
       return this.authService.logout().pipe(map(() => false));
     }
@@ -84,19 +103,20 @@ export class AuthGuard {
       accessToken: token,
       refreshToken: refreshToken,
     };
+    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     return this.api
       .post<ITokenResponse>(`/api/user/refresh`, credentials, {
-        options: {
-          headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-        },
+        options: { headers },
       })
       .pipe(
         take(1),
         tap((res: ITokenResponse | null) => {
           if (res) {
-            localStorage.setItem('jwt', res.accessToken);
-            localStorage.setItem('refreshToken', res.refreshToken);
+            this.authTokenService.updateTokens(
+              res.accessToken,
+              res.refreshToken
+            );
           }
         }),
         map(() => true), // Emit true if refresh is successful

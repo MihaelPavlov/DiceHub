@@ -9,5 +9,6 @@ public static class QRManagerDIModule
         this IServiceCollection services)
         => services
             .AddScoped<IQRCodeManager, QRCodeManager>()
+            .AddScoped<IQrTokenService, QrTokenService>()
             .AddSingleton<IQRCodeContext, QRCodeContext>();
 }

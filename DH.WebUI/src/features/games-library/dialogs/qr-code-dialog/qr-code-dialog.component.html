@@ -1,25 +1,25 @@
-<div class="dialog-container">
-  <h3 *ngIf="this.data" class="dialog-container__header m-4">
-    {{ this.data.Name }}
-  </h3>
+<div class="qr-ticket">
+  <div class="qr-ticket__close" mat-dialog-close>
+    <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6l-12 12"/></svg>
+  </div>
 
-  <div class="qrcodeImage" *ngIf="this.encryptedQrData">
+  <span class="qr-ticket__badge">{{ typeLabel | uppercase }}</span>
+
+  <span *ngIf="this.data" class="qr-ticket__title">{{ this.data.Name }}</span>
+
+  <div class="qr-ticket__code" *ngIf="qrData">
     <qrcode
-      [qrdata]="this.encryptedQrData"
-      [width]="200"
-      [margin]="4"
-      [scale]="128"
-      class="demoBorderRadius"
-      [errorCorrectionLevel]="'M'"
+      [qrdata]="qrData"
+      [width]="240"
+      [margin]="2"
+      [errorCorrectionLevel]="'L'"
     ></qrcode>
   </div>
+  <span *ngIf="qrError" class="qr-ticket__title">
+    {{ "qr_scanner.qr_generate_failed" | translate }}
+  </span>
 
-  <div class="btn_wrapper">
-    <button
-      mat-dialog-close
-      class="btn btn__small btn-gray btn-border-blue btn-font-blue"
-    >
-      {{ "close" | translate }}
-    </button>
-  </div>
+  <button class="qr-ticket__btn" mat-dialog-close>
+    {{ "close" | translate }}
+  </button>
 </div>

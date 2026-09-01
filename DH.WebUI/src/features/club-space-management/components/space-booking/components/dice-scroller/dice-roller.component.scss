@@ -26,23 +26,23 @@ button:hover {
 }
 
 .die {
-  width: 5rem;
-  height: 5rem;
-  background-color: #333;
-  border: 1px solid #ddd;
-  border-radius: 10px;
+  width: 5.75rem;
+  height: 5.75rem;
+  background: linear-gradient(155deg, var(--games-surface-2), var(--games-surface));
+  border: 1px solid var(--games-border);
+  border-radius: 1.25rem;
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+  box-shadow: var(--games-shadow);
 }
 
 .dot {
-  width: 1rem;
-  height: 1rem;
+  width: 0.8rem;
+  height: 0.8rem;
   border-radius: 50%;
-  background-color: white;
+  background-color: var(--games-amber);
   position: absolute;
   transform: translate(-50%, -50%);
 }

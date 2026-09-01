@@ -1,67 +1,78 @@
-<div class="dialog-container">
-  <div class="wrapper">
-    <ng-container *ngIf="this.reservation">
-      <h3 class="dialog-container__header">
-        {{'reservation_management.details.information'|translate}}
-      </h3>
-      <div class="dialog-container__description">
-        <p>
-          {{'reservation_management.details.people'|translate}}
-          <strong> {{this.reservation.numberOfGuests}}</strong>
-        </p>
-        <p>
-          {{'reservation_management.details.date'|translate}}
-          <strong
-            >{{this.reservation.reservationDate | date : DATE_TIME_FORMAT :
-            undefined : getCurrentLanguage }}</strong
-          >
-        </p>
-      </div>
-    </ng-container>
-    <form [formGroup]="form">
-      <div class="input-field">
-        <label for="internalNote"
-          >{{'reservation_management.details.internal_note'|translate}}</label
-        >
-        <textarea
-          [placeholder]="'reservation_management.details.placeholders.internal_note'|translate"
-          type="text"
-          id="internalNote"
-          formControlName="internalNote"
-        ></textarea>
-      </div>
+<div class="confirm-sheet" appSheetDismiss>
+  <div class="confirm-sheet__handle"></div>
 
-      <div class="input-field">
-        <label for="publicNote"
-          >{{'reservation_management.details.public_note'|translate}}</label
-        >
-        <textarea
-          [placeholder]="'reservation_management.details.placeholders.public_note'|translate"
-          type="text"
-          id="publicNote"
-          formControlName="publicNote"
-        ></textarea>
-      </div>
-    </form>
+  <div class="confirm-sheet__head">
+    <div
+      class="confirm-sheet__icon"
+      [class.confirm-sheet__icon--teal]="data.action === ReservationDetailsActions.Edit"
+      [class.confirm-sheet__icon--coral]="data.action === ReservationDetailsActions.Delete"
+    >
+      <svg *ngIf="data.action === ReservationDetailsActions.Edit" viewBox="0 0 24 24" fill="none" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M7 3h8l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M9 9h6M9 13h6M9 17h3"/>
+      </svg>
+      <svg *ngIf="data.action === ReservationDetailsActions.Delete" viewBox="0 0 24 24" fill="none" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 7h14"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/><path d="M7 7l1 13a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2l1-13"/><path d="M10 11v6M14 11v6"/>
+      </svg>
+    </div>
+    <div class="confirm-sheet__title">{{ 'reservation_management.details.information' | translate }}</div>
   </div>
-  <mat-dialog-actions>
-    <button class="btn btn__small btn-blue" mat-dialog-close>
-      {{'cancel'|translate}}
-    </button>
 
+  <div class="confirm-sheet__info" *ngIf="this.reservation">
+    <div class="confirm-sheet__info-row">
+      <span class="confirm-sheet__info-label">{{ 'reservation_management.details.people' | translate }}</span>
+      <span class="confirm-sheet__info-value">{{ this.reservation.numberOfGuests }}</span>
+    </div>
+    <div class="confirm-sheet__info-row">
+      <span class="confirm-sheet__info-label">{{ 'reservation_management.details.date' | translate }}</span>
+      <span class="confirm-sheet__info-value">
+        {{ this.reservation.reservationDate | date : DATE_TIME_FORMAT : undefined : getCurrentLanguage }}
+      </span>
+    </div>
+  </div>
+
+  <form [formGroup]="form" style="display:flex;flex-direction:column;gap:0.875rem;">
+    <div class="confirm-sheet__field">
+      <label class="confirm-sheet__field-label" for="internalNote">
+        {{ 'reservation_management.details.internal_note' | translate }}
+      </label>
+      <textarea
+        rows="2"
+        [placeholder]="'reservation_management.details.placeholders.internal_note' | translate"
+        id="internalNote"
+        formControlName="internalNote"
+      ></textarea>
+    </div>
+
+    <div class="confirm-sheet__field">
+      <label class="confirm-sheet__field-label" for="publicNote">
+        {{ 'reservation_management.details.public_note' | translate }}
+      </label>
+      <textarea
+        rows="2"
+        [placeholder]="'reservation_management.details.placeholders.public_note' | translate"
+        id="publicNote"
+        formControlName="publicNote"
+      ></textarea>
+    </div>
+  </form>
+
+  <div class="confirm-sheet__actions">
+    <button class="confirm-sheet__btn confirm-sheet__btn--ghost" mat-dialog-close>
+      {{ 'cancel' | translate }}
+    </button>
     <button
       *ngIf="this.data.action === ReservationDetailsActions.Edit"
-      class="btn btn__small btn-yellow btn-border-yellow"
+      class="confirm-sheet__btn confirm-sheet__btn--teal"
       (click)="updateReservation()"
     >
-      {{'reservation_management.details.update'|translate}}
+      {{ 'reservation_management.details.update' | translate }}
     </button>
     <button
       *ngIf="this.data.action === ReservationDetailsActions.Delete"
-      class="btn btn__small btn-red btn-border-red"
+      class="confirm-sheet__btn confirm-sheet__btn--coral"
       (click)="deleteReservation()"
     >
-      {{'reservation_management.details.delete'|translate}}
+      {{ 'reservation_management.details.delete' | translate }}
     </button>
-  </mat-dialog-actions>
+  </div>
 </div>

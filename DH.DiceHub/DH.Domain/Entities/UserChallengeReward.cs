@@ -1,6 +1,6 @@
 ﻿namespace DH.Domain.Entities;
 
-public class UserChallengeReward
+public class UserChallengeReward : TenantEntity
 {
     public int Id { get; set; }
     public string UserId { get; set; } = string.Empty;

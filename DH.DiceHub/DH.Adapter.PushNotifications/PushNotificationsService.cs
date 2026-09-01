@@ -12,6 +12,12 @@ namespace DH.Adapter.PushNotifications;
 
 internal class PushNotificationsService : IPushNotificationsService
 {
+    /// <summary>
+    /// Android notification channel the mobile app creates on startup. Must be
+    /// kept in sync with the client (see MessagingService.createChannel in DH.WebUI).
+    /// </summary>
+    internal const string DefaultAndroidChannelId = "default";
+
     readonly ILogger<PushNotificationsService> logger;
     readonly IRepository<UserNotification> userNotificationRepository;
     readonly IRepository<UserDeviceToken> deviceTokenRepository;
@@ -136,39 +142,8 @@ internal class PushNotificationsService : IPushNotificationsService
                 return;
             }
 
-            var responseId = await FirebaseMessaging.DefaultInstance.SendAsync(new Message
-            {
-                Token = deviceToken.DeviceToken,
-                //Notification = new Notification
-                //{
-                //    Title = message.Title,
-                //    Body = message.Body
-                //},
-                //Android = new AndroidConfig
-                //{
-                //    Notification = new AndroidNotification
-                //    {
-                //        Title = message.Title,
-                //        Body = message.Body,
-                //        ImageUrl = "https://dicehub.online/shared/assets/images/dicehub_favicon_2.png", // ✅ icon shown in web push
-                //        ClickAction = "https://dicehub.online/login"
-                //    }
-                //},
-                Data = new Dictionary<string, string>
-                    {
-                        { "title", notificationPayload.Title },
-                        { "body", notificationPayload.Body },
-                        { "icon", "https://dicehub.online/shared/assets/images/dicehub_favicon_2.png" },
-                        { "click_action", "https://dicehub.online/login" }
-                    },
-                Webpush = new WebpushConfig
-                {
-                    Headers = new Dictionary<string, string>
-                        {
-                            { "Urgency", "high" }
-                        }
-                }
-            });
+            var responseId = await FirebaseMessaging.DefaultInstance.SendAsync(
+                BuildFcmMessage(deviceToken.DeviceToken, notificationPayload));
 
             if (string.IsNullOrEmpty(responseId))
             {
@@ -219,39 +194,8 @@ internal class PushNotificationsService : IPushNotificationsService
                     continue;
                 }
 
-                var responseId = await FirebaseMessaging.DefaultInstance.SendAsync(new Message
-                {
-                    Token = deviceToken.DeviceToken,
-                    //Notification = new Notification
-                    //{
-                    //    Title = message.Title,
-                    //    Body = message.Body
-                    //},
-                    //Android = new AndroidConfig
-                    //{
-                    //    Notification = new AndroidNotification
-                    //    {
-                    //        Title = message.Title,
-                    //        Body = message.Body,
-                    //        ImageUrl = "https://dicehub.online/shared/assets/images/dicehub_favicon_2.png", // ✅ icon shown in web push
-                    //        ClickAction = "https://dicehub.online/login"
-                    //    }
-                    //},
-                    Data = new Dictionary<string, string>
-                    {
-                        { "title", notificationPayload.Title },
-                        { "body", notificationPayload.Body },
-                        { "icon", "https://dicehub.online/shared/assets/images/dicehub_favicon_2.png" },
-                        { "click_action", "https://dicehub.online/login" }
-                    },
-                    Webpush = new WebpushConfig
-                    {
-                        Headers = new Dictionary<string, string>
-                        {
-                            { "Urgency", "high" }
-                        }
-                    }
-                });
+                var responseId = await FirebaseMessaging.DefaultInstance.SendAsync(
+                    BuildFcmMessage(deviceToken.DeviceToken, notificationPayload));
 
                 if (string.IsNullOrEmpty(responseId))
                 {
@@ -287,4 +231,46 @@ internal class PushNotificationsService : IPushNotificationsService
 
         await this.userNotificationRepository.SaveChangesAsync(cancellationToken);
     }
+
+    /// <summary>
+    /// Builds an FCM message that both displays natively on Android and keeps
+    /// working for the web-push service worker.
+    /// <para>
+    /// <see cref="Message.Data"/> is what <c>firebase-messaging-sw.js</c> consumes
+    /// in the browser/PWA. Android needs an explicit <see cref="AndroidConfig"/>
+    /// carrying an <see cref="AndroidNotification"/>: a data-only message is never
+    /// shown by the system tray, so without this the native app receives the push
+    /// but displays nothing (foreground or background). <see cref="AndroidConfig"/>
+    /// is Android-only and does not change the web behaviour.
+    /// </para>
+    /// </summary>
+    private static Message BuildFcmMessage(string deviceToken, NotificationPayload notificationPayload) => new()
+    {
+        Token = deviceToken,
+        Data = new Dictionary<string, string>
+        {
+            { "title", notificationPayload.Title },
+            { "body", notificationPayload.Body },
+            { "icon", "https://dicehubs.com/shared/assets/images/dicehub_favicon_2.png" },
+            { "click_action", "https://dicehubs.com/login" }
+        },
+        Android = new AndroidConfig
+        {
+            // High priority so delivery is not deferred by Doze.
+            Priority = Priority.High,
+            Notification = new AndroidNotification
+            {
+                Title = notificationPayload.Title,
+                Body = notificationPayload.Body,
+                ChannelId = DefaultAndroidChannelId,
+            }
+        },
+        Webpush = new WebpushConfig
+        {
+            Headers = new Dictionary<string, string>
+            {
+                { "Urgency", "high" }
+            }
+        }
+    };
 }

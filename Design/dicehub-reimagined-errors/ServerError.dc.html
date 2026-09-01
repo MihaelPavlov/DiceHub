@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Sora:wght@400;500;600;700&display=swap');
+    :root {
+      --bg: oklch(0.15 0.018 290);
+      --bg-elevated: oklch(0.195 0.02 290);
+      --border: oklch(0.34 0.02 290 / 0.55);
+      --text: oklch(0.96 0.01 90);
+      --text-muted: oklch(0.7 0.02 290);
+      --text-faint: oklch(0.52 0.02 290);
+      --amber: oklch(0.78 0.16 75);
+      --amber-soft: oklch(0.78 0.16 75 / 0.16);
+      --coral: oklch(0.68 0.19 25);
+      --shadow-card: 0 20px 50px -16px oklch(0 0 0 / 0.7);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #0b0b0d; font-family: 'Sora', ui-sans-serif, system-ui, sans-serif; }
+    .display { font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif; }
+  </style>
+</helmet>
+
+<div style="width:393px;height:820px;background:var(--bg);color:var(--text);padding:28px 20px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;">
+
+  <img src="error-500.jpg" style="width:100%;max-width:300px;border-radius:22px;box-shadow:var(--shadow-card);">
+
+  <div style="display:flex;flex-direction:column;gap:6px;text-align:center;">
+    <span style="font-size:12px;color:var(--text-faint);">Error 500</span>
+  </div>
+
+  <a href="#" style="width:100%;max-width:280px;text-align:center;font-size:14px;font-weight:700;padding:15px 0;border-radius:999px;background:linear-gradient(135deg,var(--amber),var(--coral));color:#2b1502;box-shadow:0 10px 24px -8px var(--amber-soft);">Back to home</a>
+
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

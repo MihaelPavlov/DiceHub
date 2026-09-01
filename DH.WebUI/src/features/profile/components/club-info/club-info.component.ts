@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { ROUTE } from '../../../../shared/configs/route.config';
 import { TranslateService } from '@ngx-translate/core';
 import { GetClubInfoModel } from '../../../../entities/profile/models/get-club-info.interface';
 import { TenantSettingsService } from '../../../../entities/common/api/tenant-settings.service';
+import { TenantRouter } from '../../../../shared/helpers/tenant-router';
 
 @Component({
   selector: 'app-club-info',
@@ -15,9 +15,9 @@ export class ClubInfo implements OnInit {
   public clubInfo: GetClubInfoModel | null = null;
 
   constructor(
-    private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly tenantSettingsService: TenantSettingsService,
-    private readonly ts: TranslateService,
+    private readonly ts: TranslateService
   ) {}
 
   public ngOnInit(): void {
@@ -34,14 +34,11 @@ export class ClubInfo implements OnInit {
   }
 
   public localizeDaysOff(daysOff: string[]): string {
-    const translatedDays = daysOff.map((x) =>
-      this.ts.instant(`week_days_names.${x}`),
-    );
-
-    return translatedDays.join(', ');
+    daysOff.map((x) => this.ts.instant(`week_days_names.${x}`));
+    return daysOff.join(', ');
   }
 
   public backNavigateBtn() {
-    this.router.navigateByUrl(ROUTE.PROFILE.CORE);
+    this.tenantRouter.navigateTenant(ROUTE.PROFILE.CORE);
   }
 }

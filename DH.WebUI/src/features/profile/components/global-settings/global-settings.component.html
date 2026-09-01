@@ -1,3 +1,6 @@
+<app-profile-settings-nav></app-profile-settings-nav>
+
+<div class="profile-page-body">
 <div class="wrapper_icons">
   <span (click)="backNavigateBtn()" class="arrow left"></span>
   <span class="header_name">{{
@@ -94,6 +97,34 @@
   </div>
 
   <div class="input-field">
+    <label>{{ "space_settings.club_logo.label" | translate }}</label>
+    <span class="input-info">{{
+      "space_settings.club_logo.info" | translate
+    }}</span>
+
+    <div class="logo-row">
+      <img
+        *ngIf="logoPreviewUrl || logoUrl as src"
+        [src]="src"
+        alt="Club logo"
+        class="logo-row__preview surface-elevated"
+      />
+      <div *ngIf="!logoPreviewUrl && !logoUrl" class="logo-row__preview logo-row__preview--empty surface-elevated"></div>
+
+      <label class="btn btn__small btn-gray btn-border-blue btn-font-blue">
+        {{ "space_settings.club_logo.choose_image" | translate }}
+        <input
+          type="file"
+          accept="image/png,image/jpeg,image/webp,image/svg+xml"
+          (change)="onLogoSelected($event)"
+          hidden
+        />
+      </label>
+    </div>
+    <p class="logo-row__error" *ngIf="logoError">{{ logoError }}</p>
+  </div>
+
+  <div class="input-field">
     <label for="daysOff">{{
       "space_settings.days_off.label" | translate
     }}</label>
@@ -150,6 +181,26 @@
         class="surface-elevated"
       />
     </div>
+  </div>
+
+  <div class="input-field">
+    <label for="timeZoneId" class="required">{{
+      "space_settings.time_zone.label" | translate
+    }}</label>
+    <span class="input-info">{{
+      "space_settings.time_zone.info" | translate
+    }}</span>
+
+    <ng-select
+      id="timeZoneId"
+      [items]="timeZoneValues"
+      [placeholder]="'space_settings.time_zone.placeholder' | translate"
+      [searchable]="true"
+      [clearable]="false"
+      formControlName="timeZoneId"
+      class="app-select-long surface-elevated"
+    >
+    </ng-select>
   </div>
 
   <div class="input-field">
@@ -347,6 +398,8 @@
   </button>
 </form>
 
+<app-change-password></app-change-password>
+
 <app-controls-menu
   #controls
   [isInfo]="true"
@@ -354,3 +407,4 @@
     'space_settings.controls_menu.info_description' | translate
   "
 ></app-controls-menu>
+</div>

@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Net;
 using System.Net.Mail;
+using System.Text.RegularExpressions;
 
 namespace DH.Adapter.Email;
 
@@ -28,9 +29,15 @@ public class SmtpEmailSender(
             {
                 From = new MailAddress(mailSettings.EmailId!, mailSettings.Name),
                 Subject = message.Subject,
-                Body = message.Body,
-                IsBodyHtml = true,
+                // A pure HTML body with no plain-text fallback is a well-known spam
+                // signal (no multipart/alternative), so the plain-text part below is
+                // set as the primary Body and the HTML is attached as an
+                // AlternateView - the standard System.Net.Mail pattern for producing
+                // a proper multipart/alternative message.
+                Body = HtmlToPlainText(message.Body),
+                IsBodyHtml = false,
             };
+            mailMessage.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(message.Body, null, "text/html"));
 
             client.Send(mailMessage);
 
@@ -42,5 +49,15 @@ public class SmtpEmailSender(
 
             return false;
         }
+    }
+
+    private static string HtmlToPlainText(string html)
+    {
+        var withoutTags = Regex.Replace(html, "<(script|style)[^>]*>.*?</\\1>", string.Empty, RegexOptions.Singleline | RegexOptions.IgnoreCase);
+        withoutTags = Regex.Replace(withoutTags, "<br\\s*/?>|</p>|</div>", "\n", RegexOptions.IgnoreCase);
+        withoutTags = Regex.Replace(withoutTags, "<[^>]+>", string.Empty);
+        var decoded = WebUtility.HtmlDecode(withoutTags);
+
+        return Regex.Replace(decoded, "\n{3,}", "\n\n").Trim();
     }
 }

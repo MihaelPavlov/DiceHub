@@ -1,194 +1,181 @@
-<section class="wrapper_library">
+<section class="reservations-list">
   <ng-container *ngIf="activeReservations$ | async as reservedGames">
-    <div class="no_records" *ngIf="reservedGames.length === 0">
+    <div class="reservations-empty" *ngIf="reservedGames.length === 0">
       <img src="/shared/assets/images/no-reservations.png" alt="" />
-      <p class="first-header">
+      <p class="reservations-empty__title">
         {{ "reservation_management.no_reservations" | translate }}
       </p>
-      <p class="second-header">
+      <p class="reservations-empty__subtitle">
         {{ "reservation_management.no_reservations_message" | translate }}
       </p>
     </div>
     <ng-container *ngIf="reservedGames.length !== 0">
       <div
         *ngFor="let reservation of reservedGames"
-        class="wrapper_library__item"
-        [class.expanded]="isExpanded(reservation.id)"
-        (click)="toggleTopItem(reservation.id, reservation.status)"
+        class="reservations-row"
+        [class.reservations-row--interactive]="reservation.status !== this.ReservationStatus.Declined"
+        [class.reservations-row--muted]="reservation.status === this.ReservationStatus.Declined"
+        [class.reservations-row--expanded]="isExpanded(reservation.id)"
+        (click)="toggleTopItem($event, reservation.id, reservation.status)"
       >
-        <div class="content">
-          <div class="wrapper_image">
-            <img
-              [src]="reservation.gameImageUrl"
-              alt="Game Image"
-            />
+        <div class="reservations-row__content">
+          <div class="reservations-thumb">
+            <img [src]="reservation.gameImageUrl" alt="" />
           </div>
-          <div class="wrapper_info">
-            <div class="wrapper_title">
-              {{ reservation.gameName }}
-              <div class="wrapper_description">
-                <p>
-                  {{
-                    "reservation_management.details.game_reservation_date"
-                      | translate
-                  }}
-                </p>
-                <p class="blue">
-                  {{
-                    reservation.reservationDate
-                      | date : DATE_TIME_FORMAT : undefined : getCurrentLanguage
-                  }}
-                </p>
-
-                <p>
-                  {{
-                    "reservation_management.details.from"
-                      | translate : { username: reservation.username }
-                  }}
-                </p>
-                <p>
-                  {{
-                    "reservation_management.details.phone_number"
-                      | translate : { phoneNumber:  getPhoneNumber(reservation.phoneNumber)}
-                  }}
-                </p>
-                <p>
-                  {{
-                    "reservation_management.details.table_reservation_date"
-                      | translate
-                  }}
-
-                  <span *ngIf="!reservation.userHaveActiveTableReservation">{{
-                    "reservation_management.details.none" | translate
-                  }}</span>
-                </p>
-                <p
-                  class="blue"
-                  *ngIf="reservation.userHaveActiveTableReservation"
-                >
-                  {{
-                    reservation.tableReservationTime
-                      | date : DATE_TIME_FORMAT : undefined : getCurrentLanguage
-                  }}
-                </p>
-              </div>
-            </div>
+          <div class="reservations-info">
+            <span class="reservations-title">{{ reservation.gameName }}</span>
+            <p class="reservations-meta">
+              {{
+                "reservation_management.details.game_reservation_date"
+                  | translate
+              }}
+              <strong class="reservations-highlight">{{
+                reservation.reservationDate
+                  | date : DATE_TIME_FORMAT : undefined : getCurrentLanguage
+              }}</strong>
+            </p>
+            <p class="reservations-meta">
+              {{
+                "reservation_management.details.from"
+                  | translate : { username: reservation.username }
+              }}
+              ·
+              {{ "reservation_management.details.phone_number_label" | translate }}
+              <strong class="reservations-highlight">{{
+                getPhoneNumber(reservation.phoneNumber)
+              }}</strong>
+            </p>
+            <p class="reservations-meta">
+              {{
+                "reservation_management.details.table_reservation_date"
+                  | translate
+              }}
+              <strong
+                class="reservations-highlight"
+                *ngIf="!reservation.userHaveActiveTableReservation"
+                >{{ "reservation_management.details.none" | translate }}</strong
+              >
+              <strong
+                class="reservations-highlight"
+                *ngIf="reservation.userHaveActiveTableReservation"
+                >{{
+                  reservation.tableReservationTime
+                    | date : DATE_TIME_FORMAT : undefined : getCurrentLanguage
+                }}</strong
+              >
+            </p>
           </div>
-          <ng-container
+
+          <div
+            class="reservations-status-dot reservations-status-dot--approved"
             *ngIf="reservation.status === this.ReservationStatus.Approved"
           >
-            <button type="button" class="btnWithIcon_Small">
-              <svg class="accept" viewBox="0 -960 960 960">
-                <path
-                  d="m422.46-303.69 277.85-277.85L654-627.85 422.46-396.31l-116-116L260.15-466l162.31 162.31ZM480.13-88q-81.31 0-152.89-30.86-71.57-30.86-124.52-83.76-52.95-52.9-83.83-124.42Q88-398.55 88-479.87q0-81.56 30.92-153.37 30.92-71.8 83.92-124.91 53-53.12 124.42-83.48Q398.67-872 479.87-872q81.55 0 153.35 30.34 71.79 30.34 124.92 83.42 53.13 53.08 83.49 124.84Q872-561.64 872-480.05q0 81.59-30.34 152.83-30.34 71.23-83.41 124.28-53.07 53.05-124.81 84Q561.7-88 480.13-88Z"
-                />
-              </svg>
-            </button>
-          </ng-container>
-          <ng-container
+            <svg viewBox="0 -960 960 960" aria-hidden="true">
+              <path
+                d="m422.46-303.69 277.85-277.85L654-627.85 422.46-396.31l-116-116L260.15-466l162.31 162.31Z"
+              />
+            </svg>
+          </div>
+          <div
+            class="reservations-status-dot reservations-status-dot--declined"
             *ngIf="reservation.status === this.ReservationStatus.Declined"
           >
-            <button type="button" class="btnWithIcon_Small">
-              <svg class="decline" viewBox="0 -960 960 960">
-                <path
-                  d="m334-287.69 146-146 146 146L672.31-334l-146-146 146-146L626-672.31l-146 146-146-146L287.69-626l146 146-146 146L334-287.69ZM480.13-88q-81.31 0-152.89-30.86-71.57-30.86-124.52-83.76-52.95-52.9-83.83-124.42Q88-398.55 88-479.87q0-81.56 30.92-153.37 30.92-71.8 83.92-124.91 53-53.12 124.42-83.48Q398.67-872 479.87-872q81.55 0 153.35 30.34 71.79 30.34 124.92 83.42 53.13 53.08 83.49 124.84Q872-561.64 872-480.05q0 81.59-30.34 152.83-30.34 71.23-83.41 124.28-53.07 53.05-124.81 84Q561.7-88 480.13-88Z"
-                />
-              </svg>
-            </button>
-          </ng-container>
-          <ng-container
+            <svg viewBox="0 -960 960 960" aria-hidden="true">
+              <path
+                d="m334-287.69 146-146 146 146L672.31-334l-146-146 146-146L626-672.31l-146 146-146-146L287.69-626l146 146-146 146L334-287.69Z"
+              />
+            </svg>
+          </div>
+          <div
+            class="reservations-menu-btn"
             *ngIf="reservation.status === this.ReservationStatus.Pending"
+            (click)="toggleItem(reservation.id)"
           >
-            <div class="circle-btn" (click)="toggleItem(reservation.id)">
-              <svg
-                *ngIf="reservation.id !== this.expandedReservationId"
-                class="menu"
-                viewBox="0 -960 960 960"
-              >
-                <path
-                  d="M480-330.46 525.54-376l-71-71H633v-66H454.54l71-71L480-629.54 330.46-480 480-330.46ZM480.13-88q-81.31 0-152.89-30.86-71.57-30.86-124.52-83.76-52.95-52.9-83.83-124.42Q88-398.55 88-479.87q0-81.56 30.92-153.37 30.92-71.8 83.92-124.91 53-53.12 124.42-83.48Q398.67-872 479.87-872q81.55 0 153.35 30.34 71.79 30.34 124.92 83.42 53.13 53.08 83.49 124.84Q872-561.64 872-480.05q0 81.59-30.34 152.83-30.34 71.23-83.41 124.28-53.07 53.05-124.81 84Q561.7-88 480.13-88Z"
-                />
-              </svg>
-              <svg
-                *ngIf="reservation.id === this.expandedReservationId"
-                class="menu"
-                viewBox="0 -960 960 960"
-              >
-                <path
-                  d="M480-330.46 629.54-480 480-629.54 434.46-584l71 71H327v66h178.46l-71 71L480-330.46ZM480.13-88q-81.31 0-152.89-30.86-71.57-30.86-124.52-83.76-52.95-52.9-83.83-124.42Q88-398.55 88-479.87q0-81.56 30.92-153.37 30.92-71.8 83.92-124.91 53-53.12 124.42-83.48Q398.67-872 479.87-872q81.55 0 153.35 30.34 71.79 30.34 124.92 83.42 53.13 53.08 83.49 124.84Q872-561.64 872-480.05q0 81.59-30.34 152.83-30.34 71.23-83.41 124.28-53.07 53.05-124.81 84Q561.7-88 480.13-88Z"
-                />
-              </svg>
-            </div>
-            <div class="expanded-buttons">
-              <button
-                type="button"
-                class="btnWithIcon"
-                (click)="
-                  this.approveReservation(
-                    reservation.reservationDate,
-                    reservation.numberOfGuests,
-                    reservation.gameName,
-                    reservation.phoneNumber,
-                    reservation.userLanguage,
-                    reservation.tableReservationTime ?? null
-                  )
-                "
-              >
-                <svg class="accept" viewBox="0 -960 960 960">
-                  <path
-                    d="m422.46-303.69 277.85-277.85L654-627.85 422.46-396.31l-116-116L260.15-466l162.31 162.31ZM480.13-88q-81.31 0-152.89-30.86-71.57-30.86-124.52-83.76-52.95-52.9-83.83-124.42Q88-398.55 88-479.87q0-81.56 30.92-153.37 30.92-71.8 83.92-124.91 53-53.12 124.42-83.48Q398.67-872 479.87-872q81.55 0 153.35 30.34 71.79 30.34 124.92 83.42 53.13 53.08 83.49 124.84Q872-561.64 872-480.05q0 81.59-30.34 152.83-30.34 71.23-83.41 124.28-53.07 53.05-124.81 84Q561.7-88 480.13-88Z"
-                  />
-                </svg>
-                <span class="header">{{
-                  "reservation_management.status.approve" | translate
-                }}</span>
-              </button>
-              <button
-                type="button"
-                class="btnWithIcon"
-                (click)="
-                  this.declineReservation(
-                    reservation.reservationDate,
-                    reservation.numberOfGuests,
-                    reservation.gameName,
-                    reservation.phoneNumber,
-                    reservation.userLanguage,
-                    reservation.tableReservationTime ?? null
-                  )
-                "
-              >
-                <svg class="decline" viewBox="0 -960 960 960">
-                  <path
-                    d="m334-287.69 146-146 146 146L672.31-334l-146-146 146-146L626-672.31l-146 146-146-146L287.69-626l146 146-146 146L334-287.69ZM480.13-88q-81.31 0-152.89-30.86-71.57-30.86-124.52-83.76-52.95-52.9-83.83-124.42Q88-398.55 88-479.87q0-81.56 30.92-153.37 30.92-71.8 83.92-124.91 53-53.12 124.42-83.48Q398.67-872 479.87-872q81.55 0 153.35 30.34 71.79 30.34 124.92 83.42 53.13 53.08 83.49 124.84Q872-561.64 872-480.05q0 81.59-30.34 152.83-30.34 71.23-83.41 124.28-53.07 53.05-124.81 84Q561.7-88 480.13-88Z"
-                  />
-                </svg>
-                <span class="header">{{
-                  "reservation_management.status.decline" | translate
-                }}</span>
-              </button>
-            </div>
-          </ng-container>
+            <svg
+              *ngIf="reservation.id !== this.expandedReservationId"
+              viewBox="0 -960 960 960"
+              aria-hidden="true"
+            >
+              <path
+                d="M480-330.46 525.54-376l-71-71H633v-66H454.54l71-71L480-629.54 330.46-480 480-330.46Z"
+              />
+            </svg>
+            <svg
+              *ngIf="reservation.id === this.expandedReservationId"
+              viewBox="0 -960 960 960"
+              aria-hidden="true"
+            >
+              <path
+                d="M480-330.46 629.54-480 480-629.54 434.46-584l71 71H327v66h178.46l-71 71L480-330.46Z"
+              />
+            </svg>
+          </div>
+        </div>
 
-          <ng-container
-            *ngIf="reservation.status === this.ReservationStatus.Approved"
+        <div
+          class="reservations-actions"
+          *ngIf="reservation.status === this.ReservationStatus.Pending"
+        >
+          <button
+            type="button"
+            class="reservations-action reservations-action--approve"
+            (click)="
+              this.approveReservation(
+                reservation.reservationDate,
+                reservation.numberOfGuests,
+                reservation.gameName,
+                reservation.phoneNumber,
+                reservation.userLanguage,
+                reservation.tableReservationTime ?? null
+              )
+            "
           >
-            <div class="expanded-buttons">
-              <button
-                type="button"
-                class="btnWithIcon"
-                (click)="this.onCancel()"
-              >
-                <svg class="decline" viewBox="0 -960 960 960">
-                  <path
-                    d="m334-287.69 146-146 146 146L672.31-334l-146-146 146-146L626-672.31l-146 146-146-146L287.69-626l146 146-146 146L334-287.69ZM480.13-88q-81.31 0-152.89-30.86-71.57-30.86-124.52-83.76-52.95-52.9-83.83-124.42Q88-398.55 88-479.87q0-81.56 30.92-153.37 30.92-71.8 83.92-124.91 53-53.12 124.42-83.48Q398.67-872 479.87-872q81.55 0 153.35 30.34 71.79 30.34 124.92 83.42 53.13 53.08 83.49 124.84Q872-561.64 872-480.05q0 81.59-30.34 152.83-30.34 71.23-83.41 124.28-53.07 53.05-124.81 84Q561.7-88 480.13-88Z"
-                  />
-                </svg>
-                <span class="header">{{
-                  "reservation_management.status.cancel" | translate
-                }}</span>
-              </button>
-            </div>
-          </ng-container>
+            <svg viewBox="0 -960 960 960" aria-hidden="true">
+              <path
+                d="m422.46-303.69 277.85-277.85L654-627.85 422.46-396.31l-116-116L260.15-466l162.31 162.31Z"
+              />
+            </svg>
+            {{ "reservation_management.status.approve" | translate }}
+          </button>
+          <button
+            type="button"
+            class="reservations-action reservations-action--decline"
+            (click)="
+              this.declineReservation(
+                reservation.reservationDate,
+                reservation.numberOfGuests,
+                reservation.gameName,
+                reservation.phoneNumber,
+                reservation.userLanguage,
+                reservation.tableReservationTime ?? null
+              )
+            "
+          >
+            <svg viewBox="0 -960 960 960" aria-hidden="true">
+              <path
+                d="m334-287.69 146-146 146 146L672.31-334l-146-146 146-146L626-672.31l-146 146-146-146L287.69-626l146 146-146 146L334-287.69Z"
+              />
+            </svg>
+            {{ "reservation_management.status.decline" | translate }}
+          </button>
+        </div>
+
+        <div
+          class="reservations-actions"
+          *ngIf="reservation.status === this.ReservationStatus.Approved"
+        >
+          <button
+            type="button"
+            class="reservations-action reservations-action--decline"
+            (click)="this.onCancel()"
+          >
+            <svg viewBox="0 -960 960 960" aria-hidden="true">
+              <path
+                d="m334-287.69 146-146 146 146L672.31-334l-146-146 146-146L626-672.31l-146 146-146-146L287.69-626l146 146-146 146L334-287.69Z"
+              />
+            </svg>
+            {{ "reservation_management.status.cancel" | translate }}
+          </button>
         </div>
       </div>
     </ng-container>

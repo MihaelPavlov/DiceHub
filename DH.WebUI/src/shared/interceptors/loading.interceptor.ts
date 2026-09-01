@@ -7,6 +7,12 @@ import { LoadingInterceptorContextService } from '../services/loading-context.se
 
 @Injectable()
 export class LoadingInterceptor implements HttpInterceptor {
+  // Registered once at the root, so this counter is shared across every
+  // intercepted request. Without it, firing requests in parallel (e.g. a
+  // combineLatest/forkJoin save) would hide the spinner the moment the
+  // *fastest* one finished, while the slow request was still running.
+  private activeRequests = 0;
+
   constructor(
     private loadingService: LoadingService,
     private context: LoadingInterceptorContextService
@@ -22,9 +28,18 @@ export class LoadingInterceptor implements HttpInterceptor {
       return next.handle(request);
     }
 
-    this.loadingService.loadingOn();
-    return next
-      .handle(request)
-      .pipe(finalize(() => this.loadingService.loadingOff()));
+    if (this.activeRequests === 0) {
+      this.loadingService.loadingOn();
+    }
+    this.activeRequests++;
+
+    return next.handle(request).pipe(
+      finalize(() => {
+        this.activeRequests = Math.max(0, this.activeRequests - 1);
+        if (this.activeRequests === 0) {
+          this.loadingService.loadingOff();
+        }
+      })
+    );
   }
 }

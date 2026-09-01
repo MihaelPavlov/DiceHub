@@ -244,7 +244,7 @@
   left: 0;
   width: 100%;
   transition: top 0.5s ease-in;
-  background-color: palette.$main-background-color;
+  background-color: var(--games-bg);
   z-index: 10;
   padding-top: 1rem;
 }
@@ -260,7 +260,7 @@
   width: 100%;
   transition: top 0.5s ease-in;
   padding-top: 1rem;
-  background-color: palette.$main-background-color;
+  background-color: var(--games-bg);
   z-index: 10;
 }
 

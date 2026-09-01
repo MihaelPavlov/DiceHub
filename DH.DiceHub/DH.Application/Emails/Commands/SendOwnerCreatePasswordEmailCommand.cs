@@ -1,4 +1,5 @@
-﻿using DH.Domain.Adapters.Authentication.Services;
+﻿using DH.Domain.Adapters.Authentication;
+using DH.Domain.Adapters.Authentication.Services;
 using DH.Domain.Adapters.Email;
 using DH.Domain.Adapters.EmailSender;
 using DH.Domain.Entities;
@@ -18,21 +19,23 @@ public record SendOwnerCreatePasswordEmailCommand(string Email) : IRequest<bool>
 internal class SendOwnerCreatePasswordEmailCommandHandler(
     ILogger<SendOwnerCreatePasswordEmailCommandHandler> logger,
     ITenantSettingsCacheService tenantSettingsCacheService,
-    IUserService userService,
+    IUserManagementService userManagementService,
     IEmailHelperService emailHelperService,
     IEmailSender emailSender,
-    IConfiguration configuration) : IRequestHandler<SendOwnerCreatePasswordEmailCommand, bool>
+    IConfiguration configuration,
+    ISystemUserContextAccessor systemUserContextAccessor) : IRequestHandler<SendOwnerCreatePasswordEmailCommand, bool>
 {
     readonly ILogger<SendOwnerCreatePasswordEmailCommandHandler> logger = logger;
     readonly ITenantSettingsCacheService tenantSettingsCacheService = tenantSettingsCacheService;
-    readonly IUserService userService = userService;
+    readonly IUserManagementService userManagementService = userManagementService;
     readonly IEmailHelperService emailHelperService = emailHelperService;
     readonly IEmailSender emailSender = emailSender;
     readonly IConfiguration configuration = configuration;
+    readonly ISystemUserContextAccessor systemUserContextAccessor = systemUserContextAccessor;
 
     public async Task<bool> Handle(SendOwnerCreatePasswordEmailCommand request, CancellationToken cancellationToken)
     {
-        var user = await this.userService.GetUserByEmail(request.Email);
+        var user = await this.userManagementService.GetUserByEmail(request.Email);
         var emailType = EmailType.OwnerPasswordCreation;
 
         if (user == null)
@@ -53,7 +56,7 @@ internal class SendOwnerCreatePasswordEmailCommandHandler(
 
         var settings = await tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
 
-        var token = await this.userService.GeneratePasswordResetTokenAsync(request.Email);
+        var token = await this.userManagementService.GeneratePasswordResetTokenAsync(request.Email);
         var encodedToken = WebUtility.UrlEncode(token);
         var frontendUrl = configuration.GetSection("Frontend_URL").Value;
         var callbackUrl = $"{frontendUrl}/create-owner-password?email={WebUtility.UrlEncode(user.Email)}&token={encodedToken}";
@@ -76,8 +79,18 @@ internal class SendOwnerCreatePasswordEmailCommandHandler(
             Body = body
         });
 
+        if (string.IsNullOrWhiteSpace(user.TenantId))
+        {
+            this.logger.LogInformation(
+                "Owner create password email history was not saved because user {UserId} has no tenant.",
+                user.Id);
+            return isEmailSendSuccessfully;
+        }
+
+        this.systemUserContextAccessor.Set(new EmailHistorySystemUserContext(user.TenantId, user.Id));
         await this.emailHelperService.CreateEmailHistory(new EmailHistory
         {
+            TenantId = user.TenantId,
             IsSuccessfully = isEmailSendSuccessfully,
             Body = body,
             SendedOn = DateTime.UtcNow,
@@ -89,5 +102,16 @@ internal class SendOwnerCreatePasswordEmailCommandHandler(
         });
 
         return isEmailSendSuccessfully;
+    }
+
+    private sealed class EmailHistorySystemUserContext(string tenantId, string userId) : IUserContext
+    {
+        public string? TenantId => tenantId;
+        public string? UserId => userId;
+        public int? RoleKey => null;
+        public string? TimeZone => "UTC";
+        public string? Language => "en";
+        public bool IsAuthenticated => false;
+        public bool IsSystem => true;
     }
 }

@@ -1,4 +1,5 @@
-﻿using DH.Domain.Adapters.Authentication.Models;
+﻿using DH.Domain.Adapters.Authentication;
+using DH.Domain.Adapters.Authentication.Models;
 using DH.Domain.Adapters.Authentication.Services;
 using DH.Domain.Adapters.Email;
 using DH.Domain.Adapters.EmailSender;
@@ -18,17 +19,19 @@ public record SendRegistrationEmailConfirmationCommand(string? ByUserId, string?
 internal class SendRegistrationEmailConfirmationCommandHandler(
     ILogger<SendRegistrationEmailConfirmationCommandHandler> logger,
     ITenantSettingsCacheService tenantSettingsCacheService,
-    IUserService userService,
+    IUserManagementService userManagementService,
     IEmailHelperService emailHelperService,
     IEmailSender emailSender,
-    IConfiguration configuration) : IRequestHandler<SendRegistrationEmailConfirmationCommand, bool>
+    IConfiguration configuration,
+    ISystemUserContextAccessor systemUserContextAccessor) : IRequestHandler<SendRegistrationEmailConfirmationCommand, bool>
 {
     readonly ILogger<SendRegistrationEmailConfirmationCommandHandler> logger = logger;
     readonly ITenantSettingsCacheService tenantSettingsCacheService = tenantSettingsCacheService;
-    readonly IUserService userService = userService;
+    readonly IUserManagementService userManagementService = userManagementService;
     readonly IEmailHelperService emailHelperService = emailHelperService;
     readonly IEmailSender emailSender = emailSender;
     readonly IConfiguration configuration = configuration;
+    readonly ISystemUserContextAccessor systemUserContextAccessor = systemUserContextAccessor;
 
     public async Task<bool> Handle(SendRegistrationEmailConfirmationCommand request, CancellationToken cancellationToken)
     {
@@ -45,10 +48,10 @@ internal class SendRegistrationEmailConfirmationCommandHandler(
         UserModel? user = null;
 
         if (!string.IsNullOrWhiteSpace(request.ByUserId))
-            user = await userService.GetUserById(request.ByUserId, cancellationToken);
+            user = await this.userManagementService.GetUserById(request.ByUserId, cancellationToken);
 
         if (user == null && !string.IsNullOrWhiteSpace(request.ByEmail))
-            user = await userService.GetUserByEmail(request.ByEmail);
+            user = await this.userManagementService.GetUserByEmailOrUsername(request.ByEmail);
 
         if (user == null)
         {
@@ -71,7 +74,7 @@ internal class SendRegistrationEmailConfirmationCommandHandler(
         }
 
         var settings = await tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
-        var token = await this.userService.GenerateEmailConfirmationTokenAsync(user.Id);
+        var token = await this.userManagementService.GenerateEmailConfirmationTokenAsync(user.Id);
         var encodedToken = WebUtility.UrlEncode(token);
         var frontendUrl = configuration.GetSection("Frontend_URL").Value;
         var callbackUrl = $"{frontendUrl}/confirm-email?email={WebUtility.UrlEncode(user.Email)}&token={encodedToken}&language={currentPreferredLanguage}";
@@ -89,8 +92,18 @@ internal class SendRegistrationEmailConfirmationCommandHandler(
             Body = body
         });
 
+        if (string.IsNullOrWhiteSpace(user.TenantId))
+        {
+            this.logger.LogWarning("User {UserId} has no tenant id. {EmailType} history was not saved.",
+                user.Id,
+                emailType);
+            return isEmailSendSuccessfully;
+        }
+
+        this.systemUserContextAccessor.Set(new RegistrationEmailSystemUserContext(user.TenantId, user.Id));
         await this.emailHelperService.CreateEmailHistory(new EmailHistory
         {
+            TenantId = user.TenantId,
             IsSuccessfully = isEmailSendSuccessfully,
             Body = body,
             SendedOn = DateTime.UtcNow,
@@ -105,5 +118,16 @@ internal class SendRegistrationEmailConfirmationCommandHandler(
             return false;
 
         return true;
+    }
+
+    private sealed class RegistrationEmailSystemUserContext(string tenantId, string userId) : IUserContext
+    {
+        public string? TenantId => tenantId;
+        public string? UserId => userId;
+        public int? RoleKey => null;
+        public string? TimeZone => "UTC";
+        public string? Language => "en";
+        public bool IsAuthenticated => false;
+        public bool IsSystem => true;
     }
 }

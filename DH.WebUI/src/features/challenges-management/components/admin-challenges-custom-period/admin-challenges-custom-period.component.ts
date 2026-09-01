@@ -266,7 +266,9 @@ export class AdminChallengesCustomPeriodComponent
 
     if (this.isUnsavedChanges || this.form.dirty) {
       return new Promise<boolean>((resolve) => {
-        const dialogRef = this.dialog.open(UnsavedChangesConfirmationDialog);
+        const dialogRef = this.dialog.open(UnsavedChangesConfirmationDialog, {
+          panelClass: 'confirm-sheet-pane',
+        });
         dialogRef.afterClosed().subscribe({
           next: (confirmed: boolean) => {
             if (this.hasDeletedDataChangedButUnsaved) {
@@ -288,7 +290,9 @@ export class AdminChallengesCustomPeriodComponent
 
     if (!this.isCustomPeriodInitialized) {
       return new Promise<boolean>((resolve) => {
-        const dialogRef = this.dialog.open(CustomPeriodLeaveConfirmationDialog);
+        const dialogRef = this.dialog.open(CustomPeriodLeaveConfirmationDialog, {
+          panelClass: 'confirm-sheet-pane',
+        });
 
         dialogRef.afterClosed().subscribe({
           next: (confirmed: boolean) => {

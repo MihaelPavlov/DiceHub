@@ -1,6 +1,6 @@
 ﻿namespace DH.Domain.Entities;
 
-public class EventAttendanceLog
+public class EventAttendanceLog : TenantEntity
 {
     public int Id { get; set; }
     public string UserId { get; set; } = string.Empty;

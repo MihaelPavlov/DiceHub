@@ -13,12 +13,13 @@ import { IMenuItem } from '../../../shared/models/menu-item.model';
 import { Router } from '@angular/router';
 import { IGameReservationStatus } from '../../../entities/games/models/game-reservation-status.model';
 import { ReservationStatus } from '../../../shared/enums/reservation-status.enum';
+import { TenantRouter } from '../../../shared/helpers/tenant-router';
 
 @Component({
-    selector: 'app-header',
-    templateUrl: 'header.component.html',
-    styleUrl: 'header.component.scss',
-    standalone: false
+  selector: 'app-header',
+  templateUrl: 'header.component.html',
+  styleUrl: 'header.component.scss',
+  standalone: false,
 })
 export class HeaderComponent implements OnInit, AfterViewInit {
   @Input() header!: string;
@@ -53,7 +54,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   constructor(
     private readonly fb: FormBuilder,
     private readonly searchService: SearchService,
-    private readonly router: Router
+    private readonly tenantRouter: TenantRouter
   ) {
     this.searchService.searchFormVisible$.subscribe((x) => {
       if (x === false) {
@@ -109,8 +110,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   public onHistoryClick(): void {
-    console.log('history header');
-
     this.historyClicked.emit();
   }
 
@@ -119,7 +118,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   public onQrCodeClick(): void {
-    this.router.navigateByUrl('/qr-code-scanner');
+    this.tenantRouter.navigateTenant('/qr-code-scanner');
   }
 
   private onSearchSubmit(searchExpression: string) {

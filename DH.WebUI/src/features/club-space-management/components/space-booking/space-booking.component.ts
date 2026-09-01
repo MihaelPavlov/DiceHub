@@ -27,55 +27,65 @@ import { IMenuItem } from '../../../../shared/models/menu-item.model';
 import { ControlsMenuComponent } from '../../../../shared/components/menu/controls-menu.component';
 import { TranslateService } from '@ngx-translate/core';
 import { FULL_ROUTE } from '../../../../shared/configs/route.config';
+import { TenantRouter } from '../../../../shared/helpers/tenant-router';
 
 interface ICreateSpaceReservation {
   reservationDate: Date;
 }
 @Component({
-    selector: 'app-club-space-booking',
-    templateUrl: 'space-booking.component.html',
-    styleUrl: 'space-booking.component.scss',
-    animations: [
-        trigger('flowLeft', [
-            state('start', style({ transform: 'translateX(-50px)', opacity: 1 })),
-            state('reverse', style({ transform: 'translateX(0)', opacity: 1 })),
-            transition('* => start', [
-                style({ transform: 'translateX(0)', opacity: 0 }),
-                animate('0.6s ease-out'),
-            ]),
-            transition('* => reverse', [
-                animate('1.2s ease-in-out', keyframes([
-                    style({ transform: 'translateX(-25px)', opacity: 1, offset: 0.5 }),
-                    style({ transform: 'translateX(0)', opacity: 1, offset: 1 }),
-                ])),
-            ]),
-        ]),
-        trigger('flowRight', [
-            state('start', style({ transform: 'translateX(50px)', opacity: 1 })),
-            state('reverse', style({ transform: 'translateX(0)', opacity: 1 })),
-            transition('* => start', [
-                style({ transform: 'translateX(0)', opacity: 0 }),
-                animate('0.6s ease-out'),
-            ]),
-            transition('* => reverse', [
-                animate('1.2s ease-in-out', keyframes([
-                    style({ transform: 'translateX(25px)', opacity: 1, offset: 0.5 }),
-                    style({ transform: 'translateX(0)', opacity: 1, offset: 1 }),
-                ])),
-            ]),
-        ]),
-        trigger('mergeItems', [
-            state('start', style({ transform: 'scale(1)', opacity: 1 })),
-            state('reverse', style({ transform: 'scale(1)', opacity: 1 })),
-            transition('start => reverse', [
-                animate('1s ease-in-out', keyframes([
-                    style({ transform: 'scale(1.1)', opacity: 0.8, offset: 0.5 }),
-                    style({ transform: 'scale(1)', opacity: 1, offset: 1 }),
-                ])),
-            ]),
-        ]),
-    ],
-    standalone: false
+  selector: 'app-club-space-booking',
+  templateUrl: 'space-booking.component.html',
+  styleUrl: 'space-booking.component.scss',
+  animations: [
+    trigger('flowLeft', [
+      state('start', style({ transform: 'translateX(-50px)', opacity: 1 })),
+      state('reverse', style({ transform: 'translateX(0)', opacity: 1 })),
+      transition('* => start', [
+        style({ transform: 'translateX(0)', opacity: 0 }),
+        animate('0.6s ease-out'),
+      ]),
+      transition('* => reverse', [
+        animate(
+          '1.2s ease-in-out',
+          keyframes([
+            style({ transform: 'translateX(-25px)', opacity: 1, offset: 0.5 }),
+            style({ transform: 'translateX(0)', opacity: 1, offset: 1 }),
+          ])
+        ),
+      ]),
+    ]),
+    trigger('flowRight', [
+      state('start', style({ transform: 'translateX(50px)', opacity: 1 })),
+      state('reverse', style({ transform: 'translateX(0)', opacity: 1 })),
+      transition('* => start', [
+        style({ transform: 'translateX(0)', opacity: 0 }),
+        animate('0.6s ease-out'),
+      ]),
+      transition('* => reverse', [
+        animate(
+          '1.2s ease-in-out',
+          keyframes([
+            style({ transform: 'translateX(25px)', opacity: 1, offset: 0.5 }),
+            style({ transform: 'translateX(0)', opacity: 1, offset: 1 }),
+          ])
+        ),
+      ]),
+    ]),
+    trigger('mergeItems', [
+      state('start', style({ transform: 'scale(1)', opacity: 1 })),
+      state('reverse', style({ transform: 'scale(1)', opacity: 1 })),
+      transition('start => reverse', [
+        animate(
+          '1s ease-in-out',
+          keyframes([
+            style({ transform: 'scale(1.1)', opacity: 0.8, offset: 0.5 }),
+            style({ transform: 'scale(1)', opacity: 1, offset: 1 }),
+          ])
+        ),
+      ]),
+    ]),
+  ],
+  standalone: false,
 })
 export class SpaceBookingComponent extends Form {
   override form: Formify<ICreateSpaceReservation>;
@@ -94,7 +104,7 @@ export class SpaceBookingComponent extends Form {
   constructor(
     public override readonly toastService: ToastService,
     private readonly fb: FormBuilder,
-    private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly spaceManagementService: SpaceManagementService,
     private readonly tenantSettingsService: TenantSettingsService,
     public override translateService: TranslateService
@@ -177,7 +187,7 @@ export class SpaceBookingComponent extends Form {
   }
 
   public backNavigateBtn(): void {
-    this.router.navigateByUrl(FULL_ROUTE.SPACE_MANAGEMENT.HOME);
+    this.tenantRouter.navigateTenant(FULL_ROUTE.SPACE_MANAGEMENT.HOME);
   }
 
   public showMenu(event: MouseEvent, controlMenu: ControlsMenuComponent): void {
@@ -199,10 +209,12 @@ export class SpaceBookingComponent extends Form {
         .subscribe({
           next: () => {
             this.toastService.success({
-              message: this.translateService.instant(AppToastMessage.ChangesApplied),
+              message: this.translateService.instant(
+                AppToastMessage.ChangesApplied
+              ),
               type: ToastType.Success,
             });
-            this.router.navigateByUrl(FULL_ROUTE.SPACE_MANAGEMENT.HOME);
+            this.tenantRouter.navigateTenant(FULL_ROUTE.SPACE_MANAGEMENT.HOME);
           },
           error: (error) => {
             if (

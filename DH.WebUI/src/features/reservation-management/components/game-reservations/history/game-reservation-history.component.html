@@ -1,3 +1,7 @@
+<span class="reservations-section-title">{{
+  "reservation_management.history_games" | translate
+}}</span>
+
 <app-reservation-history-filters
   (expandedReservationIdReset)="expandedReservationIdReset()"
   (updateHistory)="updateHistory($event)"
@@ -13,48 +17,35 @@
   [selectedFilter]="this.selectedFilter.value"
 >
   <ng-template let-reservation>
-    <div class="wrapper_info">
-      <div class="wrapper_title">
-        <div class="wrapper_description">
-          <p>
-            {{
-              "reservation_management.history.created_date"
-                | translate
-                  : {
-                      createdDate:
-                        reservation.createdDate
-                        | date
-                          : DATE_TIME_FORMAT
-                          : undefined
-                          : getCurrentLanguage
-                    }
-            }}
-          </p>
-        </div>
-        {{ "reservation_management.history.game" | translate }}
-        <strong class="blue">
-          {{ reservation.gameName }}
-        </strong>
-        {{ "reservation_management.history.was_booked_from" | translate }}
-        <span class="blue">{{ reservation.username }}</span>
-        <p>
-          <span class="blue">{{ reservation.numberOfGuests }}</span>
-          {{
-            reservation.numberOfGuests === 1
-              ? ("reservation_management.history.person" | translate)
-              : ("reservation_management.history.people" | translate)
-          }}
-        </p>
-        <div class="wrapper_description">
-          <p>
-            {{ "reservation_management.history.reservation_date" | translate }}
-            <strong class="blue">{{
-              reservation.reservationDate
+    <span class="reservations-meta">{{
+      "reservation_management.history.created_date"
+        | translate
+          : {
+              createdDate:
+                reservation.createdDate
                 | date : DATE_TIME_FORMAT : undefined : getCurrentLanguage
-            }}</strong>
-          </p>
-        </div>
-      </div>
-    </div>
+            }
+    }}</span>
+    <span class="reservations-title">
+      {{ "reservation_management.history.game" | translate }}
+      <span class="reservations-highlight">{{ reservation.gameName }}</span>
+      {{ "reservation_management.history.was_booked_from" | translate }}
+      <span class="reservations-highlight">{{ reservation.username }}</span>
+    </span>
+    <p class="reservations-meta">
+      <span class="reservations-highlight">{{ reservation.numberOfGuests }}</span>
+      {{
+        reservation.numberOfGuests === 1
+          ? ("reservation_management.history.person" | translate)
+          : ("reservation_management.history.people" | translate)
+      }}
+    </p>
+    <p class="reservations-meta">
+      {{ "reservation_management.history.reservation_date" | translate }}
+      <strong class="reservations-highlight">{{
+        reservation.reservationDate
+          | date : DATE_TIME_FORMAT : undefined : getCurrentLanguage
+      }}</strong>
+    </p>
   </ng-template>
 </app-reservation-history-actions>

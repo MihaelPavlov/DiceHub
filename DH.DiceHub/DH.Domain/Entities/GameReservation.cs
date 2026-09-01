@@ -2,7 +2,7 @@
 
 namespace DH.Domain.Entities;
 
-public class GameReservation
+public class GameReservation : TenantEntity
 {
     public int Id { get; set; }
     public string UserId { get; set; } = string.Empty;

@@ -12,7 +12,7 @@ import { NAV_ITEM_LABELS } from '../../../../shared/models/nav-items-labels.cons
 import { RoomsService } from '../../../../entities/rooms/api/rooms.service';
 import { MenuTabsService } from '../../../../shared/services/menu-tabs.service';
 import { AuthService } from '../../../../entities/auth/auth.service';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import * as signalR from '@microsoft/signalr';
 import { BehaviorSubject, combineLatest, throwError } from 'rxjs';
 import { IRoomByIdResult } from '../../../../entities/rooms/models/room-by-id.model';
@@ -23,15 +23,17 @@ import { IRoomMessageResult } from '../../../../entities/rooms/models/room-messa
 import { MeepleRoomMenuComponent } from '../meeple-room-menu/meeple-room-menu.component';
 import { GroupedChatMessage } from './models/grouped-chat-messages.model';
 import { IRoomInfoMessageResult } from '../../../../entities/rooms/models/room-info-message.model';
+import { IRoomMemberResult } from '../../../../entities/rooms/models/room-member.model';
 import { environment } from '../../../../shared/environments/environment.development';
 import { FULL_ROUTE, ROUTE } from '../../../../shared/configs/route.config';
 import { TranslateService } from '@ngx-translate/core';
+import { TenantRouter } from '../../../../shared/helpers/tenant-router';
 
 @Component({
-    selector: 'app-room-chat',
-    templateUrl: 'room-chat.component.html',
-    styleUrl: 'room-chat.component.scss',
-    standalone: false
+  selector: 'app-room-chat',
+  templateUrl: 'room-chat.component.html',
+  styleUrl: 'room-chat.component.scss',
+  standalone: false,
 })
 export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   @ViewChild('chat') private chatContainer!: ElementRef;
@@ -39,7 +41,8 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   public roomInfoMessages: IRoomInfoMessageResult[] = [];
   public room!: IRoomByIdResult;
   public roomMessages: IRoomMessageResult[] = [];
-  public message!: string;
+  public members: IRoomMemberResult[] = [];
+  public message = '';
   public roomId!: number;
   public isCurrentUserParticipateInRoom: boolean = false;
   private shouldScrollToBottom = false;
@@ -52,7 +55,7 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     private readonly menuTabsService: MenuTabsService,
     private readonly authService: AuthService,
     private readonly cdRef: ChangeDetectorRef,
-    private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly activeRoute: ActivatedRoute,
     private readonly toastService: ToastService,
     private readonly translateService: TranslateService,
@@ -60,7 +63,7 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.MEEPLE);
   }
-  
+
   public ngAfterViewChecked(): void {
     if (this.shouldScrollToBottom) {
       this.scrollToBottom();
@@ -78,17 +81,20 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   public ngOnDestroy(): void {
     this.menuTabsService.resetData();
-    this.hubConnection.stop();
+    this.hubConnection?.stop();
   }
 
-  public addMessage() {
-    if (!this.message) return;
+  public addMessage(event?: Event): void {
+    event?.preventDefault();
+    const message = this.message.trim();
+
+    if (!message) return;
 
     this.hubConnection
       .invoke(
         ROUTE.CHAT_HUB_CLIENT.SEND_MESSAGE_TO_GROUP,
         this.roomId,
-        this.message
+        message
       )
       .then(() => (this.message = ''))
       .catch((err) => {
@@ -110,7 +116,7 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   public backNavigateBtn(): void {
-    this.router.navigateByUrl(
+    this.tenantRouter.navigateTenant(
       FULL_ROUTE.MEEPLE_ROOM.DETAILS_BY_ID(this.roomId)
     );
   }
@@ -119,17 +125,39 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.backNavigateBtn();
   }
 
+  public viewAllMembers(): void {
+    this.tenantRouter.navigateTenant(
+      FULL_ROUTE.MEEPLE_ROOM.CHAT_MEMBERS(this.roomId)
+    );
+  }
+
+  public getMemberInitials(username: string): string {
+    return username
+      ?.trim()
+      .split(/\s+/)
+      .slice(0, 2)
+      .map((part) => part.charAt(0).toUpperCase())
+      .join('') || '';
+  }
+
+  public getAvatarClass(index: number): string {
+    const variants = ['amber', 'teal', 'violet', 'coral'];
+    return `meeple-chat__avatar--${variants[index % variants.length]}`;
+  }
+
   private fetchData(): void {
     combineLatest([
       this.roomService.getById(this.roomId),
       this.roomService.getMessageList(this.roomId),
       this.roomService.getInfoMessageList(this.roomId),
       this.roomService.checkUserParticipateInRoom(this.roomId),
+      this.roomService.getMembers(this.roomId),
     ]).subscribe({
-      next: ([room, messages, infoMessages, isParticipate]) => {
+      next: ([room, messages, infoMessages, isParticipate, members]) => {
         if (room && messages) {
           this.room = room;
           this.roomMessages = messages;
+          this.members = members ?? [];
 
           this.roomInfoMessages = infoMessages.map((x) => ({
             ...x,
@@ -169,7 +197,7 @@ export class RoomChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   private startConnection(): void {
-    const token = localStorage.getItem('jwt');
+    const token = this.authService.getToken();
     this.hubConnection = new signalR.HubConnectionBuilder()
       .withUrl(`${environment.defaultAppUrl}/${ROUTE.CHAT_HUB_CLIENT.CORE}`, {
         accessTokenFactory: (): any => token,

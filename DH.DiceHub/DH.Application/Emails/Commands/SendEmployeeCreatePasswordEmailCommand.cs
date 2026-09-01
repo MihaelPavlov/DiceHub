@@ -1,4 +1,5 @@
-﻿using DH.Domain.Adapters.Authentication.Services;
+﻿using DH.Domain.Adapters.Authentication;
+using DH.Domain.Adapters.Authentication.Services;
 using DH.Domain.Adapters.Email;
 using DH.Domain.Adapters.EmailSender;
 using DH.Domain.Adapters.Localization;
@@ -19,23 +20,25 @@ public record SendEmployeeCreatePasswordEmailCommand(string Email) : IRequest<bo
 internal class SendEmployeeCreatePasswordEmailCommandHandler(
     ILogger<SendEmployeeCreatePasswordEmailCommandHandler> logger,
     ITenantSettingsCacheService tenantSettingsCacheService,
-    IUserService userService,
+    IUserManagementService userManagementService,
     IEmailHelperService emailHelperService,
     IEmailSender emailSender,
     IConfiguration configuration,
+    ISystemUserContextAccessor systemUserContextAccessor,
     ILocalizationService localizationService) : IRequestHandler<SendEmployeeCreatePasswordEmailCommand, bool>
 {
     readonly ILogger<SendEmployeeCreatePasswordEmailCommandHandler> logger = logger;
     readonly ITenantSettingsCacheService tenantSettingsCacheService = tenantSettingsCacheService;
-    readonly IUserService userService = userService;
+    readonly IUserManagementService userManagementService = userManagementService;
     readonly IEmailHelperService emailHelperService = emailHelperService;
     readonly IEmailSender emailSender = emailSender;
     readonly IConfiguration configuration = configuration;
+    readonly ISystemUserContextAccessor systemUserContextAccessor = systemUserContextAccessor;
     readonly ILocalizationService localizationService = localizationService;
 
     public async Task<bool> Handle(SendEmployeeCreatePasswordEmailCommand request, CancellationToken cancellationToken)
     {
-        var user = await this.userService.GetUserByEmail(request.Email);
+        var user = await this.userManagementService.GetUserByEmail(request.Email);
 
         var emailType = EmailType.EmployeePasswordCreation;
         if (user == null)
@@ -56,7 +59,7 @@ internal class SendEmployeeCreatePasswordEmailCommandHandler(
 
         var settings = await tenantSettingsCacheService.GetGlobalTenantSettingsAsync(cancellationToken);
 
-        var token = await this.userService.GeneratePasswordResetTokenAsync(request.Email);
+        var token = await this.userManagementService.GeneratePasswordResetTokenAsync(request.Email);
         var encodedToken = WebUtility.UrlEncode(token);
         var frontendUrl = configuration.GetSection("Frontend_URL").Value;
         var callbackUrl = $"{frontendUrl}/create-employee-password?email={WebUtility.UrlEncode(user.Email)}&token={encodedToken}";
@@ -79,22 +82,44 @@ internal class SendEmployeeCreatePasswordEmailCommandHandler(
             Body = body
         });
 
-        await this.emailHelperService.CreateEmailHistory(new EmailHistory
+        if (string.IsNullOrWhiteSpace(user.TenantId))
         {
-            IsSuccessfully = isEmailSendSuccessfully,
-            Body = body,
-            SendedOn = DateTime.UtcNow,
-            Subject = subject,
-            TemplateName = emailTemplate.TemplateName,
-            TemplateType = emailType.ToString(),
-            To = user.Email,
-            UserId = user.Id,
-        });
+            this.logger.LogInformation(
+                "Employee create password email history was not saved because user {UserId} has no tenant.",
+                user.Id);
+        }
+        else
+        {
+            this.systemUserContextAccessor.Set(new EmailHistorySystemUserContext(user.TenantId, user.Id));
+            await this.emailHelperService.CreateEmailHistory(new EmailHistory
+            {
+                TenantId = user.TenantId,
+                IsSuccessfully = isEmailSendSuccessfully,
+                Body = body,
+                SendedOn = DateTime.UtcNow,
+                Subject = subject,
+                TemplateName = emailTemplate.TemplateName,
+                TemplateType = emailType.ToString(),
+                To = user.Email,
+                UserId = user.Id,
+            });
+        }
 
         this.logger.LogInformation("Employee Create Password Email was sent to {Email}. Success: {IsEmailSendSuccessfully}",
             request.Email,
             isEmailSendSuccessfully);
 
         return isEmailSendSuccessfully;
+    }
+
+    private sealed class EmailHistorySystemUserContext(string tenantId, string userId) : IUserContext
+    {
+        public string? TenantId => tenantId;
+        public string? UserId => userId;
+        public int? RoleKey => null;
+        public string? TimeZone => "UTC";
+        public string? Language => "en";
+        public bool IsAuthenticated => false;
+        public bool IsSystem => true;
     }
 }

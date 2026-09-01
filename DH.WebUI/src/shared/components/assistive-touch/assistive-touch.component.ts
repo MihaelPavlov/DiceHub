@@ -13,6 +13,8 @@ import { NotificationsDialog } from './notifications/notifications.dialog';
 import { BehaviorSubject, Subscription, timer } from 'rxjs';
 import { AssistiveTouchSettings } from '../../../entities/common/models/assistive-touch-settings.model';
 import { NotificationsService } from '../../../entities/common/api/notifications.service';
+import { Capacitor } from '@capacitor/core';
+import { FirebaseMessaging } from '@capacitor-firebase/messaging';
 
 @Component({
     selector: 'app-assistive-touch',
@@ -50,7 +52,19 @@ export class AssistiveTouchComponent implements OnInit, OnDestroy {
     private readonly tenantUserSettingsService: TenantUserSettingsService,
     private readonly notificationService: NotificationsService
   ) {
-    this.notificationsAllowed = Notification.permission === 'granted';
+    // `Notification` is undefined in the Android System WebView (Capacitor), so
+    // on native ask the FCM plugin for the real OS permission - otherwise the
+    // bell shows its "notifications blocked" (slashed) state even when Android
+    // notifications are enabled and working.
+    if (Capacitor.isNativePlatform()) {
+      FirebaseMessaging.checkPermissions()
+        .then((status) => (this.notificationsAllowed = status.receive === 'granted'))
+        .catch(() => (this.notificationsAllowed = true));
+    } else {
+      this.notificationsAllowed =
+        typeof Notification !== 'undefined' &&
+        Notification.permission === 'granted';
+    }
 
     this.tenantUserSettingsService.getAssistiveTouchSettings().subscribe({
       next: (setting) => {
@@ -100,7 +114,9 @@ export class AssistiveTouchComponent implements OnInit, OnDestroy {
     this.resetInactivityTimer();
 
     this.dialogOpened = true;
-    const dialogRef = this.dialog.open(NotificationsDialog);
+    const dialogRef = this.dialog.open(NotificationsDialog, {
+      panelClass: 'confirm-sheet-pane',
+    });
 
     dialogRef.componentInstance.notificationsUpdated.subscribe(() => {
       this.updateUserNotifications.emit();

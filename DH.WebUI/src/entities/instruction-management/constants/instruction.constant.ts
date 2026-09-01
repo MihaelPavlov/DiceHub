@@ -2,6 +2,147 @@ import { InstructionSection } from '../models/instruction.model';
 
 export const INSTRUCTION_LINK_MAPPINGS: { [key: string]: InstructionSection } =
   {
+    owner_setup: {
+      title: 'instruction.owner_setup.title',
+      summary: 'instruction.owner_setup.summary',
+      imageUrl: '/shared/assets/images/icons/menu_book-icon-blue.svg',
+      topics: [
+        {
+          title: 'instruction.owner_setup.topic.games_qr.title',
+          route: '/instructions/owner_setup/games_qr',
+          thumbnailUrl: 'instruction.owner_setup.topic.games_qr.thumbnail_url',
+          description: 'instruction.owner_setup.topic.games_qr.description',
+          steps: [
+            {
+              header:
+                'instruction.owner_setup.topic.games_qr.steps.every_game_gets_a_code.header',
+              description:
+                'instruction.owner_setup.topic.games_qr.steps.every_game_gets_a_code.description',
+              mediaUrl:
+                'instruction.owner_setup.topic.games_qr.steps.every_game_gets_a_code.media_url',
+            },
+            {
+              header:
+                'instruction.owner_setup.topic.games_qr.steps.print_and_attach.header',
+              description:
+                'instruction.owner_setup.topic.games_qr.steps.print_and_attach.description',
+              mediaUrl:
+                'instruction.owner_setup.topic.games_qr.steps.print_and_attach.media_url',
+            },
+            {
+              header:
+                'instruction.owner_setup.topic.games_qr.steps.pick_good_images.header',
+              description:
+                'instruction.owner_setup.topic.games_qr.steps.pick_good_images.description',
+              mediaUrl:
+                'instruction.owner_setup.topic.games_qr.steps.pick_good_images.media_url',
+            },
+          ],
+        },
+        {
+          title: 'instruction.owner_setup.topic.rewards_and_custom_period.title',
+          route: '/instructions/owner_setup/rewards_and_custom_period',
+          thumbnailUrl:
+            'instruction.owner_setup.topic.rewards_and_custom_period.thumbnail_url',
+          description:
+            'instruction.owner_setup.topic.rewards_and_custom_period.description',
+          steps: [
+            {
+              header:
+                'instruction.owner_setup.topic.rewards_and_custom_period.steps.setup_rewards_first.header',
+              description:
+                'instruction.owner_setup.topic.rewards_and_custom_period.steps.setup_rewards_first.description',
+              mediaUrl:
+                'instruction.owner_setup.topic.rewards_and_custom_period.steps.setup_rewards_first.media_url',
+            },
+            {
+              header:
+                'instruction.owner_setup.topic.rewards_and_custom_period.steps.recommended_order.header',
+              description:
+                'instruction.owner_setup.topic.rewards_and_custom_period.steps.recommended_order.description',
+              mediaUrl:
+                'instruction.owner_setup.topic.rewards_and_custom_period.steps.recommended_order.media_url',
+            },
+            {
+              header:
+                'instruction.owner_setup.topic.rewards_and_custom_period.steps.turn_on_custom_period.header',
+              description:
+                'instruction.owner_setup.topic.rewards_and_custom_period.steps.turn_on_custom_period.description',
+              mediaUrl:
+                'instruction.owner_setup.topic.rewards_and_custom_period.steps.turn_on_custom_period.media_url',
+            },
+          ],
+        },
+        {
+          title: 'instruction.owner_setup.topic.club_settings.title',
+          route: '/instructions/owner_setup/club_settings',
+          thumbnailUrl:
+            'instruction.owner_setup.topic.club_settings.thumbnail_url',
+          description: 'instruction.owner_setup.topic.club_settings.description',
+          steps: [
+            {
+              header:
+                'instruction.owner_setup.topic.club_settings.steps.reset_day.header',
+              description:
+                'instruction.owner_setup.topic.club_settings.steps.reset_day.description',
+              mediaUrl: null,
+            },
+            {
+              header:
+                'instruction.owner_setup.topic.club_settings.steps.reservation_hours.header',
+              description:
+                'instruction.owner_setup.topic.club_settings.steps.reservation_hours.description',
+              mediaUrl: null,
+            },
+            {
+              header:
+                'instruction.owner_setup.topic.club_settings.steps.challenge_rewards_count.header',
+              description:
+                'instruction.owner_setup.topic.club_settings.steps.challenge_rewards_count.description',
+              mediaUrl: null,
+            },
+            {
+              header:
+                'instruction.owner_setup.topic.club_settings.steps.time_zone.header',
+              description:
+                'instruction.owner_setup.topic.club_settings.steps.time_zone.description',
+              mediaUrl: null,
+            },
+            {
+              header:
+                'instruction.owner_setup.topic.club_settings.steps.days_off.header',
+              description:
+                'instruction.owner_setup.topic.club_settings.steps.days_off.description',
+              mediaUrl: null,
+            },
+          ],
+        },
+        {
+          title: 'instruction.owner_setup.topic.employees.title',
+          route: '/instructions/owner_setup/employees',
+          thumbnailUrl: 'instruction.owner_setup.topic.employees.thumbnail_url',
+          description: 'instruction.owner_setup.topic.employees.description',
+          steps: [
+            {
+              header:
+                'instruction.owner_setup.topic.employees.steps.add_from_profile.header',
+              description:
+                'instruction.owner_setup.topic.employees.steps.add_from_profile.description',
+              mediaUrl:
+                'instruction.owner_setup.topic.employees.steps.add_from_profile.media_url',
+            },
+            {
+              header:
+                'instruction.owner_setup.topic.employees.steps.fill_the_form.header',
+              description:
+                'instruction.owner_setup.topic.employees.steps.fill_the_form.description',
+              mediaUrl:
+                'instruction.owner_setup.topic.employees.steps.fill_the_form.media_url',
+            },
+          ],
+        },
+      ],
+    },
     how_to_install: {
       title: 'instruction.how_to_install.title',
       summary: 'instruction.how_to_install.summary',
@@ -362,6 +503,50 @@ export const INSTRUCTION_LINK_MAPPINGS: { [key: string]: InstructionSection } =
                 'instruction.challenges.topic.leaderboard.steps.where_to_view.description',
               mediaUrl:
                 'instruction.challenges.topic.leaderboard.steps.where_to_view.media_url',
+            },
+          ],
+        },
+      ],
+    },
+    troubleshooting: {
+      title: 'instruction.troubleshooting.title',
+      summary: 'instruction.troubleshooting.summary',
+      imageUrl: '/shared/assets/images/icons/menu_book-icon-blue.svg',
+      topics: [
+        {
+          title: 'instruction.troubleshooting.topic.app_resets.title',
+          route: '/instructions/troubleshooting/app_resets',
+          thumbnailUrl:
+            'instruction.troubleshooting.topic.app_resets.thumbnail_url',
+          description: `instruction.troubleshooting.topic.app_resets.description`,
+          steps: [
+            {
+              header:
+                'instruction.troubleshooting.topic.app_resets.steps.why.header',
+              description: `instruction.troubleshooting.topic.app_resets.steps.why.description`,
+              mediaUrl:
+                'instruction.troubleshooting.topic.app_resets.steps.why.media_url',
+            },
+            {
+              header:
+                'instruction.troubleshooting.topic.app_resets.steps.battery.header',
+              description: `instruction.troubleshooting.topic.app_resets.steps.battery.description`,
+              mediaUrl:
+                'instruction.troubleshooting.topic.app_resets.steps.battery.media_url',
+            },
+            {
+              header:
+                'instruction.troubleshooting.topic.app_resets.steps.autostart.header',
+              description: `instruction.troubleshooting.topic.app_resets.steps.autostart.description`,
+              mediaUrl:
+                'instruction.troubleshooting.topic.app_resets.steps.autostart.media_url',
+            },
+            {
+              header:
+                'instruction.troubleshooting.topic.app_resets.steps.lock_recents.header',
+              description: `instruction.troubleshooting.topic.app_resets.steps.lock_recents.description`,
+              mediaUrl:
+                'instruction.troubleshooting.topic.app_resets.steps.lock_recents.media_url',
             },
           ],
         },

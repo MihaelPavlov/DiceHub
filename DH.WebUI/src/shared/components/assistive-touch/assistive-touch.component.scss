@@ -1,4 +1,5 @@
 @use "../../../shared/assets/styles/palette";
+
 .freeze-overlay {
   position: fixed;
   top: 0;
@@ -13,95 +14,149 @@
 }
 
 .assistive_btn {
-  transition: opacity 0.3s ease-in-out;
   position: fixed;
-  padding: 1.2rem;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  // match the old footprint: ~38.4px square (0.2rem pad + 2rem icon)
+  padding: 0.2rem;
   background: palette.$main-blue-color;
   border-radius: 0.5rem;
-  z-index: 1000;
   cursor: pointer;
+  transition: opacity 0.3s ease-in-out;
 
-  .icon_gif {
-    position: absolute;
-    top: -0.1rem;
-    left: -0rem;
+  .bell {
+    display: block;
+    width: 2rem;
+    height: 2rem;
+    color: var(--games-text, #e8eaed);
+    transform-origin: 50% 8%;
   }
 
-  .icon-container::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 2.5rem;
-    height: 0.2rem;
-    background: palette.$main-font-color;
-    transform: translate(-50%, -50%) rotate(45deg);
-    pointer-events: none;
+  .bell__clapper {
+    // fill-box so the % origin resolves against the clapper's own bbox
+    transform-box: fill-box;
+    transform-origin: 50% 0%;
   }
 
-  .icon {
-    position: absolute;
-    font-size: 2rem;
-    bottom: 0.2rem;
-    right: 0.2rem;
-    font-variation-settings: "FILL" 1;
+  .bell__slash {
+    stroke: currentColor;
+    opacity: 0;
   }
 
-  &.open {
+  .bell__badge {
+    fill: var(--games-coral, #bf3c65);
+    stroke: none;
+    opacity: 0;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  /* --- notifications blocked: dim + slash, no motion --- */
+  &.is-muted .bell {
+    opacity: 0.5;
+  }
+  &.is-muted .bell__slash {
     opacity: 1;
+  }
+
+  /* --- unread notifications: badge dot always, ring + pulse when not muted --- */
+  &.has-unread .bell__badge {
+    opacity: 1;
+    animation: bell-badge-pop 0.35s cubic-bezier(0.2, 1.4, 0.3, 1) both;
+  }
+
+  &.has-unread:not(.is-muted) {
+    .bell {
+      animation: bell-ring 2.4s ease-in-out infinite;
+    }
+    .bell__clapper {
+      animation: bell-clap 2.4s ease-in-out infinite;
+    }
     &::before {
-      transform: rotate(45deg);
-    }
-    &::after {
-      transform: rotate(-45deg);
-    }
-    .assistive_option {
-      opacity: 1;
-      pointer-events: auto;
-      &:first-of-type {
-        left: 80px;
-      }
-      &:nth-of-type(2) {
-        top: 80px;
-        left: 20px;
-        transition-delay: 0.05s;
-      }
-      &:last-of-type {
-        bottom: 80px;
-        left: 20px;
-        transition-delay: 0.1s;
-      }
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      pointer-events: none;
+      animation: bell-btn-pulse 1.9s ease-out infinite;
     }
   }
 }
 
-.assistive_option {
-  padding: 1.3rem;
-  border-radius: 10px;
-  cursor: pointer;
-  background: palette.$main-blue-color;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  opacity: 0;
-  pointer-events: none;
-  box-shadow: inherit;
-  transition: 0.2s cubic-bezier(0.18, 0.89, 0.32, 1.28), 0.2s ease opacity,
-    0.2s cubic-bezier(0.08, 0.82, 0.17, 1) transform;
-  z-index: -1;
-  &:hover {
-    transform: scale(1.1);
+@keyframes bell-ring {
+  0%,
+  62%,
+  100% {
+    transform: rotate(0);
   }
-  &:first-of-type {
-    background: url("https://assets.codepen.io/3537853/cam.svg") no-repeat 50%/50%
-      palette.$main-blue-color;
+  66% {
+    transform: rotate(14deg);
   }
-  &:nth-of-type(2) {
-    background: url("https://assets.codepen.io/3537853/img.svg") no-repeat 50%/ 50%
-      palette.$main-blue-color;
+  70% {
+    transform: rotate(-11deg);
   }
-  &:last-of-type {
-    background: url("https://assets.codepen.io/3537853/music.svg") no-repeat 50%
-      45%/50% 45% palette.$main-blue-color;
+  74% {
+    transform: rotate(7deg);
+  }
+  78% {
+    transform: rotate(-4deg);
+  }
+}
+
+@keyframes bell-clap {
+  0%,
+  60%,
+  100% {
+    transform: rotate(0);
+  }
+  66% {
+    transform: rotate(9deg);
+  }
+  72% {
+    transform: rotate(-7deg);
+  }
+  78% {
+    transform: rotate(4deg);
+  }
+}
+
+@keyframes bell-badge-pop {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes bell-btn-pulse {
+  0% {
+    box-shadow: 0 0 0 0 var(--games-blue-soft, rgba(102, 138, 255, 0.45));
+  }
+  70% {
+    box-shadow: 0 0 0 14px transparent;
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .assistive_btn.has-unread:not(.is-muted) {
+    .bell {
+      animation: none;
+      transform: rotate(-8deg);
+    }
+    .bell__clapper {
+      animation: none;
+    }
+    &::before {
+      animation: none;
+    }
+  }
+  .assistive_btn.has-unread .bell__badge {
+    animation: none;
   }
 }

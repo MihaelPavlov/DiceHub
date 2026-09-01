@@ -1,31 +1,55 @@
-<app-header
-  [header]="'qr_scanner.header' | translate"
-  [withBottomLine]="true"
-></app-header>
+<section class="qr-shell">
+  <header class="qr-shell__header">
+    <button
+      type="button"
+      class="games-icon-btn"
+      (click)="goBack()"
+      aria-label="Back"
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M15 5l-7 7 7 7" />
+      </svg>
+    </button>
+    <h1 class="qr-shell__title">{{ "qr_scanner.header" | translate }}</h1>
+    <div class="games-icon-btn games-icon-btn--spacer" aria-hidden="true"></div>
+  </header>
 
-<span
-  class="qr_code_error"
-  *ngIf="this.invalidQrCode"
-  [innerHTML]="'qr_scanner.qr_code_is_invalid_full' | translate"
->
-</span>
+  <!-- Result banners live above the viewfinder so they're never hidden behind
+       the fixed bottom nav. -->
+  <span
+    class="qr-banner qr-banner--error"
+    *ngIf="this.invalidQrCode"
+    [innerHTML]="'qr_scanner.qr_code_is_invalid_full' | translate"
+  >
+  </span>
 
-<span
-  class="qr_code_error"
-  *ngIf="this.invalidQrCode && this.currentQrCodeType === QrCodeType.Game"
-  [innerHTML]="'qr_scanner.qr_code_invalid_from_game' | translate"
->
-</span>
+  <span
+    class="qr-banner qr-banner--error"
+    *ngIf="this.invalidQrCode && this.currentQrCodeType === QrCodeType.Game"
+    [innerHTML]="'qr_scanner.qr_code_invalid_from_game' | translate"
+  >
+  </span>
 
-<pre *ngIf="this.afterScanErrorMessage" class="after_scan_error_message">
-  {{ this.afterScanErrorMessage }}</pre
->
+  <pre *ngIf="this.afterScanErrorMessage" class="qr-banner qr-banner--error">{{ this.afterScanErrorMessage }}</pre>
 
-<span
-  *ngIf="this.afterScanSuccessfulMessage"
-  class="after_scan_success_message">{{'qr_scanner.qr_code_is_valid'|translate}} <br />
-  {{ this.afterScanSuccessfulMessage }}</span>
+  <span *ngIf="this.afterScanSuccessfulMessage" class="qr-banner qr-banner--success"
+    >{{ "qr_scanner.qr_code_is_valid" | translate }} <br />
+    {{ this.afterScanSuccessfulMessage }}</span
+  >
 
-<div class="qr_video_container" *ngIf="!this.isValidQrScanned">
-  <video #video width="700" height="700" autoplay muted playsinline></video>
-</div>
+  <div class="qr-viewfinder" *ngIf="!this.isValidQrScanned">
+    <video #video autoplay muted playsinline webkit-playsinline></video>
+
+    <div class="qr-viewfinder__frame">
+      <span class="qr-viewfinder__corner qr-viewfinder__corner--tl"></span>
+      <span class="qr-viewfinder__corner qr-viewfinder__corner--tr"></span>
+      <span class="qr-viewfinder__corner qr-viewfinder__corner--bl"></span>
+      <span class="qr-viewfinder__corner qr-viewfinder__corner--br"></span>
+      <span class="qr-viewfinder__scanline"></span>
+    </div>
+
+    <span class="qr-viewfinder__hint">{{ "qr_scanner.hint" | translate }}</span>
+  </div>
+
+  <span class="qr-shell__description">{{ "qr_scanner.description" | translate }}</span>
+</section>

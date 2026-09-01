@@ -1,0 +1,22 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html", "x": 0, "y": 0, "w": 393, "h": 980, "title": "Approve / Decline / Cancel Reservation" },
+    { "file": "ReservationNotes.dc.html", "x": 473, "y": 0, "w": 393, "h": 980, "title": "Edit Reservation Notes / Delete" },
+    { "file": "DeleteGame.dc.html", "x": 946, "y": 0, "w": 393, "h": 760, "title": "Delete Game" },
+    { "file": "DeleteEvent.dc.html", "x": 1419, "y": 0, "w": 393, "h": 760, "title": "Delete Event" },
+
+    { "file": "DeleteMeepleRoom.dc.html", "x": 0, "y": 1120, "w": 393, "h": 760, "title": "Delete Meeple Room" },
+    { "file": "LeaveMeepleRoom.dc.html", "x": 473, "y": 1120, "w": 393, "h": 760, "title": "Leave Meeple Room" },
+    { "file": "RemoveRoomMember.dc.html", "x": 946, "y": 1120, "w": 393, "h": 800, "title": "Remove Room Member" },
+    { "file": "DeleteEmployee.dc.html", "x": 1419, "y": 1120, "w": 393, "h": 800, "title": "Delete Employee" },
+
+    { "file": "DeleteChallenge.dc.html", "x": 0, "y": 2060, "w": 393, "h": 800, "title": "Delete Challenge" },
+    { "file": "DeleteChallengeReward.dc.html", "x": 473, "y": 2060, "w": 393, "h": 800, "title": "Delete Challenge Reward" },
+    { "file": "JoinTable.dc.html", "x": 946, "y": 2060, "w": 393, "h": 820, "title": "Join Table" },
+    { "file": "PlaySolo.dc.html", "x": 1419, "y": 2060, "w": 393, "h": 800, "title": "Play Solo" },
+
+    { "file": "DiscardChanges.dc.html", "x": 0, "y": 3020, "w": 393, "h": 760, "title": "Discard Unsaved Changes" },
+    { "file": "LeaveCustomPeriod.dc.html", "x": 473, "y": 3020, "w": 393, "h": 760, "title": "Leave Custom Period Setup" }
+  ],
+  "launch": { "view": "canvas" }
+}

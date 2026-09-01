@@ -8,6 +8,7 @@
 @use "./light";
 @import "../../../../node_modules/@ng-select/ng-select/themes/default.theme.css";
 @import "@angular/cdk/overlay-prebuilt.css";
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Sora:wght@400;500;600;700&display=swap");
 
 $color-success-20-percent: #cde9d5;
 $color-danger-10-percent: #f6e8eb;
@@ -17,18 +18,1336 @@ $color-danger-10-percent: #f6e8eb;
   margin: 0;
   padding: 0;
 }
+
+// Native date/time pickers have an intrinsic min-content width (their segment
+// spinners + calendar/clock button). As grid/flex items they default to
+// min-width:auto, so they refuse to shrink and overflow / overlap on narrow
+// screens. Force them to their box at every breakpoint.
+//
+// iOS Safari is the stubborn one: it renders date/time inputs as a
+// button-like control that ignores `width` until `-webkit-appearance` is
+// cleared, and defaults to `display: inline-block`, so two of them sit on one
+// line and spill off-screen. Normalise all of that here.
+input[type="date"],
+input[type="time"],
+input[type="datetime-local"],
+input[type="month"],
+input[type="week"] {
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 2.6rem; // consistent tap target; iOS otherwise shrinks it
+  line-height: normal;
+  // MUST be >= 16px or iOS Safari zooms the whole page on focus (it ignores
+  // user-scalable=no). That zoom is what makes the field look huge/buggy.
+  font-size: 16px;
+}
+
+// The editable value inside a WebKit/Blink date input keeps its own
+// min-content width and can push past the control's box (Android System
+// WebView + iOS). Let it shrink, left-align, and drop iOS's stray margins.
+input[type="date"]::-webkit-date-and-time-value,
+input[type="time"]::-webkit-date-and-time-value,
+input[type="datetime-local"]::-webkit-date-and-time-value {
+  min-width: 0;
+  margin: 0;
+  text-align: left;
+}
+input::-webkit-datetime-edit,
+input::-webkit-datetime-edit-fields-wrapper {
+  min-width: 0;
+  padding: 0;
+}
+// iOS shows the "clear" (×) button which adds width - hide it
+input[type="date"]::-webkit-clear-button,
+input[type="time"]::-webkit-clear-button,
+input[type="datetime-local"]::-webkit-clear-button,
+input[type="date"]::-webkit-inner-spin-button,
+input[type="time"]::-webkit-inner-spin-button,
+input[type="datetime-local"]::-webkit-inner-spin-button {
+  display: none;
+  -webkit-appearance: none;
+}
+
 html,
 body {
   overscroll-behavior: none;
+  // Same ground colour on the root too, so the iOS safe-area / status-bar strip
+  // above the page shell isn't a different shade.
+  background-color: var(--games-bg);
 }
 
 app-root {
   overscroll-behavior: contain;
 }
 body {
-  background-color: palette.$main-background-color;
+  // Match the redesigned page shells (var(--games-bg)); the legacy
+  // $main-background-color (#20232a) is a slightly different dark and shows
+  // through behind headers / on short pages as an off-colour band.
+  background-color: var(--games-bg);
   color: palette.$main-font-color;
   height: 100%;
+}
+
+:root {
+  --games-bg: #17151d;
+  --games-surface: #221f2a;
+  --games-surface-2: #2c2834;
+  --games-border: rgba(255, 255, 255, 0.13);
+  --games-text: #f7f2e8;
+  --games-muted: #b2aeb8;
+  --games-faint: #817b89;
+  --games-amber: #f3bf3d;
+  --games-amber-soft: rgba(243, 191, 61, 0.16);
+  --games-coral: #bf3c65;
+  --games-coral-soft: rgba(191, 60, 101, 0.16);
+  --games-teal: #5ec7a2;
+  --games-teal-soft: rgba(94, 199, 162, 0.16);
+  --games-violet: #8d66d6;
+  --games-violet-soft: rgba(141, 102, 214, 0.16);
+  --games-blue: oklch(0.7 0.13 250);
+  --games-blue-light: oklch(0.82 0.08 250);
+  --games-blue-soft: oklch(0.7 0.13 250 / 0.16);
+  --games-blue-glow: oklch(0.7 0.13 250 / 0.55);
+  --games-blue-ink: #0b1830;
+  --games-shadow: 0 16px 36px -20px rgba(0, 0, 0, 0.72);
+}
+
+.games-design-surface {
+  color: var(--games-text);
+  font-family: "Sora", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+}
+
+.games-display {
+  font-family: "Bricolage Grotesque", "Sora", system-ui, sans-serif;
+  font-weight: 800;
+}
+
+.games-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.35rem;
+  padding: 0.55rem 1rem;
+  border: 1px solid var(--games-border);
+  border-radius: 999px;
+  background: var(--games-surface);
+  color: var(--games-muted);
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.games-chip--active {
+  border-color: transparent;
+  background: var(--games-blue);
+  color: var(--games-blue-ink);
+}
+
+.games-panel {
+  border: 1px solid var(--games-border);
+  border-radius: 1.25rem;
+  background: var(--games-surface);
+  box-shadow: var(--games-shadow);
+}
+
+.games-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.games-pill--amber {
+  background: var(--games-amber-soft);
+  color: var(--games-amber);
+}
+
+.games-pill--coral {
+  background: var(--games-coral-soft);
+  color: var(--games-coral);
+}
+
+.games-pill--teal {
+  background: var(--games-teal-soft);
+  color: var(--games-teal);
+}
+
+.games-pill--violet {
+  background: var(--games-violet-soft);
+  color: var(--games-violet);
+}
+
+.games-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.625rem;
+  height: 2.625rem;
+  border: 1px solid var(--games-border);
+  border-radius: 999px;
+  background: var(--games-surface);
+  flex-shrink: 0;
+  cursor: pointer;
+
+  svg {
+    width: 1.0625rem;
+    height: 1.0625rem;
+    fill: none;
+    stroke: var(--games-text);
+    stroke-width: 2.1;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  // Google Material Symbols icons (viewBox="0 -960 960 960") are solid,
+  // closed-path glyphs meant to be rendered via fill, not stroke. The default
+  // stroke styling above was authored for the Feather/Lucide-style 24x24
+  // outline icons also used in this button, so applying it to a Material
+  // Symbols icon instead traces a hairline around its (unfilled) shape,
+  // rendering as a near-invisible sliver on top of the button background.
+  svg[viewBox="0 -960 960 960"] {
+    fill: var(--games-text);
+    stroke: none;
+  }
+}
+
+.games-icon-btn--spacer {
+  visibility: hidden;
+}
+
+/* Shared chrome for the individual chart/statistics pages (games, visitors,
+   reservations, leaderboard, event-attendance, rewards) — identical across
+   all of them, so it lives here instead of being duplicated per component. */
+.charts-shell {
+  min-height: 100vh;
+  padding: 1.5rem 1.25rem 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  background: var(--games-bg);
+  color: var(--games-text);
+  font-family: "Sora", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+}
+
+.charts-shell__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: min(28rem, 100%);
+  margin: 0 auto;
+}
+
+.charts-shell__title {
+  margin: 0;
+  font-weight: 700;
+  font-size: 1.125rem;
+  text-align: center;
+}
+
+.charts-shell__eyebrow {
+  width: min(28rem, 100%);
+  margin: -0.5rem auto 0;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--games-faint);
+}
+
+.charts-shell__chips {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  width: min(28rem, 100%);
+  margin: 0 auto;
+}
+
+.charts-shell__date-stepper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: min(28rem, 100%);
+  margin: 0 auto;
+  background: var(--games-surface);
+  border: 1px solid var(--games-border);
+  border-radius: 999px;
+  padding: 0.625rem 0.875rem;
+}
+
+.charts-shell__date-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.charts-shell__date-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  flex-shrink: 0;
+
+  svg {
+    width: 1rem;
+    height: 1rem;
+    fill: none;
+    stroke: var(--games-text);
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+.charts-shell__empty {
+  width: min(28rem, 100%);
+  margin: 1.5rem auto;
+  text-align: center;
+  color: var(--games-muted);
+  font-size: 0.85rem;
+  line-height: 1.6;
+
+  p {
+    margin: 0 0 0.375rem;
+  }
+}
+
+/* From/To date-range picker, shared by reservations/rewards-collected/event-attendance-by-dates charts */
+.charts-shell__date-range {
+  display: grid;
+  // minmax(0, ...) lets the tracks shrink; a plain 1fr keeps its min-content
+  // width, which for a native date input is wide enough to overflow on phones.
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 0.75rem;
+  width: min(28rem, 100%);
+  margin: 0 auto;
+
+  // two native date inputs won't fit side by side on the narrowest phones
+  @media (max-width: 24rem) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.charts-shell__date-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.charts-shell__date-field-label {
+  font-size: 0.65625rem;
+  font-weight: 700;
+  color: var(--games-muted);
+}
+
+.charts-shell__date-input {
+  width: 100%;
+  max-width: 100%;
+  // native date/time inputs carry an intrinsic min-content width - without this
+  // they refuse to shrink inside the grid and spill outside .charts-shell__date-range
+  min-width: 0;
+  padding: 0.75rem 0.875rem;
+  border: 1px solid var(--games-border);
+  border-radius: 0.75rem;
+  background: var(--games-surface);
+  color: var(--games-text);
+  font: inherit;
+  font-size: 0.8rem;
+  color-scheme: dark;
+}
+
+@media (min-width: 900px) {
+  .charts-shell {
+    padding: 2.5rem 3rem 4rem;
+  }
+
+  .charts-shell__header {
+    width: min(60rem, 100%);
+  }
+
+  .charts-shell__title {
+    font-size: 1.5rem;
+  }
+
+  .charts-shell__chips,
+  .charts-shell__date-stepper,
+  .charts-shell__empty,
+  .charts-shell__date-range,
+  .charts-shell__eyebrow {
+    width: min(60rem, 100%);
+  }
+
+  .charts-shell__date-range {
+    grid-template-columns: 12rem 12rem;
+  }
+
+  .charts-shell__date-stepper {
+    justify-content: flex-start;
+  }
+}
+
+.games-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: none;
+  border-radius: 999px;
+  padding: 0.9rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--games-blue-ink);
+  background: linear-gradient(135deg, var(--games-blue-light), var(--games-blue));
+  box-shadow: 0 10px 24px -8px var(--games-blue-soft);
+  cursor: pointer;
+  text-decoration: none;
+
+  svg {
+    fill: var(--games-blue-ink);
+  }
+}
+
+.games-cta:disabled,
+.games-cta.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.exceptions-shell {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--games-bg);
+  color: var(--games-text);
+  font-family: "Sora", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+}
+
+.exceptions-blob {
+  position: absolute;
+  width: 26rem;
+  height: 26rem;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.exceptions-blob--violet {
+  top: -8rem;
+  right: -8rem;
+  background: radial-gradient(circle, var(--games-violet-soft), transparent 70%);
+}
+
+.exceptions-blob--amber {
+  bottom: -10rem;
+  left: -8rem;
+  background: radial-gradient(circle, var(--games-amber-soft), transparent 70%);
+}
+
+.exceptions-watermark {
+  display: none;
+  position: absolute;
+  font-family: "Bricolage Grotesque", "Sora", system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 22rem;
+  color: var(--games-text);
+  opacity: 0.04;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.exceptions-brand {
+  display: none;
+  position: absolute;
+  top: 2.5rem;
+  left: 3rem;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.exceptions-brand__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.65rem;
+  background: linear-gradient(135deg, var(--games-blue-light), var(--games-blue));
+
+  svg {
+    width: 1.05rem;
+    height: 1.05rem;
+    fill: none;
+    stroke: var(--games-blue-ink);
+    stroke-width: 1.9;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+.exceptions-brand__name {
+  font-family: "Bricolage Grotesque", "Sora", system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 1.05rem;
+}
+
+.exceptions-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.35rem;
+  width: 100%;
+  max-width: 24rem;
+  padding: 1.75rem 1.25rem;
+  text-align: center;
+}
+
+.exceptions-illustration {
+  width: 100%;
+  max-width: 18.75rem;
+  border-radius: 1.35rem;
+  box-shadow: var(--games-shadow);
+  object-fit: cover;
+}
+
+.exceptions-icon-badge {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 5.75rem;
+  height: 5.75rem;
+  border-radius: 1.6rem;
+  border: 1px solid var(--games-border);
+  box-shadow: var(--games-shadow);
+
+  svg {
+    width: 2.6rem;
+    height: 2.6rem;
+    fill: none;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+.exceptions-icon-badge--amber {
+  background: var(--games-amber-soft);
+  svg { stroke: var(--games-amber); }
+}
+
+.exceptions-icon-badge--coral {
+  background: var(--games-coral-soft);
+  svg { stroke: var(--games-coral); }
+}
+
+.exceptions-icon-badge--violet {
+  background: var(--games-violet-soft);
+  svg { stroke: var(--games-violet); }
+}
+
+.exceptions-eyebrow {
+  font-size: 0.75rem;
+  color: var(--games-faint);
+  font-weight: 500;
+}
+
+.exceptions-eyebrow--amber,
+.exceptions-eyebrow--coral,
+.exceptions-eyebrow--violet {
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.exceptions-title {
+  display: none;
+  margin: 0;
+  font-family: "Bricolage Grotesque", "Sora", system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 1.6rem;
+  line-height: 1.15;
+}
+
+.exceptions-description {
+  display: none;
+  margin: 0;
+  color: var(--games-muted);
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+.exceptions-cta {
+  width: 100%;
+  max-width: 17.5rem;
+  margin-top: 0.4rem;
+  padding: 0.9rem 0;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--games-blue-light), var(--games-blue));
+  color: var(--games-blue-ink);
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-align: center;
+  box-shadow: 0 10px 24px -8px var(--games-blue-soft);
+  cursor: pointer;
+}
+
+@media (min-width: 900px) {
+  .exceptions-blob,
+  .exceptions-watermark,
+  .exceptions-brand,
+  .exceptions-icon-badge,
+  .exceptions-title,
+  .exceptions-description {
+    display: flex;
+  }
+
+  .exceptions-watermark {
+    display: block;
+  }
+
+  .exceptions-illustration {
+    display: none;
+  }
+
+  .exceptions-content {
+    gap: 1.375rem;
+    max-width: 32.5rem;
+    padding: 2rem;
+  }
+
+  .exceptions-eyebrow {
+    padding: 0.375rem 0.875rem;
+    border-radius: 999px;
+  }
+
+  .exceptions-eyebrow--amber {
+    background: var(--games-amber-soft);
+    color: var(--games-amber);
+  }
+
+  .exceptions-eyebrow--coral {
+    background: var(--games-coral-soft);
+    color: var(--games-coral);
+  }
+
+  .exceptions-eyebrow--violet {
+    background: var(--games-violet-soft);
+    color: var(--games-violet);
+  }
+
+  .exceptions-title {
+    font-size: 2.375rem;
+  }
+
+  .exceptions-description {
+    font-size: 0.9375rem;
+  }
+
+  .exceptions-cta {
+    width: auto;
+    padding: 0.9rem 2.25rem;
+  }
+}
+
+@media (min-width: 900px) {
+  body:has(app-navigation-menu) {
+    padding-left: 16.5rem;
+  }
+}
+
+.profile-page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.profile-page-header__title {
+  font-family: "Bricolage Grotesque", "Sora", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 1.125rem;
+}
+
+.profile-panel {
+  background: var(--games-surface);
+  border: 1px solid var(--games-border);
+  border-radius: 1.375rem;
+  padding: 1.125rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.profile-panel__title {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--games-amber);
+}
+
+.profile-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4375rem;
+}
+
+.profile-field label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--games-muted);
+}
+
+.profile-field input,
+.profile-field select,
+.profile-field textarea {
+  width: 100%;
+  background: var(--games-surface-2);
+  border: 1px solid var(--games-border);
+  border-radius: 0.875rem;
+  padding: 0.8125rem 0.9375rem;
+  font-size: 0.875rem;
+  font-family: "Sora", system-ui, sans-serif;
+  color: var(--games-text);
+}
+
+.profile-field-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.profile-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.profile-list-row {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  background: var(--games-surface);
+  border: 1px solid var(--games-border);
+  border-radius: 1.125rem;
+  padding: 0.9375rem 1rem;
+  cursor: pointer;
+}
+
+.profile-list-row__avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--games-teal), var(--games-violet));
+  color: #0d1f1a;
+  font-weight: 800;
+  font-size: 0.875rem;
+}
+
+.profile-list-row__body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.profile-list-row__title {
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.profile-list-row__subtitle {
+  font-size: 0.75rem;
+  color: var(--games-faint);
+}
+
+.profile-list-row__chevron {
+  flex-shrink: 0;
+  color: var(--games-faint);
+}
+
+.profile-back-link {
+  align-self: flex-start;
+  border: none;
+  background: none;
+  color: var(--games-muted);
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.8125rem;
+  cursor: pointer;
+  padding: 0;
+}
+
+.profile-page-header__identity {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+}
+
+.profile-list-row__avatar--lg {
+  width: 3.5rem;
+  height: 3.5rem;
+  font-size: 1.25rem;
+}
+
+.profile-page-header__eyebrow {
+  display: block;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--games-amber);
+  margin-bottom: 0.25rem;
+}
+
+.profile-page-header__description {
+  margin: 0.375rem 0 0;
+  font-size: 0.8125rem;
+  color: var(--games-muted);
+}
+
+.profile-empty-state {
+  color: var(--games-faint);
+  padding: 1rem;
+  text-align: center;
+}
+
+.profile-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.875rem 1.25rem;
+}
+
+.profile-detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.profile-detail-item--wide {
+  grid-column: 1 / -1;
+}
+
+.profile-detail-item label,
+.profile-detail-item small {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--games-faint);
+}
+
+.profile-detail-item span,
+.profile-detail-item strong,
+.profile-detail-item a {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--games-text);
+  word-break: break-word;
+}
+
+.profile-detail-item a {
+  color: var(--games-amber);
+}
+
+.profile-status {
+  flex-shrink: 0;
+  align-self: flex-start;
+  font-size: 0.625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  padding: 0.25rem 0.625rem;
+  border-radius: 999px;
+}
+
+.profile-status--pending {
+  background: var(--games-amber-soft);
+  color: var(--games-amber);
+}
+
+.profile-status--verified {
+  background: var(--games-teal-soft);
+  color: var(--games-teal);
+}
+
+.profile-status--rejected {
+  background: var(--games-coral-soft);
+  color: var(--games-coral);
+}
+
+.profile-page {
+  min-height: 100vh;
+  background: var(--games-bg);
+  color: var(--games-text);
+  padding: 1.5rem 1.25rem 6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+@media (min-width: 900px) {
+  .profile-page {
+    padding: 2.5rem 3rem 4rem;
+    gap: 1.5rem;
+  }
+
+  .profile-field-row {
+    max-width: 40rem;
+  }
+
+  .profile-panel {
+    max-width: 40rem;
+  }
+
+  .profile-list {
+    max-width: 48rem;
+  }
+}
+
+.reservations-shell {
+  min-height: 100vh;
+  padding: 1.5rem 1.25rem 7rem;
+  background: var(--games-bg);
+  color: var(--games-text);
+  font-family: "Sora", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+}
+
+.reservations-shell__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: min(74rem, 100%);
+  margin: 0 auto;
+}
+
+.reservations-shell__title {
+  margin: 0;
+  cursor: pointer;
+  font-family: "Bricolage Grotesque", "Sora", system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 1.25rem;
+}
+
+.reservations-shell__actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.reservations-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  flex-shrink: 0;
+  border: 1px solid var(--games-border);
+  border-radius: 999px;
+  background: var(--games-surface);
+  cursor: pointer;
+
+  svg {
+    width: 1rem;
+    height: 1rem;
+    fill: var(--games-faint);
+  }
+}
+
+.reservations-seg {
+  display: flex;
+  gap: 0.5rem;
+  width: min(74rem, 100%);
+  margin: 1rem auto 0;
+  padding: 0.25rem;
+  border-radius: 0.875rem;
+  background: var(--games-surface-2);
+}
+
+.reservations-seg__item {
+  flex: 1;
+  text-align: center;
+  padding: 0.55rem 0;
+  border: 0;
+  border-radius: 0.7rem;
+  background: transparent;
+  color: var(--games-faint);
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.reservations-seg__item--active {
+  font-weight: 700;
+  background: var(--games-blue);
+  color: var(--games-blue-ink);
+}
+
+.reservations-hub {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: min(74rem, 100%);
+  margin: 1.5rem auto 0;
+}
+
+.reservations-hub__tile {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.1rem;
+  border: 1px solid var(--games-border);
+  border-radius: 1.25rem;
+  background: var(--games-surface);
+  box-shadow: var(--games-shadow);
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+
+  &:hover {
+    border-color: var(--games-amber);
+    transform: translateY(-1px);
+  }
+}
+
+.reservations-hub__tile-header {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--games-muted);
+}
+
+.reservations-hub__tile-header .marked {
+  color: var(--games-amber);
+  font-weight: 800;
+}
+
+.reservations-hub__info {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.reservations-hub__icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  fill: var(--games-faint);
+}
+
+.reservations-hub__count {
+  font-family: "Bricolage Grotesque", "Sora", system-ui, sans-serif;
+  font-size: 2.25rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.reservations-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: min(74rem, 100%);
+  padding: 1rem 0 2rem;
+  margin: 0 auto;
+}
+
+.reservations-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 2.5rem 1rem;
+  text-align: center;
+
+  img {
+    width: 9rem;
+    height: 9rem;
+    margin-bottom: 0.5rem;
+  }
+}
+
+.reservations-empty__title {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.reservations-empty__subtitle {
+  margin: 0;
+  color: var(--games-muted);
+  font-size: 0.85rem;
+}
+
+.reservations-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.875rem;
+  border: 1px solid var(--games-border);
+  border-radius: 1.125rem;
+  background: var(--games-surface);
+  cursor: default;
+}
+
+.reservations-row--interactive {
+  cursor: pointer;
+}
+
+.reservations-row--muted {
+  opacity: 0.65;
+}
+
+.reservations-row__content {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.reservations-thumb {
+  width: 3.25rem;
+  height: 3.25rem;
+  flex-shrink: 0;
+  border-radius: 0.75rem;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+}
+
+.reservations-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.reservations-title {
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.reservations-meta {
+  margin: 0;
+  font-size: 0.72rem;
+  color: var(--games-faint);
+}
+
+.reservations-highlight {
+  color: var(--games-teal);
+  font-weight: 700;
+}
+
+.reservations-status-dot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.875rem;
+  height: 1.875rem;
+  flex-shrink: 0;
+  border-radius: 50%;
+
+  svg {
+    width: 0.9rem;
+    height: 0.9rem;
+  }
+}
+
+.reservations-status-dot--pending {
+  background: var(--games-amber-soft);
+  svg { fill: var(--games-amber); }
+}
+
+.reservations-status-dot--approved {
+  background: var(--games-teal-soft);
+  svg { fill: var(--games-teal); }
+}
+
+.reservations-status-dot--declined {
+  background: var(--games-coral-soft);
+  svg { fill: var(--games-coral); }
+}
+
+.reservations-status-dot--expired {
+  background: var(--games-violet-soft);
+  svg { fill: var(--games-violet); }
+}
+
+.reservations-menu-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.875rem;
+  height: 1.875rem;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--games-surface-2);
+  cursor: pointer;
+
+  svg {
+    width: 1rem;
+    height: 1rem;
+    fill: var(--games-text);
+  }
+}
+
+.reservations-actions {
+  display: none;
+  gap: 0.625rem;
+}
+
+.reservations-row--expanded .reservations-actions {
+  display: flex;
+}
+
+.reservations-action {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  border: 0;
+  border-radius: 999px;
+  padding: 0.625rem 0.75rem;
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+
+  svg {
+    width: 0.8rem;
+    height: 0.8rem;
+  }
+}
+
+.reservations-action--approve {
+  background: var(--games-teal-soft);
+  color: var(--games-teal);
+  svg { fill: var(--games-teal); }
+}
+
+.reservations-action--decline {
+  background: var(--games-coral-soft);
+  color: var(--games-coral);
+  svg { fill: var(--games-coral); }
+}
+
+.reservations-action--neutral {
+  background: var(--games-surface-2);
+  color: var(--games-muted);
+  svg { fill: var(--games-muted); }
+}
+
+.reservations-filters {
+  display: flex;
+  gap: 0.5rem;
+  width: min(74rem, 100%);
+  margin: 0 auto;
+  padding-bottom: 0.15rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.reservations-filter {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.5rem 0.8rem;
+  border: 1px solid var(--games-border);
+  border-radius: 999px;
+  background: var(--games-surface);
+  color: var(--games-faint);
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+
+  svg {
+    width: 0.85rem;
+    height: 0.85rem;
+    fill: var(--games-faint);
+  }
+}
+
+.reservations-filter--active {
+  background: var(--games-blue);
+  border-color: var(--games-blue);
+  color: var(--games-blue-ink);
+
+  svg {
+    fill: var(--games-blue-ink);
+  }
+}
+
+.reservations-section-title {
+  width: min(74rem, 100%);
+  margin: 0.25rem auto 0;
+  font-family: "Bricolage Grotesque", "Sora", system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 0.95rem;
+}
+
+@media (min-width: 900px) {
+  .reservations-shell {
+    padding: 2.5rem 3rem 4rem;
+  }
+
+  .reservations-hub {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .reservations-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-content: start;
+    gap: 0.75rem;
+  }
+
+  .reservations-empty {
+    grid-column: 1 / -1;
+  }
+
+  .reservations-row {
+    padding: 1rem;
+  }
 }
 
 a {
@@ -62,8 +1381,8 @@ a:active {
   position: fixed !important;
   bottom: 11vh;
   left: 50%;
-  transform: translateX(-52.5%);
-  width: 70%;
+  transform: translateX(-50%);
+  width: 90%;
   /* This ensures it spans the full width to maintain centering */
   display: flex;
   justify-content: center;
@@ -80,54 +1399,122 @@ a:active {
   /* Removes the right margin */
   pointer-events: auto;
   /* Allows clicks on the snackbar itself */
+  width: 90vw;
+  max-width: 90vw !important;
+
+  .mdc-snackbar__surface {
+    min-width: 0 !important;
+    width: 100% !important;
+    max-width: 90vw !important;
+  }
 }
 
 .toast-container {
+  position: relative;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  color: black;
-  // max-height: 1.25rem;
-  max-width: 20rem;
-  font-size: 0.875rem;
-  line-height: 1.375rem;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: none;
+  padding: 0.375rem 0.25rem;
+  color: var(--games-text);
+  font-family: "Sora", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  font-size: 0.84375rem;
+  line-height: 1.4;
+  overflow: hidden;
+
   .close {
     display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    flex-shrink: 0;
+    cursor: pointer;
+
+    svg {
+      width: 0.75rem;
+      height: 0.75rem;
+      fill: none;
+      stroke: var(--games-faint);
+      stroke-width: 2.3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
   }
 
   .toast-icon {
-    margin-right: 0.625rem;
-    margin-bottom: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.875rem;
+    height: 1.875rem;
+    border-radius: 0.625rem;
+    flex-shrink: 0;
+    background: var(--games-teal-soft);
+
+    svg {
+      width: 0.9375rem;
+      height: 0.9375rem;
+      fill: none;
+      stroke: var(--games-teal);
+      stroke-width: 2.3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
   }
+
   .toast-message {
     word-break: break-word;
   }
+
   .spacer {
     flex-grow: 1;
-    margin-left: 0.4rem;
   }
 }
 
-.toast-success {
-  background: $color-success-20-percent;
-  --mdc-snackbar-container-color: $color-success-20-percent;
+.toast-container.toast-error .toast-icon {
+  background: var(--games-coral-soft);
+  svg {
+    stroke: var(--games-coral);
+  }
 }
 
-.toast-error {
-  background: $color-danger-10-percent;
-  --mdc-snackbar-container-color: $color-danger-10-percent;
+.mat-mdc-snack-bar-container.toast-success,
+.mat-mdc-snack-bar-container.toast-error {
+  --mdc-snackbar-container-color: transparent;
+
+  .mdc-snackbar__surface {
+    background: var(--games-surface) !important;
+    border: 1px solid var(--games-border);
+    border-left: 3px solid var(--games-teal);
+    border-radius: 1rem !important;
+    box-shadow: var(--games-shadow) !important;
+    padding: 0.375rem 0.5rem !important;
+  }
+}
+
+.mat-mdc-snack-bar-container.toast-error .mdc-snackbar__surface {
+  border-left-color: var(--games-coral);
 }
 
 #toast-progress-bar {
-  display: inline-table;
-  left: 0px;
-  bottom: -0.01rem;
+  display: block;
   position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.375rem;
+  width: 100%;
 }
 
 .mdc-linear-progress__bar-inner {
-  color: gray;
-  height: 20px !important;
+  border-color: var(--games-teal) !important;
+  height: 0.1875rem !important;
+}
+
+.toast-error .mdc-linear-progress__bar-inner {
+  border-color: var(--games-coral) !important;
 }
 
 // Region Toasts: End
@@ -141,6 +1528,457 @@ a:active {
 .cdk-overlay-backdrop {
   background-color: rgba(0, 0, 0, 0.5); /* Ensure backdrop visibility */
 }
+
+// Region Reimagined confirm dialogs: shared chrome for the "confirm-sheet"
+// dialogs (destructive confirms, approve/decline, leave/discard warnings).
+// Reuses the --games-* tokens so it stays visually consistent with the
+// rest of the reimagined screens.
+.cdk-overlay-pane.confirm-sheet-pane {
+  position: fixed !important;
+  top: auto !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  margin: 0 !important;
+  max-width: 100vw !important;
+  width: 100% !important;
+}
+
+@media (min-width: 900px) {
+  .cdk-overlay-pane.confirm-sheet-pane {
+    left: 50% !important;
+    right: auto !important;
+    bottom: 1.5rem !important;
+    transform: translateX(-50%) !important;
+    width: min(26rem, 92vw) !important;
+  }
+}
+
+.confirm-sheet {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem 1.375rem 1.75rem;
+  background: var(--games-surface);
+  color: var(--games-text);
+  border: 1px solid var(--games-border);
+  border-radius: 1.75rem 1.75rem 0 0;
+  box-shadow: 0 -0.625rem 2.5rem -0.625rem rgba(0, 0, 0, 0.7);
+  font-family: "Sora", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+}
+
+@media (min-width: 900px) {
+  .confirm-sheet {
+    border-radius: 1.75rem;
+    box-shadow: var(--games-shadow);
+  }
+}
+
+.confirm-sheet__handle {
+  position: relative;
+  width: 2.5rem;
+  height: 0.25rem;
+  border-radius: 999px;
+  background: var(--games-border);
+  margin: 0 auto;
+  // swipe-down-to-dismiss (SheetDismissDirective) grabs here - claim the
+  // vertical gesture and give the tiny bar a finger-sized hit area.
+  touch-action: none;
+  cursor: grab;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: -0.85rem -2.5rem;
+  }
+}
+
+@media (min-width: 900px) {
+  .confirm-sheet__handle {
+    display: none;
+  }
+}
+
+.confirm-sheet__head {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+}
+
+.confirm-sheet__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.875rem;
+  height: 2.875rem;
+  flex-shrink: 0;
+  border-radius: 0.875rem;
+
+  svg {
+    width: 1.3125rem;
+    height: 1.3125rem;
+    fill: none;
+    stroke-width: 2.1;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+.confirm-sheet__icon--lg {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 1rem;
+
+  svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+}
+
+.confirm-sheet__icon--coral {
+  background: var(--games-coral-soft);
+  svg {
+    stroke: var(--games-coral);
+  }
+}
+
+.confirm-sheet__icon--teal {
+  background: var(--games-teal-soft);
+  svg {
+    stroke: var(--games-teal);
+  }
+}
+
+.confirm-sheet__icon--amber {
+  background: var(--games-amber-soft);
+  svg {
+    stroke: var(--games-amber);
+  }
+}
+
+.confirm-sheet__title {
+  font-family: "Bricolage Grotesque", "Sora", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 1.0625rem;
+}
+
+.confirm-sheet__subtitle {
+  margin-top: 0.125rem;
+  font-size: 0.75rem;
+  color: var(--games-muted);
+}
+
+.confirm-sheet__centered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.875rem;
+  padding: 0 0.375rem;
+  text-align: center;
+}
+
+.confirm-sheet__message {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.65;
+  color: var(--games-muted);
+}
+
+.confirm-sheet__callout {
+  display: flex;
+  gap: 0.625rem;
+  align-items: flex-start;
+  padding: 0.75rem 0.875rem;
+  border-radius: 0.75rem;
+  background: var(--games-amber-soft);
+  font-size: 0.78125rem;
+  line-height: 1.5;
+  color: var(--games-text);
+
+  strong {
+    color: var(--games-amber);
+  }
+}
+
+.confirm-sheet__info {
+  padding: 0 0.9375rem;
+  background: var(--games-surface-2);
+  border: 1px solid var(--games-border);
+  border-radius: 0.875rem;
+}
+
+.confirm-sheet__info-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.5625rem 0;
+  border-bottom: 1px solid var(--games-border);
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.confirm-sheet__info-label {
+  font-size: 0.75rem;
+  color: var(--games-muted);
+}
+
+.confirm-sheet__info-value {
+  font-size: 0.78125rem;
+  font-weight: 700;
+  text-align: right;
+}
+
+.confirm-sheet__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.confirm-sheet__field-label {
+  font-size: 0.71875rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--games-faint);
+}
+
+.confirm-sheet__field textarea,
+.confirm-sheet__field input {
+  width: 100%;
+  resize: none;
+  background: var(--games-surface-2);
+  border: 1px solid var(--games-border);
+  border-radius: 0.75rem;
+  padding: 0.625rem 0.75rem;
+  color: var(--games-text);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  font-family: inherit;
+}
+
+.confirm-sheet__error {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--games-coral);
+  text-align: center;
+}
+
+.confirm-sheet__actions {
+  display: flex;
+  gap: 0.625rem;
+  margin-top: 0.25rem;
+}
+
+.confirm-sheet__btn {
+  flex: 1;
+  appearance: none;
+  border: none;
+  border-radius: 999px;
+  padding: 0.8125rem 0;
+  font: inherit;
+  font-size: 0.84375rem;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+}
+
+.confirm-sheet__btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.confirm-sheet__btn--ghost {
+  background: var(--games-surface-2);
+  border: 1px solid var(--games-border);
+  color: var(--games-muted);
+}
+
+.confirm-sheet__btn--coral {
+  background: var(--games-coral);
+  color: #2b0705;
+}
+
+.confirm-sheet__btn--teal {
+  background: var(--games-teal);
+  color: #062420;
+}
+
+.confirm-sheet__btn--amber {
+  background: var(--games-amber);
+  color: #2b1a02;
+}
+// Region Reimagined confirm dialogs: End
+
+// Region Reimagined QR + image dialogs: shared chrome for the QR "ticket"
+// dialogs (game/reward/reservation QR) and the image preview dialog. These
+// stay MatDialog-centered (no bottom-sheet panelClass needed).
+.qr-ticket {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.875rem;
+  padding: 1.625rem 1.375rem 1.375rem;
+  text-align: center;
+  background: var(--games-surface);
+  color: var(--games-text);
+  border: 1px solid var(--games-border);
+  border-radius: 1.5rem;
+  box-shadow: var(--games-shadow);
+  font-family: "Sora", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+}
+
+.qr-ticket__close {
+  position: absolute;
+  top: 0.875rem;
+  right: 0.875rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--games-surface-2);
+  cursor: pointer;
+
+  svg {
+    width: 0.875rem;
+    height: 0.875rem;
+    fill: none;
+    stroke: var(--games-faint);
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+.qr-ticket__badge {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 0.3125rem 0.75rem;
+  border-radius: 999px;
+  background: var(--games-teal-soft);
+  color: var(--games-teal);
+}
+
+.qr-ticket__title {
+  font-family: "Bricolage Grotesque", "Sora", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 1.0625rem;
+  word-break: break-word;
+}
+
+.qr-ticket__subtitle {
+  margin-top: -0.5rem;
+  font-size: 0.75rem;
+  color: var(--games-muted);
+}
+
+.qr-ticket__code {
+  padding: 0.875rem;
+  background: #fdfcf9;
+  border-radius: 1rem;
+
+  ::ng-deep qrcode canvas,
+  ::ng-deep qrcode img {
+    display: block;
+  }
+}
+
+.qr-ticket__message {
+  margin: 0;
+  font-size: 0.78125rem;
+  color: var(--games-muted);
+}
+
+.qr-ticket__btn {
+  width: 100%;
+  appearance: none;
+  border: none;
+  border-radius: 999px;
+  padding: 0.8125rem 0;
+  margin-top: 0.25rem;
+  font: inherit;
+  font-size: 0.84375rem;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+  background: var(--games-teal);
+  color: #062420;
+}
+
+.image-preview {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: var(--games-surface);
+  border: 1px solid var(--games-border);
+  border-radius: 1.375rem;
+  box-shadow: var(--games-shadow);
+  font-family: "Sora", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+}
+
+.image-preview__close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--games-surface-2);
+  cursor: pointer;
+  z-index: 1;
+
+  svg {
+    width: 0.875rem;
+    height: 0.875rem;
+    fill: none;
+    stroke: var(--games-text);
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+.image-preview__title {
+  font-family: "Bricolage Grotesque", "Sora", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 0.9375rem;
+  padding-right: 1.75rem;
+}
+
+.image-preview__frame {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 15rem;
+  border-radius: 1rem;
+  overflow: hidden;
+  background: var(--games-surface-2);
+}
+
+.image-preview__frame--tall img {
+  height: 15rem;
+}
+
+.image-preview__frame img {
+  width: 100%;
+  object-fit: contain;
+}
+// Region Reimagined QR + image dialogs: End
 
 @keyframes heartBeat {
   0% {

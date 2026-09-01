@@ -17,21 +17,21 @@ internal class JoinRoomCommandHandler : IRequestHandler<JoinRoomCommand>
     readonly IRepository<Room> roomsRepository;
     readonly IRepository<RoomParticipant> roomParticipantsRepository;
     readonly IUserContext userContext;
-    readonly IUserService userService;
+    readonly IUserManagementService userManagementService;
     readonly IPushNotificationsService pushNotificationsService;
     readonly ILocalizationService localizer;
 
     public JoinRoomCommandHandler(
         IRepository<Room> roomsRepository,
         IRepository<RoomParticipant> roomParticipantsRepository,
-        IUserContext userContext, IUserService userService,
+        IUserContext userContext, IUserManagementService userManagementService,
         IPushNotificationsService pushNotificationsService,
         ILocalizationService localizer)
     {
         this.roomsRepository = roomsRepository;
         this.roomParticipantsRepository = roomParticipantsRepository;
         this.userContext = userContext;
-        this.userService = userService;
+        this.userManagementService = userManagementService;
         this.pushNotificationsService = pushNotificationsService;
         this.localizer = localizer;
     }
@@ -72,7 +72,7 @@ internal class JoinRoomCommandHandler : IRequestHandler<JoinRoomCommand>
             var roomParticipant = new RoomParticipant { UserId = this.userContext.UserId, RoomId = room.Id, JoinedAt = DateTime.UtcNow };
             await this.roomParticipantsRepository.AddAsync(roomParticipant, cancellationToken);
         }
-        var user = await this.userService.GetUserById(this.userContext.UserId, cancellationToken);
+        var user = await this.userManagementService.GetUserById(this.userContext.UserId!, cancellationToken);
         var payload = new RoomParticipantJoinedNotification
         {
             ParticipantName = user?.UserName ?? this.localizer["NotProvided"],

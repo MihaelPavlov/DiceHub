@@ -21,27 +21,27 @@ public static class TimePeriodTypeHelper
         }
     }
 
-    public static DateTime CalculateNextResetDate(TimePeriodType periodType, string resetDayForRewards)
+    /// <param name="timeZoneId">
+    /// The club's IANA time zone (e.g. "Europe/Sofia"). Both the weekly and the
+    /// monthly reset land on local midnight following the chosen day in this zone.
+    /// Null/invalid falls back to <see cref="TimeZoneResolver.DefaultTimeZoneId"/>.
+    /// </param>
+    public static DateTime CalculateNextResetDate(TimePeriodType periodType, string resetDayForRewards, string? timeZoneId)
     {
-        DateTime nextResetDate = DateTime.UtcNow;
-        int resetHour = 0; // Default to 12:00 PM
+        var tz = TimeZoneResolver.Resolve(timeZoneId);
+        var nowLocal = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, tz);
 
         if (periodType == TimePeriodType.Weekly)
         {
-            var tz = TimeZoneInfo.FindSystemTimeZoneById("Europe/Sofia");
-            var nowBg = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, tz);
             // Parse ResetDayForRewards as a DayOfWeek
             if (Enum.TryParse<DayOfWeek>(resetDayForRewards, true, out var resetDay))
             {
-                // Calculate next occurrence of specified day at 12:00 PM
-                int daysUntilReset = ((int)resetDay - (int)nowBg.DayOfWeek + 7) % 7;
+                int daysUntilReset = ((int)resetDay - (int)nowLocal.DayOfWeek + 7) % 7;
 
-                // Not needed if we have day on monday, and today is monday and we will create period till the end of the day . 
-                //if (daysUntilReset == 0)
-                //    daysUntilReset = 7;
-                var resetDateBg = nowBg.Date.AddDays(daysUntilReset);
-                resetDateBg = resetDateBg.AddDays(1);
-                return TimeZoneInfo.ConvertTimeToUtc(resetDateBg, tz);
+                // The reset lands at the end of the chosen weekday, i.e. local
+                // midnight of the following day.
+                var resetLocal = nowLocal.Date.AddDays(daysUntilReset + 1);
+                return TimeZoneInfo.ConvertTimeToUtc(resetLocal, tz);
             }
         }
         else if (periodType == TimePeriodType.Monthly)
@@ -49,20 +49,23 @@ public static class TimePeriodTypeHelper
             // Parse ResetDayForRewards as an integer representing day of the month
             if (int.TryParse(resetDayForRewards, out var resetDayOfMonth))
             {
-                int currentMonth = DateTime.UtcNow.Month;
-                int currentYear = DateTime.UtcNow.Year;
+                var year = nowLocal.Year;
+                var month = nowLocal.Month;
 
-                // Check if reset day has already passed this month
-                if (DateTime.UtcNow.Day < resetDayOfMonth)
+                // If the reset day has already passed this month, roll to next month.
+                if (nowLocal.Day >= resetDayOfMonth)
                 {
-                    nextResetDate = new DateTime(currentYear, currentMonth, resetDayOfMonth, resetHour, 0, 0, DateTimeKind.Utc);
+                    var next = nowLocal.AddMonths(1);
+                    year = next.Year;
+                    month = next.Month;
                 }
-                else
-                {
-                    // Set to reset day of following month if day has passed
-                    DateTime nextMonth = DateTime.UtcNow.AddMonths(1);
-                    nextResetDate = new DateTime(nextMonth.Year, nextMonth.Month, resetDayOfMonth, resetHour, 0, 0, DateTimeKind.Utc);
-                }
+
+                // Clamp for short months (e.g. reset day 31 in February).
+                var day = Math.Min(resetDayOfMonth, DateTime.DaysInMonth(year, month));
+
+                // End of the chosen day => local midnight of the following day.
+                var resetLocal = new DateTime(year, month, day, 0, 0, 0, DateTimeKind.Unspecified).AddDays(1);
+                return TimeZoneInfo.ConvertTimeToUtc(resetLocal, tz);
             }
         }
         else if (periodType == TimePeriodType.Yearly)
@@ -70,7 +73,7 @@ public static class TimePeriodTypeHelper
             throw new NotImplementedException("Functionality for Yearly period is not implemented");
         }
 
-        // ✅ Move to end of day: 23:59:59
-        return nextResetDate.Date.AddDays(1).AddSeconds(-1);
+        // Fallback for an unparseable reset day: end of today, local time.
+        return TimeZoneInfo.ConvertTimeToUtc(nowLocal.Date.AddDays(1), tz);
     }
 }

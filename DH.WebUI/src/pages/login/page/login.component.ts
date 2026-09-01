@@ -1,7 +1,8 @@
+import { TenantSettingsService } from './../../../entities/common/api/tenant-settings.service';
 import { FrontEndLogService } from './../../../shared/services/frontend-log.service';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../entities/auth/auth.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Form } from '../../../shared/components/form/form.component';
 import { ToastService } from '../../../shared/services/toast.service';
 import { Formify } from '../../../shared/models/form.model';
@@ -15,13 +16,16 @@ import { AppToastMessage } from '../../../shared/components/toast/constants/app-
 import { ToastType } from '../../../shared/models/toast.model';
 import { FULL_ROUTE, ROUTE } from '../../../shared/configs/route.config';
 import { MessagingService } from '../../../entities/messaging/api/messaging.service';
-import { TenantSettingsService } from '../../../entities/common/api/tenant-settings.service';
 import { LoadingService } from '../../../shared/services/loading.service';
 import { LoadingInterceptorContextService } from '../../../shared/services/loading-context.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../shared/services/language.service';
 import { ChallengeOverlayService } from '../../../shared/services/challenges-overlay.service';
 import { ChallengeHubService } from '../../../entities/challenges/api/challenge-hub.service';
+import { TenantRouter } from '../../../shared/helpers/tenant-router';
+import { TenantContextService } from '../../../shared/services/tenant-context.service';
+import { Capacitor } from '@capacitor/core';
+import { CredentialManager } from '../../../shared/plugins/credential-manager.plugin';
 
 interface ILoginForm {
   email: string;
@@ -30,10 +34,10 @@ interface ILoginForm {
 }
 
 @Component({
-    selector: 'app-login',
-    templateUrl: 'login.component.html',
-    styleUrl: 'login.component.scss',
-    standalone: false
+  selector: 'app-login',
+  templateUrl: 'login.component.html',
+  styleUrl: 'login.component.scss',
+  standalone: false,
 })
 export class LoginComponent extends Form implements OnInit {
   override form: Formify<ILoginForm>;
@@ -41,24 +45,28 @@ export class LoginComponent extends Form implements OnInit {
   public getMessageFromRedirect: string | null = null;
   public showResend: boolean = false;
   public clubName: string | null = null;
+  public clubLogoUrl: string | null = null;
+  public isAdminLogin = false;
 
   constructor(
     public override readonly toastService: ToastService,
-    private readonly router: Router,
     private readonly authService: AuthService,
     private readonly messagingService: MessagingService,
     private readonly fb: FormBuilder,
     private readonly route: ActivatedRoute,
-    private readonly tenantSettingsService: TenantSettingsService,
+    private readonly tenantRouter: TenantRouter,
+    private readonly tenantContextService: TenantContextService,
     private readonly loadingService: LoadingService,
     private readonly frontEndLogService: FrontEndLogService,
     private readonly loadingContext: LoadingInterceptorContextService,
     public override translateService: TranslateService,
     private readonly languageService: LanguageService,
     private readonly challengeOverlayService: ChallengeOverlayService,
-    private readonly challengeHubService: ChallengeHubService
+    private readonly challengeHubService: ChallengeHubService,
+    private readonly tenantSettingsService: TenantSettingsService
   ) {
     super(toastService, translateService);
+
     this.route.queryParams.subscribe((params) => {
       if (params['fromRegister'] === 'true') {
         this.getMessageFromRedirect = this.translateService.instant(
@@ -95,27 +103,118 @@ export class LoginComponent extends Form implements OnInit {
   }
 
   public ngOnInit(): void {
+    this.isAdminLogin = window.location.pathname.startsWith('/admin/login');
+
+    if (this.isAdminLogin) {
+      this.clubName = 'DiceHub Admin';
+      return;
+    }
+
+    if (this.tenantContextService.tenantName) {
+      this.clubName = this.tenantContextService.tenantName;
+    }
+
+    this.tryPrefillFromSavedCredential();
+
+    // Always resolve club branding: the club's owner may have uploaded a
+    // custom logo, which replaces the default DiceHub mark on the login card.
     this.tenantSettingsService.getClubName().subscribe({
-      next: (clubName) => {
-        this.clubName = clubName;
+      next: (res) => {
+        this.clubName ??= res.clubName;
+        this.clubLogoUrl = this.resolveClubLogoUrl(res.logoFileName);
       },
     });
   }
 
+  private resolveClubLogoUrl(logoFileName: string | null): string | null {
+    if (!logoFileName) return null;
+
+    if (/^https?:\/\//i.test(logoFileName)) {
+      return logoFileName;
+    }
+
+    return `/shared/assets/images/tenant_logos/${logoFileName}`;
+  }
+
+  public changeClub(): void {
+    this.tenantContextService.clearTenant();
+    this.tenantRouter.navigateGlobal(ROUTE.CHOOSE_CLUB);
+  }
+
   public navigateToRegister(): void {
-    this.router.navigateByUrl(ROUTE.REGISTER);
+    this.tenantRouter.navigateGlobal(ROUTE.REGISTER);
   }
 
   public navigateToForgotPassword(): void {
-    this.router.navigateByUrl(ROUTE.FORGOT_PASSWORD);
+    this.tenantRouter.navigateGlobal(ROUTE.FORGOT_PASSWORD);
   }
 
   public navigateToLanding(): void {
-    this.router.navigateByUrl(ROUTE.LANDING);
+    this.tenantRouter.navigateGlobal(ROUTE.LANDING);
   }
 
   private clearServerErrorMessage() {
     this.getServerErrorMessage = null;
+  }
+
+  /**
+   * On native Android the WebView cannot reach the Credential Management API,
+   * so ask the system credential provider (Google Password Manager et al.)
+   * directly for a saved account and drop it into the form. We do NOT
+   * auto-submit - the user still taps "Log in" after seeing what was filled.
+   * Android-only, best-effort: anything going wrong just means no pre-fill.
+   */
+  private async tryPrefillFromSavedCredential(): Promise<void> {
+    if (Capacitor.getPlatform() !== 'android') return;
+
+    try {
+      const { username, password } = await CredentialManager.getPassword();
+      if (username && password && !this.form.dirty) {
+        this.form.patchValue({ email: username, password });
+      }
+    } catch {
+      // No provider / nothing saved / user dismissed the sheet.
+    }
+  }
+
+  /**
+   * This app's login button is type="button" (not "submit"), and the whole
+   * flow runs through Angular's HttpClient rather than a real HTML form POST -
+   * so the browser/WebView's native "detect a form submission, offer to save
+   * the password" heuristic never has anything to trigger on.
+   *
+   * On native Android we hand the credential to the AndroidX Credential
+   * Manager (the Credential Management API below does not exist in the Android
+   * System WebView). Elsewhere - browser and installed PWA on Chrome/Edge -
+   * the Credential Management API triggers the same native save-password
+   * prompt. No-op on browsers without support (e.g. Safari) or if the user
+   * declines; either way it must never affect the login flow itself.
+   */
+  private async savePasswordCredential(email: string, password: string): Promise<void> {
+    if (Capacitor.getPlatform() === 'android') {
+      try {
+        await CredentialManager.savePassword({ username: email, password });
+      } catch {
+        // Best-effort only.
+      }
+      return;
+    }
+
+    const PasswordCredentialCtor = (window as any).PasswordCredential;
+    if (!('credentials' in navigator) || !PasswordCredentialCtor) {
+      return;
+    }
+
+    try {
+      const credential = new PasswordCredentialCtor({
+        id: email,
+        password,
+        name: email,
+      });
+      await (navigator.credentials as any).store(credential);
+    } catch {
+      // Best-effort only.
+    }
   }
 
   protected override getControlDisplayName(controlName: string): string {
@@ -195,10 +294,14 @@ export class LoginComponent extends Form implements OnInit {
 
       const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
+      const loginEmail = this.form.controls.email.value;
+      const loginPassword = this.form.controls.password.value;
+
       this.authService
         .login({
-          email: this.form.controls.email.value,
-          password: this.form.controls.password.value,
+          email: loginEmail,
+          password: loginPassword,
+          tenantId: this.isAdminLogin ? null : this.tenantContextService.tenantId,
           deviceToken,
           timeZone,
         })
@@ -207,29 +310,53 @@ export class LoginComponent extends Form implements OnInit {
             if (response) {
               this.authService.authenticateUser(
                 response.accessToken,
-                response.refreshToken
+                response.refreshToken,
+                response.tenantId,
+                !!this.form.controls.rememberMe.value
               );
+              this.savePasswordCredential(loginEmail, loginPassword);
 
-              if (this.challengeOverlayService.overlay.value) {
+              if (
+                response.tenantId !== 'system' &&
+                this.challengeOverlayService.overlay.value
+              ) {
                 this.challengeHubService.initChallengeHubConnection(
                   response.userId,
                   this.challengeOverlayService.overlay.value
                 );
               }
 
-              this.router.navigateByUrl(FULL_ROUTE.GAMES.LIBRARY);
+              if (response.tenantId === 'system') {
+                this.tenantContextService.clearTenant();
+                this.tenantRouter.navigateGlobal(['admin', 'applicants']);
+              } else {
+                this.tenantContextService.tenantId = response.tenantId;
+                this.tenantRouter.navigateTenant(FULL_ROUTE.GAMES.LIBRARY);
+              }
             }
           },
           error: (error) => {
             this.frontEndLogService
               .sendWarning(error.message, error.stack)
               .subscribe();
-            if (error.error.errors.Email)
-              this.getServerErrorMessage = error.error.errors.Email[0];
-            if (error.error.errors.EmailNotConfirmed) {
-              this.getServerErrorMessage =
-                error.error.errors.EmailNotConfirmed[0];
+
+            // Only a 422 validation response carries error.error.errors; a 404/500/
+            // network failure does not, so guard every access or the handler throws
+            // ("undefined is not an object") and the user is left on a blank error page.
+            const serverErrors = error?.error?.errors;
+            if (serverErrors?.TenantId) {
+              this.getServerErrorMessage = this.translateService.instant(
+                'login.errors.tenant_mismatch'
+              );
+            } else if (serverErrors?.EmailNotConfirmed) {
+              this.getServerErrorMessage = serverErrors.EmailNotConfirmed[0];
               this.showResend = true;
+            } else if (serverErrors?.Email) {
+              this.getServerErrorMessage = serverErrors.Email[0];
+            } else {
+              this.getServerErrorMessage = this.translateService.instant(
+                AppToastMessage.SomethingWrong
+              );
             }
 
             this.toastService.error({
@@ -248,116 +375,6 @@ export class LoginComponent extends Form implements OnInit {
           },
         });
     }
-  }
-
-  public async loginUser(): Promise<void> {
-    try {
-      this.loadingService.loadingOn();
-      let deviceToken: string | null = null;
-      if (this.messagingService.isPushUnsupportedIOS()) {
-        this.frontEndLogService
-          .sendWarning(
-            'Push notifications not supported on this iOS version',
-            'On LoginComponent.onLogin()'
-          )
-          .subscribe();
-      } else {
-        deviceToken =
-          await this.messagingService.getDeviceTokenForRegistration();
-      }
-      const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-      this.authService
-        .login({
-          email: 'rap4obg@abv.bg',
-          password: '1qaz!QAZ',
-          deviceToken,
-          timeZone,
-        })
-        .subscribe({
-          next: (response) => {
-            if (response) {
-              this.authService.authenticateUser(
-                response.accessToken,
-                response.refreshToken
-              );
-
-              this.router.navigateByUrl('games/library');
-            }
-          },
-          error: (error) => {
-            this.handleServerErrors(error);
-            this.toastService.error({
-              message: AppToastMessage.SomethingWrong,
-              type: ToastType.Error,
-            });
-          },
-          complete: () => {
-            this.loadingService.loadingOff();
-          },
-        });
-    } catch (error: any) {
-      console.error('Error during login:', error);
-      alert(error.message);
-      alert(error);
-    }
-  }
-
-  public async loginAdmin() {
-    this.loadingContext.enableManualMode();
-    this.loadingService.loadingOn();
-    let deviceToken: string | null = null;
-    if (this.messagingService.isPushUnsupportedIOS()) {
-      this.frontEndLogService
-        .sendWarning(
-          'Push notifications not supported on this iOS version',
-          'On LoginComponent.onLogin()'
-        )
-        .subscribe();
-    } else {
-      this.frontEndLogService
-        .sendWarning(
-          'Start Getting device token for registration',
-          'On LoginComponent.onLogin()'
-        )
-        .subscribe();
-      deviceToken = await this.messagingService.getDeviceTokenForRegistration();
-    }
-    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-    this.frontEndLogService
-      .sendWarning('login as admin', 'On LoginComponent.onLogin()')
-      .subscribe();
-    this.authService
-      .login({
-        email: 'sa@dicehub.com',
-        password: '1qaz!QAZ',
-        deviceToken,
-        timeZone,
-      })
-      .subscribe({
-        next: (response) => {
-          if (response) {
-            this.authService.authenticateUser(
-              response.accessToken,
-              response.refreshToken
-            );
-
-            this.router.navigateByUrl('games/library');
-          }
-        },
-        error: (error) => {
-          this.handleServerErrors(error);
-          this.toastService.error({
-            message: AppToastMessage.SomethingWrong,
-            type: ToastType.Error,
-          });
-        },
-        complete: () => {
-          this.loadingService.loadingOff();
-          this.loadingContext.disableManualMode();
-        },
-      });
   }
 
   private initFormGroup(): FormGroup {

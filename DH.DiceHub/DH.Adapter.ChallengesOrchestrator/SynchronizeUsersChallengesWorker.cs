@@ -26,46 +26,64 @@ public class SynchronizeUsersChallengesWorker : BackgroundService
             using var scope = serviceScopeFactory.CreateScope();
             var queue = scope.ServiceProvider.GetRequiredService<ISynchronizeUsersChallengesQueue>();
 
-            var queuedJobs = await queue.TryDequeue(cancellationToken);
+            // One pending row per JobId - duplicates would make ToDictionary
+            // throw, and an unhandled exception here stops the whole host.
+            var queuedJobs = (await queue.TryDequeue(cancellationToken))
+                .DistinctBy(q => q.JobId)
+                .ToList();
 
             var nextJobsForProcessing = queuedJobs
                 .Select(q => JsonSerializer.Deserialize<JobInfo>(q.MessagePayload)!);
+            var tenantIdsByJobId = queuedJobs.ToDictionary(q => q.JobId, q => q.TenantId);
 
             var queuedJobService = scope.ServiceProvider.GetRequiredService<IQueuedJobService>();
             var userChallengesManagementService = scope.ServiceProvider.GetRequiredService<IUserChallengesManagementService>();
+            var tenantContextScopeRunner = scope.ServiceProvider.GetRequiredService<ITenantContextScopeRunner>();
             foreach (var nextJob in nextJobsForProcessing)
             {
                 string traceId = Guid.NewGuid().ToString();
 
                 try
                 {
+                    if (!tenantIdsByJobId.TryGetValue(nextJob.JobId, out var tenantId) || string.IsNullOrWhiteSpace(tenantId))
+                    {
+                        throw new InvalidOperationException($"Queued job {nextJob.JobId} has no tenant id.");
+                    }
+
                     var jobStartTime = DateTime.UtcNow;
                     logger.LogInformation("Trace Id: {traceId}; Job Id: {jobId} - Started at {startTime} - Job Info: {jobInfo}", traceId, nextJob.JobId, jobStartTime, JsonSerializer.Serialize(nextJob));
 
-                    switch (nextJob.TypeOfJob)
+                    await tenantContextScopeRunner.RunAsTenantAsync(tenantId, async () =>
                     {
-                        case nameof(SynchronizeNewUserJob):
-                            await userChallengesManagementService.InitiateUserChallengePeriod(nextJob.UserId, cancellationToken, forNewUser: true);
+                        switch (nextJob.TypeOfJob)
+                        {
+                            case nameof(SynchronizeNewUserJob):
+                                var periodCreated = await userChallengesManagementService
+                                    .InitiateUserChallengePeriod(nextJob.UserId, cancellationToken, forNewUser: true);
 
-                            await queuedJobService.UpdateStatusToCompleted(queue.QueueName, nextJob.JobId);
-                            break;
-                        case nameof(ChallengeInitiationJob):
-                            if (nextJob.ScheduledTime.HasValue && DateTime.UtcNow >= nextJob.ScheduledTime)
-                            {
-                                await userChallengesManagementService.AssignNextChallengeToUserAsync(nextJob.UserId, cancellationToken);
-
-                                await queuedJobService.UpdateStatusToCompleted(queue.QueueName, nextJob.JobId);
+                                if (periodCreated)
+                                    await queuedJobService.UpdateStatusToCompleted(queue.QueueName, nextJob.JobId);
+                                else
+                                    await queuedJobService.UpdateStatusToFailed(queue.QueueName, nextJob.JobId);
                                 break;
-                            }
+                            case nameof(ChallengeInitiationJob):
+                                if (nextJob.ScheduledTime.HasValue && DateTime.UtcNow >= nextJob.ScheduledTime)
+                                {
+                                    await userChallengesManagementService.AssignNextChallengeToUserAsync(nextJob.UserId, cancellationToken);
 
-                            logger.LogInformation("Trace Id: {traceId}; Job Id: {jobId} - Requeued at {requeueTime} - Job Info: {jobInfo}",
-                                traceId, nextJob.JobId, DateTime.UtcNow, JsonSerializer.Serialize(nextJob));
-                            break;
-                        default:
-                            logger.LogWarning("Trace Id: {traceId}; Job Id: {jobId} - Unknown job type at {warningTime}: {jobInfo}",
-                                traceId, nextJob.JobId, DateTime.UtcNow, JsonSerializer.Serialize(nextJob));
-                            break;
-                    }
+                                    await queuedJobService.UpdateStatusToCompleted(queue.QueueName, nextJob.JobId);
+                                    break;
+                                }
+
+                                logger.LogInformation("Trace Id: {traceId}; Job Id: {jobId} - Requeued at {requeueTime} - Job Info: {jobInfo}",
+                                    traceId, nextJob.JobId, DateTime.UtcNow, JsonSerializer.Serialize(nextJob));
+                                break;
+                            default:
+                                logger.LogWarning("Trace Id: {traceId}; Job Id: {jobId} - Unknown job type at {warningTime}: {jobInfo}",
+                                    traceId, nextJob.JobId, DateTime.UtcNow, JsonSerializer.Serialize(nextJob));
+                                break;
+                        }
+                    });
 
                     DateTime jobEndTime = DateTime.UtcNow;
                     logger.LogInformation("Trace Id: {traceId}; Job Id: {jobId} - Ended at {endTime} - Duration: {duration} - Job Info: {jobInfo}",

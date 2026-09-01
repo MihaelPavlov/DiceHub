@@ -299,3 +299,50 @@
     }
   }
 }
+
+@media (min-width: 900px) {
+  .fire_section,
+  .current_streak,
+  .your_stats,
+  .what_is_streak_description,
+  .streak_milestones {
+    width: min(72rem, calc(100vw - 16rem));
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .fire_section {
+    margin-top: 2.5rem;
+  }
+
+  .current_streak {
+    margin-top: 1rem;
+  }
+
+  .your_stats {
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+
+    &_sections {
+      justify-content: center;
+      gap: 3rem;
+    }
+  }
+
+  .what_is_streak_description {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem 2rem;
+    margin-top: 2rem;
+
+    .description {
+      margin: 0;
+      line-height: 1.45;
+    }
+  }
+
+  .streak_milestones {
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+  }
+}

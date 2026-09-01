@@ -17,12 +17,14 @@ import { FULL_ROUTE } from '../../../../shared/configs/route.config';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../../shared/services/language.service';
 import { SupportLanguages } from '../../../../entities/common/models/support-languages.enum';
+import { TenantRouter } from '../../../../shared/helpers/tenant-router';
+import { TenantContextService } from '../../../../shared/services/tenant-context.service';
 
 @Component({
-    selector: 'app-challenges-rewards',
-    templateUrl: 'challenges-rewards.component.html',
-    styleUrl: 'challenges-rewards.component.scss',
-    standalone: false
+  selector: 'app-challenges-rewards',
+  templateUrl: 'challenges-rewards.component.html',
+  styleUrl: 'challenges-rewards.component.scss',
+  standalone: false,
 })
 export class ChallengesRewardsComponent implements OnInit {
   public userRewards$!: Observable<IUserReward[]>;
@@ -35,9 +37,10 @@ export class ChallengesRewardsComponent implements OnInit {
     private readonly rewardsService: RewardsService,
     private readonly authService: AuthService,
     private readonly dialog: MatDialog,
-    private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly translateService: TranslateService,
-    private readonly languageService: LanguageService
+    private readonly languageService: LanguageService,
+    private readonly tenantContextService: TenantContextService
   ) {}
 
   public ngOnInit(): void {
@@ -59,12 +62,20 @@ export class ChallengesRewardsComponent implements OnInit {
   }
 
   public navigateToChallenges(): void {
-    this.router.navigateByUrl(FULL_ROUTE.CHALLENGES.CHALLENGES_HOME);
+    this.tenantRouter.navigateTenant(FULL_ROUTE.CHALLENGES.CHALLENGES_HOME);
+  }
+
+  public navigateToQrCodeScanner(): void {
+    this.tenantRouter.navigateTenant('/qr-code-scanner');
+  }
+
+  public getTenantLink(path: string): string {
+    return `${this.tenantContextService.tenantId}/${path}`;
   }
 
   public openDialog(id: number): void {
     this.dialog.open(UserRewardQrCodeDialog, {
-      width: '17rem',
+      width: '19rem',
       data: {
         Id: id,
         Name: 'UserReward',

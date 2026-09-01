@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Sora:wght@400;500;600;700&display=swap');
+    :root {
+      --bg: oklch(0.15 0.018 290);
+      --bg-elevated: oklch(0.195 0.02 290);
+      --bg-elevated-2: oklch(0.245 0.022 290);
+      --border: oklch(0.34 0.02 290 / 0.55);
+      --text: oklch(0.96 0.01 90);
+      --text-muted: oklch(0.7 0.02 290);
+      --text-faint: oklch(0.52 0.02 290);
+      --amber: oklch(0.78 0.16 75);
+      --amber-soft: oklch(0.78 0.16 75 / 0.16);
+      --coral: oklch(0.68 0.19 25);
+      --coral-soft: oklch(0.68 0.19 25 / 0.16);
+      --teal: oklch(0.72 0.14 165);
+      --teal-soft: oklch(0.72 0.14 165 / 0.16);
+      --violet: oklch(0.66 0.17 300);
+      --violet-soft: oklch(0.66 0.17 300 / 0.16);
+      --shadow-card: 0 10px 30px -12px oklch(0 0 0 / 0.55);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #0b0b0d; font-family: 'Sora', ui-sans-serif, system-ui, sans-serif; }
+    .display { font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif; }
+    .chip { font-size: 11.5px; font-weight: 700; padding: 5px 11px; border-radius: 999px; }
+  </style>
+</helmet>
+
+<div style="width:393px;background:var(--bg);color:var(--text);padding:24px 20px 140px;display:flex;flex-direction:column;gap:20px;position:relative;">
+
+  <div style="display:flex;align-items:center;justify-content:space-between;">
+    <span class="display" style="font-size:26px;font-weight:800;">Find Meeple</span>
+    <div style="width:44px;height:44px;border-radius:999px;background:var(--amber);display:flex;align-items:center;justify-content:center;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2b1a02" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+    </div>
+  </div>
+
+  <div style="display:flex;align-items:center;gap:10px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:14px;padding:13px 16px;">
+    <svg width="16" height="16" viewBox="0 -960 960 960" fill="none" stroke="var(--text-faint)" stroke-width="70"><path d="M788.38-127.85 535.92-380.31q-30 24.54-73.5 38.04t-83.88 13.5q-106.1 0-179.67-73.53-73.56-73.53-73.56-179.57 0-106.05 73.53-179.71 73.53-73.65 179.57-73.65 106.05 0 179.71 73.56Q631.77-688.1 631.77-582q0 42.69-13.27 83.69t-37.27 70.69l253.46 253.47-46.31 46.3ZM378.54-394.77q79.61 0 133.42-53.81 53.81-53.8 53.81-133.42 0-79.62-53.81-133.42-53.81-53.81-133.42-53.81-79.62 0-133.42 53.81-53.81 53.8-53.81 133.42 0 79.62 53.81 133.42 53.8 53.81 133.42 53.81Z"/></svg>
+    <span style="font-size:14px;color:var(--text-faint);">Search open tables…</span>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:14px;">
+
+    <div style="background:var(--bg-elevated);border:1px solid var(--border);border-radius:22px;padding:16px;box-shadow:var(--shadow-card);display:flex;flex-direction:column;gap:12px;">
+      <div style="display:flex;gap:14px;">
+        <div style="width:56px;height:56px;border-radius:14px;flex-shrink:0;background:linear-gradient(150deg,#5a4fcf,#8ea2ff);"></div>
+        <div style="display:flex;flex-direction:column;gap:2px;min-width:0;">
+          <span style="font-size:15px;font-weight:700;">Saturday Catan Night</span>
+          <span style="font-size:12.5px;color:var(--text-faint);">Playing Catan</span>
+        </div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;">
+        <span class="chip" style="background:var(--amber-soft);color:var(--amber);">3 joined</span>
+        <span class="chip" style="background:var(--coral-soft);color:var(--coral);">max 4</span>
+        <span class="chip" style="background:var(--teal-soft);color:var(--teal);">Aug 23, 19:00</span>
+        <span class="chip" style="background:var(--violet-soft);color:var(--violet);">in 3 days</span>
+      </div>
+    </div>
+
+    <div style="background:var(--bg-elevated);border:1px solid var(--border);border-radius:22px;padding:16px;box-shadow:var(--shadow-card);display:flex;flex-direction:column;gap:12px;">
+      <div style="display:flex;gap:14px;">
+        <div style="width:56px;height:56px;border-radius:14px;flex-shrink:0;background:linear-gradient(150deg,#3f6b4e,#a7c48f);"></div>
+        <div style="display:flex;flex-direction:column;gap:2px;min-width:0;">
+          <span style="font-size:15px;font-weight:700;">Beginners Welcome</span>
+          <span style="font-size:12.5px;color:var(--text-faint);">Playing Wingspan</span>
+        </div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;">
+        <span class="chip" style="background:var(--amber-soft);color:var(--amber);">1 joined</span>
+        <span class="chip" style="background:var(--coral-soft);color:var(--coral);">max 5</span>
+        <span class="chip" style="background:var(--teal-soft);color:var(--teal);">Aug 24, 18:30</span>
+        <span class="chip" style="background:var(--violet-soft);color:var(--violet);">in 4 days</span>
+      </div>
+    </div>
+
+    <div style="background:var(--bg-elevated);border:1px solid var(--border);border-radius:22px;padding:16px;box-shadow:var(--shadow-card);display:flex;flex-direction:column;gap:12px;">
+      <div style="display:flex;gap:14px;">
+        <div style="width:56px;height:56px;border-radius:14px;flex-shrink:0;background:linear-gradient(150deg,#8a6d1f,#e8cf7a);"></div>
+        <div style="display:flex;flex-direction:column;gap:2px;min-width:0;">
+          <span style="font-size:15px;font-weight:700;">Splendor Rematch</span>
+          <span style="font-size:12.5px;color:var(--text-faint);">Playing Splendor</span>
+        </div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;">
+        <span class="chip" style="background:var(--amber-soft);color:var(--amber);">2 joined</span>
+        <span class="chip" style="background:var(--coral-soft);color:var(--coral);">max 4</span>
+        <span class="chip" style="background:var(--teal-soft);color:var(--teal);">Aug 25, 20:00</span>
+        <span class="chip" style="background:var(--violet-soft);color:var(--violet);">in 5 days</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Floating bottom nav — real IA: games / meeple / reservations · FAB(challenges) · events / profile -->
+  <div style="position:absolute;left:20px;right:20px;bottom:24px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:999px;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 14px 34px -10px oklch(0 0 0 / 0.6);">
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9a1 1 0 0 0 1 1h4v-6h2v6h4a1 1 0 0 0 1-1v-9"/></svg>
+    <div style="width:38px;height:38px;border-radius:999px;background:var(--amber-soft);display:flex;align-items:center;justify-content:center;">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 19c.8-3.3 3-5 6-5s5.2 1.7 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 12.2c2.6.2 4 1.7 4.6 4.3"/></svg>
+    </div>
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16"/><path d="M8 3v4M16 3v4"/><path d="M9.5 14l1.8 1.8L15 12"/></svg>
+    <div style="width:50px;height:50px;border-radius:999px;background:linear-gradient(135deg,var(--amber),var(--coral));display:flex;align-items:center;justify-content:center;margin-top:-22px;box-shadow:0 8px 20px -6px var(--amber-soft),0 0 0 6px var(--bg);">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2b1502" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8v4a4 4 0 0 1-8 0z"/><path d="M8 5H5a3 3 0 0 0 3 5"/><path d="M16 5h3a3 3 0 0 1-3 5"/><path d="M10 13v3M14 13v3"/><path d="M8 20h8"/><path d="M9 17h6l1 3H8z"/></svg>
+    </div>
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2 1.6 1.6 0 0 0 0 6 2 2 0 0 1-2 2H6a2 2 0 0 1-2-2 1.6 1.6 0 0 0 0-6z"/><path d="M9 7.5v2M9 12.5v2M9 17v-2"/></svg>
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c1.2-4 4-5.5 7-5.5s5.8 1.5 7 5.5"/></svg>
+  </div>
+
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

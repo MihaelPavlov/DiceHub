@@ -1,5 +1,3 @@
-@use "../../../../shared/assets/styles/palette";
-
 .wrapper_btn {
   display: flex;
   justify-content: space-evenly;
@@ -9,45 +7,55 @@
 .wrapper_library {
   display: flex;
   flex-direction: column;
-  width: 85%;
+  width: 90%;
   padding-bottom: 7rem;
   margin: 0 auto;
   padding-top: 1rem;
+  gap: 0.65rem;
   overflow-y: visible;
 
   &__item-actions {
     display: flex;
-    justify-content: space-evenly;
-    padding-bottom: 0.3rem;
+    justify-content: center;
     align-items: center;
+
+    svg {
+      cursor: pointer;
+    }
   }
 
   &__item {
     position: relative;
     display: flex;
-    padding-bottom: 0.3rem;
-    padding-top: 0.5rem;
-    border-bottom: 0.2rem solid palette.$main-gray-color;
+    align-items: center;
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--games-border);
+    border-radius: 1.1rem;
+    background: var(--games-surface);
 
     .wrapper_info {
       position: relative;
       width: 100%;
       display: flex;
       justify-content: space-between;
+      align-items: center;
 
       .wrapper_title {
-        padding-left: 1rem;
-        font-size: large;
-        padding-top: 0.2rem;
-        align-self: baseline;
+        padding-left: 0;
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--games-text);
+        padding-top: 0;
+        align-self: center;
         word-break: break-word;
         width: 80%;
 
         .wrapper_description {
-          padding-top: 0.5rem;
+          padding-top: 0.3rem;
           width: 100%;
-          font-size: 0.6rem;
-          color: palette.$main-font-gray-color;
+          font-size: 0.75rem;
+          font-weight: 400;
+          color: var(--games-faint);
           word-break: break-word;
         }
 
@@ -63,23 +71,106 @@
 
 .wrapper_helper {
   display: flex;
-  justify-content: space-evenly;
-  margin-top: 1rem;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin: 1rem auto 0;
+  width: 90%;
+  padding: 1.1rem;
+  border: 1px solid var(--games-border);
+  border-radius: 1.25rem;
+  background: var(--games-surface);
 
   .info {
     display: flex;
     flex-direction: column;
-    width: 65%;
+    gap: 0.5rem;
+    width: 100%;
     word-break: break-word;
-    color: palette.$main-font-gray-color;
+    color: var(--games-text);
+    font-size: 0.85rem;
+
+    strong {
+      color: var(--games-muted);
+      font-weight: 700;
+      margin-right: 0.3rem;
+    }
   }
   .wrapper_menu {
-    background: palette.$main-icon-color;
+    background: var(--games-surface-2);
+    border: 1px solid var(--games-border);
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 2rem;
-    height: 2rem;
-    border-radius: 20%;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 999px;
+    cursor: pointer;
+    flex-shrink: 0;
+
+    svg {
+      fill: var(--games-faint);
+    }
+  }
+}
+
+@media (min-width: 900px) {
+  .wrapper_helper,
+  .wrapper_library {
+    width: min(74rem, calc(100vw - 16rem));
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .wrapper_helper {
+    margin-top: 1.5rem;
+    padding: 1.25rem;
+    box-shadow: var(--games-shadow);
+
+    .info {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.5rem 1.5rem;
+      width: 100%;
+      font-size: 0.95rem;
+
+      span {
+        min-width: 0;
+      }
+    }
+  }
+
+  .wrapper_library {
+    padding: 1rem 0 4rem;
+    gap: 0.75rem;
+
+    .item {
+      width: 100%;
+    }
+
+    &__item {
+      transition: border-color 0.2s ease, transform 0.2s ease;
+      box-shadow: var(--games-shadow);
+
+      &:hover {
+        border-color: var(--games-amber);
+        transform: translateY(-1px);
+      }
+
+      .wrapper_info .wrapper_title {
+        font-size: 1rem;
+
+        .wrapper_description {
+          font-size: 0.85rem;
+        }
+      }
+    }
+
+    &__item-actions {
+      svg {
+        width: 1.4rem;
+        height: 1.4rem;
+      }
+    }
   }
 }

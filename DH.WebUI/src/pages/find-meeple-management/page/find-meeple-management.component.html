@@ -1,13 +1,33 @@
-<app-header
-  [withSearch]="true"
-  [withAdd]="true"
-  [header]="'meeple.header' | translate"
-  [withBottomLine]="true"
-  (addClicked)="navigateToCreateMeepleRoom()"
-  (searchExpressionResult)="handleSearchExpression($event)"
-></app-header>
+<section class="meeple-shell games-design-surface">
+  <header class="meeple-shell__header">
+    <h1 class="meeple-shell__title games-display">
+      {{ "meeple.header" | translate }}
+    </h1>
+    <button
+      type="button"
+      class="meeple-shell__add"
+      (click)="navigateToCreateMeepleRoom()"
+      aria-label="Create room"
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 5v14M5 12h14" />
+      </svg>
+    </button>
+  </header>
 
-<section class="wrapper_library">
+  <form class="meeple-shell__search">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="10.5" cy="10.5" r="6.5" />
+      <path d="M20 20l-4.8-4.8" />
+    </svg>
+    <input
+      type="search"
+      [placeholder]="'meeple.search_placeholder' | translate"
+      (input)="handleSearchExpression($any($event.target).value)"
+    />
+  </form>
+
+  <section class="wrapper_library">
   <ng-container *ngIf="roomList$ | async as roomList">
     <div class="no_records" *ngIf="roomList.length === 0">
       <img src="/shared/assets/images/no-rooms-found.png" alt="" />
@@ -36,21 +56,13 @@
       </div>
 
       <div class="chips">
-        <app-chip
-          [color]="'orange'"
-          [text]="
-            'events.chip_joined'
-              | translate : { peopleJoined: room.joinedParticipants }
-          "
-          [size]="'small'"
-        ></app-chip>
-        <app-chip
-          [color]="'red'"
-          [text]="
-            'events.chip_max' | translate : { maxPeople: room.maxParticipants }
-          "
-          [size]="'small'"
-        ></app-chip>
+        <span class="games-pill games-pill--amber">{{
+          "events.chip_joined"
+            | translate : { peopleJoined: room.joinedParticipants }
+        }}</span>
+        <span class="games-pill games-pill--coral">{{
+          "events.chip_max" | translate : { maxPeople: room.maxParticipants }
+        }}</span>
       </div>
       <div
         class="chips"
@@ -59,13 +71,12 @@
             | date : DATE_TIME_FORMAT : undefined : this.currentLanguage as date
         "
       >
-        <app-chip [color]="'blue'" [text]="date" [size]="'middle'"></app-chip>
-        <app-chip
-          [color]="'yellow'"
-          [text]="room.startDate | calculateRemainingDays"
-          [size]="'small'"
-        ></app-chip>
+        <span class="games-pill games-pill--teal">{{ date }}</span>
+        <span class="games-pill games-pill--violet">{{
+          room.startDate | calculateRemainingDays
+        }}</span>
       </div>
     </div>
   </ng-container>
+  </section>
 </section>

@@ -16,6 +16,14 @@ public interface IUserRewardsExpirationReminderHandler
     Task EvaluateRewardsReminder(CancellationToken cancellationToken);
 
     /// <summary>
+    /// Same as <see cref="EvaluateRewardsReminder(CancellationToken)"/> but scoped to a single
+    /// tenant. Called by the per-tenant <c>UserRewardsExpirationReminderJob</c> trigger, which
+    /// fires at that tenant's local time so the "N days left" window and the notification hour
+    /// line up with the user's own day.
+    /// </summary>
+    Task EvaluateRewardsReminder(string tenantId, CancellationToken cancellationToken);
+
+    /// <summary>
     /// Processes failed attempts at sending expiration reminders for rewards. 
     /// This method logs the details of the failed job, such as the data and error message, 
     /// to a repository for analysis or reprocessing at a later time.

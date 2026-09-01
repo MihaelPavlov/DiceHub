@@ -2,7 +2,6 @@ import { IOwnerResult } from './../../../../entities/profile/models/owner-result
 import { Component, OnDestroy } from '@angular/core';
 import { MenuTabsService } from '../../../../shared/services/menu-tabs.service';
 import { NAV_ITEM_LABELS } from '../../../../shared/models/nav-items-labels.const';
-import { Router } from '@angular/router';
 import { UsersService } from '../../../../entities/profile/api/user.service';
 import { ROUTE } from '../../../../shared/configs/route.config';
 import { Form } from '../../../../shared/components/form/form.component';
@@ -15,6 +14,9 @@ import {
   FormBuilder,
 } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
+import { TenantRouter } from '../../../../shared/helpers/tenant-router';
+import { Subscription } from 'rxjs';
+import { FormDraftService } from '../../../../shared/services/form-draft.service';
 
 interface IOwnerForm {
   email: string;
@@ -23,24 +25,27 @@ interface IOwnerForm {
 }
 
 @Component({
-    selector: 'app-owner-details',
-    templateUrl: 'owner-details.component.html',
-    styleUrl: 'owner-details.component.scss',
-    standalone: false
+  selector: 'app-owner-details',
+  templateUrl: 'owner-details.component.html',
+  styleUrl: 'owner-details.component.scss',
+  standalone: false,
 })
 export class OwnerDetailsComponent extends Form implements OnDestroy {
   override form: Formify<IOwnerForm>;
 
   public owner: IOwnerResult | null = null;
   public showOwnerForm: boolean = false;
+  private static readonly DraftKey = 'ownerDetails';
+  private draftSubscription: Subscription | null = null;
 
   constructor(
     public override readonly toastService: ToastService,
     private readonly menuTabsService: MenuTabsService,
     private readonly usersService: UsersService,
-    private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly fb: FormBuilder,
-    public override translateService: TranslateService
+    public override translateService: TranslateService,
+    private readonly formDraftService: FormDraftService
   ) {
     super(toastService, translateService);
 
@@ -48,6 +53,7 @@ export class OwnerDetailsComponent extends Form implements OnDestroy {
 
     this.menuTabsService.setActive(NAV_ITEM_LABELS.PROFILE);
     this.form = this.initFormGroup();
+    this.draftSubscription = this.formDraftService.autoSave(this.form, OwnerDetailsComponent.DraftKey);
     this.fetchOwner();
   }
 
@@ -77,6 +83,7 @@ export class OwnerDetailsComponent extends Form implements OnDestroy {
         next: () => {
           this.fetchOwner();
           this.toggleOwnerForm();
+          this.formDraftService.clear(OwnerDetailsComponent.DraftKey);
         },
       });
   }
@@ -94,11 +101,12 @@ export class OwnerDetailsComponent extends Form implements OnDestroy {
   }
 
   public onBack(): void {
-    this.router.navigateByUrl(ROUTE.PROFILE.CORE);
+    this.tenantRouter.navigateTenant(ROUTE.PROFILE.CORE);
   }
 
   public ngOnDestroy(): void {
     this.menuTabsService.resetData();
+    this.draftSubscription?.unsubscribe();
   }
 
   protected override getControlDisplayName(controlName: string): string {

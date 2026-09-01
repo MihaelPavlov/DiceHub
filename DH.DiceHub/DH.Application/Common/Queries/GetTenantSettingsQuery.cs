@@ -28,6 +28,9 @@ internal class GetTenantSettingsQueryHandler : IRequestHandler<GetTenantSettings
             ResetDayForRewards = settings.ResetDayForRewards,
             StartWorkingHours = settings.StartWorkingHours,
             EndWorkingHours = settings.EndWorkingHours,
+            TimeZoneId = string.IsNullOrWhiteSpace(settings.TimeZoneId)
+                ? DH.Domain.Helpers.TimeZoneResolver.DefaultTimeZoneId
+                : settings.TimeZoneId,
             DaysOff = string.IsNullOrEmpty(settings.DaysOff) ? [] : settings.DaysOff.Split(",").OrderBy(x => x).ToArray(),
             ChallengeInitiationDelayHours = settings.ChallengeInitiationDelayHours,
             ReservationHours = settings.ReservationHours.Split(",").OrderBy(time => TimeSpan.Parse(time)).ToArray(),

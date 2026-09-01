@@ -1,149 +1,122 @@
-<div class="dialog-container">
-  <div class="wrapper">
-    <ng-container *ngIf="this.data.status === ReservationStatus.Approved">
-      <h3 class="dialog-container__header">
-        {{'reservation_management.confirm_dialog.approving_reservation'|translate}}
-      </h3>
-      <div class="dialog-container__description">
-        <p *ngIf="this.data.gameName">
-          {{'reservation_management.confirm_dialog.game'|translate}}<strong
-            >{{this.data.gameName}}</strong
-          >
-        </p>
-        <p>
-          {{'reservation_management.confirm_dialog.people'|translate}}
-          <strong> {{this.data.numberOfGuests}}</strong>
-        </p>
-        <p *ngIf="!this.data.tableReservationDate">
-          {{'reservation_management.confirm_dialog.date'|translate}}
-          <strong
-            >{{this.data.reservationDate | date : DATE_TIME_FORMAT: undefined :
-            getCurrentLanguage}}</strong
-          >
-        </p>
-        <p *ngIf="this.data.tableReservationDate">
-          {{'reservation_management.confirm_dialog.existing_table_reservation'|translate}}
-          <strong
-            >{{this.data.tableReservationDate | date : DATE_TIME_FORMAT :
-            undefined : getCurrentLanguage }}</strong
-          >
-        </p>
-        <p>
-          {{'reservation_management.confirm_dialog.phone_number'|translate}}
-          <strong>
-            <a
-              [href]="'tel:' + this.data.phoneNumber"
-              class="club-info__value club-info__phone"
-            >
-              {{ this.data.phoneNumber }}
-            </a></strong
-          >
-        </p>
-        <p>
-          {{'reservation_management.confirm_dialog.user_language'|translate}}
-          <strong> {{getUserLanguage(this.data.userLanguage)}}</strong>
-        </p>
-      </div>
-    </ng-container>
-    <ng-container *ngIf="this.data.status === ReservationStatus.Declined">
-      <h3 class="dialog-container__header">
-        {{'reservation_management.confirm_dialog.declined_reservation'|translate}}
-      </h3>
-      <div class="dialog-container__description">
-        <p *ngIf="this.data.gameName">
-          {{'reservation_management.confirm_dialog.game'|translate}}
-          <strong>{{this.data.gameName}}</strong>
-        </p>
-        <p>
-          {{'reservation_management.confirm_dialog.people'|translate}}
-          <strong> {{this.data.numberOfGuests}}</strong>
-        </p>
-        <p *ngIf="!this.data.tableReservationDate">
-          {{'reservation_management.confirm_dialog.date'|translate}}
-          <strong
-            >{{this.data.reservationDate | date : DATE_TIME_FORMAT : undefined :
-            getCurrentLanguage }}</strong
-          >
-        </p>
+<div class="confirm-sheet" appSheetDismiss>
+  <div class="confirm-sheet__handle"></div>
 
-        <p *ngIf="this.data.tableReservationDate">
-          {{'reservation_management.confirm_dialog.existing_table_reservation'|translate}}
-          <strong
-            >{{this.data.tableReservationDate | date : DATE_TIME_FORMAT :
-            undefined: getCurrentLanguage }}</strong
-          >
-        </p>
-        <p>
-          {{'reservation_management.confirm_dialog.phone_number'|translate}}
-          <strong> {{this.data.phoneNumber}}</strong>
-        </p>
-        <p>
-          {{'reservation_management.confirm_dialog.user_language'|translate}}
-          <strong> {{getUserLanguage(this.data.userLanguage)}}</strong>
-        </p>
+  <div class="confirm-sheet__head">
+    <div
+      class="confirm-sheet__icon"
+      [class.confirm-sheet__icon--teal]="this.data.status === ReservationStatus.Approved"
+      [class.confirm-sheet__icon--coral]="this.data.status === ReservationStatus.Declined || this.data.isCancel"
+    >
+      <svg *ngIf="this.data.status === ReservationStatus.Approved" viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 12.5l4.5 4.5L19 7"/>
+      </svg>
+      <svg *ngIf="this.data.status === ReservationStatus.Declined" viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 6l12 12M18 6l-12 12"/>
+      </svg>
+      <svg *ngIf="this.data.isCancel" viewBox="0 0 24 24" fill="none" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16"/><path d="M8 3v4M16 3v4"/><path d="M9.5 14l5 5M14.5 14l-5 5"/>
+      </svg>
+    </div>
+    <div>
+      <div class="confirm-sheet__title" *ngIf="this.data.status === ReservationStatus.Approved">
+        {{ 'reservation_management.confirm_dialog.approving_reservation' | translate }}
       </div>
-    </ng-container>
-    <form [formGroup]="form" *ngIf="!this.data.isCancel">
-      <div class="input-field">
-        <label for="internalNote"
-          >{{'reservation_management.confirm_dialog.internal_note'|translate}}</label
-        >
-        <textarea
-          [placeholder]="'reservation_management.confirm_dialog.placeholders.internal_note'|translate"
-          type="text"
-          id="internalNote"
-          formControlName="internalNote"
-          class="surface-elevated"
-        ></textarea>
+      <div class="confirm-sheet__title" *ngIf="this.data.status === ReservationStatus.Declined">
+        {{ 'reservation_management.confirm_dialog.declined_reservation' | translate }}
       </div>
-
-      <div class="input-field">
-        <label for="publicNote"
-          >{{'reservation_management.confirm_dialog.public_note'|translate}}</label
-        >
-        <textarea
-          [placeholder]="'reservation_management.confirm_dialog.placeholders.public_note'|translate"
-          type="text"
-          id="publicNote"
-          formControlName="publicNote"
-          class="surface-elevated"
-        ></textarea>
+      <div class="confirm-sheet__title" *ngIf="this.data.isCancel">
+        {{ 'reservation_management.confirm_dialog.cancel_description' | translate }}
       </div>
-    </form>
-
-    <ng-container *ngIf="this.data.isCancel">
-      <div class="dialog-container__description">
-        <p>
-          {{'reservation_management.confirm_dialog.cancel_description'|translate}}
-        </p>
-      </div>
-    </ng-container>
+    </div>
   </div>
-  <mat-dialog-actions>
-    <button class="btn btn__small btn-blue" mat-dialog-close>
-      {{'cancel'|translate}}
-    </button>
 
+  <div class="confirm-sheet__info" *ngIf="!this.data.isCancel">
+    <div class="confirm-sheet__info-row" *ngIf="this.data.gameName">
+      <span class="confirm-sheet__info-label">{{ 'reservation_management.confirm_dialog.game' | translate }}</span>
+      <span class="confirm-sheet__info-value">{{ this.data.gameName }}</span>
+    </div>
+    <div class="confirm-sheet__info-row">
+      <span class="confirm-sheet__info-label">{{ 'reservation_management.confirm_dialog.people' | translate }}</span>
+      <span class="confirm-sheet__info-value">{{ this.data.numberOfGuests }}</span>
+    </div>
+    <div class="confirm-sheet__info-row" *ngIf="!this.data.tableReservationDate">
+      <span class="confirm-sheet__info-label">{{ 'reservation_management.confirm_dialog.date' | translate }}</span>
+      <span class="confirm-sheet__info-value">
+        {{ this.data.reservationDate | date : DATE_TIME_FORMAT : undefined : getCurrentLanguage }}
+      </span>
+    </div>
+    <div class="confirm-sheet__info-row" *ngIf="this.data.tableReservationDate">
+      <span class="confirm-sheet__info-label">{{ 'reservation_management.confirm_dialog.existing_table_reservation' | translate }}</span>
+      <span class="confirm-sheet__info-value">
+        {{ this.data.tableReservationDate | date : DATE_TIME_FORMAT : undefined : getCurrentLanguage }}
+      </span>
+    </div>
+    <div class="confirm-sheet__info-row">
+      <span class="confirm-sheet__info-label">{{ 'reservation_management.confirm_dialog.phone_number' | translate }}</span>
+      <span class="confirm-sheet__info-value">
+        <a
+          *ngIf="this.data.status === ReservationStatus.Approved; else plainPhone"
+          [href]="'tel:' + this.data.phoneNumber"
+        >{{ this.data.phoneNumber }}</a>
+        <ng-template #plainPhone>{{ this.data.phoneNumber }}</ng-template>
+      </span>
+    </div>
+    <div class="confirm-sheet__info-row">
+      <span class="confirm-sheet__info-label">{{ 'reservation_management.confirm_dialog.user_language' | translate }}</span>
+      <span class="confirm-sheet__info-value">{{ getUserLanguage(this.data.userLanguage) }}</span>
+    </div>
+  </div>
+
+  <form [formGroup]="form" *ngIf="!this.data.isCancel" style="display:flex;flex-direction:column;gap:0.875rem;">
+    <div class="confirm-sheet__field">
+      <label class="confirm-sheet__field-label" for="internalNote">
+        {{ 'reservation_management.confirm_dialog.internal_note' | translate }}
+      </label>
+      <textarea
+        rows="2"
+        [placeholder]="'reservation_management.confirm_dialog.placeholders.internal_note' | translate"
+        id="internalNote"
+        formControlName="internalNote"
+      ></textarea>
+    </div>
+
+    <div class="confirm-sheet__field">
+      <label class="confirm-sheet__field-label" for="publicNote">
+        {{ 'reservation_management.confirm_dialog.public_note' | translate }}
+      </label>
+      <textarea
+        rows="2"
+        [placeholder]="'reservation_management.confirm_dialog.placeholders.public_note' | translate"
+        id="publicNote"
+        formControlName="publicNote"
+      ></textarea>
+    </div>
+  </form>
+
+  <div class="confirm-sheet__actions">
+    <button class="confirm-sheet__btn confirm-sheet__btn--ghost" mat-dialog-close>
+      {{ 'cancel' | translate }}
+    </button>
     <button
       *ngIf="this.data.status === ReservationStatus.Approved"
-      class="btn btn__small btn-green btn-border-green"
+      class="confirm-sheet__btn confirm-sheet__btn--teal"
       (click)="approveReservation()"
     >
-      {{'reservation_management.confirm_dialog.approve'|translate}}
+      {{ 'reservation_management.confirm_dialog.approve' | translate }}
     </button>
     <button
       *ngIf="this.data.status === ReservationStatus.Declined"
-      class="btn btn__small btn-red btn-border-red"
+      class="confirm-sheet__btn confirm-sheet__btn--coral"
       (click)="declineReservation()"
     >
-      {{'reservation_management.confirm_dialog.decline'|translate}}
+      {{ 'reservation_management.confirm_dialog.decline' | translate }}
     </button>
     <button
       *ngIf="this.data.isCancel"
-      class="btn btn__small btn-red btn-border-red"
+      class="confirm-sheet__btn confirm-sheet__btn--coral"
       (click)="cancelReservation()"
     >
-      {{'reservation_management.confirm_dialog.cancel'|translate}}
+      {{ 'reservation_management.confirm_dialog.cancel' | translate }}
     </button>
-  </mat-dialog-actions>
+  </div>
 </div>

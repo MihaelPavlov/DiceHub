@@ -921,6 +921,254 @@ public static class SeedData
 </html>
 "
         },
+        new()
+        {
+            Id = 11,
+            Language = SupportLanguages.EN.ToString(),
+            TemplateName = EmailType.TenantApplicationEmailVerification.ToString(),
+            Subject = "DiceHub venue application verification code",
+            TemplateHtml = @"
+<!DOCTYPE html>
+<html lang=""en"">
+  <head>
+    <meta charset=""UTF-8"" />
+    <title>Venue Application Verification</title>
+  </head>
+  <body style=""margin:0;padding:0;background-color:#20232a;font-family:Arial,sans-serif;color:white;"">
+    <table width=""100%"" cellpadding=""0"" cellspacing=""0"" role=""presentation"" style=""background-color:#20232a;padding:20px 0;"">
+      <tr>
+        <td align=""center"">
+          <table width=""500"" cellpadding=""0"" cellspacing=""0"" role=""presentation"" style=""background-color:#20232a;padding:20px;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.5);"">
+            <tr>
+              <td align=""center"">
+                <img src=""https://ifjmepvyiksirgheyqyw.supabase.co/storage/v1/object/public/dicehub/Email/dicehub_logo_1.png"" width=""150"" style=""display:block;"" alt=""DiceHub"" />
+              </td>
+            </tr>
+            <tr>
+              <td align=""center"" style=""font-size:22px;font-weight:bold;padding-bottom:20px;"">
+                Venue application verification
+              </td>
+            </tr>
+            <tr>
+              <td style=""font-size:16px;line-height:1.6;"">
+                <p>Your DiceHub venue application verification code is:</p>
+                <p style=""font-size:32px;font-weight:bold;letter-spacing:6px;color:#75a0ff;text-align:center;"">{{VerificationCode}}</p>
+                <p>This code expires in 10 minutes.</p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
+"
+        },
+        new()
+        {
+            Id = 12,
+            Language = SupportLanguages.BG.ToString(),
+            TemplateName = EmailType.TenantApplicationEmailVerification.ToString(),
+            Subject = "Код за потвърждение на кандидатура за DiceHub",
+            TemplateHtml = @"
+<!DOCTYPE html>
+<html lang=""bg"">
+  <head>
+    <meta charset=""UTF-8"" />
+    <title>Потвърждение на кандидатура</title>
+  </head>
+  <body style=""margin:0;padding:0;background-color:#20232a;font-family:Arial,sans-serif;color:white;"">
+    <table width=""100%"" cellpadding=""0"" cellspacing=""0"" role=""presentation"" style=""background-color:#20232a;padding:20px 0;"">
+      <tr>
+        <td align=""center"">
+          <table width=""500"" cellpadding=""0"" cellspacing=""0"" role=""presentation"" style=""background-color:#20232a;padding:20px;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.5);"">
+            <tr>
+              <td align=""center"">
+                <img src=""https://ifjmepvyiksirgheyqyw.supabase.co/storage/v1/object/public/dicehub/Email/dicehub_logo_1.png"" width=""150"" style=""display:block;"" alt=""DiceHub"" />
+              </td>
+            </tr>
+            <tr>
+              <td align=""center"" style=""font-size:22px;font-weight:bold;padding-bottom:20px;"">
+                Потвърждение на кандидатура за клуб
+              </td>
+            </tr>
+            <tr>
+              <td style=""font-size:16px;line-height:1.6;"">
+                <p>Вашият код за потвърждение е:</p>
+                <p style=""font-size:32px;font-weight:bold;letter-spacing:6px;color:#75a0ff;text-align:center;"">{{VerificationCode}}</p>
+                <p>Кодът е валиден 10 минути.</p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
+"
+        },
+        new()
+        {
+            Id = 13,
+            Language = SupportLanguages.EN.ToString(),
+            TemplateName = EmailType.TenantSetupInvitation.ToString(),
+            Subject = "Your DiceHub venue setup is ready",
+            TemplateHtml = @"
+<!DOCTYPE html>
+<html lang=""en"">
+  <head>
+    <meta charset=""UTF-8"" />
+    <title>DiceHub Venue Setup</title>
+  </head>
+  <body style=""margin:0;padding:0;background-color:#20232a;font-family:Arial,sans-serif;color:white;"">
+    <table width=""100%"" cellpadding=""0"" cellspacing=""0"" role=""presentation"" style=""background-color:#20232a;padding:20px 0;"">
+      <tr>
+        <td align=""center"">
+          <table width=""520"" cellpadding=""0"" cellspacing=""0"" role=""presentation"" style=""background-color:#20232a;padding:20px;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.5);"">
+            <tr>
+              <td align=""center"" style=""font-size:22px;font-weight:bold;padding-bottom:20px;"">
+                DiceHub venue setup
+              </td>
+            </tr>
+            <tr>
+              <td style=""font-size:16px;line-height:1.6;"">
+                <p>Your venue application for {{ClubName}} was approved.</p>
+                <p>Use the secure link below to start setting up your venue:</p>
+                <p style=""text-align:center;margin:28px 0;"">
+                  <a href=""{{SetupUrl}}"" style=""background-color:#75a0ff;color:white;padding:12px 28px;border-radius:24px;text-decoration:none;font-weight:bold;display:inline-block;"">Start venue setup</a>
+                </p>
+                <p>This link expires in {{ExpiresInHours}} hours.</p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
+"
+        },
+        new()
+        {
+            Id = 14,
+            Language = SupportLanguages.BG.ToString(),
+            TemplateName = EmailType.TenantSetupInvitation.ToString(),
+            Subject = "Вашата DiceHub настройка е готова",
+            TemplateHtml = @"
+<!DOCTYPE html>
+<html lang=""bg"">
+  <head>
+    <meta charset=""UTF-8"" />
+    <title>Настройка на DiceHub клуб</title>
+  </head>
+  <body style=""margin:0;padding:0;background-color:#20232a;font-family:Arial,sans-serif;color:white;"">
+    <table width=""100%"" cellpadding=""0"" cellspacing=""0"" role=""presentation"" style=""background-color:#20232a;padding:20px 0;"">
+      <tr>
+        <td align=""center"">
+          <table width=""520"" cellpadding=""0"" cellspacing=""0"" role=""presentation"" style=""background-color:#20232a;padding:20px;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.5);"">
+            <tr>
+              <td align=""center"" style=""font-size:22px;font-weight:bold;padding-bottom:20px;"">
+                Настройка на DiceHub клуб
+              </td>
+            </tr>
+            <tr>
+              <td style=""font-size:16px;line-height:1.6;"">
+                <p>Кандидатурата за {{ClubName}} беше одобрена.</p>
+                <p>Използвайте защитения линк по-долу, за да започнете настройката:</p>
+                <p style=""text-align:center;margin:28px 0;"">
+                  <a href=""{{SetupUrl}}"" style=""background-color:#75a0ff;color:white;padding:12px 28px;border-radius:24px;text-decoration:none;font-weight:bold;display:inline-block;"">Започнете настройката</a>
+                </p>
+                <p>Линкът е валиден {{ExpiresInHours}} часа.</p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
+"
+        },
+        new()
+        {
+            Id = 15,
+            Language = SupportLanguages.EN.ToString(),
+            TemplateName = EmailType.TenantOwnerCredentials.ToString(),
+            Subject = "Your DiceHub owner account is ready",
+            TemplateHtml = @"
+<!DOCTYPE html>
+<html lang=""en"">
+  <head>
+    <meta charset=""UTF-8"" />
+    <title>DiceHub Owner Account</title>
+  </head>
+  <body style=""margin:0;padding:0;background-color:#20232a;font-family:Arial,sans-serif;color:white;"">
+    <table width=""100%"" cellpadding=""0"" cellspacing=""0"" role=""presentation"" style=""background-color:#20232a;padding:20px 0;"">
+      <tr>
+        <td align=""center"">
+          <table width=""560"" cellpadding=""0"" cellspacing=""0"" role=""presentation"" style=""background-color:#20232a;padding:20px;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.5);"">
+            <tr>
+              <td align=""center"" style=""font-size:22px;font-weight:bold;padding-bottom:20px;"">
+                Your DiceHub club is ready
+              </td>
+            </tr>
+            <tr>
+              <td style=""font-size:16px;line-height:1.6;"">
+                <p>Your owner account for <strong>{{ClubName}}</strong> has been created.</p>
+                <p>Sign in here: <a href=""{{LoginUrl}}"" style=""color:#75a0ff;"">{{LoginUrl}}</a></p>
+                <p><strong>Email:</strong> {{Email}}</p>
+                <p><strong>Temporary password:</strong> {{Password}}</p>
+                <p>Please change this password after signing in.</p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
+"
+        },
+        new()
+        {
+            Id = 16,
+            Language = SupportLanguages.BG.ToString(),
+            TemplateName = EmailType.TenantOwnerCredentials.ToString(),
+            Subject = "Вашият DiceHub owner акаунт е готов",
+            TemplateHtml = @"
+<!DOCTYPE html>
+<html lang=""bg"">
+  <head>
+    <meta charset=""UTF-8"" />
+    <title>DiceHub Owner Акаунт</title>
+  </head>
+  <body style=""margin:0;padding:0;background-color:#20232a;font-family:Arial,sans-serif;color:white;"">
+    <table width=""100%"" cellpadding=""0"" cellspacing=""0"" role=""presentation"" style=""background-color:#20232a;padding:20px 0;"">
+      <tr>
+        <td align=""center"">
+          <table width=""560"" cellpadding=""0"" cellspacing=""0"" role=""presentation"" style=""background-color:#20232a;padding:20px;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.5);"">
+            <tr>
+              <td align=""center"" style=""font-size:22px;font-weight:bold;padding-bottom:20px;"">
+                Вашият DiceHub клуб е готов
+              </td>
+            </tr>
+            <tr>
+              <td style=""font-size:16px;line-height:1.6;"">
+                <p>Owner акаунтът за <strong>{{ClubName}}</strong> беше създаден.</p>
+                <p>Вход: <a href=""{{LoginUrl}}"" style=""color:#75a0ff;"">{{LoginUrl}}</a></p>
+                <p><strong>Имейл:</strong> {{Email}}</p>
+                <p><strong>Временна парола:</strong> {{Password}}</p>
+                <p>Моля, сменете тази парола след вход.</p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
+"
+        },
     };
 
     public static readonly List<CreateGameDto> GAME_LIST_DTOS = new List<CreateGameDto>

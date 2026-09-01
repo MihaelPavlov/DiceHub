@@ -150,6 +150,9 @@
   <data name="PasswordResetFailed" xml:space="preserve">
     <value>Възстановяването на паролата не беше успешно. Моля, опитайте по-късно или се свържете с нас по имейл.</value>
   </data>
+  <data name="CurrentPasswordIncorrect" xml:space="preserve">
+    <value>Въведената текуща парола е грешна.</value>
+  </data>
   <data name="NotProvided" xml:space="preserve">
     <value>Не е предоставено</value>
   </data>
@@ -593,6 +596,9 @@
   </data>
   <data name="TenantSettingsEndWorkingHours" xml:space="preserve">
     <value>Крайният час на работното време е задължителен.</value>
+  </data>
+  <data name="TenantSettingsTimeZoneId" xml:space="preserve">
+    <value>Часовата зона на клуба не е валидна.</value>
   </data>
   <data name="SpaceTableCancelledTitle" xml:space="preserve">
     <value>Вашата резервация беше отменена</value>

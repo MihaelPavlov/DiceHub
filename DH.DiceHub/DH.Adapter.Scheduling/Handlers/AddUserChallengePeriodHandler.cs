@@ -27,6 +27,11 @@ internal class AddUserChallengePeriodHandler : IAddUserChallengePeriodHandler
         await this.userChallengesManagementService.InitializeNewPeriodsBatch(cancellationToken);
     }
 
+    public async Task InitializeNewPeriods(string tenantId, CancellationToken cancellationToken)
+    {
+        await this.userChallengesManagementService.InitializeNewPeriodsBatch(tenantId, cancellationToken);
+    }
+
     public async Task ProcessFailedReset(string data, string errorMessage, CancellationToken cancellationToken)
     {
         await failedJobsRepository.AddAsync(new FailedJob { Data = data, Type = (int)JobType.AddUserChallengePeriod, FailedAt = DateTime.UtcNow, ErrorMessage = errorMessage }, cancellationToken);

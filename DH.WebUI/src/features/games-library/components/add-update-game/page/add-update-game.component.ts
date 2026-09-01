@@ -15,11 +15,13 @@ import {
 import { GamesService } from '../../../../../entities/games/api/games.service';
 import { ToastService } from '../../../../../shared/services/toast.service';
 import { MenuTabsService } from '../../../../../shared/services/menu-tabs.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { NAV_ITEM_LABELS } from '../../../../../shared/models/nav-items-labels.const';
 import { GameCategoriesService } from '../../../../../entities/games/api/game-categories.service';
 import { IGameCategory } from '../../../../../entities/games/models/game-category.model';
-import { Observable, throwError } from 'rxjs';
+import { Observable, Subscription, throwError } from 'rxjs';
+import { FormDraftService } from '../../../../../shared/services/form-draft.service';
+import { downscaleImageFile } from '../../../../../shared/helpers/image-resize.helper';
 import { ToastType } from '../../../../../shared/models/toast.model';
 import { Form } from '../../../../../shared/components/form/form.component';
 import { IGameDropdownResult } from '../../../../../entities/games/models/game-dropdown.model';
@@ -30,12 +32,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { SafeUrl } from '@angular/platform-browser';
 import { GameAveragePlaytime } from '../../../../../entities/games/enums/game-average-playtime.enum';
 import { QrCodeType } from '../../../../../entities/qr-code-scanner/enums/qr-code-type.enum';
-import {
-  EntityImagePipe,
-  ImageEntityType,
-} from '../../../../../shared/pipe/entity-image.pipe';
 import { IDropdown } from '../../../../../shared/models/dropdown.model';
 import { FULL_ROUTE } from '../../../../../shared/configs/route.config';
+import { TenantRouter } from '../../../../../shared/helpers/tenant-router';
 
 interface ICreateGameForm {
   categoryId: number;
@@ -50,10 +49,10 @@ interface ICreateGameForm {
 }
 
 @Component({
-    selector: 'app-add-update-game',
-    templateUrl: 'add-update-game.component.html',
-    styleUrl: 'add-update-game.component.scss',
-    standalone: false
+  selector: 'app-add-update-game',
+  templateUrl: 'add-update-game.component.html',
+  styleUrl: 'add-update-game.component.scss',
+  standalone: false,
 })
 export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
   override form: Formify<ICreateGameForm>;
@@ -74,18 +73,20 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
   public gamAveragePlaytimeValues: IDropdown[] = [];
   public currentLang: 'EN' | 'BG' = 'EN';
   private lastValue = '';
+  private static readonly DraftKey = 'addUpdateGame';
+  private draftSubscription: Subscription | null = null;
 
   constructor(
     private readonly fb: FormBuilder,
     private readonly gameService: GamesService,
     private readonly gameCategoriesService: GameCategoriesService,
     private readonly menuTabsService: MenuTabsService,
-    private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly dialog: MatDialog,
     private readonly activatedRoute: ActivatedRoute,
-    private readonly entityImagePipe: EntityImagePipe,
     public override readonly toastService: ToastService,
-    public override translateService: TranslateService
+    public override translateService: TranslateService,
+    private readonly formDraftService: FormDraftService
   ) {
     super(toastService, translateService);
     this.form = this.initFormGroup();
@@ -93,6 +94,13 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
       if (this.getServerErrorMessage) {
         this.clearServerErrorMessage();
       }
+    });
+    // 'image' holds a filename string, but the actual File can't be persisted, so it's
+    // excluded to avoid restoring a stale filename with no matching file attached.
+    // Mainly benefits the create flow - edit mode re-fetches from the server on init,
+    // which overwrites the restored draft with server truth.
+    this.draftSubscription = this.formDraftService.autoSave(this.form, AddUpdateGameComponent.DraftKey, {
+      exclude: ['image'],
     });
     this.menuTabsService.setActive(NAV_ITEM_LABELS.GAMES);
 
@@ -132,6 +140,7 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.menuTabsService.resetData();
+    this.draftSubscription?.unsubscribe();
   }
   private clearServerErrorMessage() {
     this.getServerErrorMessage = null;
@@ -158,7 +167,7 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
 
   public openQrCodeDialog(): void {
     this.dialog.open(QrCodeDialog, {
-      width: '17rem',
+      width: '19rem',
       data: {
         Id: this.editGameId,
         Name: this.editGameName,
@@ -193,33 +202,34 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
   }
 
   public backNavigateBtn() {
-    this.router.navigateByUrl(FULL_ROUTE.GAMES.LIBRARY);
+    this.tenantRouter.navigateTenant(FULL_ROUTE.GAMES.LIBRARY);
   }
 
-  public onFileSelected(event: Event): void {
+  public async onFileSelected(event: Event): Promise<void> {
     const input = event.target as HTMLInputElement;
-    console.log(input.files);
+    const original = input.files?.[0];
 
-    const file = input.files?.[0];
-
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.imagePreview = reader.result as string;
-        this.form.controls.image.patchValue(file.name);
-        this.fileToUpload = file;
-        this.imageError = null;
-        console.log(this.form.controls);
-      };
-      reader.readAsDataURL(file);
-    } else {
+    if (!original) {
       this.imageError = this.translateService.instant(
         'games.game.add_update.controls_display_name.image_required'
       );
       this.fileToUpload = null;
       this.imagePreview = null;
       this.form.controls.image.reset();
+      return;
     }
+
+    // Shrink the phone photo before it ever leaves the device / hits the API.
+    const file = await downscaleImageFile(original);
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.imagePreview = reader.result as string;
+      this.form.controls.image.patchValue(file.name);
+      this.fileToUpload = file;
+      this.imageError = null;
+    };
+    reader.readAsDataURL(file);
   }
 
   public onAdd(): void {
@@ -252,8 +262,9 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
               ),
               type: ToastType.Success,
             });
+            this.formDraftService.clear(AddUpdateGameComponent.DraftKey);
 
-            this.router.navigateByUrl(FULL_ROUTE.GAMES.LIBRARY);
+            this.tenantRouter.navigateTenant(FULL_ROUTE.GAMES.LIBRARY);
           },
           error: (error) => {
             this.handleServerErrors(error);
@@ -296,9 +307,10 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
               ),
               type: ToastType.Success,
             });
+            this.formDraftService.clear(AddUpdateGameComponent.DraftKey);
 
             if (this.editGameId)
-              this.router.navigateByUrl(
+              this.tenantRouter.navigateTenant(
                 FULL_ROUTE.GAMES.DETAILS(this.editGameId)
               );
           },
@@ -325,7 +337,7 @@ export class AddUpdateGameComponent extends Form implements OnInit, OnDestroy {
             ),
             type: ToastType.Success,
           });
-          this.router.navigateByUrl(FULL_ROUTE.GAMES.LIBRARY);
+          this.tenantRouter.navigateTenant(FULL_ROUTE.GAMES.LIBRARY);
         },
         error: (error) => {
           this.handleServerErrors(error);

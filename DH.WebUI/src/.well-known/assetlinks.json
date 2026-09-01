@@ -1,0 +1,15 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.dicehubs.app",
+      "sha256_cert_fingerprints": [
+        "9E:43:21:4C:00:E1:D3:F4:E5:EF:A5:FE:BC:FD:03:0D:53:D0:0A:1B:9B:58:A6:F3:69:26:58:C0:62:2D:A7:FA",
+        "00:EB:3E:1D:B4:DB:B8:40:1B:88:1C:85:78:0A:97:27:F2:97:7A:29:05:5D:9F:5A:FE:94:0D:E2:6A:5E:58:6F",
+        "EA:6E:5E:79:B9:B2:DF:66:24:1A:A0:05:2D:EC:F8:1A:E3:2C:61:7F:13:E0:78:8A:39:07:AE:A7:D7:96:63:4A",
+        "71:EA:AF:46:24:57:AB:FA:E8:24:15:38:E2:13:29:1E:88:4D:3C:5E:C8:51:5C:0C:7E:E5:4C:63:DF:F5:D5:FD"
+      ]
+    }
+  }
+]

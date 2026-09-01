@@ -1,11 +1,13 @@
-@use "../../.././shared/assets/styles/palette";
+.wrapper {
+  padding: 1.5rem 1.25rem 2.5rem;
+}
 
 .confirmation-container {
   margin-top: 3rem;
   margin-left: 1rem;
   margin-right: 1rem;
   text-align: center;
-  font-family: Arial, sans-serif;
+  color: var(--games-text);
 }
 
 .spinner-wrapper {
@@ -13,47 +15,52 @@
   flex-direction: column;
   align-items: center;
   gap: 16px;
+  color: var(--games-muted);
 }
 
 .success h2 {
-  color: #27ae60;
+  color: var(--games-teal);
 }
 
 .error h2 {
-  color: #e74c3c;
+  color: var(--games-coral);
 }
 
 .markup {
-  color: palette.$main-blue-color;
+  color: var(--games-amber);
+  cursor: pointer;
 }
 
 .interactive-option {
   display: flex;
-  justify-content: center;
-  margin-top: 3rem;
+  justify-content: flex-start;
 
   .icon_wrapper {
-    width: 5rem;
-    height: 5rem;
-    border-radius: 50px;
-    background: palette.$main-blue-color;
-    box-shadow: 0 0 0 12px var(--background-color);
+    width: 2.65rem;
+    height: 2.65rem;
+    border-radius: 999px;
+    background: var(--games-surface);
+    border: 1px solid var(--games-border);
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
   }
   .icon {
-    width: 3rem;
-    height: 3rem;
-    fill: palette.$main-font-color;
+    width: 1.15rem;
+    height: 1.15rem;
+    fill: var(--games-text);
   }
 }
 
 .header {
-  margin: 1rem;
+  margin: 0;
+  margin-top: 1rem;
   display: flex;
   justify-content: center;
-  font-size: 1.5rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--games-text);
 }
 
 .dot-loader {
@@ -69,18 +76,48 @@
 
 .fallback-btn {
   margin-top: 20px;
-  background-color: #007bff;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 6px;
+  background: var(--games-surface);
+  border: 1px solid var(--games-border);
+  color: var(--games-muted);
+  padding: 0.75rem 1.4rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
   cursor: pointer;
 }
 
 .resend-link {
-  color: palette.$main-green-color;
-  border-bottom: 0.15rem solid palette.$main-green-color;
+  color: var(--games-coral);
+  border-bottom: 0.15rem solid var(--games-coral);
   padding-top: 1rem;
   display: inline-block;
-  font-size: 1.2rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+@media (min-width: 900px) {
+  .wrapper {
+    width: min(30rem, calc(100vw - 4rem));
+    min-height: auto;
+    padding: 2rem;
+    border-radius: 1.5rem;
+    border: 1px solid var(--games-border);
+    background: var(--games-surface);
+    margin: 4rem auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .interactive-option {
+    margin-top: 0;
+  }
+
+  .confirmation-container {
+    margin: 1.5rem 0 0;
+  }
+
+  .fallback-btn {
+    width: 100%;
+  }
 }

@@ -1,38 +1,94 @@
-<app-header
-  [header]="'games.categories.' + headerSectionName | translate"
-  [withSearch]="true"
-  [withMenu]="(isAdmin$ | async) ?? false"
-  [menuItems]="menuItems"
-  [menuItemClickFunction]="handleMenuItemClick"
-  [gameReservationStatus]="gameReservationStatus"
-  (reservationWarningClicked)="handleReservationWarningClick()"
-  (searchExpressionResult)="handleSearchExpression($event)"
->
-  <app-nav-bar
-    [columns]="[
-      {
-        name: 'games.navbar.items.popular' | translate,
-        link: 'games/library',
-        isActive: isActiveLink('/games/library', null, true)
-      },
-      {
-        name: 'games.navbar.items.categories' | translate,
-        link: 'games/categories',
-        isActive: isActiveLink('/games/categories', '/games/library/')
-      },
-      {
-        name: 'games.navbar.items.new' | translate,
-        link: 'games/new',
-        isActive: isActiveLink('/games/new')
-      }
-    ]"
-  ></app-nav-bar>
-</app-header>
+<section class="games-shell games-design-surface">
+  <header class="games-shell__header">
+    <div class="games-shell__title">
+      <h1 class="games-display">{{ pageTitle }}</h1>
+      <p *ngIf="gameCount !== null">
+        {{ "games.library.count" | translate : { count: gameCount } }}
+      </p>
+    </div>
 
-<app-controls-menu
-  #menu
-  [menuItems]="menuItems.asObservable()"
-  (menuItemClick)="handleMenuItemClick($event.value)"
-></app-controls-menu>
+    <div class="games-shell__actions">
+      <button
+        type="button"
+        *ngIf="gameReservationStatus"
+        class="games-shell__icon-button games-shell__icon-button--warning"
+        (click)="handleReservationWarningClick()"
+        aria-label="Open active reservation"
+      >
+        <svg viewBox="0 -960 960 960" aria-hidden="true">
+          <path
+            d="M438-240.62 309.85-368.77l43.38-43.38L438-327.38l168.77-168.77 43.38 43.38L438-240.62ZM212.31-100Q182-100 161-121q-21-21-21-51.31v-535.38Q140-738 161-759q21-21 51.31-21h55.38v-84.61h61.54V-780h303.08v-84.61h60V-780h55.38Q778-780 799-759q21 21 21 51.31v535.38Q820-142 799-121q-21 21-51.31 21H212.31Z"
+          />
+        </svg>
+      </button>
 
-<router-outlet (activate)="onActivate($event)"></router-outlet>
+      <button
+        type="button"
+        *ngIf="(isAdmin$ | async) ?? false"
+        class="games-shell__icon-button"
+        (click)="menu.toggleMenu()"
+        aria-label="Open game actions"
+      >
+        <svg viewBox="0 -960 960 960" aria-hidden="true">
+          <path
+            d="M658.15-447.54 449.08-656.62l209.07-209.07 209.08 209.07-209.08 209.08Zm-527.54-71.84v-296.01h296.01v296.01H130.61Zm390.77 388.77v-294.01h294.01v294.01H521.38Zm-390.77 0v-296.01h296.01v296.01H130.61Z"
+          />
+        </svg>
+      </button>
+    </div>
+
+    <nav class="games-shell__tabs" aria-label="Games sections">
+      <a
+        class="games-chip"
+        [class.games-chip--active]="isActiveLink('games/library')"
+        [routerLink]="getTenantLink('games/library')"
+      >
+        {{ "games.navbar.items.popular" | translate }}
+      </a>
+      <a
+        class="games-chip"
+        [class.games-chip--active]="isActiveLink('games/categories')"
+        [routerLink]="getTenantLink('games/categories')"
+      >
+        {{ "games.navbar.items.categories" | translate }}
+      </a>
+      <a
+        class="games-chip"
+        [class.games-chip--active]="isActiveLink('games/new')"
+        [routerLink]="getTenantLink('games/new')"
+      >
+        {{ "games.navbar.items.new" | translate }}
+      </a>
+    </nav>
+
+    <form class="games-shell__search" *ngIf="isSearchVisible">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="10.5" cy="10.5" r="6.5" />
+        <path d="M20 20l-4.8-4.8" />
+      </svg>
+      <input
+        type="search"
+        [formControl]="searchControl"
+        [placeholder]="'games.library.search_placeholder' | translate"
+      />
+      <button
+        *ngIf="searchControl.value"
+        type="button"
+        (click)="clearSearch()"
+        aria-label="Clear search"
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M18 6 6 18M6 6l12 12" />
+        </svg>
+      </button>
+    </form>
+  </header>
+
+  <app-controls-menu
+    #menu
+    [menuItems]="menuItems.asObservable()"
+    (menuItemClick)="handleMenuItemClick($event.value)"
+  ></app-controls-menu>
+
+  <router-outlet (activate)="onActivate($event)"></router-outlet>
+</section>

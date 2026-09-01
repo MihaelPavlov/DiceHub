@@ -10,7 +10,9 @@ public class TenantDbContextFactory : IDbContextFactory<TenantDbContext>
     readonly IContainerService containerService;
     readonly IConfiguration configuration;
 
-    public TenantDbContextFactory(IContainerService containerService, IConfiguration configuration)
+    public TenantDbContextFactory(
+        IContainerService containerService,
+        IConfiguration configuration)
     {
         this.containerService = containerService;
         this.configuration = configuration;
@@ -22,7 +24,9 @@ public class TenantDbContextFactory : IDbContextFactory<TenantDbContext>
             ?? throw new InvalidConfigurationException("DefaultConnection: Was not found. Place TenantDbContextFactory");
 
         var optionsBuilder = new DbContextOptionsBuilder<TenantDbContext>();
-        optionsBuilder.UseNpgsql(connectionString);
+        optionsBuilder
+            .AddInterceptors(this.containerService.Resolve<TenantDbConnectionInterceptor>())
+            .UseNpgsql(connectionString);
 
         return new TenantDbContext(optionsBuilder.Options, this.containerService);
     }

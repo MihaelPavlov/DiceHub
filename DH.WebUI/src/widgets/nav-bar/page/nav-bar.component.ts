@@ -1,5 +1,5 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, Input } from '@angular/core';
+import { TenantRouter } from '../../../shared/helpers/tenant-router';
 
 export interface Column {
   name: string;
@@ -8,27 +8,19 @@ export interface Column {
 }
 
 @Component({
-    selector: 'app-nav-bar',
-    templateUrl: 'nav-bar.component.html',
-    styleUrl: 'nav-bar.component.scss',
-    standalone: false
+  selector: 'app-nav-bar',
+  templateUrl: 'nav-bar.component.html',
+  styleUrl: 'nav-bar.component.scss',
+  standalone: false,
 })
-export class NavBarComponent implements OnInit {
+export class NavBarComponent {
   @Input() columns: Column[] = [];
 
-  constructor(private readonly router: Router) {}
-
-  public ngOnInit(): void {
-    this.columns.forEach((column) => {
-      if (column.isActive) {
-        // this.router.navigateByUrl(column.link);
-      }
-    });
-  }
+  constructor(private readonly tenantRouter: TenantRouter) {}
 
   public toggleActive(item: Column): void {
     // Don't preemptively mark as active
-    this.router.navigateByUrl(item.link).then((navigated) => {
+    this.tenantRouter.navigateTenant(item.link).then((navigated) => {
       if (navigated) {
         // If navigation succeeded, update active states
         this.columns.forEach((column) => (column.isActive = column === item));

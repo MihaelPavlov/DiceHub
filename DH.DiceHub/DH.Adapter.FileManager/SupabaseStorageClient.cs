@@ -16,7 +16,7 @@ public class SupabaseStorageClient : IFileManagerClient
 
     public string GetPublicUrl(string folderName, string fileName)
     {
-        var imagePath = Path.Combine(folderName, fileName);
+        var imagePath = BuildStoragePath(folderName, fileName);
 
         return client.Storage.From(this.configuration["SupabaseStorage"] ?? "temp").GetPublicUrl(imagePath);
     }
@@ -24,7 +24,7 @@ public class SupabaseStorageClient : IFileManagerClient
     public async Task<string> UploadFileAsync(string folderName, string fileName, byte[] data)
     {
         var bucket = this.configuration["SupabaseStorage"] ?? "temp";
-        var imagePath = Path.Combine(folderName, fileName);
+        var imagePath = BuildStoragePath(folderName, fileName);
 
         await client.Storage.From(bucket)
             .Upload(data, imagePath, new Supabase.Storage.FileOptions
@@ -34,4 +34,7 @@ public class SupabaseStorageClient : IFileManagerClient
 
         return client.Storage.From(bucket).GetPublicUrl(imagePath);
     }
+
+    static string BuildStoragePath(string folderName, string fileName)
+        => $"{folderName.Trim().Trim('/')}/{fileName.Trim().Trim('/')}";
 }

@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  defaultAppUrl: 'https://dh-api-latest.onrender.com',
+  defaultAppUrl: 'https://dh-tenant-api.onrender.com',
   firebase: {
     apiKey: 'AIzaSyBSZ3ju-sFNOPAoLuw_q2PebmtQsQ3D13s',
     authDomain: 'dicehub-8c63f.firebaseapp.com',

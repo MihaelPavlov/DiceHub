@@ -6,7 +6,6 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
 import { MenuTabsService } from '../../../../shared/services/menu-tabs.service';
 import { ToastService } from '../../../../shared/services/toast.service';
 import { NAV_ITEM_LABELS } from '../../../../shared/models/nav-items-labels.const';
@@ -24,6 +23,7 @@ import { forkJoin, switchMap } from 'rxjs';
 import { IUserSettings } from '../../../../entities/common/models/user-settings.model';
 import { UiTheme } from '../../../../shared/enums/ui-theme.enum';
 import { ThemeService } from '../../../../shared/services/theme.service';
+import { TenantRouter } from '../../../../shared/helpers/tenant-router';
 
 interface IUserSettingsForm {
   phoneNumber: string;
@@ -49,7 +49,7 @@ export class UserSettingsComponent extends Form implements OnInit, OnDestroy {
     public override readonly toastService: ToastService,
     private readonly menuTabsService: MenuTabsService,
     private readonly userSettingService: TenantUserSettingsService,
-    private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly languageService: LanguageService,
     public override translateService: TranslateService,
     private readonly translateInPipe: TranslateInPipe,
@@ -80,7 +80,7 @@ export class UserSettingsComponent extends Form implements OnInit, OnDestroy {
       .map((name) => ({
         id: UiTheme[name as keyof typeof UiTheme],
         name: this.translateService.instant(`ui_theme_names.${name}`),
-      })) as unknown as IDropdown[];      
+      })) as unknown as IDropdown[];
   }
 
   public ngOnDestroy(): void {
@@ -122,7 +122,7 @@ export class UserSettingsComponent extends Form implements OnInit, OnDestroy {
 
       const themeTranslation$ = this.translateInPipe.transform(
         `ui_theme_names.${UiTheme[this.form.controls.uiTheme.value]}`,
-         SupportLanguages.EN.toLowerCase()
+        SupportLanguages.EN.toLowerCase()
       );
 
       forkJoin([languageTranslation$, themeTranslation$])
@@ -180,7 +180,7 @@ export class UserSettingsComponent extends Form implements OnInit, OnDestroy {
   }
 
   public backNavigateBtn() {
-    this.router.navigateByUrl(ROUTE.PROFILE.CORE);
+    this.tenantRouter.navigateTenant(ROUTE.PROFILE.CORE);
   }
 
   protected override getControlDisplayName(controlName: string): string {

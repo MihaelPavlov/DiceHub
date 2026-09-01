@@ -1,0 +1,15 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html", "x": 0, "y": 0, "w": 393, "h": 1180, "title": "Games Library" },
+    { "file": "GameDetails.dc.html", "x": 453, "y": 0, "w": 393, "h": 1000, "title": "Game Details" },
+    { "file": "GameAvailability.dc.html", "x": 906, "y": 0, "w": 393, "h": 930, "title": "Game Availability" },
+    { "file": "GameReviews.dc.html", "x": 1359, "y": 0, "w": 393, "h": 930, "title": "Game Reviews" },
+
+    { "file": "GameCategories.dc.html", "x": 0, "y": 1280, "w": 393, "h": 820, "title": "Game Categories" },
+    { "file": "CreateGame.dc.html", "x": 453, "y": 1280, "w": 393, "h": 900, "title": "Add a Game" },
+    { "file": "AddExistingGame.dc.html", "x": 906, "y": 1280, "w": 393, "h": 860, "title": "Add Existing Game" },
+    { "file": "UpdateGame.dc.html", "x": 1359, "y": 1280, "w": 393, "h": 860, "title": "Update Game" },
+    { "file": "NewGames.dc.html", "x": 1812, "y": 1280, "w": 393, "h": 640, "title": "New Games" }
+  ],
+  "launch": { "view": "canvas" }
+}

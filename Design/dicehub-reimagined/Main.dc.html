@@ -1,0 +1,195 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Sora:wght@400;500;600;700&display=swap');
+
+    :root {
+      --bg: oklch(0.15 0.018 290);
+      --bg-elevated: oklch(0.195 0.02 290);
+      --bg-elevated-2: oklch(0.245 0.022 290);
+      --border: oklch(0.34 0.02 290 / 0.55);
+      --text: oklch(0.96 0.01 90);
+      --text-muted: oklch(0.7 0.02 290);
+      --text-faint: oklch(0.52 0.02 290);
+      --amber: oklch(0.78 0.16 75);
+      --amber-soft: oklch(0.78 0.16 75 / 0.16);
+      --coral: oklch(0.68 0.19 25);
+      --coral-soft: oklch(0.68 0.19 25 / 0.16);
+      --teal: oklch(0.72 0.14 165);
+      --teal-soft: oklch(0.72 0.14 165 / 0.16);
+      --violet: oklch(0.66 0.17 300);
+      --violet-soft: oklch(0.66 0.17 300 / 0.16);
+      --shadow-card: 0 10px 30px -12px oklch(0 0 0 / 0.55);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #0b0b0d; font-family: 'Sora', ui-sans-serif, system-ui, sans-serif; }
+    .display { font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif; }
+    a { color: var(--amber); text-decoration: none; }
+    a:hover { color: var(--coral); }
+    .icon { flex-shrink: 0; }
+  </style>
+</helmet>
+
+<div style="width:393px;background:var(--bg);color:var(--text);padding:24px 20px 140px;display:flex;flex-direction:column;gap:28px;position:relative;">
+
+  <!-- Top bar -->
+  <div style="display:flex;align-items:center;justify-content:space-between;">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div style="width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--amber),var(--coral));display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:17px;color:#241505;box-shadow:0 0 0 3px var(--bg),0 0 0 4.5px var(--amber-soft);">M</div>
+      <div style="display:flex;flex-direction:column;gap:1px;">
+        <span style="font-size:12.5px;color:var(--text-muted);font-weight:500;">Good evening</span>
+        <span class="display" style="font-size:19px;font-weight:700;">Maya</span>
+      </div>
+    </div>
+    <div style="width:42px;height:42px;border-radius:14px;background:var(--bg-elevated);display:flex;align-items:center;justify-content:center;position:relative;border:1px solid var(--border);">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 10a6 6 0 0 1 12 0c0 4 1.5 5.5 1.5 5.5H4.5S6 14 6 10z"/><path d="M10 19a2 2 0 0 0 4 0"/></svg>
+      <div style="position:absolute;top:9px;right:10px;width:7px;height:7px;border-radius:50%;background:var(--coral);box-shadow:0 0 0 2px var(--bg-elevated);"></div>
+    </div>
+  </div>
+
+  <!-- Level + XP hero card -->
+  <div style="background:var(--bg-elevated);border:1px solid var(--border);border-radius:28px;padding:22px;box-shadow:var(--shadow-card);display:flex;flex-direction:column;gap:16px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;">
+      <div style="display:flex;align-items:center;gap:14px;">
+        <img src="dice.png" alt="" style="width:46px;height:46px;object-fit:contain;">
+        <div style="display:flex;flex-direction:column;gap:0;">
+          <span style="font-size:11px;font-weight:700;letter-spacing:0.08em;color:var(--text-faint);">YOUR LEVEL</span>
+          <span class="display" style="font-size:26px;font-weight:800;line-height:1.15;">Level 14</span>
+        </div>
+      </div>
+      <div style="width:40px;height:40px;border-radius:12px;background:var(--amber);display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:15px;color:#2b1a02;">14</div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:9px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <span style="font-size:12.5px;font-weight:600;color:var(--text-muted);">Progress to Level 15</span>
+        <span style="font-size:12.5px;color:var(--text-faint);font-weight:600;">740 / 1000 XP</span>
+      </div>
+      <div style="height:10px;border-radius:999px;background:var(--bg-elevated-2);overflow:hidden;">
+        <div style="width:74%;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--amber),var(--coral));box-shadow:0 0 12px 0 var(--amber-soft);"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick actions -->
+  <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+      <div style="width:100%;aspect-ratio:1;border-radius:18px;background:var(--amber-soft);display:flex;align-items:center;justify-content:center;">
+        <svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="4"/><circle cx="8.5" cy="8.5" r="1.15" fill="var(--amber)" stroke="none"/><circle cx="15.5" cy="8.5" r="1.15" fill="var(--amber)" stroke="none"/><circle cx="12" cy="12" r="1.15" fill="var(--amber)" stroke="none"/><circle cx="8.5" cy="15.5" r="1.15" fill="var(--amber)" stroke="none"/><circle cx="15.5" cy="15.5" r="1.15" fill="var(--amber)" stroke="none"/></svg>
+      </div>
+      <span style="font-size:11.5px;font-weight:600;text-align:center;color:var(--text-muted);">Reserve<br/>Table</span>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+      <div style="width:100%;aspect-ratio:1;border-radius:18px;background:var(--teal-soft);display:flex;align-items:center;justify-content:center;">
+        <svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6.5c2-1 5-1.2 8 .3v12c-3-1.5-6-1.3-8-.3z"/><path d="M20 6.5c-2-1-5-1.2-8 .3v12c3-1.5 6-1.3 8-.3z"/></svg>
+      </div>
+      <span style="font-size:11.5px;font-weight:600;text-align:center;color:var(--text-muted);">Browse<br/>Games</span>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+      <div style="width:100%;aspect-ratio:1;border-radius:18px;background:var(--violet-soft);display:flex;align-items:center;justify-content:center;">
+        <svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--violet)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 19c.8-3.3 3-5 6-5s5.2 1.7 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 12.2c2.6.2 4 1.7 4.6 4.3"/></svg>
+      </div>
+      <span style="font-size:11.5px;font-weight:600;text-align:center;color:var(--text-muted);">Find<br/>Meeple</span>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+      <div style="width:100%;aspect-ratio:1;border-radius:18px;background:var(--coral-soft);display:flex;align-items:center;justify-content:center;padding:10px;">
+        <img src="qr-code.png" alt="" style="width:100%;height:100%;object-fit:contain;">
+      </div>
+      <span style="font-size:11.5px;font-weight:600;text-align:center;color:var(--text-muted);">Scan<br/>QR</span>
+    </div>
+  </div>
+
+  <!-- Tonight at the club -->
+  <div style="display:flex;flex-direction:column;gap:14px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;">
+      <span class="display" style="font-size:19px;font-weight:700;">Tonight at the club</span>
+      <a href="#" style="font-size:13px;font-weight:600;">See all</a>
+    </div>
+    <div style="background:var(--bg-elevated);border:1px solid var(--border);border-radius:24px;padding:18px;display:flex;flex-direction:column;gap:14px;box-shadow:var(--shadow-card);">
+      <div style="display:flex;align-items:flex-start;gap:14px;">
+        <div style="width:52px;height:52px;border-radius:16px;background:linear-gradient(135deg,var(--violet),var(--coral));flex-shrink:0;"></div>
+        <div style="display:flex;flex-direction:column;gap:4px;min-width:0;">
+          <span style="font-size:16px;font-weight:700;">Wingspan Tournament</span>
+          <div style="display:flex;align-items:center;gap:6px;color:var(--text-muted);font-size:12.5px;font-weight:500;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+            7:00 PM · Table 4
+          </div>
+        </div>
+      </div>
+      <div style="height:1px;background:var(--border);"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div style="display:flex;align-items:center;">
+          <div style="width:26px;height:26px;border-radius:50%;background:var(--amber);border:2px solid var(--bg-elevated);margin-right:-8px;"></div>
+          <div style="width:26px;height:26px;border-radius:50%;background:var(--teal);border:2px solid var(--bg-elevated);margin-right:-8px;"></div>
+          <div style="width:26px;height:26px;border-radius:50%;background:var(--violet);border:2px solid var(--bg-elevated);margin-right:-8px;"></div>
+          <div style="width:26px;height:26px;border-radius:50%;background:var(--bg-elevated-2);border:2px solid var(--bg-elevated);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--text-muted);">+3</div>
+        </div>
+        <span style="font-size:12.5px;font-weight:700;color:var(--teal);background:var(--teal-soft);padding:6px 12px;border-radius:999px;">6/8 joined</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Activity feed -->
+  <div style="display:flex;flex-direction:column;gap:14px;">
+    <span class="display" style="font-size:19px;font-weight:700;">This week</span>
+    <div style="display:flex;flex-direction:column;gap:2px;">
+      <div style="display:flex;align-items:center;gap:14px;padding:12px 4px;">
+        <div style="width:40px;height:40px;border-radius:13px;background:var(--teal-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8v4a4 4 0 0 1-8 0z"/><path d="M8 5H5a3 3 0 0 0 3 5"/><path d="M16 5h3a3 3 0 0 1-3 5"/><path d="M10 13v3M14 13v3"/><path d="M8 20h8"/><path d="M9 17h6l1 3H8z"/></svg>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:1px;min-width:0;flex:1;">
+          <span style="font-size:13.5px;font-weight:600;">New high score in Catan</span>
+          <span style="font-size:12px;color:var(--text-faint);">2 hours ago</span>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:14px;padding:12px 4px;">
+        <div style="width:40px;height:40px;border-radius:13px;background:var(--violet-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--violet)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 19c.8-3.3 3-5 6-5s5.2 1.7 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 12.2c2.6.2 4 1.7 4.6 4.3"/></svg>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:1px;min-width:0;flex:1;">
+          <span style="font-size:13.5px;font-weight:600;">Alex joined your Wingspan table</span>
+          <span style="font-size:12px;color:var(--text-faint);">Yesterday</span>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:14px;padding:12px 4px;">
+        <div style="width:40px;height:40px;border-radius:13px;background:var(--amber-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5l2.4 5 5.5.7-4 3.8 1 5.5-4.9-2.7-4.9 2.7 1-5.5-4-3.8 5.5-.7z"/></svg>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:1px;min-width:0;flex:1;">
+          <span style="font-size:13.5px;font-weight:600;">Unlocked "Table Regular" badge</span>
+          <span style="font-size:12px;color:var(--text-faint);">3 days ago</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating bottom nav — real IA: games / meeple / reservations · FAB(challenges) · events / profile -->
+  <div style="position:absolute;left:20px;right:20px;bottom:24px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:999px;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 14px 34px -10px oklch(0 0 0 / 0.6);">
+    <div style="width:38px;height:38px;border-radius:999px;background:var(--amber-soft);display:flex;align-items:center;justify-content:center;">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9a1 1 0 0 0 1 1h4v-6h2v6h4a1 1 0 0 0 1-1v-9"/></svg>
+    </div>
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 19c.8-3.3 3-5 6-5s5.2 1.7 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 12.2c2.6.2 4 1.7 4.6 4.3"/></svg>
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16"/><path d="M8 3v4M16 3v4"/><path d="M9.5 14l1.8 1.8L15 12"/></svg>
+    <div style="width:50px;height:50px;border-radius:999px;background:linear-gradient(135deg,var(--amber),var(--coral));display:flex;align-items:center;justify-content:center;margin-top:-22px;box-shadow:0 8px 20px -6px var(--amber-soft),0 0 0 6px var(--bg);">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2b1502" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8v4a4 4 0 0 1-8 0z"/><path d="M8 5H5a3 3 0 0 0 3 5"/><path d="M16 5h3a3 3 0 0 1-3 5"/><path d="M10 13v3M14 13v3"/><path d="M8 20h8"/><path d="M9 17h6l1 3H8z"/></svg>
+    </div>
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2 1.6 1.6 0 0 0 0 6 2 2 0 0 1-2 2H6a2 2 0 0 1-2-2 1.6 1.6 0 0 0 0-6z"/><path d="M9 7.5v2M9 12.5v2M9 17v-2"/></svg>
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c1.2-4 4-5.5 7-5.5s5.8 1.5 7 5.5"/></svg>
+  </div>
+
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

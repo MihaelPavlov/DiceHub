@@ -17,7 +17,10 @@ using DH.Api.Filters;
 using DH.Application;
 using DH.Domain;
 using DH.Domain.Adapters.Data;
+using DH.Domain.Adapters.Scheduling;
+using DH.Domain.Services;
 using FirebaseAdmin;
+using Microsoft.Extensions.Logging;
 using Google.Apis.Auth.OAuth2;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
@@ -33,10 +36,6 @@ builder.Services.AddControllers(options =>
     options.Filters.Add<ApiExceptionFilterAttribute>();
     options.Filters.Add<ValidationFilterAttribute>();
 
-});
-builder.Services.AddSpaStaticFiles(configuration =>
-{
-    configuration.RootPath = "wwwroot";
 });
 builder.Services.AddSingleton<IMemoryCache>(service => new MemoryCache(new MemoryCacheOptions { ExpirationScanFrequency = TimeSpan.FromMinutes(1.0) }));
 builder.Services.AddEndpointsApiExplorer();
@@ -97,12 +96,26 @@ builder.Services.AddGameSessionAdapter();
 builder.Services.AddEmailAdapter(builder.Configuration);
 builder.Services.AddStatisticsAdapter();
 builder.Services.AddFileManager(builder.Configuration);
-var test = FirebaseApp.Create(new AppOptions()
+var firebaseCredentialsJson = builder.Configuration["Firebase:CredentialsJson"];
+GoogleCredential firebaseCredential;
+if (!string.IsNullOrWhiteSpace(firebaseCredentialsJson))
 {
-    Credential = GoogleCredential.FromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "dicehub-8c63f-firebase-adminsdk-y31l3-6026a82c88.json")),
-});
+    firebaseCredential = GoogleCredential.FromJson(firebaseCredentialsJson);
+}
+else
+{
+    var localCredentialsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "firebase-adminsdk.local.json");
+    if (!File.Exists(localCredentialsPath))
+    {
+        throw new InvalidOperationException(
+            "Firebase credentials not configured. Set Firebase:CredentialsJson (env var Firebase__CredentialsJson) " +
+            "to the service account JSON content, or place a local firebase-adminsdk.local.json next to the app for development.");
+    }
+    firebaseCredential = GoogleCredential.FromFile(localCredentialsPath);
+}
 
-Console.WriteLine(test.Options.ProjectId);
+var firebaseApp = FirebaseApp.Create(new AppOptions() { Credential = firebaseCredential });
+Console.WriteLine(firebaseApp.Options.ProjectId);
 
 builder.Services.AddHostedService<MemoryMonitorService>();
 
@@ -115,6 +128,13 @@ using (var scope = app.Services.CreateScope())
 {
     var tenantDatabase = scope.ServiceProvider.GetRequiredService<TenantDbContext>();
     var appIdentityDatabase = scope.ServiceProvider.GetRequiredService<AppIdentityDbContext>();
+    var migrationConnection = builder.Configuration.GetConnectionString("MigrationConnection");
+    if (!string.IsNullOrWhiteSpace(migrationConnection))
+    {
+        tenantDatabase.Database.SetConnectionString(migrationConnection);
+        appIdentityDatabase.Database.SetConnectionString(migrationConnection);
+    }
+
     tenantDatabase.Database.Migrate();
     appIdentityDatabase.Database.Migrate();
 
@@ -148,6 +168,40 @@ using (var scope = app.Services.CreateScope())
 
 using (var scope = app.Services.CreateScope())
 {
+    // Back-fill the per-tenant daily job triggers (CloseActiveTablesJob,
+    // UserChallengeValidationJob, UserChallengeTop3StreakTrackerJob) for any
+    // active tenant that is missing one, and drop the obsolete global triggers
+    // the last two used before they became per-tenant. Existing per-tenant
+    // triggers are left untouched.
+    var schedulerService = scope.ServiceProvider.GetRequiredService<ISchedulerService>();
+    try
+    {
+        await schedulerService.ReconcileTenantDailyJobsAsync(CancellationToken.None);
+    }
+    catch (Exception ex)
+    {
+        app.Services.GetRequiredService<ILogger<Program>>()
+            .LogError(ex, "Failed to reconcile per-tenant daily job triggers on startup.");
+    }
+
+    // Heal any reward periods that expired while their per-tenant Quartz trigger
+    // was stuck (idempotent - guarded by a same-day check and a unique index).
+    // Without this a frozen trigger leaves users on an expired period until the
+    // next 06:00 local validation run, and completed challenges can't be credited.
+    try
+    {
+        var userChallengesManagementService = scope.ServiceProvider.GetRequiredService<IUserChallengesManagementService>();
+        await userChallengesManagementService.EnsureValidUserChallengePeriodsAsync(CancellationToken.None);
+    }
+    catch (Exception ex)
+    {
+        app.Services.GetRequiredService<ILogger<Program>>()
+            .LogError(ex, "Failed to ensure valid user challenge periods on startup.");
+    }
+}
+
+using (var scope = app.Services.CreateScope())
+{
     var dataSeeder = scope.ServiceProvider.GetRequiredService<IDataSeeder>();
     await dataSeeder.SeedAsync();
 
@@ -168,35 +222,13 @@ if (!app.Environment.IsDevelopment())
     app.UseHttpsRedirection();
 }
 
-app.UseStaticFiles();
-app.UseSpaStaticFiles();
-
 app.UseRouting();
-
-app.UseAuthentication();
-app.UseAuthorization();
 
 app.UseCors("EnableCORS");
 
-#pragma warning disable ASP0014 // Suggest using top level route registrations
-app.Use(async (context, next) =>
-{
-    // If request path doesn't start with /api, /health, /chatHub etc (your protected endpoints)
-    // and the request is not for a static file, let it pass without auth
-    var path = context.Request.Path.Value ?? string.Empty;
-
-    if (!path.StartsWith("/api") &&
-        !path.StartsWith("/health") &&
-        !path.StartsWith("/chatHub") &&
-        !path.StartsWith("/challengeHub") &&
-        !System.IO.Path.HasExtension(path)) // no extension means probably frontend route
-    {
-        // Remove authentication headers so authorization middleware won't block
-        context.Items["AllowAnonymous"] = true;
-    }
-
-    await next.Invoke();
-});
+app.UseAuthentication();
+app.UseMiddleware<TenantRouteValidationMiddleware>();
+app.UseAuthorization();
 
 // Then map endpoints
 app.UseEndpoints(endpoints =>
@@ -205,9 +237,6 @@ app.UseEndpoints(endpoints =>
     endpoints.MapHub<ChatHubClient>("/chatHub");
     endpoints.MapHub<ChallengeHubClient>("/challengeHub");
     endpoints.MapControllers();
-
-    // This fallback serves index.html for SPA routes
-    endpoints.MapFallbackToFile("index.html");
 });
 #pragma warning restore ASP0014 // Suggest using top level route registrations
 

@@ -11,11 +11,11 @@ namespace DH.Application.Games.Queries.Games;
 public record GetActiveGameReservationListQuery : IRequest<List<GetActiveGameReservationListQueryModel>>;
 
 internal class GetActiveGameReservationListQueryHandler(
-    IGameService gameService, IUserService userService,
+    IGameService gameService, IUserManagementService userManagementService,
     IRepository<TenantUserSetting> repository, ILocalizationService localizer) : IRequestHandler<GetActiveGameReservationListQuery, List<GetActiveGameReservationListQueryModel>>
 {
     readonly IGameService gameService = gameService;
-    readonly IUserService userService = userService;
+    readonly IUserManagementService userManagementService = userManagementService;
     readonly IRepository<TenantUserSetting> repository = repository;
     readonly ILocalizationService localizer = localizer;
 
@@ -25,7 +25,7 @@ internal class GetActiveGameReservationListQueryHandler(
 
         var userIds = activeReservations.DistinctBy(x => x.UserId).Select(x => x.UserId).ToArray();
 
-        var users = await this.userService.GetUserListByIds(userIds, cancellationToken);
+        var users = await this.userManagementService.GetUserListByIds(userIds, cancellationToken);
 
         foreach (var reservation in activeReservations)
         {

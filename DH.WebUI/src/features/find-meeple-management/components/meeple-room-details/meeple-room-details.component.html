@@ -1,6 +1,15 @@
 <div class="wrapper_container" *ngIf="room">
   <div class="wrapper_icons">
-    <span (click)="backNavigateBtn()" class="arrow left"></span>
+    <button
+      type="button"
+      class="games-icon-btn"
+      (click)="backNavigateBtn()"
+      aria-label="Back"
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M15 5l-7 7 7 7" />
+      </svg>
+    </button>
     <span class="header_name">{{ room.name }}</span>
     <app-meeple-room-menu
       *ngIf="this.room"
@@ -21,46 +30,36 @@
     {{ "meeple.room.from" | translate : { username: room.username } }}
   </div>
 
-  <div class="wrapper_chips surface-elevated">
+  <div class="wrapper_chips">
     <div class="wrapper_chips__detail">
       <span>{{ "meeple.room.joined" | translate }}</span>
-      <app-chip
-        size="small"
-        color="orange"
-        [text]="room.joinedParticipants.toString()"
-      ></app-chip>
+      <span class="games-pill games-pill--amber">{{
+        room.joinedParticipants
+      }}</span>
     </div>
     <div class="wrapper_chips__detail">
-      <app-chip
-        size="small"
-        color="blue"
-        text="{{
-          room.startDate | date : DATE_FORMAT : undefined : this.currentLanguage
-        }}"
-      ></app-chip>
+      <span class="games-pill games-pill--coral">{{
+        room.maxParticipants
+      }}</span>
+      <span>{{ "meeple.room.max" | translate }}</span>
+    </div>
+    <div class="wrapper_chips__detail">
+      <span class="games-pill games-pill--teal">{{
+        room.startDate | date : DATE_FORMAT : undefined : this.currentLanguage
+      }}</span>
       <span>{{ "meeple.room.date" | translate }}</span>
     </div>
     <div class="wrapper_chips__detail">
-      <span>{{ "meeple.room.max" | translate }}</span>
-      <app-chip
-        size="small"
-        color="red"
-        [text]="room.maxParticipants.toString()"
-      ></app-chip>
-    </div>
-    <div class="wrapper_chips__detail">
-      <app-chip
-        size="small"
-        color="yellow"
-        text="{{ room.startDate | date : TIME_FORMAT }}"
-      ></app-chip>
       <span>{{ "meeple.room.time" | translate }}</span>
+      <span class="games-pill games-pill--amber">{{
+        room.startDate | date : TIME_FORMAT
+      }}</span>
     </div>
   </div>
 
   <ng-container *ngIf="isCurrentUserParticipateInRoom">
     <div class="wrapper_tabs">
-      <div class="wrapper_tabs__tab surface-elevated" (click)="navigateToChat(room.id)">
+      <div class="wrapper_tabs__tab" (click)="navigateToChat(room.id)">
         <div class="info">
           <!-- chat icon -->
           <svg viewBox="0 -960 960 960">
@@ -74,7 +73,7 @@
         >
       </div>
       <div
-        class="wrapper_tabs__tab surface-elevated"
+        class="wrapper_tabs__tab"
         (click)="navigateToGameDetails(room.gameId)"
       >
         <div class="info">
@@ -95,7 +94,7 @@
     <div class="wrapper_btn">
       <button
         *ngIf="!errorMessage && room.joinedParticipants < room.maxParticipants"
-        class="btn btn-green"
+        class="games-cta"
         (click)="onJoinRoom()"
       >
         {{ "meeple.room.join_room" | translate }}

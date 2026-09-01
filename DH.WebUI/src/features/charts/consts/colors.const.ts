@@ -13,63 +13,76 @@ export interface Colors {
   fadedPeach: ColorShades;
 }
 
+// Reimagined design-system palette (amber / coral / teal / violet family),
+// re-mapped onto the existing chart.js dataset color keys so every chart
+// consumer keeps working without touching each component's .ts.
 export const colors: Colors = {
   blue: {
-    default: 'rgba(55, 156, 226, 1)', // #379ce2 in RGBA
-    half: 'rgba(55, 156, 226, 0.5)', // Semi-transparent version of #379ce2
-    quarter: 'rgba(55, 156, 226, 0.25)', // More transparent version
-    zero: 'rgba(55, 156, 226, 0)', // Fully transparent
+    // reimagined violet — visitors chart, weekly series
+    default: 'rgba(141, 102, 214, 1)', // #8d66d6
+    half: 'rgba(141, 102, 214, 0.5)',
+    quarter: 'rgba(141, 102, 214, 0.25)',
+    zero: 'rgba(141, 102, 214, 0)',
   },
   yellow: {
-    default: 'rgba(240, 200, 8, 1)', // #F0C808 in RGBA
-    half: 'rgba(240, 200, 8, 0.5)', // Semi-transparent version of #379ce2
-    quarter: 'rgba(240, 200, 8, 0.25)', // More transparent version
-    zero: 'rgba(240, 200, 8, 0)', // Fully transparent
+    // reimagined amber — visitors chart, yearly series
+    default: 'rgba(243, 191, 61, 1)', // #f3bf3d
+    half: 'rgba(243, 191, 61, 0.5)',
+    quarter: 'rgba(243, 191, 61, 0.25)',
+    zero: 'rgba(243, 191, 61, 0)',
   },
   green: {
-    default: 'rgba(82, 203, 164, 1)', // #52cba4 in RGBA
-    half: 'rgba(82, 203, 164, 0.5)', // Semi-transparent version of #52cba4
-    quarter: 'rgba(82, 203, 164, 0.25)', // More transparent version
-    zero: 'rgba(82, 203, 164, 0)', // Fully transparent
+    // reimagined teal — visitors chart, monthly series
+    default: 'rgba(94, 199, 162, 1)', // #5ec7a2
+    half: 'rgba(94, 199, 162, 0.5)',
+    quarter: 'rgba(94, 199, 162, 0.25)',
+    zero: 'rgba(94, 199, 162, 0)',
   },
   green2: {
-    default: 'rgba(74, 201, 95, 1)', // #4ac95f in RGBA
-    half: 'rgba(74, 201, 95, 0.5)', // Semi-transparent version of #4ac95f
-    quarter: 'rgba(74, 201, 95, 0.25)', // More transparent version
-    zero: 'rgba(74, 201, 95, 0)', // Fully transparent
+    // reimagined coral — reservations chart, cancelled series
+    default: 'rgba(191, 60, 101, 1)', // #bf3c65
+    half: 'rgba(191, 60, 101, 0.5)',
+    quarter: 'rgba(191, 60, 101, 0.25)',
+    zero: 'rgba(191, 60, 101, 0)',
   },
   indigo: {
-    default: 'rgba(55, 95, 131, 1)', // A complementary indigo color closer to #379ce2
-    quarter: 'rgba(55, 95, 131, 0.25)', // Semi-transparent indigo
+    // reimagined deep violet
+    default: 'rgba(107, 79, 176, 1)', // #6b4fb0
+    quarter: 'rgba(107, 79, 176, 0.25)',
   },
   purple: {
-    default: 'rgba(210, 112, 212, 1)', // #d270d4 in RGBA
-    half: 'rgba(210, 112, 212, 0.5)', // Semi-transparent version of #d270d4
-    quarter: 'rgba(210, 112, 212, 0.25)', // More transparent version
-    zero: 'rgba(210, 112, 212, 0)', // Fully transparent
+    // reimagined violet — reservations chart, completed series
+    default: 'rgba(141, 102, 214, 1)', // #8d66d6
+    half: 'rgba(141, 102, 214, 0.5)',
+    quarter: 'rgba(141, 102, 214, 0.25)',
+    zero: 'rgba(141, 102, 214, 0)',
   },
   peach: {
-    default: 'rgba(255, 152, 91, 1)', // #ff985b in RGBA
-    half: 'rgba(255, 152, 91, 0.5)', // Semi-transparent version of #ff985b
-    quarter: 'rgba(255, 152, 91, 0.25)', // More transparent version
-    zero: 'rgba(255, 152, 91, 0)', // Fully transparent
+    // reimagined amber — collected/expired rewards chart, collected series
+    default: 'rgba(243, 191, 61, 1)', // #f3bf3d
+    half: 'rgba(243, 191, 61, 0.5)',
+    quarter: 'rgba(243, 191, 61, 0.25)',
+    zero: 'rgba(243, 191, 61, 0)',
   },
   purple2: {
-    default: 'rgba(164, 96, 226, 1)', // #a460e2 in RGBA
-    half: 'rgba(164, 96, 226, 0.5)', // Semi-transparent version of #a460e2
-    quarter: 'rgba(164, 96, 226, 0.25)', // More transparent version
-    zero: 'rgba(164, 96, 226, 0)', // Fully transparent
+    // reimagined coral — collected/expired rewards chart, expired series
+    default: 'rgba(191, 60, 101, 1)', // #bf3c65
+    half: 'rgba(191, 60, 101, 0.5)',
+    quarter: 'rgba(191, 60, 101, 0.25)',
+    zero: 'rgba(191, 60, 101, 0)',
   },
   pinkPurple: {
-    default: 'rgba(175, 73, 130, 1)', // #af4982 in RGBA
-    half: 'rgba(175, 73, 130, 0.5)', // Semi-transparent version of #af4982
-    quarter: 'rgba(175, 73, 130, 0.25)', // More transparent version
-    zero: 'rgba(175, 73, 130, 0)', // Fully transparent
+    // reimagined deep coral
+    default: 'rgba(156, 47, 79, 1)', // #9c2f4f
+    half: 'rgba(156, 47, 79, 0.5)',
+    quarter: 'rgba(156, 47, 79, 0.25)',
+    zero: 'rgba(156, 47, 79, 0)',
   },
   fadedPeach: {
-    default: 'rgba(246, 172, 133, 1)', // #f6ac85 in RGBA
-    half: 'rgba(246, 172, 133, 0.5)', // Semi-transparent version of #f6ac85
-    quarter: 'rgba(246, 172, 133, 0.25)', // More transparent version
-    zero: 'rgba(246, 172, 133, 0)', // Fully transparent
+    // reimagined light amber — rewards collected chart (single series)
+    default: 'rgba(247, 207, 112, 1)', // #f7cf70
+    half: 'rgba(247, 207, 112, 0.5)',
+    quarter: 'rgba(247, 207, 112, 0.25)',
+    zero: 'rgba(247, 207, 112, 0)',
   },
 };

@@ -1,23 +1,62 @@
+import { TenantRouter } from './../../helpers/tenant-router';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../entities/auth/auth.service';
 import { LanguageService } from '../../services/language.service';
 import { SupportLanguages } from '../../../entities/common/models/support-languages.enum';
 import { FULL_ROUTE, ROUTE } from '../../configs/route.config';
+import { TenantContextService } from '../../services/tenant-context.service';
 
 export abstract class ExceptionBaseComponent {
-  protected abstract imageCode: string; 
+  protected abstract imageCode: string;
+  protected abstract accent: 'amber' | 'coral' | 'violet';
 
   constructor(
     protected readonly router: Router,
     protected readonly authService: AuthService,
-    protected readonly languageService: LanguageService
+    protected readonly languageService: LanguageService,
+    private readonly tenantRouter: TenantRouter,
+    private readonly tenantContextService: TenantContextService
   ) {}
 
   public redirectTo(): void {
-    if (this.authService.getUser)
-      this.router.navigateByUrl(FULL_ROUTE.GAMES.LIBRARY);
-    else
-      this.router.navigateByUrl(ROUTE.LOGIN);
+    // authService.logout() below makes a network call. While offline it fails the
+    // same way the request that landed the user here failed, re-triggering the
+    // ErrorInterceptor and bouncing straight back to this same exception page -
+    // "back to home" appeared to do nothing. Navigate locally instead.
+    if (!navigator.onLine) {
+      this.router.navigateByUrl(ROUTE.LANDING);
+      return;
+    }
+
+    if (
+      this.authService.getUser?.tenantId !== this.tenantContextService.tenantId
+    ) {
+      this.authService.logout().subscribe({
+        next: () => {
+          this.router.navigateByUrl(ROUTE.CHOOSE_CLUB);
+        },
+        error: () => {
+          this.authService.logout(true).subscribe({
+            next: () => {
+              this.router.navigateByUrl(ROUTE.CHOOSE_CLUB);
+            },
+          });
+        },
+      });
+      return;
+    }
+
+    if (this.authService.getUser) {
+      this.tenantRouter.navigateTenant(FULL_ROUTE.GAMES.LIBRARY);
+      return;
+    }
+
+    if (this.tenantContextService.hasTenant()) {
+      this.tenantRouter.navigateTenant(ROUTE.LOGIN);
+      return;
+    }
+
+    this.router.navigateByUrl(ROUTE.CHOOSE_CLUB);
   }
 
   public get imgPath(): string {

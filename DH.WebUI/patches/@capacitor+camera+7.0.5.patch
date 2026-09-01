@@ -1,0 +1,40 @@
+diff --git a/node_modules/@capacitor/camera/android/src/main/java/com/capacitorjs/plugins/camera/CameraPlugin.java b/node_modules/@capacitor/camera/android/src/main/java/com/capacitorjs/plugins/camera/CameraPlugin.java
+index bcd2c91..744452f 100644
+--- a/node_modules/@capacitor/camera/android/src/main/java/com/capacitorjs/plugins/camera/CameraPlugin.java
++++ b/node_modules/@capacitor/camera/android/src/main/java/com/capacitorjs/plugins/camera/CameraPlugin.java
+@@ -376,14 +376,20 @@ public class CameraPlugin extends Plugin {
+                                                 call.reject("SecurityException");
+                                             }
+                                         }
+-                                        ret.put("photos", photos);
++        ret.put("photos", photos);
+                                         call.resolve(ret);
+                                     }
+                                 );
+                             } else {
+                                 call.reject(USER_CANCELLED);
+                             }
+-                            pickMultipleMedia.unregister();
++                            // register() can invoke this callback synchronously (e.g. restoring a
++                            // pending result after the host Activity was recreated), in which case
++                            // this callback runs before the assignment below completes and
++                            // pickMultipleMedia is still null - guard against that NPE.
++                            if (pickMultipleMedia != null) {
++                                pickMultipleMedia.unregister();
++                            }
+                         }
+                     );
+                 pickMultipleMedia.launch(
+@@ -400,7 +406,11 @@ public class CameraPlugin extends Plugin {
+                             } else {
+                                 call.reject(USER_CANCELLED);
+                             }
+-                            pickMedia.unregister();
++                            // See the matching guard in the multiple-media branch above for why
++                            // pickMedia can still be null here.
++                            if (pickMedia != null) {
++                                pickMedia.unregister();
++                            }
+                         }
+                     );
+                 pickMedia.launch(

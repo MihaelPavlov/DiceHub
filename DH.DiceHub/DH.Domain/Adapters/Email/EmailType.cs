@@ -7,6 +7,9 @@ public enum EmailType
     ForgotPasswordReset,
     PartnerInquiryRequest,
     OwnerPasswordCreation,
+    TenantApplicationEmailVerification,
+    TenantSetupInvitation,
+    TenantOwnerCredentials,
 }
 
 public static class RegistrationEmailTemplateKeys
@@ -39,4 +42,24 @@ public static class OwnerPasswordCreation
 {
     public const string ClubName = "ClubName";
     public const string CreatePasswordUrl = "CreatePasswordUrl";
+}
+
+public static class TenantApplicationEmailVerification
+{
+    public const string VerificationCode = "VerificationCode";
+}
+
+public static class TenantSetupInvitation
+{
+    public const string ClubName = "ClubName";
+    public const string SetupUrl = "SetupUrl";
+    public const string ExpiresInHours = "ExpiresInHours";
+}
+
+public static class TenantOwnerCredentials
+{
+    public const string ClubName = "ClubName";
+    public const string LoginUrl = "LoginUrl";
+    public const string Email = "Email";
+    public const string Password = "Password";
 }

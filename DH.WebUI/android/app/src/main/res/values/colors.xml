@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Accent colour applied to the notification small icon and title. -->
+    <color name="notification_color">#8EA2FF</color>
+
+    <!-- Matches the web app background so the status / navigation bars don't
+         show Capacitor's default indigo behind the battery / signal icons. -->
+    <color name="statusBar">#17151D</color>
+
+    <!-- Overrides Capacitor's default (#303F9F) which the theme uses for the
+         status bar colour. -->
+    <color name="colorPrimaryDark">#17151D</color>
+</resources>

@@ -70,6 +70,7 @@ export class RoomMembersComponent implements OnInit, OnDestroy {
 
   public onDelete(userId: string): void {
     const dialogRef = this.dialog.open(RoomMemberConfirmDeleteDialog, {
+      panelClass: 'confirm-sheet-pane',
       data: { roomId: this.roomId, userId },
     });
 

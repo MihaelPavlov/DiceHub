@@ -1,6 +1,6 @@
 ﻿namespace DH.Domain.Entities;
 
-public class RoomMessage
+public class RoomMessage : TenantEntity
 {
     public int Id { get; set; }
     public string Sender { get; set; } = string.Empty;

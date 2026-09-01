@@ -1,0 +1,19 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html", "x": 0, "y": 0, "w": 393, "h": 2820, "title": "Charts Overview" },
+    { "file": "Visitors.dc.html", "x": 453, "y": 0, "w": 393, "h": 700, "title": "Visitors Chart" },
+    { "file": "Games.dc.html", "x": 906, "y": 0, "w": 393, "h": 900, "title": "Games Chart (ranked list)" },
+    { "file": "Reservations.dc.html", "x": 1359, "y": 0, "w": 393, "h": 700, "title": "Reservations Chart" },
+
+    { "file": "RewardsMenu.dc.html", "x": 0, "y": 3020, "w": 393, "h": 400, "title": "Reward Charts (layout)" },
+    { "file": "RewardsExpiredCollected.dc.html", "x": 453, "y": 3020, "w": 393, "h": 820, "title": "Rewards Collected vs Expired" },
+    { "file": "RewardsCollected.dc.html", "x": 906, "y": 3020, "w": 393, "h": 640, "title": "Rewards Uses" },
+
+    { "file": "EventsMenu.dc.html", "x": 0, "y": 3520, "w": 393, "h": 400, "title": "Event Charts (layout)" },
+    { "file": "EventAttendanceByDates.dc.html", "x": 453, "y": 3520, "w": 393, "h": 780, "title": "Attendance — By Dates" },
+    { "file": "EventAttendanceByEvents.dc.html", "x": 906, "y": 3520, "w": 393, "h": 780, "title": "Attendance — By Events" },
+
+    { "file": "ChallengeLeaderboard.dc.html", "x": 1359, "y": 3520, "w": 393, "h": 1080, "title": "Challenge Leaderboard" }
+  ],
+  "launch": { "view": "canvas" }
+}

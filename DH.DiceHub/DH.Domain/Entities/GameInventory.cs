@@ -1,6 +1,6 @@
 ﻿namespace DH.Domain.Entities;
 
-public class GameInventory
+public class GameInventory : TenantEntity
 {
     public int Id { get; set; }
     public int TotalCopies { get; set; } = 1;

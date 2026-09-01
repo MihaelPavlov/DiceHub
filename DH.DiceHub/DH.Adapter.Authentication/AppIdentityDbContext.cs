@@ -31,7 +31,7 @@ public class AppIdentityDbContext : IdentityDbContext<ApplicationUser>, IIdentit
 #if DEBUG
         if (!optionsBuilder.IsConfigured)
         {
-            optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=DH.DiceHub_Authentication;User Id=postgres;Password=1qaz!QAZ;");
+            optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=DH.DiceHub2;User Id=app_user;Password=1qaz!QAZ;");
         }
 #endif
     }
@@ -39,6 +39,38 @@ public class AppIdentityDbContext : IdentityDbContext<ApplicationUser>, IIdentit
     public T AcquireRepository<T>()
     {
         return _containerService.Resolve<T>();
+    }
+
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        var tenantEntries = ChangeTracker
+            .Entries<TenantEntity>()
+            .Where(x => x.State is EntityState.Added or EntityState.Modified or EntityState.Deleted)
+            .ToList();
+
+        if (tenantEntries.Count == 0)
+            return base.SaveChangesAsync(cancellationToken);
+
+        var userContext = this._containerService.Resolve<ISystemUserContextAccessor>().Current;
+
+        // Check if the user context is anonymous
+        if (userContext is AnonymousUserContext)
+        {
+            // Fallback to resolve IUserContext from the container (e.g., SystemUserContext or regular user context)
+            userContext = this._containerService.Resolve<IUserContext>();
+        }
+
+        if (!userContext.IsSystem && string.IsNullOrWhiteSpace(userContext.TenantId))
+        {
+            throw new InvalidOperationException("TenantId is required for non-system operations");
+        }
+
+        foreach (var entry in tenantEntries)
+        {
+            if (entry.State == EntityState.Added && !string.IsNullOrWhiteSpace(userContext.TenantId))
+                entry.Entity.TenantId = userContext.TenantId;
+        }
+        return base.SaveChangesAsync(cancellationToken);
     }
 
     protected override void OnModelCreating(ModelBuilder builder)

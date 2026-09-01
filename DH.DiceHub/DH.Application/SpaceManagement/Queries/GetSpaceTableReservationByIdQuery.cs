@@ -13,12 +13,14 @@ public record GetSpaceTableReservationByIdQuery(int Id) : IRequest<GetSpaceTable
 internal class GetSpaceTableReservationByIdQueryHandler : IRequestHandler<GetSpaceTableReservationByIdQuery, GetSpaceTableReservationByIdQueryModel>
 {
     readonly IRepository<SpaceTableReservation> repository;
-    readonly IUserService userService;
+    readonly IUserManagementService userManagementService;
 
-    public GetSpaceTableReservationByIdQueryHandler(IRepository<SpaceTableReservation> repository, IUserService userService)
+    public GetSpaceTableReservationByIdQueryHandler(
+        IRepository<SpaceTableReservation> repository,
+        IUserManagementService userManagementService)
     {
         this.repository = repository;
-        this.userService = userService;
+        this.userManagementService = userManagementService;
     }
 
     public async Task<GetSpaceTableReservationByIdQueryModel> Handle(GetSpaceTableReservationByIdQuery request, CancellationToken cancellationToken)
@@ -26,7 +28,7 @@ internal class GetSpaceTableReservationByIdQueryHandler : IRequestHandler<GetSpa
         var reservationDb = await this.repository.GetByAsync(x => x.Id == request.Id, cancellationToken)
             ?? throw new NotFoundException(nameof(SpaceTableReservation), request.Id);
 
-        var users = await this.userService.GetUserListByIds([reservationDb.UserId], cancellationToken);
+        var users = await this.userManagementService.GetUserListByIds([reservationDb.UserId], cancellationToken);
         reservationDb.ReservationDate = reservationDb.ReservationDate;
         reservationDb.CreatedDate = reservationDb.CreatedDate;
 

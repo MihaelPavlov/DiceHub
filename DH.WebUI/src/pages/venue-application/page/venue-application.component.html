@@ -1,0 +1,216 @@
+<app-language-switch />
+
+<div class="wrapper">
+  <div class="interactive-option">
+    <div class="icon_wrapper" (click)="navigateToLanding()">
+      <svg class="icon svg-color-interaction-option" viewBox="0 -960 960 960">
+        <path
+          d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Zm80-80h80v-280h320v280h80v-360L480-740 240-560v360Zm240-270Z"
+        />
+      </svg>
+    </div>
+  </div>
+
+  <span class="header">{{ "venue_application.header" | translate }}</span>
+  <p class="sub-header">{{ "venue_application.sub_header" | translate }}</p>
+
+  <ng-container *ngIf="!isSubmitted; else submitted">
+    <form [formGroup]="form" class="container">
+      <section class="section-card">
+        <h2>{{ "venue_application.step1_title" | translate }}</h2>
+        <p class="section-note">{{ "venue_application.step1_note" | translate }}</p>
+
+        <div class="input-field">
+          <label class="required">{{ "venue_application.labels.contact_name" | translate }}</label>
+          <input
+            type="text"
+            formControlName="contactName"
+            class="surface-elevated"
+            [placeholder]="'venue_application.placeholders.contact_name' | translate"
+          />
+        </div>
+
+        <div class="input-field">
+          <label class="required">{{ "venue_application.labels.email" | translate }}</label>
+          <input
+            type="email"
+            formControlName="email"
+            class="surface-elevated"
+            [placeholder]="'venue_application.placeholders.email' | translate"
+          />
+        </div>
+
+        <button
+          type="button"
+          class="verify-btn"
+          [disabled]="isEmailVerified || isSendingEmailCode"
+          (click)="sendEmailVerificationCode()"
+        >
+          {{
+            isEmailVerified
+              ? ("venue_application.buttons.email_verified" | translate)
+              : isSendingEmailCode
+                ? ("venue_application.buttons.sending_code" | translate)
+                : isEmailCodeSent
+                  ? ("venue_application.buttons.resend_email_code" | translate)
+                  : ("venue_application.buttons.send_email_code" | translate)
+          }}
+        </button>
+
+        <div class="input-field" *ngIf="isEmailCodeSent && !isEmailVerified">
+          <label class="required">{{ "venue_application.labels.email_code" | translate }}</label>
+          <input
+            type="text"
+            inputmode="numeric"
+            maxlength="6"
+            formControlName="emailVerificationCode"
+            class="surface-elevated"
+            [placeholder]="'venue_application.placeholders.email_code' | translate"
+          />
+        </div>
+
+        <button
+          *ngIf="isEmailCodeSent && !isEmailVerified"
+          type="button"
+          class="verify-btn"
+          [disabled]="isVerifyingEmailCode"
+          (click)="verifyEmailCode()"
+        >
+          {{
+            isVerifyingEmailCode
+              ? ("venue_application.buttons.verifying" | translate)
+              : ("venue_application.buttons.verify_email_code" | translate)
+          }}
+        </button>
+      </section>
+
+      <section class="section-card" *ngIf="canShowVenueDetails()">
+        <h2>{{ "venue_application.step2_title" | translate }}</h2>
+
+        <div class="input-field">
+          <label class="required">{{ "venue_application.labels.phone_number" | translate }}</label>
+          <input
+            type="text"
+            formControlName="phoneNumber"
+            class="surface-elevated"
+            [placeholder]="'venue_application.placeholders.phone_number' | translate"
+          />
+        </div>
+
+        <div class="input-field">
+          <label class="required">{{ "venue_application.labels.address" | translate }}</label>
+          <input
+            type="text"
+            formControlName="address"
+            class="surface-elevated"
+            [placeholder]="'venue_application.placeholders.address' | translate"
+          />
+        </div>
+
+        <div class="input-field">
+          <label>{{ "venue_application.labels.public_website" | translate }}</label>
+          <input
+            type="text"
+            formControlName="publicWebsite"
+            class="surface-elevated"
+            [placeholder]="'venue_application.placeholders.public_website' | translate"
+          />
+        </div>
+
+        <div class="input-field">
+          <label>{{ "venue_application.labels.social_page" | translate }}</label>
+          <input
+            type="text"
+            formControlName="socialPage"
+            class="surface-elevated"
+            [placeholder]="'venue_application.placeholders.social_page' | translate"
+          />
+        </div>
+
+        <div class="input-field">
+          <label>{{ "venue_application.labels.discord_server" | translate }}</label>
+          <input
+            type="text"
+            formControlName="discordServer"
+            class="surface-elevated"
+            [placeholder]="'venue_application.placeholders.discord_server' | translate"
+          />
+        </div>
+
+        <div class="input-field">
+          <label>{{ "venue_application.labels.logo" | translate }}</label>
+          <div class="logo-upload">
+            <div class="logo-upload__preview" *ngIf="logoPreviewUrl">
+              <img [src]="logoPreviewUrl" alt="Logo preview" />
+              <button type="button" class="logo-upload__remove" (click)="removeLogo()">
+                {{ "venue_application.buttons.remove_logo" | translate }}
+              </button>
+            </div>
+
+            <label class="logo-upload__picker" *ngIf="!logoPreviewUrl">
+              <span>{{ "venue_application.buttons.choose_image" | translate }}</span>
+              <input
+                type="file"
+                accept="image/png,image/jpeg,image/webp,image/svg+xml"
+                (change)="onLogoSelected($event)"
+              />
+            </label>
+            <p class="logo-upload__hint">{{ "venue_application.logo_hint" | translate }}</p>
+            <p class="logo-upload__error" *ngIf="logoError">{{ logoError }}</p>
+          </div>
+        </div>
+
+        <div class="input-field">
+          <label>{{ "venue_application.labels.photo_url" | translate }}</label>
+          <input
+            type="text"
+            formControlName="photoUrl"
+            class="surface-elevated"
+            [placeholder]="'venue_application.placeholders.photo_url' | translate"
+          />
+        </div>
+      </section>
+
+      <div *ngIf="serverErrors.length" class="errors">
+        <div *ngFor="let error of serverErrors">{{ error }}</div>
+      </div>
+
+      <div *ngIf="isEmailCodeSent && !canShowVenueDetails()" class="errors">
+        {{ "venue_application.errors.email_verification_required" | translate }}
+      </div>
+
+      <div *ngIf="canShowVenueDetails() && !hasPublicProof()" class="errors">
+        {{ "venue_application.errors.public_proof_required" | translate }}
+      </div>
+
+      <div class="btn-container" *ngIf="canShowVenueDetails()">
+        <button
+          type="button"
+          class="games-cta"
+          [disabled]="form.invalid || !isEmailVerified || !hasPublicProof() || isSaving"
+          (click)="submit()"
+        >
+          {{
+            isSaving
+              ? ("venue_application.buttons.submitting" | translate)
+              : ("venue_application.buttons.submit_application" | translate)
+          }}
+        </button>
+      </div>
+    </form>
+  </ng-container>
+
+  <ng-template #submitted>
+    <section class="submitted-card">
+      <h2>{{ "venue_application.submitted_title" | translate }}</h2>
+      <p>{{ "venue_application.submitted_text" | translate }}</p>
+      <button
+        type="button"
+        class="games-cta"
+        (click)="navigateToLanding()"
+      >
+        {{ "back_to_home" | translate }}
+      </button>
+    </section>
+  </ng-template>
+</div>

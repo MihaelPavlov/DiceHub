@@ -125,6 +125,9 @@ public class SpaceTableService : ISpaceTableService
 
     public async Task<int> GetActiveSpaceTableReservationsCount(CancellationToken cancellationToken)
     {
+        // Must match the active table reservation list: IsActive already means
+        // "upcoming/live" - set on create, kept through approval, cleared only
+        // on cancel/decline/expiry.
         using (var context = await dbContextFactory.CreateDbContextAsync(cancellationToken))
         {
             return await context.SpaceTableReservations.AsNoTracking().Where(x => x.IsActive).CountAsync(cancellationToken);

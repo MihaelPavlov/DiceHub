@@ -1,28 +1,30 @@
-<div class="dialog-container">
-  <h2 class="dialog-container__header m-4">
-    {{
-      "custom_period.period_leave_dialog.custom_period_setup_required"
-        | translate
-    }}
-  </h2>
-  <p class="dialog-container__description">
-    {{ "custom_period.period_leave_dialog.period_enabled" | translate }}<br />
-    {{ "custom_period.period_leave_dialog.message_1" | translate }}<br />
-    {{ "custom_period.period_leave_dialog.message_2" | translate }}
-  </p>
+<div class="confirm-sheet" appSheetDismiss>
+  <div class="confirm-sheet__handle"></div>
 
-  <mat-dialog-actions>
-    <button class="btn btn__small btn-red" mat-button [mat-dialog-close]="true">
-      {{
-        "custom_period.period_leave_dialog.turn_off_custom_period" | translate
-      }}
-    </button>
-    <button
-      class="btn btn__small btn-blue"
-      mat-button
-      [mat-dialog-close]="false"
-    >
+  <div class="confirm-sheet__centered">
+    <div class="confirm-sheet__icon confirm-sheet__icon--lg confirm-sheet__icon--amber">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3"/><path d="M15 8l4 4-4 4"/><path d="M19 12H9"/>
+      </svg>
+    </div>
+    <div>
+      <div class="confirm-sheet__title">
+        {{ "custom_period.period_leave_dialog.custom_period_setup_required" | translate }}
+      </div>
+      <p class="confirm-sheet__message">
+        {{ "custom_period.period_leave_dialog.period_enabled" | translate }}<br />
+        {{ "custom_period.period_leave_dialog.message_1" | translate }}<br />
+        {{ "custom_period.period_leave_dialog.message_2" | translate }}
+      </p>
+    </div>
+  </div>
+
+  <div class="confirm-sheet__actions">
+    <button class="confirm-sheet__btn confirm-sheet__btn--ghost" mat-button [mat-dialog-close]="false">
       {{ "custom_period.period_leave_dialog.stay" | translate }}
     </button>
-  </mat-dialog-actions>
+    <button class="confirm-sheet__btn confirm-sheet__btn--amber" mat-button [mat-dialog-close]="true">
+      {{ "custom_period.period_leave_dialog.turn_off_custom_period" | translate }}
+    </button>
+  </div>
 </div>

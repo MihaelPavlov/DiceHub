@@ -17,12 +17,13 @@ import { ToastService } from '../../../../shared/services/toast.service';
 import { DateHelper } from '../../../../shared/helpers/date-helper';
 import { LanguageService } from '../../../../shared/services/language.service';
 import { SupportLanguages } from '../../../../entities/common/models/support-languages.enum';
+import { TenantRouter } from '../../../../shared/helpers/tenant-router';
 
 @Component({
-    selector: 'app-club-space-details',
-    templateUrl: 'club-space-details.component.html',
-    styleUrl: 'club-space-details.component.scss',
-    standalone: false
+  selector: 'app-club-space-details',
+  templateUrl: 'club-space-details.component.html',
+  styleUrl: 'club-space-details.component.scss',
+  standalone: false,
 })
 export class ClubSpaceDetailsComponent implements OnInit {
   public userActiveTable!: IUserActiveSpaceTableResult;
@@ -37,6 +38,7 @@ export class ClubSpaceDetailsComponent implements OnInit {
 
   public detailsSpaceTable!: ISpaceTableById;
   constructor(
+    private readonly tenantRouter: TenantRouter,
     private readonly router: Router,
     private readonly activeRoute: ActivatedRoute,
     private readonly spaceManagementService: SpaceManagementService,
@@ -73,7 +75,7 @@ export class ClubSpaceDetailsComponent implements OnInit {
   public menuItemClickFunction(key: string): void {
     if (key === 'update') {
       this.navigationService.setPreviousUrl(this.router.url);
-      this.router.navigateByUrl(
+      this.tenantRouter.navigateTenant(
         FULL_ROUTE.SPACE_MANAGEMENT.UPDATE_BY_ID(this.tableId)
       );
     } else if (key === 'add-virtual-user') {
@@ -137,7 +139,7 @@ export class ClubSpaceDetailsComponent implements OnInit {
   }
 
   public backToSpaceHome(): void {
-    this.router.navigateByUrl(FULL_ROUTE.SPACE_MANAGEMENT.HOME);
+    this.tenantRouter.navigateTenant(FULL_ROUTE.SPACE_MANAGEMENT.HOME);
   }
 
   public handleSearchExpression(searchExpression: string) {
@@ -155,7 +157,7 @@ export class ClubSpaceDetailsComponent implements OnInit {
   public onLeave(): void {
     this.spaceManagementService.leaveTable(this.tableId).subscribe({
       next: () => {
-        this.router.navigateByUrl(FULL_ROUTE.SPACE_MANAGEMENT.HOME);
+        this.tenantRouter.navigateTenant(FULL_ROUTE.SPACE_MANAGEMENT.HOME);
       },
     });
   }
@@ -163,7 +165,7 @@ export class ClubSpaceDetailsComponent implements OnInit {
   public onClose(): void {
     this.spaceManagementService.closeTable(this.tableId).subscribe({
       next: () => {
-        this.router.navigateByUrl(FULL_ROUTE.SPACE_MANAGEMENT.HOME);
+        this.tenantRouter.navigateTenant(FULL_ROUTE.SPACE_MANAGEMENT.HOME);
       },
     });
   }

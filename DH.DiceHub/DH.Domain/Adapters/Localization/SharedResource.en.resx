@@ -150,6 +150,9 @@
   <data name="PasswordResetFailed" xml:space="preserve">
     <value>Resetting password was not successful. Please try again later or contact us via email.</value>
   </data>
+  <data name="CurrentPasswordIncorrect" xml:space="preserve">
+    <value>The current password you entered is incorrect.</value>
+  </data>
   <data name="NotProvided" xml:space="preserve">
     <value>Not Provided</value>
   </data>
@@ -593,6 +596,9 @@
   </data>
   <data name="TenantSettingsEndWorkingHours" xml:space="preserve">
     <value>End working hours are required.</value>
+  </data>
+  <data name="TenantSettingsTimeZoneId" xml:space="preserve">
+    <value>The club time zone is not valid.</value>
   </data>
   <data name="SpaceTableCancelledTitle" xml:space="preserve">
     <value>Your table reservation has been Cancelled</value>

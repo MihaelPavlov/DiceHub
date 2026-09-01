@@ -8,9 +8,11 @@ namespace DH.Application.SpaceManagement.Queries;
 
 public record GetSpaceTableReservationHistoryQuery(ReservationStatus? Status) : IRequest<List<GetSpaceTableReservationHistoryQueryModel>>;
 
-internal class GetSpaceTableReservationHistoryQueryHandler(ISpaceTableService spaceTableService, IUserService userService) : IRequestHandler<GetSpaceTableReservationHistoryQuery, List<GetSpaceTableReservationHistoryQueryModel>>
+internal class GetSpaceTableReservationHistoryQueryHandler(
+    ISpaceTableService spaceTableService,
+    IUserManagementService userManagementService) : IRequestHandler<GetSpaceTableReservationHistoryQuery, List<GetSpaceTableReservationHistoryQueryModel>>
 {
-    readonly IUserService userService = userService;
+    readonly IUserManagementService userManagementService = userManagementService;
     readonly ISpaceTableService spaceTableService = spaceTableService;
 
     public async Task<List<GetSpaceTableReservationHistoryQueryModel>> Handle(GetSpaceTableReservationHistoryQuery request, CancellationToken cancellationToken)
@@ -19,7 +21,7 @@ internal class GetSpaceTableReservationHistoryQueryHandler(ISpaceTableService sp
 
         var userIds = reservations.DistinctBy(x => x.UserId).Select(x => x.UserId).ToArray();
 
-        var users = await this.userService.GetUserListByIds(userIds, cancellationToken);
+        var users = await this.userManagementService.GetUserListByIds(userIds, cancellationToken);
 
         foreach (var reservation in reservations)
         {

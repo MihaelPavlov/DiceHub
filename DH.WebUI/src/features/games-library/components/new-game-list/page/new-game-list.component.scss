@@ -1,98 +1,11 @@
-@use "../../../../../shared/assets/styles/palette";
+@use "../../../../../pages/games-library/page/games-library.component.scss";
 
-.wrapper_library {
-  display: flex;
-  flex-direction: column;
-  width: 85%;
-  padding-bottom: 7rem;
-  margin: 0 auto;
-  padding-top: 1.5rem;
-  overflow-y: visible;
+.games-library {
+  padding-top: 0;
+}
 
-  .no_records {
-    text-align: center;
-    margin: 2rem;
-    font-size: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    .first-header {
-      font-size: 1.5rem;
-      margin-bottom: 0.2rem;
-    }
-
-    img {
-      height: 15rem;
-      width: 15rem;
-    }
-  }
-  &__item {
-    position: relative;
-    display: flex;
-    padding-bottom: 0.3rem;
-    padding-top: 0.5rem;
-
-    border-bottom: 0.2rem solid palette.$main-gray-color;
-
-    .wrapper_info {
-      position: relative;
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-
-      .wrapper_title {
-        padding-left: 1rem;
-        font-size: large;
-        padding-top: 0.2rem;
-        align-self: baseline;
-        word-break: break-word;
-        width: 60%;
-
-        .wrapper_description {
-          padding-top: 0.5rem;
-          width: 100%;
-          font-size: 0.8rem;
-          color: palette.$main-font-gray-color;
-          word-break: break-word;
-        }
-
-        @media (min-width: 568px) {
-          .wrapper_description {
-            width: 85%;
-          }
-        }
-      }
-      .wrapper_right {
-        display: flex;
-        position: absolute;
-        right: 0;
-        font-size: small;
-
-        .wrapper_likes {
-          color: palette.$main-red-color;
-          margin-right: 1rem;
-          font-size: large;
-          .like-icon {
-            width: 1.5rem;
-            height: 1.5rem;
-            position: relative;
-            right: 0.2rem;
-            top: 0.3rem;
-            fill: palette.$main-red-color;
-          }
-        }
-      }
-    }
-
-    .wrapper_image img {
-      width: 5rem;
-      height: 5rem;
-      min-width: 5rem;
-      min-height: 5rem;
-      object-fit: cover;
-      border-radius: 20px;
-      border: 0.1rem solid black;
-    }
+@media (min-width: 900px) {
+  .games-library {
+    padding-top: 0;
   }
 }

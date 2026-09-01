@@ -1,4 +1,3 @@
-
 using DH.Adapter.Authentication.Filters;
 using DH.Application.Games.Commands;
 using DH.Application.Games.Commands.Games;
@@ -16,7 +15,7 @@ namespace DH.Api.Controllers;
 
 [Authorize]
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/{tenant}/[controller]")]
 public class GamesController : ControllerBase
 {
     readonly IMediator mediator;

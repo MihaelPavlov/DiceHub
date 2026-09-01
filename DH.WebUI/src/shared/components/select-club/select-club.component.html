@@ -1,0 +1,90 @@
+<div class="wrapper">
+  <aside class="browser-panel">
+    <div class="browser-panel__eyebrow">DiceHub access</div>
+    <h1>Find your club</h1>
+    <p>
+      Choose the club or venue you want to visit, then continue to its secure
+      sign-in page.
+    </p>
+    <div class="browser-panel__metrics">
+      <span>Trusted venues</span>
+      <span>One account</span>
+      <span>Multiple clubs</span>
+    </div>
+  </aside>
+  <section class="selection-card">
+  <!-- Interactive top icon -->
+  <div class="interactive-option">
+    <div class="icon_wrapper" (click)="navigateToLanding()">
+      <svg class="icon" viewBox="0 -960 960 960">
+        <path
+          d="M750.54-116.15 638.15-229.31l-88 88-11.07-11.07q-26.39-26.39-26.39-63.47 0-37.07 26.39-63.46l145.61-145.61q26.39-26.39 63.46-26.39 37.08 0 63.47 26.39l11.07 11.07-88 88 113.16 113.39q13.69 13.69 13.69 31.61 0 17.93-13.69 31.62l-33.08 33.08q-13.69 13.69-32.12 13.69-18.42 0-32.11-13.69ZM853-735.92 408.31-290.46l24.61 25.38q16.39 26.39 13.39 57.46-3 31.08-26.39 54.47l-11.07 11.07-88-88-113.39 114.16q-13.69 13.69-31.61 13.69-17.93 0-31.62-13.69L110.15-150q-13.69-13.69-13.69-31.62 0-17.92 13.69-31.61l114.16-113.39-88-88 11.07-11.07q23.39-23.39 54.97-26.39 31.57-3 57.96 14.39l26.15 25.38L731.92-857H853v121.08ZM333-601l14.23-15.77 14-14-14 14L333-601Zm-46.31 45.54L107-735.92V-857h121.08L407-677.31l-45.77 46.54L201-791h-28v28l160 162-46.31 45.54ZM363-337l424-426v-28h-28L334-366l29 29Zm0 0-13.23-15.77L334-366l15.77 13.23L363-337Z"
+        />
+      </svg>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <p class="header" *ngIf="isLoading || clubs.length">
+    Which club are you in? <br />
+    Pick one to continue
+  </p>
+
+  <!-- Clubs List -->
+  <div class="club-list" *ngIf="isLoading || clubs.length">
+    <div
+      class="club-row"
+      *ngFor="let club of clubs"
+      [class.selected]="selectedClub?.id === club.id"
+      (click)="selectClub(club)"
+    >
+      <!-- Club Image -->
+      <div class="club-image">
+        <img [src]="getLogoFile(club.logoFileName)" alt="{{ club.tenantName }}" />
+      </div>
+
+      <!-- Club Name -->
+      <div class="club-name">{{ club.tenantName }}</div>
+
+      <!-- Tick marker -->
+      <div class="club-tick" *ngIf="selectedClub?.id === club.id">
+        <svg height="24px" viewBox="0 -960 960 960" width="24px" fill="#ffffff">
+          <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z" />
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty state: no clubs available yet -->
+  <div class="empty-state" *ngIf="!isLoading && !clubs.length">
+    <svg class="empty-state__icon" viewBox="0 -960 960 960">
+      <path
+        d="M480-120q-33 0-56.5-23.5T400-200q0-33 23.5-56.5T480-280q33 0 56.5 23.5T560-200q0 33-23.5 56.5T480-120Zm-40-200v-480h80v480h-80Z"
+      />
+    </svg>
+    <p class="empty-state__title">No clubs available yet</p>
+    <p class="empty-state__subtitle">
+      There aren't any clubs to join right now. Check back soon, or head
+      back home in the meantime.
+    </p>
+    <button class="empty-state__action" (click)="navigateToLanding()">
+      Back to home
+    </button>
+  </div>
+
+  <!-- Forward arrow -->
+  <svg
+    [ngClass]="{ show: selectedClub, hide: !selectedClub }"
+    (click)="navigateToLogin()"
+    class="arrow-circle"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="#2b1502"
+    stroke-width="2.4"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    <path d="M9 5l7 7-7 7" />
+  </svg>
+  </section>
+</div>

@@ -1,0 +1,177 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Sora:wght@400;500;600;700&display=swap');
+    :root {
+      --bg: oklch(0.15 0.018 290);
+      --bg-elevated: oklch(0.195 0.02 290);
+      --bg-elevated-2: oklch(0.245 0.022 290);
+      --border: oklch(0.34 0.02 290 / 0.55);
+      --text: oklch(0.96 0.01 90);
+      --text-muted: oklch(0.7 0.02 290);
+      --text-faint: oklch(0.52 0.02 290);
+      --amber: oklch(0.78 0.16 75);
+      --amber-soft: oklch(0.78 0.16 75 / 0.16);
+      --coral: oklch(0.68 0.19 25);
+      --teal: oklch(0.72 0.14 165);
+      --teal-soft: oklch(0.72 0.14 165 / 0.16);
+      --violet: oklch(0.66 0.17 300);
+      --violet-soft: oklch(0.66 0.17 300 / 0.16);
+      --shadow-card: 0 10px 30px -12px oklch(0 0 0 / 0.55);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #0b0b0d; font-family: 'Sora', ui-sans-serif, system-ui, sans-serif; }
+    .display { font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif; }
+    .seg3 { display: flex; gap: 6px; background: var(--bg-elevated-2); padding: 4px; border-radius: 14px; }
+    .seg3 span { flex: 1; text-align: center; font-size: 11.5px; font-weight: 600; padding: 9px 0; border-radius: 11px; color: var(--text-faint); }
+    .seg3 span.active { font-weight: 700; background: var(--amber); color: #2b1a02; }
+    .field-input { width: 100%; background: var(--bg-elevated-2); border: 1px solid var(--border); border-radius: 12px; padding: 11px 13px; font-size: 13px; color: var(--text); font-family: 'Sora', sans-serif; }
+    .field-label { font-size: 10.5px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; display: block; }
+    .section { display: flex; flex-direction: column; gap: 12px; }
+    .section-head { display: flex; align-items: center; justify-content: space-between; }
+    .add-link { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; }
+    .entry { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 16px; padding: 12px; display: flex; gap: 10px; align-items: flex-end; }
+  </style>
+</helmet>
+
+<div style="width:393px;background:var(--bg);color:var(--text);padding:24px 20px 32px;display:flex;flex-direction:column;gap:20px;">
+
+  <span class="display" style="font-size:24px;font-weight:800;">Challenges Manager</span>
+
+  <div class="seg3">
+    <span>Challenges</span>
+    <span>Rewards</span>
+    <span class="active">Custom period</span>
+  </div>
+
+  <a href="#" style="text-align:center;font-size:13.5px;font-weight:700;padding:14px 0;border-radius:999px;background:linear-gradient(135deg,var(--amber),var(--coral));color:#2b1502;box-shadow:0 10px 24px -8px var(--amber-soft);">Save custom period</a>
+
+  <div style="background:var(--violet-soft);border:1px solid var(--violet);border-radius:14px;padding:12px 14px;">
+    <span style="font-size:11.5px;color:var(--text-muted);line-height:1.55;">Current period runs <b style="color:var(--text);">Aug 18</b> → <b style="color:var(--text);">Aug 24</b>. Saving resets progress for the next cycle.</span>
+  </div>
+
+  <!-- Rewards -->
+  <div class="section">
+    <div class="section-head">
+      <span class="display" style="font-size:15px;font-weight:700;">Period rewards</span>
+      <a href="#" class="add-link" style="color:var(--amber);">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+        Add reward
+      </a>
+    </div>
+
+    <div class="entry">
+      <div style="flex:1;">
+        <label class="field-label">Reward</label>
+        <select class="field-input"><option>Free drink voucher</option></select>
+      </div>
+      <div style="width:84px;">
+        <label class="field-label">Points</label>
+        <input class="field-input" type="number" value="25" />
+      </div>
+      <svg width="15" height="15" viewBox="0 -960 960 960" fill="var(--text-faint)" style="margin-bottom:11px;flex-shrink:0;"><path d="M252-203.69 205.69-252l227-228-227-230L252-758.31l229 230 227-230L754.31-710l-227 230 227 228L708-203.69l-227-230-229 230Z"/></svg>
+    </div>
+  </div>
+
+  <div style="height:1px;background:var(--border);"></div>
+
+  <!-- Challenges -->
+  <div class="section">
+    <div class="section-head">
+      <span class="display" style="font-size:15px;font-weight:700;">Period challenges</span>
+      <a href="#" class="add-link" style="color:var(--amber);">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+        Add challenge
+      </a>
+    </div>
+
+    <div class="entry">
+      <div style="flex:1;">
+        <label class="field-label">Game</label>
+        <select class="field-input"><option>Catan</option></select>
+      </div>
+      <div style="width:70px;">
+        <label class="field-label">Attempts</label>
+        <input class="field-input" type="number" value="3" />
+      </div>
+      <div style="width:70px;">
+        <label class="field-label">Points</label>
+        <input class="field-input" type="number" value="10" />
+      </div>
+      <svg width="15" height="15" viewBox="0 -960 960 960" fill="var(--text-faint)" style="margin-bottom:11px;flex-shrink:0;"><path d="M252-203.69 205.69-252l227-228-227-230L252-758.31l229 230 227-230L754.31-710l-227 230 227 228L708-203.69l-227-230-229 230Z"/></svg>
+    </div>
+  </div>
+
+  <div style="height:1px;background:var(--border);"></div>
+
+  <!-- Universal challenges -->
+  <div class="section">
+    <div class="section-head">
+      <span class="display" style="font-size:15px;font-weight:700;">Universal challenges</span>
+      <a href="#" class="add-link" style="color:var(--amber);">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+        Add
+      </a>
+    </div>
+
+    <div class="entry" style="flex-direction:column;align-items:stretch;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="width:34px;height:34px;border-radius:10px;flex-shrink:0;background:var(--bg-elevated-2);display:flex;align-items:center;justify-content:center;padding:6px;">
+          <img src="game-controller.png" style="width:100%;height:100%;object-fit:contain;">
+        </div>
+        <span style="flex:1;font-size:12.5px;font-weight:700;">Play any game</span>
+        <svg width="15" height="15" viewBox="0 -960 960 960" fill="var(--text-faint)" style="flex-shrink:0;"><path d="M252-203.69 205.69-252l227-228-227-230L252-758.31l229 230 227-230L754.31-710l-227 230 227 228L708-203.69l-227-230-229 230Z"/></svg>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div>
+          <label class="field-label">Attempts</label>
+          <input class="field-input" type="number" value="5" />
+        </div>
+        <div>
+          <label class="field-label">Points</label>
+          <input class="field-input" type="number" value="15" />
+        </div>
+      </div>
+    </div>
+
+    <div class="entry" style="flex-direction:column;align-items:stretch;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="width:34px;height:34px;border-radius:10px;flex-shrink:0;background:var(--bg-elevated-2);display:flex;align-items:center;justify-content:center;padding:6px;">
+          <img src="buy.png" style="width:100%;height:100%;object-fit:contain;">
+        </div>
+        <span style="flex:1;font-size:12.5px;font-weight:700;">Buy items at the club</span>
+        <svg width="15" height="15" viewBox="0 -960 960 960" fill="var(--text-faint)" style="flex-shrink:0;"><path d="M252-203.69 205.69-252l227-228-227-230L252-758.31l229 230 227-230L754.31-710l-227 230 227 228L708-203.69l-227-230-229 230Z"/></svg>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+        <div>
+          <label class="field-label">Attempts</label>
+          <input class="field-input" type="number" value="1" />
+        </div>
+        <div>
+          <label class="field-label">Points</label>
+          <input class="field-input" type="number" value="20" />
+        </div>
+        <div>
+          <label class="field-label">Min $</label>
+          <input class="field-input" type="number" value="10" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

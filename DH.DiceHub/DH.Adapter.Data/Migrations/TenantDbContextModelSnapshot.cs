@@ -46,6 +46,10 @@ namespace DH.Adapter.Data.Migrations
                     b.Property<int>("RewardPoints")
                         .HasColumnType("integer");
 
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("UpdatedBy")
                         .IsRequired()
                         .HasColumnType("text");
@@ -79,6 +83,10 @@ namespace DH.Adapter.Data.Migrations
 
                     b.Property<DateTime>("OutcomeDate")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -136,6 +144,10 @@ namespace DH.Adapter.Data.Migrations
                     b.Property<int>("RequiredPoints")
                         .HasColumnType("integer");
 
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("UpdatedBy")
                         .IsRequired()
                         .HasColumnType("text");
@@ -158,6 +170,10 @@ namespace DH.Adapter.Data.Migrations
 
                     b.Property<int>("ChallengeId")
                         .HasColumnType("integer");
+
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<int>("TotalCompletions")
                         .HasColumnType("integer");
@@ -183,6 +199,10 @@ namespace DH.Adapter.Data.Migrations
 
                     b.Property<DateTime>("LogDate")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -210,6 +230,10 @@ namespace DH.Adapter.Data.Migrations
                     b.Property<int>("RewardPoints")
                         .HasColumnType("integer");
 
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.HasIndex("GameId");
@@ -230,6 +254,10 @@ namespace DH.Adapter.Data.Migrations
 
                     b.Property<int>("RewardId")
                         .HasColumnType("integer");
+
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -254,6 +282,10 @@ namespace DH.Adapter.Data.Migrations
 
                     b.Property<int>("RewardPoints")
                         .HasColumnType("integer");
+
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<int>("UniversalChallengeId")
                         .HasColumnType("integer");
@@ -291,6 +323,10 @@ namespace DH.Adapter.Data.Migrations
                     b.Property<int>("RewardPoints")
                         .HasColumnType("integer");
 
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<int>("UserAttempts")
                         .HasColumnType("integer");
 
@@ -322,6 +358,10 @@ namespace DH.Adapter.Data.Migrations
 
                     b.Property<int>("RewardId")
                         .HasColumnType("integer");
+
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<int>("UserChallengePeriodPerformanceId")
                         .HasColumnType("integer");
@@ -363,6 +403,10 @@ namespace DH.Adapter.Data.Migrations
 
                     b.Property<int>("RewardPoints")
                         .HasColumnType("integer");
+
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<int>("UniversalChallengeId")
                         .HasColumnType("integer");
@@ -414,6 +458,10 @@ namespace DH.Adapter.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("To")
                         .IsRequired()
                         .HasColumnType("text");
@@ -448,6 +496,10 @@ namespace DH.Adapter.Data.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("TemplateName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("TenantId")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -498,6 +550,10 @@ namespace DH.Adapter.Data.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.HasIndex("GameId");
@@ -521,6 +577,10 @@ namespace DH.Adapter.Data.Migrations
 
                     b.Property<DateTime>("LogDate")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -548,6 +608,10 @@ namespace DH.Adapter.Data.Migrations
                     b.Property<DateTime>("SentOn")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.HasIndex("EventId");
@@ -565,6 +629,10 @@ namespace DH.Adapter.Data.Migrations
 
                     b.Property<int>("EventId")
                         .HasColumnType("integer");
+
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -595,6 +663,10 @@ namespace DH.Adapter.Data.Migrations
 
                     b.Property<DateTime>("FailedAt")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<int>("Type")
                         .HasColumnType("integer");
@@ -649,6 +721,10 @@ namespace DH.Adapter.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("timestamp with time zone");
 
@@ -668,6 +744,10 @@ namespace DH.Adapter.Data.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("TenantId")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -693,6 +773,10 @@ namespace DH.Adapter.Data.Migrations
                     b.Property<int>("GameId")
                         .HasColumnType("integer");
 
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("text");
@@ -716,6 +800,10 @@ namespace DH.Adapter.Data.Migrations
                     b.Property<int>("GameId")
                         .HasColumnType("integer");
 
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<int>("TotalCopies")
                         .HasColumnType("integer");
 
@@ -737,6 +825,10 @@ namespace DH.Adapter.Data.Migrations
 
                     b.Property<int>("GameId")
                         .HasColumnType("integer");
+
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -792,6 +884,10 @@ namespace DH.Adapter.Data.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("text");
@@ -818,6 +914,10 @@ namespace DH.Adapter.Data.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("Review")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("TenantId")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -859,6 +959,10 @@ namespace DH.Adapter.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.ToTable("PartnerInquiries");
@@ -880,6 +984,10 @@ namespace DH.Adapter.Data.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("ScannedData")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("TenantId")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -926,6 +1034,10 @@ namespace DH.Adapter.Data.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.ToTable("QueuedJobs");
@@ -950,6 +1062,10 @@ namespace DH.Adapter.Data.Migrations
 
                     b.Property<int>("ReservationId")
                         .HasColumnType("integer");
+
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<int>("Type")
                         .HasColumnType("integer");
@@ -989,6 +1105,10 @@ namespace DH.Adapter.Data.Migrations
                     b.Property<int>("RewardId")
                         .HasColumnType("integer");
 
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("text");
@@ -1021,6 +1141,10 @@ namespace DH.Adapter.Data.Migrations
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -1055,6 +1179,10 @@ namespace DH.Adapter.Data.Migrations
                     b.Property<int>("RoomId")
                         .HasColumnType("integer");
 
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.HasIndex("RoomId");
@@ -1084,6 +1212,10 @@ namespace DH.Adapter.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.HasIndex("RoomId");
@@ -1108,6 +1240,10 @@ namespace DH.Adapter.Data.Migrations
                     b.Property<int>("RoomId")
                         .HasColumnType("integer");
 
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("text");
@@ -1117,6 +1253,61 @@ namespace DH.Adapter.Data.Migrations
                     b.HasIndex("RoomId");
 
                     b.ToTable("RoomParticipants");
+                });
+
+            modelBuilder.Entity("DH.Domain.Entities.SeedGameCatalog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AveragePlaytime")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("CategoryName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description_BG")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Description_EN")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ImageFileName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("MaxPlayers")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("MinAge")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("MinPlayers")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SeedGameCatalog");
                 });
 
             modelBuilder.Entity("DH.Domain.Entities.SpaceTable", b =>
@@ -1157,6 +1348,10 @@ namespace DH.Adapter.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.HasIndex("GameId");
@@ -1180,6 +1375,10 @@ namespace DH.Adapter.Data.Migrations
 
                     b.Property<int>("SpaceTableId")
                         .HasColumnType("integer");
+
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -1226,6 +1425,10 @@ namespace DH.Adapter.Data.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("text");
@@ -1233,6 +1436,118 @@ namespace DH.Adapter.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("SpaceTableReservations");
+                });
+
+            modelBuilder.Entity("DH.Domain.Entities.Tenant", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LogoFileName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("RegisterQrCode")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int?>("TenantApplicationId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("TenantName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("TenantSettingId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("TenantStatus")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Town")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TenantApplicationId");
+
+                    b.HasIndex("TenantSettingId");
+
+                    b.ToTable("Tenants");
+                });
+
+            modelBuilder.Entity("DH.Domain.Entities.TenantApplication", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ApplicantType")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ContactName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("DiscordServer")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsEmailVerified")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsPhoneVerified")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhotoUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PublicWebsite")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ReviewNote")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ReviewedByUserId")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("ReviewedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("SocialPage")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TenantApplications");
                 });
 
             modelBuilder.Entity("DH.Domain.Entities.TenantSetting", b =>
@@ -1296,9 +1611,50 @@ namespace DH.Adapter.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("TimeZoneId")
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.ToTable("TenantSettings");
+                });
+
+            modelBuilder.Entity("DH.Domain.Entities.TenantSetupToken", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("ExpiresAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("TenantApplicationId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("TokenHash")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("UsedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TenantApplicationId");
+
+                    b.HasIndex("TokenHash")
+                        .IsUnique();
+
+                    b.ToTable("TenantSetupTokens");
                 });
 
             modelBuilder.Entity("DH.Domain.Entities.TenantUserSetting", b =>
@@ -1318,6 +1674,10 @@ namespace DH.Adapter.Data.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("TenantId")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -1374,6 +1734,10 @@ namespace DH.Adapter.Data.Migrations
                     b.Property<int>("RewardPoints")
                         .HasColumnType("integer");
 
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<int>("Type")
                         .HasColumnType("integer");
 
@@ -1424,6 +1788,10 @@ namespace DH.Adapter.Data.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<int?>("UniversalChallengeId")
                         .HasColumnType("integer");
 
@@ -1468,6 +1836,10 @@ namespace DH.Adapter.Data.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<int>("TimePeriodType")
                         .HasColumnType("integer");
 
@@ -1499,6 +1871,10 @@ namespace DH.Adapter.Data.Migrations
 
                     b.Property<bool>("IsCompleted")
                         .HasColumnType("boolean");
+
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<int>("UserChallengePeriodPerformanceId")
                         .HasColumnType("integer");
@@ -1538,6 +1914,10 @@ namespace DH.Adapter.Data.Migrations
                     b.Property<int>("RewardId")
                         .HasColumnType("integer");
 
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("text");
@@ -1563,6 +1943,10 @@ namespace DH.Adapter.Data.Migrations
 
                     b.Property<DateTime>("LastUpdated")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -1599,6 +1983,10 @@ namespace DH.Adapter.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("text");
@@ -1615,6 +2003,10 @@ namespace DH.Adapter.Data.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<int>("TotalChallengesCompleted")
                         .HasColumnType("integer");
@@ -1898,6 +2290,34 @@ namespace DH.Adapter.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("SpaceTable");
+                });
+
+            modelBuilder.Entity("DH.Domain.Entities.Tenant", b =>
+                {
+                    b.HasOne("DH.Domain.Entities.TenantApplication", "TenantApplication")
+                        .WithMany()
+                        .HasForeignKey("TenantApplicationId");
+
+                    b.HasOne("DH.Domain.Entities.TenantSetting", "TenantSetting")
+                        .WithMany()
+                        .HasForeignKey("TenantSettingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TenantApplication");
+
+                    b.Navigation("TenantSetting");
+                });
+
+            modelBuilder.Entity("DH.Domain.Entities.TenantSetupToken", b =>
+                {
+                    b.HasOne("DH.Domain.Entities.TenantApplication", "TenantApplication")
+                        .WithMany()
+                        .HasForeignKey("TenantApplicationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TenantApplication");
                 });
 
             modelBuilder.Entity("DH.Domain.Entities.UserChallenge", b =>

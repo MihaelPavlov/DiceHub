@@ -1,7 +1,7 @@
 import { Component, OnDestroy } from "@angular/core";
-import { Router } from "@angular/router";
 import { NAV_ITEM_LABELS } from "../../../../../shared/models/nav-items-labels.const";
 import { MenuTabsService } from "../../../../../shared/services/menu-tabs.service";
+import { TenantRouter } from "../../../../../shared/helpers/tenant-router";
 
 @Component({
     selector: 'events-layout-chart',
@@ -12,7 +12,7 @@ import { MenuTabsService } from "../../../../../shared/services/menu-tabs.servic
 export class EventsChartsLayoutComponent implements OnDestroy {
   constructor(
     private readonly menuTabsService: MenuTabsService,
-    private readonly router: Router
+    private readonly tenantRouter: TenantRouter
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.PROFILE);
   }
@@ -22,14 +22,14 @@ export class EventsChartsLayoutComponent implements OnDestroy {
   }
 
   public backNavigateBtn(): void {
-    this.router.navigateByUrl('profile');
+    this.tenantRouter.navigateTenant('profile');
   }
 
   public navigateToEventsByDates(): void {
-    this.router.navigateByUrl('charts/events/by-dates');
+    this.tenantRouter.navigateTenant('charts/events/by-dates');
   }
 
   public navigateToEventsByEventIds(): void {
-    this.router.navigateByUrl('charts/events/by-events');
+    this.tenantRouter.navigateTenant('charts/events/by-events');
   }
 }

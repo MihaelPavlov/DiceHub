@@ -1,6 +1,6 @@
 ﻿namespace DH.Domain.Entities;
 
-public class GameCategory
+public class GameCategory : TenantEntity
 {
     public int Id { get; set; }
     public string Name { get; set; } = string.Empty;

@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Sora:wght@400;500;600;700&display=swap');
+    :root {
+      --bg: oklch(0.15 0.018 290);
+      --bg-elevated: oklch(0.195 0.02 290);
+      --bg-elevated-2: oklch(0.245 0.022 290);
+      --border: oklch(0.34 0.02 290 / 0.55);
+      --text: oklch(0.96 0.01 90);
+      --text-muted: oklch(0.7 0.02 290);
+      --text-faint: oklch(0.52 0.02 290);
+      --amber: oklch(0.78 0.16 75);
+      --amber-soft: oklch(0.78 0.16 75 / 0.16);
+      --shadow-card: 0 10px 30px -12px oklch(0 0 0 / 0.55);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #0b0b0d; font-family: 'Sora', ui-sans-serif, system-ui, sans-serif; }
+    .display { font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif; }
+    .icon-btn { width: 42px; height: 42px; border-radius: 999px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .row { display: flex; align-items: center; gap: 14px; background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 18px; padding: 14px; }
+    .thumb { width: 52px; height: 52px; border-radius: 14px; flex-shrink: 0; background: var(--bg-elevated-2); display: flex; align-items: center; justify-content: center; }
+  </style>
+</helmet>
+
+<div style="width:393px;background:var(--bg);color:var(--text);padding:24px 20px 40px;display:flex;flex-direction:column;gap:22px;">
+
+  <div class="icon-btn" style="background:var(--bg-elevated);border:1px solid var(--border);">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+  </div>
+
+  <div style="display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;">
+    <div style="width:64px;height:64px;border-radius:20px;background:var(--amber-soft);display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-card);">
+      <svg width="28" height="28" viewBox="0 -960 960 960" fill="var(--amber)"><path d="M346.92-70.77 274.15-195.38l-141.07-31.39 14.46-145.08L51.85-480l95.69-108.15-14.46-145.08 141.07-31.39 72.77-124.61L480-832.92l133.08-56.31 72.77 124.61 141.07 31.39-14.46 145.08L908.15-480l-95.69 108.15 14.46 145.08-141.07 31.39-72.77 124.61L480-127.08 346.92-70.77Z"/></svg>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:4px;">
+      <span class="display" style="font-size:19px;font-weight:800;color:var(--amber);">Challenges</span>
+      <span style="font-size:12.5px;color:var(--text-muted);line-height:1.55;max-width:280px;">Earn points, claim rewards, and see how you rank against the club.</span>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:10px;">
+
+    <a href="#" class="row">
+      <div class="thumb">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;gap:3px;">
+        <span style="font-size:14px;font-weight:700;">Where to find challenges</span>
+        <span style="font-size:11.5px;color:var(--text-muted);">How challenges work, and how to complete them.</span>
+      </div>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M9 5l7 7-7 7"/></svg>
+    </a>
+
+    <a href="#" class="row">
+      <div class="thumb">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-6"/><path d="M12 2v13M8 6l4-4 4 4"/></svg>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;gap:3px;">
+        <span style="font-size:14px;font-weight:700;">Claiming rewards</span>
+        <span style="font-size:11.5px;color:var(--text-muted);">Where to see and redeem what you've earned.</span>
+      </div>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M9 5l7 7-7 7"/></svg>
+    </a>
+
+    <a href="#" class="row">
+      <div class="thumb">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4Z"/><path d="M17 6h3a2 2 0 0 1-2 4M7 6H4a2 2 0 0 0 2 4"/></svg>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;gap:3px;">
+        <span style="font-size:14px;font-weight:700;">Leaderboard</span>
+        <span style="font-size:11.5px;color:var(--text-muted);">Where to check your rank against other members.</span>
+      </div>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M9 5l7 7-7 7"/></svg>
+    </a>
+
+  </div>
+
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

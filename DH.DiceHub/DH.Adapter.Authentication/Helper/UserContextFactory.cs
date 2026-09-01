@@ -11,14 +11,20 @@ namespace DH.Adapter.Authentication.Helper;
 public class UserContextFactory : IUserContextFactory
 {
     readonly IHttpContextAccessor httpContextAccessor;
-    readonly IJwtService jwtService;
+    readonly ITokenService jwtService;
     readonly IUserSettingsCache userSettingsCache;
+    readonly ISystemUserContextAccessor systemUserContextAccessor;
 
-    public UserContextFactory(IHttpContextAccessor httpContextAccessor, IJwtService jwtService, IUserSettingsCache userSettingsCache)
+    public UserContextFactory(
+        IHttpContextAccessor httpContextAccessor,
+        ITokenService jwtService,
+        IUserSettingsCache userSettingsCache,
+        ISystemUserContextAccessor systemUserContextAccessor)
     {
         this.httpContextAccessor = httpContextAccessor;
         this.jwtService = jwtService;
         this.userSettingsCache = userSettingsCache;
+        this.systemUserContextAccessor = systemUserContextAccessor;
     }
 
     /// <summary>
@@ -28,25 +34,46 @@ public class UserContextFactory : IUserContextFactory
     public async Task<IUserContext> CreateAsync()
     {
         var httpContext = this.httpContextAccessor.HttpContext;
-        var user = httpContext?.User;
+
+        // No HTTP request at all: a background job/hosted worker (Quartz jobs,
+        // BackgroundService loops). These have no ASP.NET auth state to read, so
+        // fall back to the ambient BackgroundJobUserContext set by
+        // ITenantContextScopeRunner.RunAsTenantAsync (or AnonymousUserContext if
+        // nothing has been set for this scope).
+        if (httpContext == null)
+            return this.systemUserContextAccessor.Peek;
+
+        var user = httpContext.User;
+        // Resolved by TenantRouteValidationMiddleware from the route/X-Tenant-Id
+        // header. Available even for anonymous requests (e.g. the pre-auth
+        // login/register/forgot-password pages), so it must not be discarded
+        // just because there's no authenticated user yet.
+        var routeOrHeaderTenantId = httpContext?.Items["TenantId"]?.ToString();
 
         if (user?.Identity?.IsAuthenticated != true)
         {
-            return AnonymousUserContext.Instance;
+            return string.IsNullOrWhiteSpace(routeOrHeaderTenantId)
+                ? AnonymousUserContext.Instance
+                : new UserContext(routeOrHeaderTenantId, null, null, null, null);
         }
 
         var userId = user.FindFirstValue(ClaimTypes.Sid);
         var roleName = user.FindFirstValue(ClaimTypes.Role);
         var timeZone = user.FindFirstValue("TimeZone");
+        var tenantId = routeOrHeaderTenantId
+            ?? user.FindFirstValue("tenant_id");
 
         if (string.IsNullOrWhiteSpace(userId))
         {
-            return AnonymousUserContext.Instance;
+            return string.IsNullOrWhiteSpace(routeOrHeaderTenantId)
+                ? AnonymousUserContext.Instance
+                : new UserContext(routeOrHeaderTenantId, null, null, null, null);
         }
 
         var language = await this.userSettingsCache.GetLanguageAsync(userId);
 
         return new UserContext(
+            tenantId: tenantId,
             userId: userId,
             roleKey: roleName != null ? RoleHelper.GetRoleKeyByName(roleName) : null,
             timeZone: timeZone,
@@ -68,6 +95,7 @@ public class UserContextFactory : IUserContextFactory
             var token = this.jwtService.GenerateAccessToken(claims);
 
             return new UserContext(
+                tenantId: "tenant_1",
                 userId: "system",
                 roleKey: 1,
                 timeZone: "UTC",

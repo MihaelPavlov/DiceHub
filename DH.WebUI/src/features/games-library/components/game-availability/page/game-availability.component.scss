@@ -1,25 +1,33 @@
 @use "../../../../../shared/assets/styles/palette";
 
 .header {
-  color: palette.$main-font-gray-color;
+  color: var(--games-muted);
   display: flex;
   align-items: center;
   flex-direction: column;
   text-align: center;
-  margin: 0 2rem;
+  margin: 0;
+  padding: 1rem;
+  border: 1px solid var(--games-border);
+  border-radius: 1rem;
+  background: var(--games-surface);
 
   &__information {
-    color: palette.$main-red-color;
+    color: var(--games-coral);
   }
 }
 .expiry-message {
-  color: palette.$main-red-color;
+  color: var(--games-coral);
   font-weight: bold;
   text-align: center;
   margin: 1rem;
 }
 .info {
-  margin: 1rem;
+  margin: 0.75rem 0;
+  padding: 1rem;
+  border: 1px solid var(--games-border);
+  border-radius: 1rem;
+  background: var(--games-surface);
   text-align: center;
 
   .blue-font {
@@ -31,11 +39,11 @@
   }
 
   &__available {
-    color: palette.$main-green-color;
+    color: var(--games-teal);
   }
 
   &__unavailable {
-    color: palette.$main-red-color;
+    color: var(--games-coral);
   }
 
   .declined {
@@ -52,7 +60,11 @@
 }
 
 .field-inputs {
-  margin: 1rem;
+  margin: 0.75rem 0;
+  padding: 1rem;
+  border: 1px solid var(--games-border);
+  border-radius: 1rem;
+  background: var(--games-surface);
 }
 
 .wrapper_qrCode {
@@ -69,6 +81,11 @@
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  margin: 0.75rem 0;
+  padding: 1rem;
+  border: 1px solid var(--games-border);
+  border-radius: 1rem;
+  background: var(--games-surface);
 
   .info-container {
     .info {
@@ -114,19 +131,86 @@
 
 .reservation-indicator {
   margin-bottom: 1rem;
-  background-color: palette.$main-nav-color;
+  background-color: var(--games-surface-2);
   padding: 0.5rem;
-  border-left: 4px solid palette.$main-green-color;
-  border-right: 4px solid palette.$main-green-color;
+  border-left: 4px solid var(--games-teal);
+  border-right: 4px solid var(--games-teal);
+  border-radius: 0.75rem;
 }
 
 .info-message {
   font-size: 0.9rem;
-  color: palette.$main-green-color;
+  color: var(--games-teal);
   margin: 0;
   text-align: center;
 }
 
 .prefilled-field {
   opacity: 0.5;
+}
+
+@media (min-width: 900px) {
+  .header,
+  .info,
+  .field-inputs,
+  .wrapper_btn,
+  .expiry-message {
+    width: min(42rem, 100%);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .header,
+  .info,
+  .field-inputs {
+    padding: 1rem;
+    border: 1px solid var(--games-border);
+    border-radius: 1rem;
+    background: var(--games-surface);
+  }
+
+  .header {
+    margin-top: 1rem;
+  }
+
+  .field-inputs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .field-inputs .reservation-indicator {
+    grid-column: 1 / -1;
+    margin-bottom: 0;
+  }
+
+  .input-field {
+    margin-bottom: 0;
+  }
+
+  .ng-select.app-select-long .ng-select-container {
+    border: 1px solid var(--games-border);
+    background: var(--games-surface-2);
+  }
+
+  .wrapper_btn button,
+  .btn {
+    width: 100%;
+    max-width: 42rem;
+  }
+
+  .wrapper {
+    width: min(24rem, 100%);
+    margin: 1rem auto;
+    padding: 1rem;
+    border: 1px solid var(--games-border);
+    border-radius: 1rem;
+    background: var(--games-surface);
+  }
+}
+
+@media (min-width: 900px) and (max-width: 1080px) {
+  .field-inputs {
+    grid-template-columns: 1fr;
+  }
 }

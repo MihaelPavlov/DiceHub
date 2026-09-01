@@ -10,12 +10,14 @@ public record GetRoomListQuery(string? SearchExpression) : IRequest<List<GetRoom
 internal class GetRoomListQueryHandler : IRequestHandler<GetRoomListQuery, List<GetRoomListQueryModel>>
 {
     readonly IRoomService roomService;
-    readonly IUserService userService;
+    readonly IUserManagementService userManagementService;
 
-    public GetRoomListQueryHandler(IRoomService roomService, IUserService userService)
+    public GetRoomListQueryHandler(
+        IRoomService roomService, 
+        IUserManagementService userManagementService)
     {
         this.roomService = roomService;
-        this.userService = userService;
+        this.userManagementService = userManagementService;
     }
 
     public async Task<List<GetRoomListQueryModel>> Handle(GetRoomListQuery request, CancellationToken cancellationToken)
@@ -23,7 +25,7 @@ internal class GetRoomListQueryHandler : IRequestHandler<GetRoomListQuery, List<
         var rooms = await this.roomService.GetListBySearchExpressionAsync(request.SearchExpression ?? string.Empty, cancellationToken);
 
         var userIds = rooms.Select(x => x.UserId).Distinct().ToArray();
-        var users = await this.userService.GetUserListByIds(userIds, cancellationToken);
+        var users = await this.userManagementService.GetUserListByIds(userIds, cancellationToken);
 
         foreach (var room in rooms)
         {

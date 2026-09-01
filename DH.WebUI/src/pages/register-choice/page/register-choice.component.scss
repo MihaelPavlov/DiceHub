@@ -1,0 +1,244 @@
+.wrapper {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 54rem;
+  min-height: 100vh;
+  padding: 1.5rem 1.25rem 2.5rem;
+  gap: 1.5rem;
+}
+
+.browser-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.choice-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.markup {
+  color: var(--games-amber);
+  cursor: pointer;
+}
+
+.interactive-option {
+  display: flex;
+  justify-content: flex-start;
+
+  .icon_wrapper {
+    width: 2.65rem;
+    height: 2.65rem;
+    border-radius: 999px;
+    background: var(--games-surface);
+    border: 1px solid var(--games-border);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .icon {
+    width: 1.15rem;
+    height: 1.15rem;
+    fill: var(--games-text);
+  }
+}
+
+.header {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  font-size: 1.4rem;
+  font-weight: 800;
+  text-align: center;
+  color: var(--games-text);
+}
+
+.sub-header {
+  margin: 0 auto;
+  max-width: 34rem;
+  color: var(--games-muted);
+  text-align: center;
+  line-height: 1.45;
+  font-size: 0.85rem;
+}
+
+.choice-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.choice {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  background: var(--games-surface);
+  border: 1px solid var(--games-border);
+  border-radius: 1.35rem;
+  padding: 1.1rem;
+  box-shadow: var(--games-shadow);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.choice-icon {
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 1.4rem;
+
+  &--amber {
+    background: var(--games-amber-soft);
+    color: var(--games-amber);
+  }
+
+  &--violet {
+    background: var(--games-violet-soft);
+    color: var(--games-violet);
+  }
+}
+
+.choice-content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+
+  &__title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--games-text);
+  }
+
+  &__desc {
+    font-size: 0.78rem;
+    color: var(--games-muted);
+    line-height: 1.4;
+  }
+}
+
+.chevron {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+  stroke: var(--games-faint);
+}
+
+.badge {
+  display: inline-block;
+  margin-top: 0.35rem;
+  width: fit-content;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  background: var(--games-violet-soft);
+  color: var(--games-violet);
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.additional-link {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  color: var(--games-muted);
+  font-size: 0.85rem;
+}
+
+@media (min-width: 900px) {
+  .wrapper {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(30rem, 36rem);
+    align-items: stretch;
+    gap: 1.5rem;
+    width: min(76rem, calc(100vw - 4rem));
+    max-width: none;
+    min-height: calc(100vh - 5rem);
+    padding: 2.5rem 0;
+  }
+
+  .browser-panel {
+    min-height: 36rem;
+    padding: 3rem;
+    border-radius: 1.5rem;
+    border: 1px solid var(--games-border);
+    background:
+      radial-gradient(circle at 15% 0%, var(--games-amber-soft), transparent 55%),
+      var(--games-surface);
+    justify-content: flex-end;
+    gap: 1rem;
+  }
+
+  .browser-panel__eyebrow {
+    margin-bottom: auto;
+    color: var(--games-amber);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .browser-panel h1 {
+    max-width: 34rem;
+    margin: 0 0 1rem;
+    color: var(--games-text);
+    font-size: 2.55rem;
+    line-height: 1.08;
+  }
+
+  .browser-panel p {
+    max-width: 31rem;
+    margin: 0;
+    color: var(--games-muted);
+    font-size: 1.05rem;
+    line-height: 1.55;
+  }
+
+  .browser-panel__steps {
+    display: grid;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
+
+  .browser-panel__steps span {
+    padding: 0.75rem 0.9rem;
+    border: 1px solid var(--games-border);
+    border-radius: 0.65rem;
+    color: var(--games-text);
+    background: var(--games-surface-2);
+    font-size: 0.9rem;
+  }
+
+  .choice-shell {
+    padding: 2rem;
+    border-radius: 1.5rem;
+    background: var(--games-surface);
+    border: 1px solid var(--games-border);
+    justify-content: center;
+  }
+
+  .interactive-option {
+    margin-top: 0;
+  }
+
+  .sub-header {
+    max-width: 30rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .additional-link {
+    margin-top: 0.5rem;
+  }
+}

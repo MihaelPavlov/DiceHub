@@ -2,7 +2,7 @@
 
 namespace DH.Domain.Entities;
 
-public class UserChallenge
+public class UserChallenge : TenantEntity
 {
     public int Id { get; set; }
     public string UserId { get; set; } = string.Empty;

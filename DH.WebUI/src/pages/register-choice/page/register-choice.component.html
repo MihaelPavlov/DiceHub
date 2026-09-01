@@ -1,0 +1,68 @@
+<app-language-switch />
+<app-install-prompt />
+
+<div class="wrapper">
+  <aside class="browser-panel">
+    <div class="browser-panel__eyebrow">Create account</div>
+    <h1>Choose your DiceHub path</h1>
+    <p>
+      Join as a player for a specific club, or apply as a venue owner to create
+      a new tenant after verification.
+    </p>
+    <div class="browser-panel__steps">
+      <span>Players join existing clubs</span>
+      <span>Venues go through approval</span>
+      <span>Setup links expire after 24 hours</span>
+    </div>
+  </aside>
+
+  <section class="choice-shell">
+    <div class="interactive-option">
+      <div class="icon_wrapper" (click)="navigateToLanding()">
+        <svg class="icon" viewBox="0 -960 960 960">
+          <path
+            d="M480-80 120-280v-400l360-200 360 200v400L480-80Zm0-92 280-155v-306L480-788 200-633v306l280 155Zm0-308Zm-40 190h80v-120h120v-80H520v-120h-80v120H320v80h120v120Z"
+          />
+        </svg>
+      </div>
+    </div>
+
+    <span class="header">Join DiceHub</span>
+    <p class="sub-header">
+      Choose how you want to register. Player accounts belong to a club. Venue
+      applications are reviewed before a tenant is created.
+    </p>
+
+    <div class="choice-container">
+      <a class="choice" (click)="navigateToPlayerRegistration()">
+        <div class="choice-icon choice-icon--amber">♟</div>
+        <div class="choice-content">
+          <span class="choice-content__title">I’m a Player</span>
+          <span class="choice-content__desc">
+            Create a client account to join a club, reserve games, and
+            participate in events.
+          </span>
+        </div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
+      </a>
+
+      <a class="choice" (click)="navigateToVenueApplication()">
+        <div class="choice-icon choice-icon--violet">🏛</div>
+        <div class="choice-content">
+          <span class="choice-content__title">I own a Venue / Club</span>
+          <span class="choice-content__desc">
+            Apply for DiceHub tenant access. We verify your email, phone, and
+            venue details before approval.
+          </span>
+          <span class="badge">Requires verification</span>
+        </div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    <div class="additional-link">
+      <p>Already have an account?</p>
+      <p><strong class="markup" (click)="navigateToLogin()">Sign in</strong></p>
+    </div>
+  </section>
+</div>

@@ -23,7 +23,7 @@ public class GameReservationQRCodeState : IQRCodeState
     readonly IRepository<SpaceTableReservation> tableReservationRepository;
     readonly IRepository<SpaceTable> tableRepository;
     readonly IRepository<Game> gameRepository;
-    readonly IUserService userService;
+    readonly IUserManagementService userManagementService;
     readonly ISpaceTableService spaceTableService;
     readonly IGameSessionQueue gameSessionQueue;
     readonly IStatisticQueuePublisher statisticQueuePublisher;
@@ -31,7 +31,7 @@ public class GameReservationQRCodeState : IQRCodeState
     readonly ILocalizationService loc;
 
     public GameReservationQRCodeState(IUserContext userContext, IRepository<GameReservation> gameReservationRepository,
-        IRepository<SpaceTableReservation> tableReservationRepository, IUserService userService,
+        IRepository<SpaceTableReservation> tableReservationRepository, IUserManagementService userManagementService,
         ISpaceTableService spaceTableService, IRepository<SpaceTable> tableRepository, IGameSessionQueue gameSessionQueue,
         IRepository<Game> gameRepository, IStatisticQueuePublisher statisticQueuePublisher,
         IReservationCleanupQueue reservationCleanupQueue, ILocalizationService loc)
@@ -40,7 +40,7 @@ public class GameReservationQRCodeState : IQRCodeState
         this.gameReservationRepository = gameReservationRepository;
         this.tableReservationRepository = tableReservationRepository;
         this.tableRepository = tableRepository;
-        this.userService = userService;
+        this.userManagementService = userManagementService;
         this.spaceTableService = spaceTableService;
         this.gameSessionQueue = gameSessionQueue;
         this.gameRepository = gameRepository;
@@ -117,7 +117,7 @@ public class GameReservationQRCodeState : IQRCodeState
 
         await this.gameReservationRepository.SaveChangesAsync(cancellationToken);
 
-        var users = await this.userService.GetUserListByIds([userId], cancellationToken);
+        var users = await this.userManagementService.GetUserListByIds([userId], cancellationToken);
         var gameReservationUser = users.First();
 
         var request = new SpaceTable

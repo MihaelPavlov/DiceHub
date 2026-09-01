@@ -1,21 +1,37 @@
-<div class="dialog-container">
-  <h3 *ngIf="!errorMessage" class="dialog-container__header m-4">
-    {{ "are_you_sure" | translate }}
-  </h3>
-  <h3 *ngIf="errorMessage" class="dialog-container__header m-4">
-    {{ "cannot_be_deleted" | translate }}
-  </h3>
-  <p class="errors" *ngIf="errorMessage">{{ errorMessage }}</p>
-  <mat-dialog-actions>
-    <button class="btn btn__small btn-blue" mat-dialog-close>
+<div class="confirm-sheet" appSheetDismiss>
+  <div class="confirm-sheet__handle"></div>
+
+  <div class="confirm-sheet__centered">
+    <div
+      class="confirm-sheet__icon confirm-sheet__icon--lg"
+      [class.confirm-sheet__icon--coral]="!errorMessage"
+      [class.confirm-sheet__icon--amber]="errorMessage"
+    >
+      <svg *ngIf="!errorMessage" viewBox="0 0 24 24" fill="none" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 7h14"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/><path d="M7 7l1 13a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2l1-13"/><path d="M10 11v6M14 11v6"/>
+      </svg>
+      <svg *ngIf="errorMessage" viewBox="0 0 24 24" fill="none" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 4 3 20h18z"/><path d="M12 10v5"/><circle cx="12" cy="18" r="0.6" fill="currentColor" stroke="none"/>
+      </svg>
+    </div>
+
+    <div>
+      <div class="confirm-sheet__title" *ngIf="!errorMessage">{{ "are_you_sure" | translate }}</div>
+      <div class="confirm-sheet__title" *ngIf="errorMessage">{{ "cannot_be_deleted" | translate }}</div>
+      <p class="confirm-sheet__message" *ngIf="errorMessage">{{ errorMessage }}</p>
+    </div>
+  </div>
+
+  <div class="confirm-sheet__actions">
+    <button class="confirm-sheet__btn confirm-sheet__btn--ghost" mat-dialog-close>
       {{ "cancel" | translate }}
     </button>
     <button
       *ngIf="!errorMessage"
-      class="btn btn__small btn-red btn-border-red"
+      class="confirm-sheet__btn confirm-sheet__btn--coral"
       (click)="delete()"
     >
       {{ "delete" | translate }}
     </button>
-  </mat-dialog-actions>
+  </div>
 </div>

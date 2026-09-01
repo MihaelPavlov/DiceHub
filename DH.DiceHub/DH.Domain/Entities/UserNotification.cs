@@ -1,6 +1,6 @@
 ﻿namespace DH.Domain.Entities;
 
-public class UserNotification
+public class UserNotification : TenantEntity
 {
     public int Id { get; set; }
     public string UserId { get; set; } = string.Empty;

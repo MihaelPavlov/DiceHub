@@ -1,207 +1,111 @@
-<ng-container *ngIf="this.userEvents.length !== 0">
-  <app-header
-    [withScrollAnimation]="false"
-    [header]="'events.header_my_events' | translate"
-    [withSearch]="false"
-    [withBottomLine]="true"
-  >
-  </app-header>
+<section class="events-shell games-design-surface">
+  <div class="events-shell__header">
+    <h1 class="games-display">{{ "events.title" | translate }}</h1>
+    <p>{{ "events.count" | translate : { count: happeningCount } }}</p>
+  </div>
 
-  <div class="wrapper_events">
-    <div
-      *ngFor="let event of userEvents"
-      class="wrapper_event surface-elevated"
-      (click)="navigateToDetails(event.id)"
-    >
-      <div class="wrapper_event__image">
+  <div class="events-section" *ngIf="userEvents.length !== 0">
+    <div class="events-section__head">
+      <span class="games-display">{{ "events.section_my_events" | translate }}</span>
+      <span class="events-section__meta">{{ "events.joined_count" | translate : { count: userEvents.length } }}</span>
+    </div>
+
+    <div class="event-card games-panel" *ngFor="let event of userEvents" (click)="navigateToDetails(event.id)">
+      <div class="event-card__image">
         <img [src]="event.imageUrl" alt="" />
       </div>
-      <div class="wrapper_event__header">
-        <p class="event_name">{{ event.name }}</p>
-        <p class="description">
-          {{
-            (currentLanguage === SupportLanguages.EN
-              ? event.description_EN
-              : event.description_BG
-            ) | truncate
-          }}
-        </p>
-      </div>
-
-      <div class="wrapper_event__chips">
-        <app-chip
-          [color]="'orange'"
-          [text]="
-            'events.chip_joined'
-              | translate : { peopleJoined: event.peopleJoined }
-          "
-          [size]="'small'"
-        ></app-chip>
-        <app-chip
-          [color]="'red'"
-          [text]="
-            'events.chip_max' | translate : { maxPeople: event.maxPeople }
-          "
-          [size]="'small'"
-        ></app-chip>
-      </div>
-      <div class="wrapper_event__chips">
-        <app-chip
-          [color]="'blue'"
-          [text]="
-            (
-              event.startDate
-              | date : DATE_TIME_FORMAT : undefined : this.currentLanguage
-            )?.toString() ?? ''
-          "
-          [size]="'small'"
-        ></app-chip>
-        <app-chip
-          [color]="'yellow'"
-          [text]="event.startDate | calculateRemainingDays"
-          [size]="'small'"
-        ></app-chip>
+      <div class="event-card__body">
+        <div class="event-card__title-group">
+          <span class="event-card__title games-display">{{ event.name }}</span>
+          <span class="event-card__desc">
+            {{
+              (currentLanguage === SupportLanguages.EN
+                ? event.description_EN
+                : event.description_BG
+              ) | truncate
+            }}
+          </span>
+        </div>
+        <div class="chip-row">
+          <span class="games-pill games-pill--amber">{{ "events.chip_joined" | translate : { peopleJoined: event.peopleJoined } }}</span>
+          <span class="games-pill games-pill--coral">{{ "events.chip_max" | translate : { maxPeople: event.maxPeople } }}</span>
+        </div>
+        <div class="chip-row">
+          <span class="games-pill games-pill--teal">{{ (event.startDate | date : DATE_TIME_FORMAT : undefined : this.currentLanguage)?.toString() ?? '' }}</span>
+          <span class="games-pill games-pill--violet">{{ event.startDate | calculateRemainingDays }}</span>
+        </div>
       </div>
     </div>
   </div>
-</ng-container>
 
-<ng-container>
-  <app-header
-    [withScrollAnimation]="false"
-    [header]="'events.header_todays_events' | translate"
-    [withSearch]="false"
-    [withBottomLine]="true"
-  >
-  </app-header>
+  <div class="events-section">
+    <div class="events-section__head">
+      <span class="games-display">{{ "events.section_today" | translate }}</span>
+    </div>
 
-  <div class="no_records" *ngIf="todayEvents.length === 0">
-    <img src="/shared/assets/images/no-events.png" alt="" />
-    <p class="first-header">{{ "events.no_events_today" | translate }}</p>
-  </div>
-  <div class="wrapper_events">
-    <div
-      *ngFor="let event of todayEvents"
-      class="wrapper_event surface-elevated"
-      (click)="navigateToDetails(event.id)"
-    >
-      <div class="wrapper_event__image">
+    <div class="events-empty games-panel" *ngIf="todayEvents.length === 0">
+      <img src="/shared/assets/images/no-events.png" alt="" />
+      <p>{{ "events.no_events_today" | translate }}</p>
+    </div>
+
+    <div class="event-card games-panel" *ngFor="let event of todayEvents" (click)="navigateToDetails(event.id)">
+      <div class="event-card__image">
         <img [src]="event.imageUrl" alt="" />
       </div>
-      <div class="wrapper_event__header">
-        <p>{{ event.name }}</p>
-        <p class="description">
-          {{
-            (currentLanguage === SupportLanguages.EN
-              ? event.description_EN
-              : event.description_BG
-            ) | truncate
-          }}
-        </p>
-      </div>
-
-      <div class="wrapper_event__chips">
-        <app-chip
-          [color]="'orange'"
-          [text]="
-            'events.chip_joined'
-              | translate : { peopleJoined: event.peopleJoined }
-          "
-          [size]="'small'"
-        ></app-chip>
-        <app-chip
-          [color]="'red'"
-          [text]="
-            'events.chip_max' | translate : { maxPeople: event.maxPeople }
-          "
-          [size]="'small'"
-        ></app-chip>
-      </div>
-      <div class="wrapper_event__chips">
-        <app-chip
-          [color]="'blue'"
-          [text]="
-            (
-              event.startDate
-              | date : DATE_TIME_FORMAT : undefined : this.currentLanguage
-            )?.toString() ?? ''
-          "
-          [size]="'small'"
-        ></app-chip>
-        <app-chip
-          [color]="'yellow'"
-          [text]="event.startDate | calculateRemainingDays"
-          [size]="'small'"
-        ></app-chip>
+      <div class="event-card__body">
+        <div class="event-card__title-group">
+          <span class="event-card__title games-display">{{ event.name }}</span>
+          <span class="event-card__desc">
+            {{
+              (currentLanguage === SupportLanguages.EN
+                ? event.description_EN
+                : event.description_BG
+              ) | truncate
+            }}
+          </span>
+        </div>
+        <div class="chip-row">
+          <span class="games-pill games-pill--amber">{{ "events.chip_joined" | translate : { peopleJoined: event.peopleJoined } }}</span>
+          <span class="games-pill games-pill--coral">{{ "events.chip_max" | translate : { maxPeople: event.maxPeople } }}</span>
+        </div>
+        <div class="chip-row">
+          <span class="games-pill games-pill--teal">{{ (event.startDate | date : DATE_TIME_FORMAT : undefined : this.currentLanguage)?.toString() ?? '' }}</span>
+          <span class="games-pill games-pill--violet">{{ event.startDate | calculateRemainingDays }}</span>
+        </div>
       </div>
     </div>
   </div>
-</ng-container>
 
-<ng-container *ngIf="upcomingEvents.length !== 0">
-  <app-header
-    [withScrollAnimation]="false"
-    [header]="'events.header_upcoming_events' | translate"
-    [withSearch]="false"
-    [withBottomLine]="true"
-  >
-  </app-header>
+  <div class="events-section" *ngIf="upcomingEvents.length !== 0">
+    <div class="events-section__head">
+      <span class="games-display">{{ "events.section_upcoming" | translate }}</span>
+    </div>
 
-  <div class="wrapper_events">
-    <div
-      *ngFor="let event of upcomingEvents"
-      class="wrapper_event surface-elevated"
-      (click)="navigateToDetails(event.id)"
-    >
-      <div class="wrapper_event__image">
+    <div class="event-card games-panel" *ngFor="let event of upcomingEvents" (click)="navigateToDetails(event.id)">
+      <div class="event-card__image">
         <img [src]="event.imageUrl" alt="" />
       </div>
-      <div class="wrapper_event__header">
-        <p class="event_name">{{ event.name }}</p>
-        <p class="description">
-          {{
-            (currentLanguage === SupportLanguages.EN
-              ? event.description_EN
-              : event.description_BG
-            ) | truncate
-          }}
-        </p>
-      </div>
-
-      <div class="wrapper_event__chips">
-        <app-chip
-          [color]="'orange'"
-          [text]="
-            'events.chip_joined'
-              | translate : { peopleJoined: event.peopleJoined }
-          "
-          [size]="'small'"
-        ></app-chip>
-        <app-chip
-          [color]="'red'"
-          [text]="
-            'events.chip_max' | translate : { maxPeople: event.maxPeople }
-          "
-          [size]="'small'"
-        ></app-chip>
-      </div>
-      <div class="wrapper_event__chips">
-        <app-chip
-          [color]="'blue'"
-          [text]="
-            (
-              event.startDate
-              | date : DATE_TIME_FORMAT : undefined : this.currentLanguage
-            )?.toString() ?? ''
-          "
-          [size]="'small'"
-        ></app-chip>
-        <app-chip
-          [color]="'yellow'"
-          [text]="event.startDate | calculateRemainingDays"
-          [size]="'small'"
-        ></app-chip>
+      <div class="event-card__body">
+        <div class="event-card__title-group">
+          <span class="event-card__title games-display">{{ event.name }}</span>
+          <span class="event-card__desc">
+            {{
+              (currentLanguage === SupportLanguages.EN
+                ? event.description_EN
+                : event.description_BG
+              ) | truncate
+            }}
+          </span>
+        </div>
+        <div class="chip-row">
+          <span class="games-pill games-pill--amber">{{ "events.chip_joined" | translate : { peopleJoined: event.peopleJoined } }}</span>
+          <span class="games-pill games-pill--coral">{{ "events.chip_max" | translate : { maxPeople: event.maxPeople } }}</span>
+        </div>
+        <div class="chip-row">
+          <span class="games-pill games-pill--teal">{{ (event.startDate | date : DATE_TIME_FORMAT : undefined : this.currentLanguage)?.toString() ?? '' }}</span>
+          <span class="games-pill games-pill--violet">{{ event.startDate | calculateRemainingDays }}</span>
+        </div>
       </div>
     </div>
   </div>
-</ng-container>
+</section>

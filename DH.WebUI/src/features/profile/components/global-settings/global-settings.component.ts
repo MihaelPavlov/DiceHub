@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Form } from '../../../../shared/components/form/form.component';
+import { downscaleImageFile } from '../../../../shared/helpers/image-resize.helper';
 import {
   FormBuilder,
   FormGroup,
   FormControl,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
 import { NAV_ITEM_LABELS } from '../../../../shared/models/nav-items-labels.const';
 import { MenuTabsService } from '../../../../shared/services/menu-tabs.service';
 import { ToastService } from '../../../../shared/services/toast.service';
@@ -20,7 +20,17 @@ import { ToggleState } from '../../../../entities/common/enum/toggle-state.enum'
 import { FULL_ROUTE, ROUTE } from '../../../../shared/configs/route.config';
 import { SupportLanguages } from '../../../../entities/common/models/support-languages.enum';
 import { TenantUserSettingsService } from '../../../../entities/common/api/tenant-user-settings.service';
-import { combineLatest, forkJoin, switchMap, tap } from 'rxjs';
+import {
+  catchError,
+  combineLatest,
+  forkJoin,
+  Observable,
+  of,
+  switchMap,
+  tap,
+  timeout,
+} from 'rxjs';
+import { FrontEndLogService } from '../../../../shared/services/frontend-log.service';
 import { IUserSettings } from '../../../../entities/common/models/user-settings.model';
 import { LanguageService } from '../../../../shared/services/language.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -28,6 +38,13 @@ import { TranslateInPipe } from '../../../../shared/pipe/translate-in.pipe';
 import { ThemeService } from '../../../../shared/services/theme.service';
 import { UiTheme } from '../../../../shared/enums/ui-theme.enum';
 import { WeekDay } from '../../../../shared/enums/week-day.enum';
+import { TenantRouter } from '../../../../shared/helpers/tenant-router';
+import {
+  DEFAULT_TIME_ZONE_ID,
+  getSupportedTimeZones,
+} from '../../../../shared/helpers/time-zone.helper';
+import { TenantService } from '../../../../shared/services/tenant.service';
+import { TenantContextService } from '../../../../shared/services/tenant-context.service';
 
 interface ITenantSettingsForm {
   averageMaxCapacity: number;
@@ -39,6 +56,7 @@ interface ITenantSettingsForm {
   daysOff: string[] | null;
   startWorkingHours: string;
   endWorkingHours: string;
+  timeZoneId: string;
   challengeInitiationDelayHours: number;
   reservationHours: string[];
   bonusTimeAfterReservationExpiration: number;
@@ -61,6 +79,7 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
   public periodTimeValues: IDropdown[] = [];
   public toggleStateValues: IDropdown[] = [];
   public reservationHours: IDropdown[] = [];
+  public timeZoneValues: string[] = getSupportedTimeZones();
   public languagesValues: IDropdown[] = [];
   public themeValues: IDropdown[] = [];
   public oldCustomPeriodValue: ToggleState | null = null;
@@ -79,17 +98,34 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
     { id: 12, name: '12' },
   ];
   public tenantSettingsId: number | null = null;
+
+  public logoUrl: string | null = null;
+  public logoPreviewUrl: string | null = null;
+  public logoFile: File | null = null;
+  // In-memory snapshot of the picked image, taken at selection time so the
+  // upload does not depend on the File still being readable at Save time.
+  public logoBlob: Blob | null = null;
+  public logoFileName: string | null = null;
+  public logoError: string | null = null;
+  private logoUploadFailed = false;
+  private static readonly LogoUploadTimeoutMs = 60_000;
+  private static readonly MaxLogoSizeBytes = 2 * 1024 * 1024;
+  private static readonly AllowedLogoTypes = ['image/png', 'image/jpeg', 'image/webp', 'image/svg+xml'];
+
   constructor(
     private readonly fb: FormBuilder,
     public override readonly toastService: ToastService,
     private readonly menuTabsService: MenuTabsService,
-    private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly tenantSettingsService: TenantSettingsService,
     private readonly tenantUserSettingsService: TenantUserSettingsService,
     private readonly languageService: LanguageService,
     private readonly themeService: ThemeService,
     public override translateService: TranslateService,
-    private readonly translateInPipe: TranslateInPipe
+    private readonly translateInPipe: TranslateInPipe,
+    private readonly tenantService: TenantService,
+    private readonly tenantContextService: TenantContextService,
+    private readonly frontEndLogService: FrontEndLogService
   ) {
     super(toastService, translateService);
     this.form = this.initFormGroup();
@@ -114,10 +150,85 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.menuTabsService.resetData();
+    if (this.logoPreviewUrl) {
+      URL.revokeObjectURL(this.logoPreviewUrl);
+    }
   }
 
   public ngOnInit(): void {
     this.fetchSettings();
+    this.fetchLogo();
+  }
+
+  public fetchLogo(): void {
+    const tenantId = this.tenantContextService.tenantId;
+    if (!tenantId) return;
+
+    this.tenantService.getById(tenantId).subscribe({
+      next: (tenant) => {
+        this.logoUrl = this.resolveLogoUrl(tenant?.logoFileName ?? null);
+      },
+    });
+  }
+
+  public resolveLogoUrl(logoFileName: string | null): string | null {
+    if (!logoFileName) return null;
+
+    if (/^https?:\/\//i.test(logoFileName)) {
+      return logoFileName;
+    }
+
+    return `/shared/assets/images/tenant_logos/${logoFileName}`;
+  }
+
+  public async onLogoSelected(event: Event): Promise<void> {
+    this.logoError = null;
+    const input = event.target as HTMLInputElement;
+    const original = input.files?.[0] ?? null;
+
+    if (!original) return;
+
+    if (!GlobalSettingsComponent.AllowedLogoTypes.includes(original.type)) {
+      this.logoError = this.translateService.instant(
+        'venue_application.errors.logo_invalid_type'
+      );
+      input.value = '';
+      return;
+    }
+
+    if (original.size > GlobalSettingsComponent.MaxLogoSizeBytes) {
+      this.logoError = this.translateService.instant(
+        'venue_application.errors.logo_too_large'
+      );
+      input.value = '';
+      return;
+    }
+
+    // Preserve PNG transparency; SVG passes through untouched (helper handles it).
+    const file = await downscaleImageFile(original, {
+      mimeType: original.type === 'image/png' ? 'image/png' : 'image/jpeg',
+    });
+
+    if (this.logoPreviewUrl) {
+      URL.revokeObjectURL(this.logoPreviewUrl);
+    }
+    this.logoFile = file;
+    this.logoFileName = file.name || 'logo';
+    this.logoBlob = null;
+    this.logoPreviewUrl = URL.createObjectURL(file);
+
+    // Read the bytes now, while the File is still readable. On Android the
+    // picked File can become unreadable later, which makes the upload hang.
+    file.arrayBuffer().then(
+      (buffer) => {
+        this.logoBlob = new Blob([buffer], {
+          type: file.type || 'application/octet-stream',
+        });
+      },
+      () => {
+        this.logoBlob = null;
+      }
+    );
   }
 
   public fetchSettings(): void {
@@ -145,6 +256,7 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
               : tenantSettings.daysOff.map((day) => WeekDay[day]),
           startWorkingHours: tenantSettings.startWorkingHours,
           endWorkingHours: tenantSettings.endWorkingHours,
+          timeZoneId: tenantSettings.timeZoneId || DEFAULT_TIME_ZONE_ID,
           language:
             userSettings !== null
               ? SupportLanguages[userSettings.language]
@@ -179,6 +291,7 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
 
   public onSave(): void {
     if (this.form.valid) {
+      this.logoUploadFailed = false;
       let oldLanguage;
       let newLanguage;
 
@@ -234,7 +347,8 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
 
             updatedSettings.language = newLanguage;
             updatedSettings.uiTheme = newTheme;
-            return combineLatest([
+
+            const saveRequests: Observable<unknown>[] = [
               this.tenantSettingsService.update({
                 id: this.tenantSettingsId,
                 averageMaxCapacity: this.form.controls.averageMaxCapacity.value,
@@ -250,6 +364,7 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
                     : [],
                 startWorkingHours: this.form.controls.startWorkingHours.value,
                 endWorkingHours: this.form.controls.endWorkingHours.value,
+                timeZoneId: this.form.controls.timeZoneId.value,
                 challengeInitiationDelayHours:
                   this.form.controls.challengeInitiationDelayHours.value,
                 reservationHours: this.form.controls.reservationHours.value,
@@ -263,7 +378,45 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
               this.tenantUserSettingsService.update(
                 updatedSettings as IUserSettings
               ),
-            ]);
+            ];
+
+            const logoUpload = this.logoBlob ?? this.logoFile;
+            if (logoUpload) {
+              this.logoError = null;
+              saveRequests.push(
+                this.tenantSettingsService
+                  .updateLogo(logoUpload, this.logoFileName ?? 'logo')
+                  .pipe(
+                    timeout(GlobalSettingsComponent.LogoUploadTimeoutMs),
+                    tap((logoUrl) => {
+                      this.logoUrl = this.resolveLogoUrl(logoUrl);
+                      if (this.logoPreviewUrl) {
+                        URL.revokeObjectURL(this.logoPreviewUrl);
+                      }
+                      this.logoPreviewUrl = null;
+                      this.logoFile = null;
+                      this.logoBlob = null;
+                      this.logoFileName = null;
+                    }),
+                    catchError((error) => {
+                      // Don't let a logo-upload failure sink the whole save -
+                      // report it on its own instead.
+                      this.logoUploadFailed = true;
+                      this.frontEndLogService
+                        .sendWarning(
+                          `Club logo upload failed: ${error?.name ?? ''} ${
+                            error?.status ?? ''
+                          } ${error?.message ?? error}`,
+                          'GlobalSettingsComponent.onSave -> updateLogo'
+                        )
+                        .subscribe();
+                      return of(null);
+                    })
+                  )
+              );
+            }
+
+            return combineLatest(saveRequests);
           })
         )
         .subscribe({
@@ -290,17 +443,29 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
               this.oldCustomPeriodValue != newCustomPeriodValue &&
               newCustomPeriodValue === ToggleState.On
             ) {
-              this.router.navigateByUrl(
+              this.tenantRouter.navigateTenant(
                 FULL_ROUTE.CHALLENGES.ADMIN_CUSTOM_PERIOD
               );
             }
 
-            this.toastService.success({
-              message: this.translateService.instant(
-                AppToastMessage.ChangesSaved
-              ),
-              type: ToastType.Success,
-            });
+            if (this.logoUploadFailed) {
+              this.logoError = this.translateService.instant(
+                'space_settings.club_logo.upload_failed'
+              );
+              this.toastService.error({
+                message: this.translateService.instant(
+                  'space_settings.club_logo.upload_failed'
+                ),
+                type: ToastType.Error,
+              });
+            } else {
+              this.toastService.success({
+                message: this.translateService.instant(
+                  AppToastMessage.ChangesSaved
+                ),
+                type: ToastType.Success,
+              });
+            }
           },
           error: (error) => {
             this.handleServerErrors(error);
@@ -316,7 +481,7 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
   }
 
   public backNavigateBtn() {
-    this.router.navigateByUrl(ROUTE.PROFILE.CORE);
+    this.tenantRouter.navigateTenant(ROUTE.PROFILE.CORE);
   }
 
   protected override getControlDisplayName(controlName: string): string {
@@ -356,6 +521,10 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
       case 'endWorkingHours':
         return this.translateService.instant(
           'space_settings.control_display_names.end_working_hours'
+        );
+      case 'timeZoneId':
+        return this.translateService.instant(
+          'space_settings.control_display_names.time_zone_id'
         );
       case 'challengeInitiationDelayHours':
         return this.translateService.instant(
@@ -446,6 +615,9 @@ export class GlobalSettingsComponent extends Form implements OnInit, OnDestroy {
         Validators.required,
       ]),
       endWorkingHours: new FormControl<Date | null>(null, [
+        Validators.required,
+      ]),
+      timeZoneId: new FormControl<string | null>(DEFAULT_TIME_ZONE_ID, [
         Validators.required,
       ]),
       daysOff: new FormControl<string[] | null>(null),

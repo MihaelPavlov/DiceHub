@@ -2,7 +2,7 @@
 
 namespace DH.Domain.Entities;
 
-public class Challenge
+public class Challenge : TenantEntity
 {
     public int Id { get; set; }
     public ChallengeRewardPoint RewardPoints { get; set; }

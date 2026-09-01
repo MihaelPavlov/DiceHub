@@ -76,6 +76,10 @@ namespace DH.Adapter.Authentication.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
 
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("TimeZone")
                         .IsRequired()
                         .HasColumnType("text");

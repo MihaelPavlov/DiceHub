@@ -1,6 +1,6 @@
 ﻿namespace DH.Domain.Entities;
 
-public class CustomPeriodUserChallenge
+public class CustomPeriodUserChallenge : TenantEntity
 {
     public int Id { get; set; }
     public int ChallengeAttempts { get; set; }

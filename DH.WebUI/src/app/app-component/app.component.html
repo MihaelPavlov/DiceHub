@@ -3,7 +3,7 @@
 <app-assistive-touch
   (updateUserNotifications)="onUpdateUserNotifications()"
   [areAnyActiveNotifications]="this.areAnyActiveNotificationSubject"
-  *ngIf="this.userInfo | async"
+  *ngIf="(this.userInfo | async) && !isSystemAdmin"
 ></app-assistive-touch>
 <app-scroll-to-top></app-scroll-to-top>
 <app-navigation-menu *ngIf="(this.userInfo | async) && !hideMenu" />

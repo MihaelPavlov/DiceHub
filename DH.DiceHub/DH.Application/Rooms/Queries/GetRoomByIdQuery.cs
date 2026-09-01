@@ -12,12 +12,13 @@ public record GetRoomByIdQuery(int Id) : IRequest<GetRoomByIdQueryModel>;
 internal class GetRoomByIdQueryHandler : IRequestHandler<GetRoomByIdQuery, GetRoomByIdQueryModel>
 {
     readonly IRoomService roomService;
-    readonly IUserService userService;
+    readonly IUserManagementService userManagementService;
 
-    public GetRoomByIdQueryHandler(IRoomService roomService, IUserService userService)
+    public GetRoomByIdQueryHandler(
+        IRoomService roomService, IUserManagementService userManagementService)
     {
         this.roomService = roomService;
-        this.userService = userService;
+        this.userManagementService = userManagementService;
     }
 
     public async Task<GetRoomByIdQueryModel> Handle(GetRoomByIdQuery request, CancellationToken cancellationToken)
@@ -25,7 +26,7 @@ internal class GetRoomByIdQueryHandler : IRequestHandler<GetRoomByIdQuery, GetRo
         var room = await this.roomService.GetById(request.Id, cancellationToken)
             ?? throw new NotFoundException(nameof(Room), request.Id);
 
-        var users = await this.userService.GetUserListByIds([room.CreatedBy], cancellationToken);
+        var users = await this.userManagementService.GetUserListByIds([room.CreatedBy], cancellationToken);
 
         var user = users.FirstOrDefault(x => x.Id == room.CreatedBy);
         if (user != null)

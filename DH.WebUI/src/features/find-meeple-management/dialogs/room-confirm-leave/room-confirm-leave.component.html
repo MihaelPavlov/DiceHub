@@ -1,13 +1,21 @@
-<div class="dialog-container">
-  <h3 class="dialog-container__header m-4">
-    {{ "meeple.room.leave_room_question" | translate }}
-  </h3>
-  <mat-dialog-actions>
-    <button class="btn btn__small btn-blue" mat-dialog-close>
+<div class="confirm-sheet" appSheetDismiss>
+  <div class="confirm-sheet__handle"></div>
+
+  <div class="confirm-sheet__centered">
+    <div class="confirm-sheet__icon confirm-sheet__icon--lg confirm-sheet__icon--amber">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3"/><path d="M15 8l4 4-4 4"/><path d="M19 12H9"/>
+      </svg>
+    </div>
+    <div class="confirm-sheet__title">{{ "meeple.room.leave_room_question" | translate }}</div>
+  </div>
+
+  <div class="confirm-sheet__actions">
+    <button class="confirm-sheet__btn confirm-sheet__btn--ghost" mat-dialog-close>
       {{ "cancel" | translate }}
     </button>
-    <button class="btn btn__small btn-red btn-border-red" (click)="onLeave()">
+    <button class="confirm-sheet__btn confirm-sheet__btn--amber" (click)="onLeave()">
       {{ "leave" | translate }}
     </button>
-  </mat-dialog-actions>
+  </div>
 </div>

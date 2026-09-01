@@ -1,0 +1,55 @@
+import { catchError, map, Observable, of } from 'rxjs';
+import { ITenantListResult } from '../../entities/common/models/tenant-list.model';
+import { PATH } from '../configs/path.config';
+import { RestApiService } from './rest-api.service';
+import { Injectable } from '@angular/core';
+
+@Injectable({ providedIn: 'root' })
+export class TenantService {
+  constructor(private readonly api: RestApiService) {}
+
+  public getList(): Observable<ITenantListResult[] | null> {
+    return this.api.get<ITenantListResult[]>(
+      `/${PATH.TENANT.CORE}/${PATH.TENANT.LIST}`,
+      {
+        requiredTenant: false,
+      }
+    );
+  }
+
+  public getById(id: string): Observable<ITenantListResult> {
+    return this.api.get<ITenantListResult>(`/${PATH.TENANT.CORE}/${id}`, {
+      requiredTenant: false,
+    });
+  }
+
+  public validateTenant(tenantId: string): Observable<boolean> {
+    return this.api
+      .get<boolean>(
+        `/${PATH.TENANT.CORE}/${tenantId}/${PATH.TENANT.EXISTS}`,
+        {
+          requiredTenant: false,
+        }
+      )
+      .pipe(
+        map(() => true),
+        catchError(() => of(false))
+      );
+  }
+
+  public validateTenantSetupToken(token: string | null): Observable<boolean> {
+    const query = token ? `?token=${encodeURIComponent(token)}` : '';
+
+    return this.api
+      .get<boolean>(
+        `/${PATH.TENANT.CORE}/${PATH.TENANT.TENANT_SETUP_EXISTS}${query}`,
+        {
+          requiredTenant: false,
+        }
+      )
+      .pipe(
+        map(() => true),
+        catchError(() => of(false))
+      );
+  }
+}

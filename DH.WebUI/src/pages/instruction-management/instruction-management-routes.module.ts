@@ -13,12 +13,14 @@ const routes: Routes = [
     path: ':key/:linkName',
     component: InstructionComponent,
   },
+  { path: 'owner_setup', component: InstructionLinksComponent },
   { path: 'how_to_install', component: InstructionLinksComponent },
   { path: 'notifications', component: InstructionLinksComponent },
   { path: 'reservation', component: InstructionLinksComponent },
   { path: 'events', component: InstructionLinksComponent },
   { path: 'challenges', component: InstructionLinksComponent },
   { path: 'meeples', component: InstructionLinksComponent },
+  { path: 'troubleshooting', component: InstructionLinksComponent },
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],

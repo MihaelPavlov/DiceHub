@@ -1,0 +1,38 @@
+<div class="install-prompt" *ngIf="isVisible">
+  <button
+    type="button"
+    class="install-prompt__close"
+    (click)="dismiss()"
+    [attr.aria-label]="'close' | translate"
+  >
+    &times;
+  </button>
+
+  <div class="install-prompt__body">
+    <p class="install-prompt__title">{{ "install_prompt.title" | translate }}</p>
+    <p class="install-prompt__message">{{ "install_prompt.message" | translate }}</p>
+
+    <div class="install-prompt__actions">
+      <a
+        class="btn btn-gray btn-border-blue btn-font-blue"
+        [href]="playStoreUrl"
+        target="_blank"
+        rel="noopener"
+      >
+        {{ "install_prompt.get_on_google_play" | translate }}
+      </a>
+      <button
+        type="button"
+        class="btn btn-gray btn-border-blue btn-font-blue"
+        (click)="installPwa()"
+      >
+        {{ "install_prompt.install_as_pwa" | translate }}
+      </button>
+    </div>
+
+    <p class="install-prompt__help" *ngIf="showInstallHelp">
+      {{ "install_prompt.trouble_message" | translate }}
+      <a (click)="goToInstallInstructions()">{{ "install_prompt.view_instructions" | translate }}</a>
+    </p>
+  </div>
+</div>

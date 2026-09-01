@@ -1,6 +1,7 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { IGameByIdResult } from '../../../../../entities/games/models/game-by-id.model';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
+import { FormDraftService, IFormDraftOptions } from '../../../../../shared/services/form-draft.service';
 import { GamesService } from '../../../../../entities/games/api/games.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -18,17 +19,26 @@ import { NAV_ITEM_LABELS } from '../../../../../shared/models/nav-items-labels.c
 import { NavigationService } from '../../../../../shared/services/navigation-service';
 import { DateHelper } from '../../../../../shared/helpers/date-helper';
 import { LanguageService } from '../../../../../shared/services/language.service';
+import { TenantRouter } from '../../../../../shared/helpers/tenant-router';
+import { FULL_ROUTE } from '../../../../../shared/configs/route.config';
+import { TranslateService } from '@ngx-translate/core';
 
 enum ReviewState {
   create,
   update,
 }
 
+interface IGameReviewDraftExtra {
+  reviewState: ReviewState;
+  reviewIdForUpdate: number | null;
+  isInputOpen: boolean;
+}
+
 @Component({
-    selector: 'app-game-reviews',
-    templateUrl: 'game-reviews.component.html',
-    styleUrl: 'game-reviews.component.scss',
-    standalone: false
+  selector: 'app-game-reviews',
+  templateUrl: 'game-reviews.component.html',
+  styleUrl: 'game-reviews.component.scss',
+  standalone: false,
 })
 export class GameReviewsComponent implements OnInit, OnDestroy {
   public game!: IGameByIdResult;
@@ -53,6 +63,7 @@ export class GameReviewsComponent implements OnInit, OnDestroy {
   public readonly dialog = inject(MatDialog);
 
   public readonly DATE_FORMAT: string = DateHelper.DATE_FORMAT;
+  private draftSubscription: Subscription | null = null;
 
   constructor(
     private readonly fb: FormBuilder,
@@ -63,8 +74,10 @@ export class GameReviewsComponent implements OnInit, OnDestroy {
     private readonly activeRoute: ActivatedRoute,
     private readonly menuTabsService: MenuTabsService,
     private readonly navigationService: NavigationService,
-    private readonly router: Router,
-    private readonly languageService: LanguageService
+    private readonly tenantRouter: TenantRouter,
+    private readonly languageService: LanguageService,
+    private readonly translateService: TranslateService,
+    private readonly formDraftService: FormDraftService
   ) {
     this.menuTabsService.setActive(NAV_ITEM_LABELS.GAMES);
   }
@@ -75,6 +88,37 @@ export class GameReviewsComponent implements OnInit, OnDestroy {
   }
   public ngOnDestroy(): void {
     this.menuTabsService.resetData();
+    this.draftSubscription?.unsubscribe();
+  }
+
+  private draftKey(gameId: number): string {
+    return `gameReview:${gameId}`;
+  }
+
+  private readonly reviewDraftOptions: IFormDraftOptions<IGameReviewDraftExtra> = {
+    getExtra: () => ({
+      reviewState: this.currentReviewState,
+      reviewIdForUpdate: this.currentReviewIdForUpdate ?? null,
+      isInputOpen: this.showCommentInput.value,
+    }),
+    applyExtra: (extra) => {
+      this.currentReviewState = extra.reviewState;
+      if (extra.reviewIdForUpdate !== null) {
+        this.currentReviewIdForUpdate = extra.reviewIdForUpdate;
+      }
+      this.showCommentInput.next(extra.isInputOpen);
+    },
+  };
+
+  /**
+   * currentReviewState/currentReviewIdForUpdate/showCommentInput flip from button
+   * clicks, not from typing in the review textarea - the debounced autosave (keyed
+   * off reviewForm.valueChanges) never fires for them on its own. Without this,
+   * opening the compose box then backgrounding the app before typing anything would
+   * restore to a stale draft that still thinks the box is closed.
+   */
+  private saveReviewDraftNow(): void {
+    this.formDraftService.save(this.reviewForm, this.draftKey(this.game.id), this.reviewDraftOptions);
   }
 
   public openDeleteDialog(id: number): void {
@@ -102,6 +146,14 @@ export class GameReviewsComponent implements OnInit, OnDestroy {
         this.gameService.getById(gameId).subscribe((x) => {
           this.game = x;
           this.fetchGameReviews();
+
+          // Keyed per-game so an in-progress review on one game doesn't leak into
+          // another game's review box after an Android process kill.
+          this.draftSubscription = this.formDraftService.autoSave(
+            this.reviewForm,
+            this.draftKey(this.game.id),
+            this.reviewDraftOptions
+          );
         });
     });
   }
@@ -116,13 +168,17 @@ export class GameReviewsComponent implements OnInit, OnDestroy {
         })
         .subscribe((x) => this.fetchGameReviews());
       this.showCommentInput.next(false);
-      this.reviewForm.reset();
+      // emitEvent: false - a normal reset() fires valueChanges, which would schedule
+      // a new (blank) debounced autosave that clear() below can't prevent, silently
+      // reviving an empty draft.
+      this.reviewForm.reset({}, { emitEvent: false });
+      this.formDraftService.clear(this.draftKey(this.game.id));
     }
   }
 
   public navigateBack(): void {
-    this.router.navigateByUrl(
-      this.navigationService.getPreviousUrl() ?? '/games/library'
+    this.tenantRouter.navigateTenant(
+      this.navigationService.getPreviousUrl() ?? FULL_ROUTE.GAMES.LIBRARY
     );
   }
 
@@ -136,14 +192,15 @@ export class GameReviewsComponent implements OnInit, OnDestroy {
         })
         .subscribe((x) => {
           this.toastService.success({
-            message: 'Succesefully updated',
+            message: this.translateService.instant('successfully_updated'),
             type: ToastType.Success,
           });
           this.fetchGameReviews();
         });
       this.showCommentInput.next(false);
       this.currentReviewState = ReviewState.create;
-      this.reviewForm.reset();
+      this.reviewForm.reset({}, { emitEvent: false });
+      this.formDraftService.clear(this.draftKey(this.game.id));
     }
   }
 
@@ -160,6 +217,9 @@ export class GameReviewsComponent implements OnInit, OnDestroy {
       this.reviewForm.reset();
     }
     this.showCommentInput.next(value);
+    if (!triggerAction) {
+      this.saveReviewDraftNow();
+    }
   }
 
   public startUpdatingComment(id: number, review: string) {
@@ -167,6 +227,7 @@ export class GameReviewsComponent implements OnInit, OnDestroy {
     this.currentReviewIdForUpdate = id;
     this.currentReviewState = ReviewState.update;
     this.showCommentInput.next(true);
+    this.saveReviewDraftNow();
     window.scroll({
       top: 0,
       left: 0,

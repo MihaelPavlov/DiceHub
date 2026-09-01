@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { UsersService } from '../../../../entities/profile/api/user.service';
 import { NAV_ITEM_LABELS } from '../../../../shared/models/nav-items-labels.const';
 import { MenuTabsService } from '../../../../shared/services/menu-tabs.service';
@@ -16,8 +16,10 @@ import { AppToastMessage } from '../../../../shared/components/toast/constants/a
 import { ToastType } from '../../../../shared/models/toast.model';
 import { NavigationService } from '../../../../shared/services/navigation-service';
 import { FULL_ROUTE } from '../../../../shared/configs/route.config';
-import { throwError } from 'rxjs';
+import { Subscription, throwError } from 'rxjs';
+import { FormDraftService } from '../../../../shared/services/form-draft.service';
 import { TranslateService } from '@ngx-translate/core';
+import { TenantRouter } from '../../../../shared/helpers/tenant-router';
 
 interface IEmployeeForm {
   email: string;
@@ -36,6 +38,8 @@ export class AddUpdateEmployeeComponent extends Form implements OnDestroy {
   override form: Formify<IEmployeeForm>;
   public isMenuVisible: boolean = false;
   public editEmployeeId: string | null = null;
+  private static readonly DraftKey = 'addUpdateEmployee';
+  private draftSubscription: Subscription | null = null;
 
   constructor(
     private readonly menuTabsService: MenuTabsService,
@@ -44,8 +48,9 @@ export class AddUpdateEmployeeComponent extends Form implements OnDestroy {
     private readonly navigationService: NavigationService,
     private readonly activatedRoute: ActivatedRoute,
     private readonly fb: FormBuilder,
-    private readonly router: Router,
-    public override translateService: TranslateService
+    private readonly tenantRouter: TenantRouter,
+    public override translateService: TranslateService,
+    private readonly formDraftService: FormDraftService
   ) {
     super(toastService, translateService);
     this.form = this.initFormGroup();
@@ -54,6 +59,7 @@ export class AddUpdateEmployeeComponent extends Form implements OnDestroy {
         this.clearServerErrorMessage();
       }
     });
+    this.draftSubscription = this.formDraftService.autoSave(this.form, AddUpdateEmployeeComponent.DraftKey);
     this.menuTabsService.setActive(NAV_ITEM_LABELS.PROFILE);
 
     this.activatedRoute.paramMap.subscribe((params) => {
@@ -71,6 +77,7 @@ export class AddUpdateEmployeeComponent extends Form implements OnDestroy {
 
   public ngOnDestroy(): void {
     this.menuTabsService.resetData();
+    this.draftSubscription?.unsubscribe();
   }
 
   public onAdd(): void {
@@ -90,6 +97,7 @@ export class AddUpdateEmployeeComponent extends Form implements OnDestroy {
               ),
               type: ToastType.Success,
             });
+            this.formDraftService.clear(AddUpdateEmployeeComponent.DraftKey);
 
             this.onBack();
           },
@@ -128,6 +136,7 @@ export class AddUpdateEmployeeComponent extends Form implements OnDestroy {
               ),
               type: ToastType.Success,
             });
+            this.formDraftService.clear(AddUpdateEmployeeComponent.DraftKey);
 
             this.onBack();
           },
@@ -169,8 +178,8 @@ export class AddUpdateEmployeeComponent extends Form implements OnDestroy {
   public onBack(): void {
     let url = this.navigationService.getPreviousUrl();
 
-    if (url) this.router.navigateByUrl(url);
-    else this.router.navigateByUrl(FULL_ROUTE.PROFILE.EMPLOYEES);
+    if (url) this.tenantRouter.navigateTenant(url);
+    else this.tenantRouter.navigateTenant(FULL_ROUTE.PROFILE.EMPLOYEES);
   }
 
   protected override getControlDisplayName(controlName: string): string {

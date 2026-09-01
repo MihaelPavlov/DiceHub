@@ -1,3 +1,4 @@
+import { TenantRouter } from './../../../../shared/helpers/tenant-router';
 import {
   Component,
   OnInit
@@ -34,7 +35,7 @@ export class LeaderboardChallengesComponent implements OnInit {
   public currentUserRank: number | null = null;
   public currentUserChallengeCountValue: number = 0;
   constructor(
-    private readonly router: Router,
+    private readonly tenantRouter: TenantRouter,
     private readonly toastService: ToastService,
     private readonly statisticsService: StatisticsService,
     private readonly userService: UsersService,
@@ -47,7 +48,7 @@ export class LeaderboardChallengesComponent implements OnInit {
   }
 
   public backNavigateBtn(): void {
-    this.router.navigateByUrl(ROUTE.PROFILE.CORE);
+    this.tenantRouter.navigateTenant(ROUTE.PROFILE.CORE);
   }
 
   public get getCurrentUserRank(): number | null {

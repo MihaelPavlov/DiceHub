@@ -3,6 +3,7 @@ using DH.Domain.Adapters.Scheduling.Enums;
 using DH.Domain.Entities;
 using DH.Domain.Enums;
 using DH.Domain.Repositories;
+using DH.Domain.Services;
 
 namespace DH.Adapter.Scheduling.Handlers;
 
@@ -15,13 +16,23 @@ public class ReservationExpirationHandler : IReservationExpirationHandler
     readonly IRepository<SpaceTableReservation> tableReservationRepository;
     readonly IRepository<GameInventory> inventoryRepository;
     readonly IRepository<FailedJob> failedJobsRepository;
+    readonly ITenantDirectoryService tenantDirectoryService;
+    readonly ITenantContextScopeRunner tenantContextScopeRunner;
 
-    public ReservationExpirationHandler(IRepository<GameReservation> gameReservationRepository, IRepository<SpaceTableReservation> tableReservationRepository, IRepository<GameInventory> inventoryRepository, IRepository<FailedJob> failedJobsRepository)
+    public ReservationExpirationHandler(
+        IRepository<GameReservation> gameReservationRepository,
+        IRepository<SpaceTableReservation> tableReservationRepository,
+        IRepository<GameInventory> inventoryRepository,
+        IRepository<FailedJob> failedJobsRepository,
+        ITenantDirectoryService tenantDirectoryService,
+        ITenantContextScopeRunner tenantContextScopeRunner)
     {
         this.gameReservationRepository = gameReservationRepository;
         this.tableReservationRepository = tableReservationRepository;
         this.failedJobsRepository = failedJobsRepository;
         this.inventoryRepository = inventoryRepository;
+        this.tenantDirectoryService = tenantDirectoryService;
+        this.tenantContextScopeRunner = tenantContextScopeRunner;
     }
 
     /// <inheritdoc/>
@@ -33,27 +44,35 @@ public class ReservationExpirationHandler : IReservationExpirationHandler
     /// <inheritdoc/>
     public async Task ProcessReservationExpirationAsync(CancellationToken cancellationToken)
     {
-        var gameReservations = await gameReservationRepository.GetWithPropertiesAsync(x =>
-            x.IsActive == true &&
-            DateTime.UtcNow >= x.ReservationDate,
-            x => x, cancellationToken);
+        var tenantIds = await this.tenantDirectoryService.GetActiveTenantIdsAsync(cancellationToken);
 
-        foreach (var reservation in gameReservations)
+        foreach (var tenantId in tenantIds)
         {
-            await ProcessGameReservationExpiration(reservation, cancellationToken);
+            await this.tenantContextScopeRunner.RunAsTenantAsync(tenantId, async () =>
+            {
+                var gameReservations = await gameReservationRepository.GetWithPropertiesAsync(x =>
+                    x.IsActive == true &&
+                    DateTime.UtcNow >= x.ReservationDate,
+                    x => x, cancellationToken);
+
+                foreach (var reservation in gameReservations)
+                {
+                    await ProcessGameReservationExpiration(reservation, cancellationToken);
+                }
+
+                var tableReservations = await tableReservationRepository.GetWithPropertiesAsync(x =>
+                    x.IsActive == true &&
+                    DateTime.UtcNow >= x.ReservationDate,
+                    x => x, cancellationToken);
+
+                foreach (var reservation in tableReservations)
+                {
+                    await ProcessTableReservationExpiration(reservation, cancellationToken);
+                }
+
+                await gameReservationRepository.SaveChangesAsync(cancellationToken);
+            });
         }
-
-        var tableReservations = await tableReservationRepository.GetWithPropertiesAsync(x =>
-            x.IsActive == true &&
-            DateTime.UtcNow >= x.ReservationDate,
-            x => x, cancellationToken);
-
-        foreach (var reservation in tableReservations)
-        {
-            await ProcessTableReservationExpiration(reservation, cancellationToken);
-        }
-
-        await gameReservationRepository.SaveChangesAsync(cancellationToken);
     }
 
     private async Task ProcessGameReservationExpiration(GameReservation reservation, CancellationToken cancellationToken)

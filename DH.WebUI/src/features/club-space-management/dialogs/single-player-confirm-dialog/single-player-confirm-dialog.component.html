@@ -1,16 +1,21 @@
-<div class="dialog-container">
-  <h3 class="dialog-container__header m-4">
-    {{ "single_player_confirm_dialog.dialog_header_solo_game" | translate }}
-  </h3>
-  <mat-dialog-actions>
-    <button class="btn btn__small btn-blue" mat-dialog-close>
+<div class="confirm-sheet" appSheetDismiss>
+  <div class="confirm-sheet__handle"></div>
+
+  <div class="confirm-sheet__centered">
+    <div class="confirm-sheet__icon confirm-sheet__icon--lg confirm-sheet__icon--amber">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="8" r="3.5"/><path d="M5 20c1.2-4 4-5.5 7-5.5s5.8 1.5 7 5.5"/>
+      </svg>
+    </div>
+    <div class="confirm-sheet__title">{{ "single_player_confirm_dialog.dialog_header_solo_game" | translate }}</div>
+  </div>
+
+  <div class="confirm-sheet__actions">
+    <button class="confirm-sheet__btn confirm-sheet__btn--ghost" mat-dialog-close>
       {{ "single_player_confirm_dialog.button_no" | translate }}
     </button>
-    <button
-      class="btn btn__small btn-red btn-border-red"
-      (click)="onSinglePlayer()"
-    >
+    <button class="confirm-sheet__btn confirm-sheet__btn--amber" (click)="onSinglePlayer()">
       {{ "single_player_confirm_dialog.button_yes" | translate }}
     </button>
-  </mat-dialog-actions>
+  </div>
 </div>

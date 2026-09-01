@@ -1,0 +1,167 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Sora:wght@400;500;600;700&display=swap');
+    :root {
+      --bg: oklch(0.15 0.018 290);
+      --bg-elevated: oklch(0.195 0.02 290);
+      --bg-elevated-2: oklch(0.245 0.022 290);
+      --border: oklch(0.34 0.02 290 / 0.55);
+      --text: oklch(0.96 0.01 90);
+      --text-muted: oklch(0.7 0.02 290);
+      --text-faint: oklch(0.52 0.02 290);
+      --amber: oklch(0.78 0.16 75);
+      --amber-soft: oklch(0.78 0.16 75 / 0.16);
+      --coral: oklch(0.68 0.19 25);
+      --teal: oklch(0.72 0.14 165);
+      --violet: oklch(0.66 0.17 300);
+      --shadow-card: 0 10px 30px -12px oklch(0 0 0 / 0.55);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #0b0b0d; font-family: 'Sora', ui-sans-serif, system-ui, sans-serif; }
+    .display { font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif; }
+    .nav-item { display: flex; align-items: center; gap: 12px; padding: 11px 14px; border-radius: 12px; }
+    .nav-item span { font-size: 13.5px; font-weight: 600; color: var(--text-muted); }
+    .nav-item.active { background: var(--amber-soft); }
+    .nav-item.active span { color: var(--amber); font-weight: 700; }
+    .settings-group-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em; color: var(--text-faint); text-transform: uppercase; margin-bottom: 8px; display: block; }
+    .settings-link { display: block; font-size: 13.5px; font-weight: 600; color: var(--text-muted); padding: 9px 12px; border-radius: 10px; }
+    .settings-link.active { background: var(--amber-soft); color: var(--amber); font-weight: 700; }
+    .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; color: var(--amber); text-transform: uppercase; }
+    .section-card { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 4px; }
+    .kv { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+    .kv:last-child { border-bottom: none; }
+    .kv span:first-child { font-size: 13px; color: var(--text-muted); }
+    .kv span:last-child { font-size: 13.5px; font-weight: 600; text-align: right; }
+  </style>
+</helmet>
+
+<div style="width:1440px;min-height:720px;display:flex;background:var(--bg);color:var(--text);">
+
+  <!-- Sidebar -->
+  <div style="width:264px;flex-shrink:0;background:var(--bg-elevated);border-right:1px solid var(--border);padding:28px 18px;display:flex;flex-direction:column;gap:30px;">
+    <div style="display:flex;align-items:center;gap:10px;padding:0 6px;">
+      <div style="width:36px;height:36px;border-radius:11px;background:linear-gradient(135deg,var(--amber),var(--coral));display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#2b1502" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8v4a4 4 0 0 1-8 0z"/><path d="M8 5H5a3 3 0 0 0 3 5"/><path d="M16 5h3a3 3 0 0 1-3 5"/><path d="M10 13v3M14 13v3"/><path d="M8 20h8"/><path d="M9 17h6l1 3H8z"/></svg>
+      </div>
+      <span class="display" style="font-size:17px;font-weight:800;">DiceHub</span>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:3px;">
+      <div class="nav-item">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9a1 1 0 0 0 1 1h4v-6h2v6h4a1 1 0 0 0 1-1v-9"/></svg>
+        <span>Games</span>
+      </div>
+      <div class="nav-item">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2 1.6 1.6 0 0 0 0 6 2 2 0 0 1-2 2H6a2 2 0 0 1-2-2 1.6 1.6 0 0 0 0-6z"/><path d="M9 7.5v2M9 12.5v2M9 17v-2"/></svg>
+        <span>Events</span>
+      </div>
+      <div class="nav-item">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 19c.8-3.3 3-5 6-5s5.2 1.7 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 12.2c2.6.2 4 1.7 4.6 4.3"/></svg>
+        <span>Meeples</span>
+      </div>
+      <div class="nav-item">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16"/><path d="M8 3v4M16 3v4"/><path d="M9.5 14l1.8 1.8L15 12"/></svg>
+        <span>Reservations</span>
+      </div>
+      <div class="nav-item">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M4 12h10"/><path d="M14 4v16"/><circle cx="9" cy="8" r="1.3"/></svg>
+        <span>Space</span>
+      </div>
+      <div class="nav-item">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--text-faint)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8v4a4 4 0 0 1-8 0z"/><path d="M8 5H5a3 3 0 0 0 3 5"/><path d="M16 5h3a3 3 0 0 1-3 5"/><path d="M10 13v3M14 13v3"/><path d="M8 20h8"/><path d="M9 17h6l1 3H8z"/></svg>
+        <span>Challenges</span>
+      </div>
+      <div class="nav-item active">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c1.2-4 4-5.5 7-5.5s5.8 1.5 7 5.5"/></svg>
+        <span>Profile</span>
+      </div>
+    </div>
+
+    <div style="margin-top:auto;display:flex;align-items:center;gap:10px;padding:10px;border-radius:14px;background:var(--bg-elevated-2);border:1px solid var(--border);">
+      <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--violet));flex-shrink:0;"></div>
+      <div style="display:flex;flex-direction:column;min-width:0;">
+        <span style="font-size:12.5px;font-weight:700;">Ivan Petrov</span>
+        <span style="font-size:11px;color:var(--text-faint);">Dice &amp; Dragons Club</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings sub-nav -->
+  <div style="width:240px;flex-shrink:0;border-right:1px solid var(--border);padding:40px 20px;display:flex;flex-direction:column;gap:24px;">
+    <div>
+      <span class="settings-group-label">Personal</span>
+      <a href="#" class="settings-link">Profile</a>
+      <a href="#" class="settings-link">User Settings</a>
+    </div>
+    <div>
+      <span class="settings-group-label">Club Management</span>
+      <a href="#" class="settings-link">Global Settings</a>
+      <a href="#" class="settings-link">Club Info</a>
+      <a href="#" class="settings-link">Employees</a>
+    </div>
+    <div>
+      <span class="settings-group-label">Platform Admin</span>
+      <a href="#" class="settings-link">Owner Details</a>
+      <a href="#" class="settings-link">Jobs</a>
+      <a href="#" class="settings-link">Applicants</a>
+      <a href="#" class="settings-link active">Tenants</a>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div style="flex:1;min-width:0;display:flex;justify-content:center;padding:48px;">
+    <div style="width:100%;max-width:640px;display:flex;flex-direction:column;gap:24px;">
+
+      <a href="#" style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--text-muted);">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+        Tenants
+      </a>
+
+      <div style="display:flex;align-items:center;gap:16px;">
+        <div style="width:68px;height:68px;border-radius:18px;flex-shrink:0;background:linear-gradient(135deg,var(--amber),var(--coral));display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:26px;color:#2b1502;box-shadow:var(--shadow-card);">R</div>
+        <div style="display:flex;flex-direction:column;gap:4px;">
+          <span class="eyebrow">Tenant details</span>
+          <span class="display" style="font-size:24px;font-weight:800;">The Rolling Dice Cafe</span>
+          <span style="font-size:12px;color:var(--text-faint);font-family:monospace;">tn_8f2a91c4</span>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 24px;">
+          <div class="kv"><span>Contact name</span><span>Elena Petrova</span></div>
+          <div class="kv"><span>Email</span><span>elena@rollingdice.cafe</span></div>
+          <div class="kv"><span>Phone</span><span>+1 (555) 010-2233</span></div>
+          <div class="kv"><span>Address</span><span>123 Main Street, Springfield</span></div>
+          <div class="kv"><span>Capacity</span><span>40</span></div>
+          <div class="kv"><span>Working hours</span><span>10:00 – 23:00</span></div>
+          <div class="kv"><span>Days off</span><span>Monday</span></div>
+          <div class="kv"><span>Website</span><span>rollingdice.cafe</span></div>
+          <div class="kv"><span>Social page</span><span>instagram.com/rollingdice</span></div>
+          <div class="kv"><span>Created</span><span>Jul 02, 2026</span></div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <a href="#" style="text-align:center;font-size:14px;font-weight:700;padding:15px 0;border-radius:999px;background:linear-gradient(135deg,var(--amber),var(--coral));color:#2b1502;box-shadow:0 10px 24px -8px var(--amber-soft);">Visit tenant</a>
+        <span style="text-align:center;font-size:11.5px;color:var(--text-faint);">Opens the tenant's information views as SuperAdmin.</span>
+      </div>
+
+    </div>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

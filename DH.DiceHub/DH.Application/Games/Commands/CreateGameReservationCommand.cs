@@ -13,7 +13,6 @@ using DH.Domain.Services;
 using DH.Domain.Services.TenantSettingsService;
 using DH.OperationResultCore.Exceptions;
 using MediatR;
-using Microsoft.Extensions.Logging;
 
 namespace DH.Application.Games.Commands;
 
@@ -24,10 +23,9 @@ internal class CreateGameReservationCommandHandler(
     IRepository<GameReservation> repository,
     IUserContext userContext, IReservationCleanupQueue queue,
     IPushNotificationsService pushNotificationsService,
-    IUserService userService,
+    IUserManagementService userManagementService,
     IRepository<Game> gameRepository,
     ITenantSettingsCacheService tenantSettingsCacheService,
-    ILogger<CreateGameReservationCommandHandler> logger,
     ILocalizationService localizer) : IRequestHandler<CreateGameReservationCommand>
 {
     readonly IGameService gameService = gameService;
@@ -35,10 +33,9 @@ internal class CreateGameReservationCommandHandler(
     readonly IRepository<Game> gameRepository = gameRepository;
     readonly IUserContext userContext = userContext;
     readonly IPushNotificationsService pushNotificationsService = pushNotificationsService;
-    readonly IUserService userService = userService;
+    readonly IUserManagementService userManagementService = userManagementService;
     readonly ITenantSettingsCacheService tenantSettingsCacheService = tenantSettingsCacheService;
     readonly IReservationCleanupQueue queue = queue;
-    readonly ILogger<CreateGameReservationCommandHandler> logger = logger;
     readonly ILocalizationService localizer = localizer;
 
     public async Task Handle(CreateGameReservationCommand request, CancellationToken cancellationToken)
@@ -51,7 +48,7 @@ internal class CreateGameReservationCommandHandler(
         var reservation = new GameReservation
         {
             GameId = request.Reservation.GameId,
-            UserId = this.userContext.UserId,
+            UserId = this.userContext.UserId!,
             ReservationDate = DateTime.UtcNow.AddMinutes(request.Reservation.DurationInMinutes),
             CreatedDate = DateTime.UtcNow,
             ReservedDurationMinutes = request.Reservation.DurationInMinutes,
@@ -66,8 +63,8 @@ internal class CreateGameReservationCommandHandler(
 
         await this.queue.AddReservationCleaningJob(reservation.Id, ReservationType.Game, reservation.ReservationDate.AddMinutes(settings.BonusTimeAfterReservationExpiration));
 
-        var users = await this.userService.GetUserListByRoles([Role.Staff, Role.SuperAdmin], cancellationToken);
-        var getUsers = await this.userService.GetUserListByIds([this.userContext.UserId], cancellationToken);
+        var users = await this.userManagementService.GetUserListByRoles([Role.Staff, Role.SuperAdmin], cancellationToken);
+        var getUsers = await this.userManagementService.GetUserListByIds([this.userContext.UserId!], cancellationToken);
         var currentUser = getUsers.First();
 
         var game = await this.gameRepository.GetByAsync(x => x.Id == request.Reservation.GameId, cancellationToken);

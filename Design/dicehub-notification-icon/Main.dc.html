@@ -1,0 +1,232 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Sora:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+    :root {
+      --games-bg: #17151d;
+      --games-surface: #221f2a;
+      --games-surface-2: #2c2834;
+      --games-border: rgba(255, 255, 255, 0.13);
+      --games-text: #f7f2e8;
+      --games-muted: #b2aeb8;
+      --games-faint: #817b89;
+      --games-coral: #bf3c65;
+      --games-shadow: 0 16px 36px -20px rgba(0, 0, 0, 0.72);
+      --games-blue: oklch(0.7 0.13 250);
+      --games-blue-light: oklch(0.82 0.08 250);
+      --games-blue-soft: oklch(0.7 0.13 250 / 0.16);
+      --games-blue-glow: oklch(0.7 0.13 250 / 0.5);
+      --games-blue-ink: #0b1830;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--games-bg); font-family: 'Sora', ui-sans-serif, system-ui, sans-serif; text-wrap: pretty; }
+    .display { font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif; }
+    .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+    a { color: var(--games-blue); } a:hover { color: var(--games-coral); }
+
+    .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: var(--games-blue); }
+    .section-title { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 21px; color: var(--games-text); margin: 0; }
+    .section-note { font-size: 13.5px; color: var(--games-muted); line-height: 1.6; margin: 6px 0 0; max-width: 700px; }
+    .token-name { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500; color: var(--games-text); }
+    .token-value { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: var(--games-faint); }
+
+    /* ============ THE FAB ITSELF ============ */
+    .fab {
+      position: relative;
+      width: 3.5rem;
+      height: 3.5rem;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      background: linear-gradient(135deg, var(--games-blue-light), var(--games-blue));
+      box-shadow: 0 10px 24px -8px var(--games-blue-glow), 0 2px 0 rgba(255,255,255,0.15) inset;
+    }
+    .fab svg { width: 1.625rem; height: 1.625rem; stroke: var(--games-blue-ink); fill: none; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
+    .fab--muted { background: var(--games-surface); box-shadow: var(--games-shadow); border: 1px solid var(--games-border); }
+    .fab--muted svg { stroke: var(--games-faint); }
+    .fab--dim { opacity: 0.55; }
+
+    .fab__dot {
+      position: absolute;
+      top: 0.0625rem;
+      right: 0.0625rem;
+      width: 0.75rem;
+      height: 0.75rem;
+      border-radius: 999px;
+      background: var(--games-coral);
+      border: 2px solid var(--games-bg);
+      animation: breathing 2s infinite;
+    }
+    .fab__count {
+      position: absolute;
+      top: -0.25rem;
+      right: -0.25rem;
+      min-width: 1.25rem;
+      height: 1.25rem;
+      padding: 0 0.3125rem;
+      border-radius: 999px;
+      background: var(--games-coral);
+      border: 2px solid var(--games-bg);
+      color: #fff;
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-weight: 800;
+      font-size: 0.625rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: breathing 2s infinite;
+    }
+    @keyframes breathing {
+      0%, 100% { transform: scale(1); opacity: 1; box-shadow: 0 0 0.2rem var(--games-coral); }
+      50% { transform: scale(1.25); opacity: 0.9; box-shadow: 0 0 0.5rem var(--games-coral); }
+    }
+
+    .fab--ringing svg { animation: bell-ring 2.2s ease-in-out infinite; transform-origin: 50% 12%; }
+    @keyframes bell-ring {
+      0%, 60%, 100% { transform: rotate(0deg); }
+      64% { transform: rotate(14deg); }
+      68% { transform: rotate(-12deg); }
+      72% { transform: rotate(9deg); }
+      76% { transform: rotate(-6deg); }
+      80% { transform: rotate(3deg); }
+      84% { transform: rotate(0deg); }
+    }
+
+    .state-card { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+    .state-card__label { font-size: 12.5px; font-weight: 700; color: var(--games-text); }
+    .state-card__desc { font-size: 11.5px; color: var(--games-muted); text-align: center; max-width: 9rem; line-height: 1.5; }
+  </style>
+</helmet>
+
+<div style="width:1180px;background:var(--games-bg);color:var(--games-text);display:flex;flex-direction:column;padding:64px 72px 96px;gap:56px;">
+
+  <!-- ============ HEADER ============ -->
+  <div style="display:flex;flex-direction:column;gap:10px;padding-bottom:32px;border-bottom:1px solid var(--games-border);">
+    <span class="eyebrow">Component redesign</span>
+    <h1 class="display" style="font-size:32px;font-weight:800;margin:0;letter-spacing:-0.01em;">The notification bubble</h1>
+    <p style="font-size:14.5px;color:var(--games-muted);margin:0;max-width:760px;line-height:1.6;">
+      The floating, draggable notification button (<span class="mono" style="color:var(--games-text);">assistive-touch.component</span>) currently renders as a
+      flat blue rounded square with a Material bell icon, and swaps to an external GIF — a bell with a red alert badge — when a notification is active.
+      It's the one piece of chrome visible on every single screen, and it never got touched by the redesign. This proposes bringing it in line — same
+      rounded-pill language, same stroke icons, same blue-primary + coral-badge system as everywhere else — while keeping the thing that GIF was actually
+      doing: an animation that keeps drawing the eye until you notice it. That's now a live CSS ring on the bell and a breathing pulse on the badge,
+      instead of a swapped-in raster loop.
+    </p>
+  </div>
+
+  <!-- ============ STATES ============ -->
+  <div style="display:flex;flex-direction:column;gap:28px;">
+    <div>
+      <h2 class="section-title">States</h2>
+      <p class="section-note">Same button, four things it needs to communicate: nothing to see, something new, muted because permissions are off, and faded out after a few seconds idle — matching the real <span class="mono" style="color:var(--games-text);">buttonOpacity</span> behavior already in the component.</p>
+    </div>
+
+    <div style="display:flex;gap:36px;background:var(--games-surface);border:1px solid var(--games-border);border-radius:20px;padding:36px;">
+      <div class="state-card">
+        <div class="fab">
+          <svg viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 4.5 1.5 6 2 7H4c.5-1 2-2.5 2-7Z"/><path d="M10 19a2 2 0 0 0 4 0"/></svg>
+        </div>
+        <span class="state-card__label">Default</span>
+        <span class="state-card__desc">Nothing new. Bell only.</span>
+      </div>
+
+      <div class="state-card">
+        <div class="fab fab--ringing">
+          <svg viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 4.5 1.5 6 2 7H4c.5-1 2-2.5 2-7Z"/><path d="M10 19a2 2 0 0 0 4 0"/></svg>
+          <span class="fab__dot"></span>
+        </div>
+        <span class="state-card__label">Unread</span>
+        <span class="state-card__desc">The bell keeps giving a little ring, and the coral dot keeps breathing — live CSS now, not a raster loop.</span>
+      </div>
+
+      <div class="state-card">
+        <div class="fab fab--ringing">
+          <svg viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 4.5 1.5 6 2 7H4c.5-1 2-2.5 2-7Z"/><path d="M10 19a2 2 0 0 0 4 0"/></svg>
+          <span class="fab__count">5</span>
+        </div>
+        <span class="state-card__label">Unread, with count</span>
+        <span class="state-card__desc">Alternative to the dot, if a count is worth surfacing.</span>
+      </div>
+
+      <div class="state-card">
+        <div class="fab fab--muted">
+          <svg viewBox="0 0 24 24"><path d="M4 4l16 16"/><path d="M6 8a6 6 0 0 1 10.2-4.3M18 15c.5-1 2-2.5 2-7a6 6 0 0 0-.35-2"/><path d="M6 15c.5-1 2-2.5 2-7"/><path d="M10 19a2 2 0 0 0 4 0"/></svg>
+        </div>
+        <span class="state-card__label">Permission off</span>
+        <span class="state-card__desc">Neutral surface instead of blue — signals "not doing anything right now."</span>
+      </div>
+
+      <div class="state-card">
+        <div class="fab fab--dim">
+          <svg viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 4.5 1.5 6 2 7H4c.5-1 2-2.5 2-7Z"/><path d="M10 19a2 2 0 0 0 4 0"/></svg>
+          <span class="fab__dot"></span>
+        </div>
+        <span class="state-card__label">Idle</span>
+        <span class="state-card__desc">Fades after ~3s of inactivity, same as today — just applied to the new shape.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ BEFORE / AFTER ============ -->
+  <div style="display:flex;flex-direction:column;gap:28px;">
+    <div>
+      <h2 class="section-title">Before and after</h2>
+      <p class="section-note">Left: what's actually shipping today — a flat <span class="mono" style="color:var(--games-text);">$main-blue-color</span> square with a Material glyph at rest; when there's something new, the whole icon is replaced by a looping GIF of a cartoon bell with a red alert badge. Right: the proposal, ringing and pulsing the same way, live.</p>
+    </div>
+
+    <div style="display:flex;gap:24px;align-items:center;">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:14px;background:var(--games-surface);border:1px solid var(--games-border);border-radius:20px;padding:32px 48px;">
+        <div style="width:3.5rem;height:3.5rem;border-radius:0.5rem;background:#75a0ff;display:flex;align-items:center;justify-content:center;">
+          <svg width="26" height="26" viewBox="0 -960 960 960" fill="#e8eaed"><path d="M228-216q-5.45 0-8.98-3.54-3.52-3.53-3.52-9 0-5.46 3.52-9.21 3.53-3.75 8.98-3.75h45V-565q0-76.5 49.61-134.5T447-771v-19.06q0-14.11 9.38-23.52 9.38-9.42 23.5-9.42t23.62 9.42q9.5 9.41 9.5 23.52V-771q75 13.5 124.75 71.5T687.5-565v323.5h44.75q4.98 0 8.87 3.79 3.88 3.78 3.88 9.25 0 5.46-3.78 8.96-3.77 3.5-9.22 3.5H228Zm251.82 98q-24.32 0-41.57-17.38Q421-152.75 421-177h118q0 24.5-17.43 41.75Q504.15-118 479.82-118Z"/></svg>
+        </div>
+        <span class="state-card__label" style="color:var(--games-muted);">Today, at rest</span>
+      </div>
+
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--games-faint)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+
+      <div style="display:flex;flex-direction:column;align-items:center;gap:14px;background:var(--games-surface);border:1px solid var(--games-border);border-radius:20px;padding:32px 48px;">
+        <div class="fab fab--ringing">
+          <svg viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 4.5 1.5 6 2 7H4c.5-1 2-2.5 2-7Z"/><path d="M10 19a2 2 0 0 0 4 0"/></svg>
+          <span class="fab__dot"></span>
+        </div>
+        <span class="state-card__label">Proposed, alerting</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ IN CONTEXT ============ -->
+  <div style="display:flex;flex-direction:column;gap:28px;">
+    <div>
+      <h2 class="section-title">In context</h2>
+      <p class="section-note">Floating over a real screen, bottom-right — where it actually sits and gets dragged around today.</p>
+    </div>
+
+    <div style="position:relative;width:22rem;height:26rem;background:var(--games-surface-2);border:1px solid var(--games-border);border-radius:28px;overflow:hidden;box-shadow:var(--games-shadow);">
+      <div style="padding:20px;display:flex;flex-direction:column;gap:12px;">
+        <div style="height:14px;width:55%;border-radius:4px;background:var(--games-surface);"></div>
+        <div style="height:80px;border-radius:14px;background:var(--games-surface);border:1px solid var(--games-border);"></div>
+        <div style="height:80px;border-radius:14px;background:var(--games-surface);border:1px solid var(--games-border);"></div>
+      </div>
+      <div style="position:absolute;right:18px;bottom:22px;">
+        <div class="fab fab--ringing">
+          <svg viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 4.5 1.5 6 2 7H4c.5-1 2-2.5 2-7Z"/><path d="M10 19a2 2 0 0 0 4 0"/></svg>
+          <span class="fab__dot"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>

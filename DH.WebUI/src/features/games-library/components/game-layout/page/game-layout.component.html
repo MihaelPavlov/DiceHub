@@ -1,16 +1,8 @@
-<div class="wrapper_layout">
+<div class="wrapper_layout games-design-surface">
   <div class="wrapper_icons">
     <span (click)="backNavigateBtn()" class="arrow left"></span>
     <span class="header_name">{{ game.name }}</span>
-    <ng-container *ngIf="isQrCodeVisible">
-      <a
-        *ngIf="this.game.id"
-        (click)="openQrCodeDialog()"
-        class="wrapper_qrCode"
-      >
-        <img src="/shared/assets/images/qr-code.png" alt="" />
-      </a>
-    </ng-container>
+    <div class="wrapper_header_actions">
     <ng-container *ngIf="!isQrCodeVisible">
       <svg
         class="heart"
@@ -36,6 +28,19 @@
         />
       </svg>
     </ng-container>
+
+      <svg
+        *ngIf="(isAdmin$ | async) ?? false"
+        class="wrapper_game_menu"
+        (click)="showGameMenu($event, gameControls)"
+        viewBox="0 -960 960 960"
+        aria-label="Open game actions"
+      >
+        <path
+          d="M88-170v-103.08h103.08V-170H88Zm213.85 0v-103.08H872V-170H301.85ZM88-428.46v-103.08h103.08v103.08H88Zm213.85 0v-103.08H872v103.08H301.85ZM88-686.92V-790h103.08v103.08H88Zm213.85 0V-790H872v103.08H301.85Z"
+        />
+      </svg>
+    </div>
   </div>
 
   <div
@@ -49,10 +54,16 @@
     <span
       *ngFor="let item of menuItems"
       [routerLink]="item.route"
-      class="{{ item.class }} {{ item.enabled ? '' : 'disabled' }} surface-elevated"
+      class="{{ item.class }} {{ item.enabled ? '' : 'disabled' }} games-chip"
       >{{ item.label }}</span
     >
   </div>
 
   <ng-content></ng-content>
 </div>
+
+<app-controls-menu
+  #gameControls
+  [menuItems]="gameMenuItems.asObservable()"
+  (menuItemClick)="onGameMenuOption($event.value, $event.event)"
+></app-controls-menu>
