@@ -1,9 +1,7 @@
 .events-admin-shell {
   min-height: 100vh;
   padding: 1.5rem 1.25rem 7rem;
-  background:
-    radial-gradient(circle at 12% 0%, rgba(141, 102, 214, 0.14), transparent 28rem),
-    var(--games-bg);
+  background: var(--games-bg);
   color: var(--games-text);
 }
 
