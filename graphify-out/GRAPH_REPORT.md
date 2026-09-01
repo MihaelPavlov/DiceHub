@@ -1,41 +1,41 @@
 # Graph Report - DiceHub  (2026-09-01)
 
 ## Corpus Check
-- 1537 files · ~7,147,555 words
+- 1537 files · ~7,147,736 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 10099 nodes · 22872 edges · 676 communities (492 shown, 184 thin omitted)
+- 10100 nodes · 22875 edges · 677 communities (486 shown, 191 thin omitted)
 - Extraction: 97% EXTRACTED · 3% INFERRED · 0% AMBIGUOUS · INFERRED: 599 edges (avg confidence: 0.79)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `7155f7d5`
+- Built from commit: `57237c42`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
 - AppComponent
-- SpaceManagementService
-- DH.Domain.Models.ChallengeModels.Commands
+- LanguageService
+- DH.Domain.Models.GameModels.Queries
 - GlobalSettingsComponent
 - TenantDbContext
-- .put
-- GameReviewsComponent
+- ChallengeReward
+- DH.Domain.Models.ChallengeModels.Queries
 - DH.Domain.Entities
 - verify-claim.mjs
 - EventAttendanceChartComponent
 - GetEventListQueryModel
-- ReservationManagementNavigationComponent
-- ILocalizationService
+- SpaceTableActiveReservations
+- IRequest
 - TenantApplicationsController
 - StatisticsController
 - IPushNotificationsService
 - AuthService
-- profile.module.ts
+- ChangePasswordComponent
 - DH.Domain.Adapters.Localization
 - ChallengesController
-- .GetGlobalTenantSettingsAsync
+- IReservationCleanupQueue
 - GamesController
 - DH.OperationResultCore.Exceptions
 - UserChallengesManagementService
@@ -43,8 +43,8 @@
 - .navigateTenant
 - RoomsController
 - lib/render-report.mjs
-- DH.OperationResultCore.Utility
-- MeepleRoomDetailsComponent
+- DH.Domain.Models.StatisticsModels.Queries
+- MeepleRoomMenuComponent
 - DH.Statistics.Domain.Models.Queries
 - LinkInfoComponent
 - TenantRouter
@@ -55,26 +55,26 @@
 - NotificationsController
 - TenantApplicationsService
 - OperationResult
-- Challenge
+- UserChallenge
 - UserController
-- BackgroundService
+- ReservationCleanupWorker
 - AddUpdateGameComponent
 - AuthorizedHttpClient
 - ChallengesManagementComponent
 - RestApiService
 - GameSessionService
 - ToastService
-- .RunAsTenantAsync
-- ReservationStatus
+- .GetGlobalTenantSettingsAsync
+- ISpaceTableService
 - EmployeeService
 - IStatisticsService
 - IRabbitMqUserContext
 - SendTenantSetupInvitationCommandHandler
 - OwnerService
-- DH.OperationResultCore.Extension
+- ChallengesService
 - DH.Domain.Adapters.Data
 - EmailType.cs
-- challenges-management.component.ts
+- challenges.service.ts
 - AuthenticationService
 - .error
 - IRabbitMqClient
@@ -83,13 +83,13 @@
 - http
 - route-normalize.mjs
 - IStatisticJobInfo
-- games-library.component.ts
+- qr-code-scanner.component.ts
 - AdminChallengesSystemRewardsComponent
 - dependencies
 - devDependencies
 - DH.DiceHub/DH.Domain/DH.Domain.csproj
 - SpaceManagementController
-- IRequest
+- IRequestHandler
 - RoomChatComponent
 - GameLayoutComponent
 - IUserContext
@@ -103,24 +103,24 @@
 - AddUpdateEventComponent
 - support-topics.mjs
 - TenantApplicationDto
-- DH.Domain.Adapters.Scheduling
+- DH.Api/Program.cs
 - IUserChallengesManagementService
-- DH.Statistics.Data
+- DH.Statistics.Domain.Entities
 - SpaceBookingComponent
-- AddUpdateMeepleRoomComponent
+- GameAvailabilityComponent
 - EventsController
 - TenantSetupService
 - TenantDbConnectionInterceptor
 - UniversalChallengeProcessing
 - ControllerBase
-- ChallengeOverlayComponent
-- GameNavigationComponent
+- .getCurrentLanguage
+- GamesLibraryComponent
 - RewardsController
 - .CreateGameReview
 - AuthTokenService
 - brandkit/SKILL.md
 - QueuedJob
-- RewardLevel
+- RewardsService
 - HeaderComponent
 - IGameService
 - TenantsController
@@ -139,10 +139,10 @@
 - QrCodeScannerComponent
 - IUniversalChallengeProcessing
 - .UpdateAssistiveTouchSettings
-- .GetActivityChartData
+- GetActivityChartData
 - CompleteTenantSetupCommandHandler
 - gate-investigations.mjs
-- GetActiveSpaceTableReservationListQueryHandler
+- ReservationStatus
 - DH.Authentication.UserContext.csproj
 - .SubmitInquiry
 - DH.Statistics.WorkerService.csproj
@@ -155,16 +155,17 @@
 - DH.Database.MigrationUtility.csproj
 - ValidationFilterAttribute
 - scripts
-- .post
+- tenant-router.ts
 - CORE DIRECTIVE: IMAGE-FIRST WEBSITE DESIGN TO CODE
 - InstallPromptComponent
 - Tenant Isolation Plan
 - CredentialManagerPlugin
 - IFileManagerClient
-- club-space-list.component.ts
+- club-space-management-routes.module.ts
 - GetTenantListQueryModel
 - EventAttendanceByEventsChartComponent
 - QRReaderModel
+- MessagingService
 - DH.Database.Connector.csproj
 - DH.Statistics.Application/Queries/GetChallengeHistoryLogQuery.cs
 - options
@@ -182,24 +183,24 @@
 - ReservationType
 - AssistiveTouchComponent
 - EventService
-- DH.Domain.Queue
-- VenueApplicationComponent
+- LoadingService
+- SpaceTableReservationHistory
 - ChallengeType
 - ScanConfirmDialogComponent
-- ReservationCleanupWorker
+- ClubSpaceDetailsComponent
 - CORE DIRECTIVE: PREMIUM MOBILE APP IMAGE DIRECTION
 - UserRewardsExpirationReminderJob
 - extract-claims.mjs
 - SchedulerController
 - UserRewardsExpiryJob
-- .GetGameCategoryList
+- IDomainService
 - MapPermissions
 - lineOf
-- .get
+- RoomMembersComponent
 - ClubSpaceManagementComponent
 - ai-application.md
 - GameService
-- GameSessionWorker
+- instruction.component.ts
 - DH.DiceHub.sln
 - DH.Adapter.Authentication.Migrations
 - DH.DiceHub/DH.Adapter.Authentication/DH.Adapter.Authentication.csproj
@@ -212,7 +213,7 @@
 - manifest.json
 - GamesChartComponent
 - sanitizers/index.mjs
-- ReservationsChartComponent
+- GetExpiredCollectedRewardsChartDataModel
 - IUserManagementService
 - verify-and-regen.mjs
 - dedup-recs.mjs
@@ -232,37 +233,37 @@
 - lib/reconcile-candidates.mjs
 - GetUserRewardListQueryHandler
 - throttle.mjs
-- GetGameReviewListQueryHandler
-- DiceRollerComponent
+- AdminUniversalChallengesComponent
+- AddUpdateClubSpaceComponent
 - withRouteShapeWarnings
 - DH.Messaging.Publisher.csproj
 - production
 - development
 - GetRoomInfoMessageListQueryHandler
-- ForgotPasswordComponent
+- instruction-management.module.ts
 - Step 2: Choose a Deploy Method
 - ScrollTopComponent
-- ResetPasswordComponent
+- SpaceTableService
 - PermissionStringBuilder
 - .JobWasExecuted
-- StatisticJobWorker
+- util.mjs
 - scanners/index.mjs
 - Rules
-- .TryDequeue
+- RewardsCollectedChartComponent
 - IRepository
 - Design Audit
 - shared.module.ts
-- 20260729094735_AddTenantSetupTokens.Designer.cs
-- ActionAuthorizeFilter
+- AdminEventDetailsComponent
+- TenantApplicationDetailsComponent
 - Deploy DH.Api (deploy.sh)
 - ISynchronizeUsersChallengesQueue
 - IQueuedJobService
 - UpdateTenantSettingsCommandHandler
 - DH.WebUI
 - DHWebUI
-- CreateEmployeePasswordComponent
+- TenantDbContextFactory
 - scripts/deep-dive.mjs
-- SupportLanguages
+- GameReservationHistory
 - ToastComponent
 - Analysis & Synthesis Instructions
 - DH.Statistics.WorkerService.Common
@@ -279,15 +280,16 @@
 - assets
 - GetUserActiveTableQueryHandler
 - RandomColorDirective
-- GetEventListForStaffQuery
+- GetSpaceTableParticipantListQueryHandler
 - Patterns
 - DH.Adapter.FileManager
 - Agent Skill: Principal UI/UX Architect & Motion Choreographer (Awwwards-Tier)
 - IQrTokenService
 - IChatHubClient
-- AppIdentityDbContextModelSnapshot
-- GetRoomMessageListQueryHandler
-- TenantDirectoryService
+- TenantDbContextModelSnapshot.cs
+- .Resolve
+- EventDetailsComponent
+- InstructionLinksComponent
 - GetActiveGameReservationListQueryHandler
 - React Composition Patterns
 - display-labels.mjs
@@ -312,7 +314,7 @@
 - observation-safety.mjs
 - collect-sub-agent-outputs.mjs
 - GetGameReservationHistoryQueryHandler
-- CreateRoomCommandDto
+- CreateSystemRewardCommand.cs
 - DiceRollerComponent
 - .GetActiveUserCustomPeriod
 - merge-signals.mjs
@@ -350,7 +352,7 @@
 - CLAUDE.md
 - crypto-js
 - DH.DiceHub/deploy.sh
-- 20260118090503_InitialTenant.Designer.cs
+- .GetGameCategoryList
 - capacitor.config.ts
 - DH.WebUI/deploy.sh
 - tasteskill: Anti-Slop Frontend Skill
@@ -359,8 +361,8 @@
 - Appendix B - Canonical Sources (read these before reinventing)
 - tslib
 - rxjs
-- .AddEmailAdapter
-- GetUserChallengePeriodRewardListQueryHandler
+- GetUniversalChallengeListQueryHandler
+- GetEventByIdQueryModel
 - challenge-dropdown.model.ts
 - game-qr-code.model.ts
 - tenant-settings.interface.ts
@@ -368,18 +370,18 @@
 - README.md
 - .AddSchedulingAdapter
 - Design System: Taste Standard
-- GetChallengeListWithFilterQuery
+- GetUserEventListQueryHandler
 - ChallengeProcessingOutcomeMessage
 - @auth0/angular-jwt
 - React View Transitions
 - CSS Animation Recipes
 - 2. THE COMBINATORIAL VARIATION ENGINE
 - ISchedulerService
-- lib/budget-summary.mjs
+- GetSystemRewardByIdQueryHandler
 - Data collection
-- GetEventByIdQueryModel
+- GameAveragePlaytime
 - ControlsMenuComponent
-- GetActiveReservedGameQueryHandler
+- IJob
 - @capacitor/app
 - chartjs-adapter-date-fns
 - date-fns
@@ -390,10 +392,10 @@
 - UserSettingsDto
 - Patterns and Guidelines
 - 4. DESIGN ENGINEERING DIRECTIVES (Bias Correction)
-- CredentialManagerPlugin
-- .RegisterUser
-- GetUserNotificationsModel
-- IPermissionStringBuilder
+- UpdateGameReviewDto
+- UserRegistrationRequest
+- .SaveChangesAsync
+- UpdateRoomCommandDto
 - IEventService
 - TokenService
 - DeleteGameCommandHandler
@@ -403,7 +405,7 @@
 - View Transitions in Next.js
 - 20250115170446_InitialSeedQuartzNET.Designer.cs
 - GetActiveGameReservationCountQueryHandler
-- imagegen-frontend-web/SKILL.md
+- ReservationProcessingOutcomeMessage
 - GetAllEventsDropdownListQueryHandler
 - @angular/animations
 - React Composition Patterns
@@ -428,9 +430,13 @@
 - 18. EXTRA CREATIVITY & IMPLEMENTATION EDGE
 - AddQrTokens
 - rate-limit.mjs
-- Core Concepts
+- IUserChallengePeriodPerformance
+- InstructionComponent
+- JobsComponent
+- 20260729093650_AddSeedGameCatalog.Designer.cs
 - IValidableFields
-- ErrorInterceptor
+- 20260831071120_AddTenantSettingTimeZoneId.Designer.cs
+- IGameSeeder
 - large-static-asset.mjs
 - docs-library.json
 - Verification
@@ -438,9 +444,14 @@
 - 9. AI TELLS (Forbidden Patterns)
 - 12. THE COMBINATORIAL VARIATION ENGINE
 - 8. ANTI-AI-SLOP RULES
+- .SendAsync
 - 20260728140043_AddTenantApplications.Designer.cs
+- force-dynamic.mjs
+- region-pin-in-config.mjs
+- Transition Types
 - Persistent Element Isolation
-- GetGameInventoryQueryHandler
+- GetSpaceActivityStatsQueryHandler
+- 1. THE THREE DIALS (Core Configuration)
 - framework-support.mjs
 - cache-components-suspense-dedupe.mjs
 - edge-heavy-import.mjs
@@ -481,8 +492,6 @@
 - 5. IMAGE COUNT & PAGE SLICING
 - @angular/platform-browser
 - StreakComponent
-- external-api-slow.mjs
-- platform-bot-protection.mjs
 - platform-fluid-compute.mjs
 - types.d.ts
 - usage-spike-triage.mjs
@@ -532,13 +541,8 @@
 - 8. DARK MODE PROTOCOL
 - 21. MOBILE ANTI-AI-TELLS RULE
 - TenantApplicationRequest
-- StreakLeaderboardComponent
 - StreakRewardsComponent
 - CreateGameReviewDto
-- build-minutes-fanout.mjs
-- isr-overrevalidation.mjs
-- middleware-heavy.mjs
-- observability-events-attribution.mjs
 - Support Topics
 - async-cheap-condition-before-await.md
 - Prefer Statically Analyzable Paths
@@ -548,7 +552,6 @@
 - Core Concepts
 - How Multiple VTs Interact
 - How Multiple VTs Interact
-- UpdateRewardDto
 - 7. DIAL DEFINITIONS (Technical Reference)
 - 33. DEFAULT SECTION PACKS
 - 14. HERO MINIMALISM RULES
@@ -688,53 +691,57 @@
 10. `ILocalizationService` - 100 edges
 
 ## Surprising Connections (you probably didn't know these)
+- `UserContext` --implements--> `IUserContext`  [EXTRACTED]
+  DH.DiceHub/DH.Adapter.Authentication/Helper/UserContext.cs → DH.DiceHub/DH.Domain/Adapters/Authentication/IUserContext.cs
 - `DataSeederSystemUserContext` --implements--> `IUserContext`  [EXTRACTED]
   DH.DiceHub/DH.Adapter.Data/DataSeeder.cs → DH.DiceHub/DH.Domain/Adapters/Authentication/IUserContext.cs
 - `QueuedJobSystemUserContext` --implements--> `IUserContext`  [EXTRACTED]
   DH.DiceHub/DH.Adapter.Data/Services/QueuedJobService.cs → DH.DiceHub/DH.Domain/Adapters/Authentication/IUserContext.cs
 - `TenantSetupSystemUserContext` --implements--> `IUserContext`  [EXTRACTED]
   DH.DiceHub/DH.Adapter.Data/Services/TenantSetupService.cs → DH.DiceHub/DH.Domain/Adapters/Authentication/IUserContext.cs
-- `TenantApplicationSystemUserContext` --implements--> `IUserContext`  [EXTRACTED]
-  DH.DiceHub/DH.Application/Common/Commands/CreateTenantApplicationCommand.cs → DH.DiceHub/DH.Domain/Adapters/Authentication/IUserContext.cs
 - `TenantOwnerCredentialsSystemUserContext` --implements--> `IUserContext`  [EXTRACTED]
   DH.DiceHub/DH.Application/Common/Commands/SendTenantOwnerCredentialsEmailCommand.cs → DH.DiceHub/DH.Domain/Adapters/Authentication/IUserContext.cs
 
 ## Import Cycles
 - None detected.
 
-## Communities (676 total, 184 thin omitted)
+## Communities (677 total, 191 thin omitted)
 
 ### Community 0 - "AppComponent"
-Cohesion: 0.18
+Cohesion: 0.19
 Nodes (5): AppComponent, Component, ViewChild, app, messaging
 
-### Community 1 - "SpaceManagementService"
+### Community 1 - "LanguageService"
 Cohesion: 0.03
-Nodes (53): GameAveragePlaytime, ActiveReservedGame, ICreateGameDto, ICreateGameReservation, IGameInventory, IGameReservationHistory, IGameReservationStatus, IGetReservationById (+45 more)
+Nodes (74): SupportLanguages, ActiveReservedGame, ICreateGameReservation, IGameInventory, IGameReservationStatus, IGetReservationById, IReservedGame, ActiveBookedTableModel (+66 more)
 
-### Community 2 - "DH.Domain.Models.ChallengeModels.Commands"
-Cohesion: 0.08
-Nodes (16): DH.Domain.Services.Seed, DH.Domain.Models.ChallengeModels.Commands, DH.Application.Challenges.Seeders, DH.Application.Challenges.Commands, DH.Application.Rewards.Seeders, IMediator, Task, ChallengesSeedService (+8 more)
+### Community 2 - "DH.Domain.Models.GameModels.Queries"
+Cohesion: 0.07
+Nodes (15): DH.Application.Common.Commands, DH.Adapter.Authentication.Filters, DH.Api.Controllers, DH.Domain.Models.GameModels.Queries, DH.Application.Games.Queries, DH.Domain.Adapters.Authentication.Enums, DH.Application.Games.Queries.Games, ActionAuthorizeAttribute (+7 more)
 
 ### Community 3 - "GlobalSettingsComponent"
-Cohesion: 0.07
-Nodes (5): ToggleState, GlobalSettingsComponent, Component, LanguageSwitchComponent, Component
+Cohesion: 0.08
+Nodes (12): TenantUserSettingsService, Injectable, IUserSettings, GlobalSettingsComponent, Component, Component, UserSettingsComponent, UiTheme (+4 more)
 
 ### Community 4 - "TenantDbContext"
 Cohesion: 0.03
-Nodes (71): CancellationToken, DbContextOptionsBuilder, DbSet, IHttpContextAccessor, ModelBuilder, Task, TenantDbContext, IConfiguration (+63 more)
+Nodes (74): CancellationToken, DbContextOptionsBuilder, DbSet, IHttpContextAccessor, ModelBuilder, Task, TenantDbContext, DateTime (+66 more)
 
-### Community 6 - "GameReviewsComponent"
-Cohesion: 0.14
-Nodes (7): GameReviewsService, Injectable, IGameCreateDto, IGameReviewListResult, IGameUpdateDto, GameReviewsComponent, Component
+### Community 5 - "ChallengeReward"
+Cohesion: 0.13
+Nodes (14): DateTime, ICollection, ChallengeReward, CustomPeriodReward, CustomPeriodUserReward, RewardLevel, int, List (+6 more)
+
+### Community 6 - "DH.Domain.Models.ChallengeModels.Queries"
+Cohesion: 0.16
+Nodes (3): DH.Domain.Models.ChallengeModels.Queries, DH.Application.Challenges.Qureies, GetChallengeDropdownListQueryModel
 
 ### Community 7 - "DH.Domain.Entities"
 Cohesion: 0.04
-Nodes (22): DH.Adapter.Email, DH.Domain.Models.ChallengeModels.Queries, DH.Application.Challenges.Qureies, DH.Domain.Adapters.Email, DH.Domain.Models.RewardModels.Commands, DH.Application.Rewards.Commands, DH.Domain.Entities, DH.Domain.Adapters.Reservations (+14 more)
+Nodes (26): DH.Domain.Adapters.Statistics.Services, DH.Domain.Adapters.Statistics, DH.Domain.Queue, DH.Application.SpaceManagement.Commands, DH.Adapter.Statistics, DH.Domain.Entities, DH.Domain.Adapters.Reservations, DH.Domain.Adapters.GameSession (+18 more)
 
 ### Community 8 - "verify-claim.mjs"
 Cohesion: 0.06
-Nodes (86): isKnownUrl(), findRecContradictions(), asArray(), buildScriptHasMigrationSideEffect(), cacheInvalidationFileCache, cacheLifeNeedsContentFreshnessProof(), cleanHeaderValue(), compilePattern() (+78 more)
+Nodes (85): findRecContradictions(), asArray(), buildScriptHasMigrationSideEffect(), cacheInvalidationFileCache, cacheLifeNeedsContentFreshnessProof(), cleanHeaderValue(), compilePattern(), configContainsTag() (+77 more)
 
 ### Community 9 - "EventAttendanceChartComponent"
 Cohesion: 0.26
@@ -742,15 +749,11 @@ Nodes (3): EventAttendanceChartComponent, Component, ViewChild
 
 ### Community 10 - "GetEventListQueryModel"
 Cohesion: 0.23
-Nodes (12): CancellationToken, List, Task, GetEventListForUserQuery, GetEventListForUserQueryHandler, CancellationToken, List, Task (+4 more)
+Nodes (12): CancellationToken, List, Task, GetEventListForStaffQuery, GetEventListForStaffQueryHandler, CancellationToken, List, Task (+4 more)
 
-### Community 11 - "ReservationManagementNavigationComponent"
-Cohesion: 0.09
-Nodes (5): SpaceTableActiveReservations, Component, ReservationManagementNavigationComponent, Component, ViewChild
-
-### Community 12 - "ILocalizationService"
+### Community 12 - "IRequest"
 Cohesion: 0.03
-Nodes (62): LocalizationService, CancellationToken, IEnumerable, ILogger, List, string, Task, PushNotificationsService (+54 more)
+Nodes (70): List, CreateChallengeCommand, CreateChallengeCommandHandler, SaveCustomPeriodCommand, SaveCustomPeriodCommandHandler, UpdateGameCommand, UpdateGameCommandHandler, CancellationToken (+62 more)
 
 ### Community 13 - "TenantApplicationsController"
 Cohesion: 0.25
@@ -761,28 +764,24 @@ Cohesion: 0.46
 Nodes (7): CancellationToken, HttpPost, IActionResult, IMediator, ProducesResponseType, Task, StatisticsController
 
 ### Community 15 - "IPushNotificationsService"
-Cohesion: 0.07
-Nodes (32): ConcurrentDictionary, Exception, IHubContext, Task, ChallengeHubClient, CancellationToken, Task, CreateEventCommand (+24 more)
+Cohesion: 0.06
+Nodes (35): ConcurrentDictionary, Exception, IHubContext, Task, ChallengeHubClient, CancellationToken, Task, CreateEventCommand (+27 more)
 
 ### Community 16 - "AuthService"
 Cohesion: 0.03
-Nodes (60): initializeUserFactory(), AuthService, Injectable, UserRole, IChangePasswordRequest, ICreateEmployeePasswordRequest, ICreateOwnerPasswordRequest, IRegisterRequest (+52 more)
-
-### Community 17 - "profile.module.ts"
-Cohesion: 0.05
-Nodes (25): ITenantListResult, GetClubInfoModel, AddUpdateEmployeeComponent, Component, ChangePasswordComponent, Component, ClubInfo, Component (+17 more)
+Nodes (65): TODO: Check this tread…, initializeUserFactory(), AuthService, Injectable, UserRole, IChangePasswordRequest, ICreateEmployeePasswordRequest, IRegisterRequest (+57 more)
 
 ### Community 18 - "DH.Domain.Adapters.Localization"
 Cohesion: 0.07
-Nodes (18): DH.Adapter.ChallengeHub, DH.Domain.Adapters.PushNotifications.Messages.Models, DH.Domain.Adapters.PushNotifications, DH.Domain.Adapters.Localization, DH.Domain.Adapters.ChallengeHub, DH.Adapter.PushNotifications, DH.Domain.Models, DH.Domain.Adapters.PushNotifications.Messages.Common (+10 more)
+Nodes (20): DH.Adapter.ChallengeHub, DH.Domain.Adapters.PushNotifications.Messages.Models, DH.Domain.Adapters.PushNotifications, DH.Domain.Adapters.Localization, DH.Domain.Adapters.ChallengeHub, DH.Adapter.PushNotifications, DH.Domain.Adapters.PushNotifications.Messages.Common, DH.Domain.Adapters.PushNotifications.Messages (+12 more)
 
 ### Community 19 - "ChallengesController"
-Cohesion: 0.14
-Nodes (21): ActionAuthorize, CancellationToken, HttpDelete, HttpGet, HttpPost, HttpPut, IActionResult, IMediator (+13 more)
+Cohesion: 0.12
+Nodes (27): ActionAuthorize, CancellationToken, HttpDelete, HttpGet, HttpPost, HttpPut, IActionResult, IMediator (+19 more)
 
-### Community 20 - ".GetGlobalTenantSettingsAsync"
-Cohesion: 0.05
-Nodes (50): CancellationToken, Task, UserRewardsExpirationReminderHandler, IJobExecutionContext, ILogger, Task, AddUserChallengePeriodJob, CancellationToken (+42 more)
+### Community 20 - "IReservationCleanupQueue"
+Cohesion: 0.07
+Nodes (29): CancellationToken, Task, CreateGameReservationCommand, CreateGameReservationCommandHandler, CancellationToken, Task, DeleteGameReservationCommand, DeleteGameReservationCommandHandler (+21 more)
 
 ### Community 21 - "GamesController"
 Cohesion: 0.26
@@ -790,19 +789,19 @@ Nodes (12): ActionAuthorize, CancellationToken, HttpDelete, HttpGet, HttpPost, H
 
 ### Community 22 - "DH.OperationResultCore.Exceptions"
 Cohesion: 0.05
-Nodes (23): DH.Domain.Models.RoomModels.Commands, DH.Domain.Adapters.Statistics.Services, DH.OperationResultCore.Exceptions, DH.Domain.Adapters.Statistics, DH.Application.SpaceManagement.Commands, DH.Adapter.Statistics, DH.Domain.Adapters.GameSession, DH.Domain.Models.SpaceManagementModels.Commands (+15 more)
+Nodes (22): DH.Domain.Models.RoomModels.Commands, DH.Domain.Adapters.Scheduling, DH.Adapter.Scheduling, DH.OperationResultCore.Exceptions, DH.Adapter.Scheduling.Jobs, DH.Domain.Models.ChallengeModels.Commands, DH.Domain.Models.SpaceManagementModels.Commands, DH.Application.Rooms.Commands (+14 more)
 
 ### Community 23 - "UserChallengesManagementService"
-Cohesion: 0.08
-Nodes (28): DbUpdateException, CancellationToken, IDbContextFactory, IDbContextTransaction, ILogger, List, Task, TenantDbContext (+20 more)
+Cohesion: 0.15
+Nodes (15): DbUpdateException, CancellationToken, IDbContextFactory, IDbContextTransaction, ILogger, List, Task, TenantDbContext (+7 more)
 
 ### Community 24 - "DH.Domain.Adapters.Authentication"
-Cohesion: 0.10
-Nodes (13): DH.Adapter.Authentication.Helper, DH.Domain.Adapters.Authentication.Options, DH.Application.Rooms.Queries, DH.Adapter.Authentication, DH.Domain.Adapters.Authentication.Interfaces, DH.Adapter.Authentication.Entities, DH.Domain.Adapters.Authentication, DH.Domain.Adapters.Authentication.Models (+5 more)
+Cohesion: 0.08
+Nodes (16): DH.Adapter.Authentication.Helper, DH.Domain.Models, DH.Domain.Adapters.Authentication.Options, DH.Application.Rooms.Queries, DH.Domain.Adapters.Authentication.Interfaces, DH.Adapter.Authentication.Entities, DH.Domain.Adapters.Authentication, DH.Domain.Adapters.Authentication.Models (+8 more)
 
 ### Community 25 - ".navigateTenant"
-Cohesion: 0.03
-Nodes (15): EventsChartsLayoutComponent, Component, RewardChartsLayoutComponent, Component, EmployeeListComponent, Component, FindMeepleManagementComponent, Component (+7 more)
+Cohesion: 0.04
+Nodes (14): EventsChartsLayoutComponent, Component, RewardChartsLayoutComponent, Component, EmployeeListComponent, Component, ProfileComponent, Component (+6 more)
 
 ### Community 26 - "RoomsController"
 Cohesion: 0.07
@@ -812,65 +811,65 @@ Nodes (41): CancellationToken, IDbContextFactory, List, Task, RoomService, Actio
 Cohesion: 0.08
 Nodes (59): classifyService(), computeCostCoverage(), escapeCell(), renderCostCoverageMarkdown(), SERVICE_DIMENSION, formatCandidateLabel(), formatKind(), formatRoute() (+51 more)
 
-### Community 28 - "DH.OperationResultCore.Utility"
-Cohesion: 0.06
-Nodes (37): DH.Domain.Adapters.Statistics.Enums, DH.OperationResultCore.Utility, DH.Application.Statistics.Queries, DH.Domain.Models.StatisticsModels.Queries, CancellationToken, List, Task, GetChallengeHistoryLogQuery (+29 more)
+### Community 28 - "DH.Domain.Models.StatisticsModels.Queries"
+Cohesion: 0.11
+Nodes (19): DH.Application.Statistics.Queries, DH.Domain.Models.StatisticsModels.Queries, CancellationToken, List, Task, GetCollectedRewardsByDatesQuery, GetCollectedRewardsByDatesQueryHandler, CancellationToken (+11 more)
 
-### Community 29 - "MeepleRoomDetailsComponent"
-Cohesion: 0.21
-Nodes (3): MeepleRoomDetailsComponent, Component, ViewChild
+### Community 29 - "MeepleRoomMenuComponent"
+Cohesion: 0.10
+Nodes (8): MeepleRoomDetailsComponent, Component, ViewChild, MeepleRoomMenuComponent, Component, HostListener, Input, Output
 
 ### Community 30 - "DH.Statistics.Domain.Models.Queries"
-Cohesion: 0.08
-Nodes (31): DH.Statistics.Application.Queries, DH.Statistics.Api.Controllers, DH.Statistics.Domain.Models.Queries, CancellationToken, IDbContextFactory, List, Task, GetCollectedRewardsByDatesQuery (+23 more)
+Cohesion: 0.06
+Nodes (38): DH.Statistics.Application.Queries, DH.Statistics.Api.Controllers, DH.Statistics.Domain.Models.Queries, CancellationToken, IDbContextFactory, List, Task, GetCollectedRewardsByDatesQuery (+30 more)
 
 ### Community 31 - "LinkInfoComponent"
-Cohesion: 0.07
-Nodes (19): INSTRUCTION_LINK_MAPPINGS, InstructionSection, InstructionStep, InstructionTopic, LinkInfoType, StepActionLink, InstructionComponent, Component (+11 more)
+Cohesion: 0.16
+Nodes (6): InstructionStep, LinkInfoComponent, Component, HostListener, Input, ViewChild
 
 ### Community 32 - "TenantRouter"
-Cohesion: 0.05
-Nodes (24): EventsService, Injectable, GamesService, Injectable, Injectable, UsersService, GetOwnerStats, GetUserStats (+16 more)
+Cohesion: 0.02
+Nodes (42): EventsService, Injectable, ICreateEventDto, IEventDropdownListResult, GameCategoriesService, Injectable, GamesService, Injectable (+34 more)
 
 ### Community 33 - "vercel.mjs"
 Cohesion: 0.11
 Nodes (47): isDailyQuotaExceeded(), aggregateServicesByName(), categorizeError(), checkAuth(), checkCliVersion(), checkObservabilityPlusConfiguration(), classifyObservabilityPlusConfiguration(), exec (+39 more)
 
 ### Community 34 - "AdminChallengesCustomPeriodComponent"
-Cohesion: 0.07
-Nodes (6): IUniversalChallengeDropdownResult, AdminChallengesCustomPeriodComponent, customPeriodValidator(), Component, CanComponentDeactivate, canDeactivateGuard()
+Cohesion: 0.08
+Nodes (4): IUniversalChallengeDropdownResult, AdminChallengesCustomPeriodComponent, customPeriodValidator(), Component
 
 ### Community 35 - "DH.Domain.Services"
 Cohesion: 0.06
-Nodes (14): DH.Adapter.Data.Services, DH.Domain.Models.EventModels.Queries, DH.Domain.Models.GameModels.Queries, DH.Adapter.FileManager, DH.Domain.Adapters.FileManager, DH.Application.Games.Queries, DH.Application.Events.Queries, DH.Domain.Services (+6 more)
+Nodes (18): DH.Adapter.Data.Services, DH.Adapter.Email, DH.Domain.Models.EventModels.Queries, DH.Adapter.FileManager, DH.Domain.Adapters.FileManager, DH.Domain.Adapters.Email, DH.Application.Events.Queries, DH.Domain.Services (+10 more)
 
 ### Community 36 - "AppIdentityDbContext"
 Cohesion: 0.11
 Nodes (12): CancellationToken, DbContextOptionsBuilder, ModelBuilder, Task, AppIdentityDbContext, IConfiguration, AppIdentityDbContextFactory, IServiceProvider (+4 more)
 
 ### Community 37 - "NotificationsController"
-Cohesion: 0.23
-Nodes (11): ActionAuthorize, CancellationToken, HttpGet, HttpPost, IActionResult, ProducesResponseType, Task, NotificationsController (+3 more)
+Cohesion: 0.45
+Nodes (8): ActionAuthorize, CancellationToken, HttpGet, HttpPost, IActionResult, ProducesResponseType, Task, NotificationsController
 
 ### Community 38 - "TenantApplicationsService"
-Cohesion: 0.06
-Nodes (21): TenantApplicationsService, Injectable, ICompleteTenantSetupRequest, ICompleteTenantSetupResult, ISeedGameCatalogDropdown, ITenantApplication, ITenantApplicationRequest, ITenantApplicationReviewRequest (+13 more)
+Cohesion: 0.08
+Nodes (19): TenantApplicationsService, Injectable, ICompleteTenantSetupRequest, ICompleteTenantSetupResult, ISeedGameCatalogDropdown, ITenantApplication, ITenantApplicationRequest, ITenantApplicationReviewRequest (+11 more)
 
 ### Community 39 - "OperationResult"
-Cohesion: 0.05
-Nodes (43): DH.Statistics.Application.Commands, Dictionary, IError, List, OperationResultExtension, bool, Dictionary, IError (+35 more)
+Cohesion: 0.04
+Nodes (60): DH.OperationResultCore, DH.Statistics.Api.Filters, DH.OperationResultCore.Extension, DH.Statistics.Data.Migrations, DH.Statistics.Application, DH.Statistics.Data, DH.OperationResultCore.Utility, DH.Statistics.Application.Commands (+52 more)
 
-### Community 40 - "Challenge"
-Cohesion: 0.13
-Nodes (15): CancellationToken, List, Task, GetUniversalChallengeListQuery, GetUniversalChallengeListQueryHandler, DateTime, ICollection, Challenge (+7 more)
+### Community 40 - "UserChallenge"
+Cohesion: 0.17
+Nodes (11): DateTime, ICollection, Challenge, ChallengeStatistic, CustomPeriodUniversalChallenge, DateTime, ICollection, UniversalChallenge (+3 more)
 
 ### Community 41 - "UserController"
 Cohesion: 0.19
 Nodes (18): ActionAuthorize, AllowAnonymous, Authorize, CancellationToken, HttpDelete, HttpGet, HttpPost, HttpPut (+10 more)
 
-### Community 42 - "BackgroundService"
-Cohesion: 0.15
-Nodes (10): BackgroundService, CancellationToken, ILogger, IServiceScopeFactory, Task, SynchronizeUsersChallengesWorker, CancellationToken, ILogger (+2 more)
+### Community 42 - "ReservationCleanupWorker"
+Cohesion: 0.07
+Nodes (29): BackgroundService, CancellationToken, ILogger, IServiceScopeFactory, Task, SynchronizeUsersChallengesWorker, CancellationToken, ILogger (+21 more)
 
 ### Community 43 - "AddUpdateGameComponent"
 Cohesion: 0.16
@@ -878,31 +877,31 @@ Nodes (3): AddUpdateGameComponent, Component, ViewChild
 
 ### Community 44 - "AuthorizedHttpClient"
 Cohesion: 0.07
-Nodes (24): CancellationToken, HttpMethod, IHttpClientFactory, ILogger, JsonSerializerOptions, string, StringContent, Task (+16 more)
+Nodes (22): CancellationToken, HttpMethod, IHttpClientFactory, ILogger, JsonSerializerOptions, string, StringContent, Task (+14 more)
 
 ### Community 45 - "ChallengesManagementComponent"
-Cohesion: 0.13
-Nodes (6): IUserCustomPeriodChallenge, ChallengesManagementComponent, Component, ViewChild, Column, ViewChildren
+Cohesion: 0.11
+Nodes (6): IUserCustomPeriodChallenge, IUserCustomPeriodReward, ChallengesManagementComponent, Component, ViewChild, ViewChildren
 
 ### Community 46 - "RestApiService"
 Cohesion: 0.04
-Nodes (26): PartnerInquiriesService, Injectable, TenantUserSettingsService, Injectable, IPartnerInquiryRequest, IUserSettings, SchedulerService, Injectable (+18 more)
+Nodes (27): PartnerInquiriesService, Injectable, GameReviewsService, Injectable, IGameCreateDto, IGameCategory, IGameReviewListResult, IGameUpdateDto (+19 more)
 
 ### Community 47 - "GameSessionService"
-Cohesion: 0.13
-Nodes (23): completedChallenge, completedUniversalChallenges, CancellationToken, IDbContextFactory, IDbContextTransaction, IEnumerable, ILogger, List (+15 more)
+Cohesion: 0.16
+Nodes (20): completedChallenge, completedUniversalChallenges, CancellationToken, IDbContextFactory, IDbContextTransaction, IEnumerable, ILogger, List (+12 more)
 
 ### Community 48 - "ToastService"
-Cohesion: 0.06
-Nodes (69): TODO: Check this tread…, TenantSettingsService, Injectable, IGameDropdownResult, MessagingService, Injectable, ISystemRewardsForm, IChallengeLeaderboardData (+61 more)
+Cohesion: 0.05
+Nodes (68): ICustomPeriodChallenge, ICustomPeriodReward, ICustomPeriodUniversalChallenge, TenantSettingsService, Injectable, ToggleState, IClubNameResult, ITenantSettings (+60 more)
 
-### Community 49 - ".RunAsTenantAsync"
-Cohesion: 0.13
-Nodes (14): Func, Task, TenantContextScopeRunner, Task, ChatHubClient, CancellationToken, Task, ReservationExpirationHandler (+6 more)
+### Community 49 - ".GetGlobalTenantSettingsAsync"
+Cohesion: 0.05
+Nodes (47): Func, Task, TenantContextScopeRunner, Task, ChatHubClient, CancellationToken, Task, ReservationExpirationHandler (+39 more)
 
-### Community 50 - "ReservationStatus"
-Cohesion: 0.08
-Nodes (27): CancellationToken, IDbContextFactory, List, Task, SpaceTableService, IJobExecutionContext, Task, CloseActiveTablesJob (+19 more)
+### Community 50 - "ISpaceTableService"
+Cohesion: 0.16
+Nodes (15): CancellationToken, Task, GetActiveSpaceTableReservationCountQuery, GetActiveSpaceTableReservationCountQueryHandler, CancellationToken, List, Task, GetSpaceTableReservationHistoryQuery (+7 more)
 
 ### Community 51 - "EmployeeService"
 Cohesion: 0.10
@@ -910,7 +909,7 @@ Nodes (18): CancellationToken, ILogger, RoleManager, Task, UserManager, Employee
 
 ### Community 52 - "IStatisticsService"
 Cohesion: 0.04
-Nodes (44): DH.Domain.Adapters.Statistics.JobHandlers, CancellationToken, Task, GetOwnerStatsQuery, GetOwnerStatsQueryHandler, CancellationToken, Task, GetUserStatsQuery (+36 more)
+Nodes (56): DH.Domain.Adapters.Statistics.JobHandlers, DH.Domain.Adapters.Statistics.Enums, CancellationToken, List, Task, GetChallengeHistoryLogQuery, GetChallengeHistoryLogQueryHandler, CancellationToken (+48 more)
 
 ### Community 53 - "IRabbitMqUserContext"
 Cohesion: 0.09
@@ -918,27 +917,27 @@ Nodes (15): BasicDeliverEventArgs, BasicProperties, DH.Messaging.Publisher.Exten
 
 ### Community 54 - "SendTenantSetupInvitationCommandHandler"
 Cohesion: 0.04
-Nodes (64): ILogger, SmtpEmailSender, CancellationToken, IConfiguration, ILogger, Task, CreatePartnerInquiriesCommand, CreatePartnerInquiriesCommandHandle (+56 more)
+Nodes (57): ILogger, SmtpEmailSender, CancellationToken, IConfiguration, ILogger, Task, CreatePartnerInquiriesCommand, CreatePartnerInquiriesCommandHandle (+49 more)
 
 ### Community 55 - "OwnerService"
 Cohesion: 0.12
 Nodes (14): CancellationToken, ILogger, RoleManager, Task, UserManager, OwnerService, PasswordGenerator, CreateOwnerForTenantSetupRequest (+6 more)
 
-### Community 56 - "DH.OperationResultCore.Extension"
-Cohesion: 0.13
-Nodes (13): DH.OperationResultCore, DH.Statistics.Api.Filters, DH.OperationResultCore.Extension, DH.Statistics.Application, Dictionary, IError, CancellationToken, IDbContextFactory (+5 more)
+### Community 56 - "ChallengesService"
+Cohesion: 0.15
+Nodes (5): ChallengesService, Injectable, ICreateChallengeDto, ICustomPeriod, IUpdateChallengeDto
 
 ### Community 57 - "DH.Domain.Adapters.Data"
 Cohesion: 0.05
-Nodes (21): DH.Adapter.Data.Repositories, DH.Application, DH.Application.Games.Seeders, DH.Application.Games.Commands.Games, DH.Api, DH.Adapter.Data, DH.Domain, DH.Adapter.Data.Seeder (+13 more)
+Nodes (26): DH.Adapter.Data.Repositories, DH.Application.Games.Seeders, DH.Application.Games.Commands.Games, DH.Adapter.Data.Seeder, DH.Domain.Models.GameModels.Commands, DH.Domain.Services.Seed, DH.Domain.Seeder, DH.Application.Challenges.Seeders (+18 more)
 
 ### Community 58 - "EmailType.cs"
 Cohesion: 0.16
 Nodes (14): Dictionary, IDbContextFactory, Task, EmailHelperService, string, EmailType, EmployeePasswordCreation, ForgotPasswordResetKeys (+6 more)
 
-### Community 59 - "challenges-management.component.ts"
-Cohesion: 0.03
-Nodes (64): ChallengesService, Injectable, ChallengeRewardPoint, ChallengeStatus, IChallengeResult, IChallengeListResult, ICreateChallengeDto, ICustomPeriod (+56 more)
+### Community 59 - "challenges.service.ts"
+Cohesion: 0.23
+Nodes (10): ChallengeRewardPoint, ChallengeStatus, IChallengeResult, IChallengeListResult, IUniversalChallengeListResult, IUpdateUniversalChallengeDto, IUserChallenge, IUserCustomPeriod (+2 more)
 
 ### Community 60 - "AuthenticationService"
 Cohesion: 0.11
@@ -946,11 +945,11 @@ Nodes (16): DateTime, ApplicationUser, CancellationToken, Task, UserManager, Aut
 
 ### Community 61 - ".error"
 Cohesion: 0.04
-Nodes (5): IAddSpaceTableDto, AdminChallengesListComponent, Component, RegisterComponent, Component
+Nodes (11): ICreateOwnerPasswordRequest, IResetPasswordRequest, IPartnerInquiryRequest, IUpdateEventDto, IAddUpdateRoomDto, IAddSpaceTableDto, IUpdateSpaceTableDto, CreateEmployeePasswordComponent (+3 more)
 
 ### Community 62 - "IRabbitMqClient"
-Cohesion: 0.07
-Nodes (33): DateTimeOffset, IAuthorizedClientFactory, EventMessage, IRabbitMqClient, CancellationToken, Task, IServiceBusHandler, DateTime (+25 more)
+Cohesion: 0.08
+Nodes (29): DateTimeOffset, IAuthorizedClientFactory, EventMessage, IRabbitMqClient, CancellationToken, Task, IServiceBusHandler, DateTime (+21 more)
 
 ### Community 63 - "DH.Messaging.Publisher"
 Cohesion: 0.13
@@ -972,13 +971,9 @@ Nodes (17): candidateKey(), canonicalizeBranchPrefix(), canonicalizeRoute(), dec
 Cohesion: 0.17
 Nodes (13): StatisticJobFactory, CancellationToken, Task, IStatisticJob, IStatisticJobInfo, IStatisticJobFactory, StatisticJobType, ChallengeProcessingOutcomeJob (+5 more)
 
-### Community 68 - "games-library.component.ts"
-Cohesion: 0.04
-Nodes (55): GameCategoriesService, Injectable, IGameByIdResult, IGameCategory, IGameListResult, ScannerService, Injectable, QrCodeType (+47 more)
-
-### Community 69 - "AdminChallengesSystemRewardsComponent"
-Cohesion: 0.08
-Nodes (4): AdminChallengesSystemRewardsComponent, Component, GlobalErrorHandler, Injectable
+### Community 68 - "qr-code-scanner.component.ts"
+Cohesion: 0.10
+Nodes (18): ScannerService, Injectable, QrCodeType, IQrCode, IQrCodeRequest, IQrCodeValidationResult, Component, Inject (+10 more)
 
 ### Community 70 - "dependencies"
 Cohesion: 0.07
@@ -996,9 +991,9 @@ Nodes (25): DH.Adapter.ChallengesOrchestrator, net8.0, Microsoft.Extensions.Host
 Cohesion: 0.28
 Nodes (11): ActionAuthorize, CancellationToken, HttpDelete, HttpGet, HttpPost, HttpPut, IActionResult, IMediator (+3 more)
 
-### Community 74 - "IRequest"
-Cohesion: 0.02
-Nodes (106): CancellationToken, Task, CreateChallengeCommand, CreateChallengeCommandHandler, CancellationToken, Task, SaveCustomPeriodCommand, SaveCustomPeriodCommandHandler (+98 more)
+### Community 74 - "IRequestHandler"
+Cohesion: 0.05
+Nodes (40): CancellationToken, Task, UpdateChallengeCommand, UpdateChallengeCommandHandler, CancellationToken, Task, GetChallengeByIdQuery, GetChallengeByIdQueryHandler (+32 more)
 
 ### Community 75 - "RoomChatComponent"
 Cohesion: 0.14
@@ -1029,44 +1024,44 @@ Cohesion: 0.33
 Nodes (6): CancellationToken, Task, GetReservationChartDataQuery, GetReservationChartDataQueryHandler, GetReservationChartData, ReservationStats
 
 ### Community 83 - "StatisticController"
-Cohesion: 0.24
-Nodes (14): CancellationToken, HttpDelete, HttpPost, IActionResult, IMediator, ProducesResponseType, Task, StatisticController (+6 more)
+Cohesion: 0.38
+Nodes (8): CancellationToken, HttpDelete, HttpPost, IActionResult, IMediator, ProducesResponseType, Task, StatisticController
 
 ### Community 84 - "AssistiveTouchComponent"
 Cohesion: 0.15
 Nodes (6): AssistiveTouchSettings, AssistiveTouchComponent, Component, HostListener, Input, Output
 
 ### Community 85 - "AddUpdateEventComponent"
-Cohesion: 0.07
-Nodes (8): AddUpdateClubSpaceComponent, Component, AddUpdateEventComponent, futureDateValidator(), isFutureDate(), parseDateInput(), Component, ViewChild
+Cohesion: 0.12
+Nodes (6): AddUpdateEventComponent, futureDateValidator(), isFutureDate(), parseDateInput(), Component, ViewChild
 
 ### Community 86 - "support-topics.mjs"
 Cohesion: 0.09
-Nodes (42): compareVersion(), HERE, LIBRARY_PATH, libraryForStack(), loadLibrary(), lookupSkillRule(), lookupUrl(), matchesFrameworkVersion() (+34 more)
+Nodes (42): compareVersion(), HERE, isKnownUrl(), LIBRARY_PATH, libraryForStack(), loadLibrary(), lookupSkillRule(), lookupUrl() (+34 more)
 
 ### Community 87 - "TenantApplicationDto"
 Cohesion: 0.21
 Nodes (12): CancellationToken, Task, GetTenantApplicationByIdQuery, GetTenantApplicationByIdQueryHandler, CancellationToken, List, Task, GetTenantApplicationsQuery (+4 more)
 
-### Community 88 - "DH.Domain.Adapters.Scheduling"
-Cohesion: 0.09
-Nodes (12): DH.Domain.Adapters.Scheduling, DH.Adapter.Scheduling, DH.Adapater.Localization, DH.Adapter.Scheduling.Jobs, DH.Api.Filters, DH.Domain.Adapters.Scheduling.Models, DH.Adapter.ChatHub, DH.Adapter.Scheduling.Handlers (+4 more)
+### Community 88 - "DH.Api/Program.cs"
+Cohesion: 0.04
+Nodes (26): DH.Application, DH.Api, DH.Adapter.Data, DH.Domain, DH.Adapater.Localization, DH.Api.Filters, DH.Adapter.GameSession, DH.Adapter.Authentication (+18 more)
 
 ### Community 89 - "IUserChallengesManagementService"
 Cohesion: 0.18
 Nodes (10): CancellationToken, Task, AddUserChallengePeriodHandler, IJobExecutionContext, ILogger, Task, UserChallengeValidationJob, CancellationToken (+2 more)
 
-### Community 90 - "DH.Statistics.Data"
-Cohesion: 0.04
-Nodes (41): DH.Database.Connector.Models, DH.Statistics.Data.Migrations, DH.Statistics.Data, DH.Database.Connector, DH.Statistics.Domain.Enums, DH.Statistics.Domain.Entities, DbContext, Assembly (+33 more)
+### Community 90 - "DH.Statistics.Domain.Entities"
+Cohesion: 0.05
+Nodes (33): DH.Database.Connector.Models, DH.Database.Connector, DH.Statistics.Domain.Enums, DH.Statistics.Domain.Entities, DbContext, Assembly, IConfiguration, IServiceCollection (+25 more)
 
 ### Community 91 - "SpaceBookingComponent"
-Cohesion: 0.14
-Nodes (3): SpaceBookingComponent, Component, ViewChild
+Cohesion: 0.10
+Nodes (7): DiceRollerComponent, Component, Input, Output, SpaceBookingComponent, Component, ViewChild
 
-### Community 92 - "AddUpdateMeepleRoomComponent"
-Cohesion: 0.15
-Nodes (3): AddUpdateMeepleRoomComponent, futureDateValidator(), Component
+### Community 92 - "GameAvailabilityComponent"
+Cohesion: 0.05
+Nodes (11): GameAveragePlaytime, ICreateGameDto, IGameByIdResult, IUpdateGameDto, AddUpdateMeepleRoomComponent, futureDateValidator(), Component, GameAvailabilityComponent (+3 more)
 
 ### Community 93 - "EventsController"
 Cohesion: 0.32
@@ -1081,20 +1076,20 @@ Cohesion: 0.14
 Nodes (14): DbConnectionInterceptor, CancellationToken, ConnectionEndEventData, DbConnection, HttpContext, IHttpContextAccessor, Task, ApplicationDbConnectionInterceptor (+6 more)
 
 ### Community 96 - "UniversalChallengeProcessing"
-Cohesion: 0.15
-Nodes (14): CancellationToken, IDbContextFactory, ILogger, Task, TenantDbContext, UniversalChallengeProcessing, Task, IChallengeHubClient (+6 more)
+Cohesion: 0.22
+Nodes (9): CancellationToken, IDbContextFactory, ILogger, Task, TenantDbContext, UniversalChallengeProcessing, Task, IChallengeHubClient (+1 more)
 
 ### Community 97 - "ControllerBase"
 Cohesion: 0.22
 Nodes (10): ControllerBase, DH.OperationResultCore.FrontEndErrors, CancellationToken, HttpPost, IActionResult, ILogger, FrontendLogController, IMediator (+2 more)
 
-### Community 98 - "ChallengeOverlayComponent"
-Cohesion: 0.15
-Nodes (4): ChallengeHubService, Injectable, ChallengeOverlayComponent, Component
+### Community 98 - ".getCurrentLanguage"
+Cohesion: 0.08
+Nodes (6): ChallengeHubService, Injectable, ChallengesRewardsComponent, Component, ChallengeOverlayComponent, Component
 
-### Community 99 - "GameNavigationComponent"
-Cohesion: 0.14
-Nodes (4): GameNavigationComponent, Component, NewGameListComponent, Component
+### Community 99 - "GamesLibraryComponent"
+Cohesion: 0.09
+Nodes (6): GameCategoriesComponent, Component, GameNavigationComponent, Component, GamesLibraryComponent, Component
 
 ### Community 100 - "RewardsController"
 Cohesion: 0.15
@@ -1113,20 +1108,20 @@ Cohesion: 0.05
 Nodes (43): 1. Logo Cover, 1. Monogram + Meaning, 2 × 3 REFERENCE-STYLE LAYOUT, 2. Logo Construction, 2. Product Action, 3. Digital Application, 3. Metaphor Fusion, 4. Brand Essence (+35 more)
 
 ### Community 104 - "QueuedJob"
-Cohesion: 0.18
-Nodes (10): CancellationToken, IDbContextFactory, ILogger, List, Task, QueuedJobService, QueuedJobSystemUserContext, DateTime (+2 more)
+Cohesion: 0.11
+Nodes (18): CancellationToken, IDbContextFactory, ILogger, List, Task, QueuedJobService, QueuedJobSystemUserContext, CancellationToken (+10 more)
 
-### Community 105 - "RewardLevel"
-Cohesion: 0.32
-Nodes (6): RewardLevel, REWARD_POINTS, RewardRequiredPoint, ICreateRewardDto, IRewardGetByIdResult, IUpdateRewardDto
+### Community 105 - "RewardsService"
+Cohesion: 0.12
+Nodes (13): RewardsService, Injectable, RewardLevel, REWARD_POINTS, RewardRequiredPoint, ICreateRewardDto, IRewardGetByIdResult, IRewardDropdownResult (+5 more)
 
 ### Community 106 - "HeaderComponent"
 Cohesion: 0.12
 Nodes (4): HeaderComponent, Component, Input, Output
 
 ### Community 107 - "IGameService"
-Cohesion: 0.17
-Nodes (14): CancellationToken, Task, CreateGameCommand, CreateGameCommandHandler, CancellationToken, Task, GetGameByIdQuery, GetGameByIdQueryHandler (+6 more)
+Cohesion: 0.14
+Nodes (16): CancellationToken, Task, CreateGameCommand, CreateGameCommandHandler, CancellationToken, Task, CancellationToken, Task (+8 more)
 
 ### Community 108 - "TenantsController"
 Cohesion: 0.29
@@ -1157,16 +1152,16 @@ Cohesion: 0.31
 Nodes (8): CancellationToken, Expression, Func, IEnumerable, List, Task, TenantDbContext, DataRepository
 
 ### Community 115 - ".GetGameActivitydData"
-Cohesion: 0.26
-Nodes (8): CancellationToken, Task, GetGameActivityChartDataQuery, GetGameActivityChartDataQueryHandler, DateTime, List, GameActivityStats, GetGameActivityChartData
+Cohesion: 0.29
+Nodes (7): CancellationToken, Task, GetGameActivityChartDataQuery, GetGameActivityChartDataQueryHandler, List, GameActivityStats, GetGameActivityChartData
 
 ### Community 116 - "DataSeeder"
-Cohesion: 0.13
-Nodes (10): IDbContextFactory, IEnumerable, ILogger, Task, DataSeeder, DataSeederSystemUserContext, Task, IDataSeeder (+2 more)
+Cohesion: 0.18
+Nodes (8): IDbContextFactory, IEnumerable, ILogger, Task, DataSeeder, DataSeederSystemUserContext, Task, IDataSeeder
 
 ### Community 117 - "TenantSettingsController"
-Cohesion: 0.11
-Nodes (23): ActionAuthorize, AllowAnonymous, CancellationToken, HttpGet, HttpPost, HttpPut, IActionResult, IFormFile (+15 more)
+Cohesion: 0.27
+Nodes (12): ActionAuthorize, AllowAnonymous, CancellationToken, HttpGet, HttpPost, HttpPut, IActionResult, IFormFile (+4 more)
 
 ### Community 118 - "IAuthenticationService"
 Cohesion: 0.18
@@ -1177,23 +1172,23 @@ Cohesion: 0.18
 Nodes (3): Chart2Component, Component, ViewChild
 
 ### Community 120 - "investigation-brief.mjs"
-Cohesion: 0.12
-Nodes (38): absoluteBriefPath(), briefRoots(), buildBrief(), cachePolicyGuidance(), capBriefFiles(), citationSubset(), closestAncestorLayoutFiles(), inferFrameworkPlaybook() (+30 more)
+Cohesion: 0.11
+Nodes (39): absoluteBriefPath(), briefRoots(), buildBrief(), cachePolicyGuidance(), capBriefFiles(), citationSubset(), closestAncestorLayoutFiles(), inferFrameworkPlaybook() (+31 more)
 
 ### Community 121 - "QrCodeScannerComponent"
 Cohesion: 0.14
 Nodes (5): QrCodeScannerComponent, Component, ViewChild, QrEncryptService, Injectable
 
 ### Community 122 - "IUniversalChallengeProcessing"
-Cohesion: 0.17
-Nodes (11): IJobExecutionContext, Task, EventChecker, IJobExecutionContext, ILogger, Task, UserChallengeTop3StreakTrackerJob, CancellationToken (+3 more)
+Cohesion: 0.18
+Nodes (10): IJobExecutionContext, Task, EventChecker, IJobExecutionContext, ILogger, Task, UserChallengeTop3StreakTrackerJob, CancellationToken (+2 more)
 
 ### Community 123 - ".UpdateAssistiveTouchSettings"
 Cohesion: 0.32
 Nodes (10): ActionAuthorize, CancellationToken, HttpGet, HttpPost, HttpPut, IActionResult, IMediator, ProducesResponseType (+2 more)
 
-### Community 124 - ".GetActivityChartData"
-Cohesion: 0.26
+### Community 124 - "GetActivityChartData"
+Cohesion: 0.27
 Nodes (8): CancellationToken, Task, GetActivityChartDataQuery, GetActivityChartDataQueryHandler, DateTime, List, ActivityLog, GetActivityChartData
 
 ### Community 125 - "CompleteTenantSetupCommandHandler"
@@ -1204,9 +1199,9 @@ Nodes (10): CancellationToken, ILogger, IMediator, Task, CompleteTenantSetupComm
 Cohesion: 0.10
 Nodes (26): applyAuthDisqualifier(), isAuthRoute(), CandidateContractError, candidateLabel(), nonEmptyString(), VALID_SCOPES, validateCandidate(), validateCandidates() (+18 more)
 
-### Community 127 - "GetActiveSpaceTableReservationListQueryHandler"
-Cohesion: 0.43
-Nodes (7): CancellationToken, List, Task, GetActiveSpaceTableReservationListQuery, GetActiveSpaceTableReservationListQueryHandler, DateTime, GetActiveSpaceTableReservationListQueryModel
+### Community 127 - "ReservationStatus"
+Cohesion: 0.08
+Nodes (32): CancellationToken, Task, GetActiveReservedGameQuery, GetActiveReservedGameQueryHandler, CancellationToken, Task, GetGameReservationStatusQuery, GetGameReservationStatusQueryHandler (+24 more)
 
 ### Community 128 - "DH.Authentication.UserContext.csproj"
 Cohesion: 0.13
@@ -1221,12 +1216,12 @@ Cohesion: 0.12
 Nodes (13): net8.0, Microsoft.AspNetCore.Authentication.JwtBearer (8.0.11), Microsoft.AspNetCore.Http.Abstractions (2.1.1), Microsoft.Extensions.Http (8.0.0), Microsoft.Extensions.Logging (8.0.0), Microsoft.NET.Sdk, net8.0, Microsoft.NET.Sdk (+5 more)
 
 ### Community 131 - "VisitorsChartComponent"
-Cohesion: 0.23
+Cohesion: 0.25
 Nodes (3): Component, ViewChild, VisitorsChartComponent
 
 ### Community 132 - "UserManagementService"
-Cohesion: 0.17
-Nodes (10): CancellationToken, Dictionary, ILogger, List, RoleManager, Task, UserManager, UserManagementService (+2 more)
+Cohesion: 0.13
+Nodes (12): CancellationToken, Dictionary, ILogger, List, RoleManager, Task, UserManager, UserManagementService (+4 more)
 
 ### Community 133 - "GetSpaceAvailableTableListQuery"
 Cohesion: 0.43
@@ -1237,8 +1232,8 @@ Cohesion: 0.13
 Nodes (13): net8.0, Microsoft.AspNetCore.Http.Abstractions (2.3.0), Microsoft.EntityFrameworkCore (8.0.3), Microsoft.EntityFrameworkCore.Design (8.0.3), Microsoft.EntityFrameworkCore.SqlServer (8.0.3), Microsoft.EntityFrameworkCore.Tools (8.0.3), Npgsql.EntityFrameworkCore.PostgreSQL (8.0.2), Microsoft.NET.Sdk (+5 more)
 
 ### Community 135 - "LoginComponent"
-Cohesion: 0.08
-Nodes (11): LoginComponent, Component, LoadingIndicatorComponent, Component, ContentChild, Input, LoadingInterceptor, Injectable (+3 more)
+Cohesion: 0.06
+Nodes (8): LoginComponent, Component, RegisterComponent, Component, GlobalErrorHandler, Injectable, CredentialManager, CredentialManagerPlugin
 
 ### Community 136 - "QrTokenService"
 Cohesion: 0.26
@@ -1249,16 +1244,16 @@ Cohesion: 0.13
 Nodes (13): net8.0, Microsoft.Extensions.Configuration.Abstractions (8.0.0), Microsoft.Extensions.Logging.Abstractions (8.0.2), NodaTime (3.2.2), Microsoft.NET.Sdk, Mapster (7.4.1-pre01), Microsoft.Extensions.Caching.Memory (8.0.1), Microsoft.Extensions.Configuration.Json (8.0.1) (+5 more)
 
 ### Community 138 - "ValidationFilterAttribute"
-Cohesion: 0.17
+Cohesion: 0.15
 Nodes (7): ActionExecutedContext, ActionExecutingContext, ValidationFilterAttribute, ActionExecutedContext, ActionExecutingContext, ValidationFilterAttribute, IActionFilter
 
 ### Community 139 - "scripts"
 Cohesion: 0.12
 Nodes (15): name, private, scripts, build, cap:open, cap:sync, ng, postinstall (+7 more)
 
-### Community 140 - ".post"
+### Community 140 - "tenant-router.ts"
 Cohesion: 0.04
-Nodes (25): ISpaceTableById, ISpaceTableParticipant, ChallengeLeaderboardType, ChartActivityType, GamesActivityType, ActivityLog, GetActivityChartData, IChallengeLeaderboard (+17 more)
+Nodes (55): IEventByIdResult, IEventListResult, IRoomByIdResult, IRoomMemberResult, IRoomMessageResult, ChallengeLeaderboardType, ChartActivityType, GamesActivityType (+47 more)
 
 ### Community 141 - "CORE DIRECTIVE: IMAGE-FIRST WEBSITE DESIGN TO CODE"
 Cohesion: 0.06
@@ -1280,9 +1275,9 @@ Nodes (7): CapacitorPlugin, CredentialManagerPlugin, Override, JSObject, Plugin,
 Cohesion: 0.18
 Nodes (10): IDbContextFactory, Task, GameSeeder, CancellationToken, IDbContextFactory, MemoryStream, Task, RewardService (+2 more)
 
-### Community 146 - "club-space-list.component.ts"
-Cohesion: 0.06
-Nodes (17): ICreateEventDto, IEventByIdResult, IEventDropdownListResult, IEventListResult, ISpaceTableList, ClubSpaceListComponent, Component, AdminEventDetailsComponent (+9 more)
+### Community 146 - "club-space-management-routes.module.ts"
+Cohesion: 0.13
+Nodes (8): ISpaceTableList, ClubSpaceListComponent, Component, ClubSpaceManagementRoutingModule, routes, NgModule, Injectable, UserHasActiveTableGuard
 
 ### Community 147 - "GetTenantListQueryModel"
 Cohesion: 0.23
@@ -1309,8 +1304,8 @@ Cohesion: 0.19
 Nodes (14): options, baseHref, browser, index, inlineStyleLanguage, outputPath, polyfills, scripts (+6 more)
 
 ### Community 154 - "NotificationsDialog"
-Cohesion: 0.12
-Nodes (6): NotificationsService, Injectable, IUserNotification, NotificationsDialog, Component, ViewChild
+Cohesion: 0.10
+Nodes (7): NotificationsService, Injectable, IUserNotification, NotificationsDialog, Component, Inject, ViewChild
 
 ### Community 155 - "RabbitMqWorker"
 Cohesion: 0.18
@@ -1326,26 +1321,26 @@ Nodes (5): ReservationHistoryActionsComponent, Component, ContentChild, Input, O
 
 ### Community 158 - "DH.Adapter.Data.Migrations"
 Cohesion: 0.15
-Nodes (7): DH.Adapter.Data.Migrations, ModelBuilder, InitialData, ModelBuilder, AddSeedGameCatalog, ModelBuilder, AddTenantSettingTimeZoneId
+Nodes (7): DH.Adapter.Data.Migrations, ModelBuilder, InitialTenant, ModelBuilder, InitialData, ModelBuilder, AddTenantSetupTokens
 
 ### Community 159 - "Google Cloud Setup and Deployment Notes"
 Cohesion: 0.15
 Nodes (12): **1. Create a Google Cloud Project**, **2. Set Up a Virtual Machine (VM) on Google Cloud**, **3. Install .NET Core SDK and Runtime on the VM**, **4. Deploy the Migration Utility to the VM**, **5. Connect to the VM**, a. **Generate a New SSH Key Pair**, **Autofac Version Issue**, b. **Add the New Public Key to Your Google Cloud VM** (+4 more)
 
 ### Community 160 - "DH.Statistics.Application/Queries/GetActivityChartDataQuery.cs"
-Cohesion: 0.18
+Cohesion: 0.19
 Nodes (12): CancellationToken, DateTime, IDbContextFactory, List, Task, GetActivityChartDataQuery, GetActivityChartDataQueryHandler, ChartActivityType (+4 more)
 
 ### Community 161 - "IUserContext"
 Cohesion: 0.03
-Nodes (54): SystemUserContextAccessor, UserContext, IHttpContextAccessor, Task, UserContextFactory, IMemoryCache, Task, UserSettingsCache (+46 more)
+Nodes (59): SystemUserContextAccessor, IHttpContextAccessor, Task, UserContextFactory, CancellationToken, Task, GetUserChallengePeriodPerformanceQuery, GetUserChallengePeriodPerformanceQueryHandler (+51 more)
 
 ### Community 162 - "SheetDismissDirective"
 Cohesion: 0.21
 Nodes (4): SheetDismissDirective, Directive, HostListener, Optional
 
 ### Community 163 - "DH.Domain.Adapters.QRManager"
-Cohesion: 0.17
+Cohesion: 0.18
 Nodes (6): DH.Domain.Adapters.QRManager.StateModels, DH.Adapter.QRManager, DH.Adapter.QRManager.QRCodeStates, DH.Domain.Adapters.QRManager, IServiceCollection, QRManagerDIModule
 
 ### Community 164 - ".GetUserLocalOrUtcTime"
@@ -1364,13 +1359,13 @@ Nodes (5): AssistiveTouchComponent, Component, HostListener, AssistiveTouchModul
 Cohesion: 0.29
 Nodes (7): CancellationToken, IDbContextFactory, List, MemoryStream, Task, EventService, UpdateEventResponseModel
 
-### Community 168 - "DH.Domain.Queue"
-Cohesion: 0.07
-Nodes (16): DH.Adapter.GameSession, DH.Domain.Queue, DH.Adapter.ChallengesOrchestrator, DH.Domain.Services.Queue, DH.Domain.Adapters.ChallengesOrchestrator, IServiceCollection, ChallengesOrchestratorAdapterDI, IServiceCollection (+8 more)
+### Community 168 - "LoadingService"
+Cohesion: 0.17
+Nodes (10): LoadingIndicatorComponent, Component, ContentChild, Input, LoadingInterceptor, Injectable, LoadingInterceptorContextService, Injectable (+2 more)
 
-### Community 169 - "VenueApplicationComponent"
-Cohesion: 0.13
-Nodes (8): Component, VenueApplicationComponent, canvasToBlob(), disposeBitmap(), downscaleImageFile(), IDownscaleOptions, loadBitmap(), renameForType()
+### Community 169 - "SpaceTableReservationHistory"
+Cohesion: 0.31
+Nodes (3): ITableReservationHistory, SpaceTableReservationHistory, Component
 
 ### Community 170 - "ChallengeType"
 Cohesion: 0.23
@@ -1379,10 +1374,6 @@ Nodes (7): AdminChallengesComponent, Component, ChallengeType, ChallengeTypeTogg
 ### Community 171 - "ScanConfirmDialogComponent"
 Cohesion: 0.29
 Nodes (3): ScanConfirmDialogComponent, Component, Inject
-
-### Community 172 - "ReservationCleanupWorker"
-Cohesion: 0.38
-Nodes (7): CancellationToken, ILogger, IServiceScope, IServiceScopeFactory, Task, ReservationCleanupWorker, ReservationCleanupJobInfo
 
 ### Community 173 - "CORE DIRECTIVE: PREMIUM MOBILE APP IMAGE DIRECTION"
 Cohesion: 0.06
@@ -1404,21 +1395,17 @@ Nodes (8): ActionAuthorize, CancellationToken, HttpGet, HttpPost, IActionResult,
 Cohesion: 0.24
 Nodes (7): IJobExecutionContext, ILogger, Task, UserRewardsExpiryJob, CancellationToken, Task, IUserRewardsExpiryHandler
 
-### Community 178 - ".GetGameCategoryList"
-Cohesion: 0.08
-Nodes (24): CancellationToken, IDbContextFactory, List, Task, GameCategoryService, ActionAuthorize, CancellationToken, HttpPost (+16 more)
+### Community 178 - "IDomainService"
+Cohesion: 0.13
+Nodes (16): CancellationToken, IDbContextFactory, List, Task, GameCategoryService, CancellationToken, List, Task (+8 more)
 
 ### Community 179 - "MapPermissions"
 Cohesion: 0.18
 Nodes (7): UserAction, IUserContext, IActionPermissions, Dictionary, IDictionary, List, MapPermissions
 
 ### Community 180 - "lineOf"
-Cohesion: 0.11
-Nodes (22): apply(), metadata, apply(), metadata, MODE_PATTERNS, isApplicable(), metadata, scan() (+14 more)
-
-### Community 181 - ".get"
-Cohesion: 0.04
-Nodes (26): RoomsService, Injectable, IAddUpdateRoomDto, IRoomByIdResult, IRoomListResult, IRoomMemberResult, IRoomMessageResult, MeepleRoomMenuComponent (+18 more)
+Cohesion: 0.20
+Nodes (10): isApplicable(), metadata, scan(), metadata, scan(), metadata, scan(), metadata (+2 more)
 
 ### Community 183 - "ai-application.md"
 Cohesion: 0.06
@@ -1428,17 +1415,17 @@ Nodes (25): AI application, Cross-references, Frequent gotchas, Priority pattern
 Cohesion: 0.31
 Nodes (6): CancellationToken, List, MemoryStream, Task, TenantDbContext, GameService
 
-### Community 185 - "GameSessionWorker"
-Cohesion: 0.38
-Nodes (7): CancellationToken, ILogger, IServiceScope, IServiceScopeFactory, Task, GameSessionWorker, UserPlayTimeEnforcerJob
+### Community 185 - "instruction.component.ts"
+Cohesion: 0.30
+Nodes (7): INSTRUCTION_LINK_MAPPINGS, InstructionSection, InstructionTopic, LinkInfoType, StepActionLink, ACCENT_BY_KEY, routes
 
 ### Community 186 - "DH.DiceHub.sln"
 Cohesion: 0.18
 Nodes (3): DH.Adapter.QRManager, net8.0, Microsoft.NET.Sdk
 
 ### Community 188 - "DH.Adapter.Authentication.Migrations"
-Cohesion: 0.29
-Nodes (3): DH.Adapter.Authentication.Migrations, ModelBuilder, InitialTenant
+Cohesion: 0.20
+Nodes (5): DH.Adapter.Authentication.Migrations, ModelBuilder, InitialTenant, ModelBuilder, AppIdentityDbContextModelSnapshot
 
 ### Community 189 - "DH.DiceHub/DH.Adapter.Authentication/DH.Adapter.Authentication.csproj"
 Cohesion: 0.18
@@ -1474,19 +1461,19 @@ Nodes (10): background_color, description, display, icons, name, orientation, sc
 
 ### Community 198 - "sanitizers/index.mjs"
 Cohesion: 0.09
-Nodes (18): applyDollarStrip(), stripDollarLiterals(), metadata, STRING_FIELDS, metadata, STRING_FIELDS, metadata, STRING_FIELDS (+10 more)
+Nodes (19): sanitizeCitations(), applyDollarStrip(), stripDollarLiterals(), metadata, STRING_FIELDS, metadata, STRING_FIELDS, metadata (+11 more)
 
-### Community 199 - "ReservationsChartComponent"
+### Community 199 - "GetExpiredCollectedRewardsChartDataModel"
 Cohesion: 0.29
-Nodes (3): ReservationsChartComponent, Component, ViewChild
+Nodes (7): CancellationToken, Task, GetExpiredCollectedRewardsChartDataQuery, GetExpiredCollectedRewardsChartDataQueryHandler, List, GetExpiredCollectedRewardsChartDataModel, RewardsStats
 
 ### Community 200 - "IUserManagementService"
 Cohesion: 0.05
-Nodes (45): CancellationToken, List, Task, GameRecord, GetGameReservedListQuery, GetGameReservedListQueryHandler, CancellationToken, Task (+37 more)
+Nodes (47): CancellationToken, IConfiguration, ILogger, Task, RegistrationEmailSystemUserContext, SendRegistrationEmailConfirmationCommand, SendRegistrationEmailConfirmationCommandHandler, CancellationToken (+39 more)
 
 ### Community 201 - "verify-and-regen.mjs"
-Cohesion: 0.17
-Nodes (23): summarizeClaimResults(), applyQualityFloor(), grade(), gradeRecommendation(), isAccountScope(), roundTo(), scoreActionability(), scoreEvidence() (+15 more)
+Cohesion: 0.18
+Nodes (22): summarizeClaimResults(), applyQualityFloor(), grade(), gradeRecommendation(), isAccountScope(), roundTo(), scoreActionability(), scoreEvidence() (+14 more)
 
 ### Community 202 - "dedup-recs.mjs"
 Cohesion: 0.18
@@ -1501,20 +1488,20 @@ Cohesion: 0.43
 Nodes (4): Client, IConfiguration, Task, SupabaseStorageClient
 
 ### Community 206 - "SchedulerService"
-Cohesion: 0.27
-Nodes (9): DailyTenantJobSpec, CancellationToken, DateTime, ILogger, List, Task, DailyTenantJobSpec, SchedulerService (+1 more)
+Cohesion: 0.12
+Nodes (19): DailyTenantJobSpec, CancellationToken, IDbContextFactory, List, Task, TenantDirectoryService, CancellationToken, DateTime (+11 more)
 
 ### Community 207 - ".buildTenantUrl"
-Cohesion: 0.07
-Nodes (8): RegisterChoiceComponent, Component, RedirectIfTenantGuard, Injectable, IMenuItemInterface, NavigationMenuComponent, Component, HostListener
+Cohesion: 0.08
+Nodes (6): RegisterChoiceComponent, Component, IMenuItemInterface, NavigationMenuComponent, Component, HostListener
 
 ### Community 208 - "IReservationExpirationHandler"
 Cohesion: 0.27
 Nodes (6): IJobExecutionContext, Task, ExpireReservationJob, CancellationToken, Task, IReservationExpirationHandler
 
 ### Community 209 - "IChallengeService"
-Cohesion: 0.06
-Nodes (41): CancellationToken, IDbContextFactory, List, Task, ChallengeService, CancellationToken, Task, DeleteChallengeCommand (+33 more)
+Cohesion: 0.05
+Nodes (45): CancellationToken, IDbContextFactory, List, Task, ChallengeService, CancellationToken, Task, CancellationToken (+37 more)
 
 ### Community 210 - "VerifyTenantApplicationEmailVerificationCodeCommandHandler"
 Cohesion: 0.21
@@ -1527,6 +1514,10 @@ Nodes (5): IHttpClientFactory, ILogger, AuthorizedClientFactory, ApplicationApi,
 ### Community 212 - "ChallengeHubClientProxy"
 Cohesion: 0.36
 Nodes (3): IHubContext, Task, ChallengeHubClientProxy
+
+### Community 213 - "CreateOwnerPasswordComponent"
+Cohesion: 0.06
+Nodes (8): ConfirmEmailComponent, Component, CreateOwnerPasswordComponent, Component, ForgotPasswordComponent, Component, ResetPasswordComponent, Component
 
 ### Community 214 - "DH.DiceHub/DH.Adapter.Scheduling/DH.Adapter.Scheduling.csproj"
 Cohesion: 0.22
@@ -1548,14 +1539,6 @@ Nodes (7): CancellationToken, List, Task, GetUserRewardListQuery, GetUserRewardL
 Cohesion: 0.12
 Nodes (11): getMetricThrottle(), isRateLimited(), parsePositiveIntEnv(), resolveConcurrency(), resolveRateLimit(), retryOnRateLimit(), Semaphore, SemaphoreAbortError (+3 more)
 
-### Community 219 - "GetGameReviewListQueryHandler"
-Cohesion: 0.36
-Nodes (7): CancellationToken, List, Task, GetGameReviewListQuery, GetGameReviewListQueryHandler, DateTime, GetGameReviewListQueryModel
-
-### Community 220 - "DiceRollerComponent"
-Cohesion: 0.25
-Nodes (4): DiceRollerComponent, Component, Input, Output
-
 ### Community 221 - "withRouteShapeWarnings"
 Cohesion: 0.14
 Nodes (19): byRoute(), gate(), metadata, ratioOverThreshold(), round2(), sumRows(), extractErrors(), extractFromStatusRows() (+11 more)
@@ -1576,6 +1559,10 @@ Nodes (9): serve, development, buildTarget, extractLicenses, optimization, sourc
 Cohesion: 0.36
 Nodes (7): CancellationToken, List, Task, GetRoomInfoMessageListQuery, GetRoomInfoMessageListQueryHandler, DateTime, GetRoomInfoMessageListQueryModel
 
+### Community 226 - "instruction-management.module.ts"
+Cohesion: 0.20
+Nodes (6): InstructionManagementModule, NgModule, InstructionManagementRoutingModule, NgModule, InstructionManagementComponent, Component
+
 ### Community 227 - "Step 2: Choose a Deploy Method"
 Cohesion: 0.10
 Nodes (19): Agent-Specific Notes, Claude Code / terminal-based agents, CLI Auth Failure, Codex, Deploy to Vercel, Escalated Network Access (Codex / sandboxed environments), Linked (`.vercel/` exists) + has git remote → Git Push, Linked (`.vercel/` exists) + no git remote → `vercel deploy` (+11 more)
@@ -1583,6 +1570,10 @@ Nodes (19): Agent-Specific Notes, Claude Code / terminal-based agents, CLI Auth 
 ### Community 228 - "ScrollTopComponent"
 Cohesion: 0.25
 Nodes (5): ScrollTopComponent, Component, HostListener, ScrollToTopModule, NgModule
+
+### Community 229 - "SpaceTableService"
+Cohesion: 0.39
+Nodes (5): CancellationToken, IDbContextFactory, List, Task, SpaceTableService
 
 ### Community 230 - "PermissionStringBuilder"
 Cohesion: 0.32
@@ -1592,37 +1583,33 @@ Nodes (5): IMemoryCache, PermissionStringBuilder, IDictionary, List, IMapPermiss
 Cohesion: 0.25
 Nodes (7): CancellationToken, IJobExecutionContext, IServiceScopeFactory, Task, JobListenerForDeadLetterQueue, JobExecutionException, JobListenerSupport
 
-### Community 232 - "StatisticJobWorker"
+### Community 232 - "util.mjs"
 Cohesion: 0.33
-Nodes (5): CancellationToken, ILogger, IServiceScopeFactory, Task, StatisticJobWorker
+Nodes (6): apply(), metadata, apply(), metadata, MODE_PATTERNS, extractRoute()
 
 ### Community 233 - "scanners/index.mjs"
-Cohesion: 0.14
-Nodes (14): scanners, isApplicable(), metadata, scan(), isApplicable(), metadata, scan(), metadata (+6 more)
+Cohesion: 0.18
+Nodes (8): scanners, isApplicable(), metadata, scan(), isApplicable(), metadata, scan(), metadata
 
 ### Community 234 - "Rules"
 Cohesion: 0.10
 Nodes (19): Animation (HIGH), Core Rendering (CRITICAL), Creating a New Rule, Design System (MEDIUM), Fonts (LOW), JavaScript (LOW), List Performance (HIGH), Monorepo (LOW) (+11 more)
 
-### Community 235 - ".TryDequeue"
-Cohesion: 0.20
-Nodes (8): CancellationToken, List, Task, IStatisticJobQueue, CancellationToken, List, Task, StatisticJobQueue
+### Community 235 - "RewardsCollectedChartComponent"
+Cohesion: 0.31
+Nodes (3): RewardsCollectedChartComponent, Component, ViewChild
 
 ### Community 236 - "IRepository"
-Cohesion: 0.03
-Nodes (88): CancellationToken, Task, ExpiredRewardInfo, UserRewardsExpiryHandler, CancellationToken, Task, SaveUserDeviceTokenCommand, SaveUserDeviceTokenCommandHandler (+80 more)
+Cohesion: 0.04
+Nodes (75): IMemoryCache, Task, UserSettingsCache, CancellationToken, Task, DeleteEventCommand, DeleteEventCommandHandler, CancellationToken (+67 more)
 
 ### Community 237 - "Design Audit"
 Cohesion: 0.10
 Nodes (19): Code Quality, Color and Surfaces, Component Patterns, Content, Design Audit, Fix Priority, How This Works, Iconography (+11 more)
 
 ### Community 238 - "shared.module.ts"
-Cohesion: 0.03
-Nodes (74): AppModule, NgModule, AppRoutingModule, NgModule, ROUTES, SinglePlayerConfirmDialog, Component, Inject (+66 more)
-
-### Community 240 - "ActionAuthorizeFilter"
-Cohesion: 0.25
-Nodes (6): AuthorizationFilterContext, int, Task, ActionAuthorizeFilter, IUserActionService, IAsyncAuthorizationFilter
+Cohesion: 0.02
+Nodes (101): AppModule, NgModule, AppRoutingModule, NgModule, ROUTES, AdminChallengesHistoryLogComponent, Component, AdminChallengesListComponent (+93 more)
 
 ### Community 241 - "Deploy DH.Api (deploy.sh)"
 Cohesion: 0.40
@@ -1648,13 +1635,17 @@ Nodes (8): prefix, projectType, root, schematics, sourceRoot, DH.WebUI, style, @
 Cohesion: 0.25
 Nodes (7): Build, Code scaffolding, Development server, DHWebUI, Further help, Running end-to-end tests, Running unit tests
 
+### Community 247 - "TenantDbContextFactory"
+Cohesion: 0.25
+Nodes (6): IConfiguration, TenantDbContextFactory, Assembly, string, TenantDbContextFactory, IDbContextFactory
+
 ### Community 248 - "scripts/deep-dive.mjs"
 Cohesion: 0.20
 Nodes (15): escapeODataString(), mergeIntoEvidence(), odataEq(), SCANNER_KINDS, simplify(), SPEC_GENERATORS, specsForCandidate(), readProjectJson() (+7 more)
 
-### Community 249 - "SupportLanguages"
-Cohesion: 0.09
-Nodes (3): SupportLanguages, ChallengesRewardsComponent, Component
+### Community 249 - "GameReservationHistory"
+Cohesion: 0.31
+Nodes (3): IGameReservationHistory, GameReservationHistory, Component
 
 ### Community 250 - "ToastComponent"
 Cohesion: 0.43
@@ -1716,9 +1707,9 @@ Nodes (7): CancellationToken, ILogger, Task, GetUserActiveTableQuery, GetUserAct
 Cohesion: 0.33
 Nodes (3): RandomColorDirective, Directive, Input
 
-### Community 266 - "GetEventListForStaffQuery"
-Cohesion: 0.53
-Nodes (5): CancellationToken, List, Task, GetEventListForStaffQuery, GetEventListForStaffQueryHandler
+### Community 266 - "GetSpaceTableParticipantListQueryHandler"
+Cohesion: 0.43
+Nodes (6): CancellationToken, List, Task, GetSpaceTableParticipantListQuery, GetSpaceTableParticipantListQueryHandler, GetSpaceTableParticipantListQueryModel
 
 ### Community 267 - "Patterns"
 Cohesion: 0.11
@@ -1740,17 +1731,13 @@ Nodes (3): CancellationToken, Task, IQrTokenService
 Cohesion: 0.22
 Nodes (5): DH.Domain.Adapters.ChatHub, IServiceCollection, ChatHubDIModule, Task, IChatHubClient
 
-### Community 272 - "AppIdentityDbContextModelSnapshot"
-Cohesion: 0.18
-Nodes (7): ModelBuilder, AppIdentityDbContextModelSnapshot, ModelBuilder, TenantDbContextModelSnapshot, ModelBuilder, StatisticsDbContextModelSnapshot, ModelSnapshot
+### Community 272 - "TenantDbContextModelSnapshot.cs"
+Cohesion: 0.25
+Nodes (5): ModelBuilder, TenantDbContextModelSnapshot, ModelBuilder, StatisticsDbContextModelSnapshot, ModelSnapshot
 
-### Community 273 - "GetRoomMessageListQueryHandler"
-Cohesion: 0.36
-Nodes (7): CancellationToken, List, Task, GetRoomMessageListQuery, GetRoomMessageListQueryHandler, DateTime, GetRoomMessageListQueryModel
-
-### Community 274 - "TenantDirectoryService"
-Cohesion: 0.43
-Nodes (5): CancellationToken, IDbContextFactory, List, Task, TenantDirectoryService
+### Community 273 - ".Resolve"
+Cohesion: 0.46
+Nodes (3): string, TimeZoneResolver, TimeZoneInfo
 
 ### Community 276 - "GetActiveGameReservationListQueryHandler"
 Cohesion: 0.43
@@ -1761,12 +1748,12 @@ Cohesion: 0.12
 Nodes (16): 1.1 Avoid Boolean Prop Proliferation, 1.2 Use Compound Components, 1. Component Architecture, 2.1 Decouple State Management from UI, 2.2 Define Generic Context Interfaces for Dependency Injection, 2.3 Lift State into Provider Components, 2. State Management, 3.1 Create Explicit Component Variants (+8 more)
 
 ### Community 278 - "display-labels.mjs"
-Cohesion: 0.21
-Nodes (15): formatNumberLike(), formatPublicText(), formatSignal(), formatSignalPart(), formatSignalValue(), humanizeKey(), KIND_LABELS, normalizeObservedWindowUnits() (+7 more)
+Cohesion: 0.13
+Nodes (26): buildBudgetSummary(), buildChatPreview(), buildExactChatMessage(), buildOptions(), buildPrintCheck(), buildQuestionPayload(), buildQuestionText(), renderBudgetSummaryMarkdown() (+18 more)
 
 ### Community 279 - ".resetData"
-Cohesion: 0.11
-Nodes (3): RewardsCollectedChartComponent, Component, ViewChild
+Cohesion: 0.07
+Nodes (8): IRoomListResult, ReservationsChartComponent, Component, ViewChild, NewGameListComponent, Component, FindMeepleManagementComponent, Component
 
 ### Community 280 - "ApiEndpoints.cs"
 Cohesion: 0.40
@@ -1797,8 +1784,8 @@ Cohesion: 0.40
 Nodes (5): DH.Adapter.Statistics, net8.0, Microsoft.Extensions.DependencyInjection.Abstractions (8.0.2), Microsoft.Extensions.Hosting.Abstractions (8.0.1), Microsoft.NET.Sdk
 
 ### Community 295 - "gates/index.mjs"
-Cohesion: 0.16
-Nodes (12): extractColdStarts(), gate(), metadata, gates, MAX_CODE_CANDIDATES, metadata, HERE, main() (+4 more)
+Cohesion: 0.06
+Nodes (38): gate(), metadata, unique(), extractColdStarts(), gate(), metadata, extractCallCounts(), extractExternalApis() (+30 more)
 
 ### Community 296 - "GetSeedGameCatalogDropdownListQueryHandler"
 Cohesion: 0.46
@@ -1816,10 +1803,6 @@ Nodes (16): collectInputFiles(), escapeRegExp(), extractFenceBlocks(), extractJs
 Cohesion: 0.43
 Nodes (7): CancellationToken, List, Task, GetGameReservationHistoryQuery, GetGameReservationHistoryQueryHandler, DateTime, GetGameReservationHistoryQueryModel
 
-### Community 300 - "CreateRoomCommandDto"
-Cohesion: 0.40
-Nodes (4): DateTime, List, ValidationError, CreateRoomCommandDto
-
 ### Community 302 - ".GetActiveUserCustomPeriod"
 Cohesion: 0.60
 Nodes (3): ILogger, List, UserChallengePeriodPerformanceExtensions
@@ -1834,11 +1817,11 @@ Nodes (16): buildDebugArtifact(), candidateFamily(), candidateMatchesRef(), cand
 
 ### Community 305 - "React View Transitions"
 Cohesion: 0.12
-Nodes (17): Accessibility, Availability, Choosing Animation Style, CSS Pseudo-Elements, Full Compiled Document, Implementation Workflow, Next.js Integration, Props (+9 more)
+Nodes (17): Accessibility, Animation Triggers, Availability, Choosing Animation Style, Core Concepts, Critical Placement Rule, CSS Pseudo-Elements, Full Compiled Document (+9 more)
 
 ### Community 306 - "CORE DIRECTIVE: AWWWARDS-LEVEL IMAGE ART DIRECTION"
-Cohesion: 0.14
-Nodes (14): 10. SECTION RHYTHM RULE, 12. DENSITY & SPACING DISCIPLINE, 14. IMAGE / MEDIA DIRECTION, 16. MULTI-IMAGE CONSISTENCY RULE, 17. CLARITY CHECK, 19. RESPONSE BEHAVIOR, 1. ACTIVE BASELINE CONFIGURATION, 21. FINAL GOAL (+6 more)
+Cohesion: 0.12
+Nodes (16): 10. SECTION RHYTHM RULE, 12. DENSITY & SPACING DISCIPLINE, 14. IMAGE / MEDIA DIRECTION, 16. MULTI-IMAGE CONSISTENCY RULE, 17. CLARITY CHECK, 19. RESPONSE BEHAVIOR, 1. ACTIVE BASELINE CONFIGURATION, 21. FINAL GOAL (+8 more)
 
 ### Community 307 - "SKILL: Industrial Brutalism & Tactical Telemetry UI"
 Cohesion: 0.12
@@ -1854,14 +1837,14 @@ Nodes (15): 10. Design System (design-system), 11. Monorepo (monorepo), 12. Thir
 
 ### Community 310 - "DH.Domain.Repositories"
 Cohesion: 0.07
-Nodes (14): DH.Application.Common.Queries, DH.Domain.Models.Common, DH.Application.Common.Commands, DH.Adapter.Authentication.Filters, DH.Api.Controllers, DH.Domain.Repositories, DH.Application.Stats.Queries, DH.Domain.Models.RewardModels.Queries (+6 more)
+Nodes (14): DH.Application.Common.Queries, DH.Domain.Models.Common, DH.Domain.Repositories, DH.Application.Stats.Queries, DH.Domain.Models.RewardModels.Queries, DH.Application.Rewards.Queries, DH.Domain.Models.SpaceManagementModels.Queries, DH.Application.SpaceManagement.Queries (+6 more)
 
 ### Community 311 - "vercel-optimize"
 Cohesion: 0.13
 Nodes (13): Common changes, Contributing to `vercel-optimize`, Output contracts, Rules, Contributing, Install, License, Requirements (+5 more)
 
 ### Community 312 - "GetUserWhoPlayedGameChartDataQuery.cs"
-Cohesion: 0.26
+Cohesion: 0.27
 Nodes (8): CancellationToken, Task, GetUserWhoPlayedGameChartDataQuery, GetUserWhoPlayedGameChartDataQueryHandler, DateTime, List, GameUserActivity, GetUsersWhoPlayedGameData
 
 ### Community 313 - "Recommendations"
@@ -1873,8 +1856,8 @@ Cohesion: 0.83
 Nodes (3): gradlew script, die(), warn()
 
 ### Community 317 - "StatisticsService"
-Cohesion: 0.10
-Nodes (16): CancellationToken, DateTime, IDbContextFactory, List, Task, StatisticsService, Test, ChartActivityType (+8 more)
+Cohesion: 0.11
+Nodes (15): CancellationToken, DateTime, IDbContextFactory, List, Task, StatisticsService, Test, ChartActivityType (+7 more)
 
 ### Community 318 - "MainActivity.java"
 Cohesion: 0.47
@@ -1908,21 +1891,25 @@ Nodes (15): Layout-Level ViewTransition, `loading.tsx` as Suspense Boundary, Nes
 Cohesion: 0.13
 Nodes (15): Animation Timing, Card Expand/Collapse with `startTransition`, Composing with Activity, Cross-Fade Without Remount, Exclude Elements with `useOptimistic`, Isolate Elements from Parent Animations, Layout Displacement Morph, Patterns and Guidelines (+7 more)
 
+### Community 338 - ".GetGameCategoryList"
+Cohesion: 0.29
+Nodes (6): ActionAuthorize, CancellationToken, HttpPost, IActionResult, ProducesResponseType, Task
+
 ### Community 341 - "tasteskill: Anti-Slop Frontend Skill"
-Cohesion: 0.13
-Nodes (15): 0.A Read these signals first, 0.B Output a one-line "Design Read" before generating, 0. BRIEF INFERENCE (Read the Room Before Anything Else), 0.C If the brief is ambiguous, ask one question, do not guess, 0.D Anti-Default Discipline, 13. OUT OF SCOPE, 14. FINAL PRE-FLIGHT CHECK, 1.A Dial Inference (design read → dial values) (+7 more)
+Cohesion: 0.18
+Nodes (11): 0.A Read these signals first, 0.B Output a one-line "Design Read" before generating, 0. BRIEF INFERENCE (Read the Room Before Anything Else), 0.C If the brief is ambiguous, ask one question, do not guess, 0.D Anti-Default Discipline, 13. OUT OF SCOPE, 14. FINAL PRE-FLIGHT CHECK, 2.A When to reach for a real design system (use official packages) (+3 more)
 
 ### Community 344 - "Appendix B - Canonical Sources (read these before reinventing)"
 Cohesion: 0.13
 Nodes (15): Appendix B - Canonical Sources (read these before reinventing), Apple Liquid Glass (Apple platforms only), Atlassian, Bootstrap, Carbon, Fluent UI, GOV.UK, Material Web (+7 more)
 
-### Community 347 - ".AddEmailAdapter"
-Cohesion: 0.50
-Nodes (3): IConfiguration, IServiceCollection, DI
+### Community 347 - "GetUniversalChallengeListQueryHandler"
+Cohesion: 0.52
+Nodes (6): CancellationToken, List, Task, GetUniversalChallengeListQuery, GetUniversalChallengeListQueryHandler, GetUniversalChallengeListQueryModel
 
-### Community 348 - "GetUserChallengePeriodRewardListQueryHandler"
+### Community 348 - "GetEventByIdQueryModel"
 Cohesion: 0.43
-Nodes (6): CancellationToken, List, Task, GetUserChallengePeriodRewardListQuery, GetUserChallengePeriodRewardListQueryHandler, GetUserChallengePeriodRewardListQueryModel
+Nodes (6): CancellationToken, Task, GetEventByIdQuery, GetEventByIdQueryHandler, DateTime, GetEventByIdQueryModel
 
 ### Community 366 - ".AddSchedulingAdapter"
 Cohesion: 0.47
@@ -1932,9 +1919,9 @@ Nodes (4): IConfiguration, IServiceCollection, SchedulingDIModule, IServiceColle
 Cohesion: 0.13
 Nodes (14): 1. Visual Theme & Atmosphere, 2. Color Palette & Roles, 3. Typography Rules, 4. Component Stylings, 5. Hero Section, 6. Layout Principles, 7. Responsive Rules, 8. Motion & Interaction (Code-Phase Intent) (+6 more)
 
-### Community 368 - "GetChallengeListWithFilterQuery"
-Cohesion: 0.52
-Nodes (6): CancellationToken, List, Task, GetChallengeListWithFilterQuery, GetChallengeListWithFilterQueryHandler, GetChallengeListWithFilterQueryModel
+### Community 368 - "GetUserEventListQueryHandler"
+Cohesion: 0.53
+Nodes (5): CancellationToken, List, Task, GetUserEventListQuery, GetUserEventListQueryHandler
 
 ### Community 369 - "ChallengeProcessingOutcomeMessage"
 Cohesion: 0.67
@@ -1953,28 +1940,28 @@ Cohesion: 0.14
 Nodes (14): 2. THE COMBINATORIAL VARIATION ENGINE, Background Character, Background Mode (per-section), Composition Anchor (per-section), CTA Variation, Hero Architecture, Hero Scale (per-page), Motion-Implied Language (+6 more)
 
 ### Community 374 - "ISchedulerService"
-Cohesion: 0.24
-Nodes (7): CancellationToken, DateTime, List, Task, ISchedulerService, DateTime, ScheduleJobInfo
+Cohesion: 0.21
+Nodes (8): DH.Domain.Adapters.Scheduling.Models, CancellationToken, DateTime, List, Task, ISchedulerService, DateTime, ScheduleJobInfo
 
-### Community 375 - "lib/budget-summary.mjs"
-Cohesion: 0.31
-Nodes (11): buildBudgetSummary(), buildChatPreview(), buildExactChatMessage(), buildOptions(), buildPrintCheck(), buildQuestionPayload(), buildQuestionText(), renderBudgetSummaryMarkdown() (+3 more)
+### Community 375 - "GetSystemRewardByIdQueryHandler"
+Cohesion: 0.53
+Nodes (5): CancellationToken, Task, GetSystemRewardByIdQuery, GetSystemRewardByIdQueryHandler, GetRewardByIdQueryModel
 
 ### Community 376 - "Data collection"
 Cohesion: 0.15
 Nodes (13): Data collection, Error states and fallbacks, Per-signal source matrix, Real JSON shapes, Table of contents, The `signals.json` shape, `vercel api /v9/projects/<id>` / `?teamId=<orgId>`, `vercel contract --format json` (+5 more)
 
-### Community 377 - "GetEventByIdQueryModel"
-Cohesion: 0.12
-Nodes (15): CancellationToken, Task, GetEventByIdQuery, GetEventByIdQueryHandler, GameAveragePlaytime, DateTime, GetEventByIdQueryModel, int (+7 more)
+### Community 377 - "GameAveragePlaytime"
+Cohesion: 0.17
+Nodes (9): GameAveragePlaytime, int, List, ValidationError, CreateGameDto, int, List, ValidationError (+1 more)
 
 ### Community 378 - "ControlsMenuComponent"
-Cohesion: 0.22
-Nodes (4): ControlsMenuComponent, Component, Input, Output
+Cohesion: 0.11
+Nodes (6): AdminEventManagementComponent, Component, ControlsMenuComponent, Component, Input, Output
 
-### Community 379 - "GetActiveReservedGameQueryHandler"
-Cohesion: 0.43
-Nodes (6): CancellationToken, Task, GetActiveReservedGameQuery, GetActiveReservedGameQueryHandler, DateTime, GetActiveReservedGameQueryModel
+### Community 379 - "IJob"
+Cohesion: 0.40
+Nodes (4): IJobExecutionContext, Task, CloseActiveTablesJob, IJob
 
 ### Community 385 - "Doctrine"
 Cohesion: 0.17
@@ -1996,17 +1983,29 @@ Nodes (12): Animation Timing, Card Expand/Collapse with `startTransition`, Cross
 Cohesion: 0.17
 Nodes (12): 4.10 Quotes & Testimonials, 4.11 Page Theme Lock (Light / Dark Mode Consistency), 4.1 Typography, 4.2 Color Calibration, 4.3 Layout Diversification, 4.4 Materiality, Shadows, Cards, 4.5 Interactive UI States, 4.6 Data & Form Patterns (+4 more)
 
-### Community 391 - ".RegisterUser"
-Cohesion: 0.25
-Nodes (5): int, List, ValidationError, UserRegistrationRequest, UserRegistrationResponse
+### Community 390 - "UpdateGameReviewDto"
+Cohesion: 0.40
+Nodes (4): int, List, ValidationError, UpdateGameReviewDto
+
+### Community 391 - "UserRegistrationRequest"
+Cohesion: 0.40
+Nodes (4): int, List, ValidationError, UserRegistrationRequest
+
+### Community 392 - ".SaveChangesAsync"
+Cohesion: 0.06
+Nodes (31): CancellationToken, IEnumerable, ILogger, string, Task, PushNotificationsService, CancellationToken, Task (+23 more)
+
+### Community 393 - "UpdateRoomCommandDto"
+Cohesion: 0.40
+Nodes (4): DateTime, List, ValidationError, UpdateRoomCommandDto
 
 ### Community 394 - "IEventService"
 Cohesion: 0.42
 Nodes (5): CancellationToken, List, MemoryStream, Task, IEventService
 
 ### Community 395 - "TokenService"
-Cohesion: 0.14
-Nodes (11): Claim, ClaimsPrincipal, DateTime, IEnumerable, List, Task, UserManager, TokenService (+3 more)
+Cohesion: 0.08
+Nodes (18): AuthorizationFilterContext, int, Task, ActionAuthorizeFilter, Claim, ClaimsPrincipal, DateTime, IEnumerable (+10 more)
 
 ### Community 396 - "DeleteGameCommandHandler"
 Cohesion: 0.47
@@ -2031,6 +2030,10 @@ Nodes (11): Layout-Level ViewTransition, `loading.tsx` as Suspense Boundary, Nex
 ### Community 402 - "GetActiveGameReservationCountQueryHandler"
 Cohesion: 0.47
 Nodes (4): CancellationToken, Task, GetActiveGameReservationCountQuery, GetActiveGameReservationCountQueryHandler
+
+### Community 403 - "ReservationProcessingOutcomeMessage"
+Cohesion: 0.60
+Nodes (4): DateTime, ReservationOutcome, ReservationProcessingOutcomeMessage, ReservationType
 
 ### Community 404 - "GetAllEventsDropdownListQueryHandler"
 Cohesion: 0.50
@@ -2112,10 +2115,6 @@ Nodes (9): 18. EXTRA CREATIVITY & IMPLEMENTATION EDGE, Composition variety check
 Cohesion: 0.36
 Nodes (7): apply(), collectText(), matchConcurrency(), matchProviders(), metadata, PROVIDER_LIMITS, PROVIDER_RE
 
-### Community 428 - "Core Concepts"
-Cohesion: 0.50
-Nodes (4): Animation Triggers, Core Concepts, Critical Placement Rule, The `<ViewTransition>` Component
-
 ### Community 432 - "IValidableFields"
 Cohesion: 0.25
 Nodes (6): List, ValidationError, CreateOwnerRequest, List, ValidationError, IValidableFields
@@ -2148,13 +2147,29 @@ Nodes (8): 12. THE COMBINATORIAL VARIATION ENGINE, Background Character, Hero Ar
 Cohesion: 0.25
 Nodes (8): 8. ANTI-AI-SLOP RULES, Carousel / marquee slop (layout), Content slop, Data / KPI slop, Density slop, Layout slop, Typography slop, Visual slop
 
+### Community 444 - "force-dynamic.mjs"
+Cohesion: 0.67
+Nodes (3): isApplicable(), metadata, scan()
+
+### Community 445 - "region-pin-in-config.mjs"
+Cohesion: 0.67
+Nodes (3): metadata, parseRegionList(), scan()
+
+### Community 446 - "Transition Types"
+Cohesion: 0.50
+Nodes (4): `router.back()` and Browser Back Button, Shared Element Readiness, Transition Types, Types and Suspense
+
 ### Community 447 - "Persistent Element Isolation"
 Cohesion: 0.50
 Nodes (4): Backdrop-Blur Workaround, Floating Element Isolation (popovers, menus, tooltips, control clusters), Persistent Element Isolation, Sliding Indicator (tab underline / segmented pill)
 
-### Community 448 - "GetGameInventoryQueryHandler"
-Cohesion: 0.43
-Nodes (5): CancellationToken, Task, GetGameInventoryQuery, GetGameInventoryQueryHandler, GetGameInvetoryQueryModel
+### Community 448 - "GetSpaceActivityStatsQueryHandler"
+Cohesion: 0.18
+Nodes (11): CancellationToken, Task, GetGameInventoryQuery, GetGameInventoryQueryHandler, CancellationToken, ILogger, Task, GetSpaceActivityStatsQuery (+3 more)
+
+### Community 449 - "1. THE THREE DIALS (Core Configuration)"
+Cohesion: 0.50
+Nodes (4): 1.A Dial Inference (design read → dial values), 1.B Use-Case Presets, 1.C How the Dials Drive Output, 1. THE THREE DIALS (Core Configuration)
 
 ### Community 450 - "framework-support.mjs"
 Cohesion: 0.52
@@ -2299,14 +2314,6 @@ Nodes (6): 5. IMAGE COUNT & PAGE SLICING, Continuity Rule, Counting rule, Format
 ### Community 492 - "StreakComponent"
 Cohesion: 0.29
 Nodes (3): StreakComponent, StreakPageType, Component
-
-### Community 497 - "external-api-slow.mjs"
-Cohesion: 0.60
-Nodes (4): extractCallCounts(), extractExternalApis(), gate(), metadata
-
-### Community 498 - "platform-bot-protection.mjs"
-Cohesion: 0.60
-Nodes (4): computeBotShare(), gate(), metadata, totalRequestsFromSignals()
 
 ### Community 499 - "platform-fluid-compute.mjs"
 Cohesion: 0.60
@@ -2508,22 +2515,6 @@ Nodes (5): int, List, Regex, ValidationError, TenantApplicationRequest
 Cohesion: 0.40
 Nodes (4): int, List, ValidationError, CreateGameReviewDto
 
-### Community 555 - "build-minutes-fanout.mjs"
-Cohesion: 0.67
-Nodes (3): gate(), metadata, unique()
-
-### Community 556 - "isr-overrevalidation.mjs"
-Cohesion: 0.67
-Nodes (3): extractRows(), gate(), metadata
-
-### Community 557 - "middleware-heavy.mjs"
-Cohesion: 0.67
-Nodes (3): gate(), metadata, sumRows()
-
-### Community 558 - "observability-events-attribution.mjs"
-Cohesion: 0.67
-Nodes (3): gate(), metadata, sumBilled()
-
 ### Community 559 - "Support Topics"
 Cohesion: 0.50
 Nodes (3): Add A Topic, Rules, Support Topics
@@ -2551,10 +2542,6 @@ Nodes (4): How Multiple VTs Interact, Nested VT Limitation, Two Patterns Coexist
 ### Community 568 - "How Multiple VTs Interact"
 Cohesion: 0.50
 Nodes (4): How Multiple VTs Interact, Nested VT Limitation, Two Patterns Coexist, Use `default="none"` Deliberately
-
-### Community 569 - "UpdateRewardDto"
-Cohesion: 0.40
-Nodes (4): int, List, ValidationError, UpdateRewardDto
 
 ### Community 570 - "7. DIAL DEFINITIONS (Technical Reference)"
 Cohesion: 0.50
@@ -2607,22 +2594,22 @@ Nodes (3): ChipComponent, Component, Input
 ## Knowledge Gaps
 - **1761 isolated node(s):** `net8.0`, `Microsoft.NET.Test.Sdk (17.10.0)`, `xunit (2.8.1)`, `xunit.runner.visualstudio (2.8.1)`, `Npgsql (8.0.3)` (+1756 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **184 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **191 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `DH.OperationResultCore.Utility` connect `DH.OperationResultCore.Utility` to `DH.Statistics.Application/Queries/GetActivityChartDataQuery.cs`, `OperationResult`, `GetReservationChartDataQuery`, `.GetGameActivitydData`, `DH.OperationResultCore.Exceptions`, `GetUserWhoPlayedGameChartDataQuery.cs`, `DH.OperationResultCore.Extension`, `.GetActivityChartData`, `DH.Statistics.Application/Queries/GetChallengeHistoryLogQuery.cs`, `DH.Statistics.Domain.Models.Queries`, `DH.Messaging.Publisher`?**
+- **Why does `DH.OperationResultCore.Utility` connect `OperationResult` to `DH.Statistics.Application/Queries/GetActivityChartDataQuery.cs`, `GetExpiredCollectedRewardsChartDataModel`, `DH.Domain.Entities`, `DH.Domain.Models.StatisticsModels.Queries`, `GetReservationChartDataQuery`, `.GetGameActivitydData`, `IStatisticsService`, `GetUserWhoPlayedGameChartDataQuery.cs`, `GetActivityChartData`, `DH.Statistics.Application/Queries/GetChallengeHistoryLogQuery.cs`, `DH.Statistics.Domain.Models.Queries`, `DH.Messaging.Publisher`?**
   _High betweenness centrality (0.026) - this node is a cross-community bridge._
-- **Why does `DH.Domain.Entities` connect `DH.Domain.Entities` to `DH.Domain.Models.ChallengeModels.Commands`, `TenantDbContext`, `DH.Domain.Adapters.Localization`, `GetAllEventsDropdownListQueryHandler`, `DH.OperationResultCore.Exceptions`, `UserChallengesManagementService`, `DH.Domain.Adapters.Authentication`, `DH.Domain.Services`, `DH.Domain.Adapters.QRManager`, `DH.Domain.Queue`, `Challenge`, `GameSessionService`, `.GetGameCategoryList`, `ReservationStatus`, `DH.Domain.Repositories`, `SendTenantSetupInvitationCommandHandler`, `DH.Domain.Adapters.Data`, `TenantSetting`, `DH.Domain.Adapters.Scheduling`?**
+- **Why does `DH.Domain.Entities` connect `DH.Domain.Entities` to `DH.Domain.Models.GameModels.Queries`, `TenantDbContext`, `ChallengeReward`, `DH.Domain.Models.ChallengeModels.Queries`, `DH.Domain.Adapters.Localization`, `GetAllEventsDropdownListQueryHandler`, `DH.OperationResultCore.Exceptions`, `UserChallengesManagementService`, `DH.Domain.Adapters.Authentication`, `DH.Domain.Services`, `DH.Domain.Adapters.QRManager`, `UserChallenge`, `CreateSystemRewardCommand.cs`, `GameSessionService`, `DH.Domain.Repositories`, `SendTenantSetupInvitationCommandHandler`, `DH.Domain.Adapters.Data`, `TenantSetting`, `DH.Api/Program.cs`?**
   _High betweenness centrality (0.021) - this node is a cross-community bridge._
-- **Why does `DH.Domain.Enums` connect `DH.Domain.Entities` to `DH.Domain.Models.ChallengeModels.Commands`, `TenantDbContext`, `DH.Domain.Adapters.Localization`, `DH.OperationResultCore.Exceptions`, `UserChallengesManagementService`, `DH.Domain.Adapters.Authentication`, `DH.OperationResultCore.Utility`, `DH.Domain.Services`, `DH.Domain.Adapters.QRManager`, `ReservationType`, `Challenge`, `ReservationStatus`, `DH.Domain.Repositories`, `GetUserWhoPlayedGameChartDataQuery.cs`, `DH.Domain.Adapters.Data`, `StatisticsService`, `IStatisticJobInfo`, `TenantSetting`, `IChallengeService`, `TenantApplicationDto`, `DH.Domain.Adapters.Scheduling`, `UniversalChallengeProcessing`, `QueuedJob`, `.GetGameActivitydData`, `GetEventByIdQueryModel`, `.GetActivityChartData`?**
+- **Why does `DH.Domain.Enums` connect `DH.Domain.Entities` to `DH.Domain.Models.GameModels.Queries`, `TenantDbContext`, `ChallengeReward`, `DH.Domain.Models.ChallengeModels.Queries`, `DH.Domain.Adapters.Localization`, `DH.OperationResultCore.Exceptions`, `UserChallengesManagementService`, `DH.Domain.Adapters.Authentication`, `DH.Domain.Services`, `DH.Domain.Adapters.QRManager`, `ReservationType`, `UserChallenge`, `CreateSystemRewardCommand.cs`, `IStatisticsService`, `DH.Domain.Repositories`, `GetUserWhoPlayedGameChartDataQuery.cs`, `DH.Domain.Adapters.Data`, `StatisticsService`, `IStatisticJobInfo`, `TenantSetting`, `IChallengeService`, `TenantApplicationDto`, `UniversalChallengeProcessing`, `QueuedJob`, `.GetGameActivitydData`, `GameAveragePlaytime`, `GetActivityChartData`, `ReservationStatus`?**
   _High betweenness centrality (0.017) - this node is a cross-community bridge._
 - **What connects `net8.0`, `Microsoft.NET.Test.Sdk (17.10.0)`, `xunit (2.8.1)` to the rest of the system?**
   _1761 weakly-connected nodes found - possible documentation gaps or missing edges._
-- **Should `SpaceManagementService` be split into smaller, more focused modules?**
-  _Cohesion score 0.032201533406352685 - nodes in this community are weakly interconnected._
-- **Should `DH.Domain.Models.ChallengeModels.Commands` be split into smaller, more focused modules?**
-  _Cohesion score 0.07816091954022988 - nodes in this community are weakly interconnected._
+- **Should `LanguageService` be split into smaller, more focused modules?**
+  _Cohesion score 0.030246000806560022 - nodes in this community are weakly interconnected._
+- **Should `DH.Domain.Models.GameModels.Queries` be split into smaller, more focused modules?**
+  _Cohesion score 0.07268170426065163 - nodes in this community are weakly interconnected._
 - **Should `GlobalSettingsComponent` be split into smaller, more focused modules?**
-  _Cohesion score 0.07058823529411765 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.07585568917668825 - nodes in this community are weakly interconnected._

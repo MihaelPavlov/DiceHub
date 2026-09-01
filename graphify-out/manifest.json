@@ -5135,8 +5135,8 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/qr-code-scanner/page/qr-code-scanner.component.ts": {
-    "mtime": 1788243529.5265648,
-    "ast_hash": "faa150d959084af46ee6fdb37c56c801",
+    "mtime": 1788245009.070749,
+    "ast_hash": "4316198462e16f815ba9810f1002ce63",
     "semantic_hash": ""
   },
   "DH.WebUI/src/pages/qr-code-scanner/qr-code-scanner-routes.module.ts": {
@@ -5200,13 +5200,13 @@
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/assets/i18n/bg.json": {
-    "mtime": 1788240657.9607704,
-    "ast_hash": "c6605a3a36f4bd461e88122673bed2fa",
+    "mtime": 1788245015.9779456,
+    "ast_hash": "71ad095217cbea21cd2df3e2d977478c",
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/assets/i18n/en.json": {
-    "mtime": 1788240657.9573917,
-    "ast_hash": "c33465f6fae6d022c301d8c46115a500",
+    "mtime": 1788245015.974749,
+    "ast_hash": "23945ae2b46d26bb7b692e344c056883",
     "semantic_hash": ""
   },
   "DH.WebUI/src/shared/components/assistive-touch/assistive-touch.component.ts": {

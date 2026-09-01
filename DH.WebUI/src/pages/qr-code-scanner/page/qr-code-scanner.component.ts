@@ -206,7 +206,6 @@ export class QrCodeScannerComponent
 
         if (code) {
           this.afterScanSuccessfulMessage = null;
-          video.pause();
 
           const scanned = code.data;
           let qrType: QrCodeType | null = null;
@@ -228,18 +227,23 @@ export class QrCodeScannerComponent
             }
           }
 
+          // A code was decoded - freeze the loop so the same frame isn't
+          // processed again while the phone is still in view.
+          this.scanning = false;
+          video.pause();
+
           if (qrType === null) {
             this.invalidQrCode = true;
-            video.play();
+            // resume scanning after the "invalid" banner, not every frame
             setTimeout(() => {
               this.invalidQrCode = false;
-            }, 3000);
+              this.resumeScanning();
+            }, 2000);
           } else {
             this.currentQrCodeType = qrType;
             this.invalidQrCode = false;
             const request = { data: scanned };
             this.isValidQrScanned = true;
-            this.scanning = false; // stop the rAF loop; the video is now hidden
 
             const dialogRefConfirmation = this.dialog.open(
               ScanConfirmDialogComponent,
@@ -370,27 +374,83 @@ export class QrCodeScannerComponent
                                 window.location.reload();
                               }
                               break;
+
+                            // Event, or any type without a dedicated flow -
+                            // never leave the screen doing nothing after
+                            // "confirm".
+                            case QrCodeType.Event:
+                            default: {
+                              if (res.isValid) {
+                                this.setLocalStorageSuccessMessage(
+                                  this.translateService.instant(
+                                    'qr_scanner.qr_code_is_valid'
+                                  )
+                                );
+                                window.location.reload();
+                              } else {
+                                this.dialog
+                                  .open(ScanResultAdminDialog, {
+                                    panelClass: 'confirm-sheet-pane',
+                                    data: res,
+                                  })
+                                  .afterClosed()
+                                  .subscribe(() => window.location.reload());
+                              }
+                              break;
+                            }
                           }
+                        } else {
+                          this.afterScanErrorMessage =
+                            this.translateService.instant(
+                              'qr_scanner.scan_failed'
+                            );
+                          this.resumeScanning();
                         }
                       },
-                      error: (err) => {
-                        this.invalidQrCode = true;
-                        this.isValidQrScanned = false;
-                        this.startCamera();
+                      error: () => {
+                        this.afterScanErrorMessage =
+                          this.translateService.instant('qr_scanner.scan_failed');
+                        this.resumeScanning();
                       },
                     });
                 } else {
-                  window.location.reload();
+                  // confirm cancelled - back to scanning, don't reload the app
+                  this.resumeScanning();
                 }
               });
           }
         }
       }
 
-      requestAnimationFrame(this.tick.bind(this));
-    } else {
+      if (this.scanning) {
+        requestAnimationFrame(this.tick.bind(this));
+      }
+    } else if (this.scanning) {
       setTimeout(this.tick.bind(this), 10);
     }
+  }
+
+  private resumeScanning(): void {
+    this.invalidQrCode = false;
+    this.afterScanErrorMessage = null;
+    const wasHidden = this.isValidQrScanned;
+    this.isValidQrScanned = false;
+    this.scanning = true;
+
+    // the *ngIf re-adds the <video>; give Angular a tick to update the ViewChild
+    setTimeout(() => {
+      const video = this.videoElement?.nativeElement;
+      if (!video) {
+        this.startCamera();
+        return;
+      }
+      if (wasHidden && this.mediaStream && !video.srcObject) {
+        video.srcObject = this.mediaStream;
+      }
+      video.play().catch(() => {});
+      this.syncCanvasToVideo();
+      requestAnimationFrame(this.tick.bind(this));
+    }, 0);
   }
 
   public isQrCodeValid(data: string): boolean {
