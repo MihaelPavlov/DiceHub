@@ -843,7 +843,7 @@
       align-items: center;
       justify-content: center;
       min-width: 0;
-      min-height: 43rem;
+      min-height: 45rem;
     }
 
     // Fixed-size positioning context for the fanned phones / popups.
@@ -852,7 +852,7 @@
       position: relative;
       flex-shrink: 0;
       width: 42rem;
-      height: 43rem;
+      height: 45rem;
     }
 
     @media (max-width: 1380px) {
@@ -895,16 +895,17 @@
       z-index: 3;
     }
 
+    // Both notification popups sit as a matched pair below the phone fan.
     &__pop--challenge {
       left: 50%;
-      top: -2.5rem;
-      transform: translateX(-19rem) rotate(-5deg);
+      top: 34.5rem;
+      transform: translateX(-17.5rem) rotate(-4deg);
       z-index: 6;
     }
 
     &__pop--reward {
       left: 50%;
-      top: 32.5rem;
+      top: 34.5rem;
       transform: translateX(4rem) rotate(4deg);
       z-index: 6;
       box-shadow: 0 20px 46px -14px rgba(94, 189, 173, 0.35),
