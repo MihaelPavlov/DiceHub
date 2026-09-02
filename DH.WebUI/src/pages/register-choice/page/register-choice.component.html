@@ -3,16 +3,13 @@
 
 <div class="wrapper">
   <aside class="browser-panel">
-    <div class="browser-panel__eyebrow">Create account</div>
-    <h1>Choose your DiceHub path</h1>
-    <p>
-      Join as a player for a specific club, or apply as a venue owner to create
-      a new tenant after verification.
-    </p>
+    <div class="browser-panel__eyebrow">{{ "register_choice.panel.eyebrow" | translate }}</div>
+    <h1>{{ "register_choice.panel.title" | translate }}</h1>
+    <p>{{ "register_choice.panel.text" | translate }}</p>
     <div class="browser-panel__steps">
-      <span>Players join existing clubs</span>
-      <span>Venues go through approval</span>
-      <span>Setup links expire after 24 hours</span>
+      <span>{{ "register_choice.panel.step1" | translate }}</span>
+      <span>{{ "register_choice.panel.step2" | translate }}</span>
+      <span>{{ "register_choice.panel.step3" | translate }}</span>
     </div>
   </aside>
 
@@ -27,21 +24,15 @@
       </div>
     </div>
 
-    <span class="header">Join DiceHub</span>
-    <p class="sub-header">
-      Choose how you want to register. Player accounts belong to a club. Venue
-      applications are reviewed before a tenant is created.
-    </p>
+    <span class="header">{{ "register_choice.header" | translate }}</span>
+    <p class="sub-header">{{ "register_choice.sub_header" | translate }}</p>
 
     <div class="choice-container">
       <a class="choice" (click)="navigateToPlayerRegistration()">
         <div class="choice-icon choice-icon--amber">♟</div>
         <div class="choice-content">
-          <span class="choice-content__title">I’m a Player</span>
-          <span class="choice-content__desc">
-            Create a client account to join a club, reserve games, and
-            participate in events.
-          </span>
+          <span class="choice-content__title">{{ "register_choice.player_title" | translate }}</span>
+          <span class="choice-content__desc">{{ "register_choice.player_desc" | translate }}</span>
         </div>
         <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
       </a>
@@ -49,20 +40,17 @@
       <a class="choice" (click)="navigateToVenueApplication()">
         <div class="choice-icon choice-icon--violet">🏛</div>
         <div class="choice-content">
-          <span class="choice-content__title">I own a Venue / Club</span>
-          <span class="choice-content__desc">
-            Apply for DiceHub tenant access. We verify your email, phone, and
-            venue details before approval.
-          </span>
-          <span class="badge">Requires verification</span>
+          <span class="choice-content__title">{{ "register_choice.venue_title" | translate }}</span>
+          <span class="choice-content__desc">{{ "register_choice.venue_desc" | translate }}</span>
+          <span class="badge">{{ "register_choice.venue_badge" | translate }}</span>
         </div>
         <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
       </a>
     </div>
 
     <div class="additional-link">
-      <p>Already have an account?</p>
-      <p><strong class="markup" (click)="navigateToLogin()">Sign in</strong></p>
+      <p>{{ "register_choice.have_account" | translate }}</p>
+      <p><strong class="markup" (click)="navigateToLogin()">{{ "register_choice.sign_in" | translate }}</strong></p>
     </div>
   </section>
 </div>
