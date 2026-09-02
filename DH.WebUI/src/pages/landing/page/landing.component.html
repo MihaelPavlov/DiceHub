@@ -132,6 +132,15 @@
         </div>
       </div>
       <div class="lp-feature">
+        <div class="lp-feature__icon lp-feature__icon--teal">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V6a2 2 0 0 1 2-2h2"/><path d="M16 4h2a2 2 0 0 1 2 2v2"/><path d="M20 16v2a2 2 0 0 1-2 2h-2"/><path d="M8 20H6a2 2 0 0 1-2-2v-2"/><path d="M4 12h16"/></svg>
+        </div>
+        <div class="lp-feature__body">
+          <span class="lp-feature__title">{{ "landing.features.scanner_title" | translate }}</span>
+          <span class="lp-feature__desc">{{ "landing.features.scanner_desc" | translate }}</span>
+        </div>
+      </div>
+      <div class="lp-feature">
         <div class="lp-feature__icon lp-feature__icon--violet">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"><path d="M4 17l-1.5-8L8 12l4-6 4 6 5.5-3L20 17z"/><path d="M4 17h16v2H4z"/></svg>
         </div>
@@ -323,55 +332,53 @@
     </div>
 
     <div class="lp-hero__visual">
+     <div class="lp-hero__stage">
       <div class="lp-hero__glow"></div>
-      <div class="lp-hero__leaderboard">
-        <div class="lp-hero__leaderboard-head">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"><path d="M4 17l-1.5-8L8 12l4-6 4 6 5.5-3L20 17z"/><path d="M4 17h16v2H4z"/></svg>
-          <span>Leaderboard</span>
-        </div>
-        <div class="lp-hero__leaderboard-row">
-          <span class="lp-hero__avatar lp-hero__avatar--amber"></span>
-          <span class="lp-hero__leaderboard-name">Maya R.</span>
-          <span class="lp-hero__leaderboard-score">1,240 XP</span>
-        </div>
-        <div class="lp-hero__leaderboard-row">
-          <span class="lp-hero__avatar lp-hero__avatar--teal"></span>
-          <span class="lp-hero__leaderboard-name">Jon P.</span>
-          <span class="lp-hero__leaderboard-score lp-hero__leaderboard-score--muted">1,110 XP</span>
-        </div>
+
+      <!-- left phone: weekly challenges -->
+      <div class="lp-hero__phone lp-hero__phone--shot lp-hero__phone--secondary">
+        <img
+          src="shared/assets/images/instructions/OwnerSetup/challenges-weekly.png"
+          alt="DiceHub weekly challenges"
+        />
       </div>
 
-      <div class="lp-hero__phone">
-        <div class="lp-hero__phone-top">
-          <span class="lp-hero__phone-greeting">Good evening<br /><strong>Maya</strong></span>
-          <span class="lp-hero__phone-avatar"></span>
-        </div>
-        <div class="lp-hero__phone-level">
-          <div>
-            <span class="lp-hero__phone-level-label">YOUR LEVEL</span>
-            <span class="lp-hero__phone-level-value">Level 14</span>
-          </div>
-          <span class="lp-hero__phone-level-badge">14</span>
-        </div>
-        <div class="lp-hero__phone-bar"><span></span></div>
-        <div class="lp-hero__phone-tournament">
-          <span class="lp-hero__phone-tournament-icon"></span>
-          <div>
-            <span class="lp-hero__phone-tournament-title">Wingspan Tournament</span>
-            <span class="lp-hero__phone-tournament-sub">7:00 PM · Table 4 · 6/8 joined</span>
-          </div>
-        </div>
+      <!-- right phone: QR check-in dialog -->
+      <div class="lp-hero__phone lp-hero__phone--shot lp-hero__phone--tertiary">
+        <img
+          src="shared/assets/images/instructions/OwnerSetup/game-qr-dialog.png"
+          alt="DiceHub game QR check-in"
+        />
       </div>
 
-      <div class="lp-hero__badge-chip">
-        <span class="lp-hero__badge-chip-icon">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5l2.4 5 5.5.7-4 3.8 1 5.5-4.9-2.7-4.9 2.7 1-5.5-4-3.8 5.5-.7z"/></svg>
-        </span>
-        <div>
-          <span class="lp-hero__badge-chip-title">Badge unlocked</span>
-          <span class="lp-hero__badge-chip-sub">"Table Regular" · +50 XP</span>
-        </div>
+      <!-- centre phone: game library -->
+      <div class="lp-hero__phone lp-hero__phone--shot lp-hero__phone--primary">
+        <img
+          src="shared/assets/images/instructions/OwnerSetup/game-covers.png"
+          alt="DiceHub games library"
+        />
       </div>
+
+      <!-- reproduced "Challenge complete" popup -->
+      <div class="lp-hero__pop lp-hero__pop--challenge">
+        <div class="lp-hero__pop-emoji">
+          <div class="lp-hero__pop-particles"><i></i><i></i><i></i><i></i></div>
+          <img src="shared/assets/images/target.gif" alt="" />
+        </div>
+        <h3>Challenge <span class="lp-hero__pop-hl">complete!</span></h3>
+        <p class="lp-hero__pop-reward">+120 XP</p>
+      </div>
+
+      <!-- reproduced "Reward unlocked" popup -->
+      <div class="lp-hero__pop lp-hero__pop--reward">
+        <div class="lp-hero__pop-emoji lp-hero__pop-emoji--teal">
+          <div class="lp-hero__pop-particles"><i></i><i></i><i></i><i></i></div>
+          <img src="shared/assets/images/reward.gif" alt="" />
+        </div>
+        <h3>Reward <span class="lp-hero__pop-hl">unlocked!</span></h3>
+        <p class="lp-hero__pop-reward">Free coffee</p>
+      </div>
+     </div>
     </div>
   </section>
 
@@ -438,6 +445,13 @@
         </div>
         <span class="lp-feature-card__title">{{ "landing.features.events_title" | translate }}</span>
         <span class="lp-feature-card__desc">{{ "landing.features.events_desc" | translate }}</span>
+      </div>
+      <div class="lp-feature-card">
+        <div class="lp-feature__icon lp-feature__icon--teal">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V6a2 2 0 0 1 2-2h2"/><path d="M16 4h2a2 2 0 0 1 2 2v2"/><path d="M20 16v2a2 2 0 0 1-2 2h-2"/><path d="M8 20H6a2 2 0 0 1-2-2v-2"/><path d="M4 12h16"/></svg>
+        </div>
+        <span class="lp-feature-card__title">{{ "landing.features.scanner_title" | translate }}</span>
+        <span class="lp-feature-card__desc">{{ "landing.features.scanner_desc" | translate }}</span>
       </div>
       <div class="lp-feature-card">
         <div class="lp-feature__icon lp-feature__icon--violet">
