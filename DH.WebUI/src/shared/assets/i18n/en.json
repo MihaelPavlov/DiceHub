@@ -824,7 +824,8 @@
   "landing": {
     "nav": {
       "features": "Features",
-      "for_clubs": "For Clubs"
+      "for_clubs": "For Clubs",
+      "story": "Story"
     },
     "hero": {
       "badge": "Built with board-game clubs, not just for them",
@@ -922,6 +923,12 @@
     },
     "footer": {
       "tagline": "The clubhouse, gamified."
+    },
+    "story": {
+      "eyebrow": "Our story",
+      "title": "How DiceHub started",
+      "text": "From a chaotic board-game night with a paper sign-up sheet to an app the whole club runs on. Here's how it happened.",
+      "link": "Watch on YouTube →"
     }
   },
   "login": {

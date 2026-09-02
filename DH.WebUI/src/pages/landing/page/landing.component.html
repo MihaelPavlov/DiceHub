@@ -53,7 +53,7 @@
     </div>
   </section>
 
-  <section class="lp-owners" id="for-clubs">
+  <section class="lp-owners" id="for-clubs-m">
     <span class="lp-eyebrow lp-eyebrow--coral">{{ "landing.for_clubs.eyebrow" | translate }}</span>
     <h2 class="lp-section-title">{{ "landing.for_clubs.title" | translate }}</h2>
     <p class="lp-section-subtitle">{{ "landing.for_clubs.subtitle" | translate }}</p>
@@ -77,7 +77,7 @@
       </div>
     </div>
 
-    <a href="#partner-form" class="lp-btn lp-btn--owner">{{ "landing.for_clubs.cta" | translate }}</a>
+    <a href="#partner-form-m" class="lp-btn lp-btn--owner">{{ "landing.for_clubs.cta" | translate }}</a>
   </section>
 
   <section class="lp-features">
@@ -206,14 +206,55 @@
         <button (click)="onRegister()" type="button" class="lp-btn lp-btn--light">
           {{ "landing.register" | translate }}
         </button>
-        <a href="#partner-form" class="lp-btn lp-btn--outline-light">
+        <a href="#partner-form-m" class="lp-btn lp-btn--outline-light">
           {{ "landing.final_cta.secondary" | translate }}
         </a>
       </div>
     </div>
   </section>
 
-  <section class="lp-partner" id="partner-form">
+  <section class="lp-story-section">
+    <span class="lp-eyebrow lp-eyebrow--coral">{{ "landing.story.eyebrow" | translate }}</span>
+    <h2 class="lp-section-title">{{ "landing.story.title" | translate }}</h2>
+    <p class="lp-section-subtitle">{{ "landing.story.text" | translate }}</p>
+
+    <div class="lp-story-player">
+      <img
+        *ngIf="!storyPlaying"
+        class="lp-story-player__thumb"
+        src="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg"
+        alt=""
+      />
+      <button
+        *ngIf="!storyPlaying"
+        type="button"
+        class="lp-story-player__play"
+        (click)="playStory()"
+        aria-label="Play the story video"
+      >
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+      </button>
+      <iframe
+        *ngIf="storyPlaying"
+        class="lp-story-player__frame"
+        src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0"
+        title="The story behind DiceHub"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+      ></iframe>
+    </div>
+
+    <a
+      class="lp-story-link"
+      href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+      target="_blank"
+      rel="noopener noreferrer"
+      >{{ "landing.story.link" | translate }}</a
+    >
+  </section>
+
+  <section class="lp-partner" id="partner-form-m">
     <h2>{{ "landing.partner_with_us_title" | translate }}</h2>
     <p class="lp-partner__text">
       {{ "landing.partner_with_us_text" | translate }}
@@ -298,6 +339,7 @@
     <div class="lp-nav__links">
       <a href="#features">{{ "landing.nav.features" | translate }}</a>
       <a href="#for-clubs">{{ "landing.nav.for_clubs" | translate }}</a>
+      <a href="#story">{{ "landing.nav.story" | translate }}</a>
     </div>
     <div class="lp-nav__actions">
       <app-language-switch />
@@ -588,6 +630,47 @@
         </a>
       </div>
     </div>
+  </section>
+
+  <section class="lp-story-section" id="story">
+    <span class="lp-eyebrow lp-eyebrow--coral">{{ "landing.story.eyebrow" | translate }}</span>
+    <h2 class="lp-section-title">{{ "landing.story.title" | translate }}</h2>
+    <p class="lp-section-subtitle">{{ "landing.story.text" | translate }}</p>
+
+    <div class="lp-story-player">
+      <img
+        *ngIf="!storyPlaying"
+        class="lp-story-player__thumb"
+        src="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg"
+        alt=""
+      />
+      <button
+        *ngIf="!storyPlaying"
+        type="button"
+        class="lp-story-player__play"
+        (click)="playStory()"
+        aria-label="Play the story video"
+      >
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+      </button>
+      <iframe
+        *ngIf="storyPlaying"
+        class="lp-story-player__frame"
+        src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0"
+        title="The story behind DiceHub"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+      ></iframe>
+    </div>
+
+    <a
+      class="lp-story-link"
+      href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+      target="_blank"
+      rel="noopener noreferrer"
+      >{{ "landing.story.link" | translate }}</a
+    >
   </section>
 
   <section class="lp-partner" id="partner-form">
