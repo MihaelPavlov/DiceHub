@@ -1,15 +1,12 @@
 <div class="wrapper">
   <aside class="browser-panel">
-    <div class="browser-panel__eyebrow">DiceHub access</div>
-    <h1>Find your club</h1>
-    <p>
-      Choose the club or venue you want to visit, then continue to its secure
-      sign-in page.
-    </p>
+    <div class="browser-panel__eyebrow">{{ "select_club.panel.eyebrow" | translate }}</div>
+    <h1>{{ "select_club.panel.title" | translate }}</h1>
+    <p>{{ "select_club.panel.text" | translate }}</p>
     <div class="browser-panel__metrics">
-      <span>Trusted venues</span>
-      <span>One account</span>
-      <span>Multiple clubs</span>
+      <span>{{ "select_club.panel.metric1" | translate }}</span>
+      <span>{{ "select_club.panel.metric2" | translate }}</span>
+      <span>{{ "select_club.panel.metric3" | translate }}</span>
     </div>
   </aside>
   <section class="selection-card">
@@ -26,8 +23,8 @@
 
   <!-- Header -->
   <p class="header" *ngIf="isLoading || clubs.length">
-    Which club are you in? <br />
-    Pick one to continue
+    {{ "select_club.header_line1" | translate }} <br />
+    {{ "select_club.header_line2" | translate }}
   </p>
 
   <!-- Clubs List -->
@@ -62,13 +59,10 @@
         d="M480-120q-33 0-56.5-23.5T400-200q0-33 23.5-56.5T480-280q33 0 56.5 23.5T560-200q0 33-23.5 56.5T480-120Zm-40-200v-480h80v480h-80Z"
       />
     </svg>
-    <p class="empty-state__title">No clubs available yet</p>
-    <p class="empty-state__subtitle">
-      There aren't any clubs to join right now. Check back soon, or head
-      back home in the meantime.
-    </p>
+    <p class="empty-state__title">{{ "select_club.empty_title" | translate }}</p>
+    <p class="empty-state__subtitle">{{ "select_club.empty_text" | translate }}</p>
     <button class="empty-state__action" (click)="navigateToLanding()">
-      Back to home
+      {{ "select_club.back_home" | translate }}
     </button>
   </div>
 

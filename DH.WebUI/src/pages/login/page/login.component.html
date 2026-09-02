@@ -3,16 +3,13 @@
 
 <div class="wrapper" [class.admin]="isAdminLogin">
   <aside class="browser-panel">
-    <div class="browser-panel__eyebrow">DiceHub access</div>
+    <div class="browser-panel__eyebrow">{{ "login.panel.eyebrow" | translate }}</div>
     <h1>{{ this.clubName ?? ("club" | translate) }}</h1>
-    <p>
-      Sign in to manage reservations, games, events, and rewards from a
-      workspace built for club operations.
-    </p>
+    <p>{{ "login.panel.text" | translate }}</p>
     <div class="browser-panel__metrics">
-      <span>Games</span>
-      <span>Reservations</span>
-      <span>Events</span>
+      <span>{{ "login.panel.metric1" | translate }}</span>
+      <span>{{ "login.panel.metric2" | translate }}</span>
+      <span>{{ "login.panel.metric3" | translate }}</span>
     </div>
   </aside>
 

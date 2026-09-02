@@ -2,16 +2,13 @@
 <app-install-prompt />
 <div class="wrapper">
   <aside class="browser-panel">
-    <div class="browser-panel__eyebrow">Player account</div>
-    <h1>Join {{ this.clubName ?? ("club" | translate) }}</h1>
-    <p>
-      Create a player profile to reserve games, join events, and track your
-      club activity from one place.
-    </p>
+    <div class="browser-panel__eyebrow">{{ "register.panel.eyebrow" | translate }}</div>
+    <h1>{{ "register.panel.join" | translate }} {{ this.clubName ?? ("club" | translate) }}</h1>
+    <p>{{ "register.panel.text" | translate }}</p>
     <div class="browser-panel__steps">
-      <span>1. Account</span>
-      <span>2. Email confirmation</span>
-      <span>3. Start playing</span>
+      <span>{{ "register.panel.step1" | translate }}</span>
+      <span>{{ "register.panel.step2" | translate }}</span>
+      <span>{{ "register.panel.step3" | translate }}</span>
     </div>
   </aside>
 

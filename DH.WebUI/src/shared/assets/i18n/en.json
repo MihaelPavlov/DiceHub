@@ -932,6 +932,13 @@
     }
   },
   "login": {
+    "panel": {
+      "eyebrow": "DiceHub access",
+      "text": "Sign in to manage reservations, games, events, and rewards from a workspace built for club operations.",
+      "metric1": "Games",
+      "metric2": "Reservations",
+      "metric3": "Events"
+    },
     "labels": {
       "email": "Email or username",
       "password": "Password",
@@ -970,6 +977,14 @@
     }
   },
   "register": {
+    "panel": {
+      "eyebrow": "Player account",
+      "join": "Join",
+      "text": "Create a player profile to reserve games, join events, and track your club activity from one place.",
+      "step1": "1. Account",
+      "step2": "2. Email confirmation",
+      "step3": "3. Start playing"
+    },
     "tenant_label": "Registering at",
     "successfully_message": "Registration successful! Please check your email to confirm your account.",
     "successfully_with_email_failed": "Registration successful, but we couldn't send the confirmation email. Please try resending it or contact support.",
@@ -1095,7 +1110,49 @@
     "send_btn": "Send",
     "remembered_your_key": "You remembered your key!",
     "sign_in": "Sign In",
-    "sign_in_message": "to jump back into the action!"
+    "sign_in_message": "to jump back into the action!",
+    "panel": {
+      "eyebrow": "DiceHub account",
+      "title": "Recover your access",
+      "text": "Enter the email connected to your club account and we'll send you a link to create a new password.",
+      "metric1": "Secure recovery",
+      "metric2": "Email delivery",
+      "metric3": "Quick access"
+    }
+  },
+  "register_choice": {
+    "panel": {
+      "eyebrow": "Create account",
+      "title": "Choose your DiceHub path",
+      "text": "Join as a player for a specific club, or apply as a venue owner to create a new tenant after verification.",
+      "step1": "Players join existing clubs",
+      "step2": "Venues go through approval",
+      "step3": "Setup links expire after 24 hours"
+    },
+    "header": "Join DiceHub",
+    "sub_header": "Choose how you want to register. Player accounts belong to a club. Venue applications are reviewed before a tenant is created.",
+    "player_title": "I'm a Player",
+    "player_desc": "Create a client account to join a club, reserve games, and participate in events.",
+    "venue_title": "I own a Venue / Club",
+    "venue_desc": "Apply for DiceHub tenant access. We verify your email, phone, and venue details before approval.",
+    "venue_badge": "Requires verification",
+    "have_account": "Already have an account?",
+    "sign_in": "Sign in"
+  },
+  "select_club": {
+    "panel": {
+      "eyebrow": "DiceHub access",
+      "title": "Find your club",
+      "text": "Choose the club or venue you want to visit, then continue to its secure sign-in page.",
+      "metric1": "Trusted venues",
+      "metric2": "One account",
+      "metric3": "Multiple clubs"
+    },
+    "header_line1": "Which club are you in?",
+    "header_line2": "Pick one to continue",
+    "empty_title": "No clubs available yet",
+    "empty_text": "There aren't any clubs to join right now. Check back soon, or head back home in the meantime.",
+    "back_home": "Back to home"
   },
   "create_owner_password": {
     "was_successfully": "Password creation was successfully!",
