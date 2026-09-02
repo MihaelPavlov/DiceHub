@@ -34,6 +34,9 @@ interface IPartnerInquiryForm {
 export class LandingComponent extends Form implements OnDestroy {
   override form: Formify<IPartnerInquiryForm>;
 
+  /** Swaps the "story" thumbnail for the embedded YouTube player on click. */
+  public storyPlaying = false;
+
   private static readonly DraftKey = 'landingPartnerInquiry';
   private draftSubscription: Subscription | null = null;
 
@@ -70,6 +73,10 @@ export class LandingComponent extends Form implements OnDestroy {
 
   public onRegister(): void {
     this.router.navigateByUrl(ROUTE.REGISTER);
+  }
+
+  public playStory(): void {
+    this.storyPlaying = true;
   }
 
   public onInstructions(): void {
