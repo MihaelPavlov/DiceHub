@@ -856,6 +856,8 @@
       "challenges_desc": "Members earn XP, level up, and unlock badges for trying new games, hitting milestones, and just showing up.",
       "events_title": "Run events without spreadsheets",
       "events_desc": "Tournaments, campaigns, and game nights with RSVP tracking, bracket-ready sign-ups, and automatic reminders.",
+      "scanner_title": "Scan to check in",
+      "scanner_desc": "One built-in scanner does it all — check in to your table, join an event, redeem a reward, or pull up a game's page. Point the camera and go.",
       "leaderboards_title": "Bragging rights, built in",
       "leaderboards_desc": "Club-wide and per-game leaderboards keep the competitive fire alive — win streaks, top scores, season standings."
     },

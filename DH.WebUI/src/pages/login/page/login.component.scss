@@ -75,11 +75,11 @@
 
 .interactive-option {
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
 
   .icon_wrapper {
-    width: 2.65rem;
-    height: 2.65rem;
+    width: 6rem;
+    height: 6rem;
     border-radius: 999px;
     background: var(--games-surface);
     border: 1px solid var(--games-border);
@@ -95,10 +95,10 @@
     background: transparent;
     box-shadow: none;
   }
-  .icon {
-    width: 1.15rem;
-    height: 1.15rem;
-    fill: var(--games-text);
+  .dicehub-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
   .club-logo {
     width: 100%;

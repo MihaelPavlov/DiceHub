@@ -296,7 +296,9 @@
 // ============ MOBILE ============
 
 .landing-mobile {
-  background: var(--games-bg);
+  background:
+    radial-gradient(150% 55% at 50% -4%, var(--games-violet-soft), transparent 62%),
+    var(--games-bg);
   color: var(--games-text);
 
   .lp-nav {
@@ -333,7 +335,7 @@
   }
 
   .lp-hero {
-    padding: 2rem 1.375rem 0.5rem;
+    padding: 1.75rem 1.375rem 0.5rem;
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
@@ -639,7 +641,10 @@
 // ============ DESKTOP ============
 
 .landing-big-screen {
-  background: var(--games-bg);
+  background:
+    radial-gradient(75rem 48rem at 20% -6%, var(--games-violet-soft), transparent 60%),
+    radial-gradient(65rem 42rem at 84% 4%, var(--games-blue-soft), transparent 62%),
+    var(--games-bg);
   color: var(--games-text);
   min-height: 100vh;
 
@@ -697,7 +702,7 @@
     display: flex;
     align-items: center;
     gap: 4rem;
-    padding: clamp(3rem, 8vw, 6.875rem) clamp(1.5rem, 5vw, 7.5rem) 6.25rem;
+    padding: clamp(2.5rem, 6vw, 5.25rem) clamp(1.5rem, 5vw, 7.5rem) 6.25rem;
 
     &__copy {
       display: flex;
@@ -758,16 +763,39 @@
     &__visual {
       position: relative;
       flex: 1;
-      max-width: 34rem;
-      height: 40rem;
       display: flex;
       align-items: center;
       justify-content: center;
       min-width: 0;
+      min-height: 43rem;
+    }
+
+    // Fixed-size positioning context for the fanned phones / popups.
+    // Scaled down as a whole on narrower desktop widths so nothing collides.
+    &__stage {
+      position: relative;
+      flex-shrink: 0;
+      width: 42rem;
+      height: 43rem;
+    }
+
+    @media (max-width: 1380px) {
+      &__stage {
+        transform: scale(0.84);
+      }
+    }
+
+    @media (max-width: 1180px) {
+      &__stage {
+        transform: scale(0.66);
+      }
     }
 
     &__glow {
       position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       width: 26.25rem;
       height: 26.25rem;
       border-radius: 50%;
@@ -775,68 +803,122 @@
       filter: blur(10px);
     }
 
-    &__leaderboard {
+
+    // Reproduced challenge-complete / reward-unlocked popups (see
+    // shared/components/challenge-overlay).
+    &__pop {
       position: absolute;
-      right: 1.125rem;
-      top: 1.75rem;
-      width: 15.625rem;
+      width: 13.5rem;
       background: var(--games-surface);
       border: 1px solid var(--games-border);
-      border-radius: 1.25rem;
-      padding: 1.125rem;
-      box-shadow: var(--games-shadow);
+      border-radius: 1.5rem;
+      padding: 1.75rem 1.25rem 1.25rem;
+      text-align: center;
+      box-shadow: 0 20px 46px -14px rgba(243, 191, 61, 0.35),
+        var(--games-shadow);
+      z-index: 3;
+    }
+
+    &__pop--challenge {
+      left: 50%;
+      top: -2.5rem;
+      transform: translateX(-19rem) rotate(-5deg);
+      z-index: 6;
+    }
+
+    &__pop--reward {
+      left: 50%;
+      top: 32.5rem;
+      transform: translateX(4rem) rotate(4deg);
+      z-index: 6;
+      box-shadow: 0 20px 46px -14px rgba(94, 189, 173, 0.35),
+        var(--games-shadow);
+    }
+
+    &__pop-emoji {
+      position: relative;
       display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      transform: rotate(4deg);
+      align-items: center;
+      justify-content: center;
+      margin: -2.25rem auto 0.5rem;
+      width: 3.5rem;
+      height: 3.5rem;
+      border-radius: 1.05rem;
+      background: linear-gradient(155deg, #ffe4a3 0%, var(--games-amber) 48%, #c9861a 100%);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55),
+        0 14px 28px -12px rgba(201, 134, 26, 0.7);
+      overflow: hidden;
 
-      &-head {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        font-size: 0.78125rem;
-        font-weight: 700;
-        color: var(--games-amber);
+      img {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: inherit;
       }
 
-      &-row {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        font-size: 0.75rem;
-      }
-
-      &-name {
-        font-weight: 600;
-        margin-left: 0.5rem;
-      }
-
-      &-score {
-        font-weight: 700;
-        color: var(--games-amber);
-
-        &--muted {
-          color: var(--games-faint);
-        }
+      &--teal {
+        background: linear-gradient(150deg, var(--games-teal), var(--games-violet));
+        box-shadow: 0 0 0 0.5rem var(--games-teal-soft);
       }
     }
 
-    &__avatar {
-      width: 1.375rem;
-      height: 1.375rem;
-      border-radius: 999px;
-      display: inline-block;
+    &__pop-particles i {
+      position: absolute;
+      width: 0.4rem;
+      height: 0.4rem;
+      border-radius: 50%;
+      left: 50%;
+      top: 40%;
 
-      &--amber {
-        background: var(--games-amber);
+      &:nth-child(1) {
+        background: var(--games-blue);
+        transform: translate(-2rem, -1.3rem);
       }
-      &--teal {
+      &:nth-child(2) {
         background: var(--games-teal);
+        transform: translate(1.9rem, -1.5rem);
       }
+      &:nth-child(3) {
+        background: var(--games-text);
+        transform: translate(-1.5rem, 1.4rem);
+      }
+      &:nth-child(4) {
+        background: var(--games-violet);
+        transform: translate(2rem, 1.2rem);
+      }
+    }
+
+    &__pop h3 {
+      margin: 0.25rem 0;
+      font-family: "Bricolage Grotesque", "Sora", system-ui, sans-serif;
+      font-weight: 800;
+      font-size: 1.05rem;
+      color: var(--games-text);
+    }
+
+    &__pop-hl {
+      color: var(--games-blue);
+    }
+
+    &__pop-reward {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 0.65rem auto 0;
+      padding: 0.4rem 1rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: var(--games-amber);
+      font-weight: 700;
+      font-size: 0.8rem;
     }
 
     &__phone {
-      position: relative;
+      position: absolute;
+      left: 50%;
       width: 18.75rem;
       height: 37.5rem;
       border-radius: 2.75rem;
@@ -848,150 +930,50 @@
       flex-direction: column;
       gap: 1.25rem;
 
-      &-top {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        font-size: 0.65625rem;
-        color: var(--games-faint);
-
-        strong {
-          font-family: "Bricolage Grotesque", sans-serif;
-          font-size: 0.9375rem;
-          color: var(--games-text);
-        }
-      }
-
-      &-avatar {
-        width: 2rem;
-        height: 2rem;
-        border-radius: 0.6875rem;
-        background: var(--games-surface-2);
-        border: 1px solid var(--games-border);
-      }
-
-      &-level {
-        background: var(--games-surface-2);
-        border: 1px solid var(--games-border);
-        border-radius: 1.25rem;
-        padding: 1rem;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
-
-      &-level-label {
-        display: block;
-        font-size: 0.5625rem;
-        font-weight: 700;
-        letter-spacing: 0.08em;
-        color: var(--games-faint);
-      }
-
-      &-level-value {
-        font-family: "Bricolage Grotesque", sans-serif;
-        font-weight: 800;
-        font-size: 1.1875rem;
-      }
-
-      &-level-badge {
-        width: 1.875rem;
-        height: 1.875rem;
-        border-radius: 0.5625rem;
-        background: var(--games-amber);
-        color: #2b1502;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: "Bricolage Grotesque", sans-serif;
-        font-weight: 800;
-        font-size: 0.6875rem;
-      }
-
-      &-bar {
-        height: 0.5rem;
-        border-radius: 999px;
-        background: var(--games-bg);
+      // real app screenshot instead of the mocked widgets
+      &--shot {
+        padding: 0;
+        gap: 0;
         overflow: hidden;
+        background: var(--games-bg);
 
-        span {
-          display: block;
-          width: 74%;
+        img {
+          width: 100%;
           height: 100%;
-          border-radius: 999px;
-          background: linear-gradient(90deg, var(--games-amber), var(--games-coral));
+          object-fit: cover;
+          object-position: top center;
+          display: block;
         }
       }
 
-      &-tournament {
-        background: var(--games-surface-2);
-        border: 1px solid var(--games-border);
-        border-radius: 1.125rem;
-        padding: 0.875rem;
-        display: flex;
-        align-items: flex-start;
-        gap: 0.75rem;
+      // Centre phone, front: game-library screenshot.
+      &--primary {
+        top: 3rem;
+        width: 14rem;
+        height: 30.4rem;
+        transform: translateX(-50%) rotate(-1deg);
+        z-index: 3;
       }
 
-      &-tournament-icon {
-        width: 2.5rem;
-        height: 2.5rem;
-        border-radius: 0.75rem;
-        background: linear-gradient(135deg, var(--games-violet), var(--games-coral));
-        flex-shrink: 0;
+      // Left phone, behind: weekly challenges.
+      &--secondary {
+        top: 5rem;
+        width: 12rem;
+        height: 26rem;
+        transform: translateX(-128%) rotate(-9deg);
+        z-index: 2;
       }
 
-      &-tournament-title {
-        display: block;
-        font-size: 0.78125rem;
-        font-weight: 700;
-      }
-
-      &-tournament-sub {
-        display: block;
-        font-size: 0.6875rem;
-        color: var(--games-faint);
+      // Right phone, behind: QR check-in dialog.
+      &--tertiary {
+        top: 5rem;
+        width: 12rem;
+        height: 26rem;
+        transform: translateX(28%) rotate(9deg);
+        z-index: 1;
       }
     }
 
-    &__badge-chip {
-      position: absolute;
-      left: -0.625rem;
-      bottom: 4.375rem;
-      background: var(--games-surface);
-      border: 1px solid var(--games-border);
-      border-radius: 1rem;
-      padding: 0.75rem 1rem;
-      box-shadow: var(--games-shadow);
-      display: flex;
-      align-items: center;
-      gap: 0.625rem;
-      transform: rotate(-3deg);
-
-      &-icon {
-        width: 2.125rem;
-        height: 2.125rem;
-        border-radius: 0.6875rem;
-        background: var(--games-coral-soft);
-        color: var(--games-coral);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-shrink: 0;
-      }
-
-      &-title {
-        display: block;
-        font-size: 0.71875rem;
-        font-weight: 700;
-      }
-
-      &-sub {
-        display: block;
-        font-size: 0.65625rem;
-        color: var(--games-faint);
-      }
-    }
   }
 
   .lp-built-in {
