@@ -333,6 +333,35 @@ internal class UserManagementService(
         return await userManager.GeneratePasswordResetTokenAsync(user!);
     }
 
+    public async Task DeleteUserAccount(string userId, CancellationToken cancellationToken)
+    {
+        var user = await this.userManager.Users
+            .Where(x => x.Id == userId && !x.IsDeleted)
+            .FirstOrDefaultAsync(cancellationToken)
+                ?? throw new NotFoundException(this.localizer["UserNotFound"]);
+
+        // Same anonymization scheme as EmployeeService.DeleteEmployee: keep the
+        // row (for referential integrity of historical data) but strip the PII
+        // and flag it deleted so it is excluded from every query.
+        var scrambledId = user.Id.Replace("-", "");
+
+        user.IsDeleted = true;
+        user.UserName = $"{scrambledId},deleted,{user.UserName}";
+        user.Email = $"{scrambledId},deleted,{user.Email}";
+        user.PhoneNumber = null;
+
+        var result = await this.userManager.UpdateAsync(user);
+        if (!result.Succeeded)
+        {
+            this.logger.LogError(
+                "Failed to delete user account {UserId}. Errors: {Errors}",
+                userId,
+                string.Join(", ", result.Errors.Select(x => x.Description)));
+
+            throw new BadRequestException("Failed to delete the user account.");
+        }
+    }
+
     public async Task<UserDeviceToken?> GetDeviceTokenByUserEmail(string email)
     {
         var user = await this.userManager.Users

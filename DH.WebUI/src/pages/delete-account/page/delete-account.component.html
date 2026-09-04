@@ -1,0 +1,89 @@
+<div class="da">
+  <div class="da__inner">
+    <header class="da__head">
+      <h1>Delete your DiceHub account and data</h1>
+      <p class="da__updated">Last updated: {{ lastUpdated }}</p>
+    </header>
+
+    <section>
+      <p>
+        This page explains how to request deletion of your <strong>DiceHub</strong>
+        account (the DiceHub app, published by the DiceHub team) and the personal
+        data associated with it. DiceHub does not currently offer in-app
+        self-service account deletion, so requests are handled by our team using
+        the steps below.
+      </p>
+    </section>
+
+    <section>
+      <h2>How to request deletion</h2>
+      <ol>
+        <li>
+          Send an email to
+          <a [href]="'mailto:' + contactEmail + '?subject=Delete%20my%20account'">{{ contactEmail }}</a>
+          <strong>from the email address registered to your DiceHub account</strong>.
+        </li>
+        <li>Use the subject line <strong>"Delete my account"</strong>.</li>
+        <li>
+          In the message, include the account email address (and display name, if
+          you have one) so we can locate the account.
+        </li>
+        <li>
+          We will verify that you own the account, delete it, and send you a
+          confirmation email once it is done. Requests are completed within
+          <strong>30 days</strong> of verification.
+        </li>
+      </ol>
+      <p>
+        If you are a club or venue owner, tell us in the email whether you also
+        want club-level records you created to be transferred or removed, so we
+        can advise on the impact for your staff and members before proceeding.
+      </p>
+    </section>
+
+    <section>
+      <h2>What data is deleted</h2>
+      <p>When your account is deleted we permanently remove:</p>
+      <ul>
+        <li>Profile information: name, email address, password hash, phone number, profile photo or venue logo.</li>
+        <li>Account activity: game check-ins, reservations, event participation, challenge progress, streaks, and collected rewards.</li>
+        <li>Device push-notification tokens linked to your account.</li>
+        <li>Contact details submitted in a venue application, where the application is tied to your account.</li>
+        <li>Support messages and feedback that can be linked to your account.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>What data is kept, and for how long</h2>
+      <ul>
+        <li>
+          <strong>Legal, tax, security and fraud-prevention records</strong>
+          (for example transaction and audit logs) are retained only where the
+          law requires it, for up to <strong>5 years</strong>, and are then
+          deleted.
+        </li>
+        <li>
+          <strong>Aggregated or anonymized data</strong> that can no longer be
+          used to identify you (for example usage statistics) may be kept
+          indefinitely.
+        </li>
+        <li>
+          <strong>Encrypted backups</strong> may still contain your data for up
+          to <strong>90 days</strong> after deletion, after which the backups
+          expire and are overwritten.
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Questions</h2>
+      <p>
+        For any question about this process, contact us at
+        <a [href]="'mailto:' + contactEmail">{{ contactEmail }}</a>. See also our
+        <a href="/privacy-policy">Privacy Policy</a>.
+      </p>
+    </section>
+
+    <footer class="da__foot">© 2026 DiceHub. All rights reserved.</footer>
+  </div>
+</div>

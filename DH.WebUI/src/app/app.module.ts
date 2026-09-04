@@ -43,6 +43,8 @@ import localeEn from '@angular/common/locales/en';
 import { LanguageSwitchModule } from '../shared/components/language-switch/language-switch.module';
 import { ChallengeOverlayComponent } from '../shared/components/challenge-overlay/challenge-overlay.component';
 import { LandingComponent } from '../pages/landing/page/landing.component';
+import { PrivacyPolicyComponent } from '../pages/privacy-policy/page/privacy-policy.component';
+import { DeleteAccountComponent } from '../pages/delete-account/page/delete-account.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SelectClubModule } from '../shared/components/select-club/select-club.module';
 
@@ -53,7 +55,13 @@ registerLocaleData(localeBg, 'bg');
 registerLocaleData(localeEn, 'en');
 
 @NgModule({
-  declarations: [AppComponent, LandingComponent, ChallengeOverlayComponent],
+  declarations: [
+    AppComponent,
+    LandingComponent,
+    PrivacyPolicyComponent,
+    DeleteAccountComponent,
+    ChallengeOverlayComponent,
+  ],
   exports: [BrowserModule, BrowserAnimationsModule],
   bootstrap: [AppComponent],
   imports: [

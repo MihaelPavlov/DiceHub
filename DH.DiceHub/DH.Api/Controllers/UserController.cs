@@ -254,6 +254,20 @@ public class UserController : ControllerBase
         return Ok(employees);
     }
 
+    /// <summary>
+    /// Deletes (soft-delete + anonymize) a user account. SuperAdmin only - used
+    /// to fulfil account &amp; data deletion requests. See /delete-account.
+    /// </summary>
+    [Authorize]
+    [HttpDelete("delete-user/{userId}")]
+    [ActionAuthorize(UserAction.UsersDelete)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> DeleteUser(string userId, CancellationToken cancellationToken)
+    {
+        await this.userManagementService.DeleteUserAccount(userId, cancellationToken);
+        return Ok();
+    }
+
     [Authorize]
     [HttpGet("get-employee-list")]
     [ActionAuthorize(UserAction.EmployeesCRUD)]
