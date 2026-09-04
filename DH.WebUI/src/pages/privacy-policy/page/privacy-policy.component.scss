@@ -1,0 +1,61 @@
+.pp {
+  min-height: 100vh;
+  background-color: #20232a;
+  color: #e6e8ec;
+  padding: 32px 16px 64px;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+
+  &__inner {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  &__head {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    padding-bottom: 16px;
+    margin-bottom: 24px;
+  }
+
+  h1 {
+    font-size: 28px;
+    margin: 0 0 8px;
+  }
+
+  h2 {
+    font-size: 19px;
+    margin: 32px 0 8px;
+    color: #ffffff;
+  }
+
+  &__updated {
+    margin: 0;
+    font-size: 14px;
+    color: #9aa0a6;
+  }
+
+  section p {
+    margin: 0 0 12px;
+  }
+
+  ul {
+    margin: 0 0 12px;
+    padding-left: 20px;
+  }
+
+  li {
+    margin-bottom: 8px;
+  }
+
+  a {
+    color: #75a0ff;
+  }
+
+  &__foot {
+    margin-top: 40px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    font-size: 13px;
+    color: #9aa0a6;
+  }
+}

@@ -21,4 +21,11 @@ public interface IUserManagementService
     Task<UserDeviceToken?> GetDeviceTokenByUserEmail(string email);
     Task<string> GeneratePasswordResetTokenAsync(string email);
     Task<string> GenerateEmailConfirmationTokenAsync(string userId);
+
+    /// <summary>
+    /// Soft-deletes a user account and anonymizes its personal fields, matching
+    /// the behaviour of employee deletion. Intended for SuperAdmin-only use to
+    /// fulfil account &amp; data deletion requests. Not tenant-scoped.
+    /// </summary>
+    Task DeleteUserAccount(string userId, CancellationToken cancellationToken);
 }

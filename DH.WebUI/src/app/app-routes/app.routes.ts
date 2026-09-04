@@ -12,6 +12,8 @@ import { ResetPasswordComponent } from '../../pages/reset-password/page/reset-pa
 import { AuthRedirectGuard } from '../../shared/guards/auth-redirect.guard';
 import { CreateEmployeePasswordComponent } from '../../pages/create-employee-password/page/create-employee-password.component';
 import { LandingComponent } from '../../pages/landing/page/landing.component';
+import { PrivacyPolicyComponent } from '../../pages/privacy-policy/page/privacy-policy.component';
+import { DeleteAccountComponent } from '../../pages/delete-account/page/delete-account.component';
 import { CreateOwnerPasswordComponent } from '../../pages/create-owner-password/page/create-owner-password.component';
 import { TenantLayoutComponent } from '../../shared/components/tenant-layout/tenant-layout.component';
 import { SelectClubComponent } from '../../shared/components/select-club/select-club.component';
@@ -71,6 +73,21 @@ export const ROUTES: Routes = [
   {
     path: 'tenant-setup',
     component: TenantSetupComponent,
+    data: { hideMenu: true },
+  },
+  // Unlinked on purpose: not referenced from any menu, footer or nav. Reachable
+  // only via the direct /privacy-policy URL, which is what Google Play Console
+  // needs for the app's Privacy policy field (required from closed testing on).
+  {
+    path: 'privacy-policy',
+    component: PrivacyPolicyComponent,
+    data: { hideMenu: true },
+  },
+  // Also unlinked on purpose: the direct /delete-account URL is what Google Play
+  // Console needs for the "Delete account URL" store-listing field.
+  {
+    path: 'delete-account',
+    component: DeleteAccountComponent,
     data: { hideMenu: true },
   },
   {

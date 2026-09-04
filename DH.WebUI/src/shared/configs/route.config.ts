@@ -5,6 +5,8 @@ export const ROUTE = {
   REGISTER: 'register',
   FORGOT_PASSWORD: 'forgot-password',
   INSTRUCTIONS: 'instructions',
+  PRIVACY_POLICY: 'privacy-policy',
+  DELETE_ACCOUNT: 'delete-account',
   GAMES: {
     CORE: 'games',
     LIBRARY: 'library',
