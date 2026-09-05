@@ -504,6 +504,9 @@
   <data name="CustomPeriodMinValueMustBeGreaterThanZero" xml:space="preserve">
     <value>Минималната стойност трябва да бъде повече от нула.</value>
   </data>
+  <data name="CustomPeriodDuplicateUniversalChallengeType" xml:space="preserve">
+    <value>Всеки тип универсално предизвикателство може да бъде добавен само веднъж.</value>
+  </data>
   <data name="UniversalChallengeCompletedBody" xml:space="preserve">
     <value>Завършихте универсалното предизвикателството „{0}“ и спечелихте {1} точки награда!</value>
   </data>

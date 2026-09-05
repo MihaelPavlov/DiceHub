@@ -55,6 +55,8 @@ public class SaveCustomPeriodDto : IValidableFields
 
         if (UniversalChallenges.Count > 0)
         {
+            var seenUniversalChallengeTypes = new HashSet<int>();
+
             for (int i = 0; i < UniversalChallenges.Count; i++)
             {
                 var challenge = UniversalChallenges[i];
@@ -75,6 +77,12 @@ public class SaveCustomPeriodDto : IValidableFields
                 {
                     errors.Add(new ValidationErrorsException.ValidationError(
                         $"UniversalChallenges[{i}].MinValue", localizationService["CustomPeriodMinValueMustBeGreaterThanZero"]));
+                }
+
+                if (!seenUniversalChallengeTypes.Add(challenge.SelectedUniversalChallenge))
+                {
+                    errors.Add(new ValidationErrorsException.ValidationError(
+                        $"UniversalChallenges[{i}].SelectedUniversalChallenge", localizationService["CustomPeriodDuplicateUniversalChallengeType"]));
                 }
             }
         }

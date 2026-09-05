@@ -504,6 +504,9 @@
   <data name="CustomPeriodMinValueMustBeGreaterThanZero" xml:space="preserve">
     <value>Min Monetary Value must be greater than zero.</value>
   </data>
+  <data name="CustomPeriodDuplicateUniversalChallengeType" xml:space="preserve">
+    <value>Each universal challenge type can only be added once.</value>
+  </data>
   <data name="UniversalChallengeCompletedBody" xml:space="preserve">
     <value>You completed the universal challenge **{0}** and earned {1} reward points!</value>
   </data>

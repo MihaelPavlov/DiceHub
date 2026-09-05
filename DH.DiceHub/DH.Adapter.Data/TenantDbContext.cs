@@ -261,6 +261,11 @@ public class TenantDbContext : DbContext, ITenantDbContext
         modelBuilder.Entity<TenantSetupToken>()
             .HasIndex(x => x.TokenHash)
             .IsUnique();
+
+        modelBuilder.Entity<CustomPeriodUniversalChallenge>()
+            .HasIndex(x => new { x.TenantId, x.UniversalChallengeId })
+            .HasDatabaseName("IX_Unique_CustomPeriodUniversalChallenge_Per_Tenant")
+            .IsUnique();
     }
 
     void ApplyTenantQueryFilter<TEntity>(ModelBuilder modelBuilder)
