@@ -138,13 +138,11 @@
           "meeple.add_update.labels.choose_date" | translate
         }}</label>
         <input
-          #startDateInput
           formControlName="startDate"
           type="date"
           id="startDate"
           name="startDate"
           class="meeple-form__input"
-          (click)="openPicker(startDateInput)"
         />
       </div>
       <div class="meeple-form__field">
@@ -152,13 +150,11 @@
           "meeple.add_update.labels.choose_time" | translate
         }}</label>
         <input
-          #startTimeInput
           type="time"
           id="startTime"
           name="startTime"
           formControlName="startTime"
           class="meeple-form__input"
-          (click)="openPicker(startTimeInput)"
         />
       </div>
     </div>
