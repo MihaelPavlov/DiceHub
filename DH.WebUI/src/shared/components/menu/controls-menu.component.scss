@@ -139,12 +139,13 @@
 
 @media (min-width: 900px) {
   .menu {
-    left: 13rem;
+    left: 17rem;
     right: 1rem;
     width: auto;
     bottom: 2rem;
     transform: translateY(20px);
     animation-name: slideUpDesktop;
+    align-items: center;
   }
 
   .menu::before {
