@@ -15,6 +15,7 @@ import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
 import { TranslateInPipe } from './pipe/translate-in.pipe';
 import { InstallPromptComponent } from './components/install-prompt/install-prompt.component';
 import { SheetDismissDirective } from './directives/sheet-dismiss/sheet-dismiss.directive';
+import { ShowPickerOnClickDirective } from './directives/show-picker-on-click/show-picker-on-click.directive';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { SheetDismissDirective } from './directives/sheet-dismiss/sheet-dismiss.
     MatProgressBarModule,
     TranslateModule,
     SheetDismissDirective,
+    ShowPickerOnClickDirective,
   ],
   exports: [
     TranslateModule,
@@ -51,6 +53,7 @@ import { SheetDismissDirective } from './directives/sheet-dismiss/sheet-dismiss.
     PasswordVisibilityToggleComponent,
     InstallPromptComponent,
     SheetDismissDirective,
+    ShowPickerOnClickDirective,
   ],
   providers: [
     EntityImagePipe,
